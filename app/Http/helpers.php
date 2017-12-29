@@ -1457,5 +1457,13 @@ function next_code()
         $data["next_waiting_code"] = config('app.prefix_code_wait') . "1";
     }
     return $data;
+}
 
+function shortString($string, $max)
+{
+    $arr = explode(" ", $string);
+    $arr = array_slice($arr, 0, min(count($arr), $max));
+    $data = implode(" ", $arr);
+    if (strlen($string) > $max) return $data . ' ...';
+    return $data;
 }

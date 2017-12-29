@@ -13,13 +13,10 @@ use App\Base;
 use App\ClassLesson;
 use App\Shift;
 use App\ShiftSession;
-use App\StudyClass;
 use App\TeachingLesson;
-use App\WorkShift;
 use App\WorkShiftSession;
 use App\WorkShiftUser;
 use DateTime;
-use Illuminate\Support\Facades\DB;
 use Modules\CheckInCheckOut\Entities\AppSession;
 use Modules\CheckInCheckOut\Entities\CheckInCheckOut;
 use Modules\CheckInCheckOut\Entities\Device;
@@ -492,7 +489,7 @@ class CheckInCheckOutRepository
             $checkInCheckOut->distance = $minDistance;
             return $checkInCheckOut;
         } else {
-            $this->setWifi($wifiName, $mac, $minBase->id);
+//            $this->setWifi($wifiName, $mac, $minBase->id);
             $checkInCheckOut->status = 1;
             $wifi = $this->getWifi($mac, $minBase->id);
             if (is_null($wifi)) {

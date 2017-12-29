@@ -55,7 +55,7 @@
                                     <a href="{{'/blog/post/'.$blog->id}}">{{$blog->title}}</a>
                                 </h3>
                                 <p class="card-description">
-                                    {{$blog->description}}
+                                    {{shortString($blog->description, 15)}}
                                 </p>
                                 <br>
                                 <a href="{{'/blog/post/'.$blog->id}}" style="color:#c50000!important"><b>Xem

@@ -262,28 +262,45 @@ class CardController extends ManageApiController
 
         $cards = $cards->where("cards.status", "close")
             ->whereBetween("cards.updated_at", [$from, $to])->groupBy(DB::raw("date(cards.updated_at)"))
-            ->select(DB::raw('count(1) as num_cards, date(cards.updated_at) as day'))
+            ->select(DB::raw('count(1) as num_cards, sum(point) as total_points, date(cards.updated_at) as day'))
             ->orderBy("day")->get();
 
         $dateArray = createDateRangeArray($from->getTimestamp(), $to->getTimestamp());
 
         $cardsMap = [];
+        $pointsMap = [];
         foreach ($cards as $card) {
             $cardsMap[$card->day] = $card->num_cards;
+            $pointsMap[$card->day] = $card->total_points;
         }
 
         $returnCards = [];
+        $returnPoints = [];
         foreach ($dateArray as $date) {
             if (array_key_exists($date, $cardsMap)) {
                 $returnCards[$date] = $cardsMap[$date];
+                $returnPoints[$date] = $pointsMap[$date];
             } else {
                 $returnCards[$date] = 0;
+                $returnPoints[$date] = 0;
             }
         }
 
         return $this->respondSuccessWithStatus([
             "days" => $dateArray,
-            "num_cards" => array_values($returnCards)
+            "num_cards" => array_values($returnCards),
+            "total_points" => array_values($returnPoints)
+        ]);
+    }
+
+    public function setPointCard($cardId, $point)
+    {
+        $card = Card::find($cardId);
+        $card->point = $point;
+        $card->save();
+
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
         ]);
     }
 }
