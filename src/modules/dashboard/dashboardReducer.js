@@ -5,6 +5,14 @@ import initialState from '../../reducers/initialState';
 let classes;
 export default function dashboardReducer(state = initialState.dashboard, action) {
     switch (action.type) {
+        case types.SHOW_CARDS_MODAL_DASHBOARD_IT:
+            return {
+                ...state,
+                it: {
+                    ...state.it,
+                    showCardsModal: action.show,
+                }
+            };
         case types.BEGIN_LOAD_CARDS_STAFF_DURATION:
             return {
                 ...state,

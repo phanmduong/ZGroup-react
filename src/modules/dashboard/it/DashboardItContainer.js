@@ -32,6 +32,8 @@ class DashboardItContainer extends React.Component {
         this.loadData = this.loadData.bind(this);
         this.projectSelectChange = this.projectSelectChange.bind(this);
         this.staffSelectChange = this.staffSelectChange.bind(this);
+        this.openCardsModal = this.openCardsModal.bind(this);
+
     }
 
     componentWillMount() {
@@ -62,6 +64,12 @@ class DashboardItContainer extends React.Component {
                 });
             });
     }
+
+    openCardsModal() {
+        this.props.dashboardItActions.toggleShowCardsModal(true);
+    }
+
+
 
     loadData(state) {
         const {from, to, selectedStaff, selectedProject} = state;
@@ -176,6 +184,11 @@ class DashboardItContainer extends React.Component {
                                                 })}
                                                 onChange={this.projectSelectChange}
                                             />
+                                        </div>
+                                        <div className="col-md-12">
+                                            <button className="btn btn-rose" onClick={this.openCardsModal}>
+                                                Xem danh sách công việc
+                                            </button>
                                         </div>
                                         <div className="col-sm-12">
                                             {

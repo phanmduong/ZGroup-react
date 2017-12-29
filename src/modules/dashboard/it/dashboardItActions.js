@@ -19,3 +19,15 @@ export function loadCountCardsByStaffDuration(from, to, projectId = "", staffId 
             });
     };
 }
+
+export function toggleShowCardsModal(show){
+    return function (dispatch) {
+        dispatch({
+            type: types.SHOW_CARDS_MODAL_DASHBOARD_IT,
+            show
+        });
+
+    };
+}
+
+

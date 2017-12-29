@@ -670,7 +670,8 @@ export default {
             dateArray: [],
             pointByDate: [],
             cardsByDate: [],
-            isLoading: false
+            isLoading: false,
+            showCardsModal: false
         },
         gens: [],
         isLoadingGens: true,
