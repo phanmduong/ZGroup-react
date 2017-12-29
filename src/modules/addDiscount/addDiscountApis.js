@@ -21,6 +21,7 @@ export function addDiscountApi(discount) {
         'category_id' : discount.category ? discount.category.id : '',
         'good_id' : discount.good ? discount.good.id : '',
         'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
+        'quantity' : discount.quantity? discount.quantity : '',
     });
 }
 
@@ -117,5 +118,6 @@ export function editDiscountApi(discount) {
         'category_id' : discount.category ? discount.category.id : '',
         'good_id' : discount.good ? discount.good.id : '',
         'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
+        'quantity' : discount.quantity? discount.quantity : '',
     });
 }

@@ -13,7 +13,8 @@ export function loadCountCardsByStaffDuration(from, to, projectId = "", staffId 
                 dispatch({
                     type: types.LOAD_CARDS_STAFF_DURATION_SUCCESS,
                     days: res.data.data.days,
-                    num_cards: res.data.data.num_cards
+                    num_cards: res.data.data.num_cards,
+                    total_points: res.data.data.total_points
                 });
             });
     };

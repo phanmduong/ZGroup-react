@@ -125,7 +125,7 @@ const CardBody = ({
                 <h4>
                     <strong>Điểm</strong>
                 </h4>
-                <AddCardPointContainer/>
+                <AddCardPointContainer point={card.point}/>
                 <h4>
                     <strong>Thêm</strong>
                 </h4>

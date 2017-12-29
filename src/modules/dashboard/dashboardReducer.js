@@ -21,7 +21,7 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                     isLoading: false,
                     dateArray: action.days,
                     cardsByDate: action.num_cards,
-                    pointByDate: action.num_cards
+                    pointByDate: action.total_points
                 }
             };
         case types.BEGIN_LOAD_GENS_DATA_DASHBOARD:

@@ -22,18 +22,15 @@ class AddOverlay extends React.Component {
         this.onSearchChange = this.onSearchChange.bind(this);
     }
 
-    componentWillMount() {
-        this.loadFunction(1);
-    }
-
     loadFunction(page) {
         this.setState({page: page});
-        this.props.loadFunction(page, this.state.limit, this.state.query);  // co the truyen duoc tu action --> container --> overlay ko ???
+        this.props.loadFunction(page, this.state.limit, this.state.query, this.props.stringId);
     }
 
 
     toggle() {
         this.setState({isShowModal: !this.state.isShowModal});
+        this.loadFunction(1);
     }
 
 
@@ -105,7 +102,7 @@ class AddOverlay extends React.Component {
                         <h5>{name}</h5>
 
 
-                        {isSearch ?
+                        {isSearch  ?
                             <Search
                                 onChange={this.onSearchChange}
                                 value={this.state.query}

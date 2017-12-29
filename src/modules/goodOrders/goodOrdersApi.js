@@ -49,7 +49,7 @@ export function getAllStaffs() {
     return axios.get(url);
 }
 
-export function changeStatusOrder(status,orderId, labelId = "") {
+export function changeStatusOrder(status, orderId, labelId = "") {
     let url = env.MANAGE_API_URL + `/order/change-status-order`;
     let token = localStorage.getItem('token');
     if (token) {
@@ -69,17 +69,20 @@ export function sendShipOrder(shippingGood) {
 }
 
 export function editOrderApi(order, orderId) {
-    let url = env.MANAGE_API_URL + '/order/' + orderId ;
+    let url = env.MANAGE_API_URL + '/order/' + orderId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    console.log(order.order.code, order.order.note,'API');
+    let tmp = order.order.good_orders.map((good_order) => {
+        return {'id': good_order.id, 'quantity': good_order.quantity};
+    });
     return axios.put(url,
         {
-            'note' : order.order.note,
-            'code' : order.order.code,
-            'status' : order.order.status,
+            'note': order.order.note,
+            'code': order.order.code,
+            'status': order.order.status,
+            'good_orders': JSON.stringify(tmp),
         }
-        );
+    );
 }
