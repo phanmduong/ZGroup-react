@@ -1,12 +1,11 @@
 import React from 'react';
 import ShiftDates from './shift/ShiftDates';
 import {MAX_TIME_WORK_SHIFT_REIGSTER} from '../../constants/constants';
-import * as helper from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import _ from 'lodash';
 import StatisticShift from './shift/StatisticShift';
 import PropTypes from 'prop-types';
-import {convertTimeToSecond} from "../../helpers/helper";
+import {convertTimeToSecond, getHoursTime, sumTimeWorkShiftOfWeek} from "../../helpers/helper";
 import DetailShift from "./shift/DetailShift";
 
 class ShiftRegistersWeek extends React.Component {
@@ -53,7 +52,7 @@ class ShiftRegistersWeek extends React.Component {
 
         if (shiftRegisters[currentWeek]) {
             const date = shiftRegisters[currentWeek].dates[0];
-            let sumTimeShiftOfWeek = helper.sumTimeWorkShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
+            let sumTimeShiftOfWeek = sumTimeWorkShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
 
             let statisticShift = [];
 
@@ -98,11 +97,11 @@ class ShiftRegistersWeek extends React.Component {
                                     <div className="ripple-container"/>
                                 </button>
                             </h2>
-                            <h6><strong>Tổng thời gian làm việc: {helper.getHoursTime(sumTimeShiftOfWeek)}h/
-                                {helper.getHoursTime(MAX_TIME_WORK_SHIFT_REIGSTER)}h</strong></h6>
+                            <h6><strong>Tổng thời gian làm việc: {getHoursTime(sumTimeShiftOfWeek)}h/
+                                {getHoursTime(MAX_TIME_WORK_SHIFT_REIGSTER)}h</strong></h6>
                             <div className="progress progress-line-warning">
                                 <div className="progress-bar progress-bar-success"
-                                     style={{width: helper.convertTimeToSecond(sumTimeShiftOfWeek) * 100 / helper.convertTimeToSecond(MAX_TIME_WORK_SHIFT_REIGSTER) + '%'}}
+                                     style={{width: convertTimeToSecond(sumTimeShiftOfWeek) * 100 / convertTimeToSecond(MAX_TIME_WORK_SHIFT_REIGSTER) + '%'}}
                                 />
                             </div>
                             <button className="btn btn-rose" onClick={() => this.openModal()}>Thống kê</button>

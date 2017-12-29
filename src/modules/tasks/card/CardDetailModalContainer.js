@@ -9,6 +9,7 @@ import Loading from "../../../components/common/Loading";
 import socket from '../../../services/socketio';
 import {CHANNEL} from "../../../constants/env";
 import * as addChildGoodActions from '../../good/addChildGood/addChildGoodActions';
+import EditCardTitleContainer from "./EditCardTitleContainer";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -80,7 +81,14 @@ class CardDetailModalContainer extends React.Component {
                 bsSize="large" aria-labelledby="contained-modal-title-lg"
                 onHide={this.props.taskActions.closeCardDetailModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title className="card-modal-title">{this.props.card.title}</Modal.Title>
+                    <Modal.Title className="card-modal-title">
+                        {this.props.card.title}
+
+
+                        <EditCardTitleContainer isLoading={this.props.isLoading}/>
+
+
+                    </Modal.Title>
                     <p>
                         Trong bảng <strong>{this.props.card.board && this.props.card.board.title}</strong>
                         <small style={{color: "#8f8f8f"}}> - {this.props.card.deadline_elapse}</small>

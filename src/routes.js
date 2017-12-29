@@ -14,7 +14,7 @@ export default (
         {/*<IndexRoute component={DashboardContainer}/>*/}
         {/*<Route path="/manage/dashboard" component={DashboardContainer}/>*/}
         {
-            Routes && Routes.map((route) => <Route {...route}/>)
+            Routes && Routes.map((route, index) => <Route key={index} {...route}/>)
         }
         {/*<Route path="login" component={LoginContainer}/>*/}
         <Route path="*" component={NotFoundPage}/>
