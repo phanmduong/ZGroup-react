@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TooltipButton from "../../../components/common/TooltipButton";
-import {updateCardTitle} from '../taskApi';
 import Avatar from "../../../components/common/Avatar";
 import {Badge} from "react-bootstrap";
 
