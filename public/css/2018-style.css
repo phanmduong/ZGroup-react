@@ -2695,3 +2695,148 @@ section {
 .mb-0{
     margin-bottom:20px;
 }
+
+/*
+Author: Bootstrapthemes
+Author URI: http://bootstrapthemes.co
+*/
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+.p-top-100{
+    padding:100px 0;
+}
+.m-top-40{
+    margin-top: 40px;
+}
+
+
+
+
+/*=================================================
+Pricint fiv
+===================================================*/
+.bs-five-area{
+    width:100%;
+    display: inline-block;
+    box-shadow: 0px 0px 6px 0px #ddd;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+
+.bs-five-area.bs-radius{
+    border-radius: 30px;
+}
+.bs-five-area > div{
+    padding:0;
+}
+
+
+.bs-five-area .bs-five{
+    position: relative;
+    width: 100%;
+    margin: auto;
+    transition: all 0.4s;
+    padding:20px 0px;
+}
+.bs-five-area .bs-five h6{
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+.bs-five-area .bs-five h1{
+    font-size:64px;
+    font-weight: 100;
+    line-height: 72px;
+}
+.bs-five-area .bs-five h1 sup{
+    font-size:30px;
+    top:-30px;
+}
+.bs-five-area .bs-five ul {
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+.bs-five-area .bs-five ul li{
+    line-height: 45px;
+    border-bottom:0px;
+}
+
+
+.bs-five-area .bs-five:hover{
+
+    background: #e8554e;
+    transition: all 0.4s;
+
+}
+
+.bs-five-area .bs-five.active {
+    background: #e8554e;
+    background: -webkit-linear-gradient(left, #e8554e , #e8554e);
+    background: -o-linear-gradient(right, #e8554e, #e8554e);
+    background: -moz-linear-gradient(right, #e8554e, #e8554e);
+    background: linear-gradient(to right, #e8554e , #e8554e);
+}
+
+.bs-five-area .bs-five .btn-success{
+    padding: 10px 50px;
+    display: inline-block;
+    border-radius: 30px;
+    color:white;
+    background-color: #e8554e;
+    border-color: #e8554e;
+}
+
+
+.bs-five-area .bs-five.active .btn.btn-success,
+.bs-five-area .bs-five:hover.bs-five .btn.btn-success{
+    background: #E0FFF6 ;
+    color:#444 ;
+
+}
+
+.bs-five-area .bs-five.active,
+.bs-five-area .bs-five.active ul li,
+.bs-five-area .bs-five:hover.bs-five,
+.bs-five-area .bs-five:hover.bs-five ul li
+{
+    color:#fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*copyright
+==================*/
+.footer{
+    background-color: #333;
+}
+.copyright{
+    padding: 20px 10px;
+}
+.copyright p {
+    font-size:12px;
+    color:#fff;
+}
+.copyright p i {
+    padding: 0px 5px;
+    color: red;
+}
+.copyright p a {
+    padding: 0px 5px;
+    color: yellow;
+}

@@ -1,7 +1,8 @@
 @extends('layouts.2018-public')
 
 @section('content')
-    {{!! $course->detail !!}}
+
+    {!! $course->detail !!}
     <div style="background: white" id="pick-class">
         <br> <br>
         <div class="container">
