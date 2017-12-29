@@ -13,28 +13,50 @@ class XHHController extends Controller
     public function index()
     {
         $date = new \DateTime();
-        $startDate = $date->format("Y-m-d");
-        $date->modify("-30 days");
-        $endDate = $date->format("Y-m-d");
+        $date->modify("+1 day");
+        $endDate = $date->format("Y-m-d h:i:s");
+        $date->modify("-31 days");
+        $startDate = $date->format("Y-m-d h:i:s");
 
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
+        $totalBlogs = Product::where('type', 2)->count();
         $newestBlog = Product::where('type', 2)->orderBy('created_at', 'desc')->first();
-        $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        if ($newestBlog) {
+            $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        } else {
+            $newestTop3 = Product::where('type', 2)->orderBy('created_at', 'desc')->limit(3)->get();
+        }
         $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
         $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
+        $newestBlog2 = Product::where('type', 2)->where('category_id', 7)->orderBy('created_at', 'desc')->first();
+        if ($newestBlog2) {
+            $blogSection4 = Product::where('type', 2)->where('id', '<>', $newestBlog2->id)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
+        } else {
+            $blogSection4 = Product::where('type', 2)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
+        }
         $books = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
         return view('xhh::index', [
             'newestBlog' => $newestBlog,
             'newestTop3' => $newestTop3,
             'blogSection1' => $blogSection1,
             'blogSection2' => $blogSection2,
+            'newestBlog2' => $newestBlog2,
+            'blogSection4' => $blogSection4,
             'books' => $books,
             'count_new_blogs' => $countNewBlogs,
+            'total_blogs' => $totalBlogs
         ]);
     }
 
     public function blog($subfix, Request $request)
     {
+        $date = new \DateTime();
+        $date->modify("+1 day");
+        $endDate = $date->format("Y-m-d h:i:s");
+        $date->modify("-31 days");
+        $startDate = $date->format("Y-m-d h:i:s");
+        $totalBlogs = Product::where('type', 2)->count();
+        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = "";
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
@@ -43,11 +65,20 @@ class XHHController extends Controller
             'blogs' => $blogs,
             'page_id' => $page_id,
             'display' => $display,
+            'count_new_blogs' => $countNewBlogs,
+            'total_blogs' => $totalBlogs
         ]);
     }
 
     public function post($subfix, $post_id)
     {
+        $date = new \DateTime();
+        $date->modify("+1 day");
+        $endDate = $date->format("Y-m-d h:i:s");
+        $date->modify("-31 days");
+        $startDate = $date->format("Y-m-d h:i:s");
+        $totalBlogs = Product::where('type', 2)->count();
+        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $post = Product::find($post_id);
         $post->author;
         $post->category;
@@ -70,36 +101,76 @@ class XHHController extends Controller
         return view('xhh::post',
             [
                 'post' => $post,
-                'posts_related' => $posts_related
+                'posts_related' => $posts_related,
+                'count_new_blogs' => $countNewBlogs,
+                'total_blogs' => $totalBlogs
             ]
         );
     }
 
     public function book($subfix, $book_id)
     {
+        $date = new \DateTime();
+        $date->modify("+1 day");
+        $endDate = $date->format("Y-m-d h:i:s");
+        $date->modify("-31 days");
+        $startDate = $date->format("Y-m-d h:i:s");
+        $totalBlogs = Product::where('type', 2)->count();
+        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $book = Good::find($book_id);
         $newestBooks = Good::where('type', 'book')->where('id', '<>', $book_id)->limit(4)->get();
         return view('xhh::book', [
             'book' => $book,
-            'newestBooks' => $newestBooks
+            'newestBooks' => $newestBooks,
+            'count_new_blogs' => $countNewBlogs,
+            'total_blogs' => $totalBlogs
         ]);
     }
 
     public function allBooks($subfix)
     {
+        $date = new \DateTime();
+        $date->modify("+1 day");
+        $endDate = $date->format("Y-m-d h:i:s");
+        $date->modify("-31 days");
+        $startDate = $date->format("Y-m-d h:i:s");
+        $totalBlogs = Product::where('type', 2)->count();
+        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $books = Good::where('type', 'book')->get();
         return view('xhh::library', [
             'books' => $books,
+            'count_new_blogs' => $countNewBlogs,
+            'total_blogs' => $totalBlogs
         ]);
     }
 
     public function aboutUs($subfix)
     {
-        return view('xhh::about-us');
+        $date = new \DateTime();
+        $date->modify("+1 day");
+        $endDate = $date->format("Y-m-d h:i:s");
+        $date->modify("-31 days");
+        $startDate = $date->format("Y-m-d h:i:s");
+        $totalBlogs = Product::where('type', 2)->count();
+        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
+        return view('xhh::about-us', [
+            'count_new_blogs' => $countNewBlogs,
+            'total_blogs' => $totalBlogs
+        ]);
     }
 
     public function contactUs($subfix)
     {
-        return view('xhh::contact-us');
+        $date = new \DateTime();
+        $date->modify("+1 day");
+        $endDate = $date->format("Y-m-d h:i:s");
+        $date->modify("-31 days");
+        $startDate = $date->format("Y-m-d h:i:s");
+        $totalBlogs = Product::where('type', 2)->count();
+        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
+        return view('xhh::contact-us', [
+            'count_new_blogs' => $countNewBlogs,
+            'total_blogs' => $totalBlogs
+        ]);
     }
 }

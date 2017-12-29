@@ -489,7 +489,7 @@ class CheckInCheckOutRepository
             $checkInCheckOut->distance = $minDistance;
             return $checkInCheckOut;
         } else {
-            $this->setWifi($wifiName, $mac, $minBase->id);
+//            $this->setWifi($wifiName, $mac, $minBase->id);
             $checkInCheckOut->status = 1;
             $wifi = $this->getWifi($mac, $minBase->id);
             if (is_null($wifi)) {

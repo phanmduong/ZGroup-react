@@ -32,7 +32,7 @@
             <span class="navbar-toggler-bar"></span>
         </button>
         <a class="navbar-brand" href="/">
-            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513241627VqTNu2QuUiqvs9X.png" height="20px">
+            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513241627VqTNu2QuUiqvs9X.png" height="25px">
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
@@ -43,8 +43,14 @@
                     <a class="nav-link" href="/all-books" data-scroll="true">Thư viện</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/blog" data-scroll="true">BLOGS</a>
-                    {{$count_new_blogs}}
+                    <a class="nav-link" href="/blog" data-scroll="true"
+                       style="display: flex; align-content: center">
+                        BLOGS
+                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
+                            {{$count_new_blogs}}
+                        </div>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -84,13 +90,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/library">
-                                        Thư viện
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/blog">
-                                        Blogs
+                                    <a href="/contact-us">
+                                        Liên hệ
                                     </a>
                                 </li>
                             </ul>
@@ -100,11 +101,13 @@
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
+
                                 <li>
-                                    <a href="/contact-us">
-                                        Liên hệ
+                                    <a href="/library">
+                                        Thư viện
                                     </a>
                                 </li>
+
                             </ul>
                         </div>
                     </div>
@@ -112,8 +115,8 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="#">
-                                        Tuyển dụng
+                                    <a href="/blog">
+                                        Blogs
                                     </a>
                                 </li>
                             </ul>
@@ -123,13 +126,13 @@
                         <div class="links">
                             <ul class="stacked-links">
                                 <li>
-                                    <h4>13.000<br>
-                                        <small>Lượt xuất bản</small>
+                                    <h4>{{$total_blogs}}<br>
+                                        <small>Bài viết</small>
                                     </h4>
                                 </li>
                                 <li>
                                     <h4>256<br>
-                                        <small>Nhà phân phối</small>
+                                        <small>Lượt truy cập</small>
                                     </h4>
                                 </li>
 
@@ -142,29 +145,7 @@
                     <div class="pull-left">
                         ©
                         <script>document.write(new Date().getFullYear())</script>
-                        2017
-                        KEE Agency
-                    </div>
-                    <div class="links pull-right">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    Điều khoản
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Thanh toán
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Vận chuyển
-                                </a>
-                            </li>
-                        </ul>
+                        KEETOOL
                     </div>
                 </div>
             </div>
@@ -311,5 +292,20 @@
             }
         });
     })();
+
 </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111696061-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-111696061-1');
+</script>
+
 </html>
