@@ -109,6 +109,7 @@ class GoodController extends ManageApiController
         $good->price = $price;
         $good->avatar_url = $avatarUrl;
         $good->cover_url = $coverUrl;
+        $good->download = $request->download;
         if ($request->type) {
             $good->type = $request->type;
         }
