@@ -522,7 +522,8 @@ export default {
             isSaving: false,
             saveError: false,
             isPreSaving: false,
-            preSaveError: false
+            preSaveError: false,
+            id: ''
         },
         categories: {
             categories: [],
