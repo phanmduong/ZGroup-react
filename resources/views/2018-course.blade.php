@@ -15,7 +15,7 @@
                             <h2 class="landing-title" class="section-heading">Chọn cơ sở gần bạn<br>Sau đó chọn lớp
                                 phù hợp</h2>
                             @foreach($bases as $base)
-                                {{$base->classes()->where('course_id',$course_id)->where('status', 1)->orderBy('gen_id', 'desc')->orderBy('name','desc')->count() == 0}}
+                                {{$base->classes()->where('course_id',$course_id)->orderBy('gen_id', 'desc')->orderBy('name','desc')->count() == 0}}
                                 <h3 class="mb-3">{{$base->name}} : {{$base->address}}</h3><br>
                                 <div class="row">
                                     @foreach($base->classes()->where('course_id',$course_id)->where('status', 1)->orderBy('gen_id', 'desc')->orderBy('name','desc')->get() as $class)
@@ -49,7 +49,7 @@
                                                     </div>
                                                 @else
                                                     <div class="card-footer">
-                                                        <a href="">
+                                                        <a href="">`
                                                             <button class="btn-register" style="background-color: #121212 !important;">Đã hết chỗ</button>
                                                         </a>
                                                     </div>
