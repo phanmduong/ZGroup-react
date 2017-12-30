@@ -18,7 +18,7 @@
                                 {{$base->classes()->where('course_id',$course_id)->orderBy('gen_id', 'desc')->orderBy('name','desc')->count() == 0}}
                                 <h3 class="mb-3">{{$base->name}} : {{$base->address}}</h3><br>
                                 <div class="row">
-                                    @foreach($base->classes()->where('course_id',$course_id)->orderBy('gen_id', 'desc')->orderBy('name','desc')->get() as $class)
+                                    @foreach($base->classes()->where('course_id',$course_id)->where('status', 1)->orderBy('gen_id', 'desc')->orderBy('name','desc')->get() as $class)
                                         <div class="col-md-6" style="margin-bottom: 20px">
                                             <div class="product-item" style="padding: 5%">
                                                 <div class="card-body">
