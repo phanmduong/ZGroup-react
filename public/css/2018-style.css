@@ -2125,7 +2125,7 @@ ul.dashed > li:before {
 }
 
 .au-first {
-    background: url("http://d1j8r0kxyu9tj8.cloudfront.net/files/1514547311CXbfC1ziY7SfR0T.png");
+    background: url("http://d1j8r0kxyu9tj8.cloudfront.net/files/1514454955YviRZBtpBBYgBM2.png");
     background-size: cover;
     background-position: 100%
 }
@@ -2661,6 +2661,7 @@ section {
 .landing-title {
     font-size:25px;
     font-weight:600;
+    line-height:35px;
 }
 
 
@@ -2673,7 +2674,7 @@ section {
 }
 
 .btn-register, .btn-register:active {
-    background-color: #55c500 !important;
+    background-color: #7bc043 !important;
     margin-top: 10px;
     color: #fff !important;
     border-radius: 2px;
@@ -2695,6 +2696,9 @@ section {
 .mb-0{
     margin-bottom:20px;
 }
+
+
+
 
 /*
 Author: Bootstrapthemes
@@ -2771,17 +2775,17 @@ Pricint fiv
 
 .bs-five-area .bs-five:hover{
 
-    background: #e8554e;
+    background: #7bc043;
     transition: all 0.4s;
 
 }
 
 .bs-five-area .bs-five.active {
-    background: #e8554e;
-    background: -webkit-linear-gradient(left, #e8554e , #e8554e);
-    background: -o-linear-gradient(right, #e8554e, #e8554e);
-    background: -moz-linear-gradient(right, #e8554e, #e8554e);
-    background: linear-gradient(to right, #e8554e , #e8554e);
+    background: #7bc043;
+    background: -webkit-linear-gradient(left, #7bc043 , #7bc043);
+    background: -o-linear-gradient(right, #7bc043, #7bc043);
+    background: -moz-linear-gradient(right, #7bc043, #7bc043);
+    background: linear-gradient(to right, #7bc043 , #7bc043);
 }
 
 .bs-five-area .bs-five .btn-success{
@@ -2789,8 +2793,8 @@ Pricint fiv
     display: inline-block;
     border-radius: 30px;
     color:white;
-    background-color: #e8554e;
-    border-color: #e8554e;
+    background-color: #7bc043;
+    border-color: #7bc043;
 }
 
 
