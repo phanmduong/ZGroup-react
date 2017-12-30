@@ -14,7 +14,8 @@ class AddLandingPageTables extends Migration
     {
         Schema::create('landing_pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("path")->nullable();
+            $table->string("name")->nullable()->index();
+            $table->string("path")->nullable()->index();
             $table->longText("content")->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
