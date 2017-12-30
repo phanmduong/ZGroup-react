@@ -3,7 +3,7 @@
 @section('content')
 
     {!! $course->detail !!}
-    <div style="background: white" id="pick-class">
+    <div style="" id="pick-class">
         <br> <br>
         <div class="container">
             <div class="row">
