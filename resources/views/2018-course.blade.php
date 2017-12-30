@@ -49,8 +49,8 @@
                                                     </div>
                                                 @else
                                                     <div class="card-footer">
-                                                        <a href="#">
-                                                            <button class="btn-register" style="background-color: #121212 !important;">Đã hết chỗ</button>
+                                                        <a href="#" onClick="return false;">
+                                                            <button class="btn-register" style="background-color: #bfbfbf !important;">Đã hết chỗ</button>
                                                         </a>
                                                     </div>
                                                 @endif
