@@ -165,7 +165,7 @@ class PublicController extends Controller
         $this->data['current_gen_id'] = $current_gen->id;
         $this->data['course_id'] = $course_id;
         $this->data['course'] = $course;
-        $this->data['bases'] = Base::all()->filter(function ($base) use ($course_id, $current_gen) {
+        $this->data['bases'] = Base::orderBy('created_at', 'asc')->get()->filter(function ($base) use ($course_id, $current_gen) {
             return $base->classes()->where('course_id', $course_id)->where('gen_id', $current_gen->id)->count() > 0;
         });
         $this->data['courses'] = $courses;

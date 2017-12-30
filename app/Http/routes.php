@@ -454,7 +454,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/sign-in', 'PublicController@beta');
     Route::get('/upload-post', 'PublicController@beta');
-    Route::get('/course/{LinkId}', 'PublicCrawlController@course');
+    Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'PublicCrawlController@course');
     Route::get('/profile/{username}', 'PublicController@beta');
     Route::get('/profile/{username}/progress', 'PublicController@beta');
     Route::get('/profile/{username}/info', 'PublicController@beta');
