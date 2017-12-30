@@ -393,6 +393,10 @@ class MobileController extends ApiController
                 $target_revenue += $class->target * $class->course->price * 0.55;
             }
 
+            $target_revenue = round($target_revenue);
+
+
+
             $data['target_revenue'] = $target_revenue;
 
             $data['money_today'] = currency_vnd_format($money_today[0]->money);
