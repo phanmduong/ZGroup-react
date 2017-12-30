@@ -852,6 +852,7 @@ export default {
     goodOrders: {
         isUpdate: false,
         orderId: 0,
+        labelId: 0,
         shipGoodModal: false,
         addNoteModal: false,
         orderNote: {},

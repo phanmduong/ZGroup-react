@@ -68,9 +68,9 @@ export function sendShipOrder(shippingGood) {
     return axios.post(url, {data: JSON.stringify(shippingGood)});
 }
 
-export function cancelShipOrder(shippingGood) {
+export function cancelShipOrder(labelId) {
     let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + "/ghtk/services/shipment/cancel/" + "?token=" + token;
+    let url = env.MANAGE_API_URL + "/ghtk/services/shipment/cancel/" + labelId + "?token=" + token;
     return axios.delete(url);
 }
 

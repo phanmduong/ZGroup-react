@@ -171,6 +171,8 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             });
             return {
                 ...state,
+                orderId: action.order.id,
+                labelId: action.order.label_id,
                 shippingGood: {
                     ...state.shipGoodModal,
                     products,
@@ -180,8 +182,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                         tel: action.order.customer ? action.order.customer.phone : '',
                         name: action.order.customer ? action.order.customer.name : '',
                         address: action.order.customer ? action.order.customer.address : '',
-                        value: action.order.total,
-                        orderId: action.order.id
+                        value: action.order.total
                     }
                 }
             };
@@ -199,21 +200,30 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 isSendingShipOrder: true
             };
-        case types.SEND_SHIP_ORDER_COMPLETE:
+        case types.SEND_SHIP_ORDER_COMPLETE: {
+            let orders = state.orders.map(order => {
+                if (action.orderId === order.id) {
+                    return {
+                        ...order,
+                        label_id: action.labelId
+                    };
+                }
+                return order;
+            });
             return {
                 ...state,
+                orders: orders,
                 isSendingShipOrder: false,
                 shipGoodModal: false,
                 shippedGoodResponse: action.shippedGoodResponse
             };
+        }
         case types.SEND_SHIP_ORDER_FAILED:
             return {
                 ...state,
                 isSendingShipOrder: false,
                 shipGoodModal: false
             };
-
-
         case types.UPDATE_ORDER_FORM_DATA:
             return {
                 ...state,

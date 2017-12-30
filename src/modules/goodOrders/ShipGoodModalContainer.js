@@ -47,7 +47,7 @@ class ShipGoodModalContainer extends React.Component {
         ) {
             showErrorNotification("Bạn cần nhập đủ tất cả các trường bắt buộc (*)");
         } else {
-            this.props.goodOrderActions.sendShipOrder(this.props.shippingGood);
+            this.props.goodOrderActions.sendShipOrder(this.props.shippingGood, this.props.orderId, this.props.labelId);
         }
     }
 
@@ -194,7 +194,9 @@ ShipGoodModalContainer.propTypes = {
     goodOrderActions: PropTypes.object.isRequired,
     shippingGood: PropTypes.object.isRequired,
     isSendingShipOrder: PropTypes.bool.isRequired,
-    isUpdate: PropTypes.bool.isRequired
+    isUpdate: PropTypes.bool.isRequired,
+    orderId: PropTypes.number.isRequired,
+    labelId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
@@ -202,7 +204,9 @@ function mapStateToProps(state) {
         shipGoodModal: state.goodOrders.shipGoodModal,
         isUpdate: state.goodOrders.isUpdate,
         shippingGood: state.goodOrders.shippingGood,
-        isSendingShipOrder: state.goodOrders.isSendingShipOrder
+        isSendingShipOrder: state.goodOrders.isSendingShipOrder,
+        orderId: state.goodOrders.orderId,
+        labelId: state.goodOrders.labelId
     };
 }
 

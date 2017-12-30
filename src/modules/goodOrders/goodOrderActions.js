@@ -134,30 +134,17 @@ export function handleShipOrder(order) {
     });
 }
 
-function sendShipOrderSuccess(res, dispatch) {
+function sendShipOrderSuccess(res, dispatch, orderId) {
     const {data} = res;
     if (!data.success) {
         helper.showErrorMessage("Có lỗi xảy ra", data.message);
-    }
-    if (data.success) {
-        helper.showNotification("Gửi thành công");
-    }
-    dispatch({
-        type: types.SEND_SHIP_ORDER_COMPLETE,
-        shippedGoodResponse: data
-    });
-    return data.order.label;
-}
-
-function changeStatusOrderSuccess(res, dispatch, orderId) {
-    helper.showNotification("Thay đổi trạng thái thành công");
-    if (res.data.status === 0) {
-        helper.showErrorNotification(res.data.message);
     } else {
+        helper.showNotification("Gửi thành công");
         dispatch({
-            type: types.CHANGE_STATUS_ORDER_SUCCESS,
-            order_id: orderId,
-            status: "ship_order"
+            type: types.SEND_SHIP_ORDER_COMPLETE,
+            shippedGoodResponse: data,
+            orderId,
+            labelId: data.order.label
         });
     }
 }
@@ -179,7 +166,7 @@ export function editNote(order) {
     };
 }
 
-export function sendShipOrder(shippingGood) {
+export function sendShipOrder(shippingGood, orderId, labelId) {
     shippingGood = {
         ...shippingGood,
         pick_date: moment().format("YYYY-MM-DD"),
@@ -195,18 +182,28 @@ export function sendShipOrder(shippingGood) {
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-        const {orderId} = shippingGood.order;
-        goodOrdersApi.sendShipOrder(shippingGood)
-            .then((res) => {
-                const labelId = sendShipOrderSuccess(res, dispatch);
-                goodOrdersApi.changeStatusOrder(orderId, "ship_order", labelId)
-                    .then((res) => {
-                        changeStatusOrderSuccess(res, dispatch, orderId);
-                        dispatch({
-                            type: types.HIDE_GLOBAL_LOADING
+        if (labelId) {
+            goodOrdersApi.cancelShipOrder(labelId)
+                .then(() => {
+                    goodOrdersApi.sendShipOrder(shippingGood)
+                        .then((res) => {
+                            dispatch({
+                                type: types.HIDE_GLOBAL_LOADING
+                            });
+                            dispatch(showShipGoodModal(false));
+                            sendShipOrderSuccess(res, dispatch, orderId);
                         });
+                });
+        } else {
+            goodOrdersApi.sendShipOrder(shippingGood)
+                .then((res) => {
+                    dispatch({
+                        type: types.HIDE_GLOBAL_LOADING
                     });
-            });
+                    dispatch(showShipGoodModal(false));
+                    sendShipOrderSuccess(res, dispatch, orderId);
+                });
+        }
     };
 }
 
