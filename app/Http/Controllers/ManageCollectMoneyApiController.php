@@ -63,7 +63,7 @@ class ManageCollectMoneyApiController extends ManageApiController
                 'phone' => $user->phone,
                 'email' => $user->email,
                 'registers' => $user->registers()->join("classes", "classes.id", "=", "registers.class_id")
-                    ->whereNull("classes.created_at")->get()->map(function ($regis) {
+                    ->whereNull("classes.deleted_at")->get()->map(function ($regis) {
                         $studyClass = $regis->studyClass()->withTrashed()->first();
                         return [
                             'id' => $regis->id,
