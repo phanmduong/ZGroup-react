@@ -4,7 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import * as goodApi from './goodApi';
 import {uploadFile} from '../file/fileApi';
-import {showErrorNotification, showNotification} from "../../helpers/helper";
+import {showErrorNotification, showNotification, showTypeNotification} from "../../helpers/helper";
 import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
@@ -136,6 +136,30 @@ export function loadGood(goodId) {
                     good: res.data.data.good
                 });
             });
+    };
+}
+
+export function deleteGood(goodId) {
+    return function (dispatch) {
+        showTypeNotification("Đang xóa", "info");
+        dispatch({
+            type: types.BEGIN_DELETE_GOOD
+        });
+
+        goodApi.deleteGood(goodId)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    showTypeNotification("Xóa thành công");
+                    dispatch({
+                        type: types.DELETE_GOOD_SUCCESS,
+                        goodId
+                    });
+                } else {
+                    showErrorNotification("Xóa thất bại. Thử lại");
+                }
+            }).catch(() => {
+            showErrorNotification("Xóa thất bại. Thử lại");
+        });
     };
 }
 

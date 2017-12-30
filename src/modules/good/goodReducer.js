@@ -403,6 +403,14 @@ export default function goodReducer(state = initialState.good, action) {
                     totalPages: action.totalPages
                 }
             };
+        case types.DELETE_GOOD_SUCCESS:
+            return {
+                ...state,
+                goodList: {
+                    ...state.goodList,
+                    goods: state.goodList.goods.filter((good) => good.id !== action.goodId),
+                }
+            };
         default:
             return state;
     }
