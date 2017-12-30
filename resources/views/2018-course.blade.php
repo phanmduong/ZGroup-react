@@ -41,11 +41,20 @@
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <div class="card-footer">
-                                                    <a href="{{url('/classes/register/'.$class->id."/".$saler_id."/".$campaign_id)}}">
-                                                        <button class="btn-register">Đăng ký</button>
-                                                    </a>
-                                                </div>
+                                                @if($class->status == 1)
+                                                    <div class="card-footer">
+                                                        <a href="{{url('/classes/register/'.$class->id."/".$saler_id."/".$campaign_id)}}">
+                                                            <button class="btn-register">Đăng ký</button>
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    <div class="card-footer">
+                                                        <a href="">
+                                                            <button class="btn-register" style="background-color: #121212 !important;">Đã hết chỗ</button>
+                                                        </a>
+                                                    </div>
+                                                @endif
+
                                             </div>
                                         </div>
                                     @endforeach
