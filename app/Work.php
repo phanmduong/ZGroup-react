@@ -32,6 +32,7 @@ class Work extends Model
                     "id" => $staff->id,
                     "name" => $staff->name,
                     "avatar_url" => $staff->avatar_url ? $staff->avatar_url : defaultAvatarUrl(),
+                    "status" => WorkStaff::where('work_id',$this->id)->where('staff_id',$staff->id)->first()->status,
                 ];
             })
         ];
