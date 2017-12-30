@@ -21,6 +21,15 @@ class LandingPageApiController extends ManageApiController
         parent::__construct();
     }
 
+    public function getAll(Request $request)
+    {
+        $limit = 20;
+
+
+        $landingPages = LandingPage::where(function ())->orderBy('created_at')->paginate($limit);
+
+    }
+
     public function export(Request $request)
     {
         $urlLib = public_path() . "/render-landingpage2";
