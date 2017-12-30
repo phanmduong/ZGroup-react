@@ -213,7 +213,7 @@ class StudentApiController extends ApiController
             $register->study_time = 1;
             $user = $register->user;
             foreach ($user->registers()->where('id', '!=', $register->id)->get() as $r) {
-                if ($r->studyClass->course_id == $register->studyClass->course_id) {
+                if ($r->studyClass()->withTrashed()->first()->course_id == $register->studyClass()->withTrashed()->first()->course_id) {
                     $register->study_time += 1;
                 }
             }
