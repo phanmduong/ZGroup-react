@@ -40,8 +40,8 @@ class Coupon extends Model
             'type' => $this->type,
             'used_for' => $this->used_for,
             'quantity' => $this->rate,
-            'start_time' => format_vn_short_datetime(strtotime($this->start_time)),
-            'end_time' => format_vn_short_datetime(strtotime($this->end_time))
+            'start_time' => strtotime($this->start_time)->format('Y-m-d'),
+            'end_time' => strtotime($this->end_time)->format('Y-m-d')
         ];
         return $data;
     }
