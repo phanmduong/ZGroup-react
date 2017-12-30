@@ -735,18 +735,5 @@
              src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/923433004/?guid=ON&amp;script=0"/>
     </div>
 </noscript>
-<div class="fb-livechat">
-    <div class="ctrlq fb-overlay"></div>
-    <div class="fb-widget">
-        <div class="ctrlq fb-close"></div>
-        <div class="fb-page" data-href="https://www.facebook.com/colorme.hanoi" data-tabs="messages" data-width="360"
-             data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
-        <div class="fb-credit"></div>
-        <div id="fb-root"></div>
-    </div>
-    <a href="https://m.me/colorme.hanoi" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
-        <div class="bubble">1</div>
-        <div class="bubble-msg">Bạn cần hỗ trợ?</div>
-    </a></div>
 </body>
 </html>
