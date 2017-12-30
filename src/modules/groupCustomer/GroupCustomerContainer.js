@@ -82,7 +82,7 @@ class GroupCustomerContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn tên nhóm khách hàng", 'warning');
             }
 
-            this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page, this.closeModal);
+            this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page, this.closeModal());
         }
         e.preventDefault();
     }

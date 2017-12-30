@@ -104,7 +104,7 @@ class ListChildDiscount extends React.Component {
                                                     )
                                                 }
                                             </td>
-                                            <td>{discount.quantity === -1 ? "Vô số lần" : discount.quantity + " lần"}</td>
+                                            <td>{discount.quantity === -1 ? "Vô số lần" : discount.quantity === null ? "Chưa điền" : discount.quantity + " lần"}</td>
                                             <td>{discount.description}</td>
                                             <td>
                                                 <div className="btn-group-action">

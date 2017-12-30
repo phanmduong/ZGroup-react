@@ -29,7 +29,6 @@ class AddDiscountContainer extends React.Component {
         let route = document.location.pathname;
         if (route === '/good/discount/add') {
             this.resetDiscount();
-
         } else {
             this.loadDiscount();
         }
@@ -40,11 +39,9 @@ class AddDiscountContainer extends React.Component {
             this.resetDiscount();
         }
     }
-
     loadDiscount() {
         this.props.addDiscountActions.loadDiscount(this.props.params.discountId);
     }
-
     changeQuantityInProps(i){
         const field = 'quantity';
         let discount = {...this.props.discount};
@@ -135,7 +132,6 @@ class AddDiscountContainer extends React.Component {
                                     discount={this.props.discount}
                                     generateCode = {this.generateCode}
                                     changeQuantityInProps = {this.changeQuantityInProps}
-                                    // categories={this.props.categories}
                                 />
                                 <div className="card-footer">
                                     <div style={{

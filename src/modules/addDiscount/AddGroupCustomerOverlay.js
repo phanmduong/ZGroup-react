@@ -34,7 +34,7 @@ class AddGroupCustomerOverlay extends React.Component {
                         </div>
                         :
                         <span>
-                        <i className="material-icons">group</i> Chọn nhóm khách hàng
+                        <i className="material-icons">group</i>Chọn nhóm khách hàng
                         </span>
                     }
                 </a>

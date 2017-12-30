@@ -1037,7 +1037,8 @@ export default {
             good: {},
             category: {},
             customer: {},
-            customer_group: {}
+            customer_group: {},
+            quantity : '',
         },
 
     },
@@ -1281,7 +1282,9 @@ export default {
 
     groupCustomers: {
         isSaving: false,
+        isSavingCoupon: false,
         isLoading: false,
+        isLoadingCoupon: false,
         isLoadingModal: false,
         isLoadingOverlay: false,     // load trong overlay
         customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
@@ -1297,6 +1300,19 @@ export default {
             customers: [],                         // tat ca cac customer trong mot group
             customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
+            coupons : [],
+        },
+        coupon: {
+            name: '',
+            description: '',
+            discount_type: '',
+            discount_value: '',
+            type: '',
+            used_for: '',
+            start_time: '',
+            end_time: '',
+            customer_group_id: '',
+            quantity : '',
         },
         groupCustomersList: [],
 

@@ -64,19 +64,18 @@ class AddOverlay extends React.Component {
 
     render() {
         let name = this.props.name;
-        let icon = this.props.icon;
         let isSearch = this.props.isSearch;
         let isPagination = this.props.isPagination;
         let currentPage = this.state.page;
 
         return (
             <div style={{position: "relative"}}>
-                <a className="btn btn-simple card-detail-btn-action"
-                   ref="target" onClick={() => this.toggle()}>
-                        <span>
-                        <i className="material-icons">{icon}</i> Chọn {name}
-                        </span>
-                </a>
+                    <a className="btn btn-round btn-sm btn-primary"
+                       ref="target" onClick={() => this.toggle()}>
+                                    <span>
+                                        <i className="material-icons">add</i>Thêm {name}
+                                    </span>
+                    </a>
                 <Overlay
                     rootClose={true}
                     show={this.state.isShowModal}
@@ -90,6 +89,7 @@ class AddOverlay extends React.Component {
                         width: "350px",
                         marginLeft: -80,
                     }}>
+
 
 
                         <button

@@ -96,7 +96,9 @@ class OrderContainer extends React.Component {
                                         <ListGood
                                             goodOrders={this.props.order.order.good_orders}
                                             updateQuantity={this.updateQuantity}
-                                            paid={this.props.order.paid}
+                                            updateOrderFormData={this.updateOrderFormData}
+                                            paid={this.props.order.order.paid}
+                                            orderId = {this.props.params.orderId}
                                         />
                                     </div>
                                 }

@@ -29,7 +29,7 @@ class AddDiscountComponent extends React.Component {
 
     changeQuantity() {
         this.setState({unlimited: !this.state.unlimited}); // Logic có vấn đề do các hàm thực hiện cùng nhau
-        if (this.state.unlimited === false) {
+        if (this.state.unlimited === false){
             this.props.changeQuantityInProps(-1);
         }
         else {
@@ -118,7 +118,6 @@ class AddDiscountComponent extends React.Component {
             <div>
                 <form id="form-add-discount">
                     <div className="row">
-
 
                         <div className="col-md-8">
                             <div className="card">
