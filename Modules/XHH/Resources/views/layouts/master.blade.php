@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 <head>
     <meta charset="utf-8"/>
-    <link rel="shortcut icon" type="image/png" href="" cph-ssorder="0">
+    <link rel="shortcut icon" type="image/png" href="{{config("app.favicon")}}" cph-ssorder="0">
     <link rel="icon" type="image/png" href="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
