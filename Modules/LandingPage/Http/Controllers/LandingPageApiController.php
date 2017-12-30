@@ -26,7 +26,7 @@ class LandingPageApiController extends ManageApiController
         $limit = 20;
 
 
-        $landingPages = LandingPage::where(function ())->orderBy('created_at')->paginate($limit);
+//        $landingPages = LandingPage::where(function ())->orderBy('created_at')->paginate($limit);
 
     }
 
