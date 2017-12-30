@@ -18,6 +18,7 @@ class JobAssignmentContainer extends React.Component {
         this.changeWorkStatus =this.changeWorkStatus.bind(this);
         this.openInfoModal =this.openInfoModal.bind(this);
         this.closeInfoModal =this.closeInfoModal.bind(this);
+        this.acceptWork =this.acceptWork.bind(this);
         this.state = {
             showInfoModal: false,
             work: {
@@ -56,6 +57,10 @@ class JobAssignmentContainer extends React.Component {
 
     closeInfoModal(){
         this.setState({showInfoModal: false});
+    }
+
+    acceptWork(workId, staffId){
+        this.props.jobAssignmentAction.changeStatusWork(workId,staffId, "doing", this.props.jobAssignmentAction.loadWorks);
     }
 
     render() {
@@ -123,6 +128,8 @@ class JobAssignmentContainer extends React.Component {
                                                 change={this.changeWorkStatus}
                                                 status="pending"
                                                 openModal={()=>{return this.openInfoModal(work);}}
+                                                user={this.props.user}
+                                                acceptWork={this.acceptWork}
                                             />
                                         );
                                     })
@@ -177,6 +184,8 @@ class JobAssignmentContainer extends React.Component {
                                                 delete={this.deleteWork}
                                                 status="doing"
                                                 openModal={()=>{return this.openInfoModal(work);}}
+                                                user={this.props.user}
+
                                             />
                                         );
                                     })
@@ -231,6 +240,7 @@ class JobAssignmentContainer extends React.Component {
                                                 delete={this.deleteWork}
                                                 status="done"
                                                 openModal={()=>{return this.openInfoModal(work);}}
+                                                user={this.props.user}
                                             />
                                         );
                                     })
@@ -285,6 +295,7 @@ class JobAssignmentContainer extends React.Component {
                                                 delete={this.deleteWork}
                                                 status="cancel"
                                                 openModal={()=>{return this.openInfoModal(work);}}
+                                                user={this.props.user}
                                             />
                                         );
                                     })
@@ -303,6 +314,8 @@ class JobAssignmentContainer extends React.Component {
 JobAssignmentContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     works: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+    jobAssignmentAction: PropTypes.object.isRequired,
 
 };
 
@@ -310,6 +323,7 @@ function mapStateToProps(state) {
    return {
        isLoading : state.jobAssignment.isLoading,
        works : state.jobAssignment.works,
+       user: state.login.user
    };
 }
 

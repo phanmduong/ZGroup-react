@@ -5,6 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
 import * as FILE_SAVER from 'file-saver';
+import {NO_IMAGE} from "../constants/env";
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -1185,3 +1186,11 @@ export function convertDataGeneral(data) {
     }];
 }
 
+
+export function validateLinkImage(link){
+    if(isEmptyInput(link) || avatarEmpty(link)) return NO_IMAGE;
+    if(link.substring(0,4) === 'http'){
+        return link;
+    }
+    return 'http://' + link;
+}

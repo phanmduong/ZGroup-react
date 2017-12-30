@@ -124,7 +124,7 @@ class WorkInfoModal extends React.Component {
                                                 <div className="card-content">
                                                     <h4 className="card-title">Người thực hiện</h4>
                                                     <div className="row">
-                                                        <ListStaffs staffs={this.props.data.staffs} />
+                                                        <ListStaffs staffs={this.props.data.staffs||[]} />
 
 
                                                     </div>

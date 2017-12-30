@@ -15,7 +15,6 @@ import * as helper from '../../helpers/helper';
 import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 
-
 class CreateJobAssignmentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -32,10 +31,15 @@ class CreateJobAssignmentContainer extends React.Component {
         this.props.jobAssignmentAction.loadStaffs();
         if(this.props.params.workId)
             this.props.jobAssignmentAction.loadWork(this.props.params.workId);
+        else this.props.jobAssignmentAction.resetDataCreate();
     }
 
     componentWillReceiveProps(nextProps) {
         console.log(nextProps);
+        if(this.props.isLoadingStaffs && !nextProps.isLoadingStaffs)
+            if(this.props.params.workId)
+                this.props.jobAssignmentAction.loadWork(this.props.params.workId);
+            else this.props.jobAssignmentAction.resetDataCreate();
     }
 
     componentDidUpdate(){
@@ -97,7 +101,7 @@ class CreateJobAssignmentContainer extends React.Component {
                 <div className="container-fluid">
                     {
 
-                            this.props.isLoading
+                        (this.props.isLoading || this.props.isLoadingStaffs)
 
                             ?
                             <Loading/> :
@@ -206,12 +210,12 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             onChange={(e)=>{return this.props.jobAssignmentAction.chooseStaff(e);}}
                                                             optionRenderer={(option) => {
                                                                 return (
-                                                                    <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                                                    <ItemReactSelect label={option.label} url={helper.validateLinkImage(option.avatar_url)}/>
                                                                 );
                                                             }}
                                                             valueRenderer={(option) => {
                                                                 return (
-                                                                    <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                                                    <ItemReactSelect label={option.label} url={helper.validateLinkImage(option.avatar_url)}/>
                                                                 );
                                                             }}
                                                             placeholder="Chọn nhân viên"

@@ -138,6 +138,30 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+        case types.BEGIN_CHANGE_STATUS_WORK: {
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        }
+        case types.CHANGE_STATUS_WORK_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        }
+        case types.CHANGE_STATUS_WORK_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        }
         case types.BEGIN_LOAD_INFO_WORK: {
             return {
                 ...state,
@@ -148,11 +172,13 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
         }
         case types.LOAD_INFO_WORK_SUCCESS: {
             let newdata = {...action.work, staffs: getStaffs(action.work.staffs)};
+            let newstaffs = filterStaff([...action.work.staffs],[...state.staffs]);
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     data : newdata,
+                    staffs: newstaffs,
                 }
             };
         }
@@ -189,6 +215,24 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+        case types.RESET_DATA_CREATE_WORK: {
+            let defaultData = {
+                name: "",
+                type: "personal",
+                cost: 0,
+                deadline: "",
+                bonus_value: 0,
+                bonus_type: "coin",
+                staffs: [],
+            };
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    data: defaultData,
+                }
+            };
+        }
         default:
             return state;
     }
@@ -200,5 +244,19 @@ function getStaffs(arr) {
 
 function remove(obj, arr) {
     let res = arr.filter((item)=> item.value != obj.value);
+    return res;
+}
+
+
+function filterStaff(staffs, allstaffs) {
+    let res = [];
+    allstaffs.forEach((obj)=>{
+        let check = false;
+        staffs.forEach((item)=>{
+            if(item.id ==obj.id) {
+                check = true;}
+        });
+        if(!check) res = [...res, obj];
+    });
     return res;
 }

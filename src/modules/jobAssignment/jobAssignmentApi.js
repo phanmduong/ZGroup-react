@@ -43,6 +43,15 @@ export function loadWork(id='') {
     }
     return axios.get(url);
 }
+export function changeStatusWork(workID,staffID,status='pending') {
+    //manageapi.keetool.xyz/staff/{staffID}/{workID}?token=
+    let url     = env.MANAGE_API_URL + "/staff/" + staffID + "/" + workID;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.post(url, {status: status});
+}
 export function createWork(data) {
     //manageapi.keetool.xyz/work?token=
     let url     = env.MANAGE_API_URL + "/work";

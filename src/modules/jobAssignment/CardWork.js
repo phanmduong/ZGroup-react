@@ -4,6 +4,7 @@ import Avatar from "../../components/common/Avatar";
 import {Link} from "react-router";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 import moment from "moment/moment";
+import * as helper from '../../helpers/helper';
 
 class CardWork extends React.Component {
     constructor(props, context) {
@@ -25,7 +26,7 @@ class CardWork extends React.Component {
     }
 
     render() {
-        const {work, key, status} = this.props;
+        const {work, key, status, user} = this.props;
         let time = moment(work.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
             return (
                 <div
@@ -59,8 +60,8 @@ class CardWork extends React.Component {
                                                     {/*Xóa công việc*/}
                                                 {/*</a>*/}
                                             {/*</li>*/}
-                                            <li className="more-dropdown-item" hidden={!(status == "pending")}>
-                                                <a onClick={(e)=>{e.stopPropagation();}}>
+                                            <li className="more-dropdown-item" hidden={(status == "pending") ? (!checkUser(user.id, work.staffs)) : true}>
+                                                <a onClick={(e)=>{e.stopPropagation();return this.props.acceptWork(work.id, user.id);}}>
                                                     <i style={{fontSize: "16px"}}
                                                        className="material-icons keetool-card">done_all</i>
                                                     Chấp nhận
@@ -115,7 +116,7 @@ class CardWork extends React.Component {
                                                 return (
                                                     <div key={staff.id} className="keetool-card" style={{padding: "2px 0"}}>
                                                         <Avatar className="keetool-card"
-                                                                url={staff.avatar_url}
+                                                                url={helper.validateLinkImage(staff.avatar_url)}
                                                                 size={25}/>
                                                     </div>
                                                 );
@@ -138,8 +139,19 @@ class CardWork extends React.Component {
         }
 }
 
+function checkUser(id,arr) {
+    let check = false;
+    arr.forEach((obj)=>{
+        if (obj.id == id) {
+            check = true;
+        }
+    });
+    return check;
+}
+
 CardWork.propTypes = {
     delete: PropTypes.func,
+    acceptWork: PropTypes.func,
     openModal: PropTypes.func,
     work: PropTypes.object,
     key: PropTypes.number,

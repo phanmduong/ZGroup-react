@@ -157,3 +157,30 @@ export function deleteWork(id, success) {
     };
 }
 
+export function changeStatusWork(workId, staffId, status, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CHANGE_STATUS_WORK});
+        jobAssignmentApi.changeStatusWork(workId,staffId, status)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    helper.showNotification("Lưu thành công!");
+                    dispatch({type: types.CHANGE_STATUS_WORK_SUCCESS});
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.CHANGE_STATUS_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.CHANGE_STATUS_WORK_ERROR});
+            });
+    };
+}
+export function resetDataCreate(){
+    return function (dispatch) {
+        dispatch({type: types.RESET_DATA_CREATE_WORK});
+
+    };
+}
+
