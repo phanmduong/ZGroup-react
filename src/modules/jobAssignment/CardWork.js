@@ -31,7 +31,7 @@ class CardWork extends React.Component {
         let checkId = !checkUser(user.id, work.staffs);//user not belong to work
             return (
                 <div
-                    onClick={(e)=>{e.stopPropagation();return this.props.openModal(work);}}
+                    onClick={(e)=>{e.stopPropagation();return this.props.openInfoModal(work);}}
                     key={key} id={key} data-order={key}
                     className="card-content keetool-idcard">
 
@@ -78,7 +78,7 @@ class CardWork extends React.Component {
                                                 {/*</a>*/}
                                             {/*</li>*/}
                                             <li className="more-dropdown-item" hidden={(status == "doing") ? checkId : true}>
-                                                <a onClick={(e)=>{e.stopPropagation();}}>
+                                                <a onClick={(e)=>{e.stopPropagation();return this.props.openExtendModal(work);}}>
                                                     <i style={{fontSize: "16px"}}
                                                        className="material-icons keetool-card">access_alarm</i>
                                                     Xin gia hạn
@@ -157,7 +157,8 @@ CardWork.propTypes = {
     acceptWork: PropTypes.func,
     doneWork: PropTypes.func,
     revertWork: PropTypes.func,
-    openModal: PropTypes.func,
+    openInfoModal: PropTypes.func,
+    openExtendModal: PropTypes.func,
     work: PropTypes.object,
     key: PropTypes.number,
     status: PropTypes.string,

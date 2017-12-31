@@ -25,6 +25,7 @@ export function loadWorks() {
     }
     return axios.get(url);
 }
+
 export function loadStaffs() {
     //manageapi.keetool.xyz/staff?limit=-1&token=
     let url     = env.MANAGE_API_URL + "/staff?limit=-1";
@@ -34,6 +35,7 @@ export function loadStaffs() {
     }
     return axios.get(url);
 }
+
 export function loadWork(id='') {
     //manageapi.keetool.xyz/work/7?token=
     let url     = env.MANAGE_API_URL + "/work/" + id ;
@@ -43,6 +45,7 @@ export function loadWork(id='') {
     }
     return axios.get(url);
 }
+
 export function changeStatusWork(workID,staffID,status='pending') {
     //manageapi.keetool.xyz/staff/{staffID}/{workID}?token=
     let url     = env.MANAGE_API_URL + "/staff/" + staffID + "/" + workID;
@@ -52,6 +55,17 @@ export function changeStatusWork(workID,staffID,status='pending') {
     }
     return axios.post(url, {status: status});
 }
+
+export function extendWork(workID,staffID) {
+    //manageapi.keetool.xyz/staff/{staffID}/{workID}/extension?token=
+    let url     = env.MANAGE_API_URL + "/staff/" + staffID + "/" + workID + "/extension";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.post(url);
+}
+
 export function createWork(data) {
     //manageapi.keetool.xyz/work?token=
     let url     = env.MANAGE_API_URL + "/work";
@@ -72,6 +86,7 @@ export function createWork(data) {
     };
     return axios.post(url, res);
 }
+
 export function editWork(data, status) {
     //manageapi.ketool.xyz/work/{workId}?token=
     let url     = env.MANAGE_API_URL + "/work/" + data.id;

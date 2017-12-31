@@ -9,6 +9,7 @@ import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import * as conts from '../../constants/constants';
 import WorkInfoModal from './WorkInfoModal';
+import ExtendWorkModal from './ExtendWorkModal';
 import {Link} from "react-router";
 
 class JobAssignmentContainer extends React.Component {
@@ -21,9 +22,11 @@ class JobAssignmentContainer extends React.Component {
         this.acceptWork =this.acceptWork.bind(this);
         this.doneWork =this.doneWork.bind(this);
         this.revertWork =this.revertWork.bind(this);
+        this.openExtendModal =this.openExtendModal.bind(this);
+        this.closeExtendModal =this.closeExtendModal.bind(this);
         this.state = {
             showInfoModal: false,
-            modalType: conts.STATUS_WORK[0],
+            showExtendModal: false,
             work: {
                 staffs:[],
             },
@@ -61,6 +64,14 @@ class JobAssignmentContainer extends React.Component {
     closeInfoModal(){
         this.setState({showInfoModal: false});
     }
+    
+    openExtendModal(work){
+        this.setState({showExtendModal: true, work:work});
+    }
+
+    closeExtendModal(){
+        this.setState({showExtendModal: false});
+    }
 
     acceptWork(workId, staffId){
         this.props.jobAssignmentAction.changeStatusWork(workId,staffId, conts.STATUS_WORK[1].value, ()=>{
@@ -89,6 +100,12 @@ class JobAssignmentContainer extends React.Component {
                     data={this.state.work}
                     modalType={this.state.modalType}
                 />
+                <ExtendWorkModal
+                    show={this.state.showExtendModal}
+                    onHide={this.closeExtendModal}
+                    data={this.state.work}
+                />
+
                 <div style={{display:"flex", flexDirection: "row-reverse",}}>
                     <Link to="hr/job-assignment/create" className="btn btn-rose">
                         <i className="material-icons keetool-card">add</i>
@@ -145,7 +162,7 @@ class JobAssignmentContainer extends React.Component {
                                                 delete={this.deleteWork}
                                                 change={this.changeWorkStatus}
                                                 status="pending"
-                                                openModal={()=>{return this.openInfoModal(work, conts.STATUS_WORK[0].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 acceptWork={this.acceptWork}
                                             />
@@ -201,9 +218,10 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="doing"
-                                                openModal={()=>{return this.openInfoModal(work, conts.STATUS_WORK[1].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 doneWork={this.doneWork}
+                                                openExtendModal={()=>{return this.openExtendModal(work);}}
                                             />
                                         );
                                     })
@@ -257,7 +275,7 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="done"
-                                                openModal={()=>{return this.openInfoModal(work, conts.STATUS_WORK[2].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 revertWork={this.revertWork}
                                             />
@@ -313,7 +331,7 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="cancel"
-                                                openModal={()=>{return this.openInfoModal(work, conts.STATUS_WORK[3].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                             />
                                         );

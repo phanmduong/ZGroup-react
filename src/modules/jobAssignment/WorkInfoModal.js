@@ -126,6 +126,7 @@ class WorkInfoModal extends React.Component {
                                                     <div className="row">
                                                         <ListStaffs
                                                             staffs={this.props.data.staffs||[]}
+                                                            type={this.props.modalType}
                                                         />
                                                     </div>
                                                 </div>
@@ -137,7 +138,7 @@ class WorkInfoModal extends React.Component {
                     </div>
                 </Modal.Body>
             </Modal>
-            
+
         );
     }
 }

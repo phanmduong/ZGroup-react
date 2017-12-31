@@ -200,6 +200,26 @@ export function changeStatusWork(workId, staffId, status, success) {
             });
     };
 }
+export function extendWork(workId, staffId) {
+    return function (dispatch) {
+        helper.showWarningNotification("Đang yêu cầu...");
+        dispatch({type: types.BEGIN_EXTEND_STATUS_WORK});
+        jobAssignmentApi.extendWork(workId,staffId)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({type: types.EXTEND_STATUS_WORK_SUCCESS});
+                    helper.showNotification("Đã xin gia hạn, vui lòng chờ xét duyệt.");
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.EXTEND_STATUS_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.EXTEND_STATUS_WORK_ERROR});
+            });
+    };
+}
 export function resetDataCreate(){
     return function (dispatch) {
         dispatch({type: types.RESET_DATA_CREATE_WORK});
