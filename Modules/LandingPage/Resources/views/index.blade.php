@@ -1350,9 +1350,9 @@
                                 <div class="col-sm-8 control-label pix_seo_label"
                                      style="display: flex!important;"> Lưu tại địa chỉ: &nbsp;
                                     <a id="domain-landing-page-save" href="{{
-                                    $landingpage && $landingpage->path ? config("app.protocol").config("app.domain").'/'.$landingpage->path : ''
+                                    $landingpage && $landingpage->path ? config("app.protocol").config("app.domain").'/landing-page/'.$landingpage->path : ''
                                     }}">{{
-                                    $landingpage && $landingpage->path ? config("app.protocol").config("app.domain").'/'.$landingpage->path : ''
+                                    $landingpage && $landingpage->path ? config("app.protocol").config("app.domain").'/landing-page/'.$landingpage->path : ''
                                     }}</a>
                                 </div>
                             </div>

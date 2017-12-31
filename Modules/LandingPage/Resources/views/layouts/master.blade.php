@@ -21,7 +21,7 @@
     <script>
         var landingpage_id;
         var path_landingpage;
-        var domain = "{{config("app.protocol").config("app.protocol")}}"
+        var domain = "{{config("app.protocol").config("app.domain")}}"
         var token = localStorage.getItem('token');
         if (token == undefined || token == null || token == '') {
             window.open("{{config("app.protocol")."manage.".config("app.domain")}}/login", "_self");
@@ -195,7 +195,7 @@
                 toastr.success("Xuất landing page thành công");
                 $('#exportModal').modal('toggle');
                 $("#exportModalSuccess").modal('show');
-                $("#open-link-landingpage").attr("href", "{{ config("app.protocol") . config("app.domain") . "/landing-page/"}}" + data.data.url);
+                $("#open-link-landingpage").attr("href", domain + "/landing-page/" + data.data.url);
                 path_landingpage = data.data.url;
                 $("#domain-landing-page-save").text(domain + "/landing-page/" + path_landingpage);
                 $("#domain-landing-page-save").attr("href", domain + "/landing-page/" + path_landingpage);

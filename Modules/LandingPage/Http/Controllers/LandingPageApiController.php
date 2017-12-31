@@ -48,7 +48,7 @@ class LandingPageApiController extends ManageApiController
 
     public function export(Request $request)
     {
-        $urlLib = public_path() . "/render-landingpage2";
+        $urlLib = public_path() . "/landingpage-libs";
         $pathToAssets = array($urlLib . "/elements/assets", $urlLib . "/elements/stylesheets", $urlLib . "/elements/fonts", $urlLib . "/elements/pix_mail", $urlLib . "/elements/js-files");
         $filename = public_path() . "/landing-page/" . $request->link_landing_page . ".zip"; //use the /tmp folder to circumvent any permission issues on the root folder
         /* END CONFIG */
