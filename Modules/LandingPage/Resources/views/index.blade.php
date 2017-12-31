@@ -57,11 +57,11 @@
             </div>
 
             <!--<div class="left_headline left_shadows"><i class="pi pixicon-file"></i> .PixBuilder Project</div>-->
-            <div class="pixbuilderdiv">
-                <a href="#projModal" id="projPage" data-toggle="modal"
-                   class="btn btn-info btn-embossed pull-a actiosnButtons projexp" style="width:80%;margin:0 10%;"><i
-                            class="pi pixicon-open"></i> Export & Import</a>
-            </div>
+            {{--<div class="pixbuilderdiv">--}}
+            {{--<a href="#projModal" id="projPage" data-toggle="modal"--}}
+            {{--class="btn btn-info btn-embossed pull-a actiosnButtons projexp" style="width:80%;margin:0 10%;"><i--}}
+            {{--class="pi pixicon-open"></i> Export & Import</a>--}}
+            {{--</div>--}}
 
         </div><!-- /.main -->
 
@@ -123,7 +123,8 @@
                     class="pi pixicon-download"></i>
             Export</a>
 
-        <a id="savePage" class="btn btn-primary btn-embossed pull-right disabled actionButtons pixbtn"><i
+        <a href="#saveModal" data-toggle="modal" id="savePage"
+           class="btn btn-primary btn-embossed pull-right disabled actionButtons pixbtn"><i
                     class="pi pixicon-square-check"></i> <span class="bLabel">Nothing new to save</span></a>
 
     </header>
@@ -1287,18 +1288,17 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <br>
-
-
                             <div class="form-group">
                                 <label for="link_landing_page" class="col-sm-8 control-label pix_seo_label"
-                                       style="display: flex!important;"> Lưu tại địa chỉ: &nbsp;
+                                       style="display: flex!important;"> Lưu tại địa chỉ:
+                                    <star style="color: red;">*</star>&nbsp;
                                     <div id="domain-landing-page"></div>
                                     /landing-page/
                                 </label>
                                 <div class="col-sm-12">
                                     <input type="text" class="form-control" name="link_landing_page" id="doctype"
-                                           placeholder="Nhập link (Không dấu, không khoảng trắng và kí tự đặc biệt)"
-                                           value="{{$landingpage && $landingpage->path}}">
+                                           placeholder="Nhập link(Không dấu, không khoảng trắng và kí tự đặc biệt)"
+                                           value="{{$landingpage && $landingpage->path ? $landingpage->path : ''}}">
                                 </div>
 
                             </div>
@@ -1310,6 +1310,60 @@
                         </button>
                         <button type="button" class="btn btn-primary btn-embossed" id="exportSubmit"><i
                                     class="pi pixicon-download"></i> Xuất
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </form>
+        </div><!-- /.modal-dialog -->
+
+    </div><!-- /.modal --><!-- export HTML popup -->
+
+    <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-hidden="true">
+
+        <div class="modal-dialog modal-lg bigModal">
+            <form class="form-horizontal">
+                <input type="hidden" name="markup" value="" id="markupField">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="pi pixicon-cross"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-square-check"></i>Lưu landing
+                            page
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <br>
+                            <div class="form-group">
+                                <label for="link_landing_page" class="col-sm-8 control-label pix_seo_label"
+                                       style="display: flex!important;">Tên landing page
+                                </label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" name="name" id="landingpage_name"
+                                           placeholder="Nhập tên của landing page"
+                                           value="{{$landingpage && $landingpage->name ? $landingpage->name : ''}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8 control-label pix_seo_label"
+                                     style="display: flex!important;"> Lưu tại địa chỉ: &nbsp;
+                                    <a id="domain-landing-page-save" href="{{
+                                    $landingpage && $landingpage->path ? config("app.protocol").config("app.domain").'/'.$landingpage->path : ''
+                                    }}">{{
+                                    $landingpage && $landingpage->path ? config("app.protocol").config("app.domain").'/'.$landingpage->path : ''
+                                    }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-embossed" data-dismiss="modal"><i
+                                    class="pi pixicon-cross"></i> Thoát
+                        </button>
+                        <button type="button" class="btn btn-primary btn-embossed" id="savePageModal"><i
+                                    class="pi pixicon-square-check"></i> Lưu
                         </button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -1351,106 +1405,6 @@
 
     </div><!-- /.modal --><!-- export HTML popup -->
 
-    <!-- export Project popup -->
-    <div class="modal fade" id="projModal" tabindex="-1" role="dialog" aria-hidden="true">
-
-        <!--
-
-        NOTE:
-        The export PHP files can be hosted on any server supporting PHP, so these files can be hosted on a different location as the BUILDER (this might be easier for your end customers, so they won't have to worry about hosting PHP files)
-
-    -->
-
-        <form id="markupForm2" class="form-horizontal">
-
-
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            <i class="pi pixicon-cross"></i>
-                            <span class="sr-only">Close</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-open"></i> Export/Import
-                            PIXBUILDER
-                            Project</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row text-center">
-                            <div class="col-sm-6 export_import">
-                                <form action="expImp.php" target="_blank" id="markFormExp" class="form-horizontal"
-                                      method="post">
-                                    <p>Export .pixbuilder Project</p>
-                                    <div>
-                                        <a href="#" id="saveprojPage" class="btn btn-primary ">
-                                            <span class="fa fa-download"></span>
-                                            <span class="bLabel">&nbsp;Save File</span>
-                                        </a>
-                                    </div>
-                                    <input id="dataProject" type="hidden" name="JSONProject" value="">
-                                    <input id="statusExp" type="hidden" name="status" value="exp">
-                                </form>
-                            </div>
-                            <div class="col-sm-6 export_import left_border">
-                                <form action="expImp.php" id="markFormImp" class="form-horizontal" method="post"
-                                      enctype="multipart/form-data">
-                                    <p>Import .pixbuilder Project</p>
-                                    <div>
-                                <span class="file-input btn btn-primary btn-file ">
-                                   <span class="fa fa-upload"></span> &nbsp;Browse… <input type="file" id="fileinput"
-                                                                                           name="projectImp"
-                                                                                           multiple="">
-                                </span>
-                                        <a href="#" id="loadprojPage" class="btn btn-primary"><span
-                                                    class="fa fa-upload"></span> <span class="bLabel">import file</span></a>
-                                    </div>
-                                    <input id="statusImp" type="hidden" name="status" value="imp">
-                                </form>
-
-                            </div>
-                        </div>
-
-
-                        <!-- 		<p><strong>Export .pixbuilder Project:</strong></p>
-                                <div>
-                                    <a href="#" id="saveprojPage" class="btn btn-primary "><span class="fa fa-cloud-download"></span>  <span class="bLabel">export file</span></a>
-                                </div>
-                                <hr>
-
-                                <p><strong>Import .pixbuilder Project:</strong></p>
-                                <div class="form-group">
-
-                                    <label for="inputEmail3" class="col-sm-2 control-label"></label>
-
-
-                                    <div class="">
-                                        <input type="file" id="fileinput"/>
-
-                                    </div>
-                                    <div class="col-sm-10" style="margin-top:30px;text-align:left;">
-                                        <a href="#" id="loadprojPage" class="btn btn-primary "><span class="fa fa-upload"></span>  <span class="bLabel">import file</span></a>
-                                    </div>
-
-
-                                </div> -->
-                        <hr>
-                        <span class="pix_note">*Note: after the import process all the current landing pages will be deleted!</span>
-
-                    </div><!-- /.modal-body -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportCancel"><i
-                                    class="pi pixicon-cross"></i> Cancel
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-
-        </form>
-
-    </div><!-- /.modal -->
-
-
-    <!-- export HTML popup -->
     <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-hidden="true">
 
         <form action="preview.php" target="_blank" id="markupPreviewForm" method="post" class="form-horizontal">
@@ -1641,5 +1595,6 @@
         </div><!-- /.modal-dialog -->
 
     </div><!-- /.modal -->
+
 
 @stop

@@ -30,10 +30,14 @@ class LandingPageApiController extends ManageApiController
         $limit = 20;
 
         $search = $request->search;
+        if ($search) {
+            $landingPages = LandingPage::where(function ($query) use ($search) {
+                $query->where("name", $search)->orWhere("path", $search);
+            });
+        } else {
+            $landingPages = LandingPage::orderBy('created_at')->paginate($limit);
+        }
 
-        $landingPages = LandingPage::where(function ($query) use ($search) {
-            $query->where("name", $search)->orWhere("path", $search);
-        })->orderBy('created_at')->paginate($limit);
 
         $data = [
             "landing_pages" => $this->landingPageTransformer->transformCollection($landingPages)
