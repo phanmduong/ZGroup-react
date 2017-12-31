@@ -124,9 +124,9 @@ class WorkInfoModal extends React.Component {
                                                 <div className="card-content">
                                                     <h4 className="card-title">Người thực hiện</h4>
                                                     <div className="row">
-                                                        <ListStaffs staffs={this.props.data.staffs||[]} />
-
-
+                                                        <ListStaffs
+                                                            staffs={this.props.data.staffs||[]}
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
@@ -149,6 +149,7 @@ WorkInfoModal.propTypes = {
     data: PropTypes.object,
     show: PropTypes.bool,
     onHide: PropTypes.func,
+    modalType: PropTypes.string,
 };
 
 function mapStateToProps(state) {

@@ -113,6 +113,29 @@ export function editWork(data, status, success) {
             });
     };
 }
+export function revertWork(data, status, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_REVERT_WORK});
+        jobAssignmentApi.editWork(data,status)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    if(!status)
+                        helper.sweetAlertSuccess("Lưu thành công");
+                    else success();
+                    dispatch({
+                        type: types.REVERT_WORK_SUCCESS,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.REVERT_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.REVERT_WORK_ERROR});
+            });
+    };
+}
 export function loadWork(id) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_INFO_WORK});
@@ -159,11 +182,11 @@ export function deleteWork(id, success) {
 
 export function changeStatusWork(workId, staffId, status, success) {
     return function (dispatch) {
+        helper.showWarningNotification("Đang lưu...");
         dispatch({type: types.BEGIN_CHANGE_STATUS_WORK});
         jobAssignmentApi.changeStatusWork(workId,staffId, status)
             .then((res) => {
                 if(res.data.status == 1) {
-                    helper.showNotification("Lưu thành công!");
                     dispatch({type: types.CHANGE_STATUS_WORK_SUCCESS});
                     success();
                 }else {

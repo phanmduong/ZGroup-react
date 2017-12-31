@@ -28,6 +28,7 @@ class CardWork extends React.Component {
     render() {
         const {work, key, status, user} = this.props;
         let time = moment(work.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+        let checkId = !checkUser(user.id, work.staffs);//user not belong to work
             return (
                 <div
                     onClick={(e)=>{e.stopPropagation();return this.props.openModal(work);}}
@@ -36,7 +37,9 @@ class CardWork extends React.Component {
 
                     <div className="card keetool-card keetool-card-wrapper">
                         <div className="card-content keetool-card" style={{position: "relative"}}>
-                            <div style={{position: "absolute", top: 10, right: 10}}>
+                            <div style={{position: "absolute", top: 10, right: 10}}
+                                hidden={(user.role != 2) && checkId}
+                            >
                                 <div className="board-action keetool-card">
                                     <div className="dropdown">
                                         <a className="dropdown-toggle btn-more-dropdown" type="button"
@@ -44,7 +47,7 @@ class CardWork extends React.Component {
                                             <i className="material-icons">more_horiz</i>
                                         </a>
                                         <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
-                                            <li className="more-dropdown-item">
+                                            <li className="more-dropdown-item" hidden={user.role != 2}>
                                                 <Link
                                                     onClick={(e)=>{e.stopPropagation();}}
                                                     to={`/hr/job-assignment/edit/${work.id}`}>
@@ -60,36 +63,36 @@ class CardWork extends React.Component {
                                                     {/*Xóa công việc*/}
                                                 {/*</a>*/}
                                             {/*</li>*/}
-                                            <li className="more-dropdown-item" hidden={(status == "pending") ? (!checkUser(user.id, work.staffs)) : true}>
+                                            <li className="more-dropdown-item" hidden={(status == "pending") ? checkId : true}>
                                                 <a onClick={(e)=>{e.stopPropagation();return this.props.acceptWork(work.id, user.id);}}>
                                                     <i style={{fontSize: "16px"}}
                                                        className="material-icons keetool-card">done_all</i>
                                                     Chấp nhận
                                                 </a>
                                             </li>
-                                            <li className="more-dropdown-item" hidden={!(status == "pending")}>
-                                                <a onClick={(e)=>{e.stopPropagation();return this.props.change(work, "cancel");}}>
-                                                    <i style={{fontSize: "16px"}}
-                                                       className="material-icons keetool-card">delete</i>
-                                                    Hủy
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item" hidden={!(status == "doing")}>
+                                            {/*<li className="more-dropdown-item" hidden={!(status == "pending")}>*/}
+                                                {/*<a onClick={(e)=>{e.stopPropagation();return this.props.change(work, "cancel");}}>*/}
+                                                    {/*<i style={{fontSize: "16px"}}*/}
+                                                       {/*className="material-icons keetool-card">delete</i>*/}
+                                                    {/*Hủy*/}
+                                                {/*</a>*/}
+                                            {/*</li>*/}
+                                            <li className="more-dropdown-item" hidden={(status == "doing") ? checkId : true}>
                                                 <a onClick={(e)=>{e.stopPropagation();}}>
                                                     <i style={{fontSize: "16px"}}
                                                        className="material-icons keetool-card">access_alarm</i>
                                                     Xin gia hạn
                                                 </a>
                                             </li>
-                                            <li className="more-dropdown-item" hidden={(status == "doing") ? (!checkUser(user.id, work.staffs)) : true}>
+                                            <li className="more-dropdown-item" hidden={(status == "doing") ? checkId : true}>
                                                 <a onClick={(e)=>{e.stopPropagation();return this.props.doneWork(work.id, user.id);}}>
                                                     <i style={{fontSize: "16px"}}
                                                        className="material-icons keetool-card">done</i>
                                                     Hoàn thành
                                                 </a>
                                             </li>
-                                            <li className="more-dropdown-item" hidden={!(status == "done")}>
-                                                <a onClick={(e)=>{e.stopPropagation();}}>
+                                            <li className="more-dropdown-item" hidden={(status == "done") ?  (user.role!=2) : true}>
+                                                <a onClick={(e)=>{e.stopPropagation();return this.props.revertWork(work);}}>
                                                     <i style={{fontSize: "16px"}}
                                                        className="material-icons keetool-card">undo</i>
                                                     Yêu cầu làm lại
@@ -153,6 +156,7 @@ CardWork.propTypes = {
     delete: PropTypes.func,
     acceptWork: PropTypes.func,
     doneWork: PropTypes.func,
+    revertWork: PropTypes.func,
     openModal: PropTypes.func,
     work: PropTypes.object,
     key: PropTypes.number,

@@ -162,6 +162,30 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+        case types.BEGIN_REVERT_WORK: {
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        }
+        case types.REVERT_WORK_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        }
+        case types.REVERT_WORK_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        }
         case types.BEGIN_LOAD_INFO_WORK: {
             return {
                 ...state,

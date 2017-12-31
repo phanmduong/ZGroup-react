@@ -26,10 +26,14 @@ class ListStaffs extends React.Component {
                                     <Avatar size={30} url={helper.validateLinkImage(m.avatar_url)}/>{m.label || m.name}
                                 </div>
                                 {
-                                    this.props.remove &&
-                                    <div onClick={()=>{return this.props.remove(m)}}>
-                                        <i className="material-icons">highlight_off</i>
-                                    </div>
+                                    this.props.remove ?
+                                        <div onClick={() => {
+                                            return this.props.remove(m)
+                                        }}>
+                                            <i className="material-icons">highlight_off</i>
+                                        </div>
+                                        :
+                                        <div></div>
                                 }
                             </div>
                         </ListGroupItem>
