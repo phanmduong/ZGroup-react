@@ -14,7 +14,6 @@ import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectO
 import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
 import CardListModalContainer from "./CardListModalContainer";
 import CardDetailModalContainer from "../../tasks/card/CardDetailModalContainer";
-import {dotNumber} from "../../../helpers/helper";
 
 // Import actions here!!
 
@@ -130,8 +129,8 @@ class DashboardItContainer extends React.Component {
                     <CardListModalContainer
                         to={to}
                         from={from}
-                        projectId={selectedProject.value}
-                        staffId={selectedStaff.value}
+                        projectId={selectedProject ? selectedProject.value : 0}
+                        staffId={selectedStaff ? selectedStaff.value : 0}
                     />
                     <CardDetailModalContainer isProcess={false}/>
                     <div className="card">
@@ -212,7 +211,8 @@ class DashboardItContainer extends React.Component {
                                                     <div>
                                                         <div className="col-lg-4 col-md-4 col-sm-4">
                                                             <div className="card card-stats">
-                                                                <div className="card-header" data-background-color="rose">
+                                                                <div className="card-header"
+                                                                     data-background-color="rose">
                                                                     <i className="material-icons">fiber_manual_record</i>
                                                                 </div>
                                                                 <div className="card-content">
@@ -225,7 +225,8 @@ class DashboardItContainer extends React.Component {
                                                         </div>
                                                         <div className="col-lg-4 col-md-4 col-sm-4">
                                                             <div className="card card-stats">
-                                                                <div className="card-header" data-background-color="green">
+                                                                <div className="card-header"
+                                                                     data-background-color="green">
                                                                     <i className="material-icons">credit_card</i>
                                                                 </div>
                                                                 <div className="card-content">
@@ -238,7 +239,8 @@ class DashboardItContainer extends React.Component {
                                                         </div>
                                                         <div className="col-lg-4 col-md-4 col-sm-4">
                                                             <div className="card card-stats">
-                                                                <div className="card-header" data-background-color="blue">
+                                                                <div className="card-header"
+                                                                     data-background-color="blue">
                                                                     <i className="material-icons">gps_not_fixed</i>
                                                                 </div>
                                                                 <div className="card-content">

@@ -33,7 +33,7 @@ class CardListModalContainer extends React.Component {
         return (
             <Modal show={this.props.showCardsModal} onHide={this.closeCardsModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Danh sách thẻ</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {this.props.isLoadingCardsModal ? <Loading/> : (
