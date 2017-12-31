@@ -47,7 +47,7 @@
                                 <p style="font-weight:600">{{$book['name']}}</p>
                                 <h6>
                                     <b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>
-                                    <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']))}}
+                                    <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price'])}}
                                     <a href="#pablo" class="btn btn-danger"
                                        style="padding:3px;margin:3px;font-size:10px;">
 
