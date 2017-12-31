@@ -1332,5 +1332,12 @@ export default {
         isLoading: false,
         error: false
     },
+    landingPages: {
+        landingPages: [],
+        currentPage: 1,
+        totalPages: 1,
+        isLoading: false,
+        error: false
+    }
 
 };
