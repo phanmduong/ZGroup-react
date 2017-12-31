@@ -182,7 +182,7 @@ export function sendShipOrder(shippingGood, orderId, labelId) {
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-        if (labelId) {
+        if (labelId || labelId < 0) {
             goodOrdersApi.cancelShipOrder(labelId)
                 .then(() => {
                     goodOrdersApi.sendShipOrder(shippingGood)

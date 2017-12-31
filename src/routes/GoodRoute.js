@@ -16,11 +16,16 @@ import OrdersContainer from "../modules/goodOrders/OrdersContainer";
 import OrderContainer from "../modules/goodOrders/order/OrderContainer";
 import CategoriesContainer from "../modules/categories/CategoriesContainer";
 import SupplierContainer from "../modules/supplier/SupplierContainer";
+import PermitGoodContainer from "../modules/permitGood/PermitGoodContainer";
 
 /**
  * Tab Nhân sự
  */
 export default [
+    {
+        path: "/good/permit-good",
+        component: PermitGoodContainer
+    },
     {
         path: "/good/create-product",
         component: CreateProductContainer,
