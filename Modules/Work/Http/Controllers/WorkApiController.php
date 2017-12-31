@@ -2,6 +2,7 @@
 
 namespace Modules\Work\Http\Controllers;
 
+use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
 use App\Work;
 use App\WorkStaff;
@@ -103,5 +104,13 @@ class WorkApiController extends ManageApiController
             })
         ]);
 
+    }
+    public function getAllExtension(Request $request){
+        $logs = HistoryExtensionWork::orderBy('created_at','desc')->get();
+        return $this->respondSuccessWithStatus([
+           "logs" => $logs->map(function($log){
+               return $log->transform();
+           })
+        ]);
     }
 }

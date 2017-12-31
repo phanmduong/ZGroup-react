@@ -138,7 +138,12 @@ class StaffApiController extends ManageApiController
 
     }
 
-    public function extensionWork($staffId,$workId,Request $request){
+    public function extensionWork($staffId, $workId, Request $request)
+    {
+        $staff = User::find($staffId);
+        $work = Work::find($workId);
+        if (!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
+        if (!$staff) return $this->respondErrorWithStatus("Không tồn tại nhân viên");
         $log = new HistoryExtensionWork;
         $log->staff_id = $staffId;
         $log->work_id = $workId;
@@ -147,7 +152,7 @@ class StaffApiController extends ManageApiController
         $log->new_deadline = $request->new_deadline;
         $log->save();
         return $this->respondSuccessWithStatus([
-           "message" => "Gia hạn công việc thành công"
+            "message" => "Gia hạn công việc thành công"
         ]);
     }
 

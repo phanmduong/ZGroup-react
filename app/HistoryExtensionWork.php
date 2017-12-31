@@ -10,4 +10,24 @@ class HistoryExtensionWork extends Model
     //
     use SoftDeletes;
     protected $table = 'history_extension_works';
+
+    public function transform()
+    {
+        $staff = User::find($this->staff_id);
+        $work = Work::find($this->work_id);
+        return [
+            "id" => $this->id,
+            "reason" => $this->reason,
+            "penalty" => $this->penalty,
+            "new_deadline" => $this->new_deadline,
+            "staff" => [
+                "id" => $staff->id,
+                "name" => $staff->name,
+            ],
+            "work" => [
+                "id" => $work->id,
+                "name" => $work->name
+            ]
+        ];
+    }
 }
