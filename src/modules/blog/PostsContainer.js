@@ -96,7 +96,7 @@ class BlogsContainer extends React.Component {
                             <Pagination
                                 totalPages={this.props.totalPages}
                                 currentPage={this.state.page}
-                                loadDataPage={this.postsSearchChange}
+                                loadDataPage={this.loadPosts}
                             />
                         </div>
                     </div>

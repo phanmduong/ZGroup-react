@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import {browserHistory} from 'react-router';
 
 
 class GroupCustomerItem extends React.Component {
@@ -9,9 +9,9 @@ class GroupCustomerItem extends React.Component {
     }
 
     render() {
-        let groupCustomerForm = this.props.groupCustomerForm;
+        let groupCustomerItem = this.props.groupCustomerItem;
         return (
-            <div className="col-md-4 col-sm-6" key={groupCustomerForm.id}>
+            <div className="col-md-4 col-sm-6" key={groupCustomerItem.id}>
                 <a className="btn btn-default btn-lg"
                    style={{
                        width: '100%',
@@ -19,19 +19,11 @@ class GroupCustomerItem extends React.Component {
                        color: 'rgb(69, 90, 100)',
                        textAlign: 'left'
                    }}
-                 onClick={(e) => {
-                        this.props.openEditModal(groupCustomerForm);
+                    onClick={(e) => {
+                        browserHistory.push('/good/goods/group-customer/' + groupCustomerItem.id);
                         e.stopPropagation();
                     }}
-                   // onClick={() => {
-                   //     browserHistory.push('/discount/add');
-                   // }}
                 >
-
-
-
-
-
 
                     <div className="dropdown" style={{position: "absolute", top: "10px", right: "10px"}}>
                         <a className="dropdown-toggle btn-more-dropdown" type="button"
@@ -42,7 +34,7 @@ class GroupCustomerItem extends React.Component {
 
                             <li className="more-dropdown-item">
                                 <a onClick={() => {
-                                       this.props.openEditModal(groupCustomerForm);
+                                       this.props.openEditModal(groupCustomerItem);
                                    }}
                                 >
                                     <i className="material-icons">edit</i> Sửa nhóm
@@ -51,41 +43,27 @@ class GroupCustomerItem extends React.Component {
                             <li className="more-dropdown-item">
                                 <a onClick={(event) => {
                                     event.stopPropagation(event);
-                                    this.props.deleteGroupCustomer(groupCustomerForm.id, groupCustomerForm.name);}}
+                                    this.props.deleteGroupCustomer(groupCustomerItem.id, groupCustomerItem.name);}}
                                 >
                                     <i className="material-icons">delete</i> Xóa nhóm
                                 </a>
                             </li>
                         </ul>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
                     <div className="row" style={{fontSize: 16, fontWeight: 600}}>
-                        <i className="material-icons">account_balance_wallet</i> {groupCustomerForm.name}
+                        <i className="material-icons">account_balance_wallet</i> {groupCustomerItem.name}
                     </div>
                     <div className="row" style={{
                         height: 5,
                         marginTop: 10,
                         marginBottom: 10,
-                        background: groupCustomerForm.color
+                        background: groupCustomerItem.color
                     }}/>
                     <div className="row" style={{textTransform: 'none', marginBottom: 10}}>
-                        <span>{groupCustomerForm.description}</span>
+                        <span>{groupCustomerItem.description}</span>
                         <br/>
                         <br/>
-                        1
-                        thẻ
-                        | {groupCustomerForm.customers.length}
+                        | {groupCustomerItem.customers.length}
                         khách hàng<br/>
                     </div>
 
@@ -112,7 +90,7 @@ class GroupCustomerItem extends React.Component {
                                 {/*}}*/}
 
                                 {/*>*/}
-                                    {/*{groupCustomerForm.customers.map((customer) => {*/}
+                                    {/*{groupCustomerItem.customers.map((customer) => {*/}
                                         {/*return (*/}
                                             {/*<Avatar size={20} url={customer.avatar_url} key={customer.id}*/}
                                             {/*/>*/}
@@ -141,7 +119,7 @@ class GroupCustomerItem extends React.Component {
 GroupCustomerItem.propTypes = {
     openEditModal: PropTypes.func,
     deleteGroupCustomer: PropTypes.func,
-    groupCustomerForm: PropTypes.object,
+    groupCustomerItem: PropTypes.object,
 
 };
 export default GroupCustomerItem;

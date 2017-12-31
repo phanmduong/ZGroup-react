@@ -101,6 +101,37 @@ export function changeImage(file, length, first_length) {
     };
 }
 
+export function changeChildImageModal(file, length, first_length, index) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT
+        });
+        const error = () => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const data = JSON.parse(event.currentTarget.responseText);
+            helper.showNotification("Tải lên ảnh thành công");
+            dispatch({
+                type: types.UPLOAD_CHILD_IMAGE_COMPLETE_MODAL,
+                image: data.url,
+                length,
+                first_length,
+                index
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_AVATAR_PROGRESS_CREATE_PRODUCT,
+                percent: percentComplete
+            });
+        };
+        createProductApi.changeAvatarApi(file,
+            completeHandler, progressHandler, error);
+    };
+}
+
 export function endUpload() {
     return ({
         type: types.END_UPLOAD_IMAGE_CREATE_PRODUCT
@@ -181,10 +212,7 @@ export function loadProduct(productId) {
         });
         createProductApi.loadProductApi(productId)
             .then((res) => {
-                dispatch({
-                    type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
-                    product: res.data.data.good
-                });
+                let product = {...res.data.data.good};
                 if (res.data.data.good.property_list && res.data.data.good.children) {
                     let property_list = res.data.data.good.property_list.map(property => {
                         return {
@@ -199,21 +227,31 @@ export function loadProduct(productId) {
                         };
                     });
                     let goods_count = res.data.data.good.property_list.reduce((result, property) => property.value.length * result, 1);
-                    dispatch(handlePropertiesCreate(property_list));
-                    dispatch(handleGoodCountCreate(goods_count));
-                    dispatch(handleChildrenCreateProduct(
-                        helper.childrenLoadedEditSuccess(property_list, res.data.data.good.children)
-                    ));
+                    product = {
+                        ...product,
+                        property_list: property_list,
+                        goods_count: goods_count,
+                        children: helper.childrenLoadedEditSuccess(property_list, res.data.data.good.children)
+                    };
+                    dispatch({
+                        type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
+                        product: product
+                    });
                 } else {
-                    dispatch(handlePropertiesCreate([
-                        {
+                    product = {
+                        ...product,
+                        property_list: [{
                             name: 'coool',
                             property_item_id: 3,
                             value: []
-                        }
-                    ]));
-                    dispatch(handleGoodCountCreate(0));
-                    dispatch(handleChildrenCreateProduct([]));
+                        }],
+                        goods_count: 0,
+                        children: []
+                    };
+                    dispatch({
+                        type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
+                        product: product
+                    });
                 }
             });
     };
@@ -230,6 +268,13 @@ export function handleGoodCountCreate(count) {
     return {
         type: types.HANDLE_GOOD_COUNT_CREATE,
         count
+    };
+}
+
+export function showAddChildImagesModal(index) {
+    return {
+        type: types.TOGGLE_ADD_CHILD_IMAGES_MODAL,
+        index
     };
 }
 

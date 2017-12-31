@@ -213,3 +213,9 @@ export function getPost(postId) {
             });
     };
 }
+
+export function resetForm() {
+    return {
+        type: types.RESET_FORM_POST_BLOG
+    }
+}

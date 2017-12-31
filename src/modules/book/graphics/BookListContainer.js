@@ -26,8 +26,6 @@ class GoodListContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-
-
                     <div className="card">
 
                         <div className="card-header card-header-icon" data-background-color="rose">

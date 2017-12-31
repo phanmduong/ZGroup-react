@@ -12,11 +12,6 @@ import Loading from "../../components/common/Loading";
 import * as helper from '../../helpers/helper';
 
 
-// import FormInputSelect from '../../components/common/FormInputSelect';
-// import FormInputDate from '../../components/common/FormInputDate';
-// import {GENDER} from '../../constants/constants';
-
-
 class DetailGroupCustomerContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -41,8 +36,8 @@ class DetailGroupCustomerContainer extends React.Component {
         this.loadCustomersInModal(1);
     }
 
-    loadCustomersInOverlay(page, limit, query) {
-        this.props.groupCustomerActions.loadCustomersInOverlay(page, limit, query, this.props.groupCustomerForm.stringId);
+    loadCustomersInOverlay(page, limit, query, stringId) {
+        this.props.groupCustomerActions.loadCustomersInOverlay(page, limit, query, stringId);
     }
 
     loadCustomersInModal(page) {
@@ -67,7 +62,8 @@ class DetailGroupCustomerContainer extends React.Component {
         const field = event.target.name;
         let groupCustomerForm = {...this.props.groupCustomerForm};
         groupCustomerForm[field] = event.target.value;
-        this.updateFormData(groupCustomerForm);
+        this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
+
     }
 
     changeColor(color) {
@@ -78,7 +74,7 @@ class DetailGroupCustomerContainer extends React.Component {
 
     updateFormData(groupCustomerForm) {
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
-    }
+    }                   // tách ra để dùng cho overlay
 
     assignCustomer(id) {
         this.props.groupCustomerActions.assignGroupCustomerFormData(id);
@@ -91,9 +87,9 @@ class DetailGroupCustomerContainer extends React.Component {
     activeModal(e) {
         if ($('#form-add-group-customer').valid()) {
             if (this.props.groupCustomerForm.name === null || this.props.groupCustomerForm.name === undefined || this.props.groupCustomerForm.name === '') {
-                helper.showTypeNotification("Vui lòng chọn tên nhóm khách hàng", 'warning');
+                helper.showTypeNotification("Vui lòng nhập tên nhóm khách hàng", 'warning');
             }
-            this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.state.page, this.closeModal);
+            this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.props.params.groupId);
         }
         e.preventDefault();
     }
@@ -131,10 +127,13 @@ class DetailGroupCustomerContainer extends React.Component {
                                         value={description}
                                     />
 
-                                    <Search
-                                        onChange={this.onSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm ..."/>
+                                    {customersShowInModal.length === 0 ? null :
+                                        <Search
+                                            onChange={this.onSearchChange}
+                                            value={this.state.query}
+                                            placeholder="Tìm kiếm ..."/>
+                                    }
+
 
 
                                     {this.props.isLoadingModal ? <Loading/> :
@@ -186,13 +185,12 @@ class DetailGroupCustomerContainer extends React.Component {
                                         </table>
                                     }
 
-
-                                    <Pagination
-                                        totalPages={this.props.totalCustomerInModalPages}
-                                        currentPage={currentPage}
-                                        loadDataPage={this.loadCustomersInModal}/>
-
-
+                                    {customersShowInModal.length === 0 ? null :
+                                        <Pagination
+                                            totalPages={this.props.totalCustomerInModalPages}
+                                            currentPage={currentPage}
+                                            loadDataPage={this.loadCustomersInModal}/>
+                                    }
                                 </div>
                                 <div className="col-md-4">
                                     <div style={{
@@ -213,11 +211,23 @@ class DetailGroupCustomerContainer extends React.Component {
                                             fieldName2="customersShowInModal"
                                             updateFormData={this.updateFormData}
                                             assignCustomer={this.assignCustomer}
-                                            stringId={stringId} // ko dung ???
+                                            stringId={stringId}
                                         />
                                     </div>
-
-
+                                    {/*<FormInputText*/}
+                                        {/*label="Tên nhóm"*/}
+                                        {/*name="name"*/}
+                                        {/*updateFormData={this.editFormData}*/}
+                                        {/*type="text"*/}
+                                        {/*value={name}*/}
+                                    {/*/>*/}
+                                    {/*<FormInputText*/}
+                                        {/*label="Mô tả"*/}
+                                        {/*name="description"*/}
+                                        {/*updateFormData={this.editFormData}*/}
+                                        {/*type="text"*/}
+                                        {/*value={description}*/}
+                                    {/*/>*/}
                                     <div className="card">
                                         <div className="card-header card-header-icon" data-background-color="rose">
                                             <i className="material-icons">contacts</i>
@@ -235,14 +245,7 @@ class DetailGroupCustomerContainer extends React.Component {
                             </div>
                         </div>
                         <div className="row" style={{marginLeft: 30, marginBottom: 20}}>
-                            <div className="col-md-9">
-                                {/*<button className="btn btn-info btn-sm"*/}
-                                {/*onClick={(e) => {*/}
-                                {/*this.resetCustomers(e);*/}
-                                {/*}}>*/}
-                                {/*<i className="material-icons">autorenew</i> Reset Table*/}
-                                {/*</button>*/}
-                            </div>
+                            <div className="col-md-9" />
                             <div className="col-md-3">
                                 {this.props.isSaving ?
                                     (

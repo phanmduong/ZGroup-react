@@ -1,21 +1,24 @@
 import React from 'react';
 import ShiftDates from './shift/ShiftDates';
 import {MAX_TIME_WORK_SHIFT_REIGSTER} from '../../constants/constants';
-import * as helper from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import _ from 'lodash';
 import StatisticShift from './shift/StatisticShift';
 import PropTypes from 'prop-types';
-import {convertTimeToSecond} from "../../helpers/helper";
+import {convertTimeToSecond, getHoursTime, sumTimeWorkShiftOfWeek} from "../../helpers/helper";
+import DetailShift from "./shift/DetailShift";
 
 class ShiftRegistersWeek extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             showModal: false,
+            showModalDetail: false,
         };
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
+        this.closeModalDetail = this.closeModalDetail.bind(this);
+        this.openModalDetail = this.openModalDetail.bind(this);
     }
 
     closeModal() {
@@ -30,13 +33,26 @@ class ShiftRegistersWeek extends React.Component {
         );
     }
 
+    closeModalDetail() {
+        this.setState({showModalDetail: false});
+    }
+
+    openModalDetail() {
+        this.setState(
+            {
+                showModalDetail: true,
+            }
+        );
+    }
+
     render() {
         let currentWeek = this.props.currentWeek;
         let shiftRegisters = this.props.shiftRegisters;
 
 
         if (shiftRegisters[currentWeek]) {
-            let sumTimeShiftOfWeek = helper.sumTimeWorkShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
+            const date = shiftRegisters[currentWeek].dates[0];
+            let sumTimeShiftOfWeek = sumTimeWorkShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
 
             let statisticShift = [];
 
@@ -81,14 +97,15 @@ class ShiftRegistersWeek extends React.Component {
                                     <div className="ripple-container"/>
                                 </button>
                             </h2>
-                            <h6><strong>Tổng thời gian làm việc: {helper.getHoursTime(sumTimeShiftOfWeek)}h/
-                                {helper.getHoursTime(MAX_TIME_WORK_SHIFT_REIGSTER)}h</strong></h6>
+                            <h6><strong>Tổng thời gian làm việc: {getHoursTime(sumTimeShiftOfWeek)}h/
+                                {getHoursTime(MAX_TIME_WORK_SHIFT_REIGSTER)}h</strong></h6>
                             <div className="progress progress-line-warning">
                                 <div className="progress-bar progress-bar-success"
-                                     style={{width: helper.convertTimeToSecond(sumTimeShiftOfWeek) * 100 / helper.convertTimeToSecond(MAX_TIME_WORK_SHIFT_REIGSTER) + '%'}}
+                                     style={{width: convertTimeToSecond(sumTimeShiftOfWeek) * 100 / convertTimeToSecond(MAX_TIME_WORK_SHIFT_REIGSTER) + '%'}}
                                 />
                             </div>
                             <button className="btn btn-rose" onClick={() => this.openModal()}>Thống kê</button>
+                            <button className="btn btn-rose" onClick={() => this.openModalDetail()}>Chi tiết</button>
                         </div>
                     </div>
                     <div className="col-md-12">
@@ -111,6 +128,21 @@ class ShiftRegistersWeek extends React.Component {
                             />
                         </Modal.Body>
                     </Modal>
+                    <Modal show={this.state.showModalDetail} onHide={this.closeModalDetail} bsSize="large">
+                        <Modal.Header closeButton>
+                            <Modal.Title>Chi tiết lịch làm việc tuần {shiftRegisters[currentWeek].week}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <DetailShift
+                                users={statisticShift}
+                                baseId={this.props.baseId}
+                                genId={this.props.genId}
+                                week={shiftRegisters[currentWeek].week}
+                                start_time={date.shifts[0].start_time}
+                                end_time={date.shifts[date.shifts.length - 1].end_time}
+                            />
+                        </Modal.Body>
+                    </Modal>
                 </div>
             );
         } else {
@@ -126,6 +158,8 @@ ShiftRegistersWeek.propTypes = {
     shiftRegisters: PropTypes.array.isRequired,
     changeCurrentWeek: PropTypes.func.isRequired,
     userId: PropTypes.number.isRequired,
+    baseId: PropTypes.number.isRequired,
+    genId: PropTypes.number.isRequired,
 };
 
 export default ShiftRegistersWeek;

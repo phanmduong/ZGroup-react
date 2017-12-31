@@ -38,7 +38,7 @@ class StorePostContainer extends React.Component {
         }
         if (this.props.location.pathname != nextProps.location.pathname) {
             if (nextProps.location.pathname == "/blog/new-post") {
-                this.props.blogActions.updateFormPost(initialState.blog.post);
+                this.props.blogActions.resetForm();
             } else {
                 this.props.blogActions.getPost(nextProps.params.postId);
             }

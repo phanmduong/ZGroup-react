@@ -5,11 +5,36 @@ import initialState from '../../reducers/initialState';
 let classes;
 export default function dashboardReducer(state = initialState.dashboard, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_CARDS_MODAL_DASHBOARD_IT:
+            return {
+                ...state,
+                it: {
+                    ...state.it,
+                    isLoadingCardsModal: true,
+                }
+            };
+        case types.LOAD_CARDS_MODAL_DASHBOARD_IT_SUCCESS:
+            return {
+                ...state,
+                it: {
+                    ...state.it,
+                    cards: action.cards,
+                    isLoadingCardsModal: false,
+                }
+            };
+        case types.SHOW_CARDS_MODAL_DASHBOARD_IT:
+            return {
+                ...state,
+                it: {
+                    ...state.it,
+                    showCardsModal: action.show,
+                }
+            };
         case types.BEGIN_LOAD_CARDS_STAFF_DURATION:
             return {
                 ...state,
                 it: {
-                    ...state.dashboard.it,
+                    ...state.it,
                     isLoading: true
                 }
             };
@@ -17,11 +42,11 @@ export default function dashboardReducer(state = initialState.dashboard, action)
             return {
                 ...state,
                 it: {
-                    ...state.dashboard.it,
+                    ...state.it,
                     isLoading: false,
                     dateArray: action.days,
                     cardsByDate: action.num_cards,
-                    pointByDate: action.num_cards
+                    pointByDate: action.total_points
                 }
             };
         case types.BEGIN_LOAD_GENS_DATA_DASHBOARD:
