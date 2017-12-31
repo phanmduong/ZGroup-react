@@ -1298,7 +1298,7 @@
                                 <div class="col-sm-12">
                                     <input type="text" class="form-control" name="link_landing_page" id="doctype"
                                            placeholder="Nhập link (Không dấu, không khoảng trắng và kí tự đặc biệt)"
-                                           value="">
+                                           value="{{$landingpage && $landingpage->path}}">
                                 </div>
 
                             </div>

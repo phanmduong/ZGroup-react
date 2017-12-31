@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
-
+use App\Http\Controllers\PublicCrawlController;
 
 class PublicController extends Controller
 {
@@ -155,25 +155,19 @@ class PublicController extends Controller
 
     public function classes($course_id = null, $saler_id = null, $campaign_id = null)
     {
-        $course = Course::find($course_id);
-        $courses = Course::all();
+        $course = Course::find($course_id);;
+        $course_id = $course->id;
         $current_gen = Gen::getCurrentGen();
-        $date_start = $course->classes->sortbyDesc('datestart')->first();
-        if ($date_start) {
-            $this->data['date_start'] = date("d/m/Y", strtotime($date_start->datestart));
-        }
         $this->data['current_gen_id'] = $current_gen->id;
-        $this->data['course_id'] = $course_id;
+        $this->data['gen_cover'] = $current_gen->cover_url;
         $this->data['course'] = $course;
+        $this->data['course_id'] = $course_id;
         $this->data['bases'] = Base::orderBy('created_at', 'asc')->get()->filter(function ($base) use ($course_id, $current_gen) {
             return $base->classes()->where('course_id', $course_id)->where('gen_id', $current_gen->id)->count() > 0;
         });
-        $this->data['courses'] = $courses;
-
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
-
-        return view('public.classes_list', $this->data);
+        return view('2018-course', $this->data);
     }
 
     public function classes($course_id = null, $saler_id = null, $campaign_id = null)
