@@ -110,6 +110,9 @@ class StaffApiController extends ManageApiController
         if (!$work_staff) return $this->respondErrorWithStatus("Không tồn tại");
         if (!$request->status) return $this->respondErrorWithStatus("Thiếu status");
         $work_staff->status = $request->status;
+        $work_staff->cost = $request->cost;
+        $work_staff->rate_description = $request->rate_description;
+        $work_staff->rate_star = $request->rate_star;
         $work_staff->save();
 
         $count_staff = WorkStaff::where('work_id', $workId)->count();
