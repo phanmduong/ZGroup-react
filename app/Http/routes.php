@@ -63,6 +63,10 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/good/{path}', 'ClientController@good')
         ->where('path', '.*');
 
+    Route::get('/order/{path}', 'ClientController@good')
+        ->where('path', '.*');
+
+
     Route::get('/project/{path}', 'ClientController@work')
         ->where('path', '.*');
     Route::get('/blog/{path}', 'ClientController@blog')
@@ -582,7 +586,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('courses/{user_id}/{campaign_id}', 'PublicController@courses');
     Route::get('classes/register/{class_id?}/{user_id?}/{campaign_id?}', 'PublicController@register_class');
     Route::get('classes/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes');
-    Route::get('classes1/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes1');
+    Route::get('register/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@register');
 
     Route::post('classes/register_store', 'PublicController@register_store');
     Route::post('classes/new_register_store', 'PublicController@new_register_store');

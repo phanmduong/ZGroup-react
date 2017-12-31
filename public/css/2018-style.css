@@ -1287,7 +1287,6 @@ a.navbar-brand img {
     position: relative;
     border-radius: 2px;
     width: 270px;
-    height: 350px;
     padding: 10px;
     margin-bottom: 20px;
     float: left
@@ -2091,10 +2090,6 @@ ul.dashed > li:before {
         font-size: 2em
     }
 
-    #first-after-nav {
-        padding-top: 100px !important
-    }
-
     .dot {
         height: 10px;
         width: 10px;
@@ -2670,7 +2665,7 @@ section {
 }
 
 .btn-register {
-    padding: 5px 20px !important
+    padding: 10px 30px !important
 }
 
 .btn-register, .btn-register:active {

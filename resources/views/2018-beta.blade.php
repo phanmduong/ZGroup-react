@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row au-first right-image"
-             style="height: 300px; ">
+             style="height: 300px; background-image: url({{$gen_cover}});">
         </div>
         <div class="row" id="bl-routing-wrapper">
             <div style="width: 100%; text-align: center; background-color: white; height: 50px; margin-bottom: 1px; box-shadow: rgba(0, 0, 0, 0.39) 0px 10px 10px -12px;">
@@ -26,10 +26,7 @@
                         <div class="product-wrapper">
                             <a href="/course/{{convert_vi_to_en($course->name)}}">
                                 <div class="product-item">
-                                    <div class="colorme-img">
-                                        <div class="colorme-link"
-                                             style="background-image: url({{$course->image_url}}); background-size: cover; background-position: center center;">
-                                        </div>
+                                    <div style="background-image: url({{$course->image_url}}); background-size: cover; background-position: center center; padding-bottom: 70%">
                                     </div>
                                     <div class="product-info">
                                         <div class="media"
