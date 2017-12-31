@@ -39,6 +39,38 @@
                     class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
                 <i class="fa fa-facebook"></i> Facebook Login
             </button>
+            <!-- login modal -->
+            <button type="button" class="btn btn-primary btn-round" data-toggle="modal" data-target="#loginModal">
+                Login modal
+            </button>
+            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="false">
+                <div class="modal-dialog modal-register">
+                    <div class="modal-content">
+                        <div class="modal-header no-border-header text-center">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h6 class="text-muted">Welcome</h6>
+                            <h3 class="modal-title text-center">Paper Kit</h3>
+                            <p>Log in to your account</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" value="" placeholder="Email" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" value="" placeholder="Password" class="form-control" />
+                            </div>
+                            <button class="btn btn-block btn-round"> Log in</button>
+                        </div>
+                        <div class="modal-footer no-border-footer">
+                            <span class="text-muted  text-center">Looking <a href="#paper-kit">create an account</a> ?</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
