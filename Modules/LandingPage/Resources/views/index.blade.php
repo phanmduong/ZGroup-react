@@ -124,7 +124,7 @@
             Export</a>
 
         <a href="#saveModal" data-toggle="modal" id="savePage"
-           class="btn btn-primary btn-embossed pull-right disabled actionButtons pixbtn"><i
+           class="btn btn-primary btn-embossed pull-right actionButtons pixbtn"><i
                     class="pi pixicon-square-check"></i> <span class="bLabel">Nothing new to save</span></a>
 
     </header>
@@ -1338,7 +1338,8 @@
                             <br>
                             <div class="form-group">
                                 <label for="link_landing_page" class="col-sm-8 control-label pix_seo_label"
-                                       style="display: flex!important;">Tên landing page
+                                       style="display: flex!important;">Tên landing page:
+                                    <star style="color: red;">*</star>
                                 </label>
                                 <div class="col-sm-12">
                                     <input type="text" class="form-control" name="name" id="landingpage_name"

@@ -264,9 +264,11 @@ var pendingChanges = false;
 function setPendingChanges(v) {
     if (v == true) {
         $('#savePage .bLabel').text("Save changes (!)");
+        $('#savePage').removeClass("disabled");
         pendingChanges = true;
     } else {
         $('#savePage .bLabel').text("Nothing new to save");
+        $('#savePage').addClass("disabled");
         pendingChanges = false;
     }
 }
@@ -2457,7 +2459,6 @@ $(function () {
     })
 
 
-    console.log("asdsadsadsadsa");
     $('#ftp_export_btn').click(function () {
         $('#ftpform :input[isacopy]').remove();
         $('#markupForm :input').not(':submit').clone().hide().attr('isacopy', 'y').appendTo('#ftpform');

@@ -44,12 +44,9 @@ class SendEmail extends Job implements ShouldQueue
                 $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $this->email_campaign->id . '&to=' . $subscriber->email;
                 $content = $this->data . '<img src="' . $url . '" width="1" height="1"/>';
 
-                if ($subscriber->name) {
-                    $content = str_replace("[[USER_NAME]]", $subscriber->name, $content);
-                }
+                $content = str_replace("[[USER_NAME]]", $subscriber->name, $content);
 
                 $result = $mail->sendAllEmail([$subscriber->email], $this->email_campaign->subject, $content);
-
 
 
                 $email_id = $result->get('MessageId');

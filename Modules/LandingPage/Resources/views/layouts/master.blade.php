@@ -92,7 +92,8 @@
 
 
     $(document).ready(function () {
-
+        setTimeout(function () {
+        }, 1000);
         jQuery.validator.addMethod("noSpace", function (value, element) {
             return value.indexOf(" ") < 0 && value != "";
         }, "Vui lòng không nhập khổng trắng");
@@ -199,7 +200,6 @@
                 path_landingpage = data.data.url;
                 $("#domain-landing-page-save").text(domain + "/landing-page/" + path_landingpage);
                 $("#domain-landing-page-save").attr("href", domain + "/landing-page/" + path_landingpage);
-                setPendingChanges(true);
             } else {
                 toastr.success("Xuất landing page thất bại. Thử lại");
             }
