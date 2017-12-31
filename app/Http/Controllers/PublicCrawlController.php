@@ -26,6 +26,8 @@ class PublicCrawlController extends CrawlController
     public function home()
     {
         $courses = Course::orderBy('created_at', 'asc')->get();
+        $current_gen = Gen::getCurrentGen();
+        $this->data['gen_cover'] = $current_gen->cover_url;
         $this->data['courses'] = $courses;
         return view('2018-beta', $this->data);
     }
@@ -57,6 +59,7 @@ class PublicCrawlController extends CrawlController
         $course_id = $course->id;
         $current_gen = Gen::getCurrentGen();
         $this->data['current_gen_id'] = $current_gen->id;
+        $this->data['gen_cover'] = $current_gen->cover_url;
         $this->data['course'] = $course;
         $this->data['course_id'] = $course_id;
         $this->data['bases'] = Base::orderBy('created_at', 'asc')->get()->filter(function ($base) use ($course_id, $current_gen) {
