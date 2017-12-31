@@ -29,7 +29,6 @@ class CardListModalContainer extends React.Component {
 
     render() {
         const {cards} = this.props;
-        console.log(cards);
         return (
             <Modal show={this.props.showCardsModal} onHide={this.closeCardsModal}>
                 <Modal.Header closeButton>
