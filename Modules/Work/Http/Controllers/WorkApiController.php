@@ -104,4 +104,16 @@ class WorkApiController extends ManageApiController
         ]);
 
     }
+    public function extensionWork($workId,Request $request){
+        $work = Work::find($workId);
+        if(!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
+        $work->new_deadline = $request->new_deadline;
+        $work->penalty = $request->penalty;
+        $work->reason = $request->reason;
+        $work->save();
+        return $this->respondSuccessWithStatus([
+           "message" => "Đã gia hạn công việc"
+        ]);
+
+    }
 }

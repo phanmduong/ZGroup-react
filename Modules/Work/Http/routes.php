@@ -7,4 +7,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'work
     Route::get('/','WorkApiController@getAll');
     Route::put('/{workId}','WorkApiController@editWork');
     Route::delete('/{workId}','WorkApiController@deleteWork');
+    Route::post('{workId}/extension','WorkApiController@extensionWork');
 });
