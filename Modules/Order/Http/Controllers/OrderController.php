@@ -109,8 +109,6 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-
-dd('aaa');
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
