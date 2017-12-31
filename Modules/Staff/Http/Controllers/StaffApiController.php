@@ -140,8 +140,8 @@ class StaffApiController extends ManageApiController
 
     public function extensionWork($staffId,$workId,Request $request){
         $log = new HistoryExtensionWork;
-        $log->staff_id = $request->staff_id;
-        $log->work_id = $request->work_id;
+        $log->staff_id = $staffId;
+        $log->work_id = $workId;
         $log->penalty = $request->penalty;
         $log->reason = $request->reason;
         $log->new_deadline = $request->new_deadline;
