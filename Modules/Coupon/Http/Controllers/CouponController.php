@@ -24,6 +24,7 @@ class CouponController extends ManageApiController
         $category_id = $request->category_id;
         $start_time = $request->start_time;
         $end_time = $request->end_time;
+        $shared = $request->shared;
         $customer_group_id = $request->customer_group_id;
         if ($name == null || $discount_type == null || $discount_value == null || $type == null || $used_for == null ||
             ($used_for == 'order' && $order_value == null) ||
@@ -48,6 +49,7 @@ class CouponController extends ManageApiController
         $coupon->start_time = $start_time;
         $coupon->end_time = $end_time;
         $coupon->rate = $quantity;
+        $coupon->shared = $shared;
     }
 
     public function createCoupon(Request $request)
