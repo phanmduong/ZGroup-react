@@ -2,6 +2,7 @@
 
 namespace Modules\LandingPage\Http\Controllers;
 
+use App\Colorme\Transformers\LandingPageTransformer;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ManageApiController;
 use App\LandingPage;
@@ -16,18 +17,29 @@ use RecursiveDirectoryIterator;
 
 class LandingPageApiController extends ManageApiController
 {
-    public function __construct()
+    protected $landingPageTransformer;
+
+    public function __construct(LandingPageTransformer $landingPageTransformer)
     {
         parent::__construct();
+        $this->landingPageTransformer = $landingPageTransformer;
     }
 
     public function getAll(Request $request)
     {
         $limit = 20;
 
+        $search = $request->search;
 
-//        $landingPages = LandingPage::where(function ())->orderBy('created_at')->paginate($limit);
+        $landingPages = LandingPage::where(function ($query) use ($search) {
+            $query->where("name", $search)->orWhere("path", $search);
+        })->orderBy('created_at')->paginate($limit);
 
+        $data = [
+            "landing_pages" => $this->landingPageTransformer->transformCollection($landingPages)
+        ];
+
+        return $this->respondWithPagination($landingPages, $data);
     }
 
     public function export(Request $request)
@@ -142,6 +154,7 @@ class LandingPageApiController extends ManageApiController
             $landingpage = new LandingPage();
         }
         $landingpage->path = $request->path ? $request->path : '';
+        $landingpage->name = $request->name;
         $landingpage->user_id = $this->user->id;
         $landingpage->content = $request->content_landing_page;
         $landingpage->save();
