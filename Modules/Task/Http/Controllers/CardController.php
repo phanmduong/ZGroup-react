@@ -253,10 +253,9 @@ class CardController extends ManageApiController
         }
 
         $cards = $cards->where("cards.status", "close")
-            ->whereBetween("cards.updated_at", [$from, $to])->groupBy(DB::raw("date(cards.updated_at)"))
+            ->whereBetween("cards.updated_at", [$from, $to])
             ->select(DB::raw('cards.*'))
             ->orderBy("cards.created_at", 'desc')->get();
-
 
         return $this->respondSuccessWithStatus([
             "cards" => $cards->map(function ($card) {
