@@ -12,6 +12,17 @@
             <div class="row au-first right-image"
                  style="height: 300px; background-image: url({{$course->cover_url}})">
             </div>
+            <div class="row" id="bl-routing-wrapper">
+                <div style="width: 100%; text-align: center; background-color: white; height: 50px; margin-bottom: 1px; box-shadow: rgba(0, 0, 0, 0.39) 0px 10px 10px -12px;">
+                    <a class="routing-bar-item" href="#first-after-nav"
+                       style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Thông
+                        tin</a><span
+                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span><a
+                            class="routing-bar-item" href="#pick-class"
+                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Đăng
+                        kí</a>
+                </div>
+            </div>
         </div>
     </div>
     {!! $course->detail !!}
