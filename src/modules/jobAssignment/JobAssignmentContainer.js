@@ -19,6 +19,7 @@ class JobAssignmentContainer extends React.Component {
         this.openInfoModal =this.openInfoModal.bind(this);
         this.closeInfoModal =this.closeInfoModal.bind(this);
         this.acceptWork =this.acceptWork.bind(this);
+        this.doneWork =this.doneWork.bind(this);
         this.state = {
             showInfoModal: false,
             work: {
@@ -61,6 +62,10 @@ class JobAssignmentContainer extends React.Component {
 
     acceptWork(workId, staffId){
         this.props.jobAssignmentAction.changeStatusWork(workId,staffId, "doing", this.props.jobAssignmentAction.loadWorks);
+    }
+
+    doneWork(workId, staffId){
+        this.props.jobAssignmentAction.changeStatusWork(workId,staffId, "done", this.props.jobAssignmentAction.loadWorks);
     }
 
     render() {
@@ -185,7 +190,7 @@ class JobAssignmentContainer extends React.Component {
                                                 status="doing"
                                                 openModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
-
+                                                doneWork={this.doneWork}
                                             />
                                         );
                                     })

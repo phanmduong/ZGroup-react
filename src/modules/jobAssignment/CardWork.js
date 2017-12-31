@@ -81,8 +81,8 @@ class CardWork extends React.Component {
                                                     Xin gia hạn
                                                 </a>
                                             </li>
-                                            <li className="more-dropdown-item" hidden={!(status == "doing")}>
-                                                <a onClick={(e)=>{e.stopPropagation();}}>
+                                            <li className="more-dropdown-item" hidden={(status == "doing") ? (!checkUser(user.id, work.staffs)) : true}>
+                                                <a onClick={(e)=>{e.stopPropagation();return this.props.doneWork(work.id, user.id);}}>
                                                     <i style={{fontSize: "16px"}}
                                                        className="material-icons keetool-card">done</i>
                                                     Hoàn thành
@@ -152,6 +152,7 @@ function checkUser(id,arr) {
 CardWork.propTypes = {
     delete: PropTypes.func,
     acceptWork: PropTypes.func,
+    doneWork: PropTypes.func,
     openModal: PropTypes.func,
     work: PropTypes.object,
     key: PropTypes.number,

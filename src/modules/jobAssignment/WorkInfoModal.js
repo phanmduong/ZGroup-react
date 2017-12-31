@@ -27,7 +27,7 @@ class WorkInfoModal extends React.Component {
             >
                 <Modal.Header closeButton/>
                 <Modal.Body>
-                    <div className="content">
+                    <div className="content" >
                         <div className="container-fluid">
                             {
 
