@@ -25,7 +25,6 @@
             </div>
         </div>
     </div>
-    {!! $course->detail !!}
     <div style="" id="pick-class">
         <br> <br>
         <div class="container">
