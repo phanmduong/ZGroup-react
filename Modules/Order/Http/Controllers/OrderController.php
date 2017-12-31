@@ -113,18 +113,7 @@ class OrderController extends ManageApiController
         $totalMoney = 0;
         $totalPaidMoney = 0;
         $allOrders = Order::where('type', 'order')->get();
-        foreach ($allOrders as $order) {
-            $goodOrders = $order->goodOrders()->get();
-            foreach ($goodOrders as $goodOrder) {
-                $totalMoney += $goodOrder->quantity * $goodOrder->price;
-            }
-        }
-        foreach ($allOrders as $order) {
-            $orderPaidMoneys = $order->orderPaidMoneys()->get();
-            foreach ($orderPaidMoneys as $orderPaidMoney) {
-                $totalPaidMoney += $orderPaidMoney->money;
-            }
-        }
+
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
@@ -138,7 +127,7 @@ class OrderController extends ManageApiController
             $orders = $orders->where('user_id', $user_id);
         if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
-        $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
+        $orders = $orders->get();
     }
 
     public function detailedOrder($order_id)
