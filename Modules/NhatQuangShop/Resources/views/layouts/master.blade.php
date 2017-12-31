@@ -199,10 +199,10 @@
                             <b style="font-weight:600;"> @{{ good.number }} </b>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p>@{{ good.price * (1 - good.coupon_value)}}</p>
+                            <p>@{{ good.price}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) * good.number}}</b>
+                            <p><b style="font-weight:600;">@{{good.price* good.number}}</b>
                             </p>
                         </div>
                     </div>

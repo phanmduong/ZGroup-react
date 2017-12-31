@@ -109,11 +109,8 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $totalOrders = Order::where('type', 'order')->get()->count();
-        $totalMoney = 0;
-        $totalPaidMoney = 0;
-        $allOrders = Order::where('type', 'order')->get();
 
+dd('aaa');
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
@@ -128,6 +125,28 @@ class OrderController extends ManageApiController
         if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
         $orders = $orders->get();
+
+        $totalMoney = 0;
+        $totalPaidMoney = 0;
+        $count = $orders->count();
+        foreach ($orders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+            }
+        }
+        foreach ($orders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
+            }
+        }
+        return $this->respondSuccessWithStatus([
+            'count' => $count,
+            'total_money' => $totalMoney,
+            'total_paid_money' => $totalPaidMoney,
+            'total_debt' => $totalMoney - $totalPaidMoney,
+        ]);
     }
 
     public function detailedOrder($order_id)
@@ -166,7 +185,7 @@ class OrderController extends ManageApiController
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
-        if (!$order)
+        if ($order == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai order'
             ]);
