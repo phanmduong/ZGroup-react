@@ -99,6 +99,48 @@ class OrderController extends ManageApiController
         );
     }
 
+    public function statisticalOrder(Request $request)
+    {
+        $user_id = $request->user_id;
+        $staff_id = $request->staff_id;
+        $warehouse_id = $request->warehouse_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $status = $request->status;
+        $keyWord = $request->search;
+
+        $totalOrders = Order::where('type', 'order')->get()->count();
+        $totalMoney = 0;
+        $totalPaidMoney = 0;
+        $allOrders = Order::where('type', 'order')->get();
+        foreach ($allOrders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+            }
+        }
+        foreach ($allOrders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
+            }
+        }
+        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
+            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+        });
+        if ($status)
+            $orders = $orders->where('status', $status);
+        if ($startTime)
+            $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
+        if ($warehouse_id)
+            $orders = $orders->where('warehouse_id', $warehouse_id);
+        if ($user_id)
+            $orders = $orders->where('user_id', $user_id);
+        if ($staff_id)
+            $orders = $orders->where('staff_id', $staff_id);
+        $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
+    }
+
     public function detailedOrder($order_id)
     {
         $order = Order::find($order_id);
