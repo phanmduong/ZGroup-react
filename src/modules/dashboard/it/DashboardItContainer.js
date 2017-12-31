@@ -12,6 +12,9 @@ import {loadProjects, loadStaffs} from './dashboardItApi';
 import Select from 'react-select';
 import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
 import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
+import CardListModalContainer from "./CardListModalContainer";
+import CardDetailModalContainer from "../../tasks/card/CardDetailModalContainer";
+import {dotNumber} from "../../../helpers/helper";
 
 // Import actions here!!
 
@@ -70,7 +73,6 @@ class DashboardItContainer extends React.Component {
     }
 
 
-
     loadData(state) {
         const {from, to, selectedStaff, selectedProject} = state;
         this.props.dashboardItActions
@@ -114,11 +116,24 @@ class DashboardItContainer extends React.Component {
 
     render() {
         const {dateArray, pointByDate, cardsByDate, isLoading} = this.props;
-        const {from, to} = this.state;
+        const {from, to, selectedStaff, selectedProject} = this.state;
+        const totalPoint = pointByDate.reduce((total, point) => {
+            return total + parseInt(point);
+        }, 0);
+        const totalCards = cardsByDate.reduce((total, cards) => {
+            return total + parseInt(cards);
+        }, 0);
         return (
 
             <div className="row">
                 <div className="col-md-12">
+                    <CardListModalContainer
+                        to={to}
+                        from={from}
+                        projectId={selectedProject.value}
+                        staffId={selectedStaff.value}
+                    />
+                    <CardDetailModalContainer isProcess={false}/>
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">insert_chart</i>
@@ -190,13 +205,55 @@ class DashboardItContainer extends React.Component {
                                                 Xem danh sách công việc
                                             </button>
                                         </div>
+
                                         <div className="col-sm-12">
                                             {
                                                 isLoading ? <Loading/> : (
-                                                    <PointTaskBarchart
-                                                        label={dateArray}
-                                                        data={[pointByDate, cardsByDate]}
-                                                        id="barchar_task_and_point_by_date"/>
+                                                    <div>
+                                                        <div className="col-lg-4 col-md-4 col-sm-4">
+                                                            <div className="card card-stats">
+                                                                <div className="card-header" data-background-color="rose">
+                                                                    <i className="material-icons">fiber_manual_record</i>
+                                                                </div>
+                                                                <div className="card-content">
+                                                                    <p className="category">Tổng số điểm</p>
+                                                                    <h3 className="card-title">
+                                                                        {totalPoint}
+                                                                    </h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-lg-4 col-md-4 col-sm-4">
+                                                            <div className="card card-stats">
+                                                                <div className="card-header" data-background-color="green">
+                                                                    <i className="material-icons">credit_card</i>
+                                                                </div>
+                                                                <div className="card-content">
+                                                                    <p className="category">Tổng số thẻ</p>
+                                                                    <h3 className="card-title">
+                                                                        {totalCards}
+                                                                    </h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-lg-4 col-md-4 col-sm-4">
+                                                            <div className="card card-stats">
+                                                                <div className="card-header" data-background-color="blue">
+                                                                    <i className="material-icons">gps_not_fixed</i>
+                                                                </div>
+                                                                <div className="card-content">
+                                                                    <p className="category">Trung bình</p>
+                                                                    <h3 className="card-title">
+                                                                        {(totalPoint / totalCards).toFixed(2)}
+                                                                    </h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <PointTaskBarchart
+                                                            label={dateArray}
+                                                            data={[pointByDate, cardsByDate]}
+                                                            id="barchar_task_and_point_by_date"/>
+                                                    </div>
                                                 )
                                             }
                                         </div>
