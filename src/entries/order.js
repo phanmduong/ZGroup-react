@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import {Router, browserHistory} from 'react-router';
 import renderRoutes from '../routes/renderer/RouteRenderer';
 import configureStore from '../store/configureStore';
-import BaseRoute from '../routes/BaseRoute';
+import OrderRoute from '../routes/OrderRoute';
 
 import '../../node_modules/toastr/build/toastr.min.css';
 import '../styles/react-bootstrap-switch.min.css';
@@ -23,8 +23,11 @@ const store = configureStore();
 // Create an enhanced history that syncs navigation events with the store
 // const history = syncHistoryWithStore(browserHistory, store);
 
+/**
+ * Hàng đặt
+ */
 render(
     <Provider store={store}>
-        <Router history={browserHistory} routes={renderRoutes(BaseRoute)}/>
+        <Router history={browserHistory} routes={renderRoutes(OrderRoute)}/>
     </Provider>, document.getElementById('app')
 );
