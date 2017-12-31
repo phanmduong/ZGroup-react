@@ -109,6 +109,7 @@ class GoodController extends ManageApiController
         $good->price = $price;
         $good->avatar_url = $avatarUrl;
         $good->cover_url = $coverUrl;
+        $good->download = $request->download;
         if ($request->type) {
             $good->type = $request->type;
         }
@@ -620,6 +621,7 @@ class GoodController extends ManageApiController
                 'message' => 'thieu gia'
             ]);
         $good->price = $request->price;
+        $good->note = $request->note;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'ok',

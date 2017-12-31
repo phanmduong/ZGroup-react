@@ -74,6 +74,7 @@ class Order extends Model
         });
         $data = [
             'id' => $this->id,
+            'note' => $this->note,
             'label_id' => $this->label_id,
             'code' => $this->code,
             'payment' => $this->payment,
@@ -153,7 +154,7 @@ class Order extends Model
                     "note" => $orderPaidMoney->note,
                     "order_id" => $orderPaidMoney->order_id,
                     "payment" => $orderPaidMoney->payment,
-                    "created_at" => format_full_time_date($orderPaidMoney->created_at)
+                    "created_at" => $orderPaidMoney->created_at->format('Y-m-d')
                 ];
             })
         ];

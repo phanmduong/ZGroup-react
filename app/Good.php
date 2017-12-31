@@ -105,6 +105,7 @@ class Good extends Model
             'good_category_id' => $this->good_category_id,
             'manufacture_id' => $this->manufacture_id,
             'description' => $this->description,
+            'download' => $this->download,
             'type' => $this->type,
             'avatar_url' => $this->avatar_url,
             'cover_url' => $this->cover_url,

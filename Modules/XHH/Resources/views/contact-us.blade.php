@@ -57,7 +57,6 @@
                                                     sociologyhue@gmail.com
                                                 </div>
 
-                                                <br>
                                                 <div style="display: flex; align-items: center;"
                                                      href="http://sociologyhue.facebook.com">
                                                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -75,7 +74,6 @@
                                                     <a href="http://facebook.com/sociologyhue">facebook.com/sociologyhue</a>
                                                 </div>
 
-                                                <br>
                                                 <div style="display: flex; align-items: center;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                                                          width="30" height="30"
