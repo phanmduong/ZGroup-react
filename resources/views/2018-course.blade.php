@@ -7,6 +7,13 @@
             font-weight: 200 !important;
         }
     </style>
+    <div>
+        <div class="container-fluid">
+            <div class="row au-first right-image"
+                 style="height: 300px; background-image: url({{$course->cover_url}})">
+            </div>
+        </div>
+    </div>
     {!! $course->detail !!}
     <div style="" id="pick-class">
         <br> <br>
