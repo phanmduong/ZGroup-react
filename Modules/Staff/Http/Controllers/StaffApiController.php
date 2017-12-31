@@ -2,6 +2,7 @@
 
 namespace Modules\Staff\Http\Controllers;
 
+use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
 use App\Work;
 use App\WorkStaff;
@@ -135,6 +136,19 @@ class StaffApiController extends ManageApiController
             "message" => "Thành công"
         ]);
 
+    }
+
+    public function extensionWork($staffId,$workId,Request $request){
+        $log = new HistoryExtensionWork;
+        $log->staff_id = $request->staff_id;
+        $log->work_id = $request->work_id;
+        $log->penalty = $request->penalty;
+        $log->reason = $request->reason;
+        $log->new_deadline = $request->new_deadline;
+        $log->save();
+        return $this->respondSuccessWithStatus([
+           "message" => "Gia hạn công việc thành công"
+        ]);
     }
 
 }
