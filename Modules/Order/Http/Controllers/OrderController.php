@@ -56,22 +56,6 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $totalOrders = Order::where('type', 'order')->get()->count();
-        $totalMoney = 0;
-        $totalPaidMoney = 0;
-        $allOrders = Order::where('type', 'order')->get();
-        foreach ($allOrders as $order) {
-            $goodOrders = $order->goodOrders()->get();
-            foreach ($goodOrders as $goodOrder) {
-                $totalMoney += $goodOrder->quantity * $goodOrder->price;
-            }
-        }
-        foreach ($allOrders as $order) {
-            $orderPaidMoneys = $order->orderPaidMoneys()->get();
-            foreach ($orderPaidMoneys as $orderPaidMoney) {
-                $totalPaidMoney += $orderPaidMoney->money;
-            }
-        }
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
@@ -89,9 +73,6 @@ class OrderController extends ManageApiController
         return $this->respondWithPagination(
             $orders,
             [
-                'total_order' => $totalOrders,
-                'total_money' => $totalMoney,
-                'total_paid_money' => $totalPaidMoney,
                 'orders' => $orders->map(function ($order) {
                     return $order->transform();
                 })
@@ -388,19 +369,19 @@ class OrderController extends ManageApiController
 
     public function returnOrder($orderId, $warehouseId, Request $request)
     {
-        //chua xong
-//        $returnOrder = new Order;
-//        $order = Order::find($orderId);
-//        $returnOrder->note = $request->note;
-//        $returnOrder->code = $request->code ? $request->code : 'RETURN' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
-//        $returnOrder->staff_id = $this->user->id;
-//        $returnOrder->status = $request->status;
-//        $good_orders = json_decode($request->good_orders);
-//        foreach ($good_orders as $good_order) {
-//            $history = HistoryGood::where('order_id', $orderId)
-//                ->where('good_id', $good_order->good_id)
-//                ->orderBy('created', 'desc')->first();
-//        }
+        $returnOrder = new Order;
+        $order = Order::find($orderId);
+        $returnOrder->note = $request->note;
+        $returnOrder->code = $request->code ? $request->code : 'RETURN' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $returnOrder->staff_id = $this->user->id;
+        $returnOrder->status = $request->status;
+
+        $good_orders = json_decode($request->good_orders);
+        foreach ($good_orders as $good_order) {
+            $history = HistoryGood::where('order_id', $orderId)
+                ->where('good_id', $good_order->good_id)
+                ->orderBy('created', 'desc')->first();
+        }
     }
 
 //    public function test(Request $request)
