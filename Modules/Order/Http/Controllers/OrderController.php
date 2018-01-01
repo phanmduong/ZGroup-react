@@ -109,11 +109,6 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $totalOrders = Order::where('type', 'order')->get()->count();
-        $totalMoney = 0;
-        $totalPaidMoney = 0;
-        $allOrders = Order::where('type', 'order')->get();
-
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
@@ -128,6 +123,27 @@ class OrderController extends ManageApiController
         if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
         $orders = $orders->get();
+
+        $count = $orders->count();
+        $totalMoney = 0;
+        $totalPaidMoney = 0;
+        foreach ($orders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+            }
+        }
+        foreach ($orders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
+            }
+        }
+        return $this->respondSuccessWithStatus([
+            'total_order' => $count,
+            'total_money' => $totalMoney,
+            'total_paid_money' => $totalPaidMoney,
+        ]);
     }
 
     public function detailedOrder($order_id)
