@@ -28,51 +28,84 @@
     </script>
 </head>
 <body class="profile" style="background:#fafafa">
-<nav class="navbar navbar-toggleable-md fixed-top bg-dark" style="height:35px; background:#272727!important">
-    <div class="container">
-        <div style="text-align:right; width:100%">
-            <button
-                    class="btn btn-danger" style="padding:3px 5px;margin:3px;font-size:10px;">
-                <i class="fa fa-google"></i> Google Login
-            </button>
-            <button
-                    class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
-                <i class="fa fa-facebook"></i> Facebook Login
-            </button>
-            <!-- login modal -->
-            <button type="button" class="btn btn-primary btn-round" data-toggle="modal" data-target="#loginModal">
-                Login modal
-            </button>
-            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="false">
-                <div class="modal-dialog modal-register">
-                    <div class="modal-content">
-                        <div class="modal-header no-border-header text-center">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h6 class="text-muted">Welcome</h6>
-                            <h3 class="modal-title text-center">Paper Kit</h3>
-                            <p>Log in to your account</p>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="text" value="" placeholder="Email" class="form-control" />
+<nav class="navbar navbar-toggleable-md fixed-top bg-dark"
+     id="vue-nav"
+     style="height:35px; background:#272727!important">
+    @if(isset($user))
+        <div class="container">
+            <div style="text-align:right; width:100%">
+
+                <button class="btn btn-danger" style="padding:3px 5px;margin:3px;font-size:10px;">
+                    <i class="fa fa-google"></i> {{$user->name}}
+                </button>
+                <button class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
+                    Đăng xuất
+                </button>
+
+            </div>
+        </div>
+    @else
+        <div class="container">
+            <div style="text-align:right; width:100%">
+                <!-- login modal -->
+                <button type="button" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-primary"
+                        data-toggle="modal" data-target="#loginModal">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i> Đăng nhập
+                </button>
+                <div class="modal fade " id="loginModal" tabindex="-1" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-register">
+                        <div class="modal-content">
+                            <div class="modal-header no-border-header text-center">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h3 class="modal-title text-center">Nhật Quang Shop</h3>
+                                <p>Đăng nhập vào tài khoản của bạn</p>
                             </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" value="" placeholder="Password" class="form-control" />
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input v-model="user.email" type="text" value="" placeholder="Email"
+                                           class="form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Mật khẩu</label>
+                                    <input v-model="user.password" type="password" value="" placeholder="Password"
+                                           class="form-control"/>
+                                </div>
+                                <div v-if="hasError" class="alert alert-danger" style="text-align: center">
+                                    Sai email hoặc mật khẩu
+                                </div>
+                                <button disabled v-if="isLoading" class="btn btn-block  btn-round">
+                                    <div class="uil-reload-css reload-small" style="">
+                                        <div></div>
+                                    </div>
+                                    Đăng nhập
+                                </button>
+                                <button v-if="!isLoading" v-on:click="onClickLoginButton"
+                                        class="btn btn-block btn-round"> Đăng nhập
+                                </button>
                             </div>
-                            <button class="btn btn-block btn-round"> Log in</button>
-                        </div>
-                        <div class="modal-footer no-border-footer">
-                            <span class="text-muted  text-center">Looking <a href="#paper-kit">create an account</a> ?</span>
+                            <div class="modal-footer no-border-footer">
+                            <span class="text-muted  text-center"> Bạn chưa có tải khoản?
+                                <a href="#paper-kit"> Tạo tài khoản mới</a>
+                            </span>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <button
+                        class="btn btn-danger" style="padding:3px 5px;margin:3px;font-size:10px;">
+                    <i class="fa fa-google"></i> Google Login
+                </button>
+                <button
+                        class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
+                    <i class="fa fa-facebook"></i> Facebook Login
+                </button>
+
             </div>
         </div>
-    </div>
+    @endif
 </nav>
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light" style="margin-top:35px">
     <div class="container">
@@ -420,4 +453,5 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/nhatquangshop.js?6868"></script>
+<script src="/nhatquangshop/js/nav.vue.js"></script>
 </html>

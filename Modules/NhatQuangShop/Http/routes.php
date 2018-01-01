@@ -26,4 +26,6 @@ Route::group(['middleware' => 'web', 'domain' => "nhatquangshop.{subfix}", 'name
     Route::get('/province', 'NhatQuangApiController@provinces');
     Route::get('/district/{provinceId}', 'NhatQuangApiController@districts');
     Route::get('/ward/{districtId}', 'NhatQuangApiController@wards');
+
+    Route::post("/api/login", "NhatQuangAuthApiController@login");
 });
