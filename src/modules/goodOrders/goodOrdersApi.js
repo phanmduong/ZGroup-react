@@ -16,10 +16,14 @@ export function loadAllOrders(page = 1, search, startTime, endTime, staff, statu
     if (staff) {
         url += `&staff_id=${staff}`;
     }
-    if (search) {
+    if (status) {
         url += `&status=` + status;
     }
     return axios.get(url);
+}
+
+export function loadOrderInfo() {
+    
 }
 
 export function loadDetailOrder(orderId) {

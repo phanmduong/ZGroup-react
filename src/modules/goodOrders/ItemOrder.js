@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import TooltipButton from '../../components/common/TooltipButton';
-import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
@@ -114,9 +113,6 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>{helper.dotNumber(order.total)}đ</td>
                 <td>{helper.dotNumber(order.debt)}đ</td>
-                <td>
-                    <ButtonGroupAction/>
-                </td>
                 <td>
                     <button
                         disabled={order.status !== "ship_order"}
