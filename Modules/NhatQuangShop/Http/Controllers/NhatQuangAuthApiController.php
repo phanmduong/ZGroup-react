@@ -3,23 +3,19 @@
 namespace Modules\NhatQuangShop\Http\Controllers;
 
 
-use App\District;
-use App\Good;
 use App\Http\Controllers\PublicApiController;
-use App\Province;
 use App\User;
+use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Modules\Good\Entities\GoodProperty;
-use Modules\Graphics\Repositories\BookRepository;
+use phpseclib\Crypt\Hash;
+
 
 class NhatQuangAuthApiController extends PublicApiController
 {
-    private $bookRepository;
 
-    public function __construct(BookRepository $bookRepository)
+    public function __construct()
     {
-        $this->bookRepository = $bookRepository;
     }
 
     public function login($subfix, Request $request)
@@ -33,11 +29,7 @@ class NhatQuangAuthApiController extends PublicApiController
             $user = User::where("email", $email)->first();
             return [
                 "status" => 1,
-                "user" => [
-                    "id" => $user->id,
-                    "avatar_url" => generate_protocol_url($user->avatar_url),
-                    "name" => $user->name
-                ]
+                "user" => $user->transformAuth()
             ];
         } else {
             return [
@@ -49,7 +41,33 @@ class NhatQuangAuthApiController extends PublicApiController
 
     public function googleTokenSignin(Request $request)
     {
+        $id_token = $request->id_token;
+        $client = new Google_Client(['client_id' => config("app.google_client_id")]);
+        $payload = $client->verifyIdToken($id_token);
+        if ($payload) {
+            $user = User::where("email", $payload['email'])->first();
+            if ($user == null) {
+                $user = new User();
+                $user->password = "oauth";
+            }
+            $user->name = $payload['family_name'] . " " . $payload['given_name'];
+            $user->email = $payload['email'];
+            $user->avatar_url = $payload['picture'];
+            $user->save();
 
+            Auth::login($user);
+
+            return [
+                "status" => 1,
+                "user" => $user->transformAuth()
+            ];
+        } else {
+            // Invalid ID token
+            return [
+                "status" => 0,
+                "message" => "Invalid ID token"
+            ];
+        }
     }
 
 }

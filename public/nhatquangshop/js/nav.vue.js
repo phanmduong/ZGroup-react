@@ -11,6 +11,12 @@ var navVue = new Vue({
         }
     },
     methods: {
+        changeLoginCondition: function (user) {
+            this.showLoggedNav = true;
+            this.user = user;
+            localStorage.setItem("k-user", JSON.stringify(this.user));
+            $("#logged-nav").css("display", "block");
+        },
         onClickLoginButton: function () {
             var url = "/api/login";
             this.isLoading = true;
@@ -21,13 +27,8 @@ var navVue = new Vue({
                     if (res.data.status === 0) {
                         this.hasError = true;
                     } else {
-                        this.showLoggedNav = true;
-                        this.user = res.data.user;
-
-                        localStorage.setItem("k-user", JSON.stringify(this.user));
+                        this.changeLoginCondition(res.data.user);
                         $('#loginModal').modal('toggle');
-
-                        $("#logged-nav").css("display", "block");
                     }
                 }.bind(this));
         }
