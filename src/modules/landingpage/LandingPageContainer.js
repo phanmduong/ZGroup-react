@@ -25,6 +25,12 @@ class LandingPageContainer extends React.Component {
         this.loadLoadingPages();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isDeleting !== this.props.isDeleting && !nextProps.isDeleting) {
+            this.loadLoadingPages(this.state.page);
+        }
+    }
+
     searchLandingPageChange(value) {
         this.setState({
             page: 1,
@@ -38,8 +44,8 @@ class LandingPageContainer extends React.Component {
         }.bind(this), 500);
     }
 
-    deleteLandingPage() {
-
+    deleteLandingPage(landingPage) {
+        this.props.landingPageActions.deleteLandingPage(landingPage.id);
     }
 
     loadLoadingPages(page = 1) {
@@ -101,6 +107,7 @@ class LandingPageContainer extends React.Component {
 
 LandingPageContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isDeleting: PropTypes.bool.isRequired,
     totalPages: PropTypes.number,
     landingPages: PropTypes.array,
     landingPageActions: PropTypes.object.isRequired,
@@ -109,6 +116,7 @@ LandingPageContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading: state.landingPages.isLoading,
+        isDeleting: state.landingPages.isDeleting,
         totalPages: state.landingPages.totalPages,
         landingPages: state.landingPages.landingPages
     };

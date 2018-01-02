@@ -1337,7 +1337,9 @@ export default {
         currentPage: 1,
         totalPages: 1,
         isLoading: false,
-        error: false
+        error: false,
+        isDeleting: false,
+        errorDelete: false,
     }
 
 };

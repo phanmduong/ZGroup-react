@@ -33,6 +33,33 @@ export default function landingPagesReducer(state = initialState.landingPages, a
                 }
             };
         }
+        case types.BEGIN_DELETE_LANDING_PAGE: {
+            return {
+                ...state,
+                ...{
+                    isDeleting: true,
+                    errorDelete: false
+                }
+            };
+        }
+        case types.DELETE_LANDING_PAGE_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isDeleting: false,
+                    errorDelete: false,
+                }
+            };
+        }
+        case types.DELETE_LANDING_PAGE_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isDeleting: false,
+                    errorDelete: true
+                }
+            };
+        }
         default:
             return state;
     }
