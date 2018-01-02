@@ -142,7 +142,6 @@ class LandingPageApiController extends ManageApiController
         $zip->open($filename);
         $zip->extractTo(public_path() . '/landing-page/' . $folder . '/');
         $zip->close();
-        unlink($zip);
 
         $data = [
             'url' => $request->link_landing_page
