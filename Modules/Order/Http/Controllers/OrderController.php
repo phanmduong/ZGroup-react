@@ -56,22 +56,6 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $totalOrders = Order::where('type', 'order')->get()->count();
-        $totalMoney = 0;
-        $totalPaidMoney = 0;
-        $allOrders = Order::where('type', 'order')->get();
-        foreach ($allOrders as $order) {
-            $goodOrders = $order->goodOrders()->get();
-            foreach ($goodOrders as $goodOrder) {
-                $totalMoney += $goodOrder->quantity * $goodOrder->price;
-            }
-        }
-        foreach ($allOrders as $order) {
-            $orderPaidMoneys = $order->orderPaidMoneys()->get();
-            foreach ($orderPaidMoneys as $orderPaidMoney) {
-                $totalPaidMoney += $orderPaidMoney->money;
-            }
-        }
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
@@ -89,9 +73,6 @@ class OrderController extends ManageApiController
         return $this->respondWithPagination(
             $orders,
             [
-                'total_order' => $totalOrders,
-                'total_money' => $totalMoney,
-                'total_paid_money' => $totalPaidMoney,
                 'orders' => $orders->map(function ($order) {
                     return $order->transform();
                 })
@@ -109,11 +90,6 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $totalOrders = Order::where('type', 'order')->get()->count();
-        $totalMoney = 0;
-        $totalPaidMoney = 0;
-        $allOrders = Order::where('type', 'order')->get();
-
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
@@ -128,6 +104,27 @@ class OrderController extends ManageApiController
         if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
         $orders = $orders->get();
+
+        $count = $orders->count();
+        $totalMoney = 0;
+        $totalPaidMoney = 0;
+        foreach ($orders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+            }
+        }
+        foreach ($orders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
+            }
+        }
+        return $this->respondSuccessWithStatus([
+            'total_order' => $count,
+            'total_money' => $totalMoney,
+            'total_paid_money' => $totalPaidMoney,
+        ]);
     }
 
     public function detailedOrder($order_id)
@@ -372,19 +369,41 @@ class OrderController extends ManageApiController
 
     public function returnOrder($orderId, $warehouseId, Request $request)
     {
-        //chua xong
-//        $returnOrder = new Order;
-//        $order = Order::find($orderId);
-//        $returnOrder->note = $request->note;
-//        $returnOrder->code = $request->code ? $request->code : 'RETURN' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
-//        $returnOrder->staff_id = $this->user->id;
-//        $returnOrder->status = $request->status;
-//        $good_orders = json_decode($request->good_orders);
-//        foreach ($good_orders as $good_order) {
-//            $history = HistoryGood::where('order_id', $orderId)
-//                ->where('good_id', $good_order->good_id)
-//                ->orderBy('created', 'desc')->first();
-//        }
+        $returnOrder = new Order;
+        $returnOrder->note = $request->note;
+        $returnOrder->code = $request->code ? $request->code : 'RETURN' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $returnOrder->staff_id = $this->user->id;
+        $returnOrder->status = $request->status;
+        $returnOrder->save();
+
+        $good_orders = json_decode($request->good_orders);
+        foreach ($good_orders as $good_order) {
+            $history = HistoryGood::where('order_id', $orderId)
+                ->where('good_id', $good_order->good_id)
+                ->orderBy('created', 'desc')->get();
+            foreach ($history as $singular_history) {
+                if($good_order->quantity === 0)
+                    break;
+                $returnHistory = new HistoryGood;
+                $lastest_good_history = HistoryGood::where('good_id', $good_order->good_id)->orderBy('created_at', 'desc')->first();
+                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
+                $returnHistory->good_id = $singular_history->good_id;
+                $returnHistory->quantity = min($good_order->quantity, $singular_history->quantity);
+                $returnHistory->remain = $remain + min($good_order->quantity, $singular_history->quantity);
+                $returnHistory->warehouse_id = $warehouseId;
+                $returnHistory->type = 'import';
+                $returnHistory->order_id = $returnOrder->id;
+                $returnHistory->imported_good_id = $singular_history->imported_good_id;
+                $returnHistory->save();
+
+                $good_order->quantity -= min($good_order->quantity, $singular_history->quantity);
+
+            }
+        }
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thành công'
+        ]);
     }
 
 //    public function test(Request $request)
