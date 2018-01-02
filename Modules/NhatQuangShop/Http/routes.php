@@ -27,5 +27,10 @@ Route::group(['middleware' => 'web', 'domain' => "nhatquangshop.{subfix}", 'name
     Route::get('/district/{provinceId}', 'NhatQuangApiController@districts');
     Route::get('/ward/{districtId}', 'NhatQuangApiController@wards');
 
+    Route::get("/logout", "NhatQuangShopController@logout");
+
+    Route::get("/manage/orders", "NhatQuangShopManageController@userOrder");
+
+    Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
     Route::post("/api/login", "NhatQuangAuthApiController@login");
 });

@@ -27,6 +27,7 @@ class NhatQuangAuthApiController extends PublicApiController
         $email = $request->email;
         $password = $request->password;
 
+
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
 
             $user = User::where("email", $email)->first();
@@ -34,7 +35,7 @@ class NhatQuangAuthApiController extends PublicApiController
                 "status" => 1,
                 "user" => [
                     "id" => $user->id,
-                    "avatar_url" => $user->avatar_url,
+                    "avatar_url" => generate_protocol_url($user->avatar_url),
                     "name" => $user->name
                 ]
             ];
@@ -45,4 +46,10 @@ class NhatQuangAuthApiController extends PublicApiController
             ];
         }
     }
+
+    public function googleTokenSignin(Request $request)
+    {
+
+    }
+
 }

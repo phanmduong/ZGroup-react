@@ -293,4 +293,10 @@ class NhatQuangShopController extends Controller
             'display' => $display,
         ]);
     }
+
+    public function logout($subfix)
+    {
+        Auth::logout();
+        return redirect()->intended("/");
+    }
 }
