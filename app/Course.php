@@ -30,6 +30,11 @@ class Course extends Model
         return $this->hasMany('App\Link', 'course_id');
     }
 
+    public function coursePixels()
+    {
+        return $this->hasMany(CoursePixel::class, 'course_id');
+    }
+
     public function detailedTransform()
     {
         return [
@@ -50,7 +55,10 @@ class Course extends Model
             'created_at' => format_time_to_mysql(strtotime($this->created_at)),
             'detail' => $this->detail,
             'lessons' => $this->lessons,
-            'links' => $this->links
+            'links' => $this->links,
+            'pixels' => $this->coursePixels->map(function ($coursePixel) {
+                return $coursePixel->getData();
+            })
         ];
     }
 

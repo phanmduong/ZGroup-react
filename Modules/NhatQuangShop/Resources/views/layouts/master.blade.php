@@ -51,7 +51,17 @@
                 function (googleUser) {
                     var id_token = googleUser.getAuthResponse().id_token;
                     var profile = googleUser.getBasicProfile();
-                    console.log('ID: ' + id_token); // Do not send to your backend! Use an ID token instead.
+                    $("#global-loading").css("display", "block");
+                    axios.get("/api/google/tokensignin?id_token=" + id_token)
+                        .then(function (res) {
+                            if (res.data.status === 1) {
+                                navVue.changeLoginCondition(res.data.user);
+                            } else {
+                                $("#loginFailNoticeModal").modal("toggle");
+                            }
+                            $("#global-loading").css("display", "none");
+                        });
+                    console.log('ID: ' + id_token);
                     console.log('Name: ' + profile.getName());
                     console.log('Image URL: ' + profile.getImageUrl());
                     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
@@ -65,6 +75,26 @@
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </head>
 <body class="profile" style="background:#fafafa">
+<div class="modal fade" id="loginFailNoticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notice">
+        <div class="modal-content">
+            <div class="modal-header no-border-header">
+                <div></div>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                Đăng nhập thất bại
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal" aria-hidden="true">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@include('nhatquangshop::includes.loading')
+
 <nav class="navbar navbar-toggleable-md fixed-top bg-dark"
      id="vue-nav"
      style="height:35px; background:#272727!important">

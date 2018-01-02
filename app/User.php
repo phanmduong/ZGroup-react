@@ -88,11 +88,14 @@ class User extends Authenticatable
         return $this->belongsToMany(InfoCustomerGroup::class, 'customer_groups', 'customer_id', 'customer_group_id');
     }
 
-    public function department(){
-        return $this->belongsTo("App\Department","department_id");
+    public function department()
+    {
+        return $this->belongsTo("App\Department", "department_id");
     }
-    public function works(){
-        return $this->belongsToMany(Work::class,'work_staff','staff_id','work_id');
+
+    public function works()
+    {
+        return $this->belongsToMany(Work::class, 'work_staff', 'staff_id', 'work_id');
     }
 
     /**
@@ -316,6 +319,15 @@ class User extends Authenticatable
     public function followers()
     {
         return $this->belongsToMany(User::class, 'followings', 'followed_id', 'following_id');
+    }
+
+    public function transformAuth()
+    {
+        return [
+            "id" => $this->id,
+            "avatar_url" => generate_protocol_url($this->avatar_url),
+            "name" => $this->name
+        ];
     }
 
     public function tranform()

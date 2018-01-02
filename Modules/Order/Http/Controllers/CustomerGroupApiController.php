@@ -34,6 +34,8 @@ class CustomerGroupApiController extends ManageApiController
         $group->name = $request->name;
         $group->description = $request->description;
         $group->color = $request->color;
+        $group->order_value = $request->order_value;
+        $group->delivery_value = $request->delivery_value;
         $group->save();
 
         if ($request->stringId != null) {
@@ -59,6 +61,8 @@ class CustomerGroupApiController extends ManageApiController
         $group->name = $request->name;
         $group->description = $request->description;
         $group->color = $request->color;
+        $group->order_value = $request->order_value;
+        $group->delivery_value = $request->delivery_value;
         $group->save();
 
         if ($request->stringId != null) {

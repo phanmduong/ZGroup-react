@@ -8,5 +8,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'buil
     Route::post('/export', 'LandingPageApiController@export');
     Route::post('/save', 'LandingPageApiController@save');
     Route::get('/all', 'LandingPageApiController@getAll');
+    Route::delete('/{landingPageId}/delete', 'LandingPageApiController@deleteLandingPage');
 });
 
