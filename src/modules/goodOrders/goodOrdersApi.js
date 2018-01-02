@@ -22,8 +22,23 @@ export function loadAllOrders(page = 1, search, startTime, endTime, staff, statu
     return axios.get(url);
 }
 
-export function loadOrderInfo() {
-    
+export function loadOrderInfo(page = 1, search, startTime, endTime, staff, status) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + '/order/statistic?token=' + token + '&page=' + page;
+    if (search) {
+        url += `&search=${search}`;
+    }
+    if (startTime && endTime) {
+        url += `&start_time=${startTime}&end_time=${endTime}`;
+    }
+    if (staff) {
+        url += `&staff_id=${staff}`;
+    }
+    if (status) {
+        url += `&status=` + status;
+    }
+    return axios.get(url);
+
 }
 
 export function loadDetailOrder(orderId) {

@@ -6,22 +6,27 @@ import moment from 'moment';
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_GOOD_ORDERS});
-        goodOrdersApi.loadAllOrders(page, search, startTime, endTime, staff, status)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_GOOD_ORDERS_SUCCESS,
-                    totalOrder: res.data.total_order,
-                    totalMoney: res.data.total_money,
-                    totalPaidMoney: res.data.total_paid_money,
-                    orders: res.data.orders,
-                    currentPage: res.data.paginator.current_page,
-                    totalPages: res.data.paginator.total_pages,
-                    limit: res.data.paginator.limit,
-                    totalCount: res.data.paginator.total_count
-                });
-            }).catch(() => {
+        const infoPromise = new Promise((resolve) => {
+            goodOrdersApi.loadOrderInfo(page, search, startTime, endTime, staff, status)
+                .then(res => resolve(res));
+        });
+        const orderPromise = new Promise((resolve) => {
+            goodOrdersApi.loadAllOrders(page, search, startTime, endTime, staff, status)
+                .then(res => resolve(res));
+        });
+        Promise.all([infoPromise, orderPromise]).then(data => {
+            const infoRes = data[0];
+            const orderRes = data[1];
             dispatch({
-                type: types.LOAD_GOOD_ORDERS_ERROR
+                type: types.LOAD_GOOD_ORDERS_SUCCESS,
+                totalOrder: infoRes.data.data.total_order,
+                totalMoney: infoRes.data.data.total_money,
+                totalPaidMoney: infoRes.data.data.total_paid_money,
+                orders: orderRes.data.orders,
+                currentPage: orderRes.data.paginator.current_page,
+                totalPages: orderRes.data.paginator.total_pages,
+                limit: orderRes.data.paginator.limit,
+                totalCount: orderRes.data.paginator.total_count
             });
         });
     };
