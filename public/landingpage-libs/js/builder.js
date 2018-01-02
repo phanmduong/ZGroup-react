@@ -264,9 +264,11 @@ var pendingChanges = false;
 function setPendingChanges(v) {
     if (v == true) {
         $('#savePage .bLabel').text("Save changes (!)");
+        $('#savePage').removeClass("disabled");
         pendingChanges = true;
     } else {
         $('#savePage .bLabel').text("Nothing new to save");
+        $('#savePage').addClass("disabled");
         pendingChanges = false;
     }
 }
@@ -2457,7 +2459,6 @@ $(function () {
     })
 
 
-    console.log("asdsadsadsadsa");
     $('#ftp_export_btn').click(function () {
         $('#ftpform :input[isacopy]').remove();
         $('#markupForm :input').not(':submit').clone().hide().attr('isacopy', 'y').appendTo('#ftpform');
@@ -2905,6 +2906,24 @@ $(function () {
         temp_seo = JSON.parse(localStorage['seo_' + $('#pageTitle span span').text()]);
     });
 
+    $('#sourceSubmitButton').click(function (e) {
+
+        var source_arr = [$('#source_first_body').val(),
+            $('#source_last_body').val(),
+
+        ];
+        localStorage['source_' + $('#pageTitle span span').text()] = JSON.stringify(source_arr);
+        temp_source = JSON.parse(localStorage['source_' + $('#pageTitle span span').text()]);
+    });
+
+    $('#sourceButton').click(function (e) {
+        $('#source_first_body').val("");
+        $('#source_last_body').val("");
+        temp_source = JSON.parse(localStorage['source_' + $('#pageTitle span span').text()]);
+        $('#source_first_body').val(temp_source[0]);
+        $('#source_last_body').val(temp_source[1]);
+    });
+
     //preview
     $('#previewModal').on('show.bs.modal', function (e) {
 
@@ -3098,6 +3117,7 @@ $(function () {
 
     $('#exportModal').on('shown.bs.modal', function (e) {
 
+        var landingpage_id = $("#landing_page_id").val();
 
         var img_urls = [];
 
@@ -3209,9 +3229,11 @@ $(function () {
 
             newInput = $('<input type="hidden" name="pages[' + $('#pages li:eq(' + ($(this).index() + 1) + ') a:first').text() + ']" value="">');
             new_str = "";
+            source_str = "";
             css_str = "";
             //new_str = JSON.parse(localStorage['seo_'+ $('#pages li:eq('+($(this).index()+1)+') a:first').text()]);
             new_str = localStorage['seo_' + $('#pages li:eq(' + ($(this).index() + 1) + ') a:first').text()];
+            source_str = localStorage['source_' + $('#pages li:eq(' + ($(this).index() + 1) + ') a:first').text()];
             css_str = localStorage['css_' + $('#pages li:eq(' + ($(this).index() + 1) + ') a:first').text()];
 
             //newInput2 = $('<input type="hidden" name="seo['+$('#pages li:eq('+($(this).index()+1)+') a:first').text()+']" value="'+ new_str + '">');
@@ -3226,8 +3248,14 @@ $(function () {
             newInput3.setAttribute('name', 'css[' + $('#pages li:eq(' + ($(this).index() + 1) + ') a:first').text() + ']');
             newInput3.setAttribute('value', css_str);
 
+            var newInput3 = document.createElement("input");
+            newInput3.setAttribute('type', 'hidden');
+            newInput3.setAttribute('name', 'source[' + $('#pages li:eq(' + ($(this).index() + 1) + ') a:first').text() + ']');
+            newInput3.setAttribute('value', source_str);
+
 
             $('#exportModal form').prepend(newInput3);
+            $('#exportModal form').prepend(newInput4);
             $('#exportModal form').prepend(newInput2);
             $('#exportModal form').prepend(newInput);
 
@@ -3244,6 +3272,13 @@ $(function () {
         newInput4.setAttribute('name', 'pix_export_imgs_Field');
         newInput4.setAttribute('value', JSON.stringify(img_urls));
         $('#exportModal form').prepend(newInput4);
+
+        var newInput5 = document.createElement("input");
+        newInput5.setAttribute('type', 'hidden');
+        newInput5.setAttribute('name', 'landing_page_id');
+        newInput5.setAttribute('id', 'landing_page_id');
+        newInput5.setAttribute('value', landingpage_id);
+        $('#exportModal form').prepend(newInput5);
 
     });
 
@@ -3482,6 +3517,10 @@ $(function () {
             temp_seo = JSON.parse(localStorage['seo_' + orginal_name]);
             localStorage['seo_' + new_page_id] = JSON.stringify(temp_seo);
         }
+        if (localStorage['source_' + orginal_name]) {
+            temp_source = JSON.parse(localStorage['source_' + orginal_name]);
+            localStorage['source_' + new_page_id] = JSON.stringify(temp_source);
+        }
         return false;
     });
 
@@ -3666,6 +3705,7 @@ $(function () {
 
             //localStorage['seo_'+$('#pageTitle span span').text()]
             localStorage.removeItem('seo_' + $('#pageTitle span span').text());
+            localStorage.removeItem('source_' + $('#pageTitle span span').text());
             //update the page dropdown list
 
             $('select#internalLinksDropdown option:eq(' + theLIIndex + ')').remove();

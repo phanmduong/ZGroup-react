@@ -30,10 +30,14 @@ class LandingPageApiController extends ManageApiController
         $limit = 20;
 
         $search = $request->search;
+        if ($search) {
+            $landingPages = LandingPage::where(function ($query) use ($search) {
+                $query->where("name", $search)->orWhere("path", $search);
+            });
+        } else {
+            $landingPages = LandingPage::orderBy('created_at')->paginate($limit);
+        }
 
-        $landingPages = LandingPage::where(function ($query) use ($search) {
-            $query->where("name", $search)->orWhere("path", $search);
-        })->orderBy('created_at')->paginate($limit);
 
         $data = [
             "landing_pages" => $this->landingPageTransformer->transformCollection($landingPages)
@@ -44,17 +48,24 @@ class LandingPageApiController extends ManageApiController
 
     public function export(Request $request)
     {
-        $urlLib = public_path() . "/render-landingpage2";
+        $urlLib = public_path() . "/landingpage-libs";
         $pathToAssets = array($urlLib . "/elements/assets", $urlLib . "/elements/stylesheets", $urlLib . "/elements/fonts", $urlLib . "/elements/pix_mail", $urlLib . "/elements/js-files");
         $filename = public_path() . "/landing-page/" . $request->link_landing_page . ".zip"; //use the /tmp folder to circumvent any permission issues on the root folder
         /* END CONFIG */
+
+        $landingpage = LandingPage::find($request->landing_page_id);
+
+        if (($landingpage == null) || ($landingpage && $landingpage->path != $request->link_landing_page)) {
+            if (is_dir(public_path() . "/landing-page/" . $request->link_landing_page)) {
+                return $this->respondErrorWithStatus("Đường dẫn đã tồn tại");
+            }
+        }
 
 
         $external_css_files = true;
 
 //$form_type_export = $_POST['form_type_export'];
         $imgs = json_decode($request->pix_export_imgs_Field);
-        $imgs[] = "images/favicon.ico";
 
         $zip = new ZipArchive();
         $zip->open($filename, ZipArchive::CREATE);
@@ -103,7 +114,7 @@ class LandingPageApiController extends ManageApiController
             }
         }
         foreach ($imgs as $img) {
-            $zip->addFile("elements/" . $img, $img);
+            $zip->addFile($urlLib . "/elements/" . $img, $img);
         }
 
         $skeleton1 = file_get_contents($urlLib . '/elements/sk1.html');
@@ -113,6 +124,7 @@ class LandingPageApiController extends ManageApiController
         foreach ($request->pages as $page => $content) {
             $t_seo = json_decode($request->seo[$page]);
             $t_css = json_decode($request->css[$page]);
+            $t_source = json_decode($request->source[$page]);
             $seo_tags = '<title>' . $t_seo[0] . '</title>' . "\n" . '<meta name="description" content="' . $t_seo[1] . '">' . "\n" . '<meta name="keywords" content="' . $t_seo[2] . '">' . "\n" . $t_seo[3];
             $customStyle = "\n</head>\n<body>";
             if (!empty($t_css)) {
@@ -126,7 +138,7 @@ class LandingPageApiController extends ManageApiController
                     }
                 }
             }
-            $new_content = $skeleton1 . $seo_tags . $skeleton2 . $customStyle . stripslashes($content) . $skeleton3;
+            $new_content = $skeleton1 . $seo_tags . $skeleton2 . $customStyle . $t_source[0] . stripslashes($content) . $t_source[1] . $skeleton3;
             $zip->addFromString($page . ".html", stripslashes($new_content));
         }
 
@@ -139,6 +151,8 @@ class LandingPageApiController extends ManageApiController
         $zip->open($filename);
         $zip->extractTo(public_path() . '/landing-page/' . $folder . '/');
         $zip->close();
+
+        unlink($filename);
 
         $data = [
             'url' => $request->link_landing_page
@@ -163,6 +177,23 @@ class LandingPageApiController extends ManageApiController
             "message" => "Tạo landing page thành công",
             "id" => $landingpage->id,
         ]);
+    }
 
+    public function deleteLandingPage($landingPageId)
+    {
+        $landingpage = LandingPage::find($landingPageId);
+
+        if ($landingpage == null) {
+            return $this->respondErrorWithStatus("Landing page không tồn tại");
+        }
+
+        $filename = public_path() . "/landing-page/" . $landingpage->path;
+
+        if ($landingpage->path && is_dir($filename)) {
+            rename($filename, $filename . "_deleted");
+        }
+        $landingpage->delete();
+
+        return $this->respondSuccess("Xóa landing page thành công");
     }
 }

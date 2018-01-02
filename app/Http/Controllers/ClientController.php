@@ -87,7 +87,7 @@ class ClientController extends Controller
 
     public function landingPage()
     {
-        return view("client.landingPage");
+        return view("client.landingpage");
     }
 
 }
