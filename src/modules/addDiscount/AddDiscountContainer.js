@@ -102,6 +102,10 @@ class AddDiscountContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn ngày kết thúc", 'warning');
                 return;
             }
+            if (this.props.discount.shared === null || this.props.discount.shared === undefined || this.props.discount.shared === '') {
+                helper.showTypeNotification("Vui lòng chọn cách dùng", 'warning');
+                return;
+            }
             if (this.props.discount.end_time < this.props.discount.start_time) {
                 helper.showTypeNotification("Vui lòng xem lại ngày", 'warning');
                 return;

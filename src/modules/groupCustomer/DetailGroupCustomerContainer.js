@@ -127,6 +127,10 @@ class DetailGroupCustomerContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn ngày bắt đầu", 'warning');
                 return;
             }
+            if (this.props.coupon.shared === null || this.props.coupon.shared === undefined || this.props.coupon.shared === '') {
+                helper.showTypeNotification("Vui lòng chọn cách dùng", 'warning');
+                return;
+            }
             if (this.props.coupon.end_time === null || this.props.coupon.end_time === undefined || this.props.coupon.end_time === '') {
                 helper.showTypeNotification("Vui lòng chọn ngày kết thúc", 'warning');
                 return;
@@ -137,7 +141,7 @@ class DetailGroupCustomerContainer extends React.Component {
 
     render() {
         const currentPage = this.state.page;
-        const {name, description, stringId, color, customersShowInModal} = this.props.groupCustomerForm;
+        const {name, description, stringId, color, customersShowInModal,order_value ,delivery_value} = this.props.groupCustomerForm;
         return (
             <div>
                 <form id="form-add-group-customer">
@@ -171,6 +175,47 @@ class DetailGroupCustomerContainer extends React.Component {
                                         type="text"
                                         value={description}
                                     />
+
+                                    <div className="row">
+                                        <label className="col-sm-2 label-on-left">Rule</label>
+                                        <div className="col-sm-10">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group label-floating is-empty">
+                                                        <label className="control-label" />
+                                                        <FormInputText
+                                                            label="Tiền mua theo đơn"
+                                                            name="order_value"
+                                                            updateFormData={this.editFormData}
+                                                            type="number"
+                                                            value={order_value}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group label-floating is-empty">
+                                                        <label className="control-label" />
+                                                        <FormInputText
+                                                            label="Tiền mua hàng sẵn"
+                                                            name="delivery_value"
+                                                            updateFormData={this.editFormData}
+                                                            type="number"
+                                                            value={delivery_value}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
 
                                 </div>
                             </div>
@@ -376,7 +421,6 @@ class DetailGroupCustomerContainer extends React.Component {
                             <div className="card">
                                 <form id="form-add-coupon-in-group-customer">
                                     <AddCouponModal
-                                        groupId={this.props.params.groupId}
                                     />
                                     <div className="row" style={{marginLeft: 30, marginBottom: 20}}>
                                         <div className="col-md-8"/>

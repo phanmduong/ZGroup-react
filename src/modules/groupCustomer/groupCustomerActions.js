@@ -56,20 +56,18 @@ export function addCoupon(coupon ,idGroup, close) {
         groupCustomerApis.addCouponApi(coupon, idGroup)
             .then((res) => {
                 if (res.data.status) {
-                    close();
-                    dispatch(loadCouponsInModal(idGroup));
                     helper.showTypeNotification('Đã thêm ' + coupon.name, 'success');
                     dispatch({
                         type: types.ADD_COUPON_SUCCESS,
                     });
-
+                    dispatch(loadCouponsInModal(idGroup));
+                    close();
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);
                     dispatch({
                         type: types.ADD_COUPON_ERROR,
                     });
-                    dispatch(loadCouponsInModal(idGroup));
                 }
             })
             .catch(() => {
@@ -188,7 +186,6 @@ export function editGroupCustomer(groupCustomerForm, groupId) {
                 if (res.data.status) {
                     dispatch({
                         type: types.EDIT_GROUP_CUSTOMER_SUCCESS,
-                       // groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
                     helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomerForm.name, 'success');
                     browserHistory.push('/good/goods/group-customer');

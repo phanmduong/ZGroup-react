@@ -1039,6 +1039,7 @@ export default {
             customer: {},
             customer_group: {},
             quantity : '',
+            shared : '',
         },
 
     },
@@ -1301,6 +1302,8 @@ export default {
             customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
             coupons : [],
+            order_value : '',
+            delivery_value : '',
         },
         coupon: {
             name: '',
@@ -1313,6 +1316,7 @@ export default {
             end_time: '',
             customer_group_id: '',
             quantity : '',
+            shared : '',
         },
         groupCustomersList: [],
 

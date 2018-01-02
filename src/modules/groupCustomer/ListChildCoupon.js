@@ -32,7 +32,6 @@ class ListChildCoupon extends React.Component {
                                style={{fontSize: 14}}>
                             {coupons && coupons.length !== 0 ?
                                 <thead>
-
                                 <tr className="text-rose" role="row">
                                     <th>Tên</th>
                                     <th>Bắt đầu</th>

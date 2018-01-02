@@ -29,7 +29,7 @@ class AddDiscountComponent extends React.Component {
 
     changeQuantity() {
         this.setState({unlimited: !this.state.unlimited}); // Logic có vấn đề do các hàm thực hiện cùng nhau
-        if (this.state.unlimited === false){
+        if (this.state.unlimited === false) {
             this.props.changeQuantityInProps(-1);
         }
         else {
@@ -39,7 +39,7 @@ class AddDiscountComponent extends React.Component {
 
 
     render() {
-        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value, quantity} = this.props.discount;
+        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value, quantity, shared} = this.props.discount;
         let TYPE = [
             {
                 name: '',
@@ -113,6 +113,21 @@ class AddDiscountComponent extends React.Component {
             },
 
         ];
+        let SHARED = [
+            {
+                name: '',
+                id: '',
+            },
+            {
+                name: 'Có thể dùng chung',
+                id: 1,
+            },
+            {
+                name: 'Không dùng chung',
+                id: 0,
+            },
+
+        ];
 
         return (
             <div>
@@ -128,14 +143,29 @@ class AddDiscountComponent extends React.Component {
                                     <h4 className="card-title">Thêm mã khuyễn mãi</h4>
 
 
-                                    <FormInputSelect
-                                        label="Chọn chương trình khuyến mãi"
-                                        name="type"
-                                        data={TYPE}
-                                        value={type}
-                                        updateFormData={this.props.updateFormData}
-                                    />
+                                    <div className="row">
+                                        <div className="col-md-6">
 
+                                            <FormInputSelect
+                                                label="Chọn chương trình khuyến mãi"
+                                                name="type"
+                                                data={TYPE}
+                                                value={type}
+                                                updateFormData={this.props.updateFormData}
+                                            />
+                                        </div>
+                                        <div className="col-md-6">
+
+                                            <FormInputSelect
+                                                label="Cách dùng"
+                                                data={SHARED}
+                                                required={true}
+                                                updateFormData={this.props.updateFormData}
+                                                name="shared"
+                                                value={shared}
+                                            />
+                                        </div>
+                                    </div>
                                     {type === "code" ?
                                         <div className="row">
                                             <div className="col-md-8">

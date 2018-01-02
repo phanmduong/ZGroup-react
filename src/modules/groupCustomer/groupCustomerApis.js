@@ -76,6 +76,8 @@ export function addGroupCustomerApi(groupCustomerForm) {
         'description' : groupCustomerForm.description,
         'stringId' : groupCustomerForm.stringId.join(";"),
         'color': groupCustomerForm.color,
+        'order_value' : groupCustomerForm.order_value,
+        'delivery_value' : groupCustomerForm.delivery_value,
     });
 }
 
@@ -91,6 +93,9 @@ export function editGroupCustomerApi(groupCustomerForm, groupId) {
         'description' : groupCustomerForm.description,
         'stringId' : groupCustomerForm.stringId.join(";"),
         'color': groupCustomerForm.color,
+        'order_value' : groupCustomerForm.order_value,
+        'delivery_value' : groupCustomerForm.delivery_value,
+
     });
 }
 export function deleteGroupCustomerApi(id) {
@@ -119,5 +124,6 @@ export function addCouponApi(coupon,idGroup) {
         'used_for' : "customer-group",
         'customer_group_id' : idGroup,
         'quantity' : coupon.quantity? coupon.quantity : '',
+        'shared' : coupon.shared? coupon.shared : '',
     });
 }

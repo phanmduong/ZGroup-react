@@ -34,6 +34,7 @@ class AddCouponModal extends React.Component {
             end_time: '',
             customer_group_id: '',
             quantity: '',
+            shared: '',
         };
         this.props.groupCustomerActions.updateDiscountFormData(coupon);
     }
@@ -50,6 +51,7 @@ class AddCouponModal extends React.Component {
             end_time: '',
             customer_group_id: '',
             quantity: '',
+            shared: '',
         };
         this.props.groupCustomerActions.updateDiscountFormData(coupon);
     }
@@ -98,7 +100,22 @@ class AddCouponModal extends React.Component {
             },
 
         ];
-        const {name, description, discount_type, discount_value, start_time, end_time, quantity} = this.props.coupon;
+        let SHARED = [
+            {
+                name: '',
+                id: '',
+            },
+            {
+                name: 'Có thể dùng chung',
+                id: 1,
+            },
+            {
+                name: 'Không dùng chung',
+                id: 0,
+            },
+
+        ];
+        const {name, description, discount_type, discount_value, start_time, end_time, quantity, shared} = this.props.coupon;
         return (
             <div>
                 <div className="card-header card-header-icon" data-background-color="rose">
@@ -118,7 +135,7 @@ class AddCouponModal extends React.Component {
                                 updateFormData={this.updateFormData}
                                 type="text"
                                 value={name}
-                                required = {true}
+                                required={true}
                             />
                         </div>
                         <div className="col-md-3">
@@ -133,13 +150,28 @@ class AddCouponModal extends React.Component {
                     </div>
 
 
-                    <FormInputText
-                        label="Mô tả"
-                        name="description"
-                        updateFormData={this.updateFormData}
-                        type="text"
-                        value={description}
-                    />
+                    <div className="row">
+                        <div className="col-md-8">
+
+                            <FormInputText
+                                label="Mô tả"
+                                name="description"
+                                updateFormData={this.updateFormData}
+                                type="text"
+                                value={description}
+                            />
+                        </div>
+                        <div className="col-md-4" style={{marginTop : -24}}>
+                            <FormInputSelect
+                                label="Cách dùng"
+                                data={SHARED}
+                                required={true}
+                                updateFormData={this.updateFormData}
+                                name="shared"
+                                value={shared}
+                            />
+                        </div>
+                    </div>
 
 
                     <div className="row">
@@ -195,7 +227,7 @@ class AddCouponModal extends React.Component {
                                 /> : null
                             }
                         </div>
-                        <div className="col-md-6" style={{marginTop : 25}}>
+                        <div className="col-md-6" style={{marginTop: 25}}>
                             <CheckBoxMaterial
                                 label="Sử dụng vô số lần"
                                 name="quantity"
@@ -206,8 +238,6 @@ class AddCouponModal extends React.Component {
                             />
                         </div>
                     </div>
-
-
 
 
                     <div className="row">
@@ -242,7 +272,6 @@ class AddCouponModal extends React.Component {
                     </div>
 
 
-
                 </div>
             </div>
 
@@ -257,7 +286,6 @@ AddCouponModal.propTypes = {
     coupon: PropTypes.object,
     isEdit: PropTypes.bool,
     params: PropTypes.object,
-    groupId: PropTypes.number,
 };
 
 function mapStateToProps(state) {
