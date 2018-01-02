@@ -25,10 +25,13 @@ class CoursePixel extends Model
             'name' => $this->name,
             'code' => $this->code,
         ];
-        if($this->course)
+        if($this->course)-
             $data['course'] = $this->course->transform();
         if($this->staff)
-            $data['staff'] = $this->staff->transform();
+            $data['staff'] = [
+                'id' => $this->staff->id,
+                'name' => $this->staff->name,
+            ];
         return $data;
     }
 }

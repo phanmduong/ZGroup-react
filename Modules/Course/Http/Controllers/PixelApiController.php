@@ -14,20 +14,6 @@ class PixelApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function coursePixels($courseId, Request $request)
-    {
-        $course = Course::find($courseId);
-        if ($course == null)
-            return $this->respondErrorWithStatus([
-                    'message' => 'Không tồn tại khóa học'
-                ]);
-        return $this->respondSuccessWithStatus([
-            'course_pixel' => $course->coursePixels->map(function ($coursePixel) {
-                return $coursePixel->getData();
-            })
-        ]);
-    }
-
     public function createPixel($courseId, Request $request)
     {
         if(($request->name == null && trim($request->name) == '') || ($request->code == null && trim($request->code) == ''))

@@ -55,7 +55,10 @@ class Course extends Model
             'created_at' => format_time_to_mysql(strtotime($this->created_at)),
             'detail' => $this->detail,
             'lessons' => $this->lessons,
-            'links' => $this->links
+            'links' => $this->links,
+            'pixels' => $this->coursePixels->map(function ($coursePixel) {
+                return $coursePixel->getData();
+            })
         ];
     }
 

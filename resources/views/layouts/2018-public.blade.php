@@ -672,6 +672,9 @@
         <div class="fb-credit"><a href="https://chanhtuoi.com" target="_blank">Powered by Chanhtuoi</a></div>
         <div id="fb-root"></div>
     </div>
+    <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%" href="tel:0982351051" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+        <div class="bubble-msg">Gọi colorME</div>
+    </a>
     <a href="https://m.me/colorme.hanoi" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
         <div class="bubble">1</div>
         <div class="bubble-msg">Bạn cần hỗ trợ?</div>
