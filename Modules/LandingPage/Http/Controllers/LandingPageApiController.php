@@ -58,7 +58,6 @@ class LandingPageApiController extends ManageApiController
 
 //$form_type_export = $_POST['form_type_export'];
         $imgs = json_decode($request->pix_export_imgs_Field);
-        $imgs[] = "images/favicon.ico";
 
         $zip = new ZipArchive();
         $zip->open($filename, ZipArchive::CREATE);
@@ -107,7 +106,7 @@ class LandingPageApiController extends ManageApiController
             }
         }
         foreach ($imgs as $img) {
-            $zip->addFile("elements/" . $img, $img);
+            $zip->addFile($urlLib . "elements/" . $img, $img);
         }
 
         $skeleton1 = file_get_contents($urlLib . '/elements/sk1.html');
