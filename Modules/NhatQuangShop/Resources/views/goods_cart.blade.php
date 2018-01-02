@@ -7,28 +7,27 @@
             </div>
             <div class="col-md-4">
                 <p><b style="font-weight:600;">{{$book->name}}</b></p>
-                <p>-{{$book['coupon_value'] * 100}}%</p>
             </div>
             <div class="col-md-3 h-center">
-                <button onclick="removeItem({{$book->id}}, {{$book->price * (1 - $book['coupon_value'])}})"
+                <button onclick="removeItem({{$book->id}}, {{$book->price)}})"
                         class="btn btn-success btn-just-icon btn-sm">
                     <i class="fa fa-minus"></i>
                 </button>
                 &nbsp
-                <button onclick="addItem({{$book->id}},{{$book->price * (1 - $book['coupon_value'])}})"
+                <button onclick="addItem({{$book->id}}, {{$book->price}})"
                         class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-plus"></i>
                 </button>
                 &nbsp
                 <b style="font-weight:600;" id="good-{{$book->id}}-number" }> {{$book->number}} </b>
             </div>
             <div class="col-md-2 h-center">
-                <p>{{currency_vnd_format($book->price * (1 - $book['coupon_value']))}}</p>
+                <p>{{currency_vnd_format($book->price)}}</p>
             </div>
             <div class="col-md-2 h-center">
                 <p>
                     <b style="font-weight:600;" id="book-{{$book->id}}-price"
-                       data-price="{{$book->price * (1 - $book['coupon_value']) * $book->number}}">
-                        {{currency_vnd_format($book->price * (1 - $book['coupon_value']) * $book->number)}}
+                       data-price="{{$book->price * $book->number}}">
+                        {{currency_vnd_format($book->price * $book->number)}}
                     </b>
                 </p>
             </div>
