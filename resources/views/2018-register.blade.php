@@ -1,6 +1,9 @@
 @extends('layouts.2018-public')
 
 @section('content')
+    @foreach($pixels as $pixel)
+        {!! $pixel->code !!}
+    @endforeach
     <style>
         label.error {
             color: red;

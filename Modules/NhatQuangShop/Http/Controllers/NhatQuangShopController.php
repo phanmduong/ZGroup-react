@@ -8,6 +8,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Graphics\Repositories\BookRepository;
@@ -15,10 +16,17 @@ use Modules\Graphics\Repositories\BookRepository;
 class NhatQuangShopController extends Controller
 {
     private $bookRepository;
+    protected $data;
+    protected $user;
 
     public function __construct(BookRepository $bookRepository)
     {
         $this->bookRepository = $bookRepository;
+        $this->data = array();
+        if (!empty(Auth::user())) {
+            $this->user = Auth::user();
+            $this->data['user'] = $this->user;
+        }
     }
 
     public function index($subfix)
@@ -41,9 +49,8 @@ class NhatQuangShopController extends Controller
             }
             $book_arr[] = $bookdata;
         }
-        return view('nhatquangshop::index', [
-            'books' => $book_arr,
-        ]);
+        $this->data["books"] = $book_arr;
+        return view('nhatquangshop::index', $this->data);
     }
 
     public function about_us($subfix)
@@ -151,7 +158,7 @@ class NhatQuangShopController extends Controller
         $totalPrice = 0;
 
         foreach ($goods as $good) {
-            $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
+            $totalPrice += $good->price * $good->number;
         }
         $data = [
             "books" => $goods,
@@ -285,5 +292,11 @@ class NhatQuangShopController extends Controller
             'page_id' => $page_id,
             'display' => $display,
         ]);
+    }
+
+    public function logout($subfix)
+    {
+        Auth::logout();
+        return redirect()->intended("/");
     }
 }

@@ -2,6 +2,7 @@
 
 return [
     "ghtk_api" => env("GHTK_API", ""),
+    "google_client_id" => env("GOOGLE_CLIENT_ID", ""),
     "domain" => env('DOMAIN', ''),
     "channel" => env("CHANNEL", ""),
     "social_channel" => env("SOCIAL_CHANNEL", ""),

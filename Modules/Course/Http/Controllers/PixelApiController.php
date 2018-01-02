@@ -43,7 +43,6 @@ class PixelApiController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại pixel'
             ]);
-        $coursePixel->course_id = $request->course_id;
         $coursePixel->name = $request->name;
         $coursePixel->code = $request->code;
         $coursePixel->staff_id = $this->user->id;
