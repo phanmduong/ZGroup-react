@@ -106,7 +106,7 @@ class LandingPageApiController extends ManageApiController
             }
         }
         foreach ($imgs as $img) {
-            $zip->addFile($urlLib . "elements/" . $img, $img);
+            $zip->addFile($urlLib . "/elements/" . $img, $img);
         }
 
         $skeleton1 = file_get_contents($urlLib . '/elements/sk1.html');
