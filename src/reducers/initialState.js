@@ -1074,13 +1074,15 @@ export default {
             created_at: "",
             detail: "",
             lessons: [],
-            links: []
+            links: [],
+            pixels: [],
         }
     },
     courses: {
         isLoading: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
+        isUploadingPixel: false,
         error: false,
         coursesList: [],
         isDeleting: false,
@@ -1118,6 +1120,7 @@ export default {
             detail: "",
             lessons: [],
             links: [],
+            pixels:[],
         },
         link: {
             id: null,
@@ -1126,6 +1129,10 @@ export default {
             link_url: "",
             link_description: "",
             link_icon: "",
+        },
+        pixel:{
+            name:"",
+            code:"",
         }
     },
     lessons: {
