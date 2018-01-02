@@ -105,9 +105,11 @@ class OrderController extends ManageApiController
             $orders = $orders->where('staff_id', $staff_id);
         $orders = $orders->get();
 
-        $count = $orders->count();
+
         $totalMoney = 0;
         $totalPaidMoney = 0;
+        $count = $orders->count();
+
         foreach ($orders as $order) {
             $goodOrders = $order->goodOrders()->get();
             foreach ($goodOrders as $goodOrder) {
@@ -121,9 +123,10 @@ class OrderController extends ManageApiController
             }
         }
         return $this->respondSuccessWithStatus([
-            'total_order' => $count,
+            'count' => $count,
             'total_money' => $totalMoney,
             'total_paid_money' => $totalPaidMoney,
+            'total_debt' => $totalMoney - $totalPaidMoney,
         ]);
     }
 
@@ -163,7 +166,7 @@ class OrderController extends ManageApiController
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
-        if (!$order)
+        if ($order == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai order'
             ]);
@@ -382,7 +385,7 @@ class OrderController extends ManageApiController
                 ->where('good_id', $good_order->good_id)
                 ->orderBy('created', 'desc')->get();
             foreach ($history as $singular_history) {
-                if($good_order->quantity === 0)
+                if ($good_order->quantity === 0)
                     break;
                 $returnHistory = new HistoryGood;
                 $lastest_good_history = HistoryGood::where('good_id', $good_order->good_id)->orderBy('created_at', 'desc')->first();
