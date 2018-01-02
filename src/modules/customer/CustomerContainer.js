@@ -284,8 +284,6 @@ class CustomerContainer extends React.Component {
                                         customer={this.props.customer}
                                     />
 
-
-
                                     <div className="row">
                                         <div className="col-md-8"/>
                                         <div className="col-md-4">
