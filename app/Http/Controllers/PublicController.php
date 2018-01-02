@@ -167,6 +167,7 @@ class PublicController extends Controller
         });
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
+        $this->data['pixels'] = $course->coursePixels;
         return view('2018-course', $this->data);
     }
 
