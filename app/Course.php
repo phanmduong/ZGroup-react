@@ -30,6 +30,11 @@ class Course extends Model
         return $this->hasMany('App\Link', 'course_id');
     }
 
+    public function coursePixels()
+    {
+        return $this->hasMany(CoursePixel::class, 'course_id');
+    }
+
     public function detailedTransform()
     {
         return [

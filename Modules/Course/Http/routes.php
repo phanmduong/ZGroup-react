@@ -1,5 +1,10 @@
 <?php
-
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
+    Route::get('/{courseId}/pixel', 'PixelApiController@coursePixels');
+    Route::post('/{courseId}/pixel', 'PixelApiController@createPixel');
+    Route::put('/pixel/{pixelId}', 'PixelApiController@editPixel');
+    Route::delete('/pixel/{pixelId}', 'PixelApiController@deletePixel');
+});
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
     Route::get('/get-all','CourseController@getAllCourses');
