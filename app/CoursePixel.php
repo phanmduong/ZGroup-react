@@ -25,8 +25,6 @@ class CoursePixel extends Model
             'name' => $this->name,
             'code' => $this->code,
         ];
-        if($this->course)-
-            $data['course'] = $this->course->transform();
         if($this->staff)
             $data['staff'] = [
                 'id' => $this->staff->id,
