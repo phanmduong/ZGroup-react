@@ -10,7 +10,7 @@ import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDateTime from "../../components/common/FormInputDateTime";
-import CardWork from "./CardWork";
+import * as helper from "../../helpers/helper";
 
 class ExtendWorkModal extends React.Component {
     constructor(props, context) {
@@ -19,11 +19,44 @@ class ExtendWorkModal extends React.Component {
             deadline: moment().add(1, "hours"),
             penalty: 0,
             reason: "",
-        }
+        };
+        this.submit = this.submit.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
     }
 
+    componentWillMount() {
+        helper.setFormValidation('#form-extend-work');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!(!this.props.isSaving && nextProps.isSaving))
+            this.setState({
+                deadline: nextProps.data.deadline,
+                penalty: 0,
+                reason: "",
+            });
+    }
+
+    componentDidUpdate(){
+        helper.setFormValidation('#form-extend-work');
+    }
+    
+    updateFormData(e){
+        if(!e) return;
+        let feild = e.target.name;
+        let value = e.target.value;
+        let newdata = {...this.state,[feild] : value};
+        this.setState(newdata);
+    }
+
+    submit(){
+        if($('#form-extend-work').valid())
+            this.props.submit(this.props.data.id, this.state);
+    }
+
+
     render() {
-        let time = moment(this.props.data.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+        let time = moment(this.state.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
         return (
             <Modal
                 show={this.props.show}
@@ -33,42 +66,55 @@ class ExtendWorkModal extends React.Component {
                     <Modal.Title>Xin gia hạn công việc</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {
-                        this.props.isLoading ?
-                            <Loading/>
-                            :
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <FormInputDateTime
-                                        label="Deadline mới"
-                                        name="deadline"
-                                        updateFormData={this.updateFormData}
-                                        value={ this.state.deadline.timer}
-                                        defaultDate={moment().add(1, "hours")}
-                                        id="deadline"
-                                        minDate={time}
-                                    />
+                    <form role="form" id="form-extend-work" onSubmit={(e) => e.preventDefault()}>
+                        {
+                            this.props.isLoading ?
+                                <Loading/>
+                                :
+
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <FormInputDateTime
+                                            label="Deadline mới"
+                                            name="deadline"
+                                            updateFormData={this.updateFormData}
+                                            value={time}
+                                            id="deadline"
+                                            minDate={time}
+                                            format={DATETIME_FORMAT}
+                                        />
+                                    </div>
+                                    <div className="col-md-12">
+                                        <FormInputText
+                                            label={"Số tiền phạt(" + (this.props.data.bonus_type == "coin" ? "Coin" : "VNĐ") + ")"}
+                                            required
+                                            type="number"
+                                            name="penalty"
+                                            updateFormData={this.updateFormData}
+                                            value={this.state.penalty || 0}
+                                        /></div>
+                                    <div className="col-md-12">
+                                        <FormInputText
+                                            label="Lý do"
+                                            required
+                                            type="text"
+                                            name="reason"
+                                            updateFormData={this.updateFormData}
+                                            value={this.state.reason || ""}
+                                        /></div>
+                                    <div className="col-md-12" style={{display: "flex", flexFlow: "row-reverse"}}>
+                                        {this.props.isSaving ?
+                                            <button disabled className="btn btn-rose  disabled" type="button">
+                                                <i className="fa fa-spinner fa-spin"/> Đang gửi
+                                            </button>
+                                            :
+                                            <button onClick={this.submit} className="btn btn-rose">Gửi yêu cầu</button>
+                                        }
+                                    </div>
                                 </div>
-                                <div className="col-md-12">
-                                    <FormInputText
-                                        label={"Số tiền phạt(" + (this.props.data.bonus_type == "coin" ? "Coin" : "VNĐ") +")" }
-                                        required
-                                        type="number"
-                                        name="cost"
-                                        updateFormData={this.updateFormData}
-                                        value={this.state.penalty || 0}
-                                    /></div>
-                                <div className="col-md-12">
-                                    <FormInputText
-                                        label="Lý do"
-                                        required
-                                        type="text"
-                                        name="cost"
-                                        updateFormData={this.updateFormData}
-                                        value={this.state.reason || 0}
-                                    /></div>
-                            </div>
-                    }
+
+                        }
+                    </form>
                 </Modal.Body>
             </Modal>
 
@@ -78,14 +124,17 @@ class ExtendWorkModal extends React.Component {
 
 ExtendWorkModal.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
     data: PropTypes.object,
     show: PropTypes.bool,
     onHide: PropTypes.func,
+    submit: PropTypes.func,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading : state.jobAssignment.isLoading,
+        isSaving : state.jobAssignment.isSaving,
     };
 }
 

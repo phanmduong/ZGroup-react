@@ -85,7 +85,7 @@ class CardWork extends React.Component {
                                                 </a>
                                             </li>
                                             <li className="more-dropdown-item" hidden={(status == "doing") ? checkId : true}>
-                                                <a onClick={(e)=>{e.stopPropagation();return this.props.doneWork(work.id, user.id);}}>
+                                                <a onClick={(e)=>{e.stopPropagation();return this.props.openFinishModal(work);}}>
                                                     <i style={{fontSize: "16px"}}
                                                        className="material-icons keetool-card">done</i>
                                                     Hoàn thành
@@ -159,6 +159,7 @@ CardWork.propTypes = {
     revertWork: PropTypes.func,
     openInfoModal: PropTypes.func,
     openExtendModal: PropTypes.func,
+    openFinishModal: PropTypes.func,
     work: PropTypes.object,
     key: PropTypes.number,
     status: PropTypes.string,

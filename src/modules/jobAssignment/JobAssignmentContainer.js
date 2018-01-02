@@ -10,6 +10,7 @@ import * as helper from "../../helpers/helper";
 import * as conts from '../../constants/constants';
 import WorkInfoModal from './WorkInfoModal';
 import ExtendWorkModal from './ExtendWorkModal';
+import FinishWorkModal from './FinishWorkModal';
 import {Link} from "react-router";
 
 class JobAssignmentContainer extends React.Component {
@@ -24,9 +25,13 @@ class JobAssignmentContainer extends React.Component {
         this.revertWork =this.revertWork.bind(this);
         this.openExtendModal =this.openExtendModal.bind(this);
         this.closeExtendModal =this.closeExtendModal.bind(this);
+        this.openFinishModal =this.openFinishModal.bind(this);
+        this.closeFinishModal =this.closeFinishModal.bind(this);
+        this.extendWork =this.extendWork.bind(this);
         this.state = {
             showInfoModal: false,
             showExtendModal: false,
+            showFinishModal: false,
             work: {
                 staffs:[],
             },
@@ -73,6 +78,14 @@ class JobAssignmentContainer extends React.Component {
         this.setState({showExtendModal: false});
     }
 
+    openFinishModal(work){
+        this.setState({showFinishModal: true, work:work});
+    }
+
+    closeFinishModal(){
+        this.setState({showFinishModal: false});
+    }
+
     acceptWork(workId, staffId){
         this.props.jobAssignmentAction.changeStatusWork(workId,staffId, conts.STATUS_WORK[1].value, ()=>{
             helper.showNotification("Đã chấp nhận công việc.");
@@ -91,6 +104,10 @@ class JobAssignmentContainer extends React.Component {
         this.props.jobAssignmentAction.editWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
     }
 
+    extendWork(workId, data){
+        this.props.jobAssignmentAction.extendWork(workId,this.props.user.id, data, this.closeExtendModal);
+    }
+
     render() {
         return (
             <div>
@@ -104,7 +121,17 @@ class JobAssignmentContainer extends React.Component {
                     show={this.state.showExtendModal}
                     onHide={this.closeExtendModal}
                     data={this.state.work}
+                    submit={this.extendWork}
+
                 />
+                <FinishWorkModal
+                    show={this.state.showFinishModal}
+                    onHide={this.closeFinishModal}
+                    data={this.state.work}
+                    submit={this.doneWork}
+
+                />
+
 
                 <div style={{display:"flex", flexDirection: "row-reverse",}}>
                     <Link to="hr/job-assignment/create" className="btn btn-rose">
@@ -222,6 +249,7 @@ class JobAssignmentContainer extends React.Component {
                                                 user={this.props.user}
                                                 doneWork={this.doneWork}
                                                 openExtendModal={()=>{return this.openExtendModal(work);}}
+                                                openFinishModal={()=>{return this.openFinishModal(work);}}
                                             />
                                         );
                                     })
@@ -350,6 +378,7 @@ class JobAssignmentContainer extends React.Component {
 
 JobAssignmentContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
     works: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     jobAssignmentAction: PropTypes.object.isRequired,
@@ -359,6 +388,7 @@ JobAssignmentContainer.propTypes = {
 function mapStateToProps(state) {
    return {
        isLoading : state.jobAssignment.isLoading,
+       isSaving : state.jobAssignment.isSaving,
        works : state.jobAssignment.works,
        user: state.login.user
    };

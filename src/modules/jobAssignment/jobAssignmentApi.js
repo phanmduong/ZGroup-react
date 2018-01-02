@@ -56,14 +56,14 @@ export function changeStatusWork(workID,staffID,status='pending') {
     return axios.post(url, {status: status});
 }
 
-export function extendWork(workID,staffID) {
+export function extendWork(workID,staffID, data) {
     //manageapi.keetool.xyz/staff/{staffID}/{workID}/extension?token=
     let url     = env.MANAGE_API_URL + "/staff/" + staffID + "/" + workID + "/extension";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;
     }
-    return axios.post(url);
+    return axios.post(url,data);
 }
 
 export function createWork(data) {

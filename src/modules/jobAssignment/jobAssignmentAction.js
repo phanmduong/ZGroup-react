@@ -200,23 +200,24 @@ export function changeStatusWork(workId, staffId, status, success) {
             });
     };
 }
-export function extendWork(workId, staffId) {
+export function extendWork(workId, staffId, data, success) {
     return function (dispatch) {
         helper.showWarningNotification("Đang yêu cầu...");
-        dispatch({type: types.BEGIN_EXTEND_STATUS_WORK});
-        jobAssignmentApi.extendWork(workId,staffId)
+        dispatch({type: types.BEGIN_EXTEND_WORK});
+        jobAssignmentApi.extendWork(workId,staffId, data)
             .then((res) => {
                 if(res.data.status == 1) {
-                    dispatch({type: types.EXTEND_STATUS_WORK_SUCCESS});
+                    dispatch({type: types.EXTEND_WORK_SUCCESS});
                     helper.showNotification("Đã xin gia hạn, vui lòng chờ xét duyệt.");
+                    success();
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
-                    dispatch({type: types.EXTEND_STATUS_WORK_ERROR});
+                    dispatch({type: types.EXTEND_WORK_ERROR});
                 }
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
-                dispatch({type: types.EXTEND_STATUS_WORK_ERROR});
+                dispatch({type: types.EXTEND_WORK_ERROR});
             });
     };
 }

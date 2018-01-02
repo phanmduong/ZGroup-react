@@ -184,7 +184,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                                             </button>
                                                         :
-                                                        < button onClick={this.submit} className="btn btn-rose">Lưu</button>
+                                                        <button onClick={this.submit} className="btn btn-rose">Lưu</button>
                                                     }
                                                 </div>
                                             </div>
