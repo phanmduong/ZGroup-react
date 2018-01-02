@@ -121,8 +121,7 @@
                                                     <div class="col-md-6">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <button type="submit" class="btn btn-primary pull-right">Gửi tin
-                                                            nhắn
+                                                        <button type="submit" class="btn btn-primary pull-right">ĐĂNG KÍ HỌC
                                                         </button>
                                                     </div>
                                                 </div>
