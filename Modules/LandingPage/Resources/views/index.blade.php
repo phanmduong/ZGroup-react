@@ -113,6 +113,10 @@
             </button>
         </form>
 
+        <a href="#saveModal" data-toggle="modal" id="savePage"
+           class="btn btn-primary btn-embossed pull-right actionButtons pixbtn"><i
+                    class="pi pixicon-square-check"></i> <span class="bLabel">Code</span></a>
+
 
         <a href="#seoModal" id="seoButton" data-toggle="modal"
            class="btn btn-info btn-embossed  pull-right actionButtons seo_btn pixbtn" style=""><i
