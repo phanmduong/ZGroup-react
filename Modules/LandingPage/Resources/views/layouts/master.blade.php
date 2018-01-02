@@ -13,7 +13,7 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/spectrum.css" rel="stylesheet">
     <link href="css/chosen.css" rel="stylesheet">
-    <link rel="shortcut icon" href="http://keetool.s3.amazonaws.com/logo/logo.png">
+    <link rel="shortcut icon" href="{{config("app.favicon")}}">
     <!-- Font Awesome -->
     <link href="css/font-awesome.css" rel="stylesheet">
     <link href="js/redactor/redactor.css" rel="stylesheet">
