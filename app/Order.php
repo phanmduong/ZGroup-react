@@ -74,6 +74,7 @@ class Order extends Model
         });
         $data = [
             'id' => $this->id,
+            'note' => $this->note,
             'label_id' => $this->label_id,
             'code' => $this->code,
             'payment' => $this->payment,
@@ -129,7 +130,7 @@ class Order extends Model
         $data = [
             'code' => $this->code,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
-            'note' => $this->staff_note,
+            'note' => $this->note,
             'payment' => $this->payment,
             'status' => $this->status,
             'good_orders' => $this->goodOrders->map(function ($goodOrder) {
@@ -146,6 +147,16 @@ class Order extends Model
                     $goodOrderData['discount_percent'] = $goodOrder->discount_percent;
                 return $goodOrderData;
             }),
+            'paid_history' => $this->orderPaidMoneys->map(function ($orderPaidMoney) {
+                return [
+                    "id" => $orderPaidMoney->id,
+                    "money" => $orderPaidMoney->money,
+                    "note" => $orderPaidMoney->note,
+                    "order_id" => $orderPaidMoney->order_id,
+                    "payment" => $orderPaidMoney->payment,
+                    "created_at" => $orderPaidMoney->created_at->format('Y-m-d')
+                ];
+            })
         ];
         if ($this->staff)
             $data['staff'] = [
@@ -173,18 +184,18 @@ class Order extends Model
                 'email' => $this->email,
             ];
         }
-        return [
-            'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
+        $data['total'] = $this->goodOrders->reduce(function ($total, $goodOrder) {
+            return $total + $goodOrder->price * $goodOrder->quantity;
+        }, 0);
+        $data  ['paid'] = $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+            return $paid + $orderPaidMoney->money;
+        }, 0);
+        $data['debt'] = $this->goodOrders->reduce(function ($total, $goodOrder) {
                 return $total + $goodOrder->price * $goodOrder->quantity;
-            }, 0),
-            'paid' => $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+            }, 0) - $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
-            }, 0),
-            'debt' => $this->goodOrders->reduce(function ($total, $goodOrder) {
-                    return $total + $goodOrder->price * $goodOrder->quantity;
-                }, 0) - $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-                    return $paid + $orderPaidMoney->money;
-                }, 0),
+            }, 0);
+        return [
             'order' => $data,
         ];
     }

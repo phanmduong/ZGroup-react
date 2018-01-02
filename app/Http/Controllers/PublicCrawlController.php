@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Base;
 use App\Colorme\Transformers\CourseTransformer;
 use App\Colorme\Transformers\ProductTransformer;
 use App\Course;
+use App\Gen;
 use App\Order;
 use App\Product;
 use Illuminate\Support\Facades\DB;
@@ -23,18 +25,11 @@ class PublicCrawlController extends CrawlController
 
     public function home()
     {
-
-        //if (config('app.domain') === "colorme.vn") {
-            if ($this->isCrawler()) {
-                $products = Product::orderBy('created_at', 'desc')->limit(20)->get();
-                $courses = Course::all();
-                return view('crawler.home', ['products' => $products, 'courses' => $courses]);
-            } else {
-
-                return view('beta');
-            }
-        //}
-        //return redirect("http://manage." . config('app.domain'));
+        $courses = Course::orderBy('created_at', 'asc')->get();
+        $current_gen = Gen::getCurrentGen();
+        $this->data['gen_cover'] = $current_gen->cover_url;
+        $this->data['courses'] = $courses;
+        return view('2018-beta', $this->data);
     }
 
     public function graphics_dot()
@@ -54,20 +49,25 @@ class PublicCrawlController extends CrawlController
         }
     }
 
-    public function course($linkId)
+    public function course($linkId, $saler_id = null, $campaign_id = null)
     {
-        if ($this->isCrawler()) {
-            $courses = Course::all();
-            $return_data = new \stdClass();
-            foreach ($courses as $course) {
-                if ($linkId == convert_vi_to_en($course->name)) {
-                    $return_data = $this->courseTransformer->transform($course);
-                }
-            }
-            return view('crawler.course', ['course' => $return_data, 'courses' => $courses]);
-        } else {
-            return view('beta');
+        $courses = Course::all();
+        foreach ($courses as $key) {
+            if (convert_vi_to_en($key->name) === $linkId)
+                $course = $key;
         }
+        $course_id = $course->id;
+        $current_gen = Gen::getCurrentGen();
+        $this->data['current_gen_id'] = $current_gen->id;
+        $this->data['gen_cover'] = $current_gen->cover_url;
+        $this->data['course'] = $course;
+        $this->data['course_id'] = $course_id;
+        $this->data['bases'] = Base::orderBy('created_at', 'asc')->get()->filter(function ($base) use ($course_id, $current_gen) {
+            return $base->classes()->where('course_id', $course_id)->where('gen_id', $current_gen->id)->count() > 0;
+        });
+        $this->data['saler_id'] = $saler_id;
+        $this->data['campaign_id'] = $campaign_id;
+        return view('2018-course', $this->data);
     }
 
     public function post($LinkId)

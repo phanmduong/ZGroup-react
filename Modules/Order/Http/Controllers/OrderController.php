@@ -18,6 +18,33 @@ class OrderController extends ManageApiController
         parent::__construct();
     }
 
+    public function statusToNum($status)
+    {
+        switch ($status) {
+            case 'place_order':
+                return 0;
+                break;
+            case 'not_reach':
+                return 1;
+                break;
+            case 'confirm_order':
+                return 2;
+                break;
+            case 'ship_order':
+                return 3;
+                break;
+            case 'completed_order':
+                return 4;
+                break;
+            case 'cancel':
+                return 5;
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
+
     public function allOrders(Request $request)
     {
         $limit = 20;
@@ -72,10 +99,58 @@ class OrderController extends ManageApiController
         );
     }
 
+    public function statisticalOrder(Request $request)
+    {
+        $user_id = $request->user_id;
+        $staff_id = $request->staff_id;
+        $warehouse_id = $request->warehouse_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $status = $request->status;
+        $keyWord = $request->search;
+
+        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
+            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+        });
+        if ($status)
+            $orders = $orders->where('status', $status);
+        if ($startTime)
+            $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
+        if ($warehouse_id)
+            $orders = $orders->where('warehouse_id', $warehouse_id);
+        if ($user_id)
+            $orders = $orders->where('user_id', $user_id);
+        if ($staff_id)
+            $orders = $orders->where('staff_id', $staff_id);
+        $orders = $orders->get();
+
+        $totalMoney = 0;
+        $totalPaidMoney = 0;
+        $count = $orders->count();
+        foreach ($orders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+            }
+        }
+        foreach ($orders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
+            }
+        }
+        return $this->respondSuccessWithStatus([
+            'count' => $count,
+            'total_money' => $totalMoney,
+            'total_paid_money' => $totalPaidMoney,
+            'total_debt' => $totalMoney - $totalPaidMoney,
+        ]);
+    }
+
     public function detailedOrder($order_id)
     {
         $order = Order::find($order_id);
-        if($order == null)
+        if ($order == null)
             return $this->respondSuccessWithStatus([
                 'message' => 'Khong ton tai order'
             ]);
@@ -106,7 +181,17 @@ class OrderController extends ManageApiController
 
     public function editOrder($order_id, Request $request)
     {
+        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
+        if ($order == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Khong ton tai order'
+            ]);
+        if ($this->user->role != 2)
+            if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
+                return $this->respondErrorWithStatus([
+                    'message' => 'Bạn không có quyền đổi trạng thái này'
+                ]);
         if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
@@ -115,12 +200,28 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
             ]);
+        if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
+            $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
+            $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
+        }
         $order->note = $request->note;
         $order->code = $request->code;
         $order->staff_id = $this->user->id;
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
+        if ($this->statusToNum($order->status) <= 1 && $order->type == 'order') {
+            $good_orders = json_decode($request->good_orders);
+            $order->goodOrders()->delete();
+            foreach ($good_orders as $good_order) {
+                $good = Good::find($good_order->id);
+                $order->goods()->attach($good_order->id, [
+                    "quantity" => $good_order->quantity,
+                    "price" => $good->price,
+                ]);
+            }
+        }
+
         if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;
             foreach ($importedGoods as $importedGood) {
@@ -192,13 +293,16 @@ class OrderController extends ManageApiController
     public function checkGoods(Request $request)
     {
         $good_arr = $request->goods;
+        $good_arr_code = array_pluck($good_arr, 'code');
+        $good_arr_barcode = array_pluck($good_arr, 'barcode');
 
-        $goods = Good::whereIn('code', $good_arr)->get();
+        $goods = Good::whereIn('code', $good_arr_code)->whereIn('barcode', $good_arr_barcode)->get();
 
         $goods = $goods->map(function ($good) {
             return [
                 'id' => $good->id,
                 'code' => $good->code,
+                'barcode' => $good->barcode,
                 'name' => $good->name,
                 'price' => $good->price,
             ];
@@ -206,7 +310,8 @@ class OrderController extends ManageApiController
         $not_goods = array();
 
         foreach ($good_arr as $good) {
-            if (!in_array(trim($good), array_pluck($goods, 'code'))) {
+            if (!in_array(trim($good['code']), array_pluck($goods, 'code'))
+                || !in_array(trim($good['barcode']), array_pluck($goods, 'barcode'))) {
                 array_push($not_goods, $good);
             }
         }
@@ -227,6 +332,7 @@ class OrderController extends ManageApiController
 
             $history = new HistoryGood;
             $lastest_good_history = HistoryGood::where('good_id', $importedGood['good_id'])
+                ->where('warehouse_id', $warehouseId)
                 ->orderBy('created_at', 'desc')->first();
             $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
             $history->good_id = $goodOrder->good_id;
@@ -241,7 +347,7 @@ class OrderController extends ManageApiController
         }
     }
 
-    public function exportOrder($orderId, $warehouseId, Request $request)
+    public function exportOrder($orderId, $warehouseId)
     {
         $order = Order::find($orderId);
         if ($order->exported == true)
@@ -266,7 +372,24 @@ class OrderController extends ManageApiController
         ]);
     }
 
-//    public function returnOrder($orderId, $warehouseId, Request $request) {
+    public function editNote($orderId, Request $request)
+    {
+        $order = Order::find($orderId);
+        if (!$order) {
+            return $this->respondErrorWithData([
+                'message' => 'Không tồn tại đơn hàng'
+            ]);
+        }
+        $order->note = $request->note;
+        $order->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function returnOrder($orderId, $warehouseId, Request $request)
+    {
+        //chua xong
 //        $returnOrder = new Order;
 //        $order = Order::find($orderId);
 //        $returnOrder->note = $request->note;
@@ -275,12 +398,18 @@ class OrderController extends ManageApiController
 //        $returnOrder->status = $request->status;
 //        $good_orders = json_decode($request->good_orders);
 //        foreach ($good_orders as $good_order) {
-//
+//            $history = HistoryGood::where('order_id', $orderId)
+//                ->where('good_id', $good_order->good_id)
+//                ->orderBy('created', 'desc')->first();
 //        }
-//    }
-
-    public function test()
-    {
-        dd(min(8,6));
     }
+
+//    public function test(Request $request)
+//    {
+//        $what = "[{'id':45,'quantity':'7'}]";
+//        dd(json_decode($what));
+//        return [
+//            'value' => $this->statusToNum($request->status),
+//        ];
+//    }
 }

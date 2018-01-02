@@ -120,4 +120,41 @@ class CustomerGroupApiController extends ManageApiController
             }),
         ]);
     }
+    public function getCouponsOfGroup($groupId,Request $request){
+        $group = InfoCustomerGroup::find($groupId);
+        if(!$group) return $this->respondErrorWithStatus("Không tồn tại nhóm khách hàng");
+        $coupons = $group->coupons()->orderBy('created_at','desc')->get();
+
+        return $this->respondSuccessWithStatus([
+            'coupons' => $coupons->map(function ($coupon) {
+                $data = $coupon->getData();
+                if ($coupon->used_for == 'order')
+                    $data['order_value'] = $coupon->order_value;
+                if ($coupon->used_for == 'good')
+                    $data['good'] = [
+                        'id' => $coupon->good ? $coupon->good->id : null,
+                        'name' => $coupon->good ? $coupon->good->name : null,
+                    ];
+                if ($coupon->used_for == 'customer')
+                    $data['customer'] = [
+                        'id' => $coupon->user ? $coupon->user->id : null,
+                        'name' => $coupon->user ? $coupon->user->name : null
+                    ];
+                if ($coupon->used_for == 'category')
+                    $data['category'] = [
+                        'id' => $coupon->goodCategory ? $coupon->goodCategory->id : null,
+                        'name' => $coupon->goodCategory ? $coupon->goodCategory->name : null
+                    ];
+                if ($coupon->used_for == 'customer-group')
+                    $data['customer_group'] = [
+                        'id' => $coupon->customerGroup ? $coupon->customerGroup->id : null,
+                        'name' => $coupon->customerGroup ? $coupon->customerGroup->name : null
+                    ];
+                return $data;
+            })
+        ]);
+
+
+
+    }
 }
