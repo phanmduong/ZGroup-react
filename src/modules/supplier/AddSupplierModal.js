@@ -20,14 +20,29 @@ class AddSupplierModal extends React.Component {
                         Thông tin nhà cung cấp
                     </h4>
 
-                    <FormInputText
-                        label="Họ và tên"
-                        name="name"
-                        updateFormData={this.props.updateFormData}
-                        required={true}
-                        type="text"
-                        value={name}
-                    />
+                    <div className="row">
+                        <div className="col-md-6">
+                            <FormInputText
+                                label="Họ và tên"
+                                name="name"
+                                updateFormData={this.props.updateFormData}
+                                required={true}
+                                type="text"
+                                value={name}
+                            />
+                        </div>
+                        <div className="col-md-6">
+                            <FormInputText
+                                label="Số điện thoại"
+                                name="phone"
+                                updateFormData={this.props.updateFormData}
+                                type="tel"
+                                value={phone}
+                                required={true}
+                            />
+                        </div>
+                    </div>
+
                     <FormInputText
                         label="Địa chỉ email"
                         name="email"
@@ -35,15 +50,6 @@ class AddSupplierModal extends React.Component {
                         required={true}
                         type="email"
                         value={email}
-                    />
-                    
-                    <FormInputText
-                        label="Số điện thoại"
-                        name="phone"
-                        updateFormData={this.props.updateFormData}
-                        type="tel"
-                        value={phone}
-                        required={true}
                     />
 
                     <FormInputText
