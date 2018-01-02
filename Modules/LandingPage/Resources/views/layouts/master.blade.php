@@ -201,7 +201,7 @@
                 $("#domain-landing-page-save").text(domain + "/landing-page/" + path_landingpage);
                 $("#domain-landing-page-save").attr("href", domain + "/landing-page/" + path_landingpage);
             } else {
-                toastr.success("Xuất landing page thất bại. Thử lại");
+                toastr.error(data.message);
             }
             $("#exportSubmit").html("<i class=\"pi pixicon-download\"></i> Xuất");
             $("#exportSubmit").removeClass("disabled");

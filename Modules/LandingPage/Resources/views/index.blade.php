@@ -113,9 +113,9 @@
             </button>
         </form>
 
-        <a href="#saveModal" data-toggle="modal" id="savePage"
+        <a href="#sourceModal" data-toggle="modal" id="sourceButton"
            class="btn btn-primary btn-embossed pull-right actionButtons pixbtn"><i
-                    class="pi pixicon-square-check"></i> <span class="bLabel">Code</span></a>
+                    class="pi pixicon-cog"></i> <span class="bLabel">Source</span></a>
 
 
         <a href="#seoModal" id="seoButton" data-toggle="modal"
@@ -1273,13 +1273,86 @@
 
     </div>
 
+    <div class="modal fade seoModal" id="sourceModal" tabindex="-1" role="dialog" aria-hidden="true">
+
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="pi pixicon-cross"></i>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-cog"></i>Source code</h4>
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div class="modal-alerts"></div>
+
+                    <form class="form-horizontal" role="form" id="pageSettingsCodeForm" action="">
+
+                        <input type="hidden" name="siteID" id="siteID" value="1">
+                        <input type="hidden" name="pageID" id="pageID" value="25">
+                        <input type="hidden" name="pageName" id="pageName" value="">
+
+                        <div class="optionPane">
+
+                            <div class="form-group">
+                                <label for="name" class="col-sm-8 control-label pix_seo_label">Source code first body
+                                    includes:</label>
+                                <div class="col-sm-12">
+                                <textarea class="form-control" id="source_first_body"
+                                          name="source_first_body" rows="5"
+                                          placeholder="Additional code you'd like to include in the first of <body> section"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="col-sm-8 control-label pix_seo_label">Source code last body
+                                    includes:</label>
+                                <div class="col-sm-12">
+                                <textarea class="form-control" id="source_last_body"
+                                          name="source_last_body" rows="5"
+                                          placeholder="Additional code you'd like to include in the last of <body> section"></textarea>
+                                </div>
+                            </div>
+
+                        </div><!-- /.optionPane -->
+
+                    </form>
+                </div><!-- /.modal-body -->
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i>
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal"
+                            id="sourceSubmitButton"><i
+                                class="pi pixicon-check"></i> Save Source Code
+                    </button>
+
+
+                </div>
+
+            </div><!-- /.modal-content -->
+
+        </div><!-- /.modal-dialog -->
+
+    </div>
+
 
     <!-- export HTML popup -->
     <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-hidden="true">
 
         <div class="modal-dialog modal-lg bigModal">
             <form class="form-horizontal">
+                <input type="hidden" name="landing_page_id" id="landing_page_id"
+                       value="{{$landingpage && $landingpage->id ? $landingpage->id : ''}}">
                 <input type="hidden" name="markup" value="" id="markupField">
+
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">
@@ -1300,11 +1373,11 @@
                                     /landing-page/
                                 </label>
                                 <div class="col-sm-12">
+
                                     <input type="text" class="form-control" name="link_landing_page" id="doctype"
                                            placeholder="Nhập link(Không dấu, không khoảng trắng và kí tự đặc biệt)"
                                            value="{{$landingpage && $landingpage->path ? $landingpage->path : ''}}">
                                 </div>
-
                             </div>
                         </div>
                     </div><!-- /.modal-body -->
