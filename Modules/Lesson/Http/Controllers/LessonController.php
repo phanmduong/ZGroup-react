@@ -166,6 +166,8 @@ class LessonController extends ManageApiController
         $term->course_id = $request->course_id;
         $term->order = $request->order;
         $term->image_url = $request->image_url;
+        $term->video_url = $request->video_url;
+        $term->audio_url = $request->audio_url;
 
         $term->save();
 
@@ -176,7 +178,7 @@ class LessonController extends ManageApiController
 
     public function editTerm(Request $request)
     {
-        $term = Term::find($request->term_id);
+        $term = Term::find($term_id);
 
         if ($term == null) {
             return $this->respondErrorWithStatus("Không tồn tại");
