@@ -70,4 +70,9 @@ class NhatQuangAuthApiController extends PublicApiController
         }
     }
 
+    public function facebookTokenSignin(Request $request)
+    {
+        $accessToken = $request->access_token;
+    }
+
 }
