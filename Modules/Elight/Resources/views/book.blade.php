@@ -93,23 +93,36 @@
             <div class="col-md-4">
                 @foreach($book->terms()->orderBy('order')->get() as $term)
                     <div>
-                        <div style="background:#138edc; color:white; padding:10px">
-                            <p style="font-weight: 600">{{$term->name}}</p>
-                            <p>{{$term->short_description}}</p>
-                        </div>
-                        <br>
-                        @foreach($term->lessons()->orderBy('order')->get() as $lesson)
-                            <div class="row">
-                                <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                </div>
-                                <div class="col-sm-11">
-                                    <p style="font-weight: 600">{{$lesson->name}}</p>
-                                    <p>{{$lesson->description}}</p>
+                        <a data-toggle="collapse" href="#collapse{{$term->id}}" class="collapsed" aria-expanded="false">
+                            <div style="background:#138edc; color:white; padding:10px">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <p style="font-weight: 600; font-size:18px">{{$term->name}}</p>
+                                        <p style="font-weight: 200;">{{$term->description}}</p>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <i style="font-size:25px" class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </div>
                                 </div>
 
                             </div>
-                        @endforeach
+                        </a>
+                        <br>
+                        <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
+                            @foreach($term->lessons()->orderBy('order')->get() as $lesson)
+                                <div class="row">
+                                    <a href="" style="color:black">
+                                        <div class="col-xs-1" style="font-size:20px;color:#138edc">
+                                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="col-xs-10">
+                                            <p style="font-weight: 600">{{$lesson->name}}</p>
+                                            <p>{{$lesson->description}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 @endforeach
             </div>
