@@ -151,16 +151,4 @@
         </div>
         <br><br><br>
     </div>
-    <script>
-        $(document).ready(function () {
-            var $input = $("#search_lesson");
-            $input.typeahead({
-                source: [
-                    {id: "someId1", name: "Display name 1"},
-                    {id: "someId2", name: "Display name 2"}
-                ],
-                autoSelect: true
-            });
-        })
-    </script>
 @endsection
