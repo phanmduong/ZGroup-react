@@ -85,7 +85,7 @@ class ElightController extends Controller
 
         return view('elight::book', [
             'book' => $book,
-            'lesson' => $lesson
+            'lesson_selected' => $lesson
         ]);
     }
 

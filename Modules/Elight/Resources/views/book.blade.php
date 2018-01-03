@@ -54,10 +54,10 @@
         <br><br><br><br>
 
         <div class="row">
-            @if ($lesson)
+            @if ($lesson_selected)
                 <div class="col-md-8">
-                    <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson->name}}</h1>
-                    <p>{{$lesson->description}}</p>
+                    <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson_selected->name}}</h1>
+                    <p>{{$lesson_selected->description}}</p>
                     <br>
                 </div>
                 <div class="col-md-4">
@@ -67,20 +67,20 @@
                 </div>
                 <div class="col-md-8">
                     <div id="lesson_image" style="width: 100%;
-                            background: url({{$lesson->image_url}});
+                            background: url({{$lesson_selected->image_url}});
                             background-size: cover;
                             background-position: center;
                             padding-bottom: 70%;">
                     </div>
                     <div class="media-wrapper">
                         <audio id="player2" preload="none" controls style="max-width:100%;">
-                            <source src="{{$lesson->audio_url . '?client_id='.config("app.sound_cloud_client_id")}}"
+                            <source src="{{$lesson_selected->audio_url . '?client_id='.config("app.sound_cloud_client_id")}}"
                                     type="audio/mp3">
                         </audio>
                     </div>
                     <br>
                     <div>
-                        {!! $lesson->detail !!}
+                        {!! $lesson_selected->detail !!}
                     </div>
                 </div>
             @endif
@@ -88,8 +88,8 @@
                 @foreach($book->terms()->orderBy('order')->get() as $term)
                     <div>
                         <a data-toggle="collapse" href="#collapse{{$term->id}}"
-                           class="{{$term->id == $lesson->term->id ? '' : 'collapsed'}} "
-                           aria-expanded="{{$term->id == $lesson->term->id ? 'true' : 'false'}}">
+                           class="{{$term->id == $lesson_selected->term->id ? '' : 'collapsed'}} "
+                           aria-expanded="{{$term->id == $lesson_selected->term->id ? 'true' : 'false'}}">
                             <div style="background:#138edc; color:white; padding:10px">
                                 <div style="display: flex; flex-direction: row; justify-content: space-between">
                                     <div>
@@ -103,8 +103,9 @@
                             </div>
                         </a>
                         <br>
-                        <div id="collapse{{$term->id}}" aria-expanded="{{$term->id == $lesson->term->id ? 'true' : 'false'}}"
-                             class="collapse {{$term->id == $lesson->term->id ? 'show' : ''}}">
+                        <div id="collapse{{$term->id}}"
+                             aria-expanded="{{$term->id == $lesson_selected->term->id ? 'true' : 'false'}}"
+                             class="collapse {{$term->id == $lesson_selected->term->id ? 'show' : ''}}">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
                                 <a href="/sach/{{$book->id}}/{{$lesson->id}}"
