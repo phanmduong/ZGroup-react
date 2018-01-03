@@ -7,6 +7,7 @@ use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\OrderPaidMoney;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
@@ -56,9 +57,15 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
-            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-        });
+        $orders = Order::query();
+        if ($keyWord) {
+            $userIds = User::where(function ($query) use ($keyWord) {
+                $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
+            })->pluck('id')->toArray();
+            $orders = $orders->where('type', 'order')->where(function ($query) use ($keyWord, $userIds) {
+                $query->whereIn('user_id', $userIds)->orWhere("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+            });
+        }
         if ($status)
             $orders = $orders->where('status', $status);
         if ($startTime)
@@ -90,9 +97,15 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
-            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-        });
+        $orders = Order::query();
+        if ($keyWord) {
+            $userIds = User::where(function ($query) use ($keyWord) {
+                $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
+            })->pluck('id')->toArray();
+            $orders = $orders->where('type', 'order')->where(function ($query) use ($keyWord, $userIds) {
+                $query->whereIn('user_id', $userIds)->orWhere("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+            });
+        }
         if ($status)
             $orders = $orders->where('status', $status);
         if ($startTime)
@@ -166,10 +179,6 @@ class OrderController extends ManageApiController
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
-        if ($order == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Khong ton tai order'
-            ]);
         if ($this->user->role != 2)
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
