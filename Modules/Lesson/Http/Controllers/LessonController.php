@@ -58,6 +58,7 @@ class LessonController extends ManageApiController
         $lesson->detail_teacher = $request->detail_teacher;
         $lesson->image_url = $request->image_url;
         $lesson->audio_url = $request->audio_url;
+        $lesson->video_url = $request->video_url;
         $lesson->save();
 
         $course->duration = $course->lessons->count();
@@ -92,6 +93,7 @@ class LessonController extends ManageApiController
         $lesson->detail_teacher = $request->detail_teacher;
         $lesson->image_url = $request->image_url;
         $lesson->audio_url = $request->audio_url;
+        $lesson->video_url = $request->video_url;
         $course = Course::find($request->course_id);
 
         $lesson->save();
