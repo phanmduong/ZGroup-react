@@ -99,7 +99,7 @@
                         <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
-                                <a href="/book/{{$book->id}}/{{$lesson->id}}"
+                                <a href="/sach/{{$book->id}}/{{$lesson->id}}"
                                    style="color:black; display: flex; flex-direction: row; cursor: pointer">
                                     <div style="font-size:20px;color:#138edc;">
                                         <i class="fa fa-check-circle" aria-hidden="true"></i>
