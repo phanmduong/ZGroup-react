@@ -61,7 +61,7 @@
                     <br>
                 </div>
                 <div class="col-md-4">
-                    <input placeholder="Tìm kiếm"
+                    <input placeholder="Tìm kiếm" class="typeahead" data-provide="typeahead" id="search_lesson"
                            style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
                            type="text">
                 </div>
@@ -151,4 +151,16 @@
         </div>
         <br><br><br>
     </div>
+    <script>
+        $(document).ready(function () {
+            var $input = $("#search_lesson");
+            $input.typeahead({
+                source: [
+                    {id: "someId1", name: "Display name 1"},
+                    {id: "someId2", name: "Display name 2"}
+                ],
+                autoSelect: true
+            });
+        })
+    </script>
 @endsection
