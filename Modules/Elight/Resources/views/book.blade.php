@@ -89,7 +89,7 @@
                     <div>
                         <a data-toggle="collapse" href="#collapse{{$term->id}}"
                            class="{{$term->id == $lesson->term->id ? '' : 'collapsed'}} "
-                           aria-expanded="{{$term->id == $lesson->term->id}}">
+                           aria-expanded="{{$term->id == $lesson->term->id ? 'true' : 'false'}}">
                             <div style="background:#138edc; color:white; padding:10px">
                                 <div style="display: flex; flex-direction: row; justify-content: space-between">
                                     <div>
@@ -103,8 +103,8 @@
                             </div>
                         </a>
                         <br>
-                        <div id="collapse{{$term->id}}" aria-expanded="{{$term->id == $lesson->term->id}}"
-                             class="collapse {{$term->id == $lesson->term->id ? 'show' : ''}}" style="height: 0px;">
+                        <div id="collapse{{$term->id}}" aria-expanded="{{$term->id == $lesson->term->id ? 'true' : 'false'}}"
+                             class="collapse {{$term->id == $lesson->term->id ? 'show' : ''}}">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
                                 <a href="/sach/{{$book->id}}/{{$lesson->id}}"
