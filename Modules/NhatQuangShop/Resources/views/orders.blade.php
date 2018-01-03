@@ -18,7 +18,7 @@
                         @foreach($orders as$order)
                     <tr>
                         <td class="text-center">{{$order->id}}</td>
-                        <td>{{$order->code}}</td>
+                        <td> @if($order->code != null ) {$order->code} @else Chưa có @endif </td>
                         <td class="text-right">{{$order->status}}</td>
                         <td class="td-actions text-right">
                             <button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="View Profile" class="btn btn-info btn-link btn-sm">
@@ -38,6 +38,9 @@
                 </table>
             </div>
     </div>
-    {{ $orders->links() }}
+        <div class = "row">
+            <div class = "col-md-2  "></div>
+            <div class = "col-md-10 ">{{ $orders->links() }}</div>
+        </div>
 
 @endsection
