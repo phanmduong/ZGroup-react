@@ -72,8 +72,7 @@ export function updatePrice(productPresent) {
                     type: types.TOGGLE_PRICE_MODAL
                 });
                 dispatch({
-                    type: types.TOGGLE_SAME_PRODUCT_MODAL,
-                    index: -1
+                    type: types.SHUT_DOWN_SAME_PRODUCT_MODAL
                 });
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,

@@ -1,4 +1,9 @@
 export default {
+
+    permitGood: {
+        isLoading: false
+    },
+
     createProduct: {
         categories: [],
         manufactures: [],
@@ -89,6 +94,7 @@ export default {
             productAvatar: {},
             productPrice: {},
             productPresent: {},
+            productWarehouse: {},
             good_category_id: -1,
             manufacture_id: -1,
             status: null,
@@ -841,11 +847,14 @@ export default {
     },
 
     goodOrders: {
-
         isUpdate: false,
         orderId: 0,
+        labelId: -1,
         shipGoodModal: false,
+        addNoteModal: false,
+        orderNote: {},
         isSendingShipOrder: false,
+        isSendingNote: false,
         shippedGoodResponse: {},
         shippingGood: {
             products: [],
@@ -861,7 +870,6 @@ export default {
                 address: "",
                 province: "",
                 district: "",
-
                 is_freeship: "1",
                 pick_date: "",
                 pick_money: "",
@@ -869,7 +877,6 @@ export default {
                 value: ""
             }
         },
-
         isLoading: false,
         error: false,
         currentPage: 1,
@@ -1041,7 +1048,9 @@ export default {
             good: {},
             category: {},
             customer: {},
-            customer_group: {}
+            customer_group: {},
+            quantity : '',
+            shared : '',
         },
 
     },
@@ -1074,13 +1083,17 @@ export default {
             created_at: "",
             detail: "",
             lessons: [],
-            links: []
+            links: [],
+            pixels: [],
         }
     },
     courses: {
         isLoading: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
+        isUploadingPixel: false,
+        isUploadingTermIcon: false,
+        isUploadingTerm: false,
         error: false,
         coursesList: [],
         isDeleting: false,
@@ -1118,6 +1131,8 @@ export default {
             detail: "",
             lessons: [],
             links: [],
+            pixels:[],
+            terms:[],
         },
         link: {
             id: null,
@@ -1126,12 +1141,27 @@ export default {
             link_url: "",
             link_description: "",
             link_icon: "",
-        }
+        },
+        pixel:{
+            name:"",
+            code:"",
+        },
+        term: {
+            id: null,
+            name: "",
+            description: "",
+            short_description: "",
+            course_id: "",
+            image_url: "",
+            audio_url: "",
+        },
     },
     lessons: {
         isLoading: false,
         isCommitting: false,
         commitSuccess: false,
+        isUploadingLessonIcon: false,
+        terms: [],
         data: {
             id: null,
             course_id: 1,
@@ -1142,9 +1172,12 @@ export default {
             detail_content: "",
             detail_teacher: "",
             created_at: "",
+            term_id: "",
+            audio_url: "",
+            video_url: "",
+            image_url: "",
         }
     },
-
     marketingCampaigns: {
         isLoading: false,
         error: false,
@@ -1157,7 +1190,6 @@ export default {
         isStoringCampaign: false,
         errorStoreCampaign: false,
     },
-
     summaryMarketingCampaign: {
         gens: [],
         isLoadingGens: false,
@@ -1188,7 +1220,6 @@ export default {
         totalPages: 10,
         totalCount: 10,
     },
-
     attendance: {
         isLoading: false,
         isLoadingGens: false,
@@ -1254,6 +1285,8 @@ export default {
     },
     jobAssignment: {
         isLoading: false,
+        isLoadingStaffs: false,
+        isSaving: false,
         data: {
             name: "",
             type: "personal",
@@ -1266,26 +1299,28 @@ export default {
         staffs: [
             {
                 value: "value1",
-                label: "label1",
-                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
+                label: "Chưa có nhân viên",
+                avatar_url: ""
             },
+        ],
+        works: [
             {
-                value: "value2",
-                label: "label2",
-                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
-            },
-            {
-                value: "value3",
-                label: "label3",
-                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
+                "id":11,
+                "name":"3",
+                "type":"personal",
+                "cost":2,
+                "deadline":"0000-00-00 00:00:00",
+                "bonus_value":3,
+                "bonus_type":null
             },
         ],
     },
 
-
     groupCustomers: {
         isSaving: false,
+        isSavingCoupon: false,
         isLoading: false,
+        isLoadingCoupon: false,
         isLoadingModal: false,
         isLoadingOverlay: false,     // load trong overlay
         customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
@@ -1301,10 +1336,42 @@ export default {
             customers: [],                         // tat ca cac customer trong mot group
             customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
+            coupons : [],
+            order_value : '',
+            delivery_value : '',
+        },
+        coupon: {
+            name: '',
+            description: '',
+            discount_type: '',
+            discount_value: '',
+            type: '',
+            used_for: '',
+            start_time: '',
+            end_time: '',
+            customer_group_id: '',
+            quantity : '',
+            shared : '',
         },
         groupCustomersList: [],
 
     },
+
+    firstLogin: {
+        isLoading: false,
+        profile: {
+            current_role: {},
+            start_company: new Date().toISOString().slice(0, 10),
+        },
+        error: false,
+        isChangingAvatar: false,
+        isSaving: false,
+        savingError: false,
+        isChangingPassword: false,
+        errorChangePassword: false,
+        updateSuccess: false,
+    },
+
     workShiftSessions: {
         isStoring: false,
         errorStore: false,
@@ -1341,5 +1408,4 @@ export default {
         isDeleting: false,
         errorDelete: false,
     }
-
 };

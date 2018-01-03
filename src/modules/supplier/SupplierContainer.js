@@ -156,8 +156,9 @@ class SupplierContainer extends React.Component {
                                                      className="dataTables_wrapper dt-bootstrap">
 
 
-                                                    <div className="row" style= {{marginTop: "20px" , marginBottom: "20px" }}>
-                                                        <div className="col-md-4" >
+                                                    <div className="row"
+                                                         style={{marginTop: "20px", marginBottom: "20px"}}>
+                                                        <div className="col-md-4">
                                                             <a className="btn btn-rose"
                                                                onClick={() => this.openAddModal(false)}>Thêm
                                                                 nhà cung cấp</a>
@@ -171,8 +172,6 @@ class SupplierContainer extends React.Component {
                                                             />
                                                         </div>
                                                     </div>
-
-
 
 
                                                     <div className="card-header card-header-icon"
@@ -211,8 +210,8 @@ class SupplierContainer extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <Modal show={this.state.isShowModal} bsSize="large" bsStyle="primary" onHide={this.closeAddModal}>
-                        <Modal.Header>
+                    <Modal show={this.state.isShowModal} bsSize="lg" bsStyle="pills" onHide={this.closeAddModal}>
+                        <Modal.Header closeButton>
                             <Modal.Title>
                                 <strong>Thêm nhà cung cấp</strong>
                             </Modal.Title>
@@ -226,31 +225,39 @@ class SupplierContainer extends React.Component {
                                         updateFormData={this.updateFormData}
                                         supplier={this.props.supplier}
                                     />
-                                    {this.props.isSaving ?
-                                        (
-                                            <button
-                                                className="btn btn-round btn-fill btn-success disabled"
+
+                                    <div className="row">
+                                        <div className="col-md-8"/>
+                                        <div className="col-md-4">
+                                            {this.props.isSaving ?
+                                                (
+                                                    <button
+                                                        className="btn btn-sm btn-success disabled"
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"/>
+                                                        {!this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật'}
+                                                    </button>
+                                                )
+                                                :
+                                                (
+                                                    <button className="btn btn-success btn-sm"
+                                                            onClick={(e) => {
+                                                                this.activeModal(e);
+                                                            }}>
+                                                        <i className="material-icons">save</i>
+                                                        {this.state.isEdit ? 'Cập nhật' : 'Thêm'}
+                                                    </button>
+                                                )
+                                            }
+
+                                            <button className="btn btn-sm btn-danger"
+                                                    onClick={this.closeAddModal}
                                             >
-                                                <i className="fa fa-spinner fa-spin"/>
-                                                {!this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật'}
+                                                <i className="material-icons">cancel</i> Huỷ
                                             </button>
-                                        )
-                                        :
-                                        (
-                                            <button rel="tooltip" data-placement="top" title=""
-                                                    data-original-title="Remove item"
-                                                    type="button" className="btn btn-round btn-success "
-                                                    onClick={(e) => this.activeModal(e)}
-                                            ><i className="material-icons">check</i>
-                                                {this.state.isEdit ? 'Cập nhật' : 'Thêm'}
-                                            </button>
-                                        )
-                                    }
-                                    <button rel="tooltip" data-placement="top" title=""
-                                            data-original-title="Remove item"
-                                            type="button" className="btn btn-round btn-danger " data-dismiss="modal"
-                                            onClick={this.closeAddModal}><i className="material-icons">close</i> Huỷ
-                                    </button>
+                                        </div>
+                                    </div>
+
                                 </form>
                             </div>
                         </Modal.Body>

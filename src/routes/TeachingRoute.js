@@ -6,8 +6,9 @@ import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCr
 import coursesCreateEditGeneral from "../modules/courses/coursesForm/coursesCreateEditGeneral";
 import coursesCreateEditCurriculum from "../modules/courses/coursesForm/coursesCreateEditCurriculum";
 import coursesCreateEditDocuments from "../modules/courses/coursesForm/coursesCreateEditDocuments";
-import coursesCreateEditStudying from "../modules/courses/coursesForm/coursesCreateEditStudying";
+import coursesCreateEditTerm from "../modules/courses/coursesForm/coursesCreateEditTerm";
 import coursesCreateEditInterested from "../modules/courses/coursesForm/coursesCreateEditInterested";
+import coursesCreateEditPixel from "../modules/courses/coursesForm/coursesCreateEditPixel";
 import LessonsContainer from "../modules/lessons/LessonsContainer";
 import AttendanceContainer from "../modules/attendance/AttendanceContainer";
 import ListLessonContainer from "../modules/attendance/ListLessonContainer";
@@ -66,7 +67,7 @@ export default [
         component: CoursesContainer
     },
     {
-        path: "/teaching/courses/lessons/edit/:lessonId",
+        path: "/teaching/courses/lessons/edit/:courseId/:lessonId",
         // path: "/manage/courses/lessons/edit/:lessonId",
         component: LessonsContainer
     },
@@ -111,8 +112,8 @@ export default [
                 component: coursesCreateEditDocuments
             },
             {
-                path: "studying",
-                component: coursesCreateEditStudying
+                path: "term",
+                component: coursesCreateEditTerm
             },
             {
                 path: "curriculum",
@@ -121,6 +122,10 @@ export default [
             {
                 path: "interested",
                 component: coursesCreateEditInterested
+            },
+            {
+                path: "pixel",
+                component: coursesCreateEditPixel
             }
         ]
     },

@@ -313,7 +313,7 @@ class ProductListContainer extends React.Component {
     showWareHouseModal(product) {
         this.props.modalProductAction.showWareHouseModal();
         this.props.modalProductAction.openWareHouseTab();
-        this.props.modalProductAction.handleProduct(product);
+        this.props.modalProductAction.handleWarehouseProduct(product);
         this.props.inventoryGoodAction.getWarehouseInventories(product);
     }
 
@@ -567,7 +567,7 @@ class ProductListContainer extends React.Component {
                                                             showWareHouseModal={this.showWareHouseModal}
                                                             showAvatarModal={this.showAvatarModal}
                                                             showSameProductModal={this.showSameProductModal}
-                                                            deleteProduct={this.props.productListAction.deleteProduct}/>
+                                                            deleteProduct={this.deleteProduct}/>
                                                     )
                                                 }
                                             </div>
