@@ -204,6 +204,14 @@ export default function productListReducer(state = initialState.productList, act
                     sameProductModal: false
                 }
             };
+        case types.HANDLE_WAREHOUSE_PRODUCTVVVVVV:
+            return {
+                ...state,
+                productEditing: {
+                    ...state.productEditing,
+                    productWarehouse: action.product
+                }
+            };
         default:
             return state;
     }

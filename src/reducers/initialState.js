@@ -89,6 +89,7 @@ export default {
             productAvatar: {},
             productPrice: {},
             productPresent: {},
+            productWarehouse: {},
             good_category_id: -1,
             manufacture_id: -1,
             status: null,
