@@ -176,7 +176,7 @@ class LessonController extends ManageApiController
         ]);
     }
 
-    public function editTerm(Request $request)
+    public function editTerm($term_id,Request $request)
     {
         $term = Term::find($term_id);
 
