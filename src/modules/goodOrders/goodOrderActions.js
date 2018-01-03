@@ -82,11 +82,11 @@ export function getAllStaffs() {
     };
 }
 
-export function changeStatusOrder(status, orderId, labelId) {
+export function changeStatusOrder(status, orderId) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
         dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
-        goodOrdersApi.changeStatusOrder(status, orderId, labelId)
+        goodOrdersApi.changeStatusOrder(status, orderId)
             .then((res) => {
                 if (res.data.status === 0) {
                     helper.showErrorNotification(res.data.message.message);

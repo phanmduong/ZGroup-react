@@ -142,8 +142,8 @@ class OrdersContainer extends React.Component {
         }
     }
 
-    changeStatusOrder(status, orderId, labelId) {
-        this.props.goodOrderActions.changeStatusOrder(status, orderId, labelId);
+    changeStatusOrder(status, orderId) {
+        this.props.goodOrderActions.changeStatusOrder(status, orderId);
     }
 
     showShipGoodModal(order) {

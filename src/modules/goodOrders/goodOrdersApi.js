@@ -68,16 +68,14 @@ export function getAllStaffs() {
     return axios.get(url);
 }
 
-export function changeStatusOrder(status, orderId, labelId = "") {
-    let url = env.MANAGE_API_URL + `/order/change-status-order`;
+export function changeStatusOrder(status, orderId) {
+    let url = env.MANAGE_API_URL + "/order/" + orderId + "/status";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     return axios.put(url, {
-        order_id: orderId,
-        label_id: labelId,
-        status: status,
+        status: status
     });
 }
 
