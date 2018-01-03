@@ -5,6 +5,7 @@ namespace Modules\NhatQuangShop\Http\Controllers;
 use App\Good;
 use App\Order;
 use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Graphics\Repositories\BookRepository;
+
 
 class NhatQuangShopManageController extends Controller
 {
@@ -31,8 +33,11 @@ class NhatQuangShopManageController extends Controller
         }
     }
 
-    public function userOrder($subfix)
+    public function userOrder($subfix, Request $request)
     {
+        $user = Auth::user();
+        $orders = $user->orders;
+        $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }
 
