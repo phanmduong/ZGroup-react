@@ -123,6 +123,7 @@ class ChildrenProperties extends React.Component {
                                     <tbody>
                                     {
                                         product.children && product.children.map((child, index) => {
+                                            let child_images_quantity = child.child_images_url ? JSON.parse(child.child_images_url).length : 0;
                                             return (
                                                 <tr key={index}>
                                                     <td data-original-title="Remove item"
@@ -166,7 +167,12 @@ class ChildrenProperties extends React.Component {
                                                                 className="btn btn-simple btn-rose"
                                                                 onClick={() => this.props.showAddChildImagesModal(index)}>
                                                             <i className="material-icons">cloud_upload</i>
-                                                            Thêm ảnh
+                                                            {
+                                                                child_images_quantity === 0 ? (
+                                                                    <span> Thêm </span>
+                                                                ) : (<span> {child_images_quantity} </span>)
+                                                            }
+                                                            ảnh
                                                         </Button>
                                                     </td>
                                                 </tr>
