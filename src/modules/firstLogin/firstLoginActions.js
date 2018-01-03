@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as firstLoginApi from './firstLoginApi';
 import * as helper from '../../helpers/helper';
-import {browserHistory} from 'react-router';
 
 /*eslint no-console: 0 */
 

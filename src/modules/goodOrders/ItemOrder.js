@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import TooltipButton from '../../components/common/TooltipButton';
-import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
@@ -52,13 +51,17 @@ class ItemOrder extends React.Component {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
             helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                this.props.changeStatusOrder(value, this.props.order.id, this.props.order.label_id);
+                this.props.changeStatusOrder(value, this.props.order.id);
             });
         }
     }
 
     render() {
         const order = this.props.order;
+        let order_note;
+        if (order.note) {
+            order_note = order.note.length < 16 ? order.note : order.note.substring(0, 15) + "...";
+        } else order_note = "";
         return (
             <tr>
                 <td>
@@ -115,9 +118,6 @@ class ItemOrder extends React.Component {
                 <td>{helper.dotNumber(order.total)}đ</td>
                 <td>{helper.dotNumber(order.debt)}đ</td>
                 <td>
-                    <ButtonGroupAction/>
-                </td>
-                <td>
                     <button
                         disabled={order.status !== "ship_order"}
                         className="btn btn-social btn-fill btn-twitter"
@@ -129,7 +129,13 @@ class ItemOrder extends React.Component {
                     <a data-toggle="tooltip" title="Ghi chú" type="button"
                        rel="tooltip"
                        onClick={() => this.props.showAddNoteModal(order)}>
-                        <i className="material-icons">edit</i>
+                        {
+                            order_note === "" ? (
+                                <i className="material-icons">edit</i>
+                            ) : (
+                                <p>{order_note}</p>
+                            )
+                        }
                     </a>
                 </td>
             </tr>

@@ -1,22 +1,13 @@
-import React                            from 'react';
-import PropTypes                        from 'prop-types';
-import {Link}                           from 'react-router';
-import {bindActionCreators}             from 'redux';
-import {connect}                        from 'react-redux';
-import  * as coursesActions             from '../coursesActions';
-import ButtonGroupAction                from "../../../components/common/ButtonGroupAction";
-import {Modal}                          from 'react-bootstrap';
-import FormInputText                    from '../../../components/common/FormInputText';
-import {NO_IMAGE}                       from '../../../constants/env';
-import * as helper                      from '../../../helpers/helper';
-
-function validateLink(link){
-    if(helper.isEmptyInput(link)) return NO_IMAGE;
-    if(link.substring(0,4) === 'http'){
-        return link;
-    }
-    return 'http://' + link;
-}
+import React from 'react';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as coursesActions from '../coursesActions';
+import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
+import {Modal} from 'react-bootstrap';
+import FormInputText from '../../../components/common/FormInputText';
+import * as helper from '../../../helpers/helper';
 
 
 class coursesCreateEditPixel extends React.Component {
@@ -26,85 +17,87 @@ class coursesCreateEditPixel extends React.Component {
         this.state = {
             openModal: false,
             currentLink: 0,
-            link :{
+            link: {
                 id: "",
                 name: "",
                 code: "",
             },
         };
-        this.isCreate   = true;
-        this.openModal          = this.openModal.bind(this);
-        this.closeModal         = this.closeModal.bind(this);
-        this.updatePixelData     = this.updatePixelData.bind(this);
-        this.uploadLinkIcon     = this.uploadLinkIcon.bind(this);
-        this.openModalEditPixel  = this.openModalEditPixel.bind(this);
-        this.commitPixel         = this.commitPixel.bind(this);
-        this.deletePixel         = this.deletePixel.bind(this);
-        this.checkValidate      = this.checkValidate.bind(this);
+        this.isCreate = true;
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.updatePixelData = this.updatePixelData.bind(this);
+        this.uploadLinkIcon = this.uploadLinkIcon.bind(this);
+        this.openModalEditPixel = this.openModalEditPixel.bind(this);
+        this.commitPixel = this.commitPixel.bind(this);
+        this.deletePixel = this.deletePixel.bind(this);
+        this.checkValidate = this.checkValidate.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         helper.setFormValidation('#form-edit-pixel');
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps() {
         helper.setFormValidation('#form-edit-pixel');
     }
-    componentDidUpdate(){
+
+    componentDidUpdate() {
         helper.setFormValidation('#form-edit-pixel');
     }
-    openModal(){
+
+    openModal() {
         this.isCreate = true;
         this.setState({openModal: true});
-        let  pixel = {
+        let pixel = {
             name: "",
             code: "",
         };
         this.props.coursesActions.editPixel(pixel);
     }
-    closeModal(){
+
+    closeModal() {
         this.setState({openModal: false});
     }
 
-    uploadLinkIcon(event){
+    uploadLinkIcon(event) {
         let file = event.target.files[0];
-        if(helper.checkFileSize(file, 2))
+        if (helper.checkFileSize(file, 2))
             this.props.coursesActions.uploadLinkIcon(this.props.link, file);
     }
 
-    openModalEditPixel(pixel){
+    openModalEditPixel(pixel) {
         this.isCreate = false;
         this.setState({openModal: true});
         this.props.coursesActions.editPixel(pixel);
     }
 
-    deletePixel(id){
+    deletePixel(id) {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa pixel này không?", () => {
-            this.props.coursesActions.deletePixel(id, ()=>{
+            this.props.coursesActions.deletePixel(id, () => {
                 return this.props.coursesActions.loadOneCourse(this.props.data.id);
             });
         });
     }
 
 
-    updatePixelData(e){
-        const   feild   = e.target.name;
-        const   value   = e.target.value;
+    updatePixelData(e) {
+        const feild = e.target.name;
+        const value = e.target.value;
         let pixel = {...this.props.pixel};
         pixel[feild] = value;
         this.props.coursesActions.updatePixelData(pixel);
     }
 
-    commitPixel(){
-        if(this.checkValidate())
-            if(this.isCreate)
-            {
-                this.props.coursesActions.createPixel(this.props.data.id,this.props.pixel, ()=>{
+    commitPixel() {
+        if (this.checkValidate())
+            if (this.isCreate) {
+                this.props.coursesActions.createPixel(this.props.data.id, this.props.pixel, () => {
                     this.setState({openModal: false});
                     this.props.coursesActions.loadOneCourse(this.props.data.id);
                 });
-            }else {
-                this.props.coursesActions.commitEditPixel(this.props.pixel.id,this.props.pixel, ()=>{
+            } else {
+                this.props.coursesActions.commitEditPixel(this.props.pixel.id, this.props.pixel, () => {
                     this.setState({openModal: false});
                     this.props.coursesActions.loadOneCourse(this.props.data.id);
                 });
@@ -112,6 +105,7 @@ class coursesCreateEditPixel extends React.Component {
 
 
     }
+
     checkValidate() {
 
         if ($('#form-edit-pixel').valid()) {
@@ -120,7 +114,7 @@ class coursesCreateEditPixel extends React.Component {
         return false;
     }
 
-    render(){
+    render() {
 
         return (
             <div>
@@ -145,16 +139,20 @@ class coursesCreateEditPixel extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {this.props.data.pixels.map((pixel)=>{
+                            {this.props.data.pixels.map((pixel) => {
                                 return (
                                     <tr key={pixel.id}>
-                                        <td >{pixel.name}</td>
+                                        <td>{pixel.name}</td>
                                         <td>{pixel.code}</td>
                                         <td>{pixel.staff.name}</td>
                                         <td>
                                             <ButtonGroupAction
-                                                edit={()=>{return this.openModalEditPixel(pixel);}}
-                                                delete={()=>{ return this.deletePixel(pixel.id);}}
+                                                edit={() => {
+                                                    return this.openModalEditPixel(pixel);
+                                                }}
+                                                delete={() => {
+                                                    return this.deletePixel(pixel.id);
+                                                }}
                                                 object={pixel}
                                             />
                                         </td>
@@ -168,10 +166,12 @@ class coursesCreateEditPixel extends React.Component {
                 </div>
                 <Modal show={this.state.openModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>
-                        <Modal.Title>{this.isCreate? "Thêm" : "Chỉnh sửa"} pixel</Modal.Title>
+                        <Modal.Title>{this.isCreate ? "Thêm" : "Chỉnh sửa"} pixel</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form id="form-edit-pixel" onSubmit={(e) => {e.preventDefault();}}>
+                        <form id="form-edit-pixel" onSubmit={(e) => {
+                            e.preventDefault();
+                        }}>
                             <div className="row">
                                 <div className="col-md-12">
                                     <FormInputText
@@ -229,23 +229,23 @@ class coursesCreateEditPixel extends React.Component {
 }
 
 coursesCreateEditPixel.propTypes = {
-    isLoading           : PropTypes.bool.isRequired,
-    isUploadingPixel     : PropTypes.bool.isRequired,
-    data                : PropTypes.object,
-    pixel                : PropTypes.object,
-    coursesActions      : PropTypes.object.isRequired,
-    loadOneCourse      : PropTypes.func,
-    createLink      : PropTypes.func,
-    commitEditLink      : PropTypes.func,
-    editLink      : PropTypes.func,
+    isLoading: PropTypes.bool.isRequired,
+    isUploadingPixel: PropTypes.bool.isRequired,
+    data: PropTypes.object,
+    pixel: PropTypes.object,
+    coursesActions: PropTypes.object.isRequired,
+    loadOneCourse: PropTypes.func,
+    createLink: PropTypes.func,
+    commitEditLink: PropTypes.func,
+    editLink: PropTypes.func,
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading           : state.courses.isLoading,
-        isUploadingPixel     : state.courses.isUploadingPixel,
-        data                : state.courses.data,
-        pixel                : state.courses.pixel,
+        isLoading: state.courses.isLoading,
+        isUploadingPixel: state.courses.isUploadingPixel,
+        data: state.courses.data,
+        pixel: state.courses.pixel,
 
     };
 }

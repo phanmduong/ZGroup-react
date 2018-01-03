@@ -172,7 +172,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             return {
                 ...state,
                 orderId: action.order.id,
-                labelId: action.order.label_id,
+                labelId: action.order.label_id ? action.order.label_id : -1,
                 shippingGood: {
                     ...state.shipGoodModal,
                     products,
