@@ -2,14 +2,16 @@
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'order', 'namespace' => 'Modules\Order\Http\Controllers'], function () {
     Route::get('/all-orders', 'OrderController@allOrders');
+    Route::get('/statistic','OrderController@statisticalOrder');
     Route::put('/{order_id}', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
-    Route::put('/change-status-order', 'OrderController@changeStatus');
+    Route::put('/{orderId}/status', 'OrderController@changeOrderStatus');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
     Route::put('/{orderId}/good/export/{warehouseId}', 'OrderController@exportOrder');
     Route::post('/{orderId}/return/{warehouseId}', 'OrderController@returnOrder');
+    Route::put('/{orderId}/note', 'OrderController@editNote');
 
     Route::get('/all-customers', 'CustomerController@allCustomers');
     Route::get('/total-and-debt-money', 'CustomerController@countMoney');
@@ -21,7 +23,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::put('/customer-group/{groupId}', 'CustomerGroupApiController@changeGroup');
     Route::get('/customer-groups', 'CustomerGroupApiController@getAllGroup');
     Route::delete('/customer-group/{groupId}', 'CustomerGroupApiController@deleteGroup');
-    Route::get('customer-group/{groupId}/customers','CustomerGroupApiController@getCustomerOfGroup');
+    Route::get('customer-group/{groupId}/customers', 'CustomerGroupApiController@getCustomerOfGroup');
+    Route::get('customer-group/{groupId}/coupons','CustomerGroupApiController@getCouponsOfGroup');
 
     Route::get('/category/all', 'CategoryApiController@allCategory');
     Route::post('/category/add', 'CategoryApiController@addCategory');
@@ -50,6 +53,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/staffs', 'StaffController@getStaffs');
     Route::get('/salers', 'StaffController@allSalers');
 
-    Route::get('/test', 'OrderController@test');
+    Route::post('/test', 'OrderController@test');
 });
 

@@ -63,12 +63,8 @@
                                     </p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
+                                    <a href="https://www.facebook.com/CuBach37" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -95,12 +91,8 @@
                                     </p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
+                                    <a href="https://www.facebook.com/hieu.xekopzo" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -128,12 +120,8 @@
                                     </p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
+                                    <a href="https://www.facebook.com/NguyenPhuongTuan1993" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -146,90 +134,22 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226230SYNX4R1rnrKhTV0.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15132265631Zmw0aAem0TNUA0.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
                                     </div>
                                     <p class="card-description text-center">
                                     <div class="name">
-                                        <h4 class="title text-center" style="margin-bottom: 0px">Phạm Quang Trung<br>
-                                            <small>Coach</small>
-                                        </h4>
-                                    </div>
-                                    </p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-profile card-plain" style="height: 75%!important;">
-                                <div class="card-block">
-                                    <div class="card-avatar">
-                                        <div style="
-                                                         width: 120px;
-                                                         height: 120px;
-                                                         border-radius: 50%;
-                                                         vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226380QrGnfVjqDd1LqIZ.jpg') center center / cover;
-                                                         display: inline-block
-                                                     ">
-                                        </div>
-                                    </div>
-                                    <p class="card-description text-center">
-                                    <div class="name">
-                                        <h4 class="title text-center" style="margin-bottom: 0px">Nga Lavenders<br>
-                                            <small>Coach</small>
-                                        </h4>
-                                    </div>
-                                    </p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-profile card-plain" style="height: 75%!important;">
-                                <div class="card-block">
-                                    <div class="card-avatar">
-                                        <div style="
-                                                         width: 120px;
-                                                         height: 120px;
-                                                         border-radius: 50%;
-                                                         vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/151315158979Vny3q7H0YYqUq.jpg') center center / cover;
-                                                         display: inline-block
-                                                     ">
-                                        </div>
-                                    </div>
-                                    <p class="card-description text-center">
-                                    <div class="name">
-                                        <h4 class="title text-center" style="margin-bottom: 0px">Trần Hồng Nhung<br>
+                                        <h4 class="title text-center" style="margin-bottom: 0px">Phan Thanh Mai<br>
                                             <small>Trainer</small>
                                         </h4>
                                     </div>
                                     </p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
+                                    <a href="https://www.facebook.com/maibeeptm" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -257,76 +177,8 @@
                                     </p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-profile card-plain" style="height: 75%!important;">
-                                <div class="card-block">
-                                    <div class="card-avatar">
-                                        <div style="
-                                                         width: 120px;
-                                                         height: 120px;
-                                                         border-radius: 50%;
-                                                         vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226424yJactkrKzWCGIuK.jpg') center center / cover;
-                                                         display: inline-block
-                                                     ">
-                                        </div>
-                                    </div>
-                                    <p class="card-description text-center">
-                                    <div class="name">
-                                        <h4 class="title text-center" style="margin-bottom: 0px">Mai Huy Hoàng<br>
-                                            <small>Trainer</small>
-                                        </h4>
-                                    </div>
-                                    </p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-profile card-plain" style="height: 75%!important;">
-                                <div class="card-block">
-                                    <div class="card-avatar">
-                                        <div style="
-                                                         width: 120px;
-                                                         height: 120px;
-                                                         border-radius: 50%;
-                                                         vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226458myq0gQytkjphZhn.jpg') center center / cover;
-                                                         display: inline-block
-                                                     ">
-                                        </div>
-                                    </div>
-                                    <p class="card-description text-center">
-                                    <div class="name">
-                                        <h4 class="title text-center" style="margin-bottom: 0px">Nguyễn Danh Đa<br>
-                                            <small>Trainer</small>
-                                        </h4>
-                                    </div>
-                                    </p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
+                                    <a href="https://www.facebook.com/hiep.haohoa1" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -353,12 +205,8 @@
                                     </p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
+                                    <a href="https://www.facebook.com/dangducanh229" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -371,26 +219,134 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15132265631Zmw0aAem0TNUA0.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/151315158979Vny3q7H0YYqUq.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
                                     </div>
                                     <p class="card-description text-center">
                                     <div class="name">
-                                        <h4 class="title text-center" style="margin-bottom: 0px">Phan Thanh Mai<br>
+                                        <h4 class="title text-center" style="margin-bottom: 0px">Trần Hồng Nhung<br>
                                             <small>Trainer</small>
                                         </h4>
                                     </div>
                                     </p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i
-                                                class="fa fa-dribbble"></i></a>
-                                    <a href="#pablo" class="btn btn-just-icon btn-instagram"><i
-                                                class="fa fa-instagram"></i></a>
+                                    <a href="https://www.facebook.com/nhungrosie1503" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-profile card-plain" style="height: 75%!important;">
+                                <div class="card-block">
+                                    <div class="card-avatar">
+                                        <div style="
+                                                         width: 120px;
+                                                         height: 120px;
+                                                         border-radius: 50%;
+                                                         vertical-align: middle;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226424yJactkrKzWCGIuK.jpg') center center / cover;
+                                                         display: inline-block
+                                                     ">
+                                        </div>
+                                    </div>
+                                    <p class="card-description text-center">
+                                    <div class="name">
+                                        <h4 class="title text-center" style="margin-bottom: 0px">Mai Huy Hoàng<br>
+                                            <small>Trainer</small>
+                                        </h4>
+                                    </div>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="https://www.facebook.com/hoang.hero.1" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-profile card-plain" style="height: 75%!important;">
+                                <div class="card-block">
+                                    <div class="card-avatar">
+                                        <div style="
+                                                         width: 120px;
+                                                         height: 120px;
+                                                         border-radius: 50%;
+                                                         vertical-align: middle;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226458myq0gQytkjphZhn.jpg') center center / cover;
+                                                         display: inline-block
+                                                     ">
+                                        </div>
+                                    </div>
+                                    <p class="card-description text-center">
+                                    <div class="name">
+                                        <h4 class="title text-center" style="margin-bottom: 0px">Nguyễn Danh Đa<br>
+                                            <small>Trainer</small>
+                                        </h4>
+                                    </div>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="https://www.facebook.com/nguyendanhda98" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-profile card-plain" style="height: 75%!important;">
+                                <div class="card-block">
+                                    <div class="card-avatar">
+                                        <div style="
+                                                         width: 120px;
+                                                         height: 120px;
+                                                         border-radius: 50%;
+                                                         vertical-align: middle;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226230SYNX4R1rnrKhTV0.jpg') center center / cover;
+                                                         display: inline-block
+                                                     ">
+                                        </div>
+                                    </div>
+                                    <p class="card-description text-center">
+                                    <div class="name">
+                                        <h4 class="title text-center" style="margin-bottom: 0px">Phạm Quang Trung<br>
+                                            <small>Coach</small>
+                                        </h4>
+                                    </div>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="https://www.facebook.com/boystyle.pham.7" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-profile card-plain" style="height: 75%!important;">
+                                <div class="card-block">
+                                    <div class="card-avatar">
+                                        <div style="
+                                                         width: 120px;
+                                                         height: 120px;
+                                                         border-radius: 50%;
+                                                         vertical-align: middle;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226380QrGnfVjqDd1LqIZ.jpg') center center / cover;
+                                                         display: inline-block
+                                                     ">
+                                        </div>
+                                    </div>
+                                    <p class="card-description text-center">
+                                    <div class="name">
+                                        <h4 class="title text-center" style="margin-bottom: 0px">Nga Lavenders<br>
+                                            <small>Coach</small>
+                                        </h4>
+                                    </div>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="https://www.facebook.com/profile.php?id=100009469017791" class="btn btn-just-icon btn-instagram"><i
+                                                class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>

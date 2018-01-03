@@ -37,7 +37,7 @@
                             <div>
                                 <div class="container text-left" style="min-height: 130px;"><br>
                                     <p style="font-weight: 600;">{{$book->name}}</p>
-                                    <p>{{$book->description}}</p>
+                                    <p>{{shortString($book->description, 12)}}</p>
                                 </div>
                             </div>
                             <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">

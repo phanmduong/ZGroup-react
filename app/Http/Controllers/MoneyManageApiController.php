@@ -123,15 +123,17 @@ class MoneyManageApiController extends ApiController
                 'avatar_url' => $user->avatar_url ? $user->avatar_url : url('img/user.png'),
                 'phone' => $user->phone,
                 'email' => $user->email,
-                'registers' => $user->registers->map(function ($regis) {
+                'registers' => $user->registers()->join("classes", "classes.id", "=", "registers.class_id")
+                    ->whereNull("classes.deleted_at")->select("registers.*")->get()->map(function ($regis) {
+                        $studyClass = $regis->studyClass()->withTrashed()->first();
                     return [
                         'id' => $regis->id,
-                        'course' => $regis->studyClass->course->name,
-                        'class' => $regis->studyClass->name,
-                        'class_type' => $regis->studyClass->type,
+                        'course' => $studyClass->course->name,
+                        'class' => $studyClass->name,
+                        'class_type' => $studyClass->type,
                         'register_time' => format_time_to_mysql(strtotime($regis->created_at)),
                         'code' => $regis->code,
-                        'icon_url' => $regis->studyClass->course->icon_url,
+                        'icon_url' => $studyClass->course->icon_url,
                         'money' => $regis->money,
                         'received_id_card' => $regis->received_id_card,
                         'note' => $regis->note,

@@ -85,4 +85,9 @@ class ClientController extends Controller
         return view("client.workshift");
     }
 
+    public function landingPage()
+    {
+        return view("client.landingpage");
+    }
+
 }

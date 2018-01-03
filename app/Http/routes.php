@@ -42,6 +42,7 @@ Route::get('send_noti_test', 'PublicController@send_noti_test');
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
+    Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('/email/{path}', 'ClientController@email')
         ->where('path', '.*');
@@ -62,6 +63,10 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/good/{path}', 'ClientController@good')
         ->where('path', '.*');
 
+    Route::get('/order/{path}', 'ClientController@good')
+        ->where('path', '.*');
+
+
     Route::get('/project/{path}', 'ClientController@work')
         ->where('path', '.*');
     Route::get('/blog/{path}', 'ClientController@blog')
@@ -75,6 +80,8 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/shift/{path}', 'ClientController@shift')
         ->where('path', '.*');
     Route::get('/work-shift/{path}', 'ClientController@workShift')
+        ->where('path', '.*');
+    Route::get('/landingpage/{path}', 'ClientController@landingPage')
         ->where('path', '.*');
     Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
@@ -453,7 +460,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/sign-in', 'PublicController@beta');
     Route::get('/upload-post', 'PublicController@beta');
-    Route::get('/course/{LinkId}', 'PublicCrawlController@course');
+    Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'PublicCrawlController@course');
     Route::get('/profile/{username}', 'PublicController@beta');
     Route::get('/profile/{username}/progress', 'PublicController@beta');
     Route::get('/profile/{username}/info', 'PublicController@beta');
@@ -579,7 +586,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('courses/{user_id}/{campaign_id}', 'PublicController@courses');
     Route::get('classes/register/{class_id?}/{user_id?}/{campaign_id?}', 'PublicController@register_class');
     Route::get('classes/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes');
-    Route::get('classes1/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes1');
+    Route::get('register/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@register');
 
     Route::post('classes/register_store', 'PublicController@register_store');
     Route::post('classes/new_register_store', 'PublicController@new_register_store');

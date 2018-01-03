@@ -57,7 +57,7 @@ class SendEmailsMarketing extends Command
 
                 $list_ids = $email_campaign->subscribers_lists()->get()->pluck('id')->toArray();
                 $str = implode(',', $list_ids);
-                $query = "select distinct email,name from subscribers where id in " .
+                $query = "select distinct email, name from subscribers where id in " .
                     "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) ";
 
                 $subscribers = DB::select($query);

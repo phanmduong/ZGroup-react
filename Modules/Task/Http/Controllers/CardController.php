@@ -226,6 +226,44 @@ class CardController extends ManageApiController
         ]);
     }
 
+    public function getCardsFiltered(Request $request)
+    {
+        if ($request->to === null || $request->from === null) {
+            return $this->respondErrorWithStatus("Bạn cần truyền lên người bắt đầu và ngày kết thúc ");
+        }
+
+        $to = date_create_from_format("d/m/Y H:i:s", $request->to);
+        $from = date_create_from_format("d/m/Y H:i:s", $request->from);
+
+        if ($to < $from) {
+            return $this->respondErrorWithStatus("Thời gian bắt đầu không được lớn hơn thời gian kết thúc");
+        }
+        $cards = Card::query();
+
+        if ($request->staff_id) {
+            $cards = $cards
+                ->join('card_user', 'cards.id', '=', 'card_user.card_id')
+                ->where("card_user.user_id", (int)$request->staff_id);
+        }
+
+        if ($request->project_id) {
+            $cards = $cards
+                ->join('boards', 'boards.id', '=', 'cards.board_id')
+                ->where("boards.project_id", (int)$request->project_id);
+        }
+
+        $cards = $cards->where("cards.status", "close")
+            ->whereBetween("cards.updated_at", [$from, $to])
+            ->select(DB::raw('cards.*'))
+            ->orderBy("cards.created_at", 'desc')->get();
+
+        return $this->respondSuccessWithStatus([
+            "cards" => $cards->map(function ($card) {
+                return $card->transform();
+            })
+        ]);
+    }
+
     /**
      * @param Request $request
      * staff_id
@@ -262,28 +300,45 @@ class CardController extends ManageApiController
 
         $cards = $cards->where("cards.status", "close")
             ->whereBetween("cards.updated_at", [$from, $to])->groupBy(DB::raw("date(cards.updated_at)"))
-            ->select(DB::raw('count(1) as num_cards, date(cards.updated_at) as day'))
+            ->select(DB::raw('count(1) as num_cards, sum(point) as total_points, date(cards.updated_at) as day'))
             ->orderBy("day")->get();
 
         $dateArray = createDateRangeArray($from->getTimestamp(), $to->getTimestamp());
 
         $cardsMap = [];
+        $pointsMap = [];
         foreach ($cards as $card) {
             $cardsMap[$card->day] = $card->num_cards;
+            $pointsMap[$card->day] = $card->total_points;
         }
 
         $returnCards = [];
+        $returnPoints = [];
         foreach ($dateArray as $date) {
             if (array_key_exists($date, $cardsMap)) {
                 $returnCards[$date] = $cardsMap[$date];
+                $returnPoints[$date] = $pointsMap[$date];
             } else {
                 $returnCards[$date] = 0;
+                $returnPoints[$date] = 0;
             }
         }
 
         return $this->respondSuccessWithStatus([
             "days" => $dateArray,
-            "num_cards" => array_values($returnCards)
+            "num_cards" => array_values($returnCards),
+            "total_points" => array_values($returnPoints)
+        ]);
+    }
+
+    public function setPointCard($cardId, $point)
+    {
+        $card = Card::find($cardId);
+        $card->point = $point;
+        $card->save();
+
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
         ]);
     }
 }

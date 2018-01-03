@@ -24,7 +24,9 @@
     "jaybizzle/laravel-crawler-detect": "1.*",
     "nwidart/laravel-modules": "^1.27",
     "google/recaptcha": "~1.1",
-    "picqer/php-barcode-generator": "^0.2.2"
+    "picqer/php-barcode-generator": "^0.2.2",
+    "google/apiclient": "^2.2",
+    "cache/filesystem-adapter": "^1.0"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

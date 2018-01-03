@@ -22,7 +22,7 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::get('/district/{provinceId}', 'GraphicsController@districts');
 });
 
-Route::group(['domain' => "api.keetool3.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+Route::group(['domain' => "api.graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
     Route::get('/books', 'GraphicsAppController@index');
     Route::get('/detail-book/{book_id}', 'GraphicsAppController@detailedBook');
     Route::post('/save-order', 'GraphicsAppController@saveOrder');

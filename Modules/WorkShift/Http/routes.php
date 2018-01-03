@@ -4,6 +4,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'work
     Route::get('/create', 'ManageWorkShiftApiController@createWorkShift');
     Route::get('/current-shifts', 'ManageWorkShiftApiController@getCurrentShifts');
     Route::get('/history-shift-registers', 'ManageWorkShiftApiController@get_history_shift_register');
+    Route::get('/detail-shifts/{userId}', 'ManageWorkShiftApiController@detailCheckinCheckOutUser');
     Route::put('/register-shift/{workShiftId}', 'ManageWorkShiftApiController@registerShift');
     Route::put('/remove-register-shift/{workShiftId}', 'ManageWorkShiftApiController@removeRegisterShift');
     Route::get('/work-shift-session/all', 'ManageWorkShiftApiController@allWorkSession');
