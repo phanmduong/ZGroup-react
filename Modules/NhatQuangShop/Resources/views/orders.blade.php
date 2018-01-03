@@ -1,16 +1,14 @@
 @extends('nhatquangshop::layouts.manage')
 @section('data')
-            <h4 class="title"><small>ORDERS</small></h4>
-            <div class="table-responsive">
+    <h4><span style="font-weight:bold">Các đơn hàng</span></h4>
+            <div class="table-responsive" style ="margin-top: 20px">
                 <table class="table">
-                    <thead>
                     <tr>
                         <th class="text-center">#</th>
-                        <th>Order Code</th>
+                        <th>OrderCode</th>
                         <th class="text-right">Status Order</th>
                         <th class="text-right">Actions</th>
                     </tr>
-                    </thead>
                     <tbody>
                     @if (count($orders) > 0)
                         @foreach($orders as$order)
@@ -18,8 +16,12 @@
                         <td class="text-center">{{$order->id}}</td>
                         <td>
                             @if($order->code != null )
-                                {{$order->code}}
-                                @else Chưa có
+                                <a href="orders/{{$order->id}}" class="btn btn-round btn-twitter">
+                                   {{$order->code}}
+                                </a>
+                                @else  <a href="orders/{{$order->id}}" class="btn btn-round btn-twitter">
+                                Chưa có code
+                            </a>
                                 @endif
                         </td>
                         <td class="text-right">{{$order->status}}</td>

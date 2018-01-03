@@ -6,7 +6,7 @@
                 <i class="fa fa-free-code-camp" aria-hidden="true"></i> Thông tin chi tiết  sản phẩm
             </h6>
             <label>Mã đơn hàng</label>
-            <h6>{{$order->code}}</h6>
+            <h6> @if($order->code!=null){{$order->code}} @else Chưa tạo @endif</h6>
             <label>Ngày tạo</label>
             <h6>{{$order->created_at}}</h6>
 
