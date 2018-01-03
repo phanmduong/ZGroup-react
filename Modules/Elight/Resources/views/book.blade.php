@@ -55,10 +55,15 @@
 
         <div class="row">
             @if ($lesson)
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson->name}}</h1>
                     <p>{{$lesson->description}}</p>
                     <br>
+                </div>
+                <div class="col-md-4">
+                    <input placeholder="Tìm kiếm"
+                           style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                           type="text">
                 </div>
                 <div class="col-md-8">
                     <div id="lesson_image" style="width: 100%;
@@ -82,7 +87,8 @@
             <div class="col-md-4">
                 @foreach($book->terms()->orderBy('order')->get() as $term)
                     <div>
-                        <a data-toggle="collapse" href="#collapse{{$term->id}}" class="collapsed" aria-expanded="false">
+                        <a data-toggle="collapse" href="#collapse{{$term->id}}" class="collapsed"
+                           aria-expanded="{{$term->id == $lesson->term->id}}">
                             <div style="background:#138edc; color:white; padding:10px">
                                 <div style="display: flex; flex-direction: row; justify-content: space-between">
                                     <div>
@@ -96,7 +102,7 @@
                             </div>
                         </a>
                         <br>
-                        <div id="collapse{{$term->id}}" aria-expanded="false"
+                        <div id="collapse{{$term->id}}" aria-expanded="{{$term->id == $lesson->term->id}}"
                              class="collapse {{$term->id == $lesson->term->id ? 'show' : ''}}" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
