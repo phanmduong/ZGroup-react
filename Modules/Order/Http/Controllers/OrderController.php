@@ -57,7 +57,7 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $orders = Order::query();
+        $orders = Order::where('type', 'order');
         if ($keyWord) {
             $userIds = User::where(function ($query) use ($keyWord) {
                 $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
@@ -97,7 +97,7 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $orders = Order::query();
+        $orders = Order::where('type', 'order');
         if ($keyWord) {
             $userIds = User::where(function ($query) use ($keyWord) {
                 $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
@@ -155,63 +155,22 @@ class OrderController extends ManageApiController
         );
     }
 
-    public function changeStatus(Request $request)
+    public function changeOrderStatus($orderId, Request $request)
     {
-        $order = Order::find($request->order_id);
-
-        if ($order == null) {
-            return $this->respondErrorWithStatus("Đơn hàng không tồn tại");
-        }
-
-        $order->status = $request->status;
-        if ($request->label_id) {
-            $order->label_id = $request->label_id;
-        }
-
-        $order->save();
-
-        return $this->respondSuccessWithStatus([
-            'order' => $order->transform()
-        ]);
-    }
-
-    public function editOrder($order_id, Request $request)
-    {
-        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
-        $order = Order::find($order_id);
+        $order = Order::find($orderId);
         if ($this->user->role != 2)
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
                     'message' => 'Bạn không có quyền đổi trạng thái này'
                 ]);
-        if ($request->code == null && trim($request->code) == '')
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu code'
-            ]);
         if ($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
             ]);
+
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
             $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
-        }
-        $order->note = $request->note;
-        $order->code = $request->code;
-        $order->staff_id = $this->user->id;
-        $order->user_id = $request->user_id;
-        $order->status = $request->status;
-        $order->save();
-        if ($this->statusToNum($order->status) <= 1 && $order->type == 'order') {
-            $good_orders = json_decode($request->good_orders);
-            $order->goodOrders()->delete();
-            foreach ($good_orders as $good_order) {
-                $good = Good::find($good_order->id);
-                $order->goods()->attach($good_order->id, [
-                    "quantity" => $good_order->quantity,
-                    "price" => $good->price,
-                ]);
-            }
         }
 
         if ($order->type == 'import' && $request->status == 'completed') {
@@ -232,9 +191,54 @@ class OrderController extends ManageApiController
                 $history->save();
             }
         }
+
+        $order->status = $request->status;
+        if ($request->label_id) {
+            $order->label_id = $request->label_id;
+        }
+        $order->save();
+
         return $this->respondSuccessWithStatus([
-            'message' => 'ok'
+            'message' => 'SUCCESS'
         ]);
+    }
+
+    public function editOrder($order_id, Request $request)
+    {
+        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $order = Order::find($order_id);
+        if ($this->user->role != 2)
+            if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
+                return $this->respondErrorWithStatus([
+                    'message' => 'Bạn không có quyền đổi trạng thái này'
+                ]);
+        if ($request->code == null && trim($request->code) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu code'
+            ]);
+        if ($order->type == 'import' && $order->status == 'completed')
+            return $this->respondErrorWithStatus([
+                'message' => 'Cant change completed import order'
+            ]);
+
+        $order->note = $request->note;
+        $order->code = $request->code;
+        $order->staff_id = $this->user->id;
+        $order->user_id = $request->user_id;
+        $order->save();
+        if ($this->statusToNum($order->status) <= 1 && $order->type == 'order') {
+            $good_orders = json_decode($request->good_orders);
+            $order->goodOrders()->delete();
+            foreach ($good_orders as $good_order) {
+                $good = Good::find($good_order->id);
+                $order->goods()->attach($good_order->id, [
+                    "quantity" => $good_order->quantity,
+                    "price" => $good->price,
+                ]);
+            }
+        }
+
+        $this->changeOrderStatus($order_id, $request);
     }
 
 
