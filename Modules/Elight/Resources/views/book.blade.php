@@ -97,8 +97,8 @@
                         <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
-                                <a style="color:black; display: flex; flex-direction: row;"
-                                   onclick="clickLesson({!! $lesson !!})">
+                                <a href="" style="color:black; display: flex; flex-direction: row;"
+                                   onclick="clickLesson({{$lesson}})">
                                     <div style="font-size:20px;color:#138edc;">
                                         <i class="fa fa-check-circle" aria-hidden="true"></i>
                                     </div>
@@ -157,5 +157,10 @@
             $("#lesson_description").html(lesson.detail);
             $("#lesson_image").html(lesson.image_url);
         }
+
+        $(document).ready(function () {
+
+        })
+
     </script>
 @endsection
