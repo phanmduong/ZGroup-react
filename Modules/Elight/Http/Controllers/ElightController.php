@@ -2,6 +2,7 @@
 
 namespace Modules\Elight\Http\Controllers;
 
+use App\Course;
 use App\Good;
 use App\Product;
 use Illuminate\Routing\Controller;
@@ -67,27 +68,32 @@ class ElightController extends Controller
         );
     }
 
-    public function book($subfix, $book_id) {
-        $book = Good::find($book_id);
-        $newestBooks = Good::where('type', 'book')->where('id', '<>', $book_id)->limit(4)->get();
+    public function book($subfix, $book_id)
+    {
+        $book = Course::find($book_id);
+        if ($book == null) {
+            return view('elight::404-not-found');
+        }
         return view('elight::book', [
             'book' => $book,
-            'newestBooks' => $newestBooks
         ]);
     }
 
-    public function allBooks($subfix) {
-        $books = Good::where('type', 'book')->get();
-        return view('elight::library',[
+    public function allBooks($subfix)
+    {
+        $books = Course::all();
+        return view('elight::library', [
             'books' => $books,
         ]);
     }
 
-    public function aboutUs($subfix) {
+    public function aboutUs($subfix)
+    {
         return view('elight::about-us');
     }
 
-    public function contactUs($subfix) {
+    public function contactUs($subfix)
+    {
         return view('elight::contact-us');
     }
 }

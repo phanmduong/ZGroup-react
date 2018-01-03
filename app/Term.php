@@ -17,7 +17,7 @@ class Term extends Model
 
     public function lessons()
     {
-        return $this->hasMany(Lesson::class, "lesson_id");
+        return $this->hasMany(Lesson::class, "term_id");
     }
 
 }

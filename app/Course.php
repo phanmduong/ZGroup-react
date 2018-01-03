@@ -27,7 +27,7 @@ class Course extends Model
 
     public function terms()
     {
-        return $this->hasMany('App\Term', 'term_id');
+        return $this->hasMany(Term::class, 'course_id');
     }
 
     public function links()

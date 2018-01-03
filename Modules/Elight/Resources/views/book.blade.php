@@ -75,182 +75,69 @@
 
                 <h2 style="font-size: 20px;font-weight:600; color:#424242;">This is a sample title</h2>
                 <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description </p>
+                <p>This is a sample description his is a sample description his is a sample description his is a sample
+                    description his is a sample description his is a sample description his is a sample description his
+                    is a sample description his is a sample description his is a sample description his is a sample
+                    description his is a sample description his is a sample description his is a sample description </p>
                 <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description </p>
+                <p>This is a sample description his is a sample description his is a sample description his is a sample
+                    description his is a sample description his is a sample description his is a sample description his
+                    is a sample description his is a sample description his is a sample description his is a sample
+                    description his is a sample description his is a sample description his is a sample description </p>
                 <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description his is a sample description </p>
+                <p>This is a sample description his is a sample description his is a sample description his is a sample
+                    description his is a sample description his is a sample description his is a sample description his
+                    is a sample description his is a sample description his is a sample description his is a sample
+                    description his is a sample description his is a sample description his is a sample description </p>
             </div>
             <div class="col-md-4">
-                <div>
-                    <div style="background:#138edc; color:white; padding:10px" >
-                        <p style="font-weight: 600">Lesson 1</p>
-                        <p>This is a sample description</p>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                @foreach($book->terms()->orderBy('order')->get() as $term)
+                    <div>
+                        <div style="background:#138edc; color:white; padding:10px">
+                            <p style="font-weight: 600">{{$term->name}}</p>
+                            <p>{{$term->short_description}}</p>
                         </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                </div>
-                <div>
-                    <br>
-                    <div style="background:#138edc; color:white; padding:10px" >
-                        <p style="font-weight: 600">Lesson 1</p>
-                        <p>This is a sample description</p>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                </div>
-                <div>
-                    <br>
-                    <div style="background:#138edc; color:white; padding:10px" >
-                        <p style="font-weight: 600">Lesson 1</p>
-                        <p>This is a sample description</p>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
-                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-sm-11">
-                            <p style="font-weight: 600">Lesson 1</p>
-                            <p>This is a sample description</p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <br><br>
-            <div id="vuejs1" class="row">
-                @foreach($newestBooks as $book)
-                    <div class="col-md-3">
-                        <div class="card card-profile" style="border-radius: 0px;">
-                            <div style="padding: 3%;">
-                                <div style="background-image: url('{{$book->avatar_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>
-                            </div>
-                            <div>
-                                <div class="container text-left" style="min-height: 130px;"><br>
-                                    <p style="font-weight: 600;">{{$book->name}}</p> <br>
-                                    <p>{{$book->description}}</p></div>
-
-                            </div>
-                            <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
-                                <div style="text-align: right;">
-                                    <a class="btn btn-google" href="/sach/{{$book->id}}"
-                                       style="padding: 3px; margin: 3px; font-size: 10px;">
-                                        Tải sách <i class="fa fa-download"></i></a>
+                        <br>
+                        @foreach($term->lessons()->orderBy('order')->get() as $lesson)
+                            <div class="row">
+                                <div class="col-sm-1" style="font-size:20px;color:#138edc">
+                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
                                 </div>
+                                <div class="col-sm-11">
+                                    <p style="font-weight: 600">{{$lesson->name}}</p>
+                                    <p>{{$lesson->description}}</p>
+                                </div>
+
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 @endforeach
             </div>
+            <br><br>
+            {{--<div id="vuejs1" class="row">--}}
+            {{--@foreach($newestBooks as $book)--}}
+            {{--<div class="col-md-3">--}}
+            {{--<div class="card card-profile" style="border-radius: 0px;">--}}
+            {{--<div style="padding: 3%;">--}}
+            {{--<div style="background-image: url('{{$book->avatar_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>--}}
+            {{--</div>--}}
+            {{--<div>--}}
+            {{--<div class="container text-left" style="min-height: 130px;"><br>--}}
+            {{--<p style="font-weight: 600;">{{$book->name}}</p> <br>--}}
+            {{--<p>{{$book->description}}</p></div>--}}
+
+            {{--</div>--}}
+            {{--<div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">--}}
+            {{--<div style="text-align: right;">--}}
+            {{--<a class="btn btn-google" href="/sach/{{$book->id}}"--}}
+            {{--style="padding: 3px; margin: 3px; font-size: 10px;">--}}
+            {{--Tải sách <i class="fa fa-download"></i></a>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--@endforeach--}}
+            {{--</div>--}}
         </div>
         <br><br><br>
     </div>
