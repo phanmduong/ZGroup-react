@@ -123,7 +123,7 @@ class OrderController extends ManageApiController
             }
         }
         return $this->respondSuccessWithStatus([
-            'count' => $count,
+            'total_orders' => $count,
             'total_money' => $totalMoney,
             'total_paid_money' => $totalPaidMoney,
             'total_debt' => $totalMoney - $totalPaidMoney,
