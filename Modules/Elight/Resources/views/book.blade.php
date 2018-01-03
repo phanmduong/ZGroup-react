@@ -96,7 +96,8 @@
                             </div>
                         </a>
                         <br>
-                        <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
+                        <div id="collapse{{$term->id}}" aria-expanded="false"
+                             class="collapse {{$term->id == $lesson->term->id ? 'show' : ''}}" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
                                 <a href="/sach/{{$book->id}}/{{$lesson->id}}"
