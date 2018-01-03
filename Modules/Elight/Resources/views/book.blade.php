@@ -57,7 +57,7 @@
             @if ($lesson)
                 <div class="col-md-12">
                     <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson->name}}</h1>
-                    <p>{{$lesson->short_description}}</p>
+                    <p>{{$lesson->description}}</p>
                     <br>
                 </div>
                 <div class="col-md-8">
