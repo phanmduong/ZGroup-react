@@ -31,7 +31,7 @@ class WareHouseModalContainer extends React.Component {
                     <div className="container" style={{width: '100%'}}>
                         <div className="row">
                             <div className="col-sm-12 nav-tabs-wrapper">
-                                <ul className="nav nav-tabs">
+                                <ul className="nav nav-pills nav-pills-rose">
                                     <li className={this.props.showWareHouse && "active"}><a
                                         onClick={this.props.modalProductAction.openWareHouseTab}>Danh sách kho hàng</a>
                                     </li>
