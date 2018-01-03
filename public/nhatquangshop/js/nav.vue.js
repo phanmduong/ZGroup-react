@@ -21,7 +21,7 @@ var navVue = new Vue({
                 else {
                     FB.login();
                 }
-                
+
             });
         },
         changeLoginCondition: function (user) {
