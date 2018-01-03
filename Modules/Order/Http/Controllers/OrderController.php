@@ -57,7 +57,7 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $orders = Order::query();
+        $orders = Order::where('type', 'order');
         if ($keyWord) {
             $userIds = User::where(function ($query) use ($keyWord) {
                 $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
