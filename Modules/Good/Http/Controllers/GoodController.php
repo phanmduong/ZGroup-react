@@ -628,7 +628,7 @@ class GoodController extends ManageApiController
                 'message' => 'thieu gia'
             ]);
         $good->price = $request->price;
-        $good->note = $request->note;
+//        $good->note = $request->note;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'ok',
