@@ -25,9 +25,9 @@ class Lesson extends Model
         return $this->hasMany('App\ClassLesson', 'lesson_id');
     }
 
-    public function terms()
+    public function term()
     {
-        return $this->belongsToMany(Term::class, "term_id");
+        return $this->belongsTo(Term::class, "term_id");
     }
 
     public function surveys()

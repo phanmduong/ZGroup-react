@@ -54,73 +54,62 @@
         <br><br><br><br>
 
         <div class="row">
-            <div class="col-md-12">
-                <h1 style="font-size: 30px;font-weight:600; color:#424242;">This is a sample title</h1>
-                <p>This is a sample description</p>
-                <br>
-            </div>
-            <div class="col-md-8">
-                <div style="width: 100%;
-                                    background: url(https://www.timeshighereducation.com/sites/default/files/istock-619066144.jpg);
-                                    background-size: cover;
-                                    background-position: center;
-                                    padding-bottom: 70%;">
+            @if ($lesson)
+                <div class="col-md-12">
+                    <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson->name}}</h1>
+                    <p>{{$lesson->description}}</p>
+                    <br>
                 </div>
-                <div class="media-wrapper">
-                    <audio id="player2" preload="none" controls style="max-width:100%;">
-                        <source src="https://api.soundcloud.com/tracks/359227079/stream?client_id=95f22ed54a5c297b1c41f72d713623ef"
-                                type="audio/mp3">
-                    </audio>
+                <div class="col-md-8">
+                    <div id="lesson_image" style="width: 100%;
+                            background: url({{$lesson->image_url}});
+                            background-size: cover;
+                            background-position: center;
+                            padding-bottom: 70%;">
+                    </div>
+                    <div class="media-wrapper">
+                        <audio id="player2" preload="none" controls style="max-width:100%;">
+                            <source src="{{$lesson->audio_url . '?client_id='.config("app.sound_cloud_client_id")}}"
+                                    type="audio/mp3">
+                        </audio>
+                    </div>
+                    <br>
+                    <div>
+                        {!! $lesson->detail !!}
+                    </div>
                 </div>
-
-                <h2 style="font-size: 20px;font-weight:600; color:#424242;">This is a sample title</h2>
-                <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description his
-                    is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description </p>
-                <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description his
-                    is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description </p>
-                <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description his
-                    is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description </p>
-            </div>
+            @endif
             <div class="col-md-4">
                 @foreach($book->terms()->orderBy('order')->get() as $term)
                     <div>
                         <a data-toggle="collapse" href="#collapse{{$term->id}}" class="collapsed" aria-expanded="false">
                             <div style="background:#138edc; color:white; padding:10px">
-                                <div class="row">
-                                    <div class="col-xs-10">
+                                <div style="display: flex; flex-direction: row; justify-content: space-between">
+                                    <div>
                                         <p style="font-weight: 600; font-size:18px">{{$term->name}}</p>
-                                        <p style="font-weight: 200;">{{$term->description}}</p>
+                                        <p style="font-weight: 200;">{{$term->short_description}}</p>
                                     </div>
-                                    <div class="col-xs-1">
+                                    <div>
                                         <i style="font-size:25px" class="fa fa-angle-down" aria-hidden="true"></i>
                                     </div>
                                 </div>
-
                             </div>
                         </a>
                         <br>
-                        <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
+                        <div id="collapse{{$term->id}}" aria-expanded="false"
+                             class="collapse {{$term->id == $lesson->term->id ? 'show' : ''}}" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
-                                <div class="row">
-                                    <a href="" style="color:black">
-                                        <div class="col-xs-1" style="font-size:20px;color:#138edc">
-                                            <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                        </div>
-                                        <div class="col-xs-10">
-                                            <p style="font-weight: 600">{{$lesson->name}}</p>
-                                            <p>{{$lesson->description}}</p>
-                                        </div>
-                                    </a>
-                                </div>
+
+                                <a href="/sach/{{$book->id}}/{{$lesson->id}}"
+                                   style="color:black; display: flex; flex-direction: row; cursor: pointer">
+                                    <div style="font-size:20px;color:#138edc;">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    </div>
+                                    <div style="padding-left: 10px">
+                                        <p style="font-weight: 600">{{$lesson->name}}</p>
+                                        <p>{{$lesson->description}}</p>
+                                    </div>
+                                </a>
                             @endforeach
                         </div>
                     </div>

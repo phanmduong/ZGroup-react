@@ -4,6 +4,7 @@ namespace Modules\Elight\Http\Controllers;
 
 use App\Course;
 use App\Good;
+use App\Lesson;
 use App\Product;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -68,14 +69,23 @@ class ElightController extends Controller
         );
     }
 
-    public function book($subfix, $book_id)
+    public function book($subfix, $book_id, $lesson_id = null)
     {
+        $lesson = Lesson::find($lesson_id);
+
         $book = Course::find($book_id);
         if ($book == null) {
             return view('elight::404-not-found');
         }
+
+        if ($lesson == null) {
+            $term = $book->terms()->orderBy('order')->first();
+            $lesson = $term->lessons()->orderBy('order')->first();
+        }
+
         return view('elight::book', [
             'book' => $book,
+            'lesson' => $lesson
         ]);
     }
 
