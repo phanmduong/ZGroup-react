@@ -130,7 +130,9 @@ class AlibabaManageApiController extends ManageApiController
             $users_id = User::where('email', 'like', '%' . $search . '%')
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('name', 'like', '%' . $search . '%')->get()->pluck('id')->toArray();
-            $registers = $gen->registers()->whereIn('user_id', $users_id);
+            $registers = $gen->registers()->where(function ($q) use ($search, $users_id) {
+                $q->whereIn('user_id', $users_id)->orWhere("code", 'like', '%' . $search . '%');
+            })
         } else {
             $registers = $gen->registers();
         }
