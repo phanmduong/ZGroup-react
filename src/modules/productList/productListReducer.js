@@ -196,6 +196,14 @@ export default function productListReducer(state = initialState.productList, act
                 }
             };
         }
+        case types.SHUT_DOWN_SAME_PRODUCT_MODAL:
+            return {
+                ...state,
+                modalInProduct: {
+                    ...state.modalInProduct,
+                    sameProductModal: false
+                }
+            };
         default:
             return state;
     }
