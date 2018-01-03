@@ -20,7 +20,6 @@ class AddTermsTable extends Migration
             $table->string('image_url');
             $table->longText('description');
             $table->integer('order');
-            $table->softDeletes();
             $table->timestamps();
         });
         Schema::table('lessons', function (Blueprint $table) {
