@@ -96,11 +96,11 @@
                         <a data-toggle="collapse" href="#collapse{{$term->id}}" class="collapsed" aria-expanded="false">
                             <div style="background:#138edc; color:white; padding:10px">
                                 <div class="row">
-                                    <div class="col-xs-10">
+                                    <div class="col-lg-11 col-sm-10">
                                         <p style="font-weight: 600; font-size:18px">{{$term->name}}</p>
                                         <p style="font-weight: 200;">{{$term->description}}</p>
                                     </div>
-                                    <div class="col-xs-1">
+                                    <div class="col-lg-1 col-sm-2" style="padding-left: 0">
                                         <i style="font-size:25px" class="fa fa-angle-down" aria-hidden="true"></i>
                                     </div>
                                 </div>
