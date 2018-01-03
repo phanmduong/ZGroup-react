@@ -17,4 +17,5 @@ socketEnv.js
 .*
 /public/render-landingpage/tmp/*
 /public/landing-page/*
+/public/landingpage-libs/elements/preview_*.html
 

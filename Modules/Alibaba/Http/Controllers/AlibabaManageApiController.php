@@ -130,7 +130,9 @@ class AlibabaManageApiController extends ManageApiController
             $users_id = User::where('email', 'like', '%' . $search . '%')
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('name', 'like', '%' . $search . '%')->get()->pluck('id')->toArray();
-            $registers = $gen->registers()->whereIn('user_id', $users_id);
+            $registers = $gen->registers()->where(function ($q) use ($search, $users_id) {
+                $q->whereIn('user_id', $users_id)->orWhere("code", 'like', '%' . $search . '%');
+            });
         } else {
             $registers = $gen->registers();
         }
@@ -181,7 +183,7 @@ class AlibabaManageApiController extends ManageApiController
             $register->study_time = 1;
             $user = $register->user;
             foreach ($user->registers()->where('id', '!=', $register->id)->get() as $r) {
-                if ($r->studyClass->course_id == $register->studyClass->course_id) {
+                if ($r->studyClass()->withTrashed()->first()->course_id == $register->studyClass()->withTrashed()->first()->course_id) {
                     $register->study_time += 1;
                 }
             }

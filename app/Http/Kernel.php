@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\PreflightResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel

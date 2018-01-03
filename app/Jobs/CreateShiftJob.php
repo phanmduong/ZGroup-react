@@ -68,16 +68,16 @@ class CreateShiftJob extends Job implements ShouldQueue
             }
         }
 
-        $role_ids = Tab::find(35)->roles->pluck('id')->unique()->toArray();
-        $roles = Role::whereIn('id', $role_ids)->get();
-        if ($week == 0) {
-            $week = 1;
-        }
-        foreach ($roles as $role) {
-            $users = $role->users;
-            foreach ($users as $user) {
-                $this->emailService->send_mail_regis_shift($user, $week, $current_gen, ['test@colorme.vn']);
-            }
-        }
+//        $role_ids = Tab::find(35)->roles->pluck('id')->unique()->toArray();
+//        $roles = Role::whereIn('id', $role_ids)->get();
+//        if ($week == 0) {
+//            $week = 1;
+//        }
+//        foreach ($roles as $role) {
+//            $users = $role->users;
+//            foreach ($users as $user) {
+//                $this->emailService->send_mail_regis_shift($user, $week, $current_gen, ['test@colorme.vn']);
+//            }
+//        }
     }
 }
