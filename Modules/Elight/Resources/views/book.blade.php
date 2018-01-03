@@ -87,7 +87,7 @@
                                 <div style="display: flex; flex-direction: row; justify-content: space-between">
                                     <div>
                                         <p style="font-weight: 600; font-size:18px">{{$term->name}}</p>
-                                        <p style="font-weight: 200;">{{$term->short_description}}</p>
+                                        <p style="font-weight: 200;">{{$term->description}}</p>
                                     </div>
                                     <div>
                                         <i style="font-size:25px" class="fa fa-angle-down" aria-hidden="true"></i>
