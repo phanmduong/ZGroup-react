@@ -55,12 +55,13 @@
 
         <div class="row">
             <div class="col-md-12">
-                <h1 style="font-size: 30px;font-weight:600; color:#424242;">This is a sample title</h1>
-                <p>This is a sample description</p>
+                <h1 style="font-size: 30px;font-weight:600; color:#424242;" id="lesson_title">This is a sample
+                    title</h1>
+                <p id="lesson_short_description">This is a sample description</p>
                 <br>
             </div>
             <div class="col-md-8">
-                <div style="width: 100%;
+                <div id="lesson_image" style="width: 100%;
                                     background: url(https://www.timeshighereducation.com/sites/default/files/istock-619066144.jpg);
                                     background-size: cover;
                                     background-position: center;
@@ -72,23 +73,9 @@
                                 type="audio/mp3">
                     </audio>
                 </div>
-
-                <h2 style="font-size: 20px;font-weight:600; color:#424242;">This is a sample title</h2>
                 <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description his
-                    is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description </p>
-                <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description his
-                    is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description </p>
-                <br>
-                <p>This is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description his
-                    is a sample description his is a sample description his is a sample description his is a sample
-                    description his is a sample description his is a sample description his is a sample description </p>
+                <div id="lesson_description">
+                </div>
             </div>
             <div class="col-md-4">
                 @foreach($book->terms()->orderBy('order')->get() as $term)
@@ -110,7 +97,8 @@
                         <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
-                                <a href="" style="color:black; display: flex; flex-direction: row;">
+                                <a style="color:black; display: flex; flex-direction: row;"
+                                   onclick="clickLesson({{$lesson}})">
                                     <div style="font-size:20px;color:#138edc;">
                                         <i class="fa fa-check-circle" aria-hidden="true"></i>
                                     </div>
@@ -152,4 +140,22 @@
         </div>
         <br><br><br>
     </div>
+    <script>
+        function clickLesson(lesson) {
+            var
+                media = this.closest('.players').querySelector('.mejs__container').id,
+                player = mejs.players[media]
+            ;
+
+            player.setSrc(lesson.audio_url + "?client_id={{config("app.sound_cloud_client_id")}}");
+            player.load();
+            if (!mejs.Features.isiOS && !mejs.Features.isAndroid) {
+                player.play();
+            }
+            $("#lesson_title").text(lesson.title);
+            $("#lesson_short_description").text(lesson.short_description);
+            $("#lesson_description").html(lesson.detail);
+            $("#lesson_image").html(lesson.image_url);
+        }
+    </script>
 @endsection
