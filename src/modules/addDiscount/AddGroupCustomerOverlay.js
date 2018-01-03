@@ -24,18 +24,21 @@ class AddGroupCustomerOverlay extends React.Component {
         let groupCustomer = this.props.groupCustomer;
         return (
             <div style={{position: "relative"}}>
-                <a className="btn btn-simple card-detail-btn-action"
-                   ref="target" onClick={() => this.toggle()}>
+
+
+                <a onClick={() => this.toggle()}
+                        className="btn btn-xs btn-main btn-rose">
                     {groupCustomer && groupCustomer.name ?
-                        <div style={{display: "flex"}}>
+                        <div style={{ alignItems : "center"}}>
                             {groupCustomer.name}
                         </div>
                         :
                         <span>
-                        <i className="material-icons">group</i> Chọn nhóm khách hàng
+                        <i className="material-icons">group</i>Chọn nhóm khách hàng
                         </span>
                     }
                 </a>
+
                 <Overlay
                     rootClose={true}
                     show={this.state.isShowModal}

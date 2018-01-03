@@ -69,7 +69,7 @@ class JobAssignmentContainer extends React.Component {
     closeInfoModal(){
         this.setState({showInfoModal: false});
     }
-    
+
     openExtendModal(work){
         this.setState({showExtendModal: true, work:work});
     }

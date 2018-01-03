@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import PopoverOverlay from "./PopoverOverlay";
 import {Modal} from 'react-bootstrap';
 
 
@@ -46,7 +45,7 @@ class ListChildCustomer extends React.Component {
                                 <th> Tiền trả hàng</th>
                                 <th> Tiền nợ</th>
                                 <th> Nhóm khách hàng</th>
-                                <th/>
+                                {/*<th/>*/}
                             </tr>
                             </thead>
                             <tbody>
@@ -65,29 +64,24 @@ class ListChildCustomer extends React.Component {
                                             <td>{customer.total_money}</td>
                                             <td>{customer.total_paid_money}</td>
                                             <td>{customer.debt}</td>
-                                            {/*<td>*/}
-                                            {/*<PopoverOverlay*/}
-                                            {/*customer={customer}*/}
-                                            {/*/>*/}
-                                            {/*</td>*/}
                                             <td>
                                                 <a onClick={() => {
                                                     this.openModalGroupCustomer(customer.groups);
-                                                }}>{customer.count_groups + " Nhóm"}</a>
+                                                }}>{(customer.count_groups? customer.count_groups : "0") + " Nhóm"}</a>
                                             </td>
-                                            <td>
-                                                <div className="btn-group-action">
-                                                    <div style={{display: 'inline-block'}}>
-                                                        <a data-toggle="tooltip" title type="button"
-                                                           rel="tooltip"
-                                                           data-original-title="Sửa"
-                                                           onClick={() => this.props.openFormDataInEdit(customer)}
-                                                        >
-                                                            <i className="material-icons">edit</i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            {/*<td>*/}
+                                                {/*<div className="btn-group-action">*/}
+                                                    {/*<div style={{display: 'inline-block'}}>*/}
+                                                        {/*<a data-toggle="tooltip" title type="button"*/}
+                                                           {/*rel="tooltip"*/}
+                                                           {/*data-original-title="Sửa"*/}
+                                                           {/*onClick={() => this.props.openFormDataInEdit(customer)}*/}
+                                                        {/*>*/}
+                                                            {/*<i className="material-icons">edit</i>*/}
+                                                        {/*</a>*/}
+                                                    {/*</div>*/}
+                                                {/*</div>*/}
+                                            {/*</td>*/}
                                         </tr>
 
                                     );

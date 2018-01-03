@@ -8,6 +8,7 @@ export function beginUpdateLoginForm() {
 }
 
 export function loginError() {
+    helper.showErrorNotification("Lỗi. Kiểm tra thông tin tài khoản");
     return {type: types.LOGIN_ERROR};
 }
 

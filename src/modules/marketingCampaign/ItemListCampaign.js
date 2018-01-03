@@ -29,7 +29,7 @@ class ItemListCampaign extends React.Component {
     }
 
     render() {
-        let url = `${BASE_URL}/register/${this.state.selectedCourse}/${this.props.user.id}/${this.props.campaign.id}`;
+        let url = `${BASE_URL}/classes/${this.state.selectedCourse}/${this.props.user.id}/${this.props.campaign.id}`;
         return (
             <tr>
                 <td>

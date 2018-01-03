@@ -56,7 +56,10 @@ import departmentReducer from "../modules/manageDepartment/departmentReducer";
 import jobAssignmentReducer from "../modules/jobAssignment/jobAssignmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
 import firstLoginReducer from "../modules/firstLogin/firstLoginReducer";
-
+import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSessionsReducer";
+import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
+import historyWorkShiftRegistersReducer from "../modules/historyWorkShiftRegisters/historyWorkShiftRegistersReducer";
+import landingPagesReducer from "../modules/landingpage/landingPagesReducer";
 
 
 const appReducer = combineReducers({
@@ -117,6 +120,11 @@ const appReducer = combineReducers({
     groupCustomers : groupCustomerReducer,
     jobAssignment : jobAssignmentReducer,
     firstLogin : firstLoginReducer,
+    workShiftSessions: workShiftSessionsReducer,
+    workShiftRegisters: workShiftRegistersReducer,
+    historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
+    landingPages : landingPagesReducer,
+
 });
 
 const rootReducer = (state, action) => {

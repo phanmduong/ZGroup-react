@@ -199,6 +199,7 @@ export const ORDER_STATUS_COLORS = {
 
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
+export const MAX_TIME_WORK_SHIFT_REIGSTER = '20:00:00';
 export const DATE = 60 * 60 * 24;
 const LINK_UPLOAD_IMAGE_EDITOR = env.MANAGE_API_URL + '/upload-image-editor';
 
@@ -209,6 +210,9 @@ export function linkUploadImageEditor() {
 
 export const DATETIME_FILE_NAME_FORMAT = "DD_MM_YYYY";
 export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
+export const DATETIME_VN_FORMAT = "DD/MM/YYYY HH:mm:ss";
 export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
 export const FULLTIME_FORMAT = "HH:mm:ss";
 export const TIME_FORMAT_H_M = "HH:mm";
+
+export const MAX_USER_SHOW_WORK_SHIFT = 5;

@@ -44,13 +44,19 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 }
             };
         case types.LOADED_CUSTOMER_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER:
+            stringId = addStringIdInModal(action.groupCustomerForm.customers);
             return {
                 ...state,
                 totalCustomerInModalPages: action.total_pages,
                 isLoadingModal: false,
                 groupCustomerForm : {
                     ...state.groupCustomerForm,
-                    customersShowInModal : action.customers,
+                    customersShowInModal : action.groupCustomerForm.customers,
+                    name : action.groupCustomerForm.name,
+                    description : action.groupCustomerForm.description,
+                    color : action.groupCustomerForm.color,
+                    id : action.groupCustomerForm.id,
+                    stringId : stringId,
                 },
             };
         case types.LOADED_CUSTOMER_IN_MODAL_ERROR_IN_GROUP_CUSTOMER:
@@ -58,6 +64,30 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 ...state,
                 isLoadingModal: false,
 
+            };
+
+        //             LOAD COUPONS IN MODAL
+
+        case types.BEGIN_LOAD_COUPON_IN_MODAL_IN_GROUP_CUSTOMER :
+            return {
+                ...state,
+                ...{
+                    isLoadingCoupon: true,
+                }
+            };
+        case types.LOADED_COUPON_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER:
+            return {
+                ...state,
+                isLoadingCoupon: false,
+                groupCustomerForm : {
+                    ...state.groupCustomerForm,
+                    coupons : action.coupons,
+                },
+            };
+        case types.LOADED_COUPON_IN_MODAL_ERROR_IN_GROUP_CUSTOMER:
+            return {
+                ...state,
+                isLoadingCoupon: false,
             };
 
 
@@ -80,19 +110,38 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 isSaving: true,
             };
 
+        //           ADD COUPON
+        case types.ADD_COUPON_SUCCESS :
+            return {
+                ...state,
+                isSavingCoupon: false,
+            };
+        case types.ADD_COUPON_ERROR :
+            return {
+                ...state,
+                isSavingCoupon: false,
+            };
+        case types.BEGIN_ADD_COUPON :
+            return {
+                ...state,
+                isSavingCoupon: true,
+            };
+
+
+
 
         //     EDIT
-        case types.BEGIN_EDIT_SUPPLIER:
+        case types.BEGIN_EDIT_GROUP_CUSTOMER:
             return {
                 ...state,
                 isSaving: true,
             };
-        case types.EDIT_SUPPLIER_ERROR:
+        case types.EDIT_GROUP_CUSTOMER_ERROR:
             return {
                 ...state,
                 isSaving: false,
             };
-        case types.EDIT_SUPPLIER_SUCCESS:
+        case types.EDIT_GROUP_CUSTOMER_SUCCESS:
             return {
                 ...state,
                 isSaving: false,
@@ -168,7 +217,20 @@ export default function customerReducer(state = initialState.groupCustomers, act
                     stringId: state.groupCustomerForm.stringId.filter((id) => id !== action.customer.id),
                 },
             };
+        case types.UPDATE_DISCOUNT_FORM_DATA_IN_GROUP_CUSTOMER :
+            return {
+                ...state,
+                coupon: action.coupon,
+            };
 
+        case types.GENERATE_RANDOM_CODE_IN_GROUP_CUSTOMER :
+            return {
+                ...state,
+                coupon: {
+                    ...state.coupon,
+                    name : action.randomCode,
+                },
+            };
 
         default :
             return state;
@@ -188,20 +250,20 @@ function changeCustomer(id, customersList) {
 
 function addStringId(groupCustomersList) {
     groupCustomersList = groupCustomersList.map(function (groupCustomer) {
-        // stringId = groupCustomer.customers.reduce(function(stringId , customer){return [customer.id,...stringId];});
-        // groupCustomer.stringId = [5552,5553];
-        // stringId = [];
-        // for (let i =0; i < groupCustomer.customers.length; i++){
-        //     stringId = [customers[i].id, ...stringId] ;
-        // }
         stringId = [];
         stringId = groupCustomer.customers.map((customer) => {
-            // return [...stringId , customer.id]; // tai sao khong dung duoc
             return customer.id;
         });
         return {...groupCustomer, stringId: stringId};
     });
     return groupCustomersList;
+}
+function addStringIdInModal(customers) {
+        stringId = [];
+        stringId = customers.map((customer) => {
+            return customer.id;
+        });
+    return stringId;
 }
 
 

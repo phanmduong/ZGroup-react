@@ -9,6 +9,7 @@ import JobAssignmentContainer from "../modules/jobAssignment/JobAssignmentContai
 import CreateJobAssignmentContainer from "../modules/jobAssignment/CreateJobAssignmentContainer";
 import InfoStaffContainer from "../modules/manageStaff/InfoStaffContainer";
 import ProfileContainer from "../modules/profile/ProfileContainer";
+
 /**
  * Tab Nhân sự
  */
@@ -79,5 +80,5 @@ export default [
         // path: "manage-department edit",
         path: "/hr/job-assignment/edit/:workId",
         component: CreateJobAssignmentContainer
-    },
+    }
 ];

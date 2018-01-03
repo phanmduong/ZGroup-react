@@ -490,6 +490,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
         case types.CHANGE_DEPARTMENT_STAFF_ERROR:
             return {
                 ...state
+
             };
         default:
             return state;

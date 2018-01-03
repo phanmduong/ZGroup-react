@@ -5,7 +5,6 @@ import Avatar from "../../components/common/Avatar";
 import * as helper from "../../helpers/helper";
 
 
-
 class ListStaffs extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -35,6 +34,7 @@ class ListStaffs extends React.Component {
                                         :
                                         <div></div>
                                 }
+
                             </div>
                         </ListGroupItem>
                     )

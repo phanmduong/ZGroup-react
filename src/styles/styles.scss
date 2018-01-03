@@ -600,7 +600,6 @@ div#datatables-goodorders_length label {
   }
 }
 
-
 .container-for-images {
   position: relative;
   margin-top: 10px;
@@ -643,6 +642,25 @@ div#datatables-goodorders_length label {
 
 .container-for-images:hover .button-for-images {
   opacity: 1;
+}
+
+.avatar-work-shift {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  vertical-align: middle;
+  display: inline-block;
+  float: right;
+  margin-left: 3px
+}
+
+.text-center {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.cursor-pointer {
+  cursor: pointer
 }
 
 img .product-image {

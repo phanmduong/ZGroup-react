@@ -13,13 +13,13 @@ class EditGood extends React.Component {
         this.storeGood = this.storeGood.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({
             selectedGood: this.props.good
         });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         helper.setFormValidation("#form-edit-import_good");
     }
 
@@ -47,29 +47,43 @@ class EditGood extends React.Component {
     render() {
         return (
             <div>
-                <form id="form-edit-import_good"onSubmit={(e) => {
+                <form id="form-edit-import_good" onSubmit={(e) => {
                     e.preventDefault();
                 }}>
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <FormInputText
                                 label="Tên sản phẩm"
-                                disabled
                                 value={this.state.selectedGood.name}
+                                updateFormData={this.updateFormData}
+                                disabled={this.state.selectedGood.id}
                                 name="name"
+                                required
                             />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <FormInputText
                                 label="Mã sản phẩm"
-                                disabled
                                 value={this.state.selectedGood.code}
+                                updateFormData={this.updateFormData}
                                 name="code"
+                                disabled={this.state.selectedGood.id}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-4">
+                            <FormInputText
+                                label="Barcode"
+                                value={this.state.selectedGood.barcode}
+                                updateFormData={this.updateFormData}
+                                disabled={this.state.selectedGood.id}
+                                name="barcode"
+                                required
                             />
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <FormInputText
                                 label="Số lượng"
                                 value={this.state.selectedGood.quantity}
@@ -79,12 +93,21 @@ class EditGood extends React.Component {
                                 required
                             />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <FormInputText
                                 label="Giá vốn"
                                 value={helper.dotNumber(this.state.selectedGood.import_price)}
                                 updateFormData={this.updateFormData}
                                 name="import_price"
+                                required
+                            />
+                        </div>
+                        <div className="col-md-4">
+                            <FormInputText
+                                label="Giá bán"
+                                value={helper.dotNumber(this.state.selectedGood.price)}
+                                updateFormData={this.updateFormData}
+                                name="price"
                                 required
                             />
                         </div>

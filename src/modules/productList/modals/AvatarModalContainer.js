@@ -57,35 +57,36 @@ class AvatarModalContainer extends React.Component {
     uploadEditProduct(e) {
         e.preventDefault();
         this.props.productListAction.uploadEditProduct(
-            this.props.productEditing.productPresent,
-            this.props.productEditing.manufacture_id,
-            this.props.productEditing.good_category_id
+            this.props.productAvatar,
+            this.props.manufacture_id,
+            this.props.good_category_id
         );
     }
 
     handleProduct(e) {
         const field = e.target.name;
-        let productPresent = {...this.props.productEditing.productPresent};
-        productPresent[field] = e.target.value;
-        this.props.modalProductAction.handleProduct(productPresent);
+        let product = {...this.props.productAvatar};
+        product[field] = e.target.value;
+        this.props.modalProductAction.handleAvatarProduct(product);
     }
 
     selectStatusProduct(e) {
         const field = e.target.name;
-        let productPresent = {...this.props.productEditing.productPresent};
+        let product = {...this.props.productAvatar};
         e.target.checked ? (
-            productPresent[field] = 1
+            product[field] = 1
         ) : (
-            productPresent[field] = 0
+            product[field] = 0
         );
-        this.props.modalProductAction.handleProduct(productPresent);
+        this.props.modalProductAction.handleProduct(product);
     }
 
     render() {
+        let product = this.props.productAvatar;
         return (
             <Modal show={this.props.avatarModal}
-                   onHide={() => this.props.showAvatarModal(this.props.productEditing.productPresent)}>
-                <a onClick={() => this.props.showAvatarModal(this.props.productEditing.productPresent)}
+                   onHide={() => this.props.showAvatarModal(product)}>
+                <a onClick={() => this.props.showAvatarModal(product)}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title className="modal-title">Thông tin sản phẩm</Modal.Title>
@@ -97,12 +98,12 @@ class AvatarModalContainer extends React.Component {
                                 <legend>Ảnh đại</legend>
                                 <div className="text-center">
                                     {
-                                        this.props.productEditing.isUploadingAvatar ? (
+                                        this.props.isUploadingAvatar ? (
                                             <div className="progress">
                                                 <div className="progress-bar" role="progressbar" aria-valuenow="70"
                                                      aria-valuemin="0" aria-valuemax="100"
-                                                     style={{width: `${this.props.productEditing.percent}%`}}>
-                                                    <span className="sr-only">{this.props.productEditing.percent}% Complete</span>
+                                                     style={{width: `${this.props.percent}%`}}>
+                                                    <span className="sr-only">{this.props.percent}% Complete</span>
                                                 </div>
                                             </div>
                                         ) : (
@@ -117,7 +118,7 @@ class AvatarModalContainer extends React.Component {
                                                 display: "inline-block"
                                             }}>
                                                 <img
-                                                    src={this.props.productEditing.productPresent.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
+                                                    src={product.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
                                                     style={{
                                                         lineHeight: "164px",
                                                         height: "auto",
@@ -135,7 +136,7 @@ class AvatarModalContainer extends React.Component {
                                     }
                                     <div>
                                         {
-                                            this.props.productEditing.productPresent.avatar_url === "" ? (
+                                            product.avatar_url === "" ? (
                                                 <UploadButton
                                                     className="btn btn-rose btn-xs btn-round text-center"
                                                     onChange={this.changeAvatar}>
@@ -173,7 +174,7 @@ class AvatarModalContainer extends React.Component {
                                 <input type="text"
                                        name="name"
                                        className="form-control"
-                                       value={this.props.productEditing.productPresent.name}
+                                       value={product.name}
                                        onChange={this.handleProduct}/>
                                 <span className="material-input"/>
                             </div>
@@ -182,7 +183,7 @@ class AvatarModalContainer extends React.Component {
                                 <input type="text"
                                        name="price"
                                        className="form-control"
-                                       value={this.props.productEditing.productPresent.price}
+                                       value={product.price}
                                        onChange={this.handleProduct}/>
                                 <span className="material-input"/>
                             </div>
@@ -196,7 +197,7 @@ class AvatarModalContainer extends React.Component {
                                                         <label>
                                                             <input type="checkbox"
                                                                    name="sale_status"
-                                                                   checked={this.props.productEditing.productPresent.sale_status}
+                                                                   checked={product.sale_status}
                                                                    onChange={this.selectStatusProduct}/>
                                                             <span className="checkbox-material">
                                                                 <span className="check"/>
@@ -214,7 +215,7 @@ class AvatarModalContainer extends React.Component {
                                                     <label>
                                                         <input type="checkbox"
                                                                name="display_status"
-                                                               checked={this.props.productEditing.productPresent.display_status}
+                                                               checked={product.display_status}
                                                                onChange={this.selectStatusProduct}/>
                                                         <span className="checkbox-material">
                                                                 <span className="check"/>
@@ -232,7 +233,7 @@ class AvatarModalContainer extends React.Component {
                                                     <label>
                                                         <input type="checkbox"
                                                                name="highlight_status"
-                                                               checked={this.props.productEditing.productPresent.highlight_status}
+                                                               checked={product.highlight_status}
                                                                onChange={this.selectStatusProduct}/>
                                                         <span className="checkbox-material">
                                                                 <span className="check"/>
@@ -249,7 +250,7 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Nhà sản xuất</label>
                                 <Select
                                     name="manufactures"
-                                    value={this.props.productEditing.manufacture_id}
+                                    value={this.props.manufacture_id}
                                     options={this.props.manufactures.map((manufacture) => {
                                         return {
                                             ...manufacture,
@@ -264,7 +265,7 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Chọn nhóm sản phẩm</label>
                                 <Select
                                     name="categories"
-                                    value={this.props.productEditing.good_category_id}
+                                    value={this.props.good_category_id}
                                     options={this.props.categories.map((category) => {
                                         return {
                                             ...category,
@@ -290,7 +291,7 @@ class AvatarModalContainer extends React.Component {
                                         <button rel="tooltip" data-placement="top" title=""
                                                 data-original-title="Remove item" type="button"
                                                 className="btn btn-danger btn-round" data-dismiss="modal"
-                                                onClick={() => this.props.showAvatarModal(this.props.productEditing.productPresent)}>
+                                                onClick={() => this.props.showAvatarModal(product)}>
                                             <i className="material-icons">close</i> Huỷ
                                         </button>
                                     </div>
@@ -306,22 +307,30 @@ class AvatarModalContainer extends React.Component {
 
 AvatarModalContainer.propTypes = {
     avatarModal: PropTypes.bool,
-    productEditing: PropTypes.object.isRequired,
+    productAvatar: PropTypes.object.isRequired,
     showAvatarModal: PropTypes.func.isRequired,
     modalProductAction: PropTypes.object.isRequired,
     productListAction: PropTypes.object.isRequired,
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
-    isModalUpdating: PropTypes.bool
+    isModalUpdating: PropTypes.bool,
+    isUploadingAvatar: PropTypes.bool,
+    percent: PropTypes.number.isRequired,
+    manufacture_id: PropTypes.number.isRequired,
+    good_category_id: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        productEditing: state.productList.productEditing,
+        productAvatar: state.productList.productEditing.productAvatar,
+        isUploadingAvatar: state.productList.productEditing.isUploadingAvatar,
         avatarModal: state.productList.modalInProduct.avatarModal,
         categories: state.productList.categories,
         manufactures: state.productList.manufactures,
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
+        percent: state.productList.productEditing.percent,
+        manufacture_id: state.productList.productEditing.manufacture_id,
+        good_category_id: state.productList.productEditing.good_category_id
     };
 }
 

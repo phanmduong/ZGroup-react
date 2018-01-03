@@ -69,10 +69,10 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     ...state.order,
                     isLoading: false,
                     error: false,
-                    infoOrder: action.infoOrder,
-                    infoUser: action.infoUser,
-                    infoShip: action.infoShip,
-                    goodOrders: action.goodOrders,
+                    total: action.total,
+                    paid: action.paid,
+                    debt: action.debt,
+                    order: action.order,
                 }
             };
         case types.LOAD_DETAIL_ORDER_ERROR:
@@ -116,7 +116,9 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 orders: changeStatusOrder(state.orders, action.order_id, action.status),
                 order: {
-                    infoOrder: {
+                    ...state.order,
+                    order: {
+                        ...state.order.order,
                         status: action.status
                     }
                 }
@@ -127,6 +129,38 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isUpdate: action.isUpdate || false,
                 shipGoodModal: !state.shipGoodModal
             };
+        case types.TOGGLE_ADD_NOTE_MODAL:
+            return {
+                ...state,
+                addNoteModal: !state.addNoteModal
+            };
+        case types.HANDLE_ADD_NOTE_MODAL:
+            return {
+                ...state,
+                orderNote: action.order
+            };
+        case types.BEGIN_EDIT_NOTE_GOOD_ORDER:
+            return {
+                ...state,
+                isSendingNote: true
+            };
+        case types.EDIT_NOTE_SUCCESS_GOOD_ORDER: {
+            let orders = state.orders.map(order => {
+                if (order.id === action.order.id) {
+                    return {
+                        ...order,
+                        note: action.order.note
+                    };
+                }
+                return order;
+            });
+            return {
+                ...state,
+                isSendingNote: false,
+                addNoteModal: false,
+                orders: orders
+            };
+        }
         case types.HANDLE_SHIP_ORDER_BEGIN: {
             let products = {...state.shippingGood.products};
             action.order.good_orders.forEach(product => {
@@ -137,17 +171,18 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             });
             return {
                 ...state,
+                orderId: action.order.id,
+                labelId: action.order.label_id,
                 shippingGood: {
                     ...state.shipGoodModal,
                     products,
                     order: {
                         ...state.shippingGood.order,
                         id: action.order.code,
-                        tel: action.order.customer.phone,
-                        name: action.order.customer.name,
-                        address: action.order.customer.address,
-                        value: action.order.total,
-                        orderId: action.order.id
+                        tel: action.order.customer ? action.order.customer.phone : '',
+                        name: action.order.customer ? action.order.customer.name : '',
+                        address: action.order.customer ? action.order.customer.address : '',
+                        value: action.order.total
                     }
                 }
             };
@@ -165,18 +200,63 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 isSendingShipOrder: true
             };
-        case types.SEND_SHIP_ORDER_COMPLETE:
+        case types.SEND_SHIP_ORDER_COMPLETE: {
+            let orders = state.orders.map(order => {
+                if (action.orderId === order.id) {
+                    return {
+                        ...order,
+                        label_id: action.labelId
+                    };
+                }
+                return order;
+            });
             return {
                 ...state,
+                orders: orders,
                 isSendingShipOrder: false,
                 shipGoodModal: false,
                 shippedGoodResponse: action.shippedGoodResponse
             };
+        }
         case types.SEND_SHIP_ORDER_FAILED:
             return {
                 ...state,
                 isSendingShipOrder: false,
                 shipGoodModal: false
+            };
+        case types.UPDATE_ORDER_FORM_DATA:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    order: action.order,
+                }
+            };
+
+
+        case types.BEGIN_EDIT_ORDER:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isSaving: true,
+                }
+            };
+        case types.EDIT_ORDER_ERROR:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isSaving: false,
+                }
+            };
+        case types.EDIT_ORDER_SUCCESS:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isSaving: false,
+                }
             };
         default:
             return state;

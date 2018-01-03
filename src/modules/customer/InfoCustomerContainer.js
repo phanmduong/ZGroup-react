@@ -98,7 +98,6 @@ class InfoCustomerContainer extends React.Component {
                                         <h4 className="card-title">Chi tiết khách hàng</h4>
                                     </div>
                                     <div className="col-md-2" style={{marginLeft: 20}}>
-
                                         <AddOverlay
                                             items={this.props.groupsInOverlay}
                                             name="Nhóm khách hàng"

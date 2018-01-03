@@ -19,7 +19,9 @@ class AddStaffComponent extends React.Component {
     }
 
     render() {
+
         let {name, email, role_id, username, color, base_id, department_id, salary_revenue,salary_allowance,salary} = this.props.staffForm;
+
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role_id == roleData.id;
         })[0];
@@ -121,8 +123,8 @@ class AddStaffComponent extends React.Component {
                                             </select>
                                         </div>
                                         {
-                                            this.props.roles && (this.props.role == 2) ?
 
+                                            this.props.roles && (this.props.role == 2) ?
                                                 <div>
                                                     <FormInputText
                                                         label="Lương cơ bản"

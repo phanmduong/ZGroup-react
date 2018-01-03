@@ -9,7 +9,8 @@ import * as helper from '../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import RuleContainer from '../modules/rule/RuleContainer';
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
-import FirstLoginContainer from '../modules/firstLogin/FirstLoginContainer'
+import FirstLoginContainer from '../modules/firstLogin/FirstLoginContainer';
+
 let self;
 
 class AppContainer extends React.Component {
@@ -85,7 +86,9 @@ class AppContainer extends React.Component {
         return (
             <div>
                 <GlobalLoadingContainer/>
+
                 <FirstLoginContainer/>
+
                 <App
                     pathname={this.props.location.pathname}
                     {...this.props}
