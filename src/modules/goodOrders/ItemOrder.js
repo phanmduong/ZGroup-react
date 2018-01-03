@@ -58,6 +58,7 @@ class ItemOrder extends React.Component {
 
     render() {
         const order = this.props.order;
+        let order_note = order.note.length < 16 ? order.note.length : order.note.substring(0, 15) + "...";
         return (
             <tr>
                 <td>
@@ -125,7 +126,7 @@ class ItemOrder extends React.Component {
                     <a data-toggle="tooltip" title="Ghi chú" type="button"
                        rel="tooltip"
                        onClick={() => this.props.showAddNoteModal(order)}>
-                        <i className="material-icons">edit</i>
+                        {order_note}
                     </a>
                 </td>
             </tr>

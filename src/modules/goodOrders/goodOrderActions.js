@@ -19,7 +19,7 @@ export function loadAllOrders(page = 1, search, startTime, endTime, staff, statu
             const orderRes = data[1];
             dispatch({
                 type: types.LOAD_GOOD_ORDERS_SUCCESS,
-                totalOrder: infoRes.data.data.total_order,
+                totalOrder: infoRes.data.data.total_orders,
                 totalMoney: infoRes.data.data.total_money,
                 totalPaidMoney: infoRes.data.data.total_paid_money,
                 orders: orderRes.data.orders,
