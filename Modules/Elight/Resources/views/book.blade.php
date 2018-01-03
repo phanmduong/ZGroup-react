@@ -54,29 +54,31 @@
         <br><br><br><br>
 
         <div class="row">
-            <div class="col-md-12">
-                <h1 style="font-size: 30px;font-weight:600; color:#424242;" id="lesson_title">This is a sample
-                    title</h1>
-                <p id="lesson_short_description">This is a sample description</p>
-                <br>
-            </div>
-            <div class="col-md-8">
-                <div id="lesson_image" style="width: 100%;
-                                    background: url(https://www.timeshighereducation.com/sites/default/files/istock-619066144.jpg);
-                                    background-size: cover;
-                                    background-position: center;
-                                    padding-bottom: 70%;">
+            @if ($lesson)
+                <div class="col-md-12">
+                    <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson->name}}</h1>
+                    <p>{{$lesson->short_description}}</p>
+                    <br>
                 </div>
-                <div class="media-wrapper">
-                    <audio id="player2" preload="none" controls style="max-width:100%;">
-                        <source src="https://api.soundcloud.com/tracks/359227079/stream?client_id=95f22ed54a5c297b1c41f72d713623ef"
-                                type="audio/mp3">
-                    </audio>
+                <div class="col-md-8">
+                    <div id="lesson_image" style="width: 100%;
+                            background: url({{$lesson->image_url}});
+                            background-size: cover;
+                            background-position: center;
+                            padding-bottom: 70%;">
+                    </div>
+                    <div class="media-wrapper">
+                        <audio id="player2" preload="none" controls style="max-width:100%;">
+                            <source src="{{$lesson->audio_url . '?client_id='.config("app.sound_cloud_client_id")}}"
+                                    type="audio/mp3">
+                        </audio>
+                    </div>
+                    <br>
+                    <div>
+                        {!! $lesson->detail !!}
+                    </div>
                 </div>
-                <br>
-                <div id="lesson_description">
-                </div>
-            </div>
+            @endif
             <div class="col-md-4">
                 @foreach($book->terms()->orderBy('order')->get() as $term)
                     <div>
@@ -97,16 +99,16 @@
                         <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
-                                <div style="color:black; display: flex; flex-direction: row; cursor: pointer"
-                                     onclick="clickLesson('{{$lesson->name}}', '{{$lesson->audio_url}}', '{{$lesson->description}}', '', '{{$lesson->image_url}}')">
-                                    <div style="font-size:20px;color:#138edc;">
-                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                    </div>
-                                    <div style="padding-left: 10px">
-                                        <p style="font-weight: 600">{{$lesson->name}}</p>
-                                        <p>{{$lesson->description}}</p>
-                                    </div>
+                                <a href="/book/{{$book->id}}/{{$lesson->id}}"
+                                   style="color:black; display: flex; flex-direction: row; cursor: pointer"
+                                <div style="font-size:20px;color:#138edc;">
+                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
                                 </div>
+                                <div style="padding-left: 10px">
+                                    <p style="font-weight: 600">{{$lesson->name}}</p>
+                                    <p>{{$lesson->description}}</p>
+                                </div>
+                                </a>
                             @endforeach
                         </div>
                     </div>
@@ -140,23 +142,4 @@
         </div>
         <br><br><br>
     </div>
-    <script>
-        function clickLesson(name, audio_url, description, detail, image_url) {
-            var
-                media = $(".media-wrapper .mejs__container").attr("id"),
-                player = mejs.players[media]
-            ;
-
-            player.setSrc(audio_url + "?client_id={{config("app.sound_cloud_client_id")}}");
-            player.load();
-            if (!mejs.Features.isiOS && !mejs.Features.isAndroid) {
-                player.play();
-            }
-            console.log(image_url);
-            $("#lesson_title").text(name);
-            $("#lesson_short_description").text(description);
-            $("#lesson_description").html(detail);
-            $('#lesson_image').css('background-image', 'url(' + image_url + ')')
-        }
-    </script>
 @endsection
