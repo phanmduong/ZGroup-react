@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Graphics\Repositories\BookRepository;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class NhatQuangShopManageController extends Controller
 {
@@ -36,7 +36,7 @@ class NhatQuangShopManageController extends Controller
     public function userOrder($subfix, Request $request)
     {
         $user = Auth::user();
-        $orders = $user->orders;
+        $orders = Order::where('user_id', '=', $user->id)->paginate(15);
         $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }

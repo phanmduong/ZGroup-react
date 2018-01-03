@@ -38,5 +38,6 @@
                 </table>
             </div>
     </div>
+    {{ $orders->links() }}
 
 @endsection
