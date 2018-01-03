@@ -35,8 +35,8 @@ class RegisterTransformer extends Transformer
             "phone" => $register->user->phone,
             'paid_status' => $register->status == 1,
             'time_to_reach' => $register->time_to_reach,
-            'course_avatar_url' => $register->studyClass->course->icon_url,
-            'course_money' => $register->studyClass->course->price,
+            'course_avatar_url' => $class->course->icon_url,
+            'course_money' => $class->course->price,
             'money' => $register->money,
             'study_time' => $register->study_time,
             'note' => $register->note,
@@ -51,12 +51,12 @@ class RegisterTransformer extends Transformer
             "is_delete" => $register->is_delete
         ];
 
-        if ($register->studyClass->room) {
-            $data['class']['room'] = $register->studyClass->room->name;
+        if ($class->room) {
+            $data['class']['room'] = $class->room->name;
         }
 
-        if ($register->studyClass->base) {
-            $data['class']['base'] = $register->studyClass->base->address;
+        if ($class->base) {
+            $data['class']['base'] = $class->base->address;
         }
 
         $data['call_status'] = call_status_text($register->call_status);

@@ -49,7 +49,7 @@
 
         </div>
 
-        <div class="row">
+        <div class="row" id="vuejs1">
             @foreach($books as $book)
                 <div class="col-md-6 book-item">
                     <div class="card card-profile" style="border-radius:0; height: 90%">
@@ -77,14 +77,14 @@
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                             <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                                 <div>
-                                    <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
+                                    <a href="/book/{{$book['id']}}" class="btn btn-link btn-success">
                                         Xem thêm
                                     </a>
-                                    <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
-                                            class="btn btn-sm btn-success">
+                                    <button v-on:click="openModalBuy({{$book['id']}})"
+                                            onclick="fbq('track', 'AddToCart')"
+                                            class="btn btn-success" style="padding:3px;margin:3px;font-size:10px;">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i>
                                     </button>
-
                                 </div>
                                 <div>
                                     <a href="#pablo" class="btn btn-sm btn-danger">-{{$book['coupon_value']*100}}%</a>
@@ -136,10 +136,6 @@
                                     trong mỗi số của tạp chí.
                                 </p>
                                 <br>
-                                <button type="button" class="btn btn-outline-neutral btn-round">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Đặt mua ngay
-                                </button>
                             </div>
                             <br>
                         </div>
@@ -170,7 +166,7 @@
             </div>
 
         </div>
-        <div class="row">
+        <div class="row" id="vuejs2">
             @foreach($books as $book)
                 <div class="col-md-6 book-item">
                     <div class="card card-profile" style="border-radius:0; height: 90%">
@@ -196,13 +192,12 @@
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                             <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                                 <div>
-                                    <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
+                                    <a href="/book/{{$book['id']}}" class="btn btn-link btn-success">
                                         Xem thêm</a>
-                                    {{--<button data-toggle="modal" data-target="#modalBuy" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></button>--}}
-                                    <button onclick="openModalBuy({{$book["id"]}},{{$book['price']}})"
+                                    <button v-on:click="openModalBuy({{$book['id']}})"
+                                            onclick="fbq('track', 'AddToCart')"
                                             class="btn btn-sm btn-success">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i></button>
-
                                 </div>
                             </div>
                         </div>
@@ -324,10 +319,6 @@
                             trong mỗi số của tạp chí.
                         </p>
                         <br>
-                        <button type="button" class="btn btn-outline-default btn-round">
-                            <i class="fa fa-shopping-cart"></i>
-                            Đặt mua ngay
-                        </button>
                     </div>
                     <br>
                 </div>

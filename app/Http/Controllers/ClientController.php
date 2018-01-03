@@ -35,6 +35,10 @@ class ClientController extends Controller
         return view("client.base");
     }
 
+    public function book()
+    {
+        return view("client.book");
+    }
 
     public function hr()
     {
@@ -45,6 +49,7 @@ class ClientController extends Controller
     {
         return view("client.good");
     }
+
     public function work()
     {
         return view("client.work");
@@ -73,6 +78,16 @@ class ClientController extends Controller
     public function shift()
     {
         return view("client.shift");
+    }
+
+    public function workShift()
+    {
+        return view("client.workshift");
+    }
+
+    public function landingPage()
+    {
+        return view("client.landingpage");
     }
 
 }

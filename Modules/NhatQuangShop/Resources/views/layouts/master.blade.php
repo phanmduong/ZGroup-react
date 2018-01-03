@@ -9,6 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Nhật Quang Shop</title>
 
+    <meta name="google-signin-client_id"
+          content="852725173616-8jvub3lqquejv84gep11uuk0npsdtu3g.apps.googleusercontent.com">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -26,21 +28,169 @@
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
     </script>
+
+    <!-- Custom google sign in button -->
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script>
+        var googleUser = {};
+        var startApp = function () {
+            gapi.load('auth2', function () {
+                // Retrieve the singleton for the GoogleAuth library and set up the client.
+                auth2 = gapi.auth2.init({
+                    client_id: '852725173616-8jvub3lqquejv84gep11uuk0npsdtu3g.apps.googleusercontent.com',
+                    cookiepolicy: 'single_host_origin',
+                    // Request scopes in addition to 'profile' and 'email'
+                    //scope: 'additional_scope'
+                });
+                attachSignin(document.getElementById('googleSignInButton'));
+            });
+        };
+
+        function attachSignin(element) {
+            auth2.attachClickHandler(element, {},
+                function (googleUser) {
+                    var id_token = googleUser.getAuthResponse().id_token;
+                    var profile = googleUser.getBasicProfile();
+                    $("#global-loading").css("display", "block");
+                    axios.get("/api/google/tokensignin?id_token=" + id_token)
+                        .then(function (res) {
+                            if (res.data.status === 1) {
+                                navVue.changeLoginCondition(res.data.user);
+                            } else {
+                                $("#loginFailNoticeModal").modal("toggle");
+                            }
+                            $("#global-loading").css("display", "none");
+                        });
+                    console.log('ID: ' + id_token);
+                    console.log('Name: ' + profile.getName());
+                    console.log('Image URL: ' + profile.getImageUrl());
+                    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+                    // document.getElementById('name').innerText = "Signed in: " +
+                    //     googleUser.getBasicProfile().getName();
+                }, function (error) {
+                    console.log(JSON.stringify(error, undefined, 2));
+                });
+        }
+    </script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </head>
 <body class="profile" style="background:#fafafa">
-<nav class="navbar navbar-toggleable-md fixed-top bg-dark" style="height:35px; background:#272727!important">
-    <div class="container">
-        <div style="text-align:right; width:100%">
-            <button
-                    class="btn btn-danger" style="padding:3px 5px;margin:3px;font-size:10px;">
-                <i class="fa fa-google"></i> Google Login
-            </button>
-            <button
-                    class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
-                <i class="fa fa-facebook"></i> Facebook Login
-            </button>
+<div class="modal fade" id="loginFailNoticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notice">
+        <div class="modal-content">
+            <div class="modal-header no-border-header">
+                <div></div>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                Đăng nhập thất bại
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal" aria-hidden="true">Đóng</button>
+            </div>
         </div>
     </div>
+</div>
+
+@include('nhatquangshop::includes.loading')
+
+<nav class="navbar navbar-toggleable-md fixed-top bg-dark"
+     id="vue-nav"
+     style="height:35px; background:#272727!important">
+
+    @if(isset($user))
+        <div class="container">
+            <div style="text-align:right; width:100%">
+                <a href="/profile" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-primary">
+                    <img src="{{generate_protocol_url($user->avatar_url)}}" style="width:18px;height: 18px"
+                         alt=""> {{$user->name}}
+                </a>
+                <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                </a>
+            </div>
+        </div>
+    @else
+        <div class="container" id="logged-nav" style="display: none">
+            <div style="text-align:right; width:100%">
+                <div style="text-align:right; width:100%">
+                    <a href="/profile" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-primary">
+                        <img v-bind:src="user.avatar_url" style="width:18px;height: 18px"
+                             alt=""> @{{ user.name }}
+                    </a>
+                    <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div v-if="!showLoggedNav" class="container">
+            <div style="text-align:right; width:100%">
+                <!-- login modal -->
+                <button type="button" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-primary"
+                        data-toggle="modal" data-target="#loginModal">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i> Đăng nhập
+                </button>
+                <div class="modal fade " id="loginModal" tabindex="-1" role="dialog" aria-hidden="false">
+                    <div class="modal-dialog modal-register">
+                        <div class="modal-content">
+                            <div class="modal-header no-border-header text-center">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h3 class="modal-title text-center">Nhật Quang Shop</h3>
+                                <p>Đăng nhập vào tài khoản của bạn</p>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input v-model="user.email" type="text" value="" placeholder="Email"
+                                           class="form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Mật khẩu</label>
+                                    <input v-model="user.password" type="password" value="" placeholder="Password"
+                                           class="form-control"/>
+                                </div>
+                                <div v-if="hasError" class="alert alert-danger" style="text-align: center">
+                                    Sai email hoặc mật khẩu
+                                </div>
+
+                                <button :disabled="user.email ==='' || user.password === '' || isLoading"
+                                        v-on:click="onClickLoginButton"
+                                        class="btn btn-block btn-round">
+                                    <div v-if="isLoading" class="uil-reload-css reload-small" style="">
+                                        <div></div>
+                                    </div>
+                                    Đăng nhập
+                                </button>
+                            </div>
+                            <div class="modal-footer no-border-footer">
+                            <span class="text-muted  text-center"> Bạn chưa có tải khoản?
+                                <a href="#paper-kit"> Tạo tài khoản mới</a>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{--<div class="g-signin2 btn " data-onsuccess="onSignIn">--}}
+                {{--</div>--}}
+                {{--<div class="g-signin2" data-onsuccess="onSignIn" style="padding:3px 5px;margin:3px;">--}}
+                {{--</div>--}}
+                <div id="googleSignInButton"
+                     class="btn btn-danger"
+                     style="padding:3px 5px;margin:3px;font-size:10px;">
+                    <i class="fa fa-google"></i> Google Login
+                </div>
+                <button
+                        class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
+                    <i class="fa fa-facebook"></i> Facebook Login
+                </button>
+
+            </div>
+        </div>
+    @endif
 </nav>
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light" style="margin-top:35px">
     <div class="container">
@@ -167,8 +317,6 @@
 
 <div id="modalBuy" class="modal fade">
     <div class="modal-dialog modal-large">
-
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -201,10 +349,10 @@
                             <b style="font-weight:600;"> @{{ good.number }} </b>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p>@{{ good.price * (1 - good.coupon_value)}}</p>
+                            <p>@{{ good.price}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) * good.number}}</b>
+                            <p><b style="font-weight:600;">@{{good.price* good.number}}</b>
                             </p>
                         </div>
                     </div>
@@ -230,6 +378,7 @@
         </div>
     </div>
 </div>
+
 
 <div id="modalSuccess" class="modal fade">
     <div class="modal-dialog modal-large">
@@ -379,9 +528,8 @@
     </div>
 </footer>
 </body>
-
+<script>startApp();</script>
 <!-- Core JS Files -->
-
 <script src="/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
@@ -389,4 +537,5 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/nhatquangshop.js?6868"></script>
+<script src="/nhatquangshop/js/nav.vue.js"></script>
 </html>

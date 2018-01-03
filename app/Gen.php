@@ -62,4 +62,9 @@ class Gen extends Model
     {
         return $this->hasMany('App\Shift', 'gen_id');
     }
+
+    public function work_shifts()
+    {
+        return $this->hasMany(WorkShift::class, 'gen_id');
+    }
 }

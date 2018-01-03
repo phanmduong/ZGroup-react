@@ -14,7 +14,9 @@ class CouponController extends ManageApiController
         $discount_type = $request->discount_type; //percentage, fix
         $discount_value = $request->discount_value;
         $type = $request->type; //code, program
-        $quantity = $request->quantity; //dùng column rate trong bảng để chứa quantity vì lúc migrate éo đc -.-
+        $quantity = $request->quantity;
+        //quantity = -1 -> infinity
+        //dùng column rate trong bảng để chứa quantity vì lúc migrate éo đc -.-
         $used_for = trim($request->used_for); //all, order, good, category, customer, customer-group
         $order_value = $request->order_value;
         $good_id = $request->good_id;
@@ -22,6 +24,7 @@ class CouponController extends ManageApiController
         $category_id = $request->category_id;
         $start_time = $request->start_time;
         $end_time = $request->end_time;
+        $shared = $request->shared;
         $customer_group_id = $request->customer_group_id;
         if ($name == null || $discount_type == null || $discount_value == null || $type == null || $used_for == null ||
             ($used_for == 'order' && $order_value == null) ||
@@ -46,6 +49,7 @@ class CouponController extends ManageApiController
         $coupon->start_time = $start_time;
         $coupon->end_time = $end_time;
         $coupon->rate = $quantity;
+        $coupon->shared = $shared;
     }
 
     public function createCoupon(Request $request)

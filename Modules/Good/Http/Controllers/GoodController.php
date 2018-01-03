@@ -109,6 +109,7 @@ class GoodController extends ManageApiController
         $good->price = $price;
         $good->avatar_url = $avatarUrl;
         $good->cover_url = $coverUrl;
+        $good->download = $request->download;
         if ($request->type) {
             $good->type = $request->type;
         }
@@ -207,6 +208,13 @@ class GoodController extends ManageApiController
 
         $properties = json_decode($request->properties);
 
+        if ($properties)
+            foreach ($properties as $p) {
+                if($p->value == null && trim($p->value) =='')
+                    return $this->respondErrorWithStatus([
+                        'message' => 'Chưa nhập giá trị thuộc tính'
+                    ]);
+            }
         if ($properties)
             foreach ($properties as $p) {
                 $property = new GoodProperty();
@@ -620,6 +628,7 @@ class GoodController extends ManageApiController
                 'message' => 'thieu gia'
             ]);
         $good->price = $request->price;
+        $good->note = $request->note;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'ok',

@@ -16,8 +16,6 @@ use App\Tab;
 use App\User;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class ManageRoleApiController extends ManageApiController
 {
 

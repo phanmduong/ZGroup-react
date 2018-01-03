@@ -3,11 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderPaidMoney extends Model
 {
     //
+    use SoftDeletes;
+
     protected $table = 'order_paid_money';
+
+    protected $dates = ['deleted_at'];
 
     public function staff()
     {
@@ -25,7 +30,7 @@ class OrderPaidMoney extends Model
             "payment" => $this->payment,
             "created_at" => format_full_time_date($this->created_at),
         ];
-        if($this->staff)
+        if ($this->staff)
             $data['staff'] = [
                 'id' => $this->staff->id,
                 'name' => $this->staff->name,

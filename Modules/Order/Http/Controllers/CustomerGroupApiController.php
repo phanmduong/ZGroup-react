@@ -34,6 +34,8 @@ class CustomerGroupApiController extends ManageApiController
         $group->name = $request->name;
         $group->description = $request->description;
         $group->color = $request->color;
+        $group->order_value = $request->order_value;
+        $group->delivery_value = $request->delivery_value;
         $group->save();
 
         if ($request->stringId != null) {
@@ -45,7 +47,7 @@ class CustomerGroupApiController extends ManageApiController
             }
         }
         return $this->respondSuccessWithStatus([
-            "customer_group" => $group->transfrom(),
+            "customer_group" => $this->groupTransformer->transform($group),
         ]);
 
     }
@@ -59,6 +61,8 @@ class CustomerGroupApiController extends ManageApiController
         $group->name = $request->name;
         $group->description = $request->description;
         $group->color = $request->color;
+        $group->order_value = $request->order_value;
+        $group->delivery_value = $request->delivery_value;
         $group->save();
 
         if ($request->stringId != null) {
@@ -112,9 +116,51 @@ class CustomerGroupApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $customers = $group->customers()->paginate($limit);
         return $this->respondWithPagination($customers, [
+            'name' => $group->name,
+            'description' => $group->description,
+            'color' => $group->color,
+            'order_value' => $group->order_value,
+            'delivery_value' => $group->delivery_value,
             "customers" => $customers->map(function ($customer) {
                 return $customer->transfromCustomer();
             }),
         ]);
+    }
+    public function getCouponsOfGroup($groupId,Request $request){
+        $group = InfoCustomerGroup::find($groupId);
+        if(!$group) return $this->respondErrorWithStatus("Không tồn tại nhóm khách hàng");
+        $coupons = $group->coupons()->orderBy('created_at','desc')->get();
+
+        return $this->respondSuccessWithStatus([
+            'coupons' => $coupons->map(function ($coupon) {
+                $data = $coupon->getData();
+                if ($coupon->used_for == 'order')
+                    $data['order_value'] = $coupon->order_value;
+                if ($coupon->used_for == 'good')
+                    $data['good'] = [
+                        'id' => $coupon->good ? $coupon->good->id : null,
+                        'name' => $coupon->good ? $coupon->good->name : null,
+                    ];
+                if ($coupon->used_for == 'customer')
+                    $data['customer'] = [
+                        'id' => $coupon->user ? $coupon->user->id : null,
+                        'name' => $coupon->user ? $coupon->user->name : null
+                    ];
+                if ($coupon->used_for == 'category')
+                    $data['category'] = [
+                        'id' => $coupon->goodCategory ? $coupon->goodCategory->id : null,
+                        'name' => $coupon->goodCategory ? $coupon->goodCategory->name : null
+                    ];
+                if ($coupon->used_for == 'customer-group')
+                    $data['customer_group'] = [
+                        'id' => $coupon->customerGroup ? $coupon->customerGroup->id : null,
+                        'name' => $coupon->customerGroup ? $coupon->customerGroup->name : null
+                    ];
+                return $data;
+            })
+        ]);
+
+
+
     }
 }

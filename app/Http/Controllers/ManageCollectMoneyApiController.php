@@ -62,22 +62,24 @@ class ManageCollectMoneyApiController extends ManageApiController
                 'avatar_url' => $user->avatar_url ? $user->avatar_url : url('img/user.png'),
                 'phone' => $user->phone,
                 'email' => $user->email,
-                'registers' => $user->registers->map(function ($regis) {
-                    return [
-                        'id' => $regis->id,
-                        'course' => $regis->studyClass->course->name,
-                        'class_name' => $regis->studyClass->name,
-                        'class_type' => $regis->studyClass->type,
-                        'register_time' => format_vn_date(strtotime($regis->created_at)),
-                        'code' => $regis->code,
-                        'icon_url' => $regis->studyClass->course->icon_url,
-                        'money' => $regis->money,
-                        'received_id_card' => $regis->received_id_card,
-                        'note' => $regis->note,
-                        'paid_time' => format_vn_date(strtotime($regis->paid_time)),
-                        'is_paid' => $regis->status
-                    ];
-                })
+                'registers' => $user->registers()->join("classes", "classes.id", "=", "registers.class_id")
+                    ->whereNull("classes.deleted_at")->select("registers.*")->get()->map(function ($regis) {
+                        $studyClass = $regis->studyClass()->withTrashed()->first();
+                        return [
+                            'id' => $regis->id,
+                            'course' => $studyClass->course->name,
+                            'class_name' => $studyClass->name,
+                            'class_type' => $studyClass->type,
+                            'register_time' => format_vn_date(strtotime($regis->created_at)),
+                            'code' => $regis->code,
+                            'icon_url' => $studyClass->course->icon_url,
+                            'money' => $regis->money,
+                            'received_id_card' => $regis->received_id_card,
+                            'note' => $regis->note,
+                            'paid_time' => format_vn_date(strtotime($regis->paid_time)),
+                            'is_paid' => $regis->status
+                        ];
+                    })
             ];
         }
 
@@ -205,6 +207,7 @@ class ManageCollectMoneyApiController extends ManageApiController
 
         $data = [
             'registers' => $registers->map(function ($register) {
+                $studyClass = $register->studyClass()->withTrashed()->first();
                 $register_data = [
                     'id' => $register->id,
                     'student' => [
@@ -219,11 +222,11 @@ class ManageCollectMoneyApiController extends ManageApiController
                     'paid_status' => $register->status == 1,
                     'paid_time' => format_date_to_mysql($register->paid_time),
                     'paid_time_full' => format_date_full_option($register->paid_time),
-                    'course_money' => $register->studyClass->course->price,
+                    'course_money' => $studyClass->course->price,
                     'class' => [
-                        'id' => $register->studyClass->id,
-                        'name' => $register->studyClass->name,
-                        'icon_url' => $register->studyClass->course->icon_url
+                        'id' => $studyClass->id,
+                        'name' => $studyClass->name,
+                        'icon_url' => $studyClass->course->icon_url
                     ]
                 ];
                 if ($register->staff)

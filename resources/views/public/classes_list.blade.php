@@ -50,7 +50,7 @@
                                             <p class="editContent small_text light_gray">
                                                 <strong>{{$class->base->name}}:</strong> {{$class->base->address}}
                                                 <br>
-                                                <strong>Khai giảng ngày:</strong> {{$date_start}}
+                                                <strong>Khai giảng ngày:</strong> {{date("d/m/Y", strtotime($class->datestart))}}
                                             </p>
                                         </div>
                                     </div>

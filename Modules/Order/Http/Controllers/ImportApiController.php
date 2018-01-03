@@ -134,6 +134,7 @@ class ImportApiController extends ManageApiController
         $paid_money = $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
             return $total + $orderPaidMoney->money;
         }, 0);
+        $orderPaidMoney = $importOrder->orderPaidMoneys()->first();
         $debt = $total_money - $paid_money;
         $data = [
             'id' => $importOrder->id,
@@ -145,12 +146,15 @@ class ImportApiController extends ManageApiController
             'total_quantity' => $total_quantity,
             'debt' => $debt,
             'paid_money' => $paid_money,
+            'payment' => $orderPaidMoney ? $orderPaidMoney->payment : '',
+            'warehouse' => $importOrder->warehouse->Transform(),
         ];
         $data['imported_goods'] = $importOrder->importedGoods->map(function ($importedGood) {
             return [
                 'id' => $importedGood->good->id,
                 'name' => $importedGood->good->name,
                 'code' => $importedGood->good->code,
+                'barcode' => $importedGood->good->barcode,
                 'price' => $importedGood->good->price,
                 'quantity' => $importedGood->quantity,
                 'import_price' => $importedGood->import_price,
@@ -163,7 +167,7 @@ class ImportApiController extends ManageApiController
                 'note' => $orderPaidMoney->note,
             ];
         });
-        if($importOrder->warehouse)
+        if ($importOrder->warehouse)
             $data['warehouse'] = $importOrder->warehouse->Transform();
         if (isset($importOrder->user)) {
             $user = [
@@ -181,18 +185,8 @@ class ImportApiController extends ManageApiController
 
     public function addImportOrderGoods(Request $request)
     {
-        foreach ($request->imported_goods as $imported_good) {
-            $good = Good::find($imported_good['good_id']);
-            if ($good == null)
-                return $this->respondErrorWithStatus([
-                    'message' => 'Không tồn tại sản phẩm'
-                ]);
-        }
         $importOrder = new Order;
-        if ($request->code == null)
-            $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
-        else
-            $importOrder->code = $request->code;
+        $importOrder->code = $request->code ? $request->code : 'IMPORT' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
@@ -214,13 +208,21 @@ class ImportApiController extends ManageApiController
         $orderImportId = $importOrder->id;
         foreach ($request->imported_goods as $imported_good) {
             $importedGood = new ImportedGoods;
+            $good = Good::find($imported_good['good_id']);
+            if ($good == null) {
+                $good = new Good();
+                $good->code = $imported_good['code'];
+                $good->barcode = $imported_good['barcode'];
+                $good->name = $imported_good['name'];
+                $good->price = 0;
+                $good->save();
+            }
             if ($imported_good['price']) {
-                $good = Good::find($imported_good['good_id']);
                 $good->price = $imported_good['price'];
                 $good->save();
             }
             $importedGood->order_import_id = $orderImportId;
-            $importedGood->good_id = $imported_good['good_id'];
+            $importedGood->good_id = $good->id;
             $importedGood->quantity = $imported_good['quantity'];
             $importedGood->import_quantity = $imported_good['quantity'];
             $importedGood->import_price = $imported_good['import_price'];
@@ -281,7 +283,7 @@ class ImportApiController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Cant edit completed import order'
             ]);
-        $importOrder->code = $request->code ? $request->code : rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $importOrder->code = $request->code ? $request->code : "IMPORT" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
@@ -289,15 +291,20 @@ class ImportApiController extends ManageApiController
         $importOrder->type = 'import';
         $importOrder->status = $request->status;
         $importOrder->save();
-//        if ($request->paid_money) {
-//            $orderPaidMoney = new OrderPaidMoney;
-//            $orderPaidMoney->order_id = $importOrder->id;
-//            $orderPaidMoney->money = $request->paid_money;
-//            $orderPaidMoney->staff_id = $this->user->id;
-//            $orderPaidMoney->payment = $request->payment;
-//            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
-//            $orderPaidMoney->save();
-//        }
+
+        $importOrder->orderPaidMoneys->map(function ($orderPaidMoney) {
+            $orderPaidMoney->delete();
+        });
+
+        if ($request->paid_money) {
+            $orderPaidMoney = new OrderPaidMoney;
+            $orderPaidMoney->order_id = $importOrder->id;
+            $orderPaidMoney->money = $request->paid_money;
+            $orderPaidMoney->staff_id = $this->user->id;
+            $orderPaidMoney->payment = $request->payment;
+            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
+            $orderPaidMoney->save();
+        }
 
         $orderImportId = $importOrder->id;
         $importedGoods = $importOrder->importedGoods;
@@ -306,13 +313,21 @@ class ImportApiController extends ManageApiController
         }
         foreach ($request->imported_goods as $imported_good) {
             $importedGood = new ImportedGoods;
+            $good = Good::find($imported_good['good_id']);
+            if ($good == null) {
+                $good = new Good();
+                $good->code = $imported_good['code'];
+                $good->barcode = $imported_good['barcode'];
+                $good->name = $imported_good['name'];
+                $good->price = 0;
+                $good->save();
+            }
             if ($imported_good['price']) {
-                $good = Good::find($imported_good['good_id']);
                 $good->price = $imported_good['price'];
                 $good->save();
             }
             $importedGood->order_import_id = $orderImportId;
-            $importedGood->good_id = $imported_good['good_id'];
+            $importedGood->good_id = $good->id;
             $importedGood->quantity = $imported_good['quantity'];
             $importedGood->import_quantity = $imported_good['quantity'];
             $importedGood->import_price = $imported_good['import_price'];
