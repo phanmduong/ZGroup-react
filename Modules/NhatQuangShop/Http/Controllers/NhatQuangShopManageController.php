@@ -44,6 +44,14 @@ class NhatQuangShopManageController extends Controller
        $order = Order::find($order_id);
        $this->data['order'] = $order;
        $paidOrderMoneys = $order->orderPaidMoneys;
+       $totalPaidMoney = 0;
+       if(count($paidOrderMoneys)>0){
+           for ($i = 0; $i<count($paidOrderMoneys); $i++){
+               $totalPaidMoney += $paidOrderMoneys[$i]->money;
+           }
+
+       }
+        $this->data['totalPaidMoney'] = $totalPaidMoney;
        $this->data['paidOrderMoneys'] = $paidOrderMoneys;
        return view("nhatquangshop::infoOrder", $this->data);
     }

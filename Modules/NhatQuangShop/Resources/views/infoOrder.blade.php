@@ -47,9 +47,9 @@
                     @if(count($paidOrderMoneys)>0)
                         <table class = "table">
                             <tr>
-                                <td class="text-center">STT</td>
+                                <td>STT</td>
                                 <td>Money</td>
-                                <td class="text-right">Staff</td>
+                                <td>Staff</td>
                             </tr>
                         </table>
                         <table class = "table">
@@ -64,6 +64,10 @@
                                     </td>
                                 </tr>
                             @endfor
+                            <tr>
+                                <td>Total</td>
+                                <td>{{$totalPaidMoney}} đ</td>
+                            </tr>
                         </table>
                        @endif
                     </tbody>
