@@ -87,7 +87,8 @@
             <div class="col-md-4">
                 @foreach($book->terms()->orderBy('order')->get() as $term)
                     <div>
-                        <a data-toggle="collapse" href="#collapse{{$term->id}}" class="collapsed"
+                        <a data-toggle="collapse" href="#collapse{{$term->id}}"
+                           class="{{$term->id == $lesson->term->id ? '' : 'collapsed'}} "
                            aria-expanded="{{$term->id == $lesson->term->id}}">
                             <div style="background:#138edc; color:white; padding:10px">
                                 <div style="display: flex; flex-direction: row; justify-content: space-between">
