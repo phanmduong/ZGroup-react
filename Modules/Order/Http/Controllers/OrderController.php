@@ -163,10 +163,6 @@ class OrderController extends ManageApiController
                 return $this->respondErrorWithStatus([
                     'message' => 'Bạn không có quyền đổi trạng thái này'
                 ]);
-        if ($request->code == null && trim($request->code) == '')
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu code'
-            ]);
         if ($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
