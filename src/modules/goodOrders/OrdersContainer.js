@@ -48,10 +48,6 @@ class OrdersContainer extends React.Component {
         this.props.goodOrderActions.getAllStaffs();
     }
 
-    toggleShipModal(order) {
-        this.props.goodOrderActions.openShipModal(order);
-    }
-
     closeModal() {
         this.setState({isShowModal: false});
     }
@@ -262,18 +258,11 @@ class OrdersContainer extends React.Component {
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách đơn hàng</h4>
                                 <div className="row">
-                                    <div className="col-md-6">
+                                    <div className="col-md-10">
                                         <Search
                                             onChange={this.ordersSearchChange}
                                             value={this.state.query}
-                                            placeholder="Nhập mã đơn hoặc mã/họ tên/SĐT khách hàng"
-                                        />
-                                    </div>
-                                    <div className="col-md-4">
-                                        <Search
-                                            onChange={this.ordersSearchChange}
-                                            value={this.state.user}
-                                            placeholder="Nhập tên khách hàng"
+                                            placeholder="Nhập mã đơn hoặc email khách hàng"
                                         />
                                     </div>
                                     <div className="col-md-2">

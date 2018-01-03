@@ -1,4 +1,9 @@
 export default {
+
+    permitGood: {
+        isLoading: false
+    },
+
     createProduct: {
         categories: [],
         manufactures: [],
@@ -89,6 +94,7 @@ export default {
             productAvatar: {},
             productPrice: {},
             productPresent: {},
+            productWarehouse: {},
             good_category_id: -1,
             manufacture_id: -1,
             status: null,
@@ -843,7 +849,7 @@ export default {
     goodOrders: {
         isUpdate: false,
         orderId: 0,
-        labelId: 0,
+        labelId: -1,
         shipGoodModal: false,
         addNoteModal: false,
         orderNote: {},
