@@ -47,7 +47,7 @@ class ShipGoodModalContainer extends React.Component {
         ) {
             showErrorNotification("Bạn cần nhập đủ tất cả các trường bắt buộc (*)");
         } else {
-            this.props.goodOrderActions.sendShipOrder(this.props.shippingGood);
+            this.props.goodOrderActions.sendShipOrder(this.props.shippingGood, this.props.orderId, this.props.labelId);
         }
     }
 
@@ -78,15 +78,12 @@ class ShipGoodModalContainer extends React.Component {
                                         updateFormData={this.handleShipOrder}
                                         value={order.province}
                                         name="province"/>
-
                                     <FormInputText
                                         required={true}
                                         label="Quận"
                                         updateFormData={this.handleShipOrder}
                                         value={order.district}
                                         name="district"/>
-
-
                                     <div className="form-group">
                                         <CheckBoxMaterial
                                             name="is_freeship"
@@ -94,28 +91,24 @@ class ShipGoodModalContainer extends React.Component {
                                             onChange={this.checkFreeShip}
                                             label="Miến phí giao hàng cho khách"/>
                                     </div>
-
                                     <FormInputText
                                         required={true}
                                         label="Tên khách hàng"
                                         updateFormData={this.handleShipOrder}
                                         value={order.name}
                                         name="name"/>
-
                                     <FormInputText
                                         required={true}
                                         label="Số điện thoại khách hàng"
                                         updateFormData={this.handleShipOrder}
                                         value={order.tel}
                                         name="tel"/>
-
                                     <FormInputText
                                         required={true}
                                         label="Phí thu hộ"
                                         updateFormData={this.handleShipOrder}
                                         value={order.pick_money}
                                         name="pick_money"/>
-
                                     <FormInputText
                                         label="Ghi chú"
                                         updateFormData={this.handleShipOrder}
@@ -127,49 +120,39 @@ class ShipGoodModalContainer extends React.Component {
                                         updateFormData={this.handleShipOrder}
                                         value={order.value}
                                         name="value"/>
-
                                 </div>
                                 <div className="col-md-6">
-
                                     <FormInputText
                                         required={true}
                                         label="Địa chỉ lấy hàng"
                                         updateFormData={this.handleShipOrder}
                                         value={order.pick_address}
                                         name="pick_address"/>
-
-
                                     <FormInputText
                                         required={true}
                                         label="Tỉnh lấy hàng"
                                         updateFormData={this.handleShipOrder}
                                         value={order.pick_province}
                                         name="pick_province"/>
-
                                     <FormInputText
                                         required={true}
                                         label="Quận lấy hàng"
                                         updateFormData={this.handleShipOrder}
                                         value={order.pick_district}
                                         name="pick_district"/>
-
                                     <FormInputText
                                         required={true}
                                         label="Tên công ty lấy hàng"
                                         updateFormData={this.handleShipOrder}
                                         value={order.pick_name}
                                         name="pick_name"/>
-
-
                                     <FormInputText
                                         required={true}
                                         label="Số điện thoại nơi lấy hàng"
                                         updateFormData={this.handleShipOrder}
                                         value={order.pick_tel}
                                         name="pick_tel"/>
-
                                 </div>
-
                             </div>
                             <br/>
                             <div>
@@ -211,7 +194,9 @@ ShipGoodModalContainer.propTypes = {
     goodOrderActions: PropTypes.object.isRequired,
     shippingGood: PropTypes.object.isRequired,
     isSendingShipOrder: PropTypes.bool.isRequired,
-    isUpdate: PropTypes.bool.isRequired
+    isUpdate: PropTypes.bool.isRequired,
+    orderId: PropTypes.number.isRequired,
+    labelId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
@@ -219,7 +204,9 @@ function mapStateToProps(state) {
         shipGoodModal: state.goodOrders.shipGoodModal,
         isUpdate: state.goodOrders.isUpdate,
         shippingGood: state.goodOrders.shippingGood,
-        isSendingShipOrder: state.goodOrders.isSendingShipOrder
+        isSendingShipOrder: state.goodOrders.isSendingShipOrder,
+        orderId: state.goodOrders.orderId,
+        labelId: state.goodOrders.labelId
     };
 }
 

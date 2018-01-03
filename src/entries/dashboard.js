@@ -1,5 +1,6 @@
 /* eslint-disable import/default */
 
+import "babel-polyfill";
 import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
@@ -15,6 +16,7 @@ import '../modules/tasks/task.css';
 import '../styles/react-select.css';
 import "../styles/react-draft-wysiwyg.css";
 import '../styles/styles.scss';
+
 // import { syncHistoryWithStore } from 'react-router-redux';
 
 const store = configureStore();

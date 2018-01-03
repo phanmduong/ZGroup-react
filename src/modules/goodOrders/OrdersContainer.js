@@ -12,10 +12,9 @@ import * as goodOrderActions from './goodOrderActions';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-
 import Pagination from "../../components/common/Pagination";
 import {ORDER_STATUS} from "../../constants/constants";
-
+import Loading from "../../components/common/Loading";
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -37,21 +36,22 @@ class OrdersContainer extends React.Component {
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
-
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
         this.showShipGoodModal = this.showShipGoodModal.bind(this);
-
+        this.showAddNoteModal = this.showAddNoteModal.bind(this);
     }
 
     componentWillMount() {
         this.loadOrders();
         this.props.goodOrderActions.getAllStaffs();
     }
+
     toggleShipModal(order) {
         this.props.goodOrderActions.openShipModal(order);
     }
+
     closeModal() {
         this.setState({isShowModal: false});
     }
@@ -60,7 +60,6 @@ class OrdersContainer extends React.Component {
         const field = event.target.name;
         let time = {...this.state.time};
         time[field] = event.target.value;
-
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
             this.props.goodOrderActions.loadAllOrders(1, this.state.query, time.startTime, time.endTime);
             this.setState({time: time, page: 1});
@@ -80,7 +79,6 @@ class OrdersContainer extends React.Component {
         this.timeOut = setTimeout(function () {
             this.props.goodOrderActions.loadAllOrders(1, value, this.state.time.startTime, this.state.time.endTime);
         }.bind(this), 500);
-
     }
 
     loadOrders(page = 1) {
@@ -148,16 +146,18 @@ class OrdersContainer extends React.Component {
         }
     }
 
-
     changeStatusOrder(status, orderId) {
-        console.log("status,",status);
-        console.log("orderId", orderId);
         this.props.goodOrderActions.changeStatusOrder(status, orderId);
     }
 
     showShipGoodModal(order) {
         this.props.goodOrderActions.showShipGoodModal(true);
         this.props.goodOrderActions.handleShipOrderBegin(order);
+    }
+
+    showAddNoteModal(order) {
+        this.props.goodOrderActions.showAddNoteModal();
+        this.props.goodOrderActions.handleAddNoteModal(order);
     }
 
     render() {
@@ -193,6 +193,66 @@ class OrdersContainer extends React.Component {
                                 </button>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        {
+                            this.props.isLoading ? (
+                                <Loading/>
+                            ) : (
+                                <div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                        <div className="card card-stats">
+                                            <div className="card-header" data-background-color="green">
+                                                <i className="material-icons">store</i>
+                                            </div>
+                                            <div className="card-content">
+                                                <p className="category">Tổng đơn hàng</p>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.totalOrder)}</h3>
+                                            </div>
+                                            <div className="card-footer">
+                                                <div className="stats">
+                                                    <i className="material-icons">date_range</i> Last 24
+                                                    Hours
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                        <div className="card card-stats">
+                                            <div className="card-header" data-background-color="rose">
+                                                <i className="material-icons">equalizer</i>
+                                            </div>
+                                            <div className="card-content">
+                                                <p className="category">Tổng tiền</p>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.totalMoney)}đ</h3>
+                                            </div>
+                                            <div className="card-footer">
+                                                <div className="stats">
+                                                    <i className="material-icons">date_range</i> Last 24
+                                                    Hours
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                        <div className="card card-stats">
+                                            <div className="card-header" data-background-color="blue">
+                                                <i className="fa fa-twitter"/>
+                                            </div>
+                                            <div className="card-content">
+                                                <p className="category">Tổng nợ</p>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.totalMoney - this.props.totalPaidMoney)}đ</h3>
+                                            </div>
+                                            <div className="card-footer">
+                                                <div className="stats">
+                                                    <i className="material-icons">update</i> Just Updated
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
                     </div>
                     <div className="col-md-12">
                         <div className="card">
@@ -301,7 +361,8 @@ class OrdersContainer extends React.Component {
                                     orders={this.props.orders}
                                     isLoading={this.props.isLoading}
                                     showShipGoodModal={this.showShipGoodModal}
-
+                                    showAddNoteModal={this.showAddNoteModal}
+                                    user={this.props.user}
                                 />
                             </div>
                             <div className="row float-right">
@@ -315,27 +376,6 @@ class OrdersContainer extends React.Component {
                                     />
                                 </div>
                             </div>
-                            {
-                                !this.props.isLoading && <div className="card-footer">
-                                    <div className="float-right">
-                                        <TooltipButton text="Tổng đơn hàng" placement="top">
-                                            <div className="btn btn-info btn-simple">
-                                                Tổng đơn hàng: {this.props.totalOrder}
-                                            </div>
-                                        </TooltipButton>
-                                        <TooltipButton text="Tổng đơn hàng" placement="top">
-                                            <div className="btn btn-danger btn-simple">
-                                                Tổng tiền: {this.props.totalMoney}
-                                            </div>
-                                        </TooltipButton>
-                                        <TooltipButton text="Tổng nợ" placement="top">
-                                            <div className="btn btn-success btn-simple">
-                                                Tổng nợ: {this.props.totalMoney - this.props.totalPaidMoney}
-                                            </div>
-                                        </TooltipButton>
-                                    </div>
-                                </div>
-                            }
                         </div>
                     </div>
                 </div>
@@ -355,7 +395,8 @@ OrdersContainer.propTypes = {
     orders: PropTypes.array.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
-    allStaffs: PropTypes.array.isRequired
+    allStaffs: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired
 
 };
 
@@ -370,8 +411,8 @@ function mapStateToProps(state) {
         limit: state.goodOrders.limit,
         totalCount: state.goodOrders.totalCount,
         allStaffs: state.goodOrders.allStaffs,
-        currentPage: state.goodOrders.currentPage
-
+        currentPage: state.goodOrders.currentPage,
+        user: state.login.user
     };
 }
 

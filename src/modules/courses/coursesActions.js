@@ -22,6 +22,24 @@ export function createLink(link, func) {
     };
 }
 
+export function createPixel(courseId, pixel, func) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CREATE_PIXEL});
+        courseApi.createPixel(courseId,pixel)
+            .then(() => {
+                helper.showNotification("Lưu Thành Công!");
+                dispatch({
+                    type: types.CREATE_PIXEL_SUCCESS,
+                });
+                func();
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.CREATE_LINK_ERROR});
+            });
+    };
+}
+
 export function commitEditLink(link,func) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_LINK});
@@ -36,6 +54,24 @@ export function commitEditLink(link,func) {
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! " );
                 dispatch({type: types.EDIT_LINK_ERROR});
+            });
+    };
+}
+
+export function commitEditPixel(pixelId,pixel,func) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_PIXEL});
+        courseApi.editPixel(pixelId,pixel)
+            .then(() => {
+                helper.sweetAlertSuccess("Sửa Thành Công!");
+                dispatch({
+                    type: types.EDIT_PIXEL_SUCCESS
+                });
+                func();
+            })
+            .catch(() => {
+                helper.sweetAlertError("Có lỗi xảy ra! " );
+                dispatch({type: types.EDIT_PIXEL_ERROR});
             });
     };
 }
@@ -59,6 +95,26 @@ export function deleteLink(id) {
             });
     };
 }
+
+export function deletePixel(id, success) {
+    return function (dispatch) {
+        dispatch  ({type: types.BEGIN_DELETE_PIXEL});
+        helper.showWarningNotification("Đang xoá Pixel!");
+        courseApi.deletePixel(id)
+            .then(() => {
+                helper.showNotification("Xoá Thành Công!");
+                dispatch({
+                    type: types.DELETE_PIXEL_SUCCESS,
+                });
+                success();
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.DELETE_PIXEL_ERROR});
+            });
+    };
+}
+
 export function deleteLesson(id) {
     return function (dispatch) {
         dispatch  ({type: types.BEGIN_DELETE_LESSON});
@@ -79,7 +135,6 @@ export function deleteLesson(id) {
     };
 }
 
-
 export function loadOneCourse(id) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_COURSE});
@@ -95,8 +150,6 @@ export function loadOneCourse(id) {
             });
     };
 }
-
-
 
 export function beginLoadLink() {
     return function (dispatch) {
@@ -115,17 +168,32 @@ export function updateLinkData(link) {
 
     };
 }
-
-
-export function editLink(link) {
+export function updatePixelData(pixel) {
     return function (dispatch) {
         dispatch({
-            type: types.OPEN_MODAL_EDIT_LINK,
-            link: link
+            type: types.UPDATE_DATA_PIXEL,
+            pixel: pixel
         });
+
     };
 }
 
+export function editLink(pixel) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_MODAL_EDIT_PIXEL,
+            pixel:pixel,
+        });
+    };
+}
+export function editPixel(pixel) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_MODAL_EDIT_PIXEL,
+            pixel: pixel
+        });
+    };
+}
 
 export function uploadLinkIcon(link ,file) {
     return function (dispatch) {
@@ -145,8 +213,6 @@ export function uploadLinkIcon(link ,file) {
         });
     };
 }
-
-
 
 export function updateData(data) {
     return function (dispatch) {
@@ -211,8 +277,6 @@ export function deleteCourse(id, success) {
     };
 }
 
-
-
 export function commitCourseData(data) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_EDIT_COURSES, data: data});
@@ -231,10 +295,6 @@ export function commitCourseData(data) {
             });
     };
 }
-
-
-
-
 
 export function uploadAvatar(file) {
     return function (dispatch) {

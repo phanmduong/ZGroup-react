@@ -11,6 +11,7 @@ import UploadFilesContainer from "./UploadFilesContainer";
 import FilesList from "./FilesList";
 import {Button} from "react-bootstrap";
 import AddGoodPropertyModal from "./AddGoodPropertyModal";
+import {TYPE_API} from "../../constants/env";
 
 class CreateGoodContainer extends React.Component {
     constructor(props, context) {
@@ -192,6 +193,15 @@ class CreateGoodContainer extends React.Component {
                                                 type="number"
                                                 updateFormData={this.updateFormData}
                                                 value={good.price}/>
+                                            {TYPE_API !== "zgroup" &&
+                                            <FormInputText
+                                                placeholder="Nhập link download"
+                                                label="Link download"
+                                                name="download"
+                                                type="text"
+                                                updateFormData={this.updateFormData}
+                                                value={good.download}/>
+                                            }
 
                                         </form>
                                     </div>

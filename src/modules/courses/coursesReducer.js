@@ -4,7 +4,6 @@ import initialState from '../../reducers/initialState';
 
 let data;
 export default function courseReducer(state = initialState.courses, action) {
-    //console.log(action.type);
     switch (action.type) {
         case types.BEGIN_LOAD_LINK:
             return {
@@ -97,6 +96,25 @@ export default function courseReducer(state = initialState.courses, action) {
         case types.DELETE_LINK_ERROR:
             return {
                 ...state,
+
+            };
+        case types.BEGIN_DELETE_PIXEL:
+            return {
+                ...state,
+                isLoading: false,
+            };
+
+        case types.DELETE_PIXEL_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        case types.DELETE_PIXEL_ERROR:
+            return {
+                ...state,
+                isLoading: false,
 
             };
         case types.BEGIN_LOAD_COURSE:
@@ -252,6 +270,15 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         }
+        case types.OPEN_MODAL_EDIT_PIXEL: {
+            return {
+                ...state,
+                ...{
+                    data: state.data,
+                    pixel: action.pixel,
+                }
+            };
+        }
         case types.BEGIN_CREATE_EDIT_COURSES:
             return {
                 ...state,
@@ -306,6 +333,50 @@ export default function courseReducer(state = initialState.courses, action) {
                     isUploadingLink: false,
                 }
             };
+        case types.BEGIN_CREATE_PIXEL:
+            return {
+                ...state,
+                ...{
+                    isUploadingPixel: true,
+                }
+            };
+        case types.CREATE_PIXEL_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingPixel: false,
+                }
+            };
+        }
+        case types.CREATE_PIXEL_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingPixel: false,
+                }
+            };
+        case types.BEGIN_EDIT_PIXEL:
+            return {
+                ...state,
+                ...{
+                    isUploadingPixel: true,
+                }
+            };
+        case types.EDIT_PIXEL_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingPixel: false,
+                }
+            };
+        }
+        case types.EDIT_PIXEL_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingPixel: false,
+                }
+            };
         case types.BEGIN_EDIT_LINK:
             return {
                 ...state,
@@ -339,6 +410,16 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
                 ...{
                     link: action.link
+                }
+            };
+        }
+
+        case types.UPDATE_DATA_PIXEL: {
+
+            return {
+                ...state,
+                ...{
+                    pixel: action.pixel
                 }
             };
         }

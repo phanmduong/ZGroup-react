@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
+import * as types from "../../constants/actionTypes";
 
 export function getAllRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
     let token = localStorage.getItem('token');
