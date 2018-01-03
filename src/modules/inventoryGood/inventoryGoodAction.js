@@ -7,26 +7,36 @@ export function getInventories(page, search, manufacture_id, good_category_id) {
         dispatch({
             type: types.BEGIN_LOAD_INVENTORIES_GOODS
         });
-        inventoryGoodApi.getInventoriesApi(page, search, manufacture_id, good_category_id)
-            .then(function (response) {
-                dispatch({
-                    type: types.LOAD_INVENTORIES_GOODS_SUCCESS,
-                    inventories: response.data.inventories,
-                    totalPages: response.data.paginator.total_pages,
-                    currentPage: response.data.paginator.current_page,
-                    limit: response.data.paginator.limit,
-                    totalCount: response.data.paginator.total_count
+        const infoPromise = new Promise((resolve) => {
+            inventoryGoodApi.getInfoInventoriesApi(page, search, manufacture_id, good_category_id)
+                .then(function (response) {
+                    resolve(response);
                 });
-            });
-        inventoryGoodApi.getInfoInventoriesApi(page, search, manufacture_id, good_category_id)
-            .then(function (response) {
-                dispatch({
-                    type: types.GET_INFO_INVENTORY_GOOD,
-                    count: response.data.data.count,
-                    totalImportMoney: response.data.data.total_import_money,
-                    totalMoney: response.data.data.total_money
+        });
+        const getInventoryPromise = new Promise((resolve) => {
+            inventoryGoodApi.getInventoriesApi(page, search, manufacture_id, good_category_id)
+                .then(function (response) {
+                    resolve(response);
                 });
+        });
+        Promise.all([infoPromise, getInventoryPromise]).then((data) => {
+            const infoRes = data[0];
+            const inventoryRes = data[1];
+            dispatch({
+                type: types.LOAD_INVENTORIES_GOODS_SUCCESS,
+                inventories: inventoryRes.data.inventories,
+                totalPages: inventoryRes.data.paginator.total_pages,
+                currentPage: inventoryRes.data.paginator.current_page,
+                limit: inventoryRes.data.paginator.limit,
+                totalCount: inventoryRes.data.paginator.total_count
             });
+            dispatch({
+                type: types.GET_INFO_INVENTORY_GOOD,
+                count: infoRes.data.data.count,
+                totalImportMoney: infoRes.data.data.total_import_money,
+                totalMoney: infoRes.data.data.total_money
+            });
+        });
     };
 }
 
@@ -60,14 +70,14 @@ export function saveCategoriesInventoryGood(categories) {
 
 export function getHistoryInventories(inventory, page, warehouse_id, loadMore) {
     return function (dispatch) {
-        if(loadMore){
+        if (loadMore) {
             dispatch({
                 type: types.BEGIN_LOAD_MORE_HISTORY_INVENTORY_GOOD
             });
         } else {
-          dispatch({
-             type: types.BEGIN_LOAD_FILTER_HISTORY_INVENTORY_GOOD
-          });
+            dispatch({
+                type: types.BEGIN_LOAD_FILTER_HISTORY_INVENTORY_GOOD
+            });
         }
         inventoryGoodApi.getHistoryInventoriesApi(inventory.id, page, warehouse_id)
             .then(function (response) {
