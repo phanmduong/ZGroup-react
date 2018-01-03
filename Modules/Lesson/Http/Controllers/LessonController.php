@@ -58,6 +58,7 @@ class LessonController extends ManageApiController
         $lesson->detail_teacher = $request->detail_teacher;
         $lesson->image_url = $request->image_url;
         $lesson->audio_url = $request->audio_url;
+        $lesson->video_url = $request->video_url;
         $lesson->save();
 
         $course->duration = $course->lessons->count();
@@ -92,6 +93,7 @@ class LessonController extends ManageApiController
         $lesson->detail_teacher = $request->detail_teacher;
         $lesson->image_url = $request->image_url;
         $lesson->audio_url = $request->audio_url;
+        $lesson->video_url = $request->video_url;
         $course = Course::find($request->course_id);
 
         $lesson->save();
@@ -166,6 +168,8 @@ class LessonController extends ManageApiController
         $term->course_id = $request->course_id;
         $term->order = $request->order;
         $term->image_url = $request->image_url;
+        $term->video_url = $request->video_url;
+        $term->audio_url = $request->audio_url;
 
         $term->save();
 
@@ -174,7 +178,7 @@ class LessonController extends ManageApiController
         ]);
     }
 
-    public function editTerm($term_id, Request $request)
+    public function editTerm($term_id,Request $request)
     {
         $term = Term::find($term_id);
 
@@ -192,6 +196,8 @@ class LessonController extends ManageApiController
         $term->course_id = $request->course_id;
         $term->order = $request->order;
         $term->image_url = $request->image_url;
+        $term->video_url = $request->video_url;
+        $term->audio_url = $request->audio_url;
 
         $term->save();
 

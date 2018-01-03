@@ -24,7 +24,10 @@ class TermTransformer extends Transformer
             "image_url" => $term->image_url,
             "description" => $term->description,
             "order" => $term->order,
-            "short_description" => $term->short_description
+            "short_description" => $term->short_description,
+            "video_url" => $term->video_url,
+            "audio_url" =>$term->audio_url,
+
         ];
     }
 }

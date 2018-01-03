@@ -40,6 +40,9 @@ class Lesson extends Model
         return [
             'id' => $this->id,
             'course_id' => $this->course_id,
+            'audio_url' =>$this->audio_url,
+            'video_url' =>$this->video_url,
+            'image_url' =>$this->image_url,
             'name' => $this->name,
             'description' => $this->description,
             'detail' => $this->detail,
