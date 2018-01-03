@@ -58,7 +58,8 @@ class WareHouseModalContainer extends React.Component {
                                                     isLoadingMore={this.props.isLoadingMore}
                                                     getHistoryInventories={this.props.inventoryGoodAction.getHistoryInventories}
                                                     inventory={this.props.productPresent}
-                                                    isLoadingHistoryList={this.props.isLoadingHistoryList}/>
+                                                    isLoadingHistoryList={this.props.isLoadingHistoryList}
+                                                    productWarehouse={this.props.productWarehouse}/>
                                         }
                                     </div>
                                 )
@@ -89,7 +90,8 @@ WareHouseModalContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     isLoadingHistoryList: PropTypes.bool.isRequired,
-    products: PropTypes.array.isRequired
+    products: PropTypes.array.isRequired,
+    productWarehouse: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -107,7 +109,8 @@ function mapStateToProps(state) {
         totalPages: state.inventoryGood.inventoryChecking.totalPages,
         currentPage: state.inventoryGood.inventoryChecking.currentPage,
         isLoadingHistoryList: state.inventoryGood.isLoadingHistoryList,
-        products: state.productList.products
+        products: state.productList.products,
+        productWarehouse: state.productList.productEditing.productWarehouse
     };
 }
 
