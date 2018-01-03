@@ -36,9 +36,16 @@ class NhatQuangShopManageController extends Controller
     public function userOrder($subfix, Request $request)
     {
         $user = Auth::user();
-        $orders = Order::where('user_id', '=', $user->id)->paginate(15);
+        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(15);
         $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
+    }
+    public function infoOrder($subfix, $order_id){
+       $order = Order::find($order_id);
+       $this->data['order'] = $order;
+       $paidOrderMoneys = $order->orderPaidMoneys;
+       $this->data['paidOrderMoneys'] = $paidOrderMoneys;
+       return view("nhatquangshop::infoOrder", $this->data);
     }
 
 }
