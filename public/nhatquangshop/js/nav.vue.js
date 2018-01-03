@@ -16,10 +16,12 @@ var navVue = new Vue({
                 console.log(response);
                 if (response.status === 'connected') {
                     console.log('Logged in.');
+
                 }
                 else {
                     FB.login();
                 }
+                
             });
         },
         changeLoginCondition: function (user) {
