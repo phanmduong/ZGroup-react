@@ -8,6 +8,8 @@ export default {
         categories: [],
         manufactures: [],
         isUploadingAvatar: false,
+        childImagesModal: false,
+        child_index: 0,
         percent: 0,
         productWorking: {
             name: '',
@@ -88,28 +90,13 @@ export default {
             modalUpdated: false
         },
         productEditing: {
-            index: null,
-            productPresent: {
-                id: '',
-                name: '',
-                code: '',
-                avatar_url: '',
-                price: '',
-                quantity: '',
-                children: [],
-                warehouses: [],
-                category: {
-                    id: '',
-                    name: ''
-                },
-                manufacture: {
-                    id: '',
-                    name: ''
-                }
-            },
-            good_category_id: '',
-            manufacture_id: '',
-            status: '',
+            index: -1,
+            productAvatar: {},
+            productPrice: {},
+            productPresent: {},
+            good_category_id: -1,
+            manufacture_id: -1,
+            status: null,
             isUploadingAvatar: false,
             percent: 0
         },
@@ -540,7 +527,8 @@ export default {
             isSaving: false,
             saveError: false,
             isPreSaving: false,
-            preSaveError: false
+            preSaveError: false,
+            id: ''
         },
         categories: {
             categories: [],
@@ -688,7 +676,10 @@ export default {
             dateArray: [],
             pointByDate: [],
             cardsByDate: [],
-            isLoading: false
+            cards: [],
+            isLoading: false,
+            showCardsModal: false,
+            isLoadingCardsModal: false,
         },
         gens: [],
         isLoadingGens: true,
@@ -1303,7 +1294,7 @@ export default {
         isLoading: false,
         isLoadingModal: false,
         isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         //  +  customersShowInModal  = full = customers
+        customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
         totalCustomerInOverlayPages: 1,
         totalCustomerInModalPages: 1,
         totalCustomerCount: 1,
@@ -1335,7 +1326,10 @@ export default {
         currentGen: {},
         isLoading: false,
         error: false,
-        shiftRegisters: []
+        shiftRegisters: [],
+        detailShifts: [],
+        isLoadingDetailShifts: false,
+        errorDetailShifts: false,
     },
     historyWorkShiftRegisters: {
         currentPage: 1,

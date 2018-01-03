@@ -119,6 +119,8 @@ class ShiftRegistersContainer extends React.Component {
                                     shiftRegisters={this.props.shiftRegisters}
                                     changeCurrentWeek={this.changeCurrentWeek}
                                     userId={this.props.userId}
+                                    genId={this.state.selectGenId}
+                                    baseId={this.state.selectBaseId}
                                 />
                             }
                         </div>

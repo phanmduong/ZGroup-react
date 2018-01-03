@@ -107,11 +107,18 @@ export function editOrderApi(order, orderId) {
     if (token) {
         url += "?token=" + token;
     }
+
+    let tmp = order.order.good_orders.map((good_order) => {
+        return {'id': good_order.id, 'quantity': good_order.quantity};
+    });
+
     return axios.put(url,
         {
             'note': order.order.note,
             'code': order.order.code,
             'status': order.order.status,
+            'good_orders': JSON.stringify(tmp),
+
         }
     );
 }

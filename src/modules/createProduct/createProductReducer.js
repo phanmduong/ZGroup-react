@@ -52,7 +52,6 @@ export default function createProductReducer(state = initialState.createProduct,
                         ...state.productWorking,
                         images_url: [...state.productWorking.images_url, action.image]
                     },
-
                 };
             } else {
                 return {
@@ -60,6 +59,33 @@ export default function createProductReducer(state = initialState.createProduct,
                     productWorking: {
                         ...state.productWorking,
                         images_url: [...state.productWorking.images_url, action.image]
+                    },
+                    isUploadingImage: true
+                };
+            }
+        }
+        case types.UPLOAD_CHILD_IMAGE_COMPLETE_MODAL: {
+            let children = [...state.productWorking.children];
+            let child_images_url = [...JSON.parse(children[action.index].child_images_url), action.image];
+            children[action.index] = {
+                ...children[action.index],
+                child_images_url: JSON.stringify(child_images_url)
+            };
+            if (action.length + action.first_length === JSON.parse(state.productWorking.children[action.index].child_images_url).length + 1) {
+                return {
+                    ...state,
+                    isUploadingImage: false,
+                    productWorking: {
+                        ...state.productWorking,
+                        children: children
+                    },
+                };
+            } else {
+                return {
+                    ...state,
+                    productWorking: {
+                        ...state.productWorking,
+                        children: children
                     },
                     isUploadingImage: true
                 };
@@ -145,6 +171,12 @@ export default function createProductReducer(state = initialState.createProduct,
             return {
                 ...state,
                 properties_list: action.properties_list
+            };
+        case types.TOGGLE_ADD_CHILD_IMAGES_MODAL:
+            return {
+                ...state,
+                child_index: action.index,
+                childImagesModal: !state.childImagesModal
             };
         default:
             return state;

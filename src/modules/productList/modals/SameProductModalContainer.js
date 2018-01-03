@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {bindActionCreators} from 'redux';
 import * as productListAction from './../productListAction';
+import * as helper from '../../../helpers/helper';
 
 class SameProductModalContainer extends React.Component {
     constructor(props, context) {
@@ -11,8 +12,8 @@ class SameProductModalContainer extends React.Component {
     }
 
     render() {
-        const product = this.props.productEditing.productPresent;
-        const indexForChilds = this.props.productEditing.index;
+        const product = this.props.productPresent;
+        const indexForChilds = this.props.index;
         return (
             <Modal show={this.props.sameProductModal}
                    onHide={() => this.props.showSameProductModal(indexForChilds)}>
@@ -35,7 +36,7 @@ class SameProductModalContainer extends React.Component {
                             </thead>
                             <tbody>
                             {
-                                product.children && product.children.map((child, index) => {
+                                (product && product.children) && product.children.map((child, index) => {
                                     return (
                                         <tr key={index}>
                                             <td>
@@ -53,7 +54,11 @@ class SameProductModalContainer extends React.Component {
                                                 }
                                             </td>
                                             <td>{child.barcode}</td>
-                                            <td>{child.price}</td>
+                                            <td>
+                                                <a onClick={() => this.props.showPriceModal(child)}>
+                                                    {helper.dotNumber(child.price)}đ
+                                                </a>
+                                            </td>
                                             <td>
                                                 <a className="text-name-student-register"
                                                    rel="tooltip" title=""
@@ -70,7 +75,7 @@ class SameProductModalContainer extends React.Component {
                                             </td>
                                             <td>
                                                 {
-                                                    product.children && product.children.length > 1?(
+                                                    product.children && product.children.length > 1 ? (
                                                         <div className="btn-group-action">
                                                             <a style={{color: "#878787"}}
                                                                data-toggle="tooltip" title=""
@@ -82,7 +87,7 @@ class SameProductModalContainer extends React.Component {
                                                                 <i className="material-icons">delete</i>
                                                             </a>
                                                         </div>
-                                                    ):(
+                                                    ) : (
                                                         <div className="btn-group-action">
                                                             <a style={{color: "#878787"}}
                                                                data-toggle="tooltip" title=""
@@ -112,17 +117,20 @@ class SameProductModalContainer extends React.Component {
 
 SameProductModalContainer.propTypes = {
     sameProductModal: PropTypes.bool,
-    productEditing: PropTypes.object.isRequired,
+    productPresent: PropTypes.object.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
     showSameProductModal: PropTypes.func.isRequired,
+    showPriceModal: PropTypes.func.isRequired,
     productListAction: PropTypes.object.isRequired,
-    deleteProduct: PropTypes.func.isRequired
+    deleteProduct: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         sameProductModal: state.productList.modalInProduct.sameProductModal,
-        productEditing: state.productList.productEditing
+        productPresent: state.productList.productEditing.productPresent,
+        index: state.productList.productEditing.index
     };
 }
 

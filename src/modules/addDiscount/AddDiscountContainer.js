@@ -21,19 +21,18 @@ class AddDiscountContainer extends React.Component {
         this.loadDiscount = this.loadDiscount.bind(this);
         this.resetDiscount = this.resetDiscount.bind(this);
         this.generateCode = this.generateCode.bind(this);
+        this.changeQuantityInProps = this.changeQuantityInProps.bind(this);
         // this.loadCategories = this.loadCategories.bind(this);   Để dự phòng khi category phải chuyển sang select
     }
 
     componentWillMount() {
         let route = document.location.pathname;
         if (route === '/good/discount/add') {
-
-                // this.resetDiscount();
+            this.resetDiscount();
 
         } else {
             this.loadDiscount();
         }
-        // Nếu muốn add phải xóa hết thông tin đã edit của lần trước
     }
 
     componentDidMount(){
@@ -46,7 +45,12 @@ class AddDiscountContainer extends React.Component {
         this.props.addDiscountActions.loadDiscount(this.props.params.discountId);
     }
 
-
+    changeQuantityInProps(i){
+        const field = 'quantity';
+        let discount = {...this.props.discount};
+        discount[field] = i;
+        this.props.addDiscountActions.updateDiscountFormData(discount);
+    }
     resetDiscount() {
         const discount = {
             name: '',
@@ -58,6 +62,7 @@ class AddDiscountContainer extends React.Component {
             start_time: '',
             end_time: '',
             order_value: '',
+            quantity : 0,
             good: {},
             category: {},
             customer: {},
@@ -129,6 +134,7 @@ class AddDiscountContainer extends React.Component {
                                     updateFormData={this.updateFormData}
                                     discount={this.props.discount}
                                     generateCode = {this.generateCode}
+                                    changeQuantityInProps = {this.changeQuantityInProps}
                                     // categories={this.props.categories}
                                 />
                                 <div className="card-footer">

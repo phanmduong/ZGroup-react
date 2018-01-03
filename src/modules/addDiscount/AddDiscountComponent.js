@@ -7,6 +7,8 @@ import AddCustomerOverlay from "./AddCustomerOverlay";
 import AddGoodOverlay from "./AddGoodOverlay";
 import AddCategoryOverlay from "./AddCategoryOverlay";
 import AddGroupCustomerOverlay from "./AddGroupCustomerOverlay";
+import CheckBoxMaterial from '../../components/common/CheckBoxMaterial';
+
 
 // import ReactSelect from 'react-select';
 
@@ -16,17 +18,28 @@ class AddDiscountComponent extends React.Component {
         super(props);
         this.state = {
             isShowModal: false,
+            unlimited: (this.props.discount.quantity === -1)
         };
-        this.toggle = this.toggle.bind(this); // Không dùng
+        this.changeQuantity = this.changeQuantity.bind(this);
     }
 
     toggle() {
         this.setState({isShowModal: !this.state.isShowModal});
     }
 
+    changeQuantity() {
+        this.setState({unlimited: !this.state.unlimited}); // Logic có vấn đề do các hàm thực hiện cùng nhau
+        if (this.state.unlimited === false) {
+            this.props.changeQuantityInProps(-1);
+        }
+        else {
+            this.props.changeQuantityInProps(0);
+        }
+    }
+
 
     render() {
-        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value} = this.props.discount;
+        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value, quantity} = this.props.discount;
         let TYPE = [
             {
                 name: '',
@@ -100,37 +113,7 @@ class AddDiscountComponent extends React.Component {
             },
 
         ];
-        // let CATEGORY = {
-        //     this.props.categories.map((category) => {
-        //         return {
-        //             ...category,
-        //             value: category.id,
-        //             label: category.label,
-        //         };
-        //     })
-        // };
-        {/*<div className="form-group col-md-8">*/
-        }
-        {/*<label className="label-control">Phân loại: </label>*/
-        }
-        {/*<ReactSelect*/
-        }
-        {/*name="category"*/
-        }
-        {/*value={this.props.discount.category}*/
-        }
-        {/*options={CATEGORY[0]}*/
-        }
-        {/*onChange={this.props.updateFormData}*/
-        }
-        {/*placeholder="Chọn danh mục"*/
-        }
-        {/*autosize={true}*/
-        }
-        {/*/>*/
-        }
-        {/*</div>*/
-        }
+
         return (
             <div>
                 <form id="form-add-discount">
@@ -316,6 +299,29 @@ class AddDiscountComponent extends React.Component {
                                             </div>
                                         }
                                     </div>
+                                    {type === 'code' ?
+                                        <div>
+                                            <CheckBoxMaterial
+                                                label="Sử dụng vô số lần"
+                                                name="quantity"
+                                                checked={this.state.unlimited}
+                                                onChange={() => {
+                                                    return this.changeQuantity();
+                                                }}
+                                            />
+                                            {quantity !== -1 ?
+                                                <FormInputText
+                                                    label="Số lần sử dụng khuyến mãi"
+                                                    name="quantity"
+                                                    type="number"
+                                                    updateFormData={this.props.updateFormData}
+                                                    value={quantity}
+                                                    required={true}
+                                                /> : null
+                                            }
+
+                                        </div> : null
+                                    }
 
                                 </div>
                             </div>
@@ -368,9 +374,9 @@ class AddDiscountComponent extends React.Component {
 
 AddDiscountComponent.propTypes = {
     discount: PropTypes.object,
-    // categories: PropTypes.object,
     updateFormData: PropTypes.func,
     generateCode: PropTypes.func,
+    changeQuantityInProps: PropTypes.func,
 };
 
 

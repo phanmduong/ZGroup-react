@@ -31,6 +31,16 @@ export function loadShiftRegisters(baseId, genId) {
     return axios.get(url);
 }
 
+export function loadDetailShiftsUser(baseId, genId, week, userId) {
+    let url = env.MANAGE_API_URL + `/work-shift/detail-shifts/${userId}?base_id=${baseId}&gen_id=${genId}&week=${week}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function register(workShiftRegisterId) {
     let url = env.MANAGE_API_URL + "/work-shift/register-shift/" + workShiftRegisterId;
     let token = localStorage.getItem('token');

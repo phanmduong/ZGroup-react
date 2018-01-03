@@ -72,8 +72,8 @@ export function addGroupCustomerApi(groupCustomerForm) {
 }
 
 
-export function editGroupCustomerApi(groupCustomerForm) {
-    let url = env.MANAGE_API_URL + "/order/customer-group/" + groupCustomerForm.id;
+export function editGroupCustomerApi(groupCustomerForm, groupId) {
+    let url = env.MANAGE_API_URL + "/order/customer-group/" + groupId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
