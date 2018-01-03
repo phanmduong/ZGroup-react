@@ -27,7 +27,7 @@ class Lesson extends Model
 
     public function terms()
     {
-        return $this->belongsToMany(Term::class, "term_id");
+        return $this->hasMany(Term::class, "term_id");
     }
 
     public function surveys()
@@ -46,6 +46,7 @@ class Lesson extends Model
             'order' => $this->order,
             'detail_content' => $this->detail_content,
             'detail_teacher' => $this->detail_teacher,
+            'term' => $this->terms,
             'created_at' => format_time_to_mysql(strtotime($this->created_at))
         ];
     }

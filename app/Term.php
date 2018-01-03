@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\CheckInCheckOut\Entities\CheckInCheckOut;
-use Modules\CheckInCheckOut\Entities\Wifi;
 
 class Term extends Model
 {
@@ -19,7 +17,7 @@ class Term extends Model
 
     public function lessons()
     {
-        return $this->belongsToMany(Lesson::class, "lesson_id");
+        return $this->hasMany(Lesson::class, "lesson_id");
     }
 
 }
