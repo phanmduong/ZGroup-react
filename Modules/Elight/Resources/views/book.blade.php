@@ -110,8 +110,8 @@
                         <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
-                                <a href="" style="color:black; display: flex; flex-direction: row">
-                                    <div style="font-size:20px;color:#138edc; padding: 10px">
+                                <a href="" style="color:black; display: flex; flex-direction: row;">
+                                    <div style="font-size:20px;color:#138edc;">
                                         <i class="fa fa-check-circle" aria-hidden="true"></i>
                                     </div>
                                     <div style="padding-left: 10px">
