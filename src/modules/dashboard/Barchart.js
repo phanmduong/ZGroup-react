@@ -14,7 +14,11 @@ class Barchart extends React.Component {
 
         let options = {
             seriesBarDistance: 10,
-            height: '500px'
+            height: '500px',
+            plugins: [
+                // eslint-disable-next-line
+                Chartist.plugins.tooltip()
+            ]
         };
 
         let responsiveOptions = [

@@ -3,6 +3,8 @@ export default {
         categories: [],
         manufactures: [],
         isUploadingAvatar: false,
+        childImagesModal: false,
+        child_index: 0,
         percent: 0,
         productWorking: {
             name: '',
@@ -83,28 +85,13 @@ export default {
             modalUpdated: false
         },
         productEditing: {
-            index: null,
-            productPresent: {
-                id: '',
-                name: '',
-                code: '',
-                avatar_url: '',
-                price: '',
-                quantity: '',
-                children: [],
-                warehouses: [],
-                category: {
-                    id: '',
-                    name: ''
-                },
-                manufacture: {
-                    id: '',
-                    name: ''
-                }
-            },
-            good_category_id: '',
-            manufacture_id: '',
-            status: '',
+            index: -1,
+            productAvatar: {},
+            productPrice: {},
+            productPresent: {},
+            good_category_id: -1,
+            manufacture_id: -1,
+            status: null,
             isUploadingAvatar: false,
             percent: 0
         },
@@ -535,7 +522,8 @@ export default {
             isSaving: false,
             saveError: false,
             isPreSaving: false,
-            preSaveError: false
+            preSaveError: false,
+            id: ''
         },
         categories: {
             categories: [],
@@ -679,6 +667,15 @@ export default {
     },
 
     dashboard: {
+        it: {
+            dateArray: [],
+            pointByDate: [],
+            cardsByDate: [],
+            cards: [],
+            isLoading: false,
+            showCardsModal: false,
+            isLoadingCardsModal: false,
+        },
         gens: [],
         isLoadingGens: true,
         errorGens: false,
@@ -884,12 +881,26 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isSaving: false,
             isLoading: false,
             error: false,
-            infoOrder: {},
-            infoUser: {},
-            infoShip: {},
-            goodOrders: []
+            total: 1130000,
+            paid: 0,
+            debt: 1130000,
+            order: {
+                code: "ORDER20171203164031",
+                created_at: "16:40 03-12-2017",
+                note: "",
+                payment: "Chuyển khoản",
+                status: "place_order",
+                good_orders: [],
+                customer: {
+                    name: "test",
+                    address: "HN",
+                    phone: "test",
+                    email: "po01636863831@gmail.com"
+                },
+            },
         },
         staffs: [],
         allStaffs: [],
@@ -1063,13 +1074,15 @@ export default {
             created_at: "",
             detail: "",
             lessons: [],
-            links: []
+            links: [],
+            pixels: [],
         }
     },
     courses: {
         isLoading: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
+        isUploadingPixel: false,
         error: false,
         coursesList: [],
         isDeleting: false,
@@ -1107,6 +1120,7 @@ export default {
             detail: "",
             lessons: [],
             links: [],
+            pixels:[],
         },
         link: {
             id: null,
@@ -1115,6 +1129,10 @@ export default {
             link_url: "",
             link_description: "",
             link_icon: "",
+        },
+        pixel:{
+            name:"",
+            code:"",
         }
     },
     lessons: {
@@ -1270,12 +1288,13 @@ export default {
             },
         ],
     },
+
     groupCustomers: {
         isSaving: false,
         isLoading: false,
         isLoadingModal: false,
         isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         //  +  customersShowInModal  = full = customers
+        customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
         totalCustomerInOverlayPages: 1,
         totalCustomerInModalPages: 1,
         totalCustomerCount: 1,
@@ -1292,6 +1311,7 @@ export default {
         groupCustomersList: [],
 
     },
+
     firstLogin: {
         isLoading: false,
         profile: {
@@ -1306,4 +1326,41 @@ export default {
         errorChangePassword: false,
         updateSuccess: false,
     },
+
+    workShiftSessions: {
+        isStoring: false,
+        errorStore: false,
+        workShiftSessions: [],
+        isLoading: false,
+        error: false
+    },
+    workShiftRegisters: {
+        isLoadingGensBases: false,
+        errorGensBases: false,
+        bases: [],
+        gens: [],
+        currentGen: {},
+        isLoading: false,
+        error: false,
+        shiftRegisters: [],
+        detailShifts: [],
+        isLoadingDetailShifts: false,
+        errorDetailShifts: false,
+    },
+    historyWorkShiftRegisters: {
+        currentPage: 1,
+        totalPages: 1,
+        shiftPicks: [],
+        isLoading: false,
+        error: false
+    },
+    landingPages: {
+        landingPages: [],
+        currentPage: 1,
+        totalPages: 1,
+        isLoading: false,
+        error: false,
+        isDeleting: false,
+        errorDelete: false,
+    }
 };

@@ -20,21 +20,19 @@ class AddDiscountContainer extends React.Component {
         this.addDiscount = this.addDiscount.bind(this);
         this.loadDiscount = this.loadDiscount.bind(this);
         this.resetDiscount = this.resetDiscount.bind(this);
+        this.generateCode = this.generateCode.bind(this);
+        this.changeQuantityInProps = this.changeQuantityInProps.bind(this);
         // this.loadCategories = this.loadCategories.bind(this);   Để dự phòng khi category phải chuyển sang select
     }
 
     componentWillMount() {
         let route = document.location.pathname;
         if (route === '/good/discount/add') {
-
-                // this.resetDiscount();
+            this.resetDiscount();
 
         } else {
             this.loadDiscount();
-
-
         }
-        // Nếu muốn add phải xóa hết thông tin đã edit của lần trước
     }
 
     componentDidMount(){
@@ -47,7 +45,12 @@ class AddDiscountContainer extends React.Component {
         this.props.addDiscountActions.loadDiscount(this.props.params.discountId);
     }
 
-
+    changeQuantityInProps(i){
+        const field = 'quantity';
+        let discount = {...this.props.discount};
+        discount[field] = i;
+        this.props.addDiscountActions.updateDiscountFormData(discount);
+    }
     resetDiscount() {
         const discount = {
             name: '',
@@ -59,6 +62,7 @@ class AddDiscountContainer extends React.Component {
             start_time: '',
             end_time: '',
             order_value: '',
+            quantity : 0,
             good: {},
             category: {},
             customer: {},
@@ -86,11 +90,11 @@ class AddDiscountContainer extends React.Component {
         this.state.id ? isEdit = true : isEdit = false;
         if ($('#form-add-discount').valid()) {
             if (this.props.discount.type === null || this.props.discount.type === undefined || this.props.discount.type === '') {
-                helper.showTypeNotification("Vui lòng nhập tên khuyến mãi", 'warning');
+                helper.showTypeNotification("Vui lòng chọn chương trình khuyến mãi", 'warning');
                 return;
             }
             if (this.props.discount.name === null || this.props.discount.name === undefined || this.props.discount.name === '') {
-                helper.showTypeNotification("Vui lòng chọn chương trình khuyến mãi", 'warning');
+                helper.showTypeNotification("Vui lòng nhập tên khuyến mãi", 'warning');
                 return;
             }
             if (this.props.discount.start_time === null || this.props.discount.start_time === undefined || this.props.discount.start_time === '') {
@@ -101,6 +105,10 @@ class AddDiscountContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn ngày kết thúc", 'warning');
                 return;
             }
+            if (this.props.discount.end_time < this.props.discount.start_time) {
+                helper.showTypeNotification("Vui lòng xem lại ngày", 'warning');
+                return;
+            }
             else {
                 isEdit ?
                     this.props.addDiscountActions.editDiscount(this.props.discount)
@@ -109,6 +117,9 @@ class AddDiscountContainer extends React.Component {
             }
         }
         e.preventDefault();
+    }
+    generateCode(){
+        this.props.addDiscountActions.generateCode();
     }
 
 
@@ -122,6 +133,8 @@ class AddDiscountContainer extends React.Component {
                                 <AddDiscountComponent
                                     updateFormData={this.updateFormData}
                                     discount={this.props.discount}
+                                    generateCode = {this.generateCode}
+                                    changeQuantityInProps = {this.changeQuantityInProps}
                                     // categories={this.props.categories}
                                 />
                                 <div className="card-footer">

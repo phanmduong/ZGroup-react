@@ -3,7 +3,9 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function jobAssignmentReducer(state = initialState.jobAssignment, action) {
+
     console.log(action.type);
+
     switch (action.type) {
         case types.UPDATE_DATA_CREATE_JOB_ASSIGNMENT: {
             return {
@@ -16,7 +18,9 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
         }
         case types.CHOOSE_STAFF_JOB_ASSIGNMENT: {
             let newstaffs = remove(action.obj, [...state.staffs]);
+
             let newdata = {...state.data, staffs: [action.obj,...state.data.staffs]};
+
             return {
                 ...state,
                 ...{
@@ -38,6 +42,7 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+
         case types.BEGIN_LOAD_STAFFS_JOB_ASSIGNMENT: {
             return {
                 ...state,
@@ -257,10 +262,12 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+
         default:
             return state;
     }
 }
+
 
 function getStaffs(arr) {
     return arr.map((obj)=>{return {...obj, label: obj.name,value: obj.id}});
@@ -284,3 +291,4 @@ function filterStaff(staffs, allstaffs) {
     });
     return res;
 }
+

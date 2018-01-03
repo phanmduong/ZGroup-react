@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import StorePostComponent from './StorePostComponent';
 import * as blogActions from './blogActions';
-import initialState from '../../reducers/initialState';
 import * as helper from '../../helpers/helper';
 
 class StorePostContainer extends React.Component {
@@ -24,6 +23,7 @@ class StorePostContainer extends React.Component {
     }
 
     componentWillMount() {
+        this.props.blogActions.resetForm();
         if (this.props.route.type == 'edit') {
             this.props.blogActions.getPost(this.props.params.postId);
         }
@@ -37,7 +37,7 @@ class StorePostContainer extends React.Component {
         }
         if (this.props.location.pathname != nextProps.location.pathname) {
             if (nextProps.location.pathname == "/blog/new-post") {
-                this.props.blogActions.updateFormPost(initialState.blog.post);
+                this.props.blogActions.resetForm();
             } else {
                 this.props.blogActions.getPost(nextProps.params.postId);
             }

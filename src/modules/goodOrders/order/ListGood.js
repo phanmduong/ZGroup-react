@@ -4,65 +4,75 @@ import TooltipButton from '../../../components/common/TooltipButton';
 import Search from '../../../components/common/Search';
 import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
+import EditButton from "./EditButton";
+
+
 
 class ListGood extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            isEdit: false,
+        };
         this.searchTable = this.searchTable.bind(this);
     }
 
     componentDidMount() {
-        $('#datatables-goodorders #footer-search th').not('.disabled-search').each(function () {
-            let title = $(this).text();
-            if (title !== "") {
-                $(this).html('<input class="form-control width-100" type="text" placeholder="Tìm ' + title.toLowerCase() + '" />');
-            }
-        });
+        // $('#datatables-goodorders #footer-search th').not('.disabled-search').each(function () {
+        //     let title = $(this).text();
+        //     if (title !== "") {
+        //         $(this).html('<input class="form-control width-100" type="text" placeholder="Tìm ' + title.toLowerCase() + '" />');
+        //     }
+        // });
+        //
+        // this.table = $('#datatables-goodorders').DataTable({
+        //     dom: '<l<t>ip>',
+        //     pagingType: "full_numbers",
+        //     lengthMenu: [
+        //         [-1, 10, 25, 50],
+        //         ["Tất cả", 10, 25, 50]
+        //     ],
+        //     iDisplayLength: 10,
+        //     responsive: true,
+        //     columns: [
+        //         {responsivePriority: 3},
+        //         {responsivePriority: 2},
+        //         {responsivePriority: 4},
+        //         {responsivePriority: 8},
+        //         {responsivePriority: 6},
+        //         {responsivePriority: 7},
+        //         {responsivePriority: 1},
+        //         {responsivePriority: 5}
+        //     ],
+        //     language: helper.generateDatatableLanguage("sản phẩm"),
+        //     initComplete: function () {
+        //         let r = $('#datatables-goodorders #footer-search tr');
+        //         r.find('th').each(function () {
+        //             $(this).css('padding', 8);
+        //         });
+        //         $('#datatables-goodorders thead').append(r);
+        //         $('#search_0').css('text-align', 'center');
+        //         $('.card .material-datatables label').addClass('form-group');
+        //     },
+        // });
+        // // Apply the search
+        // this.table.columns().every(function () {
+        //     const that = this;
+        //
+        //     $('input', this.footer()).on('keyup change', function () {
+        //         if (that.search() !== this.value) {
+        //             that
+        //                 .search(this.value)
+        //                 .draw();
+        //         }
+        //     });
+        // });
 
-        this.table = $('#datatables-goodorders').DataTable({
-            dom: '<l<t>ip>',
-            pagingType: "full_numbers",
-            lengthMenu: [
-                [-1, 10, 25, 50],
-                ["Tất cả", 10, 25, 50]
-            ],
-            iDisplayLength: 10,
-            responsive: true,
-            columns: [
-                {responsivePriority: 3},
-                {responsivePriority: 2},
-                {responsivePriority: 4},
-                {responsivePriority: 8},
-                {responsivePriority: 6},
-                {responsivePriority: 7},
-                {responsivePriority: 1},
-                {responsivePriority: 5}
-            ],
-            language: helper.generateDatatableLanguage("sản phẩm"),
-            initComplete: function () {
-                let r = $('#datatables-goodorders #footer-search tr');
-                r.find('th').each(function () {
-                    $(this).css('padding', 8);
-                });
-                $('#datatables-goodorders thead').append(r);
-                $('#search_0').css('text-align', 'center');
-                $('.card .material-datatables label').addClass('form-group');
-            },
-        });
-        // Apply the search
-        this.table.columns().every(function () {
-            const that = this;
-
-            $('input', this.footer()).on('keyup change', function () {
-                if (that.search() !== this.value) {
-                    that
-                        .search(this.value)
-                        .draw();
-                }
-            });
-        });
         $.material.init();
     }
+
+
+
 
     searchTable(value) {
         this.table.search(value).draw();
@@ -91,18 +101,18 @@ class ListGood extends React.Component {
                             <th className="disabled-sorting"/>
                         </tr>
                         </thead>
-                        <tfoot id="footer-search" className="text-rose">
-                        <tr>
-                            <th className="disabled-search" />
-                            <th>Mã hàng</th>
-                            <th>Tên hàng</th>
-                            <th>Số lượng</th>
-                            <th>Giá bán</th>
-                            <th>Chiết khấu</th>
-                            <th>Thành tiền</th>
-                            <th className="disabled-sorting"/>
-                        </tr>
-                        </tfoot>
+                        {/*<tfoot id="footer-search" className="text-rose">*/}
+                        {/*<tr>*/}
+                            {/*<th className="disabled-search"/>*/}
+                            {/*<th>Mã hàng</th>*/}
+                            {/*<th>Tên hàng</th>*/}
+                            {/*<th>Số lượng</th>*/}
+                            {/*<th>Giá bán</th>*/}
+                            {/*<th>Chiết khấu</th>*/}
+                            {/*<th>Thành tiền</th>*/}
+                            {/*<th className="disabled-sorting"/>*/}
+                        {/*</tr>*/}
+                        {/*</tfoot>*/}
                         <tbody>
                         {
                             this.props.goodOrders.map((goodOrder, index) => {
@@ -127,9 +137,11 @@ class ListGood extends React.Component {
                                             {goodOrder.code}
                                         </td>
                                         <td>{goodOrder.name}</td>
-                                        <td>
-                                            {goodOrder.quantity}
-                                        </td>
+                                        <EditButton
+                                            goodOrder = {goodOrder}
+                                            index={index}
+                                            updateQuantity = {this.props.updateQuantity}
+                                        />
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>
                                             <div style={{display: 'inline-block'}}>
@@ -194,6 +206,21 @@ class ListGood extends React.Component {
                             </th>
                             <th/>
                         </tr>
+
+                        {/*<tr>*/}
+                            {/*<th/>*/}
+                            {/*<th>*/}
+                                {/*<h4><b>Đã trả</b></h4>*/}
+                            {/*</th>*/}
+                            {/*<th className="text-align-right" colSpan="5">*/}
+                                {/*<FormInputText label="Ghi chú" name="paid"*/}
+                                               {/*value={this.props.paid}*/}
+                                               {/*updateFormData={this.updateOrderFormData}*/}
+                                {/*/>*/}
+                                {/*<h4><b>{helper.dotNumber(totalMoneyAll)}đ</b></h4>*/}
+                            {/*</th>*/}
+                            {/*<th/>*/}
+                        {/*</tr>*/}
                         </tfoot>
                     </table>
                 </div>
@@ -204,7 +231,9 @@ class ListGood extends React.Component {
 }
 
 ListGood.propTypes = {
-    goodOrders: PropTypes.array.isRequired
+    goodOrders: PropTypes.array.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
+    paid: PropTypes.number.isRequired,
 };
 
 export default ListGood;

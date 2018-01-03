@@ -12,6 +12,7 @@ import Select from 'react-select';
 import ListStaffs from './ListStaffs';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import * as helper from '../../helpers/helper';
+
 import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 
@@ -22,7 +23,9 @@ class CreateJobAssignmentContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.updateFormDataType = this.updateFormDataType.bind(this);
         this.updateFormDataBonusType = this.updateFormDataBonusType.bind(this);
+
         this.checkValid = this.checkValid.bind(this);
+
         this.submit = this.submit.bind(this);
     }
 
@@ -36,10 +39,12 @@ class CreateJobAssignmentContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         console.log(nextProps);
+
         if(this.props.isLoadingStaffs && !nextProps.isLoadingStaffs)
             if(this.props.params.workId)
                 this.props.jobAssignmentAction.loadWork(this.props.params.workId);
             else this.props.jobAssignmentAction.resetDataCreate();
+
     }
 
     componentDidUpdate(){
@@ -69,6 +74,7 @@ class CreateJobAssignmentContainer extends React.Component {
         if(!e) return;
     }
 
+
     checkValid(){
         let data = this.props.data;
         if ($('#form-job-assignment').valid()) {
@@ -95,7 +101,9 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     render() {
+
         let time = moment(this.props.data.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -105,6 +113,7 @@ class CreateJobAssignmentContainer extends React.Component {
 
                             ?
                             <Loading/> :
+
                         <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-8">
@@ -124,6 +133,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                     name="name"
                                                     updateFormData={this.updateFormData}
                                                     value={this.props.data.name || ""}
+
                                                 /></div><div className="col-md-12">
                                                 <label className="">
                                                     Loại
@@ -137,6 +147,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                     ]}
                                                     onChange={this.updateFormDataType}
                                                     value={this.props.data.type || ""}
+
                                                     defaultMessage="Tuỳ chọn"
                                                     name="type"
                                                 /></div><div className="col-md-12">
@@ -147,14 +158,17 @@ class CreateJobAssignmentContainer extends React.Component {
                                                     name="cost"
                                                     updateFormData={this.updateFormData}
                                                     value={this.props.data.cost || 0}
+
                                                 /></div><div className="col-md-12">
                                                 <FormInputDateTime
                                                     label="Deadline"
                                                     name="deadline"
                                                     updateFormData={this.updateFormData}
+
                                                     value={ time.timer}
                                                     defaultDate={moment().add(1, "hours")}
                                                     id="deadline"
+
 
                                                 /></div>
                                                 <div className="col-md-8">
@@ -186,6 +200,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         :
                                                         < button onClick={this.submit} className="btn btn-rose">Lưu</button>
                                                     }
+
                                                 </div>
                                             </div>
                                         </div>
@@ -203,6 +218,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                 <div className="col-sm-12">
                                                     <div className="form-group" hidden={this.props.isLoadingStaffs}>
                                                         <label className="label-control">Nhập tên để tìm kiếm nhân viên</label>
+
                                                         <Select
                                                             name="form-field-name"
                                                             value={"Chọn nhân viên"}
@@ -220,6 +236,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             }}
                                                             placeholder="Chọn nhân viên"
                                                             disabled={this.props.isLoading || this.props.isSaving}
+
                                                         />
                                                     </div>
                                                 </div>

@@ -136,7 +136,7 @@ export function editCustomer(customer ) {
                         type: types.EDIT_CUSTOMER_SUCCESS,
                         customer: res.data.data.user,
                     });
-                    browserHistory.push('/goods/customer');
+                    browserHistory.push('/good/goods/customer');
                 }
                 else {
                     helper.sweetAlertError(res.data.message);

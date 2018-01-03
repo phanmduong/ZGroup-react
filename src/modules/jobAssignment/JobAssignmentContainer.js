@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as jobAssignmentAction from '../jobAssignment/jobAssignmentAction';
+
 import  CardWork from '../jobAssignment/CardWork';
 import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
@@ -11,9 +12,11 @@ import * as conts from '../../constants/constants';
 import WorkInfoModal from './WorkInfoModal';
 import {Link} from "react-router";
 
+
 class JobAssignmentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+
         this.deleteWork =this.deleteWork.bind(this);
         this.changeWorkStatus =this.changeWorkStatus.bind(this);
         this.openInfoModal =this.openInfoModal.bind(this);
@@ -80,9 +83,11 @@ class JobAssignmentContainer extends React.Component {
         this.props.jobAssignmentAction.editWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
     }
 
+
     render() {
         return (
             <div>
+
                 <WorkInfoModal
                     show={this.state.showInfoModal}
                     onHide={this.closeInfoModal}
@@ -132,6 +137,7 @@ class JobAssignmentContainer extends React.Component {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="board">
                                 {this.props.isLoading ?
                                     <Loading/>
@@ -157,6 +163,7 @@ class JobAssignmentContainer extends React.Component {
                     {/*1*/}
                     {/*2*/}
                         <div  data-order="1" className="card card-container keetool-board">
+
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đang làm</span>
                                 <div className="board-action">
@@ -190,6 +197,7 @@ class JobAssignmentContainer extends React.Component {
                                 </div>
                             </div>
                             <div className="board">
+
                                 {this.props.isLoading ?
                                     <Loading/>
                                     :
@@ -208,11 +216,14 @@ class JobAssignmentContainer extends React.Component {
                                         );
                                     })
                                 }
+
                             </div>
                         </div>
                     {/*2*/}
                     {/*3*/}
+
                         <div  data-order="2" className="card card-container keetool-board">
+
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hoàn thành</span>
                                 <div className="board-action">
@@ -264,11 +275,14 @@ class JobAssignmentContainer extends React.Component {
                                         );
                                     })
                                 }
+
                             </div>
                         </div>
                     {/*3*/}
                     {/*4*/}
+
                         <div  data-order="3" className="card card-container keetool-board">
+
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hủy</span>
                                 <div className="board-action">
@@ -319,6 +333,7 @@ class JobAssignmentContainer extends React.Component {
                                         );
                                     })
                                 }
+
                             </div>
                         </div>
 
@@ -335,6 +350,7 @@ JobAssignmentContainer.propTypes = {
     works: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     jobAssignmentAction: PropTypes.object.isRequired,
+
 
 };
 

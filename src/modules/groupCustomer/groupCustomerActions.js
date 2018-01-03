@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import * as groupCustomerApis from './groupCustomerApis';
 import * as helper from '../../helpers/helper';
+import {browserHistory} from 'react-router';
 
 
 export function loadCustomersInOverlay(page, limit, query, stringId) {
@@ -37,7 +38,7 @@ export function loadCustomersInModal(page, limit, query, idModal) {
             .then((res) => {
                 dispatch({
                     type: types.LOADED_CUSTOMER_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER,
-                    customers: res.data.customers,
+                    groupCustomerForm: res.data,
                     total_pages: res.data.paginator.total_pages,
                 });
                 // stringId.map((id) => {
@@ -109,10 +110,10 @@ export function addGroupCustomer(groupCustomerForm,page) {
             });
     };
 }
-export function editGroupCustomer(groupCustomerForm,page,closeModal) {
+export function editGroupCustomer(groupCustomerForm, groupId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_GROUP_CUSTOMER,});
-        groupCustomerApis.editGroupCustomerApi(groupCustomerForm)
+        groupCustomerApis.editGroupCustomerApi(groupCustomerForm , groupId)
             .then((res) => {
                 if (res.data.status) {
                     dispatch({
@@ -120,8 +121,7 @@ export function editGroupCustomer(groupCustomerForm,page,closeModal) {
                        // groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
                     helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomerForm.name, 'success');
-                    dispatch(loadGroupCustomer(page,6));
-                    closeModal();
+                    browserHistory.push('/good/goods/group-customer');
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);

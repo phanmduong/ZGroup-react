@@ -15,29 +15,29 @@ class AddGoodOverlay extends React.Component {
         };
     }
 
+
     toggle() {
         this.setState({isShowModal: !this.state.isShowModal});
     }
 
 
     render() {
-        let good = this.props.good ;
+        let good = this.props.good;
         return (
-            <div style={{position: "relative"}}>
-                <a className="btn btn-simple card-detail-btn-action"
-                   ref="target" onClick={() => this.toggle()}>
-
+            <div style={{position: "relative", display: "flex"}}>
+                <a
+                    className="btn btn-xs btn-main btn-success"
+                    onClick={() => this.toggle()}>
                     {good && good.name ?
-                        <div style={{display: "flex"}}>
+                        <div style={{display: "flex" ,  alignItems : "center"}}>
                             <Avatar size={30} url={good.avatar_url}/>
-                            {good.name}
+                            <span> {" " + good.name}</span>
                         </div>
                         :
                         <span>
                         <i className="material-icons">card_giftcard</i> Chọn Hàng hóa
                         </span>
                     }
-
                 </a>
                 <Overlay
                     rootClose={true}
@@ -47,7 +47,7 @@ class AddGoodOverlay extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <ListGoods
-                        toggle = {this.toggle}
+                        toggle={this.toggle}
                     />
                 </Overlay>
             </div>
@@ -55,8 +55,9 @@ class AddGoodOverlay extends React.Component {
         );
     }
 }
+
 AddGoodOverlay.propTypes = {
-  good : propTypes.object,
+    good: propTypes.object,
 };
 
 export default AddGoodOverlay;

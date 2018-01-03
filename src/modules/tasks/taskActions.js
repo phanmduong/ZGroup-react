@@ -9,6 +9,16 @@ import {browserHistory} from 'react-router';
 import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 
 /*eslint no-console: 0 */
+
+export function updateCardData(card) {
+    return (dispatch) => {
+        dispatch({
+            type: types.UPDATE_CARD_DATA,
+            card
+        });
+    };
+}
+
 export function changeProjectStatus(project, status) {
     return function (dispatch) {
         dispatch({
