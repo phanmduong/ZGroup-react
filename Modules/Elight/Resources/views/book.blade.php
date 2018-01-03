@@ -100,14 +100,14 @@
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
                                 <a href="/book/{{$book->id}}/{{$lesson->id}}"
-                                   style="color:black; display: flex; flex-direction: row; cursor: pointer"
-                                <div style="font-size:20px;color:#138edc;">
-                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                </div>
-                                <div style="padding-left: 10px">
-                                    <p style="font-weight: 600">{{$lesson->name}}</p>
-                                    <p>{{$lesson->description}}</p>
-                                </div>
+                                   style="color:black; display: flex; flex-direction: row; cursor: pointer">
+                                    <div style="font-size:20px;color:#138edc;">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    </div>
+                                    <div style="padding-left: 10px">
+                                        <p style="font-weight: 600">{{$lesson->name}}</p>
+                                        <p>{{$lesson->description}}</p>
+                                    </div>
                                 </a>
                             @endforeach
                         </div>

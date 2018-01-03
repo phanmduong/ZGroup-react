@@ -69,7 +69,7 @@ class ElightController extends Controller
         );
     }
 
-    public function book($subfix, $book_id, $lesson_id)
+    public function book($subfix, $book_id, $lesson_id = null)
     {
         $lesson = Lesson::find($lesson_id);
 
