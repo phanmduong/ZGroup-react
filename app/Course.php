@@ -61,6 +61,7 @@ class Course extends Model
             'detail' => $this->detail,
             'lessons' => $this->lessons,
             'links' => $this->links,
+            'terms' => $this->terms,
             'pixels' => $this->coursePixels->map(function ($coursePixel) {
                 return $coursePixel->getData();
             })
