@@ -5,4 +5,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/create-lesson/{courseId}','LessonController@createlesson');
     Route::put('/edit-lesson/{lessonId}','LessonController@editLesson');
     Route::delete('/delete-lesson/{lessonId}','LessonController@deleteLesson');
+    Route::get('/term/{term_id}', 'LessonController@getTerm');
+    Route::get('/term/course/{course_id}', 'LessonController@getTermsCourse');
+    Route::post('/term/{term_id}/create', 'LessonController@createTerm');
+    Route::put('/term/{term_id}/edit', 'LessonController@editTerm');
+    Route::delete('/term/{term_id}/delete', 'LessonController@deleteTerm');
 });

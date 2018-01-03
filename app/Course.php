@@ -25,6 +25,11 @@ class Course extends Model
         return $this->hasMany('App\Lesson', 'course_id');
     }
 
+    public function terms()
+    {
+        return $this->hasMany('App\Term', 'term_id');
+    }
+
     public function links()
     {
         return $this->hasMany('App\Link', 'course_id');
