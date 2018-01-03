@@ -1,15 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-// import {Link} from "react-router";
 import Loading from "../../../components/common/Loading";
 import PropTypes from 'prop-types';
 import * as goodActions from '../../good/goodActions';
 import BookList from "./BookList";
+import {Link} from "react-router";
 
 class GoodListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.deleteBook = this.deleteBook.bind(this);
     }
 
     componentWillMount() {
@@ -20,6 +21,10 @@ class GoodListContainer extends React.Component {
         if (nextProps.params.type !== this.props.params.type) {
             this.props.goodActions.loadGoods(nextProps.params.type);
         }
+    }
+
+    deleteBook(good) {
+        this.props.goodActions.deleteGood(good.id);
     }
 
     render() {
@@ -34,8 +39,16 @@ class GoodListContainer extends React.Component {
 
                         <div className="card-content">
                             <h4 className="card-title">Sản phẩm</h4>
+                            <div className="row">
+                                <div className="col-md-3">
+                                    <Link className="btn btn-rose" to="/book/book/create">
+                                        Tạo
+                                    </Link>
+                                </div>
+                            </div>
                             {
-                                this.props.isLoading ? <Loading/> : <BookList goods={this.props.goods}/>
+                                this.props.isLoading ? <Loading/> :
+                                    <BookList goods={this.props.goods} deleteBook={this.deleteBook}/>
                             }
                         </div>
                     </div>

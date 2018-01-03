@@ -19,12 +19,10 @@ class WareHouseModalContainer extends React.Component {
     }
 
     render() {
-        const indexForChilds = this.props.productEditing.index;
-        const product = indexForChilds ? this.props.products[indexForChilds] : this.props.productPresent;
         return (
             <Modal show={this.props.wareHouseModal}
-                   onHide={() => this.props.showWareHouseModal(product)}>
-                <a onClick={() => this.props.showWareHouseModal(product)}
+                   onHide={() => this.props.modalProductAction.showWareHouseModal()}>
+                <a onClick={() => this.props.modalProductAction.showWareHouseModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title className="modal-title">Danh sách kho chứa sản phẩm</Modal.Title>

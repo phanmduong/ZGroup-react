@@ -24,59 +24,82 @@ class AddCustomerModal extends React.Component {
                         Thông tin khách hàng
                     </h4>
 
-                    <FormInputText
-                        label="Họ và tên"
-                        name="name"
-                        updateFormData={this.props.updateFormData}
-                        required={true}
-                        type="text"
-                        value={name}
-                    />
-                    <FormInputText
-                        label="Địa chỉ email"
-                        name="email"
-                        updateFormData={this.props.updateFormData}
-                        required={true}
-                        type="email"
-                        value={email}
-                        placeholder = "Nhập email "
-                    />
+                    <div className="row">
+                        <div className="col-md-6">
+                            <FormInputText
+                                label="Họ và tên"
+                                name="name"
+                                updateFormData={this.props.updateFormData}
+                                required={true}
+                                type="text"
+                                value={name}
+                            />
 
-                    <FormInputText
-                        label="Địa chỉ"
-                        name="address"
-                        updateFormData={this.props.updateFormData}
-                        type="text"
-                        value={address}
-                        required={true}
-                    />
-                    <FormInputText
-                        label="Số điện thoại"
-                        name="phone"
-                        updateFormData={this.props.updateFormData}
-                        type="tel"
-                        value={phone}
-                        required={true}
-                        placeholder = "+84..."
-                    />
-                    <FormInputSelect
-                        label="Giới tính"
-                        updateFormData={this.props.updateFormData}
-                        name="gender"
-                        data={GENDER}
-                        value={gender}
-                        required={true}
-                    />
+                        </div>
+                        <div className="col-md-6">
+                            <FormInputText
+                                label="Địa chỉ email"
+                                name="email"
+                                updateFormData={this.props.updateFormData}
+                                required={true}
+                                type="email"
+                                value={email}
+                                placeholder="Nhập email "
+                            />
+                        </div>
+                    </div>
 
-                    <FormInputDate
-                        label="Sinh nhật"
-                        name="birthday"
-                        updateFormData={this.props.updateFormData}
-                        id="form-date-of-birth"
-                        value={birthday}
-                        required={true}
-                        placeholder = "dd/mm/yyyy"
-                    />
+
+                    <div className="row">
+                        <div className="col-md-6">
+                            <FormInputSelect
+                                label="Giới tính"
+                                updateFormData={this.props.updateFormData}
+                                name="gender"
+                                data={GENDER}
+                                value={gender}
+                                required={true}
+                            />
+
+                        </div>
+                        <div className="col-md-6">
+                            <FormInputDate
+                                label="Sinh nhật"
+                                name="birthday"
+                                updateFormData={this.props.updateFormData}
+                                id="form-date-of-birth"
+                                value={birthday}
+                                required={true}
+                                placeholder="dd/mm/yyyy"
+                            />
+
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-md-3">
+                            <FormInputText
+                                label="Số điện thoại"
+                                name="phone"
+                                updateFormData={this.props.updateFormData}
+                                type="tel"
+                                value={phone}
+                                required={true}
+                                placeholder="+84..."
+                            />
+                        </div>
+                        <div className="col-md-9">
+                            <FormInputText
+                                label="Địa chỉ"
+                                name="address"
+                                updateFormData={this.props.updateFormData}
+                                type="text"
+                                value={address}
+                                required={true}
+                            />
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
@@ -90,7 +113,6 @@ AddCustomerModal.propTypes = {
     updateFormData: PropTypes.func,
     customer: PropTypes.object,
 };
-
 
 
 export default AddCustomerModal;

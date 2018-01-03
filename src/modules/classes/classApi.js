@@ -22,6 +22,7 @@ export function loadGens() {
     return axios.get(url);
 }
 
+
 export function loadClasses(search, page = 1, teacherId = '', genId = '') {
     let url = env.MANAGE_API_URL;
     switch (env.TYPE_API) {

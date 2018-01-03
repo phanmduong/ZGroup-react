@@ -278,4 +278,10 @@ export function showAddChildImagesModal(index) {
     };
 }
 
+export function shutDownAddChildImagesModal() {
+    return {
+        type: types.SHUT_DOWN_ADD_CHILD_IMAGES_MODAL
+    };
+}
+
 

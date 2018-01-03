@@ -156,7 +156,7 @@ class ProductListComponent extends React.Component {
                                                        data-toggle="tooltip" title=""
                                                        type="button" rel="tooltip"
                                                        data-original-title="Xoá"
-                                                       onClick={() => this.deleteProduct(product, false, index)}>
+                                                       onClick={() => this.props.deleteProduct(product, false, index)}>
                                                         <i className="material-icons">delete</i>
                                                     </a>
                                                 )

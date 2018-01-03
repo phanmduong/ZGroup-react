@@ -36,6 +36,14 @@ export function loadCustomersInModal(page , limit, query, idModal ) {
     }
     return axios.get(url);
 }
+export function loadCouponsInModal( idGroup ) {
+    let url = env.MANAGE_API_URL + "/order/customer-group/"+ idGroup+ "/coupons?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
 
 export function loadGroupCustomerApi(page , limit , query ) {
     let url = env.MANAGE_API_URL + "/order/customer-groups?";
@@ -68,6 +76,8 @@ export function addGroupCustomerApi(groupCustomerForm) {
         'description' : groupCustomerForm.description,
         'stringId' : groupCustomerForm.stringId.join(";"),
         'color': groupCustomerForm.color,
+        'order_value' : groupCustomerForm.order_value,
+        'delivery_value' : groupCustomerForm.delivery_value,
     });
 }
 
@@ -83,6 +93,9 @@ export function editGroupCustomerApi(groupCustomerForm, groupId) {
         'description' : groupCustomerForm.description,
         'stringId' : groupCustomerForm.stringId.join(";"),
         'color': groupCustomerForm.color,
+        'order_value' : groupCustomerForm.order_value,
+        'delivery_value' : groupCustomerForm.delivery_value,
+
     });
 }
 export function deleteGroupCustomerApi(id) {
@@ -92,4 +105,25 @@ export function deleteGroupCustomerApi(id) {
         url += "?token=" + token;
     }
     return axios.delete(url);
+}
+
+export function addCouponApi(coupon,idGroup) {
+    let url = env.MANAGE_API_URL + "/coupon/create?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "token=" + token;
+    }
+    return axios.post(url,{
+        'name' :  coupon.name,
+        'description' : coupon.description,
+        'discount_type' : coupon.discount_type,
+        'discount_value' : coupon.discount_value,
+        'type' : 'code',
+        'start_time' : coupon.start_time,
+        'end_time' : coupon.end_time,
+        'used_for' : "customer-group",
+        'customer_group_id' : idGroup,
+        'quantity' : coupon.quantity? coupon.quantity : '',
+        'shared' : coupon.shared? coupon.shared : '',
+    });
 }

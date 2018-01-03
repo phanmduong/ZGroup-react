@@ -50,7 +50,7 @@ export default function customerReducer(state = initialState.customers, action) 
                     ...state.modal,
                     customer: customer,
                 },
-                isLoading: true
+                isLoading: false,
             };
 
         case types.LOADED_CUSTOMER_ERROR:

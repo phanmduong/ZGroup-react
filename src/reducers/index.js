@@ -55,9 +55,11 @@ import excelReducer from "../modules/excel/excelReducer";
 import departmentReducer from "../modules/manageDepartment/departmentReducer";
 import jobAssignmentReducer from "../modules/jobAssignment/jobAssignmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
+import firstLoginReducer from "../modules/firstLogin/firstLoginReducer";
 import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSessionsReducer";
 import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
 import historyWorkShiftRegistersReducer from "../modules/historyWorkShiftRegisters/historyWorkShiftRegistersReducer";
+import landingPagesReducer from "../modules/landingpage/landingPagesReducer";
 
 
 const appReducer = combineReducers({
@@ -113,13 +115,16 @@ const appReducer = combineReducers({
     discounts: discountReducer,
     attendancesStaffs: attendancesStaffsReducer,
     rooms: roomsReducer,
-    excel: excelReducer,
-    department: departmentReducer,
-    groupCustomers: groupCustomerReducer,
+    excel : excelReducer,
+    department : departmentReducer,
+    groupCustomers : groupCustomerReducer,
+    jobAssignment : jobAssignmentReducer,
+    firstLogin : firstLoginReducer,
     workShiftSessions: workShiftSessionsReducer,
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
-    jobAssignment : jobAssignmentReducer,
+    landingPages : landingPagesReducer,
+
 });
 
 const rootReducer = (state, action) => {

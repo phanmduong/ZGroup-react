@@ -5,7 +5,6 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as groupCustomerActions from './groupCustomerActions';
 import {CirclePicker} from 'react-color';
-import Search from '../../components/common/Search';
 
 
 
@@ -38,7 +37,7 @@ class GroupCustomerModal extends React.Component {
 
 
     render() {
-        const {name, description, color} = this.props.groupCustomerForm;
+        const {name, description, color,order_value,delivery_value} = this.props.groupCustomerForm;
         return (
             <div>
                 <div className="card-header card-header-icon" data-background-color="rose">
@@ -64,10 +63,37 @@ class GroupCustomerModal extends React.Component {
                                 value={description}
                             />
 
-                            {this.props.isEdit ? <Search
-                                onChange={this.onSearchChange}
-                                value={this.state.query}
-                                placeholder="Tìm kiếm ..."/> : null}
+                            <div className="row">
+                                <label className="col-sm-2 label-on-left">Rule</label>
+                                <div className="col-sm-10">
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group label-floating is-empty">
+                                                <label className="control-label" />
+                                                <FormInputText
+                                                    label="Tiền mua theo đơn"
+                                                    name="order_value"
+                                                    updateFormData={this.editFormData}
+                                                    type="number"
+                                                    value={order_value}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group label-floating is-empty">
+                                                <label className="control-label" />
+                                                <FormInputText
+                                                    label="Tiền mua hàng sẵn"
+                                                    name="delivery_value"
+                                                    updateFormData={this.editFormData}
+                                                    type="number"
+                                                    value={delivery_value}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
                         </div>

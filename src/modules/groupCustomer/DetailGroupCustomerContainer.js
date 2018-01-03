@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormInputText from '../../components/common/FormInputText';
 import AddOverlay from "./AddOverlay";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
@@ -10,6 +9,12 @@ import Search from '../../components/common/Search';
 import Pagination from '../../components/common/Pagination';
 import Loading from "../../components/common/Loading";
 import * as helper from '../../helpers/helper';
+import {Modal} from 'react-bootstrap';
+import ListChildCoupon from './ListChildCoupon';
+import AddCouponModal from './AddCouponModal';
+
+
+import FormInputText from '../../components/common/FormInputText';
 
 
 class DetailGroupCustomerContainer extends React.Component {
@@ -19,6 +24,7 @@ class DetailGroupCustomerContainer extends React.Component {
             page: 1,
             limit: 6,
             query: '',
+            isOpenDiscountModal: false,
         };
         this.loadCustomersInOverlay = this.loadCustomersInOverlay.bind(this);
         this.loadCustomersInModal = this.loadCustomersInModal.bind(this);
@@ -29,16 +35,25 @@ class DetailGroupCustomerContainer extends React.Component {
         this.changeColor = this.changeColor.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
         this.activeModal = this.activeModal.bind(this);
+        this.openDiscountModal = this.openDiscountModal.bind(this);
+        this.closeDiscountModal = this.closeDiscountModal.bind(this);
+        this.addCoupon = this.addCoupon.bind(this);
+        // this.loadCouponsInModal = this.loadCouponsInModal.bind(this);
     }
 
 
     componentWillMount() {
         this.loadCustomersInModal(1);
+        // this.loadCouponsInModal();
     }
 
     loadCustomersInOverlay(page, limit, query, stringId) {
         this.props.groupCustomerActions.loadCustomersInOverlay(page, limit, query, stringId);
     }
+
+    // loadCouponsInModal(){
+    //     this.props.groupCustomerActions.loadCouponsInModal();
+    // }
 
     loadCustomersInModal(page) {
         this.setState({page: page});
@@ -64,6 +79,14 @@ class DetailGroupCustomerContainer extends React.Component {
         groupCustomerForm[field] = event.target.value;
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
 
+    }
+
+    openDiscountModal() {
+        this.setState({isOpenDiscountModal: true});
+    }
+
+    closeDiscountModal() {
+        this.setState({isOpenDiscountModal: false});
     }
 
     changeColor(color) {
@@ -94,24 +117,50 @@ class DetailGroupCustomerContainer extends React.Component {
         e.preventDefault();
     }
 
+    addCoupon() {
+        if ($('#form-add-coupon-in-group-customer').valid()) {
+            if (this.props.coupon.name === null || this.props.coupon.name === undefined || this.props.coupon.name === '') {
+                helper.showTypeNotification("Vui lòng nhập mã khuyến mãi", 'warning');
+                return;
+            }
+            if (this.props.coupon.start_time === null || this.props.coupon.start_time === undefined || this.props.coupon.start_time === '') {
+                helper.showTypeNotification("Vui lòng chọn ngày bắt đầu", 'warning');
+                return;
+            }
+            if (this.props.coupon.shared === null || this.props.coupon.shared === undefined || this.props.coupon.shared === '') {
+                helper.showTypeNotification("Vui lòng chọn cách dùng", 'warning');
+                return;
+            }
+            if (this.props.coupon.end_time === null || this.props.coupon.end_time === undefined || this.props.coupon.end_time === '') {
+                helper.showTypeNotification("Vui lòng chọn ngày kết thúc", 'warning');
+                return;
+            }
+            this.props.groupCustomerActions.addCoupon(this.props.coupon, this.props.params.groupId, this.closeDiscountModal());
+        }
+    }
 
     render() {
         const currentPage = this.state.page;
-        const {name, description, stringId, color, customersShowInModal} = this.props.groupCustomerForm;
+        const {name, description, stringId, color, customersShowInModal,order_value ,delivery_value} = this.props.groupCustomerForm;
         return (
             <div>
-                <div className="card">
-                    <form id="form-add-group-customer">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">people</i>
-                        </div>
-                        <div className="card-content">
-                            <h4 className="card-title">
-                                Sửa nhóm khách hàng
-                            </h4>
-                            <div className="row">
-                                <div className="col-md-8">
+                <form id="form-add-group-customer">
 
+                    <div className="row">
+
+                        <div className="col-md-7">
+                            <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">people</i>
+                                </div>
+
+                                {/*----------------- INFO ------------------*/}
+
+
+                                <div className="card-content">
+                                    <h4 className="card-title">
+                                        Sửa nhóm khách hàng
+                                    </h4>
                                     <FormInputText
                                         label="Tên nhóm"
                                         name="name"
@@ -127,15 +176,113 @@ class DetailGroupCustomerContainer extends React.Component {
                                         value={description}
                                     />
 
-                                    {customersShowInModal.length === 0 ? null :
-                                        <Search
-                                            onChange={this.onSearchChange}
-                                            value={this.state.query}
-                                            placeholder="Tìm kiếm ..."/>
-                                    }
+                                    <div className="row">
+                                        <label className="col-sm-2 label-on-left">Rule</label>
+                                        <div className="col-sm-10">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group label-floating is-empty">
+                                                        <label className="control-label" />
+                                                        <FormInputText
+                                                            label="Tiền mua theo đơn"
+                                                            name="order_value"
+                                                            updateFormData={this.editFormData}
+                                                            type="number"
+                                                            value={order_value}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group label-floating is-empty">
+                                                        <label className="control-label" />
+                                                        <FormInputText
+                                                            label="Tiền mua hàng sẵn"
+                                                            name="delivery_value"
+                                                            updateFormData={this.editFormData}
+                                                            type="number"
+                                                            value={delivery_value}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
 
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-5">
+                            {/*-----------------PICK COLOR------------------*/}
+                            <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">contacts</i>
+                                </div>
+                                <div className="card-content">
+                                    <h4 className="card-title">Chọn màu</h4>
+                                    <CirclePicker width="100%"
+                                                  color={color || ""}
+                                                  onChangeComplete={this.changeColor}
+                                    />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div className="row">
+                        <div className="col-md-7">
+                            {/*-----------------CUSTOMER TABLE------------------*/}
+                            <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">people</i>
+                                </div>
+                                <div className="card-content">
+                                    <h4 className="card-title">Khách hàng</h4>
+                                    <div className="row">
+                                        <div className="col-md-8">
+                                            {customersShowInModal.length === 0 ? null :
+                                                <Search
+                                                    onChange={this.onSearchChange}
+                                                    value={this.state.query}
+                                                    placeholder="Tìm kiếm ..."
+                                                    className="col-md-10"
+                                                />
+                                            }
+                                        </div>
+                                        <div className="col-md-4"
+                                             style={{
+                                                 display: 'flex',
+                                                 marginTop: "15px"
+                                             }}>
+                                            <AddOverlay
+                                                items={this.props.customersList}
+                                                name="Khách hàng"
+                                                isSearch={true}
+                                                isPagination={true}
+                                                isLoadingOverlay={this.props.isLoadingOverlay}
+                                                icon="people"
+                                                loadFunction={this.loadCustomersInOverlay}
+                                                totalPages={this.props.totalCustomerInOverlayPages}
+                                                formData={this.props.groupCustomerForm}
+                                                fieldName="stringId"
+                                                fieldName2="customersShowInModal"
+                                                updateFormData={this.updateFormData}
+                                                assignCustomer={this.assignCustomer}
+                                                stringId={stringId}
+                                            />
+                                        </div>
+                                    </div>
                                     {this.props.isLoadingModal ? <Loading/> :
                                         <table id="property-table" className="table table-hover" role="grid"
                                                aria-describedby="property-table_info">
@@ -184,7 +331,6 @@ class DetailGroupCustomerContainer extends React.Component {
                                             </tbody>
                                         </table>
                                     }
-
                                     {customersShowInModal.length === 0 ? null :
                                         <Pagination
                                             totalPages={this.props.totalCustomerInModalPages}
@@ -192,94 +338,132 @@ class DetailGroupCustomerContainer extends React.Component {
                                             loadDataPage={this.loadCustomersInModal}/>
                                     }
                                 </div>
-                                <div className="col-md-4">
-                                    <div style={{
-                                        display: 'flex',
-                                        marginTop: "42px"
-                                    }}>
-                                        <AddOverlay
-                                            items={this.props.customersList}
-                                            name="Khách hàng"
-                                            isSearch={true}
-                                            isPagination={true}
-                                            isLoadingOverlay={this.props.isLoadingOverlay}
-                                            icon="people"
-                                            loadFunction={this.loadCustomersInOverlay}
-                                            totalPages={this.props.totalCustomerInOverlayPages}
-                                            formData={this.props.groupCustomerForm}
-                                            fieldName="stringId"
-                                            fieldName2="customersShowInModal"
-                                            updateFormData={this.updateFormData}
-                                            assignCustomer={this.assignCustomer}
-                                            stringId={stringId}
-                                        />
-                                    </div>
-                                    {/*<FormInputText*/}
-                                        {/*label="Tên nhóm"*/}
-                                        {/*name="name"*/}
-                                        {/*updateFormData={this.editFormData}*/}
-                                        {/*type="text"*/}
-                                        {/*value={name}*/}
-                                    {/*/>*/}
-                                    {/*<FormInputText*/}
-                                        {/*label="Mô tả"*/}
-                                        {/*name="description"*/}
-                                        {/*updateFormData={this.editFormData}*/}
-                                        {/*type="text"*/}
-                                        {/*value={description}*/}
-                                    {/*/>*/}
-                                    <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">contacts</i>
-                                        </div>
-                                        <div className="card-content">
-                                            <h4 className="card-title">Chọn màu</h4>
-                                            <CirclePicker width="100%"
-                                                          color={color || ""}
-                                                          onChangeComplete={this.changeColor}
-                                            />
-                                        </div>
-                                    </div>
 
+                            </div>
+                        </div>
+                        <div className="col-md-5">
+                            {/*-----------------LIST CHILD COUPON------------------*/}
+                            <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">card_giftcard</i>
+                                </div>
+                                <div className="card-content">
+                                    <div style={{display: "flex"}}>
+                                        <div style={{justifyContent: "space-between"}}>
+                                            <div className="col-md-10">
+                                                <h4 className="card-title">
+                                                    Khuyến mãi
+                                                </h4>
+                                            </div>
+                                            <div className="col-md-2">
+                                                <a className="btn btn-round btn-sm btn-primary"
+                                                   ref="target" onClick={() => this.openDiscountModal()}>
+                                    <span>
+                                        <i className="material-icons">add</i>Thêm
+                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ListChildCoupon
+                                        idGroup={this.props.params.groupId}
+                                    />
                                 </div>
                             </div>
                         </div>
-                        <div className="row" style={{marginLeft: 30, marginBottom: 20}}>
-                            <div className="col-md-9" />
-                            <div className="col-md-3">
-                                {this.props.isSaving ?
-                                    (
-                                        <button
-                                            className="btn btn-sm btn-success disabled"
-                                        >
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            Đang cập nhật
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button className="btn btn-success btn-sm"
-                                                onClick={(e) => {
-                                                    this.activeModal(e);
-                                                }}>
-                                            <i className="material-icons">save</i> Lưu
-                                        </button>
-                                    )
-                                }
+                    </div>
 
-                                <button className="btn btn-sm btn-danger"
-                                        onClick={(e) => {
-                                            this.closeModal();
-                                            e.preventDefault();
-                                        }}
-                                >
-                                    <i className="material-icons">cancel</i> Huỷ
-                                </button>
-                            </div>
+
+                    {/*-----------------BUTTON------------------*/}
+
+
+                    <div className="row" style={{marginLeft: 30, marginBottom: 20}}>
+                        <div className="col-md-9"/>
+                        <div className="col-md-3">
+                            {this.props.isSaving ?
+                                (
+                                    <button
+                                        className="btn btn-sm btn-success disabled"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/>
+                                        Đang cập nhật
+                                    </button>
+                                )
+                                :
+                                (
+                                    <button className="btn btn-success btn-sm"
+                                            onClick={(e) => {
+                                                this.activeModal(e);
+                                            }}>
+                                        <i className="material-icons">save</i> Lưu
+                                    </button>
+                                )
+                            }
+
+                            <button className="btn btn-sm btn-danger"
+                                    onClick={(e) => {
+                                        this.closeModal();
+                                        e.preventDefault();
+                                    }}
+                            >
+                                <i className="material-icons">cancel</i> Huỷ
+                            </button>
                         </div>
-                    </form>
+                    </div>
 
-                </div>
+                    <Modal show={this.state.isOpenDiscountModal}
+                           bsSize="large"
+                           bsStyle="primary"
+                           onHide={() => this.closeDiscountModal()}>
+                        <Modal.Header closeButton>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="card">
+                                <form id="form-add-coupon-in-group-customer">
+                                    <AddCouponModal
+                                    />
+                                    <div className="row" style={{marginLeft: 30, marginBottom: 20}}>
+                                        <div className="col-md-8"/>
+                                        <div className="col-md-4">
+                                            {this.props.isSavingCoupon ?
+                                                (
+                                                    <button
+                                                        className="btn btn-sm btn-success disabled"
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"/>
+                                                        Đang cập nhật
+                                                    </button>
+                                                )
+                                                :
+                                                (
+                                                    <button className="btn btn-success btn-sm"
+                                                            onClick={(e) => {
+                                                                this.addCoupon();
+                                                                e.preventDefault();
+                                                            }}>
+                                                        <i className="material-icons">save</i> Lưu
+                                                    </button>
+                                                )
+                                            }
+
+                                            <button className="btn btn-sm btn-danger"
+                                                    onClick={(e) => {
+                                                        this.closeDiscountModal();
+                                                        e.preventDefault();
+                                                    }}
+                                            >
+                                                <i className="material-icons">cancel</i> Huỷ
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </Modal.Body>
+
+
+                    </Modal>
+
+                </form>
             </div>
 
         );
@@ -290,13 +474,14 @@ DetailGroupCustomerContainer.propTypes = {
     isLoadingOverlay: PropTypes.bool,
     isLoadingModal: PropTypes.bool,
     groupCustomerActions: PropTypes.object,
+    coupon: PropTypes.object,
     groupCustomerForm: PropTypes.object,
     customersList: PropTypes.array,
     totalCustomerInOverlayPages: PropTypes.number,
     totalCustomerInModalPages: PropTypes.number,
     params: PropTypes.object,
     isSaving: PropTypes.bool,
-
+    isSavingCoupon: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -308,6 +493,8 @@ function mapStateToProps(state) {
         totalCustomerInOverlayPages: state.groupCustomers.totalCustomerInOverlayPages,
         totalCustomerInModalPages: state.groupCustomers.totalCustomerInModalPages,
         isSaving: state.groupCustomers.isSaving,
+        coupon: state.groupCustomers.coupon,
+        isSavingCoupon: state.groupCustomers.isSavingCoupon,
 
     };
 }

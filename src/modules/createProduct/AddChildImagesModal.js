@@ -17,7 +17,8 @@ class AddChildImagesModal extends React.Component {
     handleImages(e) {
         const fileList = e.target.files;
         const files = Array.from(fileList);
-        const first_length = JSON.parse(this.props.children[this.props.child_index].child_images_url).length;
+        const first_length = this.props.children[this.props.child_index].child_images_url ?
+            JSON.parse(this.props.children[this.props.child_index].child_images_url).length : 0;
         files.map((file) => this.props.createProductAction.changeChildImageModal(file, files.length, first_length, this.props.child_index));
     }
 
@@ -36,8 +37,8 @@ class AddChildImagesModal extends React.Component {
         const child = this.props.children && this.props.children[this.props.child_index];
         return (
             <Modal show={this.props.childImagesModal}
-                   onHide={() => this.props.createProductAction.showAddChildImagesModal(0)}>
-                <a onClick={() => this.props.createProductAction.showAddChildImagesModal(0)}
+                   onHide={() => this.props.createProductAction.shutDownAddChildImagesModal()}>
+                <a onClick={() => this.props.createProductAction.shutDownAddChildImagesModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">Thêm ảnh mô tả</Modal.Title>
