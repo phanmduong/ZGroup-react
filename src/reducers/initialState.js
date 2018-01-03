@@ -1154,6 +1154,8 @@ export default {
         isLoading: false,
         isCommitting: false,
         commitSuccess: false,
+        isUploadingLessonIcon: false,
+        terms: [],
         data: {
             id: null,
             course_id: 1,
@@ -1164,6 +1166,10 @@ export default {
             detail_content: "",
             detail_teacher: "",
             created_at: "",
+            term_id: "",
+            audio_url: "",
+            video_url: "",
+            image_url: "",
         }
     },
     marketingCampaigns: {

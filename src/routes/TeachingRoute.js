@@ -67,7 +67,7 @@ export default [
         component: CoursesContainer
     },
     {
-        path: "/teaching/courses/lessons/edit/:lessonId",
+        path: "/teaching/courses/lessons/edit/:courseId/:lessonId",
         // path: "/manage/courses/lessons/edit/:lessonId",
         component: LessonsContainer
     },
