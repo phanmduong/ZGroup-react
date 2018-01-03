@@ -139,7 +139,8 @@ class coursesCreateEditPixel extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {this.props.data.pixels.map((pixel) => {
+                            {(this.props.data.pixels && this.props.data.pixels.length > 0 ) &&
+                                this.props.data.pixels.map((pixel) => {
                                 return (
                                     <tr key={pixel.id}>
                                         <td>{pixel.name}</td>

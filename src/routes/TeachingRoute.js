@@ -6,7 +6,7 @@ import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCr
 import coursesCreateEditGeneral from "../modules/courses/coursesForm/coursesCreateEditGeneral";
 import coursesCreateEditCurriculum from "../modules/courses/coursesForm/coursesCreateEditCurriculum";
 import coursesCreateEditDocuments from "../modules/courses/coursesForm/coursesCreateEditDocuments";
-import coursesCreateEditStudying from "../modules/courses/coursesForm/coursesCreateEditStudying";
+import coursesCreateEditTerm from "../modules/courses/coursesForm/coursesCreateEditTerm";
 import coursesCreateEditInterested from "../modules/courses/coursesForm/coursesCreateEditInterested";
 import coursesCreateEditPixel from "../modules/courses/coursesForm/coursesCreateEditPixel";
 import LessonsContainer from "../modules/lessons/LessonsContainer";
@@ -112,8 +112,8 @@ export default [
                 component: coursesCreateEditDocuments
             },
             {
-                path: "studying",
-                component: coursesCreateEditStudying
+                path: "term",
+                component: coursesCreateEditTerm
             },
             {
                 path: "curriculum",

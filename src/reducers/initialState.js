@@ -1086,6 +1086,8 @@ export default {
         isUploadingLinkIcon: false,
         isUploadingLink: false,
         isUploadingPixel: false,
+        isUploadingTermIcon: false,
+        isUploadingTerm: false,
         error: false,
         coursesList: [],
         isDeleting: false,
@@ -1124,6 +1126,7 @@ export default {
             lessons: [],
             links: [],
             pixels:[],
+            terms:[],
         },
         link: {
             id: null,
@@ -1136,7 +1139,16 @@ export default {
         pixel:{
             name:"",
             code:"",
-        }
+        },
+        term: {
+            id: null,
+            name: "",
+            description: "",
+            short_description: "",
+            course_id: "",
+            image_url: "",
+            audio_url: "",
+        },
     },
     lessons: {
         isLoading: false,

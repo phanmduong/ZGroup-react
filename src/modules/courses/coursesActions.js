@@ -40,6 +40,24 @@ export function createPixel(courseId, pixel, func) {
     };
 }
 
+export function createTerm( pixel, func) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CREATE_TERM});
+        courseApi.createTerm(pixel)
+            .then(() => {
+                helper.showNotification("Lưu Thành Công!");
+                dispatch({
+                    type: types.CREATE_TERM_SUCCESS,
+                });
+                func();
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.CREATE_TERM_ERROR});
+            });
+    };
+}
+
 export function commitEditLink(link,func) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_LINK});
@@ -72,6 +90,24 @@ export function commitEditPixel(pixelId,pixel,func) {
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! " );
                 dispatch({type: types.EDIT_PIXEL_ERROR});
+            });
+    };
+}
+
+export function commitEditTerm(term,func) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_TERM});
+        courseApi.editTerm(term)
+            .then(() => {
+                helper.sweetAlertSuccess("Sửa Thành Công!");
+                dispatch({
+                    type: types.EDIT_TERM_SUCCESS
+                });
+                func();
+            })
+            .catch(() => {
+                helper.sweetAlertError("Có lỗi xảy ra! " );
+                dispatch({type: types.EDIT_TERM_ERROR});
             });
     };
 }
@@ -111,6 +147,25 @@ export function deletePixel(id, success) {
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
                 dispatch({type: types.DELETE_PIXEL_ERROR});
+            });
+    };
+}
+
+export function deleteTerm(id, success) {
+    return function (dispatch) {
+        dispatch  ({type: types.BEGIN_DELETE_TERM});
+        helper.showWarningNotification("Đang xoá học phần!");
+        courseApi.deleteTerm(id)
+            .then(() => {
+                helper.showNotification("Xoá Thành Công!");
+                dispatch({
+                    type: types.DELETE_TERM_SUCCESS,
+                });
+                success();
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.DELETE_TERM_ERROR});
             });
     };
 }
@@ -210,6 +265,24 @@ export function uploadLinkIcon(link ,file) {
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
             dispatch({type: types.UPLOAD_ICON_LINK_FAILED});
+        });
+    };
+}
+export function uploadTermIcon(term ,file) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_UPLOAD_ICON_TERM});
+        courseApi.uploadImage(file, function (event) {
+            helper.showNotification("Đăng ảnh thành công.");
+            let data = JSON.parse(event.currentTarget.response);
+            let newdata = {...term};
+            newdata.image_url = data.link;
+            dispatch({
+                type: types.UPLOAD_ICON_TERM_SUCCESS,
+                term: newdata
+            });
+        }, () => {
+            helper.showErrorNotification("Đăng ảnh thất bại.");
+            dispatch({type: types.UPLOAD_ICON_TERM_FAILED});
         });
     };
 }
