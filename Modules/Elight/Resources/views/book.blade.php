@@ -112,10 +112,10 @@
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
                                 <div class="row">
                                     <a href="" style="color:black">
-                                        <div class="col-xs-1" style="font-size:20px;color:#138edc">
+                                        <div class="col-sm-1" style="font-size:20px;color:#138edc">
                                             <i class="fa fa-check-circle" aria-hidden="true"></i>
                                         </div>
-                                        <div class="col-xs-10">
+                                        <div class="col-sm-10">
                                             <p style="font-weight: 600">{{$lesson->name}}</p>
                                             <p>{{$lesson->description}}</p>
                                         </div>
