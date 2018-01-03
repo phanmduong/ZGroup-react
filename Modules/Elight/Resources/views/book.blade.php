@@ -97,8 +97,8 @@
                         <div id="collapse{{$term->id}}" aria-expanded="false" class="collapse" style="height: 0px;">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
-                                <a href="" style="color:black; display: flex; flex-direction: row;"
-                                   onclick="clickLesson({{$lesson}})">
+                                <div style="color:black; display: flex; flex-direction: row; cursor: pointer"
+                                     onclick="clickLesson('{{$lesson->name}}', '{{$lesson->audio_url}}', '{{$lesson->description}}', '', '{{$lesson->image_url}}')">
                                     <div style="font-size:20px;color:#138edc;">
                                         <i class="fa fa-check-circle" aria-hidden="true"></i>
                                     </div>
@@ -106,7 +106,7 @@
                                         <p style="font-weight: 600">{{$lesson->name}}</p>
                                         <p>{{$lesson->description}}</p>
                                     </div>
-                                </a>
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -141,26 +141,22 @@
         <br><br><br>
     </div>
     <script>
-        function clickLesson(lesson) {
+        function clickLesson(name, audio_url, description, detail, image_url) {
             var
-                media = this.closest('.players').querySelector('.mejs__container').id,
+                media = $(".media-wrapper .mejs__container").attr("id"),
                 player = mejs.players[media]
             ;
 
-            player.setSrc(lesson.audio_url + "?client_id={{config("app.sound_cloud_client_id")}}");
+            player.setSrc(audio_url + "?client_id={{config("app.sound_cloud_client_id")}}");
             player.load();
             if (!mejs.Features.isiOS && !mejs.Features.isAndroid) {
                 player.play();
             }
-            $("#lesson_title").text(lesson.title);
-            $("#lesson_short_description").text(lesson.short_description);
-            $("#lesson_description").html(lesson.detail);
-            $("#lesson_image").html(lesson.image_url);
+            console.log(image_url);
+            $("#lesson_title").text(name);
+            $("#lesson_short_description").text(description);
+            $("#lesson_description").html(detail);
+            $('#lesson_image').css('background-image', 'url(' + image_url + ')')
         }
-
-        $(document).ready(function () {
-
-        })
-
     </script>
 @endsection
