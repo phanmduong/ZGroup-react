@@ -41,13 +41,81 @@ export function loadCustomersInModal(page, limit, query, idModal) {
                     groupCustomerForm: res.data,
                     total_pages: res.data.paginator.total_pages,
                 });
-                // stringId.map((id) => {
-                //     dispatch(assignGroupCustomerFormData(id));
-                // }); // loc luon những người có trong stringId
             })
             .catch(() => {
                 dispatch({
                     type: types.LOADED_CUSTOMER_IN_MODAL_ERROR_IN_GROUP_CUSTOMER,
+                });
+            });
+    };
+}
+
+export function addCoupon(coupon ,idGroup, close) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_ADD_COUPON});
+        groupCustomerApis.addCouponApi(coupon, idGroup)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showTypeNotification('Đã thêm ' + coupon.name, 'success');
+                    dispatch({
+                        type: types.ADD_COUPON_SUCCESS,
+                    });
+                    dispatch(loadCouponsInModal(idGroup));
+                    close();
+                }
+                else {
+                    helper.sweetAlertError(res.data.data.message);
+                    dispatch({
+                        type: types.ADD_COUPON_ERROR,
+                    });
+                }
+            })
+            .catch(() => {
+                dispatch ({
+                    type: types.ADD_COUPON_ERROR,
+                });
+            });
+    };
+}
+
+
+
+export function generateCode() {
+    let str = "abcdefghijklmnopqrstuvwxyz";
+    const s = str.split("").sort(function () {
+        return (0.5 - Math.random());
+    });
+    const randomCode= [];
+    for (let i =0 ; i< 8; i++){randomCode[i] = s[i];}
+    return function (dispatch) {
+        dispatch({type: types.GENERATE_RANDOM_CODE_IN_GROUP_CUSTOMER, randomCode : randomCode.join("").toUpperCase()});
+    };
+}
+
+
+export function updateDiscountFormData(coupon){
+    return function (dispatch) {
+        dispatch({
+            type : types.UPDATE_DISCOUNT_FORM_DATA_IN_GROUP_CUSTOMER,
+            coupon : coupon,
+        });
+    };
+}
+export function loadCouponsInModal( idGroup) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_COUPON_IN_MODAL_IN_GROUP_CUSTOMER
+        });
+        groupCustomerApis.loadCouponsInModal( idGroup)
+            .then((res) => {
+                dispatch({
+                    type: types.LOADED_COUPON_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER,
+                    coupons: res.data.data.coupons,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOADED_COUPON_IN_MODAL_ERROR_IN_GROUP_CUSTOMER,
                 });
             });
     };
@@ -118,7 +186,6 @@ export function editGroupCustomer(groupCustomerForm, groupId) {
                 if (res.data.status) {
                     dispatch({
                         type: types.EDIT_GROUP_CUSTOMER_SUCCESS,
-                       // groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
                     helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomerForm.name, 'success');
                     browserHistory.push('/good/goods/group-customer');

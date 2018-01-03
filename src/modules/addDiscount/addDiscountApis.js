@@ -22,6 +22,7 @@ export function addDiscountApi(discount) {
         'good_id' : discount.good ? discount.good.id : '',
         'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
         'quantity' : discount.quantity? discount.quantity : '',
+        'shared' : discount.shared? discount.shared : '',
     });
 }
 
@@ -119,5 +120,6 @@ export function editDiscountApi(discount) {
         'good_id' : discount.good ? discount.good.id : '',
         'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
         'quantity' : discount.quantity? discount.quantity : '',
+        'shared' : discount.shared? discount.shared : '',
     });
 }
