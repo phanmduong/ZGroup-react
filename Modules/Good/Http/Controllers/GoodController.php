@@ -210,6 +210,13 @@ class GoodController extends ManageApiController
 
         if ($properties)
             foreach ($properties as $p) {
+                if($p->value == null && trim($p->value) =='')
+                    return $this->respondErrorWithStatus([
+                        'message' => 'Chưa nhập giá trị thuộc tính'
+                    ]);
+            }
+        if ($properties)
+            foreach ($properties as $p) {
                 $property = new GoodProperty();
                 $property->property_item_id = $p->property_item_id;
                 $this->assignPropertyInfor($property,
