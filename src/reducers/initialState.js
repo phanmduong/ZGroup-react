@@ -1075,13 +1075,15 @@ export default {
             created_at: "",
             detail: "",
             lessons: [],
-            links: []
+            links: [],
+            pixels: [],
         }
     },
     courses: {
         isLoading: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
+        isUploadingPixel: false,
         error: false,
         coursesList: [],
         isDeleting: false,
@@ -1119,6 +1121,7 @@ export default {
             detail: "",
             lessons: [],
             links: [],
+            pixels:[],
         },
         link: {
             id: null,
@@ -1127,6 +1130,10 @@ export default {
             link_url: "",
             link_description: "",
             link_icon: "",
+        },
+        pixel:{
+            name:"",
+            code:"",
         }
     },
     lessons: {
@@ -1145,7 +1152,6 @@ export default {
             created_at: "",
         }
     },
-
     marketingCampaigns: {
         isLoading: false,
         error: false,
@@ -1158,7 +1164,6 @@ export default {
         isStoringCampaign: false,
         errorStoreCampaign: false,
     },
-
     summaryMarketingCampaign: {
         gens: [],
         isLoadingGens: false,
@@ -1189,7 +1194,6 @@ export default {
         totalPages: 10,
         totalCount: 10,
     },
-
     attendance: {
         isLoading: false,
         isLoadingGens: false,
@@ -1255,6 +1259,8 @@ export default {
     },
     jobAssignment: {
         isLoading: false,
+        isLoadingStaffs: false,
+        isSaving: false,
         data: {
             name: "",
             type: "personal",
@@ -1267,22 +1273,22 @@ export default {
         staffs: [
             {
                 value: "value1",
-                label: "label1",
-                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
+                label: "Chưa có nhân viên",
+                avatar_url: ""
             },
+        ],
+        works: [
             {
-                value: "value2",
-                label: "label2",
-                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
-            },
-            {
-                value: "value3",
-                label: "label3",
-                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
+                "id":11,
+                "name":"3",
+                "type":"personal",
+                "cost":2,
+                "deadline":"0000-00-00 00:00:00",
+                "bonus_value":3,
+                "bonus_type":null
             },
         ],
     },
-
 
     groupCustomers: {
         isSaving: false,
@@ -1306,6 +1312,22 @@ export default {
         groupCustomersList: [],
 
     },
+
+    firstLogin: {
+        isLoading: false,
+        profile: {
+            current_role: {},
+            start_company: new Date().toISOString().slice(0, 10),
+        },
+        error: false,
+        isChangingAvatar: false,
+        isSaving: false,
+        savingError: false,
+        isChangingPassword: false,
+        errorChangePassword: false,
+        updateSuccess: false,
+    },
+
     workShiftSessions: {
         isStoring: false,
         errorStore: false,
@@ -1333,5 +1355,13 @@ export default {
         isLoading: false,
         error: false
     },
-
+    landingPages: {
+        landingPages: [],
+        currentPage: 1,
+        totalPages: 1,
+        isLoading: false,
+        error: false,
+        isDeleting: false,
+        errorDelete: false,
+    }
 };

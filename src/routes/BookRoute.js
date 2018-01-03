@@ -10,9 +10,8 @@ export default [
         component: BookListContainer,
     },
     {
-        path: "/book/create",
+        path: "/book/:type/create",
         component: CreateGoodContainer,
-        type: "create"
     },
 
 ];
