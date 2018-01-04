@@ -7,6 +7,7 @@ use App\Colorme\Transformers\CourseTransformer;
 use App\Colorme\Transformers\ProductTransformer;
 use App\Course;
 use App\Gen;
+use App\Lesson;
 use App\Order;
 use App\Product;
 use Illuminate\Support\Facades\DB;
@@ -69,6 +70,35 @@ class PublicCrawlController extends CrawlController
         $this->data['campaign_id'] = $campaign_id;
         $this->data['pixels'] = $course->coursePixels;
         return view('2018-course', $this->data);
+    }
+
+    public function courseOnline($courseId, $lessonId = null)
+    {
+        $lesson = Lesson::find($lessonId);
+
+        $course = Course::find($courseId);
+        if ($course == null) {
+            return view('404.not_found_course');
+        }
+
+        if ($lesson == null) {
+            $term = $course->terms()->orderBy('order')->first();
+            $lesson = $term->lessons()->orderBy('order')->first();
+        }
+
+        $lessons = $course->lessons()->get()->map(function ($lesson) {
+            return [
+                'id' => $lesson->id,
+                'name' => $lesson->name
+            ];
+        });
+
+
+        return view('public.course_online_detail', [
+            'course' => $course,
+            'lesson_selected' => $lesson,
+            'lessons' => $lessons,
+        ]);
     }
 
     public function post($LinkId)
