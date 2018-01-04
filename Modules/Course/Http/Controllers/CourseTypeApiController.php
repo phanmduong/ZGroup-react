@@ -39,7 +39,7 @@ class CourseTypeApiController extends ManageApiController
         $type->save();
     }
 
-    public function getCategories(Request $request)
+    public function getTypes(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
