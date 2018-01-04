@@ -95,7 +95,7 @@
         <a class="navbar-brand" href="/" style="padding: 5px!important;">
             <img src="http://elightbook.com/assets/img/Elight%20Logo%20Black%20copy.png" height="40px">
         </a>
-        <div class="collapse navbar-collapse">
+        <div id="openWithoutAdd" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" style="color:white" href="http://elightbook.com/" data-scroll="true">Sách tiếng
@@ -109,6 +109,18 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" style="color:white" href="/blog" data-scroll="true">BLOGS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true" v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center; color:white" >
+                        <i class="fa fa-shopping-cart"></i>
+                        &nbsp
+                        Giỏ hàng
+                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
+                            @{{ books_count }}
+                        </div>
+                    </a>
                 </li>
             </ul>
         </div>
