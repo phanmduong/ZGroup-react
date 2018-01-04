@@ -2838,10 +2838,10 @@ Pricint fiv
     }
 }
 
-.card-collapse .fa {
+.course-term .fa {
     transition: .3s transform ease-in-out;
 }
 
-.card-collapse .collapsed .fa {
+.course-term .collapsed .fa {
     transform: rotate(90deg);
 }

@@ -63,7 +63,7 @@
                         </div>
                         <div class="col-md-4">
                             @foreach($course->terms()->orderBy('order')->get() as $term)
-                                <div class="card-collapse">
+                                <div class="course-term">
                                     <a data-toggle="collapse" href="#collapse{{$term->id}}"
                                        class="{{$term->id == $lesson_selected->term->id ? '' : 'collapsed'}} "
                                        aria-expanded="{{$term->id == $lesson_selected->term->id ? 'true' : 'false'}}">
