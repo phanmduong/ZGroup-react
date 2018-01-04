@@ -2,6 +2,8 @@
 
 return [
     "ghtk_api" => env("GHTK_API", ""),
+    "facebook_app_id" => env("FACEBOOK_APP_ID", ""),
+    "facebook_app_secret" => env("FACEBOOK_APP_SECRET", ""),
     "google_client_id" => env("GOOGLE_CLIENT_ID", ""),
     "domain" => env('DOMAIN', ''),
     "channel" => env("CHANNEL", ""),
