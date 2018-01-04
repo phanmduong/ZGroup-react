@@ -9,7 +9,7 @@ import ListChildCoupon from './ListChildCoupon';
 import AddCouponModal from './AddCouponModal';
 import AddCustomerModal from './AddCustomerModal';
 import GeneralInfoGroup from "./GeneralInfoGroup";
-import CustomersTable from "./CustomersTable";
+import ListChildCustomer from "./ListChildCustomer";
 
 
 class DetailGroupCustomerContainer extends React.Component {
@@ -137,7 +137,7 @@ class DetailGroupCustomerContainer extends React.Component {
 
 
 
-                            <CustomersTable
+                            <ListChildCustomer
                                 groupId={this.props.params.groupId}
                                 openAddCustomerModal={this.openAddCustomerModal}
                             />
@@ -185,8 +185,8 @@ class DetailGroupCustomerContainer extends React.Component {
 
 
                     <div className="row" style={{marginLeft: 30, marginBottom: 20}}>
-                        <div className="col-md-9"/>
-                        <div className="col-md-3">
+                        <div className="col-md-8"/>
+                        <div className="col-md-4">
                             {this.props.isSaving ?
                                 (
                                     <button

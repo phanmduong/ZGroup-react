@@ -6,10 +6,12 @@ import Loading from "../../../components/common/Loading";
 import * as groupCustomerActions from '../groupCustomerActions';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import * as helper from '../../../helpers/helper';
 
 
 
-class CustomersTable extends React.Component {
+
+class ListChildCustomer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,14 +43,17 @@ class CustomersTable extends React.Component {
     }
     updateFormData(groupCustomerForm) {
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
-    }                   // tách ra để dùng cho overlay
+    }
 
     assignCustomer(id) {
         this.props.groupCustomerActions.assignGroupCustomerFormData(id);
     }
 
     removeCustomer(customer) {
-        this.props.groupCustomerActions.removeGroupCustomerFormData(customer);
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,
+            function () {
+                this.props.groupCustomerActions.removeGroupCustomerFormData(customer);
+            }.bind(this));
     }
     loadCustomersInModal(page) {
         this.setState({page: page});
@@ -167,7 +172,7 @@ class CustomersTable extends React.Component {
     }
 }
 
-CustomersTable.propTypes = {
+ListChildCustomer.propTypes = {
     groupCustomerForm: PropTypes.object,
     totalCustomerPages: PropTypes.number,
     totalCustomerInOverlayPages: PropTypes.number,
@@ -197,4 +202,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomersTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ListChildCustomer);
