@@ -5,15 +5,18 @@ namespace Modules\Graphics\Http\Controllers;
 use App\District;
 use App\Good;
 use App\Order;
+use App\OrderPaidMoney;
 use App\Product;
 use App\Province;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Graphics\Repositories\BookRepository;
+use Modules\Graphics\Repositories\NganLuong;
 
 class GraphicsController extends Controller
 {
@@ -212,6 +215,31 @@ class GraphicsController extends Controller
         ]);
     }
 
+    public function onlinePaidOrder($subfix, $orderId, $money, Request $request)
+    {
+        if (Hash::check($orderId, $request->hash)) {
+            $order = Order::find($orderId);
+            if ($order) {
+                $orderPaidMoney = new OrderPaidMoney();
+                $orderPaidMoney->money = $money;
+                $orderPaidMoney->staff_id = 0;
+                $orderPaidMoney->order_id = $orderId;
+                $orderPaidMoney->note = "Thanh toán qua ngân lượng";
+                $orderPaidMoney->payment = "Thanh toán online";
+                $orderPaidMoney->save();
+                $order->status_paid = 1;
+                $order->save();
+            } else {
+                return "Đơn hàng không tồn tại";
+            }
+
+            return "success";
+        } else {
+            return "Error";
+        }
+    }
+
+
     public function saveOrder($subfix, Request $request)
     {
         $email = $request->email;
@@ -221,10 +249,19 @@ class GraphicsController extends Controller
         $district = District::find($request->districtid)->name;
         $address = $request->address;
         $payment = $request->payment;
+        $bankCode = $request->bank_code;
+        $onlinePurchase = $request->online_purchase;
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
+
+
         if (count($goods_arr) > 0) {
-            $this->bookRepository->saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr);
+            $onlineOrder = $this->bookRepository->saveOrder($email, $phone,
+                $name, $province, $district, $address, $payment, $goods_arr, $onlinePurchase, $bankCode);
+
+            if ($onlineOrder) {
+                return $onlineOrder;
+            }
             $request->session()->flush();
             return [
                 "status" => 1
@@ -258,4 +295,74 @@ class GraphicsController extends Controller
         $request->session()->flush();
     }
 
+    public function checkout()
+    {
+        return view('graphics::checkout');
+    }
+
+//    public function createCheckout()
+//    {
+//        $nlcheckout = new NganLuong();
+//
+//        $total_amount = $_POST['total_amount'];
+//
+//        $array_items[0] = array('item_name1' => 'Product name',
+//            'item_quantity1' => 1,
+//            'item_amount1' => $total_amount,
+//            'item_url1' => 'http://nganluong.vn/');
+//
+//        $array_items = array();
+//        $payment_method = $_POST['option_payment'];
+//        $bank_code = @$_POST['bankcode'];
+//        $order_code = "macode_" . time();
+//
+//        $payment_type = "1";
+//        $discount_amount = 0;
+//        $order_description = '';
+//        $tax_amount = 0;
+//        $fee_shipping = 0;
+//        $return_url = 'http://localhost/nganluong.vn/checkoutv3/payment_success.php';
+//        $cancel_url = urlencode('http://localhost/nganluong.vn/checkoutv3?orderid=' . $order_code);
+//
+//        $buyer_fullname = $_POST['buyer_fullname'];
+//        $buyer_email = $_POST['buyer_email'];
+//        $buyer_mobile = $_POST['buyer_mobile'];
+//
+//        $buyer_address = '';
+//
+//
+//        if ($payment_method != '' && $buyer_email != "" && $buyer_mobile != "" && $buyer_fullname != "" && filter_var($buyer_email, FILTER_VALIDATE_EMAIL)) {
+//            if ($payment_method == "VISA") {
+//
+//                $nl_result = $nlcheckout->VisaCheckout($order_code, $total_amount, $payment_type, $order_description, $tax_amount,
+//                    $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile,
+//                    $buyer_address, $array_items, $bank_code);
+//
+//            } elseif ($payment_method == "NL") {
+//                $nl_result = $nlcheckout->NLCheckout($order_code, $total_amount, $payment_type, $order_description, $tax_amount,
+//                    $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile,
+//                    $buyer_address, $array_items);
+//
+//            } elseif ($payment_method == "ATM_ONLINE" && $bank_code != '') {
+//                $nl_result = $nlcheckout->BankCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount,
+//                    $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile,
+//                    $buyer_address, $array_items);
+//            } elseif ($payment_method == "NH_OFFLINE") {
+//                $nl_result = $nlcheckout->officeBankCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items);
+//            } elseif ($payment_method == "ATM_OFFLINE") {
+//                $nl_result = $nlcheckout->BankOfflineCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items);
+//
+//            } elseif ($payment_method == "IB_ONLINE") {
+//                $nl_result = $nlcheckout->IBCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items);
+//            } elseif ($payment_method == "CREDIT_CARD_PREPAID") {
+//
+//                $nl_result = $nlcheckout->PrepaidVisaCheckout($order_code, $total_amount, $payment_type, $order_description, $tax_amount, $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile, $buyer_address, $array_items, $bank_code);
+//            }
+//        }
+////        dd($nl_result);
+//        return [
+//            "checkout_url" => $nl_result->checkout_url . "",
+//            "error_code" => $nlcheckout->GetErrorMessage($nl_result->error_code)
+//        ];
+//    }
 }

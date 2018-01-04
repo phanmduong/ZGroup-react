@@ -1,6 +1,11 @@
 <?php
 
 return [
+    "nganluong_merchant_id" => env("NGANLUONG_MERCHANT_ID", ""),
+    "nganluong_merchant_pass" => env("NGANLUONG_MERCHANT_PASS", ""),
+    "nganluong_receiver" => env("NGANLUONG_RECEIVER", ""),
+    "nganluong_url_api" => env("NGANLUONG_URL_API", ""),
+
     "ghtk_api" => env("GHTK_API", ""),
     "facebook_app_id" => env("FACEBOOK_APP_ID", ""),
     "facebook_app_secret" => env("FACEBOOK_APP_SECRET", ""),

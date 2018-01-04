@@ -9,8 +9,14 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::get('/book/{good_id}', 'GraphicsController@book');
     Route::get('/blog', 'GraphicsController@blog');
     Route::get('/blog/post/{post_id}', 'GraphicsController@post');
+
     Route::get('/api/blogs', 'BlogApiController@getAllBlogs');
+    Route::get('/api/completed', 'BlogApiController@onlinePaidOrder');
     Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
+    Route::get('/nganluongapi/order/{orderId}/money/{money}/complete', 'GraphicsController@onlinePaidOrder');
+
+    Route::get("/checkout", "GraphicsController@checkout");
+    Route::post("/checkout", "GraphicsController@createCheckout");
 
     Route::get('/load-books-from-session', 'GraphicsController@getGoodsFromSession');
     Route::get('/add-book/{goodId}', 'GraphicsController@addGoodToCart');
