@@ -25,6 +25,11 @@ class Course extends Model
         return $this->hasMany('App\Lesson', 'course_id');
     }
 
+    public function terms()
+    {
+        return $this->hasMany(Term::class, 'course_id');
+    }
+
     public function links()
     {
         return $this->hasMany('App\Link', 'course_id');
@@ -56,6 +61,7 @@ class Course extends Model
             'detail' => $this->detail,
             'lessons' => $this->lessons,
             'links' => $this->links,
+            'terms' => $this->terms,
             'pixels' => $this->coursePixels->map(function ($coursePixel) {
                 return $coursePixel->getData();
             })

@@ -3,7 +3,9 @@
 namespace Modules\Elight\Http\Controllers;
 
 use App\District;
+use App\Course;
 use App\Good;
+use App\Lesson;
 use App\Product;
 use App\Province;
 use Illuminate\Routing\Controller;
@@ -78,37 +80,41 @@ class ElightController extends Controller
         );
     }
 
-    public function book($subfix, $book_id)
+    public function book($subfix, $book_id, $lesson_id = null)
     {
-        $date = new \DateTime();
-        $date->modify("+1 day");
-        $endDate = $date->format("Y-m-d h:i:s");
-        $date->modify("-31 days");
-        $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
-        $book = Good::find($book_id);
-        $newestBooks = Good::where('type', 'book')->where('id', '<>', $book_id)->limit(4)->get();
+        $lesson = Lesson::find($lesson_id);
+
+        $book = Course::find($book_id);
+        if ($book == null) {
+            return view('elight::404-not-found');
+        }
+
+        if ($lesson == null) {
+            $term = $book->terms()->orderBy('order')->first();
+            $lesson = $term->lessons()->orderBy('order')->first();
+        }
+
         return view('elight::book', [
             'book' => $book,
-            'newestBooks' => $newestBooks,
-            'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
+            'lesson_selected' => $lesson
         ]);
     }
 
-    public function allBooks($subfix) {
-        $books = Good::where('type', 'book')->get();
-        return view('elight::library',[
+    public function allBooks($subfix)
+    {
+        $books = Course::all();
+        return view('elight::library', [
             'books' => $books,
         ]);
     }
 
-    public function aboutUs($subfix) {
+    public function aboutUs($subfix)
+    {
         return view('elight::about-us');
     }
 
-    public function contactUs($subfix) {
+    public function contactUs($subfix)
+    {
         return view('elight::contact-us');
     }
 

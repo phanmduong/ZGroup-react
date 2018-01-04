@@ -27,6 +27,8 @@
     </script>
 </head>
 <body class="profile" style="background: #f2f2f2;">
+<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"
+        type="text/javascript"></script>
 <nav class="navbar navbar-light navbar-toggleable-md fixed-top" style="background: #138edc!important">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
@@ -354,10 +356,6 @@
         </div>
     </div>
 </div>
-
-
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"
-        type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/tether.min.js" type="text/javascript"></script>
@@ -372,6 +370,7 @@
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/jquery.sharrre.js"></script>
 <script src="/mediaelementplayer/mediaelement-and-player.js"></script>
 <script src="/mediaelementplayer/script.js"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1514975610Gr6yAv8DnDP0uaA.js"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
@@ -407,7 +406,18 @@
             }
         });
     })();
+    $(document).ready(function () {
+        var $input = $("#search_lesson");
+        $input.typeahead({
+            source: [
+                {id: "someId1", name: "Display name 1"},
+                {id: "someId2", name: "Display name 2"}
+            ],
+            autoSelect: true
+        });
+    })
 </script>
+
 </body>
 
 </html>

@@ -2,7 +2,10 @@
 
 namespace Modules\Staff\Http\Controllers;
 
+use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
+use App\Work;
+use App\WorkStaff;
 use Illuminate\Http\Request;
 use App\User;
 use DateTime;
@@ -100,6 +103,57 @@ class StaffApiController extends ManageApiController
         }
 
 
+    }
+
+    public function changeStatusInWork($staffId, $workId, Request $request)
+    {
+        $work_staff = WorkStaff::where('work_id', $workId)->where('staff_id', $staffId)->first();
+        if (!$work_staff) return $this->respondErrorWithStatus("Không tồn tại");
+        if (!$request->status) return $this->respondErrorWithStatus("Thiếu status");
+        $work_staff->status = $request->status;
+        $work_staff->cost = $request->cost;
+        $work_staff->rate_description = $request->rate_description;
+        $work_staff->rate_star = $request->rate_star;
+        $work_staff->save();
+
+        $count_staff = WorkStaff::where('work_id', $workId)->count();
+
+        $count_done = WorkStaff::where('work_id', $workId)->where('status', "done")->count();
+
+        $count_doing = WorkStaff::where('work_id', $workId)->where('status', "doing")->count();
+        $work = Work::find($workId);
+        if ($count_staff == $count_done) {
+            $work->status = "done";
+            $work->save();
+        }
+
+        if ($count_staff == $count_doing) {
+            $work->status = "doing";
+            $work->save();
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+
+    }
+
+    public function extensionWork($staffId, $workId, Request $request)
+    {
+        $staff = User::find($staffId);
+        $work = Work::find($workId);
+        if (!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
+        if (!$staff) return $this->respondErrorWithStatus("Không tồn tại nhân viên");
+        $log = new HistoryExtensionWork;
+        $log->staff_id = $staffId;
+        $log->work_id = $workId;
+        $log->penalty = $request->penalty;
+        $log->reason = $request->reason;
+        $log->new_deadline = $request->new_deadline;
+        $log->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Gia hạn công việc thành công"
+        ]);
     }
 
 }
