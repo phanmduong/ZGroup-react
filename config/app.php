@@ -32,6 +32,7 @@ return [
     'prefix_code' => env('PREFIX_CODE', ''),
     'prefix_code_wait' => env('PREFIX_CODE_WAIT', ''),
     'brand_sms' => env('BRAND_SMS', ''),
+    'sound_cloud_client_id' => env('SOUND_COULD_CLIENT_ID', ''),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

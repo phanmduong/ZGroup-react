@@ -117,14 +117,15 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" v-on:click="openModalBuyWithoutAdd()" data-scroll="true"
-                       href="javascript:void(0)">
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true" v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center;" >
                         <i class="fa fa-shopping-cart"></i>
+                        &nbsp
                         Giỏ hàng
-                        <p id="cart-num-items"
-                           style="display:none;background:#c50000!important; padding:5px 10px!important; border-radius:100px; color:white!important; margin-left:5px;">
-                            0
-                        </p>
+                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
+                            @{{ books_count }}
+                        </div>
                     </a>
                 </li>
             </ul>
@@ -313,7 +314,6 @@
         </div>
 
     </div>
-</div>
 </div>
 
 <footer class="footer footer-light footer-big">

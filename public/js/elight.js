@@ -42,7 +42,6 @@ var modalBuy = new Vue({
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
-
                 else
                     newGoods.push(good);
             }
@@ -131,6 +130,7 @@ var openWithoutAdd = new Vue({
                     this.books_count = response.data;
                 }.bind(this))
                 .catch(function (error) {
+
                 });
         },
         openModalBuyWithoutAdd: function () {
@@ -141,7 +141,7 @@ var openWithoutAdd = new Vue({
         },
     },
     mounted: function () {
-        this.countBooksFromSession();
+        this.countBooksFromSession()
     },
 });
 
@@ -152,7 +152,7 @@ var modalPurchase = new Vue({
         phone: '',
         email: '',
         address: '',
-        payment: 'Thanh toán online',
+        payment: '',
         provinceid: '',
         districtid: '',
         wardid: '',
@@ -162,8 +162,6 @@ var modalPurchase = new Vue({
         showDistrict: false,
         provinces: [],
         districts: [],
-        onlinePurchase: "ATM_ONLINE",
-        bank_code: ""
     },
     methods: {
         getProvinces: function () {
@@ -213,27 +211,20 @@ var modalPurchase = new Vue({
                 provinceid: this.provinceid ? this.provinceid : '01',
                 districtid: this.districtid ? this.districtid : '001',
                 address: this.address,
-                bank_code: this.bank_code,
-                online_purchase: this.onlinePurchase,
                 payment: this.payment,
-                _token: window.token
+                _token: window.token,
             })
                 .then(function (response) {
-                    if (this.payment === "Thanh toán online") {
-                        window.location.href = response.data.checkout_url;
-                    } else {
-                        $("#purchase-loading-text").css("display", "none");
-                        $("#btn-purchase-group").css("display", "block");
-                        $("#modalPurchase").modal("hide");
-                        $("#modalSuccess").modal("show");
-                        name = "";
-                        phone = "";
-                        email = "";
-                        address = "";
-                        payment = "";
-                    }
-
-                }.bind(this))
+                    $("#purchase-loading-text").css("display", "none");
+                    $("#btn-purchase-group").css("display", "block");
+                    $("#modalPurchase").modal("hide");
+                    $("#modalSuccess").modal("show");
+                    name = "";
+                    phone = "";
+                    email = "";
+                    address = "";
+                    payment = "";
+                })
 
                 .catch(function (error) {
                     console.log(error);
@@ -241,4 +232,3 @@ var modalPurchase = new Vue({
         },
     }
 });
-
