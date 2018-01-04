@@ -85,6 +85,23 @@ class CourseController extends ManageApiController
         );
     }
 
+    public function changeStatusCourse($course_id, Request $request)
+    {
+        $course = Course::find($course_id);
+
+        if ($course == null) {
+            return $this->respondErrorWithStatus("Không tồn tại môn học");
+        }
+
+        $course->status = $request->status ? $request->status : 0;
+
+        $course->save();
+
+        return $this->respondSuccessWithStatus([
+            'course' => $course->transform()
+        ]);
+    }
+
     public function getAll()
     {
         $courses = Course::all();
@@ -280,9 +297,9 @@ class CourseController extends ManageApiController
     {
         $classLesson = ClassLesson::query();
         $check = $classLesson->where('class_id', $classId)->count();
-        if ($check < $lessonId || $lessonId == 0 ) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
-        $classLesson_pre = $classLesson->where('class_id', $classId)->orderBy('lesson_id','asc')->get();
-        $classLesson = $classLesson_pre[$lessonId-1];
+        if ($check < $lessonId || $lessonId == 0) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
+        $classLesson_pre = $classLesson->where('class_id', $classId)->orderBy('lesson_id', 'asc')->get();
+        $classLesson = $classLesson_pre[$lessonId - 1];
         $attendance_list = $classLesson->attendances;
         $data['attendances'] = $attendance_list->map(function ($attendance) {
             return [
