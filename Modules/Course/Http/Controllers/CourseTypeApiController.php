@@ -39,6 +39,32 @@ class CourseTypeApiController extends ManageApiController
         $type->save();
     }
 
+    public function getCategories(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $search = $request->search;
+
+        $types = CourseType::query();
+        $types = $types->where('name', 'like', '%' . $search . '%');
+        if ($limit == -1) {
+            $types = $types->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'categories' => $types->map(function ($type) {
+                    return $type->getData();
+                })
+            ]);
+        }
+
+        $types = $types->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination(
+            $types,
+            [
+                'categories' => $types->map(function ($type) {
+                    return $type->getData();
+                })
+            ]);
+    }
+
     public function addType(Request $request)
     {
         $type = new CourseType();

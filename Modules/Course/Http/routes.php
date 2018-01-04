@@ -4,6 +4,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'cour
     Route::put('/pixel/{pixelId}', 'PixelApiController@editPixel');
     Route::delete('/pixel/{pixelId}', 'PixelApiController@deletePixel');
 
+    Route::get('/type', 'CourseTypeApiController@getTypes');
     Route::post('/type','CourseTypeApiController@addType');
     Route::put('/type/{typeId}','CourseTypeApiController@editType');
     Route::delete('/type/{typeId}','CourseTypeApiController@deleteType');
