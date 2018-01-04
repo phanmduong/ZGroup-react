@@ -106,28 +106,5 @@
             </div>
             <br><br><br>
         </div>
-
-
-        <div style="background: white">
-            <div class="container">
-                <br> <br><br>
-                <div>
-                    <div class="col-md-1">
-                    </div>
-                    <div class="col-md-10">
-                        <div class="row">
-                            <div class="row">
-
-
-                            </div>
-                        </div>
-                        <br><br><br>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
     </div>
 @endsection
