@@ -84,6 +84,7 @@ class Course extends Model
             'duration' => $this->duration,
             'price' => $this->price,
             'status' => $this->status,
+            'color' => $this->color,
         ];
     }
 }
