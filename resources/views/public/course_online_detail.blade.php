@@ -31,7 +31,8 @@
                             <br>
                         </div>
                         <div class="col-md-8">
-                            <style>.embed-container {
+                            <style>
+                                .embed-container {
                                     position: relative;
                                     padding-bottom: 56.25%;
                                     height: 0;
@@ -52,8 +53,10 @@
                                         frameborder='0' webkitAllowFullScreen mozallowfullscreen
                                         allowFullScreen></iframe>
                             </div>
+                            <br>
+                            <br>
                             <div>
-                                {!! $lesson_selected->detail !!}}
+                                {!! convert_image_html($lesson_selected->detail) !!}}
                             </div>
                             <br>
                             <p></p>
@@ -80,7 +83,7 @@
                                     <br>
                                     <div id="collapse{{$term->id}}"
                                          aria-expanded="{{$term->id == $lesson_selected->term->id ? 'true' : 'false'}}"
-                                         class="collapse {{$term->id == $lesson_selected->term->id ? 'show' : ''}}">
+                                         class="collapse {{$term->id == $lesson_selected->term->id ? 'in' : ''}}">
                                         @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
                                             <a href="/elearning/{{$course->id}}/{{$lesson->id}}"
