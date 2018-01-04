@@ -7,16 +7,7 @@ import  * as coursesActions             from '../coursesActions';
 import ButtonGroupAction                from "../../../components/common/ButtonGroupAction";
 import {Modal}                          from 'react-bootstrap';
 import FormInputText                    from '../../../components/common/FormInputText';
-import {NO_IMAGE}                       from '../../../constants/env';
 import * as helper                      from '../../../helpers/helper';
-
-function validateLink(link){
-    if(helper.isEmptyInput(link)) return NO_IMAGE;
-    if(link.substring(0,4) === 'http'){
-        return link;
-    }
-    return 'http://' + link;
-}
 
 
 class coursesCreateEditPixel extends React.Component {
@@ -47,7 +38,7 @@ class coursesCreateEditPixel extends React.Component {
         helper.setFormValidation('#form-edit-pixel');
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(){
         helper.setFormValidation('#form-edit-pixel');
     }
     componentDidUpdate(){
