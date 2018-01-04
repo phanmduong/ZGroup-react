@@ -145,7 +145,7 @@ export default [
                 component: coursesCreateEditGeneral
             },
             {
-                path: "studying",
+                path: "term",
                 component: coursesCreateEditGeneral
             },
             {
@@ -155,7 +155,11 @@ export default [
             {
                 path: "interested",
                 component: coursesCreateEditGeneral
-            }
+            },
+            {
+                path: "pixel",
+                component: coursesCreateEditGeneral
+            },
         ]
     },
     {
