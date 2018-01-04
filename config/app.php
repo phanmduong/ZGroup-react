@@ -1,7 +1,14 @@
 <?php
 
 return [
+    "nganluong_merchant_id" => env("NGANLUONG_MERCHANT_ID", ""),
+    "nganluong_merchant_pass" => env("NGANLUONG_MERCHANT_PASS", ""),
+    "nganluong_receiver" => env("NGANLUONG_RECEIVER", ""),
+    "nganluong_url_api" => env("NGANLUONG_URL_API", ""),
+
     "ghtk_api" => env("GHTK_API", ""),
+    "facebook_app_id" => env("FACEBOOK_APP_ID", ""),
+    "facebook_app_secret" => env("FACEBOOK_APP_SECRET", ""),
     "google_client_id" => env("GOOGLE_CLIENT_ID", ""),
     "domain" => env('DOMAIN', ''),
     "channel" => env("CHANNEL", ""),
@@ -25,6 +32,7 @@ return [
     'prefix_code' => env('PREFIX_CODE', ''),
     'prefix_code_wait' => env('PREFIX_CODE_WAIT', ''),
     'brand_sms' => env('BRAND_SMS', ''),
+    'sound_cloud_client_id' => env('SOUND_COULD_CLIENT_ID', ''),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

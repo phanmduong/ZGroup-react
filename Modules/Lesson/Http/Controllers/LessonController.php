@@ -2,16 +2,22 @@
 
 namespace Modules\Lesson\Http\Controllers;
 
+use App\Colorme\Transformers\TermTransformer;
 use App\Course;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
+use App\Term;
 use Illuminate\Http\Request;
 
 class LessonController extends ManageApiController
 {
-    public function __construct()
+
+    protected $termTransformer;
+
+    public function __construct(TermTransformer $termTransformer)
     {
         parent::__construct();
+        $this->termTransformer = $termTransformer;
     }
 
     public function getdetailLesson($lessonId, Request $request)
@@ -47,8 +53,12 @@ class LessonController extends ManageApiController
         $lesson->course_id = $request->course_id;
         $lesson->detail = $request->detail;
         $lesson->order = $request->order;
+        $lesson->term_id = $request->term_id;
         $lesson->detail_content = $request->detail_content;
         $lesson->detail_teacher = $request->detail_teacher;
+        $lesson->image_url = $request->image_url;
+        $lesson->audio_url = $request->audio_url;
+        $lesson->video_url = $request->video_url;
         $lesson->save();
 
         $course->duration = $course->lessons->count();
@@ -78,8 +88,12 @@ class LessonController extends ManageApiController
         $lesson->course_id = $request->course_id;
         $lesson->detail = $request->detail;
         $lesson->order = $request->order;
+        $lesson->term_id = $request->term_id;
         $lesson->detail_content = $request->detail_content;
         $lesson->detail_teacher = $request->detail_teacher;
+        $lesson->image_url = $request->image_url;
+        $lesson->audio_url = $request->audio_url;
+        $lesson->video_url = $request->video_url;
         $course = Course::find($request->course_id);
 
         $lesson->save();
@@ -107,5 +121,106 @@ class LessonController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'message' => "Xoa thanh cong"
         ]);
+    }
+
+    public function getTermsCourse($course_id)
+    {
+        $course = Course::find($course_id);
+
+        if ($course == null) {
+            return $this->respondErrorWithStatus("Môn học không tồn tại");
+        }
+
+        $terms = $this->termTransformer->transformCollection($course->terms);
+
+        return $this->respondSuccessWithStatus(
+            [
+                "terms" => $terms
+            ]
+        );
+    }
+
+    public function getTerm($term_id)
+    {
+        $term = Term::find($term_id);
+        if ($term) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+
+        return $this->respondSuccessWithStatus(
+            [
+                "term" => $this->termTransformer->transform($term)
+            ]
+        );
+    }
+
+    public function createTerm(Request $request)
+    {
+        $term = new Term();
+
+        if ($request->course_id == null || $request->course_id == 0) {
+            return $this->respondErrorWithStatus("Thiếu môn học");
+        }
+
+        $term->name = $request->name;
+        $term->description = $request->description;
+        $term->short_description = $request->short_description;
+        $term->course_id = $request->course_id;
+        $term->order = $request->order;
+        $term->image_url = $request->image_url;
+        $term->video_url = $request->video_url;
+        $term->audio_url = $request->audio_url;
+
+        $term->save();
+
+        return $this->respondSuccessWithStatus([
+            "term" => $this->termTransformer->transform($term)
+        ]);
+    }
+
+    public function editTerm($term_id,Request $request)
+    {
+        $term = Term::find($term_id);
+
+        if ($term == null) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+
+        if ($request->course_id == null || $request->course_id == 0) {
+            return $this->respondErrorWithStatus("Thiếu môn học");
+        }
+
+        $term->name = $request->name;
+        $term->description = $request->description;
+        $term->short_description = $request->short_description;
+        $term->course_id = $request->course_id;
+        $term->order = $request->order;
+        $term->image_url = $request->image_url;
+        $term->video_url = $request->video_url;
+        $term->audio_url = $request->audio_url;
+
+        $term->save();
+
+        return $this->respondSuccessWithStatus([
+            "term" => $this->termTransformer->transform($term)
+        ]);
+    }
+
+    public function deleteTerm($term_id)
+    {
+        $term = Term::find($term_id);
+
+        if ($term == null) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+
+        $term->lessons->map(function ($lesson) {
+            $lesson->term_id = null;
+            $lesson->save();
+        });
+
+        $term->delete();
+
+        return $this->respondSuccess("Xóa thành công");
     }
 }

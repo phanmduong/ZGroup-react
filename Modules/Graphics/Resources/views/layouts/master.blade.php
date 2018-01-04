@@ -117,14 +117,15 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" v-on:click="openModalBuyWithoutAdd()" data-scroll="true"
-                       href="javascript:void(0)">
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true" v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center;" >
                         <i class="fa fa-shopping-cart"></i>
+                        &nbsp
                         Giỏ hàng
-                        <p id="cart-num-items"
-                           style="display:none;background:#c50000!important; padding:5px 10px!important; border-radius:100px; color:white!important; margin-left:5px;">
-                            0
-                        </p>
+                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
+                            @{{ books_count }}
+                        </div>
                     </a>
                 </li>
             </ul>
@@ -183,6 +184,7 @@
                            style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
                     <select v-model="payment" class="form-control" id="sel1">
+                        <option value="Thanh toán online">Thanh toán online</option>
                         <option value="Chuyển khoản">Chuyển khoản</option>
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
                             Thanh toán trực tiếp khi nhận hàng(COD)
@@ -192,15 +194,10 @@
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     Bạn vui lòng nhập đầy đủ thông tin
                 </div>
-                <p style="font-weight: 600">
-                    <br>
-                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển khoản</b> dưới đây là thông tin chuyển
-                    khoản:</p>
-                <p>
-                    Tên tài khoản: VU CHI CONG<br/>
-                    Số tài khoản: 04 51 00 04 27 664 <br/>
-                    Ngân hàng: Vietcombank Thành Công.
-                </p>
+
+
+                @include("graphics::checkout.online")
+                @include("graphics::checkout.transfer")
             </div>
             <div class="modal-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
@@ -317,7 +314,6 @@
         </div>
 
     </div>
-</div>
 </div>
 
 <footer class="footer footer-light footer-big">
@@ -456,4 +452,6 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/graphics.js?6868"></script>
+
+
 </html>

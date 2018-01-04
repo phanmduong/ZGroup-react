@@ -11,6 +11,19 @@ var navVue = new Vue({
         }
     },
     methods: {
+        onFacebookLoginButtonClick: function () {
+            FB.getLoginStatus(function (response) {
+                console.log(response);
+                if (response.status === 'connected') {
+                    console.log('Logged in.');
+
+                }
+                else {
+                    FB.login();
+                }
+
+            });
+        },
         changeLoginCondition: function (user) {
             this.showLoggedNav = true;
             this.user = user;

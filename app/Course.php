@@ -17,7 +17,7 @@ class Course extends Model
 
     public function courseCategories()
     {
-        return $this->belongsToMany(CourseCategory::class, 'course_course_category', 'couse_id', 'course_category_id');
+        return $this->belongsToMany(CourseCategory::class, 'course_course_category', 'course_id', 'course_category_id');
     }
 
     public function lessons()
@@ -25,9 +25,19 @@ class Course extends Model
         return $this->hasMany('App\Lesson', 'course_id');
     }
 
+    public function terms()
+    {
+        return $this->hasMany(Term::class, 'course_id');
+    }
+
     public function links()
     {
         return $this->hasMany('App\Link', 'course_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(CourseType::class, 'type_id');
     }
 
     public function coursePixels()
@@ -56,6 +66,8 @@ class Course extends Model
             'detail' => $this->detail,
             'lessons' => $this->lessons,
             'links' => $this->links,
+            'terms' => $this->terms,
+            'status' => $this->status,
             'pixels' => $this->coursePixels->map(function ($coursePixel) {
                 return $coursePixel->getData();
             })
@@ -71,6 +83,7 @@ class Course extends Model
             'num_classes' => $this->classes()->where("name", "like", "%.%")->count(),
             'duration' => $this->duration,
             'price' => $this->price,
+            'status' => $this->status,
         ];
     }
 }
