@@ -19,7 +19,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::put('/lesson/edit/{lessonId}', 'CourseController@editLesson');
     Route::get('/get-attendance-lesson/{classId}/{lessonId}','CourseController@getAttendance');
     Route::post('/change-attendances','CourseController@changeAttendance');
-
+    Route::put('/{course_id}/change-status','CourseController@changeStatusCourse');
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
