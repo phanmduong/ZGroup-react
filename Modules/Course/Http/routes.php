@@ -20,6 +20,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::get('/get-attendance-lesson/{classId}/{lessonId}','CourseController@getAttendance');
     Route::post('/change-attendances','CourseController@changeAttendance');
     Route::put('/{course_id}/change-status','CourseController@changeStatusCourse');
+    Route::post('/type/add','CourseTypeApiController@addType');
+    Route::put('/type/{type_id}/edit','CourseTypeApiController@editType');
+    Route::delete('/type/{type_id}/delete','CourseTypeApiController@deleteType');
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
