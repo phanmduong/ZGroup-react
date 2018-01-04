@@ -25,7 +25,7 @@ class PublicCrawlController extends CrawlController
 
     public function home()
     {
-        $courses = Course::orderBy('created_at', 'asc')->get();
+        $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
         $current_gen = Gen::getCurrentGen();
         $this->data['gen_cover'] = $current_gen->cover_url;
         $this->data['courses'] = $courses;
