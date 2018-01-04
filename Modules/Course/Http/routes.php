@@ -5,8 +5,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'cour
     Route::delete('/pixel/{pixelId}', 'PixelApiController@deletePixel');
 
     Route::post('/type','CourseTypeApiController@addType');
-    Route::put('/type/{type_id}','CourseTypeApiController@editType');
-    Route::delete('/type/{type_id}','CourseTypeApiController@deleteType');
+    Route::put('/type/{typeId}','CourseTypeApiController@editType');
+    Route::delete('/type/{typeId}','CourseTypeApiController@deleteType');
+
+    Route::get('/category', 'CourseCategoryApiController@getCategories');
+    Route::post('/category', 'CourseCategoryApiController@createCategory');
+    Route::put('/category/{categoryId}', 'CourseCategoryApiController@editCategory');
+    Route::delete('/category/{categoryId}', 'CourseCategoryApiController@deleteCategory');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
