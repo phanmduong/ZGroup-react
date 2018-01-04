@@ -50,7 +50,7 @@ class CourseTypeApiController extends ManageApiController
 
     public function editType($typeId, Request $request)
     {
-        $type = new CourseType($typeId);
+        $type = CourseType::find($typeId);
 
         if ($type == null) {
             return $this->respondErrorWithStatus("Không tồn tại");
