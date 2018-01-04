@@ -69,8 +69,8 @@ class Course extends Model
             'terms' => $this->terms,
             'status' => $this->status,
             'type' => $this->courseType->getData,
-            'categories' => $this->courseCategories->map(function ($coursePixel) {
-                return $coursePixel->getData();
+            'categories' => $this->courseCategories->map(function ($courseCategory) {
+                return $courseCategory->getData();
             }),
             'pixels' => $this->coursePixels->map(function ($coursePixel) {
                 return $coursePixel->getData();
@@ -90,8 +90,8 @@ class Course extends Model
             'status' => $this->status,
             'color' => $this->color,
             'type' => $this->courseType->getData,
-            'categories' => $this->courseCategories->map(function ($coursePixel) {
-                return $coursePixel->getData();
+            'categories' => $this->courseCategories->map(function ($courseCategory) {
+                return $courseCategory->getData();
             }),
         ];
     }
