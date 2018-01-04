@@ -12,15 +12,19 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
 
-    <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/paper-kit.css" rel="stylesheet"/>
-    <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/demo.css" rel="stylesheet"/>
-
     <!--     Fonts and icons     -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
 
+    <link href="/elight-assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/elight-assets/css/paper-kit.css" rel="stylesheet"/>
+    <link href="/elight-assets/css/demo.css" rel="stylesheet"/>
+
+    <script>
+        window.url = "{{url("/")}}";
+        window.token = "{{csrf_token()}}";
+    </script>
 </head>
 <body class="profile" style="background: #f2f2f2;">
 <nav class="navbar navbar-light navbar-toggleable-md fixed-top" style="background: #138edc!important">
@@ -167,81 +171,187 @@
 
     </div>
 </footer>
-<div id="modalPurchase" class="modal fade" style="overflow-y: scroll;">
+
+<div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" data-dismiss="modal" class="close">×</button>
-                <h2 class="medium-title">Thanh toán</h2></div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Thanh toán</h2>
+            </div>
             <div class="modal-body">
-                <form class="register-form "><h6>Họ và tên</h6> <input type="text" placeholder="Họ và tên"
-                                                                       class="form-control"><br> <h6>Số điện thoại</h6>
-                    <input type="text" placeholder="Số điện thoại" class="form-control"><br> <h6>Email</h6> <input
-                            type="text" placeholder="Số điện thoại" class="form-control"><br> <h6>Địa chỉ nhận sách</h6>
-                    <input type="text" placeholder="Địa chỉ nhận sách" class="form-control"><br> <h6>Phương thức thanh
-                        toán</h6> <select id="sel1" class="form-control">
+                <form class="register-form ">
+                    <h6>Họ và tên</h6>
+                    <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
+                    <h6>Số điện thoại</h6>
+                    <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <h6>Email</h6>
+                    <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <h6>Địa chỉ nhận sách</h6>
+                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>
+                    </div>
+                    <select v-if="showProvince"
+                            v-model="provinceid"
+                            v-on:change="changeProvince"
+                            class="form-control" placeholder="Tỉnh/Thành phố">
+                        <option value="">Tỉnh, Thành phố</option>
+                        <option v-for="province in provinces" v-bind:value="province.provinceid">
+                            @{{province.name}}
+                        </option>
+                    </select>
+                    <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>
+                    </div>
+                    <select v-if="showDistrict"
+                            v-model="districtid"
+                            class="form-control"
+                            style="margin-top: 5px"
+                            id="">
+                        <option value="">Quận, Huyện</option>
+                        <option v-for="district in districts" v-bind:value="district.districtid">
+                            @{{district.name}}
+                        </option>
+                    </select>
+
+
+                    <input v-model="address" type="text" class="form-control"
+                           placeholder="Đường, số nhà"
+                           style="margin-top: 5px"><br>
+                    <h6>Phương thức thanh toán</h6>
+                    <select v-model="payment" class="form-control" id="sel1">
                         <option value="Chuyển khoản">Chuyển khoản</option>
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
                             Thanh toán trực tiếp khi nhận hàng(COD)
                         </option>
-                    </select></form>
-                <div id="purchase-error" style="display: none; color: red; padding: 10px; text-align: center;">
+                    </select>
+                </form>
+                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     Bạn vui lòng nhập đầy đủ thông tin
                 </div>
+                <p style="font-weight: 600">
+                    <br>
+                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển khoản</b> dưới đây là thông tin chuyển
+                    khoản:</p>
+                <p>
+                    Tên tài khoản: VU CHI CONG<br/>
+                    Số tài khoản: 04 51 00 04 27 664 <br/>
+                    Ngân hàng: Vietcombank Thành Công.
+                </p>
             </div>
-            <div class="modal-footer" style="display: block;">
-                <div id="purchase-loading-text" style="display: none; text-align: center; width: 100%; padding: 15px;">
-                    <i class="fa fa-spin fa-spinner"></i>Đang tải...
+            <div class="modal-footer" style="display: block">
+                <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
+                            class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
-                <div id="btn-purchase-group" style="text-align: right;">
-                    <button data-dismiss="modal" class="btn btn-link btn-google" style="width: auto !important;">Tiếp
+                <div id="btn-purchase-group" style="text-align: right">
+                    <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>
-                    <button class="btn btn-sm btn-google" style="margin: 10px 10px 10px 0px !important;">Thanh toán <i
+                    <button
+                            v-on:click="submitOrder()"
+                            onclick="fbq('track', 'InitiateCheckout')"
+                            class="btn btn-sm btn-success"
+                            style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modalBuy" class="modal fade">
+    <div class="modal-dialog modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Giỏ hàng</h2>
+            </div>
+
+            <div class="modal-body" id="modal-buy-body">
+                <div>
+                    <br>
+                    <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>Đang tải...
+                    </div>
+                    <div v-for="good in goods">
+                        <div class="row" style="margin-bottom:20px;">
+                            <div class="col-md-1 h-center">
+                                <img class="shadow-image"
+                                     v-bind:src="good.avatar_url">
+                            </div>
+                            <div class="col-md-4">
+                                <p><b style="font-weight:600;">@{{good.name}}</b></p>
+                                <p>Connect the dots</p>
+                            </div>
+                            <div class="col-md-3 h-center">
+                                <button v-on:click="minusGood(event, good.id)"
+                                        class="btn btn-success btn-just-icon btn-sm">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                &nbsp
+                                <button v-on:click="plusGood(event, good.id)"
+                                        class="btn btn-success btn-just-icon btn-sm">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                                &nbsp
+                                <b style="font-weight:600;"> @{{ good.number }} </b>
+                            </div>
+                            <div class="col-md-2 h-center">
+                                <p>@{{ good.price * (1 - good.coupon_value)}}</p>
+                            </div>
+                            <div class="col-md-2 h-center">
+                                <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) *
+                                        good.number}}</b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="text-left"><b>Tổng</b></h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h4 class="text-right"><b>@{{ price_vnd }}</b></h4>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:20px;">
+                        <div class="col-md-12">
+                            <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:</div>
+                            <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
+                            <div>Ship vào Sài Gòn: 30k</div>
+                            <div>Ship đến tỉnh thành khác: 30k</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                            style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                    <button id="btn-purchase"
+                            v-on:click="openPurchaseModal()"
+                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                                 class="fa fa-angle-right"></i></button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div id="modalBuy" class="modal fade">
-    <div class="modal-dialog modal-large">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" class="close">×</button>
-                <h2 class="medium-title">Giỏ hàng</h2></div>
-            <div id="modal-buy-body" class="modal-body"><br> <!---->
-                <hr>
-                <div class="row">
-                    <div class="col-md-4"><h4 class="text-left"><b>Tổng</b></h4></div>
-                    <div class="col-md-8"><h4 class="text-right"><b>0</b></h4></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-google"
-                        style="width: auto !important;">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                <button id="btn-purchase" class="btn btn-sm btn-google" style="margin: 10px 10px 10px 0px !important;">
-                    Thanh toán <i class="fa fa-angle-right"></i></button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modalgoogle" class="modal fade">
-    <div class="modal-dialog modal-large">
 
-        <!-- Modal content-->
+<div id="modalSuccess" class="modal fade">
+    <div class="modal-dialog modal-large">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h2 class="medium-title">Đặt hàng thành công</h2>
             </div>
             <div class="modal-body">
-                <div style="text-align: center">
-                    Chúng tôi đã nhận được đơn hàng của bạn, bạn vui lòng kiểm tra email. Chúng tôi sẽ liên hệ lại với
+                <div style='text-align: center'>
+                    Chúng tôi đã nhận được đơn hàng của bạn, bạn vui lòng kiểm tra email. Chúng tôi sẽ liên hệ lại
+                    với
                     bạn trong thời gian sớm nhất
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -254,12 +364,7 @@
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/bootstrap.min.js"
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/paper-kit.js?v=2.0.0"></script>
-<!-- Core JS Files -->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/nhatquangshop.js?6868"></script>
-<!--  Plugins -->
-<!-- Core JS Files -->
+
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/demo.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <!--  Plugins for presentation page -->
@@ -269,6 +374,9 @@
 <script src="/mediaelementplayer/script.js"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/js/elight.js?6868"></script>
 <script type="text/javascript">
     (function () {
         function getRandomInt(min, max) {

@@ -14,9 +14,80 @@
                     Cùng học tiếng anh với Elight nhé
                 </h4>
                 <br>
-                <button class="btn btn-neutral btn-border btn-round" style="color:white">Đặt mua sách</button>
+                <a href="#buyBooks" class="btn btn-neutral btn-border btn-round" style="color:white">Đặt mua sách</a>
             </div>
         </div>
+    </div>
+    <br>
+    <div class="container">
+        <br><br>
+        <div class="row" id="buyBooks">
+            <div class="col-md-12 ">
+                <div class="shadow">
+                    <input placeholder="Tìm kiếm"
+                           style="width:100%; border:none; font-size:20px; padding:15px; color:#2e2e2e"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <div class="description">
+                        <h1 class="medium-title">
+                            Sản phẩm mới nhất<br>
+                        </h1>
+                        <br><a href="/all-books" class="btn btn-link btn-success"
+                               style="padding:0!important; margin:0!important">Xem tất cả <i
+                                    class="fa fa-angle-right"></i></a><br><br>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="vuejs1">
+            @foreach($books as $book)
+                <div class="col-md-6 book-item">
+                    <div class="card card-profile" style="border-radius:0; height: 90%">
+                        <div class="flex flex-col flex-justify-content-space-between" style="height: 100%">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card card-profile card-plain">
+                                            <img class="card-book-image" src="{{$book->avatar_url}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 text-left">
+                                        <br>
+                                        <h5 style="font-weight:600">{{$book->name}}</h5>
+                                        <p>{{$book->description}}</p>
+                                        <h5>
+                                            <b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>
+                                            <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']*(1-$book['coupon_value']))}}
+                                        </h5><br>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
+                            <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
+                                <div>
+                                    <a href="/sach/{{$book['id']}}" class="btn btn-link btn-success">
+                                        Xem thêm
+                                    </a>
+                                    <button v-on:click="openModalBuy({{$book['id']}})"
+                                            onclick="fbq('track', 'AddToCart')"
+                                            class="btn btn-success" style="padding:3px;margin:3px;font-size:10px;">
+                                        Đặt mua ngay <i class="fa fa-angle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    <br><br>
     </div>
     <div class="container" id="bookinfo">
         <div class="row">

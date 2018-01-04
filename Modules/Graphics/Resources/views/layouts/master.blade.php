@@ -318,7 +318,6 @@
 
     </div>
 </div>
-</div>
 
 <footer class="footer footer-light footer-big">
     <div class="container">
