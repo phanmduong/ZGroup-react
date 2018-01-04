@@ -43,6 +43,33 @@ export default function lessonsReducer(state = initialState.lessons, action) {
                 }
             };
         }
+        case types.BEGIN_EDIT_LESSON: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isCommitting: true
+                }
+            };
+        }
+        case types.EDIT_LESSON_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isCommitting: false
+                }
+            };
+        }
+        case types.EDIT_LESSON_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isCommitting: false
+                }
+            };
+        }
         case types.BEGIN_LOAD_DATA_LESSON: {
             return {
                 ...state,
@@ -78,6 +105,59 @@ export default function lessonsReducer(state = initialState.lessons, action) {
                     isLoading: false,
                     isCommitting: false,
                     data: action.data
+                }
+            };
+        }
+
+        case types.BEGIN_UPLOAD_ICON_LESSON: {
+            return {
+                ...state,
+                ...{
+                    isUploadingLessonIcon: true,
+                }
+            };
+        }
+        case types.UPLOAD_ICON_LESSON_SUCCESS: {
+            let newdata = {...state.data};
+            newdata.image_url = action.url;
+            return {
+                ...state,
+                ...{
+                    isUploadingLessonIcon: false,
+                    data: newdata,
+                }
+            };
+        }
+        case types.UPLOAD_ICON_LESSON_FAILED: {
+            return {
+                ...state,
+                ...{
+                    isUploadingLessonIcon: false,
+                }
+            };
+        }
+        case types.BEGIN_LOAD_TERMS: {
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        }
+        case types.LOAD_TERMS_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    terms: action.terms,
+                }
+            };
+        }
+        case types.LOAD_TERMS_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
                 }
             };
         }

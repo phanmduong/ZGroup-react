@@ -19,12 +19,10 @@ class WareHouseModalContainer extends React.Component {
     }
 
     render() {
-        const indexForChilds = this.props.productEditing.index;
-        const product = indexForChilds ? this.props.products[indexForChilds] : this.props.productPresent;
         return (
             <Modal show={this.props.wareHouseModal}
-                   onHide={() => this.props.showWareHouseModal(product)}>
-                <a onClick={() => this.props.showWareHouseModal(product)}
+                   onHide={() => this.props.modalProductAction.showWareHouseModal()}>
+                <a onClick={() => this.props.modalProductAction.showWareHouseModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title className="modal-title">Danh sách kho chứa sản phẩm</Modal.Title>
@@ -33,7 +31,7 @@ class WareHouseModalContainer extends React.Component {
                     <div className="container" style={{width: '100%'}}>
                         <div className="row">
                             <div className="col-sm-12 nav-tabs-wrapper">
-                                <ul className="nav nav-tabs">
+                                <ul className="nav nav-pills nav-pills-rose">
                                     <li className={this.props.showWareHouse && "active"}><a
                                         onClick={this.props.modalProductAction.openWareHouseTab}>Danh sách kho hàng</a>
                                     </li>
@@ -60,7 +58,8 @@ class WareHouseModalContainer extends React.Component {
                                                     isLoadingMore={this.props.isLoadingMore}
                                                     getHistoryInventories={this.props.inventoryGoodAction.getHistoryInventories}
                                                     inventory={this.props.productPresent}
-                                                    isLoadingHistoryList={this.props.isLoadingHistoryList}/>
+                                                    isLoadingHistoryList={this.props.isLoadingHistoryList}
+                                                    productWarehouse={this.props.productWarehouse}/>
                                         }
                                     </div>
                                 )
@@ -91,7 +90,8 @@ WareHouseModalContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     isLoadingHistoryList: PropTypes.bool.isRequired,
-    products: PropTypes.array.isRequired
+    products: PropTypes.array.isRequired,
+    productWarehouse: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -109,7 +109,8 @@ function mapStateToProps(state) {
         totalPages: state.inventoryGood.inventoryChecking.totalPages,
         currentPage: state.inventoryGood.inventoryChecking.currentPage,
         isLoadingHistoryList: state.inventoryGood.isLoadingHistoryList,
-        products: state.productList.products
+        products: state.productList.products,
+        productWarehouse: state.productList.productEditing.productWarehouse
     };
 }
 

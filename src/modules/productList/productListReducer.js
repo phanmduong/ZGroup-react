@@ -196,6 +196,22 @@ export default function productListReducer(state = initialState.productList, act
                 }
             };
         }
+        case types.SHUT_DOWN_SAME_PRODUCT_MODAL:
+            return {
+                ...state,
+                modalInProduct: {
+                    ...state.modalInProduct,
+                    sameProductModal: false
+                }
+            };
+        case types.HANDLE_WAREHOUSE_PRODUCT:
+            return {
+                ...state,
+                productEditing: {
+                    ...state.productEditing,
+                    productWarehouse: action.product
+                }
+            };
         default:
             return state;
     }

@@ -458,6 +458,93 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         }
+        case types.BEGIN_CREATE_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: true,
+                }
+            };
+        case types.CREATE_TERM_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+        }
+        case types.CREATE_TERM_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+
+        case types.BEGIN_UPLOAD_ICON_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: true,
+                }
+            };
+        case types.UPLOAD_ICON_TERM_SUCCESS: {
+            console.log(action.term);
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: false,
+                    data: state.data,
+                    term: action.term,
+                }
+            };
+        }
+        case types.UPLOAD_ICON_TERM_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: false,
+
+                }
+            };
+
+        case types.BEGIN_EDIT_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: true,
+                }
+            };
+        case types.EDIT_TERM_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+        }
+        case types.EDIT_TERM_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+
+        case types.BEGIN_DELETE_TERM:
+            return {
+                ...state,
+            };
+        case types.DELETE_TERM_SUCCESS:
+
+            return {
+                ...state,
+            };
+        case types.DELETE_TERM_ERROR:
+            return {
+                ...state,
+
+            };
         default:
             return state;
     }

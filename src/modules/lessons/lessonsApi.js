@@ -31,4 +31,24 @@ export function editLesson(data) {
     }
     return axios.put(url, data);
 }
+export function loadTerms(courseId) {
+    //http://manageapi.keetool.xyz/v2/lesson/term/course/1?token=
+    let url = env.MANAGE_API_URL + "/v2/lesson/term/course/";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += courseId + "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function uploadImage(file, completeHandler, error) {
+    let url = env.API_URL + '/upload-image-froala';
+    let formdata = new FormData();
+    formdata.append('image', file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
+    ajax.addEventListener("error", error, false);
+}
 

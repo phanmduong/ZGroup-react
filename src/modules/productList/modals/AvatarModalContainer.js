@@ -44,9 +44,9 @@ class AvatarModalContainer extends React.Component {
 
     removeImageChange(e) {
         e.preventDefault();
-        let productPresent = {...this.props.productEditing.productPresent};
-        productPresent.avatar_url = "";
-        this.props.modalProductAction.handleProduct(productPresent);
+        let productAvatar = {...this.props.productAvatar};
+        productAvatar.avatar_url = "";
+        this.props.modalProductAction.handleAvatarProduct(productAvatar);
     }
 
     changeAvatar(e) {
@@ -78,7 +78,7 @@ class AvatarModalContainer extends React.Component {
         ) : (
             product[field] = 0
         );
-        this.props.modalProductAction.handleProduct(product);
+        this.props.modalProductAction.handleAvatarProduct(product);
     }
 
     render() {

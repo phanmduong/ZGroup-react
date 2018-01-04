@@ -1,4 +1,9 @@
 export default {
+
+    permitGood: {
+        isLoading: false
+    },
+
     createProduct: {
         categories: [],
         manufactures: [],
@@ -89,6 +94,7 @@ export default {
             productAvatar: {},
             productPrice: {},
             productPresent: {},
+            productWarehouse: {},
             good_category_id: -1,
             manufacture_id: -1,
             status: null,
@@ -843,7 +849,7 @@ export default {
     goodOrders: {
         isUpdate: false,
         orderId: 0,
-        labelId: 0,
+        labelId: -1,
         shipGoodModal: false,
         addNoteModal: false,
         orderNote: {},
@@ -1086,6 +1092,8 @@ export default {
         isUploadingLinkIcon: false,
         isUploadingLink: false,
         isUploadingPixel: false,
+        isUploadingTermIcon: false,
+        isUploadingTerm: false,
         error: false,
         coursesList: [],
         isDeleting: false,
@@ -1124,6 +1132,7 @@ export default {
             lessons: [],
             links: [],
             pixels:[],
+            terms:[],
         },
         link: {
             id: null,
@@ -1136,12 +1145,23 @@ export default {
         pixel:{
             name:"",
             code:"",
-        }
+        },
+        term: {
+            id: null,
+            name: "",
+            description: "",
+            short_description: "",
+            course_id: "",
+            image_url: "",
+            audio_url: "",
+        },
     },
     lessons: {
         isLoading: false,
         isCommitting: false,
         commitSuccess: false,
+        isUploadingLessonIcon: false,
+        terms: [],
         data: {
             id: null,
             course_id: 1,
@@ -1152,6 +1172,10 @@ export default {
             detail_content: "",
             detail_teacher: "",
             created_at: "",
+            term_id: "",
+            audio_url: "",
+            video_url: "",
+            image_url: "",
         }
     },
     marketingCampaigns: {

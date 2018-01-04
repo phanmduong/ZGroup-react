@@ -3,9 +3,6 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function jobAssignmentReducer(state = initialState.jobAssignment, action) {
-
-    console.log(action.type);
-
     switch (action.type) {
         case types.UPDATE_DATA_CREATE_JOB_ASSIGNMENT: {
             return {

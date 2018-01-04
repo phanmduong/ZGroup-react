@@ -16,10 +16,29 @@ export function loadAllOrders(page = 1, search, startTime, endTime, staff, statu
     if (staff) {
         url += `&staff_id=${staff}`;
     }
-    if (search) {
+    if (status) {
         url += `&status=` + status;
     }
     return axios.get(url);
+}
+
+export function loadOrderInfo(page = 1, search, startTime, endTime, staff, status) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + '/order/statistic?token=' + token + '&page=' + page;
+    if (search) {
+        url += `&search=${search}`;
+    }
+    if (startTime && endTime) {
+        url += `&start_time=${startTime}&end_time=${endTime}`;
+    }
+    if (staff) {
+        url += `&staff_id=${staff}`;
+    }
+    if (status) {
+        url += `&status=` + status;
+    }
+    return axios.get(url);
+
 }
 
 export function loadDetailOrder(orderId) {
@@ -49,16 +68,14 @@ export function getAllStaffs() {
     return axios.get(url);
 }
 
-export function changeStatusOrder(status, orderId, labelId = "") {
-    let url = env.MANAGE_API_URL + `/order/change-status-order`;
+export function changeStatusOrder(status, orderId) {
+    let url = env.MANAGE_API_URL + "/order/" + orderId + "/status";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     return axios.put(url, {
-        order_id: orderId,
-        label_id: labelId,
-        status: status,
+        status: status
     });
 }
 
