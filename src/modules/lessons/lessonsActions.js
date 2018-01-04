@@ -2,7 +2,7 @@ import * as types       from '../../constants/actionTypes';
 import * as lessonsApi   from './lessonsApi';
 import * as helper      from '../../helpers/helper';
 import {browserHistory}  from 'react-router';
-import * as courseApi from "../courses/courseApi";
+// import * as courseApi from "../courses/courseApi";
 
 
 export function loadLessonData(id) {
