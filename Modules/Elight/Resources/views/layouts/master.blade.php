@@ -231,15 +231,6 @@
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     Bạn vui lòng nhập đầy đủ thông tin
                 </div>
-                <p style="font-weight: 600">
-                    <br>
-                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển khoản</b> dưới đây là thông tin chuyển
-                    khoản:</p>
-                <p>
-                    Tên tài khoản: VU CHI CONG<br/>
-                    Số tài khoản: 04 51 00 04 27 664 <br/>
-                    Ngân hàng: Vietcombank Thành Công.
-                </p>
             </div>
             <div class="modal-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
