@@ -50,7 +50,7 @@ class ListChildCustomer extends React.Component {
     }
 
     removeCustomer(customer) {
-        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + customer.name,
             function () {
                 this.props.groupCustomerActions.removeGroupCustomerFormData(customer);
             }.bind(this));
