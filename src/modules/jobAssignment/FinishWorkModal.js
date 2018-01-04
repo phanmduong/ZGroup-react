@@ -7,21 +7,8 @@ import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import {Modal} from 'react-bootstrap';
 import FormInputText from "../../components/common/FormInputText";
+import RateStar from "../../components/common/RateStar";
 import * as helper from "../../helpers/helper";
-
-
-var customStyles = {
-    content : {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        height: '500px', // <-- This sets the height
-        overlfow: 'scroll' // <-- This tells the modal to scrol
-    }
-};
 
 class FinishWorkModal extends React.Component {
     constructor(props, context) {
@@ -33,7 +20,7 @@ class FinishWorkModal extends React.Component {
         };
         this.submit = this.submit.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
+        this.textAreaAdjust = this.textAreaAdjust.bind(this);
 
     }
 
@@ -47,29 +34,14 @@ class FinishWorkModal extends React.Component {
 
     componentDidUpdate(){
         helper.setFormValidation('#form-finish-work');
-        // const o = document.querySelector("#textarea-card-comment");
-        // if (o) {
-        //     o.style.height = "1px";
-        //     o.style.height = (10 + o.scrollHeight) + "px";
-        // }
     }
 
-    textAreaAdjust(event) {
-        const o = event.target;
-        console.log('before',o.scrollHeight);
-        //o.style.height = "1px";
-        console.log('after',o.scrollHeight);
-        let scrHeight = o.scrollHeight;
-        let size = o.value.split("").filter((c)=>c=="\n").length;
-        let res = Math.max(scrHeight,20 * (size + 1));
-        o.style.height = (res) + "px";
-    }
+    textAreaAdjust() {}
 
     updateFormData(e){
         if(!e) return;
         let feild = e.target.name;
-        let value = e.target.value;
-        let newdata = {...this.state,[feild] : value};
+        let value = e.target.value;let newdata = {...this.state,[feild] : value};
         this.setState(newdata);
     }
 
@@ -79,18 +51,12 @@ class FinishWorkModal extends React.Component {
         else helper.showErrorNotification("Vui lòng điền đầy đủ thông tin");
     }
 
-
-    handleScroll(event) {
-        console.log('the scroll things', event);
-    }
-
     render() {
 
         return (
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
-                style = { customStyles }
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Báo cáo hoàn thành công việc</Modal.Title>
@@ -103,16 +69,25 @@ class FinishWorkModal extends React.Component {
                                 :
                                 <div className="row">
                                     <div className="col-md-12">
+                                        <RateStar
+                                            name="star"
+                                            updateFormData={this.updateFormData}
+                                            value={this.state.star}
+                                            label="Mức độ hoàn thành"
+                                            maxStar="5"
+                                            placeholder="5"
+                                        /></div>
+                                    <div className="col-md-12">
                                         <FormInputText
-                                            label={"Chi phí"}
+                                            label={"Số tiền phạt"}
                                             required
                                             type="number"
                                             name="cost"
                                             updateFormData={this.updateFormData}
                                             value={this.state.cost || 0}
                                         /></div>
-
                                     <div className="col-md-12">
+                                        <label className="control-label">Tự đánh giá</label>
                                     <div className="comment-input-wrapper">
                                         <textarea
                                             id="textarea-card-comment"
@@ -123,7 +98,12 @@ class FinishWorkModal extends React.Component {
                                             placeholder="Tự đánh giá"
                                             className="comment-input"
                                             required
-                                            style={{width:"100%", margin:"10px"}}
+                                            style={{width:"100%",
+                                                margin:"10px",
+                                                height: "369px",
+                                                overflowY: "scroll",
+                                                resize: "none",
+                                            }}
                                         />
                                     </div>
                                     </div>
