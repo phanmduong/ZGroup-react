@@ -2,10 +2,10 @@ import React from 'react';
 import {Overlay, ListGroup, ListGroupItem} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
-import Avatar from "../../components/common/Avatar";
-import Search from '../../components/common/Search';
-import Loading from "../../components/common/Loading";
-import Pagination from '../../components/common/Pagination';
+import Avatar from "../../../components/common/Avatar";
+import Search from '../../../components/common/Search';
+import Loading from "../../../components/common/Loading";
+import Pagination from '../../../components/common/Pagination';
 
 
 class AddOverlay extends React.Component {

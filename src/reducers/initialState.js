@@ -1283,14 +1283,15 @@ export default {
 
     groupCustomers: {
         isSaving: false,
+        isSavingCustomer: false,
         isSavingCoupon: false,
         isLoading: false,
         isLoadingCoupon: false,
-        isLoadingModal: false,
+        isLoadingCustomer: false,
         isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
+        customersList: [],         // (chứa trong overlay)    +  customersShowInTable  = full = customers
         totalCustomerInOverlayPages: 1,
-        totalCustomerInModalPages: 1,
+        totalCustomerPages: 1,
         totalCustomerCount: 1,
         totalGroupCustomerPages: 1,
         groupCustomerForm: {
@@ -1299,11 +1300,12 @@ export default {
             description: '',
             stringId: [],
             customers: [],                         // tat ca cac customer trong mot group
-            customersShowInModal: [],              // cac customer show ra bang trong mot group
+            customersShowInTable: [],              // cac customer show ra bang trong mot group
             color: '',
             coupons : [],
             order_value : '',
             delivery_value : '',
+            customersShowInAddModal: [],            // cac customer them vao vung tam
         },
         coupon: {
             name: '',

@@ -63,8 +63,6 @@ class GroupCustomerContainer extends React.Component {
             name: '',
             description: '',
             stringId: [],
-            customers: [],
-            customersShowInModal: [],
             color : ''
         };
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);

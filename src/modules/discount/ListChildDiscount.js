@@ -12,7 +12,7 @@ class ListChildDiscount extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="table-responsive" >
+                    <div className="table-responsive">
                         <table className="table table-hover ">
                             <thead>
                             <tr className="text-rose">
@@ -33,12 +33,13 @@ class ListChildDiscount extends React.Component {
                                 (discount) => {
                                     return (
                                         <tr role="row" className="even" key={discount.id}>
-                                            <td><a className="text-name-student-register" rel="tooltip" title
-                                                   data-original-title="Remove item"
-                                                   onClick={() => {
+                                            <td>
+                                                <a onClick={() => {
                                                        browserHistory.push('/good/discount/edit/' + discount.id);
                                                    }}
-                                            >{discount.name}</a></td>
+                                                >{discount.name}
+                                                </a>
+                                            </td>
                                             <td>{discount.type === 'code' ?
                                                 <button className="btn btn-xs btn-main btn-success">Mã khuyến
                                                     mãi</button>
@@ -86,7 +87,6 @@ class ListChildDiscount extends React.Component {
                                                 {discount.used_for === 'good' ?
                                                     discount.good.name ? 'Mặt hàng:' + discount.good.name : 'Chưa có' :
                                                     (
-
                                                         discount.used_for === 'category' ?
                                                             discount.category.name ? 'Danh mục: ' + discount.category.name : 'Chưa có' :
                                                             (

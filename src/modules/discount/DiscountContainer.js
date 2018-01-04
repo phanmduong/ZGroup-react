@@ -50,11 +50,6 @@ class DiscountContainer extends React.Component {
         }.bind(this), 500);
     }
 
-    // openInfoCustomer(customer){
-    //     this.props.discountActions.updateAddCustomerFormData(customer);     //      Gán customer vào để show ra trong InfoCustomerContainer
-    //     browserHistory.push('/goods/customer/info-customer/'+customer.id);
-    // }
-
 
     deleteDiscount(id, name) {
         helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,

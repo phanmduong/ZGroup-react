@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-let customersList, groupCustomersList,customersShowInModal, stringId = [];
+let customersList, groupCustomersList, customersShowInTable,customersShowInAddModal, stringId = [];
 export default function customerReducer(state = initialState.groupCustomers, action) {
     switch (action.type) {
 
@@ -40,29 +40,32 @@ export default function customerReducer(state = initialState.groupCustomers, act
             return {
                 ...state,
                 ...{
-                    isLoadingModal: true,
+                    isLoadingCustomer: true,
                 }
             };
         case types.LOADED_CUSTOMER_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER:
             stringId = addStringIdInModal(action.groupCustomerForm.customers);
             return {
                 ...state,
-                totalCustomerInModalPages: action.total_pages,
-                isLoadingModal: false,
-                groupCustomerForm : {
+                totalCustomerPages: action.total_pages,
+                isLoadingCustomer: false,
+                groupCustomerForm: {
                     ...state.groupCustomerForm,
-                    customersShowInModal : action.groupCustomerForm.customers,
-                    name : action.groupCustomerForm.name,
-                    description : action.groupCustomerForm.description,
-                    color : action.groupCustomerForm.color,
-                    id : action.groupCustomerForm.id,
-                    stringId : stringId,
+                    customersShowInTable: action.groupCustomerForm.customers,
+                    name: action.groupCustomerForm.name,
+                    description: action.groupCustomerForm.description,
+                    color: action.groupCustomerForm.color,
+                    id: action.groupCustomerForm.id,
+                    stringId: stringId,
+                    customersShowInAddModal: [],
+                    delivery_value: action.groupCustomerForm.delivery_value,
+                    order_value: action.groupCustomerForm.order_value,
                 },
             };
         case types.LOADED_CUSTOMER_IN_MODAL_ERROR_IN_GROUP_CUSTOMER:
             return {
                 ...state,
-                isLoadingModal: false,
+                isLoadingCustomer: false,
 
             };
 
@@ -79,9 +82,9 @@ export default function customerReducer(state = initialState.groupCustomers, act
             return {
                 ...state,
                 isLoadingCoupon: false,
-                groupCustomerForm : {
+                groupCustomerForm: {
                     ...state.groupCustomerForm,
-                    coupons : action.coupons,
+                    coupons: action.coupons,
                 },
             };
         case types.LOADED_COUPON_IN_MODAL_ERROR_IN_GROUP_CUSTOMER:
@@ -147,6 +150,23 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 isSaving: false,
             };
 
+        //     ADD_CUSTOMER
+        case types.BEGIN_ADD_CUSTOMER_IN_GROUP_CUSTOMER:
+            return {
+                ...state,
+                isSavingCustomer: true,
+            };
+        case types.ADD_CUSTOMER_SUCCESS_IN_GROUP_CUSTOMER:
+            return {
+                ...state,
+                isSavingCustomer: false,
+            };
+        case types.ADD_CUSTOMER_ERROR_IN_GROUP_CUSTOMER:
+            return {
+                ...state,
+                isSavingCustomer: false,
+            };
+
         //          DELETE
         case types.DELETE_GROUP_CUSTOMER_SUCCESS:
 
@@ -201,19 +221,19 @@ export default function customerReducer(state = initialState.groupCustomers, act
             return {
                 ...state,
                 customersList: customersList,
-
             };
-
         //           đánh dấu đã xóa để thêm vào overlay
 
         case types.REMOVE_GROUP_CUSTOMER_FORM_DATA:  // xóa customer trong customers đồng thời thêm vào customersList
-            customersShowInModal = changeCustomer(action.customer.id, state.groupCustomerForm.customersShowInModal);
+            customersShowInTable = changeCustomer(action.customer.id, state.groupCustomerForm.customersShowInTable);
+            customersShowInAddModal = changeCustomer(action.customer.id, state.groupCustomerForm.customersShowInAddModal);
             return {
                 ...state,
                 customersList: [action.customer, ...state.customersList],// Phải có state. ở trước
                 groupCustomerForm: {
                     ...state.groupCustomerForm,
-                    customersShowInModal: customersShowInModal,
+                    customersShowInAddModal: customersShowInAddModal,
+                    customersShowInTable: customersShowInTable,
                     stringId: state.groupCustomerForm.stringId.filter((id) => id !== action.customer.id),
                 },
             };
@@ -228,7 +248,7 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 ...state,
                 coupon: {
                     ...state.coupon,
-                    name : action.randomCode,
+                    name: action.randomCode,
                 },
             };
 
@@ -258,11 +278,12 @@ function addStringId(groupCustomersList) {
     });
     return groupCustomersList;
 }
+
 function addStringIdInModal(customers) {
-        stringId = [];
-        stringId = customers.map((customer) => {
-            return customer.id;
-        });
+    stringId = [];
+    stringId = customers.map((customer) => {
+        return customer.id;
+    });
     return stringId;
 }
 

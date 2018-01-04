@@ -30,7 +30,7 @@ class AddDiscountContainer extends React.Component {
         if (route === '/good/discount/add') {
             this.resetDiscount();
         } else {
-            this.loadDiscount();
+            this.loadDiscount(this.props.params.discountId);
         }
     }
 
@@ -39,8 +39,8 @@ class AddDiscountContainer extends React.Component {
             this.resetDiscount();
         }
     }
-    loadDiscount() {
-        this.props.addDiscountActions.loadDiscount(this.props.params.discountId);
+    loadDiscount(discountId) {
+        this.props.addDiscountActions.loadDiscount(discountId);
     }
     changeQuantityInProps(i){
         const field = 'quantity';
@@ -64,6 +64,7 @@ class AddDiscountContainer extends React.Component {
             category: {},
             customer: {},
             customer_group: {},
+            shared : '',
         };
         this.props.addDiscountActions.updateDiscountFormData(discount);
     }
@@ -162,7 +163,6 @@ class AddDiscountContainer extends React.Component {
                                                 <i className="material-icons">cancel</i> Huỷ
                                             </button>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
