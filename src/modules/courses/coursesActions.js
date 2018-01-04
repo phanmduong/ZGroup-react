@@ -420,3 +420,31 @@ export function uploadCover(file) {
     };
 }
 
+
+
+export function changeStatusCourse(index,course) {
+    return function (dispatch) {
+        helper.showWarningNotification('Đang thay đổi');
+        dispatch({
+            type: types.BEGIN_CHANGE_STATUS_COURSES,
+            course: course,
+            index: index,
+        });
+        courseApi.changeStatusCourse(course)
+            .then((res) => {
+                if(res.data.status === 1){
+                    dispatch({
+                        type: types.CHANGE_STATUS_COURSES_SUCCESS,
+                    });
+                    helper.showNotification('Đổi trạng thái thành công!');
+                }else {
+                    helper.showNotification('Đổi trạng thái thất bại!');
+                    dispatch({
+                        type: types.CHANGE_STATUS_COURSES_ERROR,
+                        course: course,
+                        index: index,
+                    });
+                }
+            });
+    };
+}

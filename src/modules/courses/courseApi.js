@@ -148,3 +148,13 @@ export function deleteTerm(termId) {
     }
     return axios.delete(url);
 }
+
+export function changeStatusCourse(course) {
+    //http://manageapi.keetool.xyz/v2/course/1/change-status?token=
+    let url = env.MANAGE_API_URL + "/v2/course/"+ course.id +"/change-status";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {status: !course.status});
+}
