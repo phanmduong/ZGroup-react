@@ -22,12 +22,6 @@
     <div class="container">
         <br><br>
         <div class="row" id="buyBooks">
-            <div class="col-md-12 ">
-                <div class="shadow">
-                    <input placeholder="Tìm kiếm"
-                           style="width:100%; border:none; font-size:20px; padding:15px; color:#2e2e2e"/>
-                </div>
-            </div>
             <div class="col-md-6">
                 <div>
                     <div class="description">
