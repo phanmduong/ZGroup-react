@@ -166,6 +166,28 @@ export const TYPE_CLASSES = [
         value: "waiting"
     }
 ];
+export const STATUS_WORK = [
+    {
+        label: "Đợi chấp nhận",
+        action: "Chấp nhận",
+        value: "pending",
+    },
+    {
+        label: "Đang thực hiện",
+        action: "Xin gia hạn",
+        value: "doing",
+    },
+    {
+        label: "Hoàn thành",
+        action: "",
+        value: "done",
+    },
+    {
+        label: "Hủy",
+        action: "",
+        value: "cancel",
+    },
+];
 
 export const ORDER_STATUS_COLORS = {
     place_order: "#f9f9f9",

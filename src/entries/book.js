@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import React from "react";
 import renderRoutes from '../routes/renderer/RouteRenderer';
 import BookRoute from '../routes/BookRoute';

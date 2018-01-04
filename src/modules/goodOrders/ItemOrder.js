@@ -7,24 +7,11 @@ import PropTypes from 'prop-types';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
 import StatusSelect from "./status/StatusSelect";
 
-
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
-        this.disableShipOrder = this.disableShipOrder.bind(this);
     }
-
-    disableShipOrder(status) {
-        const statusOrder = ORDER_STATUS.filter((o) => {
-            return o.value === status;
-        })[0];
-        if (statusOrder) {
-            return statusOrder.order < 2;
-        }
-        return true;
-    }
-
 
     statusOrder(status) {
         switch (status) {
@@ -58,20 +45,15 @@ class ItemOrder extends React.Component {
     }
 
     changeStatusOrder(value) {
-        console.log("value", value);
-        console.log("ORDER_STATUS",ORDER_STATUS);
-        const currentStatusOrder = ORDER_STATUS.filter((o) => {
-            return o.value === this.props.order.status;
-        })[0].order;
-        const nextStatusOrder = ORDER_STATUS.filter((o) => {
-            return o.value === value;
-        })[0].order;
-        console.log("current, next", currentStatusOrder, nextStatusOrder);
-        // Only change status of order to next status
-        if (nextStatusOrder > currentStatusOrder) {
-            this.props.changeStatusOrder(value, nextStatusOrder);
+        const user = this.props.user;
+        let currentStatus = ORDER_STATUS.filter(status => this.props.order.status === status.value)[0];
+        let nextStatus = ORDER_STATUS.filter(status => status.value === value)[0];
+        if (nextStatus.order < currentStatus.order && user.role !== 2) {
+            helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            helper.showErrorNotification("Bạn không thể chuyển đơn hàng về các trạng thái trước");
+            helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
+                this.props.changeStatusOrder(value, this.props.order.id, this.props.order.label_id);
+            });
         }
     }
 
@@ -137,26 +119,30 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>
                     <button
-                        disabled={this.disableShipOrder(order.status)}
+                        disabled={order.status !== "ship_order"}
                         className="btn btn-social btn-fill btn-twitter"
                         onClick={() => this.props.showShipGoodModal(order)}>
                         <i className="fa fa-twitter"/> Ship hàng
                     </button>
                 </td>
+                <td>
+                    <a data-toggle="tooltip" title="Ghi chú" type="button"
+                       rel="tooltip"
+                       onClick={() => this.props.showAddNoteModal(order)}>
+                        <i className="material-icons">edit</i>
+                    </a>
+                </td>
             </tr>
-
-
         );
     }
 }
 
 ItemOrder.propTypes = {
-
     order: PropTypes.object.isRequired,
     changeStatusOrder: PropTypes.func.isRequired,
-    showShipGoodModal: PropTypes.func.isRequired
-
+    showShipGoodModal: PropTypes.func.isRequired,
+    showAddNoteModal: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
 };
-
 
 export default ItemOrder;

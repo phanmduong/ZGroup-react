@@ -21,6 +21,15 @@ export default function rolesReducer(state = initialState.blog, action) {
                     }
                 }
             };
+        case types.RESET_FORM_POST_BLOG:
+            return {
+                ...state,
+                ...{
+                    post: {
+                        ...initialState.blog.post,
+                    }
+                }
+            };
         case types.BEGIN_UPLOAD_IMAGE_BLOG:
             return {
                 ...state,
