@@ -139,7 +139,10 @@ var openWithoutAdd = new Vue({
             modalBuy.isLoading = true;
             modalBuy.getGoodsFromSesson();
         },
-    }
+    },
+    mounted: function () {
+        this.countBooksFromSession()
+    },
 });
 
 var modalPurchase = new Vue({
