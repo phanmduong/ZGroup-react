@@ -16,6 +16,7 @@ class CourseCategory extends Model
 
     public function getData() {
         $data = [
+            'id' => $this->id,
             'name' => $this->name,
             'image_url' => $this->image_url,
             'color' => $this->color,
