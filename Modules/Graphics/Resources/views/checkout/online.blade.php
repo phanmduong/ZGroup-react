@@ -34,7 +34,7 @@
         </select>
     </div>
 
-    <div v-if="onlinePurchase == 'VISA'">
+    <div v-if="onlinePurchase == 'VISA'" style="margin-top: 5px">
         <select class="form-control" v-model="bank_code">
             <option value="VISA">VISA</option>
             <option value="MASTER">MASTER</option>

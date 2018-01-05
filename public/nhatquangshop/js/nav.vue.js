@@ -26,7 +26,8 @@ var navVue = new Vue({
                         });
 
                 } else {
-                    FB.login();
+                    $("#loginFailNoticeModal").modal("toggle");
+                    $("#global-loading").css("display", "none");
                 }
             });
             // console.log(res);
