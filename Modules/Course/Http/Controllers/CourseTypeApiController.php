@@ -49,7 +49,7 @@ class CourseTypeApiController extends ManageApiController
         if ($limit == -1) {
             $types = $types->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
-                'categories' => $types->map(function ($type) {
+                'types' => $types->map(function ($type) {
                     return $type->getData();
                 })
             ]);
