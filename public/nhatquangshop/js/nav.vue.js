@@ -12,17 +12,44 @@ var navVue = new Vue({
     },
     methods: {
         onFacebookLoginButtonClick: function () {
-            FB.getLoginStatus(function (response) {
-                console.log(response);
+            $("#global-loading").css("display", "block");
+            FB.login(function (response) {
                 if (response.status === 'connected') {
-                    console.log('Logged in.');
+                    axios.get("/api/facebook/tokensignin?input_token=" + response.authResponse.accessToken + "&facebook_id=" + response.authResponse.userID)
+                        .then(function (res) {
+                            if (res.data.status === 1) {
+                                navVue.changeLoginCondition(res.data.user);
+                            } else {
+                                $("#loginFailNoticeModal").modal("toggle");
+                            }
+                            $("#global-loading").css("display", "none");
+                        });
 
-                }
-                else {
+                } else {
                     FB.login();
                 }
-
             });
+            // console.log(res);
+            // $("#global-loading").css("display", "block");
+            // FB.getLoginStatus(function (response) {
+            //     console.log(response);
+            //     if (response.status === 'connected') {
+            //         console.log('Logged in.');
+            //         axios.get("/api/facebook/tokensignin?input_token=" + response.authResponse.accessToken + "&facebook_id=" + response.authResponse.userID)
+            //             .then(function (res) {
+            //                 if (res.data.status === 1) {
+            //                     navVue.changeLoginCondition(res.data.user);
+            //                 } else {
+            //                     $("#loginFailNoticeModal").modal("toggle");
+            //                 }
+            //                 $("#global-loading").css("display", "none");
+            //             });
+            //
+            //     } else {
+            //         FB.login();
+            //     }
+
+            // });
         },
         changeLoginCondition: function (user) {
             this.showLoggedNav = true;
