@@ -1,5 +1,5 @@
 <div v-if="payment == 'Thanh toán online'" style="margin-top: 5px">
-    <select v-model="onlinePurchase" class="form-control " id="sel1">
+    <select v-model="onlinePurchase" v-on:change="changeOnlinePurchase" class="form-control " id="sel1">
         <option value="ATM_ONLINE">Thanh toán bằng thẻ ATM</option>
         <option value="VISA">Thanh toán bằng thẻ Visa/ Master
         </option>

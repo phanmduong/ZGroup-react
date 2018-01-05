@@ -87,10 +87,9 @@
     }, 0);
 </script>
 
-<div
-        class="fb-customerchat"
-        page_id="1809252865962104"
-        ref="">
+<div class="fb-customerchat"
+     page_id="1809252865962104"
+     ref="">
 </div>
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
     <div class="container">
@@ -201,6 +200,13 @@
                 @include("graphics::checkout.online")
                 @include("graphics::checkout.transfer")
 
+
+                <div v-if="shipPrice" class="alert alert-info" style="margin-top: 10px">
+                    Phí ship: <strong>@{{ formatPrice(shipPrice) }}</strong> <br/>
+                    Tổng giá trị đơn hàng (Đã bao gồm phí Ship): <strong>@{{ formatPrice(goodsPrice +
+                        shipPrice)}}</strong>
+                </div>
+
                 <div class="alert alert-danger" v-if="message"
                      style="margin-top: 10px"
                      id="purchase-error">
@@ -209,11 +215,11 @@
 
 
             </div>
-            <div class="modal-footer" style="display: block">
-                <div v-if="isSaving" id="purchase-loading-text" style="display:none;">
-                    @include("graphics::loading")
-                </div>
-                <div v-if="!isSaving" id="btn-purchase-group" style="text-align: right">
+            <div v-if="isSaving" id="purchase-loading-text">
+                @include("graphics::loading")
+            </div>
+            <div class="modal-footer" v-if="!isSaving">
+                <div id="btn-purchase-group" style="text-align: right">
                     <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>
                     <button
