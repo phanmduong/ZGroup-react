@@ -135,7 +135,7 @@ class Order extends Model
             'status' => $this->status,
             'good_orders' => $this->goodOrders->map(function ($goodOrder) {
                 $goodOrderData = [
-                    'id' => $goodOrder->id,
+                    'good_id' => $goodOrder->good_id,
                     'price' => $goodOrder->price,
                     'quantity' => $goodOrder->quantity,
                     'name' => $goodOrder->good->name,
