@@ -123,8 +123,8 @@
                         <i class="fa fa-shopping-cart"></i>
                         &nbsp
                         Giỏ hàng
-                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
+                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
                             @{{ books_count }}
                         </div>
                     </a>
