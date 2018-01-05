@@ -59,7 +59,7 @@ class CourseTypeApiController extends ManageApiController
         return $this->respondWithPagination(
             $types,
             [
-                'categories' => $types->map(function ($type) {
+                'types' => $types->map(function ($type) {
                     return $type->getData();
                 })
             ]);
