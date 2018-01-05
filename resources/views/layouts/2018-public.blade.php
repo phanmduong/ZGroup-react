@@ -100,7 +100,7 @@
                                     <img src="{{$user->avatar_url}}"
                                          style="width:25px;height: 25px; border-radius: 50%; margin-right: 5px"
                                          alt="">{{$user->name}}<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu" style="width: 100%">
                                     <li><a href="/profile/{{$user->username}}">Trang cá nhân</a></li>
                                     <li><a href="/logout" v-on:click="logout">Đăng xuất</a></li>
                                 </ul>
@@ -117,7 +117,7 @@
                                     <img v-bind:src="user.avatar_url"
                                          style="width:25px;height: 25px; border-radius: 50%; margin-right: 5px"
                                          alt="">@{{ user.name}}<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu" style="width: 100%">
                                     <li><a v-bind:href="'/profile/' + user.username">Trang cá nhân</a></li>
                                     <li><a href="/logout" v-on:click="logout">Đăng xuất</a></li>
                                 </ul>
