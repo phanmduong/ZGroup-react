@@ -36,7 +36,7 @@ class NhatQuangShopManageController extends Controller
     public function userOrder($subfix, Request $request)
     {
         $user = Auth::user();
-        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(15);
+        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(3);
         $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }
