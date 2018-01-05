@@ -5,6 +5,7 @@ var modalBuy = new Vue({
         goods: [],
         total_price: 0,
         price_vnd: '',
+        disablePurchaseButton: true,
     },
     methods: {
         getGoodsFromSesson: function () {
@@ -14,6 +15,7 @@ var modalBuy = new Vue({
                     this.total_price = response.data.total_price;
                     this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
                     this.isLoading = false;
+                    this.disablePurchaseButton = false;
                     openWithoutAdd.countBooksFromSession();
                 }.bind(this))
                 .catch(function (error) {
@@ -23,6 +25,7 @@ var modalBuy = new Vue({
         addGoodToCart: function (goodId) {
             this.goods = [];
             this.isLoading = true;
+            this.disablePurchaseButton = true;
             axios.get(window.url + '/add-book/' + goodId)
                 .then(function (response) {
                     modalBuy.getGoodsFromSesson();
@@ -42,7 +45,6 @@ var modalBuy = new Vue({
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
-
                 else
                     newGoods.push(good);
             }
@@ -129,6 +131,8 @@ var openWithoutAdd = new Vue({
             axios.get(window.url + '/count-books-from-session')
                 .then(function (response) {
                     this.books_count = response.data;
+                    if (this.books_count === 0)
+                        modalBuy.disablePurchaseButton = true;
                 }.bind(this))
                 .catch(function (error) {
                 });
@@ -137,10 +141,12 @@ var openWithoutAdd = new Vue({
             $('#modalBuy').modal('show');
             modalBuy.goods = [];
             modalBuy.isLoading = true;
+            modalBuy.disablePurchaseButton = true;
             modalBuy.getGoodsFromSesson();
         },
     },
     mounted: function () {
+        $('#booksCount').css('display', 'flex');
         this.countBooksFromSession();
     },
 });
@@ -162,8 +168,10 @@ var modalPurchase = new Vue({
         showDistrict: false,
         provinces: [],
         districts: [],
+        message: '',
         onlinePurchase: "ATM_ONLINE",
-        bank_code: ""
+        bank_code: "",
+        isSaving: false
     },
     methods: {
         getProvinces: function () {
@@ -195,17 +203,36 @@ var modalPurchase = new Vue({
             this.loadingDistrict = true;
             this.getDistricts();
         },
+        showError: function (message) {
+            this.message = message;
+        },
+        validateEmail: function validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email.toLowerCase());
+        },
         submitOrder: function () {
-            $("#purchase-error").css("display", "none");
-            $("#btn-purchase-group").css("display", "none");
-            $("#purchase-loading-text").css("display", "block");
-            if (!this.name || !this.phone || !this.email || !this.address || !this.payment) {
-                alert("Bạn vui lòng nhập đủ thông tin và kiểm tra lại email");
-                $("#purchase-error").css("display", "block");
-                $("#purchase-loading-text").css("display", "none");
-                $("#btn-purchase-group").css("display", "block");
+            this.message = "";
+
+            if (!this.name || !this.phone ||
+                !this.email || !this.address ||
+                !this.payment) {
+                this.showError("Bạn vui lòng nhập đủ thông tin");
                 return;
             }
+
+            if (this.validateEmail(this.email) === false) {
+                this.showError("Bạn vui lòng kiểm tra lại email");
+                return;
+            }
+
+            if (this.payment === "Thanh toán online") {
+                if (this.bank_code === "") {
+                    this.showError("Bạn vui lòng hoàn thành phương thức thanh toán");
+                }
+            }
+
+            this.isSaving = true;
+
             axios.post(window.url + '/save-order', {
                 name: this.name,
                 phone: this.phone,
@@ -219,6 +246,7 @@ var modalPurchase = new Vue({
                 _token: window.token
             })
                 .then(function (response) {
+                    this.isSaving = true;
                     if (this.payment === "Thanh toán online") {
                         window.location.href = response.data.checkout_url;
                     } else {

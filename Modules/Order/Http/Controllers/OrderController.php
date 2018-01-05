@@ -229,8 +229,8 @@ class OrderController extends ManageApiController
             $good_orders = json_decode($request->good_orders);
             $order->goodOrders()->delete();
             foreach ($good_orders as $good_order) {
-                $good = Good::find($good_order->id);
-                $order->goods()->attach($good_order->id, [
+                $good = Good::find($good_order->good_id);
+                $order->goods()->attach($good_order->good_id, [
                     'quantity' => $good_order->quantity,
                     'price' => $good->price
                 ]);
