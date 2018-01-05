@@ -221,13 +221,21 @@
                                placeholder="Tên đăng nhập/Email"/>
                     </div>
                     <div class="form-group" style="width: 100%;">
-                        <input class="form-control" style="height: 50px" width="100%" type="text"
+                        <input class="form-control" style="height: 50px" width="100%"
                                v-model="user.password"
+                               type="password"
+                               v-on:keyup.enter="login"
                                placeholder="Mật khẩu"/>
-                        <div>@{{user.password}}</div>
                     </div>
                     <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                            :disabled="user.email ==='' || user.password === '' || isLoading"
+                            v-if="!isLoading"
                             v-on:click="login">Đăng nhập
+                    </button>
+                    <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                            :disabled="isLoading"
+                            v-if="isLoading"
+                    ><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Đang đăng nhập
                     </button>
                     <button class="btn" style="width: 100%; margin: 10px; padding: 15px; color: white">Tạo tài khoản
                     </button>
