@@ -84,19 +84,28 @@ class ElightController extends Controller
     {
         $lesson = Lesson::find($lesson_id);
 
-        $book = Course::find($book_id);
-        if ($book == null) {
+        $course = Course::find($book_id);
+        if ($course == null) {
             return view('elight::404-not-found');
         }
 
         if ($lesson == null) {
-            $term = $book->terms()->orderBy('order')->first();
+            $term = $course->terms()->orderBy('order')->first();
             $lesson = $term->lessons()->orderBy('order')->first();
         }
 
+        $lessons = $course->lessons()->get()->map(function ($lesson) {
+            return [
+                'id' => $lesson->id,
+                'name' => $lesson->name
+            ];
+        });
+
         return view('elight::book', [
-            'book' => $book,
-            'lesson_selected' => $lesson
+            'book' => $course,
+            'lesson_selected' => $lesson,
+            'lessons' => $lessons,
+            'course'=> $course
         ]);
     }
 

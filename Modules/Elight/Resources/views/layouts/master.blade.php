@@ -16,7 +16,61 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
+    <style type="text/css">
+        .bs-example {
+            font-family: sans-serif;
+            position: relative;
+        }
 
+        .twitter-typeahead {
+            width: 100%;
+        }
+
+        .typeahead, .tt-query, .tt-hint {
+            border: 2px solid #CCCCCC;
+            font-size: 22px; /* Set input font size */
+            height: 30px;
+            line-height: 30px;
+            outline: medium none;
+            padding: 8px 12px;
+        }
+
+        .typeahead {
+            background-color: #FFFFFF;
+        }
+
+        .tt-query {
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+        }
+
+        .tt-hint {
+            color: #999999;
+        }
+
+        .tt-menu {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 0px;
+            padding: 8px 0;
+            width: 100%;
+        }
+
+        .tt-suggestion {
+            font-size: 15px; /* Set suggestion dropdown font size */
+            padding: 3px 20px;
+        }
+
+        .tt-suggestion:hover {
+            cursor: pointer;
+            background-color: #0097CF;
+            color: #FFFFFF;
+        }
+
+        .tt-suggestion p {
+            margin: 0;
+        }
+    </style>
     <link href="/elight-assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/elight-assets/css/paper-kit.css" rel="stylesheet"/>
     <link href="/elight-assets/css/demo.css" rel="stylesheet"/>
@@ -243,15 +297,6 @@
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     Bạn vui lòng nhập đầy đủ thông tin
                 </div>
-                <p style="font-weight: 600">
-                    <br>
-                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển khoản</b> dưới đây là thông tin chuyển
-                    khoản:</p>
-                <p>
-                    Tên tài khoản: VU CHI CONG<br/>
-                    Số tài khoản: 04 51 00 04 27 664 <br/>
-                    Ngân hàng: Vietcombank Thành Công.
-                </p>
             </div>
             <div class="modal-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
@@ -382,7 +427,8 @@
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/jquery.sharrre.js"></script>
 <script src="/mediaelementplayer/mediaelement-and-player.js"></script>
 <script src="/mediaelementplayer/script.js"></script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1514975610Gr6yAv8DnDP0uaA.js"></script>
+{{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1514975610Gr6yAv8DnDP0uaA.js"></script>--}}
+<script src="https://www.tutorialrepublic.com/examples/js/typeahead/0.11.1/typeahead.bundle.js"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
@@ -418,17 +464,9 @@
             }
         });
     })();
-    $(document).ready(function () {
-        var $input = $("#search_lesson");
-        $input.typeahead({
-            source: [
-                {id: "someId1", name: "Display name 1"},
-                {id: "someId2", name: "Display name 2"}
-            ],
-            autoSelect: true
-        });
-    })
 </script>
+
+@stack("scripts")
 
 </body>
 

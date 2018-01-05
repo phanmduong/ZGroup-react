@@ -57,7 +57,7 @@
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/table.css">
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/video.css">
 
-    <link rel="stylesheet" href="/css/2018-style.css">
+    <link rel="stylesheet" href="/css/2018-style.css?123">
     <script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/923433004/?random=1514429909110&amp;cv=8&amp;fst=1514429909110&amp;num=1&amp;guid=ON&amp;eid=659238991&amp;u_h=768&amp;u_w=1366&amp;u_ah=768&amp;u_aw=1366&amp;u_cd=24&amp;u_his=3&amp;u_tz=420&amp;u_java=false&amp;u_nplug=4&amp;u_nmime=5&amp;frm=0&amp;url=http%3A%2F%2Fcolorme.vn%2Fposts%2F7&amp;tiba=Color%20ME%20-%20Tr%C6%B0%E1%BB%9Dng%20h%E1%BB%8Dc%20thi%E1%BA%BFt%20k%E1%BA%BF%20Color%20ME&amp;rfmt=3&amp;fmt=4"></script>
     <style type="text/css">.fb_hidden {
             position: absolute;
