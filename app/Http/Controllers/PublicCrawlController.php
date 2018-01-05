@@ -25,10 +25,6 @@ class PublicCrawlController extends CrawlController
         $this->courseTransformer = $courseTransformer;
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
         $this->data['courses'] = $courses;
-        if (!empty(Auth::user())) {
-            $this->user = Auth::user();
-            $this->data['user'] = $this->user;
-        }
     }
 
     public function home()
