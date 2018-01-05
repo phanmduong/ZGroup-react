@@ -153,8 +153,8 @@
                     <h6>Email</h6>
                     <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
-                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>
+                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;">
+                        @include("graphics::loading")
                     </div>
                     <select v-if="showProvince"
                             v-model="provinceid"
@@ -231,8 +231,8 @@
             <div class="modal-body" id="modal-buy-body">
                 <div>
                     <br>
-                    <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>Đang tải...
+                    <div v-if="isLoading">
+                        @include("graphics::loading")
                     </div>
                     <div v-for="good in goods">
                         <div class="row" style="margin-bottom:20px;">
@@ -286,9 +286,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link"
                             style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                    <button id="btn-purchase" v-bind:disabled="disablePurchaseButton"
+                    <button id="btn-purchase"
+                            {{--disabled="true"--}}
+                            v-bind:disabled="disablePurchaseButton"
                             v-on:click="openPurchaseModal()"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                                 class="fa fa-angle-right"></i></button>
