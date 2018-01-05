@@ -38,10 +38,9 @@ var modalLogin = new Vue({
                     this.isClose = false;
                     if (res.data.status === 0) {
                         this.hasError = true;
-                        toastr.error("Đăng nhập thất bại");
+                        toastr.error("Kiểm tra thông tin tài khoản");
                     } else {
                         $('#modalLogin').modal('toggle');
-                        toastr.success("Đăng nhập thành công");
                         vueNav.isLogin = true;
                         vueNav.user = res.data.user;
                         localStorage.setItem('auth', JSON.stringify(res.data));
