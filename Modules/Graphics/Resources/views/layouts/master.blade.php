@@ -156,34 +156,39 @@
                     <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;">
                         @include("graphics::loading")
                     </div>
-                    <select v-if="showProvince"
-                            v-model="provinceid"
-                            v-on:change="changeProvince"
-                            class="form-control" placeholder="Tỉnh/Thành phố">
-                        <option value="">Tỉnh, Thành phố</option>
-                        <option v-for="province in provinces" v-bind:value="province.provinceid">
-                            @{{province.name}}
-                        </option>
-                    </select>
-                    <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>
+                    <div v-if="showProvince">
+                        <select v-model="provinceid"
+                                v-on:change="changeProvince"
+                                class="form-control" placeholder="Tỉnh/Thành phố">
+                            <option value="">Tỉnh, Thành phố</option>
+                            <option v-for="province in provinces" v-bind:value="province.provinceid">
+                                @{{province.name}}
+                            </option>
+                        </select>
+
+                        <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;">
+                            @include("graphics::loading")
+                        </div>
+
+                        <div v-if="showDistrict">
+                            <select v-model="districtid"
+                                    class="form-control"
+                                    style="margin-top: 5px"
+                                    id="">
+                                <option value="">Quận, Huyện</option>
+                                <option v-for="district in districts" v-bind:value="district.districtid">
+                                    @{{district.name}}
+                                </option>
+                            </select>
+                            <input v-model="address" type="text" class="form-control"
+                                   placeholder="Đường, số nhà"
+                                   style="margin-top: 5px"><br>
+                        </div>
+
+
                     </div>
-                    <select v-if="showDistrict"
-                            v-model="districtid"
-                            class="form-control"
-                            style="margin-top: 5px"
-                            id="">
-                        <option value="">Quận, Huyện</option>
-                        <option v-for="district in districts" v-bind:value="district.districtid">
-                            @{{district.name}}
-                        </option>
-                    </select>
 
-
-                    <input v-model="address" type="text" class="form-control"
-                           placeholder="Đường, số nhà"
-                           style="margin-top: 5px"><br>
-                    <h6>Phương thức thanh toán</h6>
+                    <h6 style="margin-top: 15px;">Phương thức thanh toán</h6>
                     <select v-model="payment" class="form-control" id="sel1">
                         <option value="Thanh toán online">Thanh toán online</option>
                         <option value="Chuyển khoản">Chuyển khoản</option>
@@ -192,19 +197,23 @@
                         </option>
                     </select>
                 </form>
-                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
+
+                @include("graphics::checkout.online")
+                @include("graphics::checkout.transfer")
+
+                <div class="alert alert-danger" v-if="message"
+                     style="margin-top: 10px"
+                     id="purchase-error">
                     @{{ message }}
                 </div>
 
 
-                @include("graphics::checkout.online")
-                @include("graphics::checkout.transfer")
             </div>
             <div class="modal-footer" style="display: block">
-                <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
-                            class='fa fa-spin fa-spinner'></i>Đang tải...
+                <div v-if="isSaving" id="purchase-loading-text" style="display:none;">
+                    @include("graphics::loading")
                 </div>
-                <div id="btn-purchase-group" style="text-align: right">
+                <div v-if="!isSaving" id="btn-purchase-group" style="text-align: right">
                     <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>
                     <button
