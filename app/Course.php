@@ -89,7 +89,7 @@ class Course extends Model
             'price' => $this->price,
             'status' => $this->status,
             'color' => $this->color,
-            'type' => $this->courseType->getData,
+            'type' => $this->courseType ? $this->courseType->getData : null,
             'categories' => $this->courseCategories->map(function ($courseCategory) {
                 return $courseCategory->getData();
             }),
