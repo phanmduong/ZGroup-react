@@ -117,8 +117,9 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" data-scroll="true" v-on:click="openModalBuyWithoutAdd()"
-                       style="display: flex; align-content: center;" >
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
+                       v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center;">
                         <i class="fa fa-shopping-cart"></i>
                         &nbsp
                         Giỏ hàng
@@ -191,7 +192,7 @@
                     </select>
                 </form>
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
-                    Bạn vui lòng nhập đầy đủ thông tin
+                    @{{ message }}
                 </div>
                 <p style="font-weight: 600">
                     <br>
@@ -291,7 +292,7 @@
                 <div class="modal-footer">
                     <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
                             style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                    <button id="btn-purchase"
+                    <button id="btn-purchase" v-bind:disabled="disablePurchaseButton"
                             v-on:click="openPurchaseModal()"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                                 class="fa fa-angle-right"></i></button>
