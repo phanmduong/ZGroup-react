@@ -163,10 +163,6 @@ class OrderController extends ManageApiController
                 return $this->respondErrorWithStatus([
                     'message' => 'Bạn không có quyền đổi trạng thái này'
                 ]);
-        if ($request->code == null && trim($request->code) == '')
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu code'
-            ]);
         if ($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
@@ -195,7 +191,6 @@ class OrderController extends ManageApiController
                 $history->save();
             }
         }
-
         $order->status = $request->status;
         if ($request->label_id) {
             $order->label_id = $request->label_id;
@@ -234,15 +229,19 @@ class OrderController extends ManageApiController
             $good_orders = json_decode($request->good_orders);
             $order->goodOrders()->delete();
             foreach ($good_orders as $good_order) {
-                $good = Good::find($good_order->id);
-                $order->goods()->attach($good_order->id, [
-                    "quantity" => $good_order->quantity,
-                    "price" => $good->price,
+                $good = Good::find($good_order->good_id);
+                $order->goods()->attach($good_order->good_id, [
+                    'quantity' => $good_order->quantity,
+                    'price' => $good->price
                 ]);
             }
         }
 
         $this->changeOrderStatus($order_id, $request);
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
     }
 
 
@@ -426,12 +425,18 @@ class OrderController extends ManageApiController
         ]);
     }
 
-//    public function test(Request $request)
-//    {
-//        $what = "[{'id':45,'quantity':'7'}]";
-//        dd(json_decode($what));
-//        return [
-//            'value' => $this->statusToNum($request->status),
-//        ];
-//    }
+    public function test(Request $request)
+    {
+        $data = [
+            [
+                'id' => 1,
+                'quantity' => 10,
+            ],
+            [
+                'id' => 1,
+                'quantity' => 10,
+            ],
+        ];
+        dd(json_encode($data));
+    }
 }

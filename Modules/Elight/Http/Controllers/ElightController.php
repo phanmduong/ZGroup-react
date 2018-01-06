@@ -2,14 +2,26 @@
 
 namespace Modules\Elight\Http\Controllers;
 
+use App\District;
 use App\Course;
 use App\Good;
+use App\Lesson;
 use App\Product;
+use App\Province;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Modules\Good\Entities\GoodProperty;
+use Modules\Graphics\Repositories\BookRepository;
 
 class ElightController extends Controller
 {
+    private $bookRepository;
+
+    public function __construct(BookRepository $bookRepository)
+    {
+        $this->bookRepository = $bookRepository;
+    }
+
     public function index()
     {
         $newestBlog = Product::where('type', 2)->where('category_id', 1)->orderBy('created_at', 'desc')->first();
@@ -68,14 +80,32 @@ class ElightController extends Controller
         );
     }
 
-    public function book($subfix, $book_id)
+    public function book($subfix, $book_id, $lesson_id = null)
     {
-        $book = Course::find($book_id);
-        if ($book == null) {
+        $lesson = Lesson::find($lesson_id);
+
+        $course = Course::find($book_id);
+        if ($course == null) {
             return view('elight::404-not-found');
         }
+
+        if ($lesson == null) {
+            $term = $course->terms()->orderBy('order')->first();
+            $lesson = $term->lessons()->orderBy('order')->first();
+        }
+
+        $lessons = $course->lessons()->get()->map(function ($lesson) {
+            return [
+                'id' => $lesson->id,
+                'name' => $lesson->name
+            ];
+        });
+
         return view('elight::book', [
-            'book' => $book,
+            'book' => $course,
+            'lesson_selected' => $lesson,
+            'lessons' => $lessons,
+            'course'=> $course
         ]);
     }
 
@@ -96,4 +126,149 @@ class ElightController extends Controller
     {
         return view('elight::contact-us');
     }
+
+    public function getGoodsFromSession($subfix, Request $request)
+    {
+        $goods_str = $request->session()->get('goods');
+        $goods_arr = json_decode($goods_str);
+        $goods = [];
+        if ($goods_arr) {
+            foreach ($goods_arr as $item) {
+                $good = Good::find($item->id);
+                $good->number = $item->number;
+                $properties = GoodProperty::where('good_id', $good->id)->get();
+                foreach ($properties as $property) {
+                    $good[$property->name] = $property->value;
+                }
+                $goods[] = $good;
+            }
+        }
+
+        $totalPrice = 0;
+
+        foreach ($goods as $good) {
+            $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
+        }
+        $data = [
+            "goods" => $goods,
+            "total_price" => $totalPrice
+        ];
+
+        return $data;
+    }
+
+    public function addGoodToCart($subfix, $goodId, Request $request)
+    {
+        $goods_str = $request->session()->get('goods');
+
+        if ($goods_str) {
+            $goods = json_decode($goods_str);
+        } else {
+            $goods = [];
+        }
+        $added = false;
+        foreach ($goods as &$good) {
+            if ($good->id == $goodId) {
+                $good->number += 1;
+                $added = true;
+            }
+        }
+        if (!$added) {
+            $temp = new \stdClass();
+            $temp->id = $goodId;
+            $temp->number = 1;
+            $goods[] = $temp;
+        }
+        $goods_str = json_encode($goods);
+        $request->session()->put('goods', $goods_str);
+        return ["status" => 1];
+    }
+
+    public function removeBookFromCart($subfix, $goodId, Request $request)
+    {
+        $goods_str = $request->session()->get('goods');
+
+        $goods = json_decode($goods_str);
+
+        $new_goods = [];
+
+        foreach ($goods as &$good) {
+            if ($good->id == $goodId) {
+                $good->number -= 1;
+            }
+            if ($good->number > 0) {
+                $temp = new \stdClass();
+                $temp->id = $good->id;
+                $temp->number = $good->number;
+                $new_goods[] = $temp;
+            }
+        }
+
+        $goods_str = json_encode($new_goods);
+        $request->session()->put('goods', $goods_str);
+        return ["status" => 1];
+    }
+
+    public function countGoodsFromSession($subfix, Request $request)
+    {
+        $goods_str = $request->session()->get('goods');
+        $goods = json_decode($goods_str);
+
+        $count = 0;
+        if ($goods) {
+            foreach ($goods as $good) {
+                $count += $good->number;
+            }
+        }
+
+        return $count;
+    }
+
+    public function saveOrder($subfix, Request $request)
+    {
+        $email = $request->email;
+        $name = $request->name;
+        $phone = $request->phone;
+        $province = Province::find($request->provinceid)->name;
+        $district = District::find($request->districtid)->name;
+        $address = $request->address;
+        $payment = $request->payment;
+        $goods_str = $request->session()->get('goods');
+        $goods_arr = json_decode($goods_str);
+        if (count($goods_arr) > 0) {
+            $this->bookRepository->saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr);
+            $request->session()->flush();
+            return [
+                "status" => 1
+            ];
+        } else {
+            return [
+                "status" => 0,
+                "message" => "Bạn chưa đặt cuốn sách nào"
+            ];
+        }
+    }
+
+    public function provinces($subfix)
+    {
+        $provinces = Province::get();
+        return [
+            'provinces' => $provinces,
+        ];
+    }
+
+    public function districts($subfix, $provinceId)
+    {
+        $province = Province::find($provinceId);
+        return [
+            'districts' => $province->districts,
+        ];
+    }
+
+    public function flush($subfix, Request $request)
+    {
+        $request->session()->flush();
+    }
+
+
 }

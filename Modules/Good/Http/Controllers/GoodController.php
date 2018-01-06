@@ -596,15 +596,9 @@ class GoodController extends ManageApiController
         $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
             return $total + $importedGood->quantity;
         }, 0);
-        $historyCount = HistoryGood::where('good_id', $good_id)->count();
         if ($importedGoodsCount > 0)
             return $this->respondErrorWithStatus([
                 'message' => 'Sản phẩm còn trong kho không được xóa'
-            ]);
-
-        if ($historyCount > 0)
-            return $this->respondErrorWithStatus([
-                'message' => 'Sản phẩm đã từng bán không được xóa'
             ]);
         $good->status = 'deleted';
         foreach ($good->properties as $property) {
@@ -628,7 +622,7 @@ class GoodController extends ManageApiController
                 'message' => 'thieu gia'
             ]);
         $good->price = $request->price;
-        $good->note = $request->note;
+//        $good->note = $request->note;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'ok',

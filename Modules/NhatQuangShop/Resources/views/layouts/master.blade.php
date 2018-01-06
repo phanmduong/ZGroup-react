@@ -75,6 +75,29 @@
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </head>
 <body class="profile" style="background:#fafafa">
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '{{config("app.facebook_app_id")}}',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v2.11'
+        });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
 <div class="modal fade" id="loginFailNoticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-sm modal-notice">
@@ -102,8 +125,9 @@
     @if(isset($user))
         <div class="container">
             <div style="text-align:right; width:100%">
-                <a href="/profile" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-primary">
-                    <img src="{{generate_protocol_url($user->avatar_url)}}" style="width:18px;height: 18px"
+                <a href="/profile"
+                   style="padding:3px 5px;margin:3px;font-size:10px;color: white;font-size: 12px;font-weight: normal">
+                    <img src="{{generate_protocol_url($user->avatar_url)}}" style="width:17px;height: 17px"
                          alt=""> {{$user->name}}
                 </a>
                 <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
@@ -115,8 +139,9 @@
         <div class="container" id="logged-nav" style="display: none">
             <div style="text-align:right; width:100%">
                 <div style="text-align:right; width:100%">
-                    <a href="/profile" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-primary">
-                        <img v-bind:src="user.avatar_url" style="width:18px;height: 18px"
+                    <a href="/profile"
+                       style="padding:3px 5px;margin:3px;font-size:10px;color: white;font-size: 12px;font-weight: normal">
+                        <img v-bind:src="user.avatar_url" style="width:17px;height: 17px"
                              alt=""> @{{ user.name }}
                     </a>
                     <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
@@ -183,7 +208,7 @@
                      style="padding:3px 5px;margin:3px;font-size:10px;">
                     <i class="fa fa-google"></i> Google Login
                 </div>
-                <button
+                <button v-on:click="onFacebookLoginButtonClick"
                         class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
                     <i class="fa fa-facebook"></i> Facebook Login
                 </button>

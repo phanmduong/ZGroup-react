@@ -70,4 +70,78 @@ class NhatQuangAuthApiController extends PublicApiController
         }
     }
 
+    public function facebookTokenSignin(Request $request)
+    {
+        $inputToken = $request->input_token;
+        $data = $request->data;
+        $facebookId = $request->facebook_id;
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://graph.facebook.com/oauth/access_token?client_id=" . config("app.facebook_app_id") . "&client_secret=" . config("app.facebook_app_secret") . "&grant_type=client_credentials",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Content-Length: " . strlen($data),
+            ),
+        ));
+        $responseJson = curl_exec($curl);
+        $response = json_decode($responseJson);
+        $accessToken = $response->access_token;
+        curl_close($curl);
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://graph.facebook.com/debug_token?input_token=" . $inputToken . "&access_token=" . $accessToken,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Content-Length: " . strlen($data),
+            ),
+        ));
+        $responseJson = curl_exec($curl);
+        $response = json_decode($responseJson);
+        curl_close($curl);
+
+        if ($response->data) {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://graph.facebook.com/me?access_token=" . $inputToken,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json",
+                    "Content-Length: " . strlen($data),
+                ),
+            ));
+            $responseJson = curl_exec($curl);
+            $response = json_decode($responseJson);
+            curl_close($curl);
+
+            $user = User::where("facebook_id", $facebookId)->first();
+            if ($user == null) {
+                $user = new User();
+                $user->avatar_url = defaultAvatarUrl();
+            }
+            $user->name = $response->name;
+            $user->facebook_id = $response->id;
+            $user->save();
+
+            Auth::login($user);
+
+            return [
+                "status" => 1,
+                "user" => $user->transformAuth()
+            ];
+        } else {
+            return [
+                "status" => 0
+            ];
+        }
+    }
 }
