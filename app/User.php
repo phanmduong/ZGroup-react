@@ -148,9 +148,11 @@ class User extends Authenticatable
     | Relationship Methods
     |--------------------------------------------------------------------------
     */
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany(Order::class, 'user_id');
     }
+
     public function roles()
     {
         return $this->belongsTo(Role::class, 'role_id');
@@ -319,6 +321,15 @@ class User extends Authenticatable
     public function followers()
     {
         return $this->belongsToMany(User::class, 'followings', 'followed_id', 'following_id');
+    }
+
+    public function getData()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'role' => $this->current_role ? $this->current_role->getData() : null,
+        ];
     }
 
     public function transformAuth()
