@@ -31,23 +31,6 @@
                             <br>
                         </div>
                         <div class="col-md-8">
-                            <style>
-                                .embed-container {
-                                    position: relative;
-                                    padding-bottom: 56.25%;
-                                    height: 0;
-                                    overflow: hidden;
-                                    max-width: 100%;
-                                    height: auto;
-                                }
-
-                                .embed-container iframe, .embed-container object, .embed-container embed {
-                                    position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                    width: 100%;
-                                    height: 100%;
-                                }</style>
                             <div class='embed-container'>
                                 <iframe src='{{$lesson_selected->video_url}}'
                                         frameborder='0' webkitAllowFullScreen mozallowfullscreen
@@ -56,10 +39,83 @@
                             <br>
                             <br>
                             <div>
-                                {!! convert_image_html($lesson_selected->detail) !!}}
+                                {!! convert_image_html($lesson_selected->detail) !!}
                             </div>
                             <br>
                             <p></p>
+                            <div class="comments" id="vue-comments">
+                                @if(!isset($user))
+                                    <div class="comment-wrap" v-if="isLogin">
+                                        <div class="photo">
+                                            <div class="avatar"
+                                                 :style="{backgroundImage: 'url(' + user.avatar_url + ')' }"
+                                            ></div>
+                                        </div>
+                                        <div class="comment-block">
+                                                <textarea name="" id="" cols="30" rows="3"
+                                                          v-model="comment"
+                                                          v-on:keyup.enter="createComment({{$lesson_selected->id}})"
+                                                          placeholder="Đặt câu hỏi"></textarea>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="comment-wrap vue-login">
+                                        <div class="photo">
+                                            <div class="avatar"
+                                                 style="background-image: url('{{$user->avatar_url}}')"></div>
+                                        </div>
+                                        <div class="comment-block">
+                                            <textarea name="" id="" cols="30" rows="3"
+                                                      v-model="comment"
+                                                      v-on:keyup.enter="createComment({{$lesson_selected->id}})"
+                                                      placeholder="Đặt câu hỏi"></textarea>
+                                        </div>
+                                    </div>
+                                @endif
+
+
+                                <div class="comment-wrap">
+                                    <div class="photo">
+                                        <div class="avatar"
+                                             style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg')"></div>
+                                    </div>
+                                    <div class="comment-block  product-item">
+                                        <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing
+                                            elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt
+                                            voluptatum. Eligendi voluptatum ducimus architecto tempore, quaerat
+                                            explicabo veniam fuga corporis totam reprehenderit quasi
+                                            sapiente modi tempora at perspiciatis mollitia, dolores voluptate. Cumque,
+                                            corrupti?</p>
+                                        <div class="bottom-comment">
+                                            <div class="comment-date">Aug 24, 2014 @ 2:35 PM</div>
+                                            <ul class="comment-actions">
+                                                <li class="complain">Thích</li>
+                                                <li class="reply">Trả lời</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="comment-wrap">
+                                    <div class="photo">
+                                        <div class="avatar"
+                                             style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/felipenogs/128.jpg')"></div>
+                                    </div>
+                                    <div class="comment-block  product-item">
+                                        <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing
+                                            elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt
+                                            voluptatum. Eligendi voluptatum ducimus architecto tempore, quaerat
+                                            explicabo veniam fuga corporis totam.</p>
+                                        <div class="bottom-comment">
+                                            <div class="comment-date">Aug 23, 2014 @ 10:32 AM</div>
+                                            <ul class="comment-actions">
+                                                <li class="complain">Thích</li>
+                                                <li class="reply">Trả lời</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-4">
                             @foreach($course->terms()->orderBy('order')->get() as $term)
