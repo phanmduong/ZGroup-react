@@ -51,7 +51,7 @@
             {{$base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->count() == 0}}
             <h3>{{$base->name}} : {{$base->address}}</h3><br>
             <div class="row">
-                @foreach($base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('name','desc')->get() as $class)
+                @foreach($base->classes()->where('status',1)->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('name','desc')->get() as $class)
                     <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
                         <div>
                             <div style="display:flex;flex-direction:row">
@@ -63,7 +63,8 @@
                                     <h4 style="font-weight:600; margin-top:10px">Lớp {{$class->name}}</h4>
                                     <br><br>
                                     <p>
-                                        <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> {{date("d-m-Y", strtotime($class->datestart))}}
+                                        <i class="fa fa-clock-o"></i> <b>Khai giảng
+                                            ngày:</b> {{date("d-m-Y", strtotime($class->datestart))}}
 
                                         <br>
 
@@ -80,7 +81,7 @@
                                            style="background-color:#FF6D00;border-color:#FF6D00"
                                            href="/register-class/{{$class->id}}/{{$campaign_id}}/{{$saler_id}}"><i
                                                     class="fa fa-plus"></i> Đăng ký </a>
-                                        @else
+                                    @else
                                         <a class="btn btn-round"
                                            href="#" onClick="return false;"><i
                                                     class="fa fa-plus"></i> Hết chỗ </a>
