@@ -181,7 +181,7 @@
         <noscript></noscript>
     </div>
 </div>
-<div id="modalLogin" class="modal fade" role="dialog" v-bind:data-backdrop="isClose ? 'static' : ''">
+<div id="modalLogin" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->

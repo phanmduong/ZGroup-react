@@ -15,6 +15,28 @@ var vueNav = new Vue({
     }
 });
 
+var vueComments = new Vue({
+    el: '#vue-comments',
+    data: {
+        isLogin: false,
+        user: {},
+        comment: ''
+    },
+    methods: {
+        createComment: function (lessonId) {
+            console.log(lessonId);
+            var url = "/elearning/" + lessonId + "/add-comment";
+            axios.post(url, {
+                lesson_id: lessonId,
+                content_comment: this.comment
+            }).then(function (res) {
+                    console.log(res.data);
+                }
+            );
+        }
+    }
+});
+
 var modalLogin = new Vue({
     el: '#modalLogin',
     data: {
@@ -28,7 +50,7 @@ var modalLogin = new Vue({
     },
     methods: {
         login: function () {
-            var url = 'http://' + window.location.hostname + "/login-social";
+            var url = "/login-social";
             this.isLoading = true;
             this.hasError = false;
             this.isClose = true;
@@ -43,6 +65,8 @@ var modalLogin = new Vue({
                         $('#modalLogin').modal('toggle');
                         vueNav.isLogin = true;
                         vueNav.user = res.data.user;
+                        vueComments.isLogin = true;
+                        vueComments.user = res.data.user;
                         localStorage.setItem('auth', JSON.stringify(res.data));
                     }
                 }.bind(this));

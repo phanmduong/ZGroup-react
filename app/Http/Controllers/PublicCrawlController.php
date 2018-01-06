@@ -29,7 +29,6 @@ class PublicCrawlController extends CrawlController
 
     public function home()
     {
-
         $current_gen = Gen::getCurrentGen();
         $this->data['gen_cover'] = $current_gen->cover_url;
         return view('2018-beta', $this->data);
@@ -95,12 +94,11 @@ class PublicCrawlController extends CrawlController
             ];
         });
 
+        $this->data['course'] = $course;
+        $this->data['lesson_selected'] = $lesson;
+        $this->data['lessons'] = $lessons;
 
-        return view('public.course_online_detail', [
-            'course' => $course,
-            'lesson_selected' => $lesson,
-            'lessons' => $lessons,
-        ]);
+        return view('public.course_online_detail', $this->data);
     }
 
     public function post($LinkId)
