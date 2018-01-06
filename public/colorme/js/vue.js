@@ -20,19 +20,26 @@ var vueComments = new Vue({
     data: {
         isLogin: false,
         user: {},
-        comment: ''
+        comment: '',
+        isStoring: false,
     },
     methods: {
-        createComment: function (lessonId) {
-            console.log(lessonId);
-            var url = "/elearning/" + lessonId + "/add-comment";
-            axios.post(url, {
-                lesson_id: lessonId,
-                content_comment: this.comment
-            }).then(function (res) {
-                    console.log(res.data);
-                }
-            );
+        createComment: function (e, lessonId) {
+            if (e.keyCode === 13 && !e.shiftKey) {
+                e.preventDefault();
+                this.isStoring = true;
+                var url = "/elearning/" + lessonId + "/add-comment";
+                axios.post(url, {
+                    lesson_id: lessonId,
+                    content_comment: this.comment
+                }).then(function (res) {
+                        console.log(res.data);
+                        this.comment = '';
+                        this.isStoring = false;
+                    }.bind(this)
+                );
+            }
+
         }
     }
 });
