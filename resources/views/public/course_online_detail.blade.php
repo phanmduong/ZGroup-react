@@ -39,23 +39,40 @@
                             <br>
                             <br>
                             <div>
-                                {!! convert_image_html($lesson_selected->detail) !!}}
+                                {!! convert_image_html($lesson_selected->detail) !!}
                             </div>
                             <br>
                             <p></p>
-                            <div class="comments">
-                                <div class="comment-wrap">
-                                    <div class="photo">
-                                        <div class="avatar"
-                                             style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg')"></div>
+                            <div class="comments" id="vue-comments">
+                                @if(!isset($user))
+                                    <div class="comment-wrap" v-if="isLogin">
+                                        <div class="photo">
+                                            <div class="avatar"
+                                                 :style="{backgroundImage: 'url(' + user.avatar_url + ')' }"
+                                            ></div>
+                                        </div>
+                                        <div class="comment-block">
+                                                <textarea name="" id="" cols="30" rows="3"
+                                                          v-model="comment"
+                                                          v-on:keyup.enter="createComment({{$lesson_selected->id}})"
+                                                          placeholder="Đặt câu hỏi"></textarea>
+                                        </div>
                                     </div>
-                                    <div class="comment-block">
-                                        <form action="">
+                                @else
+                                    <div class="comment-wrap vue-login">
+                                        <div class="photo">
+                                            <div class="avatar"
+                                                 style="background-image: url('{{$user->avatar_url}}')"></div>
+                                        </div>
+                                        <div class="comment-block">
                                             <textarea name="" id="" cols="30" rows="3"
+                                                      v-model="comment"
+                                                      v-on:keyup.enter="createComment({{$lesson_selected->id}})"
                                                       placeholder="Đặt câu hỏi"></textarea>
-                                        </form>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
+
 
                                 <div class="comment-wrap">
                                     <div class="photo">

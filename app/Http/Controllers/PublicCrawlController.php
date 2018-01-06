@@ -24,7 +24,6 @@ class PublicCrawlController extends CrawlController
         $this->productTransformer = $productTransformer;
         $this->courseTransformer = $courseTransformer;
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
-        $this->data = array();
         $this->data['courses'] = $courses;
     }
 

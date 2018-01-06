@@ -11,7 +11,7 @@ namespace Modules\Elearning\Http\Controllers;
 
 use App\Comment;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ElearningApiController extends Controller
@@ -44,7 +44,7 @@ class ElearningApiController extends Controller
         $comment->commenter_id = $this->user->id;
         $comment->content = $request->content_comment;
         $comment->image_url = $request->image_url;
-        $comment->parent_id = $request->parent_id;
+        $comment->parent_id = $request->parent_id ? $request->parent_id : 0;
         $comment->save();
 
 
