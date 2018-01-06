@@ -160,6 +160,7 @@
         </div>
         <script>
             function setDataModal(classData) {
+                fbq('track', 'Purchase');
                 $("#modal-register-class form .form-group").find("input").each(function () {
                     $(this).val("");
                 });
@@ -191,6 +192,7 @@
                 });
 
                 $("#submit-register").click(function () {
+                    fbq('track', 'CompleteRegistration');
                     if ($("#modal-register-class form").valid()) {
                         $("#submit-register").hide();
                         var data = {};

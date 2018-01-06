@@ -2,8 +2,10 @@
 
 namespace Modules\Work\Http\Controllers;
 
+use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
 use App\Work;
+use App\WorkStaff;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -67,7 +69,14 @@ class WorkApiController extends ManageApiController
         $work->deadline = $request->deadline;
         $work->bonus_value = $request->bonus_value ? $request->bonus_value : 0;
         $work->bonus_type = $request->bonus_type;
+        if($work->status == "done" && $request->status == "doing"){
+            $work_staffs = WorkStaff::where('work_id',$workId)->get();
+            foreach ($work_staffs as $work_staff){
+                $work_staff->status = "doing";
+            }
+        }
         $work->status = $request->status;
+
         $staffs = json_decode($request->staffs);
         $work->save();
         if (count($staffs) > 0) {
@@ -95,5 +104,13 @@ class WorkApiController extends ManageApiController
             })
         ]);
 
+    }
+    public function getAllExtension(Request $request){
+        $logs = HistoryExtensionWork::orderBy('created_at','desc')->get();
+        return $this->respondSuccessWithStatus([
+           "logs" => $logs->map(function($log){
+               return $log->transform();
+           })
+        ]);
     }
 }

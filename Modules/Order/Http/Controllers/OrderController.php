@@ -7,6 +7,7 @@ use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\OrderPaidMoney;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
@@ -56,9 +57,15 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
-            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-        });
+        $orders = Order::where('type', 'order');
+        if ($keyWord) {
+            $userIds = User::where(function ($query) use ($keyWord) {
+                $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
+            })->pluck('id')->toArray();
+            $orders = $orders->where('type', 'order')->where(function ($query) use ($keyWord, $userIds) {
+                $query->whereIn('user_id', $userIds)->orWhere("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+            });
+        }
         if ($status)
             $orders = $orders->where('status', $status);
         if ($startTime)
@@ -90,9 +97,15 @@ class OrderController extends ManageApiController
         $status = $request->status;
         $keyWord = $request->search;
 
-        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
-            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-        });
+        $orders = Order::where('type', 'order');
+        if ($keyWord) {
+            $userIds = User::where(function ($query) use ($keyWord) {
+                $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
+            })->pluck('id')->toArray();
+            $orders = $orders->where('type', 'order')->where(function ($query) use ($keyWord, $userIds) {
+                $query->whereIn('user_id', $userIds)->orWhere("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+            });
+        }
         if ($status)
             $orders = $orders->where('status', $status);
         if ($startTime)
@@ -123,7 +136,7 @@ class OrderController extends ManageApiController
             }
         }
         return $this->respondSuccessWithStatus([
-            'count' => $count,
+            'total_orders' => $count,
             'total_money' => $totalMoney,
             'total_paid_money' => $totalPaidMoney,
             'total_debt' => $totalMoney - $totalPaidMoney,
@@ -142,67 +155,22 @@ class OrderController extends ManageApiController
         );
     }
 
-    public function changeStatus(Request $request)
+    public function changeOrderStatus($orderId, Request $request)
     {
-        $order = Order::find($request->order_id);
-
-        if ($order == null) {
-            return $this->respondErrorWithStatus("Đơn hàng không tồn tại");
-        }
-
-        $order->status = $request->status;
-        if ($request->label_id) {
-            $order->label_id = $request->label_id;
-        }
-
-        $order->save();
-
-        return $this->respondSuccessWithStatus([
-            'order' => $order->transform()
-        ]);
-    }
-
-    public function editOrder($order_id, Request $request)
-    {
-        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
-        $order = Order::find($order_id);
-        if ($order == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Khong ton tai order'
-            ]);
+        $order = Order::find($orderId);
         if ($this->user->role != 2)
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
                     'message' => 'Bạn không có quyền đổi trạng thái này'
                 ]);
-        if ($request->code == null && trim($request->code) == '')
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu code'
-            ]);
         if ($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
             ]);
+
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
             $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
-        }
-        $order->note = $request->note;
-        $order->code = $request->code;
-        $order->staff_id = $this->user->id;
-        $order->user_id = $request->user_id;
-        $order->status = $request->status;
-        $order->save();
-        if ($this->statusToNum($order->status) <= 1 && $order->type == 'order') {
-            $good_orders = json_decode($request->good_orders);
-            $order->goodOrders()->delete();
-            foreach ($good_orders as $good_order) {
-                $good = Good::find($good_order->id);
-                $order->goods()->attach($good_order->id, [
-                    "quantity" => $good_order->quantity,
-                    "price" => $good->price,
-                ]);
-            }
         }
 
         if ($order->type == 'import' && $request->status == 'completed') {
@@ -223,8 +191,56 @@ class OrderController extends ManageApiController
                 $history->save();
             }
         }
+        $order->status = $request->status;
+        if ($request->label_id) {
+            $order->label_id = $request->label_id;
+        }
+        $order->save();
+
         return $this->respondSuccessWithStatus([
-            'message' => 'ok'
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function editOrder($order_id, Request $request)
+    {
+        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $order = Order::find($order_id);
+        if ($this->user->role != 2)
+            if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
+                return $this->respondErrorWithStatus([
+                    'message' => 'Bạn không có quyền đổi trạng thái này'
+                ]);
+        if ($request->code == null && trim($request->code) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu code'
+            ]);
+        if ($order->type == 'import' && $order->status == 'completed')
+            return $this->respondErrorWithStatus([
+                'message' => 'Cant change completed import order'
+            ]);
+
+        $order->note = $request->note;
+        $order->code = $request->code;
+        $order->staff_id = $this->user->id;
+        $order->user_id = $request->user_id;
+        $order->save();
+        if ($this->statusToNum($order->status) <= 1 && $order->type == 'order') {
+            $good_orders = json_decode($request->good_orders);
+            $order->goodOrders()->delete();
+            foreach ($good_orders as $good_order) {
+                $good = Good::find($good_order->good_id);
+                $order->goods()->attach($good_order->good_id, [
+                    'quantity' => $good_order->quantity,
+                    'price' => $good->price
+                ]);
+            }
+        }
+
+        $this->changeOrderStatus($order_id, $request);
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 
@@ -409,12 +425,18 @@ class OrderController extends ManageApiController
         ]);
     }
 
-//    public function test(Request $request)
-//    {
-//        $what = "[{'id':45,'quantity':'7'}]";
-//        dd(json_decode($what));
-//        return [
-//            'value' => $this->statusToNum($request->status),
-//        ];
-//    }
+    public function test(Request $request)
+    {
+        $data = [
+            [
+                'id' => 1,
+                'quantity' => 10,
+            ],
+            [
+                'id' => 1,
+                'quantity' => 10,
+            ],
+        ];
+        dd(json_encode($data));
+    }
 }

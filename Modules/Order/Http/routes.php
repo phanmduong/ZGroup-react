@@ -2,12 +2,10 @@
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'order', 'namespace' => 'Modules\Order\Http\Controllers'], function () {
     Route::get('/all-orders', 'OrderController@allOrders');
-
     Route::get('/statistic','OrderController@statisticalOrder');
-
     Route::put('/{order_id}', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
-    Route::put('/change-status-order', 'OrderController@changeStatus');
+    Route::put('/{orderId}/status', 'OrderController@changeOrderStatus');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
@@ -55,6 +53,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/staffs', 'StaffController@getStaffs');
     Route::get('/salers', 'StaffController@allSalers');
 
-    Route::post('/test', 'OrderController@test');
+    Route::get('/test', 'OrderController@test');
 });
 

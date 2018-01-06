@@ -25,6 +25,11 @@ class Lesson extends Model
         return $this->hasMany('App\ClassLesson', 'lesson_id');
     }
 
+    public function term()
+    {
+        return $this->belongsTo(Term::class, "term_id");
+    }
+
     public function surveys()
     {
         return $this->belongsToMany('App\Survey', 'lesson_survey');
@@ -35,12 +40,16 @@ class Lesson extends Model
         return [
             'id' => $this->id,
             'course_id' => $this->course_id,
+            'audio_url' =>$this->audio_url,
+            'video_url' =>$this->video_url,
+            'image_url' =>$this->image_url,
             'name' => $this->name,
             'description' => $this->description,
             'detail' => $this->detail,
             'order' => $this->order,
             'detail_content' => $this->detail_content,
             'detail_teacher' => $this->detail_teacher,
+            'term' => $this->terms,
             'created_at' => format_time_to_mysql(strtotime($this->created_at))
         ];
     }
