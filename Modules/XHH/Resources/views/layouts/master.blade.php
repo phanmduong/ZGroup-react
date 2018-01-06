@@ -37,7 +37,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/about-us" data-scroll="true">Giới thiệu</a>
+                    <a class="nav-link" href="/landing-page/introduction/" data-scroll="true">Giới thiệu</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/all-books" data-scroll="true">Thư viện</a>
