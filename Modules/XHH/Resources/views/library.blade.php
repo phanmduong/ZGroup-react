@@ -26,6 +26,9 @@
                 <h1 class="medium-title">
                     Sách mới cập nhật<br>
                 </h1>
+                <input placeholder="Tìm kiếm" id="search-book"
+                       style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                       type="text" v-on:keyup.enter="searchBook" v-model="search" value="{{$search}}"/>
             </div>
             <div class="row">
                 @foreach($books as $book)
@@ -66,3 +69,20 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var search = new Vue({
+            el: '#search-book',
+            data: {
+                search: '{!! $search !!}'
+            },
+            methods: {
+                searchBook: function () {
+                    window.open('/all-books?page=1&search=' + this.search, '_self');
+                }
+            }
+
+        })
+    </script>
+@endpush
