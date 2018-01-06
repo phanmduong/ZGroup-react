@@ -37,6 +37,7 @@ class ListClass extends React.Component {
                         <th>Trợ giảng</th>
                         <th>Trạng thái</th>
                         <th>Loại</th>
+                        <th>Nộp tiền</th>
                         <th>Học viên</th>
                         <th/>
                     </tr>
@@ -121,6 +122,18 @@ class ListClass extends React.Component {
                                     </td>
                                     <td>
                                         {this.typeClass(classItem.type)}
+                                    </td>
+                                    <td>
+                                        <h6>{classItem.total_paid + "/" + classItem.total_register}</h6>
+                                        <div className="progress progress-line-danger progress-bar-table">
+                                            <div className="progress-bar" role="progressbar" aria-valuenow="60"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 style={{width: classItem.total_paid * 100 / classItem.total_register}}>
+                                                <span
+                                                    className="sr-only">{classItem.total_paid * 100 / classItem.total_register}%</span>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
                                         <h6>{classItem.total_register + "/" + classItem.regis_target}</h6>
