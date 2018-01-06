@@ -10,6 +10,7 @@ use App\Gen;
 use App\Lesson;
 use App\Order;
 use App\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PublicCrawlController extends CrawlController
@@ -22,14 +23,15 @@ class PublicCrawlController extends CrawlController
         parent::__construct();
         $this->productTransformer = $productTransformer;
         $this->courseTransformer = $courseTransformer;
+        $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
+        $this->data['courses'] = $courses;
     }
 
     public function home()
     {
-        $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
+
         $current_gen = Gen::getCurrentGen();
         $this->data['gen_cover'] = $current_gen->cover_url;
-        $this->data['courses'] = $courses;
         return view('2018-beta', $this->data);
     }
 
