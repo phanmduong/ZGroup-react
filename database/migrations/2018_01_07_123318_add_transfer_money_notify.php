@@ -15,6 +15,7 @@ class AddTransferMoneyNotify extends Migration
         //
         Schema::table('transfer_money', function (Blueprint $table){
            $table->string('note');
+           $table->string('transfer_day');
         });
     }
 

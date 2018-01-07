@@ -35,6 +35,7 @@ class NhatQuangTransferController extends Controller
                 'note' => 'required|max:255',
                 'money_transfer' => 'required',
                 'account_transfer' => 'required',
+                'transfer_day' => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -45,6 +46,7 @@ class NhatQuangTransferController extends Controller
            $user = Auth::user();
            $transfer = new TransferMoney;
            $transfer->user_id = $user->id;
+           $transfer->transfer_day = $request->transfer_day;
            $transfer->money_transfer = $request->money_transfer;
            $transfer->note = $request->note;
            $transfer->account_transfer = $request->account_transfer;
