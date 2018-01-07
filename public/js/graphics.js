@@ -1,3 +1,7 @@
+function formatPrice(price) {
+    return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ'
+}
+
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
@@ -171,7 +175,9 @@ var modalPurchase = new Vue({
         message: '',
         onlinePurchase: "ATM_ONLINE",
         bank_code: "",
-        isSaving: false
+        isSaving: false,
+        goodsPrice: 0,
+        shipPrice: 0
     },
     methods: {
         getProvinces: function () {
@@ -201,10 +207,21 @@ var modalPurchase = new Vue({
         },
         changeProvince: function () {
             this.loadingDistrict = true;
+            this.goodsPrice = modalBuy.total_price;
             this.getDistricts();
+            if (this.provinceid === "01" || this.provinceid === "79") {
+                this.shipPrice = 20000;
+            } else {
+                this.shipPrice = 30000;
+            }
+            // modalBuy
+        },
+        changeOnlinePurchase: function () {
+            this.bank_code = "";
         },
         showError: function (message) {
             this.message = message;
+            this.isSaving = false;
         },
         validateEmail: function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -228,6 +245,7 @@ var modalPurchase = new Vue({
             if (this.payment === "Thanh toán online") {
                 if (this.bank_code === "") {
                     this.showError("Bạn vui lòng hoàn thành phương thức thanh toán");
+                    return;
                 }
             }
 
@@ -237,6 +255,7 @@ var modalPurchase = new Vue({
                 name: this.name,
                 phone: this.phone,
                 email: this.email,
+                ship_price: this.shipPrice,
                 provinceid: this.provinceid ? this.provinceid : '01',
                 districtid: this.districtid ? this.districtid : '001',
                 address: this.address,
@@ -246,12 +265,15 @@ var modalPurchase = new Vue({
                 _token: window.token
             })
                 .then(function (response) {
-                    this.isSaving = true;
+                    this.isSaving = false;
                     if (this.payment === "Thanh toán online") {
-                        window.location.href = response.data.checkout_url;
+                        if (response.data.checkout_url) {
+                            window.location.href = response.data.checkout_url;
+                        } else {
+                            this.message = response.data.message;
+                        }
                     } else {
                         $("#purchase-loading-text").css("display", "none");
-                        $("#btn-purchase-group").css("display", "block");
                         $("#modalPurchase").modal("hide");
                         $("#modalSuccess").modal("show");
                         name = "";
