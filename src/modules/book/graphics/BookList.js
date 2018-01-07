@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import {generateDatatableLanguage} from "../../../helpers/helper";
-import {Link} from "react-router";
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 
 class GoodList extends React.Component {
@@ -75,9 +74,9 @@ class GoodList extends React.Component {
                             return (
                                 <tr key={good.id}>
                                     <td>
-                                        <Link className="text-rose" to={"good/" + good.id + "/detail"}>
+                                        <a className="text-rose" href={`/manufacture/good/${good.id}/edit`}>
                                             {good.name}
-                                        </Link>
+                                        </a>
                                     </td>
                                     <td>{good.code}</td>
                                     <td>{good.description}</td>
