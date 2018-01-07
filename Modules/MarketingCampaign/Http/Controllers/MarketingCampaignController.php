@@ -284,7 +284,7 @@ class MarketingCampaignController extends ManageApiController
 
             };
 
-            $campaigns = $saler_registers->select(DB::raw('count(*) as total_registers,campaign_id'))->where('campaign_id', '<>', 0)
+            $campaigns = $saler_registers->select(DB::raw('count(*) as total_registers,campaign_id'))
                 ->whereNotNull('campaign_id')->groupBy('campaign_id')->get();
 
 
