@@ -64,8 +64,7 @@
                             </li>
                         @else
                         @endif
-
-                        @for($i = 1; $i <= $orders->count(); $i++)
+                        @for($i = 1; $i <= $page; $i++)
                             @if($orders->currentPage() == $i)
                                 <li class="active page-item"><a class="page-link"
                                                                 href="/manage/orders?page={{$i}}">{{$i}}</a>
@@ -76,7 +75,7 @@
                                 </li>
                             @endif
                         @endfor
-                        @if($orders->currentPage() != $orders->count())
+                        @if($orders->currentPage() != $page && $page != 1)
                             <li class="page-item">
                                 <a class="page-link" href="{{ $orders->nextPageUrl() }}" aria-label="Previous">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -84,7 +83,7 @@
                             </li>
                             <li class="page-item">
                                 <a class="page-link"
-                                   href="/manage/orders?page={{$orders->count()}}"
+                                   href="/manage/orders?page={{$page}}"
                                    aria-label="Next">
                                     <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                                     <span class="sr-only">Next</span>
@@ -92,11 +91,9 @@
                             </li>
                         @else
                         @endif
-
                     </ul>
                 </div>
             </div>
-
         </div>
     </div>
 
