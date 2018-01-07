@@ -359,6 +359,6 @@
              src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/923433004/?guid=ON&amp;script=0"/>
     </div>
 </noscript>
-
+@stack("scripts")
 </body>
 </html>

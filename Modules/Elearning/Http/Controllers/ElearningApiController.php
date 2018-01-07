@@ -41,6 +41,7 @@ class ElearningApiController extends Controller
             $comment = new Comment();
         }
 
+        $comment->lesson_id = $lesson_id;
         $comment->commenter_id = $this->user->id;
         $comment->content = $request->content_comment;
         $comment->image_url = $request->image_url;
@@ -50,7 +51,16 @@ class ElearningApiController extends Controller
 
         return [
             "status" => 1,
-            "$comment" => $comment
+            "comment" => [
+                'id' => $comment->id,
+                'created_at' => format_full_time_date($comment->created_at),
+                'content' => $comment->content,
+                'commenter' => [
+                    'avatar_url' => $comment->commenter->avatar_url,
+                    'name' => $comment->commenter->name,
+                    'username' => $comment->commenter->username
+                ],
+            ]
         ];
 
 
