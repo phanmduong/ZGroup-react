@@ -4,6 +4,7 @@ namespace Modules\Work\Http\Controllers;
 
 use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
+use App\User;
 use App\Work;
 use App\WorkStaff;
 use Illuminate\Http\Request;
