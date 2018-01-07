@@ -166,7 +166,7 @@ class AddModal extends React.Component {
                                 }
 
                                 <button className="btn btn-sm btn-danger"
-                                        onClick={this.closeModal}
+                                        onClick={(e)=>{this.closeModal();e.preventDefault();}}
                                 >
                                     <i className="material-icons">cancel</i> Huỷ
                                 </button>

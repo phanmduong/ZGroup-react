@@ -74,88 +74,68 @@ class WareHouseContainer extends React.Component {
             }
         };
         return (
-            <div className="content">
-                <div className="container-fluid">
-                    <div>
+            <div className="container-fluid">
+                <div className="card">
+                    <div className="card-header card-header-icon" data-background-color="rose">
+                        <i className="material-icons">assignment</i>
+                    </div>
+                    <div className="card-content">
+                        <h4 className="card-title">Nhà kho</h4>
+
                         <div className="row">
-                            <div className="col-md-12">
-                                {this.props.isLoading ?
-                                    <Loading/>
-                                    :
-                                    <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">assignment</i>
-                                        </div>
-                                        <div className="card-content">
-                                            <h4 className="card-title">Nhà kho</h4>
-                                            <div className="row">
-                                                <div className="col-md-12">
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        flexDirection: 'row',
-                                                        justifyContent: 'space-between'
-                                                    }}>
-                                                        <div>
-                                                            <button rel="tooltip" data-placement="top" title
-                                                                    data-original-title="Remove item" type="button"
-                                                                    className="btn btn-rose"
-                                                                    onClick={() => {
-                                                                        this.openModal(wareHouse, false);
-                                                                    }}
-                                                            >
-                                                                Thêm nhà kho
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div className="row">
-                                                        <div className="col-md-12">
-                                                            <Search
-                                                                onChange={this.wareHousesSearchChange}
-                                                                value={this.state.query}
-                                                                placeholder="Tìm kiếm kho"
-                                                                className="col-md-12"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br/>
-                                            <div className="table-responsive">
+                            <div className="col-md-4" style={{paddingLeft: 45}}>
+                                <button className="btn btn-rose"
+                                        onClick={() => {
+                                            this.openModal(wareHouse, false);
+                                        }}
+                                >
+                                    Thêm nhà kho
+                                </button>
+                            </div>
+                            <div className="col-md-8">
+                                <Search
+                                    onChange={this.wareHousesSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm kho"
+                                />
+                            </div>
+                        </div>
+                        <br/>
 
-                                                <ListChildWareHouse
-                                                    wareHousesList={this.props.wareHousesList}
-                                                    openModal={this.openModal}
-                                                    deleteWareHouse={this.deleteWareHouse}
-                                                />
+                        <div className="table-responsive">
+                            {this.props.isLoading ?
+                                <Loading/>
+                                :
+                                <ListChildWareHouse
+                                    wareHousesList={this.props.wareHousesList}
+                                    openModal={this.openModal}
+                                    deleteWareHouse={this.deleteWareHouse}
+                                />
+                            }
 
-                                                <div className="row" style={{float: 'right'}}>
-                                                    <div className="col-md-12" style={{textAlign: 'right'}}>
-                                                        <ul className="pagination pagination-primary">
+                            <div className="row" style={{float: 'right'}}>
+                                <div className="col-md-12" style={{textAlign: 'right'}}>
+                                    <ul className="pagination pagination-primary">
 
 
-                                                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                                                if (Number(currentPage) === page) {
-                                                                    return (
-                                                                        <li key={page} className="active">
-                                                                            <a onClick={() => this.loadWareHouses(page, limit)}>{page}</a>
-                                                                        </li>
-                                                                    );
-                                                                }
-                                                                else {
-                                                                    return (
-                                                                        <li key={page}>
-                                                                            <a onClick={() => this.loadWareHouses(page, limit)}>{page}</a>
-                                                                        </li>
-                                                                    );
-                                                                }
-                                                            })}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+                                        {_.range(1, this.props.totalPages + 1).map(page => {
+                                            if (Number(currentPage) === page) {
+                                                return (
+                                                    <li key={page} className="active">
+                                                        <a onClick={() => this.loadWareHouses(page, limit)}>{page}</a>
+                                                    </li>
+                                                );
+                                            }
+                                            else {
+                                                return (
+                                                    <li key={page}>
+                                                        <a onClick={() => this.loadWareHouses(page, limit)}>{page}</a>
+                                                    </li>
+                                                );
+                                            }
+                                        })}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
