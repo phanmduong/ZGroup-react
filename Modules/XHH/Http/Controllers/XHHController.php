@@ -127,7 +127,7 @@ class XHHController extends Controller
         ]);
     }
 
-    public function allBooks($subfix)
+    public function allBooks($subfix, Request $request)
     {
         $date = new \DateTime();
         $date->modify("+1 day");
@@ -136,11 +136,27 @@ class XHHController extends Controller
         $startDate = $date->format("Y-m-d h:i:s");
         $totalBlogs = Product::where('type', 2)->count();
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
-        $books = Good::where('type', 'book')->get();
+        $books = Good::where('type', 'book');
+
+        $search = $request->search;
+        if ($search) {
+            $books = $books->join('good_properties', 'goods.id', '=', 'good_properties.good_id')->where(function ($q) use ($search) {
+                $q->where('goods.name', 'like', '%' . $search . '%')
+                    ->orWhere('goods.code', 'like', '%' . $search . '%')
+                    ->orWhere(function ($q1) use ($search) {
+                        $q1->where('good_properties.name', 'TYPE_BOOK')
+                            ->where('good_properties.value', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+
+        $books = $books->select('goods.*')->get();
         return view('xhh::library', [
             'books' => $books,
             'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
+            'total_blogs' => $totalBlogs,
+            'search' => $search
         ]);
     }
 
