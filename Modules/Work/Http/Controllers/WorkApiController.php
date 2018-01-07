@@ -118,7 +118,9 @@ class WorkApiController extends ManageApiController
                 $query->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name','like', '%' . $keyword . '%');
             })->orderBy('history_extension_works.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($logs, [
-            'logs' => $logs->tranform()
+            'logs' => $logs->map(function($log){
+                return $log->tranform();
+            })
 
         ]);
     }
