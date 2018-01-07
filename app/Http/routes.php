@@ -38,7 +38,7 @@ Route::post('manage/receive_notifications', 'PublicController@receive_notificati
 Route::post('manage/receive_video_convert_notifications', 'PublicController@receive_video_convert_notifications');
 Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
-Route::get('send_noti_test', 'PublicController@send_noti_test');
+Route::get('/send-noti-test', 'PublicController@send_noti_test');
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
