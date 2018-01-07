@@ -36,5 +36,5 @@ Route::group(['middleware' => 'web', 'domain' => "nhatquangshop.{subfix}", 'name
     Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
     Route::get("/api/facebook/tokensignin", "NhatQuangAuthApiController@facebookTokenSignin");
     Route::post("/api/login", "NhatQuangAuthApiController@login");
-    Route::post("/manage/transfer", "NhatQuangTransferController@createTransfer");
+    Route::post("/manage/transfermoney", "NhatQuangTransferController@createTransfer");
 });

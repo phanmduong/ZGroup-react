@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace Modules\NhatQuangShop\Http\Controllers;
 use App\Good;
 use App\Order;
 use App\Product;
@@ -12,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Graphics\Repositories\BookRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -32,14 +32,18 @@ class NhatQuangTransferController extends Controller
         }
         public function createTransfer(Request $request){
             $validator = Validator::make($request->all(), [
-                'note' => 'required|max:255',
                 'money_transfer' => 'required',
                 'account_transfer' => 'required',
                 'transfer_day' => 'required'
-            ]);
+            ],[
+                'money_transfer.required' => 'Bạn chưa nhập số tiền cần chuyển',
+                'transfer_day.required' => 'Bạn chưa nhập ngày chuyển tiền',
+                'account_transfer.required' => 'Bạn chưa chọn phương thức thanh toán',
+            ]
+            );
 
             if ($validator->fails()) {
-                return redirect('/manage/transfer')
+                return redirect('/manage/transfermoney')
                     ->withInput()
                     ->withErrors($validator);
             }
@@ -52,7 +56,7 @@ class NhatQuangTransferController extends Controller
            $transfer->account_transfer = $request->account_transfer;
            $transfer->save();
            $tranfers = TransferMoney::where('user_id', '=', $user->id );
-           $this->data['transfers'] = $tranfers;
-           return view('"nhatquangshop::transfer_money',$this->data);
+           $data['transfers'] = $tranfers;
+           return view('nhatquangshop::transfer_money',$data)->with('noti', 'Gửi thành công');
         }
 }

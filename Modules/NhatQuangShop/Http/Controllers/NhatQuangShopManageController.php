@@ -40,23 +40,26 @@ class NhatQuangShopManageController extends Controller
         $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }
-    public function infoOrder($subfix, $order_id){
-       $order = Order::find($order_id);
-       $this->data['order'] = $order;
-       $paidOrderMoneys = $order->orderPaidMoneys;
-       $totalPaidMoney = 0;
-       if(count($paidOrderMoneys)>0){
-           for ($i = 0; $i<count($paidOrderMoneys); $i++){
-               $totalPaidMoney += $paidOrderMoneys[$i]->money;
-           }
 
-       }
+    public function infoOrder($subfix, $order_id)
+    {
+        $order = Order::find($order_id);
+        $this->data['order'] = $order;
+        $paidOrderMoneys = $order->orderPaidMoneys;
+        $totalPaidMoney = 0;
+        if (count($paidOrderMoneys) > 0) {
+            for ($i = 0; $i < count($paidOrderMoneys); $i++) {
+                $totalPaidMoney += $paidOrderMoneys[$i]->money;
+            }
+
+        }
         $this->data['totalPaidMoney'] = $totalPaidMoney;
-       $this->data['paidOrderMoneys'] = $paidOrderMoneys;
-       return view("nhatquangshop::infoOrder", $this->data);
+        $this->data['paidOrderMoneys'] = $paidOrderMoneys;
+        return view("nhatquangshop::infoOrder", $this->data);
     }
 
-    public function transferMoney(){
+    public function transferMoney()
+    {
         return view("nhatquangshop::transfer_money");
     }
 
