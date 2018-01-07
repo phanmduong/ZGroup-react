@@ -114,7 +114,10 @@ class GoodPropertyApiController extends ManageApiController
         $good_property_item->preunit = $request->preunit;
         $good_property_item->type = $request->type;
         $good_property_item->save();
-        return $this->respondSuccessWithStatus(["message" => "success"]);
+        return $this->respondErrorWithStatus([
+            'id' => $good_property_item->id,
+            'name' => $good_property_item->name
+        ]);
     }
 
     public function addPropertyItemsTask($task_id, Request $request)

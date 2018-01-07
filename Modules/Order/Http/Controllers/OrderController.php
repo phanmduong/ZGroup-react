@@ -168,10 +168,10 @@ class OrderController extends ManageApiController
                 'message' => 'Cant change completed import order'
             ]);
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
-            $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
+            $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
 //            if($response->status == 0)
-                dd($order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
-//                return $response;
+//                dd($order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
+                return $response;
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
         }
 
