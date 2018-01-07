@@ -257,7 +257,7 @@ class GraphicsController extends Controller
 
         if (count($goods_arr) > 0) {
             $onlineOrder = $this->bookRepository->saveOrder($email, $phone,
-                $name, $province, $district, $address, $payment, $goods_arr, $onlinePurchase, $bankCode, (int)$request->ship_price);
+                $name, $province, $district, $address, $payment, $goods_arr, $onlinePurchase, $bankCode);
 
             if ($onlineOrder) {
                 return $onlineOrder;

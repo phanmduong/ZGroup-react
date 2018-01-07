@@ -1,7 +1,3 @@
-function formatPrice(price) {
-    return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ'
-}
-
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
@@ -49,6 +45,7 @@ var modalBuy = new Vue({
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
+
                 else
                     newGoods.push(good);
             }
@@ -135,7 +132,7 @@ var openWithoutAdd = new Vue({
             axios.get(window.url + '/count-books-from-session')
                 .then(function (response) {
                     this.books_count = response.data;
-                    if (this.books_count === 0)
+                    if(this.books_count === 0)
                         modalBuy.disablePurchaseButton = true;
                 }.bind(this))
                 .catch(function (error) {
@@ -150,7 +147,6 @@ var openWithoutAdd = new Vue({
         },
     },
     mounted: function () {
-        $('#booksCount').css('display', 'flex');
         this.countBooksFromSession();
     },
 });
@@ -174,10 +170,7 @@ var modalPurchase = new Vue({
         districts: [],
         message: '',
         onlinePurchase: "ATM_ONLINE",
-        bank_code: "",
-        isSaving: false,
-        goodsPrice: 0,
-        shipPrice: 0
+        bank_code: ""
     },
     methods: {
         getProvinces: function () {
@@ -207,55 +200,37 @@ var modalPurchase = new Vue({
         },
         changeProvince: function () {
             this.loadingDistrict = true;
-            this.goodsPrice = modalBuy.total_price;
             this.getDistricts();
-            if (this.provinceid === "01" || this.provinceid === "79") {
-                this.shipPrice = 20000;
-            } else {
-                this.shipPrice = 30000;
-            }
-            // modalBuy
         },
-        changeOnlinePurchase: function () {
-            this.bank_code = "";
-        },
-        showError: function (message) {
-            this.message = message;
-            this.isSaving = false;
-        },
-        validateEmail: function validateEmail(email) {
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(email.toLowerCase());
+        validateEmail: function (email) {
+            var atpos = email.indexOf("@");
+            var dotpos = email.lastIndexOf(".");
+            if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
+                return false;
+            return true;
         },
         submitOrder: function () {
-            this.message = "";
-
-            if (!this.name || !this.phone ||
-                !this.email || !this.address ||
-                !this.payment) {
-                this.showError("Bạn vui lòng nhập đủ thông tin");
+            $("#purchase-error").css("display", "none");
+            $("#btn-purchase-group").css("display", "none");
+            $("#purchase-loading-text").css("display", "block");
+            if (!this.name || !this.phone || !this.email || !this.address || !this.payment) {
+                this.message = "Bạn vui lòng nhập đủ thông tin";
+                $("#purchase-error").css("display", "block");
+                $("#purchase-loading-text").css("display", "none");
+                $("#btn-purchase-group").css("display", "block");
                 return;
             }
-
-            if (this.validateEmail(this.email) === false) {
-                this.showError("Bạn vui lòng kiểm tra lại email");
+            if(this.validateEmail(this.email) === false) {
+                this.message = "Bạn vui lòng kiểm tra lại email";
+                $("#purchase-error").css("display", "block");
+                $("#purchase-loading-text").css("display", "none");
+                $("#btn-purchase-group").css("display", "block");
                 return;
             }
-
-            if (this.payment === "Thanh toán online") {
-                if (this.bank_code === "") {
-                    this.showError("Bạn vui lòng hoàn thành phương thức thanh toán");
-                    return;
-                }
-            }
-
-            this.isSaving = true;
-
             axios.post(window.url + '/save-order', {
                 name: this.name,
                 phone: this.phone,
                 email: this.email,
-                ship_price: this.shipPrice,
                 provinceid: this.provinceid ? this.provinceid : '01',
                 districtid: this.districtid ? this.districtid : '001',
                 address: this.address,
@@ -265,15 +240,11 @@ var modalPurchase = new Vue({
                 _token: window.token
             })
                 .then(function (response) {
-                    this.isSaving = false;
                     if (this.payment === "Thanh toán online") {
-                        if (response.data.checkout_url) {
-                            window.location.href = response.data.checkout_url;
-                        } else {
-                            this.message = response.data.message;
-                        }
+                        window.location.href = response.data.checkout_url;
                     } else {
                         $("#purchase-loading-text").css("display", "none");
+                        $("#btn-purchase-group").css("display", "block");
                         $("#modalPurchase").modal("hide");
                         $("#modalSuccess").modal("show");
                         name = "";

@@ -2845,9 +2845,3 @@ Pricint fiv
 .course-term .collapsed .fa {
     transform: rotate(90deg);
 }
-
-@media (min-width: 768px) {
-    #modalLogin .modal-dialog {
-        width: 400px !important;
-    }
-}

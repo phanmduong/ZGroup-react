@@ -87,9 +87,10 @@
     }, 0);
 </script>
 
-<div class="fb-customerchat"
-     page_id="1809252865962104"
-     ref="">
+<div
+        class="fb-customerchat"
+        page_id="1809252865962104"
+        ref="">
 </div>
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
     <div class="container">
@@ -122,8 +123,8 @@
                         <i class="fa fa-shopping-cart"></i>
                         &nbsp
                         Giỏ hàng
-                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
+                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
                             @{{ books_count }}
                         </div>
                     </a>
@@ -152,42 +153,37 @@
                     <h6>Email</h6>
                     <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
-                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;">
-                        @include("graphics::loading")
+                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>
                     </div>
-                    <div v-if="showProvince">
-                        <select v-model="provinceid"
-                                v-on:change="changeProvince"
-                                class="form-control" placeholder="Tỉnh/Thành phố">
-                            <option value="">Tỉnh, Thành phố</option>
-                            <option v-for="province in provinces" v-bind:value="province.provinceid">
-                                @{{province.name}}
-                            </option>
-                        </select>
-
-                        <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;">
-                            @include("graphics::loading")
-                        </div>
-
-                        <div v-if="showDistrict">
-                            <select v-model="districtid"
-                                    class="form-control"
-                                    style="margin-top: 5px"
-                                    id="">
-                                <option value="">Quận, Huyện</option>
-                                <option v-for="district in districts" v-bind:value="district.districtid">
-                                    @{{district.name}}
-                                </option>
-                            </select>
-                            <input v-model="address" type="text" class="form-control"
-                                   placeholder="Đường, số nhà"
-                                   style="margin-top: 5px"><br>
-                        </div>
-
-
+                    <select v-if="showProvince"
+                            v-model="provinceid"
+                            v-on:change="changeProvince"
+                            class="form-control" placeholder="Tỉnh/Thành phố">
+                        <option value="">Tỉnh, Thành phố</option>
+                        <option v-for="province in provinces" v-bind:value="province.provinceid">
+                            @{{province.name}}
+                        </option>
+                    </select>
+                    <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>
                     </div>
+                    <select v-if="showDistrict"
+                            v-model="districtid"
+                            class="form-control"
+                            style="margin-top: 5px"
+                            id="">
+                        <option value="">Quận, Huyện</option>
+                        <option v-for="district in districts" v-bind:value="district.districtid">
+                            @{{district.name}}
+                        </option>
+                    </select>
 
-                    <h6 style="margin-top: 15px;">Phương thức thanh toán</h6>
+
+                    <input v-model="address" type="text" class="form-control"
+                           placeholder="Đường, số nhà"
+                           style="margin-top: 5px"><br>
+                    <h6>Phương thức thanh toán</h6>
                     <select v-model="payment" class="form-control" id="sel1">
                         <option value="Thanh toán online">Thanh toán online</option>
                         <option value="Chuyển khoản">Chuyển khoản</option>
@@ -196,29 +192,18 @@
                         </option>
                     </select>
                 </form>
-
-                @include("graphics::checkout.online")
-                @include("graphics::checkout.transfer")
-
-
-                <div v-if="shipPrice" class="alert alert-info" style="margin-top: 10px">
-                    Phí ship: <strong>@{{ formatPrice(shipPrice) }}</strong> <br/>
-                    Tổng giá trị đơn hàng (Đã bao gồm phí Ship): <strong>@{{ formatPrice(goodsPrice +
-                        shipPrice)}}</strong>
-                </div>
-
-                <div class="alert alert-danger" v-if="message"
-                     style="margin-top: 10px"
-                     id="purchase-error">
+                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     @{{ message }}
                 </div>
 
 
+                @include("graphics::checkout.online")
+                @include("graphics::checkout.transfer")
             </div>
-            <div v-if="isSaving" id="purchase-loading-text">
-                @include("graphics::loading")
-            </div>
-            <div class="modal-footer" v-if="!isSaving">
+            <div class="modal-footer" style="display: block">
+                <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
+                            class='fa fa-spin fa-spinner'></i>Đang tải...
+                </div>
                 <div id="btn-purchase-group" style="text-align: right">
                     <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>
@@ -246,8 +231,8 @@
             <div class="modal-body" id="modal-buy-body">
                 <div>
                     <br>
-                    <div v-if="isLoading">
-                        @include("graphics::loading")
+                    <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>Đang tải...
                     </div>
                     <div v-for="good in goods">
                         <div class="row" style="margin-bottom:20px;">
@@ -301,11 +286,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link"
+                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
                             style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                    <button id="btn-purchase"
-                            {{--disabled="true"--}}
-                            v-bind:disabled="disablePurchaseButton"
+                    <button id="btn-purchase" v-bind:disabled="disablePurchaseButton"
                             v-on:click="openPurchaseModal()"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                                 class="fa fa-angle-right"></i></button>
