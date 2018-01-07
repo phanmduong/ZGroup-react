@@ -121,4 +121,18 @@ class WorkApiController extends ManageApiController
            "message" => "Xóa thành công"
         ]);
     }
+    public function acceptHistoryExtension($historyId,Request $request){
+        $history = HistoryExtensionWork::find($historyId);
+        if(!$history) return $this->respondErrorWithStatus("Không tồn tại");
+        $work = Work::find($history->work_id);
+        $work_staff = WorkStaff::where('work_id',$history->work_id)->where('staff_id',$history->staff_id);
+        $work->reason = $history->reason;
+        $work->save();
+        $work_staff->penalty = $history->penalty;
+        $work_staff->save();
+        $history->delete();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+    }
 }
