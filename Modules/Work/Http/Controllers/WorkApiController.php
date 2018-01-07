@@ -113,4 +113,12 @@ class WorkApiController extends ManageApiController
            })
         ]);
     }
+    public function deleteHistoryExtension($historyId,Request $request){
+        $history = HistoryExtensionWork::find($historyId);
+        if(!$history) return $this->respondErrorWithStatus("Không tồn tại");
+        $history->delete();
+        return $this->respondSuccessWithStatus([
+           "message" => "Xóa thành công"
+        ]);
+    }
 }

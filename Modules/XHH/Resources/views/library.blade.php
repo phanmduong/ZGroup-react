@@ -20,23 +20,29 @@
         </div>
     </div>
 
-    <div class="blog-4" style="margin-top:150px">
+    <div class="blog-4" style="margin-top:20px">
         <div class="container">
             <div class="description">
-                <h1 class="medium-title">
-                    Sách mới cập nhật<br>
-                </h1>
+                <input placeholder="Tìm kiếm" id="search-book"
+                       style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                       type="text" v-on:keyup.enter="searchBook" v-model="search" value="{{$search}}"/>
             </div>
             <div class="row">
                 @foreach($books as $book)
                     <div class="col-md-3">
                         <div class="card card-profile" style="border-radius: 0px;">
-                            <div style="padding: 3%;">
+                            <a style="padding: 3%;" href="/book/{{$book->id}}">
                                 <div style="background-image: url('{{$book->avatar_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>
-                            </div>
+                            </a>
                             <div>
                                 <div class="container text-left" style="min-height: 130px;"><br>
-                                    <p style="font-weight: 600;">{{$book->name}}</p>
+                                    @if($book->properties()->where('name','TYPE_BOOK')->first())
+                                        <a href="/all-books?page=1&search={{$book->properties()->where('name','TYPE_BOOK')->first()->value}}"
+                                           class="label label-danger"
+                                           style="color: white;">{{$book->properties()->where('name','TYPE_BOOK')->first()->value}}</a>
+                                        <br>
+                                    @endif
+                                    <a href="/book/{{$book->id}}" style="font-weight: 600;">{{$book->name}}</a>
                                     <p>{{shortString($book->description, 12)}}</p>
                                 </div>
                             </div>
@@ -66,3 +72,20 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var search = new Vue({
+            el: '#search-book',
+            data: {
+                search: '{!! $search !!}'
+            },
+            methods: {
+                searchBook: function () {
+                    window.open('/all-books?page=1&search=' + this.search, '_self');
+                }
+            }
+
+        })
+    </script>
+@endpush

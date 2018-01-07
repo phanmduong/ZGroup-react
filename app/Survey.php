@@ -29,4 +29,20 @@ class Survey extends Model
             ->withPivot('start_time_display', 'time_display')
             ->withTimestamps();
     }
+
+    public function getData() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'user' => $this->user ? $this->user->getData() : null,
+        ];
+    }
+
+    public function getDetailedData() {
+        $data = $this->getData();
+        $data['questions'] = $this->questions->map(function ($question){
+            return $question->getData();
+        });
+        return $data;
+    }
 }

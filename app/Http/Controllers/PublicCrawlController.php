@@ -25,15 +25,10 @@ class PublicCrawlController extends CrawlController
         $this->courseTransformer = $courseTransformer;
         $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
         $this->data['courses'] = $courses;
-        if (!empty(Auth::user())) {
-            $this->user = Auth::user();
-            $this->data['user'] = $this->user;
-        }
     }
 
     public function home()
     {
-
         $current_gen = Gen::getCurrentGen();
         $this->data['gen_cover'] = $current_gen->cover_url;
         return view('2018-beta', $this->data);
@@ -99,12 +94,11 @@ class PublicCrawlController extends CrawlController
             ];
         });
 
+        $this->data['course'] = $course;
+        $this->data['lesson_selected'] = $lesson;
+        $this->data['lessons'] = $lessons;
 
-        return view('public.course_online_detail', [
-            'course' => $course,
-            'lesson_selected' => $lesson,
-            'lessons' => $lessons,
-        ]);
+        return view('public.course_online_detail', $this->data);
     }
 
     public function post($LinkId)

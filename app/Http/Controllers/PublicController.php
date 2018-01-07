@@ -48,6 +48,8 @@ class PublicController extends Controller
     {
         $this->data = array();
         $this->data['rating'] = false;
+        $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
+        $this->data['courses'] = $courses;
         if (!empty(Auth::user())) {
             $this->user = Auth::user();
             $this->data['user'] = $this->user;
@@ -914,7 +916,9 @@ class PublicController extends Controller
 
     public function send_noti_test()
     {
-        return response()->json(send_notification_browser([], 123));
+        $a = new WorkShiftsCheckInCheckOutNoti();
+        $a->handle();
+        return "test";
     }
 
     public function codeForm()
