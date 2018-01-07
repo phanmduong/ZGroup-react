@@ -107,6 +107,7 @@ class Order extends Model
                 ];
         if ($this->user) {
             $data['customer'] = [
+                'id' => $this->user->id,
                 'name' => $this->user->name,
                 'address' => $this->user->address,
                 'phone' => $this->user->phone,
@@ -171,6 +172,7 @@ class Order extends Model
                 ];
         if ($this->user) {
             $data['customer'] = [
+                'id' => $this->user->id,
                 'name' => $this->user->name,
                 'address' => $this->user->address,
                 'phone' => $this->user->phone,

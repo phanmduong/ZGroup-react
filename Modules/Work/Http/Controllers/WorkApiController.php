@@ -4,11 +4,13 @@ namespace Modules\Work\Http\Controllers;
 
 use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
+use App\User;
 use App\Work;
 use App\WorkStaff;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class WorkApiController extends ManageApiController
 {
@@ -69,9 +71,9 @@ class WorkApiController extends ManageApiController
         $work->deadline = $request->deadline;
         $work->bonus_value = $request->bonus_value ? $request->bonus_value : 0;
         $work->bonus_type = $request->bonus_type;
-        if($work->status == "done" && $request->status == "doing"){
-            $work_staffs = WorkStaff::where('work_id',$workId)->get();
-            foreach ($work_staffs as $work_staff){
+        if ($work->status == "done" && $request->status == "doing") {
+            $work_staffs = WorkStaff::where('work_id', $workId)->get();
+            foreach ($work_staffs as $work_staff) {
                 $work_staff->status = "doing";
             }
         }
@@ -105,27 +107,58 @@ class WorkApiController extends ManageApiController
         ]);
 
     }
-    public function getAllExtension(Request $request){
-        $logs = HistoryExtensionWork::orderBy('created_at','desc')->get();
-        return $this->respondSuccessWithStatus([
-           "logs" => $logs->map(function($log){
-               return $log->transform();
-           })
+
+    public function getAllExtension(Request $request)
+    {
+        $keyword = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $logs = HistoryExtensionWork::join('users', 'history_extension_works.staff_id', '=', 'users.id')
+            ->join('works', 'history_extension_works.work_id', '=', 'works.id')->select('history_extension_works.*')
+            ->where(function($query)use ($keyword){
+                $query->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name','like', '%' . $keyword . '%');
+            })->orderBy('history_extension_works.created_at', 'desc')->paginate($limit);
+
+        //dd($logs);
+        return $this->respondWithPagination($logs, [
+            'logs' => $logs->map(function($log){
+                $staff = User::find($log->staff_id);
+                $work = Work::find($log->work_id);
+                return [
+                    "id" => $log->id,
+                    "reason" => $log->reason,
+                    "penalty" => $log->penalty,
+                    "deadline" => $work->deadline,
+                    "new_deadline" => $log->new_deadline,
+                    "staff" => [
+                        "id" => $staff->id,
+                        "name" => $staff->name,
+                    ],
+                    "work" => [
+                        "id" => $work->id,
+                        "name" => $work->name
+                    ]
+                ];
+            })
+
         ]);
     }
-    public function deleteHistoryExtension($historyId,Request $request){
+
+    public function deleteHistoryExtension($historyId, Request $request)
+    {
         $history = HistoryExtensionWork::find($historyId);
-        if(!$history) return $this->respondErrorWithStatus("Không tồn tại");
+        if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $history->delete();
         return $this->respondSuccessWithStatus([
-           "message" => "Xóa thành công"
+            "message" => "Xóa thành công"
         ]);
     }
-    public function acceptHistoryExtension($historyId,Request $request){
+
+    public function acceptHistoryExtension($historyId, Request $request)
+    {
         $history = HistoryExtensionWork::find($historyId);
-        if(!$history) return $this->respondErrorWithStatus("Không tồn tại");
+        if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $work = Work::find($history->work_id);
-        $work_staff = WorkStaff::where('work_id',$history->work_id)->where('staff_id',$history->staff_id)->first();
+        $work_staff = WorkStaff::where('work_id', $history->work_id)->where('staff_id', $history->staff_id)->first();
         $work->reason = $history->reason;
         $work->save();
         $work_staff->penalty = $history->penalty;
