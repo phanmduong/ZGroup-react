@@ -169,7 +169,9 @@ class OrderController extends ManageApiController
             ]);
 
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
-            $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
+            $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
+            if($response->status == 0)
+                return $response;
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
         }
 
@@ -237,8 +239,9 @@ class OrderController extends ManageApiController
             }
         }
 
-        $this->changeOrderStatus($order_id, $request);
-
+        $response = $this->changeOrderStatus($order_id, $request);
+        if($response->status == 0)
+            return $response;
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
