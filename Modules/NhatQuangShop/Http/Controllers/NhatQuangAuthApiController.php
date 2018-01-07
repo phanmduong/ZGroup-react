@@ -18,7 +18,7 @@ class NhatQuangAuthApiController extends PublicApiController
     {
     }
 
-    public function login($subfix, Request $request)
+    public function login(Request $request)
     {
         $email = $request->email;
         $password = $request->password;
