@@ -122,7 +122,60 @@
      id="vue-nav"
      style="height:35px; background:#272727!important">
 
+    <div class="modal fade " id="updateUserInfoModal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-register">
+            <div class="modal-content">
+                <div class="modal-header no-border-header text-center">
+                    <h3 class="modal-title text-center">Nhật Quang Shop</h3>
+                    <p>Bạn vui lòng hoàn thành thông tin trước khi tiếp tục</p>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input v-model="user.phone" type="text" value="" placeholder="Email"
+                               class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu</label>
+                        <input v-model="user.newPassword" type="password" value="" placeholder="Mật khẩu"
+                               class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Xác nhận Mật khẩu</label>
+                        <input v-model="user.confirmPassword" type="password" value="" placeholder="Xác nhận mật khẩu"
+                               class="form-control"/>
+                    </div>
+                    <div v-if="hasError" class="alert alert-danger" style="text-align: center">
+                        Sai email hoặc mật khẩu
+                    </div>
+
+                    <button :disabled="user.phone ==='' || user.password === '' || isLoading"
+                            v-on:click="onClickLoginButton"
+                            class="btn btn-block btn-round">
+                        <div v-if="isLoading" class="uil-reload-css reload-small" style="">
+                            <div></div>
+                        </div>
+                        Cập nhật
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     @if(isset($user))
+
+        @if(!$user->first_login)
+            <script>
+                $(document).ready(function () {
+                    console.log("abc");
+                    $("#updateUserInfoModal").modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                });
+            </script>
+        @endif
+
+
         <div class="container">
             <div style="text-align:right; width:100%">
                 <a href="/profile"
@@ -169,8 +222,8 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label>Email</label>
-                                    <input v-model="user.email" type="text" value="" placeholder="Email"
+                                    <label>Số điện thoại</label>
+                                    <input v-model="user.phone" type="text" value="" placeholder="Email"
                                            class="form-control"/>
                                 </div>
                                 <div class="form-group">
@@ -182,7 +235,7 @@
                                     Sai email hoặc mật khẩu
                                 </div>
 
-                                <button :disabled="user.email ==='' || user.password === '' || isLoading"
+                                <button :disabled="user.phone ==='' || user.password === '' || isLoading"
                                         v-on:click="onClickLoginButton"
                                         class="btn btn-block btn-round">
                                     <div v-if="isLoading" class="uil-reload-css reload-small" style="">

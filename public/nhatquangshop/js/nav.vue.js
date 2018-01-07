@@ -6,8 +6,10 @@ var navVue = new Vue({
         isLoading: false,
         showLoggedNav: false,
         user: {
+            phone: "",
             email: "",
-            password: ""
+            password: "",
+            facebook_id: ""
         }
     },
     methods: {
@@ -17,8 +19,18 @@ var navVue = new Vue({
                 if (response.status === 'connected') {
                     axios.get("/api/facebook/tokensignin?input_token=" + response.authResponse.accessToken + "&facebook_id=" + response.authResponse.userID)
                         .then(function (res) {
+
                             if (res.data.status === 1) {
-                                navVue.changeLoginCondition(res.data.user);
+                                var user = res.data.user;
+                                navVue.changeLoginCondition(user);
+                                console.log(user.first_login);
+                                if (!user.first_login) {
+                                    $("#updateUserInfoModal").modal({
+                                        backdrop: 'static',
+                                        keyboard: false
+                                    });
+                                }
+
                             } else {
                                 $("#loginFailNoticeModal").modal("toggle");
                             }
