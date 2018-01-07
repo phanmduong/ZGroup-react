@@ -58,9 +58,4 @@ class NhatQuangShopManageController extends Controller
         return view("nhatquangshop::infoOrder", $this->data);
     }
 
-    public function transferMoney()
-    {
-        return view("nhatquangshop::transfer_money");
-    }
-
 }

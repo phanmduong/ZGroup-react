@@ -17,7 +17,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <select class="selectpicker" data-style="btn btn-default" name="account_transfer" style="display: block !important;">
+                            <select class="selectpicker" data-style="btn btn-default" name="account_transfer"
+                                    style="display: block !important;">
                                 <option disabled="" selected="">Phương thức thanh toán</option>
                                 <option value="1">Chuyển khoản</option>
                                 <option value="1">Thanh toán trực tiếp</option>
@@ -48,6 +49,15 @@
                     <th class="text-right">Trạng thái</th>
                 </tr>
                 <tbody>
+                    @foreach($transfers as $transfer)
+                        <tr>
+                            <td class="text-center">{{$transfer->transfer_day}}</td>
+                            <td class="text-center">{{$transfer->money_transfer}}</td>
+                            <td class="text-center">{{$transfer->account_transfer}}</td>
+                            <td class="text-center">{{$transfer->note}}</td>
+                            <td class="text-center">Trà sữa chee</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

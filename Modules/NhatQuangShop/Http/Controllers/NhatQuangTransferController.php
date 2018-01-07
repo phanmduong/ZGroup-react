@@ -30,6 +30,13 @@ class NhatQuangTransferController extends Controller
                 $this->data['user'] = $this->user;
             }
         }
+
+        public function transferMoneys(){
+            $transfers = $this->user->transferMoneys->orderBy('created_at');
+            $this->data['transfers'] = $transfers;
+            return view('nhatquangshop::transfer_money',$this->data)->with('noti', 'Gửi thành công');
+        }
+
         public function createTransfer(Request $request){
             $validator = Validator::make($request->all(), [
                 'money_transfer' => 'required',
@@ -55,8 +62,9 @@ class NhatQuangTransferController extends Controller
            $transfer->note = $request->note;
            $transfer->account_transfer = $request->account_transfer;
            $transfer->save();
-           $tranfers = TransferMoney::where('user_id', '=', $user->id );
-           $data['transfers'] = $tranfers;
-           return view('nhatquangshop::transfer_money',$data)->with('noti', 'Gửi thành công');
+           $transfers = $this->user->transferMoneys;
+
+           $this->data['transfers'] = $transfers;
+           return view('nhatquangshop::transfer_money',$this->data)->with('noti', 'Gửi thành công');
         }
 }
