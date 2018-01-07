@@ -916,7 +916,9 @@ class PublicController extends Controller
 
     public function send_noti_test()
     {
-        return response()->json(send_notification_browser([], 123));
+        $a = new WorkShiftsCheckInCheckOutNoti();
+        $a->handle();
+        return "test";
     }
 
     public function codeForm()

@@ -27,10 +27,8 @@ class CourseTypeApiController extends ManageApiController
 
     }
 
-    public function addType(Request $request)
+    public function assignTypeInfo(&$type, $request)
     {
-        $type = new CourseType();
-
         $type->name = $request->name;
         $type->color = $request->color;
         $type->image_url = $request->image_url;
@@ -38,40 +36,60 @@ class CourseTypeApiController extends ManageApiController
         $type->cover_url = $request->cover_url;
         $type->short_description = $request->short_description;
         $type->description = $request->description;
-
         $type->save();
+    }
 
+    public function getTypes(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $search = $request->search;
+
+        $types = CourseType::query();
+        $types = $types->where('name', 'like', '%' . $search . '%');
+        if ($limit == -1) {
+            $types = $types->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'types' => $types->map(function ($type) {
+                    return $type->getData();
+                })
+            ]);
+        }
+
+        $types = $types->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination(
+            $types,
+            [
+                'types' => $types->map(function ($type) {
+                    return $type->getData();
+                })
+            ]);
+    }
+
+    public function addType(Request $request)
+    {
+        $type = new CourseType();
+        $this->assignTypeInfo($type, $request);
         return $this->respondSuccessWithStatus([
             'type' => $type
         ]);
     }
 
-    public function editType($type_id, Request $request)
+    public function editType($typeId, Request $request)
     {
-        $type = new CourseType($type_id);
+        $type = CourseType::find($typeId);
 
         if ($type == null) {
             return $this->respondErrorWithStatus("Không tồn tại");
         }
-
-        $type->name = $request->name;
-        $type->color = $request->color;
-        $type->image_url = $request->image_url;
-        $type->icon_url = $request->icon_url;
-        $type->cover_url = $request->cover_url;
-        $type->short_description = $request->short_description;
-        $type->description = $request->description;
-
-        $type->save();
-
+        $this->assignTypeInfo($type, $request);
         return $this->respondSuccessWithStatus([
             'type' => $type
         ]);
     }
 
-    public function deleteType($type_id)
+    public function deleteType($typeId)
     {
-        $type = new CourseType($type_id);
+        $type = new CourseType($typeId);
 
         if ($type == null) {
             return $this->respondErrorWithStatus("Không tồn tại");

@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'domain' => "nhatquangshop.{subfix}", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], function () {
+Route::group(['middleware' => 'web', 'domain' => "keetool.{subfix}", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], function () {
     Route::get('/', 'NhatQuangShopController@index');
     Route::get('/contact-us', 'NhatQuangShopController@contact_us');
     Route::get('/about-us', 'NhatQuangShopController@aboutUs');

@@ -54,7 +54,8 @@
                                         <div class="comment-block">
                                                 <textarea name="" id="" cols="30" rows="3"
                                                           v-model="comment"
-                                                          v-on:keyup.enter="createComment({{$lesson_selected->id}})"
+                                                          @keydown="createComment($event,{{$lesson_selected->id}})"
+                                                          :disabled="isStoring"
                                                           placeholder="Đặt câu hỏi"></textarea>
                                         </div>
                                     </div>
@@ -67,7 +68,8 @@
                                         <div class="comment-block">
                                             <textarea name="" id="" cols="30" rows="3"
                                                       v-model="comment"
-                                                      v-on:keyup.enter="createComment({{$lesson_selected->id}})"
+                                                      :disabled="isStoring"
+                                                      @keydown="createComment($event,{{$lesson_selected->id}})"
                                                       placeholder="Đặt câu hỏi"></textarea>
                                         </div>
                                     </div>
