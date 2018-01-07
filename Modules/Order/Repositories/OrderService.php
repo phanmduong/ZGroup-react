@@ -84,7 +84,7 @@ class OrderService
             if ($goodOrder->quantity > $quantity)
                 return [
                     'status' => 0,
-                    'message' => 'Thiếu hàng:' . $goodOrder->good->name,
+                    'message' => 'Thiếu hàng: ' . $goodOrder->good->name,
                 ];
         }
         foreach ($order->goodOrders as $goodOrder)
