@@ -169,6 +169,7 @@ class OrderController extends ManageApiController
             ]);
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
             $response = $this->exportOrderService($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
+            dd($response);
             if ($response->status == 0)
                 return $this->respondErrorWithStatus([
                     'message' => $response->message,
@@ -412,6 +413,7 @@ class OrderController extends ManageApiController
         $returnOrder->code = $request->code ? $request->code : 'RETURN' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $returnOrder->staff_id = $this->user->id;
         $returnOrder->status = $request->status;
+        $returnOrder->type = 'RETURN';
         $returnOrder->save();
 
         $good_orders = json_decode($request->good_orders);
