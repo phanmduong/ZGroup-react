@@ -9,7 +9,7 @@ use App\Http\Controllers\PublicApiController;
 use App\Province;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\NhatQuangShop\Repositories\BookRepository;
 
 class NhatQuangApiController extends PublicApiController
 {
