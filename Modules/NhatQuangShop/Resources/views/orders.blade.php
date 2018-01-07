@@ -45,10 +45,8 @@
                 @endif
                 </tbody>
             </table>
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-8" style="margin: auto">
-                    <ul class="pagination pagination-primary">
+            <div class="col-md-12">
+                    <ul class="pagination pagination-primary" style="justify-content: flex-end;">
                         @if($orders->currentPage() != 1)
                             <li class="page-item">
                                 <a class="page-link" href="/manage/orders?page=1"
@@ -92,7 +90,6 @@
                         @else
                         @endif
                     </ul>
-                </div>
             </div>
         </div>
     </div>
