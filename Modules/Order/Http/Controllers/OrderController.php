@@ -168,10 +168,11 @@ class OrderController extends ManageApiController
                 'message' => 'Cant change completed import order'
             ]);
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
-            $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
-//            if ($response->data->status == 0)
-//                return $response;
-            dd($response);
+            $response = $this->exportOrderService($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
+            if ($response->status == 0)
+                return $this->respondErrorWithStatus([
+                    'message' => $response->message,
+                ]);
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
         }
 
@@ -349,13 +350,14 @@ class OrderController extends ManageApiController
         }
     }
 
-    public function exportOrder($orderId, $warehouseId)
+    public function exportOrderService($orderId, $warehouseId)
     {
         $order = Order::find($orderId);
         if ($order->exported == true)
-            return $this->respondErrorWithStatus([
+            return [
+                'status' => 0,
                 'message' => 'Đã xuất hàng'
-            ]);
+            ];
         $order->exported = false;
         $order->save();
         foreach ($order->goodOrders as $goodOrder) {
@@ -363,14 +365,28 @@ class OrderController extends ManageApiController
                 ->where('warehouse_id', $warehouseId)
                 ->sum('quantity');
             if ($goodOrder->quantity > $quantity)
-                return $this->respondErrorWithStatus([
+                return [
+                    'status' => 0,
                     'message' => 'Thiếu hàng:' . $goodOrder->good->name,
-                ]);
+                ];
         }
         foreach ($order->goodOrders as $goodOrder)
             $this->importedGoodsExportProcess($goodOrder, $warehouseId);
+        return [
+            'status' => 1,
+            'message' => 'SUCCESS',
+        ];
+    }
+
+    public function exportOrder($orderId, $warehouseId)
+    {
+        $response = $this->exportOrderService($orderId, $warehouseId);
+        if($response->status == 0)
+            return $this->respondErrorWithStatus([
+                'message' => $response->message,
+            ]);
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'message' => $response->message,
         ]);
     }
 
