@@ -29,7 +29,7 @@ class Comment extends Model
         return $this->hasMany(Comment::class, 'parent_id');
     }
 
-    public function transform($user)
+    public function transform($user = null)
     {
         return [
             'id' => $this->id,
@@ -41,7 +41,7 @@ class Comment extends Model
                 'username' => $this->commenter->username
             ],
             'count_like' => $this->likes,
-            'is_liked' => $this->comment_likes()->where('user_id', $user->id)->first() ? true : false
+            'is_liked' => $user && $this->comment_likes()->where('user_id', $user->id)->first() ? true : false
         ];
     }
 

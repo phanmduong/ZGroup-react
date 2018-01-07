@@ -29,11 +29,6 @@ class ElearningApiController extends Controller
         }
     }
 
-    public function uploadImageComment(Request $request)
-    {
-
-    }
-
     public function storeComment($lesson_id, Request $request)
     {
 
@@ -96,6 +91,11 @@ class ElearningApiController extends Controller
             'status' => 1,
             'message' => 'Thành công'
         ];
+    }
 
+    public function uploadImageComment(Request $request)
+    {
+        $image_name = uploadFileToS3($request, 'image', 800, null);
+        return (['link' => config('app.protocol') . trim_url($this->s3_url . $image_name)]);
     }
 }

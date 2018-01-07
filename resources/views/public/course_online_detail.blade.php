@@ -61,6 +61,28 @@
                                                 <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">
                                                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
                                                 </div>
+                                                <div style="position: absolute; bottom: 0px; right: 0px;"
+                                                     v-if="!isUploading">
+                                                    <i style="font-size:18px; color: #888888; cursor: pointer;"
+                                                       class="fa fa-camera" aria-hidden="true">
+                                                        <input type="file"
+                                                               accept=".jpg,.png,.gif"
+                                                               v-on:change="handleFileUpload($event)"
+                                                               v-model="file"
+                                                               style="
+                                                        cursor: pointer!important;
+                                                        opacity: 0.0;
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+                                                        bottom: 0;
+                                                        right: 0;
+                                                        width: 20px;
+                                                        height: 20px
+                                                        "
+                                                        />
+                                                    </i>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -79,6 +101,26 @@
                                                           placeholder="Đặt câu hỏi"></textarea>
                                                 <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">
                                                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                                </div>
+                                                <div style="position: absolute; bottom: 0px; right: 0px;"
+                                                     v-if="!isUploading">
+                                                    <i style="font-size:18px; color: #888888; cursor: pointer;"
+                                                       class="fa fa-camera" aria-hidden="true">
+                                                        <input type="file"
+                                                               accept=".jpg,.png,.gif"
+                                                               v-on:change="handleFileUpload($event)"
+                                                               style="
+                                                        cursor: pointer;
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+                                                        bottom: 0;
+                                                        right: 0;
+                                                        width: 20px;
+                                                        height: 20px
+                                                        "
+                                                        />
+                                                    </i>
                                                 </div>
                                             </div>
 
@@ -146,7 +188,52 @@
                 @if(isset($user))
             vueData.isLogin = true;
         vueData.user = JSON.parse(localStorage.getItem('auth')).user;
+
         @endif
+
+        function changeLikeComment(vue) {
+            if (vue.comment.is_liked) {
+                vue.comment.count_like -= 1;
+            } else {
+                vue.comment.count_like += 1;
+            }
+            vue.comment.is_liked = !vue.comment.is_liked;
+            var url = "/elearning/" + vue.comment.id + "/like-comment";
+            axios.post(url, {
+                liked: vue.comment.is_liked
+            }).then(function (res) {
+                    if (res.data.status == 0) {
+                        if (vue.comment.is_liked) {
+                            vue.comment.count_like -= 1;
+                        } else {
+                            vue.comment.count_like += 1;
+                        }
+                        vue.comment.is_liked = !vue.comment.is_liked;
+                    }
+                }.bind(vue)
+            ).catch(function () {
+                if (vue.comment.is_liked) {
+                    vue.comment.count_like -= 1;
+                } else {
+                    vue.comment.count_like += 1;
+                }
+                vue.comment.is_liked = !vue.comment.is_liked;
+            }.bind(vue));
+        }
+
+        function handleFileUploadImage(vue, event) {
+            console.log(event);
+//            let formData = new FormData();
+//            formData.append('file', file);
+//            formData.append('index', index);
+//            let ajax = new XMLHttpRequest();
+//            ajax.addEventListener("load", completeHandler, false);
+//            ajax.upload.onprogress = progressHandler;
+//            ajax.addEventListener("error", error, false);
+//            ajax.open("POST", url);
+//            ajax.send(formData);
+        }
+
         Vue.component('comment-child', {
             props: ['comment'],
             data: function () {
@@ -181,33 +268,7 @@
             '                                    </div>',
             methods: {
                 changeLike: function () {
-                    if (this.comment.is_liked) {
-                        this.comment.count_like -= 1;
-                    } else {
-                        this.comment.count_like += 1;
-                    }
-                    this.comment.is_liked = !this.comment.is_liked;
-                    var url = "/elearning/" + this.comment.id + "/like-comment";
-                    axios.post(url, {
-                        liked: this.comment.is_liked
-                    }).then(function (res) {
-                            if (res.data.status == 0) {
-                                if (this.comment.is_liked) {
-                                    this.comment.count_like -= 1;
-                                } else {
-                                    this.comment.count_like += 1;
-                                }
-                                this.comment.is_liked = !this.comment.is_liked;
-                            }
-                        }.bind(this)
-                    ).catch(function () {
-                        if (this.comment.is_liked) {
-                            this.comment.count_like -= 1;
-                        } else {
-                            this.comment.count_like += 1;
-                        }
-                        this.comment.is_liked = !this.comment.is_liked;
-                    }.bind(this));
+                    changeLikeComment(this);
                 }
             }
         });
@@ -218,7 +279,8 @@
                     login: vueData,
                     commentChild: '',
                     isStoring: false,
-                    isOpenComment: false
+                    isOpenComment: false,
+                    isUploading: false
                 }
             },
             template: '<div><div class="comment-wrap">\n' +
@@ -262,6 +324,10 @@
             '                                                <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">\n' +
             '                                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>\n' +
             '                                                </div>\n' +
+            '                                                <div style="position: absolute; bottom: 0px; right: 0px" v-if="isStoring">\n' +
+            '                                                   <i style="right:10px; font-size:18px; color: #888888" class="fa fa-camera" aria-hidden="true"></i>\n' +
+            '                                                </div>\n' +
+
             '                                            </div>' +
             '                                        </div>\n' +
             '                                    </div>' +
@@ -291,34 +357,7 @@
                     }
                 },
                 changeLike: function () {
-                    if (this.comment.is_liked) {
-                        this.comment.count_like -= 1;
-                    } else {
-                        this.comment.count_like += 1;
-                    }
-                    this.comment.is_liked = !this.comment.is_liked;
-                    var url = "/elearning/" + this.comment.id + "/like-comment";
-                    axios.post(url, {
-                        liked: this.comment.is_liked
-                    }).then(function (res) {
-                            if (res.data.status == 0) {
-                                if (this.comment.is_liked) {
-                                    this.comment.count_like -= 1;
-                                } else {
-                                    this.comment.count_like += 1;
-                                }
-                                this.comment.is_liked = !this.comment.is_liked;
-                            }
-                        }.bind(this)
-                    ).catch(function () {
-                        if (this.comment.is_liked) {
-                            this.comment.count_like -= 1;
-                        } else {
-                            this.comment.count_like += 1;
-                        }
-                        this.comment.is_liked = !this.comment.is_liked;
-                    }.bind(this));
-
+                    changeLikeComment(this);
                 }
             }
         });
@@ -329,7 +368,9 @@
                     login: vueData,
                     comment: '',
                     isStoring: false,
-                    comments: {!! $comments !!}
+                    comments: {!! $comments !!},
+                    isUploading: false,
+                    file: ''
                 }
 
             },
@@ -349,7 +390,9 @@
                             }.bind(this)
                         );
                     }
-
+                },
+                handleFileUpload: function (e) {
+                    handleFileUploadImage(this, e);
                 }
             }
         });
