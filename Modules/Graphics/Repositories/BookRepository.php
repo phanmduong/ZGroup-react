@@ -175,17 +175,17 @@ class BookRepository
             $coupon = 0;
             $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
         }
-        $subject = "Xác nhận đặt hàng thành công";
-        $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
-        $emailcc = ["graphics@colorme.vn"];
-        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
-            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
-        });
-        if ($payment === "Thanh toán online") {
-            return $this->sendOrderToNganLuong($total_price, $order->id, $onlinePurchase, $bankCode, $name,
-                $address . ", " . $district . ", " . $province, $email, $phone);
-        }
+//        $subject = "Xác nhận đặt hàng thành công";
+//        $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
+//        $emailcc = ["graphics@colorme.vn"];
+//        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
+//            $m->from('no-reply@colorme.vn', 'Graphics');
+//            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
+//        });
+//        if ($payment === "Thanh toán online") {
+//            return $this->sendOrderToNganLuong($total_price, $order->id, $onlinePurchase, $bankCode, $name,
+//                $address . ", " . $district . ", " . $province, $email, $phone);
+//        }
         return null;
     }
 }
