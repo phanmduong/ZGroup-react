@@ -11,12 +11,14 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
+use Modules\Order\Repositories\OrderService;
 
 class OrderController extends ManageApiController
 {
-    public function __construct()
+    public function __construct(OrderService $orderService)
     {
         parent::__construct();
+        $this->orderService = $orderService;
     }
 
     public function statusToNum($status)
@@ -155,57 +157,6 @@ class OrderController extends ManageApiController
         );
     }
 
-    public function changeOrderStatus($orderId, Request $request)
-    {
-        $order = Order::find($orderId);
-        if ($this->user->role != 2)
-            if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
-                return $this->respondErrorWithStatus([
-                    'message' => 'Bạn không có quyền đổi trạng thái này'
-                ]);
-        if ($order->type == 'import' && $order->status == 'completed')
-            return $this->respondErrorWithStatus([
-                'message' => 'Cant change completed import order'
-            ]);
-        if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
-            $response = $this->exportOrderService($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
-            dd($response);
-            if ($response->status == 0)
-                return $this->respondErrorWithStatus([
-                    'message' => $response->message,
-                ]);
-            $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
-        }
-
-        if ($order->type == 'import' && $request->status == 'completed') {
-            $importedGoods = $order->importedGoods;
-            foreach ($importedGoods as $importedGood) {
-                $importedGood->status = 'completed';
-                $importedGood->save();
-                $history = new HistoryGood;
-                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->first();
-                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
-                $history->good_id = $importedGood->good_id;
-                $history->quantity = $importedGood->quantity;
-                $history->remain = $remain + $importedGood->quantity;
-                $history->warehouse_id = $importedGood->warehouse_id;
-                $history->type = 'import';
-                $history->order_id = $importedGood->order_import_id;
-                $history->imported_good_id = $importedGood->id;
-                $history->save();
-            }
-        }
-        $order->status = $request->status;
-        if ($request->label_id) {
-            $order->label_id = $request->label_id;
-        }
-        $order->save();
-
-        return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
-        ]);
-    }
-
     public function editOrder($order_id, Request $request)
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
@@ -241,9 +192,7 @@ class OrderController extends ManageApiController
             }
         }
 
-        $response = $this->changeOrderStatus($order_id, $request);
-        if ($response->status == 0)
-            return $response;
+        $response = $this->orderService->changeOrderStatus($order_id, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
@@ -325,72 +274,6 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function importedGoodsExportProcess($goodOrder, $warehouseId)
-    {
-        $quantity = $goodOrder->quantity;
-        while ($quantity > 0) {
-            $importedGood = ImportedGoods::where('quantity', '>', 0)
-                ->where('warehouse_id', $warehouseId)
-                ->where('good_id', $goodOrder->good_id)
-                ->orderBy('created_at', 'asc')->first();
-
-            $history = new HistoryGood;
-            $lastest_good_history = HistoryGood::where('good_id', $importedGood['good_id'])
-                ->where('warehouse_id', $warehouseId)
-                ->orderBy('created_at', 'desc')->first();
-            $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
-            $history->good_id = $goodOrder->good_id;
-            $history->quantity = min($goodOrder->quantity, $importedGood->quantity);
-            $history->remain = $remain - min($goodOrder->quantity, $importedGood->quantity);
-            $history->warehouse_id = $warehouseId;
-            $history->type = 'order';
-            $history->order_id = $goodOrder->order_id;
-            $history->imported_good_id = $importedGood->id;
-            $history->save();
-            $quantity -= min($goodOrder->quantity, $importedGood->quantity);
-        }
-    }
-
-    public function exportOrderService($orderId, $warehouseId)
-    {
-        $order = Order::find($orderId);
-        if ($order->exported == true)
-            return [
-                'status' => 0,
-                'message' => 'Đã xuất hàng'
-            ];
-        $order->exported = false;
-        $order->save();
-        foreach ($order->goodOrders as $goodOrder) {
-            $quantity = ImportedGoods::where('good_id', $goodOrder->good_id)
-                ->where('warehouse_id', $warehouseId)
-                ->sum('quantity');
-            if ($goodOrder->quantity > $quantity)
-                return [
-                    'status' => 0,
-                    'message' => 'Thiếu hàng:' . $goodOrder->good->name,
-                ];
-        }
-        foreach ($order->goodOrders as $goodOrder)
-            $this->importedGoodsExportProcess($goodOrder, $warehouseId);
-        return [
-            'status' => 1,
-            'message' => 'SUCCESS',
-        ];
-    }
-
-    public function exportOrder($orderId, $warehouseId)
-    {
-        $response = $this->exportOrderService($orderId, $warehouseId);
-        if($response->status == 0)
-            return $this->respondErrorWithStatus([
-                'message' => $response->message,
-            ]);
-        return $this->respondSuccessWithStatus([
-            'message' => $response->message,
-        ]);
-    }
-
     public function editNote($orderId, Request $request)
     {
         $order = Order::find($orderId);
@@ -403,6 +286,18 @@ class OrderController extends ManageApiController
         $order->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function changeOrderStatus($orderId, Request $request)
+    {
+        $response = $this->orderService->changeOrderStatus($orderId, $request, $this->user->id);
+        if($response['status'] == 0)
+            return $this->respondErrorWithStatus([
+                'message' => $response['message']
+            ]);
+        return $this->respondSuccessWithStatus([
+            'message' => $response['message']
         ]);
     }
 
@@ -437,10 +332,8 @@ class OrderController extends ManageApiController
                 $returnHistory->save();
 
                 $good_order->quantity -= min($good_order->quantity, $singular_history->quantity);
-
             }
         }
-
         return $this->respondSuccessWithStatus([
             'message' => 'Thành công'
         ]);
