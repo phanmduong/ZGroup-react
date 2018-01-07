@@ -10,7 +10,9 @@ namespace Modules\Elearning\Http\Controllers;
 
 
 use App\Comment;
+use App\CommentLike;
 use App\Http\Controllers\Controller;
+use App\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,18 +53,49 @@ class ElearningApiController extends Controller
 
         return [
             "status" => 1,
-            "comment" => [
-                'id' => $comment->id,
-                'created_at' => format_full_time_date($comment->created_at),
-                'content' => $comment->content,
-                'commenter' => [
-                    'avatar_url' => $comment->commenter->avatar_url,
-                    'name' => $comment->commenter->name,
-                    'username' => $comment->commenter->username
-                ],
-            ]
+            "comment" => $comment->transform($this->user)
         ];
+    }
 
+    public function changeLikeComment($commentId, Request $request)
+    {
+        $comment = Comment::find($commentId);
+
+        if ($comment == null) {
+            return [
+                'status' => 0,
+                'message' => "Không tồn tại"
+            ];
+        }
+
+        if ($request->liked == 1) {
+            if ($comment->comment_likes()->where('user_id', $this->user->id)->first() != null) {
+                return [
+                    'status' => 0,
+                    'message' => "Đã like"
+                ];
+            } else {
+                $like = new CommentLike();
+
+                $like->user_id = $this->user->id;
+                $like->comment_id = $comment->id;
+                $like->save();
+                $comment->likes = $comment->likes + 1;
+            }
+        } else {
+            $like = $comment->comment_likes()->where('user_id', $this->user->id)->first();
+            if ($like != null) {
+                $like->delete();
+                $comment->likes = $comment->likes - 1;
+            }
+        }
+
+        $comment->save();
+
+        return [
+            'status' => 1,
+            'message' => 'Thành công'
+        ];
 
     }
 }

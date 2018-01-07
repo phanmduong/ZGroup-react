@@ -98,9 +98,9 @@ class PublicCrawlController extends CrawlController
         $this->data['lesson_selected'] = $lesson;
         $this->data['lessons'] = $lessons;
         $this->data['comments'] = $lesson->comments()->where('parent_id', '0')->orderBy('created_at', 'desc')->get()->map(function ($comment) {
-            $data = $comment->transform();
+            $data = $comment->transform($this->user);
             $data['child_comments'] = $comment->child_comments()->orderBy('created_at', 'desc')->get()->map(function ($commentChild) {
-                $dataComment = $commentChild->transform();
+                $dataComment = $commentChild->transform($this->user);
                 return $dataComment;
             });
             return $data;

@@ -142,7 +142,8 @@
 
 @push('scripts')
     <script>
-        @if(isset($user))
+        {!! $comments !!}
+                @if(isset($user))
             vueData.isLogin = true;
         vueData.user = JSON.parse(localStorage.getItem('auth')).user;
         @endif
@@ -169,14 +170,46 @@
             '                                                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">\n' +
             '                                                    <div class="comment-date">@{{comment.created_at}}<a v-bind:href="/profile/+comment.commenter.username"> @@{{ comment.commenter.name }}</a></div>\n' +
             '                                                    <ul class="comment-actions"\n' +
-            '                                                        style="padding: 0px!important;width: 90px; display: flex; flex-direction: row; justify-content: flex-end; align-items: center; margin-bottom: 0px">\n' +
-            '                                                        <li class="complain" v-if="login.isLogin">Thích</li>\n' +
+            '                                                        style="padding: 0px!important;width: 110px; display: flex; flex-direction: row; justify-content: flex-end; align-items: center; margin-bottom: 0px">\n' +
+            '                                                       <li class="complain" v-if="login.isLogin && !comment.is_liked" v-on:click="changeLike">@{{ comment.count_like }} Thích</li>\n' +
+            '                                                        <li class="complain" v-if="comment.is_liked" style="color: #0095ff" v-on:click="changeLike">@{{ comment.count_like }} Đã thích</li>\n' +
             '                                                        <li class="reply" v-if="login.isLogin" v-on:click="$emit(\'changeCardComment\')">Trả lời</li>\n' +
             '                                                    </ul>\n' +
             '                                                </div>\n' +
             '                                            </div>\n' +
             '                                        </div>\n' +
-            '                                    </div>'
+            '                                    </div>',
+            methods: {
+                changeLike: function () {
+                    if (this.comment.is_liked) {
+                        this.comment.count_like -= 1;
+                    } else {
+                        this.comment.count_like += 1;
+                    }
+                    this.comment.is_liked = !this.comment.is_liked;
+                    var url = "/elearning/" + this.comment.id + "/like-comment";
+                    axios.post(url, {
+                        liked: this.comment.is_liked
+                    }).then(function (res) {
+                            if (res.data.status == 0) {
+                                if (this.comment.is_liked) {
+                                    this.comment.count_like -= 1;
+                                } else {
+                                    this.comment.count_like += 1;
+                                }
+                                this.comment.is_liked = !this.comment.is_liked;
+                            }
+                        }.bind(this)
+                    ).catch(function () {
+                        if (this.comment.is_liked) {
+                            this.comment.count_like -= 1;
+                        } else {
+                            this.comment.count_like += 1;
+                        }
+                        this.comment.is_liked = !this.comment.is_liked;
+                    }.bind(this));
+                }
+            }
         });
         Vue.component('comment-parent', {
             props: ['comment'],
@@ -199,8 +232,9 @@
             '                                                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">\n' +
             '                                                    <div class="comment-date">@{{comment.created_at}}<a v-bind:href="/profile/+comment.commenter.username"> @@{{ comment.commenter.name }}</a></div>\n' +
             '                                                    <ul class="comment-actions"\n' +
-            '                                                        style="padding: 0px!important;width: 90px; display: flex; flex-direction: row; justify-content: flex-end; align-items: center; margin-bottom: 0px">\n' +
-            '                                                        <li class="complain" v-if="login.isLogin">Thích</li>\n' +
+            '                                                        style="padding: 0px!important;width: 110px; display: flex; flex-direction: row; justify-content: flex-end; align-items: center; margin-bottom: 0px">\n' +
+            '                                                        <li class="complain" v-if="login.isLogin && !comment.is_liked" v-on:click="changeLike">@{{ comment.count_like }} Thích</li>\n' +
+            '                                                        <li class="complain" v-if="comment.is_liked" style="color: #0095ff" v-on:click="changeLike">@{{ comment.count_like }} Đã thích</li>\n' +
             '                                                        <li class="reply" v-if="login.isLogin" v-on:click="changeCardComment">Trả lời</li>\n' +
             '                                                    </ul>\n' +
             '                                                </div>\n' +
@@ -255,6 +289,35 @@
                             }.bind(this)
                         );
                     }
+                },
+                changeLike: function () {
+                    if (this.comment.is_liked) {
+                        this.comment.count_like -= 1;
+                    } else {
+                        this.comment.count_like += 1;
+                    }
+                    this.comment.is_liked = !this.comment.is_liked;
+                    var url = "/elearning/" + this.comment.id + "/like-comment";
+                    axios.post(url, {
+                        liked: this.comment.is_liked
+                    }).then(function (res) {
+                            if (res.data.status == 0) {
+                                if (this.comment.is_liked) {
+                                    this.comment.count_like -= 1;
+                                } else {
+                                    this.comment.count_like += 1;
+                                }
+                                this.comment.is_liked = !this.comment.is_liked;
+                            }
+                        }.bind(this)
+                    ).catch(function () {
+                        if (this.comment.is_liked) {
+                            this.comment.count_like -= 1;
+                        } else {
+                            this.comment.count_like += 1;
+                        }
+                        this.comment.is_liked = !this.comment.is_liked;
+                    }.bind(this));
 
                 }
             }
