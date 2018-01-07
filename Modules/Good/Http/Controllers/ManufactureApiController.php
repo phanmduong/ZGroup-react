@@ -40,21 +40,28 @@ class ManufactureApiController extends ManageApiController
 
     public function createManufacture(Request $request)
     {
-        if($request->name == null && trim($request->name)=='')
+        if ($request->name == null && trim($request->name) == '')
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu tên nhà sản xuất'
+            ]);
+        $old = Manufacture::where('name', $request->name)->first();
+        if ($old)
+            return $this->respondErrorWithStatus([
+                'message' => 'Đã tồn tại nhà sản xuất tên: ' . $request->name,
             ]);
         $manufacture = new Manufacture;
         $manufacture->name = $request->name;
         $manufacture->save();
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'id' => $manufacture->id,
+            'name' => $manufacture->name
         ]);
     }
 
-    public function deleteManufacture($manufactureId, Request $request) {
+    public function deleteManufacture($manufactureId, Request $request)
+    {
         $manufacture = Manufacture::find($manufactureId);
-        if($manufacture == null)
+        if ($manufacture == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại nhà sản xuất'
             ]);
