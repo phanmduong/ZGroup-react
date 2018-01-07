@@ -385,7 +385,7 @@ class ClassContainer extends React.Component {
                                                                     <div
                                                                         className="flex flex-row-center flex-space-between">
                                                                         <h6>
-                                                                            <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.registers.length}
+                                                                            <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
                                                                         </h6>
                                                                         {
                                                                             attendance.is_change &&
@@ -409,10 +409,10 @@ class ClassContainer extends React.Component {
                                                                             role="progressbar"
                                                                             aria-valuemin="0"
                                                                             aria-valuemax="100"
-                                                                            style={{width: (100 * attendance.total_attendance / classData.registers.length) + '%'}}
+                                                                            style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}
                                                                         >
                                                     <span
-                                                        className="sr-only">{100 * attendance.total_attendance / classData.registers.length}%</span>
+                                                        className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
