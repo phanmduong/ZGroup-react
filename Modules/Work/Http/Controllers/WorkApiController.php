@@ -106,11 +106,16 @@ class WorkApiController extends ManageApiController
 
     }
     public function getAllExtension(Request $request){
-        $logs = HistoryExtensionWork::orderBy('created_at','desc')->get();
-        return $this->respondSuccessWithStatus([
-           "logs" => $logs->map(function($log){
-               return $log->transform();
-           })
+        $keyword = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $logs = DB::table('history_extension_works')->join('users','history_extension_works.staff_if','=','users.id')
+            ->join('works','history_extension_works.work_id','=','work_id')->select('history_extension_works.*')
+            ->where('users.name','like','%'.$keyword.'%')->orWhere('works.name','like','%'.$keyword.'%')
+            ->orderBy('history_extension_works.created_at','desc')->paginate($limit);
+        return $this->respondWithPagination($logs,[
+            'logs' => $logs->map(function($log){
+                return $log->tranform();
+            })
         ]);
     }
     public function deleteHistoryExtension($historyId,Request $request){
