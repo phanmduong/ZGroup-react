@@ -31,6 +31,17 @@ class NhatQuangTransferController extends Controller
             }
         }
         public function createTransfer(Request $request){
+            $validator = Validator::make($request->all(), [
+                'note' => 'required|max:255',
+                'money_transfer' => 'required',
+                'account_transfer' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect('/manage/transfer')
+                    ->withInput()
+                    ->withErrors($validator);
+            }
            $user = Auth::user();
            $transfer = new TransferMoney;
            $transfer->user_id = $user->id;
