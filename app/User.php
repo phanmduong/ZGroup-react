@@ -392,8 +392,5 @@ class User extends Authenticatable
             'can_delete' => $canDelete
         ];
     }
-    public function  transferMoney(){
-        return $this->hasMany(TransferMoney, 'user_id');
-    }
 }
 

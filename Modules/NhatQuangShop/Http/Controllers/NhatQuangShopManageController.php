@@ -36,31 +36,24 @@ class NhatQuangShopManageController extends Controller
     public function userOrder($subfix, Request $request)
     {
         $user = Auth::user();
-        $orderss =  Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc');
-        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(15);
+        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(5);
         $this->data['orders'] = $orders;
-        $this->data['orderss'] = $orderss;
-        $page = ceil($orders->count() /15);
-        $this->data['page'] = $page;
         return view("nhatquangshop::orders", $this->data);
     }
+    public function infoOrder($subfix, $order_id){
+       $order = Order::find($order_id);
+       $this->data['order'] = $order;
+       $paidOrderMoneys = $order->orderPaidMoneys;
+       $totalPaidMoney = 0;
+       if(count($paidOrderMoneys)>0){
+           for ($i = 0; $i<count($paidOrderMoneys); $i++){
+               $totalPaidMoney += $paidOrderMoneys[$i]->money;
+           }
 
-    public function infoOrder($subfix, $order_id)
-    {
-        $order = Order::find($order_id);
-        $this->data['order'] = $order;
-        $user = User::find($order->user_id);
-        $paidOrderMoneys = $order->orderPaidMoneys;
-        $totalPaidMoney = 0;
-        if (count($paidOrderMoneys) > 0) {
-            for ($i = 0; $i < count($paidOrderMoneys); $i++) {
-                $totalPaidMoney += $paidOrderMoneys[$i]->money;
-            }
-
-        }
+       }
         $this->data['totalPaidMoney'] = $totalPaidMoney;
-        $this->data['paidOrderMoneys'] = $paidOrderMoneys;
-        return view("nhatquangshop::info_order", ['user' => $user, 'order' => $order]);
+       $this->data['paidOrderMoneys'] = $paidOrderMoneys;
+       return view("nhatquangshop::infoOrder", $this->data);
     }
 
 }
