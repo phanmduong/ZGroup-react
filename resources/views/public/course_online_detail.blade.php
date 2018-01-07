@@ -223,7 +223,7 @@
             '                                                <textarea cols="30" rows="3"\n' +
             '                                                          v-model="commentChild"\n' +
             '                                                          :disabled="isStoring"\n' +
-            '                                                          @keydown="createComment($event,{{$lesson_selected->id}})"\n' +
+            '                                                          @keydown="createCommentChild($event,{{$lesson_selected->id}})"\n' +
             '                                                          placeholder="Đặt câu hỏi"></textarea>\n' +
             '                                                <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">\n' +
             '                                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>\n' +
@@ -239,7 +239,7 @@
                 changeCardComment: function () {
                     this.isOpenComment = !this.isOpenComment;
                 },
-                createComment: function (e, lessonId) {
+                createCommentChild: function (e, lessonId) {
                     if (e.keyCode === 13 && !e.shiftKey) {
                         e.preventDefault();
                         this.isStoring = true;
