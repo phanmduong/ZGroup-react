@@ -171,7 +171,7 @@ class OrderController extends ManageApiController
             $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
 //            if($response->status == 0)
 //                dd($order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
-                return $response;
+                dd($response);
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
         }
 
