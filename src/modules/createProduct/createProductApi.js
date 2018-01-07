@@ -9,7 +9,7 @@ export function getCategoriesApi() {
 }
 
 export function getManufacturesApi() {
-    let url = env.MANAGE_API_URL + "/good/manufactures?token=" + token;
+    let url = env.MANAGE_API_URL + "/manufacture?token=" + token;
     return axios.get(url);
 }
 
@@ -80,4 +80,28 @@ export function loadProductApi(goodId) {
 export function getPropertiesApi() {
     let url = env.MANAGE_API_URL + "/good/all-property-items?token=" + token;
     return axios.get(url);
+}
+
+export function deletePropertyApi(property) {
+    let url = env.MANAGE_API_URL + "/good/delete-property-item/" + property.id + "?token=" + token;
+    return axios.delete(url);
+}
+
+export function createPropertyApi(name) {
+    let url = env.MANAGE_API_URL + "/good/create-property-item?token=" + token;
+    return axios.post(url, {
+        name: name
+    });
+}
+
+export function deleteManufactureApi(manufacture) {
+    let url = env.MANAGE_API_URL + "/manufacture/" + manufacture.id + "?token=" + token;
+    return axios.delete(url);
+}
+
+export function createManufactureApi(name) {
+    let url = env.MANAGE_API_URL + "/manufacture?token=" + token;
+    return axios.post(url, {
+        name: name
+    });
 }

@@ -187,6 +187,26 @@ export default function createProductReducer(state = initialState.createProduct,
                 ...state,
                 childImagesModal: false
             };
+        case types.TOGGLE_PROPERTIES_MANAGE_MODAL:
+            return {
+                ...state,
+                propertiesManageModal: !state.propertiesManageModal
+            };
+        case types.HANDLE_PROPERTIES_MANAGE:
+            return {
+                ...state,
+                properties_list: action.properties_list
+            };
+        case types.TOGGLE_MANUFACTURES_MANAGE_MODAL:
+            return {
+                ...state,
+                manufacturesManageModal: !state.manufacturesManageModal
+            };
+        case types.HANDLE_MANUFACTURES_MANAGE:
+            return {
+                ...state,
+                manufactures: action.manufactures
+            };
         default:
             return state;
     }

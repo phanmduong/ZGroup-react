@@ -9,7 +9,7 @@ export function getManufacturesCreateProduct() {
             .then(function (response) {
                 dispatch({
                     type: types.GET_MANUFACTURES_CREATE_PRODUCT,
-                    manufactures: response.data.data.manufactures
+                    manufactures: response.data.manufactures
                 });
             });
     };
@@ -283,5 +283,130 @@ export function shutDownAddChildImagesModal() {
         type: types.SHUT_DOWN_ADD_CHILD_IMAGES_MODAL
     };
 }
+
+export function showPropertiesManageModal() {
+    return {
+        type: types.TOGGLE_PROPERTIES_MANAGE_MODAL
+    };
+}
+
+export function handlePropertiesManage(properties_list) {
+    return {
+        type: types.HANDLE_PROPERTIES_MANAGE,
+        properties_list
+    };
+}
+
+export function deletePropertyModal(property) {
+    return function (dispatch, getState) {
+        let properties_list = getState().createProduct.properties_list;
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.deletePropertyApi(property)
+            .then(function (res) {
+                if (res.data.status) {
+                    properties_list = properties_list.filter(proper => proper.id !== property.id);
+                    dispatch({
+                        type: types.HANDLE_PROPERTIES_MANAGE,
+                        properties_list
+                    });
+                    helper.showNotification("Xóa thuộc tính thành công");
+                } else helper.showErrorNotification(res.data.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function createPropertyModal(name) {
+    return function (dispatch, getState) {
+        let properties_list = getState().createProduct.properties_list;
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.createPropertyApi(name)
+            .then(function (res) {
+                if (res.data.status) {
+                    properties_list = [...properties_list, {
+                        id: res.data.data.id,
+                        name: res.data.data.name
+                    }];
+                    dispatch({
+                        type: types.HANDLE_PROPERTIES_MANAGE,
+                        properties_list
+                    });
+                    helper.showNotification("Tạo thuộc tính thành công");
+                } else helper.showErrorNotification(res.data.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function showManufacturesManageModal() {
+    return {
+        type: types.TOGGLE_MANUFACTURES_MANAGE_MODAL
+    };
+}
+
+export function handleManufacturesManage(manufactures) {
+    return {
+        type: types.HANDLE_MANUFACTURES_MANAGE,
+        manufactures
+    };
+}
+
+export function deleteManufactureModal(manufacture) {
+    return function (dispatch, getState) {
+        let manufactures = getState().createProduct.manufactures;
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.deleteManufactureApi(manufacture)
+            .then(function (res) {
+                if (res.data.status) {
+                    manufactures = manufactures.filter(manufac => manufac.id !== manufacture.id);
+                    dispatch({
+                        type: types.HANDLE_MANUFACTURES_MANAGE,
+                        manufactures
+                    });
+                    helper.showNotification("Xóa nhà sản xuất thành công");
+                } else helper.showErrorNotification(res.data.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function createManufactureModal(name) {
+    return function (dispatch, getState) {
+        let manufactures = getState().createProduct.manufactures;
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.createManufactureApi(name)
+            .then(function (res) {
+                if (res.data.status) {
+                    manufactures = [...manufactures, {
+                        id: res.data.data.id,
+                        name: res.data.data.name
+                    }];
+                    dispatch({
+                        type: types.HANDLE_MANUFACTURES_MANAGE,
+                        manufactures
+                    });
+                    helper.showNotification("Thêm nhà sản xuất thành công");
+                } else helper.showErrorNotification(res.data.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
 
 
