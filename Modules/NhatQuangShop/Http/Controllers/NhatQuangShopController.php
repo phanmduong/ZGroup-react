@@ -31,7 +31,7 @@ class NhatQuangShopController extends Controller
 
     public function index($subfix)
     {
-        $books = Good::where('display_status', 1)->where('sale_status', 1)->get();
+        $books = Good::where('display_status', 1)->get();
         $book_arr = [];
         foreach ($books as $book) {
             $properties = GoodProperty::where('good_id', $book->id)->get();
