@@ -65,7 +65,7 @@ class ManufactureApiController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại nhà sản xuất'
             ]);
-        $manufacture->save();
+        $manufacture->delete();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
