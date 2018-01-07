@@ -108,7 +108,7 @@ class BookRepository
             return [
                 "status" => 1,
                 "checkout_url" => $nl_result->checkout_url . "",
-                "error_code" => $nlcheckout->GetErrorMessage($nl_result->error_code)
+                "message" => $nlcheckout->GetErrorMessage($nl_result->error_code)
             ];
         } else {
             return [
@@ -120,7 +120,7 @@ class BookRepository
     }
 
     public function saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr,
-                              $onlinePurchase = "", $bankCode = "")
+                              $onlinePurchase = "", $bankCode = "", $shipPrice = 0)
     {
         $user = User::where(function ($query) use ($email, $phone) {
             $query->where("email", $email)->orWhere("phone", $email);
@@ -167,7 +167,7 @@ class BookRepository
             }
         }
 
-        $total_price = 0;
+        $total_price = $shipPrice;
         $goods = $order->goods;
         foreach ($goods as &$good) {
 //            $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
@@ -175,17 +175,28 @@ class BookRepository
             $coupon = 0;
             $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
         }
-//        $subject = "Xác nhận đặt hàng thành công";
-//        $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
-//        $emailcc = ["graphics@colorme.vn"];
-//        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
-//            $m->from('no-reply@colorme.vn', 'Graphics');
-//            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
-//        });
-//        if ($payment === "Thanh toán online") {
-//            return $this->sendOrderToNganLuong($total_price, $order->id, $onlinePurchase, $bankCode, $name,
-//                $address . ", " . $district . ", " . $province, $email, $phone);
-//        }
+        $subject = "Xác nhận đặt hàng thành công";
+        $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
+        $emailcc = ["graphics@colorme.vn"];
+        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
+        });
+        if ($payment === "Thanh toán online") {
+            $base = 0;
+            $percent = 0;
+//            if ($onlinePurchase === "VISA") {
+//                $base = 5500;
+//                $percent = 0.03;
+//            }
+            if ($onlinePurchase === "ATM_ONLINE") {
+                $base = 1760;
+                $percent = 0.011;
+            }
+            $sendPrice = ($total_price - $base) / (1 + $percent);
+            return $this->sendOrderToNganLuong($sendPrice, $order->id, $onlinePurchase, $bankCode, $name,
+                $address . ", " . $district . ", " . $province, $email, $phone);
+        }
         return null;
     }
 }

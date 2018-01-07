@@ -1,6 +1,7 @@
 <?php
 
-Route::group(['middleware' => 'web', 'domain' => "keetool.{subfix}", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], function () {
+
+$nhatquangShopRoute = function () {
     Route::get('/', 'NhatQuangShopController@index');
     Route::get('/contact-us', 'NhatQuangShopController@contact_us');
     Route::get('/about-us', 'NhatQuangShopController@aboutUs');
@@ -35,4 +36,7 @@ Route::group(['middleware' => 'web', 'domain' => "keetool.{subfix}", 'namespace'
     Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
     Route::get("/api/facebook/tokensignin", "NhatQuangAuthApiController@facebookTokenSignin");
     Route::post("/api/login", "NhatQuangAuthApiController@login");
-});
+};
+
+Route::group(['middleware' => 'web', 'domain' => "keetool.xyz", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);
+Route::group(['middleware' => 'web', 'domain' => "nhatquangshop.test", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);
