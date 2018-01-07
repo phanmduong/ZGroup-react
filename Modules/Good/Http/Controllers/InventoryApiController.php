@@ -18,19 +18,6 @@ class InventoryApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function allManufactures()
-    {
-        $manufactures = Manufacture::orderBy("created_at", "desc")->get();
-        return $this->respondSuccessWithStatus([
-            'manufactures' => $manufactures->map(function ($manufacture) {
-                return [
-                    'id' => $manufacture->id,
-                    'name' => $manufacture->name,
-                ];
-            })
-        ]);
-    }
-
     public function statusCount()
     {
         $total = Good::all()->count();
