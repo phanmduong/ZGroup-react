@@ -20,6 +20,17 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
 
+    <style>
+        @font-face {
+            font-family: myFirstFont;
+            src: url(http://d1j8r0kxyu9tj8.cloudfront.net/files/1515253034YOMw7ULyai2KGhi.otf);
+        }
+
+        .font-bebas {
+            font-family: myFirstFont;
+        }
+    </style>
+
 </head>
 <body class="profile" style="background: #f2f2f2;">
 <nav class="navbar navbar-toggleable-md fixed-top">
