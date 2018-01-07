@@ -1,8 +1,11 @@
+var vueData = {
+    isLogin: false,
+    user: {}
+};
+
 var vueNav = new Vue({
     el: '#vue-nav',
-    data: {
-        isLogin: false
-    },
+    data: vueData,
     methods: {
         openModalLogin: function () {
             modalLogin.user.email = '';
@@ -11,35 +14,6 @@ var vueNav = new Vue({
         },
         logout: function () {
             localStorage.removeItem('auth');
-        }
-    }
-});
-
-var vueComments = new Vue({
-    el: '#vue-comments',
-    data: {
-        isLogin: false,
-        user: {},
-        comment: '',
-        isStoring: false,
-    },
-    methods: {
-        createComment: function (e, lessonId) {
-            if (e.keyCode === 13 && !e.shiftKey) {
-                e.preventDefault();
-                this.isStoring = true;
-                var url = "/elearning/" + lessonId + "/add-comment";
-                axios.post(url, {
-                    lesson_id: lessonId,
-                    content_comment: this.comment
-                }).then(function (res) {
-                        console.log(res.data);
-                        this.comment = '';
-                        this.isStoring = false;
-                    }.bind(this)
-                );
-            }
-
         }
     }
 });
@@ -70,10 +44,8 @@ var modalLogin = new Vue({
                         toastr.error("Kiểm tra thông tin tài khoản");
                     } else {
                         $('#modalLogin').modal('toggle');
-                        vueNav.isLogin = true;
-                        vueNav.user = res.data.user;
-                        vueComments.isLogin = true;
-                        vueComments.user = res.data.user;
+                        vueData.isLogin = true;
+                        vueData.user = res.data.user;
                         localStorage.setItem('auth', JSON.stringify(res.data));
                     }
                 }.bind(this));

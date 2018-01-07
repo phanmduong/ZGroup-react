@@ -45,10 +45,10 @@
                             <p></p>
                             <div class="comments" id="vue-comments">
                                 @if(!isset($user))
-                                    <div class="comment-wrap" v-if="isLogin">
+                                    <div class="comment-wrap" v-if="login.isLogin">
                                         <div class="photo">
                                             <div class="avatar"
-                                                 :style="{backgroundImage: 'url(' + user.avatar_url + ')' }"
+                                                 :style="{backgroundImage: 'url(' + login.user.avatar_url + ')' }"
                                             ></div>
                                         </div>
                                         <div class="comment-block">
@@ -66,57 +66,25 @@
                                                  style="background-image: url('{{$user->avatar_url}}')"></div>
                                         </div>
                                         <div class="comment-block">
-                                            <textarea name="" id="" cols="30" rows="3"
-                                                      v-model="comment"
-                                                      :disabled="isStoring"
-                                                      @keydown="createComment($event,{{$lesson_selected->id}})"
-                                                      placeholder="Đặt câu hỏi"></textarea>
+                                            <div style="position: relative">
+                                                <textarea cols="30" rows="3"
+                                                          v-model="comment"
+                                                          :disabled="isStoring"
+                                                          @keydown="createComment($event,{{$lesson_selected->id}})"
+                                                          placeholder="Đặt câu hỏi"></textarea>
+                                                <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">
+                                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 @endif
 
-
-                                <div class="comment-wrap">
-                                    <div class="photo">
-                                        <div class="avatar"
-                                             style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg')"></div>
-                                    </div>
-                                    <div class="comment-block  product-item">
-                                        <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt
-                                            voluptatum. Eligendi voluptatum ducimus architecto tempore, quaerat
-                                            explicabo veniam fuga corporis totam reprehenderit quasi
-                                            sapiente modi tempora at perspiciatis mollitia, dolores voluptate. Cumque,
-                                            corrupti?</p>
-                                        <div class="bottom-comment">
-                                            <div class="comment-date">Aug 24, 2014 @ 2:35 PM</div>
-                                            <ul class="comment-actions">
-                                                <li class="complain">Thích</li>
-                                                <li class="reply">Trả lời</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <div v-for="commentItem in comments">
+                                    <comment-parent v-bind:comment="commentItem"></comment-parent>
                                 </div>
 
-                                <div class="comment-wrap">
-                                    <div class="photo">
-                                        <div class="avatar"
-                                             style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/felipenogs/128.jpg')"></div>
-                                    </div>
-                                    <div class="comment-block  product-item">
-                                        <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt
-                                            voluptatum. Eligendi voluptatum ducimus architecto tempore, quaerat
-                                            explicabo veniam fuga corporis totam.</p>
-                                        <div class="bottom-comment">
-                                            <div class="comment-date">Aug 23, 2014 @ 10:32 AM</div>
-                                            <ul class="comment-actions">
-                                                <li class="complain">Thích</li>
-                                                <li class="reply">Trả lời</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -166,3 +134,64 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        Vue.component('comment-parent', {
+            props: ['comment'],
+            template: '<div class="comment-wrap">\n' +
+            '                                        <div class="photo">\n' +
+            '                                            <div class="avatar"\n' +
+            '                                                 :style="{backgroundImage: \'url(\' + comment.commenter.avatar_url + \')\' }"></div>\n' +
+            '                                        </div>\n' +
+            '                                        <div class="comment-block  product-item">\n' +
+            '                                            <p class="comment-text" style="word-wrap: break-word; white-space: pre-wrap;">@{{comment.content}}</p>\n' +
+            '                                            <div class="bottom-comment">\n' +
+            '                                                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">\n' +
+            '                                                    <div class="comment-date">@{{comment.created_at}}<a v-bind:href="/profile/+comment.commenter.username"> @@{{ comment.commenter.name }}</a></div>\n' +
+            '                                                    <ul class="comment-actions"\n' +
+            '                                                        style="padding: 0px!important;width: 90px; display: flex; flex-direction: row; justify-content: flex-end; align-items: center; margin-bottom: 0px">\n' +
+            '                                                        <li class="complain">Thích</li>\n' +
+            '                                                        <li class="reply">Trả lời</li>\n' +
+            '                                                    </ul>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                        </div>\n' +
+            '                                    </div>'
+
+        })
+        var vueComments = new Vue({
+            el: '#vue-comments',
+            data: function () {
+                return {
+                    login: vueData,
+                    comment: '',
+                    isStoring: false,
+                    comments: {!! $comments !!}
+                }
+
+            },
+            methods: {
+                createComment: function (e, lessonId) {
+                    if (e.keyCode === 13 && !e.shiftKey) {
+                        e.preventDefault();
+                        this.isStoring = true;
+                        var url = "/elearning/" + lessonId + "/add-comment";
+                        axios.post(url, {
+                            lesson_id: lessonId,
+                            content_comment: this.comment
+                        }).then(function (res) {
+                                console.log(res.data);
+                                this.comments.unshift(res.data.comment);
+                                this.comment = '';
+                                this.isStoring = false;
+                            }.bind(this)
+                        );
+                    }
+
+                }
+            }
+        });
+
+    </script>
+@endpush
