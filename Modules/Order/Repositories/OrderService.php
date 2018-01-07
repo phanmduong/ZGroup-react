@@ -5,6 +5,7 @@
  * Date: 11/13/17
  * Time: 10:54 AM
  */
+
 namespace Modules\Order\Repositories;
 
 use App\HistoryGood;
@@ -95,21 +96,26 @@ class OrderService
         ];
     }
 
+    public function cancelOrder($orderId, $request, $warehouseId)
+    {
+
+    }
+
     public function changeOrderStatus($orderId, $request, $user_id)
     {
         $order = Order::find($orderId);
         if (User::find($user_id)->role != 2)
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return [
-                        'status' => 0,
-                        'message' => 'Bạn không có quyền đổi trạng thái này',
-                    ];
+                    'status' => 0,
+                    'message' => 'Bạn không có quyền đổi trạng thái này',
+                ];
         if ($order->type == 'import' && $order->status == 'completed')
             return [
                 'status' => 0,
                 'message' => 'Cant change completed import order',
             ];
-        if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
+        if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2 && $this->statusToNum($request->status) != 5) {
             $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
             if ($response['status'] == 0)
                 return [

@@ -1,8 +1,6 @@
 <?php
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
-
-    Route::get('/manufactures', 'InventoryApiController@allManufactures');
     Route::get('/status/count', 'InventoryApiController@statusCount');
     Route::get('/inventories/all', 'InventoryApiController@allInventories');
     Route::get('/inventories-info', 'InventoryApiController@inventoriesInfo');
