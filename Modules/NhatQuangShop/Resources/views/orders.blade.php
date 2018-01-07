@@ -1,7 +1,7 @@
 @extends('nhatquangshop::layouts.manage')
 @section('data')
     <h4><span style="font-weight:bold">Các đơn hàng</span></h4>
-            <div class="table-responsive" style ="margin-top: 20px">
+            <div class="table-responsive">
                 <table class="table">
                     <tr>
                         <th class="text-center">#</th>
@@ -46,5 +46,4 @@
                 </table>
             </div>
         @include('pagination.custom', ['paginator' => $orders])
-
 @endsection

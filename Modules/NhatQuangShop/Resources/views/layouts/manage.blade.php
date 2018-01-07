@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-md-8">
                 @yield('data')
             </div>
         </div>
