@@ -158,3 +158,21 @@ export function changeStatusCourse(course) {
     }
     return axios.put(url, {status: !course.status});
 }
+export function loadAllTypes() {
+    //manageapi.keetool.xyz/course/type?token=
+    let url = env.MANAGE_API_URL + "/course/type";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&limit=-1";
+    }
+    return axios.get(url);
+}
+export function loadAllCategories() {
+    //manageapi.keetool.xyz/course/category?&limit=&page=&token=
+    let url = env.MANAGE_API_URL + "/course/category";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&limit=-1";
+    }
+    return axios.get(url);
+}
