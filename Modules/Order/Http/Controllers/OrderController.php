@@ -185,10 +185,11 @@ class OrderController extends ManageApiController
             $order->goodOrders()->delete();
             foreach ($good_orders as $good_order) {
                 $good = Good::find($good_order->good_id);
-                $order->goods()->attach($good_order->good_id, [
-                    'quantity' => $good_order->quantity,
-                    'price' => $good->price
-                ]);
+                if ($good_order->quantity >= 0)
+                    $order->goods()->attach($good_order->good_id, [
+                        'quantity' => $good_order->quantity,
+                        'price' => $good->price
+                    ]);
             }
         }
 
@@ -292,7 +293,7 @@ class OrderController extends ManageApiController
     public function changeOrderStatus($orderId, Request $request)
     {
         $response = $this->orderService->changeOrderStatus($orderId, $request, $this->user->id);
-        if($response['status'] == 0)
+        if ($response['status'] == 0)
             return $this->respondErrorWithStatus([
                 'message' => $response['message']
             ]);
