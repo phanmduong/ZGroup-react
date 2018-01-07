@@ -167,9 +167,11 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
             ]);
-
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
-            $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
+            $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
+//            if($response->status == 0)
+//                dd($order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
+                return $response;
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
         }
 
@@ -237,8 +239,9 @@ class OrderController extends ManageApiController
             }
         }
 
-        $this->changeOrderStatus($order_id, $request);
-
+        $response = $this->changeOrderStatus($order_id, $request);
+        if($response->status == 0)
+            return $response;
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
@@ -360,7 +363,7 @@ class OrderController extends ManageApiController
                 ->where('warehouse_id', $warehouseId)
                 ->sum('quantity');
             if ($goodOrder->quantity > $quantity)
-                return $this->respondSuccessWithStatus([
+                return $this->respondErrorWithStatus([
                     'message' => 'Thiếu hàng:' . $goodOrder->good->name,
                 ]);
         }
