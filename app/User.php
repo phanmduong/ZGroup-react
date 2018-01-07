@@ -337,7 +337,8 @@ class User extends Authenticatable
         return [
             "id" => $this->id,
             "avatar_url" => generate_protocol_url($this->avatar_url),
-            "name" => $this->name
+            "name" => $this->name,
+            "first_login" => $this->first_login
         ];
     }
 
@@ -394,6 +395,7 @@ class User extends Authenticatable
             'email' => $this->email,
             'address' => $this->address,
             'birthday' => $this->dob,
+            "first_login" => $this->first_login,
             'gender' => $this->gender,
             'avatar_url' => $this->avatar_url ? $this->avatar_url : "http://api.colorme.vn/img/user.png",
             'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
