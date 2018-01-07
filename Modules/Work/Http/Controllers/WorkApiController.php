@@ -117,7 +117,23 @@ class WorkApiController extends ManageApiController
             ->orderBy('history_extension_works.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($logs, [
             'logs' => $logs->map(function ($log) {
-                return $log->tranform();
+                $staff = User::find($log->staff_id);
+                $work = Work::find($log->work_id);
+                return [
+                    "id" => $log->id,
+                    "reason" => $log->reason,
+                    "penalty" => $log->penalty,
+                    "deadline" => $work->deadline,
+                    "new_deadline" => $log->new_deadline,
+                    "staff" => [
+                        "id" => $staff->id,
+                        "name" => $staff->name,
+                    ],
+                    "work" => [
+                        "id" => $work->id,
+                        "name" => $work->name
+                    ]
+                ];
             })
         ]);
     }
