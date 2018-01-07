@@ -113,30 +113,13 @@ class WorkApiController extends ManageApiController
         $keyword = $request->search;
         $limit = $request->limit ? $request->limit : 20;
         $logs = HistoryExtensionWork::join('users', 'history_extension_works.staff_id', '=', 'users.id')
-            ->join('works', 'history_extension_works.work_id', '=', 'work_id')->select('history_extension_works.*')
+            ->join('works', 'history_extension_works.work_id', '=', 'works.id')->select('history_extension_works.*')
             ->orWhere(function($query)use ($keyword){
                 $query->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name','like', '%' . $keyword . '%');
             })->orderBy('history_extension_works.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($logs, [
-            'logs' => $logs->map(function ($log) {
-                $staff = User::find($log->staff_id);
-                $work = Work::find($log->work_id);
-                return [
-                    "id" => $log->id,
-                    "reason" => $log->reason,
-                    "penalty" => $log->penalty,
-                    "deadline" => $work->deadline,
-                    "new_deadline" => $log->new_deadline,
-                    "staff" => [
-                        "id" => $staff->id,
-                        "name" => $staff->name,
-                    ],
-                    "work" => [
-                        "id" => $work->id,
-                        "name" => $work->name
-                    ]
-                ];
-            })
+            'logs' => $logs->tranform()
+
         ]);
     }
 
