@@ -228,8 +228,7 @@ class DetailGroupCustomerContainer extends React.Component {
                            bsSize="large"
                            bsStyle="primary"
                            onHide={() => this.closeDiscountModal()}>
-                        <Modal.Header closeButton>
-                        </Modal.Header>
+                        <Modal.Header closeButton  />
                         <Modal.Body>
                             <div className="card">
                                 <form id="form-add-coupon-in-group-customer">
@@ -288,8 +287,7 @@ class DetailGroupCustomerContainer extends React.Component {
                            bsSize="large"
                            bsStyle="primary"
                            onHide={() => this.closeAddCustomerModal()}>
-                        <Modal.Header closeButton>
-                        </Modal.Header>
+                        <Modal.Header closeButton />
                         <Modal.Body>
                             <div className="card">
                                 <form id="form-add-coupon-in-group-customer">

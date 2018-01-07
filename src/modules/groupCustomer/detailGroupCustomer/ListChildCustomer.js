@@ -160,7 +160,7 @@ class ListChildCustomer extends React.Component {
                             </table>
                         </div>
                     }
-                    {customersShowInTable.length === 0 ? null :
+                    {customersShowInTable && customersShowInTable.length === 0 ? null :
                         <Pagination
                             totalPages={this.props.totalCustomerPages}
                             currentPage={currentPage}

@@ -145,7 +145,7 @@ class InfoCustomerContainer extends React.Component {
 
                                     <h4><strong>Nhóm khách hàng</strong></h4>
                                     <div className="bootstrap-tagsinput">
-                                        {this.props.customer.groups.map((group) => {
+                                        {this.props.customer.groups && this.props.customer.groups.map((group) => {
                                             return (
                                                 <span className="tag btn" key={group.id} style={{
                                                     backgroundColor: group.color,

@@ -25,7 +25,7 @@ class OrderContainer extends React.Component {
         // this.loadDetailOrder = this.loadDetailOrder.bind(this);
         this.editOrder = this.editOrder.bind(this);
         this.updateQuantity = this.updateQuantity.bind(this);
-
+        this.openReturnOrder = this.openReturnOrder.bind(this);
     }
 
     componentWillMount() {
@@ -57,11 +57,10 @@ class OrderContainer extends React.Component {
         this.props.goodOrderActions.updateOrderFormData(order);
     }
 
-    updateQuantity(event, id) {
-        const field = event.target.name;
+    updateQuantity(quantity, id) {
         const good_orders = this.props.order.order.good_orders.map((good_order, index) => {
             if (index === id) {
-                return {...good_order, [field]: event.target.value};
+                return {...good_order, quantity: quantity};
             }
             return good_order;
         });
@@ -73,12 +72,13 @@ class OrderContainer extends React.Component {
         let statusOrder = value && value.value ? value.value : '';
         this.props.goodOrderActions.changeStatusOrder(statusOrder, this.props.params.orderId);
     }
-
     editOrder(e) {
         this.props.goodOrderActions.editOrder(this.props.order, this.props.params.orderId);
         e.preventDefault();
     }
-
+    openReturnOrder(){
+        this.props.goodOrderActions.openReturnOrder(this.props.isOpenReturnOrder);
+    }
     render() {
         return (
             <div>
@@ -105,7 +105,40 @@ class OrderContainer extends React.Component {
 
                             </div>
                         </div>
+                        <div>
+                            <button className="btn btn-md btn-info" onClick={()=>{this.openReturnOrder();}}>
+                                <i className="material-icons">assignment_return </i>Trả lại hàng
+                            </button>
+                        </div>
+                        {this.props.isOpenReturnOrder ?
+                            <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">assignment</i>
+                                </div>
+                                <div className="card-content">
+                                    <h4 className="card-title">Chi tiết đơn hàng</h4>
+                                    {this.props.isLoading ? <Loading/> :
+                                        <div>
+                                            <h4><strong>Chọn sản phẩm</strong></h4>
+                                            <ListGood
+                                                goodOrders={this.props.order.order.good_orders}
+                                                updateQuantity={this.updateQuantity}
+                                                updateOrderFormData={this.updateOrderFormData}
+                                                paid={this.props.order.order.paid}
+                                                orderId = {this.props.params.orderId}
+                                            />
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>:
+                            null
+
+                        }
                     </div>
+
+
+
                     <div className="col-md-3">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
@@ -147,8 +180,8 @@ class OrderContainer extends React.Component {
                                                 <label className="control-label"/>Ghi chú
                                             <textarea
                                                 className="form-control"
-                                                name='note'
-                                                rows = '5'
+                                                name="note"
+                                                rows = "5"
                                                 value={this.props.order.order.note}
                                                 onChange={(e) => this.updateOrderFormData(e)}
                                             />
@@ -239,11 +272,13 @@ OrderContainer.propTypes = {
     params: PropTypes.object.isRequired,
     order: PropTypes.object,
     isSaving: PropTypes.bool,
+    isOpenReturnOrder: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.goodOrders.order.isLoading,
+        isOpenReturnOrder: state.goodOrders.order.isOpenReturnOrder,
         isSaving: state.goodOrders.order.isSaving,
         isLoadingStaffs: state.goodOrders.isLoadingStaffs,
         staffs: state.goodOrders.staffs,

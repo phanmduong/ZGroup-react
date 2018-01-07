@@ -216,15 +216,16 @@ export function updateOrderFormData(order) {
     };
 }
 
-export function editOrder(order, orderId) {
+export function editOrder(order, orderId, index) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_EDIT_ORDER});
+        dispatch({type: types.BEGIN_EDIT_ORDER, index: index});
         goodOrdersApi.editOrderApi(order, orderId)
             .then((res) => {
                 if (res.data.status) {
                     helper.showTypeNotification('Đã chỉnh sửa thành công', 'success');
                     dispatch({
                         type: types.EDIT_ORDER_SUCCESS,
+                        index: index,
                         // customer: res.data.data.user,
                     });
                     // browserHistory.push('/goods/customer');
@@ -233,15 +234,25 @@ export function editOrder(order, orderId) {
                     helper.showErrorNotification(res.data.message.message);
                     dispatch({
                         type: types.EDIT_ORDER_ERROR,
+                        index: index,
                     });
                 }
             })
             .catch(() => {
                     helper.showErrorNotification("Lỗi");
                     dispatch({
-                        type: types.EDIT_ORDER_ERROR
+                        type: types.EDIT_ORDER_ERROR,
+                        index: index,
                     });
                 }
             );
     };
 }
+
+export function openReturnOrder(isOpenReturnOrder) {
+    return function (dispatch) {
+        dispatch({type: types.OPEN_RETURN_ORDER,
+            isOpenReturnOrder: isOpenReturnOrder});
+    };
+}
+

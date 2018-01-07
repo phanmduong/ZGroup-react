@@ -235,11 +235,16 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
 
 
         case types.BEGIN_EDIT_ORDER:
+
             return {
                 ...state,
                 order: {
                     ...state.order,
-                    isSaving: true,
+                    isSavingQuantity: {
+                        ...state.order.isSaving,
+                        id : action.index,
+                        status: true,
+                    },
                 }
             };
         case types.EDIT_ORDER_ERROR:
@@ -247,17 +252,35 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 order: {
                     ...state.order,
-                    isSaving: false,
+                    isSavingQuantity: {
+                        ...state.order.isSavingQuantity,
+                        id : action.index,
+                        status: false,
+                    },
                 }
             };
+
         case types.EDIT_ORDER_SUCCESS:
             return {
                 ...state,
                 order: {
                     ...state.order,
-                    isSaving: false,
+                    isSavingQuantity: {
+                        ...state.order.isSavingQuantity,
+                        id : action.index,
+                        status: false,
+                    },
                 }
             };
+        case  types.OPEN_RETURN_ORDER:
+            return{
+                ...state,
+                order : {
+                    ...state.order,
+                    isOpenReturnOrder : !action.isOpenReturnOrder,
+                }
+            };
+
         default:
             return state;
     }

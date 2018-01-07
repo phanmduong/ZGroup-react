@@ -79,6 +79,7 @@ class ListGood extends React.Component {
                                             index={index}
                                             updateQuantity = {this.props.updateQuantity}
                                             orderId = {this.props.orderId}
+                                            quantity = {goodOrder.quantity}
                                         />
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>

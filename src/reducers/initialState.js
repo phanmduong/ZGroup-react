@@ -882,7 +882,12 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isOpenReturnOrder: false,
             isSaving: false,
+            isSavingQuantity : {
+                id : 0,
+                status : false,
+            },
             isLoading: false,
             error: false,
             total: 1130000,
