@@ -4,6 +4,7 @@ namespace Modules\Work\Http\Controllers;
 
 use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
+use App\User;
 use App\Work;
 use App\WorkStaff;
 use Illuminate\Http\Request;
@@ -111,14 +112,16 @@ class WorkApiController extends ManageApiController
     {
         $keyword = $request->search;
         $limit = $request->limit ? $request->limit : 20;
-        $logs = DB::table('history_extension_works')->join('users', 'history_extension_works.staff_id', '=', 'users.id')
-            ->join('works', 'history_extension_works.work_id', '=', 'work_id')->select('history_extension_works.*')
-            ->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name', 'like', '%' . $keyword . '%')
-            ->orderBy('history_extension_works.created_at', 'desc')->paginate($limit);
+        $logs = HistoryExtensionWork::join('users', 'history_extension_works.staff_id', '=', 'users.id')
+            ->join('works', 'history_extension_works.work_id', '=', 'works.id')->select('history_extension_works.*')
+            ->orWhere(function($query)use ($keyword){
+                $query->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name','like', '%' . $keyword . '%');
+            })->orderBy('history_extension_works.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($logs, [
-            'logs' => $logs->map(function ($log) {
+            'logs' => $logs->map(function($log){
                 return $log->tranform();
             })
+
         ]);
     }
 
