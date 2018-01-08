@@ -42,9 +42,9 @@ class JobAssignmentContainer extends React.Component {
         this.props.jobAssignmentAction.loadWorks();
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log('l',nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log('l',nextProps);
+    // }
 
     deleteWork(id){
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa công việc này không?", () => {

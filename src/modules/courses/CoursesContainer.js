@@ -28,7 +28,7 @@ class CoursesContainer extends React.Component {
         this.loadCourses                    = this.loadCourses.bind(this);
         this.deleteCourse                   = this.deleteCourse.bind(this);
         this.courseSearchChange             = this.courseSearchChange.bind(this);
-
+        this.changeStatusCourse             = this.changeStatusCourse.bind(this);
     }
 
     componentWillMount() {
@@ -68,6 +68,10 @@ class CoursesContainer extends React.Component {
         }.bind(this), 500);
     }
 
+    changeStatusCourse(index,course){
+        this.props.coursesActions.changeStatusCourse(index,course);
+    }
+
     render() {
 
         return (
@@ -103,6 +107,7 @@ class CoursesContainer extends React.Component {
                                         <ListCourse
                                             courses={this.props.coursesList}
                                             deleteCourse={this.deleteCourse}
+                                            changeStatusCourse={this.changeStatusCourse}
                                         />
                                     }
                                     <ul className="pagination pagination-primary">

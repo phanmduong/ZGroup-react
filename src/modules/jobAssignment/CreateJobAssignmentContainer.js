@@ -38,7 +38,7 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
+        //console.log(nextProps);
 
         if(this.props.isLoadingStaffs && !nextProps.isLoadingStaffs)
             if(this.props.params.workId)

@@ -489,7 +489,6 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.UPLOAD_ICON_TERM_SUCCESS: {
-            console.log(action.term);
             return {
                 ...state,
                 ...{
@@ -530,7 +529,6 @@ export default function courseReducer(state = initialState.courses, action) {
                     isUploadingTerm: false,
                 }
             };
-
         case types.BEGIN_DELETE_TERM:
             return {
                 ...state,
@@ -545,6 +543,32 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
 
             };
+        case types.BEGIN_CHANGE_STATUS_COURSES: {
+            let newdata = [...state.coursesList];
+            let newcourse = {...state.coursesList[action.index]};
+            newcourse.status = !newdata[action.index].status;
+            newdata[action.index] = newcourse;
+            return {
+                ...state,
+                coursesList: newdata
+            };
+        }
+        case types.CHANGE_STATUS_COURSES_SUCCESS:
+
+            return {
+                ...state,
+            };
+        case types.CHANGE_STATUS_COURSES_ERROR:{
+            let newdata = [...state.coursesList];
+            let newcourse = {...state.coursesList[action.index]};
+            newcourse.status = !newdata[action.index].status;
+            newdata[action.index] = newcourse;
+            return {
+                ...state,
+                coursesList: newdata
+            };
+        }
+
         default:
             return state;
     }

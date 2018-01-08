@@ -245,8 +245,8 @@ class LessonsContainer extends React.Component {
                                             data={terms}
                                             label="Chọn học phần"
                                             updateFormData={this.updateFormData}
-                                            name="term"
-                                            value={this.props.data.term || 1}
+                                            name="term_id"
+                                            value={this.props.data.term_id || ""}
                                         />
 
                                 {this.props.isCommitting ?

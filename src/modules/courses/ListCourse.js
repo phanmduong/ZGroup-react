@@ -6,6 +6,7 @@ import {connect}                        from 'react-redux';
 import  * as coursesActions   from './coursesActions';
 import {bindActionCreators}             from 'redux';
 import initialState                     from '../../reducers/initialState';
+import Switch                           from "../../components/common/Switch";
 
 
 class ListCourse extends React.Component {
@@ -43,11 +44,12 @@ class ListCourse extends React.Component {
                         <th>Số lớp đã mở</th>
                         <th>Số buổi</th>
                         <th>Giá</th>
+                        <th>Trạng thái</th>
                         <th/>
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.courses.map((course) => {
+                    {this.props.courses.map((course,index) => {
                         return (
                             <tr key={course.id}>
                                 <td>
@@ -66,7 +68,7 @@ class ListCourse extends React.Component {
                                 <td>{course.duration}</td>
 
                                 <td>
-                                    <div style              ={{width: 100}}
+                                    <div style              ={{width: 100, backgroundColor: "#" + course.color}}
                                          className          ="btn btn-xs btn-main"
                                          data-toggle        ="tooltip"
                                          title              =""
@@ -76,6 +78,10 @@ class ListCourse extends React.Component {
                                         {helper.convertMoneyToK(course.price)}
                                     </div>
                                 </td>
+                                <td><Switch
+                                    onChange={()=>{return this.props.changeStatusCourse(index,course);}}
+                                    value={course.status} onText="Hiện" offText="Ẩn"
+                                /></td>
                                 <td>
                                     <ButtonGroupAction
                                         editUrl={"/teaching/courses/edit/" + course.id + ""}
@@ -97,7 +103,8 @@ class ListCourse extends React.Component {
 ListCourse.propTypes = {
     courses: PropTypes.array.isRequired,
     coursesActions : PropTypes.object.isRequired,
-    deleteCourse : PropTypes.func
+    deleteCourse : PropTypes.func,
+    changeStatusCourse : PropTypes.func,
 };
 
 function mapStateToProps(state) {
