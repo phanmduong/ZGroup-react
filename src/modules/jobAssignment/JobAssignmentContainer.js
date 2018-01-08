@@ -43,7 +43,7 @@ class JobAssignmentContainer extends React.Component {
     }
 
     // componentWillReceiveProps(nextProps) {
-    //     console.log('l',nextProps);
+    //     console.log('job',nextProps);
     // }
 
     deleteWork(id){
@@ -93,9 +93,10 @@ class JobAssignmentContainer extends React.Component {
         });
     }
 
-    doneWork(workId, staffId){
-        this.props.jobAssignmentAction.changeStatusWork(workId,staffId, conts.STATUS_WORK[2].value, ()=>{
+    doneWork(data){
+        this.props.jobAssignmentAction.doneWork(this.state.work.id,this.props.user.id, data, ()=>{
             helper.showNotification("Đã hoàn thành công việc.");
+            this.closeFinishModal();
             return this.props.jobAssignmentAction.loadWorks();
         });
     }

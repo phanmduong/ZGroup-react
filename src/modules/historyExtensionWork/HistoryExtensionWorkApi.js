@@ -5,7 +5,7 @@ export function historyExtensionWork(page = 1, search = '') {
     let url = env.MANAGE_API_URL + "/work/history-extension";
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page + "&limit=2" + "&search=" + search;
+        url += "?token=" + token + "&page=" + page + "&limit=10" + "&search=" + search;
 
     }
     return axios.get(url);

@@ -56,13 +56,13 @@ class CardWork extends React.Component {
                                                     Chỉnh sửa công việc
                                                 </Link>
                                             </li>
-                                            {/*<li className="more-dropdown-item">*/}
-                                                {/*<a onClick={()=>{return this.props.delete(work.id);}}>*/}
-                                                    {/*<i style={{fontSize: "16px"}}*/}
-                                                       {/*className="material-icons keetool-card">delete</i>*/}
-                                                    {/*Xóa công việc*/}
-                                                {/*</a>*/}
-                                            {/*</li>*/}
+                                            <li className="more-dropdown-item" hidden={user.role != 2}>
+                                                <a onClick={(e)=>{e.stopPropagation();return this.props.delete(work.id);}}>
+                                                    <i style={{fontSize: "16px"}}
+                                                       className="material-icons keetool-card">delete</i>
+                                                    Xóa công việc
+                                                </a>
+                                            </li>
                                             <li className="more-dropdown-item" hidden={(status == "pending") ? checkId : true}>
                                                 <a onClick={(e)=>{e.stopPropagation();return this.props.acceptWork(work.id, user.id);}}>
                                                     <i style={{fontSize: "16px"}}
@@ -70,13 +70,13 @@ class CardWork extends React.Component {
                                                     Chấp nhận
                                                 </a>
                                             </li>
-                                            {/*<li className="more-dropdown-item" hidden={!(status == "pending")}>*/}
-                                                {/*<a onClick={(e)=>{e.stopPropagation();return this.props.change(work, "cancel");}}>*/}
-                                                    {/*<i style={{fontSize: "16px"}}*/}
-                                                       {/*className="material-icons keetool-card">delete</i>*/}
-                                                    {/*Hủy*/}
-                                                {/*</a>*/}
-                                            {/*</li>*/}
+                                            <li className="more-dropdown-item" hidden={!(status == "pending")}>
+                                                <a onClick={(e)=>{e.stopPropagation();return this.props.change(work, "cancel");}}>
+                                                    <i style={{fontSize: "16px"}}
+                                                       className="material-icons keetool-card">delete</i>
+                                                    Hủy
+                                                </a>
+                                            </li>
                                             <li className="more-dropdown-item" hidden={(status == "doing") ? checkId : true}>
                                                 <a onClick={(e)=>{e.stopPropagation();return this.props.openExtendModal(work);}}>
                                                     <i style={{fontSize: "16px"}}

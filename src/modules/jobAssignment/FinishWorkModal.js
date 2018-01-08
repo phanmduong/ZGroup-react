@@ -15,9 +15,9 @@ class FinishWorkModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            star: 5,
+            rate_star: 5,
             cost: 0,
-            self_report: "",
+            rate_description: "",
         };
         this.submit = this.submit.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
@@ -32,9 +32,9 @@ class FinishWorkModal extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (!this.props.show && nextProps.show){
             this.setState({
-                star: 5,
+                rate_star: 5,
                 cost: 1,
-                self_report: "",
+                rate_description: "",
             });
         }
     }
@@ -54,7 +54,7 @@ class FinishWorkModal extends React.Component {
 
     submit(){
         if($('#form-finish-work').valid()){
-            console.log(this.state);
+            this.props.submit(this.state);
         }
         else helper.showErrorNotification("Vui lòng điền đầy đủ thông tin");
     }
@@ -78,9 +78,9 @@ class FinishWorkModal extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <FormInputSelect
-                                            name="star"
+                                            name="rate_star"
                                             updateFormData={this.updateFormData}
-                                            value={this.state.star}
+                                            value={this.state.rate_star}
                                             label="Mức độ hoàn thành"
                                             placeholder="5"
                                             data={_.range(5,0).map(id => {return ({id: id, name : id});})}
@@ -99,9 +99,9 @@ class FinishWorkModal extends React.Component {
                                     <div className="comment-input-wrapper">
                                         <textarea
                                             id="textarea-card-comment"
-                                            name="self_report"
+                                            name="rate_description"
                                             onChange={this.updateFormData}
-                                            value={this.state.self_report || ""}
+                                            value={this.state.rate_description || ""}
                                             onKeyUp={this.textAreaAdjust}
                                             placeholder="Tự đánh giá"
                                             className="comment-input"
