@@ -35,7 +35,7 @@ class JobAssignmentContainer extends React.Component {
             work: {
                 staffs:[],
             },
-        }
+        };
     }
 
     componentWillMount() {
