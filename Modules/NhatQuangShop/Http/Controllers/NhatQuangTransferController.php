@@ -1,6 +1,7 @@
 <?php
 
 namespace Modules\NhatQuangShop\Http\Controllers;
+
 use App\BankCount;
 use App\Good;
 use App\Order;
@@ -20,56 +21,58 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class NhatQuangTransferController extends Controller
 {
     //
-        public function __construct(BookRepository $bookRepository)
-        {
-            $this->middleware('auth');
-            $this->bookRepository = $bookRepository;
-            $this->data = array();
+    public function __construct(BookRepository $bookRepository)
+    {
+        $this->middleware('auth');
+        $this->bookRepository = $bookRepository;
+        $this->data = array();
 
-            if (!empty(Auth::user())) {
-                $this->user = Auth::user();
-                $this->data['user'] = $this->user;
-            }
+        if (!empty(Auth::user())) {
+            $this->user = Auth::user();
+            $this->data['user'] = $this->user;
         }
+    }
 
-        public function transferMoneys(){
-            $user = Auth::user();
-            $bankaccounts = BankCount::where('user_id', '=', $user->id)->get();
-            $this->data['bankaccounts'] = $bankaccounts;
-            $transfers = TransferMoney::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->get();
-            $this->data['transfers'] = $transfers;
-            return view('nhatquangshop::transfer_money',$this->data)->with('noti', 'Gửi thành công');
-        }
+    public function transferMoneys()
+    {
+        $user = Auth::user();
+        $bankaccounts = BankCount::where('user_id', '=', $user->id)->get();
+        $this->data['bankaccounts'] = $bankaccounts;
+        $transfers = TransferMoney::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->get();
+        $this->data['transfers'] = $transfers;
+        return view('nhatquangshop::transfer_money', $this->data)->with('noti', 'Gửi thành công');
+    }
 
-        public function createTransfer(Request $request){
-            $validator = Validator::make($request->all(), [
-                'money_transfer' => 'required',
-                'account_transfer' => 'required',
-                'transfer_day' => 'required'
-            ],[
+    public function createTransfer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'money_transfer' => 'required',
+            'account_transfer' => 'required',
+            'transfer_day' => 'required'
+        ], [
                 'money_transfer.required' => 'Bạn chưa nhập số tiền cần chuyển',
                 'transfer_day.required' => 'Bạn chưa nhập ngày chuyển tiền',
                 'account_transfer.required' => 'Bạn chưa chọn phương thức thanh toán',
             ]
-            );
+        );
 
-            if ($validator->fails()) {
-                return redirect('/manage/transfermoney')
-                    ->withInput()
-                    ->withErrors($validator);
-            }
-           $user = Auth::user();
-           $transfer = new TransferMoney;
-           $transfer->user_id = $user->id;
-           $transfer->transfer_day = $request->transfer_day;
-           $transfer->money_transfer = $request->money_transfer;
-           $transfer->note = $request->note;
-           $transfer->account_transfer = $request->account_transfer;
-           $transfer->save();
-            $bankaccounts = BankCount::where('user_id', '=', $user->id)->get();
-            $this->data['bankaccounts'] = $bankaccounts;
-            $transfers = TransferMoney::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->get();
-           $this->data['transfers'] = $transfers;
-           return view('nhatquangshop::transfer_money',$this->data)->with('noti', 'Gửi thành công');
+        if ($validator->fails()) {
+            return redirect('/manage/transfermoney')
+                ->withInput()
+                ->withErrors($validator);
         }
+        $user = Auth::user();
+        $transfer = new TransferMoney;
+        $transfer->user_id = $user->id;
+        $transfer->transfer_day = $request->transfer_day;
+        $transfer->money_transfer = $request->money_transfer;
+        $transfer->note = $request->note;
+        $transfer->account_transfer = $request->account_transfer;
+        $transfer->save();
+        $bankaccounts = BankCount::where('user_id', '=', $user->id)->get();
+        $this->data['bankaccounts'] = $bankaccounts;
+        $transfers = TransferMoney::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->get();
+        $this->data['transfers'] = $transfers;
+        return view('nhatquangshop::transfer_money', $this->data)->with('noti', 'Gửi thành công');
+    }
 }

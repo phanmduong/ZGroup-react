@@ -17,14 +17,15 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <select class="selectpicker" data-style="btn btn-default" name="account_transfer"
+                            <select class="form-control" data-style="btn btn-default" name="account_transfer"
                                     style="display: block !important;" onchange="report(this.value)">
                                 <option disabled="" selected="">Số tài khoản</option>
                                 @foreach ($bankaccounts as $bankaccount)
-                                    <option value="{{$bankaccount->bank_name}}">{{$bankaccount->bank_account_name}}</option>
-                                    @endforeach
+                                    <option value="{{$bankaccount->bank_name}}">Ngân hàng : {{$bankaccount->bank_name}},
+                                        Chủ tài khoản : {{$bankaccount->bank_account_name}}</option>
+                                @endforeach
                             </select></div>
-                        <div id = "bank"></div>
+                        <div id="bank"></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -44,21 +45,21 @@
             <table class="table">
                 <tr>
                     <th class="text-left">Ngày chuyển</th>
-                    <th>Số tiền(VNĐ)</th>
+                    <th class="text-right">Số tiền(VNĐ)</th>
                     <th class="text-right">Ngân hàng</th>
                     <th class="text-right">Nội dung</th>
                     <th class="text-right">Trạng thái</th>
                 </tr>
                 <tbody>
-                    @foreach($transfers as $transfer)
-                        <tr>
-                            <td class="text-center">{{$transfer->transfer_day}}</td>
-                            <td class="text-center">{{$transfer->money_transfer}}</td>
-                            <td class="text-center">{{$transfer->account_transfer}}</td>
-                            <td class="text-center">{{$transfer->note}}</td>
-                            <td class="text-center">Trà sữa chee</td>
-                        </tr>
-                    @endforeach
+                @foreach($transfers as $transfer)
+                    <tr>
+                        <td class="text-left">{{$transfer->transfer_day}}</td>
+                        <td class="text-right">{{$transfer->money_transfer}}</td>
+                        <td class="text-right">{{$transfer->account_transfer}}</td>
+                        <td class="text-right">{{$transfer->note}}</td>
+                        <td class="text-right">Wait</td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
