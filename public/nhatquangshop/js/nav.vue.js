@@ -5,14 +5,42 @@ var navVue = new Vue({
         hasError: false,
         isLoading: false,
         showLoggedNav: false,
-        user: {
-            phone: "",
-            email: "",
-            password: "",
-            facebook_id: ""
-        }
+        user: window.INIT_USER,
+        isSubmitUserInfo: false
     },
     methods: {
+        onSubmitUpdateUserInfo: function () {
+            this.isSubmitUserInfo = true;
+            var url = "/api/user";
+            axios.put(url, {
+                email: this.user.email,
+                password: this.user.newPassword,
+                phone: this.user.phone
+            })
+                .then(function (res) {
+                    this.isLoading = false;
+                    if (res.data.status === 0) {
+                        alert("Bạn vui lòng nhập đầy đủ thông tin");
+                    } else {
+                        window.location.href = "/";
+                    }
+                }.bind(this));
+        },
+        validEmail: function () {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(this.user.email.toLowerCase());
+        },
+        validPhone: function () {
+            var phoneno = /^\d{9}\d*$/;
+            return this.user.phone !== "" && phoneno.test(this.user.phone);
+        },
+        validPassword: function () {
+            return this.user.newPassword && this.user.newPassword.length >= 8;
+        },
+        validConfirmPassword: function () {
+            return this.user.confirmPassword !== '' && this.user.newPassword !== ''
+                && this.user.newPassword === this.user.confirmPassword;
+        },
         onFacebookLoginButtonClick: function () {
             $("#global-loading").css("display", "block");
             FB.login(function (response) {
@@ -23,7 +51,7 @@ var navVue = new Vue({
                             if (res.data.status === 1) {
                                 var user = res.data.user;
                                 navVue.changeLoginCondition(user);
-                                console.log(user.first_login);
+                                // console.log(user.first_login);
                                 if (!user.first_login) {
                                     $("#updateUserInfoModal").modal({
                                         backdrop: 'static',
@@ -42,27 +70,6 @@ var navVue = new Vue({
                     $("#global-loading").css("display", "none");
                 }
             });
-            // console.log(res);
-            // $("#global-loading").css("display", "block");
-            // FB.getLoginStatus(function (response) {
-            //     console.log(response);
-            //     if (response.status === 'connected') {
-            //         console.log('Logged in.');
-            //         axios.get("/api/facebook/tokensignin?input_token=" + response.authResponse.accessToken + "&facebook_id=" + response.authResponse.userID)
-            //             .then(function (res) {
-            //                 if (res.data.status === 1) {
-            //                     navVue.changeLoginCondition(res.data.user);
-            //                 } else {
-            //                     $("#loginFailNoticeModal").modal("toggle");
-            //                 }
-            //                 $("#global-loading").css("display", "none");
-            //             });
-            //
-            //     } else {
-            //         FB.login();
-            //     }
-
-            // });
         },
         changeLoginCondition: function (user) {
             this.showLoggedNav = true;

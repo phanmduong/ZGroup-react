@@ -332,13 +332,21 @@ class User extends Authenticatable
         ];
     }
 
+    public function personalEmails()
+    {
+        return $this->hasMany(PersonalEmail::class, "user_id");
+    }
+
     public function transformAuth()
     {
         return [
             "id" => $this->id,
             "avatar_url" => generate_protocol_url($this->avatar_url),
-            "name" => $this->name,
-            "first_login" => $this->first_login
+            "name" => $this->name ? $this->name : "",
+            "first_login" => $this->first_login,
+            "email" => $this->email ? $this->email : "",
+            "phone" => $this->phone ? $this->phone : "",
+            "facebook_id" => $this->facebook_id ? $this->facebook_id : ""
         ];
     }
 
