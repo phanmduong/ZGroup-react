@@ -124,6 +124,7 @@ class NhatQuangAuthApiController extends PublicApiController
             $user = User::where("facebook_id", $facebookId)->first();
             if ($user == null) {
                 $user = new User();
+                $user->first_login = 0;
                 $user->avatar_url = defaultAvatarUrl();
             }
             $user->name = $response->name;

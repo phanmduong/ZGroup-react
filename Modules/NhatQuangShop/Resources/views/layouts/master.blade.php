@@ -56,6 +56,14 @@
                         .then(function (res) {
                             if (res.data.status === 1) {
                                 navVue.changeLoginCondition(res.data.user);
+                                console.log(res.data.user);
+                                if (!res.data.user.first_login) {
+                                    console.log("hello");
+                                    $("#updateUserInfoModal").modal({
+                                        backdrop: 'static',
+                                        keyboard: false
+                                    });
+                                }
                             } else {
                                 $("#loginFailNoticeModal").modal("toggle");
                             }
@@ -126,33 +134,57 @@
         <div class="modal-dialog modal-register">
             <div class="modal-content">
                 <div class="modal-header no-border-header text-center">
-                    <h3 class="modal-title text-center">Nhật Quang Shop</h3>
                     <p>Bạn vui lòng hoàn thành thông tin trước khi tiếp tục</p>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Số điện thoại</label>
-                        <input v-model="user.phone" type="text" value="" placeholder="Email"
+                        <label>Email</label>
+                        <input v-model="user.email" type="email" value="" placeholder="Email"
                                class="form-control"/>
+                        <div v-if="user.email && !validEmail()"
+                             class="alert alert-danger"
+                             style="text-align: center">
+                            Email không đúng định dạng
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input v-model="user.phone" type="number" value="" placeholder="Số điện thoại"
+                               class="form-control"/>
+                        <div v-if="user.phone && !validPhone()"
+                             class="alert alert-danger"
+                             style="text-align: center">
+                            Số điện thoại cần ít nhất 9 số và chỉ chứa số.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Mật khẩu</label>
                         <input v-model="user.newPassword" type="password" value="" placeholder="Mật khẩu"
                                class="form-control"/>
+                        <div v-if="user.newPassword && !validPassword()"
+                             class="alert alert-danger"
+                             style="text-align: center">
+                            Mật khẩu cần có độ dài ít nhất 8 kí tự
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Xác nhận Mật khẩu</label>
                         <input v-model="user.confirmPassword" type="password" value="" placeholder="Xác nhận mật khẩu"
                                class="form-control"/>
-                    </div>
-                    <div v-if="hasError" class="alert alert-danger" style="text-align: center">
-                        Sai email hoặc mật khẩu
+                        <div v-if="user.confirmPassword !== '' && !validConfirmPassword()"
+                             class="alert alert-danger"
+                             style="text-align: center">
+                            Mật khẩu và Xác Nhận Mật khẩu chưa trùng khớp
+                        </div>
                     </div>
 
-                    <button :disabled="user.phone ==='' || user.password === '' || isLoading"
-                            v-on:click="onClickLoginButton"
+
+                    <button :disabled="user.newPassword === '' || user.phone ==='' ||
+                    user.confirmPassword === '' || !validPhone() ||
+                    !validConfirmPassword() || isSubmitUserInfo"
+                            v-on:click="onSubmitUpdateUserInfo"
                             class="btn btn-block btn-round">
-                        <div v-if="isLoading" class="uil-reload-css reload-small" style="">
+                        <div v-if="isSubmitUserInfo" class="uil-reload-css reload-small" style="">
                             <div></div>
                         </div>
                         Cập nhật
@@ -223,7 +255,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>Số điện thoại</label>
-                                    <input v-model="user.phone" type="text" value="" placeholder="Email"
+                                    <input v-model="user.phone" type="text" value="" placeholder="Số điện thoại"
                                            class="form-control"/>
                                 </div>
                                 <div class="form-group">
@@ -605,6 +637,26 @@
 
     </div>
 </footer>
+
+@if (isset($user))
+    <script>
+        window.INIT_USER = JSON.parse('{!! json_encode($user->transformAuth())!!}');
+        window.INIT_USER.confirmPassword = "";
+        window.INIT_USER.newPassword = "";
+    </script>
+@else
+    <script>
+        window.INIT_USER = {
+            phone: "",
+            email: "",
+            password: "",
+            facebook_id: "",
+            confirmPassword: "",
+            newPassword: ""
+        };
+    </script>
+@endif
+
 </body>
 <script>startApp();</script>
 <!-- Core JS Files -->

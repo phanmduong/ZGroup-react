@@ -36,6 +36,8 @@ $nhatquangShopRoute = function () {
     Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
     Route::get("/api/facebook/tokensignin", "NhatQuangAuthApiController@facebookTokenSignin");
     Route::post("/api/login", "NhatQuangAuthApiController@login");
+
+    Route::put("/api/user", "NhatQuangShopManageApiController@updateUserInfo");
 };
 
 Route::group(['middleware' => 'web', 'domain' => "keetool.xyz", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);
