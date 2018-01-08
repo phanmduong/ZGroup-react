@@ -41,7 +41,7 @@ $nhatquangShopRoute = function () {
 
     Route::post("/manage/transfermoney", "NhatQuangTransferController@createTransfer");
     Route::get("/manage/transfermoney", "NhatQuangTransferController@transferMoneys");
-});
+};
 
     
 
