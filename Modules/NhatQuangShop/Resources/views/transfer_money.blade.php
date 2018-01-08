@@ -17,14 +17,14 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <select class="selectpicker" data-style="btn btn-default" name="account_transfer"
-                                    style="display: block !important;" onchange="report(this.value)">
+                            <select class="selectpicker" data-style="btn btn-default" id ="select" name="account_transfer"
+                                    style="display: block !important;" onchange="report()">
                                 <option disabled="" selected="">Số tài khoản</option>
                                 @foreach ($bankaccounts as $bankaccount)
                                     <option value="{{$bankaccount->bank_name}}">{{$bankaccount->bank_account_name}}</option>
                                     @endforeach
                             </select></div>
-                        <div id = "bank"></div>
+                        <p id = "bank"></p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -46,7 +46,7 @@
                     <th class="text-left">Ngày chuyển</th>
                     <th>Số tiền(VNĐ)</th>
                     <th class="text-right">Ngân hàng</th>
-                    <th class="text-right">Nội dung</th>
+                <th class="text-right">Nội dung</th>
                     <th class="text-right">Trạng thái</th>
                 </tr>
                 <tbody>
@@ -60,9 +60,15 @@
                         </tr>
                     @endforeach
                 </tbody>
+
             </table>
         </div>
     </div>
-
+    <script type="text/javascript">
+        $("#select").change(function(){
+            var state = $(this).val();
+            $("#bank").text(state) ;
+        })
+    </script>
 
 @endsection

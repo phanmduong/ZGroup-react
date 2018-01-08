@@ -560,7 +560,7 @@
 </body>
 <script>startApp();</script>
 <!-- Core JS Files -->
-<script src="/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
+<script src= {!!url('/assets/js/jquery-ui-1.12.1.custom.min.js')  !!} type="text/javascript"></script>
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>
