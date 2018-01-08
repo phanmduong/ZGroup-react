@@ -49,7 +49,7 @@ class ResourceApiController extends ApiController
     public function paid_courses()
     {
         if ($this->user->role == 0) {
-            $courses = $this->user->registers()->join('courses', 'courses.id', '=', 'registers.course_id')->where('courses.status', 1)->where('registers.status', 1)->select('registers.*')->get()->map(function ($register) {
+            $courses = $this->user->registers()->where('status', 1)->get()->map(function ($register) {
                 return [
                     "id" => $register->studyClass->course->id,
                     "name" => $register->studyClass->course->name,
@@ -68,7 +68,7 @@ class ResourceApiController extends ApiController
             });
             return $this->respond($courses->unique('id')->values());
         } else {
-            return $this->respond(Course::all()->map(function ($course) {
+            return $this->respond(Course::where('status', 1)->get()->map(function ($course) {
                 return [
                     "id" => $course->id,
                     "name" => $course->name,
