@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddBankAccountIdOrderTable extends Migration
+class AddTransferDayToMoneyTransfer extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,8 @@ class AddBankAccountIdOrderTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('orders', function(Blueprint $table){
-            $table->integer('bank_count_id')->index();
+        Schema::table('transfer_money', function (Blueprint $table) {
+            $table->dateTime("transfer_day");
         });
     }
 

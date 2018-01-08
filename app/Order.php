@@ -56,7 +56,7 @@ class Order extends Model
         return $this->belongsTo(ShipInfor::class, 'ship_infor_id');
     }
     public function bank_count(){
-        return $this->belongsTo(BankCount::class, 'bank_count_id');
+        return $this->belongsTo(BankAccount::class, 'bank_count_id');
     }
 
     public function transform()
