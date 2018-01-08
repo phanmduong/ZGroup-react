@@ -1416,8 +1416,8 @@ export default {
             current_page: 1,
             limit: 20,
         },
-        data: {
-            id: 12,
+        data:[ {
+            id: null,
             penalty: 0,
             new_deadline: "0000-00-00 00:00:00",
             deadline: "",
@@ -1425,14 +1425,12 @@ export default {
             status: "Waiting",
             staff: {
                 id: 0,
-                name: "pp",
+                name: "error",
             },
             work: {
                 id: 0,
-                name: "ppp",
+                name: "error",
             },
-
-
-        }
+        }],
     },
 };
