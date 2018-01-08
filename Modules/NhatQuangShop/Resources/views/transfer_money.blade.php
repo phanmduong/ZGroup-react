@@ -17,30 +17,44 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <select class="form-control" data-style="btn btn-default" name="account_transfer"
-                                    style="display: block !important;" onchange="report(this.value)">
+                            <select class="form-control"
+                                    id="bank-account"
+                                    data-style="btn btn-default" name="bank_account_id"
+                                    style="display: block !important;">
                                 <option disabled="" selected="">Số tài khoản</option>
                                 @foreach ($bankaccounts as $bankaccount)
-                                    <option value="{{$bankaccount->bank_name}}">Ngân hàng : {{$bankaccount->bank_name}},
-                                        Chủ tài khoản : {{$bankaccount->bank_account_name}}</option>
+                                    <option value="{{$bankaccount->id}}">{{$bankaccount->bank_account_name}}</option>
                                 @endforeach
-                            </select></div>
-                        <div id="bank"></div>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        @foreach($bankaccounts as $account)
+                            <div id="bank{{$account->id}}" style="display: none">
+                                <div class="form-group">
+                                    <div>Số tài khoản: <strong>{{$account->account_number}}</strong></div>
+                                    <div>Tên chủ tài khoản: <strong>{{$account->owner_name}}</strong></div>
+                                    <div>Ngân hàng: <strong>{{$account->bank_name}}</strong></div>
+                                    <div>Chi nhánh: <strong>{{$account->branch}}</strong></div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control border-input" placeholder="Số tiền đã chuyển"
-                           name="money_transfer">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control border-input" placeholder="Số hóa đơn">
+                    <input type="number" class="form-control border-input" placeholder="Số tiền đã chuyển"
+                           name="money">
                 </div>
                 <textarea class="form-control border-input" placeholder="Nội dung..." name="note"
                           rows="6"></textarea>
                 <button type="submit" style="margin-top: 20px" class="btn">Gửi thông tin chuyển tiền</button>
             </div>
         </form>
-        <button type="button" class="btn btn-twitter" data-toggle="collapse" data-target="#form">Thêm cái gì đó</button>
+        <button type="button" class="btn btn-twitter" data-toggle="collapse" data-target="#form">Thêm chuyển khoản
+        </button>
         <div class="table-responsive" style="margin-top: 20px">
             <table class="table">
                 <tr>
@@ -53,11 +67,21 @@
                 <tbody>
                 @foreach($transfers as $transfer)
                     <tr>
-                        <td class="text-left">{{$transfer->transfer_day}}</td>
-                        <td class="text-right">{{$transfer->money_transfer}}</td>
-                        <td class="text-right">{{$transfer->account_transfer}}</td>
+                        <td class="text-left">{{format_date($transfer->transfer_day)}}</td>
+                        <td class="text-right">{{currency_vnd_format($transfer->money)}}</td>
+                        <td class="text-right">
+                            <div>
+                                {{$transfer->bankAccount->account_number}}
+                            </div>
+                            <div>
+                                {{$transfer->bankAccount->owner_name}}
+                            </div>
+                            <div>
+                                {{$transfer->bankAccount->bank_name}}
+                            </div>
+                        </td>
                         <td class="text-right">{{$transfer->note}}</td>
-                        <td class="text-right">Wait</td>
+                        <td class="text-right">{{$transfer->status()}}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -66,9 +90,12 @@
         </div>
     </div>
     <script type="text/javascript">
-        $("#select").change(function () {
-            var state = $(this).val();
-            $("#bank").text(state);
+        var oldId = 0;
+        $("#bank-account").change(function () {
+            var bankId = $(this).val();
+            $("#bank" + oldId).css("display", "none");
+            $("#bank" + bankId).css("display", "block");
+            oldId = bankId;
         })
     </script>
 

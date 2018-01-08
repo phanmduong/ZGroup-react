@@ -40,6 +40,7 @@ $nhatquangShopRoute = function () {
     Route::put("/api/user", "NhatQuangShopManageApiController@updateUserInfo");
 
     Route::get("/manage/transfermoney", "NhatQuangTransferController@transferMoneys");
+    Route::post("/manage/transfermoney", "NhatQuangTransferController@createTransfer");
 
 };
 
