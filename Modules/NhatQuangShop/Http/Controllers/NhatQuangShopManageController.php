@@ -57,5 +57,4 @@ class NhatQuangShopManageController extends Controller
         $this->data['paidOrderMoneys'] = $paidOrderMoneys;
         return view("nhatquangshop::infoOrder", $this->data);
     }
-
 }

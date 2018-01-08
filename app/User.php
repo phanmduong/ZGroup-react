@@ -395,5 +395,8 @@ class User extends Authenticatable
    public function transferMoneys(){
         return $this->hasMany(TransferMoney::class, 'user_id');
    }
+   public function bank_count(){
+        return $this->hasMany(BankCount::class, 'user_id');
+   }
 }
 

@@ -18,12 +18,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <select class="selectpicker" data-style="btn btn-default" name="account_transfer"
-                                    style="display: block !important;">
-                                <option disabled="" selected="">Phương thức thanh toán</option>
-                                <option value="1">Chuyển khoản</option>
-                                <option value="1">Thanh toán trực tiếp</option>
-                                <option value="1">Thanh toán trực tiếp tại shop</option>
+                                    style="display: block !important;" onchange="report(this.value)">
+                                <option disabled="" selected="">Số tài khoản</option>
+                                @foreach ($bankaccounts as $bankaccount)
+                                    <option value="{{$bankaccount->bank_name}}">{{$bankaccount->bank_account_name}}</option>
+                                    @endforeach
                             </select></div>
+                        <div id = "bank"></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,5 +63,6 @@
             </table>
         </div>
     </div>
+
 
 @endsection

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddDayTransfer extends Migration
+class AddBankCountOrders extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class AddDayTransfer extends Migration
      */
     public function up()
     {
-
-        Schema::table('transfer_money', function (Blueprint $table){
-            $table->string('transfer_day');
+        //
+        Schema::table('bank_account', function(Blueprint $table){
+            $table->timestamps();
         });
     }
 

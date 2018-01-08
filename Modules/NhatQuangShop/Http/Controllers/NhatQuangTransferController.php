@@ -1,6 +1,7 @@
 <?php
 
 namespace Modules\NhatQuangShop\Http\Controllers;
+use App\BankCount;
 use App\Good;
 use App\Order;
 use App\Product;
@@ -32,7 +33,10 @@ class NhatQuangTransferController extends Controller
         }
 
         public function transferMoneys(){
-            $transfers = $this->user->transferMoneys->orderBy('created_at');
+            $user = Auth::user();
+            $bankaccounts = BankCount::where('user_id', '=', $user->id)->get();
+            $this->data['bankaccounts'] = $bankaccounts;
+            $transfers = TransferMoney::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->get();
             $this->data['transfers'] = $transfers;
             return view('nhatquangshop::transfer_money',$this->data)->with('noti', 'Gửi thành công');
         }
@@ -62,8 +66,9 @@ class NhatQuangTransferController extends Controller
            $transfer->note = $request->note;
            $transfer->account_transfer = $request->account_transfer;
            $transfer->save();
-           $transfers = $this->user->transferMoneys;
-
+            $bankaccounts = BankCount::where('user_id', '=', $user->id)->get();
+            $this->data['bankaccounts'] = $bankaccounts;
+            $transfers = TransferMoney::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->get();
            $this->data['transfers'] = $transfers;
            return view('nhatquangshop::transfer_money',$this->data)->with('noti', 'Gửi thành công');
         }
