@@ -23,7 +23,10 @@ class TransferMoney extends Model
     {
         switch ($this->status) {
             case "pending":
-                return "Đang chờ";
+                return [
+                    "color" => "#51bcda",
+                    "text" => "Đang chờ"
+                ];
             default:
                 return "";
         }
