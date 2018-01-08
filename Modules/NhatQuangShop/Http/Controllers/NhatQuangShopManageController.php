@@ -56,22 +56,37 @@ class NhatQuangShopManageController extends Controller
         }
         $this->data['totalPaidMoney'] = $totalPaidMoney;
         $this->data['paidOrderMoneys'] = $paidOrderMoneys;
-        return view("nhatquangshop::infoOrder", $this->data);
+        return view("nhatquangshop::info_order", $this->data);
     }
 
-    public function account_information(){
+    public function account_information()
+    {
         $user = Auth::user();
         $this->data['user'] = $user;
         return view("nhatquangshop::account", $this->data);
     }
 
-    public function get_account_change_information(){
+    public function get_account_change_information()
+    {
         $user = Auth::user();
         $this->data['user'] = $user;
         return view("nhatquangshop::account_change", $this->data);
     }
 
-    public function account_change_information(Request $request){
+    public function account_change_information(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'email' => 'required',
+        ],[
+            'name.required' => 'Bạn chưa nhập tên',
+            'email.required' => 'Bạn chưa nhập địa chỉ email',
+        ]);
+        if ($validator->fails()) {
+            return redirect('/manage/account_change')
+                ->withInput()
+                ->withErrors($validator);
+        }
         $user = Auth::user();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -82,11 +97,13 @@ class NhatQuangShopManageController extends Controller
         return view("nhatquangshop::account", $this->data);
     }
 
-    public function get_password_change(){
+    public function get_password_change()
+    {
         return view("nhatquangshop::password_change");
     }
 
-    public function password_change(Request $request){
+    public function password_change(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'password' => 'required|min:6',
             'newPassword' => 'required|min:6',
@@ -109,7 +126,7 @@ class NhatQuangShopManageController extends Controller
         $user = Auth::user();
         $nowPassword = Hash::make($user->password);
         if ($nowPassword != $user->password) {
-            return redirect('/manage/password_change')->with('errors', 'Mật khẩu hiện tại không chính xác');
+            return redirect('/manage/password_change')->with('error', 'Mật khẩu hiện tại không chính xác');
         }
         $user->password = bcrypt($request->password);
         $user->save();
