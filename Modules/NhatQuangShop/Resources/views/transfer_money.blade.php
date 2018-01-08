@@ -40,7 +40,7 @@
                 <button type="submit" style="margin-top: 20px" class="btn">Gửi thông tin chuyển tiền</button>
             </div>
         </form>
-        <button type="button" class="btn btn-twitter" data-toggle="collapse" data-target="#form">Thêm cái gì đó</button>
+        <button type="button" class="btn btn-twitter" data-toggle="collapse" data-target="#form">Thêm chuyển khoản</button>
         <div class="table-responsive" style="margin-top: 20px">
             <table class="table">
                 <tr>
@@ -65,11 +65,4 @@
             </table>
         </div>
     </div>
-    <script type="text/javascript">
-        $("#select").change(function () {
-            var state = $(this).val();
-            $("#bank").text(state);
-        })
-    </script>
-
 @endsection
