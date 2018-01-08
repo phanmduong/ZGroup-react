@@ -61,9 +61,15 @@
                     </tr>
                 @endforeach
                 </tbody>
+
             </table>
         </div>
     </div>
-
+    <script type="text/javascript">
+        $("#select").change(function () {
+            var state = $(this).val();
+            $("#bank").text(state);
+        })
+    </script>
 
 @endsection

@@ -9,7 +9,7 @@ use App\Http\Controllers\PublicApiController;
 use App\Province;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\NhatQuangShop\Repositories\BookRepository;
 
 class NhatQuangApiController extends PublicApiController
 {
@@ -20,12 +20,12 @@ class NhatQuangApiController extends PublicApiController
         $this->bookRepository = $bookRepository;
     }
 
-    public function flush($subfix, Request $request)
+    public function flush(Request $request)
     {
         $request->session()->flush();
     }
 
-    public function getGoodsFromSession($subfix, Request $request)
+    public function getGoodsFromSession(Request $request)
     {
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
@@ -54,7 +54,7 @@ class NhatQuangApiController extends PublicApiController
         return $data;
     }
 
-    public function addGoodToCart($subfix, $goodId, Request $request)
+    public function addGoodToCart($goodId, Request $request)
     {
         $goods_str = $request->session()->get('goods');
 
@@ -81,7 +81,7 @@ class NhatQuangApiController extends PublicApiController
         return ["status" => 1];
     }
 
-    public function removeBookFromCart($subfix, $goodId, Request $request)
+    public function removeBookFromCart($goodId, Request $request)
     {
         $goods_str = $request->session()->get('goods');
 
@@ -106,7 +106,7 @@ class NhatQuangApiController extends PublicApiController
         return ["status" => 1];
     }
 
-    public function saveOrder($subfix, Request $request)
+    public function saveOrder(Request $request)
     {
         //code phan api dat sach o day hihi
         $email = $request->email;
@@ -132,7 +132,7 @@ class NhatQuangApiController extends PublicApiController
         }
     }
 
-    public function provinces($subfix)
+    public function provinces()
     {
         $provinces = Province::get();
         return [
@@ -140,7 +140,7 @@ class NhatQuangApiController extends PublicApiController
         ];
     }
 
-    public function districts($subfix, $provinceId)
+    public function districts($provinceId)
     {
         $province = Province::find($provinceId);
         return [
@@ -148,7 +148,7 @@ class NhatQuangApiController extends PublicApiController
         ];
     }
 
-    public function wards($subfix, $districtId)
+    public function wards($districtId)
     {
         $district = District::find($districtId);
         return [

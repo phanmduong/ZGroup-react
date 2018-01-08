@@ -23,34 +23,34 @@
         <div class="row">
             <div class="col-md-12">
                 <br>
-                <h3 style="color:black;font-size:30px; font-weight:600">
+                <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>TIN MỚI</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
             </div>
             @if($newestBlog)
-            <div class="col-md-6">
-                <div class="card card-plain card-blog">
-                    <div class="card-image">
-                        <a href="/blog/post/{{$newestBlog->id}}">
-                            <div style="width: 100%;
-                                    border-radius: 2px;
-                                    background: url({{generate_protocol_url($newestBlog->url)}});
-                                    background-size: cover;
-                                    background-position: center;
-                                    padding-bottom: 70%;"></div>
-                        </a>
-                    </div>
-                    <div class="card-block">
-                        <p style="margin-top:15px"><b>{{$newestBlog->title}}</b></p>
-                        <p class="card-description">
-                            {{shortString($newestBlog->description,25)}}
-                        </p>
-                        <a href="/blog/post/{{$newestBlog->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <div class="col-md-6">
+                    <div class="card card-plain card-blog">
+                        <div class="card-image">
+                            <a href="/blog/post/{{$newestBlog->id}}">
+                                <div style="width: 100%;
+                                        border-radius: 2px;
+                                        background: url({{generate_protocol_url($newestBlog->url)}});
+                                        background-size: cover;
+                                        background-position: center;
+                                        padding-bottom: 70%;"></div>
+                            </a>
+                        </div>
+                        <div class="card-block">
+                            <p style="margin-top:15px"><b>{{$newestBlog->title}}</b></p>
+                            <p class="card-description">
+                                {{shortString($newestBlog->description,25)}}
+                            </p>
+                            <a href="/blog/post/{{$newestBlog->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endif
             <div class="col-md-6">
                 @foreach($newestTop3 as $blog)
@@ -83,9 +83,7 @@
                 @endforeach
             </div>
             <div class="col-md-12">
-                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
-                </div>
-                <h3 style="color:black;font-size:30px; font-weight:600">
+                <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>HOẠT ĐỘNG</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
@@ -135,9 +133,7 @@
             </div>
             <div class="col-md-12">
                 <br>
-                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
-                </div>
-                <h3 style="color:black;font-size:30px; font-weight:600">
+                <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>NGHIÊN CỨU</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
@@ -177,9 +173,7 @@
             <br>
             <div class="col-md-12">
                 <br>
-                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
-                </div>
-                <h3 style="color:black;font-size:30px; font-weight:600">
+                <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>CƠ HỘI</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
@@ -240,9 +234,7 @@
                 @endforeach
             </div>
             <div class="col-md-12">
-                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
-                </div>
-                <h3 style="color:black;font-size:30px; font-weight:600">
+                <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>THƯ VIỆN</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>

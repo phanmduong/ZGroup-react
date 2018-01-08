@@ -1,4 +1,7 @@
 <?php
+Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/lesson', 'namespace' => 'Modules\Lesson\Http\Controllers'], function () {
+    Route::get('{lessonId}/survey', 'LessonSurveyApiController@lessonSurveys');
+});
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/lesson', 'namespace' => 'Modules\Lesson\Http\Controllers'], function () {
     Route::get('/get-detail-lesson/{lesson_id}','LessonController@getdetailLesson');

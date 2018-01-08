@@ -33,7 +33,7 @@ class NhatQuangTransferController extends Controller
         }
     }
 
-    public function transferMoneys()
+    public function transferMoneys(Request $request)
     {
         $user = Auth::user();
         $bankaccounts = BankCount::where('user_id', '=', $user->id)->get();

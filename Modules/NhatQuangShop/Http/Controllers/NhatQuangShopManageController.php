@@ -33,7 +33,7 @@ class NhatQuangShopManageController extends Controller
         }
     }
 
-    public function userOrder($subfix, Request $request)
+    public function userOrder(Request $request)
     {
         $user = Auth::user();
         $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(5);
@@ -41,7 +41,7 @@ class NhatQuangShopManageController extends Controller
         return view("nhatquangshop::orders", $this->data);
     }
 
-    public function infoOrder($subfix, $order_id)
+    public function infoOrder($order_id)
     {
         $order = Order::find($order_id);
         $this->data['order'] = $order;

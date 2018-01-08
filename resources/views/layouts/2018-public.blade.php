@@ -62,57 +62,10 @@
     <link rel="stylesheet" href="/assets/css/facebook.css">
 </head>
 <body>
-<div class="fb-livechat">
-    <div class="ctrlq fb-overlay"></div>
-    <div class="fb-widget">
-        <div class="ctrlq fb-close"></div>
-        <div class="fb-page" data-href="https://www.facebook.com/colorme.hanoi" data-tabs="messages"
-             data-width="360"
-             data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
-        <div class="fb-credit"><a href="https://chanhtuoi.com" target="_blank">Powered by Chanhtuoi</a></div>
-        <div id="fb-root"></div>
-    </div>
-    <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
-       href="tel:0982351051" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
-        <div class="bubble-msg">Gọi colorME</div>
-    </a>
-    <a href="https://m.me/colorme.hanoi" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
-        <div class="bubble">1</div>
-        <div class="bubble-msg">Bạn cần hỗ trợ?</div>
-    </a></div>
 <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-
-<script>$(document).ready(function () {
-        function detectmob() {
-            if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        var t = {delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button")};
-        setTimeout(function () {
-            $("div.fb-livechat").fadeIn()
-        }, 8 * t.delay);
-        if (!detectmob()) {
-            $(".ctrlq").on("click", function (e) {
-                e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({
-                    bottom: 0,
-                    opacity: 0
-                }, 2 * t.delay, function () {
-                    $(this).hide("slow"), t.button.show()
-                })) : t.button.fadeOut("medium", function () {
-                    t.widget.stop().show().animate({
-                        bottom: "30px",
-                        opacity: 1
-                    }, 2 * t.delay), t.overlay.fadeIn(t.delay)
-                })
-            })
-        }
-    });</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <div id="app">
     <div data-reactroot="" style="height: 100%;">
         <nav class="navbar navbar-inverse navbar-fixed-top" style="font-size: 12px;">
@@ -144,12 +97,35 @@
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <li class=""><a href="/about-us">Về chúng tôi</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right" id="vue-nav">
+                    <ul class="nav navbar-nav navbar-right" id="vue-nav" style="display: none">
                         @if (isset($user))
-                            <li><a>{{$user->name}}</a></li>
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                                    role="button" aria-haspopup="true" aria-expanded="true">
+                                    <img src="{{$user->avatar_url}}"
+                                         style="width:25px;height: 25px; border-radius: 50%; margin-right: 5px"
+                                         alt="">{{$user->name}}<span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="width: 100%">
+                                    <li><a href="/profile/{{$user->username}}">Trang cá nhân</a></li>
+                                    <li><a href="/logout" v-on:click="logout">Đăng xuất</a></li>
+                                </ul>
+                            </li>
                         @else
-                            <li><a data-toggle="modal" data-target="#modalLogin" v-on:click="openModalLogin">Đăng
-                                    nhập</a></li>
+                            <li v-if="!isLogin">
+                                <a data-toggle="modal" data-target="#modalLogin" v-on:click="openModalLogin">Đăng
+                                    nhập</a>
+                            </li>
+                            <li v-if="isLogin" class="dropdown"><a href="#" class="dropdown-toggle"
+                                                                   data-toggle="dropdown"
+                                                                   role="button" aria-haspopup="true"
+                                                                   aria-expanded="true">
+                                    <img v-bind:src="user.avatar_url"
+                                         style="width:25px;height: 25px; border-radius: 50%; margin-right: 5px"
+                                         alt="">@{{ user.name}}<span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="width: 100%">
+                                    <li><a v-bind:href="'/profile/' + user.username">Trang cá nhân</a></li>
+                                    <li><a href="/logout" v-on:click="logout">Đăng xuất</a></li>
+                                </ul>
+                            </li>
                         @endif
                     </ul>
                 </div>
@@ -221,13 +197,21 @@
                                placeholder="Tên đăng nhập/Email"/>
                     </div>
                     <div class="form-group" style="width: 100%;">
-                        <input class="form-control" style="height: 50px" width="100%" type="text"
+                        <input class="form-control" style="height: 50px" width="100%"
                                v-model="user.password"
+                               type="password"
+                               v-on:keyup.enter="login"
                                placeholder="Mật khẩu"/>
-                        <div>@{{user.password}}</div>
                     </div>
                     <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                            :disabled="user.email ==='' || user.password === '' || isLoading"
+                            v-if="!isLoading"
                             v-on:click="login">Đăng nhập
+                    </button>
+                    <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
+                            :disabled="isLoading"
+                            v-if="isLoading"
+                    ><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Đang đăng nhập
                     </button>
                     <button class="btn" style="width: 100%; margin: 10px; padding: 15px; color: white">Tạo tài khoản
                     </button>
@@ -239,6 +223,58 @@
 
     </div>
 </div>
+<div class="fb-livechat">
+    <div class="ctrlq fb-overlay"></div>
+    <div class="fb-widget">
+        <div class="ctrlq fb-close"></div>
+        <div class="fb-page" data-href="https://www.facebook.com/colorme.hanoi" data-tabs="messages"
+             data-width="360"
+             data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
+        <div class="fb-credit"><a href="https://chanhtuoi.com" target="_blank">Powered by Chanhtuoi</a></div>
+        <div id="fb-root"></div>
+    </div>
+    <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
+       href="tel:0982351051" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+        <div class="bubble-msg">Gọi colorME</div>
+    </a>
+    <a href="https://m.me/colorme.hanoi" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+        <div class="bubble">1</div>
+        <div class="bubble-msg">Bạn cần hỗ trợ?</div>
+    </a></div>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/colorme/js/vue.js"></script>
+<script>$(document).ready(function () {
+        $('#vue-nav').css("display", "block");
+
+        function detectmob() {
+            if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        var t = {delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button")};
+        setTimeout(function () {
+            $("div.fb-livechat").fadeIn()
+        }, 8 * t.delay);
+        if (!detectmob()) {
+            $(".ctrlq").on("click", function (e) {
+                e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({
+                    bottom: 0,
+                    opacity: 0
+                }, 2 * t.delay, function () {
+                    $(this).hide("slow"), t.button.show()
+                })) : t.button.fadeOut("medium", function () {
+                    t.widget.stop().show().animate({
+                        bottom: "30px",
+                        opacity: 1
+                    }, 2 * t.delay), t.overlay.fadeIn(t.delay)
+                })
+            })
+        }
+    });</script>
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -323,8 +359,6 @@
              src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/923433004/?guid=ON&amp;script=0"/>
     </div>
 </noscript>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/colorme/js/vue.js"></script>
+@stack("scripts")
 </body>
 </html>

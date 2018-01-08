@@ -19,6 +19,7 @@ class HistoryExtensionWork extends Model
             "id" => $this->id,
             "reason" => $this->reason,
             "penalty" => $this->penalty,
+            "deadline" => $work->deadline,
             "new_deadline" => $this->new_deadline,
             "staff" => [
                 "id" => $staff->id,
