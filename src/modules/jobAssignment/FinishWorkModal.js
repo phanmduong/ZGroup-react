@@ -7,14 +7,15 @@ import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import {Modal} from 'react-bootstrap';
 import FormInputText from "../../components/common/FormInputText";
-import RateStar from "../../components/common/RateStar";
 import * as helper from "../../helpers/helper";
+import FormInputSelect from "../../components/common/FormInputSelect";
+import _ from 'lodash';
 
 class FinishWorkModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            star: 0,
+            star: 5,
             cost: 0,
             self_report: "",
         };
@@ -28,8 +29,14 @@ class FinishWorkModal extends React.Component {
         helper.setFormValidation('#form-finish-work');
     }
 
-    componentWillReceiveProps() {
-        //if (!(!this.props.isSaving && nextProps.isSaving))
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.show && nextProps.show){
+            this.setState({
+                star: 5,
+                cost: 1,
+                self_report: "",
+            });
+        }
     }
 
     componentDidUpdate(){
@@ -46,8 +53,9 @@ class FinishWorkModal extends React.Component {
     }
 
     submit(){
-        if($('#form-finish-work').valid())
-            helper.showNotification("OK");
+        if($('#form-finish-work').valid()){
+            console.log(this.state);
+        }
         else helper.showErrorNotification("Vui lòng điền đầy đủ thông tin");
     }
 
@@ -69,13 +77,13 @@ class FinishWorkModal extends React.Component {
                                 :
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <RateStar
+                                        <FormInputSelect
                                             name="star"
                                             updateFormData={this.updateFormData}
                                             value={this.state.star}
                                             label="Mức độ hoàn thành"
-                                            maxStar="5"
                                             placeholder="5"
+                                            data={_.range(5,0).map(id => {return ({id: id, name : id});})}
                                         /></div>
                                     <div className="col-md-12">
                                         <FormInputText

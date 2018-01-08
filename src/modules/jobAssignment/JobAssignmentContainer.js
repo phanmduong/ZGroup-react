@@ -129,7 +129,6 @@ class JobAssignmentContainer extends React.Component {
                     onHide={this.closeFinishModal}
                     data={this.state.work}
                     submit={this.doneWork}
-
                 />
 
 
