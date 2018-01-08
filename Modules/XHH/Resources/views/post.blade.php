@@ -38,9 +38,15 @@
                         </div>
                         <div class="row">
                             <div class="col-md-8 offset-md-2">
-                                <img class="card" data-radius="none" width="100%" style="min-height: 0px" src={{$post->url}}  />
+                                <img class="card" data-radius="none" width="100%" style="min-height: 0px"
+                                     src={{$post->url}} />
                                 <p class="image-thumb text-center">{{$post->title}}</p>
                                 <div class="article-content">
+                                    <style>
+                                        img, p {
+                                            margin: 20px 0px !important;
+                                        }
+                                    </style>
                                     {!!$post->content !!}
                                 </div>
                                 <div class="article-footer">
@@ -58,7 +64,19 @@
                                             <div class="col-md-2">
 
                                                 <div class="sharing">
-                                                    <div class="fb-share-button fb_iframe_widget" data-href="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}" data-layout="button" data-size="large" data-mobile-iframe="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=1700581200251148&amp;container_width=49&amp;layout=button&amp;locale=vi_VN&amp;mobile_iframe=true&amp;sdk=joey&amp;size=large"><span style="vertical-align: bottom; width: 83px; height: 28px;"><iframe name="f2b7ac78cc2a6a" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:share_button Facebook Social Plugin" src="https://www.facebook.com/v2.10/plugins/share_button.php?app_id=1700581200251148&amp;container_width=49&amp;href={{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}} &amp;layout=button&amp;locale=vi_VN&amp;mobile_iframe=true&amp;sdk=joey&amp;size=large" style="border: none; visibility: visible; width: 83px; height: 28px;" class=""></iframe></span></div>
+                                                    <div class="fb-share-button fb_iframe_widget"
+                                                         data-href="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}"
+                                                         data-layout="button" data-size="large"
+                                                         data-mobile-iframe="true" fb-xfbml-state="rendered"
+                                                         fb-iframe-plugin-query="app_id=1700581200251148&amp;container_width=49&amp;layout=button&amp;locale=vi_VN&amp;mobile_iframe=true&amp;sdk=joey&amp;size=large">
+                                                        <span style="vertical-align: bottom; width: 83px; height: 28px;"><iframe
+                                                                    name="f2b7ac78cc2a6a" width="1000px" height="1000px"
+                                                                    frameborder="0" allowtransparency="true"
+                                                                    allowfullscreen="true" scrolling="no"
+                                                                    title="fb:share_button Facebook Social Plugin"
+                                                                    src="https://www.facebook.com/v2.10/plugins/share_button.php?app_id=1700581200251148&amp;container_width=49&amp;href={{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}} &amp;layout=button&amp;locale=vi_VN&amp;mobile_iframe=true&amp;sdk=joey&amp;size=large"
+                                                                    style="border: none; visibility: visible; width: 83px; height: 28px;"
+                                                                    class=""></iframe></span></div>
                                                 </div>
                                             </div>
                                         </div>

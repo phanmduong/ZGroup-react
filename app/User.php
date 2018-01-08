@@ -148,9 +148,11 @@ class User extends Authenticatable
     | Relationship Methods
     |--------------------------------------------------------------------------
     */
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany(Order::class, 'user_id');
     }
+
     public function roles()
     {
         return $this->belongsTo(Role::class, 'role_id');
@@ -321,12 +323,30 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'followings', 'followed_id', 'following_id');
     }
 
+    public function getData()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'role' => $this->current_role ? $this->current_role->getData() : null,
+        ];
+    }
+
+    public function personalEmails()
+    {
+        return $this->hasMany(PersonalEmail::class, "user_id");
+    }
+
     public function transformAuth()
     {
         return [
             "id" => $this->id,
             "avatar_url" => generate_protocol_url($this->avatar_url),
-            "name" => $this->name
+            "name" => $this->name ? $this->name : "",
+            "first_login" => $this->first_login,
+            "email" => $this->email ? $this->email : "",
+            "phone" => $this->phone ? $this->phone : "",
+            "facebook_id" => $this->facebook_id ? $this->facebook_id : ""
         ];
     }
 
@@ -383,6 +403,7 @@ class User extends Authenticatable
             'email' => $this->email,
             'address' => $this->address,
             'birthday' => $this->dob,
+            "first_login" => $this->first_login,
             'gender' => $this->gender,
             'avatar_url' => $this->avatar_url ? $this->avatar_url : "http://api.colorme.vn/img/user.png",
             'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",

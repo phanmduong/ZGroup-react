@@ -469,7 +469,7 @@
 <script src="/graphics-assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/graphics.js?6868"></script>
+<script src="/js/graphics.js?8888"></script>
 
 
 </html>

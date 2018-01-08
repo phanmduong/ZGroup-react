@@ -15,11 +15,6 @@ class Course extends Model
         return $this->hasMany('App\StudyClass');
     }
 
-    public function courseCategories()
-    {
-        return $this->belongsToMany(CourseCategory::class, 'course_course_category', 'course_id', 'course_category_id');
-    }
-
     public function lessons()
     {
         return $this->hasMany('App\Lesson', 'course_id');
@@ -35,7 +30,7 @@ class Course extends Model
         return $this->hasMany('App\Link', 'course_id');
     }
 
-    public function type()
+    public function courseType()
     {
         return $this->belongsTo(CourseType::class, 'type_id');
     }
@@ -43,6 +38,11 @@ class Course extends Model
     public function coursePixels()
     {
         return $this->hasMany(CoursePixel::class, 'course_id');
+    }
+
+    public function courseCategories()
+    {
+        return $this->belongsToMany(CourseCategory::class, 'course_course_category', 'course_id', 'course_category_id');
     }
 
     public function detailedTransform()
@@ -68,6 +68,10 @@ class Course extends Model
             'links' => $this->links,
             'terms' => $this->terms,
             'status' => $this->status,
+            'type' => $this->courseType ? $this->courseType->getData : null,
+            'categories' => $this->courseCategories->map(function ($courseCategory) {
+                return $courseCategory->getData();
+            }),
             'pixels' => $this->coursePixels->map(function ($coursePixel) {
                 return $coursePixel->getData();
             })
@@ -84,6 +88,11 @@ class Course extends Model
             'duration' => $this->duration,
             'price' => $this->price,
             'status' => $this->status,
+            'color' => $this->color,
+            'type_id' => $this->type_id,
+            'categories' => $this->courseCategories->map(function ($courseCategory) {
+                return $courseCategory->getData();
+            }),
         ];
     }
 }

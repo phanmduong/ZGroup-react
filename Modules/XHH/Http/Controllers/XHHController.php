@@ -57,7 +57,16 @@ class XHHController extends Controller
         $startDate = $date->format("Y-m-d h:i:s");
         $totalBlogs = Product::where('type', 2)->count();
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
+        $blogs = Product::where('type', 2);
+
+        $search = $request->search;
+
+        if ($search) {
+            $blogs = $blogs->where('title', 'like', '%' . $search . '%');
+        }
+
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
+
         $display = "";
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
@@ -66,7 +75,8 @@ class XHHController extends Controller
             'page_id' => $page_id,
             'display' => $display,
             'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
+            'total_blogs' => $totalBlogs,
+            'search' => $search
         ]);
     }
 
@@ -127,7 +137,7 @@ class XHHController extends Controller
         ]);
     }
 
-    public function allBooks($subfix)
+    public function allBooks($subfix, Request $request)
     {
         $date = new \DateTime();
         $date->modify("+1 day");
@@ -136,11 +146,27 @@ class XHHController extends Controller
         $startDate = $date->format("Y-m-d h:i:s");
         $totalBlogs = Product::where('type', 2)->count();
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
-        $books = Good::where('type', 'book')->get();
+        $books = Good::where('type', 'book');
+
+        $search = $request->search;
+        if ($search) {
+            $books = $books->leftJoin('good_properties', 'goods.id', '=', 'good_properties.good_id')->where(function ($q) use ($search) {
+                $q->where('goods.name', 'like', '%' . $search . '%')
+                    ->orWhere('goods.code', 'like', '%' . $search . '%')
+                    ->orWhere(function ($q1) use ($search) {
+                        $q1->where('good_properties.name', 'TYPE_BOOK')
+                            ->where('good_properties.value', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+
+        $books = $books->select('goods.*')->get();
         return view('xhh::library', [
             'books' => $books,
             'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
+            'total_blogs' => $totalBlogs,
+            'search' => $search
         ]);
     }
 

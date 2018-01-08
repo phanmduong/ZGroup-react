@@ -107,6 +107,10 @@ class StaffApiController extends ManageApiController
 
     public function changeStatusInWork($staffId, $workId, Request $request)
     {
+        $staff = User::find($staffId);
+        $work = Work::find($workId);
+        if (!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
+        if (!$staff) return $this->respondErrorWithStatus("Không tồn tại nhân viên");
         $work_staff = WorkStaff::where('work_id', $workId)->where('staff_id', $staffId)->first();
         if (!$work_staff) return $this->respondErrorWithStatus("Không tồn tại");
         if (!$request->status) return $this->respondErrorWithStatus("Thiếu status");

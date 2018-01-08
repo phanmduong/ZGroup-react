@@ -8,7 +8,7 @@ use App\User;
 use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use phpseclib\Crypt\Hash;
+use Illuminate\Support\Facades\Hash;
 
 
 class NhatQuangAuthApiController extends PublicApiController
@@ -18,15 +18,13 @@ class NhatQuangAuthApiController extends PublicApiController
     {
     }
 
-    public function login($subfix, Request $request)
+    public function login(Request $request)
     {
-        $email = $request->email;
         $password = $request->password;
+        $phone = $request->phone;
 
-
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
-
-            $user = User::where("email", $email)->first();
+        if (Auth::attempt(['phone' => $phone, 'password' => $password])) {
+            $user = User::where("phone", $phone)->first();
             return [
                 "status" => 1,
                 "user" => $user->transformAuth()
@@ -126,6 +124,7 @@ class NhatQuangAuthApiController extends PublicApiController
             $user = User::where("facebook_id", $facebookId)->first();
             if ($user == null) {
                 $user = new User();
+                $user->first_login = 0;
                 $user->avatar_url = defaultAvatarUrl();
             }
             $user->name = $response->name;
