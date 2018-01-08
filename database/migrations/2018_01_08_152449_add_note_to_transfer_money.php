@@ -13,7 +13,7 @@ class AddNoteToTransferMoney extends Migration
     public function up()
     {
         Schema::table('transfer_money', function (Blueprint $table) {
-            $table->text("note")->change();
+            $table->text("note");
             $table->string("status")->index();
         });
     }
