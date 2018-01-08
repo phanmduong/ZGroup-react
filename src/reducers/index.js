@@ -60,7 +60,7 @@ import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSess
 import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
 import historyWorkShiftRegistersReducer from "../modules/historyWorkShiftRegisters/historyWorkShiftRegistersReducer";
 import landingPagesReducer from "../modules/landingpage/landingPagesReducer";
-
+import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/HistoryExtensionWorkReducer";
 
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
@@ -124,7 +124,7 @@ const appReducer = combineReducers({
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
     landingPages : landingPagesReducer,
-
+    historyExtension: HistoryExtensionWorkReducer,
 });
 
 const rootReducer = (state, action) => {
