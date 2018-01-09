@@ -149,9 +149,9 @@ class WorkApiController extends ManageApiController
         $history = HistoryExtensionWork::find($historyId);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $history->status = $request->status;
-        $history->save();
+        $history->delete();
         return $this->respondSuccessWithStatus([
-            "message" => "Xóa thành công"
+            "message" => "Từ chối thành công"
         ]);
     }
 
