@@ -161,6 +161,10 @@ class OrderController extends ManageApiController
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
+        if($order_id == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại order'
+            ]);
         if ($this->user->role != 2)
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
