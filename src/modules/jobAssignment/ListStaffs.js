@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import Avatar from "../../components/common/Avatar";
 import * as helper from "../../helpers/helper";
-import {Link}  from 'react-router';
 import {Modal} from 'react-bootstrap';
 import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
 

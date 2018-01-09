@@ -30,6 +30,7 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     componentWillMount() {
+        console.log(this.props);
         helper.setFormValidation('#form-job-assignment');
         this.props.jobAssignmentAction.loadStaffs();
         if(this.props.params.workId)
@@ -38,7 +39,7 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        //console.log(nextProps);
+        console.log("next",nextProps);
 
         if(this.props.isLoadingStaffs && !nextProps.isLoadingStaffs)
             if(this.props.params.workId)
@@ -88,7 +89,7 @@ class CreateJobAssignmentContainer extends React.Component {
             }
             return true;
         }
-        return true;
+        return false;
     }
 
     submit(){

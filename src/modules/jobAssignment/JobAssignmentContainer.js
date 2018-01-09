@@ -3,7 +3,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as jobAssignmentAction from '../jobAssignment/jobAssignmentAction';
-
 import  CardWork from '../jobAssignment/CardWork';
 import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
@@ -142,11 +141,10 @@ class JobAssignmentContainer extends React.Component {
                                 {this.props.isLoading ?
                                     <Loading/>
                                     :
-                                    this.props.works.map((work, key)=>{
+                                    this.props.works.map((work)=>{
                                         if(work.status == conts.STATUS_WORK[0].value)
                                         return (
                                             <CardWork
-                                                key={key}
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 change={this.changeWorkStatus}
@@ -201,11 +199,10 @@ class JobAssignmentContainer extends React.Component {
                                 {this.props.isLoading ?
                                     <Loading/>
                                     :
-                                    this.props.works.map((work, key)=>{
+                                    this.props.works.map((work)=>{
                                         if(work.status == conts.STATUS_WORK[1].value)
                                         return (
                                             <CardWork
-                                                key={key}
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="doing"
@@ -260,11 +257,10 @@ class JobAssignmentContainer extends React.Component {
                                 {this.props.isLoading ?
                                     <Loading/>
                                     :
-                                    this.props.works.map((work, key)=>{
+                                    this.props.works.map((work)=>{
                                         if(work.status == conts.STATUS_WORK[2].value)
                                         return (
                                             <CardWork
-                                                key={key}
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="done"
@@ -319,11 +315,10 @@ class JobAssignmentContainer extends React.Component {
                                 {this.props.isLoading ?
                                     <Loading/>
                                     :
-                                    this.props.works.map((work, key)=>{
+                                    this.props.works.map((work)=>{
                                         if(work.status == conts.STATUS_WORK[3].value)
                                         return (
                                             <CardWork
-                                                key={key}
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="cancel"
