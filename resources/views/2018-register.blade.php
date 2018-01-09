@@ -227,11 +227,12 @@
                     // ios 11 bug caret position
                     if (iOS && iOS11) {
 
-                        document.body.style.overflow = 'hidden';
-                        document.body.style.height = '100%';
-                        document.body.style.width = '100%';
-                        document.body.style.position = 'fixed';
+
                     }
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.height = '100%';
+                    document.body.style.width = '100%';
+                    document.body.style.position = 'fixed';
                 })();
             })
 
