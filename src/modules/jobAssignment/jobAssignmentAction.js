@@ -200,6 +200,47 @@ export function changeStatusWork(workId, staffId, status, success) {
             });
     };
 }
+export function extendWork(workId, staffId, data, success) {
+    return function (dispatch) {
+        helper.showWarningNotification("Đang yêu cầu...");
+        dispatch({type: types.BEGIN_EXTEND_WORK});
+        jobAssignmentApi.extendWork(workId,staffId, data)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({type: types.EXTEND_WORK_SUCCESS});
+                    helper.showNotification("Đã xin gia hạn, vui lòng chờ xét duyệt.");
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.EXTEND_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.EXTEND_WORK_ERROR});
+            });
+    };
+}
+export function doneWork(workId, staffId, data, success) {
+    return function (dispatch) {
+        helper.showWarningNotification("Đang lưu...");
+        dispatch({type: types.BEGIN_CHANGE_STATUS_WORK});
+        jobAssignmentApi.doneWork(workId,staffId, data)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({type: types.CHANGE_STATUS_WORK_SUCCESS});
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.CHANGE_STATUS_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.CHANGE_STATUS_WORK_ERROR});
+            });
+    };
+}
 export function resetDataCreate(){
     return function (dispatch) {
         dispatch({type: types.RESET_DATA_CREATE_WORK});

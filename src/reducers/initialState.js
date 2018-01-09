@@ -1425,14 +1425,12 @@ export default {
             status: "Waiting",
             staff: {
                 id: 0,
-                name: "pp",
+                name: "error",
             },
             work: {
                 id: 0,
-                name: "ppp",
+                name: "error",
             },
-
-
         }],
     },
     summaryStaff: {

@@ -2,7 +2,6 @@ import * as types from '../../constants/actionTypes';
 import * as HistoryExtensionWorkApi from './HistoryExtensionWorkApi';
 
 export function historyExtensionWork(page = 1,search = '') {
-    console.log(page);
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_HISTORY_EXTENSION_WORK,

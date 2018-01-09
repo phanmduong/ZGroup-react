@@ -99,7 +99,7 @@ class HistoryExtensionWorkContainer extends React.Component {
                                     {
                                         this.props.isLoading ? <Loading/> :
                                             <HistoryExtensionList
-                                                data={this.props.data}
+                                                data={this.props.data || []}
                                                 deleteHistory={this.deleteHistoryExtensionWork}
                                                 acceptHistory={this.acceptHistoryExtensionWork}
                                             />

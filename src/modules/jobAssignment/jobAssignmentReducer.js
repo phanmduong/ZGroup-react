@@ -140,6 +140,30 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+        case types.BEGIN_EXTEND_WORK: {
+            return {
+                ...state,
+                ...{
+                    isSaving: true,
+                }
+            };
+        }
+        case types.EXTEND_WORK_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isSaving: false,
+                }
+            };
+        }
+        case types.EXTEND_WORK_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isSaving: false,
+                }
+            };
+        }
         case types.BEGIN_CHANGE_STATUS_WORK: {
             return {
                 ...state,

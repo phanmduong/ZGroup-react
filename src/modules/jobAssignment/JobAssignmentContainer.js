@@ -3,20 +3,19 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as jobAssignmentAction from '../jobAssignment/jobAssignmentAction';
-
 import  CardWork from '../jobAssignment/CardWork';
 import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import * as conts from '../../constants/constants';
 import WorkInfoModal from './WorkInfoModal';
+import ExtendWorkModal from './ExtendWorkModal';
+import FinishWorkModal from './FinishWorkModal';
 import {Link} from "react-router";
-
 
 class JobAssignmentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-
         this.deleteWork =this.deleteWork.bind(this);
         this.changeWorkStatus =this.changeWorkStatus.bind(this);
         this.openInfoModal =this.openInfoModal.bind(this);
@@ -24,9 +23,15 @@ class JobAssignmentContainer extends React.Component {
         this.acceptWork =this.acceptWork.bind(this);
         this.doneWork =this.doneWork.bind(this);
         this.revertWork =this.revertWork.bind(this);
+        this.openExtendModal =this.openExtendModal.bind(this);
+        this.closeExtendModal =this.closeExtendModal.bind(this);
+        this.openFinishModal =this.openFinishModal.bind(this);
+        this.closeFinishModal =this.closeFinishModal.bind(this);
+        this.extendWork =this.extendWork.bind(this);
         this.state = {
             showInfoModal: false,
-            modalType: conts.STATUS_WORK[0],
+            showExtendModal: false,
+            showFinishModal: false,
             work: {
                 staffs:[],
             },
@@ -38,7 +43,7 @@ class JobAssignmentContainer extends React.Component {
     }
 
     // componentWillReceiveProps(nextProps) {
-    //     console.log('l',nextProps);
+    //     console.log('job',nextProps);
     // }
 
     deleteWork(id){
@@ -65,6 +70,22 @@ class JobAssignmentContainer extends React.Component {
         this.setState({showInfoModal: false});
     }
 
+    openExtendModal(work){
+        this.setState({showExtendModal: true, work:work});
+    }
+
+    closeExtendModal(){
+        this.setState({showExtendModal: false});
+    }
+
+    openFinishModal(work){
+        this.setState({showFinishModal: true, work:work});
+    }
+
+    closeFinishModal(){
+        this.setState({showFinishModal: false});
+    }
+
     acceptWork(workId, staffId){
         this.props.jobAssignmentAction.changeStatusWork(workId,staffId, conts.STATUS_WORK[1].value, ()=>{
             helper.showNotification("Đã chấp nhận công việc.");
@@ -72,9 +93,10 @@ class JobAssignmentContainer extends React.Component {
         });
     }
 
-    doneWork(workId, staffId){
-        this.props.jobAssignmentAction.changeStatusWork(workId,staffId, conts.STATUS_WORK[2].value, ()=>{
+    doneWork(data){
+        this.props.jobAssignmentAction.doneWork(this.state.work.id,this.props.user.id, data, ()=>{
             helper.showNotification("Đã hoàn thành công việc.");
+            this.closeFinishModal();
             return this.props.jobAssignmentAction.loadWorks();
         });
     }
@@ -83,17 +105,34 @@ class JobAssignmentContainer extends React.Component {
         this.props.jobAssignmentAction.editWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
     }
 
+    extendWork(workId, data){
+        this.props.jobAssignmentAction.extendWork(workId,this.props.user.id, data, this.closeExtendModal);
+    }
 
     render() {
         return (
             <div>
-
                 <WorkInfoModal
                     show={this.state.showInfoModal}
                     onHide={this.closeInfoModal}
                     data={this.state.work}
                     modalType={this.state.modalType}
                 />
+                <ExtendWorkModal
+                    show={this.state.showExtendModal}
+                    onHide={this.closeExtendModal}
+                    data={this.state.work}
+                    submit={this.extendWork}
+
+                />
+                <FinishWorkModal
+                    show={this.state.showFinishModal}
+                    onHide={this.closeFinishModal}
+                    data={this.state.work}
+                    submit={this.doneWork}
+                />
+
+
                 <div style={{display:"flex", flexDirection: "row-reverse",}}>
                     <Link to="hr/job-assignment/create" className="btn btn-rose">
                         <i className="material-icons keetool-card">add</i>
@@ -137,7 +176,6 @@ class JobAssignmentContainer extends React.Component {
                                     </div>
                                 </div>
                             </div>
-
                             <div className="board">
                                 {this.props.isLoading ?
                                     <Loading/>
@@ -151,7 +189,7 @@ class JobAssignmentContainer extends React.Component {
                                                 delete={this.deleteWork}
                                                 change={this.changeWorkStatus}
                                                 status="pending"
-                                                openModal={()=>{return this.openInfoModal(work, conts.STATUS_WORK[0].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 acceptWork={this.acceptWork}
                                             />
@@ -163,7 +201,6 @@ class JobAssignmentContainer extends React.Component {
                     {/*1*/}
                     {/*2*/}
                         <div  data-order="1" className="card card-container keetool-board">
-
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đang làm</span>
                                 <div className="board-action">
@@ -197,7 +234,6 @@ class JobAssignmentContainer extends React.Component {
                                 </div>
                             </div>
                             <div className="board">
-
                                 {this.props.isLoading ?
                                     <Loading/>
                                     :
@@ -209,21 +245,20 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="doing"
-                                                openModal={()=>{return this.openInfoModal(work, conts.STATUS_WORK[1].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 doneWork={this.doneWork}
+                                                openExtendModal={()=>{return this.openExtendModal(work);}}
+                                                openFinishModal={()=>{return this.openFinishModal(work);}}
                                             />
                                         );
                                     })
                                 }
-
                             </div>
                         </div>
                     {/*2*/}
                     {/*3*/}
-
                         <div  data-order="2" className="card card-container keetool-board">
-
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hoàn thành</span>
                                 <div className="board-action">
@@ -268,21 +303,18 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="done"
-                                                openModal={()=>{return this.openInfoModal(work, conts.STATUS_WORK[2].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 revertWork={this.revertWork}
                                             />
                                         );
                                     })
                                 }
-
                             </div>
                         </div>
                     {/*3*/}
                     {/*4*/}
-
                         <div  data-order="3" className="card card-container keetool-board">
-
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hủy</span>
                                 <div className="board-action">
@@ -327,13 +359,12 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="cancel"
-                                                openModal={()=>{return this.openInfoModal(work, conts.STATUS_WORK[3].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                             />
                                         );
                                     })
                                 }
-
                             </div>
                         </div>
 
@@ -347,16 +378,17 @@ class JobAssignmentContainer extends React.Component {
 
 JobAssignmentContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
     works: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     jobAssignmentAction: PropTypes.object.isRequired,
-
 
 };
 
 function mapStateToProps(state) {
    return {
        isLoading : state.jobAssignment.isLoading,
+       isSaving : state.jobAssignment.isSaving,
        works : state.jobAssignment.works,
        user: state.login.user
    };
