@@ -147,7 +147,7 @@
                                 <input type="text" class="form-control" name="name" placeholder="Nhập họ và tên"
                                        required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="position: absolute">
                                 <label for="phone">Số điện thoại
                                     <star style="color: red;">*</star>
                                 </label>
