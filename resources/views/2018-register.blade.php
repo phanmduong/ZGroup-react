@@ -100,7 +100,7 @@
         </div>
         <br><br>
         <!-- Modal -->
-        <div id="modal-register-class" class="modal fade" role="dialog">
+        <div id="modal-register-class" class="modal fade" role="dialog" style="position: fixed">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -133,14 +133,13 @@
                                     <star style="color: red;">*</star>
                                 </label>
                                 <input type="email" class="form-control" name="email" placeholder="Nhập email" required
-                                       style="position: absolute;!important;">
+                                >
                             </div>
                             <div class="form-group">
                                 <label for="name">Họ và tên
                                     <star style="color: red;">*</star>
                                 </label>
                                 <input type="text" class="form-control" name="name" placeholder="Nhập họ và tên"
-                                       style="position: absolute;!important;"
                                        required>
                             </div>
                             <div class="form-group">
@@ -148,7 +147,6 @@
                                     <star style="color: red;">*</star>
                                 </label>
                                 <input type="text" class="form-control" name="phone" placeholder="Nhập số điện thoại"
-                                       style="position: absolute;!important;"
                                        required>
                             </div>
                         </form>
