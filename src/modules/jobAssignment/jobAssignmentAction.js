@@ -114,14 +114,15 @@ export function editWork(data, status, success) {
     };
 }
 export function revertWork(data, status, success) {
+    helper.showWarningNotification("Đang yêu cầu");
     return function (dispatch) {
         dispatch({type: types.BEGIN_REVERT_WORK});
         jobAssignmentApi.editWork(data,status)
             .then((res) => {
+
                 if(res.data.status == 1) {
-                    if(!status)
-                        helper.sweetAlertSuccess("Lưu thành công");
-                    else success();
+                    success();
+                    helper.showNotification("Yêu cầu thành công");
                     dispatch({
                         type: types.REVERT_WORK_SUCCESS,
                     });

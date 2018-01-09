@@ -109,8 +109,8 @@ class JobAssignmentContainer extends React.Component {
         });
     }
 
-    doneWork(workId, staffId){
-        this.props.jobAssignmentAction.changeStatusWork(workId,staffId, STATUS_WORK[2].value, ()=>{
+    doneWork(data){
+        this.props.jobAssignmentAction.doneWork(this.state.work.id,this.props.user.id, data, ()=>{
             helper.showNotification("Đã hoàn thành công việc.");
             this.closeFinishModal();
             return this.props.jobAssignmentAction.loadWorks();
@@ -118,7 +118,7 @@ class JobAssignmentContainer extends React.Component {
     }
 
     revertWork(work){
-        this.props.jobAssignmentAction.editWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
+        this.props.jobAssignmentAction.revertWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
     }
 
     onWorkTypeChange(obj){
@@ -225,35 +225,6 @@ class JobAssignmentContainer extends React.Component {
                         <div  data-order="0" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đợi chấp nhận</span>
-                                <div className="board-action">
-
-                                    <div className="dropdown">
-                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                           data-toggle="dropdown">
-                                            <i className="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-right">
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">edit</i>
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">add</i>
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">archive</i>
-                                                    3
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                             <div className="board">
                                 {this.props.isLoading ?
@@ -280,35 +251,6 @@ class JobAssignmentContainer extends React.Component {
                         <div  data-order="1" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đang làm</span>
-                                <div className="board-action">
-
-                                    <div className="dropdown">
-                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                           data-toggle="dropdown">
-                                            <i className="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-right">
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">edit</i>
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">add</i>
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">archive</i>
-                                                    3
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                             <div className="board">
                                 {this.props.isLoading ?
@@ -336,34 +278,6 @@ class JobAssignmentContainer extends React.Component {
                         <div  data-order="2" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hoàn thành</span>
-                                <div className="board-action">
-                                    <div className="dropdown">
-                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                           data-toggle="dropdown">
-                                            <i className="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-right">
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">edit</i>
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">add</i>
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">archive</i>
-                                                    3
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                             <div className="board">
                                 {this.props.isLoading ?
@@ -390,35 +304,6 @@ class JobAssignmentContainer extends React.Component {
                         <div  data-order="3" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hủy</span>
-                                <div className="board-action">
-
-                                    <div className="dropdown">
-                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                           data-toggle="dropdown">
-                                            <i className="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-right">
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">edit</i>
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">add</i>
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">archive</i>
-                                                    3
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                             <div className="board">
                                 {this.props.isLoading ?
