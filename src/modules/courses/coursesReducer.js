@@ -294,8 +294,8 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
                 ...{
                     isCommitting: false,
-                    data: action.data,
-                    commitSuccess: true
+                    //data: action.data,
+                    commitSuccess: true,
                 }
             };
         }
@@ -566,6 +566,46 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 coursesList: newdata
+            };
+        }
+        case types.BEGIN_LOAD_ALL_TYPES: {
+            return {
+                ...state,
+                isLoading: true,
+            };
+        }
+        case types.LOAD_ALL_TYPES_SUCCESS: {
+            let data = action.types.map((obj)=>{return {...obj, value: obj.id, label: obj.name,}});
+            return {
+                ...state,
+                isLoading: false,
+                types: data,
+            };
+        }
+        case types.LOAD_ALL_TYPES_ERROR:{
+            return {
+                ...state,
+                isLoading: false,
+            };
+        }
+        case types.BEGIN_LOAD_ALL_CATEGORIES: {
+            return {
+                ...state,
+                isLoading: true,
+            };
+        }
+        case types.LOAD_ALL_CATEGORIES_SUCCESS: {
+            let data = action.categories.map((obj)=>{return {...obj, value: obj.id, label: obj.name,}});
+            return {
+                ...state,
+                isLoading: false,
+                categories: data,
+            };
+        }
+        case types.LOAD_ALL_CATEGORIES_ERROR:{
+            return {
+                ...state,
+                isLoading: false,
             };
         }
 

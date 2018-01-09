@@ -1133,6 +1133,9 @@ export default {
             links: [],
             pixels:[],
             terms:[],
+            categories:[],
+            type_id: "",
+            type: "",
         },
         link: {
             id: null,
@@ -1155,6 +1158,8 @@ export default {
             image_url: "",
             audio_url: "",
         },
+        categories: [],
+        types: [],
     },
     lessons: {
         isLoading: false,

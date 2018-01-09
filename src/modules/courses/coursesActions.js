@@ -448,3 +448,51 @@ export function changeStatusCourse(index,course) {
             });
     };
 }
+
+
+export function loadAllTypes() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_TYPES});
+        courseApi.loadAllTypes()
+            .then(res => {
+                if(res.data.status === 1){
+                    dispatch({
+                        type: types.LOAD_ALL_TYPES_SUCCESS,
+                        types: res.data.data.types,
+                    });
+                }else {
+                    helper.showNotification('Có lỗi xảy ra!');
+                    dispatch({type: types.LOAD_ALL_TYPES_ERROR,
+                    res: res,
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showNotification('Có lỗi xảy ra!');
+                dispatch({type: types.LOAD_ALL_TYPES_ERROR});
+            });
+    };
+}
+export function loadAllCategories() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_CATEGORIES});
+        courseApi.loadAllCategories()
+            .then(res => {
+                if(res.data.status === 1){
+                    dispatch({
+                        type: types.LOAD_ALL_CATEGORIES_SUCCESS,
+                        categories: res.data.data.categories,
+                    });
+                }else {
+                    helper.showNotification('Có lỗi xảy ra!');
+                    dispatch({type: types.LOAD_ALL_CATEGORIES_ERROR,
+                    res: res,
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showNotification('Có lỗi xảy ra!');
+                dispatch({type: types.LOAD_ALL_CATEGORIES_ERROR});
+            });
+    };
+}

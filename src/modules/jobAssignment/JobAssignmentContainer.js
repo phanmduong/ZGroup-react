@@ -39,10 +39,12 @@ class JobAssignmentContainer extends React.Component {
         this.closeFinishModal =this.closeFinishModal.bind(this);
         this.extendWork =this.extendWork.bind(this);
         this.onWorkTypeChange =this.onWorkTypeChange.bind(this);
+
         this.state = {
             showInfoModal: false,
             showExtendModal: false,
             showFinishModal: false,
+            modalType: STATUS_WORK[0],
             work: {
                 staffs:[],
             },
