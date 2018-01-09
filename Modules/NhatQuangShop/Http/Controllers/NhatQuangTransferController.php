@@ -33,7 +33,7 @@ class NhatQuangTransferController extends Controller
         }
     }
 
-    public function transferMoneys(Request $request)
+    public function transferMoneys()
     {
         $bankaccounts = BankAccount::all();
         $this->data['bankaccounts'] = $bankaccounts;

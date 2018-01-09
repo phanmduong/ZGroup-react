@@ -35,7 +35,7 @@ class NhatQuangShopManageController extends Controller
         }
     }
 
-    public function userOrder(Request $request)
+    public function userOrder()
     {
         $user = Auth::user();
         $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(5);
@@ -115,5 +115,27 @@ class NhatQuangShopManageController extends Controller
         $user->save();
         $this->data['user'] = $user;
         return view("nhatquangshop::account", $this->data);
+    }
+
+    public function filterOrders(Request $request){
+        $user = Auth::user();
+        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc');
+        $code = $request->code;
+        $status = $request->status;
+        $start_day = $request->start_day;
+        $end_day = $request->end_day;
+
+        if ($start_day)
+            $orders = $orders->whereBetween('created_at', array($start_day, $end_day));
+//        if ($status)
+//            $orders = $orders->where('status', $status);
+        if($code)
+         $orders = $orders->where('code','like', '%'.$code.'%');
+        $orders = $orders->orderBy('created_at', 'desc')->paginate(5);
+        $this->data['orders'] = $orders;
+        return view("nhatquangshop::orders", $this->data);
+    }
+    public function getFilterOrders(){
+
     }
 }
