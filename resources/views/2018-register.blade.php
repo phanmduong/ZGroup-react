@@ -120,13 +120,7 @@
                             4)</h4>
                     </div>
                     <div class="modal-body">
-                        {{--<p>Chào bạn,<br><br>--}}
-                        {{--Bạn đang chuẩn bị đăng kí vào lớp <b id="class-name2"> PS 12.2 </b><br>--}}
-                        {{--Khai giảng vào ngày: <b id="class-start-time"> 22/12/2017</b><br>--}}
-                        {{--Lịch học của bạn: <b id="class-study-time">Thứ 3-Thứ 5 (15h-17h)</b><br>--}}
-                        {{--Địa điểm học:<b id="class-address">175 Chùa Láng, Đống Đa Hà Nội</b></p>--}}
 
-                        {{--<p>--}}
                         Bạn vui lòng điền các thông tin bên dưới nhé:
                         </p><br><br>
                         <form>
