@@ -127,15 +127,16 @@ class WorkApiController extends ManageApiController
                     "id" => $log->id,
                     "reason" => $log->reason,
                     "penalty" => $log->penalty,
-                    "deadline" => $work->deadline,
+                    "deadline" => $work ? $work->deadline : "",
                     "new_deadline" => $log->new_deadline,
+                    "status" => $log->status ? $log->status : "",
                     "staff" => [
-                        "id" => $staff->id,
-                        "name" => $staff->name,
+                        "id" => $staff ? $staff->id : 0,
+                        "name" => $staff ? $staff->name : "",
                     ],
                     "work" => [
-                        "id" => $work->id,
-                        "name" => $work->name
+                        "id" => $work ? $work->id : 0,
+                        "name" => $work ? $work->name : "",
                     ]
                 ];
             })
@@ -147,7 +148,8 @@ class WorkApiController extends ManageApiController
     {
         $history = HistoryExtensionWork::find($historyId);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
-        $history->delete();
+        $history->status = $request->status;
+        $history->save();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
         ]);
@@ -163,7 +165,8 @@ class WorkApiController extends ManageApiController
         $work->save();
         $work_staff->penalty = $history->penalty;
         $work_staff->save();
-        $history->delete();
+        $history->status = $request->status;
+        $history->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
         ]);
