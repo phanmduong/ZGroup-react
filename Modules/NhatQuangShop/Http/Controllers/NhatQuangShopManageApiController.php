@@ -31,6 +31,10 @@ class NhatQuangShopManageApiController extends Controller
 
     public function updateUserInfo(Request $request)
     {
+        $captcha = $request->captcha;
+
+
+
         if ($request->password == null || $request->phone == null || $request->email == null) {
             return [
                 "status" => 0,

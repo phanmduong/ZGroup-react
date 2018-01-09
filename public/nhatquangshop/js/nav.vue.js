@@ -7,7 +7,8 @@ var navVue = new Vue({
         showLoggedNav: false,
         user: window.INIT_USER,
         isSubmitUserInfo: false,
-        errorMessage: ""
+        errorMessage: "",
+        captcha: ""
     },
     methods: {
         onSubmitUpdateUserInfo: function () {
@@ -17,7 +18,8 @@ var navVue = new Vue({
             axios.put(url, {
                 email: this.user.email,
                 password: this.user.newPassword,
-                phone: this.user.phone
+                phone: this.user.phone,
+                captcha: this.captcha
             })
                 .then(function (res) {
                     this.isSubmitUserInfo = false;
@@ -28,6 +30,7 @@ var navVue = new Vue({
                     }
                 }.bind(this));
         },
+
         validEmail: function () {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(this.user.email.toLowerCase());
@@ -42,6 +45,13 @@ var navVue = new Vue({
         validConfirmPassword: function () {
             return this.user.confirmPassword !== '' && this.user.newPassword !== ''
                 && this.user.newPassword === this.user.confirmPassword;
+        },
+        submitDisable: function () {
+            var user = this.user;
+            console.log(this.captcha);
+            return user.newPassword === '' || this.captcha === '' || user.phone === '' ||
+                user.confirmPassword === '' || !this.validPhone() || !this.validPassword() ||
+                !this.validConfirmPassword() || this.isSubmitUserInfo;
         },
         onFacebookLoginButtonClick: function () {
             $("#global-loading").css("display", "block");
@@ -96,5 +106,4 @@ var navVue = new Vue({
         }
     }
 });
-
 /* jshint ignore:end */

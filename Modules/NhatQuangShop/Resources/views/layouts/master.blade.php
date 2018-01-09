@@ -30,6 +30,7 @@
         }
     </style>
     <script>
+        var navVue = {};
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
     </script>
@@ -86,9 +87,15 @@
         }
     </script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
 </head>
 <body class="profile" style="background:#fafafa">
 <script>
+    var recaptchaCallBack = function (response) {
+        navVue.captcha = response;
+    };
+
     window.fbAsyncInit = function () {
         FB.init({
             appId: '{{config("app.facebook_app_id")}}',
@@ -189,11 +196,14 @@
                         @{{ errorMessage }}
                     </div>
 
-                    <button :disabled="user.newPassword === '' || user.phone ==='' ||
-                    user.confirmPassword === '' || !validPhone() ||
-                    !validConfirmPassword() || isSubmitUserInfo"
+                    <div class="g-recaptcha"
+                         data-callback="recaptchaCallBack"
+                         data-sitekey="6LdS5j8UAAAAAD-7OJ2O68ECZdGiWo_27cbo6TUu"></div>
+
+                    <button :disabled="submitDisable()"
                             v-on:click="onSubmitUpdateUserInfo"
                             class="btn btn-block btn-round">
+
                         <div v-if="isSubmitUserInfo" class="uil-reload-css reload-small" style="">
                             <div></div>
                         </div>
