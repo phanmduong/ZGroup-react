@@ -47,7 +47,7 @@ class HistoryExtensionWorkContainer extends React.Component {
     }
 
     deleteHistoryExtensionWork(id) {
-        helper.confirm('error', 'Hủy', "Bạn muốn xóa yêu cầu này không?", () => {
+        helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này không?", () => {
             this.props.HistoryExtensionWorkActions.deleteHistoryExtensionWork(id);
             this.setState({ok: 1});
         });
