@@ -31,6 +31,7 @@ class HistoryExtensionList extends React.Component{
                         <th>Deadline mới</th>
                         <th>Lí do</th>
                         <th>Phạt</th>
+                        <th>Trạng thái</th>
                         <th/>
                     </tr>
                     </thead>
@@ -45,6 +46,10 @@ class HistoryExtensionList extends React.Component{
                                     <td>{data.new_deadline ? data.new_deadline : "0000-00-00 00:00:00"}</td>
                                     <td>{data.reason}</td>
                                     <td>{data.penalty}</td>
+                                    <td>{
+                                        data.status
+                                        //(data.status === "Refuse") ? 'Đã từ chối' : 'Chấp nhận'
+                                    }</td>
                                     <td>
                                         <ButtonGroupAction
                                             object={data}

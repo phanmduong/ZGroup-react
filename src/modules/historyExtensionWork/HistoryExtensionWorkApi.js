@@ -17,7 +17,9 @@ export function deleteHistoryExtensionWork(id) {
     if (token) {
         url += id + "?token=" + token;
     }
-    return axios.delete(url);
+    return axios.delete(url,{
+        'status': 'Refuse',
+    });
 }
 
 export function acceptHistoryExtensionWork(id) {
@@ -26,6 +28,8 @@ export function acceptHistoryExtensionWork(id) {
     if (token) {
         url += id + "?token=" + token;
     }
-    return axios.post(url);
+    return axios.post(url,{
+        'status': 'Accept',
+    });
 }
 

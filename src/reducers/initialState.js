@@ -1049,8 +1049,8 @@ export default {
             category: {},
             customer: {},
             customer_group: {},
-            quantity : '',
-            shared : '',
+            quantity: '',
+            shared: '',
         },
 
     },
@@ -1355,8 +1355,8 @@ export default {
             start_time: '',
             end_time: '',
             customer_group_id: '',
-            quantity : '',
-            shared : '',
+            quantity: '',
+            shared: '',
         },
         groupCustomersList: [],
 
@@ -1436,6 +1436,18 @@ export default {
                 id: 0,
                 name: "error",
             },
+        }],
+    },
+    summaryStaff: {
+        isLoadingWork: true,
+        isLoadingDepartment: true,
+        staff_work: [{
+            count: 1,
+            month: 1,
+        }],
+        staff_department: [{
+            count: 1,
+            department_name: "",
         }],
     },
 };

@@ -33,7 +33,7 @@ export default function historyExtensionWorkReducer(state = initialState.history
                 ...state,
             };
         case types.DELETE_HISTORY_EXTENSION_WORK_SUCCESS: {
-            let data = deleteHistoryExtensionWork(action.historyId, [...state.data]);
+            let data = [...state.data];
             return {
                 ...state,
                 ...{
@@ -51,7 +51,7 @@ export default function historyExtensionWorkReducer(state = initialState.history
                 ...state,
             };
         case types.ACCEPT_HISTORY_EXTENSION_WORK_SUCCESS:{
-            let data = deleteHistoryExtensionWork(action.historyId,[...state.data]);
+            let data = [...state.data];
             return{
                 ...state,
                 ...{
@@ -70,10 +70,4 @@ export default function historyExtensionWorkReducer(state = initialState.history
     }
 
 
-}
-function deleteHistoryExtensionWork(id,histories){
-    if (histories) {
-        histories = histories.filter((history) => history.id !== id);
-    }
-    return histories;
 }
