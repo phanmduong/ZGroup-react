@@ -52,11 +52,38 @@
                                             ></div>
                                         </div>
                                         <div class="comment-block">
-                                                <textarea name="" id="" cols="30" rows="3"
+                                            <div style="position: relative">
+                                                <textarea cols="30" rows="3"
                                                           v-model="comment"
-                                                          @keydown="createComment($event,{{$lesson_selected->id}})"
                                                           :disabled="isStoring"
+                                                          @keydown="createComment($event,{{$lesson_selected->id}})"
                                                           placeholder="Đặt câu hỏi"></textarea>
+                                                <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">
+                                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                                </div>
+                                                <div style="position: absolute; bottom: 0px; right: 0px;"
+                                                     v-if="!isUploading">
+                                                    <i style="font-size:18px; color: #888888; cursor: pointer;"
+                                                       class="fa fa-camera" aria-hidden="true">
+                                                        <input type="file"
+                                                               accept=".jpg,.png,.gif"
+                                                               v-on:change="handleFileUpload($event)"
+                                                               v-model="file"
+                                                               style="
+                                                        cursor: pointer!important;
+                                                        opacity: 0.0;
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+                                                        bottom: 0;
+                                                        right: 0;
+                                                        width: 20px;
+                                                        height: 20px
+                                                        "
+                                                        />
+                                                    </i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 @else
@@ -74,6 +101,26 @@
                                                           placeholder="Đặt câu hỏi"></textarea>
                                                 <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">
                                                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                                </div>
+                                                <div style="position: absolute; bottom: 0px; right: 0px;"
+                                                     v-if="!isUploading">
+                                                    <i style="font-size:18px; color: #888888; cursor: pointer;"
+                                                       class="fa fa-camera" aria-hidden="true">
+                                                        <input type="file"
+                                                               accept=".jpg,.png,.gif"
+                                                               v-on:change="handleFileUpload($event)"
+                                                               style="
+                                                        cursor: pointer;
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+                                                        bottom: 0;
+                                                        right: 0;
+                                                        width: 20px;
+                                                        height: 20px
+                                                        "
+                                                        />
+                                                    </i>
                                                 </div>
                                             </div>
 
@@ -137,9 +184,69 @@
 
 @push('scripts')
     <script>
-        Vue.component('comment-parent', {
+        {!! $comments !!}
+                @if(isset($user))
+            vueData.isLogin = true;
+        vueData.user = JSON.parse(localStorage.getItem('auth')).user;
+
+        @endif
+
+        function changeLikeComment(vue) {
+            if (vue.comment.is_liked) {
+                vue.comment.count_like -= 1;
+            } else {
+                vue.comment.count_like += 1;
+            }
+            vue.comment.is_liked = !vue.comment.is_liked;
+            var url = "/elearning/" + vue.comment.id + "/like-comment";
+            axios.post(url, {
+                liked: vue.comment.is_liked
+            }).then(function (res) {
+                    if (res.data.status == 0) {
+                        if (vue.comment.is_liked) {
+                            vue.comment.count_like -= 1;
+                        } else {
+                            vue.comment.count_like += 1;
+                        }
+                        vue.comment.is_liked = !vue.comment.is_liked;
+                    }
+                }.bind(vue)
+            ).catch(function () {
+                if (vue.comment.is_liked) {
+                    vue.comment.count_like -= 1;
+                } else {
+                    vue.comment.count_like += 1;
+                }
+                vue.comment.is_liked = !vue.comment.is_liked;
+            }.bind(vue));
+        }
+
+        function handleFileUploadImage(vue, event) {
+            console.log(event);
+//            let formData = new FormData();
+//            formData.append('file', file);
+//            formData.append('index', index);
+//            let ajax = new XMLHttpRequest();
+//            ajax.addEventListener("load", completeHandler, false);
+//            ajax.upload.onprogress = progressHandler;
+//            ajax.addEventListener("error", error, false);
+//            ajax.open("POST", url);
+//            ajax.send(formData);
+        }
+
+        Vue.component('comment-child', {
             props: ['comment'],
+            data: function () {
+                return {
+                    login: vueData,
+                }
+            },
             template: '<div class="comment-wrap">\n' +
+            '                                        <div class="photo">\n' +
+            '                                            <div class="avatar"\n' +
+            '                                                 style="background-image: \'url(\'\')\'"\n' +
+            '                                            ></div>\n' +
+            '                                        </div>\n' +
             '                                        <div class="photo">\n' +
             '                                            <div class="avatar"\n' +
             '                                                 :style="{backgroundImage: \'url(\' + comment.commenter.avatar_url + \')\' }"></div>\n' +
@@ -150,16 +257,110 @@
             '                                                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">\n' +
             '                                                    <div class="comment-date">@{{comment.created_at}}<a v-bind:href="/profile/+comment.commenter.username"> @@{{ comment.commenter.name }}</a></div>\n' +
             '                                                    <ul class="comment-actions"\n' +
-            '                                                        style="padding: 0px!important;width: 90px; display: flex; flex-direction: row; justify-content: flex-end; align-items: center; margin-bottom: 0px">\n' +
-            '                                                        <li class="complain">Thích</li>\n' +
-            '                                                        <li class="reply">Trả lời</li>\n' +
+            '                                                        style="padding: 0px!important;width: 110px; display: flex; flex-direction: row; justify-content: flex-end; align-items: center; margin-bottom: 0px">\n' +
+            '                                                       <li class="complain" v-if="login.isLogin && !comment.is_liked" v-on:click="changeLike">@{{ comment.count_like }} Thích</li>\n' +
+            '                                                        <li class="complain" v-if="comment.is_liked" style="color: #0095ff" v-on:click="changeLike">@{{ comment.count_like }} Đã thích</li>\n' +
+            '                                                        <li class="reply" v-if="login.isLogin" v-on:click="$emit(\'changeCardComment\')">Trả lời</li>\n' +
             '                                                    </ul>\n' +
             '                                                </div>\n' +
             '                                            </div>\n' +
             '                                        </div>\n' +
-            '                                    </div>'
+            '                                    </div>',
+            methods: {
+                changeLike: function () {
+                    changeLikeComment(this);
+                }
+            }
+        });
+        Vue.component('comment-parent', {
+            props: ['comment'],
+            data: function () {
+                return {
+                    login: vueData,
+                    commentChild: '',
+                    isStoring: false,
+                    isOpenComment: false,
+                    isUploading: false
+                }
+            },
+            template: '<div><div class="comment-wrap">\n' +
+            '                                        <div class="photo">\n' +
+            '                                            <div class="avatar"\n' +
+            '                                                 :style="{backgroundImage: \'url(\' + comment.commenter.avatar_url + \')\' }"></div>\n' +
+            '                                        </div>\n' +
+            '                                        <div class="comment-block  product-item">\n' +
+            '                                            <p class="comment-text" style="word-wrap: break-word; white-space: pre-wrap;">@{{comment.content}}</p>\n' +
+            '                                            <div class="bottom-comment">\n' +
+            '                                                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">\n' +
+            '                                                    <div class="comment-date">@{{comment.created_at}}<a v-bind:href="/profile/+comment.commenter.username"> @@{{ comment.commenter.name }}</a></div>\n' +
+            '                                                    <ul class="comment-actions"\n' +
+            '                                                        style="padding: 0px!important;width: 110px; display: flex; flex-direction: row; justify-content: flex-end; align-items: center; margin-bottom: 0px">\n' +
+            '                                                        <li class="complain" v-if="login.isLogin && !comment.is_liked" v-on:click="changeLike">@{{ comment.count_like }} Thích</li>\n' +
+            '                                                        <li class="complain" v-if="comment.is_liked" style="color: #0095ff" v-on:click="changeLike">@{{ comment.count_like }} Đã thích</li>\n' +
+            '                                                        <li class="reply" v-if="login.isLogin" v-on:click="changeCardComment">Trả lời</li>\n' +
+            '                                                    </ul>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                        </div>\n' +
+            '                                    </div> ' +
+            '                               <div class="comment-wrap" v-if="login.isLogin && isOpenComment">\n' +
+            '                                        <div class="photo">\n' +
+            '                                            <div class="avatar"\n' +
+            '                                                 style="background-image: \'url(\'\')\'"\n' +
+            '                                            ></div>\n' +
+            '                                        </div>\n' +
+            '                                        <div class="photo">\n' +
+            '                                            <div class="avatar"\n' +
+            '                                                 :style="{backgroundImage: \'url(\' + login.user.avatar_url + \')\' }"\n' +
+            '                                            ></div>\n' +
+            '                                        </div>\n' +
+            '                                        <div class="comment-block">\n' +
+            '                                                <div style="position: relative">\n' +
+            '                                                <textarea cols="30" rows="3"\n' +
+            '                                                          v-model="commentChild"\n' +
+            '                                                          :disabled="isStoring"\n' +
+            '                                                          @keydown="createCommentChild($event,{{$lesson_selected->id}})"\n' +
+            '                                                          placeholder="Đặt câu hỏi"></textarea>\n' +
+            '                                                <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">\n' +
+            '                                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>\n' +
+            '                                                </div>\n' +
+            '                                                <div style="position: absolute; bottom: 0px; right: 0px" v-if="isStoring">\n' +
+            '                                                   <i style="right:10px; font-size:18px; color: #888888" class="fa fa-camera" aria-hidden="true"></i>\n' +
+            '                                                </div>\n' +
 
-        })
+            '                                            </div>' +
+            '                                        </div>\n' +
+            '                                    </div>' +
+            '                               <div v-for="commentItem in comment.child_comments">\n' +
+            '                                    <comment-child v-bind:comment="commentItem" v-on:changeCardComment="changeCardComment"></comment-child>\n' +
+            '                                </div>' +
+            '                                    </div>',
+            methods: {
+                changeCardComment: function () {
+                    this.isOpenComment = !this.isOpenComment;
+                },
+                createCommentChild: function (e, lessonId) {
+                    if (e.keyCode === 13 && !e.shiftKey) {
+                        e.preventDefault();
+                        this.isStoring = true;
+                        var url = "/elearning/" + lessonId + "/add-comment";
+                        axios.post(url, {
+                            lesson_id: lessonId,
+                            content_comment: this.commentChild,
+                            parent_id: this.comment.id,
+                        }).then(function (res) {
+                                this.commentChild = '';
+                                this.isStoring = false;
+                                this.comment.child_comments.unshift(res.data.comment);
+                            }.bind(this)
+                        );
+                    }
+                },
+                changeLike: function () {
+                    changeLikeComment(this);
+                }
+            }
+        });
         var vueComments = new Vue({
             el: '#vue-comments',
             data: function () {
@@ -167,7 +368,9 @@
                     login: vueData,
                     comment: '',
                     isStoring: false,
-                    comments: {!! $comments !!}
+                    comments: {!! $comments !!},
+                    isUploading: false,
+                    file: ''
                 }
 
             },
@@ -181,14 +384,15 @@
                             lesson_id: lessonId,
                             content_comment: this.comment
                         }).then(function (res) {
-                                console.log(res.data);
                                 this.comments.unshift(res.data.comment);
                                 this.comment = '';
                                 this.isStoring = false;
                             }.bind(this)
                         );
                     }
-
+                },
+                handleFileUpload: function (e) {
+                    handleFileUploadImage(this, e);
                 }
             }
         });
