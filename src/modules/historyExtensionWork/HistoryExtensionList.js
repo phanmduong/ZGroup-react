@@ -1,10 +1,13 @@
 import React from 'react';
 import ButtonGroupAction from './ButtonGroupAction';
 import PropTypes from 'prop-types';
+
 class HistoryExtensionList extends React.Component{
     constructor(props, context) {
         super(props, context);
-        this.state          = {};
+        this.state          = {
+            openModal: false,
+        };
         this.deleteHistory = this.deleteHistory.bind(this);
         this.acceptHistory = this.acceptHistory.bind(this);
 
@@ -20,7 +23,7 @@ class HistoryExtensionList extends React.Component{
             <div className="table-responsive">
 
                 <table id="datatables"
-                       className="table table-striped table-no-bordered table-hover"
+                       className="table table-hover"
                        cellSpacing="0" width="100%" style={{width: "100%"}}>
                     <thead className="text-rose">
                     <tr>
@@ -47,17 +50,17 @@ class HistoryExtensionList extends React.Component{
                                     <td>{data.reason}</td>
                                     <td>{data.penalty}</td>
                                     <td>{
-                                        data.status
-                                        //(data.status === "Refuse") ? 'Đã từ chối' : 'Chấp nhận'
-                                    }</td>
-                                    <td>
-                                        <ButtonGroupAction
+                                        (data.status === "") ?
+                                            ( <ButtonGroupAction
                                             object={data}
                                             delete={this.deleteHistory}
                                             accept={this.acceptHistory}
-                                        />
+                                            />
+                                            )    : (data.status === "Refuse") ?
+                                                        <div style={{color: "#bc250c"}}>Đã từ chối</div>
+                                                        : <div style={{color: "#03bc16"}}>Đã chấp nhận</div>
+                                    }</td>
 
-                                    </td>
                                     <td/>
                                 </tr>
                             );
