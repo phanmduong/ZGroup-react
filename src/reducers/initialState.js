@@ -1049,8 +1049,8 @@ export default {
             category: {},
             customer: {},
             customer_group: {},
-            quantity : '',
-            shared : '',
+            quantity: '',
+            shared: '',
         },
 
     },
@@ -1131,8 +1131,8 @@ export default {
             detail: "",
             lessons: [],
             links: [],
-            pixels:[],
-            terms:[],
+            pixels: [],
+            terms: [],
         },
         link: {
             id: null,
@@ -1142,9 +1142,9 @@ export default {
             link_description: "",
             link_icon: "",
         },
-        pixel:{
-            name:"",
-            code:"",
+        pixel: {
+            name: "",
+            code: "",
         },
         term: {
             id: null,
@@ -1305,13 +1305,13 @@ export default {
         ],
         works: [
             {
-                "id":11,
-                "name":"3",
-                "type":"personal",
-                "cost":2,
-                "deadline":"0000-00-00 00:00:00",
-                "bonus_value":3,
-                "bonus_type":null
+                "id": 11,
+                "name": "3",
+                "type": "personal",
+                "cost": 2,
+                "deadline": "0000-00-00 00:00:00",
+                "bonus_value": 3,
+                "bonus_type": null
             },
         ],
     },
@@ -1336,9 +1336,9 @@ export default {
             customers: [],                         // tat ca cac customer trong mot group
             customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
-            coupons : [],
-            order_value : '',
-            delivery_value : '',
+            coupons: [],
+            order_value: '',
+            delivery_value: '',
         },
         coupon: {
             name: '',
@@ -1350,8 +1350,8 @@ export default {
             start_time: '',
             end_time: '',
             customer_group_id: '',
-            quantity : '',
-            shared : '',
+            quantity: '',
+            shared: '',
         },
         groupCustomersList: [],
 
@@ -1416,7 +1416,7 @@ export default {
             current_page: 1,
             limit: 20,
         },
-        data: {
+        data: [{
             id: 12,
             penalty: 0,
             new_deadline: "0000-00-00 00:00:00",
@@ -1433,6 +1433,18 @@ export default {
             },
 
 
-        }
+        }],
+    },
+    summaryStaff: {
+        isLoadingWork: true,
+        isLoadingDepartment: true,
+        staff_work: [{
+            count: 1,
+            month: 1,
+        }],
+        staff_department: [{
+            count: 1,
+            department_name: "",
+        }],
     },
 };
