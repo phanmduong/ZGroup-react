@@ -160,11 +160,14 @@ class WorkApiController extends ManageApiController
         $history = HistoryExtensionWork::find($historyId);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $work = Work::find($history->work_id);
-        $work_staff = WorkStaff::where('work_id', $history->work_id)->where('staff_id', $history->staff_id)->first();
+        $work_staffs = WorkStaff::where('work_id', $history->work_id)->get();
+        foreach($work_staffs as $work_staff){
+            $work_staff->penalty = $history->penalty;
+            $work_staff->save();
+        }
         $work->reason = $history->reason;
+        $work->deadline = $history->new_deadline;
         $work->save();
-        $work_staff->penalty = $history->penalty;
-        $work_staff->save();
         $history->status = $request->status;
         $history->save();
         return $this->respondSuccessWithStatus([
