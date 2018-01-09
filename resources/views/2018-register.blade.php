@@ -171,11 +171,11 @@
                     $(this).val("");
                 });
                 $("#class-id").val(classData.id);
-                $("#class-name1").text(classData.name);
-                $("#class-name2").text(classData.name);
-                $("#class-start-time").text(classData.datestart);
-                $("#class-study-time").text(classData.study_time);
-                $("#class-address").text(classData.base.address);
+//                $("#class-name1").text(classData.name);
+//                $("#class-name2").text(classData.name);
+//                $("#class-start-time").text(classData.datestart);
+//                $("#class-study-time").text(classData.study_time);
+//                $("#class-address").text(classData.base.address);
                 $("#submit-register").show();
                 $("#modal-footer-submit").html("");
             }
