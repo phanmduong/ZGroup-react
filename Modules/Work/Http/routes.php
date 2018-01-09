@@ -9,6 +9,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'work
     Route::get('/','WorkApiController@getAll');
     Route::put('/{workId}','WorkApiController@editWork');
     Route::delete('/{workId}','WorkApiController@deleteWork');
-    Route::delete('/history-extension/{historyId}','WorkApiController@deleteHistoryExtension');
-    Route::post('/history-extension/{historyId}','WorkApiController@acceptHistoryExtension');
+    Route::post('/history-extension/{historyId}/refuse','WorkApiController@deleteHistoryExtension');
+    Route::post('/history-extension/{historyId}/accept','WorkApiController@acceptHistoryExtension');
 });
