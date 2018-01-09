@@ -9,6 +9,11 @@
             color: red;
             font-weight: 200 !important;
         }
+
+        body.iosBugFixCaret.modal-open {
+            position: fixed;
+            width: 100%;
+        }
     </style>
     <div>
         <div class="container-fluid">
@@ -100,7 +105,7 @@
         </div>
         <br><br>
         <!-- Modal -->
-        <div id="modal-register-class" class="modal fade" role="dialog" style="position: fixed">
+        <div id="modal-register-class" class="modal fade inputModal" role="dialog" style="position: fixed">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -213,6 +218,28 @@
                         })
                     }
                 })
+                (function iOS_CaretBug() {
+
+                    var ua = navigator.userAgent,
+                        iOS = /iPad|iPhone|iPod/.test(ua),
+                        iOS11 = /OS 11_0_1|OS 11_0_2|OS 11_0_3|OS 11_1|OS 11_1_1|OS 11_1_2|OS 11_2|OS 11_2_1/.test(ua);
+
+                    // ios 11 bug caret position
+                    if (iOS && iOS11) {
+
+                        $(document.body).on('show.bs.modal', function (e) {
+                            if ($(e.target).hasClass('inputModal')) {
+                                // Add CSS to body "position: fixed"
+                                $("body").addClass("iosBugFixCaret");
+                            }
+                        });
+
+                        $(document.body).on('hide.bs.modal', function (e) {
+                            // Remove CSS to body "position: fixed"
+                            $("body").removeClass("iosBugFixCaret");
+                        });
+                    }
+                })();
             })
         </script>
         <script>
