@@ -56,7 +56,6 @@ class WorkInfoModal extends React.Component {
                                                         <div className="col-md-12">
                                                             <FormInputText
                                                                 label="Tên công việc"
-
                                                                 type="text"
                                                                 name="name"
                                                                 updateFormData={() => {
@@ -93,6 +92,7 @@ class WorkInfoModal extends React.Component {
                                                                 }}
                                                                 value={time}
                                                                 disabled
+                                                                name="deadline"
                                                             /></div>
                                                         <div className="col-md-6">
                                                             <label className="">
