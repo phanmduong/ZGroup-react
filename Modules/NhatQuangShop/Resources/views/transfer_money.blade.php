@@ -105,6 +105,7 @@
             </table>
         </div>
     </div>
+    @include('pagination.custom', ['paginator' => $transfers])
     <script type="text/javascript">
         var oldId = 0;
         $("#bank-account").change(function () {
