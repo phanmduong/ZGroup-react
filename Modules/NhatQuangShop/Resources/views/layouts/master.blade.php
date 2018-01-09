@@ -25,8 +25,8 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
     <style>
-        .content{
-            float : right;
+        .content {
+            float: right;
         }
     </style>
     <script>
@@ -61,9 +61,9 @@
                         .then(function (res) {
                             if (res.data.status === 1) {
                                 navVue.changeLoginCondition(res.data.user);
-                                console.log(res.data.user);
+                                // console.log(res.data.user);
                                 if (!res.data.user.first_login) {
-                                    console.log("hello");
+                                    $("#update-user-email").css("display", "none");
                                     $("#updateUserInfoModal").modal({
                                         backdrop: 'static',
                                         keyboard: false
@@ -142,7 +142,7 @@
                     <p>Bạn vui lòng hoàn thành thông tin trước khi tiếp tục</p>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="form-group" id="update-user-email">
                         <label>Email</label>
                         <input v-model="user.email" type="email" value="" placeholder="Email"
                                class="form-control"/>
@@ -183,6 +183,11 @@
                         </div>
                     </div>
 
+                    <div v-if="errorMessage"
+                         class="alert alert-danger"
+                         style="text-align: center">
+                        @{{ errorMessage }}
+                    </div>
 
                     <button :disabled="user.newPassword === '' || user.phone ==='' ||
                     user.confirmPassword === '' || !validPhone() ||
@@ -665,7 +670,7 @@
 </body>
 <script>startApp();</script>
 <!-- Core JS Files -->
-<script src= {!!url('/assets/js/jquery-ui-1.12.1.custom.min.js')  !!} type="text/javascript"></script>
+<script src={!!url('/assets/js/jquery-ui-1.12.1.custom.min.js')  !!} type="text/javascript"></script>
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>

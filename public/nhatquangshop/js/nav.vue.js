@@ -6,10 +6,12 @@ var navVue = new Vue({
         isLoading: false,
         showLoggedNav: false,
         user: window.INIT_USER,
-        isSubmitUserInfo: false
+        isSubmitUserInfo: false,
+        errorMessage: ""
     },
     methods: {
         onSubmitUpdateUserInfo: function () {
+            this.errorMessage = "";
             this.isSubmitUserInfo = true;
             var url = "/api/user";
             axios.put(url, {
@@ -18,9 +20,9 @@ var navVue = new Vue({
                 phone: this.user.phone
             })
                 .then(function (res) {
-                    this.isLoading = false;
+                    this.isSubmitUserInfo = false;
                     if (res.data.status === 0) {
-                        alert("Bạn vui lòng nhập đầy đủ thông tin");
+                        this.errorMessage = res.data.message;
                     } else {
                         window.location.href = "/";
                     }
