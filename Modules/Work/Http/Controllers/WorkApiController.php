@@ -114,13 +114,13 @@ class WorkApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $logs = HistoryExtensionWork::join('users', 'history_extension_works.staff_id', '=', 'users.id')
             ->join('works', 'history_extension_works.work_id', '=', 'works.id')->select('history_extension_works.*')
-            ->where(function($query)use ($keyword){
-                $query->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name','like', '%' . $keyword . '%');
+            ->where(function ($query) use ($keyword) {
+                $query->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name', 'like', '%' . $keyword . '%');
             })->orderBy('history_extension_works.created_at', 'desc')->paginate($limit);
 
         //dd($logs);
         return $this->respondWithPagination($logs, [
-            'logs' => $logs->map(function($log){
+            'logs' => $logs->map(function ($log) {
                 $staff = User::find($log->staff_id);
                 $work = Work::find($log->work_id);
                 return [
@@ -166,6 +166,27 @@ class WorkApiController extends ManageApiController
         $history->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
+        ]);
+    }
+
+    public function summaryStaff(Request $request)
+    {
+        $year = $request->year;
+        $pre_datas = User::select(DB::raw('count(id) as count'), DB::raw('MONTH(created_at) month'))->where("role", ">", 0)
+            ->where(DB::raw('YEAR(created_at)'), '=', $year)->groupby('month')->get();
+        $n = 0;
+        $data = [];
+        for ($i = 1; $i <= 12; $i++) {
+            if ($pre_datas[$n]->month === $i) {
+                array_push($data, $pre_datas[$n]);
+                if ($n + 1 < count($pre_datas)) $n++;
+            } else array_push($data, [
+                "count" => 0,
+                "month" => $i,
+            ]);
+        }
+        return $this->respondSuccessWithStatus([
+            "data" => $data,
         ]);
     }
 }

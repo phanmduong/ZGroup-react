@@ -189,7 +189,7 @@
 
                     <h6 style="margin-top: 15px;">Phương thức thanh toán</h6>
                     <select v-model="payment" class="form-control" id="sel1">
-                        <option value="Thanh toán online">Thanh toán online</option>
+                        {{--<option value="Thanh toán online">Thanh toán online</option>--}}
                         <option value="Chuyển khoản">Chuyển khoản</option>
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
                             Thanh toán trực tiếp khi nhận hàng(COD)

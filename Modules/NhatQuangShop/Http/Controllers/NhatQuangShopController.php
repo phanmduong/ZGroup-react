@@ -31,25 +31,17 @@ class NhatQuangShopController extends Controller
 
     public function index()
     {
-        $books = Good::where('display_status', 1)->groupBy('code')->get();
-        $book_arr = [];
-        foreach ($books as $book) {
-            $properties = GoodProperty::where('good_id', $book->id)->get();
-            $bookdata = [
-                'id' => $book->id,
-                'cover' => $book->cover_url,
-                'avatar' => $book->avatar_url,
-                'type' => $book->type,
-                'name' => $book->name,
-                'description' => $book->description,
-                'price' => $book->price
-            ];
-            foreach ($properties as $property) {
-                $bookdata[$property->name] = $property->value;
-            }
-            $book_arr[] = $bookdata;
-        }
-        $this->data["books"] = $book_arr;
+        $goodQuery = Good::where('display_status', 1)->groupBy('code');
+        $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(8)->get();
+        $generalGoods = $goodQuery->take(8)->get();
+        $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(8)->get();
+
+        $generalGoods = $generalGoods->map(function ($good) {
+            return $good->transformAllProperties();
+        });
+        $this->data["generalGoods"] = $generalGoods;
+        $this->data["newestGoods"] = $newestGoods;
+        $this->data["highLightGoods"] = $highLightGoods;
         return view('nhatquangshop::index', $this->data);
     }
 
