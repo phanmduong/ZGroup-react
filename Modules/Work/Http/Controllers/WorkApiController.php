@@ -147,9 +147,10 @@ class WorkApiController extends ManageApiController
     public function deleteHistoryExtension($historyId, Request $request)
     {
         $history = HistoryExtensionWork::find($historyId);
+        dd($request->status);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $history->status = $request->status;
-        $history->delete();
+        $history->save();
         return $this->respondSuccessWithStatus([
             "message" => "Từ chối thành công"
         ]);
@@ -158,6 +159,7 @@ class WorkApiController extends ManageApiController
     public function acceptHistoryExtension($historyId, Request $request)
     {
         $history = HistoryExtensionWork::find($historyId);
+        dd($request->status);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $work = Work::find($history->work_id);
         $work_staff = WorkStaff::where('work_id', $history->work_id)->where('staff_id', $history->staff_id)->first();
