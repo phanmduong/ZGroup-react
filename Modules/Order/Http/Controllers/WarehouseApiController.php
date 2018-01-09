@@ -35,13 +35,14 @@ class WarehouseApiController extends ManageApiController
     {
         $supplier = new User;
         $user = User::where('email', $request->email)->first();
+        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
         if ($user)
             return $this->respondErrorWithStatus('Email đã có người sử dụng');
         if ($request->name == null || $request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus('Thiếu trường tên || sđt || email');
         $supplier->email = $request->email;
         $supplier->name = $request->name;
-        $supplier->phone = $request->phone;
+        $supplier->phone = $phone;
         $supplier->address = $request->address;
         $supplier->type = 'supplier';
         $supplier->save();
@@ -53,6 +54,7 @@ class WarehouseApiController extends ManageApiController
     public function editSupplier($supplier_id, Request $request)
     {
         $supplier = User::find($supplier_id);
+        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
         if ($supplier == null || $supplier->type != 'supplier')
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại nhà cung cấp'
@@ -61,7 +63,7 @@ class WarehouseApiController extends ManageApiController
             return $this->respondErrorWithStatus('Thiếu trường tên || sđt || email');
         $supplier->email = $request->email;
         $supplier->name = $request->name;
-        $supplier->phone = $request->phone;
+        $supplier->phone = $phone;
         $supplier->address = $request->address;
         $supplier->save();
         return $this->respondSuccessWithStatus([
