@@ -9,10 +9,6 @@
             color: red;
             font-weight: 200 !important;
         }
-
-        body.modal-open {
-            position: fixed;
-        }
     </style>
     <div>
         <div class="container-fluid">
@@ -104,7 +100,7 @@
         </div>
         <br><br>
         <!-- Modal -->
-        <div id="modal-register-class" class="modal fade inputModal" role="dialog" style="position: fixed">
+        <div id="modal-register-class" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -119,8 +115,14 @@
                             4)</h4>
                     </div>
                     <div class="modal-body">
+                        <p>Chào bạn,<br><br>
+                            Bạn đang chuẩn bị đăng kí vào lớp <b id="class-name2"> PS 12.2 </b><br>
+                            Khai giảng vào ngày: <b id="class-start-time"> 22/12/2017</b><br>
+                            Lịch học của bạn: <b id="class-study-time">Thứ 3-Thứ 5 (15h-17h)</b><br>
+                            Địa điểm học:<b id="class-address">175 Chùa Láng, Đống Đa Hà Nội</b></p>
 
-                        Bạn vui lòng điền các thông tin bên dưới nhé:
+                        <p>
+                            Bạn vui lòng điền các thông tin bên dưới nhé:
                         </p><br><br>
                         <form>
                             <input type="hidden" name="class_id" id="class-id">
@@ -130,8 +132,7 @@
                                 <label for="email">Địa chỉ email
                                     <star style="color: red;">*</star>
                                 </label>
-                                <input type="email" class="form-control" name="email" placeholder="Nhập email" required
-                                >
+                                <input type="email" class="form-control" name="email" placeholder="Nhập email" required>
                             </div>
                             <div class="form-group">
                                 <label for="name">Họ và tên
@@ -140,7 +141,7 @@
                                 <input type="text" class="form-control" name="name" placeholder="Nhập họ và tên"
                                        required>
                             </div>
-                            <div class="form-group" style="position: absolute">
+                            <div class="form-group">
                                 <label for="phone">Số điện thoại
                                     <star style="color: red;">*</star>
                                 </label>
@@ -164,11 +165,11 @@
                     $(this).val("");
                 });
                 $("#class-id").val(classData.id);
-//                $("#class-name1").text(classData.name);
-//                $("#class-name2").text(classData.name);
-//                $("#class-start-time").text(classData.datestart);
-//                $("#class-study-time").text(classData.study_time);
-//                $("#class-address").text(classData.base.address);
+                $("#class-name1").text(classData.name);
+                $("#class-name2").text(classData.name);
+                $("#class-start-time").text(classData.datestart);
+                $("#class-study-time").text(classData.study_time);
+                $("#class-address").text(classData.base.address);
                 $("#submit-register").show();
                 $("#modal-footer-submit").html("");
             }
@@ -211,24 +212,7 @@
                         })
                     }
                 })
-                (function iOS_CaretBug() {
-
-                    var ua = navigator.userAgent,
-                        iOS = /iPad|iPhone|iPod/.test(ua),
-                        iOS11 = /OS 11_0_1|OS 11_0_2|OS 11_0_3|OS 11_1|OS 11_1_1|OS 11_1_2|OS 11_2|OS 11_2_1/.test(ua);
-
-                    // ios 11 bug caret position
-                    if (iOS && iOS11) {
-
-
-                    }
-//                    document.body.style.overflow = 'hidden';
-//                    document.body.style.height = '100%';
-//                    document.body.style.width = '100%';
-//                    document.body.style.position = 'fixed';
-                })();
             })
-
         </script>
         <script>
             (function ($) {
