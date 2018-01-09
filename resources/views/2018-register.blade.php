@@ -10,9 +10,8 @@
             font-weight: 200 !important;
         }
 
-        body.iosBugFixCaret.modal-open {
+        body.modal-open {
             position: fixed;
-            width: 100%;
         }
     </style>
     <div>
@@ -223,10 +222,10 @@
 
 
                     }
-                    document.body.style.overflow = 'hidden';
-                    document.body.style.height = '100%';
-                    document.body.style.width = '100%';
-                    document.body.style.position = 'fixed';
+//                    document.body.style.overflow = 'hidden';
+//                    document.body.style.height = '100%';
+//                    document.body.style.width = '100%';
+//                    document.body.style.position = 'fixed';
                 })();
             })
 
