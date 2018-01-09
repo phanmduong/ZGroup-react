@@ -227,20 +227,14 @@
                     // ios 11 bug caret position
                     if (iOS && iOS11) {
 
-                        $(document.body).on('show.bs.modal', function (e) {
-                            if ($(e.target).hasClass('inputModal')) {
-                                // Add CSS to body "position: fixed"
-                                $("body").addClass("iosBugFixCaret");
-                            }
-                        });
-
-                        $(document.body).on('hide.bs.modal', function (e) {
-                            // Remove CSS to body "position: fixed"
-                            $("body").removeClass("iosBugFixCaret");
-                        });
+                        document.body.style.overflow = 'hidden';
+                        document.body.style.height = '100%';
+                        document.body.style.width = '100%';
+                        document.body.style.position = 'fixed';
                     }
                 })();
             })
+
         </script>
         <script>
             (function ($) {
