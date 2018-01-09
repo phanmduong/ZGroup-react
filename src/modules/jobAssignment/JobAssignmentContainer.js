@@ -96,7 +96,6 @@ class JobAssignmentContainer extends React.Component {
     }
 
     onWorkTypeChange(obj){
-        console.log(obj);
         this.setState({typeFilter: obj.value});
     }
 
