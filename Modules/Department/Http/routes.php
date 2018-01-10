@@ -8,4 +8,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'depa
     Route::delete('delete-department/{departmentId}','DepartmentController@deleteDepartment');
     Route::post('add-employees/{departmentId}','DepartmentController@addEmployees');
     Route::delete('delete-employees/{departmentId}','DepartmentController@deleteEmployees');
+    Route::get('/summary-employees','DepartmentController@summaryEmployee');
 });

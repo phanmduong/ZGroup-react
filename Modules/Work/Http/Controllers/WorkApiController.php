@@ -114,29 +114,27 @@ class WorkApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $logs = HistoryExtensionWork::join('users', 'history_extension_works.staff_id', '=', 'users.id')
             ->join('works', 'history_extension_works.work_id', '=', 'works.id')->select('history_extension_works.*')
-            ->where(function($query)use ($keyword){
-                $query->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name','like', '%' . $keyword . '%');
+            ->where(function ($query) use ($keyword) {
+                $query->where('users.name', 'like', '%' . $keyword . '%')->orWhere('works.name', 'like', '%' . $keyword . '%');
             })->orderBy('history_extension_works.created_at', 'desc')->paginate($limit);
 
         //dd($logs);
         return $this->respondWithPagination($logs, [
-            'logs' => $logs->map(function($log){
+            'logs' => $logs->map(function ($log) {
                 $staff = User::find($log->staff_id);
                 $work = Work::find($log->work_id);
                 return [
                     "id" => $log->id,
                     "reason" => $log->reason,
                     "penalty" => $log->penalty,
-                    "deadline" => $work->deadline,
+                    "deadline" => $work ? $work->deadline : "",
                     "new_deadline" => $log->new_deadline,
+                    "status" => $log->status ? $log->status : "",
                     "staff" => [
-                        "id" => $staff->id,
-                        "name" => $staff->name,
+                       "id" => $staff ? $staff->id : 0,
+                       "name" => $staff ? $staff->name : "",
                     ],
-                    "work" => [
-                        "id" => $work->id,
-                        "name" => $work->name
-                    ]
+                    "work" => $work ? $work : [],
                 ];
             })
 
@@ -147,9 +145,10 @@ class WorkApiController extends ManageApiController
     {
         $history = HistoryExtensionWork::find($historyId);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
-        $history->delete();
+        $history->status = $request->status;
+        $history->save();
         return $this->respondSuccessWithStatus([
-            "message" => "Xóa thành công"
+            "message" => "Từ chối thành công"
         ]);
     }
 
@@ -158,14 +157,39 @@ class WorkApiController extends ManageApiController
         $history = HistoryExtensionWork::find($historyId);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $work = Work::find($history->work_id);
-        $work_staff = WorkStaff::where('work_id', $history->work_id)->where('staff_id', $history->staff_id)->first();
+        $work_staffs = WorkStaff::where('work_id', $history->work_id)->get();
+        foreach($work_staffs as $work_staff){
+            $work_staff->penalty = $history->penalty;
+            $work_staff->save();
+        }
         $work->reason = $history->reason;
+        $work->deadline = $history->new_deadline;
         $work->save();
-        $work_staff->penalty = $history->penalty;
-        $work_staff->save();
-        $history->delete();
+        $history->status = $request->status;
+        $history->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
+        ]);
+    }
+
+    public function summaryStaff(Request $request)
+    {
+        $year = $request->year;
+        $pre_datas = User::select(DB::raw('count(id) as count'), DB::raw('MONTH(created_at) month'))->where("role", ">", 0)
+            ->where(DB::raw('YEAR(created_at)'), '=', $year)->groupby('month')->get();
+        $n = 0;
+        $data = [];
+        for ($i = 1; $i <= 12; $i++) {
+            if ($pre_datas[$n]->month === $i) {
+                array_push($data, $pre_datas[$n]);
+                if ($n + 1 < count($pre_datas)) $n++;
+            } else array_push($data, [
+                "count" => 0,
+                "month" => $i,
+            ]);
+        }
+        return $this->respondSuccessWithStatus([
+            "data" => $data,
         ]);
     }
 }

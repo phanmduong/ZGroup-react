@@ -233,9 +233,9 @@ class GraphicsController extends Controller
                 return "Đơn hàng không tồn tại";
             }
 
-            return "success";
+            return view('graphics::checkout_success');
         } else {
-            return "Error";
+            return "Mã xác thực không khớp";
         }
     }
 
@@ -298,6 +298,11 @@ class GraphicsController extends Controller
     public function checkout()
     {
         return view('graphics::checkout');
+    }
+
+    public function checkoutSuccess()
+    {
+        return view('graphics::checkout_success');
     }
 
 //    public function createCheckout()

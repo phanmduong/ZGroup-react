@@ -4,11 +4,11 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'work
 {
     Route::post('/', 'WorkApiController@createWork');
     Route::get('/history-extension','WorkApiController@getAllExtension');
+    Route::get('/summary-staffs','WorkApiController@summaryStaff');
     Route::get('/{workId}','WorkApiController@getDetailWork');
     Route::get('/','WorkApiController@getAll');
     Route::put('/{workId}','WorkApiController@editWork');
     Route::delete('/{workId}','WorkApiController@deleteWork');
-    Route::delete('/history-extension/{historyId}','WorkApiController@deleteHistoryExtension');
-    Route::post('/history-extension/{historyId}','WorkApiController@acceptHistoryExtension');
-
+    Route::post('/history-extension/{historyId}/refuse','WorkApiController@deleteHistoryExtension');
+    Route::post('/history-extension/{historyId}/accept','WorkApiController@acceptHistoryExtension');
 });

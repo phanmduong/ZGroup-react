@@ -15,6 +15,9 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
     Route::get('/nganluongapi/order/{orderId}/money/{money}/complete', 'GraphicsController@onlinePaidOrder');
 
+    Route::get("/checkout-success", "GraphicsController@checkoutSuccess");
+
+    Route::get("/checkout", "GraphicsController@checkout");
     Route::get("/checkout", "GraphicsController@checkout");
     Route::post("/checkout", "GraphicsController@createCheckout");
 
