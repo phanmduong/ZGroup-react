@@ -7,6 +7,7 @@ use App\Http\Controllers\ManageApiController;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 
 class DepartmentController extends ManageApiController
@@ -100,5 +101,14 @@ class DepartmentController extends ManageApiController
             "message" => "xoa thanh cong"
         ]);
 
+    }
+    public function summaryEmployee(Request $request){
+        $pre_data = User::join('departments','departments.id','=','users.department_id')
+            ->select(DB::raw('count(users.id) as count'),DB::raw('departments.name as department_name'))
+            ->where('users.role','>',0)->where('users.department_id','>',0)
+            ->groupby('users.department_id')->get();
+        return $this->respondSuccessWithStatus([
+            'data' => $pre_data,
+        ]);
     }
 }
