@@ -28,6 +28,10 @@
         .content{
             float : right;
         }
+        #map {
+            height: 500px;
+            width: 100%;
+        }
     </style>
     <script>
         window.url = "{{url("/")}}";
