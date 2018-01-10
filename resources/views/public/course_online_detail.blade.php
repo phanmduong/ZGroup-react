@@ -62,28 +62,34 @@
                                                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
                                                 </div>
                                                 <div style="position: absolute; bottom: 0px; right: 0px;"
-                                                     v-if="!isUploading">
-                                                    <i style="font-size:18px; color: #888888; cursor: pointer;"
-                                                       class="fa fa-camera" aria-hidden="true">
+                                                     v-if="!isStoring && !isUploading">
+                                                    <div style="font-size:18px; color: #888888; cursor: pointer;"
+                                                         class="fa fa-camera" aria-hidden="true">
                                                         <input type="file"
                                                                accept=".jpg,.png,.gif"
                                                                v-on:change="handleFileUpload($event)"
-                                                               v-model="file"
                                                                style="
-                                                        cursor: pointer!important;
-                                                        opacity: 0.0;
-                                                        position: absolute;
-                                                        top: 0;
-                                                        left: 0;
-                                                        bottom: 0;
-                                                        right: 0;
-                                                        width: 20px;
-                                                        height: 20px
-                                                        "
+                                                                    width: 100%;
+                                                                    height: 100%;
+                                                                    opacity: 0;
+                                                                    top: 0;
+                                                                    overflow: hidden;
+                                                                    position: absolute;
+                                                                    cursor: pointer!important;
+                                                                    "
                                                         />
-                                                    </i>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="progress" style="margin-bottom: 0px" v-if="isUploading">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                                     aria-valuemin="0" aria-valuemax="100"
+                                                     :style="{width: upload_percent + '%'}">
+                                                    @{{upload_percent}}%
+                                                </div>
+                                            </div>
+                                            <img v-bind:src="image_url" alt="" v-if="image_url"
+                                                 style="width: 100%; height: auto; margin-top: 10px">
                                         </div>
                                     </div>
                                 @else
@@ -103,7 +109,7 @@
                                                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
                                                 </div>
                                                 <div style="position: absolute; bottom: 0px; right: 0px;"
-                                                     v-if="!isUploading">
+                                                     v-if="!isStoring && !isUploading">
                                                     <div style="font-size:18px; color: #888888; cursor: pointer;"
                                                          class="fa fa-camera" aria-hidden="true">
                                                         <input type="file"
@@ -122,7 +128,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            <div class="progress" style="margin-bottom: 0px" v-if="isUploading">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                                     aria-valuemin="0" aria-valuemax="100"
+                                                     :style="{width: upload_percent + '%'}">
+                                                    @{{upload_percent}}%
+                                                </div>
+                                            </div>
+                                            <img v-bind:src="image_url" alt="" v-if="image_url"
+                                                 style="width: 100%; height: auto; margin-top: 10px">
                                         </div>
                                     </div>
                                 @endif
@@ -221,16 +235,30 @@
         }
 
         function handleFileUploadImage(vue, event) {
-            console.log(event);
-//            let formData = new FormData();
-//            formData.append('file', file);
-//            formData.append('index', index);
-//            let ajax = new XMLHttpRequest();
-//            ajax.addEventListener("load", completeHandler, false);
-//            ajax.upload.onprogress = progressHandler;
-//            ajax.addEventListener("error", error, false);
-//            ajax.open("POST", url);
-//            ajax.send(formData);
+            vue.upload_percent = 0;
+            vue.image_url = null;
+            vue.isUploading = true;
+            const file = event.target.files[0];
+            const url = "/elearning/upload-image-comment";
+            var formData = new FormData();
+            formData.append('image', file);
+            var ajax = new XMLHttpRequest();
+
+            ajax.addEventListener("load", function (event) {
+                var data = JSON.parse(event.currentTarget.response);
+                vue.image_url = data.link;
+                vue.isUploading = false;
+            }, false);
+            ajax.upload.onprogress = function (event2) {
+                vue.upload_percent = Math.round((100 * event2.loaded) / event2.total)
+            };
+            ajax.addEventListener("error", function () {
+                vue.upload_percent = 0;
+                vue.image_url = null;
+                vue.isUploading = false;
+            }, false);
+            ajax.open("POST", url);
+            ajax.send(formData);
         }
 
         Vue.component('comment-child', {
@@ -252,6 +280,8 @@
             '                                        </div>\n' +
             '                                        <div class="comment-block  product-item">\n' +
             '                                            <p class="comment-text" style="word-wrap: break-word; white-space: pre-wrap;">@{{comment.content}}</p>\n' +
+            '                                               <img v-bind:src="comment.image_url" alt="" v-if="comment.image_url"\n' +
+            '                                                 style="width: 100%; height: auto; margin-bottom: 10px">' +
             '                                            <div class="bottom-comment">\n' +
             '                                                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">\n' +
             '                                                    <div class="comment-date">@{{comment.created_at}}<a v-bind:href="/profile/+comment.commenter.username"> @@{{ comment.commenter.name }}</a></div>\n' +
@@ -279,7 +309,10 @@
                     commentChild: '',
                     isStoring: false,
                     isOpenComment: false,
-                    isUploading: false
+                    isUploading: false,
+                    file: '',
+                    upload_percent: 0,
+                    image_url: null
                 }
             },
             template: '<div><div class="comment-wrap">\n' +
@@ -289,6 +322,8 @@
             '                                        </div>\n' +
             '                                        <div class="comment-block  product-item">\n' +
             '                                            <p class="comment-text" style="word-wrap: break-word; white-space: pre-wrap;">@{{comment.content}}</p>\n' +
+            '                                               <img v-bind:src="comment.image_url" alt="" v-if="comment.image_url"\n' +
+            '                                                 style="width: 100%; height: auto; margin-bottom: 10px">' +
             '                                            <div class="bottom-comment">\n' +
             '                                                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">\n' +
             '                                                    <div class="comment-date">@{{comment.created_at}}<a v-bind:href="/profile/+comment.commenter.username"> @@{{ comment.commenter.name }}</a></div>\n' +
@@ -314,7 +349,7 @@
             '                                            ></div>\n' +
             '                                        </div>\n' +
             '                                        <div class="comment-block">\n' +
-            '                                                <div style="position: relative">\n' +
+            '                                            <div style="position: relative">\n' +
             '                                                <textarea cols="30" rows="3"\n' +
             '                                                          v-model="commentChild"\n' +
             '                                                          :disabled="isStoring"\n' +
@@ -323,12 +358,36 @@
             '                                                <div style="position: absolute; top: 0px; right: 0px" v-if="isStoring">\n' +
             '                                                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>\n' +
             '                                                </div>\n' +
-            '                                                <div style="position: absolute; bottom: 0px; right: 0px" v-if="isStoring">\n' +
-            '                                                   <i style="right:10px; font-size:18px; color: #888888" class="fa fa-camera" aria-hidden="true"></i>\n' +
+            '                                                <div style="position: absolute; bottom: 0px; right: 0px;"\n' +
+            '                                                     v-if="!isStoring && !isUploading">\n' +
+            '                                                    <div style="font-size:18px; color: #888888; cursor: pointer;"\n' +
+            '                                                         class="fa fa-camera" aria-hidden="true">\n' +
+            '                                                        <input type="file"\n' +
+            '                                                               accept=".jpg,.png,.gif"\n' +
+            '                                                               v-on:change="handleFileUpload($event)"\n' +
+            '                                                               style="\n' +
+            '                                                                    width: 100%;\n' +
+            '                                                                    height: 100%;\n' +
+            '                                                                    opacity: 0;\n' +
+            '                                                                    top: 0;\n' +
+            '                                                                    overflow: hidden;\n' +
+            '                                                                    position: absolute;\n' +
+            '                                                                    cursor: pointer!important;\n' +
+            '                                                                    "\n' +
+            '                                                        />\n' +
+            '                                                    </div>\n' +
             '                                                </div>\n' +
-
-            '                                            </div>' +
-            '                                        </div>\n' +
+            '                                            </div>\n' +
+            '                                            <div class="progress" style="margin-bottom: 0px" v-if="isUploading">\n' +
+            '                                                <div class="progress-bar" role="progressbar" aria-valuenow="70"\n' +
+            '                                                     aria-valuemin="0" aria-valuemax="100"\n' +
+            '                                                     :style="{width: upload_percent + \'%\'}">\n' +
+            '                                                    @{{upload_percent}}%\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                            <img v-bind:src="image_url" alt="" v-if="image_url"\n' +
+            '                                                 style="width: 100%; height: auto; margin-top: 10px">\n' +
+            '                                        </div>' +
             '                                    </div>' +
             '                               <div v-for="commentItem in comment.child_comments">\n' +
             '                                    <comment-child v-bind:comment="commentItem" v-on:changeCardComment="changeCardComment"></comment-child>\n' +
@@ -347,16 +406,22 @@
                             lesson_id: lessonId,
                             content_comment: this.commentChild,
                             parent_id: this.comment.id,
+                            image_url: this.image_url
                         }).then(function (res) {
                                 this.commentChild = '';
                                 this.isStoring = false;
                                 this.comment.child_comments.unshift(res.data.comment);
+                                this.upload_percent = 0;
+                                this.image_url = null
                             }.bind(this)
                         );
                     }
                 },
                 changeLike: function () {
                     changeLikeComment(this);
+                },
+                handleFileUpload: function (e) {
+                    handleFileUploadImage(this, e);
                 }
             }
         });
@@ -369,23 +434,29 @@
                     isStoring: false,
                     comments: {!! $comments !!},
                     isUploading: false,
-                    file: ''
-                }
+                    file: '',
+                    upload_percent: 0,
+                    image_url: null
 
+                }
             },
             methods: {
                 createComment: function (e, lessonId) {
                     if (e.keyCode === 13 && !e.shiftKey) {
                         e.preventDefault();
                         this.isStoring = true;
+                        ;
                         var url = "/elearning/" + lessonId + "/add-comment";
                         axios.post(url, {
                             lesson_id: lessonId,
-                            content_comment: this.comment
+                            content_comment: this.comment,
+                            image_url: this.image_url
                         }).then(function (res) {
                                 this.comments.unshift(res.data.comment);
                                 this.comment = '';
                                 this.isStoring = false;
+                                this.upload_percent = 0;
+                                this.image_url = null
                             }.bind(this)
                         );
                     }
