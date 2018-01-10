@@ -51,10 +51,10 @@ class CreateEditCoursesContainer extends React.Component {
         helper.setFormValidation('#form-course-create-edit');
     }
 
-
-    componentWillReceiveProps(nextProps){
-        console.log("nextProps", nextProps);
-    }
+    //
+    // componentWillReceiveProps(nextProps){
+    //     console.log("nextProps", nextProps);
+    // }
 
     backToList(){
         this.props.coursesActions.backToList();
