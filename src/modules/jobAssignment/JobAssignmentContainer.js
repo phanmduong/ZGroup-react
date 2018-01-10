@@ -12,9 +12,10 @@ import ExtendWorkModal from './ExtendWorkModal';
 import FinishWorkModal from './FinishWorkModal';
 import {Link} from "react-router";
 import Select from 'react-select';
-import ItemReactSelect from "../../components/common/ItemReactSelect";
 import ReactSelect from 'react-select';
 import {STATUS_WORK} from "../../constants/constants";
+import MemberReactSelectOption from "../tasks/board/filter/MemberReactSelectOption";
+import MemberReactSelectValue from "../tasks/board/filter/MemberReactSelectValue";
 
 const workTypes=[
     {value: 'all', label: 'Tất cả',},
@@ -39,6 +40,7 @@ class JobAssignmentContainer extends React.Component {
         this.closeFinishModal =this.closeFinishModal.bind(this);
         this.extendWork =this.extendWork.bind(this);
         this.onWorkTypeChange =this.onWorkTypeChange.bind(this);
+        this.onStaffFilterChange =this.onStaffFilterChange.bind(this);
 
         this.state = {
             showInfoModal: false,
@@ -49,6 +51,8 @@ class JobAssignmentContainer extends React.Component {
             },
             staffFilter: "",
             typeFilter: "all",
+            staffs: [],
+            selectedStaffs:[],
         }
     }
 
@@ -57,9 +61,12 @@ class JobAssignmentContainer extends React.Component {
         this.props.jobAssignmentAction.loadStaffs();
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('job',nextProps);
-    // }
+    componentWillReceiveProps(nextProps) {
+        console.log('job',nextProps);
+        if(this.props.isLoadingStaffs && !nextProps.isLoadingStaffs){
+            this.setState({staffs : nextProps.staffs});
+        }
+    }
 
     deleteWork(id){
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa công việc này không?", () => {
@@ -128,6 +135,10 @@ class JobAssignmentContainer extends React.Component {
         this.props.jobAssignmentAction.extendWork(workId,this.props.user.id, data, this.closeExtendModal);
     }
 
+    onStaffFilterChange(obj){
+        this.setState({ selectedStaffs: obj});
+    }
+
     render() {
         let pending = [], doing = [], done = [], cancel = [];
         let {works} = this.props;
@@ -177,23 +188,16 @@ class JobAssignmentContainer extends React.Component {
                     <div className="filter-container" style={{alignItems:"center"}}>
                         <div className="select-container">
                             <Select
-                                name="form-field-name"
-                                value={"Lọc theo nhân viên"}
-                                options={this.props.staffs}
-                                onChange={()=>{}}
-                                optionRenderer={(option) => {
-                                    return (
-                                        <ItemReactSelect label={option.label} url={helper.validateLinkImage(option.avatar_url)}/>
-                                    );
-                                }}
-                                valueRenderer={(option) => {
-                                    return (
-                                        <ItemReactSelect label={option.label} url={helper.validateLinkImage(option.avatar_url)}/>
-                                    );
-                                }}
                                 placeholder="Chọn nhân viên"
-                                disabled={this.props.isLoading}
                                 style={{minWidth: 200, maxWidth: 400}}
+                                value={this.state.selectedStaffs}
+                                name="form-field-name"
+                                multi={true}
+                                valueComponent={MemberReactSelectValue}
+                                optionComponent={MemberReactSelectOption}
+                                options={this.state.staffs}
+                                onChange={this.onStaffFilterChange}
+                                disabled={this.props.isLoading || this.props.isLoadingStaffs}
                             />
                         </div>
                         <div className="select-container">
@@ -332,6 +336,7 @@ class JobAssignmentContainer extends React.Component {
 
 JobAssignmentContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isLoadingStaffs: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     works: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
@@ -342,6 +347,7 @@ JobAssignmentContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading : state.jobAssignment.isLoading,
+        isLoadingStaffs : state.jobAssignment.isLoadingStaffs,
         isSaving : state.jobAssignment.isSaving,
         works : state.jobAssignment.works,
         user: state.login.user,
