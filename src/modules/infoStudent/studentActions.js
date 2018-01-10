@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import * as studentApi from './studentApi';
 import * as helper from '../../helpers/helper';
+import * as profileApi from "../profile/profileApi";
 
 /*eslint no-console: 0 */
 
@@ -87,6 +88,28 @@ export function editInfoStudent(student, closeModal) {
             })
             .catch(() => {
                 dispatch({type: types.LOAD_EDIT_INFO_STUDENT_ERROR});
+            });
+    };
+}
+
+export function changePassword(studentId, newPassword, closeModal) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CHANGE_PASSWORD_STUDENT});
+        studentApi.changePassword(studentId, newPassword)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification(res.data.data.message);
+                    closeModal();
+                    dispatch({type: types.CHANGE_PASSWORD_STUDENT_SUCCESS});
+
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({type: types.CHANGE_PASSWORD_STUDENT_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Cập nhật thất bại");
+                dispatch({type: types.CHANGE_PASSWORD_STUDENT_ERROR});
             });
     };
 }

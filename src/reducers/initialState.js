@@ -670,6 +670,8 @@ export default {
         errorProgress: false,
         isEditingStudent: false,
         errorEditing: false,
+        isChangingPassword: false,
+        errorChangePassword: false
     },
 
     dashboard: {
@@ -1049,8 +1051,8 @@ export default {
             category: {},
             customer: {},
             customer_group: {},
-            quantity : '',
-            shared : '',
+            quantity: '',
+            shared: '',
         },
 
     },
@@ -1131,9 +1133,9 @@ export default {
             detail: "",
             lessons: [],
             links: [],
-            pixels:[],
-            terms:[],
-            categories:[],
+            pixels: [],
+            terms: [],
+            categories: [],
             type_id: "",
             type: "",
         },
@@ -1145,9 +1147,9 @@ export default {
             link_description: "",
             link_icon: "",
         },
-        pixel:{
-            name:"",
-            code:"",
+        pixel: {
+            name: "",
+            code: "",
         },
         term: {
             id: null,
@@ -1310,13 +1312,13 @@ export default {
         ],
         works: [
             {
-                "id":11,
-                "name":"3",
-                "type":"personal",
-                "cost":2,
-                "deadline":"0000-00-00 00:00:00",
-                "bonus_value":3,
-                "bonus_type":null
+                "id": 11,
+                "name": "3",
+                "type": "personal",
+                "cost": 2,
+                "deadline": "0000-00-00 00:00:00",
+                "bonus_value": 3,
+                "bonus_type": null
             },
         ],
     },
@@ -1341,9 +1343,9 @@ export default {
             customers: [],                         // tat ca cac customer trong mot group
             customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
-            coupons : [],
-            order_value : '',
-            delivery_value : '',
+            coupons: [],
+            order_value: '',
+            delivery_value: '',
         },
         coupon: {
             name: '',
@@ -1355,8 +1357,8 @@ export default {
             start_time: '',
             end_time: '',
             customer_group_id: '',
-            quantity : '',
-            shared : '',
+            quantity: '',
+            shared: '',
         },
         groupCustomersList: [],
 
