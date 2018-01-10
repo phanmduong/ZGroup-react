@@ -176,6 +176,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
     Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
     Route::post('/change-password', 'ManageUserApiController@change_password');
+    Route::post('/change-password-student', 'ManageUserApiController@change_password_student');
     //End user api
 
     //Begin study session api
