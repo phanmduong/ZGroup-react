@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as studentApi from './studentApi';
 import * as helper from '../../helpers/helper';
-import * as profileApi from "../profile/profileApi";
 
 /*eslint no-console: 0 */
 
