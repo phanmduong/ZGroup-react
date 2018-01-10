@@ -53,6 +53,16 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::index', $this->data);
     }
 
+    public function productNew(Request $request){
+        $search = $request->search;
+        $products = Good::where('name', 'like', '%'."$search".'%')
+            ->orWhere('code', 'like', '%'."$search".'%')
+            ->orWhere('description', 'like', '%'."$search".'%')
+            ->paginate(2);
+        $this->data["products"] = $products;
+        return view('nhatquangshop::product_new', $this->data);
+    }
+
     public function about_us()
     {
         return view('nhatquangshop::about_us');

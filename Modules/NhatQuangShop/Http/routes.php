@@ -17,6 +17,8 @@ $nhatquangShopRoute = function () {
     Route::get('/blog', 'NhatQuangShopController@blog');
     Route::get('/blog/post/{post_id}', 'NhatQuangShopController@post');
     Route::post('/save-order', "NhatQuangShopController@saveOrder");
+    Route::get('/product/new', "NhatQuangShopController@productNew");
+    Route::post('/product/new/search', "NhatQuangShopController@productNewSearch");
     Route::get('/test', 'NhatQuangShopController@test');
 
     Route::get('/load-books-from-session/v2', 'NhatQuangApiController@getGoodsFromSession');
