@@ -130,14 +130,8 @@ class WorkApiController extends ManageApiController
                     "deadline" => $work ? $work->deadline : "",
                     "new_deadline" => $log->new_deadline,
                     "status" => $log->status ? $log->status : "",
-                    "staff" => [
-                        "id" => $staff ? $staff->id : 0,
-                        "name" => $staff ? $staff->name : "",
-                    ],
-                    "work" => [
-                        "id" => $work ? $work->id : 0,
-                        "name" => $work ? $work->name : "",
-                    ]
+                    "staff" => $staff ? $staff : [],
+                    "work" => $work ? $work : [],
                 ];
             })
 
