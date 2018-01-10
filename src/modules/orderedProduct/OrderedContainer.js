@@ -7,8 +7,6 @@ import {bindActionCreators} from 'redux';
 import Search from '../../components/common/Search';
 import FormInputDate from '../../components/common/FormInputDate';
 import TooltipButton from '../../components/common/TooltipButton';
-import ListOrder from './ListOrder';
-import * as goodOrderActions from './goodOrderActions';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';

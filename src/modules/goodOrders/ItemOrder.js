@@ -116,7 +116,7 @@ class ItemOrder extends React.Component {
                                   value={order.status}/>
                 </td>
                 <td>
-                    <a data-toggle="tooltip" title="Ghi chú" type="button"
+                    <a data-toggle="tooltip" title="Ghi chú" type="button" className="text-rose"
                        rel="tooltip"
                        onClick={() => this.props.showAddNoteModal(order)}>
                         {
