@@ -213,9 +213,10 @@
                             v-if="isLoading"
                     ><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Đang đăng nhập
                     </button>
-                    <button class="btn" style="width: 100%; margin: 10px; padding: 15px; color: white">Tạo tài khoản
+                    <button class="btn btn-default" style="width: 100%; margin: 10px; padding: 15px;">Tạo tài khoản
                     </button>
-                    <a style="width: 100%; margin: 10px; padding: 15px; color: #484848; text-align: center">Quên mật
+                    <a style="width: 100%; margin: 10px; padding: 15px; color: #484848; text-align: center"
+                       href="/password/reset">Quên mật
                         khẩu</a>
                 </div>
             </div>
