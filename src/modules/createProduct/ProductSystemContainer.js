@@ -131,18 +131,27 @@ class ProductSystemContainer extends React.Component {
                 <div className="row">
                     <div className="col-md-6">
                         <label className="label-control">Nhà sản xuất</label>
-                        <Select
-                            name="manufactures"
-                            value={product.manufacture_id}
-                            options={this.props.manufactures.map((manufacture) => {
-                                return {
-                                    ...manufacture,
-                                    value: manufacture.id,
-                                    label: manufacture.name
-                                };
-                            })}
-                            onChange={this.changeManufactureSelect}
-                        />
+                        <div className="input-group">
+                            <Select
+                                name="manufactures"
+                                value={product.manufacture_id}
+                                options={this.props.manufactures.map((manufacture) => {
+                                    return {
+                                        ...manufacture,
+                                        value: manufacture.id,
+                                        label: manufacture.name
+                                    };
+                                })}
+                                onChange={this.changeManufactureSelect}
+                            />
+                            <span className="input-group-btn">
+                                <a className="btn btn-rose btn-sm"
+                                   onClick={() => this.props.createProductAction.showManufacturesManageModal()}>
+                                    <i className="material-icons">toc</i>
+                                    <br/>
+                                </a>
+                            </span>
+                        </div>
                     </div>
                     <div className="col-md-6">
                         <label className="label-control">Nhóm hàng hóa</label>

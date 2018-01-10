@@ -9,8 +9,10 @@ class StatusSelect extends React.Component {
     render() {
         const options = this.props.options;
         return (
-            <select value={this.props.value}
-                    onChange={(e) => this.props.onChange(e.target.value)}>
+            <select
+                className="form-control"
+                value={this.props.value}
+                onChange={(e) => this.props.onChange(e.target.value)}>
                 {
                     options.map((option, index) => {
                         return (
