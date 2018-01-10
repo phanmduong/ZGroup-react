@@ -33,7 +33,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
 });
 
 
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'manufacture', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/manufacture', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
     Route::get('/', 'ManufactureApiController@allManufactures');
     Route::post('/', 'ManufactureApiController@createManufacture');
     Route::delete('/{manufactureId}', 'ManufactureApiController@deleteManufacture');

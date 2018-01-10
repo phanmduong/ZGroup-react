@@ -2,6 +2,7 @@
 
 namespace Modules\NhatQuangShop\Http\Controllers;
 
+use App\Services\RecaptchaService;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,13 @@ class NhatQuangShopManageApiController extends Controller
     {
         $captcha = $request->captcha;
 
-
+        $captchaService = new RecaptchaService();
+        if (!$captchaService->verify($captcha)) {
+            return [
+                "status" => 0,
+                "message" => "Verify captcha failed"
+            ];
+        }
 
         if ($request->password == null || $request->phone == null || $request->email == null) {
             return [
