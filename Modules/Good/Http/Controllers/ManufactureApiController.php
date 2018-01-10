@@ -25,6 +25,18 @@ class ManufactureApiController extends ManageApiController
         $search = $request->search;
 
         $manufactures = $manufactures->where('name', 'like', '%' . $search . '%');
+        if($limit == -1)
+        {
+            $manufactures = $manufactures->orderBy("created_at", "desc")->get();
+            return $this->respondSuccessWithStatus([
+                'manufactures' => $manufactures->map(function ($manufacture) {
+                    return [
+                        'id' => $manufacture->id,
+                        'name' => $manufacture->name,
+                    ];
+                })
+            ]);
+        }
         $manufactures = $manufactures->orderBy("created_at", "desc")->paginate($limit);
         return $this->respondWithPagination(
             $manufactures,

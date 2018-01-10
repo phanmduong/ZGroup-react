@@ -31,23 +31,23 @@ class GoodPropertyApiController extends ManageApiController
             $goodPropertyItems = $goodPropertyItems->where('type', $request->type);
         $goodPropertyItems = $goodPropertyItems->where('name', 'like', '%'.$keyword.'%');
 
-        if ($limit > 0 && $request->page > 0) {
-            $goodPropertyItems = $goodPropertyItems->orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination(
-                $goodPropertyItems,
-                [
-                    "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
-                        return $goodPropertyItem->transform();
-                    })
-                ]
-            );
+        if ($limit == -1) {
+            $goodPropertyItems = $goodPropertyItems->orderBy('created_at', 'desc')->get();
+            return $this->respond([
+                "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
+                    return $goodPropertyItem->transform();
+                })
+            ]);
         }
-        $goodPropertyItems = $goodPropertyItems->orderBy('created_at', 'desc')->get();
-        return $this->respond([
-            "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
-                return $goodPropertyItem->transform();
-            })
-        ]);
+        $goodPropertyItems = $goodPropertyItems->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination(
+            $goodPropertyItems,
+            [
+                "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
+                    return $goodPropertyItem->transform();
+                })
+            ]
+        );
     }
 
     public function getGoodPropertyItem($id)
