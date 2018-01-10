@@ -87,7 +87,7 @@ class FinishWorkModal extends React.Component {
                                         /></div>
                                     <div className="col-md-12">
                                         <FormInputText
-                                            label={"Số tiền phạt"}
+                                            label={"Số tiền đã sử dụng"}
                                             required
                                             type="number"
                                             name="cost"

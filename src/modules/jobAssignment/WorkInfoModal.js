@@ -145,7 +145,6 @@ WorkInfoModal.propTypes = {
     data: PropTypes.object,
     show: PropTypes.bool,
     onHide: PropTypes.func,
-    modalType: PropTypes.string,
 };
 
 function mapStateToProps(state) {

@@ -72,7 +72,8 @@ export function extendWork(workID,staffID, data) {
     if (token) {
         url +=  "?token=" + token;
     }
-    return axios.post(url,data);
+    let time = moment( data.new_deadline, [DATETIME_FORMAT_SQL, DATETIME_FORMAT]).format(DATETIME_FORMAT_SQL);
+    return axios.post(url,{...data, new_deadline: time});
 }
 
 export function createWork(data) {
