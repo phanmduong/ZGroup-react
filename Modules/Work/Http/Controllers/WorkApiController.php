@@ -134,7 +134,7 @@ class WorkApiController extends ManageApiController
                        "id" => $staff ? $staff->id : 0,
                        "name" => $staff ? $staff->name : "",
                     ],
-                    "work" => $work ? $work : [],
+                    "work" => $work ? $work->transform() : [],
                 ];
             })
 
