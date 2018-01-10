@@ -8,6 +8,9 @@ import Search from "../../components/common/Search";
 import * as helper from '../../helpers/helper';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import WorkInfoModal from '../jobAssignment/WorkInfoModal';
+import {Modal} from 'react-bootstrap';
+import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
 
 class HistoryExtensionWorkContainer extends React.Component {
 
@@ -22,12 +25,22 @@ class HistoryExtensionWorkContainer extends React.Component {
                 limit: 5,
                 total_pages: 1,
                 total_count: 1
-            }
+            },
+            work: {
+                staffs:[],
+            },
+            showInfoModal: false,
+            showStaffModal: false,
+            staffId: null,
         };
         this.deleteHistoryExtensionWork = this.deleteHistoryExtensionWork.bind(this);
         this.acceptHistoryExtensionWork = this.acceptHistoryExtensionWork.bind(this);
         this.loadHistoryExtensionWork = this.loadHistoryExtensionWork.bind(this);
         this.searchHistoryExtension = this.searchHistoryExtension.bind(this);
+        this.openInfoModal = this.openInfoModal.bind(this);
+        this.closeInfoModal = this.closeInfoModal.bind(this);
+        this.openStaffModal = this.openStaffModal.bind(this);
+        this.closeStaffModal = this.closeStaffModal.bind(this);
     }
 
     componentWillMount() {
@@ -73,9 +86,40 @@ class HistoryExtensionWorkContainer extends React.Component {
         }.bind(this), 500);
     }
 
+    openInfoModal(work){
+        this.setState({showInfoModal: true, work:work,});
+    }
+
+    closeInfoModal(){
+        this.setState({showInfoModal: false});
+    }
+
+    openStaffModal(staffId){
+        return this.setState({showStaffModal: true, staffId: staffId});
+    }
+
+    closeStaffModal(){
+        this.setState({showStaffModal: false});
+    }
+
     render() {
         return (
             <div className="content">
+                <WorkInfoModal
+                    show={this.state.showInfoModal}
+                    onHide={this.closeInfoModal}
+                    data={this.state.work}
+                />
+                <Modal
+                    show={this.state.showStaffModal}
+                    onHide={this.closeStaffModal}
+                    bsSize="large"
+                >
+                    <Modal.Header closeButton/>
+                    <Modal.Body>
+                        <InfoStaffContainer staffId={this.state.staffId} type="info"/>
+                    </Modal.Body>
+                </Modal>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -102,6 +146,8 @@ class HistoryExtensionWorkContainer extends React.Component {
                                                 data={this.props.data || []}
                                                 deleteHistory={this.deleteHistoryExtensionWork}
                                                 acceptHistory={this.acceptHistoryExtensionWork}
+                                                openInfoModal={this.openInfoModal}
+                                                openStaffModal={this.openStaffModal}
                                             />
                                     }
                                     <ul className="pagination pagination-primary">

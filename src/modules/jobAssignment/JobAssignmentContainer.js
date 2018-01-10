@@ -15,7 +15,6 @@ import Select from 'react-select';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import ReactSelect from 'react-select';
 import {STATUS_WORK} from "../../constants/constants";
-import moment from "moment/moment";
 
 const workTypes=[
     {value: 'all', label: 'Tất cả',},
@@ -78,8 +77,8 @@ class JobAssignmentContainer extends React.Component {
         });
     }
 
-    openInfoModal(work, status){
-        this.setState({showInfoModal: true, work:work, modalType : status });
+    openInfoModal(work){
+        this.setState({showInfoModal: true, work:work,});
     }
 
     closeInfoModal(){

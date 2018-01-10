@@ -43,8 +43,14 @@ class HistoryExtensionList extends React.Component{
                             return(
                                 <tr key={data.id}>
                                     <td/>
-                                    <td>{data.staff.name}</td>
-                                    <td>{data.work.name}</td>
+                                    <td>
+                                        <a onClick={()=>{return this.props.openStaffModal(data.staff.id);}}>
+                                            {data.staff.name}</a>
+                                    </td>
+                                    <td>
+                                        <a onClick={()=>{return this.props.openInfoModal(data.work);}}>
+                                            {data.work.name}</a>
+                                    </td>
                                     <td>{data.deadline ? data.deadline : "0000-00-00 00:00:00"}</td>
                                     <td>{data.new_deadline ? data.new_deadline : "0000-00-00 00:00:00"}</td>
                                     <td>{data.reason}</td>
@@ -75,5 +81,7 @@ HistoryExtensionList.propTypes= {
     data : PropTypes.array.isRequired,
     deleteHistory : PropTypes.func,
     acceptHistory : PropTypes.func,
+    openInfoModal : PropTypes.func,
+    openStaffModal : PropTypes.func,
 };
 export default HistoryExtensionList;
