@@ -142,8 +142,11 @@ class JobAssignmentContainer extends React.Component {
     render() {
         let pending = [], doing = [], done = [], cancel = [];
         let {works} = this.props;
-        let {typeFilter} =this.state;
+        let {typeFilter, selectedStaffs} =this.state;
         works = works.filter(obj => typeFilter == "all"  ? true : (obj.type == typeFilter));
+        selectedStaffs.forEach( staff => {
+            works = works.filter(work => checkStaff(staff, work.staffs) );
+        });
         works.forEach((obj)=>{
             switch (obj.status){
                 case STATUS_WORK[0].value:{
@@ -359,6 +362,15 @@ function mapDispatchToProps(dispatch) {
     return {
         jobAssignmentAction: bindActionCreators(jobAssignmentAction, dispatch),
     };
+}
+
+function checkStaff(staff, arr) {
+    let check = false;
+    arr.forEach(item => {
+       if(staff.id == item.id)
+           check = true;
+    });
+    return check;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(JobAssignmentContainer);
