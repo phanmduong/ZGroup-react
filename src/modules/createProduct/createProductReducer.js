@@ -6,7 +6,17 @@ export default function createProductReducer(state = initialState.createProduct,
         case types.GET_MANUFACTURES_CREATE_PRODUCT:
             return {
                 ...state,
-                manufactures: action.manufactures
+                manufactures: action.manufactures,
+                manufacturesRender: action.manufacturesRender,
+                isLoadingManufacture: false,
+                totalPagesManufactures: action.totalPagesManufactures,
+                currentPageManufactures: action.currentPageManufactures,
+                totalCountManufactures: action.totalCountManufactures,
+            };
+        case types.BEGIN_GET_MANUFACTURES_CREATE_PRODUCT:
+            return {
+                ...state,
+                isLoadingManufacture: true
             };
         case types.GET_CATEGORIES_CREATE_PRODUCT:
             return {
@@ -174,7 +184,11 @@ export default function createProductReducer(state = initialState.createProduct,
         case types.GET_PROPERTIES_CREATE_PRODUCT:
             return {
                 ...state,
-                properties_list: action.properties_list
+                properties_list: action.properties_list,
+                properties_list_render: action.properties_list_render,
+                totalPagesProperties: action.totalPagesProperties,
+                currentPageProperties: action.currentPageProperties,
+                totalCountProperties: action.totalCountProperties
             };
         case types.TOGGLE_ADD_CHILD_IMAGES_MODAL:
             return {
@@ -186,6 +200,21 @@ export default function createProductReducer(state = initialState.createProduct,
             return {
                 ...state,
                 childImagesModal: false
+            };
+        case types.TOGGLE_PROPERTIES_MANAGE_MODAL:
+            return {
+                ...state,
+                propertiesManageModal: !state.propertiesManageModal
+            };
+        case types.HANDLE_PROPERTIES_MANAGE:
+            return {
+                ...state,
+                properties_list: action.properties_list
+            };
+        case types.TOGGLE_MANUFACTURES_MANAGE_MODAL:
+            return {
+                ...state,
+                manufacturesManageModal: !state.manufacturesManageModal
             };
         default:
             return state;
