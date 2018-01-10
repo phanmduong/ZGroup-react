@@ -40,6 +40,7 @@
           return '<li class="disabled"><span>'.$text.'</span></li>';
       }
 
+
       protected function getAvailablePageWrapper($url, $page, $rel = null)
       {
           $rel = is_null($rel) ? '' : ' rel="'.$rel.'"';

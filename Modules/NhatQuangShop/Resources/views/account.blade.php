@@ -1,6 +1,7 @@
 @extends('nhatquangshop::layouts.manage')
 @section('data')
     <div class="card-block" style="background-color:#FFF; margin-bottom: 20px">
+
         <table cellpadding="10px">
             <tr class="border-0 ">
                 <td class="text-left border-white">Họ và tên :</td>
@@ -12,7 +13,7 @@
             </tr>
             <tr>
                 <td class="text-left">Giới tính :</td>
-                <th>{{$user->phone}}</th>
+                <th>{{$user->gender == 1 ? 'Nữ ':  'Nam'}}</th>
             </tr>
             <tr>
                 <td class="text-left">Di động :</td>

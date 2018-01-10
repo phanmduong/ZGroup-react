@@ -1,6 +1,9 @@
 @extends('nhatquangshop::layouts.manage')
 @section('data')
     <div class="card-block" style="background-color:#FFF; margin-bottom: 20px">
+        @if(count($errors) > 0)
+            @include("errors.validate")
+        @endif
         <form action="/manage/account_change" method="post">
             <table cellpadding="10px">
                 <tr class="border-0 ">
@@ -26,10 +29,16 @@
                     <th><input type="text" value="{{$user->address}}" placeholder="Địa chỉ của bạn" class="form-control"
                                name="address" size="50px"></th>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="submit" class="btn btn-info">Cập nhập thông tin</button>
+                        <a href="/manage/account" class="btn btn-default">Thoát</a>
+                    </td>
+                </tr>
             </table>
             <br>
-            <button type="submit" class="btn btn-info">Cập nhập thông tin</button>
-            <a href="/manage/account" class="btn btn-default">Thoát</a>
+
         </form>
 
     </div>
