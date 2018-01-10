@@ -24,7 +24,13 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
+    <style>
+        .content {
+            float: right;
+        }
+    </style>
     <script>
+        var navVue = {};
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
     </script>
@@ -56,9 +62,9 @@
                         .then(function (res) {
                             if (res.data.status === 1) {
                                 navVue.changeLoginCondition(res.data.user);
-                                console.log(res.data.user);
+                                // console.log(res.data.user);
                                 if (!res.data.user.first_login) {
-                                    console.log("hello");
+                                    $("#update-user-email").css("display", "none");
                                     $("#updateUserInfoModal").modal({
                                         backdrop: 'static',
                                         keyboard: false
@@ -81,9 +87,15 @@
         }
     </script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
 </head>
 <body class="profile" style="background:#fafafa">
 <script>
+    var recaptchaCallBack = function (response) {
+        navVue.captcha = response;
+    };
+
     window.fbAsyncInit = function () {
         FB.init({
             appId: '{{config("app.facebook_app_id")}}',
@@ -137,7 +149,7 @@
                     <p>Bạn vui lòng hoàn thành thông tin trước khi tiếp tục</p>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="form-group" id="update-user-email">
                         <label>Email</label>
                         <input v-model="user.email" type="email" value="" placeholder="Email"
                                class="form-control"/>
@@ -178,12 +190,20 @@
                         </div>
                     </div>
 
+                    <div v-if="errorMessage"
+                         class="alert alert-danger"
+                         style="text-align: center">
+                        @{{ errorMessage }}
+                    </div>
 
-                    <button :disabled="user.newPassword === '' || user.phone ==='' ||
-                    user.confirmPassword === '' || !validPhone() ||
-                    !validConfirmPassword() || isSubmitUserInfo"
+                    <div class="g-recaptcha"
+                         data-callback="recaptchaCallBack"
+                         data-sitekey="6LdS5j8UAAAAAD-7OJ2O68ECZdGiWo_27cbo6TUu"></div>
+
+                    <button :disabled="submitDisable()"
                             v-on:click="onSubmitUpdateUserInfo"
                             class="btn btn-block btn-round">
+
                         <div v-if="isSubmitUserInfo" class="uil-reload-css reload-small" style="">
                             <div></div>
                         </div>
@@ -660,7 +680,7 @@
 </body>
 <script>startApp();</script>
 <!-- Core JS Files -->
-<script src="/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
+<script src={!!url('/assets/js/jquery-ui-1.12.1.custom.min.js')  !!} type="text/javascript"></script>
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>

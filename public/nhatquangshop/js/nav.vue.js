@@ -6,26 +6,31 @@ var navVue = new Vue({
         isLoading: false,
         showLoggedNav: false,
         user: window.INIT_USER,
-        isSubmitUserInfo: false
+        isSubmitUserInfo: false,
+        errorMessage: "",
+        captcha: ""
     },
     methods: {
         onSubmitUpdateUserInfo: function () {
+            this.errorMessage = "";
             this.isSubmitUserInfo = true;
             var url = "/api/user";
             axios.put(url, {
                 email: this.user.email,
                 password: this.user.newPassword,
-                phone: this.user.phone
+                phone: this.user.phone,
+                captcha: this.captcha
             })
                 .then(function (res) {
-                    this.isLoading = false;
+                    this.isSubmitUserInfo = false;
                     if (res.data.status === 0) {
-                        alert("Bạn vui lòng nhập đầy đủ thông tin");
+                        this.errorMessage = res.data.message;
                     } else {
                         window.location.href = "/";
                     }
                 }.bind(this));
         },
+
         validEmail: function () {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(this.user.email.toLowerCase());
@@ -40,6 +45,13 @@ var navVue = new Vue({
         validConfirmPassword: function () {
             return this.user.confirmPassword !== '' && this.user.newPassword !== ''
                 && this.user.newPassword === this.user.confirmPassword;
+        },
+        submitDisable: function () {
+            var user = this.user;
+            console.log(this.captcha);
+            return user.newPassword === '' || this.captcha === '' || user.phone === '' ||
+                user.confirmPassword === '' || !this.validPhone() || !this.validPassword() ||
+                !this.validConfirmPassword() || this.isSubmitUserInfo;
         },
         onFacebookLoginButtonClick: function () {
             $("#global-loading").css("display", "block");
@@ -94,5 +106,4 @@ var navVue = new Vue({
         }
     }
 });
-
 /* jshint ignore:end */

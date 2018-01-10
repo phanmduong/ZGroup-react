@@ -97,18 +97,14 @@ class PublicCrawlController extends CrawlController
         $this->data['course'] = $course;
         $this->data['lesson_selected'] = $lesson;
         $this->data['lessons'] = $lessons;
-        $this->data['comments'] = $lesson->comments()->orderBy('created_at', 'desc')->get()->map(function ($comment) {
-            return [
-                'id' => $comment->id,
-                'created_at' => format_full_time_date($comment->created_at),
-                'content' => $comment->content,
-                'commenter' => [
-                    'avatar_url' => $comment->commenter->avatar_url,
-                    'name' => $comment->commenter->name,
-                    'username' => $comment->commenter->username
-                ],
-            ];
-        });
+        $this->data['comments'] = $lesson ? $lesson->comments()->where('parent_id', '0')->orderBy('created_at', 'desc')->get()->map(function ($comment) {
+            $data = $comment->transform($this->user);
+            $data['child_comments'] = $comment->child_comments()->orderBy('created_at', 'desc')->get()->map(function ($commentChild) {
+                $dataComment = $commentChild->transform($this->user);
+                return $dataComment;
+            });
+            return $data;
+        }) : [];
 
         return view('public.course_online_detail', $this->data);
     }

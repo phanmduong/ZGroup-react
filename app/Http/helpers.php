@@ -1472,3 +1472,4 @@ function convert_image_html($string)
 {
     return str_replace("<img ", '<img style="width:100%; height:auto"', $string);
 }
+
