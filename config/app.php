@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "google_recaptcha_secret" => env("GOOGLE_RECAPTCHA_SECRET", ""),
+
     "nganluong_merchant_id" => env("NGANLUONG_MERCHANT_ID", ""),
     "nganluong_merchant_pass" => env("NGANLUONG_MERCHANT_PASS", ""),
     "nganluong_receiver" => env("NGANLUONG_RECEIVER", ""),

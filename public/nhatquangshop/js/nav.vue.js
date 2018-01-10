@@ -48,7 +48,6 @@ var navVue = new Vue({
         },
         submitDisable: function () {
             var user = this.user;
-            console.log(this.captcha);
             return user.newPassword === '' || this.captcha === '' || user.phone === '' ||
                 user.confirmPassword === '' || !this.validPhone() || !this.validPassword() ||
                 !this.validConfirmPassword() || this.isSubmitUserInfo;

@@ -200,7 +200,8 @@
                          data-callback="recaptchaCallBack"
                          data-sitekey="6LdS5j8UAAAAAD-7OJ2O68ECZdGiWo_27cbo6TUu"></div>
 
-                    <button :disabled="submitDisable()"
+                    <button style="margin-top: 20px;"
+                            :disabled="submitDisable()"
                             v-on:click="onSubmitUpdateUserInfo"
                             class="btn btn-block btn-round">
 
