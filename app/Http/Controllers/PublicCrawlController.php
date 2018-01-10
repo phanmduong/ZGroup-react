@@ -79,12 +79,18 @@ class PublicCrawlController extends CrawlController
 
         $course = Course::find($courseId);
         if ($course == null) {
-            return view('404.not_found_course');
+            return view('404.not_found_course', $this->data);
         }
 
         if ($lesson == null) {
             $term = $course->terms()->orderBy('order')->first();
-            $lesson = $term->lessons()->orderBy('order')->first();
+            if ($term) {
+                $lesson = $term->lessons()->orderBy('order')->first();
+            }
+        }
+
+        if ($lesson == null) {
+            return view('404.not_found_lesson', $this->data);
         }
 
         $lessons = $course->lessons()->get()->map(function ($lesson) {
