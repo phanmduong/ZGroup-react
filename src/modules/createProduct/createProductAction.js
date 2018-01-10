@@ -3,13 +3,23 @@ import * as createProductApi from './createProductApi';
 import * as helper from "../../helpers/helper";
 import {browserHistory} from 'react-router';
 
-export function getManufacturesCreateProduct() {
+export function getManufacturesCreateProduct(page, search) {
     return function (dispatch) {
-        createProductApi.getManufacturesApi()
+        dispatch({
+            type: types.BEGIN_GET_MANUFACTURES_CREATE_PRODUCT
+        });
+        createProductApi.getManufacturesApi(page, search)
             .then(function (response) {
+                let manufactures = response.data.data.manufactures;
+                let total_count = manufactures.length;
                 dispatch({
                     type: types.GET_MANUFACTURES_CREATE_PRODUCT,
-                    manufactures: response.data.data.manufactures
+                    manufactures: manufactures,
+                    manufacturesRender: manufactures.slice(0, 10),
+                    totalPagesManufactures: (total_count % 10 === 0) ?
+                        (total_count / 10) : ((total_count - total_count % 10) / 10) + 1,
+                    currentPageManufactures: 1,
+                    totalCountManufactures: total_count
                 });
             });
     };
@@ -28,9 +38,16 @@ export function getPropertiesCreateProduct() {
     return function (dispatch) {
         createProductApi.getPropertiesApi()
             .then(function (response) {
+                let properties_list = response.data.good_property_items;
+                let total_count = properties_list.length;
                 dispatch({
                     type: types.GET_PROPERTIES_CREATE_PRODUCT,
-                    properties_list: response.data.good_property_items
+                    properties_list: properties_list,
+                    properties_list_render: properties_list.slice(0, 10),
+                    totalPagesProperties: (total_count % 10 === 0) ?
+                        (total_count / 10) : ((total_count - total_count % 10) / 10) + 1,
+                    currentPageProperties: 1,
+                    totalCountProperties: total_count
                 });
             });
     };
@@ -283,5 +300,207 @@ export function shutDownAddChildImagesModal() {
         type: types.SHUT_DOWN_ADD_CHILD_IMAGES_MODAL
     };
 }
+
+export function showPropertiesManageModal() {
+    return {
+        type: types.TOGGLE_PROPERTIES_MANAGE_MODAL
+    };
+}
+
+export function showManufacturesManageModal() {
+    return {
+        type: types.TOGGLE_MANUFACTURES_MANAGE_MODAL
+    };
+}
+
+export function handlePropertiesManage(properties_list) {
+    return {
+        type: types.HANDLE_PROPERTIES_MANAGE,
+        properties_list
+    };
+}
+
+export function deletePropertyModal(property) {
+    return function (dispatch, getState) {
+        let properties_list = getState().createProduct.properties_list;
+        let totalPagesProperties = getState().createProduct.totalPagesProperties;
+        let currentPageProperties = getState().createProduct.currentPageProperties;
+        let totalCountProperties = getState().createProduct.totalCountProperties;
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.deletePropertyApi(property)
+            .then(function (res) {
+                if (res.data.status) {
+                    properties_list = properties_list.filter(proper => proper.id !== property.id);
+                    totalCountProperties -= 1;
+                    totalPagesProperties = (totalCountProperties % 10 === 0) ?
+                        (totalCountProperties / 10) : ((totalCountProperties - totalCountProperties % 10) / 10) + 1;
+                    let start = 10 * (currentPageProperties - 1);
+                    dispatch({
+                        type: types.GET_PROPERTIES_CREATE_PRODUCT,
+                        properties_list,
+                        properties_list_render: properties_list.slice(start, start + 10),
+                        totalPagesProperties,
+                        currentPageProperties,
+                        totalCountProperties
+                    });
+                    helper.showNotification("Xóa thuộc tính thành công");
+                } else helper.showErrorNotification(res.data.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function deleteManufactureModal(manufacture) {
+    return function (dispatch, getState) {
+        let manufactures = getState().createProduct.manufactures;
+        let totalPagesManufactures = getState().createProduct.totalPagesManufactures;
+        let currentPageManufactures = getState().createProduct.currentPageManufactures;
+        let totalCountManufactures = getState().createProduct.totalCountManufactures;
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.deleteManufactureApi(manufacture)
+            .then(function (res) {
+                if (res.data.status) {
+                    manufactures = manufactures.filter(manufac => manufac.id !== manufacture.id);
+                    totalCountManufactures -= 1;
+                    totalPagesManufactures = (totalCountManufactures % 10 === 0) ?
+                        (totalCountManufactures / 10) : ((totalCountManufactures - totalCountManufactures % 10) / 10) + 1;
+                    let start = 10 * (currentPageManufactures - 1);
+                    dispatch({
+                        type: types.GET_MANUFACTURES_CREATE_PRODUCT,
+                        manufactures: manufactures,
+                        manufacturesRender: manufactures.slice(start, start + 10),
+                        totalPagesManufactures,
+                        currentPageManufactures,
+                        totalCountManufactures
+                    });
+                    helper.showNotification("Xóa nhà sản xuất thành công");
+                } else helper.showErrorNotification(res.data.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function createPropertyModal(name) {
+    return function (dispatch, getState) {
+        let properties_list = getState().createProduct.properties_list;
+        let totalPagesProperties = getState().createProduct.totalPagesProperties;
+        let currentPageProperties = getState().createProduct.currentPageProperties;
+        let totalCountProperties = getState().createProduct.totalCountProperties;
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.createPropertyApi(name)
+            .then(function (res) {
+                if (res.data.status) {
+                    properties_list = [{
+                        id: res.data.data.id,
+                        name: res.data.data.name
+                    }, ...properties_list];
+                    currentPageProperties = 1;
+                    totalCountProperties += 1;
+                    totalPagesProperties = (totalCountProperties % 10 === 0) ?
+                        (totalCountProperties / 10) : ((totalCountProperties - totalCountProperties % 10) / 10) + 1;
+                    dispatch({
+                        type: types.GET_PROPERTIES_CREATE_PRODUCT,
+                        properties_list,
+                        properties_list_render: properties_list.slice(0, 10),
+                        totalPagesProperties,
+                        currentPageProperties,
+                        totalCountProperties
+                    });
+                    helper.showNotification("Tạo thuộc tính thành công");
+                } else helper.showErrorNotification(res.data.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function createManufactureModal(name) {
+    return function (dispatch, getState) {
+        let manufactures = getState().createProduct.manufactures;
+        let totalPagesManufactures = getState().createProduct.totalPagesManufactures;
+        let currentPageManufactures = getState().createProduct.currentPageManufactures;
+        let totalCountManufactures = getState().createProduct.totalCountManufactures;
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.createManufactureApi(name)
+            .then(function (res) {
+                if (res.data.status) {
+                    manufactures = [
+                        {
+                            id: res.data.data.id,
+                            name: res.data.data.name
+                        },
+                        ...manufactures
+                    ];
+                    currentPageManufactures = 1;
+                    totalCountManufactures += 1;
+                    totalPagesManufactures = (totalCountManufactures % 10 === 0) ?
+                        (totalCountManufactures / 10) : ((totalCountManufactures - totalCountManufactures % 10) / 10) + 1;
+                    dispatch({
+                        type: types.GET_MANUFACTURES_CREATE_PRODUCT,
+                        manufactures: manufactures,
+                        manufacturesRender: manufactures.slice(0, 10),
+                        totalPagesManufactures,
+                        currentPageManufactures,
+                        totalCountManufactures
+                    });
+                    helper.showNotification("Thêm nhà sản xuất thành công");
+                } else helper.showErrorNotification(res.data.message.message);
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function filterManufacturesModal(page, query) {
+    return function (dispatch, getState) {
+        let manufactures = getState().createProduct.manufactures;
+        let manufacturesFilter = manufactures.filter(manufacture => manufacture.name.includes(query));
+        let start = 10 * (page - 1);
+        let total_count = manufacturesFilter.length;
+        dispatch({
+            type: types.GET_MANUFACTURES_CREATE_PRODUCT,
+            manufactures: manufactures,
+            manufacturesRender: manufacturesFilter.slice(start, start + 10),
+            totalPagesManufactures: (total_count % 10 === 0) ?
+                (total_count / 10) : ((total_count - total_count % 10) / 10) + 1,
+            currentPageManufactures: page,
+            totalCountManufactures: total_count
+        });
+    };
+}
+
+export function filterPropertiesModal(page, query) {
+    return function (dispatch, getState) {
+        let properties_list = getState().createProduct.properties_list;
+        let propertiesFilter = properties_list.filter(property => property.name.includes(query));
+        let start = 10 * (page - 1);
+        let total_count = propertiesFilter.length;
+        dispatch({
+            type: types.GET_PROPERTIES_CREATE_PRODUCT,
+            properties_list,
+            properties_list_render: propertiesFilter.slice(start, start + 10),
+            totalPagesProperties: (total_count % 10 === 0) ?
+                (total_count / 10) : ((total_count - total_count % 10) / 10) + 1,
+            currentPageProperties: page,
+            totalCountProperties: total_count
+        });
+    };
+}
+
+
 
 

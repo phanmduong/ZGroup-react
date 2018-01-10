@@ -1,14 +1,19 @@
 export default {
-
-    permitGood: {
-        isLoading: false
-    },
-
     createProduct: {
         categories: [],
         manufactures: [],
+        manufacturesRender: [],
         isUploadingAvatar: false,
+        totalPagesManufactures: 1,
+        currentPageManufactures: 1,
+        totalCountManufactures: 1,
+        totalPagesProperties: 1,
+        currentPageProperties: 1,
+        totalCountProperties: 1,
         childImagesModal: false,
+        propertiesManageModal: false,
+        manufacturesManageModal: false,
+        isLoadingManufacture: false,
         child_index: 0,
         percent: 0,
         productWorking: {
@@ -38,6 +43,7 @@ export default {
         isLoading: false,
         avatar_url: '',
         properties_list: [],
+        properties_list_render: [],
         images: []
     },
 
@@ -670,6 +676,8 @@ export default {
         errorProgress: false,
         isEditingStudent: false,
         errorEditing: false,
+        isChangingPassword: false,
+        errorChangePassword: false
     },
 
     dashboard: {
@@ -1131,9 +1139,9 @@ export default {
             detail: "",
             lessons: [],
             links: [],
-            pixels:[],
-            terms:[],
-            categories:[],
+            pixels: [],
+            terms: [],
+            categories: [],
             type_id: "",
             type: "",
         },
@@ -1145,6 +1153,7 @@ export default {
             link_description: "",
             link_icon: "",
         },
+
         pixel:{
             name:"",
             code:"",
@@ -1160,6 +1169,7 @@ export default {
         },
         categories: [],
         types: [],
+
     },
     lessons: {
         isLoading: false,
@@ -1310,13 +1320,13 @@ export default {
         ],
         works: [
             {
-                "id":11,
-                "name":"3",
-                "type":"personal",
-                "cost":2,
-                "deadline":"0000-00-00 00:00:00",
-                "bonus_value":3,
-                "bonus_type":null
+                "id": 11,
+                "name": "3",
+                "type": "personal",
+                "cost": 2,
+                "deadline": "0000-00-00 00:00:00",
+                "bonus_value": 3,
+                "bonus_type": null
             },
         ],
     },
@@ -1341,9 +1351,9 @@ export default {
             customers: [],                         // tat ca cac customer trong mot group
             customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
-            coupons : [],
-            order_value : '',
-            delivery_value : '',
+            coupons: [],
+            order_value: '',
+            delivery_value: '',
         },
         coupon: {
             name: '',
