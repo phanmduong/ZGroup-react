@@ -115,18 +115,8 @@ class ItemOrder extends React.Component {
                                   onChange={this.changeStatusOrder}
                                   value={order.status}/>
                 </td>
-                <td>{helper.dotNumber(order.total)}đ</td>
-                <td>{helper.dotNumber(order.debt)}đ</td>
                 <td>
-                    <button
-                        disabled={order.status !== "ship_order"}
-                        className="btn btn-social btn-fill btn-twitter"
-                        onClick={() => this.props.showShipGoodModal(order)}>
-                        <i className="fa fa-twitter"/> Ship hàng
-                    </button>
-                </td>
-                <td>
-                    <a data-toggle="tooltip" title="Ghi chú" type="button"
+                    <a data-toggle="tooltip" title="Ghi chú" type="button" className="text-rose"
                        rel="tooltip"
                        onClick={() => this.props.showAddNoteModal(order)}>
                         {
@@ -137,6 +127,16 @@ class ItemOrder extends React.Component {
                             )
                         }
                     </a>
+                </td>
+                <td>{helper.dotNumber(order.total)}đ</td>
+                <td>{helper.dotNumber(order.debt)}đ</td>
+                <td>
+                    <button
+                        disabled={order.status !== "ship_order"}
+                        className="btn btn-social btn-fill btn-twitter"
+                        onClick={() => this.props.showShipGoodModal(order)}>
+                        <i className="fa fa-twitter"/> Ship hàng
+                    </button>
                 </td>
             </tr>
         );

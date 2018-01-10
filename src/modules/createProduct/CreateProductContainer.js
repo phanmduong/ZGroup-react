@@ -8,6 +8,8 @@ import GlobalLoadingContainer from "../globalLoading/GlobalLoadingContainer";
 import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
 import ChildrenProperties from "./ChildrenProperties";
+import PropertiesManageModal from "./PropertiesManageModal";
+import ManufacturesManageModal from "./ManufacturesManageModal";
 
 class CreateProductContainer extends React.Component {
     constructor(props, context) {
@@ -281,7 +283,8 @@ class CreateProductContainer extends React.Component {
                                                 checkChildProduct={this.checkChildProduct}
                                                 updateFormData={this.updateFormData}
                                                 showAddChildImagesModal={this.props.createProductAction.showAddChildImagesModal}
-                                                type={this.props.route.type}/>
+                                                type={this.props.route.type}
+                                                showPropertiesManageModal={this.props.createProductAction.showPropertiesManageModal}/>
                                         )
                                     }
                                 </div>
@@ -300,6 +303,8 @@ class CreateProductContainer extends React.Component {
                     )
                 }
                 <GlobalLoadingContainer/>
+                <PropertiesManageModal/>
+                <ManufacturesManageModal/>
             </div>
         );
     }

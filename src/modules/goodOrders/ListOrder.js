@@ -25,10 +25,10 @@ class ListOrder extends React.Component {
                                     <th>Thu ngân</th>
                                     <th>Cửa hàng</th>
                                     <th>Trạng thái</th>
+                                    <th>Ghi chú</th>
                                     <th>Tổng tiền</th>
                                     <th>Nợ</th>
                                     <th/>
-                                    <th>Ghi chú</th>
                                 </tr>
                                 </thead>
                                 <tbody>
