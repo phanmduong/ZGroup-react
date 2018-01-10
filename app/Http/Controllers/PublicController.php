@@ -222,7 +222,7 @@ class PublicController extends Controller
     {
         //send mail here
         $user = User::where('email', '=', $request->email)->first();
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
             $user->name = $request->name;
@@ -285,7 +285,7 @@ class PublicController extends Controller
     {
         //send mail here
         $user = User::where('email', '=', $request->email)->first();
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null)
             $user = new User;
 
@@ -742,7 +742,7 @@ class PublicController extends Controller
     public function landing_register(Request $request)
     {
         $user = User::where('email', '=', $request->email)->first();
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
 //        dd('WORK');
         if ($user == null) {
             $user = new User;

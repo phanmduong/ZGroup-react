@@ -296,7 +296,7 @@ class UserApiController extends ApiController
         if (!empty($errors)) {
             return $this->responseBadRequest($errors);
         }
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $this->user->name = $request->name;
         $this->user->phone = $phone;
         $this->user->email = $request->email;

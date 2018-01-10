@@ -111,7 +111,7 @@ class NhatQuangApiController extends PublicApiController
         //code phan api dat sach o day hihi
         $email = $request->email;
         $name = $request->name;
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $province = Province::find($request->provinceid)->name;
         $district = District::find($request->districtid)->name;
         $address = $request->address;
