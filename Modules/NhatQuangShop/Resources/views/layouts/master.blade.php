@@ -327,6 +327,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/product/new" data-scroll="true" href="javascript:void(0)">Sản phẩm mới</a>
                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="/product/feature" data-scroll="true" href="javascript:void(0)">Sản phẩm nổi bật</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
                 </li>
