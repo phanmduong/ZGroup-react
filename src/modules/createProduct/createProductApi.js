@@ -9,9 +9,15 @@ export function getCategoriesApi() {
 }
 
 export function getManufacturesApi() {
-    let url = env.MANAGE_API_URL + "/manufacture?token=" + token;
+    let url = env.MANAGE_API_URL + "/manufacture?token=" + token + "&limit=-1";
     return axios.get(url);
 }
+
+export function getPropertiesApi() {
+    let url = env.MANAGE_API_URL + "/good/all-property-items?token=" + token + "&limit=-1";
+    return axios.get(url);
+}
+
 
 export function changeAvatarApi(file, completeHandler, progressHandler, error) {
     let url = env.MANAGE_API_URL + '/file/upload';
@@ -74,11 +80,6 @@ export function editProductApi(product) {
 
 export function loadProductApi(goodId) {
     let url = env.MANAGE_API_URL + `/good/${goodId}` + "?token=" + token;
-    return axios.get(url);
-}
-
-export function getPropertiesApi() {
-    let url = env.MANAGE_API_URL + "/good/all-property-items?token=" + token;
     return axios.get(url);
 }
 

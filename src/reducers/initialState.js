@@ -2,10 +2,18 @@ export default {
     createProduct: {
         categories: [],
         manufactures: [],
+        manufacturesRender: [],
         isUploadingAvatar: false,
+        totalPagesManufactures: 1,
+        currentPageManufactures: 1,
+        totalCountManufactures: 1,
+        totalPagesProperties: 1,
+        currentPageProperties: 1,
+        totalCountProperties: 1,
         childImagesModal: false,
         propertiesManageModal: false,
         manufacturesManageModal: false,
+        isLoadingManufacture: false,
         child_index: 0,
         percent: 0,
         productWorking: {
@@ -35,6 +43,7 @@ export default {
         isLoading: false,
         avatar_url: '',
         properties_list: [],
+        properties_list_render: [],
         images: []
     },
 

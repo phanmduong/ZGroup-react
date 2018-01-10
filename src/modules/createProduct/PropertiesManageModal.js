@@ -6,13 +6,19 @@ import PropTypes from "prop-types";
 import * as createProductAction from './createProductAction';
 import FormInputText from "../../components/common/FormInputText";
 import * as helper from "../../helpers/helper";
+import Search from "../../components/common/Search";
+import Pagination from "../../components/common/Pagination";
 
 class PropertiesManageModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            name: null
+            name: null,
+            query: ''
         };
+        this.timeOut = null;
+        this.propertiesSearchChange = this.propertiesSearchChange.bind(this);
+        this.loadOrders = this.loadOrders.bind(this);
         this.createPropertyModal = this.createPropertyModal.bind(this);
         this.handleName = this.handleName.bind(this);
         this.deletePropertyModal = this.deletePropertyModal.bind(this);
@@ -36,7 +42,33 @@ class PropertiesManageModal extends React.Component {
         });
     }
 
+    propertiesSearchChange(value) {
+        this.setState({
+            query: value,
+            page: 1
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.createProductAction.filterPropertiesModal(
+                1,
+                value
+            );
+        }.bind(this), 50);
+    }
+
+    loadOrders(page = 1) {
+        this.setState({page: page});
+        this.props.createProductAction.filterPropertiesModal(
+            page,
+            this.state.query
+        );
+    }
+
     render() {
+        let first = (this.props.currentPageProperties - 1) * 10 + 1;
+        let end = this.props.currentPageProperties < this.props.totalPagesProperties ? this.props.currentPageProperties * 10 : this.props.totalCountProperties;
         return (
             <Modal show={this.props.propertiesManageModal}
                    onHide={() => this.props.createProductAction.showPropertiesManageModal()}>
@@ -62,6 +94,11 @@ class PropertiesManageModal extends React.Component {
                             </button>
                         </div>
                     </div>
+                    <Search
+                        onChange={this.propertiesSearchChange}
+                        value={this.state.query}
+                        placeholder="Nhập tên hoặc mã hàng hoá để tìm"
+                    />
                     <div className="table-responsive">
                         <table className="table table-hover">
                             <thead>
@@ -72,7 +109,7 @@ class PropertiesManageModal extends React.Component {
                             </thead>
                             <tbody>
                             {
-                                this.props.properties_list.map((property, id) => {
+                                this.props.properties_list_render && this.props.properties_list_render.map((property, id) => {
                                     return (
                                         <tr key={id}>
                                             <td>{property.name}</td>
@@ -92,6 +129,16 @@ class PropertiesManageModal extends React.Component {
                             </tbody>
                         </table>
                     </div>
+                    <div style={{textAlign: 'right'}}>
+                        <b style={{marginRight: '15px'}}>
+                            Hiển thị kêt quả từ {first}
+                            - {end}/{this.props.totalCountProperties}</b><br/>
+                        <Pagination
+                            totalPages={this.props.totalPagesProperties}
+                            currentPage={this.props.currentPageProperties}
+                            loadDataPage={this.loadOrders}
+                        />
+                    </div>
                 </Modal.Body>
             </Modal>
         );
@@ -101,13 +148,19 @@ class PropertiesManageModal extends React.Component {
 PropertiesManageModal.propTypes = {
     propertiesManageModal: PropTypes.bool.isRequired,
     createProductAction: PropTypes.object.isRequired,
-    properties_list: PropTypes.array.isRequired
+    properties_list_render: PropTypes.array.isRequired,
+    totalPagesProperties: PropTypes.number.isRequired,
+    currentPageProperties: PropTypes.number.isRequired,
+    totalCountProperties: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         propertiesManageModal: state.createProduct.propertiesManageModal,
-        properties_list: state.createProduct.properties_list
+        properties_list_render: state.createProduct.properties_list_render,
+        totalPagesProperties: state.createProduct.totalPagesProperties,
+        currentPageProperties: state.createProduct.currentPageProperties,
+        totalCountProperties: state.createProduct.totalCountProperties,
     };
 }
 

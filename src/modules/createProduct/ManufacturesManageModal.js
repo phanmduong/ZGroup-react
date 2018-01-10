@@ -6,16 +6,24 @@ import PropTypes from "prop-types";
 import * as createProductAction from './createProductAction';
 import FormInputText from "../../components/common/FormInputText";
 import * as helper from "../../helpers/helper";
+import Search from "../../components/common/Search";
+import Loading from "../../components/common/Loading";
+import Pagination from "../../components/common/Pagination";
 
 class ManufacturesManageModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            name: null
+            name: null,
+            query: '',
+            page: 1
         };
+        this.timeOut = null;
         this.createManufactureModal = this.createManufactureModal.bind(this);
         this.handleName = this.handleName.bind(this);
         this.deleteManufactureModal = this.deleteManufactureModal.bind(this);
+        this.manufacturesSearchChange = this.manufacturesSearchChange.bind(this);
+        this.loadOrders = this.loadOrders.bind(this);
     }
 
     handleName(e) {
@@ -36,7 +44,33 @@ class ManufacturesManageModal extends React.Component {
         });
     }
 
+    manufacturesSearchChange(value) {
+        this.setState({
+            query: value,
+            page: 1
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.createProductAction.filterManufacturesModal(
+                1,
+                value
+            );
+        }.bind(this), 50);
+    }
+
+    loadOrders(page = 1) {
+        this.setState({page: page});
+        this.props.createProductAction.filterManufacturesModal(
+            page,
+            this.state.query
+        );
+    }
+
     render() {
+        let first = (this.props.currentPageManufactures - 1) * 10 + 1;
+        let end = this.props.currentPageManufactures < this.props.totalPagesManufactures ? this.props.currentPageManufactures * 10 : this.props.totalCountManufactures;
         return (
             <Modal show={this.props.manufacturesManageModal}
                    onHide={() => this.props.createProductAction.showManufacturesManageModal()}>
@@ -62,35 +96,56 @@ class ManufacturesManageModal extends React.Component {
                             </button>
                         </div>
                     </div>
-                    <div className="table-responsive">
-                        <table className="table table-hover">
-                            <thead>
-                            <tr className="text-rose">
-                                <th className="col-md-10">Tên nhà sản xuất</th>
-                                <th className="col-md-2"/>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {
-                                this.props.manufactures.map((manufacture, id) => {
-                                    return (
-                                        <tr key={id}>
-                                            <td>{manufacture.name}</td>
-                                            <td>
-                                                <a style={{color: "#878787"}}
-                                                   data-toggle="tooltip" title=""
-                                                   type="button" rel="tooltip"
-                                                   data-original-title="Xoá"
-                                                   onClick={() => this.deleteManufactureModal(manufacture)}>
-                                                    <i className="material-icons">delete</i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    );
-                                })
-                            }
-                            </tbody>
-                        </table>
+                    <Search
+                        onChange={this.manufacturesSearchChange}
+                        value={this.state.query}
+                        placeholder="Nhập tên hoặc mã hàng hoá để tìm"
+                    />
+                    {
+                        this.props.isLoadingManufacture ? (
+                            <Loading/>
+                        ) : (
+                            <div className="table-responsive">
+                                <table className="table table-hover">
+                                    <thead>
+                                    <tr className="text-rose">
+                                        <th className="col-md-10">Tên nhà sản xuất</th>
+                                        <th className="col-md-2"/>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {
+                                        this.props.manufacturesRender && this.props.manufacturesRender.map((manufacture, id) => {
+                                            return (
+                                                <tr key={id}>
+                                                    <td>{manufacture.name}</td>
+                                                    <td>
+                                                        <a style={{color: "#878787"}}
+                                                           data-toggle="tooltip" title=""
+                                                           type="button" rel="tooltip"
+                                                           data-original-title="Xoá"
+                                                           onClick={() => this.deleteManufactureModal(manufacture)}>
+                                                            <i className="material-icons">delete</i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        )
+                    }
+                    <div style={{textAlign: 'right'}}>
+                        <b style={{marginRight: '15px'}}>
+                            Hiển thị kêt quả từ {first}
+                            - {end}/{this.props.totalCountManufactures}</b><br/>
+                        <Pagination
+                            totalPages={this.props.totalPagesManufactures}
+                            currentPage={this.props.currentPageManufactures}
+                            loadDataPage={this.loadOrders}
+                        />
                     </div>
                 </Modal.Body>
             </Modal>
@@ -101,13 +156,21 @@ class ManufacturesManageModal extends React.Component {
 ManufacturesManageModal.propTypes = {
     manufacturesManageModal: PropTypes.bool.isRequired,
     createProductAction: PropTypes.object.isRequired,
-    manufactures: PropTypes.array.isRequired
+    manufacturesRender: PropTypes.array.isRequired,
+    isLoadingManufacture: PropTypes.bool.isRequired,
+    totalPagesManufactures: PropTypes.number.isRequired,
+    currentPageManufactures: PropTypes.number.isRequired,
+    totalCountManufactures: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         manufacturesManageModal: state.createProduct.manufacturesManageModal,
-        manufactures: state.createProduct.manufactures
+        manufacturesRender: state.createProduct.manufacturesRender,
+        isLoadingManufacture: state.createProduct.isLoadingManufacture,
+        totalPagesManufactures: state.createProduct.totalPagesManufactures,
+        currentPageManufactures: state.createProduct.currentPageManufactures,
+        totalCountManufactures: state.createProduct.totalCountManufactures,
     };
 }
 
