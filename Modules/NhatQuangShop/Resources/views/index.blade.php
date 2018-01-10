@@ -37,8 +37,7 @@
                         <div style="padding:3%">
                             <div style="background-image: url({{$book['avatar']}});
                                     background-size:cover; padding-bottom: 120%; width: 100%;
-                                    background-position: center center;
-                                    box-shadow:">
+                                    background-position: center center;">
                             </div>
                         </div>
                         <div>
