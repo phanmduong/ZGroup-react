@@ -1407,5 +1407,9 @@ export default {
         error: false,
         isDeleting: false,
         errorDelete: false,
+    },
+    survey: {
+        surveys: [],
+        isLoading: false,
     }
 };

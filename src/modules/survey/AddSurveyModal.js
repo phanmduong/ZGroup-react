@@ -33,7 +33,6 @@ class AddSurveyModal extends React.Component {
     }
 
     inputOnchange(event) {
-        console.log(this.state.surveyName);
         this.setState({
             surveyName: event.target.value
         });
