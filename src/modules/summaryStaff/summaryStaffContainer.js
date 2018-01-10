@@ -7,12 +7,14 @@ import {Panel} from 'react-bootstrap';
 import SummaryStaffbyWork from './summaryStaffbyWork';
 import SummaryStaffbyDepartment from "./summaryStaffbyDepartment";
 import PropTypes from 'prop-types';
+import Select from './Select';
 class summaryStaffContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             openFilter: false,
             value: "",
+            year:2018,
         };
         this.load = this.load.bind(this);
 
@@ -27,8 +29,19 @@ class summaryStaffContainer extends React.Component {
     load(year) {
         this.setState({openFilter: !this.state.openFilter});
         this.setState({value: ""});
+        this.setState({year: year});
         this.props.summaryStaffActions.loadSummaryStaffWork(year);
 
+    }
+    getyear(){
+        let data=[];
+        let i = new Date().getFullYear();
+        let x;
+        for(x=i ; x>i-10; x--){
+           data = [...data,{id : x, name: x}];
+
+        }
+        return data;
     }
 
     render() {
@@ -59,29 +72,15 @@ class summaryStaffContainer extends React.Component {
                                                         <small/>
                                                     </h4>
                                                     <div className="row">
-                                                        <div className="col-md-4">
+                                                        <div className="col-md-2">
                                                             <div className="form-group">
-                                                                <label className="label-control">Nhập năm</label>
-                                                                <form onSubmit={e => {
-                                                                    e.preventDefault();
-                                                                    if (this.state.value.trim() != "") this.load(this.state.value);
-                                                                }
-                                                                }
-                                                                >
-
-                                                                    <input type="type" value={this.state.value}
-                                                                           className="form-control"
-                                                                           onChange={(e) => {
-                                                                               this.setState({value: e.target.value});
-                                                                           }}/>
-
-                                                                    <button className="btn btn-danger" type="submit">
-                                                                        Filter
-                                                                    </button>
-
-
-                                                                </form>
-
+                                                                <label className="label-control">Chọn năm</label>
+                                                                <Select
+                                                                    value={this.state.year}
+                                                                    options={this.getyear()}
+                                                                    onChange={this.load}
+                                                                    name="year"
+                                                                />
                                                             </div>
                                                         </div>
 
