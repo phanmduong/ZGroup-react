@@ -268,7 +268,7 @@ class PublicController extends Controller
 
         $register->save();
 
-        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id);
 
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
@@ -740,11 +740,12 @@ class PublicController extends Controller
     public function landing_register(Request $request)
     {
         $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
 //        dd('WORK');
         if ($user == null) {
             $user = new User;
             $user->name = $request->name;
-            $user->phone = $request->phone;
+            $user->phone = $phone;
             $user->email = $request->email;
             $user->university = $request->university;
             $user->work = $request->work;
@@ -754,14 +755,14 @@ class PublicController extends Controller
             $user->facebook = $request->facebook;
             $user->gender = $request->gender;
             $user->dob = strtotime($request->dob);
-            $user->password = bcrypt($request->phone);
+            $user->password = bcrypt($phone);
             $user->save();
 
         } else {
             $user->university = $request->university;
             $user->work = $request->work;
             $user->address = $request->address;
-            $user->phone = $request->phone;
+            $user->phone = $phone;
             $user->gender = $request->gender;
             $user->dob = date('Y-m-d', strtotime($request->dob));
             $user->facebook = $request->facebook;

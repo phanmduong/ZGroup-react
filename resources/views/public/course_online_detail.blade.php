@@ -39,7 +39,7 @@
                             <br>
                             <br>
                             <div>
-                                {!! convert_image_html($lesson_selected->detail) !!}
+                                {!! convert_image_html($lesson_selected->detail_content) !!}
                             </div>
                             <br>
                             <p></p>
@@ -104,23 +104,22 @@
                                                 </div>
                                                 <div style="position: absolute; bottom: 0px; right: 0px;"
                                                      v-if="!isUploading">
-                                                    <i style="font-size:18px; color: #888888; cursor: pointer;"
-                                                       class="fa fa-camera" aria-hidden="true">
+                                                    <div style="font-size:18px; color: #888888; cursor: pointer;"
+                                                         class="fa fa-camera" aria-hidden="true">
                                                         <input type="file"
                                                                accept=".jpg,.png,.gif"
                                                                v-on:change="handleFileUpload($event)"
                                                                style="
-                                                        cursor: pointer;
-                                                        position: absolute;
-                                                        top: 0;
-                                                        left: 0;
-                                                        bottom: 0;
-                                                        right: 0;
-                                                        width: 20px;
-                                                        height: 20px
-                                                        "
+                                                                    width: 100%;
+                                                                    height: 100%;
+                                                                    opacity: 0;
+                                                                    top: 0;
+                                                                    overflow: hidden;
+                                                                    position: absolute;
+                                                                    cursor: pointer!important;
+                                                                    "
                                                         />
-                                                    </i>
+                                                    </div>
                                                 </div>
                                             </div>
 

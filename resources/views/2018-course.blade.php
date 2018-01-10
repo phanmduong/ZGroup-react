@@ -9,6 +9,9 @@
             color: red;
             font-weight: 200 !important;
         }
+        body.modal-open {
+            position: fixed;
+        }
     </style>
     <div>
         <div class="container-fluid">

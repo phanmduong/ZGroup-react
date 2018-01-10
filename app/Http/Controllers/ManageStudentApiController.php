@@ -142,13 +142,14 @@ class ManageStudentApiController extends ManageApiController
     public function edit_student(Request $request)
     {
 
+        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
         if (User::where('id', '<>', $request->id)->where('email', '=', $request->email)->first()) {
             return $this->respondErrorWithStatus("Email đã tồn tại");
         }
         $student = User::find($request->id);
         $student->name = $request->name;
         $student->email = $request->email;
-        $student->phone = $request->phone;
+        $student->phone = $phone;
         $student->save();
         return $this->respondSuccessWithStatus([
             'student' => $student
