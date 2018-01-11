@@ -100,10 +100,10 @@ class WorkInfoModal extends React.Component {
                                                             </label>
                                                             <div>{this.props.data.bonus_value +" - "}
 
-                                                            {money.map((obj) => {
-                                                                if (this.props.data && this.props.data.bonus_type == obj.value)
-                                                                    return (obj.label);
-                                                            })}</div>
+                                                                {money.map((obj) => {
+                                                                    if (this.props.data && this.props.data.bonus_type == obj.value)
+                                                                        return (obj.label);
+                                                                })}</div>
                                                         </div>
 
                                                     </div>
@@ -133,7 +133,7 @@ class WorkInfoModal extends React.Component {
                     </div>
                 </Modal.Body>
             </Modal>
-            
+
         );
     }
 }
@@ -145,7 +145,6 @@ WorkInfoModal.propTypes = {
     data: PropTypes.object,
     show: PropTypes.bool,
     onHide: PropTypes.func,
-    modalType: PropTypes.string,
 };
 
 function mapStateToProps(state) {

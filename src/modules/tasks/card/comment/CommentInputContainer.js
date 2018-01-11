@@ -32,7 +32,6 @@ class CommentInputContainer extends React.Component {
 
     textAreaAdjust(event) {
         const o = event.target;
-        o.style.height = "1px";
         o.style.height = (10 + o.scrollHeight) + "px";
     }
 

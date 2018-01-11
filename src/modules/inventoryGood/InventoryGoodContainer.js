@@ -52,7 +52,8 @@ class InventoryGoodContainer extends React.Component {
 
     inventoriesSearchChange(value) {
         this.setState({
-            query: value
+            query: value,
+            page: 1
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
@@ -70,7 +71,8 @@ class InventoryGoodContainer extends React.Component {
     manufacturesSearchChange(value) {
         if (value) {
             this.setState({
-                manufacture: value.id
+                manufacture: value.id,
+                page: 1
             });
             this.props.inventoryGoodAction.getInventories(
                 1,
@@ -94,7 +96,8 @@ class InventoryGoodContainer extends React.Component {
     categoriesSearchChange(value) {
         if (value) {
             this.setState({
-                category: value.id
+                category: value.id,
+                page: 1
             });
             this.props.inventoryGoodAction.getInventories(
                 1,
@@ -172,12 +175,6 @@ class InventoryGoodContainer extends React.Component {
                                                                 <p className="category">Tổng số lượng</p>
                                                                 <h3 className="card-title">{dotNumber(this.props.count)}</h3>
                                                             </div>
-                                                            <div className="card-footer">
-                                                                <div className="stats">
-                                                                    <i className="material-icons">date_range</i> Last 24
-                                                                    Hours
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-4 col-md-4 col-sm-4">
@@ -189,12 +186,6 @@ class InventoryGoodContainer extends React.Component {
                                                                 <p className="category">Tổng vốn tồn kho</p>
                                                                 <h3 className="card-title">{dotNumber(this.props.totalImportMoney)}đ</h3>
                                                             </div>
-                                                            <div className="card-footer">
-                                                                <div className="stats">
-                                                                    <i className="material-icons">date_range</i> Last 24
-                                                                    Hours
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-4 col-md-4 col-sm-4">
@@ -205,11 +196,6 @@ class InventoryGoodContainer extends React.Component {
                                                             <div className="card-content">
                                                                 <p className="category">Tổng giá trị tồn kho</p>
                                                                 <h3 className="card-title">{dotNumber(this.props.totalMoney)}đ</h3>
-                                                            </div>
-                                                            <div className="card-footer">
-                                                                <div className="stats">
-                                                                    <i className="material-icons">update</i> Just Updated
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

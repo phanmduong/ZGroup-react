@@ -1,4 +1,4 @@
-
+import * as helper from "../../helpers/helper";
 import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
@@ -140,6 +140,30 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+        case types.BEGIN_EXTEND_WORK: {
+            return {
+                ...state,
+                ...{
+                    isSaving: true,
+                }
+            };
+        }
+        case types.EXTEND_WORK_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isSaving: false,
+                }
+            };
+        }
+        case types.EXTEND_WORK_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isSaving: false,
+                }
+            };
+        }
         case types.BEGIN_CHANGE_STATUS_WORK: {
             return {
                 ...state,
@@ -267,7 +291,7 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
 
 
 function getStaffs(arr) {
-    return arr.map((obj)=>{return {...obj, label: obj.name,value: obj.id}});
+    return arr.map((obj)=>{return {...obj, label: obj.name,value: obj.id, avatar_url: helper.validateLinkImage(obj.avatar_url) }});
 }
 
 function remove(obj, arr) {
