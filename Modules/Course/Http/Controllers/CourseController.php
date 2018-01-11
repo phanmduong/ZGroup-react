@@ -45,7 +45,6 @@ class CourseController extends ManageApiController
         if ($request->name == null)
             return $this->respondErrorWithStatus(["message" => "Thiếu name"]);
         $course->name = $request->name;
-
         $course->price = $request->price;
         $course->description = $request->description;
         $course->linkmac = $request->linkmac;
@@ -343,6 +342,27 @@ class CourseController extends ManageApiController
         return $this->respondSuccessWithStatus([
             "message" => "Diem danh thanh cong"
         ]);
+
+    }
+    public function duplicateCourse($courseId,Request $request){
+        $course = Course::find($courseId);
+        if(!$course) return $this->respondErrorWithStatus("Không tồn tại course");
+        $course_new = new Course;
+        $course_new->name = $course->name;
+        $course_new->price = $course->price;
+        $course_new->description = $course->description;
+        $course_new->linkmac = $course->linkmac;
+        $course_new->linkwindow = $course->linkwindow;
+        $course_new->mac_how_install = $course->mac_how_install;
+        $course_new->window_how_install = $course->window_how_install;
+        $course_new->cover_url = $course->cover_url;
+        $course_new->cover_url = $course->cover_url;
+        $course_new->color = $course->color;
+        $course_new->image_url = $course->image_url;
+        $course_new->icon_url = $course->icon_url;
+        $course_new->detail = $course->detail;
+        $course_new->type_id = $course->type_id;
+        $course_new->save();
 
     }
 
