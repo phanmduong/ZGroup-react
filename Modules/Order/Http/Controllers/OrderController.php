@@ -355,17 +355,31 @@ class OrderController extends ManageApiController
         $order->note = $request->note;
         $order->code = $request->code;
         $order->staff_id = $this->user->id;
+        $order->user_id = $request->user_id;
         $order->status = 'completed';
+        $order->save();
+
+
+
         $good_orders = json_decode($request->good_orders);
+        $total_price = 0;
         foreach ($good_orders as $good_order) {
             $good = Good::find($good_order->good_id);
+            $total_price += $good_order->quantity * $good->price;
             if ($good_order->quantity >= 0)
                 $order->goods()->attach($good_order->good_id, [
                     'quantity' => $good_order->quantity,
                     'price' => $good->price
                 ]);
         }
-        $order->save();
+
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $order->id;
+        $orderPaidMoney->money = $total_price;
+        $orderPaidMoney->note = $request->note;
+        $orderPaidMoney->payment = $request->payment;
+        $orderPaidMoney->staff_id = $this->user->id;
+
         $response = $this->orderService->exportOrder($order->id,  $request->warehouse_id);
         if($response['status'] == 0)
             return $this->respondErrorWithStatus([

@@ -153,7 +153,7 @@ class WarehouseApiController extends ManageApiController
             $warehouses = $warehouses->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 'warehouses' => $warehouses->map(function ($warehouse) {
-                    $warehouse->getData();
+                    return $warehouse->getData();
                 })
             ]);
         }
@@ -162,7 +162,7 @@ class WarehouseApiController extends ManageApiController
             $warehouses,
             [
                 'warehouses' => $warehouses->map(function ($warehouse) {
-                    $warehouse->getData();
+                    return $warehouse->getData();
                 })
             ]
 
