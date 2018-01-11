@@ -232,7 +232,7 @@ class PublicController extends Controller
             $user->work = $request->work;
             $user->address = $request->address;
             $user->how_know = how_know($request->how_know);
-            $user->username = $request->email;
+            $user->username = $request->username ? $request->username : $request->email;
             $user->facebook = $request->facebook;
             $user->gender = $request->gender;
             $user->dob = strtotime($request->dob);
@@ -292,6 +292,8 @@ class PublicController extends Controller
         $user->name = $request->name;
         $user->phone = $phone;
         $user->email = $request->email;
+        $user->username = $request->email;
+
         $user->save();
 
         $register = new Register;
@@ -751,7 +753,7 @@ class PublicController extends Controller
             $user->work = $request->work;
             $user->address = $request->address;
             $user->how_know = $request->how_know;
-            $user->username = $request->email;
+            $user->username = $request->username ? $request->username : $request->email;
             $user->facebook = $request->facebook;
             $user->gender = $request->gender;
             $user->dob = strtotime($request->dob);

@@ -31,8 +31,6 @@
                                     data-original-title="View Profile" class="btn btn-info btn-link btn-sm">
                                 <i class="fa fa-user"></i>
                             </button>
-
-
                             <button type="button" data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Edit Profile" class="btn btn-success btn-link btn-sm">
                                 <i class="fa fa-edit"></i>

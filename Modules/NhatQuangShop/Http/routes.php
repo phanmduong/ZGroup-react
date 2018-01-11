@@ -17,9 +17,13 @@ $nhatquangShopRoute = function () {
     Route::get('/blog', 'NhatQuangShopController@blog');
     Route::get('/blog/post/{post_id}', 'NhatQuangShopController@post');
     Route::post('/save-order', "NhatQuangShopController@saveOrder");
+    Route::get('/product/new', "NhatQuangShopController@productNew");
+    Route::get('/product/feature', "NhatQuangShopController@productFeature");
     Route::get('/test', 'NhatQuangShopController@test');
 
     Route::get('/load-books-from-session/v2', 'NhatQuangApiController@getGoodsFromSession');
+    Route::get('/count-books-from-session/v2', 'NhatQuangApiController@countGoodsFromSession');
+    Route::get('/coupon-programs', 'NhatQuangApiController@getCouponProgram');
     Route::get('/flush', 'NhatQuangApiController@flush');
     Route::get('/add-book/{goodId}/v2', 'NhatQuangApiController@addGoodToCart');
     Route::get('/remove-book/{goodId}/v2', 'NhatQuangApiController@removeBookFromCart');
