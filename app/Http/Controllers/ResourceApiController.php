@@ -68,7 +68,7 @@ class ResourceApiController extends ApiController
             });
             return $this->respond($courses->unique('id')->values());
         } else {
-            return $this->respond(Course::all()->map(function ($course) {
+            return $this->respond(Course::where('status', 1)->get()->map(function ($course) {
                 return [
                     "id" => $course->id,
                     "name" => $course->name,
