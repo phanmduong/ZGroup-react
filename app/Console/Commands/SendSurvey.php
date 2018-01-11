@@ -47,10 +47,12 @@ class SendSurvey extends Command
     {
         $date = new \DateTime();
         $formatted_date = $date->format('Y-m-d');
-        $classLessons = ClassLesson::whereDate('time', '=', $formatted_date)->get();;
+        $classLessons = ClassLesson::whereDate('time', '=', $formatted_date)->get();
+
         foreach ($classLessons as $classLesson) {
             $lesson = $classLesson->lesson;
             $class = $classLesson->studyClass;
+            dd($class);
             if ($class) {
                 $schedule = $class->schedule;
                 if ($schedule && $schedule->studySessions) {
@@ -86,7 +88,7 @@ class SendSurvey extends Command
                 }
             }
         }
-        $this->info('The surveys were sent successfully!');
+//        $this->info('The surveys were sent successfully!');
 
 
     }

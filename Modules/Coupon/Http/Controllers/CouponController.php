@@ -50,6 +50,7 @@ class CouponController extends ManageApiController
         $coupon->end_time = $end_time;
         $coupon->rate = $quantity;
         $coupon->shared = $shared;
+        $coupon->activate = 1;
     }
 
     public function createCoupon(Request $request)
@@ -69,7 +70,7 @@ class CouponController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'non-existing coupon'
             ]);
-        $coupon->delete();
+        $coupon->activate = 0;
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
