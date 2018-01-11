@@ -33,7 +33,7 @@ class SelectWarehouseModal extends React.Component {
                 1,
                 value
             );
-        }.bind(this), 50);
+        }.bind(this), 500);
     }
 
     loadOrders(page = 1) {
