@@ -32,20 +32,6 @@ class GoodImportTransformer extends Transformer
         $data['goods_count'] = $goods_count;
         $data['import_price'] = $import_price;
 
-        $warehouses = $good->importedGoods()
-            ->where("status","completed")
-            ->select('warehouse_id', DB::raw('SUM(quantity) as quantity'))
-            ->groupBy('warehouse_id')->get();
-
-        $data["warehouses"] = $warehouses->map(function ($data) {
-            $warehouse = Warehouse::find($data->warehouse_id);
-            return [
-                "id" => $warehouse->id,
-                "name" => $warehouse->name,
-                "location" => $warehouse->location,
-                "quantity" => $data->quantity
-            ];
-        });
         if ($goods_count > 1) {
             $data['name'] .= ' ';
             foreach ($good->properties as $property) {
