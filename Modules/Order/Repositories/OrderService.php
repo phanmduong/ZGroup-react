@@ -71,8 +71,7 @@ class OrderService
                 $importedGood = new ImportedGoods;
                 $importedGood->order_import_id = $orderId;
                 $importedGood->good_id = $singular_history->good_id;
-//                $importedGood->warehouse_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
-                $importedGood->warehouse_id = $order->warehouse_id ? $order->warehouse_id : 4; //fix cung
+                $importedGood->warehouse_id = $warehouseId;
                 $importedGood->import_price = $good_order->price;
                 $importedGood->quantity = min($good_order->quantity, $singular_history->quantity);
                 $importedGood->import_quantity = min($good_order->quantity, $singular_history->quantity);
@@ -86,15 +85,12 @@ class OrderService
     public function fixStatusBackWard($orderId, $warehouseId, $staff_id)
     {
         $order = Order::find($orderId);
-        $order->exported = 0;
-        $order->save();
         $good_orders = $order->goodOrders;
         foreach ($good_orders as $good_order) {
             $importedGood = new ImportedGoods;
             $importedGood->order_import_id = $orderId;
             $importedGood->good_id = $good_order->good_id;
-//                $importedGood->warehouse_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
-            $importedGood->warehouse_id = $order->warehouse_id ? $order->warehouse_id : 4; //fix cung
+            $importedGood->warehouse_id = $warehouseId;
             $importedGood->import_price = $good_order->price;
             $importedGood->quantity = $good_order->quantity;
             $importedGood->import_quantity = $good_order->quantity;
@@ -116,11 +112,14 @@ class OrderService
             $history->imported_good_id = $importedGood->id;
             $history->save();
         }
+        $order->exported = 0;
+        $order->save();
     }
 
     public function importedGoodsExportProcess($goodOrder, $warehouseId)
     {
         $quantity = $goodOrder->quantity;
+        $earn = 0;
         while ($quantity > 0) {
             $importedGood = ImportedGoods::where('status', 'completed')
                 ->where('quantity', '>', 0)
@@ -128,24 +127,27 @@ class OrderService
                 ->where('good_id', $goodOrder->good_id)
                 ->orderBy('created_at', 'asc')->first();
 
+            $min_quantity = min($quantity, $importedGood->quantity);
             $history = new HistoryGood;
             $lastest_good_history = HistoryGood::where('good_id', $importedGood['good_id'])
                 ->where('warehouse_id', $warehouseId)
                 ->orderBy('created_at', 'desc')->first();
             $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
             $history->good_id = $goodOrder->good_id;
-            $history->quantity = min($goodOrder->quantity, $importedGood->quantity);
-            $history->remain = $remain - min($goodOrder->quantity, $importedGood->quantity);
+            $history->quantity = $min_quantity;
+            $history->remain = $remain - $min_quantity;
             $history->warehouse_id = $warehouseId;
             $history->type = 'order';
             $history->order_id = $goodOrder->order_id;
             $history->imported_good_id = $importedGood->id;
             $history->save();
-
-            $quantity -= min($goodOrder->quantity, $importedGood->quantity);
-            $importedGood->quantity -= min($goodOrder->quantity, $importedGood->quantity);
+            $quantity -= $min_quantity;
+            $importedGood->quantity -= $min_quantity;
+            $earn += $min_quantity*$importedGood->import_price;
             $importedGood->save();
         }
+        $goodOrder->import_price = floor($earn/$goodOrder->quantity);
+        $goodOrder->save();
     }
 
     public function exportOrder($orderId, $warehouseId)
@@ -156,8 +158,6 @@ class OrderService
                 'status' => 0,
                 'message' => 'Đã xuất hàng'
             ];
-        $order->exported = true;
-        $order->save();
         foreach ($order->goodOrders as $goodOrder) {
             $quantity = ImportedGoods::where('status', 'completed')
                 ->where('good_id', $goodOrder->good_id)
@@ -171,6 +171,8 @@ class OrderService
         }
         foreach ($order->goodOrders as $goodOrder)
             $this->importedGoodsExportProcess($goodOrder, $warehouseId);
+        $order->exported = true;
+        $order->save();
         return [
             'status' => 1,
             'message' => 'SUCCESS',
@@ -192,8 +194,8 @@ class OrderService
 
         if (($this->statusToNum($order->status) >= 2 && $this->statusToNum($order->status) <= 4)
             && ($this->statusToNum($request->status) < 2 || $this->statusToNum($request->status) == 5)) {
-//            $this->returnOnPurposeOrStaffMistake($order->id, $request->warehouse_id, $staff_id);
-            $this->fixStatusBackWard($order->id, 4, $staff_id);
+//            $this->fixStatusBackWard($order->id, $request->warehouse_id, $staff_id);
+            $this->fixStatusBackWard($order->id, 4, $staff_id); //fix cung
         }
         if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;

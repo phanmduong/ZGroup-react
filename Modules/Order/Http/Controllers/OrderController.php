@@ -165,11 +165,16 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại order'
             ]);
-        if ($this->user->role != 2)
+        if ($this->user->role != 2){
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
                     'message' => 'Bạn không có quyền đổi trạng thái này'
                 ]);
+            if ($order->status == 'completed')
+                return $this->respondErrorWithStatus([
+                    'message' => 'Cant change completed order'
+                ]);
+        }
         if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
