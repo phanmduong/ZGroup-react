@@ -347,7 +347,7 @@ class OrderController extends ManageApiController
 
     public function storeOrder(Request $request)
     {
-        if($request->warehouse_id == null)
+        if ($request->warehouse_id == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu mã kho'
             ]);
@@ -358,7 +358,6 @@ class OrderController extends ManageApiController
         $order->user_id = $request->user_id;
         $order->status = 'completed';
         $order->save();
-
 
 
         $good_orders = json_decode($request->good_orders);
@@ -379,9 +378,10 @@ class OrderController extends ManageApiController
         $orderPaidMoney->note = $request->note;
         $orderPaidMoney->payment = $request->payment;
         $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
 
-        $response = $this->orderService->exportOrder($order->id,  $request->warehouse_id);
-        if($response['status'] == 0)
+        $response = $this->orderService->exportOrder($order->id, $request->warehouse_id);
+        if ($response['status'] == 0)
             return $this->respondErrorWithStatus([
                 'message' => $response['message']
             ]);
