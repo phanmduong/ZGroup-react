@@ -341,10 +341,12 @@
                     <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Đặt hàng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/product/new" data-scroll="true" href="javascript:void(0)">Sản phẩm mới</a>
+                    <a class="nav-link" href="/product/new" data-scroll="true" href="javascript:void(0)">Sản phẩm
+                        mới</a>
                 </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="/product/feature" data-scroll="true" href="javascript:void(0)">Sản phẩm nổi bật</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/product/feature" data-scroll="true" href="javascript:void(0)">Sản phẩm
+                        nổi bật</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
@@ -356,18 +358,19 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" v-on:click="openModalBuyWithoutAdd" data-scroll="true"
-                       href="javascript:void(0)">
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
+                       v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center;">
                         <i class="fa fa-shopping-cart"></i>
+                        &nbsp
                         Giỏ hàng
-                        <p id="cart-num-items"
-                           style="display:none;background:#c50000!important; padding:5px 10px!important; border-radius:100px; color:white!important; margin-left:5px;">
-                            0
-                        </p>
+                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
+                            @{{ books_count }}
+                        </div>
                     </a>
                 </li>
             </ul>
-
         </div>
     </div>
 </nav>
@@ -387,7 +390,7 @@
                     <h6>Họ và tên</h6>
                     <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
                     <h6>Số điện thoại</h6>
-                    <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <input v-model="phone" type="text" class="form-control" placeholder="Email"><br>
                     <h6>Email</h6>
                     <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
@@ -422,7 +425,7 @@
                            placeholder="Đường, số nhà"
                            style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
-                    <select v-model="payment" class="form-control" id="sel1">
+                    <select v-model="payment" class="form-control">
                         <option value="Chuyển khoản">Chuyển khoản</option>
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
                             Thanh toán trực tiếp khi nhận hàng(COD)
@@ -430,7 +433,7 @@
                     </select>
                 </form>
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
-                    Bạn vui lòng nhập đầy đủ thông tin
+                    @{{message}}
                 </div>
             </div>
             <div class="modal-footer" style="display: block">
@@ -442,6 +445,7 @@
                         tục mua <i class="fa fa-angle-right"></i></button>
                     <button
                             v-on:click="submitOrder"
+                            {{--v-bind:disabled="disablePurchaseButton"--}}
                             class="btn btn-sm btn-success"
                             style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
                     </button>
@@ -472,7 +476,7 @@
                         </div>
                         <div class="col-md-4">
                             <p><b style="font-weight:600;">@{{good.name}}</b></p>
-                            <p>Connect the dots</p>
+                            <p>@{{ good.description }}</p>
                         </div>
                         <div class="col-md-3 h-center">
                             <button v-on:click="minusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
@@ -486,10 +490,10 @@
                             <b style="font-weight:600;"> @{{ good.number }} </b>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p>@{{ good.price}}</p>
+                            <p>@{{ good.vnd_price}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{good.price* good.number}}</b>
+                            <p><b style="font-weight:600;">@{{good.total_vnd_price}}</b>
                             </p>
                         </div>
                     </div>
@@ -500,17 +504,27 @@
                         <h4 class="text-left"><b>Tổng</b></h4>
                     </div>
                     <div class="col-md-8">
-                        <h4 class="text-right"><b>@{{ total_price }}</b></h4>
+                        <h4 class="text-right"><b>@{{ total_order_vnd_price }}</b></h4>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:20px;">
+                    <div class="col-md-12">
+                        <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:</div>
+                        <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
+                        <div>Ship vào Sài Gòn: 30k</div>
+                        <div>Ship đến tỉnh thành khác: 30k</div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
-                        style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                <button id="btn-purchase"
-                        v-on:click="openPurchaseModal"
-                        class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
-                            class="fa fa-angle-right"></i></button>
+                <div class="col-md-12">
+                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                            style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                    <button id="btn-purchase"
+                            v-on:click="openPurchaseModal()"
+                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                                class="fa fa-angle-right"></i></button>
+                </div>
             </div>
         </div>
     </div>
@@ -692,6 +706,7 @@
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
+{{--<script src="https://cdn.jsdelivr.net/npm/vue"></script>--}}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/nhatquangshop.js?6868"></script>
 <script src="/nhatquangshop/js/nav.vue.js"></script>

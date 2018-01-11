@@ -3,6 +3,7 @@
 namespace Modules\NhatQuangShop\Http\Controllers;
 
 
+use App\Coupon;
 use App\District;
 use App\Good;
 use App\Http\Controllers\PublicApiController;
@@ -25,6 +26,28 @@ class NhatQuangApiController extends PublicApiController
         $request->session()->flush();
     }
 
+    public function getCouponProgram() {
+        $couponPrograms = Coupon::where('type', 'program')->where('activate', 1)->get();
+        return $this->respondSuccessWithStatus([
+            'coupon_programs' => $couponPrograms->map(function ($couponProgram) {
+                return $couponProgram->getData();
+            })
+        ]);
+    }
+
+    public function countGoodsFromSession(Request $request)
+    {
+        $goods_str = $request->session()->get('goods');
+        $goods = json_decode($goods_str);
+        $count = 0;
+        if ($goods) {
+            foreach ($goods as $good) {
+                $count += $good->number;
+            }
+        }
+        return $count;
+    }
+
     public function getGoodsFromSession(Request $request)
     {
         $goods_str = $request->session()->get('goods');
@@ -38,6 +61,9 @@ class NhatQuangApiController extends PublicApiController
                 foreach ($properties as $property) {
                     $good[$property->name] = $property->value;
                 }
+                $good->vnd_price = currency_vnd_format($good->price);
+                $good->total_price = $good->price * $good->number;
+                $good->total_vnd_price = currency_vnd_format($good->price * $good->number);
                 $goods[] = $good;
             }
         }
@@ -47,9 +73,11 @@ class NhatQuangApiController extends PublicApiController
         foreach ($goods as $good) {
             $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
         }
+        $totalVndPrice = currency_vnd_format($totalPrice);
         $data = [
             "goods" => $goods,
-            "total_price" => $totalPrice
+            "total_order_price" => $totalPrice,
+            "total_order_vnd_price" => $totalVndPrice,
         ];
         return $data;
     }

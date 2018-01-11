@@ -22,6 +22,8 @@ $nhatquangShopRoute = function () {
     Route::get('/test', 'NhatQuangShopController@test');
 
     Route::get('/load-books-from-session/v2', 'NhatQuangApiController@getGoodsFromSession');
+    Route::get('/count-books-from-session/v2', 'NhatQuangApiController@countGoodsFromSession');
+    Route::get('/coupon-programs', 'NhatQuangApiController@getCouponProgram');
     Route::get('/flush', 'NhatQuangApiController@flush');
     Route::get('/add-book/{goodId}/v2', 'NhatQuangApiController@addGoodToCart');
     Route::get('/remove-book/{goodId}/v2', 'NhatQuangApiController@removeBookFromCart');

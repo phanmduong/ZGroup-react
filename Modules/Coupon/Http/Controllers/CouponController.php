@@ -63,19 +63,6 @@ class CouponController extends ManageApiController
         ]);
     }
 
-    public function deleteCoupon($couponId)
-    {
-        $coupon = Coupon::find($couponId);
-        if ($coupon == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'non-existing coupon'
-            ]);
-        $coupon->activate = 0;
-        return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
-        ]);
-    }
-
     public function allCoupons(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
@@ -101,28 +88,6 @@ class CouponController extends ManageApiController
             [
                 'coupons' => $coupons->map(function ($coupon) {
                     $data = $coupon->getData();
-                    if ($coupon->used_for == 'order')
-                        $data['order_value'] = $coupon->order_value;
-                    if ($coupon->used_for == 'good')
-                        $data['good'] = [
-                            'id' => $coupon->good ? $coupon->good->id : null,
-                            'name' => $coupon->good ? $coupon->good->name : null,
-                        ];
-                    if ($coupon->used_for == 'customer')
-                        $data['customer'] = [
-                            'id' => $coupon->user ? $coupon->user->id : null,
-                            'name' => $coupon->user ? $coupon->user->name : null
-                        ];
-                    if ($coupon->used_for == 'category')
-                        $data['category'] = [
-                            'id' => $coupon->goodCategory ? $coupon->goodCategory->id : null,
-                            'name' => $coupon->goodCategory ? $coupon->goodCategory->name : null
-                        ];
-                    if ($coupon->used_for == 'customer-group')
-                        $data['customer_group'] = [
-                            'id' => $coupon->customerGroup ? $coupon->customerGroup->id : null,
-                            'name' => $coupon->customerGroup ? $coupon->customerGroup->name : null
-                        ];
                     return $data;
                 })
             ]);
@@ -136,16 +101,6 @@ class CouponController extends ManageApiController
                 'message' => 'Không tồn tại coupon'
             ]);
         $data = $coupon->getData();
-        if ($coupon->used_for == 'order')
-            $data['order_value'] = $coupon->order_value;
-        if ($coupon->used_for == 'good')
-            $data['good'] = $coupon->good;
-        if ($coupon->used_for == 'customer')
-            $data['customer'] = $coupon->user;
-        if ($coupon->used_for == 'category')
-            $data['category'] = $coupon->goodCategory;
-        if ($coupon->used_for == 'customer-group')
-            $data['customer_group'] = $coupon->customerGroup;
         return $this->respondSuccessWithStatus([
             'coupon' => $data,
         ]);
@@ -160,6 +115,19 @@ class CouponController extends ManageApiController
             ]);
         $this->assignInfoToCoupon($coupon, $request);
         $coupon->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function deleteCoupon($couponId)
+    {
+        $coupon = Coupon::find($couponId);
+        if ($coupon == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-existing coupon'
+            ]);
+        $coupon->activate = 0;
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
