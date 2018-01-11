@@ -86,7 +86,7 @@ class SendSurvey extends Command
                 }
             }
         }
-        $this->info('The surveys were sent successfully!');
+//        $this->info('The surveys were sent successfully!');
 
 
     }
