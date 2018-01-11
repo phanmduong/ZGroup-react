@@ -46,7 +46,7 @@ class SurveyController extends ManageApiController
 //        }
     }
 
-    public function getSurveys($surveyId, Request $request)
+    public function getSurveys(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
