@@ -21,18 +21,43 @@ class NhatQuangApiController extends PublicApiController
         $this->bookRepository = $bookRepository;
     }
 
+    public function content($couponProgram)
+    {
+        switch ($couponProgram->used_for) {
+            case 'order':
+                return ' đơn hàng giá trị trên ' . currency_vnd_format($couponProgram->order_value);
+                break;
+            case 'category':
+                return ' danh mục ' . $couponProgram->goodCategory->name;
+                break;
+            case 'good':
+                return ' sản phẩm ' . $couponProgram->good->name;
+                break;
+            default:
+                return '';
+                break;
+        }
+    }
+
     public function flush(Request $request)
     {
         $request->session()->flush();
     }
 
-    public function getCouponProgram() {
+    public function getCouponProgram()
+    {
         $couponPrograms = Coupon::where('type', 'program')->where('activate', 1)->get();
-        return $this->respondSuccessWithStatus([
+        return [
             'coupon_programs' => $couponPrograms->map(function ($couponProgram) {
-                return $couponProgram->getData();
-            })
-        ]);
+                $data = $couponProgram->getData();
+                $data['content'] = $couponProgram->name
+                    . ': giảm giá '
+                    . ($couponProgram->discount_type == 'fix' ? currency_vnd_format($couponProgram->discount_value) : $couponProgram->discount_value . '%')
+                    . $this->content($couponProgram);
+                return $data;
+            }),
+            'coupon_programs_count' => $couponPrograms->count(),
+        ];
     }
 
     public function countGoodsFromSession(Request $request)

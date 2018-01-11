@@ -507,24 +507,22 @@
                         <h4 class="text-right"><b>@{{ total_order_vnd_price }}</b></h4>
                     </div>
                 </div>
-                <div class="row" style="padding-top:20px;">
+                <div v-if="coupon_programs_count" class="row" style="padding-top:20px;">
                     <div class="col-md-12">
-                        <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:</div>
-                        <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
-                        <div>Ship vào Sài Gòn: 30k</div>
-                        <div>Ship đến tỉnh thành khác: 30k</div>
+                        <div style="font-weight: 600">Chương trình khuyến mãi: </div>
+                        <div v-for="coupon_program in coupon_programs">
+                            @{{ coupon_program.content }}
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="col-md-12">
                     <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
                             style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
                     <button id="btn-purchase"
                             v-on:click="openPurchaseModal()"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                                 class="fa fa-angle-right"></i></button>
-                </div>
             </div>
         </div>
     </div>

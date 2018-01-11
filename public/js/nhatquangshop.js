@@ -3,9 +3,10 @@ var modalBuy = new Vue({
     data: {
         isLoading: false,
         goods: [],
-        coupon_programs: [],
         total_order_price: 0,
-        total_order_vnd_price: ''
+        total_order_vnd_price: '',
+        coupon_programs: [],
+        coupon_programs_count: 0,
     },
     methods: {
         vnd_formatting: function (number) {
@@ -15,7 +16,8 @@ var modalBuy = new Vue({
         getCouponPrograms: function() {
             axios.get(window.url + '/coupon-programs')
                 .then(function (response) {
-
+                    this.coupon_programs = response.data.coupon_programs;
+                    this.coupon_programs_count = response.data.coupon_programs_count;
                 }.bind(this))
                 .catch(function (error) {
 
@@ -151,6 +153,7 @@ var openWithoutAdd = new Vue({
     mounted: function () {
         $('#booksCount').css('display', 'flex');
         this.countBooksFromSession();
+        modalBuy.getCouponPrograms();
     },
 });
 
