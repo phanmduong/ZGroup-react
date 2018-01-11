@@ -114,7 +114,7 @@ export function uploadEditProductApi(productPresent, manufacture_id, category_id
 }
 
 export function getManufacturesApi() {
-    let url = env.MANAGE_API_URL + "/good/manufactures?token=" + token;
+    let url = env.MANAGE_API_URL + "/v2/manufacture?token=" + token + "&limit=-1";
     return axios.get(url);
 }
 

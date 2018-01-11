@@ -1,8 +1,12 @@
 export default {
+    orderedProduct: {},
+
     createProduct: {
         categories: [],
         manufactures: [],
         manufacturesRender: [],
+        manufacturesFilter: [],
+        properties_list_filter: [],
         isUploadingAvatar: false,
         totalPagesManufactures: 1,
         currentPageManufactures: 1,
@@ -853,7 +857,15 @@ export default {
     },
 
     goodOrders: {
+        warehousesList: [],
+        selectWarehouseModal: false,
+        isLoadingWarehouse: false,
+        totalCountWarehouse: 1,
+        totalPagesWarehouse: 1,
+        currentPageWarehouse: 1,
         isUpdate: false,
+        nextStatus: '',
+        orderIdWarehouseModal: 0,
         orderId: 0,
         labelId: -1,
         shipGoodModal: false,

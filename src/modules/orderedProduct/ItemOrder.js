@@ -4,7 +4,6 @@ import TooltipButton from '../../components/common/TooltipButton';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
-import StatusSelect from "./status/StatusSelect";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
@@ -50,13 +49,9 @@ class ItemOrder extends React.Component {
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            if (currentStatus.order < 2 && nextStatus.order > 1) {
-                this.props.showSelectWarehouseModal(value, this.props.order.id);
-            } else {
-                helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                    this.props.changeStatusOrder(value, this.props.order.id, null);
-                });
-            }
+            helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
+                this.props.changeStatusOrder(value, this.props.order.id);
+            });
         }
     }
 
@@ -115,9 +110,7 @@ class ItemOrder extends React.Component {
                     }
                 </td>
                 <td>
-                    <StatusSelect options={ORDER_STATUS}
-                                  onChange={this.changeStatusOrder}
-                                  value={order.status}/>
+                    fuck
                 </td>
                 <td>
                     <a data-toggle="tooltip" title="Ghi chú" type="button"
@@ -152,8 +145,7 @@ ItemOrder.propTypes = {
     changeStatusOrder: PropTypes.func.isRequired,
     showShipGoodModal: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    showSelectWarehouseModal: PropTypes.func.isRequired
+    user: PropTypes.object.isRequired
 };
 
 export default ItemOrder;
