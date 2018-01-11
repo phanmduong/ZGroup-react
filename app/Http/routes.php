@@ -256,7 +256,8 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::post('/submit-survey', 'SurveyApiController@submit_survey');
 
     Route::get('/class/{classId}/students', 'ClassApiController@students');
-    Route::get('/class/{classId}', 'ClassApiController@studyClass');
+    Route::get('/class/{classId}', '
+    @studyClass');
     Route::post('class/{classId}/form', 'ClassApiController@form');
     Route::post('/class/{classId}/enroll', 'ClassApiController@enroll');
     Route::get('/current-study-class', 'ClassApiController@currentStudyClass');
