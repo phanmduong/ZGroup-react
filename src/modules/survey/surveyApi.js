@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
+import {getToken} from '../../helpers/tokenHelper';
 
 export function createSurvey(surveyName) {
     let url = env.MANAGE_API_URL + "/v2/survey";
@@ -20,5 +21,12 @@ export const loadSurveys = (page, search) => {
     }
     url += "&search=" + search;
     url += "&page=" + page;
+    return axios.get(url);
+};
+
+export const loadSurvey = (surveyId) => {
+    let url = env.MANAGE_API_URL + "/v2/survey/" + surveyId;
+    const token = getToken();
+    url += "?token=" + token;
     return axios.get(url);
 };

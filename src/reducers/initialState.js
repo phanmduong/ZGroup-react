@@ -1154,9 +1154,9 @@ export default {
             link_icon: "",
         },
 
-        pixel:{
-            name:"",
-            code:"",
+        pixel: {
+            name: "",
+            code: "",
         },
         term: {
             id: null,
@@ -1431,7 +1431,7 @@ export default {
             current_page: 1,
             limit: 20,
         },
-        data:[ {
+        data: [{
             id: null,
             penalty: 0,
             new_deadline: "0000-00-00 00:00:00",
@@ -1463,6 +1463,7 @@ export default {
     survey: {
         surveys: [],
         isLoading: false,
+        survey: {}
     }
 
 };
