@@ -122,6 +122,7 @@ class WorkApiController extends ManageApiController
         return $this->respondWithPagination($logs, [
             'logs' => $logs->map(function ($log) {
                 $staff = User::find($log->staff_id);
+                $manager = User::find($log->manager_id);
                 $work = Work::find($log->work_id);
                 return [
                     "id" => $log->id,
@@ -135,6 +136,10 @@ class WorkApiController extends ManageApiController
                        "name" => $staff ? $staff->name : "",
                     ],
                     "work" => $work ? $work->transform() : [],
+                    "manager" => [
+                        "id" => $manager ? $manager->id : 0,
+                        "name" => $manager ? $manager->name : "",
+                    ],
                 ];
             })
 
