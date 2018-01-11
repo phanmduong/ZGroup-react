@@ -8,7 +8,3 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::delete('{surveyId}', 'SurveyController@deleteSurvey');
     Route::post('/{surveyId}/question', 'SurveyController@createSurveyQuestion');
 });
-
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/survey', 'namespace' => 'Modules\Survey\Http\Controllers'], function () {
-
-});
