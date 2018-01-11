@@ -97,7 +97,7 @@ class WorkApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
         $works = Work::where(function ($query) use ($keyword) {
-            $query->where('name', 'like', "%$keyword%");
+            $query->where('name', 'like', "%$keyword%")->where('status','<>','archive');
         })->orderBy("created_at", "desc")->paginate($limit);
 
         return $this->respondWithPagination($works, [
@@ -122,6 +122,7 @@ class WorkApiController extends ManageApiController
         return $this->respondWithPagination($logs, [
             'logs' => $logs->map(function ($log) {
                 $staff = User::find($log->staff_id);
+                $manager = User::find($log->manager_id);
                 $work = Work::find($log->work_id);
                 return [
                     "id" => $log->id,
@@ -135,6 +136,10 @@ class WorkApiController extends ManageApiController
                        "name" => $staff ? $staff->name : "",
                     ],
                     "work" => $work ? $work->transform() : [],
+                    "manager" => [
+                        "id" => $manager ? $manager->id : 0,
+                        "name" => $manager ? $manager->name : "",
+                    ],
                 ];
             })
 
@@ -146,6 +151,7 @@ class WorkApiController extends ManageApiController
         $history = HistoryExtensionWork::find($historyId);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $history->status = $request->status;
+        $history->manager_id = $request->manager_id;
         $history->save();
         return $this->respondSuccessWithStatus([
             "message" => "Từ chối thành công"
@@ -164,8 +170,10 @@ class WorkApiController extends ManageApiController
         }
         $work->reason = $history->reason;
         $work->deadline = $history->new_deadline;
+        $work->
         $work->save();
         $history->status = $request->status;
+        $history->manager_id = $request->manager_id;
         $history->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"

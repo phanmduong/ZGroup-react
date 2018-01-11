@@ -3,9 +3,10 @@
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'order', 'namespace' => 'Modules\Order\Http\Controllers'], function () {
     Route::get('/all-orders', 'OrderController@allOrders');
     Route::get('/statistic','OrderController@statisticalOrder');
-    Route::put('/{order_id}', 'OrderController@editOrder');//asdasd
+    Route::post('/store-order', 'OrderController@storeOrder');
+    Route::put('/{order_id}', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
-    Route::put('/{orderId}/status', 'OrderController@changeOrderStatus');//ascas
+    Route::put('/{orderId}/status', 'OrderController@changeOrderStatus');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
