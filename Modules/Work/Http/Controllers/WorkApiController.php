@@ -170,6 +170,7 @@ class WorkApiController extends ManageApiController
         }
         $work->reason = $history->reason;
         $work->deadline = $history->new_deadline;
+        $work->
         $work->save();
         $history->status = $request->status;
         $history->manager_id = $request->manager_id;

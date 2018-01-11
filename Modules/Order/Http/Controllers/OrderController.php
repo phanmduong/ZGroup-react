@@ -161,7 +161,7 @@ class OrderController extends ManageApiController
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
-        if($order_id == null)
+        if ($order_id == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại order'
             ]);
@@ -342,6 +342,51 @@ class OrderController extends ManageApiController
         }
         return $this->respondSuccessWithStatus([
             'message' => 'Thành công'
+        ]);
+    }
+
+    public function storeOrder(Request $request)
+    {
+        if ($request->warehouse_id == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu mã kho'
+            ]);
+        $order = new Order;
+        $order->note = $request->note;
+        $order->code = $request->code;
+        $order->staff_id = $this->user->id;
+        $order->user_id = $request->user_id;
+        $order->status = 'completed';
+        $order->save();
+
+
+        $good_orders = json_decode($request->good_orders);
+        $total_price = 0;
+        foreach ($good_orders as $good_order) {
+            $good = Good::find($good_order->good_id);
+            $total_price += $good_order->quantity * $good->price;
+            if ($good_order->quantity >= 0)
+                $order->goods()->attach($good_order->good_id, [
+                    'quantity' => $good_order->quantity,
+                    'price' => $good->price
+                ]);
+        }
+
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $order->id;
+        $orderPaidMoney->money = $total_price;
+        $orderPaidMoney->note = $request->note;
+        $orderPaidMoney->payment = $request->payment;
+        $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
+
+        $response = $this->orderService->exportOrder($order->id, $request->warehouse_id);
+        if ($response['status'] == 0)
+            return $this->respondErrorWithStatus([
+                'message' => $response['message']
+            ]);
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 

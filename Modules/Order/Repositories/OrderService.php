@@ -76,7 +76,7 @@ class OrderService
                 'status' => 0,
                 'message' => 'Đã xuất hàng'
             ];
-        $order->exported = false;
+        $order->exported = true;
         $order->save();
         foreach ($order->goodOrders as $goodOrder) {
             $quantity = ImportedGoods::where('good_id', $goodOrder->good_id)
