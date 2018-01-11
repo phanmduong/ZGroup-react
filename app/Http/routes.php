@@ -460,7 +460,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/notifications-list', 'PublicController@beta');
     Route::get('/posts/{popular}', 'PublicController@beta');
     Route::get('/about-us', 'PublicController@beta');
-    Route::get('/', 'PublicCrawlController@home');
+    Route::get('/', 'ColormeNewController@home');
     Route::get('/elearning/{courseId}/{lessonId?}', 'PublicCrawlController@courseOnline');
     Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/sign-in', 'PublicController@beta');
