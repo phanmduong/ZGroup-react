@@ -11,7 +11,7 @@ export function historyExtensionWork(page = 1, search = '') {
     return axios.get(url);
 }
 
-export function deleteHistoryExtensionWork(id) {
+export function deleteHistoryExtensionWork(id,userId) {
     let url = env.MANAGE_API_URL + "/work/history-extension/";
     let token = localStorage.getItem('token');
     if (token) {
@@ -19,10 +19,11 @@ export function deleteHistoryExtensionWork(id) {
     }
     return axios.post(url, {
         'status': 'Refuse',
+        'manager_id': userId,
     });
 }
 
-export function acceptHistoryExtensionWork(id) {
+export function acceptHistoryExtensionWork(id,userId) {
     let url = env.MANAGE_API_URL + "/work/history-extension/";
     let token = localStorage.getItem('token');
     if (token) {
@@ -30,6 +31,7 @@ export function acceptHistoryExtensionWork(id) {
     }
     return axios.post(url, {
         'status': 'Accept',
+        'manager_id': userId,
     });
 }
 
