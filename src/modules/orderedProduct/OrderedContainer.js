@@ -35,7 +35,6 @@ class OrderedContainer extends React.Component {
     }
 
     render() {
-        console.log("OrderedContainer");
         let first = (this.props.currentPage - 1) * this.props.limit + 1;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (

@@ -680,6 +680,8 @@ export default {
         errorProgress: false,
         isEditingStudent: false,
         errorEditing: false,
+        isChangingPassword: false,
+        errorChangePassword: false
     },
 
     dashboard: {
@@ -1110,6 +1112,8 @@ export default {
         isUploadingLinkIcon: false,
         isUploadingLink: false,
         isUploadingPixel: false,
+        isUploadingTermIcon: false,
+        isUploadingTerm: false,
         error: false,
         coursesList: [],
         isDeleting: false,
@@ -1148,6 +1152,10 @@ export default {
             lessons: [],
             links: [],
             pixels: [],
+            terms: [],
+            categories: [],
+            type_id: "",
+            type: "",
         },
         link: {
             id: null,
@@ -1157,15 +1165,30 @@ export default {
             link_description: "",
             link_icon: "",
         },
-        pixel: {
+
+        pixel:{
+            name:"",
+            code:"",
+        },
+        term: {
+            id: null,
             name: "",
-            code: "",
-        }
+            description: "",
+            short_description: "",
+            course_id: "",
+            image_url: "",
+            audio_url: "",
+        },
+        categories: [],
+        types: [],
+
     },
     lessons: {
         isLoading: false,
         isCommitting: false,
         commitSuccess: false,
+        isUploadingLessonIcon: false,
+        terms: [],
         data: {
             id: null,
             course_id: 1,
@@ -1176,6 +1199,10 @@ export default {
             detail_content: "",
             detail_teacher: "",
             created_at: "",
+            term_id: "",
+            audio_url: "",
+            video_url: "",
+            image_url: "",
         }
     },
     marketingCampaigns: {

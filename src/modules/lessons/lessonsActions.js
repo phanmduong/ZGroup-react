@@ -2,6 +2,7 @@ import * as types       from '../../constants/actionTypes';
 import * as lessonsApi   from './lessonsApi';
 import * as helper      from '../../helpers/helper';
 import {browserHistory}  from 'react-router';
+// import * as courseApi from "../courses/courseApi";
 
 
 export function loadLessonData(id) {
@@ -89,5 +90,37 @@ export function editLesson(data) {
                 helper.sweetAlertError("Có lỗi xảy ra! " + err);
                 dispatch({type: types.EDIT_LESSON_ERROR});
             });
+    };
+}
+export function loadTerms(courseId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_TERMS});
+        lessonsApi.loadTerms(courseId)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_TERMS_SUCCESS,
+                    terms: res.data.data.terms,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_TERMS_ERROR});
+            });
+    };
+}
+
+export function uploadLessonIcon(file) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_UPLOAD_ICON_LESSON});
+        lessonsApi.uploadImage(file, function (event) {
+            helper.showNotification("Đăng ảnh thành công.");
+            let data = JSON.parse(event.currentTarget.response);
+            dispatch({
+                type: types.UPLOAD_ICON_LESSON_SUCCESS,
+                url: data.link,
+            });
+        }, () => {
+            helper.showErrorNotification("Đăng ảnh thất bại.");
+            dispatch({type: types.UPLOAD_ICON_LESSON_FAILED});
+        });
     };
 }

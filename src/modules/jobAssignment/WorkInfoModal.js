@@ -6,11 +6,17 @@ import * as jobAssignmentAction from '../jobAssignment/jobAssignmentAction';
 import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
-import ReactSelect from 'react-select';
 import ListStaffs from './ListStaffs';
 import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 import {Modal} from 'react-bootstrap';
+
+const money = [{value: 'vnd', label: 'VNĐ',},{value: 'coin', label: 'Coin',},];
+const types = [
+    {value: 'personal', label: 'Cá nhân',},
+    {value: 'team', label: 'Nhóm',},
+    {value: 'person_project', label: 'Dự án riêng',},
+];
 
 class WorkInfoModal extends React.Component {
     constructor(props, context) {
@@ -39,7 +45,8 @@ class WorkInfoModal extends React.Component {
                                     <div className="row">
                                         <div className="col-md-8">
                                             <div className="card">
-                                                <div className="card-header card-header-icon" data-background-color="rose">
+                                                <div className="card-header card-header-icon"
+                                                     data-background-color="rose">
                                                     <i className="material-icons">assignment</i>
                                                 </div>
 
@@ -49,67 +56,55 @@ class WorkInfoModal extends React.Component {
                                                         <div className="col-md-12">
                                                             <FormInputText
                                                                 label="Tên công việc"
-
                                                                 type="text"
                                                                 name="name"
-                                                                updateFormData={()=>{}}
+                                                                updateFormData={() => {
+                                                                }}
                                                                 value={this.props.data.name || ""}
                                                                 disabled
-                                                            /></div><div className="col-md-12">
-                                                        <label className="">
-                                                            Loại
-                                                        </label>
-                                                        <ReactSelect
-                                                            disabled
-                                                            options={[
-                                                                {value: 'personal', label: 'Cá nhân',},
-                                                                {value: 'team', label: 'Nhóm',},
-                                                                {value: 'person_project', label: 'Dự án riêng',},
-                                                            ]}
-                                                            onChange={()=>{}}
-                                                            value={this.props.data.type || ""}
-                                                            defaultMessage="Tuỳ chọn"
-                                                            name="type"
-                                                        /></div><div className="col-md-12">
-                                                        <FormInputText
-                                                            label="Chi phí"
-                                                            required
-                                                            type="number"
-                                                            name="cost"
-                                                            updateFormData={()=>{}}
-                                                            value={this.props.data.cost || 0}
-                                                            disabled
-                                                        /></div><div className="col-md-12">
-                                                            <FormInputText
-                                                            label="Deadline"
-                                                            required
-                                                            type="text"
-                                                            updateFormData={()=>{}}
-                                                            value={time}
-                                                            disabled
                                                             /></div>
-                                                        <div className="col-md-8">
+                                                        <div className="col-md-6">
+                                                            <label className="">
+                                                                Loại
+                                                            </label>
+                                                            {types.map((obj) => {
+                                                                if (this.props.data && obj.value == this.props.data.type)
+                                                                    return (<div key={obj.value}>{obj.label}</div>);
+                                                            })}
+                                                        </div>
+                                                        <div className="col-md-6">
                                                             <FormInputText
-                                                                label="Điểm cộng"
+                                                                label="Chi phí"
                                                                 required
                                                                 type="number"
-                                                                name="bonus_value"
-                                                                updateFormData={()=>{}}
-                                                                value={this.props.data.bonus_value || 0}
+                                                                name="cost"
+                                                                updateFormData={() => {
+                                                                }}
+                                                                value={this.props.data.cost || 0}
                                                                 disabled
                                                             /></div>
-                                                        <div className="col-md-4">
-                                                            <ReactSelect
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Deadline"
+                                                                required
+                                                                type="text"
+                                                                updateFormData={() => {
+                                                                }}
+                                                                value={time}
                                                                 disabled
-                                                                options={[
-                                                                    {value: 'vnd', label: 'VNĐ',},
-                                                                    {value: 'coin', label: 'Coin',},
-                                                                ]}
-                                                                onChange={()=>{}}
-                                                                value={this.props.data.bonus_type || ""}
-                                                                defaultMessage="Đơn vị"
-                                                                style={{marginTop : "20px", width: "100%"}}
+                                                                name="deadline"
                                                             /></div>
+                                                        <div className="col-md-6">
+                                                            <label className="">
+                                                                Thưởng
+                                                            </label>
+                                                            <div>{this.props.data.bonus_value +" - "}
+
+                                                            {money.map((obj) => {
+                                                                if (this.props.data && this.props.data.bonus_type == obj.value)
+                                                                    return (obj.label);
+                                                            })}</div>
+                                                        </div>
 
                                                     </div>
                                                 </div>
@@ -117,7 +112,8 @@ class WorkInfoModal extends React.Component {
                                         </div>
                                         <div className="col-md-4">
                                             <div className="card">
-                                                <div className="card-header card-header-icon" data-background-color="rose">
+                                                <div className="card-header card-header-icon"
+                                                     data-background-color="rose">
                                                     <i className="material-icons">contacts</i>
                                                 </div>
 
@@ -125,7 +121,7 @@ class WorkInfoModal extends React.Component {
                                                     <h4 className="card-title">Người thực hiện</h4>
                                                     <div className="row">
                                                         <ListStaffs
-                                                            staffs={this.props.data.staffs||[]}
+                                                            staffs={this.props.data.staffs || []}
                                                         />
                                                     </div>
                                                 </div>

@@ -294,8 +294,8 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
                 ...{
                     isCommitting: false,
-                    data: action.data,
-                    commitSuccess: true
+                    //data: action.data,
+                    commitSuccess: true,
                 }
             };
         }
@@ -458,6 +458,157 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         }
+        case types.BEGIN_CREATE_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: true,
+                }
+            };
+        case types.CREATE_TERM_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+        }
+        case types.CREATE_TERM_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+
+        case types.BEGIN_UPLOAD_ICON_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: true,
+                }
+            };
+        case types.UPLOAD_ICON_TERM_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: false,
+                    data: state.data,
+                    term: action.term,
+                }
+            };
+        }
+        case types.UPLOAD_ICON_TERM_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: false,
+
+                }
+            };
+
+        case types.BEGIN_EDIT_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: true,
+                }
+            };
+        case types.EDIT_TERM_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+        }
+        case types.EDIT_TERM_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+        case types.BEGIN_DELETE_TERM:
+            return {
+                ...state,
+            };
+        case types.DELETE_TERM_SUCCESS:
+
+            return {
+                ...state,
+            };
+        case types.DELETE_TERM_ERROR:
+            return {
+                ...state,
+
+            };
+        case types.BEGIN_CHANGE_STATUS_COURSES: {
+            let newdata = [...state.coursesList];
+            let newcourse = {...state.coursesList[action.index]};
+            newcourse.status = !newdata[action.index].status;
+            newdata[action.index] = newcourse;
+            return {
+                ...state,
+                coursesList: newdata
+            };
+        }
+        case types.CHANGE_STATUS_COURSES_SUCCESS:
+
+            return {
+                ...state,
+            };
+        case types.CHANGE_STATUS_COURSES_ERROR:{
+            let newdata = [...state.coursesList];
+            let newcourse = {...state.coursesList[action.index]};
+            newcourse.status = !newdata[action.index].status;
+            newdata[action.index] = newcourse;
+            return {
+                ...state,
+                coursesList: newdata
+            };
+        }
+        case types.BEGIN_LOAD_ALL_TYPES: {
+            return {
+                ...state,
+                isLoading: true,
+            };
+        }
+        case types.LOAD_ALL_TYPES_SUCCESS: {
+            let data = action.types.map((obj)=>{return {...obj, value: obj.id, label: obj.name,}});
+            return {
+                ...state,
+                isLoading: false,
+                types: data,
+            };
+        }
+        case types.LOAD_ALL_TYPES_ERROR:{
+            return {
+                ...state,
+                isLoading: false,
+            };
+        }
+        case types.BEGIN_LOAD_ALL_CATEGORIES: {
+            return {
+                ...state,
+                isLoading: true,
+            };
+        }
+        case types.LOAD_ALL_CATEGORIES_SUCCESS: {
+            let data = action.categories.map((obj)=>{return {...obj, value: obj.id, label: obj.name,}});
+            return {
+                ...state,
+                isLoading: false,
+                categories: data,
+            };
+        }
+        case types.LOAD_ALL_CATEGORIES_ERROR:{
+            return {
+                ...state,
+                isLoading: false,
+            };
+        }
+
         default:
             return state;
     }
