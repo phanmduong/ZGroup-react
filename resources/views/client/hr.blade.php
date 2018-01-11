@@ -5,5 +5,5 @@
 @endsection
 
 @section("js")
-    <script type="text/javascript" src="manage/hr/main.a8cb76f7d00c03b93cef.js"></script>
+    <script type="text/javascript" src="manage/hr/main.be9548f8cb6f04cb9c01.js"></script>
 @endsection
