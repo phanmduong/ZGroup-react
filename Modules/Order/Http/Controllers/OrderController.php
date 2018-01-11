@@ -319,27 +319,14 @@ class OrderController extends ManageApiController
 
         $good_orders = json_decode($request->good_orders);
         foreach ($good_orders as $good_order) {
-            $history = HistoryGood::where('order_id', $orderId)
-                ->where('good_id', $good_order->good_id)
-                ->orderBy('created', 'desc')->get();
-            foreach ($history as $singular_history) {
-                if ($good_order->quantity === 0)
-                    break;
-                $returnHistory = new HistoryGood;
-                $lastest_good_history = HistoryGood::where('good_id', $good_order->good_id)->orderBy('created_at', 'desc')->first();
-                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
-                $returnHistory->good_id = $singular_history->good_id;
-                $returnHistory->quantity = min($good_order->quantity, $singular_history->quantity);
-                $returnHistory->remain = $remain + min($good_order->quantity, $singular_history->quantity);
-                $returnHistory->warehouse_id = $warehouseId;
-                $returnHistory->type = 'import';
-                $returnHistory->order_id = $returnOrder->id;
-                $returnHistory->imported_good_id = $singular_history->imported_good_id;
-                $returnHistory->save();
-
-                $good_order->quantity -= min($good_order->quantity, $singular_history->quantity);
-            }
+            if ($good_order->quantity >= 0)
+                $returnOrder->goods()->attach($good_order->good_id, [
+                    'quantity' => $good_order->quantity,
+                    'price' => $good_order->price
+                ]);
         }
+//        $this->orderService->returnOnPurposeOrStaffMistake($returnOrder->id, $request->warehouse_id, $this->user->id);
+        $this->orderService->returnProcess($returnOrder->id, 4, $this->user->id); //fix
         return $this->respondSuccessWithStatus([
             'message' => 'Thành công'
         ]);

@@ -42,11 +42,88 @@ class OrderService
         }
     }
 
+    public function returnProcess($orderId, $warehouseId, $staff_id)
+    {
+        $order = Order::find($orderId);
+        $good_orders = $order->goodOrders;
+        foreach ($good_orders as $good_order) {
+            $history = HistoryGood::where('order_id', $orderId)
+                ->where('good_id', $good_order->good_id)
+                ->orderBy('created_at', 'desc')->get();
+            foreach ($history as $singular_history) {
+                if ($good_order->quantity === 0)
+                    break;
+                $returnHistory = new HistoryGood;
+                $lastest_good_history = HistoryGood::where('good_id', $good_order->good_id)->where('warehouse_id', $warehouseId)
+                    ->orderBy('created_at', 'desc')->first();
+                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
+                $returnHistory->good_id = $singular_history->good_id;
+                $returnHistory->quantity = min($good_order->quantity, $singular_history->quantity);
+                $returnHistory->remain = $remain + min($good_order->quantity, $singular_history->quantity);
+                $returnHistory->warehouse_id = $warehouseId;
+                $returnHistory->type = 'return';
+                $returnHistory->order_id = $orderId;
+                $returnHistory->imported_good_id = $singular_history->imported_good_id;
+                $returnHistory->save();
+
+                $good_order->quantity -= min($good_order->quantity, $singular_history->quantity);
+
+                $importedGood = new ImportedGoods;
+                $importedGood->order_import_id = $orderId;
+                $importedGood->good_id = $singular_history->good_id;
+//                $importedGood->warehouse_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
+                $importedGood->warehouse_id = $order->warehouse_id ? $order->warehouse_id : 4; //fix cung
+                $importedGood->import_price = $good_order->price;
+                $importedGood->quantity = min($good_order->quantity, $singular_history->quantity);
+                $importedGood->import_quantity = min($good_order->quantity, $singular_history->quantity);
+                $importedGood->staff_id = $staff_id;
+                $importedGood->created_at = $order->created_at;
+                $importedGood->save();
+            }
+        }
+    }
+
+    public function fixStatusBackWard($orderId, $warehouseId, $staff_id)
+    {
+        $order = Order::find($orderId);
+        $order->exported = 0;
+        $order->save();
+        $good_orders = $order->goodOrders;
+        foreach ($good_orders as $good_order) {
+            $importedGood = new ImportedGoods;
+            $importedGood->order_import_id = $orderId;
+            $importedGood->good_id = $good_order->good_id;
+//                $importedGood->warehouse_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
+            $importedGood->warehouse_id = $order->warehouse_id ? $order->warehouse_id : 4; //fix cung
+            $importedGood->import_price = $good_order->price;
+            $importedGood->quantity = $good_order->quantity;
+            $importedGood->import_quantity = $good_order->quantity;
+            $importedGood->staff_id = $staff_id;
+            $importedGood->created_at = $order->created_at;
+            $importedGood->save();
+
+            $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)
+                ->where('warehouse_id', $warehouseId)
+                ->orderBy('created_at', 'desc')->first();
+            $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
+            $history = new HistoryGood;
+            $history->good_id = $importedGood->good_id;
+            $history->quantity = $importedGood->quantity;
+            $history->remain = $remain + $importedGood->quantity;
+            $history->warehouse_id = $warehouseId;
+            $history->type = 'return';
+            $history->order_id = $orderId;
+            $history->imported_good_id = $importedGood->id;
+            $history->save();
+        }
+    }
+
     public function importedGoodsExportProcess($goodOrder, $warehouseId)
     {
         $quantity = $goodOrder->quantity;
         while ($quantity > 0) {
-            $importedGood = ImportedGoods::where('quantity', '>', 0)
+            $importedGood = ImportedGoods::where('status', 'completed')
+                ->where('quantity', '>', 0)
                 ->where('warehouse_id', $warehouseId)
                 ->where('good_id', $goodOrder->good_id)
                 ->orderBy('created_at', 'asc')->first();
@@ -64,7 +141,10 @@ class OrderService
             $history->order_id = $goodOrder->order_id;
             $history->imported_good_id = $importedGood->id;
             $history->save();
+
             $quantity -= min($goodOrder->quantity, $importedGood->quantity);
+            $importedGood->quantity -= min($goodOrder->quantity, $importedGood->quantity);
+            $importedGood->save();
         }
     }
 
@@ -79,7 +159,8 @@ class OrderService
         $order->exported = true;
         $order->save();
         foreach ($order->goodOrders as $goodOrder) {
-            $quantity = ImportedGoods::where('good_id', $goodOrder->good_id)
+            $quantity = ImportedGoods::where('status', 'completed')
+                ->where('good_id', $goodOrder->good_id)
                 ->where('warehouse_id', $warehouseId)
                 ->sum('quantity');
             if ($goodOrder->quantity > $quantity)
@@ -96,7 +177,7 @@ class OrderService
         ];
     }
 
-    public function changeOrderStatus($orderId, $request, $user_id)
+    public function changeOrderStatus($orderId, $request, $staff_id)
     {
         $order = Order::find($orderId);
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2 && $this->statusToNum($request->status) != 5) {
@@ -109,13 +190,20 @@ class OrderService
             $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
         }
 
+        if (($this->statusToNum($order->status) >= 2 && $this->statusToNum($order->status) <= 4)
+            && ($this->statusToNum($request->status) < 2 || $this->statusToNum($request->status) == 5)) {
+//            $this->returnOnPurposeOrStaffMistake($order->id, $request->warehouse_id, $staff_id);
+            $this->fixStatusBackWard($order->id, 4, $staff_id);
+        }
         if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;
             foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
                 $importedGood->save();
                 $history = new HistoryGood;
-                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->first();
+                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)
+                    ->where('warehouse_id', $importedGood->warehouse_id)
+                    ->orderBy('created_at', 'desc')->first();
                 $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
                 $history->good_id = $importedGood->good_id;
                 $history->quantity = $importedGood->quantity;
@@ -128,6 +216,7 @@ class OrderService
             }
         }
         $order->status = $request->status;
+        $order->staff_id = $staff_id;
         if ($request->label_id) {
             $order->label_id = $request->label_id;
         }
