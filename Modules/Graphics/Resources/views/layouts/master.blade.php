@@ -257,7 +257,6 @@
                             </div>
                             <div class="col-md-4">
                                 <p><b style="font-weight:600;">@{{good.name}}</b></p>
-                                <p>Connect the dots</p>
                             </div>
                             <div class="col-md-3 h-center">
                                 <button v-on:click="minusGood(event, good.id)"
