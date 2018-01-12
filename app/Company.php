@@ -15,12 +15,13 @@ class Company extends Model
     public function transform()
     {
         $field = $this->field;
+        //$field = Field::find($this->field_id);
         return [
             "id" => $this->id,
             "name" => $this->name,
             "registered_business_address" => $this->registered_business_address,
-            "office_address" => $this->offcice_address,
-            "phone_company" => $this->company,
+            "office_address" => $this->office_address,
+            "phone_company" => $this->phone_company,
             "tax_code" => $this->tax_code,
             "info_account" => $this->info_account,
             "field" => [
