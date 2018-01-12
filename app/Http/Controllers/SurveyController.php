@@ -45,6 +45,25 @@ class SurveyController extends Controller
         return view('manage.survey', $this->data);
     }
 
+    public function updateAnswer($answerId, Request $request)
+    {
+        $answer = Answer::find($answerId);
+        if ($answer == null) {
+            return [
+                "status" => 0,
+                "message" => "Câu trả lời này không tồn tại"
+            ];
+        }
+
+        $answer->content = $request->content_data;
+        $answer->save();
+
+        return [
+            "status" => 1,
+            "answer" => $answer->getData()
+        ];
+    }
+
     public function attach_mail_goodbye($survey_id)
     {
         $survey = Survey::find($survey_id);

@@ -52,7 +52,6 @@ class SendSurvey extends Command
         foreach ($classLessons as $classLesson) {
             $lesson = $classLesson->lesson;
             $class = $classLesson->studyClass;
-            dd($class);
             if ($class) {
                 $schedule = $class->schedule;
                 if ($schedule && $schedule->studySessions) {
