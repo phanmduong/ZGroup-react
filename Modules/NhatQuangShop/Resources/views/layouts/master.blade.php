@@ -214,6 +214,38 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="classicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLabel">Đặt hàng siêu tốc</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="flash-order">
+                        <product-item
+                                v-for="product in products"
+                        >
+
+                        </product-item>
+                    <button v-on:click="push" type="button" class="btn btn-info btn-block btn-round">Đặt thêm sản phẩm</button>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Đặt hàng</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <button type="button" class="btn btn-danger btn-link">Thoát</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @if(isset($user))
 
         @if(!$user->first_login)
@@ -236,6 +268,9 @@
                     <img src="{{generate_protocol_url($user->avatar_url)}}" style="width:17px;height: 17px"
                          alt=""> {{$user->name}}
                 </a>
+                <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal" data-target="#classicModal" class="btn btn-primary">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
+                </button>
                 <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
                     <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
                 </a>
@@ -664,7 +699,68 @@
 
     </div>
 </footer>
-
+<script>
+    Vue.component('product-item', {
+        props: ['products'],
+        template: '<div class="product">\n' +
+        '                            <p>Sản phẩm 1</p>\n' +
+        '                            <br>\n' +
+        '                            <table class="table">\n' +
+        '                                <col width="30%">\n' +
+        '                                <col width="70%">\n' +
+        '                                <tbody>\n' +
+        '                                <tr>\n' +
+        '                                    <td class="text-left">Link sản phẩm</td>\n' +
+        '                                    <td class="text-left">\n' +
+        '                                        <input type="text" value="" placeholder="http://..." class="form-control no-border">\n' +
+        '                                    </td>\n' +
+        '                                </tr>\n' +
+        '                                <tr>\n' +
+        '                                    <td class="text-left">Kích cỡ size</td>\n' +
+        '                                    <td class="text-left">\n' +
+        '                                        <input type="text" value="" placeholder="M, L, XL" class="form-control no-border">\n' +
+        '                                    </td>\n' +
+        '                                </tr>\n' +
+        '                                <tr>\n' +
+        '                                    <td class="text-left">Mã màu</td>\n' +
+        '                                    <td class="text-left">\n' +
+        '                                        <input type="text" value="" placeholder="#C5000" class="form-control no-border">\n' +
+        '                                    </td>\n' +
+        '                                </tr>\n' +
+        '                                <tr>\n' +
+        '                                    <td class="text-left">Số lượng</td>\n' +
+        '                                    <td class="text-left">\n' +
+        '                                        <input type="number" value="" placeholder="1" class="form-control no-border">\n' +
+        '                                    </td>\n' +
+        '                                </tr>\n' +
+        '                                <tr>\n' +
+        '                                    <td class="text-left">Mô tả</td>\n' +
+        '                                    <td class="text-left">\n' +
+        '                                        <input type="text" value="" placeholder="Description" class="form-control no-border">\n' +
+        '                                    </td>\n' +
+        '                                </tr>\n' +
+        '                                </tbody>\n' +
+        '                            </table>\n' +
+        '                        </div>'
+    });
+    var flashOrder = new Vue({
+        el: '#flash-order',
+        data: {
+            products: [
+                { item: 1 },
+            ]
+        },
+        methods:{
+            push:function () {
+                this.products.push(
+                    {
+                        item: this.products.length
+                    }
+                )
+            }
+        }
+    });
+</script>
 @if (isset($user))
     <script>
         window.INIT_USER = JSON.parse('{!! json_encode($user->transformAuth())!!}');
