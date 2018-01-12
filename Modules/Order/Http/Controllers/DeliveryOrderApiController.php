@@ -86,7 +86,6 @@ class DeliveryOrderApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             'total_delivery_orders' => 10,
-            'locked' => 8,
             'not_locked' => 2,
             'total_money' => 15000000,
             'total_paid_money' => 10000000
