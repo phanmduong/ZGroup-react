@@ -31,7 +31,7 @@ class ManageStaffApiController extends ManageApiController
     {
         $errors = [];
         $user = User::where('email', '=', trim($request->email))->first();
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user) {
             $errors['email'] = "Email đã có người sử dụng";
         }
@@ -190,7 +190,7 @@ class ManageStaffApiController extends ManageApiController
             return $this->respondErrorWithStatus($errors);
         }
 
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $request->username;
@@ -250,6 +250,25 @@ class ManageStaffApiController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'message' => "Khôi phục mật khẩu thành công"
         ]);
+    }
+
+    public function convertDataUser()
+    {
+        $users = User::all();
+
+        foreach ($users as $user) {
+            if (empty($user->username) && (!empty($user->email))) {
+                $user->username = $user->email;
+            }
+
+            $user->phone = preg_replace('/[^0-9]+/', '', $user->phone);
+            $user->save();
+        }
+
+        return [
+            'message' => "thành công"
+        ];
+
     }
 
 }

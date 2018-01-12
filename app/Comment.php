@@ -35,8 +35,9 @@ class Comment extends Model
             'id' => $this->id,
             'created_at' => format_full_time_date($this->created_at),
             'content' => $this->content,
+            'image_url' => $this->image_url,
             'commenter' => [
-                'avatar_url' => $this->commenter->avatar_url,
+                'avatar_url' => generate_protocol_url($this->commenter->avatar_url),
                 'name' => $this->commenter->name,
                 'username' => $this->commenter->username
             ],

@@ -1139,7 +1139,7 @@ function send_sms_confirm_money($register)
 //    dd($headers);
     $course_name = convert_vi_to_en_not_url($register->studyClass->course->name);
     $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
-    $phone = preg_replace('/[^0-9.]+/', '', $register->user->phone);
+    $phone = preg_replace('/[^0-9]+/', '', $register->user->phone);
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $phone,
@@ -1189,7 +1189,7 @@ function send_sms_remind($register)
 //    dd($datestart);
     $course_name = convert_vi_to_en_not_url($register->studyClass->course->name);
     $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ". Khoa hoc cua ban se bat dau vao ngay mai " . $datestart . " vao luc " . $splitted_time . ". Ban nho den som 15p de cai dat phan mem nhe.";
-    $phone = preg_replace('/[^0-9.]+/', '', $register->user->phone);
+    $phone = preg_replace('/[^0-9]+/', '', $register->user->phone);
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $phone,
@@ -1231,7 +1231,7 @@ function send_sms_general($register, $content)
     ];
 
 
-    $phone = preg_replace('/[^0-9.]+/', '', $register->user->phone);
+    $phone = preg_replace('/[^0-9]+/', '', $register->user->phone);
 
     $body = json_encode([
         "from" => config('app.brand_sms'),
@@ -1363,6 +1363,7 @@ function haversineGreatCircleDistance(
 
 function is_class_lesson_change($class_lesson)
 {
+    return true;
     $time_class_lesson = strtotime($class_lesson->time . ' ' . $class_lesson->start_time);
     $time_now = strtotime("now");
     if ($time_now < $time_class_lesson) return true;
