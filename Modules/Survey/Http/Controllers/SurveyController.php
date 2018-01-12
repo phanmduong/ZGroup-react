@@ -18,6 +18,23 @@ class SurveyController extends ManageApiController
         parent::__construct();
     }
 
+    public function updateQuestion($surveyId, $questionId, Request $request)
+    {
+        $survey = Survey::find($surveyId);
+        $question = $survey->questions()->where("id", $questionId)->first();
+        if ($question == null) {
+            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+        }
+
+        $question->content = $request->content_data;
+        $question->save();
+
+
+        return $this->respondSuccessWithStatus([
+            "question" => $question->getData()
+        ]);
+    }
+
     public function assignSurveyInfo(&$survey, $request)
     {
         $survey->name = $request->name;
