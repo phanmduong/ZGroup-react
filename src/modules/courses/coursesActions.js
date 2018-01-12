@@ -496,3 +496,31 @@ export function loadAllCategories() {
             });
     };
 }
+
+
+export function duplicateCourse(data) {
+    helper.showWarningNotification("Đang Tạo...");
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_DUPLICATE_COURSES});
+        courseApi.duplicateCourse(data.id)
+            .then(res => {
+                if(res.data.status === 1){
+                    helper.showNotification("Tạo Thành Công!");
+                    dispatch({
+                        type: types.DUPLICATE_COURSES_SUCCESS,
+                        data: data
+                    });
+                    browserHistory.push("/teaching/courses");
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra! ");
+                    dispatch({type: types.DUPLICATE_COURSES_ERROR});
+                }
+
+            })
+            .catch((err) => {
+                console.log(err);
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.DUPLICATE_COURSES_ERROR});
+            });
+    };
+}

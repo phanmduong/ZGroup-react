@@ -615,7 +615,24 @@ export default function courseReducer(state = initialState.courses, action) {
                 isLoading: false,
             };
         }
+        case types.BEGIN_DUPLICATE_COURSES:
+            return {
+                ...state,
+            };
+        case types.DUPLICATE_COURSES_SUCCESS:{
+            let tmpId = state.coursesList.length;
+            let newcourse={...action.data, id: tmpId};
+            let data = [newcourse,...state.coursesList ];
+            return {
+                ...state,
+                coursesList: data,
+            };
+        }
+        case types.DUPLICATE_COURSES_ERROR:
+            return {
+                ...state,
 
+            };
         default:
             return state;
     }

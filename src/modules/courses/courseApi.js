@@ -176,3 +176,13 @@ export function loadAllCategories() {
     }
     return axios.get(url);
 }
+
+
+export function duplicateCourse(id) {
+    let url = env.MANAGE_API_URL + "/v2/course/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
