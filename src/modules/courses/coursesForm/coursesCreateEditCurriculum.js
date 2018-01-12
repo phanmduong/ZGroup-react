@@ -57,7 +57,19 @@ class coursesCreateEditCurriculum extends React.Component {
                                                   editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id +"/" + lesson.id }
                                                   delete={()=>{return this.deleteLesson(lesson.id);}}
                                                   object={lesson}
-                                              />
+                                              >
+                                                  {
+                                                      !lesson.is_duplicate &&
+                                                      <a data-toggle="tooltip" title="Duplicate"
+                                                         type="button"
+                                                         onClick={() => {}}
+                                                         rel="tooltip"
+                                                      >
+                                                          <i className="material-icons">control_point_duplicate</i>
+                                                      </a>
+                                                  }
+
+                                              </ButtonGroupAction>
                                               </td>
                                           </tr>
                                       );
