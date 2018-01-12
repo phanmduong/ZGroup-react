@@ -29,6 +29,8 @@ class Company extends Model
             ],
             "user_contact" => $this->user_contact,
             "user_contact_phone" =>$this->user_contact_phone,
+            "type" => $this->type,
+            "partner_code" =>$this->partner_code
         ];
     }
 }

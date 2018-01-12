@@ -363,6 +363,9 @@ class CourseController extends ManageApiController
         $course_new->detail = $course->detail;
         $course_new->type_id = $course->type_id;
         $course_new->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công",
+        ]);
 
     }
 
