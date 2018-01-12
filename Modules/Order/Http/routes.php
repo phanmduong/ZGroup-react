@@ -13,6 +13,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/{orderId}/return/{warehouseId}', 'OrderController@returnOrder');
     Route::put('/{orderId}/note', 'OrderController@editNote');
 
+    Route::get('/delivery', 'DeliveryOrderApiController@getDeliveryOrders');
+
     Route::get('/all-customers', 'CustomerController@allCustomers');
     Route::get('/total-and-debt-money', 'CustomerController@countMoney');
     Route::post('/add-customer', 'CustomerController@addCustomer');
