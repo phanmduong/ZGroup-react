@@ -27,6 +27,8 @@ $nhatquangShopRoute = function () {
     Route::get('/flush', 'NhatQuangApiController@flush');
     Route::get('/add-book/{goodId}/v2', 'NhatQuangApiController@addGoodToCart');
     Route::get('/remove-book/{goodId}/v2', 'NhatQuangApiController@removeBookFromCart');
+    Route::get('/add-coupon/{couponId}/v2', 'NhatQuangApiController@addCoupon');
+    Route::get('/remove-coupon/{couponId}/v2', 'NhatQuangApiController@removeCoupon');
     Route::post('/save-order/v2', 'NhatQuangApiController@saveOrder');
     Route::get('/province', 'NhatQuangApiController@provinces');
     Route::get('/district/{provinceId}', 'NhatQuangApiController@districts');
