@@ -11,6 +11,8 @@ use App\Http\Controllers\ManageApiController;
 
 class DeliveryOrderApiController extends ManageApiController
 {
+    private $deliveryOrderTransformer;
+
     public function __construct(DeliveryOrderTransformer $deliveryOrderTransformer)
     {
         parent::__construct();
