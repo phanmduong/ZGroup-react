@@ -18,9 +18,9 @@ class ListCourse extends React.Component {
         this.deleteCourse = this.deleteCourse.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log("nextProps",nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log("nextProps",nextProps);
+    // }
 
     editCourse(course) {
         this.props.coursesActions.loadCourses(course);

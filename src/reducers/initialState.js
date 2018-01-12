@@ -1444,5 +1444,51 @@ export default {
         error: false,
         isDeleting: false,
         errorDelete: false,
+    },
+    historyExtension: {
+        isLoading: false,
+        paginator: {
+            total_count: 0,
+            total_pages: 0,
+            current_page: 1,
+            limit: 20,
+        },
+        data: [{
+            id: null,
+            penalty: 0,
+            new_deadline: "0000-00-00 00:00:00",
+            deadline: "",
+            reason: "",
+            status: "Waiting",
+            staff: {
+                id: 0,
+                name: "error",
+            },
+            work: {
+                id: 0,
+                name: "error",
+            },
+        }],
+    },
+    summaryStaff: {
+        isLoadingWork: true,
+        isLoadingDepartment: true,
+        staff_work: [{
+            count: 1,
+            month: 1,
+        }],
+        staff_department: [{
+            count: 1,
+            department_name: "",
+        }],
+    },
+    survey: {
+        surveys: [],
+        isLoading: false,
+        survey: {},
+        showEditQuestionModal: false,
+        question: {},
+        isSavingQuestion: false
     }
+
 };

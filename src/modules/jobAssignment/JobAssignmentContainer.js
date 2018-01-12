@@ -8,11 +8,14 @@ import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import WorkInfoModal from './WorkInfoModal';
+import ExtendWorkModal from './ExtendWorkModal';
+import FinishWorkModal from './FinishWorkModal';
 import {Link} from "react-router";
 import Select from 'react-select';
-import ItemReactSelect from "../../components/common/ItemReactSelect";
 import ReactSelect from 'react-select';
 import {STATUS_WORK} from "../../constants/constants";
+import MemberReactSelectOption from "../tasks/board/filter/MemberReactSelectOption";
+import MemberReactSelectValue from "../tasks/board/filter/MemberReactSelectValue";
 
 const workTypes=[
     {value: 'all', label: 'Tất cả',},
@@ -24,7 +27,6 @@ const workTypes=[
 class JobAssignmentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-
         this.deleteWork =this.deleteWork.bind(this);
         this.changeWorkStatus =this.changeWorkStatus.bind(this);
         this.openInfoModal =this.openInfoModal.bind(this);
@@ -32,15 +34,25 @@ class JobAssignmentContainer extends React.Component {
         this.acceptWork =this.acceptWork.bind(this);
         this.doneWork =this.doneWork.bind(this);
         this.revertWork =this.revertWork.bind(this);
+        this.openExtendModal =this.openExtendModal.bind(this);
+        this.closeExtendModal =this.closeExtendModal.bind(this);
+        this.openFinishModal =this.openFinishModal.bind(this);
+        this.closeFinishModal =this.closeFinishModal.bind(this);
+        this.extendWork =this.extendWork.bind(this);
         this.onWorkTypeChange =this.onWorkTypeChange.bind(this);
+        this.onStaffFilterChange =this.onStaffFilterChange.bind(this);
+
         this.state = {
             showInfoModal: false,
-            modalType: STATUS_WORK[0],
+            showExtendModal: false,
+            showFinishModal: false,
             work: {
                 staffs:[],
             },
             staffFilter: "",
             typeFilter: "all",
+            staffs: [],
+            selectedStaffs:[],
         }
     }
 
@@ -49,9 +61,12 @@ class JobAssignmentContainer extends React.Component {
         this.props.jobAssignmentAction.loadStaffs();
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('l',nextProps);
-    // }
+    componentWillReceiveProps(nextProps) {
+        console.log('job',nextProps);
+        if(this.props.isLoadingStaffs && !nextProps.isLoadingStaffs){
+            this.setState({staffs : nextProps.staffs});
+        }
+    }
 
     deleteWork(id){
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa công việc này không?", () => {
@@ -69,12 +84,28 @@ class JobAssignmentContainer extends React.Component {
         });
     }
 
-    openInfoModal(work, status){
-        this.setState({showInfoModal: true, work:work, modalType : status });
+    openInfoModal(work){
+        this.setState({showInfoModal: true, work:work,});
     }
 
     closeInfoModal(){
         this.setState({showInfoModal: false});
+    }
+
+    openExtendModal(work){
+        this.setState({showExtendModal: true, work:work});
+    }
+
+    closeExtendModal(){
+        this.setState({showExtendModal: false});
+    }
+
+    openFinishModal(work){
+        this.setState({showFinishModal: true, work:work});
+    }
+
+    closeFinishModal(){
+        this.setState({showFinishModal: false});
     }
 
     acceptWork(workId, staffId){
@@ -84,26 +115,38 @@ class JobAssignmentContainer extends React.Component {
         });
     }
 
-    doneWork(workId, staffId){
-        this.props.jobAssignmentAction.changeStatusWork(workId,staffId, STATUS_WORK[2].value, ()=>{
+    doneWork(data){
+        this.props.jobAssignmentAction.doneWork(this.state.work.id,this.props.user.id, data, ()=>{
             helper.showNotification("Đã hoàn thành công việc.");
+            this.closeFinishModal();
             return this.props.jobAssignmentAction.loadWorks();
         });
     }
 
     revertWork(work){
-        this.props.jobAssignmentAction.editWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
+        this.props.jobAssignmentAction.revertWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
     }
 
     onWorkTypeChange(obj){
         this.setState({typeFilter: obj.value});
     }
 
+    extendWork(workId, data){
+        this.props.jobAssignmentAction.extendWork(workId,this.props.user.id, data, this.closeExtendModal);
+    }
+
+    onStaffFilterChange(obj){
+        this.setState({ selectedStaffs: obj});
+    }
+
     render() {
         let pending = [], doing = [], done = [], cancel = [];
         let {works} = this.props;
-        let {typeFilter} =this.state;
+        let {typeFilter, selectedStaffs} =this.state;
         works = works.filter(obj => typeFilter == "all"  ? true : (obj.type == typeFilter));
+        selectedStaffs.forEach( staff => {
+            works = works.filter(work => checkStaff(staff, work.staffs) );
+        });
         works.forEach((obj)=>{
             switch (obj.status){
                 case STATUS_WORK[0].value:{
@@ -130,29 +173,34 @@ class JobAssignmentContainer extends React.Component {
                     show={this.state.showInfoModal}
                     onHide={this.closeInfoModal}
                     data={this.state.work}
-                    modalType={this.state.modalType}
+                />
+                <ExtendWorkModal
+                    show={this.state.showExtendModal}
+                    onHide={this.closeExtendModal}
+                    data={this.state.work}
+                    submit={this.extendWork}
+
+                />
+                <FinishWorkModal
+                    show={this.state.showFinishModal}
+                    onHide={this.closeFinishModal}
+                    data={this.state.work}
+                    submit={this.doneWork}
                 />
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "5px",}}>
                     <div className="filter-container" style={{alignItems:"center"}}>
                         <div className="select-container">
                             <Select
-                                name="form-field-name"
-                                value={"Lọc theo nhân viên"}
-                                options={this.props.staffs}
-                                onChange={()=>{}}
-                                optionRenderer={(option) => {
-                                    return (
-                                        <ItemReactSelect label={option.label} url={helper.validateLinkImage(option.avatar_url)}/>
-                                    );
-                                }}
-                                valueRenderer={(option) => {
-                                    return (
-                                        <ItemReactSelect label={option.label} url={helper.validateLinkImage(option.avatar_url)}/>
-                                    );
-                                }}
                                 placeholder="Chọn nhân viên"
-                                disabled={this.props.isLoading}
                                 style={{minWidth: 200, maxWidth: 400}}
+                                value={this.state.selectedStaffs}
+                                name="form-field-name"
+                                multi={true}
+                                valueComponent={MemberReactSelectValue}
+                                optionComponent={MemberReactSelectOption}
+                                options={this.state.staffs}
+                                onChange={this.onStaffFilterChange}
+                                disabled={this.props.isLoading || this.props.isLoadingStaffs}
                             />
                         </div>
                         <div className="select-container">
@@ -178,41 +226,11 @@ class JobAssignmentContainer extends React.Component {
                 <div className="board-canvas">
 
                     <div className="board-container">
-                    {/*1*/}
+                        {/*1*/}
                         <div  data-order="0" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đợi chấp nhận</span>
-                                <div className="board-action">
-
-                                    <div className="dropdown">
-                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                           data-toggle="dropdown">
-                                            <i className="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-right">
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">edit</i>
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">add</i>
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">archive</i>
-                                                    3
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
-
                             <div className="board">
                                 {this.props.isLoading ?
                                     <Loading/>
@@ -224,7 +242,7 @@ class JobAssignmentContainer extends React.Component {
                                                 delete={this.deleteWork}
                                                 change={this.changeWorkStatus}
                                                 status="pending"
-                                                openModal={()=>{return this.openInfoModal(work, STATUS_WORK[0].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 acceptWork={this.acceptWork}
                                             />
@@ -233,40 +251,11 @@ class JobAssignmentContainer extends React.Component {
                                 }
                             </div>
                         </div>
-                    {/*1*/}
-                    {/*2*/}
+                        {/*1*/}
+                        {/*2*/}
                         <div  data-order="1" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đang làm</span>
-                                <div className="board-action">
-
-                                    <div className="dropdown">
-                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                           data-toggle="dropdown">
-                                            <i className="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-right">
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">edit</i>
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">add</i>
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">archive</i>
-                                                    3
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                             <div className="board">
                                 {this.props.isLoading ?
@@ -278,51 +267,22 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="doing"
-                                                openModal={()=>{return this.openInfoModal(work, STATUS_WORK[1].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 doneWork={this.doneWork}
+                                                openExtendModal={()=>{return this.openExtendModal(work);}}
+                                                openFinishModal={()=>{return this.openFinishModal(work);}}
                                             />
                                         );
                                     })
                                 }
-
                             </div>
                         </div>
                     {/*2*/}
                     {/*3*/}
-
                         <div  data-order="2" className="card card-container keetool-board">
-
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hoàn thành</span>
-                                <div className="board-action">
-                                    <div className="dropdown">
-                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                           data-toggle="dropdown">
-                                            <i className="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-right">
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">edit</i>
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">add</i>
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">archive</i>
-                                                    3
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                             <div className="board">
                                 {this.props.isLoading ?
@@ -334,52 +294,21 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="done"
-                                                openModal={()=>{return this.openInfoModal(work, STATUS_WORK[2].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                                 revertWork={this.revertWork}
                                             />
                                         );
                                     })
                                 }
-
                             </div>
                         </div>
-                    {/*3*/}
-                    {/*4*/}
+                        {/*3*/}
+                        {/*4*/}
 
                         <div  data-order="3" className="card card-container keetool-board">
-
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hủy</span>
-                                <div className="board-action">
-
-                                    <div className="dropdown">
-                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                           data-toggle="dropdown">
-                                            <i className="material-icons">more_horiz</i>
-                                        </a>
-                                        <ul className="dropdown-menu dropdown-menu-right">
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">edit</i>
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">add</i>
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li className="more-dropdown-item">
-                                                <a onClick={() => {}}>
-                                                    <i className="material-icons">archive</i>
-                                                    3
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                             <div className="board">
                                 {this.props.isLoading ?
@@ -391,17 +320,16 @@ class JobAssignmentContainer extends React.Component {
                                                 work={work}
                                                 delete={this.deleteWork}
                                                 status="cancel"
-                                                openModal={()=>{return this.openInfoModal(work, STATUS_WORK[3].value);}}
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={this.props.user}
                                             />
                                         );
                                     })
                                 }
-
                             </div>
                         </div>
 
-                    {/*4*/}
+                        {/*4*/}
                     </div>
                 </div>
             </div>
@@ -411,6 +339,8 @@ class JobAssignmentContainer extends React.Component {
 
 JobAssignmentContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isLoadingStaffs: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
     works: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     jobAssignmentAction: PropTypes.object.isRequired,
@@ -418,18 +348,29 @@ JobAssignmentContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-   return {
-       isLoading : state.jobAssignment.isLoading,
-       works : state.jobAssignment.works,
-       user: state.login.user,
-       staffs : state.jobAssignment.staffs,
-   };
+    return {
+        isLoading : state.jobAssignment.isLoading,
+        isLoadingStaffs : state.jobAssignment.isLoadingStaffs,
+        isSaving : state.jobAssignment.isSaving,
+        works : state.jobAssignment.works,
+        user: state.login.user,
+        staffs : state.jobAssignment.staffs,
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         jobAssignmentAction: bindActionCreators(jobAssignmentAction, dispatch),
     };
+}
+
+function checkStaff(staff, arr) {
+    let check = false;
+    arr.forEach(item => {
+       if(staff.id == item.id)
+           check = true;
+    });
+    return check;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(JobAssignmentContainer);

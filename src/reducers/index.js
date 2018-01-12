@@ -61,6 +61,10 @@ import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRe
 import historyWorkShiftRegistersReducer from "../modules/historyWorkShiftRegisters/historyWorkShiftRegistersReducer";
 import landingPagesReducer from "../modules/landingpage/landingPagesReducer";
 import orderedProductReducer from "../modules/orderedProduct/orderedProductReducer";
+import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/HistoryExtensionWorkReducer";
+import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
+import surveyReducer from '../modules/survey/surveyReducer';
+
 
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
@@ -124,7 +128,10 @@ const appReducer = combineReducers({
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
     landingPages: landingPagesReducer,
-    orderedProduct: orderedProductReducer
+    orderedProduct: orderedProductReducer,
+    survey: surveyReducer,
+    historyExtension: HistoryExtensionWorkReducer,
+    summaryStaff: summaryStaffReducer,
 });
 
 const rootReducer = (state, action) => {

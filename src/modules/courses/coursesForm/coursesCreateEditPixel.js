@@ -9,7 +9,6 @@ import {Modal} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import * as helper from '../../../helpers/helper';
 
-
 class coursesCreateEditPixel extends React.Component {
     constructor(props, context) {
         super(props, context);
