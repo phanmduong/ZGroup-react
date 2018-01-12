@@ -73,48 +73,6 @@ class PublicCrawlController extends CrawlController
         return view('2018-course', $this->data);
     }
 
-    public function courseOnline($courseId, $lessonId = null)
-    {
-        $lesson = Lesson::find($lessonId);
-
-        $course = Course::find($courseId);
-        if ($course == null) {
-            return view('404.not_found_course', $this->data);
-        }
-
-        if ($lesson == null) {
-            $term = $course->terms()->orderBy('order')->first();
-            if ($term) {
-                $lesson = $term->lessons()->orderBy('order')->first();
-            }
-        }
-
-        if ($lesson == null) {
-            return view('404.not_found_lesson', $this->data);
-        }
-
-        $lessons = $course->lessons()->get()->map(function ($lesson) {
-            return [
-                'id' => $lesson->id,
-                'name' => $lesson->name
-            ];
-        });
-
-        $this->data['course'] = $course;
-        $this->data['lesson_selected'] = $lesson;
-        $this->data['lessons'] = $lessons;
-        $this->data['comments'] = $lesson ? $lesson->comments()->where('parent_id', '0')->orderBy('created_at', 'desc')->get()->map(function ($comment) {
-            $data = $comment->transform($this->user);
-            $data['child_comments'] = $comment->child_comments()->orderBy('created_at', 'desc')->get()->map(function ($commentChild) {
-                $dataComment = $commentChild->transform($this->user);
-                return $dataComment;
-            });
-            return $data;
-        }) : [];
-
-        return view('public.course_online_detail', $this->data);
-    }
-
     public function post($LinkId)
     {
         if ($this->isCrawler()) {
