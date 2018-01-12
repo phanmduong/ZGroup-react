@@ -311,12 +311,12 @@ class ManageDashboardApiController extends ManageApiController
         $time = $request->time;
         if ($base_id) {
 
-            $shifts = Shift::where('gen_id', $gen_id)->where('base_id', $base_id)->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
+            $shifts = Shift::where('base_id', $base_id)->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
                 ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
                 ->orderBy('shifts.shift_session_id')
                 ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();
         } else {
-            $shifts = Shift::where('gen_id', $gen_id)->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
+            $shifts = Shift::whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
                 ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
                 ->orderBy('shifts.shift_session_id')
                 ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();
