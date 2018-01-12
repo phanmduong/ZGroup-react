@@ -51,7 +51,8 @@ class DeliveryOrderApiController extends ManageApiController
                 'delivery_orders' => $this->deliveryOrderTransformer->transformCollection($deliveryOrders)
             ]);
         }
-        $deliveryOrders->orderBy('created_at', 'desc')->paginate($limit);
+        $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate($limit);
+
         return $this->respondWithPagination(
             $deliveryOrders
             ,
