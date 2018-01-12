@@ -617,29 +617,52 @@ export default function courseReducer(state = initialState.courses, action) {
         }
         case types.BEGIN_DUPLICATE_COURSES:
             return {
+                isDuplicating: true,
                 ...state,
             };
         case types.DUPLICATE_COURSES_SUCCESS:{
             return {
+                isDuplicating: false,
                 ...state,
             };
         }
         case types.DUPLICATE_COURSES_ERROR:
             return {
+                isDuplicating: false,
                 ...state,
 
             };
         case types.BEGIN_DUPLICATE_LESSON:
             return {
+                isDuplicating: true,
                 ...state,
             };
         case types.DUPLICATE_LESSON_SUCCESS:{
             return {
+                isDuplicating: false,
                 ...state,
             };
         }
         case types.DUPLICATE_LESSON_ERROR:
             return {
+                isDuplicating: false,
+                ...state,
+
+            };
+        case types.BEGIN_DUPLICATE_TERM:
+            return {
+                isDuplicating: true,
+                ...state,
+            };
+        case types.DUPLICATE_TERM_SUCCESS:{
+            return {
+                isDuplicating: false,
+                ...state,
+            };
+        }
+        case types.DUPLICATE_TERM_ERROR:
+            return {
+                isDuplicating: false,
                 ...state,
 
             };

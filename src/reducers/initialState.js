@@ -1097,6 +1097,7 @@ export default {
     },
     courses: {
         isLoading: false,
+        isDuplicating: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
         isUploadingPixel: false,

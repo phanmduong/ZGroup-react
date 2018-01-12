@@ -115,6 +115,7 @@ class CoursesContainer extends React.Component {
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
                                             courses={this.props.coursesList}
+                                            isDuplicating={this.props.isDuplicating}
                                             deleteCourse={this.deleteCourse}
                                             changeStatusCourse={this.changeStatusCourse}
                                             duplicateCourse={this.duplicateCourse}
@@ -161,6 +162,7 @@ CoursesContainer.propTypes = {
     coursesList     : PropTypes.array.isRequired,
     paginator       : PropTypes.object.isRequired,
     isDeleting      : PropTypes.bool,
+    isDuplicating   : PropTypes.bool,
 
 };
 
@@ -170,7 +172,8 @@ function mapStateToProps(state) {
         error       : state.courses.error,
         coursesList : state.courses.coursesList,
         paginator   : state.courses.paginator,
-        isDeleting  : state.courses.isDeleting
+        isDeleting  : state.courses.isDeleting,
+        isDuplicating  : state.courses.isDuplicating,
     };
 }
 

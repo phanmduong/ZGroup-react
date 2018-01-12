@@ -38,6 +38,7 @@ class coursesCreateEditTerm extends React.Component {
         this.commitTerm = this.commitTerm.bind(this);
         this.deleteTerm = this.deleteTerm.bind(this);
         this.checkValidate = this.checkValidate.bind(this);
+        this.duplicateTerm = this.duplicateTerm.bind(this);
     }
 
     componentWillMount() {
@@ -127,6 +128,14 @@ class coursesCreateEditTerm extends React.Component {
         return false;
     }
 
+    duplicateTerm(term){
+        helper.confirm('warning', 'Duplicate', "Bạn có muốn duplicate học phần này không?", () => {
+            this.props.coursesActions.duplicateTerm( term , ()=>{
+                return this.props.coursesActions.loadOneCourse(this.props.params.courseId);
+            });
+        });
+    }
+
     render() {
 
         return (
@@ -180,10 +189,10 @@ class coursesCreateEditTerm extends React.Component {
                                                 object={term}
                                             >
                                                 {
-                                                    !term.is_duplicate &&
+                                                    !this.props.isDuplicating &&
                                                     <a data-toggle="tooltip" title="Duplicate"
                                                        type="button"
-                                                       onClick={() => {}}
+                                                       onClick={() => {return this.duplicateTerm(term);}}
                                                        rel="tooltip"
                                                     >
                                                         <i className="material-icons">control_point_duplicate</i>
@@ -350,6 +359,8 @@ coursesCreateEditTerm.propTypes = {
     createTerm: PropTypes.func,
     commitEditTerm: PropTypes.func,
     editTerm: PropTypes.func,
+    duplicateTerm: PropTypes.func,
+    isDuplicating: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -359,6 +370,7 @@ function mapStateToProps(state) {
         isUploadingTermIcon: state.courses.isUploadingTermIcon,
         data: state.courses.data,
         term: state.courses.term,
+        isDuplicating: state.courses.isDuplicating,
 
     };
 }

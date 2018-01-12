@@ -106,7 +106,7 @@ class ListCourse extends React.Component {
                                         object={course}
                                     >
                                         {
-                                            !course.is_duplicate &&
+                                            !this.props.isDuplicating &&
                                             <a data-toggle="tooltip" title="Duplicate"
                                                type="button"
                                                onClick={() => {return this.props.duplicateCourse(course);}}
@@ -135,6 +135,7 @@ ListCourse.propTypes = {
     deleteCourse : PropTypes.func,
     changeStatusCourse : PropTypes.func,
     duplicateCourse : PropTypes.func,
+    isDuplicating : PropTypes.bool,
 };
 
 function mapStateToProps(state) {

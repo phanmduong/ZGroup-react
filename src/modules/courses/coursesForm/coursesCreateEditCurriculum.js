@@ -68,7 +68,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                                   object={lesson}
                                               >
                                                   {
-                                                      !lesson.is_duplicate &&
+                                                      !this.props.isDuplicating &&
                                                       <a data-toggle="tooltip" title="Duplicate"
                                                          type="button"
                                                          onClick={() => {return this.duplicateLesson(lesson);}}
@@ -101,12 +101,14 @@ coursesCreateEditCurriculum.propTypes = {
     params                : PropTypes.object,
     coursesActions      : PropTypes.object.isRequired,
     duplicateLesson      : PropTypes.func,
+    isDuplicating      : PropTypes.bool,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading           : state.courses.isLoading,
-        data                : state.courses.data
+        data                : state.courses.data,
+        isDuplicating                : state.courses.isDuplicating,
     };
 }
 
