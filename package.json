@@ -46,6 +46,9 @@
     "build:profile": "npm run lint && rimraf ./dist/profile && mkdir dist/profile && MODULE=profile babel-node tools/build/module.js",
     "start:dashboard": "MODULE=dashboard npm-run-all --parallel open:src lint:watch",
     "build:dashboard": "npm run lint && rimraf ./dist/dashboard && mkdir dist/dashboard && MODULE=dashboard babel-node tools/build/module.js",
+
+    "start:survey": "MODULE=survey npm-run-all --parallel open:src lint:watch",
+    "build:survey": "npm run lint && rimraf ./dist/survey && mkdir dist/survey && MODULE=survey babel-node tools/build/module.js",
     "start:book": "MODULE=book npm-run-all --parallel open:src lint:watch",
     "build:book": "npm run lint && rimraf ./dist/book && mkdir dist/book && MODULE=book babel-node tools/build/module.js",
     "start:workShift": "MODULE=workShift npm-run-all --parallel open:src lint:watch",

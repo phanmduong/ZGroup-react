@@ -27,6 +27,22 @@ class FormInputDateTime extends React.Component {
                 this.props.defaultDate ? this.props.defaultDate : moment(),
             format
         });
+        if (this.props.minDate && this.props.minDate !== ''){
+            $('#' + this.props.id).data("DateTimePicker").minDate(this.props.minDate);
+        }
+        if (this.props.maxDate && this.props.maxDate !== ''){
+            $('#' + this.props.id).data("DateTimePicker").maxDate(this.props.maxDate);
+        }
+    }
+
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.minDate && nextProps.minDate !== ''){
+            $('#' + this.props.id).data("DateTimePicker").minDate(nextProps.minDate);
+        }
+        if (nextProps.maxDate && nextProps.maxDate !== ''){
+            $('#' + this.props.id).data("DateTimePicker").maxDate(nextProps.maxDate);
+        }
     }
 
     render() {
@@ -53,7 +69,9 @@ FormInputDateTime.propTypes = {
     value: PropTypes.string,
     format: PropTypes.string,
     updateFormData: PropTypes.func.isRequired,
-    defaultDate: PropTypes.object
+    defaultDate: PropTypes.object,
+    maxDate: PropTypes.string,
+    minDate: PropTypes.string,
 };
 
 export default FormInputDateTime;
