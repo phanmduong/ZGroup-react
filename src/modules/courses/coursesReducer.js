@@ -1,4 +1,4 @@
-
+import * as helper      from '../../helpers/helper';
 import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
@@ -595,7 +595,14 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.LOAD_ALL_CATEGORIES_SUCCESS: {
-            let data = action.categories.map((obj)=>{return {...obj, value: obj.id, label: obj.name,}});
+            let data = action.categories.map((obj)=>{
+                return {
+                    ...obj,
+                    value: obj.id,
+                    label: obj.name,
+                    avatar_url: helper.validateLinkImage(obj.icon_url),
+                };
+            });
             return {
                 ...state,
                 isLoading: false,
