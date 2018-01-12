@@ -37,7 +37,7 @@ class Comment extends Model
             'content' => $this->content,
             'image_url' => $this->image_url,
             'commenter' => [
-                'avatar_url' => $this->commenter->avatar_url,
+                'avatar_url' => generate_protocol_url($this->commenter->avatar_url),
                 'name' => $this->commenter->name,
                 'username' => $this->commenter->username
             ],

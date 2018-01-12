@@ -67,7 +67,7 @@
                                                         </li>
                                                         <li><span class="glyphicon glyphicon-calendar"></span>
                                                             <strong>Khai giảng
-                                                                ngày:</strong> {{date("d/m/Y", strtotime($class->datestart))}}
+                                                                ngày:</strong> {{$class->datestart = date("d/m/Y", strtotime($class->datestart))}}
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -112,37 +112,36 @@
                              class="media-object img-circle"
                              src="{{$course->icon_url}}"
                              alt="avatar url">
-                        <h4 class="card-title" style="display: inline" id="class-name1">Lớp PS - Danh Sách Chờ (Cơ sở
-                            4)</h4>
+                        <h4 class="card-title" style="display: inline">@{{classData.name}}</h4>
                     </div>
                     <div class="modal-body">
                         <p>Chào bạn,<br><br>
-                            Bạn đang chuẩn bị đăng kí vào lớp <b id="class-name2"> PS 12.2 </b><br>
-                            Khai giảng vào ngày: <b id="class-start-time"> 22/12/2017</b><br>
-                            Lịch học của bạn: <b id="class-study-time">Thứ 3-Thứ 5 (15h-17h)</b><br>
-                            Địa điểm học:<b id="class-address">175 Chùa Láng, Đống Đa Hà Nội</b></p>
+                            Bạn đang chuẩn bị đăng kí vào lớp <b>@{{ classData.name }}</b><br>
+                            Khai giảng vào ngày: <b>@{{ classData.datestart }}</b><br>
+                            Lịch học của bạn: <b>@{{ classData.study_time }}</b><br>
+                            Địa điểm học:<b></b></p>
 
                         <p>
                             Bạn vui lòng điền các thông tin bên dưới nhé:
                         </p><br><br>
                         <form>
-                            <input type="hidden" name="class_id" id="class-id">
+                            <input type="hidden" name="class_id" v-model="classData.id">
                             <input type="hidden" name="saler_id" value={{$saler_id}}>
                             <input type="hidden" name="campaign_id" value={{$campaign_id}}>
                             <div class="form-group">
-                                <label for="email">Địa chỉ email
+                                <label for="email" v-model="user.email">Địa chỉ email
                                     <star style="color: red;">*</star>
                                 </label>
                                 <input type="email" class="form-control" name="email" placeholder="Nhập email" required>
                             </div>
                             <div class="form-group">
-                                <label for="name">Họ và tên
+                                <label for="name" v-model="user.name">Họ và tên
                                     <star style="color: red;">*</star>
                                 </label>
                                 <input type="text" class="form-control" name="name" placeholder="Nhập họ và tên"
                                        required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" v-model="user.phone">
                                 <label for="phone">Số điện thoại
                                     <star style="color: red;">*</star>
                                 </label>
@@ -152,168 +151,204 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <div id="modal-footer-submit"></div>
-                        <button type="button" class="btn btn-register" id="submit-register">Đăng kí</button>
+                        <div id="modal-footer-submit" v-if="isSuccess">
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <div style="color: green; padding: 15px;">Đăng ký thành công, bạn vui lòng check email
+                                    để kiểm tra thông
+                                    tin
+                                </div>
+                            </div>
+                        </div>
+                        <div id="modal-footer-submit" v-if="isError">
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <div style="color: red; padding: 15px;">Đăng ký thất bại, vui lòng thử lại.
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-register"
+                                    v-on:click="submitRegister">Đăng kí
+                            </button>
+                        </div>
+                        <div id="modal-footer-submit" v-if="isLoading">
+                            <div id="message-box" class="note_contact pix_builder_bg"><span
+                                        class="editContent">
+                                        <span class="pix_text" rel="">
+                                            <div class="pix_builder_bg"
+                                                 style="text-align: center;width: 100%;;padding: 15px;">
+                                                    Đang tải...<br>
+                                            </div>
+                                           </span></span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-register"
+                                v-if="!isLoading && !isSuccess && !isError" v-on:click="submitRegister">Đăng kí
+                        </button>
                     </div>
                 </div>
 
             </div>
         </div>
-        <script>
-            function setDataModal(classData) {
-                fbq('track', 'Purchase');
-                $("#modal-register-class form .form-group").find("input").each(function () {
-                    $(this).val("");
-                });
-                $("#class-id").val(classData.id);
-                $("#class-name1").text(classData.name);
-                $("#class-name2").text(classData.name);
-                $("#class-start-time").text(classData.datestart);
-                $("#class-study-time").text(classData.study_time);
-                $("#class-address").text(classData.base.address);
-                $("#submit-register").show();
-                $("#modal-footer-submit").html("");
-            }
+    </div>
+@endsection
 
-            $(document).ready(function () {
-                $("#modal-register-class form").validate({
-                    rules: {
-                        email: "required",
-                        name: "required",
-                        phone: "required",
-                    },
-                    messages: {
-                        email: {
-                            required: "Vui lòng nhập email",
-                            email: "Vui lòng nhập đúng email"
-                        },
-                        name: "Vui lòng nhập họ và tên",
-                        phone: "Vui lòng nhập số điện thoại"
-                    }
-                });
+@push('scripts')
+    <script>
 
-                $("#submit-register").click(function () {
+        var formRegisterClass = new Vue({
+            el: '#modal-register-class',
+            data: {
+                classData: {},
+                user: {},
+                isSuccess: false,
+                isError: false,
+                isLoading: false
+            },
+            methods: {
+                submitRegister: function () {
                     fbq('track', 'CompleteRegistration');
+                    $("#modal-register-class form").validate({
+                        rules: {
+                            email: "required",
+                            name: "required",
+                            phone: "required",
+                        },
+                        messages: {
+                            email: {
+                                required: "Vui lòng nhập email",
+                                email: "Vui lòng nhập đúng email"
+                            },
+                            name: "Vui lòng nhập họ và tên",
+                            phone: "Vui lòng nhập số điện thoại"
+                        }
+                    });
                     if ($("#modal-register-class form").valid()) {
-                        $("#submit-register").hide();
                         var data = {};
+                        this.isSuccess = false;
+                        this.isError = false;
+                        this.isLoading = true;
                         $("#modal-register-class form").find("input").each(function () {
                             data[$(this).attr("name")] = $(this).val();
                         });
-                        $("#modal-footer-submit").html("<div id=\"message-box\" class=\"note_contact pix_builder_bg\"><span class=\"editContent\">\n" +
-                            "                                        <span class=\"pix_text\" rel=\"\">\n" +
-                            "                                            <div  class=\"pix_builder_bg\"\n" +
-                            "                                                 style=\"text-align: center;width: 100%;;padding: 15px;\">\n" +
-                            "                                                    Đang tải...<br>\n" +
-                            "                                            </div>\n" +
-                            "                                           </span></span>\n" +
-                            "                        </div>");
-                        $.post("/classes/new_register_store", data, function (data) {
-                            $("#modal-footer-submit").html('<div style="display: flex; justify-content: center; align-items: center;"><div style="color: green">Đăng ký thành công, bạn vui lòng check email để kiểm tra thông tin</div></div>');
-                        })
+                        axios.post("/classes/new_register_store", data)
+                            .then(function () {
+                                this.isLoading = false;
+                                this.isSuccess = true;
+                            }.bind(this))
+                            .catch(function () {
+                                this.isLoading = false;
+                                this.isError = true;
+                            }.bind(this));
                     }
-                })
-            })
-        </script>
-        <script>
-            (function ($) {
-                $.fn.countTo = function (options) {
-                    options = options || {};
+                }
+            }
+        });
 
-                    return $(this).each(function () {
-                        // set options for current element
-                        var settings = $.extend({}, $.fn.countTo.defaults, {
-                            from: $(this).data('from'),
-                            to: $(this).data('to'),
-                            speed: $(this).data('speed'),
-                            refreshInterval: $(this).data('refresh-interval'),
-                            decimals: $(this).data('decimals')
-                        }, options);
+        function setDataModal(classData) {
+            fbq('track', 'Purchase');
+            formRegisterClass.classData = classData;
+            formRegisterClass.user = {};
+            formRegisterClass.isSuccess = false;
+            formRegisterClass.isError = false;
+            formRegisterClass.isLoading = false;
+        }
+    </script>
+    <script>
+        (function ($) {
+            $.fn.countTo = function (options) {
+                options = options || {};
 
-                        // how many times to update the value, and how much to increment the value on each update
-                        var loops = Math.ceil(settings.speed / settings.refreshInterval),
-                            increment = (settings.to - settings.from) / loops;
+                return $(this).each(function () {
+                    // set options for current element
+                    var settings = $.extend({}, $.fn.countTo.defaults, {
+                        from: $(this).data('from'),
+                        to: $(this).data('to'),
+                        speed: $(this).data('speed'),
+                        refreshInterval: $(this).data('refresh-interval'),
+                        decimals: $(this).data('decimals')
+                    }, options);
 
-                        // references & variables that will change with each update
-                        var self = this,
-                            $self = $(this),
-                            loopCount = 0,
-                            value = settings.from,
-                            data = $self.data('countTo') || {};
+                    // how many times to update the value, and how much to increment the value on each update
+                    var loops = Math.ceil(settings.speed / settings.refreshInterval),
+                        increment = (settings.to - settings.from) / loops;
 
-                        $self.data('countTo', data);
+                    // references & variables that will change with each update
+                    var self = this,
+                        $self = $(this),
+                        loopCount = 0,
+                        value = settings.from,
+                        data = $self.data('countTo') || {};
 
-                        // if an existing interval can be found, clear it first
-                        if (data.interval) {
-                            clearInterval(data.interval);
-                        }
-                        data.interval = setInterval(updateTimer, settings.refreshInterval);
+                    $self.data('countTo', data);
 
-                        // initialize the element with the starting value
+                    // if an existing interval can be found, clear it first
+                    if (data.interval) {
+                        clearInterval(data.interval);
+                    }
+                    data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                    // initialize the element with the starting value
+                    render(value);
+
+                    function updateTimer() {
+                        value += increment;
+                        loopCount++;
+
                         render(value);
 
-                        function updateTimer() {
-                            value += increment;
-                            loopCount++;
-
-                            render(value);
-
-                            if (typeof(settings.onUpdate) == 'function') {
-                                settings.onUpdate.call(self, value);
-                            }
-
-                            if (loopCount >= loops) {
-                                // remove the interval
-                                $self.removeData('countTo');
-                                clearInterval(data.interval);
-                                value = settings.to;
-
-                                if (typeof(settings.onComplete) == 'function') {
-                                    settings.onComplete.call(self, value);
-                                }
-                            }
+                        if (typeof(settings.onUpdate) == 'function') {
+                            settings.onUpdate.call(self, value);
                         }
 
-                        function render(value) {
-                            var formattedValue = settings.formatter.call(self, value, settings);
-                            $self.html(formattedValue);
+                        if (loopCount >= loops) {
+                            // remove the interval
+                            $self.removeData('countTo');
+                            clearInterval(data.interval);
+                            value = settings.to;
+
+                            if (typeof(settings.onComplete) == 'function') {
+                                settings.onComplete.call(self, value);
+                            }
                         }
-                    });
-                };
+                    }
 
-                $.fn.countTo.defaults = {
-                    from: 0,               // the number the element should start at
-                    to: 0,                 // the number the element should end at
-                    speed: 1000,           // how long it should take to count between the target numbers
-                    refreshInterval: 5,  // how often the element should be updated
-                    decimals: 0,           // the number of decimal places to show
-                    formatter: formatter,  // handler for formatting the value before rendering
-                    onUpdate: null,        // callback method for every time the element is updated
-                    onComplete: null       // callback method for when the element finishes updating
-                };
-
-                function formatter(value, settings) {
-                    return value.toFixed(settings.decimals);
-                }
-            }(jQuery));
-
-            jQuery(function ($) {
-                // custom formatting example
-                $('.count-number').data('countToOptions', {
-                    formatter: function (value, options) {
-                        return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+                    function render(value) {
+                        var formattedValue = settings.formatter.call(self, value, settings);
+                        $self.html(formattedValue);
                     }
                 });
+            };
 
-                // start all the timers
-                $('.timer').each(count);
+            $.fn.countTo.defaults = {
+                from: 0,               // the number the element should start at
+                to: 0,                 // the number the element should end at
+                speed: 1000,           // how long it should take to count between the target numbers
+                refreshInterval: 5,  // how often the element should be updated
+                decimals: 0,           // the number of decimal places to show
+                formatter: formatter,  // handler for formatting the value before rendering
+                onUpdate: null,        // callback method for every time the element is updated
+                onComplete: null       // callback method for when the element finishes updating
+            };
 
-                function count(options) {
-                    var $this = $(this);
-                    options = $.extend({}, options || {}, $this.data('countToOptions') || {});
-                    $this.countTo(options);
+            function formatter(value, settings) {
+                return value.toFixed(settings.decimals);
+            }
+        }(jQuery));
+
+        jQuery(function ($) {
+            // custom formatting example
+            $('.count-number').data('countToOptions', {
+                formatter: function (value, options) {
+                    return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
                 }
             });
-        </script>
-    </div>
-@endsection
+
+            // start all the timers
+            $('.timer').each(count);
+
+            function count(options) {
+                var $this = $(this);
+                options = $.extend({}, options || {}, $this.data('countToOptions') || {});
+                $this.countTo(options);
+            }
+        });
+    </script>
+@endpush

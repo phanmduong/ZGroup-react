@@ -41,23 +41,6 @@ class ColormeNewController extends CrawlController
         return view('colorme_new.home', $this->data);
     }
 
-    public function graphics_dot()
-    {
-        return view('beta');
-    }
-
-    public function buy_book()
-    {
-        if ($this->isCrawler()) {
-            $num_orders = Order::count() + 251;
-            $courses = Course::all();
-            $data = ['num_orders' => $num_orders, 'courses' => $courses];
-            return view('crawler.buy_book', $data);
-        } else {
-            return view('beta');
-        }
-    }
-
     public function course($course_id, $saler_id = null, $campaign_id = null)
     {
         $course = Course::find($course_id);
@@ -90,7 +73,7 @@ class ColormeNewController extends CrawlController
 
         $course = Course::find($courseId);
         if ($course == null) {
-            return view('404.not_found_course', $this->data);
+            return view('colorme_new.404.not_found_course', $this->data);
         }
 
         if ($lesson == null) {
@@ -101,7 +84,7 @@ class ColormeNewController extends CrawlController
         }
 
         if ($lesson == null) {
-            return view('404.not_found_lesson', $this->data);
+            return view('colorme_new.404.not_found_lesson', $this->data);
         }
 
         $lessons = $course->lessons()->get()->map(function ($lesson) {
@@ -123,7 +106,7 @@ class ColormeNewController extends CrawlController
             return $data;
         }) : [];
 
-        return view('public.course_online_detail', $this->data);
+        return view('colorme_new.course_online_detail', $this->data);
     }
 
 }
