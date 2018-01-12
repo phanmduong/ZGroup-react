@@ -215,25 +215,86 @@
         </div>
     </div>
 
-    <div class="modal fade" id="classicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalFastOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center" id="exampleModalLabel">Đặt hàng siêu tốc</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="medium-title">Đặt hàng siêu tốc</h2>
                 </div>
 
-                <div class="modal-body" id="flash-order">
-                        <product-item
-                                v-for="product in products"
-                        >
+                <div class="modal-body">
+                    <div v-for="(order, index) in orders">
+                        <div class="row" style="margin-bottom: 10px;">
+                            <span class="label label-success">Sản phẩm <span
+                                        class="num-order">@{{ order.id }}</span>:</span>
+                            <button style ="margin-left: 5px"class="btn btn-google btn-just-icon btn-sm" v-on:click="remove(index)" v-if="order.seen" ><i class="fa fa-times"></i></button>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Link sản phẩm" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
 
-                        </product-item>
-                    <button v-on:click="push" type="button" class="btn btn-info btn-block btn-round">Đặt thêm sản phẩm</button>
-                </div>
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Giá bán" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Size" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Mã màu bạn chọn" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <select class="form-control"
+                                        id="bank-account"
+                                        data-style="btn btn-default" name="bank_account_id"
+                                        style="display: block !important;">
+                                    <option disabled="" selected="">Số lượng</option>
+                                    @for ($i = 0; $i < 50; $i++)
+                                        <option value="{{$i+1}}">{{$i+1}}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control"
+                                        id="bank-account"
+                                        data-style="btn btn-default" name="bank_account_id"
+                                        style="display: block !important;">
+                                    <option disabled="" selected="">Giá chưa thuế</option>
+                                    <option>Giá có thuế</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Mô tả" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                            <button v-on:click="plusOrder" type="button" class="btn btn-danger btn-round"
+                                    data-toggle="modal" data-target="#smallAlertModal">
+                                Đặt thêm sản phẩm
+                            </button>
+
+                    </div>
                 <div class="modal-footer">
                     <div class="left-side">
                         <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Đặt hàng</button>
@@ -243,8 +304,15 @@
                         <button type="button" class="btn btn-danger btn-link">Thoát</button>
                     </div>
                 </div>
+                </div>
+
             </div>
+
         </div>
+
+
+    </div>
+    </div>
     </div>
     @if(isset($user))
 
@@ -268,7 +336,8 @@
                     <img src="{{generate_protocol_url($user->avatar_url)}}" style="width:17px;height: 17px"
                          alt=""> {{$user->name}}
                 </a>
-                <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal" data-target="#classicModal" class="btn btn-primary">
+                <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
+                        data-target="#modalFastOrder" class="btn btn-primary">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
                 </button>
                 <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
@@ -376,10 +445,12 @@
                     <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Đặt hàng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/product/new" data-scroll="true" href="javascript:void(0)">Sản phẩm mới</a>
+                    <a class="nav-link" href="/product/new" data-scroll="true" href="javascript:void(0)">Sản phẩm
+                        mới</a>
                 </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="/product/feature" data-scroll="true" href="javascript:void(0)">Sản phẩm nổi bật</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/product/feature" data-scroll="true" href="javascript:void(0)">Sản phẩm
+                        nổi bật</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
@@ -518,7 +589,7 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                             &nbsp
-                            <b style="font-weight:600;"> @{{ good.number }} </b>
+                            <b style="font-weight:600;"> @{{ good.number }}</b>
                         </div>
                         <div class="col-md-2 h-center">
                             <p>@{{ good.price}}</p>
@@ -699,68 +770,7 @@
 
     </div>
 </footer>
-<script>
-    Vue.component('product-item', {
-        props: ['products'],
-        template: '<div class="product">\n' +
-        '                            <p>Sản phẩm 1</p>\n' +
-        '                            <br>\n' +
-        '                            <table class="table">\n' +
-        '                                <col width="30%">\n' +
-        '                                <col width="70%">\n' +
-        '                                <tbody>\n' +
-        '                                <tr>\n' +
-        '                                    <td class="text-left">Link sản phẩm</td>\n' +
-        '                                    <td class="text-left">\n' +
-        '                                        <input type="text" value="" placeholder="http://..." class="form-control no-border">\n' +
-        '                                    </td>\n' +
-        '                                </tr>\n' +
-        '                                <tr>\n' +
-        '                                    <td class="text-left">Kích cỡ size</td>\n' +
-        '                                    <td class="text-left">\n' +
-        '                                        <input type="text" value="" placeholder="M, L, XL" class="form-control no-border">\n' +
-        '                                    </td>\n' +
-        '                                </tr>\n' +
-        '                                <tr>\n' +
-        '                                    <td class="text-left">Mã màu</td>\n' +
-        '                                    <td class="text-left">\n' +
-        '                                        <input type="text" value="" placeholder="#C5000" class="form-control no-border">\n' +
-        '                                    </td>\n' +
-        '                                </tr>\n' +
-        '                                <tr>\n' +
-        '                                    <td class="text-left">Số lượng</td>\n' +
-        '                                    <td class="text-left">\n' +
-        '                                        <input type="number" value="" placeholder="1" class="form-control no-border">\n' +
-        '                                    </td>\n' +
-        '                                </tr>\n' +
-        '                                <tr>\n' +
-        '                                    <td class="text-left">Mô tả</td>\n' +
-        '                                    <td class="text-left">\n' +
-        '                                        <input type="text" value="" placeholder="Description" class="form-control no-border">\n' +
-        '                                    </td>\n' +
-        '                                </tr>\n' +
-        '                                </tbody>\n' +
-        '                            </table>\n' +
-        '                        </div>'
-    });
-    var flashOrder = new Vue({
-        el: '#flash-order',
-        data: {
-            products: [
-                { item: 1 },
-            ]
-        },
-        methods:{
-            push:function () {
-                this.products.push(
-                    {
-                        item: this.products.length
-                    }
-                )
-            }
-        }
-    });
-</script>
+
 @if (isset($user))
     <script>
         window.INIT_USER = JSON.parse('{!! json_encode($user->transformAuth())!!}');
@@ -791,4 +801,5 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/nhatquangshop.js?6868"></script>
 <script src="/nhatquangshop/js/nav.vue.js"></script>
+<script></script>
 </html>

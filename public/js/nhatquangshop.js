@@ -204,3 +204,29 @@ var modalPurchase = new Vue({
         },
     }
 });
+
+
+
+var fastOrder = new Vue({
+    el: '#modalFastOrder',
+    data : {
+        orders : [
+            {id : 1, seen:false},
+            {id:2, seen:true},
+        ]
+    },
+    methods:{
+       plusOrder : function () {
+           var leng = this.orders.length+1;
+           this.orders.push({id : leng, seen : true});
+       },
+        remove : function (index){
+           this.orders.splice(index, 1);
+        }
+
+    },
+    mounted : function () {
+        console.log("asdasdasdasd")
+    }
+
+});
