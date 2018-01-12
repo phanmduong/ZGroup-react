@@ -178,7 +178,19 @@ class coursesCreateEditTerm extends React.Component {
                                                     return this.deleteTerm(term.id);
                                                 }}
                                                 object={term}
-                                            />
+                                            >
+                                                {
+                                                    !term.is_duplicate &&
+                                                    <a data-toggle="tooltip" title="Duplicate"
+                                                       type="button"
+                                                       onClick={() => {}}
+                                                       rel="tooltip"
+                                                    >
+                                                        <i className="material-icons">control_point_duplicate</i>
+                                                    </a>
+                                                }
+
+                                            </ButtonGroupAction>
                                         </td>
                                     </tr>
                                 );
