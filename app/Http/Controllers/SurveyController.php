@@ -14,9 +14,7 @@ use App\SurveyUser;
 use App\Tab;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SurveyController extends Controller
@@ -45,24 +43,7 @@ class SurveyController extends Controller
         return view('manage.survey', $this->data);
     }
 
-    public function updateAnswer($answerId, Request $request)
-    {
-        $answer = Answer::find($answerId);
-        if ($answer == null) {
-            return [
-                "status" => 0,
-                "message" => "Câu trả lời này không tồn tại"
-            ];
-        }
 
-        $answer->content = $request->content_data;
-        $answer->save();
-
-        return [
-            "status" => 1,
-            "answer" => $answer->getData()
-        ];
-    }
 
     public function attach_mail_goodbye($survey_id)
     {
