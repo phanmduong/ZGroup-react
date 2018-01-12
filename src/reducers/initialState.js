@@ -1460,4 +1460,9 @@ export default {
             department_name: "",
         }],
     },
+    survey: {
+        surveys: [],
+        isLoading: false,
+    }
+
 };

@@ -44,7 +44,7 @@ class LessonsContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(this.props.terms.length != nextProps.terms.length){
+        if(this.urlType=="create" && this.props.terms.length != nextProps.terms.length){
             this.props.lessonsActions.updateData("term_id", nextProps.terms[0].id);
         }
     }
