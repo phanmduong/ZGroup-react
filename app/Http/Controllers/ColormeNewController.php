@@ -58,12 +58,15 @@ class ColormeNewController extends CrawlController
         }
     }
 
-    public function course($linkId, $saler_id = null, $campaign_id = null)
+    public function course($course_id, $saler_id = null, $campaign_id = null)
     {
-        $courses = Course::all();
-        foreach ($courses as $key) {
-            if (convert_vi_to_en($key->name) === $linkId)
-                $course = $key;
+        $course = Course::find($course_id);
+        if ($course == null) {
+            $courses = Course::all();
+            foreach ($courses as $key) {
+                if (convert_vi_to_en($key->name) === $course_id)
+                    $course = $key;
+            }
         }
         $course_id = $course->id;
         $current_gen = Gen::getCurrentGen();
@@ -77,8 +80,9 @@ class ColormeNewController extends CrawlController
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
         $this->data['pixels'] = $course->coursePixels;
-        return view('2018-course', $this->data);
+        return view('colorme_new.course', $this->data);
     }
+
 
     public function courseOnline($courseId, $lessonId = null)
     {
@@ -122,29 +126,4 @@ class ColormeNewController extends CrawlController
         return view('public.course_online_detail', $this->data);
     }
 
-    public function post($LinkId)
-    {
-        if ($this->isCrawler()) {
-            $start = strrpos($LinkId, '-') + 1;
-            $id = substr($LinkId, $start, strlen($LinkId));
-            $product = Product::find($id);
-            $courses = Course::all();
-
-            $this->data['product'] = $this->productTransformer->transform($product);
-            $this->data['courses'] = $courses;
-            if ($product->content) {
-                $this->data['content'] = $product->content;
-            } else {
-                $this->data['content'] = $product->title;
-            }
-            if (!array_key_exists('image_url', $this->data['product'])) {
-                $this->data['product']['image_url'] = "http://d1j8r0kxyu9tj8.cloudfront.net/images/1476329226kzmufzT4STvvKY1.jpg";
-            }
-            $this->data['more_products'] = $this->productTransformer->transformCollection($product->author->products()->where('id', '!=', $product->id)
-                ->orderBy(DB::raw('RAND()'))->take(4)->orderBy('created_at')->get());
-            return view('crawler.post', $this->data);
-        } else {
-            return view('beta');
-        }
-    }
 }
