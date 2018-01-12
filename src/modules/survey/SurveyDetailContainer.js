@@ -6,6 +6,7 @@ import * as surveyActions from "./surveyActions";
 import Loading from "../../components/common/Loading";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import EditQuestionModalContainer from "./EditQuestionModalContainer";
+import AnswerItem from "./AnswerItem";
 
 class SurveyDetailContainer extends React.Component {
     constructor(props, context) {
@@ -86,7 +87,10 @@ class SurveyDetailContainer extends React.Component {
                                                                                     {
                                                                                         question.answers && question.answers.map((answer) => (
                                                                                             <ListGroupItem
-                                                                                                key={answer.id}>{answer.content}</ListGroupItem>
+                                                                                                key={answer.id}>
+                                                                                                <AnswerItem
+                                                                                                    answer={answer}/>
+                                                                                            </ListGroupItem>
                                                                                         ))
                                                                                     }
                                                                                 </ListGroup>
