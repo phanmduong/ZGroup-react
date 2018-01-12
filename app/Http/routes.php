@@ -591,8 +591,8 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     //Public Route
     Route::get('courses/{user_id}/{campaign_id}', 'PublicController@courses');
     Route::get('classes/register/{class_id?}/{user_id?}/{campaign_id?}', 'PublicController@register_class');
-    Route::get('classes/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes');
-    Route::get('register/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@register');
+    Route::get('classes/{course_id?}/{user_id?}/{campaign_id?}', 'ColormeNewController@course');
+    Route::get('register/{course_id?}/{user_id?}/{campaign_id?}', 'ColormeNewController@course');
 
     Route::post('classes/register_store', 'PublicController@register_store');
     Route::post('classes/new_register_store', 'PublicController@new_register_store');

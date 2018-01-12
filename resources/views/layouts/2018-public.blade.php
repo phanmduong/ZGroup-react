@@ -9,6 +9,11 @@
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese"
           rel="stylesheet">
+
+
+    <!--emojione-->
+    <!--end emojione-->
+
     <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg">
 
     <script src="https://connect.facebook.net/signals/config/296964117457250?v=2.8.6&amp;r=stable" async=""></script>
@@ -29,12 +34,38 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/css/2018-style.css?123432">
+    <!-- Froala Editor -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.3.4/css/froala_editor.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.3.4/css/froala_style.min.css" rel="stylesheet"
+          type="text/css">
+
+    <!-- Include Code Mirror style -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/codemirror.min.css">
+
+    <!-- Include Editor Plugins style. -->
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/char_counter.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/code_view.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/colors.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/emoticons.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/file.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/fullscreen.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/image.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/image_manager.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/line_breaker.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/quick_insert.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/table.css">
+    <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/video.css">
+
+    <link rel="stylesheet" href="/css/2018-style.css?123">
     <script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/923433004/?random=1514429909110&amp;cv=8&amp;fst=1514429909110&amp;num=1&amp;guid=ON&amp;eid=659238991&amp;u_h=768&amp;u_w=1366&amp;u_ah=768&amp;u_aw=1366&amp;u_cd=24&amp;u_his=3&amp;u_tz=420&amp;u_java=false&amp;u_nplug=4&amp;u_nmime=5&amp;frm=0&amp;url=http%3A%2F%2Fcolorme.vn%2Fposts%2F7&amp;tiba=Color%20ME%20-%20Tr%C6%B0%E1%BB%9Dng%20h%E1%BB%8Dc%20thi%E1%BA%BFt%20k%E1%BA%BF%20Color%20ME&amp;rfmt=3&amp;fmt=4"></script>
     <link rel="stylesheet" href="/assets/css/facebook.css">
 </head>
 <body>
 <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <div id="app">
     <div data-reactroot="" style="height: 100%;">
         <nav class="navbar navbar-inverse navbar-fixed-top" style="font-size: 12px;">
@@ -49,32 +80,11 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        @if (isset($user) && count($paid_courses)>0)
-                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                    role="button"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                    Giáo trình <span class="caret"></span></a>
-                                {{--{{dd($paid_courses)}}--}}
-                                <ul class="dropdown-menu">
-                                    @foreach($paid_courses as $paid_course)
-                                        {{--{{dd($paid_course)}}--}}
-                                        <li>
-                                            <a href="{{$paid_course['first_lesson'] ? '/resource/'.convert_vi_to_en($paid_course['name']).'/lesson/'.$paid_course['first_lesson']->id : ''}}">
-                                                <img
-                                                        class="img-circle"
-                                                        src="{{$paid_course['icon_url']}}"
-                                                        style="width: 20px; height: 20px; margin-right: 5px;">
-                                                {{$paid_course['name']}}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @endif
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                                 role="button"
                                                 aria-haspopup="true" aria-expanded="false"><!-- react-text: 16 -->
                                 Đăng
-                                kí học <span class="caret"></span></a>
+                                kí học <!-- /react-text --><span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 @foreach($courses as $course)
                                     <li><a href="/course/{{convert_vi_to_en($course->name)}}"><img class="img-circle"
@@ -87,7 +97,7 @@
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <li class=""><a href="/about-us">Về chúng tôi</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right" id="vue-nav">
+                    <ul class="nav navbar-nav navbar-right" id="vue-nav" style="display: none">
                         @if (isset($user))
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                                     role="button" aria-haspopup="true" aria-expanded="true">
@@ -128,12 +138,16 @@
                                                      width="40"><h4>colorME</h4>
                     <div>Trường học thiết kế</div>
                 </div>
-                <div class="col-xs-12 col-sm-4">
-                    @foreach($bases as $base)
-                        <p>{{$base->name}}<br>
-                            {{$base->address}}</p>
-                    @endforeach
-                </div>
+                <div class="col-xs-12 col-sm-4"><p><!-- react-text: 209 -->Cơ sở 1<!-- /react-text --><br>
+                        <!-- react-text: 211 --> Số 175 phố Chùa Láng - Đống Đa - Hà Nội<!-- /react-text --></p>
+                    <p><!-- react-text: 213 -->Cơ sở 2<!-- /react-text --><br><!-- react-text: 215 -->Số 162 phố
+                        Phương
+                        Liệt ( số 83 Trường Chinh rẽ vào) - Thanh Xuân - Hà Nội<!-- /react-text --></p>
+                    <p><!-- react-text: 217 -->Cơ sở 3<!-- /react-text --><br><!-- react-text: 219 -->Số 835/14 Trần
+                        Hưng Đạo, Phường 1, Quận 5, TP HCM<!-- /react-text --></p>
+                    <p><!-- react-text: 221 -->Cơ sở 4<!-- /react-text --><br><!-- react-text: 223 -->Số 15 ngõ 2
+                        Thọ
+                        Tháp (Trần Thái Tông rẽ vào) - Cầu Giấy - Hà Nội<!-- /react-text --></p></div>
                 <div>
                     <ul class="col-xs-12 col-sm-6 col-md-4">
                         @foreach($courses as $course)
@@ -162,6 +176,9 @@
                 </div>
             </div>
         </div>
+        <noscript></noscript>
+        <noscript></noscript>
+        <noscript></noscript>
     </div>
 </div>
 <div id="modalLogin" class="modal fade" role="dialog">
@@ -170,8 +187,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body" style="padding-bottom: 0px">
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px"
-                     v-if="modalLogin">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px">
                     <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
                     <h2 style="font-weight: 600">Đăng nhập</h2>
                     <p>Chào mừng bạn đến với colorME.</p>
@@ -197,73 +213,11 @@
                             v-if="isLoading"
                     ><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Đang đăng nhập
                     </button>
-                    <button class="btn btn-default" style="width: 100%; margin: 10px; padding: 15px;"
-                            v-on:click="changeModal">Tạo tài khoản
+                    <button class="btn btn-default" style="width: 100%; margin: 10px; padding: 15px;">Tạo tài khoản
                     </button>
                     <a style="width: 100%; margin: 10px; padding: 15px; color: #484848; text-align: center"
                        href="/password/reset">Quên mật
                         khẩu</a>
-                </div>
-                <div id="form-register"
-                     style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px"
-                     v-if="!modalLogin">
-                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg" style="width: 50px;height: 50px">
-                    <h2 style="font-weight: 600">Tạo tài khoản</h2>
-                    <p>Chào mừng bạn đến với colorME.</p>
-                    <br>
-                    <form style="width: 100%">
-                        <div class="form-group" style="width: 100%;">
-                            <input class="form-control" style="height: 50px" width="100%"
-                                   v-model="user.name"
-                                   type="text"
-                                   name="name"
-                                   placeholder="Họ và tên" required/>
-                        </div>
-                        <div class="form-group" style="width: 100%;">
-                            <input class="form-control" style="height: 50px" width="100%"
-                                   v-model="user.email"
-                                   name="email"
-                                   type="email"
-                                   placeholder="Email" required/>
-                        </div>
-                        <div class="form-group" style="width: 100%;">
-                            <input class="form-control" style="height: 50px" width="100%"
-                                   v-model="user.password"
-                                   type="password"
-                                   name="password"
-                                   id="password"
-                                   placeholder="Mật khẩu" required/>
-                        </div>
-                        <div class="form-group" style="width: 100%;">
-                            <input class="form-control" style="height: 50px" width="100%"
-                                   v-model="user.confirm_password"
-                                   type="password"
-                                   name="confirm_password"
-                                   placeholder="Nhập lại mật khẩu" required/>
-                        </div>
-                        <div class="form-group" style="width: 100%;">
-                            <input class="form-control" style="height: 50px" width="100%"
-                                   v-model="user.phone"
-                                   type="text"
-                                   name="phone"
-                                   v-on:keyup.enter="register"
-                                   placeholder="Số điện thoại" required/>
-                        </div>
-                    </form>
-                    <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
-                            :disabled="isLoading"
-                            v-if="!isLoading"
-                            v-on:click="register">
-                        Tạo tài khoản
-                    </button>
-                    <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
-                            :disabled="isLoading"
-                            v-if="isLoading"
-                    ><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Đang tạo tài khoản
-                    </button>
-                    <button class="btn btn-default" style="width: 100%; margin: 10px; padding: 15px;"
-                            v-on:click="changeModal">Đăng nhập
-                    </button>
                 </div>
             </div>
         </div>
@@ -277,6 +231,7 @@
         <div class="fb-page" data-href="https://www.facebook.com/colorme.hanoi" data-tabs="messages"
              data-width="360"
              data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
+        <div class="fb-credit"><a href="https://chanhtuoi.com" target="_blank">Powered by Chanhtuoi</a></div>
         <div id="fb-root"></div>
     </div>
     <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
@@ -287,30 +242,117 @@
         <div class="bubble">1</div>
         <div class="bubble-msg">Bạn cần hỗ trợ?</div>
     </a></div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/colorme/js/vue.js"></script>
+<script>$(document).ready(function () {
+        $('#vue-nav').css("display", "block");
+
+        function detectmob() {
+            if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        var t = {delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button")};
+        setTimeout(function () {
+            $("div.fb-livechat").fadeIn()
+        }, 8 * t.delay);
+        if (!detectmob()) {
+            $(".ctrlq").on("click", function (e) {
+                e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({
+                    bottom: 0,
+                    opacity: 0
+                }, 2 * t.delay, function () {
+                    $(this).hide("slow"), t.button.show()
+                })) : t.button.fadeOut("medium", function () {
+                    t.widget.stop().show().animate({
+                        bottom: "30px",
+                        opacity: 1
+                    }, 2 * t.delay), t.overlay.fadeIn(t.delay)
+                })
+            })
+        }
+    });</script>
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1787695151450379";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/jquery.animateNumber.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+<!-- Include Code Mirror. -->
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/codemirror.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.3.0/mode/xml/xml.min.js"></script>
 
-<script src="/colorme/js/vue.js"></script>
-<div id="fb-root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 <script>
     var socket = io('http://colorme.vn:3000/');
 </script>
-<noscript>
-    <img height="1" width="1" style="display:none"
-         src="https://www.facebook.com/tr?id=296964117457250&ev=PageView&noscript=1"
-    />
-</noscript>
+<!-- Facebook Pixel Code -->
+<script>
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '296964117457250');
+    fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+               src="https://www.facebook.com/tr?id=296964117457250&ev=PageView&noscript=1"
+    /></noscript>
 <!-- End Facebook Pixel Code -->
+
+{{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/Vibrant.min.js"></script>--}}
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/color-thief.min.js"></script>
+<script src="{{url('/js/emojione.js')}}"></script>
+
+<script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 923433004;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
+</script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<script type="text/javascript">
+    window.addEventListener('scroll', function () {
+        var diff = $('#first-after-nav').offset().top - $(window).scrollTop();
+        if (diff <= $('#bl-routing-wrapper').height()) {
+            $('#bl-routing-wrapper').addClass('bl-fix-routing');
+        } else {
+            $('#bl-routing-wrapper').removeClass('bl-fix-routing');
+        }
+
+    });
+
 </script>
 <noscript>
     <div style="display:inline;">
@@ -318,8 +360,6 @@
              src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/923433004/?guid=ON&amp;script=0"/>
     </div>
 </noscript>
-<script type="text/javascript" src="/colorme/js/scripts.js">
-</script>
 @stack("scripts")
 </body>
 </html>
