@@ -7,4 +7,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::post('/field/create','CompanyController@createField');
     Route::get('/all','CompanyController@getAllCompany');
     Route::get('/field/all','CompanyController@getAllField');
+    Route::get('{companyId}','CompanyController@getDetailCompany');
 });
