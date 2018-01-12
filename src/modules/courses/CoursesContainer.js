@@ -75,9 +75,7 @@ class CoursesContainer extends React.Component {
 
     duplicateCourse(data){
         helper.confirm('warning', 'Duplicate', "Bạn có muốn duplicate môn học này không?", () => {
-            this.props.coursesActions.duplicateCourse(data, ()=>{
-                return this.props.coursesActions.loadCourses(this.state.page);
-            });
+            this.props.coursesActions.duplicateCourse(data);
         });
     }
 

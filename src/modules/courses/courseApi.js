@@ -186,3 +186,21 @@ export function duplicateCourse(id) {
     }
     return axios.post(url);
 }
+
+export function duplicateLesson(id) {
+    let url = env.MANAGE_API_URL + "/v2/lesson/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+export function duplicateTerm(id) {
+    let url = env.MANAGE_API_URL + "/v2/lesson/term/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}

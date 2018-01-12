@@ -510,7 +510,6 @@ export function duplicateCourse(data) {
                         type: types.DUPLICATE_COURSES_SUCCESS,
                         data: data
                     });
-                    browserHistory.push("/teaching/courses");
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra! ");
                     dispatch({type: types.DUPLICATE_COURSES_ERROR});
@@ -521,6 +520,32 @@ export function duplicateCourse(data) {
                 console.log(err);
                 helper.showErrorNotification("Có lỗi xảy ra! ");
                 dispatch({type: types.DUPLICATE_COURSES_ERROR});
+            });
+    };
+}
+
+export function duplicateLesson(data) {
+    helper.showWarningNotification("Đang Tạo...");
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_DUPLICATE_LESSON});
+        courseApi.duplicateLesson(data.id)
+            .then(res => {
+                if(res.data.status === 1){
+                    helper.showNotification("Tạo Thành Công!");
+                    dispatch({
+                        type: types.DUPLICATE_LESSON_SUCCESS,
+                        data: data
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra! ");
+                    dispatch({type: types.DUPLICATE_LESSON_ERROR});
+                }
+
+            })
+            .catch((err) => {
+                console.log(err);
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.DUPLICATE_LESSON_ERROR});
             });
     };
 }
