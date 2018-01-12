@@ -27,7 +27,9 @@ class coursesCreateEditCurriculum extends React.Component {
 
     duplicateLesson(lesson){
         helper.confirm('warning', 'Duplicate', "Bạn có muốn duplicate buổi học này không?", () => {
-            this.props.coursesActions.duplicateLesson(lesson);
+            this.props.coursesActions.duplicateLesson(lesson, ()=>{
+                return this.props.coursesActions.loadOneCourse(id);
+            });
         });
     }
 

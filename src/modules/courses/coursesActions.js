@@ -498,7 +498,7 @@ export function loadAllCategories() {
 }
 
 
-export function duplicateCourse(data) {
+export function duplicateCourse(data, reload) {
     helper.showWarningNotification("Đang Tạo...");
     return function (dispatch) {
         dispatch({type: types.BEGIN_DUPLICATE_COURSES});
@@ -510,6 +510,7 @@ export function duplicateCourse(data) {
                         type: types.DUPLICATE_COURSES_SUCCESS,
                         data: data
                     });
+                    reload();
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra! ");
                     dispatch({type: types.DUPLICATE_COURSES_ERROR});
@@ -524,7 +525,7 @@ export function duplicateCourse(data) {
     };
 }
 
-export function duplicateLesson(data) {
+export function duplicateLesson(data, reload) {
     helper.showWarningNotification("Đang Tạo...");
     return function (dispatch) {
         dispatch({type: types.BEGIN_DUPLICATE_LESSON});
@@ -534,8 +535,8 @@ export function duplicateLesson(data) {
                     helper.showNotification("Tạo Thành Công!");
                     dispatch({
                         type: types.DUPLICATE_LESSON_SUCCESS,
-                        data: data
                     });
+                    reload();
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra! ");
                     dispatch({type: types.DUPLICATE_LESSON_ERROR});

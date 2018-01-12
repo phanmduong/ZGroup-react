@@ -620,12 +620,8 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
             };
         case types.DUPLICATE_COURSES_SUCCESS:{
-            let tmpId = state.coursesList.length;
-            let newcourse={...action.data, id: tmpId};
-            let data = [newcourse,...state.coursesList ];
             return {
                 ...state,
-                coursesList: data,
             };
         }
         case types.DUPLICATE_COURSES_ERROR:
@@ -638,12 +634,8 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
             };
         case types.DUPLICATE_LESSON_SUCCESS:{
-            let tmpId = state.data.lessons.length;
-            let lessons = [{...action.data, id: tmpId},...state.data.lessons];
-            let newdata = {...state.data, lessons: lessons};
             return {
                 ...state,
-                data: newdata,
             };
         }
         case types.DUPLICATE_LESSON_ERROR:
