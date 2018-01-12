@@ -1463,7 +1463,10 @@ export default {
     survey: {
         surveys: [],
         isLoading: false,
-        survey: {}
+        survey: {},
+        showEditQuestionModal: false,
+        question: {},
+        isSavingQuestion: false
     }
 
 };

@@ -5,10 +5,12 @@ import {connect} from "react-redux";
 import * as surveyActions from "./surveyActions";
 import Loading from "../../components/common/Loading";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
+import EditQuestionModalContainer from "./EditQuestionModalContainer";
 
 class SurveyDetailContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.showEditQuestionModal = this.showEditQuestionModal.bind(this);
     }
 
     componentWillMount() {
@@ -16,10 +18,15 @@ class SurveyDetailContainer extends React.Component {
         this.props.surveyActions.loadSurveyDetail(surveyId);
     }
 
+    showEditQuestionModal(question) {
+        this.props.surveyActions.toggleEditQuestion(true, question);
+    }
+
     render() {
         const {survey, isLoading} = this.props;
         return (
             <div className="container-fluid">
+                <EditQuestionModalContainer/>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">
@@ -39,14 +46,15 @@ class SurveyDetailContainer extends React.Component {
                                                         {
                                                             survey.questions && survey.questions.sort((a, b) => a.order - b.order).map((question) => {
                                                                 return (
-                                                                    <div className="panel panel-default">
+                                                                    <div key={question.id}
+                                                                         className="panel panel-default">
                                                                         <div className="panel-heading" role="tab"
                                                                              id="headingOne">
-                                                                            <a href="">
+                                                                            <a onClick={() => this.showEditQuestionModal(question)}>
                                                                                 <i style={{
                                                                                     float: "left",
                                                                                     marginRight: "5px",
-                                                                                    fontSize: "20px"
+                                                                                    fontSize: "18px"
                                                                                 }}
                                                                                    className="material-icons">edit</i>
                                                                             </a>
@@ -57,10 +65,17 @@ class SurveyDetailContainer extends React.Component {
                                                                                aria-controls="collapseOne"
                                                                                className="collapsed">
                                                                                 <h4 className="panel-title">
-                                                                                    {question.content}
-                                                                                    <i className="material-icons">keyboard_arrow_down</i>
+                                                                                    <i style={{
+                                                                                        float: "left",
+                                                                                        marginRight: "5px",
+                                                                                    }}
+                                                                                       className="material-icons">keyboard_arrow_down</i>
                                                                                 </h4>
                                                                             </a>
+                                                                            <h4 className="panel-title">
+                                                                                {question.content}
+                                                                            </h4>
+
                                                                         </div>
                                                                         <div id={"collapse" + question.id}
                                                                              className="panel-collapse collapse"

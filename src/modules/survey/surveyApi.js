@@ -30,3 +30,11 @@ export const loadSurvey = (surveyId) => {
     url += "?token=" + token;
     return axios.get(url);
 };
+
+export const saveQuestion = (surveyId, question) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/question/${question.id}?token=${token}`;
+    return axios.put(url, {
+        content_data: question.content
+    });
+};
