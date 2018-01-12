@@ -104,7 +104,19 @@ class ListCourse extends React.Component {
                                         editUrl={"/teaching/courses/edit/" + course.id + ""}
                                         delete={this.deleteCourse}
                                         object={course}
-                                    />
+                                    >
+                                        {
+                                            !course.is_duplicate &&
+                                            <a data-toggle="tooltip" title="Duplicate"
+                                               type="button"
+                                               onClick={() => {}}
+                                               rel="tooltip"
+                                            >
+                                                <i className="material-icons">control_point_duplicate</i>
+                                            </a>
+                                        }
+
+                                    </ButtonGroupAction>
                                 </td>
                             </tr>
                         );

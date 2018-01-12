@@ -49,6 +49,10 @@
 
     "start:survey": "MODULE=survey npm-run-all --parallel open:src lint:watch",
     "build:survey": "npm run lint && rimraf ./dist/survey && mkdir dist/survey && MODULE=survey babel-node tools/build/module.js",
+
+    "start:business": "MODULE=business npm-run-all --parallel open:src lint:watch",
+    "build:business": "npm run lint && rimraf ./dist/business && mkdir dist/business && MODULE=business babel-node tools/build/module.js",
+
     "start:book": "MODULE=book npm-run-all --parallel open:src lint:watch",
     "build:book": "npm run lint && rimraf ./dist/book && mkdir dist/book && MODULE=book babel-node tools/build/module.js",
     "start:workShift": "MODULE=workShift npm-run-all --parallel open:src lint:watch",
