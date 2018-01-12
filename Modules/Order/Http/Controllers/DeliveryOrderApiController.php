@@ -3,6 +3,7 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Colorme\Transformers\DeliveryOrderTransformer;
+use App\Order;
 use App\Register;
 use App\User;
 use Illuminate\Http\Request;
