@@ -31,12 +31,10 @@ class ListOrder extends React.Component {
                                 </thead>
                                 <tbody>
                                 {
-                                    this.props.orders.map((order, index) => {
+                                    this.props.deliveryOrders && this.props.deliveryOrders.map((order, index) => {
                                         return (
                                             <ItemOrder order={order} key={index}
                                                        changeStatusOrder={this.props.changeStatusOrder}
-                                                       showShipGoodModal={this.props.showShipGoodModal}
-                                                       showAddNoteModal={this.props.showAddNoteModal}
                                                        user={this.props.user}/>
                                         );
                                     })
@@ -53,9 +51,7 @@ class ListOrder extends React.Component {
 ListOrder.propTypes = {
     changeStatusOrder: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    orders: PropTypes.array.isRequired,
-    showShipGoodModal: PropTypes.func.isRequired,
-    showAddNoteModal: PropTypes.func.isRequired,
+    deliveryOrders: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired
 };
 

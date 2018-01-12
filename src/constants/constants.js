@@ -156,6 +156,39 @@ export const ORDER_STATUS = [
     }
 ];
 
+export const ORDERED_STATUS = [
+    {
+        order: 0,
+        label: "Đơn mới",
+        value: "place_order"
+    },
+    {
+        order: 1,
+        label: "Đã báo giá",
+        value: "sent_price"
+    },
+    {
+        order: 2,
+        label: "Đặt hàng",
+        value: "ordered"
+    },
+    {
+        order: 3,
+        label: "Hết hàng",
+        value: "unavailable"
+    },
+    {
+        order: 4,
+        label: "Hủy",
+        value: "cancel"
+    },
+    {
+        order: 5,
+        label: "Về VN",
+        value: "came_to_VN"
+    }
+];
+
 export const TYPE_CLASSES = [
     {
         label: "Hoạt động",

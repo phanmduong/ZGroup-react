@@ -1,5 +1,15 @@
 export default {
-    orderedProduct: {},
+    orderedProduct: {
+        totalPaidMoney: 0,
+        totalMoney: 0,
+        totalDeliveryOrders: 0,
+        notLocked: 0,
+        deliveryOrders: [],
+        currentPage: 0,
+        totalPages: 0,
+        totalCount: 0,
+        isLoading: false
+    },
 
     createProduct: {
         categories: [],
@@ -1166,9 +1176,9 @@ export default {
             link_icon: "",
         },
 
-        pixel:{
-            name:"",
-            code:"",
+        pixel: {
+            name: "",
+            code: "",
         },
         term: {
             id: null,

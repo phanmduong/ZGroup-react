@@ -83,7 +83,8 @@ class SelectWarehouseModal extends React.Component {
                                                         this.props.nextStatus,
                                                         this.props.orderIdWarehouseModal,
                                                         warehouse.id
-                                                    )}>
+                                                    )}
+                                                    style={{cursor: "pointer"}}>
                                                     <td>{warehouse.name}</td>
                                                     <td>{warehouse.location}</td>
                                                     <td>{warehouse.base ? warehouse.base.name : "Không có"}</td>
