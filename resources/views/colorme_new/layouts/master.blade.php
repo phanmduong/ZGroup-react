@@ -318,6 +318,8 @@
              src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/923433004/?guid=ON&amp;script=0"/>
     </div>
 </noscript>
+<script type="text/javascript" src="/colorme/js/scripts.js">
+</script>
 @stack("scripts")
 </body>
 </html>

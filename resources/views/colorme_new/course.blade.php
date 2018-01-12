@@ -1,4 +1,4 @@
-@extends('layouts.2018-public')
+@extends('colorme_new.layouts.master')
 
 @section('content')
     @foreach($pixels as $pixel)
@@ -129,16 +129,19 @@
                             <input type="hidden" name="saler_id" value={{$saler_id}}>
                             <input type="hidden" name="campaign_id" value={{$campaign_id}}>
                             <div class="form-group">
-                                <label for="email" v-model="user.email">Địa chỉ email
+                                <label for="email">Địa chỉ email
                                     <star style="color: red;">*</star>
                                 </label>
-                                <input type="email" class="form-control" name="email" placeholder="Nhập email" required>
+                                <input type="email" class="form-control" name="email" placeholder="Nhập email"
+                                       v-model="user.email"
+                                       required>
                             </div>
                             <div class="form-group">
-                                <label for="name" v-model="user.name">Họ và tên
+                                <label for="name">Họ và tên
                                     <star style="color: red;">*</star>
                                 </label>
                                 <input type="text" class="form-control" name="name" placeholder="Nhập họ và tên"
+                                       v-model="user.name"
                                        required>
                             </div>
                             <div class="form-group" v-model="user.phone">
@@ -146,6 +149,7 @@
                                     <star style="color: red;">*</star>
                                 </label>
                                 <input type="text" class="form-control" name="phone" placeholder="Nhập số điện thoại"
+                                       v-model="user.phone"
                                        required>
                             </div>
                         </form>
@@ -230,6 +234,7 @@
                         });
                         axios.post("/classes/new_register_store", data)
                             .then(function () {
+                                setStorage("user_register", JSON.stringify(this.user), 1800);
                                 this.isLoading = false;
                                 this.isSuccess = true;
                             }.bind(this))
@@ -245,8 +250,23 @@
         function setDataModal(classData) {
             fbq('track', 'Purchase');
             formRegisterClass.classData = classData;
-            formRegisterClass.user = {};
-            formRegisterClass.isSuccess = false;
+            @if (isset($user))
+                formRegisterClass.user =
+            {!!
+                                          json_encode([
+                                          'email'=>$user->email,
+                                          'phone'=>$user->phone,
+                                          'name'=>$user->name,
+                                          ])
+                                      !!}
+                    @else
+            if (getStorage("user_register")) {
+                formRegisterClass.user = JSON.parse(getStorage("user_register"));
+            } else {
+                formRegisterClass.user = {};
+            }
+            @endif
+                formRegisterClass.isSuccess = false;
             formRegisterClass.isError = false;
             formRegisterClass.isLoading = false;
         }
