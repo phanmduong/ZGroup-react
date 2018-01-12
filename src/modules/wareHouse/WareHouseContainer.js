@@ -85,7 +85,7 @@ class WareHouseContainer extends React.Component {
                         <div className="row">
                             <div className="col-md-4" style={{paddingLeft: 45}}>
                                 <button className="btn btn-rose"
-                                        onClick={() => {
+                                        onlick={() => {
                                             this.openModal(wareHouse, false);
                                         }}
                                 >

@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
-// import ReactSelect from 'react-select';
 
 
 import Loading from "../../components/common/Loading";

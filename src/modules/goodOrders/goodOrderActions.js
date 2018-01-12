@@ -89,8 +89,8 @@ export function changeStatusOrder(status, orderId, labelId) {
                     helper.showNotification("Thay đổi trạng thái thành công");
                     dispatch({
                         type: types.CHANGE_STATUS_ORDER_SUCCESS,
-                        order_id: orderId,
-                        status
+                        status,
+                        labelId,
                     });
                 }
             })

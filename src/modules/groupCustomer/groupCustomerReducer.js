@@ -3,7 +3,7 @@ import initialState from '../../reducers/initialState';
 
 let customersList, groupCustomersList, customersShowInTable,customersShowInAddModal, stringId = [];
 export default function customerReducer(state = initialState.groupCustomers, action) {
-    switch (action.type) {
+    switch (action.type){
 
 
 

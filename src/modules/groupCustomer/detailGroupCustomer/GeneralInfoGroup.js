@@ -42,7 +42,7 @@ class GeneralInfoGroup extends React.Component{
                             />
 
                             <div className="row">
-                                <label className="col-sm-2 label-on-left">Rule</label>
+                                <h4 className="col-sm-2" style={{marginTop: 25 , paddingLeft : 10}}>Rule : </h4>
                                 <div className="col-sm-10">
                                     <div className="row">
                                         <div className="col-md-6">

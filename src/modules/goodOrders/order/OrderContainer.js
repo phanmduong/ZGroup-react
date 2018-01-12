@@ -83,7 +83,7 @@ class OrderContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-9">
+                    <div className="col-md-8">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
@@ -106,9 +106,15 @@ class OrderContainer extends React.Component {
                             </div>
                         </div>
                         <div>
-                            <button className="btn btn-md btn-info" onClick={()=>{this.openReturnOrder();}}>
-                                <i className="material-icons">assignment_return </i>Trả lại hàng
-                            </button>
+                            {(this.props.order.order.status === 'completed_order') ?
+                                <button className="btn btn-md btn-info" onClick={()=>{this.openReturnOrder();}}>
+                                    <i className="material-icons">assignment_return </i>Trả lại hàng
+                                </button>:
+                                <button className="btn btn-md btn-info disabled" >
+                                    <i className="material-icons">assignment_return </i>Trả lại hàng
+                                </button>
+                            }
+
                         </div>
                         {this.props.isOpenReturnOrder ?
                             <div className="card">
@@ -139,7 +145,7 @@ class OrderContainer extends React.Component {
 
 
 
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">announcement</i></div>
@@ -220,11 +226,6 @@ class OrderContainer extends React.Component {
                                                 value={this.props.order.order.customer ? this.props.order.order.customer.address : ''}
                                                 disabled
                                             />
-                                        </div>
-                                        <div>
-                                            <h4><strong>Thông tin giao hàng</strong></h4>
-                                            <FormInputText label="Ngày giao" name="ae3qsd"/>
-                                            <FormInputText label="Người giao" name="dsadasd"/>
                                         </div>
                                     </div>
                                 }

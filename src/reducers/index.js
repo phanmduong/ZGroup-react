@@ -60,6 +60,7 @@ import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSess
 import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
 import historyWorkShiftRegistersReducer from "../modules/historyWorkShiftRegisters/historyWorkShiftRegistersReducer";
 import landingPagesReducer from "../modules/landingpage/landingPagesReducer";
+import createSaleGoodsReducer from "../modules/createEditSaleGood/createSaleGoodsReducer";
 
 
 const appReducer = combineReducers({
@@ -124,6 +125,7 @@ const appReducer = combineReducers({
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
     landingPages : landingPagesReducer,
+    createSaleGoods : createSaleGoodsReducer,
 
 });
 

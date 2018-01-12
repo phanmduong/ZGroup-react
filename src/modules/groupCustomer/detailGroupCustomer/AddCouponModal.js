@@ -135,7 +135,6 @@ class AddCouponModal extends React.Component {
                                 updateFormData={this.updateFormData}
                                 type="text"
                                 value={name}
-                                required={true}
                             />
                         </div>
                         <div className="col-md-3">

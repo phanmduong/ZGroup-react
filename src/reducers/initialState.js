@@ -1390,5 +1390,25 @@ export default {
         error: false,
         isDeleting: false,
         errorDelete: false,
+    },
+    createSaleGoods:{
+        customer :{
+            name : '',
+            email : '',
+            phone : '',
+            address : '',
+        },
+        infoOrder : {
+            payment : "",
+            note :"",
+            status : "completed_order",
+        },
+        goods : [],
+        goodsList : [],
+        goodsShowInTable : [],
+        isLoadingGoodModal :false,
+        totalGoodPages : 0,
+        warehouse : 0,
+        isSaving : false,
     }
 };
