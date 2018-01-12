@@ -20,6 +20,7 @@ class CrawlController extends Controller
         if (!empty(Auth::user())) {
             $this->user = Auth::user();
             $this->data['user'] = $this->user;
+            $this->user->avatar_url = generate_protocol_url($this->user->avatar_url);
         }
     }
 

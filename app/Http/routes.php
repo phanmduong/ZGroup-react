@@ -289,7 +289,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::post('/confirm-transactions', 'MoneyApiController@confirm_transaction');
 
     Route::get('/courses-lite', 'CoursePublicApiController@courses');
-    Route::get('/course/{linkId}', 'CoursePublicApiController@course');
+    Route::get('/course/{linkId}', 'ColormeNewController@course');
 
     Route::post('/user', 'UserPublicApiController@store_user');
     Route::get('/user/{user_id}/side-nav', 'UserPublicApiController@user_side_nav_info');
@@ -370,6 +370,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], function () {
 
     Route::post('/login-social', 'AuthenticateController@loginSocial');
+    Route::post('/register-social', 'AuthenticateController@registerSocial');
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');
@@ -460,12 +461,12 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/notifications-list', 'PublicController@beta');
     Route::get('/posts/{popular}', 'PublicController@beta');
     Route::get('/about-us', 'PublicController@beta');
-    Route::get('/', 'PublicCrawlController@home');
-    Route::get('/elearning/{courseId}/{lessonId?}', 'PublicCrawlController@courseOnline');
+    Route::get('/', 'ColormeNewController@home');
+    Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
     Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/sign-in', 'PublicController@beta');
-    Route::get('/upload-post', 'PublicController@beta');
-    Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'PublicCrawlController@course');
+    Route::get('/upload-post', 'PublicController@be¬ta');
+    Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'ColormeNewController@course');
     Route::get('/profile/{username}', 'PublicController@beta');
     Route::get('/profile/{username}/progress', 'PublicController@beta');
     Route::get('/profile/{username}/info', 'PublicController@beta');

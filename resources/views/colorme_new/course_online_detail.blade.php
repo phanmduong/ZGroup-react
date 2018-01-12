@@ -1,4 +1,5 @@
-@extends('layouts.2018-public')
+@extends('colorme_new.layouts.master')
+
 
 @section('content')
     <div>
