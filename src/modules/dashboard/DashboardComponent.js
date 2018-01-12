@@ -150,11 +150,13 @@ class DashboardComponent extends React.Component {
                                             </TooltipButton>
                                         }
                                         {user.is_saler &&
-                                        <a href={"/teaching/registerlist/" + user.id} className="btn btn-rose btn-round">Danh
+                                        <a href={"/teaching/registerlist/" + user.id}
+                                           className="btn btn-rose btn-round">Danh
                                             sách đăng kí</a>
                                         }
 
-                                        <a href="/profile/my-profile" className="btn btn-rose btn-round">Trang cá nhân</a>
+                                        <a href="/profile/my-profile" className="btn btn-rose btn-round">Trang cá
+                                            nhân</a>
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +252,6 @@ class DashboardComponent extends React.Component {
                             </div>
                         }
                         {
-                            (now_classes || this.props.dateClasses !== current_date) &&
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="card">
