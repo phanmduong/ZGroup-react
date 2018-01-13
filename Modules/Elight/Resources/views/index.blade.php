@@ -51,7 +51,7 @@
                                     <div class="col-md-8 text-left">
                                         <br>
                                         <h5 style="font-weight:600">{{$good->name}}</h5>
-                                        <p>{{$good->description}}</p>
+                                        <p>{{shortString($good->description,18)}}</p>
                                         <h5>
                                             <b style="text-decoration: line-through;">{{currency_vnd_format($good['price'])}}</b>
                                             <i class="fa fa-angle-right"></i>{{currency_vnd_format($good['price']*(1-$good['coupon_value']))}}
