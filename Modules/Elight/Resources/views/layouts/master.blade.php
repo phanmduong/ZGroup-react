@@ -16,61 +16,6 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
-    <style type="text/css">
-        .bs-example {
-            font-family: sans-serif;
-            position: relative;
-        }
-
-        .twitter-typeahead {
-            width: 100%;
-        }
-
-        .typeahead, .tt-query, .tt-hint {
-            border: 2px solid #CCCCCC;
-            font-size: 22px; /* Set input font size */
-            height: 30px;
-            line-height: 30px;
-            outline: medium none;
-            padding: 8px 12px;
-        }
-
-        .typeahead {
-            background-color: #FFFFFF;
-        }
-
-        .tt-query {
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-        }
-
-        .tt-hint {
-            color: #999999;
-        }
-
-        .tt-menu {
-            background-color: #FFFFFF;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-            margin-top: 0px;
-            padding: 8px 0;
-            width: 100%;
-        }
-
-        .tt-suggestion {
-            font-size: 15px; /* Set suggestion dropdown font size */
-            padding: 3px 20px;
-        }
-
-        .tt-suggestion:hover {
-            cursor: pointer;
-            background-color: #0097CF;
-            color: #FFFFFF;
-        }
-
-        .tt-suggestion p {
-            margin: 0;
-        }
-    </style>
     <link href="/elight-assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/elight-assets/css/paper-kit.css" rel="stylesheet"/>
     <link href="/elight-assets/css/demo.css" rel="stylesheet"/>
@@ -81,42 +26,47 @@
     </script>
 </head>
 <body class="profile" style="background: #f2f2f2;">
-<script>
-    window.fbMessengerPlugins = window.fbMessengerPlugins || {
-        init: function () {
-            FB.init({
-                appId: '1678638095724206',
-                autoLogAppEvents: true,
-                xfbml: true,
-                version: 'v2.10'
-            });
-        }, callable: []
-    };
-    window.fbAsyncInit = window.fbAsyncInit || function () {
-        window.fbMessengerPlugins.callable.forEach(function (item) {
-            item();
-        });
-        window.fbMessengerPlugins.init();
-    };
-    setTimeout(function () {
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
+<div class="fb-livechat">
+    <div class="ctrlq fb-overlay"></div>
+    <div class="fb-widget">
+        <div class="ctrlq fb-close"></div>
+        <div class="fb-page" data-href="https://www.facebook.com/bookelight" data-tabs="messages" data-width="360"
+             data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
+        <div class="fb-credit"></div>
+        <div id="fb-root"></div>
+    </div>
+    <a href="https://m.me/bookelight" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+        <div class="bubble">1</div>
+        <div class="bubble-msg">Bạn cần hỗ trợ?</div>
+    </a></div>
+<script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>$(document).ready(function () {
+        function detectmob() {
+            if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+                return true;
+            } else {
+                return false;
             }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    }, 0);
-</script>
+        }
 
-<div
-        class="fb-customerchat"
-        page_id="157479984792857"
-        ref="">
-</div>
+        var t = {delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button")};
+        setTimeout(function () {
+            $("div.fb-livechat").fadeIn()
+        }, 8 * t.delay);
+        if (!detectmob()) {
+            $(".ctrlq").on("click", function (e) {
+                e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({
+                    bottom: 0,
+                    opacity: 0
+                }, 2 * t.delay, function () {
+                    $(this).hide("slow"), t.button.show()
+                })) : t.button.fadeOut("medium", function () {
+                    t.widget.stop().show().animate({bottom: "30px", opacity: 1}, 2 * t.delay), t.overlay.fadeIn(t.delay)
+                })
+            })
+        }
+    });</script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"
         type="text/javascript"></script>
 <nav class="navbar navbar-light navbar-toggleable-md fixed-top" style="background: #138edc!important">
