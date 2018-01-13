@@ -127,16 +127,25 @@ export default function courseReducer(state = initialState.courses, action) {
                     link: state.link,
                 }
             };
-        case types.LOAD_COURSE_SUCCESS:
+        case types.LOAD_COURSE_SUCCESS: {
+            let categories = action.data.categories.map((obj)=>{
+                return {
+                    ...obj,
+                    value: obj.id,
+                    label: obj.name,
+                    avatar_url: helper.validateLinkImage(obj.icon_url),
+                };
+            });
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     error: false,
-                    data: action.data,
+                    data: {...action.data, categories},
                     link: state.link,
                 }
             };
+        }
         case types.LOAD_COURSE_ERROR:
             return {
                 ...state,
@@ -435,7 +444,7 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    data: {
+                    data:{
                         id: null,
                         name: "",
                         duration: "",
@@ -453,8 +462,13 @@ export default function courseReducer(state = initialState.courses, action) {
                         created_at: "",
                         detail: "",
                         lessons: [],
-                        links: []
-                    }
+                        links: [],
+                        pixels: [],
+                        terms: [],
+                        categories: [],
+                        type_id: "",
+                        type: "",
+                    },
                 }
             };
         }

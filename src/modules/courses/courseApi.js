@@ -70,6 +70,11 @@ export function createEditCourse(data) {
     if (token) {
         url += "?token=" + token;
     }
+    let categories = JSON.stringify(data.categories.map(obj => { return ({id: obj.id});}));
+    data = {
+        ...data,
+        categories,
+    };
     return axios.post(url, data);
     //http://manageapi.keetool.tk/v2/course/create-edit?token=
 }
