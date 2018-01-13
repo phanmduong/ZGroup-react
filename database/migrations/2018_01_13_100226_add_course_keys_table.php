@@ -23,8 +23,8 @@ class AddCourseKeysTable extends Migration
             $table->integer('status')->index();
             $table->integer('email_campaign_id')->unsigned()->nullable();
             $table->foreign('email_campaign_id')->references('id')->on('email_campaigns');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->dateTime('start_time')->nullable();
+            $table->dateTime('end_time')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

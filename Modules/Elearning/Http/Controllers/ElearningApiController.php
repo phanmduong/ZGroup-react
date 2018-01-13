@@ -106,7 +106,7 @@ class ElearningApiController extends ApiController
 
     public function registerStore(Request $request)
     {
-        if ($request->course_id) {
+        if ($request->course_id == null) {
             return $this->respondErrorWithStatus("Thiếu course");
         }
 
@@ -161,7 +161,7 @@ class ElearningApiController extends ApiController
         } else {
             return [
                 'status' => 0,
-                'message' => 'Mã không hợp lý. Vui lòng thử lại',
+                'message' => 'Mã không khả dụng. Vui lòng thử lại',
                 'register_id' => $register->id,
             ];
         }

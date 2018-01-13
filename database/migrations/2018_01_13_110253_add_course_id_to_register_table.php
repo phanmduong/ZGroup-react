@@ -14,7 +14,7 @@ class AddCourseIdToRegisterTable extends Migration
     {
         Schema::table('registers', function (Blueprint $table) {
             $table->integer('course_key_id')->unsigned()->nullable();
-            $table->integer('class_id')->nullable()->change();
+            $table->integer('class_id')->unsigned()->nullable()->change();
             $table->foreign('course_key_id')->references('id')->on('course_keys');
             $table->integer('course_id')->unsigned()->nullable();
             $table->foreign('course_id')->references('id')->on('courses');

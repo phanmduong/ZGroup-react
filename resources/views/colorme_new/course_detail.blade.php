@@ -61,13 +61,14 @@
                             <div class="modal-footer">
                                 <div id="modal-footer-submit" v-if="isSuccess">
                                     <div style="display: flex; justify-content: center; align-items: center;">
-                                        <div style="color: green; padding: 15px;">Mở khóa thành công
+                                        <div style="color: green; padding: 15px;">Mở khóa thành công, đang tải dữ
+                                            liệu...
                                         </div>
                                     </div>
                                 </div>
                                 <div id="modal-footer-submit" v-if="isError">
                                     <div style="display: flex; justify-content: center; align-items: center;">
-                                        <div style="color: red; padding: 15px;">Mở khóa thất bại. Thử lại
+                                        <div style="color: red; padding: 15px;">@{{error}}
                                         </div>
                                     </div>
                                     <button type="button" class="btn btn-register"
@@ -116,6 +117,7 @@
                             </p><br><br>
                             <form>
                                 <input type="hidden" name="course_id" value="{{$course->id}}">
+                                <input type="hidden" name="register_id" v-model="registerId">
                                 <div class="form-group">
                                     <label for="email">Địa chỉ email
                                         <star style="color: red;">*</star>
@@ -143,22 +145,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="code">Mã mở khóa
-                                        <star style="color: red;">*</star>
                                     </label>
                                     <input type="text" class="form-control" name="code"
                                            placeholder="Nhập mã mở khóa"
                                            v-model="user.code"
-                                           required>
+                                    >
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <div id="modal-footer-submit" v-if="isSuccess">
                                 <div style="display: flex; justify-content: center; align-items: center;">
-                                    <div style="color: green; padding: 15px;">Đăng ký thành công, bạn vui lòng check
-                                        email
-                                        để kiểm tra thông
-                                        tin
+                                    <div style="color: green; padding: 15px;">Đăng ký thành công, đang tải dữ liệu...
                                     </div>
                                 </div>
                             </div>
@@ -204,12 +202,14 @@
                 user: {},
                 isSuccess: false,
                 isError: false,
-                isLoading: false
+                isLoading: false,
+                registerId: '',
+                error: ''
             },
             methods: {
                 submitRegister: function () {
                     fbq('track', 'CompleteRegistration');
-                    $("#modal-register-class form").validate({
+                    $("#modal-register-course form").validate({
                         rules: {
                             email: "required",
                             name: "required",
@@ -224,23 +224,30 @@
                             phone: "Vui lòng nhập số điện thoại"
                         }
                     });
-                    if ($("#modal-register-class form").valid()) {
+                    if ($("#modal-register-course form").valid()) {
                         var data = {};
                         this.isSuccess = false;
                         this.isError = false;
                         this.isLoading = true;
-                        $("#modal-register-class form").find("input").each(function () {
+                        $("#modal-register-course form").find("input").each(function () {
                             data[$(this).attr("name")] = $(this).val();
                         });
-                        axios.post("/course/new_register_store", data)
-                            .then(function () {
-                                setStorage("user_register", JSON.stringify(this.user), 1800);
+                        axios.post("/elearning/register-store", data)
+                            .then(function (res) {
                                 this.isLoading = false;
-                                this.isSuccess = true;
+                                if (res.data.status === 1) {
+                                    this.isSuccess = true;
+                                    location.reload();
+                                } else {
+                                    this.isError = true;
+                                    this.error = res.data.message;
+                                    this.registerId = res.data.register_id;
+                                }
                             }.bind(this))
                             .catch(function () {
                                 this.isLoading = false;
                                 this.isError = true;
+                                this.error = 'Có lỗi xảy ra. Vui lòng thử lại'
                             }.bind(this));
                     }
                 }
