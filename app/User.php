@@ -160,7 +160,7 @@ class User extends Authenticatable
 
     public function registers()
     {
-        return $this->hasMany('App\Register', 'user_id', 'id')->whereNotNull('class_id');
+        return $this->hasMany('App\Register', 'user_id', 'id');
     }
 
     public function teach()
@@ -413,11 +413,15 @@ class User extends Authenticatable
             'can_delete' => $canDelete
         ];
     }
-   public function transferMoneys(){
+
+    public function transferMoneys()
+    {
         return $this->hasMany(TransferMoney::class, 'user_id');
-   }
-   public function bank_count(){
+    }
+
+    public function bank_count()
+    {
         return $this->hasMany(BankAccount::class, 'user_id');
-   }
+    }
 }
 
