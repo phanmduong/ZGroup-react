@@ -18,35 +18,71 @@ class SurveyController extends ManageApiController
         parent::__construct();
     }
 
+    public function saveAnswer($answerId, Request $request)
+    {
+        $answer = Answer::find($answerId);
+        if ($answer == null) {
+            return [
+                "status" => 0,
+                "message" => "Câu trả lời này không tồn tại"
+            ];
+        }
+
+        $answer->content = $request->content_data;
+        $answer->save();
+
+        return [
+            "status" => 1,
+            "answer" => $answer->getData()
+        ];
+    }
+
+    public function updateQuestion($surveyId, $questionId, Request $request)
+    {
+        $survey = Survey::find($surveyId);
+        $question = $survey->questions()->where("id", $questionId)->first();
+        if ($question == null) {
+            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+        }
+
+        $question->content = $request->content_data;
+        $question->save();
+
+
+        return $this->respondSuccessWithStatus([
+            "question" => $question->getData()
+        ]);
+    }
+
     public function assignSurveyInfo(&$survey, $request)
     {
         $survey->name = $request->name;
         $survey->user_id = $this->user->id;
         $survey->is_final = $request->is_final;
         $survey->save();
-//        $questions = json_decode($request->questions);
-//        $order = 0;
-//        foreach ($questions as $question) {
-//            $newQuestion = new Question;
-//            $newQuestion->survey_id = $survey->id;
-//            $newQuestion->content = $question->content;
-//            $newQuestion->type = $question->type;
-//            $newQuestion->image_url = $question->image_url;
-//            $newQuestion->order = ++$order;
-//            $newQuestion->save();
-//            $answers = $newQuestion->answers;
-//            foreach ($answers as $answer) {
-//                $newAnswer = new Answer;
-//                $newAnswer->question_id = $newQuestion->id;
-//                $newAnswer->content = $answer->content;
-//                $newAnswer->image_url = $answer->image_url;
-//                $newAnswer->correct = $answer->correct;
-//                $newAnswer->save();
-//            }
-//        }
+        $questions = json_decode($request->questions);
+        $order = 0;
+        foreach ($questions as $question) {
+            $newQuestion = new Question;
+            $newQuestion->survey_id = $survey->id;
+            $newQuestion->content = $question->content;
+            $newQuestion->type = $question->type;
+            $newQuestion->image_url = $question->image_url;
+            $newQuestion->order = ++$order;
+            $newQuestion->save();
+            $answers = $newQuestion->answers;
+            foreach ($answers as $answer) {
+                $newAnswer = new Answer;
+                $newAnswer->question_id = $newQuestion->id;
+                $newAnswer->content = $answer->content;
+                $newAnswer->image_url = $answer->image_url;
+                $newAnswer->correct = $answer->correct;
+                $newAnswer->save();
+            }
+        }
     }
 
-    public function getSurveys($surveyId, Request $request)
+    public function getSurveys(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;

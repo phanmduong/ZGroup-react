@@ -1363,6 +1363,7 @@ function haversineGreatCircleDistance(
 
 function is_class_lesson_change($class_lesson)
 {
+    return true;
     $time_class_lesson = strtotime($class_lesson->time . ' ' . $class_lesson->start_time);
     $time_now = strtotime("now");
     if ($time_now < $time_class_lesson) return true;

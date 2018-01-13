@@ -178,7 +178,7 @@ class LessonController extends ManageApiController
         ]);
     }
 
-    public function editTerm($term_id,Request $request)
+    public function editTerm($term_id, Request $request)
     {
         $term = Term::find($term_id);
 
@@ -222,5 +222,45 @@ class LessonController extends ManageApiController
         $term->delete();
 
         return $this->respondSuccess("Xóa thành công");
+    }
+
+    public function duplicateLesson($lessonId, Request $request)
+    {
+        $lesson = Lesson::find($lessonId);
+        if (!$lesson) return $this->respondErrorWithStatus("Không tồn tại lesson");
+        $lesson_new = new Lesson;
+        $lesson_new->name = $lesson->name;
+        $lesson_new->description = $lesson->description;
+        $lesson_new->course_id = $lesson->course_id;
+        $lesson_new->detail = $lesson->detail;
+        $lesson_new->order = $lesson->order;
+        $lesson_new->term_id = $lesson->term_id;
+        $lesson_new->detail_content = $lesson->detail_content;
+        $lesson_new->detail_teacher = $lesson->detail_teacher;
+        $lesson_new->image_url = $lesson->image_url;
+        $lesson_new->audio_url = $lesson->audio_url;
+        $lesson_new->video_url = $lesson->video_url;
+        $lesson_new->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công",
+        ]);
+    }
+    public function duplicateTerm($termId,Request $request){
+        $term = Term::find($termId);
+        if(!$term) return $this->respondErrorWithStatus("Không tồn tại term");
+        $term_new = new Term;
+        $term_new->name = $term->name;
+        $term_new->description = $term->description;
+        $term_new->short_description = $term->short_description;
+        $term_new->course_id = $term->course_id;
+        $term_new->order = $term->order;
+        $term_new->image_url = $term->image_url;
+        $term_new->video_url = $term->video_url;
+        $term_new->audio_url = $term->audio_url;
+
+        $term_new->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công",
+        ]);
     }
 }

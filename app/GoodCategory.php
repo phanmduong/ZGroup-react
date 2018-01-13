@@ -14,7 +14,7 @@ GoodCategory extends Model
     public function CategoryTransform(){
         return([
             'id'=> $this->id,
-             'name'=>$this->name,
+            'name'=>$this->name,
             'parent_id'=>$this->parent_id
         ]);
     }

@@ -3,23 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Base;
-use App\CalendarEvent;
 use App\Category;
 use App\CategoryProduct;
-use App\ClassLesson;
+use App\Console\Commands\SendSurvey;
 use App\Console\Commands\WorkShiftsCheckInCheckOutNoti;
 use App\Course;
 use App\Email;
-use App\EmailCampaign;
 use App\EmailForm;
 use App\EmailTemplate;
 use App\Gen;
 use App\Http\Requests\RegisterFormRequest;
 use App\Image;
-use App\Jobs\CloseSurvey;
-use App\Jobs\CreateSurvey;
 use App\Landing;
-use App\LessonSurvey;
 use App\Notification;
 use App\Product;
 use App\Providers\AppServiceProvider;
@@ -34,7 +29,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\PublicCrawlController;
 
 class PublicController extends Controller
 {
@@ -919,7 +913,7 @@ class PublicController extends Controller
 
     public function send_noti_test()
     {
-        $a = new WorkShiftsCheckInCheckOutNoti();
+        $a = new SendSurvey();
         $a->handle();
         return "test";
     }
