@@ -18,7 +18,7 @@
                 <div class="info-horizontal">
                     <br>
                     <div class="description">
-                        <p><b><b>Author:</b></b>{{$author}}</p>
+                        <p><b><b>Author:</b></b> {{$author}}</p>
                         <p><b><b>Language:</b></b> {{$language}}</p>
                         <p><b><b>Publisher:</b></b> {{$publisher}}</p>
                     </div>

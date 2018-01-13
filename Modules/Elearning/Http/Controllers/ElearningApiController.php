@@ -50,7 +50,9 @@ class ElearningApiController extends ApiController
 
         if ($register == null) {
             if ($this->user) {
+
                 $current_gen = Gen::getCurrentGen();
+                dd($course->classes()->where('gen_id', $current_gen->id)->get());
                 $register = new Register();
                 $register->user_id = $this->user->id;
                 $register->gen_id = $current_gen->id;
