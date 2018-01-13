@@ -45,7 +45,6 @@ class ListCourse extends React.Component {
                         <th>Số lớp</th>
                         <th>Số buổi</th>
                         <th>Giá</th>
-                        <th>Phân loại</th>
                         <th>Hình thức</th>
                         <th>Trạng thái</th>
                         <th/>
@@ -81,18 +80,7 @@ class ListCourse extends React.Component {
                                 <td>{course.num_classes}</td>
                                 <td>{course.duration}</td>
                                 <td>{helper.convertMoneyToK(course.price)}</td>
-                                <td><FormInputSelect name="" updateFormData={() => {
-                                }} isNotForm={true}
-                                                     data={[
-                                                         {id: "online", name: "online"},
-                                                         {id: "offline", name: "offline"},
-                                                     ]}/></td>
-                                <td>
-                                    <FormInputSelect
-                                        name="" isNotForm={true}
-                                        updateFormData={() => {}}
-                                        data={[{id: "online", name: "online"}, {id: "offline", name: "offline"},]}/>
-                                </td>
+                                <td>{this.props.type || ""}</td>
                                 <td><Switch
                                     onChange={() => {
                                         return this.props.changeStatusCourse(index, course);
