@@ -20,8 +20,12 @@
             <br> <br>
         </div>
         {!! $course->detail !!}
+        <?php $registerId = null?>
         @if (isset($user))
-            <?php $register = $user->registers()->where('course_id', $course->id) ?>
+            <?php $register = $user->registers()->where('course_id', $course->id);
+            $registerId = $user->registers()->where('course_id', $course->id)->orderBy('created_at', 'desc')->first();
+            $registerId = $registerId ? $registerId->id : null;
+            ?>
             @if($register->where('status', 1)->first() == null)
                 <div id="modal-register-course" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -43,9 +47,7 @@
                                     Bạn vui lòng điền mã mở khóa:
                                 </p><br><br>
                                 <form>
-                                    @if($register->orderBy('created_at','desc')->first())
-                                        <input type="hidden" name="register_id" value="{{$register->id}}">
-                                    @endif
+                                    <input type="hidden" name="register_id" v-model="registerId">
                                     <input type="hidden" name="course_id" value="{{$course->id}}">
                                     <div class="form-group">
                                         <label for="code">Mã mở khóa
@@ -97,7 +99,7 @@
 
             @endif
         @else
-            <div id="modal-register-course" class="modal fade" role="dialog">
+            <div id="modal-register-course" class="modal fade pick-class" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
@@ -168,6 +170,10 @@
                                 <button type="button" class="btn btn-register"
                                         v-on:click="submitRegister">Đăng kí
                                 </button>
+                                <button type="button" class="btn btn-default btn-login"
+                                        v-on:click="openModalLogin">Đã có tài khoản
+                                </button>
+
                             </div>
                             <div id="modal-footer-submit" v-if="isLoading">
                                 <div id="message-box" class="note_contact pix_builder_bg"><span
@@ -182,6 +188,9 @@
                             </div>
                             <button type="button" class="btn btn-register"
                                     v-if="!isLoading && !isSuccess && !isError" v-on:click="submitRegister">Đăng kí
+                            </button>
+                            <button type="button" class="btn btn-default btn-login"
+                                    v-on:click="openModalLogin">Đã có tài khoản
                             </button>
                         </div>
                     </div>
@@ -203,7 +212,7 @@
                 isSuccess: false,
                 isError: false,
                 isLoading: false,
-                registerId: '',
+                registerId: '{{$registerId ? $registerId : ''}}',
                 error: ''
             },
             methods: {
@@ -237,6 +246,9 @@
                                 this.isLoading = false;
                                 if (res.data.status === 1) {
                                     this.isSuccess = true;
+                                    if (res.data.auth) {
+                                        localStorage.setItem('auth', JSON.stringify(res.data.auth));
+                                    }
                                     location.reload();
                                 } else {
                                     this.isError = true;
@@ -250,11 +262,20 @@
                                 this.error = 'Có lỗi xảy ra. Vui lòng thử lại'
                             }.bind(this));
                     }
+                },
+                openModalLogin: function () {
+                    console.log("đá");
+                    $('#modal-register-course').modal('toggle');
+                    $('#modalLogin').modal('toggle');
                 }
-            }
+            },
+
         });
         $(document).ready(function () {
             $('#modal-register-course').modal('toggle');
+            $('a>.btn-register').click(function () {
+                $('#modal-register-course').modal('toggle');
+            })
         })
     </script>
 @endpush
