@@ -50,9 +50,7 @@ class ElearningApiController extends ApiController
 
         if ($register == null) {
             if ($this->user) {
-
                 $current_gen = Gen::getCurrentGen();
-                dd($course->classes()->where('gen_id', $current_gen->id)->get());
                 $register = new Register();
                 $register->user_id = $this->user->id;
                 $register->gen_id = $current_gen->id;
@@ -69,6 +67,7 @@ class ElearningApiController extends ApiController
                     $user->name = $request->name;
                     $user->phone = $phone;
                     $user->email = $request->email;
+                    $user->username = $request->email;
                     $user->password = bcrypt($user->phone);
                     $user->save();
                     $user->avatar_url = generate_protocol_url($user->avatar_url);
