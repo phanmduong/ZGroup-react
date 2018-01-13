@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" type="image/png"
-          href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" cph-ssorder="0">
+          href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1515853471glZIdDdlEwbXivK.png" cph-ssorder="0">
     <link rel="icon" type="image/png" href="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
