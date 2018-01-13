@@ -121,7 +121,7 @@ class DashboardComponent extends React.Component {
                                                 <div>
                                                     <p className="description">
                                                         Thưởng cá nhân: <strong>{helper.dotNumber(bonus)}đ</strong><br/>
-                                                        Chỉ tiêu cá nhân
+                                                        Chỉ tiêu cá nhân: {`${count_paid}/${count_total}`}
                                                     </p>
                                                     <TooltipButton placement="top"
                                                                    text={`${count_paid}/${count_total}`}>

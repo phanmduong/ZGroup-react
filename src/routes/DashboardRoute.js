@@ -1,5 +1,5 @@
-import DashboardContainer from "../modules/dashboard/DashboardContainer";
 import DashboardItContainer from "../modules/dashboard/it/DashboardItContainer";
+import TypeDashboard from "../modules/dashboard/TypeDashboard";
 
 /**
  * Tab trang chủ
@@ -7,11 +7,11 @@ import DashboardItContainer from "../modules/dashboard/it/DashboardItContainer";
 export default [
     {
         path: "/",
-        component: DashboardContainer
+        component: TypeDashboard
     },
     {
         path: "/dashboard",
-        component: DashboardContainer
+        component: TypeDashboard
     },
     {
         path: "/dashboard/it",
