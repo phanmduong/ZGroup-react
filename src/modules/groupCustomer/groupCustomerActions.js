@@ -263,6 +263,24 @@ export function deleteGroupCustomer(id) {
             });
     };
 }
+export function deleteCoupon(id,name) {
+    return function (dispatch ) {
+        helper.showTypeNotification("Đang xóa " + name, "info");
+        groupCustomerApis.deleteCouponApi(id)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showTypeNotification(" Đã xóa " + name, "success");
+                    dispatch({
+                        type: types.DELETE_DISCOUNT_SUCCESS_IN_GROUP_CUSTOMER,
+                        id: id,
+                    });
+                }
+                else {
+                    helper.sweetAlertError(res.data.message.message);
+                }
+            });
+    };
+}
 
 export function assignGroupCustomerFormData(id) {
     return function (dispatch) {

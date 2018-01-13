@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {browserHistory} from 'react-router';
+import Switch from 'react-bootstrap-switch';
 
 
 class ListChildDiscount extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    handleSwitch(id, name) {
+        this.props.deleteDiscount(id, name);
     }
 
     render() {
@@ -24,8 +29,7 @@ class ListChildDiscount extends React.Component {
                                 <th>Điều kiện khuyến mãi</th>
                                 <th>Số lần</th>
                                 <th>Mô tả</th>
-                                <th/>
-                                <th/>
+                                <th> Kích hoạt</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -35,8 +39,8 @@ class ListChildDiscount extends React.Component {
                                         <tr role="row" className="even" key={discount.id}>
                                             <td>
                                                 <a onClick={() => {
-                                                       browserHistory.push('/good/discount/edit/' + discount.id);
-                                                   }}
+                                                    browserHistory.push('/good/discount/edit/' + discount.id);
+                                                }}
                                                 >{discount.name}
                                                 </a>
                                             </td>
@@ -106,25 +110,28 @@ class ListChildDiscount extends React.Component {
                                             </td>
                                             <td>{discount.quantity === -1 ? "Vô số lần" : discount.quantity === null ? "Chưa điền" : discount.quantity + " lần"}</td>
                                             <td>{discount.description}</td>
+                                            {/*<td>*/}
+                                            {/*<div className="btn-group-action">*/}
+                                            {/*<div style={{display: 'inline-block'}}>*/}
+                                            {/*<a onClick={() => {*/}
+                                            {/*browserHistory.push('/good/discount/edit/' + discount.id);*/}
+                                            {/*}}>*/}
+                                            {/*<i className="material-icons">edit</i>*/}
+                                            {/*</a></div>*/}
+                                            {/*</div>*/}
+                                            {/*</td>*/}
+
+
                                             <td>
-                                                <div className="btn-group-action">
-                                                    <div style={{display: 'inline-block'}}>
-                                                        <a onClick={() => {
-                                                            browserHistory.push('/good/discount/edit/' + discount.id);
-                                                        }}>
-                                                            <i className="material-icons">edit</i>
-                                                        </a></div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="btn-group-action">
-                                                    <div style={{display: 'inline-block'}}>
-                                                        <a onClick={() => this.props.deleteDiscount(discount.id, discount.name)}
-                                                        >
-                                                            <i className="material-icons">delete</i>
-                                                        </a>
-                                                    </div>
-                                                </div>
+
+                                                <Switch
+                                                    baseId={discount.id}
+                                                    onChange={() => this.handleSwitch(discount.id, discount.name)}
+                                                    bsSize="mini"
+                                                    onText="Bật" offText="Tắt"
+                                                    value={(discount.activate === 1)}
+                                                    disabled={(discount.activate === 0)}
+                                                />
                                             </td>
                                         </tr>
 

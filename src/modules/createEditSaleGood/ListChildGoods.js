@@ -92,12 +92,11 @@ class ListChildGoods extends React.Component {
                                             good={good}
                                         />
                                         <td>
-                                            <div className="bootstrap-tagsinput">
-                                                        <span className="tag btn" style={{
-                                                            backgroundColor: "green",
-                                                            fontSize: 12
+                                            <div className="bootstrap-tags-input">
+                                                        <button className="tag btn btn-success btn-round btn-fab btn-fab-mini" style={{
+                                                            fontSize: 12,
                                                         }}>{good.quantity}
-                                                        </span>
+                                                        </button>
                                             </div>
                                         </td>
                                         <td>{helper.dotNumber(good.price)}đ</td>

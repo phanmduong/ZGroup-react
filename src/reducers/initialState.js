@@ -884,9 +884,9 @@ export default {
         order: {
             isOpenReturnOrder: false,
             isSaving: false,
-            isSavingQuantity : {
-                id : 0,
-                status : false,
+            isSavingQuantity: {
+                id: 0,
+                status: false,
             },
             isLoading: false,
             error: false,
@@ -906,6 +906,7 @@ export default {
                     phone: "test",
                     email: "po01636863831@gmail.com"
                 },
+                returnGoodOrder: [],
             },
         },
         staffs: [],
@@ -1048,8 +1049,8 @@ export default {
             category: {},
             customer: {},
             customer_group: {},
-            quantity : '',
-            shared : '',
+            quantity: '',
+            shared: '',
         },
 
     },
@@ -1128,7 +1129,7 @@ export default {
             detail: "",
             lessons: [],
             links: [],
-            pixels:[],
+            pixels: [],
         },
         link: {
             id: null,
@@ -1138,9 +1139,9 @@ export default {
             link_description: "",
             link_icon: "",
         },
-        pixel:{
-            name:"",
-            code:"",
+        pixel: {
+            name: "",
+            code: "",
         }
     },
     lessons: {
@@ -1286,13 +1287,13 @@ export default {
         ],
         works: [
             {
-                "id":11,
-                "name":"3",
-                "type":"personal",
-                "cost":2,
-                "deadline":"0000-00-00 00:00:00",
-                "bonus_value":3,
-                "bonus_type":null
+                "id": 11,
+                "name": "3",
+                "type": "personal",
+                "cost": 2,
+                "deadline": "0000-00-00 00:00:00",
+                "bonus_value": 3,
+                "bonus_type": null
             },
         ],
     },
@@ -1318,9 +1319,9 @@ export default {
             customers: [],                         // tat ca cac customer trong mot group
             customersShowInTable: [],              // cac customer show ra bang trong mot group
             color: '',
-            coupons : [],
-            order_value : '',
-            delivery_value : '',
+            coupons: [],
+            order_value: '',
+            delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
         },
         coupon: {
@@ -1333,8 +1334,8 @@ export default {
             start_time: '',
             end_time: '',
             customer_group_id: '',
-            quantity : '',
-            shared : '',
+            quantity: '',
+            shared: '',
         },
         groupCustomersList: [],
 
@@ -1391,24 +1392,24 @@ export default {
         isDeleting: false,
         errorDelete: false,
     },
-    createSaleGoods:{
-        customer :{
-            name : '',
-            email : '',
-            phone : '',
-            address : '',
+    createSaleGoods: {
+        customer: {
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
         },
-        infoOrder : {
-            payment : "",
-            note :"",
-            status : "completed_order",
+        infoOrder: {
+            payment: "",
+            note: "",
+            status: "completed_order",
         },
-        goods : [],
-        goodsList : [],
-        goodsShowInTable : [],
-        isLoadingGoodModal :false,
-        totalGoodPages : 0,
-        warehouse : 0,
-        isSaving : false,
+        goods: [],
+        goodsList: [],
+        goodsShowInTable: [],
+        isLoadingGoodModal: false,
+        totalGoodPages: 0,
+        warehouse: 0,
+        isSaving: false,
     }
 };

@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-let customersList, groupCustomersList, customersShowInTable,customersShowInAddModal, stringId = [];
+let customersList, groupCustomersList, customersShowInTable,customersShowInAddModal, stringId = [] , coupons ;
 export default function customerReducer(state = initialState.groupCustomers, action) {
     switch (action.type){
 
@@ -149,6 +149,18 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 ...state,
                 isSaving: false,
             };
+        case types.DELETE_DISCOUNT_SUCCESS_IN_GROUP_CUSTOMER:
+            coupons = deleteCoupon(action.id, state.groupCustomerForm.coupons);
+            return{
+                ...state,
+                groupCustomerForm:{
+                    ...state.groupCustomerForm,
+                    coupons : coupons,
+                }
+            };
+
+
+
 
         //     ADD_CUSTOMER
         case types.BEGIN_ADD_CUSTOMER_IN_GROUP_CUSTOMER:
@@ -175,6 +187,8 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 ...state,
                 groupCustomersList: groupCustomersList,
             };
+
+
 
 
 
@@ -293,4 +307,14 @@ function deleteGroup(id, groupCustomersList) {
         groupCustomersList = groupCustomersList.filter((groupCustomer) => groupCustomer.id !== id);
     }
     return groupCustomersList;
+}
+function deleteCoupon(id, coupons) {
+    if (coupons) {
+        coupons = coupons.map((coupon) => {
+            if (coupon.id === id) {
+                return  {...coupon,activate : 0};
+            } else return coupon;
+        });
+    }
+    return coupons;
 }

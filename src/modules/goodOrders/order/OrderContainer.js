@@ -116,7 +116,7 @@ class OrderContainer extends React.Component {
                             }
 
                         </div>
-                        {this.props.isOpenReturnOrder ?
+                        {this.props.isOpenReturnOrder && this.props.order.order.status === 'completed_order' ?
                             <div className="card">
                                 <div className="card-header card-header-icon" data-background-color="rose">
                                     <i className="material-icons">assignment</i>
@@ -135,7 +135,6 @@ class OrderContainer extends React.Component {
                                             />
                                         </div>
                                     }
-
                                 </div>
                             </div>:
                             null

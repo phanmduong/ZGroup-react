@@ -44,7 +44,7 @@ class EditButton extends React.Component {
     render() {
         const tmpQuantity = this.props.tmpQuantity;
         return (
-            <td style={{width: 120, display: "flex" , alignItems : "center" , height: 75}}>
+            <td style={{width: 120, display: "flex" , alignItems : "center" , height: 75, justifyContent : "space-evenly"}}>
                 {this.state.isEdit ?
                     <input type="number" name="tmpQuantity" value={tmpQuantity}
                            className="form-control"
