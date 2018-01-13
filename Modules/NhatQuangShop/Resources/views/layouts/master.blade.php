@@ -215,101 +215,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-fast-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="medium-title">Đặt hàng siêu tốc</h2>
-                </div>
-
-                <div class="modal-body">
-                    {{--<div v-for="(order, index) in orders">--}}
-                        {{--<div class="row" style="margin-bottom: 10px;">--}}
-                            {{--<span class="label label-success">Sản phẩm <span--}}
-                                        {{--class="num-order">@{{ order.id }}</span>:</span>--}}
-                            {{--<button style ="margin-left: 5px"class="btn btn-google btn-just-icon btn-sm"  v-if="order.seen" ><i class="fa fa-times"></i></button>--}}
-                        {{--</div>--}}
-                        {{--<div>--}}
-                            {{--<div class="row">--}}
-                                {{--<div class="col-md-8">--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<input type="text" value="" placeholder="Link sản phẩm" class="form-control">--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-md-4">--}}
-
-                                    {{--<div class="form-group">--}}
-                                        {{--<input type="text" value="" placeholder="Giá bán" class="form-control">--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-                        {{--<div class="row">--}}
-                            {{--<div class="col-md-3">--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<input type="text" value="" placeholder="Size" class="form-control">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-md-3">--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<input type="text" value="" placeholder="Mã màu bạn chọn" class="form-control">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="col-md-3">--}}
-                                {{--<select class="form-control"--}}
-                                        {{--id="bank-account"--}}
-                                        {{--data-style="btn btn-default" name="bank_account_id"--}}
-                                        {{--style="display: block !important;">--}}
-                                    {{--<option disabled="" selected="">Số lượng</option>--}}
-                                    {{--@for ($i = 0; $i < 50; $i++)--}}
-                                        {{--<option value="{{$i+1}}">{{$i+1}}</option>--}}
-                                    {{--@endfor--}}
-                                {{--</select>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-md-3">--}}
-                                {{--<select class="form-control"--}}
-                                        {{--id="bank-account"--}}
-                                        {{--data-style="btn btn-default" name="bank_account_id"--}}
-                                        {{--style="display: block !important;">--}}
-                                    {{--<option disabled="" selected="">Giá chưa thuế</option>--}}
-                                    {{--<option>Giá có thuế</option>--}}
-                                {{--</select>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="row">--}}
-                            {{--<div class="col-md-12">--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<input type="text" value="" placeholder="Mô tả" class="form-control">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-                    {{--</div>--}}
-                            <button  type="button" v-on:click="plusOrder"  class="btn btn-danger btn-round">
-                                Đặt thêm sản phẩm
-                            </button>
-
-                    </div>
-                <div class="modal-footer">
-                    <div class="left-side">
-                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Đặt hàng</button>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="right-side">
-                        <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
-                    </div>
-                </div>
-                </div>
-
-            </div>
-
-        </div>
-
-
 
     @if(isset($user))
 
@@ -640,6 +545,103 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-fast-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Đặt hàng siêu tốc</h2>
+            </div>
+
+            <div class="modal-body">
+                <div v-for="(order, index) in orders">
+                    <div style="margin-bottom: 10px;">
+                        <span class="label label-success">Sản phẩm @{{order.id}}</span>
+                        <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
+                                data-placement="top" title="" data-original-title="Remove"
+                                class="btn btn-danger btn-link btn-sm">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Link sản phẩm" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Giá bán" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" value="" placeholder="Size" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" value="" placeholder="Mã màu bạn chọn" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <select class="form-control"
+                                    id="bank-account"
+                                    data-style="btn btn-default" name="bank_account_id"
+                                    style="display: block !important;">
+                                <option disabled="" selected="">Số lượng</option>
+                                @for ($i = 0; $i < 50; $i++)
+                                    <option value="{{$i+1}}">{{$i+1}}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control"
+                                    id="bank-account"
+                                    data-style="btn btn-default" name="bank_account_id"
+                                    style="display: block !important;">
+                                <option disabled="" selected="">Giá chưa thuế</option>
+                                <option>Giá có thuế</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" value="" placeholder="Mô tả" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button type="button" v-on:click="plusOrder" class="btn btn-danger btn-round">
+                    Đặt thêm sản phẩm
+                </button>
+
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Đặt hàng</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
 
 <footer class="footer footer-light footer-big">
     <div class="container">
@@ -796,7 +798,7 @@
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/nhatquangshop.js?6868"></script>
+<script src="/js/nhatquangshop.js?68689"></script>
 <script src="/nhatquangshop/js/nav.vue.js"></script>
-<script></script>
+
 </html>

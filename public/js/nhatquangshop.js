@@ -206,7 +206,7 @@ var modalPurchase = new Vue({
 });
 
 
- new Vue({
+ var fastOrder = new Vue({
     el: '#modal-fast-order',
     data: {
         orders: [
@@ -215,9 +215,15 @@ var modalPurchase = new Vue({
         ]
     },
     methods: {
-        plusOrder: function () {
-           alert("asdasdasdasda");
+        plusOrder :  function (){
+          this.orders.push({id : this.orders.length+1, seen:true})
+        },
+        remove : function (index){
+            this.orders.splice(index, 1)
         }
+    },
+    mounted : function () {
+        console.log(this.orders);
     }
 
 
