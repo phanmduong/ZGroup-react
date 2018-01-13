@@ -211,7 +211,6 @@ var modalPurchase = new Vue({
     data: {
         orders: [
             {id: 1, seen: false},
-            {id: 2, seen: true},
         ]
     },
     methods: {
@@ -220,11 +219,7 @@ var modalPurchase = new Vue({
         },
         remove : function (index){
             this.orders.splice(index, 1)
-        }
+        },
     },
-    mounted : function () {
-        console.log(this.orders);
-    }
-
 
 });
