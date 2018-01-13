@@ -91,27 +91,29 @@ class ElearningApiController extends ApiController
             }
         }
 
-        $code = CourseKey::where('code', $request->code)->first();
+        $codes = CourseKey::where('code', $request->code)->where('course_id', $course->id)->where('status', 1)->get();
 
-        if ($code && $code->course_id == $course->id && $code->status == 1 && $code->times < $code->limit) {
-            $register->course_key_id = $code->id;
-            $register->active_time = format_time_to_mysql(time());
-            $register->status = 1;
-            $register->save();
+        foreach ($codes as $code) {
+            if ($code && $code->times < $code->limit) {
+                $register->course_key_id = $code->id;
+                $register->active_time = format_time_to_mysql(time());
+                $register->status = 1;
+                $register->save();
 
-            $code->times += 1;
-            $code->save();
-            return [
-                'status' => 1,
-                'message' => 'Thành công',
-                'auth' => $auth
-            ];
-        } else {
-            return [
-                'status' => 0,
-                'message' => 'Mã không khả dụng. Vui lòng thử lại',
-                'register_id' => $register->id,
-            ];
+                $code->times += 1;
+                $code->save();
+                return [
+                    'status' => 1,
+                    'message' => 'Thành công',
+                    'auth' => $auth
+                ];
+            }
         }
+
+        return [
+            'status' => 0,
+            'message' => 'Mã không khả dụng. Vui lòng thử lại',
+            'register_id' => $register->id,
+        ];
     }
 }
