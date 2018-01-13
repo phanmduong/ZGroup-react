@@ -59,9 +59,10 @@ class CourseController extends ManageApiController
         $course->detail = $request->detail;
         $course->type_id = $request->type_id;
         $course->save();
-        $arr_id= json_decode($request->categories);
+        $arr_ids= json_decode($request->categories);
         $course->courseCategories()->detach();
-        $course->courseCategories()->attach($arr_id);
+        foreach($arr_ids as $arr_id)
+        $course->courseCategories()->attach($arr_id->id);
         return $this->respondSuccessWithStatus([
             "message" => "Tạo/sửa thành công",
             "course" => $course->detailedTransform()
