@@ -40,12 +40,13 @@ export default function companyReducer(state = initialState.companies, action) {
                 ...state,
                 isLoadingFields: true,
             };
-        case types.LOAD_FIELDS_SUCCESS:
-            return{
+        case types.LOAD_FIELDS_SUCCESS: {
+            return {
                 ...state,
                 isLoadingFields: false,
                 fields: action.data,
             };
+        }
         case types.BEGIN_ADD_COMPANY:
             return{
                 ...state,

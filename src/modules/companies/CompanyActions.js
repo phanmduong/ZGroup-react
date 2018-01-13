@@ -50,7 +50,7 @@ export function loadFields() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_FIELDS_SUCCESS,
-                    data: res.data.fields,
+                    data: res.data.data.fields,
                 });
             }).catch(()=>{
             helper.showNotification("Có lỗi xảy ra");

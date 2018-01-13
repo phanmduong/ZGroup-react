@@ -5,21 +5,37 @@ import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import * as CompanyActions from '../companies/CompanyActions';
 import ReactSelect from 'react-select';
+
 class CreateCompanyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.changeFields = this.changeFields.bind(this);
     }
+
     componentWillMount() {
         this.props.CompanyActions.loadFields();
     }
-        render() {
+
+    changeFields() {
+        console.log(this.props);
+        let data = [];
+        data = this.props.fields.map((field) => {
+            return {
+                value: field.id,
+                label: field.name,
+            };
+        });
+        return data;
+    }
+
+    render() {
         return (
             <div className="content">
                 <div className="container-fluid">{
                     (this.props.isLoadingFields) ? <Loading/> :
                         <form role="form" id="form-company" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
-                                <div className="col-md-8">
+                                <div className="col-md-12">
                                     <div className="card">
                                         <div className="card-header card-header-icon" data-background-color="rose">
                                             <i className="material-icons">home</i>
@@ -82,66 +98,95 @@ class CreateCompanyContainer extends React.Component {
                                                     <label>
                                                         Thông tin tài khoản
                                                     </label></div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Số tài khoản"
-                                                            required
-                                                            type="text"
-                                                            name="account_number"
-                                                            value={" "}
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Số tài khoản"
+                                                        required
+                                                        type="text"
+                                                        name="account_number"
+                                                        value={" "}
 
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Tên tài khoản"
-                                                            required
-                                                            type="text"
-                                                            name="account_name"
-                                                            value={" "}
+                                                    />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Tên tài khoản"
+                                                        required
+                                                        type="text"
+                                                        name="account_name"
+                                                        value={" "}
 
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Ngân hàng"
-                                                            required
-                                                            type="text"
-                                                            name="bank_name"
-                                                            value={" "}
+                                                    />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Ngân hàng"
+                                                        required
+                                                        type="text"
+                                                        name="bank_name"
+                                                        value={" "}
 
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Chi nhánh"
-                                                            required
-                                                            type="text"
-                                                            name="bank_branch"
-                                                            value={" "}
+                                                    />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Chi nhánh"
+                                                        required
+                                                        type="text"
+                                                        name="bank_branch"
+                                                        value={" "}
 
-                                                        />
-                                                    </div>
-                                                <div className="col-md-12">
+                                                    />
+                                                </div>
+
+
+                                                <div className="col-md-6">
                                                     <label>
                                                         Loại
                                                     </label>
-                                                </div>
-                                                <div className="col-md-6">
                                                     <ReactSelect
+                                                        required
                                                         disabled={false}
                                                         options={[
                                                             {value: 'provided', label: 'Cung cấp',},
                                                             {value: 'share', label: 'Phân phối',},
                                                             {value: 'different', label: 'Khác',},
                                                         ]}
-                                                       // onChange={this.updateFormDataType}
+                                                        // onChange={this.updateFormDataType}
                                                         value={" "}
 
                                                         defaultMessage="Tuỳ chọn"
                                                         name="type"
                                                     />
                                                 </div>
+                                                <div className="col-md-6">
+                                                    <label>
+                                                        Lĩnh vực
+                                                    </label>
+                                                </div>
+                                                <div className="col-md-4">
+
+                                                    <ReactSelect
+                                                        required
+                                                        disabled={false}
+                                                        options={this.changeFields()}
+                                                        // onChange={this.updateFormDataType}
+                                                        value={" "}
+
+                                                        defaultMessage="Tuỳ chọn"
+                                                        name="field_id"
+                                                    />
+                                                </div>
+                                                <div className="col-md-2">
+                                                    <button
+                                                        className="btn btn-primary btn-round btn-fab btn-fab-mini"
+                                                        type="button"
+                                                        data-toggle="tooltip" title="Thêm lĩnh vực"
+                                                    >
+                                                        <i className="material-icons keetool-card">add</i>
+                                                    </button>
+                                                </div>
+
 
                                                 <div className="col-md-12">
                                                     <FormInputText
@@ -164,11 +209,29 @@ class CreateCompanyContainer extends React.Component {
                                                     />
                                                 </div>
 
+                                                <div className="col-md-12"
+                                                     style={{display: "flex", flexFlow: "row-reverse"}}>
+                                                    {this.props.isSavingCompany ?
+                                                        <button disabled className="btn btn-rose  disabled"
+                                                                type="button">
+                                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                        </button>
+                                                        :
+                                                        <button //onClick={this.submit}
+                                                            className="btn btn-rose"
+                                                        >Lưu</button>
+                                                    }
+
+                                                </div>
+
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </form>
 
                 }
@@ -180,16 +243,18 @@ class CreateCompanyContainer extends React.Component {
 }
 
 function mapStateToProps(state) {
-   return{
-       isLoadingFields: state.companies.isLoadingFields,
-       isSavingField: state.companies.isSavingField,
-       isSavingCompany: state.companies.isSavingCompany,
-       fields: state.companies.fields,
-   };
+    return {
+        isLoadingFields: state.companies.isLoadingFields,
+        isSavingField: state.companies.isSavingField,
+        isSavingCompany: state.companies.isSavingCompany,
+        fields: state.companies.fields,
+    };
 }
+
 function mapDispatchToProps(dispatch) {
-    return{
+    return {
         CompanyActions: bindActionCreators(CompanyActions, dispatch),
     };
 }
-export default connect(mapStateToProps,mapDispatchToProps) (CreateCompanyContainer);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCompanyContainer);
