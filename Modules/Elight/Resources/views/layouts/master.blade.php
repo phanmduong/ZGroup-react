@@ -81,6 +81,42 @@
     </script>
 </head>
 <body class="profile" style="background: #f2f2f2;">
+<script>
+    window.fbMessengerPlugins = window.fbMessengerPlugins || {
+        init: function () {
+            FB.init({
+                appId: '1678638095724206',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v2.10'
+            });
+        }, callable: []
+    };
+    window.fbAsyncInit = window.fbAsyncInit || function () {
+        window.fbMessengerPlugins.callable.forEach(function (item) {
+            item();
+        });
+        window.fbMessengerPlugins.init();
+    };
+    setTimeout(function () {
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    }, 0);
+</script>
+
+<div
+        class="fb-customerchat"
+        page_id="157479984792857"
+        ref="">
+</div>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"
         type="text/javascript"></script>
 <nav class="navbar navbar-light navbar-toggleable-md fixed-top" style="background: #138edc!important">
