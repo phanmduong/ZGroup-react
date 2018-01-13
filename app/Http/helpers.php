@@ -1464,6 +1464,6 @@ function shortString($string, $max)
     $arr = explode(" ", $string);
     $arr = array_slice($arr, 0, min(count($arr), $max));
     $data = implode(" ", $arr);
-    if (strlen($string) > $max) return $data . ' ...';
+    if (count(explode(" ", $string)) > $max) return $data . ' ...';
     return $data;
 }

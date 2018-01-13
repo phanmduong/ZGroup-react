@@ -109,7 +109,7 @@
                     <div class="card-block">
                         <p style="margin-top:15px"><b>{{$newestBlog->title}}</b></p>
                         <p class="card-description">
-                            {{$newestBlog->description}}
+                            {{shortString($newestBlog->description,7)}}
                         </p>
                         <a href="/blog/post/{{$newestBlog->id}}" style="color:#138edc!important"><b>Xem thêm</b></a>
                     </div>
