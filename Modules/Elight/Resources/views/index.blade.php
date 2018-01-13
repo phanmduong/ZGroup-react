@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="row" id="vuejs1">
-            @foreach($books as $book)
+            @foreach($goods as $good)
                 <div class="col-md-6 book-item">
                     <div class="card card-profile" style="border-radius:0; height: 90%">
                         <div class="flex flex-col flex-justify-content-space-between" style="height: 100%">
@@ -45,16 +45,16 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="card card-profile card-plain">
-                                            <img class="card-book-image" src="{{$book->avatar_url}}">
+                                            <img class="card-book-image" src="{{$good->avatar_url}}">
                                         </div>
                                     </div>
                                     <div class="col-md-8 text-left">
                                         <br>
-                                        <h5 style="font-weight:600">{{$book->name}}</h5>
-                                        <p>{{$book->description}}</p>
+                                        <h5 style="font-weight:600">{{$good->name}}</h5>
+                                        <p>{{$good->description}}</p>
                                         <h5>
-                                            <b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>
-                                            <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']*(1-$book['coupon_value']))}}
+                                            <b style="text-decoration: line-through;">{{currency_vnd_format($good['price'])}}</b>
+                                            <i class="fa fa-angle-right"></i>{{currency_vnd_format($good['price']*(1-$good['coupon_value']))}}
                                         </h5><br>
                                     </div>
 
@@ -65,10 +65,10 @@
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                             <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                                 <div>
-                                    <a href="/sach/{{$book['id']}}" class="btn btn-link btn-success">
+                                    <a href="/sach/{{$good['id']}}" class="btn btn-link btn-success">
                                         Xem thêm
                                     </a>
-                                    <button v-on:click="openModalBuy({{$book['id']}})"
+                                    <button v-on:click="openModalBuy({{$good['id']}})"
                                             onclick="fbq('track', 'AddToCart')"
                                             class="btn btn-success" style="padding:3px;margin:3px;font-size:10px;">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i>
