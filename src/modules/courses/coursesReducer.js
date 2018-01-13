@@ -571,27 +571,27 @@ export default function courseReducer(state = initialState.courses, action) {
         case types.BEGIN_LOAD_ALL_TYPES: {
             return {
                 ...state,
-                isLoading: true,
+                //isLoading: true,
             };
         }
         case types.LOAD_ALL_TYPES_SUCCESS: {
             let data = action.types.map((obj)=>{return {...obj, value: obj.id, label: obj.name,}});
             return {
                 ...state,
-                isLoading: false,
+                // isLoading: false,
                 types: data,
             };
         }
         case types.LOAD_ALL_TYPES_ERROR:{
             return {
                 ...state,
-                isLoading: false,
+                // isLoading: false,
             };
         }
         case types.BEGIN_LOAD_ALL_CATEGORIES: {
             return {
                 ...state,
-                isLoading: true,
+                // isLoading: true,
             };
         }
         case types.LOAD_ALL_CATEGORIES_SUCCESS: {
@@ -605,14 +605,14 @@ export default function courseReducer(state = initialState.courses, action) {
             });
             return {
                 ...state,
-                isLoading: false,
+                // isLoading: false,
                 categories: data,
             };
         }
         case types.LOAD_ALL_CATEGORIES_ERROR:{
             return {
                 ...state,
-                isLoading: false,
+                // isLoading: false,
             };
         }
         case types.BEGIN_DUPLICATE_COURSES:
@@ -666,6 +666,14 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
 
             };
+        case types.CHANGE_CATEGORY_COURSE: {
+            let newdata = {...state.data};
+            newdata.categories = action.data;
+            return {
+                ...state,
+                data : newdata,
+            };
+        }
         default:
             return state;
     }

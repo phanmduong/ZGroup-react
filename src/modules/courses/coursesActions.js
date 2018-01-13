@@ -550,6 +550,7 @@ export function duplicateLesson(data, reload) {
             });
     };
 }
+
 export function duplicateTerm(data, reload) {
     helper.showWarningNotification("Đang Tạo...");
     return function (dispatch) {
@@ -575,3 +576,15 @@ export function duplicateTerm(data, reload) {
             });
     };
 }
+
+
+export function onCategoryChange(data) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_CATEGORY_COURSE,
+            data: data,
+        });
+
+    };
+}
+

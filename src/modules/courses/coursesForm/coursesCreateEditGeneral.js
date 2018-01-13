@@ -19,6 +19,7 @@ class coursesCreateEditGeneral extends React.Component {
         this.updateFormData     = this.updateFormData.bind(this);
         this.commitCourseData   = this.commitCourseData.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
+        this.onCategoryChange      = this.onCategoryChange.bind(this);
     }
 
     componentWillMount() {
@@ -40,7 +41,7 @@ class coursesCreateEditGeneral extends React.Component {
             feild   = e.target.name;
             value   = e.target.value;
         }else{
-            feild = "type";
+            feild = "type_id";
             value = e.id;
         }
         let data = {...this.props.data};
@@ -49,7 +50,6 @@ class coursesCreateEditGeneral extends React.Component {
     }
 
     checkValidate() {
-
         if ($('#form-course-create-edit').valid()) {
 
             if (helper.isEmptyInput(this.props.data.icon_url)) {
@@ -67,6 +67,11 @@ class coursesCreateEditGeneral extends React.Component {
             return true;
         }
         return false;
+    }
+
+    onCategoryChange(obj){
+        console.log(obj);
+        this.props.coursesActions.onCategoryChange(obj);
     }
 
     render(){
@@ -155,7 +160,7 @@ class coursesCreateEditGeneral extends React.Component {
                                         valueComponent={MemberReactSelectValue}
                                         optionComponent={MemberReactSelectOption}
                                         options={this.props.categories}
-                                        onChange={()=>{}}
+                                        onChange={this.onCategoryChange}
                                     />
                                 </div>
                             <div className="col-md-6">
@@ -163,11 +168,11 @@ class coursesCreateEditGeneral extends React.Component {
                                     Hình thức
                                 </label>
                                 <ReactSelect
-                                    name="type"
+                                    name="type_id"
                                     className=""
                                     options={this.props.types}
                                     onChange={this.updateFormData}
-                                    value={this.props.data.type || ""}
+                                    value={this.props.data.type_id || ""}
                                     defaultMessage="Tuỳ chọn"
                                 />
                             </div>

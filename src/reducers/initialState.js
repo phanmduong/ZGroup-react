@@ -1093,6 +1093,8 @@ export default {
             lessons: [],
             links: [],
             pixels: [],
+            type_id: null,
+            categories: [],
         }
     },
     courses: {
