@@ -215,7 +215,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalFastOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="modal-fast-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -225,72 +225,71 @@
                 </div>
 
                 <div class="modal-body">
-                    <div v-for="(order, index) in orders">
-                        <div class="row" style="margin-bottom: 10px;">
-                            <span class="label label-success">Sản phẩm <span
-                                        class="num-order">@{{ order.id }}</span>:</span>
-                            <button style ="margin-left: 5px"class="btn btn-google btn-just-icon btn-sm" v-on:click="remove(index)" v-if="order.seen" ><i class="fa fa-times"></i></button>
-                        </div>
-                        <div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="Link sản phẩm" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                    {{--<div v-for="(order, index) in orders">--}}
+                        {{--<div class="row" style="margin-bottom: 10px;">--}}
+                            {{--<span class="label label-success">Sản phẩm <span--}}
+                                        {{--class="num-order">@{{ order.id }}</span>:</span>--}}
+                            {{--<button style ="margin-left: 5px"class="btn btn-google btn-just-icon btn-sm"  v-if="order.seen" ><i class="fa fa-times"></i></button>--}}
+                        {{--</div>--}}
+                        {{--<div>--}}
+                            {{--<div class="row">--}}
+                                {{--<div class="col-md-8">--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<input type="text" value="" placeholder="Link sản phẩm" class="form-control">--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="col-md-4">--}}
 
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="Giá bán" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    {{--<div class="form-group">--}}
+                                        {{--<input type="text" value="" placeholder="Giá bán" class="form-control">--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Size" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Mã màu bạn chọn" class="form-control">
-                                </div>
-                            </div>
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group">--}}
+                                    {{--<input type="text" value="" placeholder="Size" class="form-control">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group">--}}
+                                    {{--<input type="text" value="" placeholder="Mã màu bạn chọn" class="form-control">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                            <div class="col-md-3">
-                                <select class="form-control"
-                                        id="bank-account"
-                                        data-style="btn btn-default" name="bank_account_id"
-                                        style="display: block !important;">
-                                    <option disabled="" selected="">Số lượng</option>
-                                    @for ($i = 0; $i < 50; $i++)
-                                        <option value="{{$i+1}}">{{$i+1}}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-control"
-                                        id="bank-account"
-                                        data-style="btn btn-default" name="bank_account_id"
-                                        style="display: block !important;">
-                                    <option disabled="" selected="">Giá chưa thuế</option>
-                                    <option>Giá có thuế</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Mô tả" class="form-control">
-                                </div>
-                            </div>
-                        </div>
+                            {{--<div class="col-md-3">--}}
+                                {{--<select class="form-control"--}}
+                                        {{--id="bank-account"--}}
+                                        {{--data-style="btn btn-default" name="bank_account_id"--}}
+                                        {{--style="display: block !important;">--}}
+                                    {{--<option disabled="" selected="">Số lượng</option>--}}
+                                    {{--@for ($i = 0; $i < 50; $i++)--}}
+                                        {{--<option value="{{$i+1}}">{{$i+1}}</option>--}}
+                                    {{--@endfor--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-3">--}}
+                                {{--<select class="form-control"--}}
+                                        {{--id="bank-account"--}}
+                                        {{--data-style="btn btn-default" name="bank_account_id"--}}
+                                        {{--style="display: block !important;">--}}
+                                    {{--<option disabled="" selected="">Giá chưa thuế</option>--}}
+                                    {{--<option>Giá có thuế</option>--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-12">--}}
+                                {{--<div class="form-group">--}}
+                                    {{--<input type="text" value="" placeholder="Mô tả" class="form-control">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
-                    </div>
-                            <button v-on:click="plusOrder" type="button" class="btn btn-danger btn-round"
-                                    data-toggle="modal" data-target="#smallAlertModal">
+                    {{--</div>--}}
+                            <button  type="button" v-on:click="plusOrder"  class="btn btn-danger btn-round">
                                 Đặt thêm sản phẩm
                             </button>
 
@@ -301,7 +300,7 @@
                     </div>
                     <div class="divider"></div>
                     <div class="right-side">
-                        <button type="button" class="btn btn-danger btn-link">Thoát</button>
+                        <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
                     </div>
                 </div>
                 </div>
@@ -311,9 +310,7 @@
         </div>
 
 
-    </div>
-    </div>
-    </div>
+
     @if(isset($user))
 
         @if(!$user->first_login)
@@ -337,7 +334,7 @@
                          alt=""> {{$user->name}}
                 </a>
                 <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
-                        data-target="#modalFastOrder" class="btn btn-primary">
+                        data-target="#modal-fast-order" class="btn btn-primary">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
                 </button>
                 <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
