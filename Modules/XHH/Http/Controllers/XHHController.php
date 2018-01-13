@@ -150,14 +150,18 @@ class XHHController extends Controller
 
         $search = $request->search;
         if ($search) {
-            $books = $books->leftJoin('good_properties', 'goods.id', '=', 'good_properties.good_id')->where(function ($q) use ($search) {
-                $q->where('goods.name', 'like', '%' . $search . '%')
-                    ->orWhere('goods.code', 'like', '%' . $search . '%')
-                    ->orWhere(function ($q1) use ($search) {
-                        $q1->where('good_properties.name', 'TYPE_BOOK')
-                            ->where('good_properties.value', 'like', '%' . $search . '%');
-                    });
-            });
+            $books = $books->leftJoin('good_properties', 'goods.id', '=', 'good_properties.good_id')
+                ->where(function ($q) {
+                    $q->where('good_properties.name', 'TYPE_BOOK');
+                })
+                ->where(function ($q) use ($search) {
+                    $q->where('goods.name', 'like', '%' . $search . '%')
+                        ->orWhere('goods.code', 'like', '%' . $search . '%')
+                        ->orWhere(function ($q1) use ($search) {
+                            $q1->where('good_properties.name', 'TYPE_BOOK')
+                                ->where('good_properties.value', 'like', '%' . $search . '%');
+                        });
+                });
         }
 
 
