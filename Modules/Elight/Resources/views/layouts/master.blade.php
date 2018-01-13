@@ -18,7 +18,7 @@
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
     <link href="/elight-assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/elight-assets/css/paper-kit.css" rel="stylesheet"/>
-    <link href="/elight-assets/css/demo.css" rel="stylesheet"/>
+    <link href="/elight-assets/css/demo.css?12321" rel="stylesheet"/>
 
     <script>
         window.url = "{{url("/")}}";

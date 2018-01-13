@@ -99,7 +99,7 @@
                     <div class="card-image">
                         <a href="/blog/post/{{$newestBlog->id}}">
                             <div style="width: 100%;
-                                    border-radius: 2px;
+                                    border-radius: 10px;
                                     background: url({{generate_protocol_url($newestBlog->url)}});
                                     background-size: cover;
                                     background-position: center;
@@ -123,7 +123,7 @@
                                 <div class="card-image">
                                     <a href="/blog/post/{{$blog->id}}">
                                         <div style="width: 100%;
-                                                border-radius: 2px;
+                                                border-radius: 10px;
                                                 background: url({{generate_protocol_url($blog->url)}});
                                                 background-size: cover;
                                                 background-position: center;
@@ -185,7 +185,7 @@
                                         <div class="card-image">
                                             <a href="/blog/post/{{$blog->id}}">
                                                 <div style="width: 100%;
-                                                        border-radius: 2px;
+                                                        border-radius: 10px;
                                                         background: url('{{generate_protocol_url($blog->url)}}');
                                                         background-size: cover;
                                                         background-position: center;
@@ -236,7 +236,7 @@
                                 <div class="card-image">
                                     <a href="/blog/post/14676">
                                         <div style="width: 100%;
-                                                border-radius: 2px;
+                                                border-radius: 10px;
                                                 background: url('{{generate_protocol_url($blog->url)}}');
                                                 background-size: cover;
                                                 background-position: center;
