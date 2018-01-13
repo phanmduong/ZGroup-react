@@ -111,8 +111,9 @@
                     <a class="nav-link" style="color:white" href="/blog" data-scroll="true">BLOGS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" data-scroll="true" v-on:click="openModalBuyWithoutAdd()"
-                       style="display: flex; align-content: center; color:white" >
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
+                       v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center; color:white">
                         <i class="fa fa-shopping-cart"></i>
                         &nbsp
                         Giỏ hàng
@@ -209,8 +210,7 @@
                     <div class="pull-left">
                         ©
                         <script>document.write(new Date().getFullYear())</script>
-                        2017
-                        KEE Agency
+                        KEETOOL
                     </div>
                     <div class="links pull-right">
                         <ul>

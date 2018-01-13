@@ -246,13 +246,13 @@
                                 <div class="card-body">
                                     <h6 class="card-category text-facebook">{{$blog->author->name}}</h6>
                                     <h3 class="card-title">
-                                        <a href="#pablo">{{$blog->title}}</a>
+                                        <a href="#pablo">{{shortString($blog->title,4)}}</a>
                                     </h3>
                                     <p class="card-description">
                                         {{$blog->description}}
                                     </p>
                                     <br>
-                                    <a href="/blog/post/{{$blog->id}}" class="btn btn-facebook btn-round"> Đọc
+                                    <a href="/blog/post/{{$blog->id}}" class="btn btn-success btn-round"> Đọc
                                         thêm</a>
                                 </div>
                             </div>
