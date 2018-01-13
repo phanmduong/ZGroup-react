@@ -61,7 +61,7 @@ class AuthenticateController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
         $user = User::where('email', $credentials['email'])->first();
-        $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
+        $user->avatar_url = generate_protocol_url($user->avatar_url);
 
         Auth::attempt($credentials);
 
@@ -69,6 +69,49 @@ class AuthenticateController extends Controller
             'token' => compact('token')['token'],
             'user' => $user
         ]);
+    }
+
+
+    public function registerSocial(Request $request)
+    {
+
+        if ($request->name == null || $request->email == null || $request->password == null || $request->phone == null)
+            return response()->json(['error' => "Thiếu trường"]);
+        $check_email = User::where("email", $request->email)->orWhere('username', $request->email)->first();
+        if ($check_email) return response()->json(['error' => "Email đã tồn tại"]);
+
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        $user = new User();
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->username = $request->email;
+        $user->phone = $phone;
+        $user->password = bcrypt($request->password);
+
+        $user->save();
+
+        $credentials = $request->only('email', 'password');
+
+        try {
+            // attempt to verify the credentials and create a token for the user
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'Email hoặc Password không đúng'], 401);
+            }
+        } catch (JWTException $e) {
+            // something went wrong whilst attempting to encode the token
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+
+        $user->avatar_url = generate_protocol_url($user->avatar_url);
+
+        Auth::attempt($credentials);
+
+        return response()->json([
+            'token' => compact('token')['token'],
+            'user' => $user
+        ]);
+
     }
 
     // somewhere in your controller

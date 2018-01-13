@@ -35,7 +35,7 @@ class WarehouseApiController extends ManageApiController
     {
         $supplier = new User;
         $user = User::where('email', $request->email)->first();
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user)
             return $this->respondErrorWithStatus('Email đã có người sử dụng');
         if ($request->name == null || $request->phone == null || $request->email == null)
@@ -54,7 +54,7 @@ class WarehouseApiController extends ManageApiController
     public function editSupplier($supplier_id, Request $request)
     {
         $supplier = User::find($supplier_id);
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($supplier == null || $supplier->type != 'supplier')
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại nhà cung cấp'

@@ -40,6 +40,9 @@ $nhatquangShopRoute = function () {
 
     Route::get("/manage/orders", "NhatQuangShopManageController@userOrder");
     Route::get("/manage/orders/{order_id}", "NhatQuangShopManageController@infoOrder");
+    Route::post("/manage/orders", "NhatQuangShopManageController@filterOrders");
+//    Route::get("/manage/orders", "NhatQuangShopManageController@getFilterOrders");
+
     //login
     Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
     Route::get("/api/facebook/tokensignin", "NhatQuangAuthApiController@facebookTokenSignin");

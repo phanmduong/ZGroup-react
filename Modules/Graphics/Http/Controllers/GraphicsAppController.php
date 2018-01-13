@@ -49,7 +49,7 @@ class GraphicsAppController extends NoAuthApiController
 
     public function saveOrder($subfix, Request $request)
     {
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $email = $request->email;
         $name = $request->name;
         $phone = $phone;

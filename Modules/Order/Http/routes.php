@@ -14,6 +14,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::put('/{orderId}/note', 'OrderController@editNote');
 
     Route::get('/delivery', 'DeliveryOrderApiController@getDeliveryOrders');
+    Route::get('/delivery-info', 'DeliveryOrderApiController@infoDeliveryOrders');
 
     Route::get('/all-customers', 'CustomerController@allCustomers');
     Route::get('/total-and-debt-money', 'CustomerController@countMoney');

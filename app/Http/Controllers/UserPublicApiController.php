@@ -213,7 +213,7 @@ class UserPublicApiController extends ApiController
         if (!empty($errors)) {
             return $this->responseBadRequest($errors);
         }
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $order = new Order();
         $order->name = $request->name;
         $order->phone = $phone;
@@ -303,7 +303,7 @@ class UserPublicApiController extends ApiController
         if (!empty($errors)) {
             return $this->responseBadRequest($errors);
         }
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $user = new User;
         $user->name = $request->name;
         $user->phone = $phone;
