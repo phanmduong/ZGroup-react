@@ -4,4 +4,5 @@ Route::group(['middleware' => 'web', 'prefix' => 'elearning', 'namespace' => 'Mo
     Route::post('/{lesson_id}/add-comment', 'ElearningApiController@storeComment');
     Route::post('/{commentId}/like-comment', 'ElearningApiController@changeLikeComment');
     Route::post('/upload-image-comment', 'ElearningApiController@uploadImageComment');
+    Route::post('/elearning/register-store', 'ElearningApiController@uploadImageComment');
 });

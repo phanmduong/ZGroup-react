@@ -11,17 +11,22 @@ namespace Modules\Elearning\Http\Controllers;
 
 use App\Comment;
 use App\CommentLike;
+use App\Course;
+use App\CourseKey;
+use App\Gen;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Like;
+use App\Register;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ElearningApiController extends Controller
+class ElearningApiController extends ApiController
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->data = array();
         $this->s3_url = config('app.s3_url');
         if (!empty(Auth::user())) {
             $this->user = Auth::user();
@@ -97,5 +102,68 @@ class ElearningApiController extends Controller
     {
         $image_name = uploadFileToS3($request, 'image', 800, null);
         return (['link' => config('app.protocol') . trim_url($this->s3_url . $image_name)]);
+    }
+
+    public function registerStore(Request $request)
+    {
+        if ($request->course_id) {
+            return $this->respondErrorWithStatus("Thiếu course");
+        }
+
+        $course = Course::find($request->course_id);
+
+        if ($course == null) {
+            return $this->respondErrorWithStatus("Khóa học không tồn tại");
+        }
+
+        $register = Register::find($request->register);
+
+        if ($register == null) {
+
+            if ($this->user) {
+                $current_gen = Gen::getCurrentGen();
+                $register = new Register();
+                $register->user_id = $this->user->id;
+                $register->gen_id = $current_gen->id;
+                $register->course_id = $current_gen->course_id;
+            } else {
+                $user = User::where('email', '=', $request->email)->first();
+                if ($user) {
+                    return $this->respondErrorWithStatus("Tài khoản đã tồn tại");
+                } else {
+                    $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+                    $user = new User();
+                    $user->name = $request->name;
+                    $user->phone = $phone;
+                    $user->email = $request->email;
+                    $user->password = bcrypt($user->phone);
+                    $user->save();
+
+                    $current_gen = Gen::getCurrentGen();
+                    $register = new Register();
+                    $register->user_id = $this->user->id;
+                    $register->gen_id = $current_gen->id;
+                    $register->course_id = $current_gen->course_id;
+                }
+            }
+        }
+
+        $code = CourseKey::where('code', $request->code)->first();
+
+        if ($code && $code->course_id == $course->id && $code->active == 1 && $code->times < $code->limit) {
+            $register->course_key_id = $code->id;
+            $register->active_time = format_time_to_mysql(time());
+            $register->status = 1;
+            return [
+                'status' => 1,
+                'message' => 'Thành công'
+            ];
+        } else {
+            return [
+                'status' => 0,
+                'message' => 'Mã không hợp lý. Vui lòng thử lại',
+                'register_id' => $register->id,
+            ];
+        }
     }
 }

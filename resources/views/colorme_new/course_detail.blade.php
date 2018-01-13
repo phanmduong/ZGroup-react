@@ -37,14 +37,10 @@
                                 <h4 class="card-title" style="display: inline">{{$course->name}}</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Chào bạn,<br><br>
-                                    Bạn đang chuẩn bị đăng kí vào lớp <b>@{{ classData.name }}</b><br>
-                                    Khai giảng vào ngày: <b>@{{ classData.datestart }}</b><br>
-                                    Lịch học của bạn: <b>@{{ classData.study_time }}</b><br>
-                                    Địa điểm học:<b></b></p>
+                                <p>Chào bạn,</p>
 
                                 <p>
-                                    Bạn vui lòng điền các thông tin bên dưới nhé:
+                                    Bạn vui lòng điền mã mở khóa:
                                 </p><br><br>
                                 <form>
                                     @if($register->orderBy('created_at','desc')->first())
@@ -236,7 +232,7 @@
                         $("#modal-register-class form").find("input").each(function () {
                             data[$(this).attr("name")] = $(this).val();
                         });
-                        axios.post("/classes/new_register_store", data)
+                        axios.post("/course/new_register_store", data)
                             .then(function () {
                                 setStorage("user_register", JSON.stringify(this.user), 1800);
                                 this.isLoading = false;
