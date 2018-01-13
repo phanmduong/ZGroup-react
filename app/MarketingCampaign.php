@@ -10,6 +10,6 @@ class MarketingCampaign extends Model
 
     public function registers()
     {
-        return $this->hasMany('App\Register', "campaign_id");
+        return $this->hasMany('App\Register', "campaign_id")->whereNotNull('class_id');
     }
 }

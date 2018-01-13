@@ -13,7 +13,7 @@ class CourseKey extends Model
 
     public function registers()
     {
-        return $this->hasMany(Register::class, 'course_key_id');
+        return $this->hasMany(Register::class, 'course_key_id')->whereNotNull('course_id');
     }
 
     public function emailCampaign()

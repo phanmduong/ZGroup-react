@@ -160,7 +160,7 @@ class User extends Authenticatable
 
     public function registers()
     {
-        return $this->hasMany('App\Register', 'user_id', 'id');
+        return $this->hasMany('App\Register', 'user_id', 'id')->whereNotNull('class_id');
     }
 
     public function teach()

@@ -29,7 +29,7 @@ class StudyClass extends Model
 
     public function registers()
     {
-        return $this->hasMany('App\Register', 'class_id');
+        return $this->hasMany('App\Register', 'class_id')->whereNotNull('class_id');
     }
 
     public function course()

@@ -50,7 +50,7 @@ class Gen extends Model
 
     public function registers()
     {
-        return $this->hasMany('App\Register', 'gen_id');
+        return $this->hasMany('App\Register', 'gen_id')->whereNotNull('class_id');
     }
 
     public function survey_users()
