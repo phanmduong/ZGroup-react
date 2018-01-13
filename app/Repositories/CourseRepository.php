@@ -35,9 +35,10 @@ class CourseRepository
     public function paid_courses($user)
     {
         if ($user && $user->role == 0) {
-            $courses = $user->registers()->where('status', 1)->get()->map(function ($register) {
+            $courses = $user->registers()->get()->map(function ($register) {
                 $data = [
                     "id" => $register->studyClass->course->id,
+                    "type_id" => $register->studyClass->course->type_id,
                     "name" => $register->studyClass->course->name,
                     "linkId" => convert_vi_to_en($register->studyClass->course->name),
                     "icon_url" => $register->studyClass->course->icon_url,
@@ -48,9 +49,10 @@ class CourseRepository
                 return $data;
             });
         } else {
-            $courses = Course::where('status', 1)->get()->map(function ($course) {
+            $courses = Course::all()->map(function ($course) {
                 $data = [
                     "id" => $course->id,
+                    "type_id" => $course->type_id,
                     "name" => $course->name,
                     "linkId" => convert_vi_to_en($course->name),
                     "icon_url" => $course->icon_url,

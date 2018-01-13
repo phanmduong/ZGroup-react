@@ -190,6 +190,7 @@
                                     v-if="!isLoading && !isSuccess && !isError" v-on:click="submitRegister">Đăng kí
                             </button>
                             <button type="button" class="btn btn-default btn-login"
+                                    v-if="!isLoading && !isSuccess && !isError"
                                     v-on:click="openModalLogin">Đã có tài khoản
                             </button>
                         </div>
