@@ -15,17 +15,21 @@ export function deleteHistoryExtensionWork(id) {
     let url = env.MANAGE_API_URL + "/work/history-extension/";
     let token = localStorage.getItem('token');
     if (token) {
-        url += id + "?token=" + token;
+        url += id + "/refuse" + "?token=" + token;
     }
-    return axios.delete(url);
+    return axios.post(url, {
+        'status': 'Refuse',
+    });
 }
 
 export function acceptHistoryExtensionWork(id) {
     let url = env.MANAGE_API_URL + "/work/history-extension/";
     let token = localStorage.getItem('token');
     if (token) {
-        url += id + "?token=" + token;
+        url += id + "/accept" + "?token=" + token;
     }
-    return axios.post(url);
+    return axios.post(url, {
+        'status': 'Accept',
+    });
 }
 

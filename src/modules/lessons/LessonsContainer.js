@@ -28,7 +28,6 @@ class LessonsContainer extends React.Component {
     }
 
     componentWillMount() {
-        //console.log('lesson container will mount',this.props);
         helper.setFormValidation('#form-lesson-create-edit');
         let id = this.props.params.lessonId;
         courseid = this.props.params.courseId;
@@ -42,6 +41,12 @@ class LessonsContainer extends React.Component {
 
     componentDidMount(){
         helper.setFormValidation('#form-lesson-create-edit');
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.urlType=="create" && this.props.terms.length != nextProps.terms.length){
+            this.props.lessonsActions.updateData("term_id", nextProps.terms[0].id);
+        }
     }
 
     updateDetail(content){
@@ -60,7 +65,6 @@ class LessonsContainer extends React.Component {
         this.props.lessonsActions.updateData(feild,value);
     }
     commitData(){
-        //console.log('props before commit',this.props);
         if(this.checkValidate())
         if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data, courseid);
         else this.props.lessonsActions.editLesson(this.props.data);
@@ -68,6 +72,10 @@ class LessonsContainer extends React.Component {
 
     checkValidate() {
         if ($('#form-lesson-create-edit').valid()) {
+            if(helper.isEmptyInput(this.props.data.image_url) || this.props.data.image_url == NO_IMAGE){
+                helper.showWarningNotification("Vui lòng chọn ảnh");
+                return false;
+            }
             return true;
         }
         return false;
@@ -230,6 +238,7 @@ class LessonsContainer extends React.Component {
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.audio_url}
                                     disabled={this.props.isLoading}
+                                    required
                                 /></div>
                                     <div className="col-md-12">
                                 <FormInputText
@@ -238,6 +247,7 @@ class LessonsContainer extends React.Component {
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.video_url}
                                     disabled={this.props.isLoading}
+                                    required
                                 /></div>
                                 </div>
 

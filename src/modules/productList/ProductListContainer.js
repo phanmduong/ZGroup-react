@@ -389,12 +389,6 @@ class ProductListContainer extends React.Component {
                                                                 <p className="category">Tổng sản phẩm</p>
                                                                 <h3 className="card-title">{helper.dotNumber(this.props.productsTotal)}</h3>
                                                             </div>
-                                                            <div className="card-footer">
-                                                                <div className="stats">
-                                                                    <i className="material-icons">date_range</i> Last 24
-                                                                    Hours
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-6 col-md-6 col-sm-6">
@@ -405,12 +399,6 @@ class ProductListContainer extends React.Component {
                                                             <div className="card-content">
                                                                 <p className="category">Tổng số lượng</p>
                                                                 <h3 className="card-title">{helper.dotNumber(this.props.productsQuantity)}</h3>
-                                                            </div>
-                                                            <div className="card-footer">
-                                                                <div className="stats">
-                                                                    <i className="material-icons">date_range</i> Last 24
-                                                                    Hours
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

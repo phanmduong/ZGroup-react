@@ -10,6 +10,7 @@ import CreateJobAssignmentContainer from "../modules/jobAssignment/CreateJobAssi
 import InfoStaffContainer from "../modules/manageStaff/InfoStaffContainer";
 import ProfileContainer from "../modules/profile/ProfileContainer";
 import HistoryExtensionWorkContainer from "../modules/historyExtensionWork/HistoryExtensionWorkContainer";
+import summaryStaffContainer from "../modules/summaryStaff/summaryStaffContainer";
 /**
  * Tab Nhân sự
  */
@@ -84,5 +85,9 @@ export default [
     {
         path: "/hr/job-assignment/history-extension",
         component: HistoryExtensionWorkContainer,
+    },
+    {
+        path: "/hr/job-assignment/summary-staff",
+        component: summaryStaffContainer,
     },
 ];

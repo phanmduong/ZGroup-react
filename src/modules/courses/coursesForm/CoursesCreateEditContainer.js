@@ -44,12 +44,17 @@ class CreateEditCoursesContainer extends React.Component {
         this.urlType ="/teaching/courses/" + (id ? "edit/" + id : "create");
         if(id) this.props.coursesActions.loadOneCourse(id);
         else this.props.coursesActions.deleteData();
+        this.props.coursesActions.loadAllTypes();
+        this.props.coursesActions.loadAllCategories();
     }
     componentDidMount() {
         helper.setFormValidation('#form-course-create-edit');
     }
 
-
+    //
+    // componentWillReceiveProps(nextProps){
+    //     console.log("nextProps", nextProps);
+    // }
 
     backToList(){
         this.props.coursesActions.backToList();
@@ -351,8 +356,9 @@ CreateEditCoursesContainer.propTypes = {
     commitSuccess       : PropTypes.bool,
     coursesActions      : PropTypes.object.isRequired,
     location            : PropTypes.object,
-    params            : PropTypes.object,
+    params              : PropTypes.object,
     children            : PropTypes.element,
+    types               : PropTypes.array,
 };
 
 function mapStateToProps(state) {
@@ -368,7 +374,7 @@ function mapStateToProps(state) {
         isCommitting        : state.courses.isCommitting,
         commitSuccess       : state.courses.commitSuccess,
         link                : state.courses.link,
-
+        types               : state.courses.types,
     };
 }
 

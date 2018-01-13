@@ -16,7 +16,7 @@ class ExtendWorkModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            deadline: moment().add(1, "hours"),
+            new_deadline: moment().add(1, "hours"),
             penalty: 0,
             reason: "",
         };
@@ -31,7 +31,7 @@ class ExtendWorkModal extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (!(!this.props.isSaving && nextProps.isSaving))
             this.setState({
-                deadline: nextProps.data.deadline,
+                new_deadline: nextProps.data.deadline,
                 penalty: 0,
                 reason: "",
             });
@@ -56,7 +56,9 @@ class ExtendWorkModal extends React.Component {
 
 
     render() {
-        let time = moment(this.state.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+        let isValidDate = moment(this.state.new_deadline, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+        let time = "";
+        if(isValidDate) time = moment(this.state.new_deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
         return (
             <Modal
                 show={this.props.show}
@@ -76,11 +78,10 @@ class ExtendWorkModal extends React.Component {
                                     <div className="col-md-12">
                                         <FormInputDateTime
                                             label="Deadline mới"
-                                            name="deadline"
+                                            name="new_deadline"
                                             updateFormData={this.updateFormData}
                                             value={time}
-                                            id="deadline"
-                                            minDate={time}
+                                            id="new_deadline"
                                             format={DATETIME_FORMAT}
                                         />
                                     </div>

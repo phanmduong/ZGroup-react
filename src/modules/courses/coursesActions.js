@@ -448,3 +448,143 @@ export function changeStatusCourse(index,course) {
             });
     };
 }
+
+
+export function loadAllTypes() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_TYPES});
+        courseApi.loadAllTypes()
+            .then(res => {
+                if(res.data.status === 1){
+                    dispatch({
+                        type: types.LOAD_ALL_TYPES_SUCCESS,
+                        types: res.data.data.types,
+                    });
+                }else {
+                    helper.showNotification('Có lỗi xảy ra!');
+                    dispatch({type: types.LOAD_ALL_TYPES_ERROR,
+                    res: res,
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showNotification('Có lỗi xảy ra!');
+                dispatch({type: types.LOAD_ALL_TYPES_ERROR});
+            });
+    };
+}
+export function loadAllCategories() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_CATEGORIES});
+        courseApi.loadAllCategories()
+            .then(res => {
+                if(res.data.status === 1){
+                    dispatch({
+                        type: types.LOAD_ALL_CATEGORIES_SUCCESS,
+                        categories: res.data.data.categories,
+                    });
+                }else {
+                    helper.showNotification('Có lỗi xảy ra!');
+                    dispatch({type: types.LOAD_ALL_CATEGORIES_ERROR,
+                    res: res,
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showNotification('Có lỗi xảy ra!');
+                dispatch({type: types.LOAD_ALL_CATEGORIES_ERROR});
+            });
+    };
+}
+
+
+export function duplicateCourse(data, reload) {
+    helper.showWarningNotification("Đang Tạo...");
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_DUPLICATE_COURSES});
+        courseApi.duplicateCourse(data.id)
+            .then(res => {
+                if(res.data.status === 1){
+                    helper.showNotification("Tạo Thành Công!");
+                    dispatch({
+                        type: types.DUPLICATE_COURSES_SUCCESS,
+                        data: data
+                    });
+                    reload();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra! ");
+                    dispatch({type: types.DUPLICATE_COURSES_ERROR});
+                }
+
+            })
+            .catch((err) => {
+                console.log(err);
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.DUPLICATE_COURSES_ERROR});
+            });
+    };
+}
+
+export function duplicateLesson(data, reload) {
+    helper.showWarningNotification("Đang Tạo...");
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_DUPLICATE_LESSON});
+        courseApi.duplicateLesson(data.id)
+            .then(res => {
+                if(res.data.status === 1){
+                    helper.showNotification("Tạo Thành Công!");
+                    dispatch({
+                        type: types.DUPLICATE_LESSON_SUCCESS,
+                    });
+                    reload();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra! ");
+                    dispatch({type: types.DUPLICATE_LESSON_ERROR});
+                }
+
+            })
+            .catch((err) => {
+                console.log(err);
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.DUPLICATE_LESSON_ERROR});
+            });
+    };
+}
+
+export function duplicateTerm(data, reload) {
+    helper.showWarningNotification("Đang Tạo...");
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_DUPLICATE_TERM});
+        courseApi.duplicateTerm(data.id)
+            .then(res => {
+                if(res.data.status === 1){
+                    helper.showNotification("Tạo Thành Công!");
+                    dispatch({
+                        type: types.DUPLICATE_TERM_SUCCESS,
+                    });
+                    reload();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra! ");
+                    dispatch({type: types.DUPLICATE_TERM_ERROR});
+                }
+
+            })
+            .catch((err) => {
+                console.log(err);
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.DUPLICATE_TERM_ERROR});
+            });
+    };
+}
+
+
+export function onCategoryChange(data) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_CATEGORY_COURSE,
+            data: data,
+        });
+
+    };
+}
+

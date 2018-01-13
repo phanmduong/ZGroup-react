@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as HistoryExtensionWorkApi from './HistoryExtensionWorkApi';
+import * as helper from '../../helpers/helper';
 
 export function historyExtensionWork(page = 1,search = '') {
     return function (dispatch) {
@@ -30,12 +31,16 @@ export function deleteHistoryExtensionWork(id) {
             type: types.BEGIN_DELETE_HISTORY_EXTENSION_WORK,
         });
         HistoryExtensionWorkApi.deleteHistoryExtensionWork(id)
-            .then(() => {
-                dispatch({
-                    type : types.DELETE_HISTORY_EXTENSION_WORK_SUCCESS,
-                    historyId : id,
-                });
+            .then((res) => {
+               if(res.data.status === 1) {
+                   helper.showNotification("Từ chối thành công");
+                   dispatch({
+                       type: types.DELETE_HISTORY_EXTENSION_WORK_SUCCESS,
+                       historyId: id,
+                   });
+               } else helper.showNotification("Có lỗi xảy ra");
             }).catch(() => {
+            helper.showNotification("Có lỗi xảy ra");
             dispatch({
                 type: types.DELETE_HISTORY_EXTENSION_WORK_ERROR,
             });
@@ -48,12 +53,16 @@ export function acceptHistoryExtensionWork(id){
            type : types.BEGIN_ACCEPT_HISTORY_EXTENSION_WORK,
         });
         HistoryExtensionWorkApi.acceptHistoryExtensionWork(id)
-            .then(()=>{
-                dispatch({
-                    type : types.ACCEPT_HISTORY_EXTENSION_WORK_SUCCESS,
-                    historyId : id,
-                });
+            .then((res)=>{
+               if(res.data.status === 1) {
+                   helper.showNotification("Chấp nhận thành công");
+                   dispatch({
+                       type: types.ACCEPT_HISTORY_EXTENSION_WORK_SUCCESS,
+                       historyId: id,
+                   });
+               } else helper.showNotification("Có lỗi xảy ra");
             }).catch(()=>{
+            helper.showNotification("Có lỗi xảy ra");
                 dispatch({
                     type : types.ACCEPT_HISTORY_EXTENSION_WORK_ERROR
                 });

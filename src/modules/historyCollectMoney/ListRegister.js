@@ -2,7 +2,6 @@ import React from 'react';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import TooltipButton from '../../components/common/TooltipButton';
-import {Link} from 'react-router';
 
 class ListRegister extends React.Component {
     constructor(props, context) {
@@ -42,10 +41,10 @@ class ListRegister extends React.Component {
                                     </TooltipButton>
                                 </td>
                                 <td>
-                                    <Link to={`/teaching/info-student/${register.student.id}`}
+                                    <a href={`/teaching/info-student/${register.student.id}`}
                                           className="text-name-student-register">
                                         {register.student.name}
-                                    </Link>
+                                    </a>
                                 </td>
                                 <td>
                                     <TooltipButton
