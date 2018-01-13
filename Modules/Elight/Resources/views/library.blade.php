@@ -31,12 +31,12 @@
                 @foreach($books as $book)
                     <div class="col-md-3">
                         <div class="card card-profile" style="border-radius: 0px;">
-                            <div style="padding: 3%;">
+                            <a href="/sach/{{$book->id}}" style="padding: 3%;">
                                 <div style="background-image: url('{{$book->icon_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>
-                            </div>
+                            </a>
                             <div>
                                 <div class="container text-left" style="min-height: 130px;"><br>
-                                    <p style="font-weight: 600;">{{$book->name}}</p>
+                                    <a href="/sach/{{$book->id}}" style="font-weight: 600;">{{$book->name}}</a>
                                     <p>{{shortString($book->description,15)}}</p>
                                 </div>
                             </div>
