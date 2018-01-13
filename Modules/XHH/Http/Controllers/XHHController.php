@@ -129,11 +129,22 @@ class XHHController extends Controller
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $book = Good::find($book_id);
         $newestBooks = Good::where('type', 'book')->where('id', '<>', $book_id)->limit(4)->get();
+
+        $author = $book->properties()->where('name', 'AUTHOR_BOOK')->first();
+        $author = $author ? $author->value : 'Không có';
+        $language = $book->properties()->where('name', 'LANGUAGE_BOOK')->first();
+        $language = $language ? $language->value : 'Không có';
+        $publisher = $book->properties()->where('name', 'PUBLISHER_BOOK')->first();
+        $publisher = $publisher ? $publisher->value : 'Không có';
+
         return view('xhh::book', [
             'book' => $book,
             'newestBooks' => $newestBooks,
             'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
+            'total_blogs' => $totalBlogs,
+            'author' => $author,
+            'language' => $language,
+            'publisher' => $publisher,
         ]);
     }
 
