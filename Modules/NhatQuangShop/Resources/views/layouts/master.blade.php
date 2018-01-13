@@ -225,13 +225,12 @@
                     </button>
                 </div>
 
-                <div class="modal-body" id="flash-order">
-                        <product-item
-                                v-for="product in products"
-                        >
+                <div class="modal-body">
+                    <div id="flash-order">
+                    </div>
 
-                        </product-item>
-                    <button v-on:click="push" type="button" class="btn btn-info btn-block btn-round">Đặt thêm sản phẩm</button>
+
+
                 </div>
 
                 <div class="modal-footer">
