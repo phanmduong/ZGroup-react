@@ -1,11 +1,15 @@
+import CompanyContainer from "../modules/companies/CompanyContainer";
+import CreateCompanyContainer from "../modules/companies/CreateCompanyContainer";
 /**
  * Tab Kinh Doanh
  */
 export default [
     {
-        // path: "/manage/bases",
         path: "/business/companies",
-        component: {}
+        component: CompanyContainer,
     },
-
+    {
+        path: "/business/company/create",
+        component: CreateCompanyContainer,
+    },
 ];

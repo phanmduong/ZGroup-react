@@ -63,7 +63,7 @@ import landingPagesReducer from "../modules/landingpage/landingPagesReducer";
 import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/HistoryExtensionWorkReducer";
 import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
 import surveyReducer from '../modules/survey/surveyReducer';
-
+import CompanyReducer from '../modules/companies/CompanyReducer';
 
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
@@ -130,6 +130,7 @@ const appReducer = combineReducers({
     landingPages : landingPagesReducer,
     historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
+    companies: CompanyReducer,
 });
 
 const rootReducer = (state, action) => {

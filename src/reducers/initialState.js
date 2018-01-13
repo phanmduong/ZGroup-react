@@ -1467,6 +1467,15 @@ export default {
     survey: {
         surveys: [],
         isLoading: false,
-    }
+    },
+    companies: {
+        isLoadingCompanies: false,
+        isLoadingCompany: false,
+        isLoadingFields: false,
+        isSavingCompany: false,
+        isSavingField: false,
+        company: [],
+        fields: [],
+    },
 
 };
