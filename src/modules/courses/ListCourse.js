@@ -45,7 +45,7 @@ class ListCourse extends React.Component {
                         <th>Số lớp</th>
                         <th>Số buổi</th>
                         <th>Giá</th>
-                        <th>Hình thức</th>
+                        {/*<th>Hình thức</th>*/}
                         <th>Trạng thái</th>
                         <th/>
                     </tr>
@@ -53,7 +53,7 @@ class ListCourse extends React.Component {
                     <tbody>
                     {this.props.courses.map((course, index) => {
                         return (
-                            <tr key={course.id}>
+                            <tr key={index}>
                                 <td>
                                     <button className="btn btn-round btn-fab btn-fab-mini text-white"
                                             data-toggle="tooltip"
@@ -81,12 +81,12 @@ class ListCourse extends React.Component {
                                 <td>{course.duration}</td>
                                 <td>{helper.convertMoneyToK(course.price)}</td>
                                 <td>{this.props.type || ""}</td>
-                                <td><Switch
-                                    onChange={() => {
-                                        return this.props.changeStatusCourse(index, course);
-                                    }}
-                                    value={course.status} onText="Hiện" offText="Ẩn"
-                                /></td>
+                                {/*<td><Switch*/}
+                                    {/*onChange={() => {*/}
+                                        {/*return this.props.changeStatusCourse(index, course);*/}
+                                    {/*}}*/}
+                                    {/*value={course.status} onText="Hiện" offText="Ẩn"*/}
+                                {/*/></td>*/}
                                 <td>
                                     <ButtonGroupAction
                                         editUrl={"/teaching/courses/edit/" + course.id + ""}
