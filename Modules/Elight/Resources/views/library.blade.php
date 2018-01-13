@@ -42,7 +42,7 @@
                             </div>
                             <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
                                 <div style="text-align: right;">
-                                    <a class="btn btn-google" href="/sach/{{$book->id}}"
+                                    <a class="btn btn-success" href="/sach/{{$book->id}}"
                                        style="padding: 3px; margin: 3px; font-size: 10px;">
                                         Nghe online <i class="fa fa-headphones" aria-hidden="true"></i></a>
                                 </div>

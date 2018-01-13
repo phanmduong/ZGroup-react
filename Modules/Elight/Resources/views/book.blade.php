@@ -86,6 +86,12 @@
                     <div>
                         {!! $lesson_selected->detail !!}
                     </div>
+                    <div class="comments media-area">
+                        <div class="fb-comments"
+                             data-href="{{config('app.protocol').config('app.domain').'/sach/'.$course->id.'/'.$lesson_selected->id}}"
+                             data-width="100%" data-numposts="5">
+                        </div>
+                    </div>
                 </div>
             @endif
             <div class="col-md-4">
