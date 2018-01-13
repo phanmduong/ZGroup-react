@@ -413,15 +413,11 @@ class User extends Authenticatable
             'can_delete' => $canDelete
         ];
     }
-
-    public function transferMoneys()
-    {
+   public function transferMoneys(){
         return $this->hasMany(TransferMoney::class, 'user_id');
-    }
-
-    public function bank_count()
-    {
+   }
+   public function bank_count(){
         return $this->hasMany(BankAccount::class, 'user_id');
-    }
+   }
 }
 

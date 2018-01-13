@@ -35,7 +35,7 @@ class CourseRepository
     public function paid_courses($user)
     {
         if ($user && $user->role == 0) {
-            $courses = $user->registers()->where('status', 1)->whereNotNull('class_id')->get()->map(function ($register) {
+            $courses = $user->registers()->where('status', 1)->get()->map(function ($register) {
                 $data = [
                     "id" => $register->studyClass->course->id,
                     "name" => $register->studyClass->course->name,

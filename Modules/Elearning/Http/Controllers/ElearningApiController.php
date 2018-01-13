@@ -55,6 +55,7 @@ class ElearningApiController extends ApiController
                 $register->user_id = $this->user->id;
                 $register->gen_id = $current_gen->id;
                 $register->course_id = $course->id;
+                $register->class_id = $course->classes()->where('gen_id', $current_gen->id)->first()->id;
                 $register->save();
             } else {
                 $user = User::where('email', '=', $request->email)->first();
@@ -78,12 +79,12 @@ class ElearningApiController extends ApiController
                         'user' => $user
                     ];
 
-
                     $current_gen = Gen::getCurrentGen();
                     $register = new Register();
                     $register->user_id = $user->id;
                     $register->gen_id = $current_gen->id;
                     $register->course_id = $course->id;
+                    $register->class_id = $course->classes()->where('gen_id', $current_gen->id)->first()->id;
                     $register->save();
                 }
             }
