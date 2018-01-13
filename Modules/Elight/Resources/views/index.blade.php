@@ -170,7 +170,7 @@
                 <br>
                 <div class="container">
                     <div class="row">
-                        <div>
+                        <div class="col-md-12">
                             <div class="description">
                                 <h1 class="medium-title">
                                     Học giao tiếp<br>
