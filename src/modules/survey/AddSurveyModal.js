@@ -42,32 +42,34 @@ class AddSurveyModal extends React.Component {
         return (
             <Modal show={this.props.showModal} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Thêm survey</Modal.Title>
+                    <Modal.Title>Thêm khảo sát</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">
                         <label>Tên:</label>
                         <input type="text" value={this.state.surveyName} className="form-control"
-                               placeholder="hell yeah"
+                               placeholder="Tên khảo sát"
                                onChange={this.inputOnchange}/>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     {
                         this.state.isLoading ?
-                        (
-                            <button
-                                className="btn btn-fill btn-rose disabled"
-                            >
-                                <i className="fa fa-spinner fa-spin"/> Đang cập nhật
-                            </button>
-                        ) :
-                        (
-                            <div>
-                                <button className="btn btn-rose" onClick={this.submitButtonOnClick}>Tạo</button>
-                                <Button onClick={this.handleClose}>Đóng</Button>
-                            </div>
-                        )
+                            (
+                                <button
+                                    className="btn btn-fill btn-rose disabled">
+                                    <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                </button>
+                            ) :
+                            (
+                                <div>
+                                    <button
+                                        disabled={this.state.surveyName === ""}
+                                        className="btn btn-rose" onClick={this.submitButtonOnClick}>Tạo
+                                    </button>
+                                    <Button className="btn btn-default" onClick={this.handleClose}>Đóng</Button>
+                                </div>
+                            )
                     }
                 </Modal.Footer>
             </Modal>

@@ -33,7 +33,13 @@ class PropertiesManageModal extends React.Component {
     createPropertyModal(name) {
         if (helper.isNull(name)) {
             helper.showErrorNotification("Bạn cần nhập tên thuộc tính");
-        } else this.props.createProductAction.createPropertyModal(name);
+        } else {
+            this.setState({
+                page: 1,
+                query: ''
+            });
+            this.props.createProductAction.createPropertyModal(name);
+        }
     }
 
     deletePropertyModal(property) {

@@ -1,12 +1,13 @@
 import SurveyContainer from "../modules/survey/SurveyContainer";
-// import SurveyEdit from "../modules/survey/SurveyEdit";
+import SurveyDetailContainer from "../modules/survey/SurveyDetailContainer";
+
 export default [
     {
         path: "/survey/all",
-        component: SurveyContainer,
+        component: SurveyContainer
     },
-    // {
-    //     path: "/survey/edit/",
-    //     component: SurveyEdit,
-    // }
+    {
+        path: "/survey/:surveyId",
+        component: SurveyDetailContainer
+    }
 ];
