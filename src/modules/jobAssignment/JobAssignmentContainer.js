@@ -124,7 +124,10 @@ class JobAssignmentContainer extends React.Component {
     }
 
     revertWork(work){
-        this.props.jobAssignmentAction.revertWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
+        helper.confirm("warning","Yêu cầu làm lại?","Bạn sẽ yêu cầu làm lại công việc này", ()=>{
+            return this.props.jobAssignmentAction.revertWork(work, "doing", this.props.jobAssignmentAction.loadWorks);
+        });
+
     }
 
     onWorkTypeChange(obj){
