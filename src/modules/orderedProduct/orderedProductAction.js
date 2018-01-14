@@ -1,15 +1,15 @@
 import * as types from '../../constants/actionTypes';
 import * as orderedProductApi from './orderedProductApi';
 
-export function loadAllOrders(page = 1, search, startTime, endTime, staff_id, user_id) {
+export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ORDERED_PRODUCT});
         const infoPromise = new Promise((resolve) => {
-            orderedProductApi.loadOrderInfo(page, search, startTime, endTime, staff_id, user_id)
+            orderedProductApi.loadOrderInfo(page, search, startTime, endTime, status, staff_id, user_id)
                 .then(res => resolve(res));
         });
         const orderPromise = new Promise((resolve) => {
-            orderedProductApi.loadAllOrders(page, search, startTime, endTime, staff_id, user_id)
+            orderedProductApi.loadAllOrders(page, search, startTime, endTime, status, staff_id, user_id)
                 .then(res => resolve(res));
         });
         Promise.all([infoPromise, orderPromise]).then(data => {
@@ -27,5 +27,17 @@ export function loadAllOrders(page = 1, search, startTime, endTime, staff_id, us
                 totalCount: orderRes.data.paginator.total_count
             });
         });
+    };
+}
+
+export function getAllStaffs() {
+    return function (dispatch) {
+        orderedProductApi.getAllStaffApi()
+            .then(res => {
+                dispatch({
+                    type: types.GET_ALL_STAFFS_ORDERED_PRODUCT,
+                    staffs: res.data.staffs
+                });
+            });
     };
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadAllOrders(page = 1, search, startTime, endTime, staff_id, user_id) {
+export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id) {
     let url = env.MANAGE_API_URL + '/order/delivery?limit=10&page=' + page;
     if (search) {
         url += `&search=${search}`;
@@ -19,10 +19,13 @@ export function loadAllOrders(page = 1, search, startTime, endTime, staff_id, us
     if (user_id) {
         url += `&user_id=${user_id}`;
     }
+    if (status) {
+        url += `&status=${status}`;
+    }
     return axios.get(url);
 }
 
-export function loadOrderInfo(page = 1, search, startTime, endTime, staff_id, user_id) {
+export function loadOrderInfo(page = 1, search, startTime, endTime, status, staff_id, user_id) {
     let url = env.MANAGE_API_URL + '/order/delivery-info?page=' + page;
     if (search) {
         url += `&search=${search}`;
@@ -39,6 +42,18 @@ export function loadOrderInfo(page = 1, search, startTime, endTime, staff_id, us
     }
     if (user_id) {
         url += `&user_id=${user_id}`;
+    }
+    if (status) {
+        url += `&status=${status}`;
+    }
+    return axios.get(url);
+}
+
+export function getAllStaffApi() {
+    let url = env.MANAGE_API_URL + '/staff?limit=-1';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
     }
     return axios.get(url);
 }

@@ -12,7 +12,7 @@ import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
-import {ORDER_STATUS} from "../../constants/constants";
+import {ORDERED_STATUS} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
 import * as orderedProductAction from "./orderedProductAction";
 
@@ -26,6 +26,7 @@ class OrderedContainer extends React.Component {
                 startTime: '',
                 endTime: ''
             },
+            status: '',
             staff_id: null,
             user_id: null
         };
@@ -33,10 +34,13 @@ class OrderedContainer extends React.Component {
         this.orderedSearchChange = this.orderedSearchChange.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
+        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.statusesSearchChange = this.statusesSearchChange.bind(this);
     }
 
     componentWillMount() {
         this.props.orderedProductAction.loadAllOrders();
+        this.props.orderedProductAction.getAllStaffs();
     }
 
     orderedSearchChange(value) {
@@ -53,10 +57,75 @@ class OrderedContainer extends React.Component {
                 value,
                 this.state.time.startTime,
                 this.state.time.endTime,
+                this.state.status,
                 this.state.staff_id,
                 this.state.user_id
             );
         }.bind(this), 500);
+    }
+
+    staffsSearchChange(value) {
+        if (value) {
+            this.setState({
+                staff_id: value.value,
+                page: 1
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.status,
+                value.value,
+                this.state.user_id
+            );
+        } else {
+            this.setState({
+                staff_id: null,
+                page: 1
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.status,
+                null,
+                this.state.user_id
+            );
+        }
+    }
+
+    statusesSearchChange(value) {
+        if (value) {
+            this.setState({
+                status: value.value,
+                page: 1
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                value.value,
+                this.state.staff_id,
+                this.state.user_id
+            );
+        } else {
+            this.setState({
+                status: null,
+                page: 1
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                null,
+                this.state.staff_id,
+                this.state.user_id
+            );
+        }
     }
 
     loadOrders(page = 1) {
@@ -66,6 +135,7 @@ class OrderedContainer extends React.Component {
             this.state.query,
             this.state.time.startTime,
             this.state.time.endTime,
+            this.state.status,
             this.state.staff_id,
             this.state.user_id
         );
@@ -81,6 +151,7 @@ class OrderedContainer extends React.Component {
                 this.state.query,
                 time.startTime,
                 time.endTime,
+                this.state.status,
                 this.state.staff_id,
                 this.state.user_id
             );
@@ -231,33 +302,22 @@ class OrderedContainer extends React.Component {
                                                 <div className="form-group col-md-4">
                                                     <label className="label-control">Tìm theo thu ngân</label>
                                                     <Select
-                                                        value={this.state.staff}
-                                                        options={[]}
+                                                        value={this.state.staff_id}
+                                                        options={this.props.staffs.map((staff) => {
+                                                            return {
+                                                                ...staff,
+                                                                value: staff.id,
+                                                                label: staff.name
+                                                            };
+                                                        })}
                                                         onChange={this.staffsSearchChange}
-                                                    />
-                                                </div>
-                                                <div className="form-group col-md-4">
-                                                    <label className="label-control">Tìm theo cửa hàng</label>
-                                                    <Select
-                                                        value={this.state.base}
-                                                        options={[
-                                                            {
-                                                                value: 1,
-                                                                label: "HIỂN THỊ RA WEBSITE"
-                                                            },
-                                                            {
-                                                                value: "0",
-                                                                label: "KHÔNG HIỂN THỊ RA WEBSITE"
-                                                            }
-                                                        ]}
-                                                        onChange={this.displayStatusChange}
                                                     />
                                                 </div>
                                                 <div className="form-group col-md-4">
                                                     <label className="label-control">Tìm theo trạng thái</label>
                                                     <Select
                                                         value={this.state.status}
-                                                        options={ORDER_STATUS}
+                                                        options={ORDERED_STATUS}
                                                         onChange={this.statusesSearchChange}
                                                     />
                                                 </div>
@@ -302,6 +362,7 @@ OrderedContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
+    staffs: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     orderedProductAction: PropTypes.object.isRequired
 };
@@ -317,6 +378,7 @@ function mapStateToProps(state) {
         currentPage: state.orderedProduct.currentPage,
         totalPages: state.orderedProduct.totalPages,
         totalCount: state.orderedProduct.totalCount,
+        staffs: state.orderedProduct.staffs,
         user: state.login.user
     };
 }

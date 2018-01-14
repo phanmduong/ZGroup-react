@@ -8,7 +8,8 @@ export default {
         currentPage: 0,
         totalPages: 0,
         totalCount: 0,
-        isLoading: false
+        isLoading: false,
+        staffs: []
     },
 
     createProduct: {
