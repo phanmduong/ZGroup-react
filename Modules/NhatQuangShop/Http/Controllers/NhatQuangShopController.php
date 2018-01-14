@@ -88,6 +88,7 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::about_us');
     }
 
+
     public function addGoodToCart($goodId, Request $request)
     {
         $goods_str = $request->session()->get('goods');
@@ -226,7 +227,8 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::contact_us');
     }
 
-    public function contact_info(Request $request)
+
+    public function contact_info( $subfix, Request $request)
     {
         $data = ['email' => $request->email, 'name' => $request->name, 'message_str' => $request->message_str];
 
@@ -288,7 +290,7 @@ class NhatQuangShopController extends Controller
 
     public function saveOrder(Request $request)
     {
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $email = $request->email;
         $name = $request->name;
         $phone = $phone;

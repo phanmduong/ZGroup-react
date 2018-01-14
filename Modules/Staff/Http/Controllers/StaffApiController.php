@@ -40,7 +40,7 @@ class StaffApiController extends ManageApiController
             return $this->respondErrorWithStatus($errors);
         }
 
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
 
         $user = new User;
         $user->name = $request->name;
