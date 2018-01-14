@@ -50,5 +50,9 @@ export function createSaleGoodApi(createSaleGood) {
         "status": createSaleGood.infoOrder.status,
         "good_orders": JSON.stringify(good_orders),
         "warehouse_id" : createSaleGood.warehouse,
+        "name" : createSaleGood.customer.name,
+        "address" : createSaleGood.customer.address,
+        "phone" : createSaleGood.customer.phone,
+        "email" : createSaleGood.customer.email,
     });
 }
