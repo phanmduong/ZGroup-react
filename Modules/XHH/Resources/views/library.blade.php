@@ -40,10 +40,10 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right"
-                            style="background: white; overflow: scroll; height: 300px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15)">
+                            style="background: white; overflow: scroll; height: 300px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);border-radius: 0px">
                             @foreach($type_books as $type_book)
                                 <a class="dropdown-item" href=""
-                                   style="padding: 10px 15px!important; border-radius: 0px">
+                                   style="padding: 10px 15px!important;">
                                     {{$type_book}}
                                 </a>
                             @endforeach
