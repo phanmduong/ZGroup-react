@@ -690,6 +690,7 @@ export default {
             pointByDate: [],
             cardsByDate: [],
             cards: [],
+            staffs: [],
             isLoading: false,
             showCardsModal: false,
             isLoadingCardsModal: false,

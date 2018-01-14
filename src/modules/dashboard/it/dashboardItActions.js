@@ -21,7 +21,6 @@ export function loadFilteredCards(from, to, projectId = "", staffId = "") {
 }
 
 export function loadCountCardsByStaffDuration(from, to, projectId = "", staffId = "") {
-
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CARDS_STAFF_DURATION,
@@ -32,13 +31,14 @@ export function loadCountCardsByStaffDuration(from, to, projectId = "", staffId 
                     type: types.LOAD_CARDS_STAFF_DURATION_SUCCESS,
                     days: res.data.data.days,
                     num_cards: res.data.data.num_cards,
-                    total_points: res.data.data.total_points
+                    total_points: res.data.data.total_points,
+                    staffs: res.data.data.staffs
                 });
             });
     };
 }
 
-export function toggleShowCardsModal(show){
+export function toggleShowCardsModal(show) {
     return function (dispatch) {
         dispatch({
             type: types.SHOW_CARDS_MODAL_DASHBOARD_IT,
