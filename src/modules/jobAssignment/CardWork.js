@@ -48,15 +48,15 @@ class CardWork extends React.Component {
                                         <i className="material-icons">more_horiz</i>
                                     </a>
                                     <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
-                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[3].value) ? true : user.role != 2}>
-                                            <Link
-                                                onClick={(e)=>{e.stopPropagation();}}
-                                                to={`/hr/job-assignment/edit/${work.id}`}>
-                                                <i style={{fontSize: "16px"}}
-                                                   className="material-icons keetool-card">edit</i>
-                                                Chỉnh sửa công việc
-                                            </Link>
-                                        </li>
+                                        {/*<li className="more-dropdown-item" hidden={(status == STATUS_WORK[3].value) ? true : user.role != 2}>*/}
+                                            {/*<Link*/}
+                                                {/*onClick={(e)=>{e.stopPropagation();}}*/}
+                                                {/*to={`/hr/job-assignment/edit/${work.id}`}>*/}
+                                                {/*<i style={{fontSize: "16px"}}*/}
+                                                   {/*className="material-icons keetool-card">edit</i>*/}
+                                                {/*Chỉnh sửa công việc*/}
+                                            {/*</Link>*/}
+                                        {/*</li>*/}
                                         {/*<li className="more-dropdown-item">*/}
                                         {/*<a onClick={()=>{return this.props.delete(work.id);}}>*/}
                                         {/*<i style={{fontSize: "16px"}}*/}
@@ -116,7 +116,23 @@ class CardWork extends React.Component {
                                 work.staffs && work.staffs.length > 0 && (
                                     <div className="keetool-card"
                                          style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
-                                        {work.staffs.map((staff) => {
+                                        {
+                                            (work.staffs && work.staffs.length > 5) &&
+                                            <div key={-1} className="keetool-card" style={{padding: "2px 0"}}>
+                                                <div style={{
+                                                    width: "25px",
+                                                    marginRight: "5px",
+                                                    height: "25px",
+                                                    lineHeight: "25px",
+                                                    textAlign: "center",
+                                                    backgroundColor: "#d9d9d9",
+                                                    borderRadius: "4px"
+                                                }}>
+                                                    <i className="material-icons">add</i>
+                                                </div>
+                                            </div>
+                                        }
+                                        {work.staffs.slice(0,Math.min(work.staffs.length, 4)).map((staff) => {
                                             return (
                                                 <div key={staff.id} className="keetool-card" style={{padding: "2px 0"}}>
                                                     <Avatar className="keetool-card"
@@ -125,6 +141,7 @@ class CardWork extends React.Component {
                                                 </div>
                                             );
                                         })}
+
                                     </div>
                                 )
                             }
