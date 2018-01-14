@@ -1,0 +1,16 @@
+{
+    "name": "Currency",
+    "alias": "currency",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Currency\\Providers\\CurrencyServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
