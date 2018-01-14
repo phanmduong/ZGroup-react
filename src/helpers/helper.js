@@ -1206,10 +1206,12 @@ export function convertDataGeneral(data) {
 }
 
 
-export function validateLinkImage(link){
-    if(isEmptyInput(link) || avatarEmpty(link) || link == '""') return NO_IMAGE;
-    if(link.substring(0,4) === 'http'){
+export function validateLinkImage(link) {
+    if (isEmptyInput(link) || avatarEmpty(link) || link == '""') return NO_IMAGE;
+    if (link.substring(0, 4) === 'http') {
         return link;
     }
     return 'http://' + link;
 }
+
+

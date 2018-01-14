@@ -82,11 +82,36 @@ export function getAllStaffs() {
     };
 }
 
-export function changeStatusOrder(status, orderId) {
+export function loadWareHouse(page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_WAREHOUSES_GOOD_ORDER
+        });
+        goodOrdersApi.loadWareHouseApi(page, search)
+            .then(res => {
+                dispatch({
+                    type: types.GET_WAREHOUSES_GOOD_ORDER,
+                    warehousesList: res.data.warehouses,
+                    totalCountWarehouse: res.data.paginator.total_count,
+                    totalPagesWarehouse: res.data.paginator.total_pages,
+                    currentPageWarehouse: res.data.paginator.current_page
+                });
+            });
+    };
+}
+
+export function showSelectWarehouseModal(nextStatus, orderIdWarehouseModal) {
+    return ({
+        type: types.TOGGLE_SELECT_WAREHOUSE_MODAL,
+        nextStatus,
+        orderIdWarehouseModal
+    });
+}
+
+export function changeStatusOrder(status, orderId, warehouse_id) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
-        dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
-        goodOrdersApi.changeStatusOrder(status, orderId)
+        goodOrdersApi.changeStatusOrder(status, orderId, warehouse_id)
             .then((res) => {
                 if (res.data.status === 0) {
                     helper.showErrorNotification(res.data.message.message);

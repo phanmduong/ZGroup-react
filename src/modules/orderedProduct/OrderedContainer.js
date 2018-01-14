@@ -1,21 +1,20 @@
 /**
- * Created by phanmduong on 10/20/17.
+ * Created by Nguyen Tien Tai on 01/10/17.
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import Search from '../../components/common/Search';
 import FormInputDate from '../../components/common/FormInputDate';
 import TooltipButton from '../../components/common/TooltipButton';
+import ListOrder from './ListOrder';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
 import {ORDER_STATUS} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
-import * as goodOrderActions from "../goodOrders/goodOrderActions";
 
-class OrdersContainer extends React.Component {
+class OrderedContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -32,127 +31,6 @@ class OrdersContainer extends React.Component {
 
         };
         this.timeOut = null;
-        this.ordersSearchChange = this.ordersSearchChange.bind(this);
-        this.updateFormDate = this.updateFormDate.bind(this);
-        this.loadOrders = this.loadOrders.bind(this);
-        this.staffsSearchChange = this.staffsSearchChange.bind(this);
-        this.statusesSearchChange = this.statusesSearchChange.bind(this);
-        this.changeStatusOrder = this.changeStatusOrder.bind(this);
-        this.showShipGoodModal = this.showShipGoodModal.bind(this);
-        this.showAddNoteModal = this.showAddNoteModal.bind(this);
-    }
-
-    componentWillMount() {
-        this.loadOrders();
-        this.props.goodOrderActions.getAllStaffs();
-    }
-
-    closeModal() {
-        this.setState({isShowModal: false});
-    }
-
-    updateFormDate(event) {
-        const field = event.target.name;
-        let time = {...this.state.time};
-        time[field] = event.target.value;
-        if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
-            this.props.goodOrderActions.loadAllOrders(1, this.state.query, time.startTime, time.endTime);
-            this.setState({time: time, page: 1});
-        } else {
-            this.setState({time: time});
-        }
-    }
-
-    ordersSearchChange(value) {
-        this.setState({
-            page: 1,
-            query: value
-        });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.goodOrderActions.loadAllOrders(1, value, this.state.time.startTime, this.state.time.endTime);
-        }.bind(this), 500);
-    }
-
-    loadOrders(page = 1) {
-        this.setState({page: page});
-        this.props.goodOrderActions.loadAllOrders(page, this.state.query, this.state.time.startTime, this.state.time.endTime);
-    }
-
-    staffsSearchChange(value) {
-        if (value) {
-            this.setState({
-                staff: value.value,
-                page: 1
-            });
-            this.props.goodOrderActions.loadAllOrders(
-                1,
-                this.state.query,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                value.value,
-                this.state.status
-            );
-        } else {
-            this.setState({
-                staff: null,
-                page: 1
-            });
-            this.props.goodOrderActions.loadAllOrders(
-                1,
-                this.state.query,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                null,
-                this.state.status
-            );
-        }
-    }
-
-    statusesSearchChange(value) {
-        if (value) {
-            this.setState({
-                status: value.value,
-                page: 1
-            });
-            this.props.goodOrderActions.loadAllOrders(
-                1,
-                this.state.query,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.staff,
-                value.value
-            );
-        } else {
-            this.setState({
-                status: null,
-                page: 1
-            });
-            this.props.goodOrderActions.loadAllOrders(
-                1,
-                this.state.query,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.staff,
-                null
-            );
-        }
-    }
-
-    changeStatusOrder(status, orderId) {
-        this.props.goodOrderActions.changeStatusOrder(status, orderId);
-    }
-
-    showShipGoodModal(order) {
-        this.props.goodOrderActions.showShipGoodModal(true);
-        this.props.goodOrderActions.handleShipOrderBegin(order);
-    }
-
-    showAddNoteModal(order) {
-        this.props.goodOrderActions.showAddNoteModal();
-        this.props.goodOrderActions.handleAddNoteModal(order);
     }
 
     render() {
@@ -372,7 +250,7 @@ class OrdersContainer extends React.Component {
     }
 }
 
-OrdersContainer.propTypes = {
+OrderedContainer.propTypes = {
     totalMoney: PropTypes.number.isRequired,
     totalOrder: PropTypes.number.isRequired,
     totalPaidMoney: PropTypes.number.isRequired,
@@ -404,10 +282,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
     return {
-        goodOrderActions: bindActionCreators(goodOrderActions, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrdersContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderedContainer);

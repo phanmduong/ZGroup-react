@@ -9,7 +9,7 @@ export function getCategoriesApi() {
 }
 
 export function getManufacturesApi() {
-    let url = env.MANAGE_API_URL + "/manufacture?token=" + token + "&limit=-1";
+    let url = env.MANAGE_API_URL + "/v2/manufacture?token=" + token + "&limit=-1";
     return axios.get(url);
 }
 
@@ -96,12 +96,12 @@ export function createPropertyApi(name) {
 }
 
 export function deleteManufactureApi(manufacture) {
-    let url = env.MANAGE_API_URL + "/manufacture/" + manufacture.id + "?token=" + token;
+    let url = env.MANAGE_API_URL + "/v2/manufacture/" + manufacture.id + "?token=" + token;
     return axios.delete(url);
 }
 
 export function createManufactureApi(name) {
-    let url = env.MANAGE_API_URL + "/manufacture?token=" + token;
+    let url = env.MANAGE_API_URL + "/v2/manufacture?token=" + token;
     return axios.post(url, {
         name: name
     });

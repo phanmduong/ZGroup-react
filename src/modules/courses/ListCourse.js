@@ -6,8 +6,6 @@ import {connect}                        from 'react-redux';
 import  * as coursesActions   from './coursesActions';
 import {bindActionCreators}             from 'redux';
 import initialState                     from '../../reducers/initialState';
-import Switch                           from "../../components/common/Switch";
-import FormInputSelect from "../../components/common/FormInputSelect";
 
 
 class ListCourse extends React.Component {

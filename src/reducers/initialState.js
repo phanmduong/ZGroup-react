@@ -1,8 +1,12 @@
 export default {
+    orderedProduct: {},
+
     createProduct: {
         categories: [],
         manufactures: [],
         manufacturesRender: [],
+        manufacturesFilter: [],
+        properties_list_filter: [],
         isUploadingAvatar: false,
         totalPagesManufactures: 1,
         currentPageManufactures: 1,
@@ -855,7 +859,15 @@ export default {
     },
 
     goodOrders: {
+        warehousesList: [],
+        selectWarehouseModal: false,
+        isLoadingWarehouse: false,
+        totalCountWarehouse: 1,
+        totalPagesWarehouse: 1,
+        currentPageWarehouse: 1,
         isUpdate: false,
+        nextStatus: '',
+        orderIdWarehouseModal: 0,
         orderId: 0,
         labelId: -1,
         shipGoodModal: false,
@@ -1157,9 +1169,9 @@ export default {
             link_icon: "",
         },
 
-        pixel:{
-            name:"",
-            code:"",
+        pixel: {
+            name: "",
+            code: "",
         },
         term: {
             id: null,
@@ -1434,7 +1446,7 @@ export default {
             current_page: 1,
             limit: 20,
         },
-        data:[ {
+        data: [{
             id: null,
             penalty: 0,
             new_deadline: "0000-00-00 00:00:00",
@@ -1466,6 +1478,10 @@ export default {
     survey: {
         surveys: [],
         isLoading: false,
+        survey: {},
+        showEditQuestionModal: false,
+        question: {},
+        isSavingQuestion: false
     }
 
 };

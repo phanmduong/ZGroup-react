@@ -14,22 +14,14 @@ export function getManufacturesCreateProduct(page, search) {
                 let total_count = manufactures.length;
                 dispatch({
                     type: types.GET_MANUFACTURES_CREATE_PRODUCT,
-                    manufactures: manufactures,
+                    manufactures,
+                    manufacturesFilter: manufactures,
                     manufacturesRender: manufactures.slice(0, 10),
                     totalPagesManufactures: (total_count % 10 === 0) ?
                         (total_count / 10) : ((total_count - total_count % 10) / 10) + 1,
                     currentPageManufactures: 1,
                     totalCountManufactures: total_count
                 });
-            });
-    };
-}
-
-export function getCategoriesCreateProduct() {
-    return function (dispatch) {
-        createProductApi.getCategoriesApi()
-            .then(function (response) {
-                dispatch(saveCategoriesCreateProduct(helper.superSortCategories(response.data.data[0].good_categories)));
             });
     };
 }
@@ -42,13 +34,23 @@ export function getPropertiesCreateProduct() {
                 let total_count = properties_list.length;
                 dispatch({
                     type: types.GET_PROPERTIES_CREATE_PRODUCT,
-                    properties_list: properties_list,
+                    properties_list,
+                    properties_list_filter: properties_list,
                     properties_list_render: properties_list.slice(0, 10),
                     totalPagesProperties: (total_count % 10 === 0) ?
                         (total_count / 10) : ((total_count - total_count % 10) / 10) + 1,
                     currentPageProperties: 1,
                     totalCountProperties: total_count
                 });
+            });
+    };
+}
+
+export function getCategoriesCreateProduct() {
+    return function (dispatch) {
+        createProductApi.getCategoriesApi()
+            .then(function (response) {
+                dispatch(saveCategoriesCreateProduct(helper.superSortCategories(response.data.data[0].good_categories)));
             });
     };
 }
@@ -323,9 +325,8 @@ export function handlePropertiesManage(properties_list) {
 export function deletePropertyModal(property) {
     return function (dispatch, getState) {
         let properties_list = getState().createProduct.properties_list;
-        let totalPagesProperties = getState().createProduct.totalPagesProperties;
+        let properties_list_filter = getState().createProduct.properties_list_filter;
         let currentPageProperties = getState().createProduct.currentPageProperties;
-        let totalCountProperties = getState().createProduct.totalCountProperties;
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
@@ -333,14 +334,16 @@ export function deletePropertyModal(property) {
             .then(function (res) {
                 if (res.data.status) {
                     properties_list = properties_list.filter(proper => proper.id !== property.id);
-                    totalCountProperties -= 1;
-                    totalPagesProperties = (totalCountProperties % 10 === 0) ?
+                    properties_list_filter = properties_list_filter.filter(proper => proper.id !== property.id);
+                    let totalCountProperties = properties_list_filter.length;
+                    let totalPagesProperties = (totalCountProperties % 10 === 0) ?
                         (totalCountProperties / 10) : ((totalCountProperties - totalCountProperties % 10) / 10) + 1;
                     let start = 10 * (currentPageProperties - 1);
                     dispatch({
                         type: types.GET_PROPERTIES_CREATE_PRODUCT,
                         properties_list,
-                        properties_list_render: properties_list.slice(start, start + 10),
+                        properties_list_filter,
+                        properties_list_render: properties_list_filter.slice(start, start + 10),
                         totalPagesProperties,
                         currentPageProperties,
                         totalCountProperties
@@ -357,9 +360,8 @@ export function deletePropertyModal(property) {
 export function deleteManufactureModal(manufacture) {
     return function (dispatch, getState) {
         let manufactures = getState().createProduct.manufactures;
-        let totalPagesManufactures = getState().createProduct.totalPagesManufactures;
+        let manufacturesFilter = getState().createProduct.manufacturesFilter;
         let currentPageManufactures = getState().createProduct.currentPageManufactures;
-        let totalCountManufactures = getState().createProduct.totalCountManufactures;
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
@@ -367,14 +369,16 @@ export function deleteManufactureModal(manufacture) {
             .then(function (res) {
                 if (res.data.status) {
                     manufactures = manufactures.filter(manufac => manufac.id !== manufacture.id);
-                    totalCountManufactures -= 1;
-                    totalPagesManufactures = (totalCountManufactures % 10 === 0) ?
+                    manufacturesFilter = manufacturesFilter.filter(manufac => manufac.id !== manufacture.id);
+                    let totalCountManufactures = manufacturesFilter.length;
+                    let totalPagesManufactures = (totalCountManufactures % 10 === 0) ?
                         (totalCountManufactures / 10) : ((totalCountManufactures - totalCountManufactures % 10) / 10) + 1;
                     let start = 10 * (currentPageManufactures - 1);
                     dispatch({
                         type: types.GET_MANUFACTURES_CREATE_PRODUCT,
-                        manufactures: manufactures,
-                        manufacturesRender: manufactures.slice(start, start + 10),
+                        manufactures,
+                        manufacturesFilter,
+                        manufacturesRender: manufacturesFilter.slice(start, start + 10),
                         totalPagesManufactures,
                         currentPageManufactures,
                         totalCountManufactures
@@ -391,9 +395,6 @@ export function deleteManufactureModal(manufacture) {
 export function createPropertyModal(name) {
     return function (dispatch, getState) {
         let properties_list = getState().createProduct.properties_list;
-        let totalPagesProperties = getState().createProduct.totalPagesProperties;
-        let currentPageProperties = getState().createProduct.currentPageProperties;
-        let totalCountProperties = getState().createProduct.totalCountProperties;
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
@@ -404,13 +405,14 @@ export function createPropertyModal(name) {
                         id: res.data.data.id,
                         name: res.data.data.name
                     }, ...properties_list];
-                    currentPageProperties = 1;
-                    totalCountProperties += 1;
-                    totalPagesProperties = (totalCountProperties % 10 === 0) ?
+                    let currentPageProperties = 1;
+                    let totalCountProperties = properties_list.length;
+                    let totalPagesProperties = (totalCountProperties % 10 === 0) ?
                         (totalCountProperties / 10) : ((totalCountProperties - totalCountProperties % 10) / 10) + 1;
                     dispatch({
                         type: types.GET_PROPERTIES_CREATE_PRODUCT,
                         properties_list,
+                        properties_list_filter: properties_list,
                         properties_list_render: properties_list.slice(0, 10),
                         totalPagesProperties,
                         currentPageProperties,
@@ -428,9 +430,6 @@ export function createPropertyModal(name) {
 export function createManufactureModal(name) {
     return function (dispatch, getState) {
         let manufactures = getState().createProduct.manufactures;
-        let totalPagesManufactures = getState().createProduct.totalPagesManufactures;
-        let currentPageManufactures = getState().createProduct.currentPageManufactures;
-        let totalCountManufactures = getState().createProduct.totalCountManufactures;
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
@@ -444,13 +443,14 @@ export function createManufactureModal(name) {
                         },
                         ...manufactures
                     ];
-                    currentPageManufactures = 1;
-                    totalCountManufactures += 1;
-                    totalPagesManufactures = (totalCountManufactures % 10 === 0) ?
+                    let currentPageManufactures = 1;
+                    let totalCountManufactures = manufactures.length;
+                    let totalPagesManufactures = (totalCountManufactures % 10 === 0) ?
                         (totalCountManufactures / 10) : ((totalCountManufactures - totalCountManufactures % 10) / 10) + 1;
                     dispatch({
                         type: types.GET_MANUFACTURES_CREATE_PRODUCT,
-                        manufactures: manufactures,
+                        manufactures,
+                        manufacturesFilter: manufactures,
                         manufacturesRender: manufactures.slice(0, 10),
                         totalPagesManufactures,
                         currentPageManufactures,
@@ -473,7 +473,8 @@ export function filterManufacturesModal(page, query) {
         let total_count = manufacturesFilter.length;
         dispatch({
             type: types.GET_MANUFACTURES_CREATE_PRODUCT,
-            manufactures: manufactures,
+            manufactures,
+            manufacturesFilter,
             manufacturesRender: manufacturesFilter.slice(start, start + 10),
             totalPagesManufactures: (total_count % 10 === 0) ?
                 (total_count / 10) : ((total_count - total_count % 10) / 10) + 1,
@@ -486,13 +487,14 @@ export function filterManufacturesModal(page, query) {
 export function filterPropertiesModal(page, query) {
     return function (dispatch, getState) {
         let properties_list = getState().createProduct.properties_list;
-        let propertiesFilter = properties_list.filter(property => property.name.includes(query));
+        let properties_list_filter = properties_list.filter(property => property.name.includes(query));
         let start = 10 * (page - 1);
-        let total_count = propertiesFilter.length;
+        let total_count = properties_list_filter.length;
         dispatch({
             type: types.GET_PROPERTIES_CREATE_PRODUCT,
             properties_list,
-            properties_list_render: propertiesFilter.slice(start, start + 10),
+            properties_list_filter,
+            properties_list_render: properties_list_filter.slice(start, start + 10),
             totalPagesProperties: (total_count % 10 === 0) ?
                 (total_count / 10) : ((total_count - total_count % 10) / 10) + 1,
             currentPageProperties: page,

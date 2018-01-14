@@ -35,7 +35,13 @@ class ManufacturesManageModal extends React.Component {
     createManufactureModal(name) {
         if (helper.isNull(name)) {
             helper.showErrorNotification("Bạn cần nhập tên nhà sản xuất");
-        } else this.props.createProductAction.createManufactureModal(name);
+        } else {
+            this.setState({
+                query: '',
+                page: 1
+            });
+            this.props.createProductAction.createManufactureModal(name);
+        }
     }
 
     deleteManufactureModal(manufacture) {

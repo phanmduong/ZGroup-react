@@ -46,6 +46,7 @@ class OrdersContainer extends React.Component {
     componentWillMount() {
         this.loadOrders();
         this.props.goodOrderActions.getAllStaffs();
+        this.props.goodOrderActions.loadWareHouse();
     }
 
     closeModal() {
@@ -205,12 +206,6 @@ class OrdersContainer extends React.Component {
                                                 <p className="category">Tổng đơn hàng</p>
                                                 <h3 className="card-title">{helper.dotNumber(this.props.totalOrder)}</h3>
                                             </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">date_range</i> Last 24
-                                                    Hours
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-4 col-md-4 col-sm-4">
@@ -222,12 +217,6 @@ class OrdersContainer extends React.Component {
                                                 <p className="category">Tổng tiền</p>
                                                 <h3 className="card-title">{helper.dotNumber(this.props.totalMoney)}đ</h3>
                                             </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">date_range</i> Last 24
-                                                    Hours
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-4 col-md-4 col-sm-4">
@@ -238,11 +227,6 @@ class OrdersContainer extends React.Component {
                                             <div className="card-content">
                                                 <p className="category">Tổng nợ</p>
                                                 <h3 className="card-title">{helper.dotNumber(this.props.totalMoney - this.props.totalPaidMoney)}đ</h3>
-                                            </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">update</i> Just Updated
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -352,6 +336,7 @@ class OrdersContainer extends React.Component {
                                     showShipGoodModal={this.showShipGoodModal}
                                     showAddNoteModal={this.showAddNoteModal}
                                     user={this.props.user}
+                                    showSelectWarehouseModal={this.props.goodOrderActions.showSelectWarehouseModal}
                                 />
                             </div>
                             <div className="row float-right">
