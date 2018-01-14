@@ -5,9 +5,9 @@
         <div class="row au-first right-image"
              style="height: 300px; background-image: url('https://static.photocdn.pt/images/articles/2017/04/28/iStock-516651882.jpg')">
             <div style="text-align: center; padding-top: 30px; padding-bottom: 20px; color:white; z-index:999999; background:rgba(0,0,0,0.3)">
-                <div style="background: url('http://d1j8r0kxyu9tj8.cloudfront.net/images/1503369355g3nTaVigDKKyjUQ.jpg') center center / cover; width: 100px; height: 100px; border-radius: 50px; display: inline-block;"></div>
-                <h2>Nguyễn Việt Hùng</h2>
-                <div>FPT University</div>
+                <div style="background: url('{{$user->avatar_url}}') center center / cover; width: 100px; height: 100px; border-radius: 50px; display: inline-block;"></div>
+                <h2>{{$user->name}}</h2>
+                <div>{{$user->university}}</div>
                 <div style="padding-top: 20px;">
                     <button class="btn btn-success">Tạo CV</button>
                 </div>
@@ -16,17 +16,31 @@
         </div>
         <div class="row" id="bl-routing-wrapper">
             <div style="width: 100%; text-align: center; background-color: white; height: 50px; margin-bottom: 1px; box-shadow: rgba(0, 0, 0, 0.39) 0px 10px 10px -12px;">
-                <a class="routing-bar-item" href="#first-after-nav"
-                   style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Thông
-                    tin</a><span
-                        style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span><a
-                        class="routing-bar-item" href="#pick-class"
-                        style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Đăng
-                    kí</a>
+                <a class="routing-bar-item" href="/profile/{{$user->username}}"
+                   style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Tiến
+                    độ</a>
+                <span style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span>
+                <a
+                        class="routing-bar-item" href="/profile/{{$user->username}}/project"
+                        style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">
+                    Dự án
+                </a>
+                <span style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span>
+                <a
+                        class="routing-bar-item" href="/profile/{{$user->username}}/info"
+                        style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">
+                    Thông tin
+                </a>
+                <span style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span>
+                <a
+                        class="routing-bar-item" href="/profile/{{$user->username}}/attendance"
+                        style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">
+                    Điểm danh
+                </a>
+
             </div>
         </div>
     </div>
-    <br> <br>
     @yield('content_profile')
 @endsection
 

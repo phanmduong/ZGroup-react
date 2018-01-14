@@ -2982,3 +2982,7 @@ body.iosBugFixCaret.modal-open {
     position: fixed;
     width: 100%;
 }
+
+div#app {
+    height: 100% !important;
+}

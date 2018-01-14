@@ -467,9 +467,10 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/sign-in', 'PublicController@beta');
     Route::get('/upload-post', 'PublicController@be¬ta');
     Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'ColormeNewController@course');
-    Route::get('/profile/{username}', 'ColormeNewController@profile');
-    Route::get('/profile/{username}/progress', 'PublicController@beta');
-    Route::get('/profile/{username}/info', 'PublicController@beta');
+    Route::get('/profile/{username}', 'ColormeNewController@profileProcess');
+    Route::get('/profile/{username}/attendance', 'ColormeNewController@profile');
+    Route::get('/profile/{username}/info', 'ColormeNewController@profile');
+    Route::get('/profile/{username}/project', 'ColormeNewController@profile');
     Route::get('resource/{linkId}/lesson/{lessonId}', 'PublicController@beta');
 
     Route::get('manage/changeclass/{registerId}', 'ManageStudentController@change_class');
