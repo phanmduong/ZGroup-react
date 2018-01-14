@@ -4,6 +4,7 @@ import {
     LOAD_SURVEYS_LIST_SUCCESS,
     LOAD_SURVEY_DETAIL_SUCCESS,
     TOGGLE_EDIT_SURVEY, UPDATE_QUESTION_FORM_DATA, BEGIN_SAVE_QUESTION, SAVE_QUESTION_SUCCESS
+    , UPDATE_ANSWER
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
 import {showErrorMessage} from "../../helpers/helper";
@@ -72,5 +73,20 @@ export const saveQuestion = (question) => {
         } else {
             showErrorMessage("Lỗi", res.data.message);
         }
+    };
+};
+
+export const updateAnswerToStore = (answer) => {
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_ANSWER,
+            answer
+        });
+    };
+};
+
+export const saveAnswer = (answer) => {
+    return () => {
+        surveyApi.saveAnswer(answer);
     };
 };

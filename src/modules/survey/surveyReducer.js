@@ -1,12 +1,34 @@
 import initialState from '../../reducers/initialState';
 import {
-    BEGIN_LOAD_SURVEY_DETAIL, BEGIN_LOAD_SURVEYS_LIST, BEGIN_SAVE_QUESTION, LOAD_SURVEY_DETAIL_SUCCESS,
+    BEGIN_LOAD_SURVEY_DETAIL, BEGIN_LOAD_SURVEYS_LIST, BEGIN_SAVE_QUESTION,
+    LOAD_SURVEY_DETAIL_SUCCESS,
     LOAD_SURVEYS_LIST_SUCCESS, SAVE_QUESTION_SUCCESS,
-    TOGGLE_EDIT_SURVEY, UPDATE_QUESTION_FORM_DATA
+    TOGGLE_EDIT_SURVEY, UPDATE_ANSWER, UPDATE_QUESTION_FORM_DATA
 } from "../../constants/actionTypes";
 
 export default function surveyReducer(state = initialState.survey, action) {
     switch (action.type) {
+        case UPDATE_ANSWER:
+            return {
+                ...state,
+                survey: {
+                    ...state.survey,
+                    questions: state.survey.questions.map((question) => {
+                        if (Number(action.answer.question_id) === Number(question.id)) {
+                            return {
+                                ...question,
+                                answers: question.answers.map((answer) => {
+                                    if (answer.id === Number(action.answer.id)) {
+                                        return action.answer;
+                                    }
+                                    return answer;
+                                })
+                            };
+                        }
+                        return question;
+                    })
+                }
+            };
         case BEGIN_SAVE_QUESTION:
             return {
                 ...state,
