@@ -339,11 +339,10 @@ class CardController extends ManageApiController
             "total_points" => array_values($returnPoints),
             "staffs" => $staffs->map(function ($staff) {
                 $user = User::find($staff->user_id);
-                return [
-                    "num_cards" => $staff->num_cards,
-                    "total_points" => $staff->total_points,
-                    "staff" => $user->transformAuth()
-                ];
+                $data = $user->transformAuth();
+                $data["num_cards"] = $staff->num_cards;
+                $data["total_points"] = $staff->total_points;
+                return $data;
             })
         ]);
     }
