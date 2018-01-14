@@ -66,7 +66,6 @@ class ColormeNewController extends CrawlController
         return view('colorme_new.course', $this->data);
     }
 
-
     public function courseOnline($courseId, $lessonId = null)
     {
         $lesson = Lesson::find($lessonId);
@@ -113,6 +112,14 @@ class ColormeNewController extends CrawlController
         }) : [];
 
         return view('colorme_new.course_online_lesson', $this->data);
+    }
+
+    public function profile()
+    {
+        if ($this->data['user']) {
+            return view('colorme_new.profile', $this->data);
+        }
+        return redirect("/");
     }
 
 }
