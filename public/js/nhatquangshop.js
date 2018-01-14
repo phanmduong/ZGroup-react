@@ -204,3 +204,21 @@ var modalPurchase = new Vue({
         },
     }
 });
+
+
+ new Vue({
+    el: '#modal-fast-order',
+    data: {
+        orders: [
+            {id: 1, seen: false},
+            {id: 2, seen: true},
+        ]
+    },
+    methods: {
+        plusOrder: function () {
+           alert("");
+        }
+    }
+
+
+});
