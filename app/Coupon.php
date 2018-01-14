@@ -42,7 +42,8 @@ class Coupon extends Model
             'quantity' => $this->rate,
             'shared' => $this->shared,
             'start_time' => format_vn_date(strtotime($this->start_time)),
-            'end_time' => format_vn_date(strtotime($this->end_time))
+            'end_time' => format_vn_date(strtotime($this->end_time)),
+            'active' => $this->active,
         ];
         return $data;
     }
