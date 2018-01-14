@@ -50,6 +50,9 @@ class Order extends Model
             "order_id",
             "good_id")->withPivot("quantity", "price");
     }
+    public function good_properties(){
+        return $this->belongsToMany(Good::class, 'good_properties',"order_id", "good_id")->withPivot("name");
+    }
 
     public function ship_infor()
     {

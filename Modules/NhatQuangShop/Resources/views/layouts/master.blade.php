@@ -738,7 +738,7 @@
                 <hr>
                 <div class="copyright">
                     <div class="pull-left">
-                        ©
+
                         <script>document.write(new Date().getFullYear())</script>
                         KEE Agency
                     </div>

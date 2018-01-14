@@ -199,4 +199,21 @@ class BookRepository
         }
         return null;
     }
+
+    public function saveFastOrder($email, $address, $user_id, $goods_arr ){
+       $order = new Order;
+       $order->user_id = $user_id;
+       $order->address = $address;
+       $order->email = $email;
+       $order->save();
+        if ($goods_arr) {
+            foreach ($goods_arr as $good) {
+                $good = Good::find($good->id);
+                $order->goods()->attach($good->id, [
+                    "quantity" => $good->number,
+//                    "price" => $good->price,
+                ]);
+            }
+        }
+    }
 }

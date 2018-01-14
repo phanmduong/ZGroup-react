@@ -22,6 +22,9 @@ $nhatquangShopRoute = function () {
     Route::get('/product/detail', "NhatQuangShopController@productDetail");
     Route::get('/test', 'NhatQuangShopController@test');
 
+    // code cua cuong
+    Route::post('/save-fast-order', "NhatQuangShopController@saveFastOrder");
+
     Route::get('/load-books-from-session/v2', 'NhatQuangApiController@getGoodsFromSession');
     Route::get('/flush', 'NhatQuangApiController@flush');
     Route::get('/add-book/{goodId}/v2', 'NhatQuangApiController@addGoodToCart');

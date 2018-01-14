@@ -311,6 +311,16 @@ class NhatQuangShopController extends Controller
             ];
         }
     }
+    //code api dat hang nhanh
+    public function saveFastOrder(Request $request){
+        $user = Auth::user();
+        $email = $user->email;
+        $user_id = $user->id;
+        $name = $user->name;
+        $phone = $user->phone;
+        $address = $user->address;
+
+    }
 
     public function test(Request $request)
     {
@@ -330,4 +340,6 @@ class NhatQuangShopController extends Controller
         Auth::logout();
         return redirect()->intended("/");
     }
+    // code cua cuong
+
 }
