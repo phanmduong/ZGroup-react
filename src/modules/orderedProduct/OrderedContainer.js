@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import Search from '../../components/common/Search';
 import FormInputDate from '../../components/common/FormInputDate';
 import TooltipButton from '../../components/common/TooltipButton';
