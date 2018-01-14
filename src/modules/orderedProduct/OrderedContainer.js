@@ -1,5 +1,5 @@
 /**
- * Created by Nguyen Tien Tai on 01/10/17.
+ * Created by Nguyen Tien Tai on 01/10/18.
  */
 import React from 'react';
 import {connect} from 'react-redux';
@@ -30,15 +30,69 @@ class OrderedContainer extends React.Component {
             user_id: null
         };
         this.timeOut = null;
+        this.orderedSearchChange = this.orderedSearchChange.bind(this);
+        this.loadOrders = this.loadOrders.bind(this);
+        this.updateFormDate = this.updateFormDate.bind(this);
     }
 
     componentWillMount() {
         this.props.orderedProductAction.loadAllOrders();
     }
 
+    orderedSearchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                value,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.staff_id,
+                this.state.user_id
+            );
+        }.bind(this), 500);
+    }
+
+    loadOrders(page = 1) {
+        this.setState({page: page});
+        this.props.orderedProductAction.loadAllOrders(
+            page,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.staff_id,
+            this.state.user_id
+        );
+    }
+
+    updateFormDate(event) {
+        const field = event.target.name;
+        let time = {...this.state.time};
+        time[field] = event.target.value;
+        if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                time.startTime,
+                time.endTime,
+                this.state.staff_id,
+                this.state.user_id
+            );
+            this.setState({time: time, page: 1});
+        } else {
+            this.setState({time: time});
+        }
+    }
+
     render() {
-        let first = (this.props.currentPage - 1) * this.props.limit + 1;
-        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
+        let first = this.props.totalCount ? (this.props.currentPage - 1) * 10 + 1 : 0;
+        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * 10 : this.props.totalCount;
         return (
             <div>
                 <div className="row">
@@ -134,9 +188,9 @@ class OrderedContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-10">
                                         <Search
-                                            onChange={this.ordersSearchChange}
+                                            onChange={this.orderedSearchChange}
                                             value={this.state.query}
-                                            placeholder="Nhập mã đơn hoặc email khách hàng"
+                                            placeholder="Nhập tên hoặc số điện thoại khách hàng"
                                         />
                                     </div>
                                     <div className="col-md-2">
@@ -168,7 +222,6 @@ class OrderedContainer extends React.Component {
                                                         id="form-end-time"
                                                         value={this.state.time.endTime}
                                                         minDate={this.state.time.startTime}
-
                                                     />
                                                 </div>
                                             </div>

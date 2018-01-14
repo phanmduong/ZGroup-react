@@ -95,22 +95,6 @@ class ItemOrder extends React.Component {
                     }
                 </td>
                 <td>
-                    {
-                        order.base ?
-                            (
-                                <TooltipButton text={order.base.name} placement="top">
-                                    <button className="btn btn-xs btn-main">
-                                        {order.base.name}
-                                    </button>
-                                </TooltipButton>
-                            )
-                            :
-                            (
-                                <div>Không có</div>
-                            )
-                    }
-                </td>
-                <td>
                     <StatusSelect options={ORDERED_STATUS}
                                   onChange={this.changeStatusOrder}
                                   value={order.status}/>

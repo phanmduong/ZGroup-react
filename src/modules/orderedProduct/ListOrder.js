@@ -21,7 +21,6 @@ class ListOrder extends React.Component {
                                     <th>Ngày bán</th>
                                     <th>Khách hàng</th>
                                     <th>Thu ngân</th>
-                                    <th>Cửa hàng</th>
                                     <th>Trạng thái</th>
                                     <th>Ghi chú</th>
                                     <th>Tổng tiền</th>
