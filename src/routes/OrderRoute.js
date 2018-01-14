@@ -12,7 +12,7 @@ export default [
         component: OrderedContainer
     },
     {
-        // path: "/order/goods",
-        // component:
+        //path: "/order/currencies",
+        //component: CurrencyContainer
     }
 ];
