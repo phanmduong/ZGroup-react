@@ -23,9 +23,28 @@
     <div class="blog-4" style="margin-top:20px">
         <div class="container">
             <div class="description">
-                <input placeholder="Tìm kiếm" id="search-book"
-                       style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
-                       type="text" v-on:keyup.enter="searchBook" v-model="search" value="{{$search}}"/>
+                <div style="display: flex; flex-direction: row; align-items: center">
+                    <input placeholder="Tìm kiếm" id="search-book"
+                           style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                           type="text" v-on:keyup.enter="searchBook" v-model="search" value="{{$search}}"/>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                style="height: 62px;
+                                background-color: white;
+                                color: #444444;
+                                border-color: white;
+                                min-width: 150px;
+                                text-align: right;
+                                border-radius: 0px;
+                        ">Tất cả
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu" style="width: 100%; margin-top: 0px; background: white">
+                            <li><a  style="color: #444444;">HTML</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 @foreach($books as $book)
