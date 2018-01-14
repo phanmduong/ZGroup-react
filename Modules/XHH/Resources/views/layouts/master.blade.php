@@ -29,7 +29,13 @@
         .font-bebas {
             font-family: myFirstFont;
         }
+
+        .dropdown-menu-right .dropdown-item:hover {
+            background: #b7b7b7 !important;
+            color: white;
+        }
     </style>
+
 
 </head>
 <body class="profile" style="background: #f2f2f2;">

@@ -7,6 +7,7 @@ use App\Product;
 use Faker\Provider\DateTime;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Modules\Good\Entities\GoodProperty;
 
 class XHHController extends Controller
 {
@@ -158,19 +159,28 @@ class XHHController extends Controller
         $totalBlogs = Product::where('type', 2)->count();
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $books = Good::where('type', 'book');
+        $type_books = GoodProperty::where('name', 'TYPE_BOOK')->distinct('value')->pluck('value')->toArray();
+        $arrTypeBooks = array();
+
+        foreach ($type_books as $type_book) {
+            if (!in_array(trim($type_book), $arrTypeBooks)) {
+                $arrTypeBooks[] = trim($type_book);
+            }
+        }
 
         $search = $request->search;
+        $type = $request->type;
         if ($search) {
             $books = $books->leftJoin('good_properties', 'goods.id', '=', 'good_properties.good_id')
                 ->where(function ($q) {
                     $q->where('good_properties.name', 'TYPE_BOOK');
                 })
-                ->where(function ($q) use ($search) {
+                ->where(function ($q) use ($type, $search) {
                     $q->where('goods.name', 'like', '%' . $search . '%')
                         ->orWhere('goods.code', 'like', '%' . $search . '%')
-                        ->orWhere(function ($q1) use ($search) {
+                        ->orWhere(function ($q1) use ($type) {
                             $q1->where('good_properties.name', 'TYPE_BOOK')
-                                ->where('good_properties.value', 'like', '%' . $search . '%');
+                                ->where('good_properties.value', 'like', '%' . $type . '%');
                         });
                 });
         }
@@ -181,7 +191,8 @@ class XHHController extends Controller
             'books' => $books,
             'count_new_blogs' => $countNewBlogs,
             'total_blogs' => $totalBlogs,
-            'search' => $search
+            'search' => $search,
+            'type_books' => $arrTypeBooks
         ]);
     }
 

@@ -37,11 +37,16 @@
                                 text-align: right;
                                 border-radius: 0px;
                         ">Tất cả
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu" style="width: 100%; margin-top: 0px; background: white">
-                            <li><a  style="color: #444444;">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right"
+                            style="background: white; overflow: scroll; height: 300px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15)">
+                            @foreach($type_books as $type_book)
+                                <a class="dropdown-item" href=""
+                                   style="padding: 10px 15px!important;">
+                                    {{$type_book}}
+                                </a>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
