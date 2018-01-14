@@ -344,22 +344,26 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu mã kho'
             ]);
-        $user = User::where('phone', $request->phone)->first();
-        if ($user == null) {
-            $user = new User;
-        }
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->save();
-
         $order = new Order;
         $order->note = $request->note;
         $order->code = $request->code;
-        $order->email = $request->email;
         $order->staff_id = $this->user->id;
-        $order->user_id = $user->id;
         $order->status = 'completed';
+
+        if($request->phone != null || $request->email != null) {
+            $user = User::where('phone', $request->phone)->first();
+            if ($user == null) {
+                $user = new User;
+            }
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->save();
+
+            $order->user_id = $user->save();
+        }
+        else $order->user_id = 0;
+
         $order->save();
 
 
