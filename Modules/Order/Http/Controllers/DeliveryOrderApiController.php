@@ -31,6 +31,7 @@ class DeliveryOrderApiController extends ManageApiController
             $userIds = User::where(function ($query) use ($keyWord) {
                 $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
             })->pluck('id')->toArray();
+            dd(json_encode($userIds));
             $deliveryOrders = $deliveryOrders->where('type', 'order')->where(function ($query) use ($keyWord, $userIds) {
                 $query->whereIn('user_id', $userIds)->orWhere("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
             });
