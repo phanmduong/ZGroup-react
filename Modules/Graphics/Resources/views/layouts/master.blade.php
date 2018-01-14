@@ -459,6 +459,7 @@
         </div>
     </div>
 </footer>
+
 </body>
 
 <!-- Core JS Files -->
@@ -470,6 +471,4 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/graphics.js?8888"></script>
-
-
 </html>

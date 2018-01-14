@@ -85,7 +85,7 @@ class ManageUserApiController extends ManageApiController
         if (!empty($errors)) {
             return $this->respondErrorWithStatus($errors);
         }
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $request->username;
