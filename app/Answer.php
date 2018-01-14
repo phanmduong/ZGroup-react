@@ -16,7 +16,8 @@ class Answer extends Model
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'correct' => $this->correct
+            'correct' => $this->correct,
+            "question_id" => $this->question_id
         ];
     }
 }

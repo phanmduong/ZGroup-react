@@ -259,7 +259,7 @@ class Good extends Model
         return $data;
     }
 
-    public function transformAllProperties(){
+    public function transformAllProperties() {
         $properties = GoodProperty::where('good_id', $this->id)->get();
         $goodData = [
             'id' => $this->id,

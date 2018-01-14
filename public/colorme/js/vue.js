@@ -27,7 +27,8 @@ var modalLogin = new Vue({
         },
         isLoading: false,
         hasError: false,
-        isClose: false
+        isClose: false,
+        modalLogin: true,
     },
     methods: {
         login: function () {
@@ -39,17 +40,83 @@ var modalLogin = new Vue({
                 .then(function (res) {
                     this.isLoading = false;
                     this.isClose = false;
-                    if (res.data.status === 0) {
-                        this.hasError = true;
-                        toastr.error("Kiểm tra thông tin tài khoản");
-                    } else {
+                    if (res.data.user) {
                         $('#modalLogin').modal('toggle');
                         vueData.isLogin = true;
                         vueData.user = res.data.user;
                         localStorage.setItem('auth', JSON.stringify(res.data));
+                        location.reload();
+                    } else {
+                        this.hasError = true;
+                        toastr.error(res.data.error);
                     }
-                }.bind(this));
+                }.bind(this))
+                .catch(function (error) {
+                    this.isLoading = false;
+                    this.hasError = true;
+                    toastr.error(error.response.data.error);
+                }.bind(this))
+            ;
         },
+        changeModal: function () {
+            this.modalLogin = !this.modalLogin;
+        },
+        register: function () {
+            $("#form-register form").validate({
+                rules: {
+                    email: "required",
+                    name: "required",
+                    phone: "required",
+                    password: "required",
+                    confirm_password: {
+                        required: true,
+                        equalTo: "#password"
+                    }
+                },
+                messages: {
+                    email: {
+                        required: "Vui lòng nhập email",
+                        email: "Vui lòng nhập đúng email"
+                    },
+                    password: {
+                        required: 'Vui lòng nhập mật khẩu',
+                    },
+                    confirm_password: {
+                        required: 'Vui lòng xác nhận mật khẩu',
+                        equalTo: 'Mật khẩu không trùng'
+                    },
+                    name: "Vui lòng nhập họ và tên",
+                    phone: "Vui lòng nhập số điện thoại"
+                }
+            });
+            if ($("#form-register form").valid()) {
+                var url = "/register-social";
+                this.isLoading = true;
+                this.hasError = false;
+                this.isClose = true;
+                axios.post(url, this.user)
+                    .then(function (res) {
+                        this.isLoading = false;
+                        this.isClose = false;
+                        if (res.data.user) {
+                            $('#modalLogin').modal('toggle');
+                            vueData.isLogin = true;
+                            vueData.user = res.data.user;
+                            localStorage.setItem('auth', JSON.stringify(res.data));
+                            location.reload();
+                        } else {
+                            this.hasError = true;
+                            toastr.error(res.data.error);
+                        }
+                    }.bind(this))
+                    .catch(function (error) {
+                        this.isLoading = false;
+                        this.hasError = true;
+                        toastr.error(error.response.data.error);
+                    }.bind(this))
+                ;
+            }
+        }
     }
 
 });

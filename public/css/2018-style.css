@@ -2968,3 +2968,12 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     width: 100%;
     height: 100%;
 }
+
+label.error {
+    color: #C50000
+}
+
+body.iosBugFixCaret.modal-open {
+    position: fixed;
+    width: 100%;
+}

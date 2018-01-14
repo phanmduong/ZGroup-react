@@ -13,4 +13,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/term/create', 'LessonController@createTerm');
     Route::put('/term/{term_id}/edit', 'LessonController@editTerm');
     Route::delete('/term/{term_id}/delete', 'LessonController@deleteTerm');
+    Route::post('/{lessonId}/duplicate','LessonController@duplicateLesson');
+    Route::post('/term/{termId}/duplicate','LessonController@duplicateTerm');
 });

@@ -22,7 +22,7 @@ class ElearningApiController extends Controller
     {
         $this->middleware('auth');
         $this->data = array();
-
+        $this->s3_url = config('app.s3_url');
         if (!empty(Auth::user())) {
             $this->user = Auth::user();
             $this->data['user'] = $this->user;

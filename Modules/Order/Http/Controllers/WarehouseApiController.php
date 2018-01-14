@@ -35,7 +35,7 @@ class WarehouseApiController extends ManageApiController
     {
         $supplier = new User;
         $user = User::where('email', $request->email)->first();
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user)
             return $this->respondErrorWithStatus('Email đã có người sử dụng');
         if ($request->name == null || $request->phone == null || $request->email == null)
@@ -54,7 +54,7 @@ class WarehouseApiController extends ManageApiController
     public function editSupplier($supplier_id, Request $request)
     {
         $supplier = User::find($supplier_id);
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($supplier == null || $supplier->type != 'supplier')
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại nhà cung cấp'
@@ -146,23 +146,23 @@ class WarehouseApiController extends ManageApiController
     {
         $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
-        $warehouses = Warehouse::orderBy('created_at', 'desc')->where('name', 'like', "%$keyword%")->paginate($limit);
+        $warehouses = Warehouse::query();
+
+        $warehouses = $warehouses->where('name', 'like', "%$keyword%");
+        if ($limit == -1) {
+            $warehouses = $warehouses->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'warehouses' => $warehouses->map(function ($warehouse) {
+                    return $warehouse->getData();
+                })
+            ]);
+        }
+        $warehouses = $warehouses->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $warehouses,
             [
                 'warehouses' => $warehouses->map(function ($warehouse) {
-                    $warehouseData = [
-                        'id' => $warehouse->id,
-                        'name' => $warehouse->name,
-                        'location' => $warehouse->location,
-                    ];
-                    if ($warehouse->base)
-                        $warehouseData['base'] = [
-                            'id' => $warehouse->base->id,
-                            'name' => $warehouse->base->name,
-                            'address' => $warehouse->base->address,
-                        ];
-                    return $warehouseData;
+                    return $warehouse->getData();
                 })
             ]
 

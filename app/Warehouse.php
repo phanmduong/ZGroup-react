@@ -28,6 +28,21 @@ class Warehouse extends Model
         return $this->belongsTo(Base::class, 'base_id');
     }
 
+    public function getData() {
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'location' => $this->location,
+        ];
+        if ($this->base)
+            $data['base'] = [
+                'id' => $this->base->id,
+                'name' => $this->base->name,
+                'address' => $this->base->address,
+            ];
+        return $data;
+    }
+
     public function Transform()
     {
         return [
