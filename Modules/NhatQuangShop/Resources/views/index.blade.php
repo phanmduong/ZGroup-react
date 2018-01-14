@@ -22,7 +22,7 @@
                         <h1 class="medium-title">
                             Sản phẩm nổi bật<br>
                         </h1>
-                        <br><a href="#pablo" class="btn btn-link btn-success"
+                        <br><a href="/product/feature" class="btn btn-link btn-success"
                                style="padding:0!important; margin:0!important">Xem tất cả <i
                                     class="fa fa-angle-right"></i></a>
                     </div>
@@ -73,9 +73,6 @@
         </div>
         <br><br>
     </div>
-
-
-
     <div class="container">
         <div class="row">
             <div class="col-md-12 shadow-banner">
@@ -84,7 +81,6 @@
             </div>
         </div>
     </div>
-
     <div class="container" id="bookinfo1">
         <br><br>
         <div class="row">
@@ -94,7 +90,7 @@
                         <h1 class="medium-title">
                             Sản phẩm mới nhất<br>
                         </h1>
-                        <br><a href="#pablo" class="btn btn-link btn-success"
+                        <br><a href="/product/new" class="btn btn-link btn-success"
                                style="padding:0!important; margin:0!important">Xem tất cả <i
                                     class="fa fa-angle-right"></i></a><br><br>
                     </div>
@@ -134,7 +130,6 @@
                                     <button v-on:click="openModalBuy({{$good['id']}})"
                                             class="btn btn-sm btn-success">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i></button>
-
                                 </div>
                             </div>
                         </div>
