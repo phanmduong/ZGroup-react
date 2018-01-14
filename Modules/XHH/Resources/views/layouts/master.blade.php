@@ -99,17 +99,18 @@
                         <div class="links">
                             <p>
                             <div style="display: flex; align-items: center;">
-                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                <i class="fa fa-envelope-o" aria-hidden="true"
+                                   style="font-size: 18px; margin-right: 5px"></i>
                                 <div style="color: #66615b!important;">sociologyhue@gmail.com</div>
                             </div>
                             <div style="display: flex; align-items: center;"
                                  href="http://sociologyhue.facebook.com">
-                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                                <i class="fa fa-facebook" aria-hidden="true" style="font-size: 18px;"></i>
                                 <a href="http://facebook.com/sociologyhue"
                                    style="color: #66615b!important;margin-left: 5px">facebook.com/sociologyhue</a>
                             </div>
                             <div style="display: flex; align-items: center;">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                                <i class="fa fa-instagram" aria-hidden="true" style="font-size: 18px;"></i>
                                 <a
                                         href="http://sociologyhue.pik"
                                         style="color: #66615b!important; margin-left: 5px">http://sociologyhue.pik</a>
