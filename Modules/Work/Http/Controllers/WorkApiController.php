@@ -97,7 +97,7 @@ class WorkApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
         $works = Work::where(function ($query) use ($keyword) {
-            $query->where('name', 'like', "%$keyword%");
+            $query->where('name', 'like', "%$keyword%")->where('status','<>','archive');
         })->orderBy("created_at", "desc")->paginate($limit);
 
         return $this->respondWithPagination($works, [
@@ -122,21 +122,24 @@ class WorkApiController extends ManageApiController
         return $this->respondWithPagination($logs, [
             'logs' => $logs->map(function ($log) {
                 $staff = User::find($log->staff_id);
+                $manager = User::find($log->manager_id);
                 $work = Work::find($log->work_id);
                 return [
                     "id" => $log->id,
                     "reason" => $log->reason,
                     "penalty" => $log->penalty,
-                    "deadline" => $work->deadline,
+                    "deadline" => $work ? $work->deadline : "",
                     "new_deadline" => $log->new_deadline,
+                    "status" => $log->status ? $log->status : "",
                     "staff" => [
-                        "id" => $staff->id,
-                        "name" => $staff->name,
+                       "id" => $staff ? $staff->id : 0,
+                       "name" => $staff ? $staff->name : "",
                     ],
-                    "work" => [
-                        "id" => $work->id,
-                        "name" => $work->name
-                    ]
+                    "work" => $work ? $work->transform() : [],
+                    "manager" => [
+                        "id" => $manager ? $manager->id : 0,
+                        "name" => $manager ? $manager->name : "",
+                    ],
                 ];
             })
 
@@ -147,9 +150,11 @@ class WorkApiController extends ManageApiController
     {
         $history = HistoryExtensionWork::find($historyId);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
-        $history->delete();
+        $history->status = $request->status;
+        $history->manager_id = $request->manager_id;
+        $history->save();
         return $this->respondSuccessWithStatus([
-            "message" => "Xóa thành công"
+            "message" => "Từ chối thành công"
         ]);
     }
 
@@ -158,12 +163,18 @@ class WorkApiController extends ManageApiController
         $history = HistoryExtensionWork::find($historyId);
         if (!$history) return $this->respondErrorWithStatus("Không tồn tại");
         $work = Work::find($history->work_id);
-        $work_staff = WorkStaff::where('work_id', $history->work_id)->where('staff_id', $history->staff_id)->first();
+        $work_staffs = WorkStaff::where('work_id', $history->work_id)->get();
+        foreach($work_staffs as $work_staff){
+            $work_staff->penalty = $history->penalty;
+            $work_staff->save();
+        }
         $work->reason = $history->reason;
+        $work->deadline = $history->new_deadline;
+        $work->
         $work->save();
-        $work_staff->penalty = $history->penalty;
-        $work_staff->save();
-        $history->delete();
+        $history->status = $request->status;
+        $history->manager_id = $request->manager_id;
+        $history->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
         ]);

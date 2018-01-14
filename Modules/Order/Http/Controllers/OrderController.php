@@ -161,15 +161,20 @@ class OrderController extends ManageApiController
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
-        if($order_id == null)
+        if ($order_id == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại order'
             ]);
-        if ($this->user->role != 2)
+        if ($this->user->role != 2){
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
                     'message' => 'Bạn không có quyền đổi trạng thái này'
                 ]);
+            if ($order->status == 'completed')
+                return $this->respondErrorWithStatus([
+                    'message' => 'Cant change completed order'
+                ]);
+        }
         if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
@@ -308,39 +313,72 @@ class OrderController extends ManageApiController
 
     public function returnOrder($orderId, $warehouseId, Request $request)
     {
+        $order = Order::find($orderId);
         $returnOrder = new Order;
         $returnOrder->note = $request->note;
-        $returnOrder->code = $request->code ? $request->code : 'RETURN' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $returnOrder->code = $order->code;
         $returnOrder->staff_id = $this->user->id;
         $returnOrder->status = $request->status;
-        $returnOrder->type = 'RETURN';
+        $returnOrder->type = 'return';
         $returnOrder->save();
 
         $good_orders = json_decode($request->good_orders);
         foreach ($good_orders as $good_order) {
-            $history = HistoryGood::where('order_id', $orderId)
-                ->where('good_id', $good_order->good_id)
-                ->orderBy('created', 'desc')->get();
-            foreach ($history as $singular_history) {
-                if ($good_order->quantity === 0)
-                    break;
-                $returnHistory = new HistoryGood;
-                $lastest_good_history = HistoryGood::where('good_id', $good_order->good_id)->orderBy('created_at', 'desc')->first();
-                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
-                $returnHistory->good_id = $singular_history->good_id;
-                $returnHistory->quantity = min($good_order->quantity, $singular_history->quantity);
-                $returnHistory->remain = $remain + min($good_order->quantity, $singular_history->quantity);
-                $returnHistory->warehouse_id = $warehouseId;
-                $returnHistory->type = 'import';
-                $returnHistory->order_id = $returnOrder->id;
-                $returnHistory->imported_good_id = $singular_history->imported_good_id;
-                $returnHistory->save();
-
-                $good_order->quantity -= min($good_order->quantity, $singular_history->quantity);
-            }
+            if ($good_order->quantity >= 0)
+                $returnOrder->goods()->attach($good_order->good_id, [
+                    'quantity' => $good_order->quantity,
+                    'price' => $good_order->price
+                ]);
         }
+//        $this->orderService->returnOnPurposeOrStaffMistake($returnOrder->id, $request->warehouse_id, $this->user->id);
+        $this->orderService->returnProcess($returnOrder->id, 4, $this->user->id); //fix
         return $this->respondSuccessWithStatus([
             'message' => 'Thành công'
+        ]);
+    }
+
+    public function storeOrder(Request $request)
+    {
+        if ($request->warehouse_id == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu mã kho'
+            ]);
+        $order = new Order;
+        $order->note = $request->note;
+        $order->code = $request->code;
+        $order->staff_id = $this->user->id;
+        $order->user_id = $request->user_id;
+        $order->status = 'completed';
+        $order->save();
+
+
+        $good_orders = json_decode($request->good_orders);
+        $total_price = 0;
+        foreach ($good_orders as $good_order) {
+            $good = Good::find($good_order->good_id);
+            $total_price += $good_order->quantity * $good->price;
+            if ($good_order->quantity >= 0)
+                $order->goods()->attach($good_order->good_id, [
+                    'quantity' => $good_order->quantity,
+                    'price' => $good->price
+                ]);
+        }
+
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $order->id;
+        $orderPaidMoney->money = $total_price;
+        $orderPaidMoney->note = $request->note;
+        $orderPaidMoney->payment = $request->payment;
+        $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
+
+        $response = $this->orderService->exportOrder($order->id, $request->warehouse_id);
+        if ($response['status'] == 0)
+            return $this->respondErrorWithStatus([
+                'message' => $response['message']
+            ]);
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 

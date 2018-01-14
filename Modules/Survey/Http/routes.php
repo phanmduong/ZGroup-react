@@ -1,9 +1,12 @@
 <?php
 
-Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2/survey', 'namespace' => 'Modules\Survey\Http\Controllers'], function () {
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/survey', 'namespace' => 'Modules\Survey\Http\Controllers'], function () {
     Route::get('', 'SurveyController@getSurveys');
     Route::get('{surveyId}', 'SurveyController@getSurvey');
     Route::post('', 'SurveyController@createSurvey');
     Route::put('{surveyId}', 'SurveyController@editSurvey');
     Route::delete('{surveyId}', 'SurveyController@deleteSurvey');
+    Route::post('/{surveyId}/question', 'SurveyController@createSurveyQuestion');
+    Route::put('/{surveyId}/question/{questionId}', 'SurveyController@updateQuestion');
+    Route::put('/answer/{answerId}', 'SurveyController@saveAnswer');
 });

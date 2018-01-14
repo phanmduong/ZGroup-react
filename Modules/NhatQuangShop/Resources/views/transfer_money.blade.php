@@ -95,14 +95,13 @@
                         </td>
                         <td class="text-right">{{$transfer->note}}</td>
                         <td class="text-right">
-                            <div class="label" style="background-color: {{$transfer->status()["color"]}}">
-                                {{$transfer->status()["text"]}}
-                            </div>
+                            {{--<div class="label" style="background-color: {{$transfer->status()["color"]}}">--}}
+                                {{--{{$transfer->status()["text"]}}--}}
+                            {{--</div>--}}
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
-
             </table>
         </div>
     </div>

@@ -268,7 +268,7 @@ class CheckInCheckOutRepository
                                 }
                                 $shiftArr[] = $todayShift;
                                 $sampleShift = $todayShift;
-                                if ($todayShift->checkin_id != null || $todayShift->checkin_id != 0) {
+                                if ($todayShift != null && ($todayShift->checkin_id != null || $todayShift->checkin_id != 0)) {
                                     $sampleShift = null;
                                 }
                             }
@@ -379,7 +379,8 @@ class CheckInCheckOutRepository
                                 }
                                 $workShiftUserArr[] = $todayShift;
                                 $sampleShift = $todayShift;
-                                if ($todayShift->checkin_id != null || $todayShift->checkin_id != 0) {
+
+                                if ($todayShift != null && ($todayShift->checkin_id != null || $todayShift->checkin_id != 0)) {
                                     $sampleShift = null;
                                 }
                             }

@@ -1,6 +1,52 @@
 @extends('nhatquangshop::layouts.manage')
 @section('data')
-    <h4><span style="font-weight:bold">Các đơn hàng</span></h4>
+    <h4><span style="font-weight:bold">Các đơn đặt hàng trước</span></h4>
+    <form action="/manage/orders" method="post" style="margin-top: 20px">
+    <div class = "row">
+        <div class = "col-md-4">
+        <div class="form-group">
+            <input  type="text"
+                   class="form-control border-input"
+                   placeholder="Mã đơn hàng"
+                   name="code">
+        </div>
+        </div>
+        <div class = "col-md-4">
+            <div class="form-group">
+                <select class="form-control"
+                         name="status"
+                        style="display: block !important;">
+                   <option  selected="" value = "Đơn mới"> Đơn mới </option>
+                    <option  selected="" value = "Chờ xử lí  "> Chờ xử lí   </option>
+                    <option selected="" value = "Đã đăt hàng  "> Đã đăt hàng </option>
+                    <option  selected="" value = "Đã giao hàng "> Đã giao hàng </option>
+                    <option  selected="" value = "Huỷ đơn "> Huỷ đơn </option>
+                    <option  selected="">Trạng thái</option>
+                </select>
+        </div>
+    </div>
+    </div>
+    <div class = "row">
+        <div class = "col-md-4">
+            <div class="form-group">
+                <input  type="date"
+                        class="form-control border-input"
+                        name="start_day">
+            </div>
+        </div>
+        <div class = "col-md-4">
+            <div class="form-group">
+                <input  type="date"
+                        class="form-control border-input"
+                        name="end_day">
+            </div>
+        </div>
+        <div class = "col-md-4">
+            <button type="submit" style="margin-left: 20px" class="btn">Lọc đơn hàng </button>
+        </div>
+
+    </div>
+    </form>
     <div class="table-responsive" style="margin-top: 20px">
         <table class="table">
             <tr>
@@ -31,8 +77,6 @@
                                     data-original-title="View Profile" class="btn btn-info btn-link btn-sm">
                                 <i class="fa fa-user"></i>
                             </button>
-
-
                             <button type="button" data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Edit Profile" class="btn btn-success btn-link btn-sm">
                                 <i class="fa fa-edit"></i>
@@ -44,11 +88,12 @@
                         </td>
                     </tr>
                 @endforeach
+                @else
+                <div>Hiện bạn không có đơn hàng nào trong này</div>
             @endif
             </tbody>
         </table>
     </div>
     @include('pagination.custom', ['paginator' => $orders])
-
 @endsection
 
