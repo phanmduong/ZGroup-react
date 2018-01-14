@@ -116,8 +116,8 @@ class ColormeNewController extends CrawlController
 
     public function profile()
     {
-        if ($this->data['user']) {
-            return view('colorme_new.profile', $this->data);
+        if ($this->user) {
+            return view('colorme_new.process', $this->data);
         }
         return redirect("/");
     }
