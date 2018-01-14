@@ -35,6 +35,7 @@
 </head>
 <body>
 <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
+
 <div id="app">
     <div data-reactroot="" style="height: 100%;">
         <nav class="navbar navbar-inverse navbar-fixed-top" style="font-size: 12px;">
@@ -57,15 +58,27 @@
                                 {{--{{dd($paid_courses)}}--}}
                                 <ul class="dropdown-menu">
                                     @foreach($paid_courses as $paid_course)
+                                        @if($paid_course['type_id'] == 2)
+                                            <li>
+                                                <a href="{{'/elearning/'.$paid_course['id']}}">
+                                                    <img
+                                                            class="img-circle"
+                                                            src="{{$paid_course['icon_url']}}"
+                                                            style="width: 20px; height: 20px; margin-right: 5px;">
+                                                    {{$paid_course['name']}}</a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{$paid_course['first_lesson'] ? '/resource/'.convert_vi_to_en($paid_course['name']).'/lesson/'.$paid_course['first_lesson']->id : ''}}">
+                                                    <img
+                                                            class="img-circle"
+                                                            src="{{$paid_course['icon_url']}}"
+                                                            style="width: 20px; height: 20px; margin-right: 5px;">
+                                                    {{$paid_course['name']}}</a>
+                                            </li>
+                                        @endif
                                         {{--{{dd($paid_course)}}--}}
-                                        <li>
-                                            <a href="{{$paid_course['first_lesson'] ? '/resource/'.convert_vi_to_en($paid_course['name']).'/lesson/'.$paid_course['first_lesson']->id : ''}}">
-                                                <img
-                                                        class="img-circle"
-                                                        src="{{$paid_course['icon_url']}}"
-                                                        style="width: 20px; height: 20px; margin-right: 5px;">
-                                                {{$paid_course['name']}}</a>
-                                        </li>
+
                                     @endforeach
                                 </ul>
                             </li>
