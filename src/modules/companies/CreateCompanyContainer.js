@@ -5,6 +5,7 @@ import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import * as CompanyActions from '../companies/CompanyActions';
 import ReactSelect from 'react-select';
+import * as helper from '../../helpers/helper';
 
 class CreateCompanyContainer extends React.Component {
     constructor(props, context) {
@@ -15,6 +16,10 @@ class CreateCompanyContainer extends React.Component {
     componentWillMount() {
         this.props.CompanyActions.loadFields();
     }
+    componentDidUpdate(){
+        helper.setFormValidation('#form-company');
+    }
+
 
     changeFields() {
         console.log(this.props);
@@ -50,7 +55,7 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="name"
-                                                        value={" "}
+                                                        value={this.props.data.name || ""}
 
                                                     />
                                                 </div>
@@ -179,7 +184,7 @@ class CreateCompanyContainer extends React.Component {
                                                 </div>
                                                 <div className="col-md-2">
                                                     <button
-                                                        className="btn btn-primary btn-round btn-fab btn-fab-mini"
+                                                        className="btn btn-danger btn-round btn-fab btn-fab-mini"
                                                         type="button"
                                                         data-toggle="tooltip" title="Thêm lĩnh vực"
                                                     >
@@ -247,6 +252,7 @@ function mapStateToProps(state) {
         isLoadingFields: state.companies.isLoadingFields,
         isSavingField: state.companies.isSavingField,
         isSavingCompany: state.companies.isSavingCompany,
+        data: state.companies.company,
         fields: state.companies.fields,
     };
 }
