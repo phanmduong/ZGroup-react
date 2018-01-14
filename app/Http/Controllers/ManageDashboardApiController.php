@@ -75,10 +75,10 @@ class ManageDashboardApiController extends ManageApiController
                 ->whereIn("class_id", $classes_id)
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+            $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->where('money', '>', 0)
                 ->whereIn("class_id", $classes_id2)
-                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
+                ->where('gen_id', $gen_id)
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
@@ -116,10 +116,10 @@ class ManageDashboardApiController extends ManageApiController
                 })
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+            $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->where('money', '>', 0)
-                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
-                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
+                ->where('gen_id', $gen_id)
+                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
                 ->whereBetween('paid_time', array($start_time, $end_time_plus_1))

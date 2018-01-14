@@ -129,11 +129,22 @@ class XHHController extends Controller
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $book = Good::find($book_id);
         $newestBooks = Good::where('type', 'book')->where('id', '<>', $book_id)->limit(4)->get();
+
+        $author = $book->properties()->where('name', 'AUTHOR_BOOK')->first();
+        $author = $author ? $author->value : 'Không có';
+        $language = $book->properties()->where('name', 'LANGUAGE_BOOK')->first();
+        $language = $language ? $language->value : 'Không có';
+        $publisher = $book->properties()->where('name', 'PUBLISHER_BOOK')->first();
+        $publisher = $publisher ? $publisher->value : 'Không có';
+
         return view('xhh::book', [
             'book' => $book,
             'newestBooks' => $newestBooks,
             'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
+            'total_blogs' => $totalBlogs,
+            'author' => $author,
+            'language' => $language,
+            'publisher' => $publisher,
         ]);
     }
 
@@ -150,14 +161,18 @@ class XHHController extends Controller
 
         $search = $request->search;
         if ($search) {
-            $books = $books->leftJoin('good_properties', 'goods.id', '=', 'good_properties.good_id')->where(function ($q) use ($search) {
-                $q->where('goods.name', 'like', '%' . $search . '%')
-                    ->orWhere('goods.code', 'like', '%' . $search . '%')
-                    ->orWhere(function ($q1) use ($search) {
-                        $q1->where('good_properties.name', 'TYPE_BOOK')
-                            ->where('good_properties.value', 'like', '%' . $search . '%');
-                    });
-            });
+            $books = $books->leftJoin('good_properties', 'goods.id', '=', 'good_properties.good_id')
+                ->where(function ($q) {
+                    $q->where('good_properties.name', 'TYPE_BOOK');
+                })
+                ->where(function ($q) use ($search) {
+                    $q->where('goods.name', 'like', '%' . $search . '%')
+                        ->orWhere('goods.code', 'like', '%' . $search . '%')
+                        ->orWhere(function ($q1) use ($search) {
+                            $q1->where('good_properties.name', 'TYPE_BOOK')
+                                ->where('good_properties.value', 'like', '%' . $search . '%');
+                        });
+                });
         }
 
 
