@@ -70,7 +70,7 @@
                             <div>
                                 <div class="container text-left" style="min-height: 130px;"><br>
                                     @if($book->properties()->where('name','TYPE_BOOK')->first())
-                                        <a href="/all-books?page=1&search={{$book->properties()->where('name','TYPE_BOOK')->first()->value}}"
+                                        <a href="/all-books?page=1&type={{$book->properties()->where('name','TYPE_BOOK')->first()->value}}"
                                            class="label label-danger"
                                            style="color: white;">{{$book->properties()->where('name','TYPE_BOOK')->first()->value}}</a>
                                         <br>
