@@ -7,19 +7,28 @@ class AnswerItem extends React.Component {
         super(props, context);
         this.handleChange = this.handleChange.bind(this);
         this.toggleEdit = this.toggleEdit.bind(this);
+        this.saveAnswer = this.saveAnswer.bind(this);
         this.state = {
             editable: false
         };
     }
 
-    handleChange() {
-
+    handleChange(e) {
+        const answer = {...this.props.answer};
+        const field = e.target.name;
+        answer[field] = e.target.value;
+        this.props.updateAnswerToStore(answer);
     }
 
     toggleEdit(editable) {
         this.setState({
             editable
         });
+    }
+
+    saveAnswer() {
+        this.props.saveAnswer(this.props.answer);
+        this.toggleEdit(false);
     }
 
     render() {
@@ -35,7 +44,7 @@ class AnswerItem extends React.Component {
                                         left: 0,
                                         top: 7
                                     }}>
-                                    <a onClick={() => this.toggleEdit(true)}>
+                                    <a onClick={this.saveAnswer}>
                                         <i style={{fontSize: "18px", marginRight: "5px"}}
                                            className="text-success material-icons">done</i>
                                     </a>
@@ -45,10 +54,12 @@ class AnswerItem extends React.Component {
                                     </a>
                                 </div>
                                 <FormControl
-                                    type="text"
                                     value={answer.content}
-                                    placeholder="Sửa nội dung câu trả lời"
-                                    onChange={this.handleChange}/>
+                                    componentClass="textarea"
+                                    style={{height: 100}}
+                                    name="content"
+                                    onChange={this.handleChange}
+                                    placeholder="Sửa nội dung câu trả lời"/>
                             </div>
                         )
                         : (
@@ -67,7 +78,9 @@ class AnswerItem extends React.Component {
 }
 
 AnswerItem.propTypes = {
-    answer: PropTypes.object.isRequired
+    answer: PropTypes.object.isRequired,
+    saveAnswer: PropTypes.func.isRequired,
+    updateAnswerToStore: PropTypes.func.isRequired
 };
 
 export default AnswerItem;

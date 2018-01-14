@@ -38,3 +38,11 @@ export const saveQuestion = (surveyId, question) => {
         content_data: question.content
     });
 };
+
+export const saveAnswer = (answer) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/answer/${answer.id}?token=${token}`;
+    return axios.put(url, {
+        content_data: answer.content
+    });
+};

@@ -701,6 +701,7 @@ export default {
             pointByDate: [],
             cardsByDate: [],
             cards: [],
+            staffs: [],
             isLoading: false,
             showCardsModal: false,
             isLoadingCardsModal: false,
@@ -1116,10 +1117,13 @@ export default {
             lessons: [],
             links: [],
             pixels: [],
+            type_id: null,
+            categories: [],
         }
     },
     courses: {
         isLoading: false,
+        isDuplicating: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
         isUploadingPixel: false,

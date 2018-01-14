@@ -89,6 +89,8 @@ class SurveyDetailContainer extends React.Component {
                                                                                             <ListGroupItem
                                                                                                 key={answer.id}>
                                                                                                 <AnswerItem
+                                                                                                    updateAnswerToStore={this.props.surveyActions.updateAnswerToStore}
+                                                                                                    saveAnswer={this.props.surveyActions.saveAnswer}
                                                                                                     answer={answer}/>
                                                                                             </ListGroupItem>
                                                                                         ))

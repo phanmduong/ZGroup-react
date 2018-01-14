@@ -23,7 +23,9 @@ class ListStaffs extends React.Component {
     render() {
         return (
             <div className="col-md-12">
+                <div><strong>Tổng số nhân viên:</strong> {this.props.staffs.length}</div><br/>
                 <ListGroup>
+                    <div style={{overflowY:"scroll", maxHeight:300}}>
                     {this.props.staffs.map((m,index) =>
                         (
                             <ListGroupItem
@@ -55,7 +57,9 @@ class ListStaffs extends React.Component {
                             </ListGroupItem>
                         )
                     )}
+                    </div>
                 </ListGroup>
+
                 <Modal
                     show={this.state.show}
                     onHide={this.onHide}
