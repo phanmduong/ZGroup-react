@@ -94,7 +94,7 @@
                                    style="margin-right: 5px"></i>
                                 <div style="color: #66615b!important; line-height: 1">sociologyhue@gmail.com</div>
                             </div>
-                            <div style="display: flex;"
+                            <div style="display: flex; margin-top: 10px; margin-bottom: 10px"
                                  href="http://sociologyhue.facebook.com">
                                 <i class="fa fa-facebook" aria-hidden="true"></i>
                                 <a href="http://facebook.com/sociologyhue"
