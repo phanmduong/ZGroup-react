@@ -93,6 +93,8 @@ export function createWork(data) {
         bonus_type: data.bonus_type,
         staffs: JSON.stringify(data.staffs),
         status: conts.STATUS_WORK[0].value,
+        payer_id: data.payer.id,
+        currency_id: data.currency.id,
     };
     return axios.post(url, res);
 }
@@ -115,6 +117,19 @@ export function editWork(data, status) {
         bonus_type: data.bonus_type,
         staffs: JSON.stringify(data.staffs),
         status:  status || data.status || conts.STATUS_WORK[0].value,
+        payer_id: data.payer.id,
+        currency_id: data.currency.id,
     };
     return axios.put(url, res);
+}
+
+
+export function loadCurrencies() {
+    //http://manageapi.keetool.xyz/v2/currency?token=
+    let url     = env.MANAGE_API_URL +"/v2/currency";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.get(url);
 }

@@ -250,3 +250,25 @@ export function resetDataCreate(){
 }
 
 
+
+export function loadCurrencies() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_CURRENCIES_JOB_ASSIGNMENT});
+        jobAssignmentApi.loadCurrencies()
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_SUCCESS,
+                        currencies: res.data.data.currencies
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_ERROR});
+            });
+    };
+}
