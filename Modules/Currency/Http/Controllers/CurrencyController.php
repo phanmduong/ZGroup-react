@@ -19,7 +19,7 @@ class CurrencyController extends ManageApiController
         $currencies = Currency::all();
         return $this->respondSuccessWithStatus([
             "currencies" => $currencies->map(function($currency){
-                return $currency->tranform();
+                return $currency->transform();
             })
         ]);
     }
