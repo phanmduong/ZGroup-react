@@ -1483,6 +1483,13 @@ export default {
         showEditQuestionModal: false,
         question: {},
         isSavingQuestion: false
-    }
+    },
+    dashboardXHH: {
+        dashboard: {
+            user: {}
+        },
+        isLoading: true,
+        error: false,
+    },
 
 };
