@@ -232,52 +232,6 @@ class CreateJobAssignmentContainer extends React.Component {
                                             </div>
 
                                             <div className="card-content">
-                                                <h4 className="card-title">Người thực hiện</h4>
-                                                <div className="row">
-                                                    <div className="col-sm-12">
-                                                        <div className="form-group" hidden={this.props.isLoadingStaffs}>
-                                                            <label className="label-control">Nhập tên để tìm kiếm nhân
-                                                                viên</label>
-
-                                                            <Select
-                                                                name="form-field-name"
-                                                                value={"Chọn nhân viên"}
-                                                                options={this.props.staffs}
-                                                                onChange={(e) => {
-                                                                    return this.props.jobAssignmentAction.chooseStaff(e);
-                                                                }}
-                                                                optionRenderer={(option) => {
-                                                                    return (
-                                                                        <ItemReactSelect label={option.label}
-                                                                                         url={helper.validateLinkImage(option.avatar_url)}/>
-                                                                    );
-                                                                }}
-                                                                valueRenderer={(option) => {
-                                                                    return (
-                                                                        <ItemReactSelect label={option.label}
-                                                                                         url={helper.validateLinkImage(option.avatar_url)}/>
-                                                                    );
-                                                                }}
-                                                                placeholder="Chọn nhân viên"
-                                                                disabled={this.props.isLoading || this.props.isSaving}
-
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <ListStaffs staffs={this.props.data.staffs} remove={(e) => {
-                                                        this.props.jobAssignmentAction.removeStaff(e);
-                                                    }}/>
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">contacts</i>
-                                            </div>
-
-                                            <div className="card-content">
                                                 <h4 className="card-title">Người chi trả</h4>
                                                 <div className="row">
                                                     <div className="col-md-12">
@@ -325,6 +279,52 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         </div>
                                                     </ListGroupItem>
                                                 </ListGroup>
+                                            </div>
+                                        </div>
+                                        <div className="card">
+                                            <div className="card-header card-header-icon" data-background-color="rose" style={{zIndex: 0}}>
+                                                <i className="material-icons">people</i>
+                                            </div>
+
+                                            <div className="card-content">
+                                                <h4 className="card-title">Người thực hiện</h4>
+                                                <div className="row">
+                                                    <div className="col-sm-12">
+                                                        <div className="form-group" hidden={this.props.isLoadingStaffs}>
+                                                            <label className="label-control">Nhập tên để tìm kiếm nhân
+                                                                viên</label>
+
+                                                            <Select
+                                                                name="form-field-name"
+                                                                value={"Chọn nhân viên"}
+                                                                options={this.props.staffs}
+                                                                onChange={(e) => {
+                                                                    return this.props.jobAssignmentAction.chooseStaff(e);
+                                                                }}
+                                                                optionRenderer={(option) => {
+                                                                    return (
+                                                                        <ItemReactSelect label={option.label}
+                                                                                         url={helper.validateLinkImage(option.avatar_url)}/>
+                                                                    );
+                                                                }}
+                                                                valueRenderer={(option) => {
+                                                                    return (
+                                                                        <ItemReactSelect label={option.label}
+                                                                                         url={helper.validateLinkImage(option.avatar_url)}/>
+                                                                    );
+                                                                }}
+                                                                placeholder="Chọn nhân viên"
+                                                                disabled={this.props.isLoading || this.props.isSaving}
+
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <ListStaffs staffs={this.props.data.staffs} remove={(e) => {
+                                                        this.props.jobAssignmentAction.removeStaff(e);
+                                                    }}/>
+
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

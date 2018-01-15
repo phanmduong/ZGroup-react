@@ -18,11 +18,6 @@ class CardWork extends React.Component {
             'team':'Nhóm',
             'person_project':'Dự án riêng',
         };
-        this.bonus_type = {
-            'coin':'Coin',
-            'vnd':'VNĐ',
-
-        };
     }
 
     render() {
@@ -107,7 +102,15 @@ class CardWork extends React.Component {
                         <div className="card-title keetool-card" style={{paddingRight: "25px",lineHeight: "18px",fontWeight: 600}}>
                             {work.name}
                         </div>
-                        <div className="keetool-card">{this.type[work.type]} / {work.bonus_value + " "+ this.bonus_type[work.bonus_type]}</div>
+                        <div className="keetool-card">
+                            <div className="keetool-card" style={{padding: "2px 0", display : "flex"}}>
+                                <Avatar className="keetool-card"
+                                        url={helper.validateLinkImage(work.payer.avatar_url)}
+                                        size={25}/>
+                                {work.payer.name}
+                            </div>
+                            {this.type[work.type]} / {work.bonus_value + " "+ (work.currency.name || "")}
+                            </div>
                         <div className="keetool-card"></div>
 
                         <div className="keetool-card" style={{marginTop: "5px"}}>
@@ -140,6 +143,7 @@ class CardWork extends React.Component {
                                                 </div>
                                             );
                                         })}
+
 
                                     </div>
                                 )

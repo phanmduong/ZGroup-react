@@ -48,6 +48,7 @@ class JobAssignmentContainer extends React.Component {
             showFinishModal: false,
             work: {
                 staffs:[],
+                payer: {},
             },
             staffFilter: "",
             typeFilter: "all",
@@ -62,7 +63,6 @@ class JobAssignmentContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('job',nextProps);
         if(this.props.isLoadingStaffs && !nextProps.isLoadingStaffs){
             this.setState({staffs : nextProps.staffs});
         }
@@ -146,30 +146,32 @@ class JobAssignmentContainer extends React.Component {
         let pending = [], doing = [], done = [], cancel = [];
         let {works} = this.props;
         let {typeFilter, selectedStaffs} =this.state;
-        works = works.filter(obj => typeFilter == "all"  ? true : (obj.type == typeFilter));
-        selectedStaffs.forEach( staff => {
-            works = works.filter(work => checkStaff(staff, work.staffs) );
-        });
-        works.forEach((obj)=>{
-            switch (obj.status){
-                case STATUS_WORK[0].value:{
-                    pending = [...pending, obj];
-                    break;
+        if(works) {
+            works = works.filter(obj => typeFilter == "all" ? true : (obj.type == typeFilter));
+            if (selectedStaffs && selectedStaffs.length > 0) selectedStaffs.forEach(staff => {
+                works = works.filter(work => checkStaff(staff, work.staffs));
+            });
+            works.forEach((obj) => {
+                switch (obj.status) {
+                    case STATUS_WORK[0].value: {
+                        pending = [...pending, obj];
+                        break;
+                    }
+                    case STATUS_WORK[1].value: {
+                        doing = [...doing, obj];
+                        break;
+                    }
+                    case STATUS_WORK[2].value: {
+                        done = [...done, obj];
+                        break;
+                    }
+                    case STATUS_WORK[3].value: {
+                        cancel = [...cancel, obj];
+                        break;
+                    }
                 }
-                case STATUS_WORK[1].value:{
-                    doing = [...doing, obj];
-                    break;
-                }
-                case STATUS_WORK[2].value:{
-                    done = [...done, obj];
-                    break;
-                }
-                case STATUS_WORK[3].value:{
-                    cancel = [...cancel, obj];
-                    break;
-                }
-            }
-        });
+            });
+        }
         return (
             <div>
                 <WorkInfoModal
@@ -369,6 +371,7 @@ function mapDispatchToProps(dispatch) {
 
 function checkStaff(staff, arr) {
     let check = false;
+    if(!arr) return false;
     arr.forEach(item => {
        if(staff.id == item.id)
            check = true;

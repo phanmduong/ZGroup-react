@@ -13,7 +13,7 @@ export function loadWorks() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_WORKS_JOB_ASSIGNMENT_SUCCESS,
-                    works: res.data.works
+                    works: res.data.data.works
                 });
             })
             .catch(() => {
