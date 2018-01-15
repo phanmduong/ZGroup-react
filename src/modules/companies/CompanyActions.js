@@ -1,8 +1,9 @@
 import * as types from '../../constants/actionTypes';
 import * as CompanyApi from './CompanyApi';
 import * as helper from '../../helpers/helper';
+import {browserHistory} from "react-router";
 
-export function loadCompanies(page = 1, type, search) {
+export function loadCompanies(page = 1, type ="", search="") {
     return function (dispatch){
       dispatch({
          type: types.BEGIN_LOAD_COMPANIES,
@@ -71,6 +72,7 @@ export function addCompany(object) {
                 dispatch({
                     type: types.ADD_COMPANY_SUCCESS,
                 });
+                browserHistory.push("business/companies");
             }).catch(()=>{
             helper.showNotification("Có lỗi xảy ra");
             dispatch({
@@ -114,6 +116,14 @@ export function addField(name) {
             dispatch({
                 type: types.ADD_FILED_ERROR,
             });
+        });
+    };
+}
+export function updateFormData(data) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_DATA_CREATE_COMPANY,
+            data : data,
         });
     };
 }

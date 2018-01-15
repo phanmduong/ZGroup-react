@@ -8,12 +8,15 @@ export default function companyReducer(state = initialState.companies, action) {
                 ...state,
                 isLoadingCompanies: true,
             };
-        case types.LOAD_COMPANIES_SUCCESS:
-            return{
+        case types.LOAD_COMPANIES_SUCCESS: {
+            let data=[];
+            data = action.data;
+            return {
                 ...state,
                 isLoadingCompanies: false,
-                company: action.data,
+                company: data,
             };
+        }
         case types.LOAD_COMPANIES_ERROR:
             return{
                 ...state,
@@ -92,6 +95,14 @@ export default function companyReducer(state = initialState.companies, action) {
                 ...state,
                 isSavingField: false,
             };
+        case types.UPDATE_DATA_CREATE_COMPANY: {
+
+            return {
+                ...state,
+                isLoading: false,
+                company: action.data,
+            };
+        }
         default:
             return state;
     }

@@ -11,10 +11,19 @@ class CreateCompanyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeFields = this.changeFields.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
+        this.updateFormDataBonus = this.updateFormDataBonus.bind(this);
+        this.updateFormDataType = this.updateFormDataType.bind(this);
+        this.submit = this.submit.bind(this);
+
     }
 
     componentWillMount() {
+        console.log(this.props.data);
         this.props.CompanyActions.loadFields();
+    }
+    componentWillReceiveProps() {
+
     }
     componentDidUpdate(){
         helper.setFormValidation('#form-company');
@@ -22,7 +31,6 @@ class CreateCompanyContainer extends React.Component {
 
 
     changeFields() {
-        console.log(this.props);
         let data = [];
         data = this.props.fields.map((field) => {
             return {
@@ -32,12 +40,40 @@ class CreateCompanyContainer extends React.Component {
         });
         return data;
     }
+    updateFormData(e){
+
+        if(!e) return;
+        let field = e.target.name;
+        let value = e.target.value;
+        let newdata = {...this.props.data,[field] : value};
+        this.props.CompanyActions.updateFormData(newdata);
+    }
+    updateFormDataType(e){
+        if(!e) return;
+        let value = e.value;
+        let newdata = {...this.props.data,type : value};
+        this.props.CompanyActions.updateFormData(newdata);
+    }
+    updateFormDataBonus(e){
+        if(!e) return;
+        let value = e.value;
+        let newdata = {...this.props.data,field_id : value};
+        this.props.CompanyActions.updateFormData(newdata);
+
+    }
+    submit(){
+        if($('#form-company').valid()) {
+            helper.showNotification("Đang lưu...");
+            if(!this.props.companyId) this.props.CompanyActions.addCompany(this.props.data);
+            else this.props.CompanyActions.editCompany(this.props.companyId,this.props.data);
+        } else helper.showErrorNotification("Vui lòng nhập đủ các thông tin");
+    }
 
     render() {
         return (
             <div className="content">
                 <div className="container-fluid">{
-                    (this.props.isLoadingFields) ? <Loading/> :
+                    (this.props.isLoadingFields || this.props.isLoading) ? <Loading/> :
                         <form role="form" id="form-company" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-12">
@@ -55,6 +91,7 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="name"
+                                                        updateFormData={this.updateFormData}
                                                         value={this.props.data.name || ""}
 
                                                     />
@@ -64,8 +101,9 @@ class CreateCompanyContainer extends React.Component {
                                                         label="Địa chỉ đăng kí kinh doanh"
                                                         required
                                                         type="text"
-                                                        name="registered_address"
-                                                        value={" "}
+                                                        name="registered_business_address"
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.registered_business_address||""}
 
                                                     />
                                                 </div>
@@ -75,7 +113,8 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="office_address"
-                                                        value={" "}
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.office_address||""}
 
                                                     />
                                                 </div>
@@ -85,7 +124,8 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="phone_company"
-                                                        value={" "}
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.phone_company||""}
 
                                                     />
                                                 </div>
@@ -95,7 +135,8 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="tax_code"
-                                                        value={" "}
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.tax_code||""}
 
                                                     />
                                                 </div>
@@ -109,7 +150,8 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="account_number"
-                                                        value={" "}
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.account_number||""}
 
                                                     />
                                                 </div>
@@ -119,7 +161,8 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="account_name"
-                                                        value={" "}
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.account_name||""}
 
                                                     />
                                                 </div>
@@ -129,7 +172,8 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="bank_name"
-                                                        value={" "}
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.bank_name||""}
 
                                                     />
                                                 </div>
@@ -139,7 +183,8 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         type="text"
                                                         name="bank_branch"
-                                                        value={" "}
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.bank_branch||""}
 
                                                     />
                                                 </div>
@@ -157,8 +202,8 @@ class CreateCompanyContainer extends React.Component {
                                                             {value: 'share', label: 'Phân phối',},
                                                             {value: 'different', label: 'Khác',},
                                                         ]}
-                                                        // onChange={this.updateFormDataType}
-                                                        value={" "}
+                                                        onChange={this.updateFormDataType}
+                                                        value={this.props.data.type||""}
 
                                                         defaultMessage="Tuỳ chọn"
                                                         name="type"
@@ -175,9 +220,8 @@ class CreateCompanyContainer extends React.Component {
                                                         required
                                                         disabled={false}
                                                         options={this.changeFields()}
-                                                        // onChange={this.updateFormDataType}
-                                                        value={" "}
-
+                                                        onChange={this.updateFormDataBonus}
+                                                        value={this.props.data.field_id||""}
                                                         defaultMessage="Tuỳ chọn"
                                                         name="field_id"
                                                     />
@@ -198,18 +242,20 @@ class CreateCompanyContainer extends React.Component {
                                                         label="Người liên lạc"
                                                         required
                                                         type="text"
-                                                        name="contact_person"
-                                                        value={" "}
-
+                                                        name="user_contact"
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.user_contact||""}
                                                     />
                                                 </div>
                                                 <div className="col-md-12">
                                                     <FormInputText
                                                         label="Số điện thoại người liên lạc"
                                                         required
+                                                        //disabled={true}
                                                         type="text"
-                                                        name="contact_phone"
-                                                        value={" "}
+                                                        name="user_contact_phone"
+                                                        updateFormData={this.updateFormData}
+                                                        value={this.props.data.user_contact_phone||""}
 
                                                     />
                                                 </div>
@@ -222,7 +268,7 @@ class CreateCompanyContainer extends React.Component {
                                                             <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                                         </button>
                                                         :
-                                                        <button //onClick={this.submit}
+                                                        <button onClick={this.submit}
                                                             className="btn btn-rose"
                                                         >Lưu</button>
                                                     }
@@ -252,6 +298,7 @@ function mapStateToProps(state) {
         isLoadingFields: state.companies.isLoadingFields,
         isSavingField: state.companies.isSavingField,
         isSavingCompany: state.companies.isSavingCompany,
+        isLoanding: state.companies.isLoading,
         data: state.companies.company,
         fields: state.companies.fields,
     };

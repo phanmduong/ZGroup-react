@@ -1,6 +1,17 @@
 import React from 'react';
 import {Link} from 'react-router';
+import CompaniesList from "./CompaniesList"
+import * as CompanyActions from "./CompanyActions";
+import {bindActionCreators} from "redux";
+import {connect} from 'react-redux';
+import Loading from "../../components/common/Loading";
 class CompanyContainer extends React.Component{
+    constructor(props, context) {
+        super(props, context);
+    }
+    componentWillMount() {
+        this.props.CompanyActions.loadCompanies();
+    }
     render(){
         return(
             <div className="content">
@@ -25,6 +36,12 @@ class CompanyContainer extends React.Component{
                                             </div>
                                         </div>
                                     </div>
+                                    {
+                                        this.props.isLoadingCompanies ? <Loading /> :
+                                        <CompaniesList
+                                           data={this.props.data}
+                                        />
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -34,4 +51,16 @@ class CompanyContainer extends React.Component{
         );
     }
 }
-export default CompanyContainer;
+function mapStateToProps(state) {
+    return {
+        isLoadingCompanies: state.companies.isLoadingCompanies,
+        data: state.companies.company,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        CompanyActions: bindActionCreators(CompanyActions, dispatch),
+    };
+}
+export default connect(mapStateToProps,mapDispatchToProps) (CompanyContainer);
