@@ -10,7 +10,7 @@ Route::group(['middleware' => 'web', 'domain' => "sociologyhue.edu.{subfix}", 'n
     Route::get('/book/{book_id}', 'XHHController@book');
 });
 
-Route::group(['domain' => "api.zgroup.{subfix}", 'namespace' => 'Modules\XHH\Http\Controllers'], function () {
+Route::group(['domain' => "api.sociologyhue.edu.{subfix}", 'namespace' => 'Modules\XHH\Http\Controllers'], function () {
     Route::get('/blogs', 'XHHApiController@blogs');
     Route::get('/book/all', 'XHHApiController@allBooks');
     Route::get('/types-book', 'XHHApiController@typesBook');
