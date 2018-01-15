@@ -19,22 +19,7 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
-
-    <style>
-        @font-face {
-            font-family: myFirstFont;
-            src: url(http://d1j8r0kxyu9tj8.cloudfront.net/files/1515253034YOMw7ULyai2KGhi.otf);
-        }
-
-        .font-bebas {
-            font-family: myFirstFont;
-        }
-
-        .dropdown-menu-right .dropdown-item:hover {
-            background: #b7b7b7 !important;
-            color: white;
-        }
-    </style>
+    <link href="/assets/css/xhh.css" rel="stylesheet">
 
 
 </head>
@@ -133,8 +118,8 @@
                                     </h4>
                                 </li>
                                 <li>
-                                    <h4>256<br>
-                                        <small>Lượt truy cập</small>
+                                    <h4>{{$total_books}}<br>
+                                        <small>Cuốn sách</small>
                                     </h4>
                                 </li>
 
@@ -295,6 +280,32 @@
         });
     })();
 
+    function paginator(currentPageData, totalPagesData) {
+        var page = [];
+        var currentPage = currentPageData;
+        var totalPages = totalPagesData;
+
+        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
+        for (var i = startPage; i <= currentPage; i++) {
+            page.push(i);
+        }
+
+        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+
+        for (var i = currentPage + 1; i <= endPage; i++) {
+            page.push(i);
+        }
+
+        if (page && page.length < 5) {
+            var pageData = Object.assign(page);
+            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
+                pageData.unshift(i);
+            }
+            page = pageData;
+        }
+
+        return page;
+    }
 </script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111696061-1"></script>

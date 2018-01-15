@@ -11,16 +11,27 @@ use Modules\Good\Entities\GoodProperty;
 
 class XHHController extends Controller
 {
-    public function index()
+
+    public function __construct()
     {
+        $this->data = array();
         $date = new \DateTime();
         $date->modify("+1 day");
         $endDate = $date->format("Y-m-d h:i:s");
         $date->modify("-31 days");
         $startDate = $date->format("Y-m-d h:i:s");
-
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $totalBlogs = Product::where('type', 2)->count();
+        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
+        $totalBooks = Good::where('type', 'book')->count();
+        $this->data = [
+            'count_new_blogs' => $countNewBlogs,
+            'total_blogs' => $totalBlogs,
+            'total_books' => $totalBooks
+        ];
+    }
+
+    public function index()
+    {
         $newestBlog = Product::where('type', 2)->orderBy('created_at', 'desc')->first();
         if ($newestBlog) {
             $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
@@ -36,28 +47,20 @@ class XHHController extends Controller
             $blogSection4 = Product::where('type', 2)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
         }
         $books = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
-        return view('xhh::index', [
-            'newestBlog' => $newestBlog,
-            'newestTop3' => $newestTop3,
-            'blogSection1' => $blogSection1,
-            'blogSection2' => $blogSection2,
-            'newestBlog2' => $newestBlog2,
-            'blogSection4' => $blogSection4,
-            'books' => $books,
-            'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
-        ]);
+
+        $this->data['newestBlog'] = $newestBlog;
+        $this->data['newestTop3'] = $newestTop3;
+        $this->data['blogSection1'] = $blogSection1;
+        $this->data['blogSection2'] = $blogSection2;
+        $this->data['newestBlog2'] = $newestBlog2;
+        $this->data['blogSection4'] = $blogSection4;
+        $this->data['blogSection4'] = $blogSection4;
+        $this->data['books'] = $books;
+        return view('xhh::index', $this->data);
     }
 
     public function blog($subfix, Request $request)
     {
-        $date = new \DateTime();
-        $date->modify("+1 day");
-        $endDate = $date->format("Y-m-d h:i:s");
-        $date->modify("-31 days");
-        $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $blogs = Product::where('type', 2);
 
         $search = $request->search;
@@ -71,25 +74,20 @@ class XHHController extends Controller
         $display = "";
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
-        return view('xhh::blogs', [
-            'blogs' => $blogs,
-            'page_id' => $page_id,
-            'display' => $display,
-            'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs,
-            'search' => $search
-        ]);
+
+        $this->data['blogs'] = $blogs;
+        $this->data['page_id'] = $page_id;
+        $this->data['display'] = $blogs;
+        $this->data['search'] = $search;
+
+        $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
+        $this->data['current_page'] = $blogs->currentPage();
+
+        return view('xhh::blogs', $this->data);
     }
 
     public function post($subfix, $post_id)
     {
-        $date = new \DateTime();
-        $date->modify("+1 day");
-        $endDate = $date->format("Y-m-d h:i:s");
-        $date->modify("-31 days");
-        $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $post = Product::find($post_id);
         $post->author;
         $post->category;
@@ -109,25 +107,13 @@ class XHHController extends Controller
 
             return $comment;
         });
-        return view('xhh::post',
-            [
-                'post' => $post,
-                'posts_related' => $posts_related,
-                'count_new_blogs' => $countNewBlogs,
-                'total_blogs' => $totalBlogs
-            ]
-        );
+        $this->data['post'] = $post;
+        $this->data['posts_related'] = $posts_related;
+        return view('xhh::post', $this->data);
     }
 
     public function book($subfix, $book_id)
     {
-        $date = new \DateTime();
-        $date->modify("+1 day");
-        $endDate = $date->format("Y-m-d h:i:s");
-        $date->modify("-31 days");
-        $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $book = Good::find($book_id);
         $newestBooks = Good::where('type', 'book')->where('id', '<>', $book_id)->limit(4)->get();
 
@@ -138,26 +124,19 @@ class XHHController extends Controller
         $publisher = $book->properties()->where('name', 'PUBLISHER_BOOK')->first();
         $publisher = $publisher ? $publisher->value : 'Không có';
 
-        return view('xhh::book', [
-            'book' => $book,
-            'newestBooks' => $newestBooks,
-            'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs,
-            'author' => $author,
-            'language' => $language,
-            'publisher' => $publisher,
-        ]);
+        $this->data['book'] = $book;
+        $this->data['newestBooks'] = $newestBooks;
+        $this->data['author'] = $author;
+        $this->data['language'] = $language;
+        $this->data['publisher'] = $publisher;
+        return view('xhh::book', $this->data);
     }
 
     public function allBooks($subfix, Request $request)
     {
-        $date = new \DateTime();
-        $date->modify("+1 day");
-        $endDate = $date->format("Y-m-d h:i:s");
-        $date->modify("-31 days");
-        $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
+
+        $limit = 12;
+
         $books = Good::where('type', 'book');
         $type_books = GoodProperty::where('name', 'TYPE_BOOK')->distinct('value')->pluck('value')->toArray();
         $arrTypeBooks = array();
@@ -191,45 +170,26 @@ class XHHController extends Controller
             });
         }
 
+        $books = $books->select('goods.*')->paginate($limit);
 
-        $books = $books->select('goods.*')->get();
-        return view('xhh::library', [
-            'books' => $books,
-            'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs,
-            'search' => $search,
-            'type' => $type,
-            'type_books' => $arrTypeBooks
-        ]);
+        $this->data['books'] = $books;
+        $this->data['search'] = $search;
+        $this->data['type'] = $type;
+        $this->data['type_books'] = $arrTypeBooks;
+
+        $this->data['total_pages'] = ceil($books->total() / $books->perPage());
+        $this->data['current_page'] = $books->currentPage();
+
+        return view('xhh::library', $this->data);
     }
 
     public function aboutUs($subfix)
     {
-        $date = new \DateTime();
-        $date->modify("+1 day");
-        $endDate = $date->format("Y-m-d h:i:s");
-        $date->modify("-31 days");
-        $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
-        return view('xhh::about-us', [
-            'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
-        ]);
+        return view('xhh::about-us', $this->data);
     }
 
     public function contactUs($subfix)
     {
-        $date = new \DateTime();
-        $date->modify("+1 day");
-        $endDate = $date->format("Y-m-d h:i:s");
-        $date->modify("-31 days");
-        $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
-        return view('xhh::contact-us', [
-            'count_new_blogs' => $countNewBlogs,
-            'total_blogs' => $totalBlogs
-        ]);
+        return view('xhh::contact-us', $this->data);
     }
 }
