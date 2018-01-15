@@ -211,9 +211,7 @@ class Order extends Model
             }, 0) - $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0);
-        return [
-            'order' => $data,
-        ];
+        return $data;
     }
 
     public function returnOrderData()
