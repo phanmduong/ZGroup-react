@@ -40,7 +40,7 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
-Route::get('/login/secret', 'AuthenticateController@secretLogin');
+//Route::get('/login/secret', 'AuthenticateController@secretLogin');
 
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
