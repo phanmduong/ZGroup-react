@@ -10,6 +10,12 @@ Route::group(['middleware' => 'web', 'domain' => "sociologyhue.edu.{subfix}", 'n
     Route::get('/book/{book_id}', 'XHHController@book');
 });
 
+Route::group(['domain' => "api.zgroup.{subfix}", 'namespace' => 'Modules\XHH\Http\Controllers'], function () {
+    Route::get('/blogs', 'XHHApiController@blogs');
+    Route::get('/book/all', 'XHHApiController@allBooks');
+    Route::get('/types-book', 'XHHApiController@typesBook');
+});
+
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\XHH\Http\Controllers'], function () {
-    Route::get('/xhh-dashboard', 'XHHApiController@dashboard');
+    Route::get('/xhh-dashboard', 'XHHManageApiController@dashboard');
 });

@@ -3,43 +3,89 @@
 namespace Modules\XHH\Http\Controllers;
 
 use App\Good;
-use App\Http\Controllers\ManageApiController;
+use App\Http\Controllers\ApiPublicController;
 use App\Product;
-use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
+use Illuminate\Http\Request;
 
 
-class XHHApiController extends ManageApiController
+class XHHApiController extends ApiPublicController
 {
 
-    public function __construct()
+    public function blogs($subfix, Request $request)
     {
-        parent::__construct();
-    }
+        $limit = $request->limit ? $request->limit : 6;
 
-    public function dashboard()
-    {
-        $totalBlogsToday = Product::where('type', 2)->whereRaw('date(now()) = date(created_at)')->count();
+        $this->data = array();
         $date = new \DateTime();
         $date->modify("+1 day");
         $endDate = $date->format("Y-m-d h:i:s");
         $date->modify("-31 days");
         $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
 
-        $analyticsBlogs = Product::select(DB::raw('author_id, count(1) as total'))->where('type', 2)->groupBy(DB::raw('author_id'))->get();
+        $blogs = Product::where('type', 2);
 
-        $totalBooks = Good::where('type', 'book')->count();
+        $search = $request->search;
 
-        $analyticsBlogs = $analyticsBlogs->map(function ($blog) {
-            return [
-                'name' => $blog->author->name,
-                'color' => $blog->author->color,
-                'total_blogs' => $blog->total
-            ];
+        if ($search) {
+            $blogs = $blogs->where('title', 'like', '%' . $search . '%');
+        }
+
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
+
+
+        $this->data['blogs'] = $blogs->map(function ($blog) {
+            $blog->author;
+            $blog->category;
+            return $blog;
         });
+        $this->data['total_new_blog'] = $countNewBlogs;
 
+        return $this->respondWithPagination($blogs, $this->data);
+    }
+
+    public function allBooks($subfix, Request $request)
+    {
+
+        $limit = 12;
+
+        $books = Good::where('type', 'book');
+
+        $type = $request->type;
+
+        $search = $request->search;
+
+        $books = $books->leftJoin('good_properties', 'goods.id', '=', 'good_properties.good_id')
+            ->where(function ($q) {
+                $q->where('good_properties.name', 'TYPE_BOOK');
+            });
+
+        if ($search) {
+            $books = $books->where(function ($q) use ($search) {
+                $q->where('goods.name', 'like', '%' . $search . '%')
+                    ->orWhere('goods.code', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($type) {
+            $books = $books->where(function ($q1) use ($type) {
+                $q1->where('good_properties.name', 'TYPE_BOOK')
+                    ->where('good_properties.value', 'like', '%' . $type . '%');
+            });
+        }
+
+        $books = $books->select('goods.*')->paginate($limit);
+
+        $this->data['books'] = $books;
+        $this->data['search'] = $search;
+
+
+        return $this->respondWithPagination($books, $this->data);
+    }
+
+    public function typesBook()
+    {
         $type_books = GoodProperty::where('name', 'TYPE_BOOK')->distinct('value')->pluck('value')->toArray();
         $arrTypeBooks = array();
 
@@ -49,41 +95,10 @@ class XHHApiController extends ManageApiController
             }
         }
 
-        foreach ($arrTypeBooks as &$type_book) {
-            $total = GoodProperty::where('value', 'like', '%' . $type_book . '%')->count();
-            $type_book = [
-                'name' => $type_book,
-                'total' => $total,
-            ];
-        }
+        return $this->respondSuccessWithStatus([
+            'type_books' => $type_books
+        ]);
 
-        $data = [
-            'total_blogs_today' => $totalBlogsToday,
-            'total_blogs' => $totalBlogs,
-            'total_blogs_30' => $countNewBlogs,
-            'analytics_blogs' => $analyticsBlogs,
-            'total_books' => $totalBooks,
-            'type_books' => $arrTypeBooks,
-        ];
-        $user = $this->user;
-
-        $data['user'] = [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'username' => $user->username,
-            'avatar_url' => generate_protocol_url($user->avatar_url),
-            'color' => $user->color,
-            'current_role' => [
-                'id' => $user->current_role->id,
-                'role_title' => $user->current_role->role_title
-            ],
-            'role' => $user->role,
-        ];
-
-
-        return $this->respondSuccessWithStatus($data);
     }
 
 }
