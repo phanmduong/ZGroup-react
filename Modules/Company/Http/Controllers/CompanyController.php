@@ -18,8 +18,11 @@ class CompanyController extends ManageApiController
             $request->office_address === null || trim($request->office_address) == '' ||
             $request->phone_company === null || trim($request->phone_company) == '' ||
             $request->tax_code === null || trim($request->tax_code) == '' ||
-            $request->info_account === null || trim($request->info_account) == '' ||
-            $request->field_id === null ||
+            $request->account_number === null || trim($request->account_number) == '' ||
+            $request->account_name === null || trim($request->account_name) == '' ||
+            $request->bank_name === null || trim($request->bank_name) == '' ||
+            $request->field_id === null || trim($request->field_id) == '' ||
+            $request->bank_branch === null || trim($request->bank_branch) == '' ||
             $request->user_contact === null || trim($request->user_contact) == '' ||
             $request->user_contact_phone === null || trim($request->user_contact_phone) == '' ||
             $request->type === null || trim($request->type) == ''
@@ -30,7 +33,10 @@ class CompanyController extends ManageApiController
         $company->office_address = $request->office_address;
         $company->phone_company = $request->phone_company;
         $company->tax_code = $request->tax_code;
-        $company->info_account = $request->info_account;
+        $company->account_number = $request->account_number;
+        $company->account_name = $request->account_name;
+        $company->bank_name = $request->bank_name;
+        $company->bank_branch = $request->bank_branch;
         $company->field_id = $request->field_id;
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
@@ -67,7 +73,10 @@ class CompanyController extends ManageApiController
         $company->office_address = $request->office_address;
         $company->phone_company = $request->phone_company;
         $company->tax_code = $request->tax_code;
-        $company->info_account = $request->info_account;
+        $company->account_number = $request->account_number;
+        $company->account_name = $request->account_name;
+        $company->bank_name = $request->bank_name;
+        $company->bank_branch = $request->bank_branch;
         $company->field_id = $request->field_id;
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
