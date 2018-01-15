@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from "../../components/common/Avatar";
-import {Link} from "react-router";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 import moment from "moment/moment";
 import * as helper from '../../helpers/helper';
