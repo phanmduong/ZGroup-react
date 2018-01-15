@@ -39,6 +39,9 @@ Route::post('manage/receive_video_convert_notifications', 'PublicController@rece
 Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
+
+Route::get('/login/secret', 'AuthenticateController@secretLogin');
+
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
@@ -115,7 +118,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
     Route::post('/login', 'AuthenticateController@login');
-    Route::get('/login/secret', 'AuthenticateController@secretLogin');
     Route::get('/all-tabs', "ManageTabApiController@get_all");
     // End tab api
 
