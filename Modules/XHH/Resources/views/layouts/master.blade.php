@@ -19,61 +19,7 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
-
-    <style>
-        @font-face {
-            font-family: myFirstFont;
-            src: url(http://d1j8r0kxyu9tj8.cloudfront.net/files/1515253034YOMw7ULyai2KGhi.otf);
-        }
-
-        .font-bebas {
-            font-family: myFirstFont;
-        }
-
-        .dropdown-menu-right .dropdown-item:hover {
-            background: #b7b7b7 !important;
-            color: white;
-        }
-
-        .nav-pills-primary > li > a,
-        .pagination-primary > li > a,
-        .pagination-primary > li > span,
-        .pagination-primary > li:first-child > a,
-        .pagination-primary > li:first-child > span,
-        .pagination-primary > li:last-child > a,
-        .pagination-primary > li:last-child > span {
-            border: 2px solid #c50000;
-            color: #c50000;
-        }
-
-        .nav-pills-primary > li.active > a,
-        .nav-pills-primary > li.active > a:hover,
-        .nav-pills-primary > li.active > a:focus,
-        .pagination-primary > li > a:hover,
-        .pagination-primary > li > a:focus,
-        .pagination-primary > li > a:active,
-        .pagination-primary > li.active > a,
-        .pagination-primary > li.active > span,
-        .pagination-primary > li.active > a:hover,
-        .pagination-primary > li.active > span:hover,
-        .pagination-primary > li.active > a:focus,
-        .pagination-primary > li.active > span:focus {
-            background-color: #c50000 !important;
-            border-color: #c50000 !important;
-            color: #FFFFFF;
-        }
-
-        .nav-pills-info > li > a,
-        .pagination-info > li > a,
-        .pagination-info > li > span,
-        .pagination-info > li:first-child > a,
-        .pagination-info > li:first-child > span,
-        .pagination-info > li:last-child > a,
-        .pagination-info > li:last-child > span {
-            border: 2px solid #c50000;
-            color: #c50000;
-        }
-    </style>
+    <link href="/assets/css/xhh.css" rel="stylesheet">
 
 
 </head>
