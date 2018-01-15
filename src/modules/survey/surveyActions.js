@@ -7,7 +7,9 @@ import {
     , UPDATE_ANSWER
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
-import {showErrorMessage} from "../../helpers/helper";
+import {showErrorMessage, showErrorNotification} from "../../helpers/helper";
+import * as types from "../../constants/actionTypes";
+import * as taskApi from "../tasks/taskApi";
 
 
 export const loadSurveys = (page = 1, search = '') => {
@@ -88,5 +90,45 @@ export const updateAnswerToStore = (answer) => {
 export const saveAnswer = (answer) => {
     return () => {
         surveyApi.saveAnswer(answer);
+    };
+};
+
+export const changeQuestionsOrder = (questionId, siblingOrder, inQuestions) => {
+    return function (dispatch) {
+        let order = 0;
+
+        const question = inQuestions.filter(b => b.id === questionId)[0];
+        const questions = inQuestions.filter(b => b.id !== questionId);
+
+
+        let newQuestions = [];
+        if (siblingOrder === -1) {
+            const temp = [...questions, question];
+            temp.forEach((b) => {
+                newQuestions = [...newQuestions, {...b, order}];
+                order += 1;
+            });
+        } else {
+            const index = questions.findIndex((b) => {
+                return b.order === siblingOrder;
+            });
+
+            const part1 = questions.slice(0, index);
+            const part2 = questions.slice(index);
+
+            const temp = [...part1, question, ...part2];
+
+            temp.forEach((c) => {
+                newQuestions = [...newQuestions, {...c, order}];
+                order += 1;
+            });
+        }
+
+        surveyApi.updateQuestionOrders(newQuestions);
+
+        dispatch({
+            type: types.UPDATE_QUESTIONS_ORDER,
+            questions: newQuestions
+        });
     };
 };

@@ -46,3 +46,15 @@ export const saveAnswer = (answer) => {
         content_data: answer.content
     });
 };
+
+export const updateQuestionOrders = (questions) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/questions?token=${token}`;
+    return axios.put(
+        url,
+        {
+            questions: JSON.stringify(questions)
+        }
+    );
+
+};
