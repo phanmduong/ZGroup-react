@@ -28,13 +28,13 @@ class CurrencyController extends ManageApiController
     {
         if ($request->name === null || trim($request->name) == "" ||
             $request->notation === null || trim($request->notation) == "" ||
-            $request->ration === null || trim($request->ration) == ""
+            $request->ratio === null || trim($request->ratio) == ""
 
         ) return $this->respondErrorWithStatus("Thiếu trường");
         $currency = new Currency;
         $currency->name = $request->name;
         $currency->notation = $request->notation;
-        $currency->ration = $request->ration;
+        $currency->ratio = $request->ratio;
         $currency->save();
         return $this->respondSuccessWithStatus([
            "message" => "Tạo thành công"
@@ -46,7 +46,7 @@ class CurrencyController extends ManageApiController
         if(!$currency) return $this->respondErrorWithStatus("Không tồn tại");
         $currency->name = $request->name;
         $currency->notation = $request->notation;
-        $currency->ration = $request->ration;
+        $currency->ratio = $request->ratio;
         $currency->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công"
