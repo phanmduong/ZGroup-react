@@ -690,6 +690,7 @@ export default {
             pointByDate: [],
             cardsByDate: [],
             cards: [],
+            staffs: [],
             isLoading: false,
             showCardsModal: false,
             isLoadingCardsModal: false,
@@ -1493,6 +1494,13 @@ export default {
         showEditQuestionModal: false,
         question: {},
         isSavingQuestion: false
-    }
+    },
+    dashboardXHH: {
+        dashboard: {
+            user: {}
+        },
+        isLoading: true,
+        error: false,
+    },
 
 };

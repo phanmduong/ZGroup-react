@@ -63,6 +63,7 @@ import landingPagesReducer from "../modules/landingpage/landingPagesReducer";
 import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/HistoryExtensionWorkReducer";
 import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
 import surveyReducer from '../modules/survey/surveyReducer';
+import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 
 
 const appReducer = combineReducers({
@@ -118,18 +119,19 @@ const appReducer = combineReducers({
     discounts: discountReducer,
     attendancesStaffs: attendancesStaffsReducer,
     rooms: roomsReducer,
-    excel : excelReducer,
-    department : departmentReducer,
-    groupCustomers : groupCustomerReducer,
-    jobAssignment : jobAssignmentReducer,
-    firstLogin : firstLoginReducer,
+    excel: excelReducer,
+    department: departmentReducer,
+    groupCustomers: groupCustomerReducer,
+    jobAssignment: jobAssignmentReducer,
+    firstLogin: firstLoginReducer,
     workShiftSessions: workShiftSessionsReducer,
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
     survey: surveyReducer,
-    landingPages : landingPagesReducer,
+    landingPages: landingPagesReducer,
     historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
+    dashboardXHH: dashboardXHHReducer,
 });
 
 const rootReducer = (state, action) => {

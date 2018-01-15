@@ -4,6 +4,7 @@
 import React from 'react';
 import DashboardContainer from "./DashboardContainer";
 import OrdersContainer from "../eCommerceDashboard/OrdersContainer";
+import DashboardXHHContainer from "../dashboardXHH/DashboardXHHContainer";
 
 /*eslint-disable */
 class TypeDashboard extends React.Component {
@@ -16,6 +17,8 @@ class TypeDashboard extends React.Component {
         switch (env.TYPE_DASHBOARD) {
             case 'e-commerce':
                 return <OrdersContainer/>;
+            case 'xhh':
+                return <DashboardXHHContainer/>;
             default:
                 return <DashboardContainer/>
         }
