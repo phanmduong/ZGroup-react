@@ -89,22 +89,22 @@
                     <div class="col-md-5 col-sm-5 col-xs-6">
                         <div class="links">
                             <p>
-                            <div style="display: flex; align-items: center;">
+                            <div style="display: flex;">
                                 <i class="fa fa-envelope-o" aria-hidden="true"
-                                   style="font-size: 18px; margin-right: 5px"></i>
-                                <div style="color: #66615b!important;">sociologyhue@gmail.com</div>
+                                   style="margin-right: 5px"></i>
+                                <div style="color: #66615b!important; line-height: 1">sociologyhue@gmail.com</div>
                             </div>
-                            <div style="display: flex; align-items: center;"
+                            <div style="display: flex;"
                                  href="http://sociologyhue.facebook.com">
-                                <i class="fa fa-facebook" aria-hidden="true" style="font-size: 18px;"></i>
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
                                 <a href="http://facebook.com/sociologyhue"
-                                   style="color: #66615b!important;margin-left: 5px">facebook.com/sociologyhue</a>
+                                   style="color: #66615b!important;margin-left: 5px; line-height: 1">facebook.com/sociologyhue</a>
                             </div>
-                            <div style="display: flex; align-items: center;">
-                                <i class="fa fa-instagram" aria-hidden="true" style="font-size: 18px;"></i>
+                            <div style="display: flex;">
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
                                 <a
                                         href="http://sociologyhue.pik"
-                                        style="color: #66615b!important; margin-left: 5px">http://sociologyhue.pik</a>
+                                        style="color: #66615b!important; margin-left: 5px; line-height: 1">http://sociologyhue.pik</a>
                             </div>
                             </p>
                         </div>

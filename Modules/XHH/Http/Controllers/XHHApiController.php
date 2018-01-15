@@ -28,7 +28,7 @@ class XHHApiController extends ManageApiController
         $totalBlogs = Product::where('type', 2)->count();
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
 
-        $analyticsBlogs = Product::select(DB::raw('author_id, count(1) as total'))->where('type', 2)->groupBy(DB::raw('DATE(author_id)'))->get();
+        $analyticsBlogs = Product::select(DB::raw('author_id, count(1) as total'))->where('type', 2)->groupBy(DB::raw('author_id'))->get();
 
         $totalBooks = Good::where('type', 'book')->count();
 
