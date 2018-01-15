@@ -205,9 +205,15 @@ class BookRepository
        $order->user_id = $user_id;
        $order->address = $address;
        $order->email = $email;
-        $order->save();
+       $order->save();
         if ($goods_arr) {
             foreach ($goods_arr as $good) {
+                if($good->link === "" || $good->size==="" || $good->color==="" ){
+                    return [
+                        "message" => "Bạn chưa nhập đầy đủ thông tin"
+                    ];
+                    break;
+                }
                  $newGood = new Good;
                  $newGood->name = "Link";
                  $newGood->download = $good->link;
@@ -232,7 +238,7 @@ class BookRepository
         $order->save();
         return [
             "message" => "Xac nhan thanh cong don hang",
-            "status"=>1
+            "status"=>1,
         ];
     }
 }

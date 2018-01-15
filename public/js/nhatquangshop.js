@@ -280,6 +280,7 @@ var modalPurchase = new Vue({
             //     this.success = false,
             //     this.fail = false,
             this.loading = true;
+            this.success = false;
           // for (var i = 0; i< this.fastOrders.length; i++){
           //          if(this.fastOrders[i].link === ""|| this.fastOrders[i].price === ""|| this.fastOrders[i].size === ""|| this.fastOrders[i].color=== ""|| this.fastOrders[i].describe === "" ){
           //              this.check = true;
@@ -296,11 +297,12 @@ var modalPurchase = new Vue({
                 // this.check=false;
                 this.success = true;
                 // this.fail = false;
-                this.message = response.data.message;
+                this.message = response.data.message.message;
             }.bind(this))
                 .catch( function (error){
                   console.log(error)  ;
-                })
+                  this.fail = true;
+                }.bind(this))
         }
     },
 

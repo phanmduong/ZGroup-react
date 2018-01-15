@@ -326,11 +326,10 @@ class NhatQuangShopController extends Controller
             return [
                 "fast_order" => $fast_orders,
                 "status" => 1,
-                "message" =>  $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders)
+                "message" => $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders)
             ];
         } else {
             return [
-                "fast_orders" => $fast_orders,
                 "status" => 0,
             ];
         }

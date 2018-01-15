@@ -647,12 +647,12 @@
                 <div v-if="loading" style="text-align: center;width: 100%;;padding: 15px;"><i
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
-                {{--<div class="row" v-if="check">--}}
-                    {{--<div class="col-sm-12">--}}
-                        {{--<div  class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                <div class="row"  v-if="success" style="margin-top: 10px">
+                <div class="row" v-if="check" style="margin-top: 10px; text-align: center">
+                    <div class="col-sm-12">
+                        <div  class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>
+                    </div>
+                </div>
+                <div class="row"  v-if="success" style="margin-top: 10px; text-align: center">
                     <div class="col-sm-12">
                         <div class='alert alert-success'>@{{ message }}</div>
                     </div>
