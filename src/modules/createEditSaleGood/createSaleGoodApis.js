@@ -41,13 +41,13 @@ export function createSaleGoodApi(createSaleGood) {
         url += "&token=" + token;
     }
     let good_orders = createSaleGood.goodsShowInTable.map((good) => {
-        return {"id": good.id, "quantity": good.tmpQuantity};
+        return {"good_id": good.id, "quantity": good.tmpQuantity};
     });
     return axios.post(url, {
         "note": createSaleGood.infoOrder.note,
-        "user_id": JSON.parse(localStorage.getItem('user')).id,
+        // "user_id": JSON.parse(localStorage.getItem('user')).id,
         "payment": createSaleGood.infoOrder.payment,
-        "status": createSaleGood.infoOrder.status,
+        // "status": createSaleGood.infoOrder.status,
         "good_orders": JSON.stringify(good_orders),
         "warehouse_id" : createSaleGood.warehouse,
         "name" : createSaleGood.customer.name,
