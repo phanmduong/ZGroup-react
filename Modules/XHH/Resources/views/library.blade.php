@@ -92,6 +92,25 @@
             </div>
 
             <hr>
+            <div id="pagination-books">
+                <div class="pagination-area">
+                    <ul class="pagination pagination-primary justify-content-center">
+                        <li class="page-item"><a href="/all-books?page=1&search={{$search}}&type={{$type}}"
+                                                 class="page-link"><i class="fa fa-angle-double-left"
+                                                                      aria-hidden="true"></i></a>
+                        </li>
+                        <li v-for="page in pages"
+                            v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
+                            <a v-bind:href="'/all-books?page='+page+'&search={{$search}}&type={{$type}}'"
+                               class="page-link">@{{page}}</a>
+                        </li>
+                        <li class="page-item"><a
+                                    href="/all-books?page={{$total_pages}}&search={{$search}}&type={{$type}}"
+                                    class="page-link"><i class="fa fa-angle-double-right"
+                                                         aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
             {{--<div class="row">--}}
             {{--<div class="col-md-2 offset-md-10">--}}
             {{--<div class="pull-right">--}}
@@ -111,7 +130,8 @@
         var search = new Vue({
             el: '#search-book',
             data: {
-                search: '{!! $search !!}'
+                search: '{!! $search !!}',
+                page: []
             },
             methods: {
                 searchBook: function () {
@@ -120,5 +140,15 @@
             }
 
         })
+
+        var pagination = new Vue({
+            el: '#pagination-books',
+            data: {
+                pages: []
+            },
+            methods: {}
+        });
+
+        pagination.pages = paginator({{$current_page}},{{$total_pages}})
     </script>
 @endpush

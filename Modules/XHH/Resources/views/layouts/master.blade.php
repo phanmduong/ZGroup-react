@@ -34,6 +34,45 @@
             background: #b7b7b7 !important;
             color: white;
         }
+
+        .nav-pills-primary > li > a,
+        .pagination-primary > li > a,
+        .pagination-primary > li > span,
+        .pagination-primary > li:first-child > a,
+        .pagination-primary > li:first-child > span,
+        .pagination-primary > li:last-child > a,
+        .pagination-primary > li:last-child > span {
+            border: 2px solid #c50000;
+            color: #c50000;
+        }
+
+        .nav-pills-primary > li.active > a,
+        .nav-pills-primary > li.active > a:hover,
+        .nav-pills-primary > li.active > a:focus,
+        .pagination-primary > li > a:hover,
+        .pagination-primary > li > a:focus,
+        .pagination-primary > li > a:active,
+        .pagination-primary > li.active > a,
+        .pagination-primary > li.active > span,
+        .pagination-primary > li.active > a:hover,
+        .pagination-primary > li.active > span:hover,
+        .pagination-primary > li.active > a:focus,
+        .pagination-primary > li.active > span:focus {
+            background-color: #c50000 !important;
+            border-color: #c50000 !important;
+            color: #FFFFFF;
+        }
+
+        .nav-pills-info > li > a,
+        .pagination-info > li > a,
+        .pagination-info > li > span,
+        .pagination-info > li:first-child > a,
+        .pagination-info > li:first-child > span,
+        .pagination-info > li:last-child > a,
+        .pagination-info > li:last-child > span {
+            border: 2px solid #c50000;
+            color: #c50000;
+        }
     </style>
 
 
@@ -133,8 +172,8 @@
                                     </h4>
                                 </li>
                                 <li>
-                                    <h4>256<br>
-                                        <small>Lượt truy cập</small>
+                                    <h4>{{$total_books}}<br>
+                                        <small>Cuốn sách</small>
                                     </h4>
                                 </li>
 
@@ -295,6 +334,32 @@
         });
     })();
 
+    function paginator(currentPageData, totalPagesData) {
+        var page = [];
+        var currentPage = currentPageData;
+        var totalPages = totalPagesData;
+
+        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
+        for (var i = startPage; i <= currentPage; i++) {
+            page.push(i);
+        }
+
+        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+
+        for (var i = currentPage + 1; i <= endPage; i++) {
+            page.push(i);
+        }
+
+        if (page && page.length < 5) {
+            var pageData = Object.assign(page);
+            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
+                pageData.unshift(i);
+            }
+            page = pageData;
+        }
+
+        return page;
+    }
 </script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111696061-1"></script>
