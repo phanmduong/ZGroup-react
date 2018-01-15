@@ -115,7 +115,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
     Route::post('/login', 'AuthenticateController@login');
-    Route::get('/login/secret', 'AuthenticateController@login');
+    Route::get('/login/secret', 'AuthenticateController@secretLogin');
     Route::get('/all-tabs', "ManageTabApiController@get_all");
     // End tab api
 
