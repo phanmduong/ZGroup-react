@@ -25,7 +25,7 @@ $nhatquangShopRoute = function () {
 
 
     // code cua cuong
-    Route::post('/save-fast-order', "NhatQuangShopController@saveFastOrder");
+
 
 
     //modals
@@ -49,6 +49,7 @@ $nhatquangShopRoute = function () {
     Route::get("/manage/orders", "NhatQuangShopManageController@userOrder");
     Route::get("/manage/orders/{order_id}", "NhatQuangShopManageController@infoOrder");
     Route::post("/manage/orders", "NhatQuangShopManageController@filterOrders");
+    Route::post('/manage/save-fast-order', "NhatQuangShopController@saveFastOrder");
 //    Route::get("/manage/orders", "NhatQuangShopManageController@getFilterOrders");
 
     //login

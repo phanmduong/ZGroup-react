@@ -259,18 +259,51 @@ var modalPurchase = new Vue({
  var fastOrder = new Vue({
     el: '#modal-fast-order',
     data: {
-        orders: [
-            {id: 1, seen: false},
-        ]
+        fastOrders: [
+            {id: 1, seen: false, link : "", price:"", size : "", color : "", number : 1, tax:"Giá chưa thuế", describe : ""},
+        ],
+        loading : false,
+        check:false,
+        success : false,
+        fail : false,
+        message : ""
     },
     methods: {
         plusOrder :  function (){
-          this.orders.push({id : this.orders.length+1, seen:true})
+          this.fastOrders.push({id : this.fastOrders.length+1, seen:true,link : "", price:"", size : "", color : "", number : 1, tax:"Giá chưa thuế", describe : "" });
         },
         remove : function (index){
-            this.orders.splice(index, 1)
+            this.fastOrders.splice(index, 1)
         },
+        submitFastOrder : function(){
+            // this.check=false,
+            //     this.success = false,
+            //     this.fail = false,
+            this.loading = true;
+          // for (var i = 0; i< this.fastOrders.length; i++){
+          //          if(this.fastOrders[i].link === ""|| this.fastOrders[i].price === ""|| this.fastOrders[i].size === ""|| this.fastOrders[i].color=== ""|| this.fastOrders[i].describe === "" ){
+          //              this.check = true;
+          //              this.loading = false;
+          //              break;
+          //          }
+          // }
+            axios.post(window.url + '/manage/save-fast-order',{
+                fastOrders : JSON.stringify(this.fastOrders)
+            }).then(function(response){
+                // $("#submitFastOrder").modal("hide");
+                // $("#modal-fast-order").modal("hide");
+                this.loading = false;
+                // this.check=false;
+                this.success = true;
+                // this.fail = false;
+                this.message = response.data.message;
+            }.bind(this))
+                .catch( function (error){
+                  console.log(error)  ;
+                })
+        }
     },
+
 
 
 });

@@ -220,98 +220,7 @@
     </div>
 
 
-    <div class="modal fade" id="modal-fast-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="medium-title">Đặt hàng siêu tốc</h2>
-                </div>
 
-                <div class="modal-body">
-                </div>
-                    {{--<div v-for="(order, index) in orders">--}}
-                        {{--<div class="row" style="margin-bottom: 10px;">--}}
-                            {{--<span class="label label-success">Sản phẩm <span--}}
-                                        {{--class="num-order">@{{ order.id }}</span>:</span>--}}
-                            {{--<button style ="margin-left: 5px"class="btn btn-google btn-just-icon btn-sm"  v-if="order.seen" ><i class="fa fa-times"></i></button>--}}
-                        {{--</div>--}}
-                        {{--<div>--}}
-                            {{--<div class="row">--}}
-                                {{--<div class="col-md-8">--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<input type="text" value="" placeholder="Link sản phẩm" class="form-control">--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-md-4">--}}
-
-                                    {{--<div class="form-group">--}}
-                                        {{--<input type="text" value="" placeholder="Giá bán" class="form-control">--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-                        {{--<div class="row">--}}
-                            {{--<div class="col-md-3">--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<input type="text" value="" placeholder="Size" class="form-control">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-md-3">--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<input type="text" value="" placeholder="Mã màu bạn chọn" class="form-control">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="col-md-3">--}}
-                                {{--<select class="form-control"--}}
-                                        {{--id="bank-account"--}}
-                                        {{--data-style="btn btn-default" name="bank_account_id"--}}
-                                        {{--style="display: block !important;">--}}
-                                    {{--<option disabled="" selected="">Số lượng</option>--}}
-                                    {{--@for ($i = 0; $i < 50; $i++)--}}
-                                        {{--<option value="{{$i+1}}">{{$i+1}}</option>--}}
-                                    {{--@endfor--}}
-                                {{--</select>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-md-3">--}}
-                                {{--<select class="form-control"--}}
-                                        {{--id="bank-account"--}}
-                                        {{--data-style="btn btn-default" name="bank_account_id"--}}
-                                        {{--style="display: block !important;">--}}
-                                    {{--<option disabled="" selected="">Giá chưa thuế</option>--}}
-                                    {{--<option>Giá có thuế</option>--}}
-                                {{--</select>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="row">--}}
-                            {{--<div class="col-md-12">--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<input type="text" value="" placeholder="Mô tả" class="form-control">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-                    {{--</div>--}}
-                            <button  type="button" v-on:click="plusOrder"  class="btn btn-danger btn-round">
-                                Đặt thêm sản phẩm
-                            </button>
-
-                    </div>
-                <div class="modal-footer">
-                    <div class="left-side">
-                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Đặt hàng</button>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="right-side">
-                        <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
-                    </div>
-                </div>
-                </div>
-
-            </div>
 
 
 
@@ -665,7 +574,7 @@
             </div>
 
             <div class="modal-body">
-                <div v-for="(order, index) in orders">
+                <div v-for="(order, index) in fastOrders">
                     <div style="margin-bottom: 10px;">
                         <span class="label label-success">Sản phẩm @{{order.id}}</span>
                         <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
@@ -678,13 +587,12 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Link sản phẩm" class="form-control">
+                                    <input type="text" v-model="order.link" placeholder="Link sản phẩm" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-4">
-
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Giá bán" class="form-control">
+                                    <input type="text" v-model="order.price" placeholder="Giá bán" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -693,18 +601,18 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" value="" placeholder="Size" class="form-control">
+                                <input type="text" v-model="order.size" placeholder="Size" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" value="" placeholder="Mã màu bạn chọn" class="form-control">
+                                <input type="text" v-model="order.color" placeholder="Mã màu bạn chọn" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <select class="form-control"
-                                    id="bank-account"
+                                    v-model="order.number"
                                     data-style="btn btn-default" name="bank_account_id"
                                     style="display: block !important;">
                                 <option disabled="" selected="">Số lượng</option>
@@ -716,17 +624,18 @@
                         <div class="col-md-3">
                             <select class="form-control"
                                     id="bank-account"
-                                    data-style="btn btn-default" name="bank_account_id"
+                                    data-style="btn btn-default"
+                                    v-model="order.tax"
                                     style="display: block !important;">
-                                <option disabled="" selected="">Giá chưa thuế</option>
-                                <option>Giá có thuế</option>
+                                <option value="Giá chưa thuế"  selected="">Giá chưa thuế</option>
+                                <option value="Giá có thuế">Giá có thuế</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="text" value="" placeholder="Mô tả" class="form-control">
+                                <input type="text" v-model="order.description" placeholder="Mô tả" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -735,11 +644,30 @@
                 <button type="button" v-on:click="plusOrder" class="btn btn-danger btn-round">
                     Đặt thêm sản phẩm
                 </button>
+                <div v-if="loading" style="text-align: center;width: 100%;;padding: 15px;"><i
+                            class='fa fa-spin fa-spinner'></i>Đang tải...
+                </div>
+                {{--<div class="row" v-if="check">--}}
+                    {{--<div class="col-sm-12">--}}
+                        {{--<div  class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                <div class="row"  v-if="success" style="margin-top: 10px">
+                    <div class="col-sm-12">
+                        <div class='alert alert-success'>@{{ message }}</div>
+                    </div>
+                </div>
+                <div class="row" v-if="fail">
+                    <div class="col-sm-12" style="text-align: center">
+                        <div v-if="success" class='alert alert-success'>Bạn vui lòng kiểm tra lại đơn hàng hoặc kết nối mạng</div>
+                    </div>
+                </div>
+
 
             </div>
             <div class="modal-footer">
                 <div class="left-side">
-                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Đặt hàng</button>
+                    <button type="button" class="btn btn-default btn-link"  v-on:click="submitFastOrder">Đặt hàng</button>
                 </div>
                 <div class="divider"></div>
                 <div class="right-side">
@@ -751,6 +679,7 @@
     </div>
 
 </div>
+
 
 
 <footer class="footer footer-light footer-big">

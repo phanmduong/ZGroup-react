@@ -200,20 +200,39 @@ class BookRepository
         return null;
     }
 
-    public function saveFastOrder($email, $address, $user_id, $goods_arr ){
+    public function saveFastOrder($email, $address, $user_id, $goods_arr){
        $order = new Order;
        $order->user_id = $user_id;
        $order->address = $address;
        $order->email = $email;
-       $order->save();
+        $order->save();
         if ($goods_arr) {
             foreach ($goods_arr as $good) {
-                $good = Good::find($good->id);
-                $order->goods()->attach($good->id, [
+                 $newGood = new Good;
+                 $newGood->name = "Link";
+                 $newGood->download = $good->link;
+                 $newGood->description = $good->describe;
+                 $newGood->save();
+                $order->goods()->attach($newGood->id, [
                     "quantity" => $good->number,
-//                    "price" => $good->price,
+                    "price" => $good->price,
                 ]);
-            }
+                $newProPerTies1 = new GoodProperty;
+                $newProPerTies1->name = "size";
+                $newProPerTies1->good_id = $newGood->id;
+                $newProPerTies1->value = $good->size;
+                $newProPerTies1->save();
+                $newProPerTies2 = new GoodProperty;
+                $newProPerTies2->name = "color";
+                $newProPerTies2->good_id = $newGood->id;
+                $newProPerTies2->value = $good->color;
+                $newProPerTies2->save();
+             }
         }
+        $order->save();
+        return [
+            "message" => "Xac nhan thanh cong don hang",
+            "status"=>1
+        ];
     }
 }
