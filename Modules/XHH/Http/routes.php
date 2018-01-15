@@ -9,3 +9,7 @@ Route::group(['middleware' => 'web', 'domain' => "sociologyhue.edu.{subfix}", 'n
     Route::get('/blog/post/{post_id}', 'XHHController@post');
     Route::get('/book/{book_id}', 'XHHController@book');
 });
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\XHH\Http\Controllers'], function () {
+    Route::get('/xhh-dashboard', 'XHHApiController@dashboard');
+});
