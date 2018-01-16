@@ -15,7 +15,7 @@ class Currency extends Model
             "id" => $this->id,
             "name" => $this->name,
             "notation" => $this->notation,
-            "ratio" => $this->ration,
+            "ratio" => $this->ratio,
         ];
     }
 }
