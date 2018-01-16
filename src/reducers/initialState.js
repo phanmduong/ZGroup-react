@@ -1326,7 +1326,18 @@ export default {
             bonus_value: 0,
             bonus_type: "coin",
             staffs: [],
+            payer: {
+                id: null,
+                name: "",
+                avatar_url: "",
+            },
+            currency:{
+                id: null,
+                value: "",
+                label: "",
+            },
         },
+        currencies:[],
         staffs: [
             {
                 value: "value1",

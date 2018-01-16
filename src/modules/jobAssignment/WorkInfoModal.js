@@ -10,8 +10,11 @@ import ListStaffs from './ListStaffs';
 import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 import {Modal} from 'react-bootstrap';
+import * as helper from "../../helpers/helper";
+import {ListGroup, ListGroupItem} from "react-bootstrap";
+import Avatar from "../../components/common/Avatar";
+import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
 
-const money = [{value: 'vnd', label: 'VNĐ',},{value: 'coin', label: 'Coin',},];
 const types = [
     {value: 'personal', label: 'Cá nhân',},
     {value: 'team', label: 'Nhóm',},
@@ -21,11 +24,18 @@ const types = [
 class WorkInfoModal extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            show: false,
+            staffId: null,
+        };
     }
 
     render() {
-        let time = moment(this.props.data.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+        let {data} = this.props;
+        let {payer} = data;
+        let time = moment(data.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
         return (
+            <div>
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
@@ -36,7 +46,6 @@ class WorkInfoModal extends React.Component {
                     <div className="content" >
                         <div className="container-fluid">
                             {
-
                                 this.props.isLoading
 
                                     ?
@@ -60,7 +69,7 @@ class WorkInfoModal extends React.Component {
                                                                 name="name"
                                                                 updateFormData={() => {
                                                                 }}
-                                                                value={this.props.data.name || ""}
+                                                                value={data.name || ""}
                                                                 disabled
                                                             /></div>
                                                         <div className="col-md-6">
@@ -68,7 +77,7 @@ class WorkInfoModal extends React.Component {
                                                                 Loại
                                                             </label>
                                                             {types.map((obj) => {
-                                                                if (this.props.data && obj.value == this.props.data.type)
+                                                                if (data && obj.value == data.type)
                                                                     return (<div key={obj.value}>{obj.label}</div>);
                                                             })}
                                                         </div>
@@ -80,7 +89,7 @@ class WorkInfoModal extends React.Component {
                                                                 name="cost"
                                                                 updateFormData={() => {
                                                                 }}
-                                                                value={this.props.data.cost || 0}
+                                                                value={data.cost || 0}
                                                                 disabled
                                                             /></div>
                                                         <div className="col-md-6">
@@ -98,12 +107,7 @@ class WorkInfoModal extends React.Component {
                                                             <label className="">
                                                                 Thưởng
                                                             </label>
-                                                            <div>{this.props.data.bonus_value +" - "}
-
-                                                                {money.map((obj) => {
-                                                                    if (this.props.data && this.props.data.bonus_type == obj.value)
-                                                                        return (obj.label);
-                                                                })}</div>
+                                                            <div>{data.bonus_value +" - " + (data.currency ? (data.currency.name || "") : "")}</div>
                                                         </div>
 
                                                     </div>
@@ -112,16 +116,51 @@ class WorkInfoModal extends React.Component {
                                         </div>
                                         <div className="col-md-4">
                                             <div className="card">
-                                                <div className="card-header card-header-icon"
-                                                     data-background-color="rose">
+                                                <div className="card-header card-header-icon" data-background-color="rose">
                                                     <i className="material-icons">contacts</i>
+                                                </div>
+
+                                                <div className="card-content">
+                                                    <h4 className="card-title">Người chi trả</h4>
+                                                    <ListGroup>
+                                                        <ListGroupItem
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                            }}>
+                                                            <div style={{
+                                                                display: "flex",
+                                                                justifyContent: "space-between",
+                                                                lineHeight: "30px"
+                                                            }}>
+                                                                <div style={{display: "flex"}}>
+                                                                    <Avatar size={30}
+                                                                            url={helper.validateLinkImage(payer.avatar_url)}/>
+                                                                    {payer.id ? (payer.label ||payer.name) :  "Chưa chọn nhân viên"}
+                                                                </div>
+                                                                <div style={{display: "flex"}}>{
+                                                                    payer.id ?
+                                                                        <div onClick={() => {
+                                                                            return this.setState({show: true,staffId: payer.id});
+                                                                        }}><i className="material-icons">info</i></div>
+                                                                        :
+                                                                        <div></div>
+                                                                }</div>
+
+                                                            </div>
+                                                        </ListGroupItem>
+                                                    </ListGroup>
+                                                </div>
+                                            </div>
+                                            <div className="card">
+                                                <div className="card-header card-header-icon"data-background-color="rose">
+                                                    <i className="material-icons">people</i>
                                                 </div>
 
                                                 <div className="card-content">
                                                     <h4 className="card-title">Người thực hiện</h4>
                                                     <div className="row">
                                                         <ListStaffs
-                                                            staffs={this.props.data.staffs || []}
+                                                            staffs={data.staffs || []}
                                                         />
                                                     </div>
                                                 </div>
@@ -134,6 +173,17 @@ class WorkInfoModal extends React.Component {
                 </Modal.Body>
             </Modal>
 
+                <Modal
+                    show={this.state.show}
+                    onHide={()=>{this.setState({show: false});}}
+                    bsSize="large"
+                >
+                    <Modal.Header closeButton/>
+                    <Modal.Body>
+                        <InfoStaffContainer staffId={this.state.staffId} />
+                    </Modal.Body>
+                </Modal>
+</div>
         );
     }
 }
