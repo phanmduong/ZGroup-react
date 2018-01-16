@@ -10,6 +10,9 @@ import ReactSelect from 'react-select';
 import * as createSaleGoodApis from './createSaleGoodApis';
 import * as helper from '../../helpers/helper';
 
+import {browserHistory} from 'react-router';
+
+
 
 class SaleGoodContainer extends React.Component {
     constructor(props, context) {
@@ -116,7 +119,12 @@ class SaleGoodContainer extends React.Component {
                                     <i className="material-icons">save</i> Lưu
                                 </button>
                             }
-                            <button className="btn btn-sm btn-danger">
+                            <button className="btn btn-sm btn-danger"
+                            onClick={(e)=>{
+                                browserHistory.push("/good/goods/orders");
+                                e.preventDefault();
+                            }}
+                            >
                                 <i className="material-icons">cancel</i> Huỷ
                             </button>
                         </div>

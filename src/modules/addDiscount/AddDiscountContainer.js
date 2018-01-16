@@ -6,6 +6,7 @@ import AddDiscountComponent from "./AddDiscountComponent";
 import * as addDiscountActions from './addDiscountActions';
 import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
+import {browserHistory} from 'react-router';
 
 // import Search from '../../components/common/Search';
 
@@ -15,7 +16,8 @@ class AddDiscountContainer extends React.Component {
         super(props);
         this.state = {
             id: this.props.params.discountId,
-        };
+            discount : props.addDiscount.discount};
+        console.log(this.state.discount,"CONTAINER");
         this.updateFormData = this.updateFormData.bind(this);
         this.addDiscount = this.addDiscount.bind(this);
         this.loadDiscount = this.loadDiscount.bind(this);
@@ -66,7 +68,10 @@ class AddDiscountContainer extends React.Component {
             customer_group: {},
             shared : '',
         };
-        this.props.addDiscountActions.updateDiscountFormData(discount);
+        if (document.location.pathname === '/good/discount/add' ) {
+            this.setState({discount:discount});
+        }
+        this.props.addDiscountActions.updateDiscountFormData(this.state.discount);
     }
 
 
@@ -158,9 +163,16 @@ class AddDiscountContainer extends React.Component {
                                                     <i className="material-icons">save</i> Lưu
                                                 </button>
                                             }
-                                            <button data-original-title="Remove item" className="btn btn-danger btn-sm"
+                                            <button className="btn btn-info btn-sm"
                                                     onClick={() => this.resetDiscount()}>
-                                                <i className="material-icons">cancel</i> Huỷ
+                                                <i className="material-icons">cached</i> Reset
+                                            </button>
+                                            <button className="btn btn-danger btn-sm"
+                                                    onClick={(e) => {
+                                                        browserHistory.push("/good/discount");
+                                                        e.preventDefault();
+                                                    }}>
+                                                <i className="material-icons">cancel</i> Hủy
                                             </button>
                                         </div>
                                     </div>
@@ -177,6 +189,7 @@ class AddDiscountContainer extends React.Component {
 AddDiscountContainer.propTypes = {
     addDiscountActions: PropTypes.object,
     discount: PropTypes.object,
+    addDiscount: PropTypes.object,
     isSaving: PropTypes.bool,
     isLoadingOut: PropTypes.bool,
     params : PropTypes.object,

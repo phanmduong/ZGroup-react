@@ -10,6 +10,7 @@ import AddCouponModal from './AddCouponModal';
 import AddCustomerModal from './AddCustomerModal';
 import GeneralInfoGroup from "./GeneralInfoGroup";
 import ListChildCustomer from "./ListChildCustomer";
+import {browserHistory} from 'react-router';
 
 
 class DetailGroupCustomerContainer extends React.Component {
@@ -207,14 +208,14 @@ class DetailGroupCustomerContainer extends React.Component {
                                 )
                             }
 
-                            <button className="btn btn-sm btn-danger"
+                            <a className="btn btn-sm btn-danger"
                                     onClick={(e) => {
-                                        this.closeModal();
+                                        browserHistory.push("/good/goods/group-customer");
                                         e.preventDefault();
                                     }}
                             >
                                 <i className="material-icons">cancel</i> Huỷ
-                            </button>
+                            </a>
                         </div>
                     </div>
 

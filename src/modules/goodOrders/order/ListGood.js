@@ -52,7 +52,7 @@ class ListGood extends React.Component {
                         </thead>
                         <tbody>
                         {
-                            this.props.goodOrders.map((goodOrder, index) => {
+                            this.props.goodOrders && this.props.goodOrders.map((goodOrder, index) => {
                                 let totalMoney = goodOrder.quantity * goodOrder.price;
 
                                 if (goodOrder.discount_money) {
@@ -80,6 +80,7 @@ class ListGood extends React.Component {
                                             updateQuantity = {this.props.updateQuantity}
                                             orderId = {this.props.orderId}
                                             quantity = {goodOrder.quantity}
+                                            isReturnOrders = {this.props.isReturnOrders}
                                         />
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>
@@ -166,9 +167,9 @@ class ListGood extends React.Component {
 ListGood.propTypes = {
     goodOrders: PropTypes.array.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    updateOrderFormData: PropTypes.func.isRequired,
     paid: PropTypes.number.isRequired,
     orderId: PropTypes.number.isRequired,
+    isReturnOrders: PropTypes.bool.isRequired,
 };
 
 export default ListGood;

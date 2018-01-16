@@ -4,6 +4,8 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let return_orders;
+
 function changeStatusOrder(orders, order_id, status) {
     if (orders) {
         orders = orders.map((order) => {
@@ -235,50 +237,127 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
 
 
         case types.BEGIN_EDIT_ORDER:
-
-            return {
-                ...state,
-                order: {
-                    ...state.order,
-                    isSavingQuantity: {
-                        ...state.order.isSaving,
-                        id : action.index,
-                        status: true,
-                    },
-                }
-            };
+            if (action.isReturnOrders)
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantityInReturnOrders: {
+                            ...state.order.isSavingQuantityInReturnOrders,
+                            id: action.index,
+                            status: true,
+                        },
+                    }
+                };
+            else {
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantity: {
+                            ...state.order.isSavingQuantity,
+                            id: action.index,
+                            status: true,
+                        },
+                    }
+                };
+            }
         case types.EDIT_ORDER_ERROR:
-            return {
-                ...state,
-                order: {
-                    ...state.order,
-                    isSavingQuantity: {
-                        ...state.order.isSavingQuantity,
-                        id : action.index,
-                        status: false,
-                    },
-                }
-            };
+            if (action.isReturnOrders)
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantityInReturnOrders: {
+                            ...state.order.isSavingQuantityInReturnOrders,
+                            id: action.index,
+                            status: false,
+                        },
+                    }
+                };
+            else
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantity: {
+                            ...state.order.isSavingQuantity,
+                            id: action.index,
+                            status: false,
+                        },
+                    }
+                };
 
         case types.EDIT_ORDER_SUCCESS:
+            if (action.isReturnOrders)
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantityInReturnOrders: {
+                            ...state.order.isSavingQuantityInReturnOrders,
+                            id: action.index,
+                            status: false,
+                        },
+                    }
+                };
+            else
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantity: {
+                            ...state.order.isSavingQuantity,
+                            id: action.index,
+                            status: false,
+                        },
+                    }
+                };
+
+
+        case  types.OPEN_RETURN_ORDER_IN_ORDER:
+
+
+            if (state.order.order.return_orders.length === 0) {
+                return_orders = state.order.order.good_orders;
+            }
+            else {
+                return_orders = state.order.order.return_orders;
+            }
             return {
                 ...state,
                 order: {
                     ...state.order,
-                    isSavingQuantity: {
-                        ...state.order.isSavingQuantity,
-                        id : action.index,
-                        status: false,
-                    },
-                }
+                    isOpenReturnOrder: !action.isOpenReturnOrder,
+                    order: {
+                        ...state.order.order,
+                        return_orders: return_orders,
+                    }
+                },
             };
-        case  types.OPEN_RETURN_ORDER:
+
+        case types.CHANGE_WAREHOUSE_RETURN_ORDERS :
             return{
                 ...state,
                 order : {
                     ...state.order,
-                    isOpenReturnOrder : !action.isOpenReturnOrder,
+                    order:{
+                        ...state.order.order,
+                        warehouse : action.id,
+                    }
                 }
+            };
+        case types.RESET_RETURN_ORDERS:
+            return_orders = state.order.order.good_orders;
+            return{
+                ...state,
+                order: {
+                    ...state.order,
+                    order: {
+                        ...state.order.order,
+                        return_orders: return_orders,
+                    }
+                },
             };
 
         default:

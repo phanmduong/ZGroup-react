@@ -8,6 +8,8 @@ import * as helper from '../../helpers/helper';
 import OrdersListCustomerComponent from './OrdersListCustomerComponent';
 import InfoCustomerComponent from './InfoCustomerComponent';
 import AddOverlay from './AddOverlay';
+import {browserHistory} from 'react-router';
+
 
 
 class InfoCustomerContainer extends React.Component {
@@ -195,7 +197,11 @@ class InfoCustomerContainer extends React.Component {
                                             </button>
                                         }
 
-                                        <button className="btn btn-sm btn-danger">
+                                        <button className="btn btn-sm btn-danger"
+                                                onClick={(e)=>{browserHistory.push("/good/goods/customer");
+                                                e.preventDefault();
+                                                }}
+                                        >
                                             <i className="material-icons">cancel</i> Huỷ
                                         </button>
                                     </div>

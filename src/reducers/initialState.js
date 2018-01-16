@@ -888,6 +888,10 @@ export default {
                 id: 0,
                 status: false,
             },
+            isSavingQuantityInReturnOrders: {
+                id: 0,
+                status: false,
+            },
             isLoading: false,
             error: false,
             total: 1130000,
@@ -907,6 +911,7 @@ export default {
                     email: "po01636863831@gmail.com"
                 },
                 returnGoodOrder: [],
+                warehouse : 0,
             },
         },
         staffs: [],

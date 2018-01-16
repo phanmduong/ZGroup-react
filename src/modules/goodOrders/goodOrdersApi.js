@@ -22,6 +22,10 @@ export function loadAllOrders(page = 1, search, startTime, endTime, staff, statu
     return axios.get(url);
 }
 
+
+
+
+
 export function loadDetailOrder(orderId) {
     let url = env.MANAGE_API_URL + `/order/${orderId}/info`;
     let token = localStorage.getItem('token');
@@ -102,3 +106,16 @@ export function editOrderApi(order, orderId) {
         }
     );
 }
+
+export function loadWareHouseApi() {
+    let url = env.MANAGE_API_URL + "/order/warehouses/all?";
+    let token = localStorage.getItem('token');
+
+    if (token) {
+        url += "&token=" + token;
+    }
+    url += "&limit=" + -1;
+
+    return axios.get(url);
+}
+

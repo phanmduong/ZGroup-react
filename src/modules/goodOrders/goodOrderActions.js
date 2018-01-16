@@ -216,9 +216,9 @@ export function updateOrderFormData(order) {
     };
 }
 
-export function editOrder(order, orderId, index) {
+export function editOrder(order, orderId, index,isReturnOrders) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_EDIT_ORDER, index: index});
+        dispatch({type: types.BEGIN_EDIT_ORDER, index: index,isReturnOrders});
         goodOrdersApi.editOrderApi(order, orderId)
             .then((res) => {
                 if (res.data.status) {
@@ -226,6 +226,7 @@ export function editOrder(order, orderId, index) {
                     dispatch({
                         type: types.EDIT_ORDER_SUCCESS,
                         index: index,
+                        isReturnOrders : isReturnOrders
                         // customer: res.data.data.user,
                     });
                     // browserHistory.push('/goods/customer');
@@ -235,6 +236,7 @@ export function editOrder(order, orderId, index) {
                     dispatch({
                         type: types.EDIT_ORDER_ERROR,
                         index: index,
+                        isReturnOrders
                     });
                 }
             })
@@ -251,8 +253,24 @@ export function editOrder(order, orderId, index) {
 
 export function openReturnOrder(isOpenReturnOrder) {
     return function (dispatch) {
-        dispatch({type: types.OPEN_RETURN_ORDER,
+        dispatch({type: types.OPEN_RETURN_ORDER_IN_ORDER,
             isOpenReturnOrder: isOpenReturnOrder});
     };
 }
+export function changeWarehouse(id) {
 
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_WAREHOUSE_RETURN_ORDERS,
+            id: id,
+        });
+    };
+}
+
+export function resetReturnOrders() {
+    return function (dispatch) {
+      dispatch({
+          type : types.RESET_RETURN_ORDERS,
+      });
+    };
+}

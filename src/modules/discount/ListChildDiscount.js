@@ -27,7 +27,6 @@ class ListChildDiscount extends React.Component {
                                 <th>Thời gian kết thúc</th>
                                 <th>Sử dụng cho</th>
                                 <th>Điều kiện khuyến mãi</th>
-                                <th>Số lần</th>
                                 <th>Mô tả</th>
                                 <th> Kích hoạt</th>
                             </tr>
@@ -45,11 +44,17 @@ class ListChildDiscount extends React.Component {
                                                 </a>
                                             </td>
                                             <td>{discount.type === 'code' ?
-                                                <button className="btn btn-xs btn-main btn-success">Mã khuyến
-                                                    mãi</button>
+                                                <span className="bootstrap-tagsinput" style={{width:165, display : "flex", justifyContent : "space-around"}}>
+                                                    <p className="text-name-student-register">Mã khuyến mãi</p>
+                                                    <button className="tag btn btn-info" style={{
+                                                        fontSize: 10,
+                                                        height : 20,
+                                                    }}>{discount.quantity === -1 ? "Vô số lần" : discount.quantity === null ? "Chưa điền" : discount.quantity + " lần"}
+                                                    </button>
+                                                </span>
+
                                                 :
-                                                <button className="btn btn-xs btn-main btn-info">Chương trình khuyến
-                                                    mãi</button>
+                                                <a className="text-name-student-register">Chương trình khuyến mãi</a>
                                             }</td>
                                             <td>{discount.start_time}</td>
                                             <td>{discount.end_time}</td>
@@ -108,7 +113,6 @@ class ListChildDiscount extends React.Component {
                                                     )
                                                 }
                                             </td>
-                                            <td>{discount.quantity === -1 ? "Vô số lần" : discount.quantity === null ? "Chưa điền" : discount.quantity + " lần"}</td>
                                             <td>{discount.description}</td>
                                             {/*<td>*/}
                                             {/*<div className="btn-group-action">*/}
