@@ -29,14 +29,23 @@ class Base extends Model
         return $this->hasMany(Wifi::class, "base_id");
     }
 
-    public function checkInCheckOuts(){
+    public function checkInCheckOuts()
+    {
         return $this->hasMany(CheckInCheckOut::class, "base_id");
     }
 
-    public function Transform(){
+    public function district()
+    {
+        return $this->belongsTo(District::class, "district_id");
+    }
+
+    public function transform()
+    {
         return [
             "id" => $this->id,
             "name" => $this->name,
+            "avatar_url" => $this->avatar_url,
+            "images_url" => $this->images_url,
             "address" => $this->address
         ];
     }
