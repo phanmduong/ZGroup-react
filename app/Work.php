@@ -32,12 +32,12 @@ class Work extends Model
             "status"=> $this->status,
             "deadline" => $this->deadline,
             "bonus_value" => $this->bonus_value,
-            "currency" => $this->currency->transform(),
-            "payer" => [
+            "currency" => $this->currency ? $this->currency->transform() : [],
+            "payer" =>$this->payer ? [
                 "id" => $this->payer->id,
                 "name" => $this->payer->name,
                 "avatar_url" => $this->payer->avatar_url,
-            ],
+            ] : [],
             "staffs" => $this->staffs->map(function ($staff) {
                 return [
                     "id" => $staff->id,

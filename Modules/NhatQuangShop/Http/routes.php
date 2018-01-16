@@ -23,7 +23,13 @@ $nhatquangShopRoute = function () {
     Route::get('/product/detail', "NhatQuangShopController@productDetail");
     Route::get('/test', 'NhatQuangShopController@test');
 
+
+    // code cua cuong
+
+
+
     //modals
+
     Route::get('/load-books-from-session/v2', 'NhatQuangApiController@getGoodsFromSession');
     Route::get('/count-books-from-session/v2', 'NhatQuangApiController@countGoodsFromSession');
     Route::get('/coupon-programs', 'NhatQuangApiController@getCouponProgram');
@@ -43,6 +49,7 @@ $nhatquangShopRoute = function () {
     Route::get("/manage/orders", "NhatQuangShopManageController@userOrder");
     Route::get("/manage/orders/{order_id}", "NhatQuangShopManageController@infoOrder");
     Route::post("/manage/orders", "NhatQuangShopManageController@filterOrders");
+    Route::post('/manage/save-fast-order', "NhatQuangShopController@saveFastOrder");
 //    Route::get("/manage/orders", "NhatQuangShopManageController@getFilterOrders");
 
     //login

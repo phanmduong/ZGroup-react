@@ -18,6 +18,28 @@ class SurveyController extends ManageApiController
         parent::__construct();
     }
 
+    public function updateQuestionOrder(Request $request)
+    {
+        if ($request->questions == null) {
+            return [
+                "status" => 0,
+                "message" => "Bạn cần phải truyền danh sách câu hỏi lên"
+            ];
+        }
+
+        $questions = json_decode($request->questions);
+
+        foreach ($questions as $item) {
+            $question = Question::find($item->id);
+            $question->order = $item->order;
+            $question->save();
+        }
+
+        return [
+            "status" => 1
+        ];
+    }
+
     public function saveAnswer($answerId, Request $request)
     {
         $answer = Answer::find($answerId);
