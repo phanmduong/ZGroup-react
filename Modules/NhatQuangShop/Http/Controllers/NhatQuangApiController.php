@@ -11,6 +11,7 @@ use App\GoodCategory;
 use App\Http\Controllers\PublicApiController;
 use App\Province;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\Good\Entities\GoodProperty;
 use Modules\NhatQuangShop\Repositories\BookRepository;
 
@@ -194,6 +195,8 @@ class NhatQuangApiController extends PublicApiController
         }
     }
 
+
+
     public function provinces()
     {
         $provinces = Province::get();
@@ -217,6 +220,10 @@ class NhatQuangApiController extends PublicApiController
             'wards' => $district->wards,
         ];
     }
+
+
+
+
 
     public function addCouponCode($couponName, Request $request)
     {

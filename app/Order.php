@@ -51,6 +51,7 @@ class Order extends Model
             "good_id")->withPivot("quantity", "price");
     }
 
+
     public function ship_infor()
     {
         return $this->belongsTo(ShipInfor::class, 'ship_infor_id');
