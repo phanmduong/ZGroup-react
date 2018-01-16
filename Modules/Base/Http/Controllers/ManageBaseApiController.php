@@ -30,15 +30,11 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function basesInDistrict($districtId)
+    public function basesInProvince($provinceId)
     {
-        $district = District::find($districtId);
-
-        if ($district == null) {
-            return $this->respondErrorWithStatus("Quận không tồn tại");
-        }
-
-        $bases = $district->bases;
+        $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
+            ->where("province.provinceid", $provinceId)->select("district.*")->pluck("districtid");
+        $bases = Base::whereIn("district_id", $districtIds)->get();
         return $this->respondSuccessWithStatus([
             "bases" => $bases->map(function ($base) {
                 return $base->transform();
