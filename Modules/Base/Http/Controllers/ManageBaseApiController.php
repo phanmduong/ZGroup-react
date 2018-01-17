@@ -14,7 +14,7 @@ class ManageBaseApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function districts()
+    public function provinces()
     {
         $bases = Base::all();
         $provinceIds = $bases->map(function ($base) {
@@ -26,7 +26,7 @@ class ManageBaseApiController extends ManageApiController
             "provinces" => $provinceIds->map(function ($provinceId) {
                 $province = Province::find($provinceId);
                 return $province->transform();
-            })
+            })->toArray()
         ]);
     }
 
