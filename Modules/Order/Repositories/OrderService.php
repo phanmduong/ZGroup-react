@@ -184,7 +184,7 @@ class OrderService
     {
         $order = Order::find($orderId);
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2 && $this->statusToNum($request->status) != 5) {
-            $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
+            $response = $this->exportOrder($order->id, $request->warehouse_id);
             if ($response['status'] == 0)
                 return [
                     'status' => 0,

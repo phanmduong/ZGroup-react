@@ -68,8 +68,10 @@ class SurveyController extends ManageApiController
         }
 
         $question->content = $request->content_data;
+        $question->type = $request->type;
 
         $question->save();
+
 
         if ($request->answers) {
             $question->answers()->delete();
