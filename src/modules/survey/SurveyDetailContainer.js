@@ -4,10 +4,9 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as surveyActions from "./surveyActions";
 import Loading from "../../components/common/Loading";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
 import EditQuestionModalContainer from "./EditQuestionModalContainer";
-import AnswerItem from "./AnswerItem";
 import Dragula from "react-dragula";
+import {QUESTION_TYPE} from "../../constants/constants";
 
 class SurveyDetailContainer extends React.Component {
     constructor(props, context) {
@@ -15,6 +14,7 @@ class SurveyDetailContainer extends React.Component {
         this.showEditQuestionModal = this.showEditQuestionModal.bind(this);
         this.initDragula = this.initDragula.bind(this);
         this.drake = null;
+        this.showQuestionType = this.showQuestionType.bind(this);
     }
 
     componentWillMount() {
@@ -28,6 +28,14 @@ class SurveyDetailContainer extends React.Component {
 
     showEditQuestionModal(question) {
         this.props.surveyActions.toggleEditQuestion(true, question);
+    }
+
+    showQuestionType(type) {
+        let data = {};
+        QUESTION_TYPE.forEach((item) => {
+            data[item.value] = item.label;
+        });
+        return <span>{data[type]}</span>;
     }
 
     initDragula() {
@@ -88,16 +96,19 @@ class SurveyDetailContainer extends React.Component {
                                                             <span>{question.order + 1}</span>
                                                         </div>
                                                         <div className="timeline-panel" style={{position: "relative"}}>
-                                                            <div className="timeline-body"
-                                                                 style={{
-                                                                     display: "flex",
-                                                                     justifyContent: "space-between"
-                                                                 }}>
-                                                                <p style={{
-                                                                    fontSize: 18,
-                                                                    margin: 10
-                                                                }}>{question.content}</p>
-                                                                <div style={{minWidth: 180}}>
+                                                            <div className="timeline-heading">
+                                                                <span
+                                                                    className="label label-rose">
+                                                                    {
+                                                                        this.showQuestionType(question.type)
+                                                                    }
+                                                                </span>
+                                                                <div style={{
+                                                                    minWidth: 180,
+                                                                    position: "absolute",
+                                                                    right: 15,
+                                                                    top: 10
+                                                                }}>
                                                                     <a className="btn btn-rose btn-sm"
                                                                        onClick={() => this.showEditQuestionModal(question)}>
                                                                         <i className="material-icons">build</i>
@@ -109,6 +120,17 @@ class SurveyDetailContainer extends React.Component {
                                                                         <i className="material-icons">delete</i>
                                                                     </a>
                                                                 </div>
+                                                            </div>
+                                                            <div className="timeline-body">
+                                                                <p>
+                                                                    <div style={{
+                                                                        fontSize: 18
+                                                                    }}>
+                                                                        {question.content}
+                                                                    </div>
+                                                                    <h6>{question.answers.length} câu trả lời</h6>
+                                                                </p>
+
                                                             </div>
                                                         </div>
                                                     </li>

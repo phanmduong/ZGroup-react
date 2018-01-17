@@ -4,12 +4,10 @@ import {
     LOAD_SURVEYS_LIST_SUCCESS,
     LOAD_SURVEY_DETAIL_SUCCESS,
     TOGGLE_EDIT_SURVEY, UPDATE_QUESTION_FORM_DATA, BEGIN_SAVE_QUESTION, SAVE_QUESTION_SUCCESS
-    , UPDATE_ANSWER
+    , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
-import {showErrorMessage, showErrorNotification} from "../../helpers/helper";
-import * as types from "../../constants/actionTypes";
-import * as taskApi from "../tasks/taskApi";
+import {showErrorMessage} from "../../helpers/helper";
 
 
 export const loadSurveys = (page = 1, search = '') => {
@@ -65,7 +63,10 @@ export const saveQuestion = (question) => {
             type: BEGIN_SAVE_QUESTION,
         });
 
-        const res = await surveyApi.saveQuestion(survey.id, question);
+        const res = await surveyApi.saveQuestion(survey.id, {
+            ...question,
+            answers: JSON.stringify(question.answers)
+        });
 
         if (res.data.status === 1) {
             loadSurveyDetailPrivate(dispatch, survey.id);
@@ -127,7 +128,7 @@ export const changeQuestionsOrder = (questionId, siblingOrder, inQuestions) => {
         surveyApi.updateQuestionOrders(newQuestions);
 
         dispatch({
-            type: types.UPDATE_QUESTIONS_ORDER,
+            type: UPDATE_QUESTIONS_ORDER,
             questions: newQuestions
         });
     };

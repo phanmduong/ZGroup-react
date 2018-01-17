@@ -14,6 +14,7 @@ import Pagination from "../../components/common/Pagination";
 import {ORDERED_STATUS} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
 import * as orderedProductAction from "./orderedProductAction";
+import {bindActionCreators} from "redux";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {

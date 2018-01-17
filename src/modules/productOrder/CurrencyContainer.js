@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import CurrencyComponent from './CurrencyComponent';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";

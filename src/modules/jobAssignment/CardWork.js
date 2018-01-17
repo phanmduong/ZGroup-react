@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from "../../components/common/Avatar";
-import {Link} from "react-router";
-import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import {STATUS_WORK, DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 import moment from "moment/moment";
 import * as helper from '../../helpers/helper';
-import {STATUS_WORK} from '../../constants/constants';
 
 class CardWork extends React.Component {
     constructor(props, context) {
@@ -15,24 +13,27 @@ class CardWork extends React.Component {
             originCard: {}
         };
         this.type = {
-            'personal':'Cá nhân',
-            'team':'Nhóm',
-            'person_project':'Dự án riêng',
+            'personal': 'Cá nhân',
+            'team': 'Nhóm',
+            'person_project': 'Dự án riêng',
         };
         this.bonus_type = {
-            'coin':'Coin',
-            'vnd':'VNĐ',
+            'coin': 'Coin',
+            'vnd': 'VNĐ',
 
         };
     }
 
     render() {
         const {work, key, status, user} = this.props;
-        let time = moment(work.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
+        let time = moment(work.deadline || "", [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
         let checkId = !checkUser(user.id, work.staffs);//user not belong to work
         return (
             <div
-                onClick={(e)=>{e.stopPropagation();return this.props.openInfoModal(work);}}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    return this.props.openInfoModal(work);
+                }}
                 key={key} id={key} data-order={key}
                 className="card-content keetool-idcard">
 
@@ -49,13 +50,13 @@ class CardWork extends React.Component {
                                     </a>
                                     <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
                                         {/*<li className="more-dropdown-item" hidden={(status == STATUS_WORK[3].value) ? true : user.role != 2}>*/}
-                                            {/*<Link*/}
-                                                {/*onClick={(e)=>{e.stopPropagation();}}*/}
-                                                {/*to={`/hr/job-assignment/edit/${work.id}`}>*/}
-                                                {/*<i style={{fontSize: "16px"}}*/}
-                                                   {/*className="material-icons keetool-card">edit</i>*/}
-                                                {/*Chỉnh sửa công việc*/}
-                                            {/*</Link>*/}
+                                        {/*<Link*/}
+                                        {/*onClick={(e)=>{e.stopPropagation();}}*/}
+                                        {/*to={`/hr/job-assignment/edit/${work.id}`}>*/}
+                                        {/*<i style={{fontSize: "16px"}}*/}
+                                        {/*className="material-icons keetool-card">edit</i>*/}
+                                        {/*Chỉnh sửa công việc*/}
+                                        {/*</Link>*/}
                                         {/*</li>*/}
                                         {/*<li className="more-dropdown-item">*/}
                                         {/*<a onClick={()=>{return this.props.delete(work.id);}}>*/}
@@ -64,36 +65,56 @@ class CardWork extends React.Component {
                                         {/*Xóa công việc*/}
                                         {/*</a>*/}
                                         {/*</li>*/}
-                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
-                                            <a onClick={(e)=>{e.stopPropagation();return this.props.acceptWork(work.id, user.id);}}>
+                                        <li className="more-dropdown-item"
+                                            hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.acceptWork(work.id, user.id);
+                                            }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">done_all</i>
                                                 Chấp nhận
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
-                                            <a onClick={(e)=>{e.stopPropagation();return this.props.change(work, "cancel");}}>
+                                        <li className="more-dropdown-item"
+                                            hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.change(work, "cancel");
+                                            }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">delete</i>
                                                 Hủy
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item" hidden={(status == "doing") ? checkId : true}>
-                                            <a onClick={(e)=>{e.stopPropagation();return this.props.openExtendModal(work);}}>
+                                        <li className="more-dropdown-item"
+                                            hidden={(status == "doing") ? checkId : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.openExtendModal(work);
+                                            }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">access_alarm</i>
                                                 Xin gia hạn
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[1].value) ? checkId : true}>
-                                            <a onClick={(e)=>{e.stopPropagation();return this.props.openFinishModal(work);}}>
+                                        <li className="more-dropdown-item"
+                                            hidden={(status == STATUS_WORK[1].value) ? checkId : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.openFinishModal(work);
+                                            }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">done</i>
                                                 Hoàn thành
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[2].value) ?  (user.role!=2) : true}>
-                                            <a onClick={(e)=>{e.stopPropagation();return this.props.revertWork(work);}}>
+                                        <li className="more-dropdown-item"
+                                            hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.revertWork(work);
+                                            }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">undo</i>
                                                 Yêu cầu làm lại
@@ -105,10 +126,12 @@ class CardWork extends React.Component {
                             </div>
                         </div>
 
-                        <div className="card-title keetool-card" style={{paddingRight: "25px",lineHeight: "18px",fontWeight: 600}}>
+                        <div className="card-title keetool-card"
+                             style={{paddingRight: "25px", lineHeight: "18px", fontWeight: 600}}>
                             {work.name}
                         </div>
-                        <div className="keetool-card">{this.type[work.type]} / {work.bonus_value + " "+ this.bonus_type[work.bonus_type]}</div>
+                        <div
+                            className="keetool-card">{this.type[work.type]} / {work.bonus_value + " " + this.bonus_type[work.bonus_type]}</div>
                         <div className="keetool-card"></div>
 
                         <div className="keetool-card" style={{marginTop: "5px"}}>
@@ -132,7 +155,7 @@ class CardWork extends React.Component {
                                                 </div>
                                             </div>
                                         }
-                                        {work.staffs.slice(0,Math.min(work.staffs.length, 4)).map((staff) => {
+                                        {work.staffs.slice(0, Math.min(work.staffs.length, 4)).map((staff) => {
                                             return (
                                                 <div key={staff.id} className="keetool-card" style={{padding: "2px 0"}}>
                                                     <Avatar className="keetool-card"
@@ -160,9 +183,9 @@ class CardWork extends React.Component {
     }
 }
 
-function checkUser(id,arr) {
+function checkUser(id, arr) {
     let check = false;
-    arr.forEach((obj)=>{
+    arr.forEach((obj) => {
         if (obj.id == id) {
             check = true;
         }
