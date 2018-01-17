@@ -40,11 +40,13 @@ class StaffApiController extends ManageApiController
             return $this->respondErrorWithStatus($errors);
         }
 
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $username;
-        $user->phone = $request->phone;
+        $user->phone = $phone;
         $user->department_id = $request->department_id;
         $user->role = 1;
         $user->role_id = $request->role_id;
@@ -107,6 +109,10 @@ class StaffApiController extends ManageApiController
 
     public function changeStatusInWork($staffId, $workId, Request $request)
     {
+        $staff = User::find($staffId);
+        $work = Work::find($workId);
+        if (!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
+        if (!$staff) return $this->respondErrorWithStatus("Không tồn tại nhân viên");
         $work_staff = WorkStaff::where('work_id', $workId)->where('staff_id', $staffId)->first();
         if (!$work_staff) return $this->respondErrorWithStatus("Không tồn tại");
         if (!$request->status) return $this->respondErrorWithStatus("Thiếu status");

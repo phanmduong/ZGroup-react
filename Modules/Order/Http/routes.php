@@ -3,15 +3,20 @@
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'order', 'namespace' => 'Modules\Order\Http\Controllers'], function () {
     Route::get('/all-orders', 'OrderController@allOrders');
     Route::get('/statistic','OrderController@statisticalOrder');
+    Route::post('/store-order', 'OrderController@storeOrder');
     Route::put('/{order_id}', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
     Route::put('/{orderId}/status', 'OrderController@changeOrderStatus');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
-    Route::put('/{orderId}/good/export/{warehouseId}', 'OrderController@exportOrder');
     Route::post('/{orderId}/return/{warehouseId}', 'OrderController@returnOrder');
     Route::put('/{orderId}/note', 'OrderController@editNote');
+
+    Route::get('/delivery', 'DeliveryOrderApiController@getDeliveryOrders');
+    Route::get('/delivery-info', 'DeliveryOrderApiController@infoDeliveryOrders');
+    Route::delete('/delivery/{orderId}', 'DeliveryOrderApiController@deleteDeliveryOrder');
+
 
     Route::get('/all-customers', 'CustomerController@allCustomers');
     Route::get('/total-and-debt-money', 'CustomerController@countMoney');

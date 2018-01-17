@@ -17,4 +17,18 @@ class Question extends Model
     {
         return $this->hasMany('App\Answer', 'question_id');
     }
+
+    public function getData()
+    {
+        return [
+            'id' => $this->id,
+            'content' => $this->content,
+            'type' => $this->type,
+            'order' => $this->order,
+            "survey_id" => $this->survey_id,
+            'answers' => $this->answers->map(function ($answer) {
+                return $answer->getData();
+            })
+        ];
+    }
 }

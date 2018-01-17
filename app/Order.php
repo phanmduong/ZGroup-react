@@ -51,9 +51,13 @@ class Order extends Model
             "good_id")->withPivot("quantity", "price");
     }
 
+
     public function ship_infor()
     {
         return $this->belongsTo(ShipInfor::class, 'ship_infor_id');
+    }
+    public function bank_count(){
+        return $this->belongsTo(BankAccount::class, 'bank_count_id');
     }
 
     public function transform()
@@ -107,6 +111,7 @@ class Order extends Model
                 ];
         if ($this->user) {
             $data['customer'] = [
+                'id' => $this->user->id,
                 'name' => $this->user->name,
                 'address' => $this->user->address,
                 'phone' => $this->user->phone,
@@ -135,7 +140,7 @@ class Order extends Model
             'status' => $this->status,
             'good_orders' => $this->goodOrders->map(function ($goodOrder) {
                 $goodOrderData = [
-                    'id' => $goodOrder->id,
+                    'good_id' => $goodOrder->good_id,
                     'price' => $goodOrder->price,
                     'quantity' => $goodOrder->quantity,
                     'name' => $goodOrder->good->name,
@@ -171,6 +176,7 @@ class Order extends Model
                 ];
         if ($this->user) {
             $data['customer'] = [
+                'id' => $this->user->id,
                 'name' => $this->user->name,
                 'address' => $this->user->address,
                 'phone' => $this->user->phone,

@@ -75,10 +75,10 @@ class ManageDashboardApiController extends ManageApiController
                 ->whereIn("class_id", $classes_id)
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+            $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->where('money', '>', 0)
                 ->whereIn("class_id", $classes_id2)
-                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
+                ->where('gen_id', $gen_id)
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
@@ -116,10 +116,10 @@ class ManageDashboardApiController extends ManageApiController
                 })
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+            $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->where('money', '>', 0)
-                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
-                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
+                ->where('gen_id', $gen_id)
+                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
                 ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
@@ -311,12 +311,12 @@ class ManageDashboardApiController extends ManageApiController
         $time = $request->time;
         if ($base_id) {
 
-            $shifts = Shift::where('gen_id', $gen_id)->where('base_id', $base_id)->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
+            $shifts = Shift::where('base_id', $base_id)->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
                 ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
                 ->orderBy('shifts.shift_session_id')
                 ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();
         } else {
-            $shifts = Shift::where('gen_id', $gen_id)->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
+            $shifts = Shift::whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
                 ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
                 ->orderBy('shifts.shift_session_id')
                 ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();

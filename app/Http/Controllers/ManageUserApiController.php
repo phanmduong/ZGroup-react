@@ -85,12 +85,12 @@ class ManageUserApiController extends ManageApiController
         if (!empty($errors)) {
             return $this->respondErrorWithStatus($errors);
         }
-
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $request->username;
         $user->marital = $request->marital;
-        $user->phone = $request->phone;
+        $user->phone = $phone;
         $user->age = $request->age;
         $user->address = $request->address;
         $user->homeland = $request->homeland;
@@ -126,5 +126,31 @@ class ManageUserApiController extends ManageApiController
         } else {
             return $this->respondErrorWithStatus("Mật khẩu cũ sai.");
         }
+    }
+
+    public function change_password_student(Request $request)
+    {
+
+        $user = User::find($request->id);
+
+        if ($user == null) {
+            return $this->respondErrorWithStatus("Không tồn tại.");
+        }
+
+        if ($user->role_id > 0) {
+            return $this->respondErrorWithStatus("Không thể thay đổi mật khẩu.");
+        }
+
+        if (!isset($request->new_password)) {
+            return $this->respondErrorWithStatus("Vui lòng nhập mật khẩu mới");
+        }
+
+        $user->fill([
+            'password' => Hash::make($request->new_password)
+        ])->save();
+
+        return $this->respondSuccessWithStatus([
+            'message' => "Thay đổi mật khẩu thành công"
+        ]);
     }
 }

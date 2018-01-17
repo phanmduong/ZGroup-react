@@ -18,19 +18,6 @@ class InventoryApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function allManufactures()
-    {
-        $manufactures = Manufacture::orderBy("created_at", "desc")->get();
-        return $this->respondSuccessWithStatus([
-            'manufactures' => $manufactures->map(function ($manufacture) {
-                return [
-                    'id' => $manufacture->id,
-                    'name' => $manufacture->name,
-                ];
-            })
-        ]);
-    }
-
     public function statusCount()
     {
         $total = Good::all()->count();
@@ -81,10 +68,12 @@ class InventoryApiController extends ManageApiController
             $goods = $goods->where('manufacture_id', $manufacture_id);
         if ($good_category_id)
             $goods = $goods->where('good_category_id', $good_category_id);
-        $goods = $goods->join('imported_goods', 'goods.id', '=', 'imported_goods.good_id')
-            ->select('goods.*', DB::raw('SUM(imported_goods.quantity) as quantity'))
-            ->groupBy('good_id')->having(DB::raw('SUM(quantity)'), '>', 0);
-        $goods = $goods->orderBy('goods.created_at', 'desc')->paginate($limit);
+        $goods = $goods->join('imported_goods', 'goods.id', '=', 'imported_goods.good_id');
+        if ($warehouse_id)
+            $goods = $goods->where('imported_goods.warehouse_id', $warehouse_id);
+        $goods = $goods->select('goods.*', DB::raw('SUM(imported_goods.quantity) as quantity'))
+            ->groupBy('good_id')->having(DB::raw('SUM(quantity)'), '>', 0)
+            ->orderBy('goods.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $goods,
             [

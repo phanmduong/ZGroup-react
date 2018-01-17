@@ -87,10 +87,9 @@
     }, 0);
 </script>
 
-<div
-        class="fb-customerchat"
-        page_id="1809252865962104"
-        ref="">
+<div class="fb-customerchat"
+     page_id="1809252865962104"
+     ref="">
 </div>
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
     <div class="container">
@@ -117,13 +116,14 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" data-scroll="true" v-on:click="openModalBuyWithoutAdd()"
-                       style="display: flex; align-content: center;" >
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
+                       v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center;">
                         <i class="fa fa-shopping-cart"></i>
                         &nbsp
                         Giỏ hàng
-                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
+                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
                             @{{ books_count }}
                         </div>
                     </a>
@@ -152,61 +152,73 @@
                     <h6>Email</h6>
                     <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
-                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>
+                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;">
+                        @include("graphics::loading")
                     </div>
-                    <select v-if="showProvince"
-                            v-model="provinceid"
-                            v-on:change="changeProvince"
-                            class="form-control" placeholder="Tỉnh/Thành phố">
-                        <option value="">Tỉnh, Thành phố</option>
-                        <option v-for="province in provinces" v-bind:value="province.provinceid">
-                            @{{province.name}}
-                        </option>
-                    </select>
-                    <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>
-                    </div>
-                    <select v-if="showDistrict"
-                            v-model="districtid"
-                            class="form-control"
-                            style="margin-top: 5px"
-                            id="">
-                        <option value="">Quận, Huyện</option>
-                        <option v-for="district in districts" v-bind:value="district.districtid">
-                            @{{district.name}}
-                        </option>
-                    </select>
+                    <div v-if="showProvince">
+                        <select v-model="provinceid"
+                                v-on:change="changeProvince"
+                                class="form-control" placeholder="Tỉnh/Thành phố">
+                            <option value="">Tỉnh, Thành phố</option>
+                            <option v-for="province in provinces" v-bind:value="province.provinceid">
+                                @{{province.name}}
+                            </option>
+                        </select>
+
+                        <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;">
+                            @include("graphics::loading")
+                        </div>
+
+                        <div v-if="showDistrict">
+                            <select v-model="districtid"
+                                    class="form-control"
+                                    style="margin-top: 5px"
+                                    id="">
+                                <option value="">Quận, Huyện</option>
+                                <option v-for="district in districts" v-bind:value="district.districtid">
+                                    @{{district.name}}
+                                </option>
+                            </select>
+                            <input v-model="address" type="text" class="form-control"
+                                   placeholder="Đường, số nhà"
+                                   style="margin-top: 5px"><br>
+                        </div>
 
 
-                    <input v-model="address" type="text" class="form-control"
-                           placeholder="Đường, số nhà"
-                           style="margin-top: 5px"><br>
-                    <h6>Phương thức thanh toán</h6>
+                    </div>
+
+                    <h6 style="margin-top: 15px;">Phương thức thanh toán</h6>
                     <select v-model="payment" class="form-control" id="sel1">
+                        {{--<option value="Thanh toán online">Thanh toán online</option>--}}
                         <option value="Chuyển khoản">Chuyển khoản</option>
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
                             Thanh toán trực tiếp khi nhận hàng(COD)
                         </option>
                     </select>
                 </form>
-                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
-                    Bạn vui lòng nhập đầy đủ thông tin
+
+                @include("graphics::checkout.online")
+                @include("graphics::checkout.transfer")
+
+
+                <div v-if="shipPrice" class="alert alert-info" style="margin-top: 10px">
+                    Phí ship: <strong>@{{ formatPrice(shipPrice) }}</strong> <br/>
+                    Tổng giá trị đơn hàng (Đã bao gồm phí Ship): <strong>@{{ formatPrice(goodsPrice +
+                        shipPrice)}}</strong>
                 </div>
-                <p style="font-weight: 600">
-                    <br>
-                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển khoản</b> dưới đây là thông tin chuyển
-                    khoản:</p>
-                <p>
-                    Tên tài khoản: VU CHI CONG<br/>
-                    Số tài khoản: 04 51 00 04 27 664 <br/>
-                    Ngân hàng: Vietcombank Thành Công.
-                </p>
+
+                <div class="alert alert-danger" v-if="message"
+                     style="margin-top: 10px"
+                     id="purchase-error">
+                    @{{ message }}
+                </div>
+
+
             </div>
-            <div class="modal-footer" style="display: block">
-                <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
-                            class='fa fa-spin fa-spinner'></i>Đang tải...
-                </div>
+            <div v-if="isSaving" id="purchase-loading-text">
+                @include("graphics::loading")
+            </div>
+            <div class="modal-footer" v-if="!isSaving">
                 <div id="btn-purchase-group" style="text-align: right">
                     <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>
@@ -234,8 +246,8 @@
             <div class="modal-body" id="modal-buy-body">
                 <div>
                     <br>
-                    <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>Đang tải...
+                    <div v-if="isLoading">
+                        @include("graphics::loading")
                     </div>
                     <div v-for="good in goods">
                         <div class="row" style="margin-bottom:20px;">
@@ -245,7 +257,6 @@
                             </div>
                             <div class="col-md-4">
                                 <p><b style="font-weight:600;">@{{good.name}}</b></p>
-                                <p>Connect the dots</p>
                             </div>
                             <div class="col-md-3 h-center">
                                 <button v-on:click="minusGood(event, good.id)"
@@ -289,9 +300,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link"
                             style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
                     <button id="btn-purchase"
+                            {{--disabled="true"--}}
+                            v-bind:disabled="disablePurchaseButton"
                             v-on:click="openPurchaseModal()"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                                 class="fa fa-angle-right"></i></button>
@@ -445,6 +458,7 @@
         </div>
     </div>
 </footer>
+
 </body>
 
 <!-- Core JS Files -->
@@ -455,5 +469,5 @@
 <script src="/graphics-assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/graphics.js?6868"></script>
+<script src="/js/graphics.js?8888"></script>
 </html>

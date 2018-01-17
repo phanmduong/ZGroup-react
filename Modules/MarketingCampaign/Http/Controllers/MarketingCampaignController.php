@@ -161,16 +161,21 @@ class MarketingCampaignController extends ManageApiController
             $current_gen = Gen::getCurrentGen();
         }
 
+        $startTime = $request->start_time;
+        $end_time = $request->end_time;
+
+        if ($startTime && $end_time) {
+            $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+            $all_registers = Register::whereBetween('created_at', array($startTime, $endTime));
+        } else {
+            $all_registers = $current_gen->registers();
+        }
+
         $startTime = $request->start_time ? $request->start_time : $current_gen->start_time;
         $end_time = $request->end_time ? $request->end_time : $current_gen->end_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
         $date_array = createDateRangeArray(strtotime($startTime), strtotime($end_time));
 
-        if ($startTime && $endTime) {
-            $all_registers = Register::whereBetween('created_at', array($startTime, $endTime));
-        } else {
-            $all_registers = $current_gen->registers();
-        }
 
 //        if ($request->base_id && $request->base_id != 0) {
 ////            $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
@@ -210,6 +215,7 @@ class MarketingCampaignController extends ManageApiController
             $courses = array();
 
             $di = 0;
+
 
             $paid_by_date_personal_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
                 ->whereBetween('paid_time', array($startTime, $endTime))
@@ -258,7 +264,7 @@ class MarketingCampaignController extends ManageApiController
                 $class_ids = $course->classes()->pluck('id')->toArray();
 //                }
 
-                if ($startTime && $endTime) {
+                if ($request->start_time && $request->end_time) {
                     $count = $saler->sale_registers()->where('money', '>', '0')
                         ->whereIn('class_id', $class_ids)
                         ->whereBetween('created_at', array($startTime, $endTime))
@@ -284,7 +290,7 @@ class MarketingCampaignController extends ManageApiController
 
             };
 
-            $campaigns = $saler_registers->select(DB::raw('count(*) as total_registers,campaign_id'))
+            $campaigns = $saler_registers->select(DB::raw('count(*) as total_registers,campaign_id'))->where('campaign_id', '<>', 0)
                 ->whereNotNull('campaign_id')->groupBy('campaign_id')->get();
 
 

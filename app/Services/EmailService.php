@@ -39,6 +39,7 @@ class EmailService
 
     public function send_mail_query($user, $view, $data, $subject)
     {
+        if (empty($user['email'])) return;
         Mail::queue($view, $data, function ($m) use ($user, $subject) {
             $m->from($this->emailCompanyFrom, $this->emailCompanyName);
 
@@ -48,6 +49,7 @@ class EmailService
 
     public function send_mail_queue($user, $data, $subject)
     {
+        if (empty($user['email'])) return;
         Mail::queue('emails.view_email', ['data' => $data], function ($m) use ($user, $subject) {
             $m->from($this->emailCompanyFrom, $this->emailCompanyName);
 
@@ -57,6 +59,7 @@ class EmailService
 
     public function send_mail_queue_cc($user, $data, $subject)
     {
+        if (empty($user['email'])) return;
         Mail::queue('emails.view_email', ['data' => $data], function ($m) use ($user, $subject) {
             $m->from($this->emailCompanyFrom, $this->emailCompanyName);
 
@@ -80,7 +83,6 @@ class EmailService
 
     public function send_marketing_mail($email, $view, $subject)
     {
-
         Mail::send($view, ['email' => $email], function ($m) use ($email, $subject) {
             $m->from($this->emailCompanyFrom, $this->emailCompanyName);
 

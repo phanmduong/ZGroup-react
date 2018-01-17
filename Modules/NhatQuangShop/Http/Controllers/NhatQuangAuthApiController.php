@@ -8,7 +8,7 @@ use App\User;
 use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use phpseclib\Crypt\Hash;
+use Illuminate\Support\Facades\Hash;
 
 
 class NhatQuangAuthApiController extends PublicApiController
@@ -18,15 +18,13 @@ class NhatQuangAuthApiController extends PublicApiController
     {
     }
 
-    public function login($subfix, Request $request)
+    public function login(Request $request)
     {
-        $email = $request->email;
         $password = $request->password;
+        $phone = $request->phone;
 
-
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
-
-            $user = User::where("email", $email)->first();
+        if (Auth::attempt(['phone' => $phone, 'password' => $password])) {
+            $user = User::where("phone", $phone)->first();
             return [
                 "status" => 1,
                 "user" => $user->transformAuth()
@@ -74,6 +72,8 @@ class NhatQuangAuthApiController extends PublicApiController
     {
         $inputToken = $request->input_token;
         $data = $request->data;
+        $facebookId = $request->facebook_id;
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://graph.facebook.com/oauth/access_token?client_id=" . config("app.facebook_app_id") . "&client_secret=" . config("app.facebook_app_secret") . "&grant_type=client_credentials",
@@ -90,8 +90,6 @@ class NhatQuangAuthApiController extends PublicApiController
         $accessToken = $response->access_token;
         curl_close($curl);
 
-        dd($accessToken);
-
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://graph.facebook.com/debug_token?input_token=" . $inputToken . "&access_token=" . $accessToken,
@@ -105,9 +103,39 @@ class NhatQuangAuthApiController extends PublicApiController
         ));
         $responseJson = curl_exec($curl);
         $response = json_decode($responseJson);
+        curl_close($curl);
+
         if ($response->data) {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://graph.facebook.com/me?access_token=" . $inputToken,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json",
+                    "Content-Length: " . strlen($data),
+                ),
+            ));
+            $responseJson = curl_exec($curl);
+            $response = json_decode($responseJson);
+            curl_close($curl);
+
+            $user = User::where("facebook_id", $facebookId)->first();
+            if ($user == null) {
+                $user = new User();
+                $user->first_login = 0;
+                $user->avatar_url = defaultAvatarUrl();
+            }
+            $user->name = $response->name;
+            $user->facebook_id = $response->id;
+            $user->save();
+
+            Auth::login($user);
+
             return [
-                "status" => 1
+                "status" => 1,
+                "user" => $user->transformAuth()
             ];
         } else {
             return [

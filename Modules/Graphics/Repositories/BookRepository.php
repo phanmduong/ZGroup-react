@@ -14,6 +14,7 @@ use App\Order;
 use App\ShipInfor;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 
@@ -62,7 +63,64 @@ class BookRepository
         return $bookData;
     }
 
-    public function saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr)
+    private function sendOrderToNganLuong($total_amount, $order_code, $payment_method,
+                                          $bank_code, $buyer_fullname,
+                                          $buyer_address,
+                                          $buyer_email, $buyer_mobile)
+    {
+        $nlcheckout = new NganLuong();
+
+
+        $array_items = array();
+
+        $payment_type = "1";
+        $discount_amount = 0;
+        $order_description = '';
+        $tax_amount = 0;
+        $fee_shipping = 0;
+        $return_url = 'http://graphics.test/nganluongapi/order/' . $order_code . "/money/" . $total_amount . "/complete?hash=" . Hash::make($order_code);
+        $cancel_url = urlencode('http://graphics.vn');
+
+//        dd($payment_method);
+//        dd($buyer_email);
+//        dd($buyer_mobile);
+//        dd($buyer_fullname);
+//        dd($buyer_email);
+
+        if ($payment_method != '' && $buyer_email != "" && $buyer_mobile != "" && $buyer_fullname != "" && filter_var($buyer_email, FILTER_VALIDATE_EMAIL)) {
+            if ($payment_method == "VISA") {
+
+                $nl_result = $nlcheckout->VisaCheckout($order_code, $total_amount, $payment_type, $order_description, $tax_amount,
+                    $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile,
+                    $buyer_address, $array_items, $bank_code);
+
+            } elseif ($payment_method == "ATM_ONLINE" && $bank_code != '') {
+                $nl_result = $nlcheckout->BankCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount,
+                    $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile,
+                    $buyer_address, $array_items);
+            } else {
+                return [
+                    "status" => 0,
+                    "message" => "Không có phương thức thanh toán phù hợp"
+                ];
+            }
+
+            return [
+                "status" => 1,
+                "checkout_url" => $nl_result->checkout_url . "",
+                "message" => $nlcheckout->GetErrorMessage($nl_result->error_code)
+            ];
+        } else {
+            return [
+                "status" => 0,
+                "message" => "Thiếu dữ liệu thanh toán"
+            ];
+        }
+
+    }
+
+    public function saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr,
+                              $onlinePurchase = "", $bankCode = "", $shipPrice = 0)
     {
         $user = User::where(function ($query) use ($email, $phone) {
             $query->where("email", $email)->orWhere("phone", $email);
@@ -109,11 +167,12 @@ class BookRepository
             }
         }
 
-        $total_price = 0;
+        $total_price = $shipPrice;
         $goods = $order->goods;
         foreach ($goods as &$good) {
-            $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
-            $good->coupon_value = $coupon;
+//            $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
+//            $good->coupon_value = $coupon;
+            $coupon = 0;
             $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
         }
         $subject = "Xác nhận đặt hàng thành công";
@@ -123,5 +182,21 @@ class BookRepository
             $m->from('no-reply@colorme.vn', 'Graphics');
             $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
         });
+        if ($payment === "Thanh toán online") {
+            $base = 0;
+            $percent = 0;
+//            if ($onlinePurchase === "VISA") {
+//                $base = 5500;
+//                $percent = 0.03;
+//            }
+            if ($onlinePurchase === "ATM_ONLINE") {
+                $base = 1760;
+                $percent = 0.011;
+            }
+            $sendPrice = ($total_price - $base) / (1 + $percent);
+            return $this->sendOrderToNganLuong($sendPrice, $order->id, $onlinePurchase, $bankCode, $name,
+                $address . ", " . $district . ", " . $province, $email, $phone);
+        }
+        return null;
     }
 }

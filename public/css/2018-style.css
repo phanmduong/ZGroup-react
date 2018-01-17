@@ -1675,11 +1675,6 @@ a.more-products {
     width: 100%
 }
 
-
-
-
-
-
 @media screen and (max-width: 700px) {
     .product-detail-container {
         padding: 50px 12%
@@ -2605,14 +2600,13 @@ ul.dashed > li:before {
 /*      @maridlcrmn              */
 /*-------------------------------*/
 
-
 section {
     padding-top: 100px;
     padding-bottom: 100px;
 }
 
 .quote {
-    color: rgba(0,0,0,.1);
+    color: rgba(0, 0, 0, .1);
     text-align: center;
     margin-bottom: 30px;
 }
@@ -2624,47 +2618,58 @@ section {
 #fade-quote-carousel.carousel {
     padding-bottom: 60px;
 }
+
 #fade-quote-carousel.carousel .carousel-inner .item {
     opacity: 0;
     -webkit-transition-property: opacity;
     -ms-transition-property: opacity;
     transition-property: opacity;
 }
+
 #fade-quote-carousel.carousel .carousel-inner .active {
     opacity: 1;
     -webkit-transition-property: opacity;
     -ms-transition-property: opacity;
     transition-property: opacity;
 }
+
 #fade-quote-carousel.carousel .carousel-indicators {
     bottom: 10px;
 }
+
 #fade-quote-carousel.carousel .carousel-indicators > li {
     background-color: #e84a64;
     border: none;
 }
+
 #fade-quote-carousel blockquote {
     text-align: center;
     border: none;
 }
+
 #fade-quote-carousel .profile-circle {
     width: 100px;
     height: 100px;
     margin: 0 auto;
     border-radius: 100px;
 }
-.landing-title {
-    font-size:25px;
-    font-weight:600;
-    line-height:35px;
-}
 
+.landing-title {
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 35px;
+}
 
 .btn-register {
     border: none;
 }
 
 .btn-register {
+    padding: 10px 30px !important
+}
+
+.btn-login {
+    margin-top: 10px;
     padding: 10px 30px !important
 }
 
@@ -2680,48 +2685,41 @@ section {
 }
 
 .register-icon {
-    margin-left:10px;
+    margin-left: 10px;
 }
 
-.mb-3{
-    font-size:18px;
-    font-weight:600;
-    margin-top:30px;
+.mb-3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 30px;
 }
 
-.mb-0{
-    margin-bottom:20px;
+.mb-0 {
+    margin-bottom: 20px;
 }
-
-
-
 
 /*
 Author: Bootstrapthemes
 Author URI: http://bootstrapthemes.co
 */
 
-
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
 
-
-.p-top-100{
-    padding:100px 0;
+.p-top-100 {
+    padding: 100px 0;
 }
-.m-top-40{
+
+.m-top-40 {
     margin-top: 40px;
 }
-
-
-
 
 /*=================================================
 Pricint fiv
 ===================================================*/
-.bs-five-area{
-    width:100%;
+.bs-five-area {
+    width: 100%;
     display: inline-block;
     box-shadow: 0px 0px 6px 0px #ddd;
     overflow: hidden;
@@ -2730,46 +2728,50 @@ Pricint fiv
     text-align: center;
 }
 
-.bs-five-area.bs-radius{
+.bs-five-area.bs-radius {
     border-radius: 30px;
 }
-.bs-five-area > div{
-    padding:0;
+
+.bs-five-area > div {
+    padding: 0;
 }
 
-
-.bs-five-area .bs-five{
+.bs-five-area .bs-five {
     position: relative;
     width: 100%;
     margin: auto;
     transition: all 0.4s;
-    padding:20px 0px;
+    padding: 20px 0px;
 }
-.bs-five-area .bs-five h6{
+
+.bs-five-area .bs-five h6 {
     font-weight: 700;
     letter-spacing: 2px;
 }
-.bs-five-area .bs-five h1{
-    font-size:64px;
+
+.bs-five-area .bs-five h1 {
+    font-size: 64px;
     font-weight: 100;
     line-height: 72px;
 }
-.bs-five-area .bs-five h1 sup{
-    font-size:30px;
-    top:-30px;
+
+.bs-five-area .bs-five h1 sup {
+    font-size: 30px;
+    top: -30px;
 }
+
 .bs-five-area .bs-five ul {
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     list-style: none;
 }
-.bs-five-area .bs-five ul li{
+
+.bs-five-area .bs-five ul li {
     line-height: 45px;
-    border-bottom:0px;
+    border-bottom: 0px;
 }
 
-
-.bs-five-area .bs-five:hover{
+.bs-five-area .bs-five:hover {
 
     background: #7bc043;
     transition: all 0.4s;
@@ -2778,64 +2780,205 @@ Pricint fiv
 
 .bs-five-area .bs-five.active {
     background: #7bc043;
-    background: -webkit-linear-gradient(left, #7bc043 , #7bc043);
+    background: -webkit-linear-gradient(left, #7bc043, #7bc043);
     background: -o-linear-gradient(right, #7bc043, #7bc043);
     background: -moz-linear-gradient(right, #7bc043, #7bc043);
-    background: linear-gradient(to right, #7bc043 , #7bc043);
+    background: linear-gradient(to right, #7bc043, #7bc043);
 }
 
-.bs-five-area .bs-five .btn-success{
+.bs-five-area .bs-five .btn-success {
     padding: 10px 50px;
     display: inline-block;
     border-radius: 30px;
-    color:white;
+    color: white;
     background-color: #7bc043;
     border-color: #7bc043;
 }
 
-
 .bs-five-area .bs-five.active .btn.btn-success,
-.bs-five-area .bs-five:hover.bs-five .btn.btn-success{
-    background: #E0FFF6 ;
-    color:#444 ;
+.bs-five-area .bs-five:hover.bs-five .btn.btn-success {
+    background: #E0FFF6;
+    color: #444;
 
 }
 
 .bs-five-area .bs-five.active,
 .bs-five-area .bs-five.active ul li,
 .bs-five-area .bs-five:hover.bs-five,
-.bs-five-area .bs-five:hover.bs-five ul li
-{
-    color:#fff;
+.bs-five-area .bs-five:hover.bs-five ul li {
+    color: #fff;
 }
-
 
 /*copyright
 ==================*/
-.footer{
+.footer {
     background-color: #333;
 }
-.copyright{
+
+.copyright {
     padding: 20px 10px;
 }
+
 .copyright p {
-    font-size:12px;
-    color:#fff;
+    font-size: 12px;
+    color: #fff;
 }
+
 .copyright p i {
     padding: 0px 5px;
     color: red;
 }
+
 .copyright p a {
     padding: 0px 5px;
     color: yellow;
 }
 
 @media screen and (max-width: 600px) {
-    .bubble-msg{
-        height: 0!important;
-        width: 0!important;
-        font-size: 0!important;
-        padding: 0!important;
+    .bubble-msg {
+        height: 0 !important;
+        width: 0 !important;
+        font-size: 0 !important;
+        padding: 0 !important;
     }
+}
+
+.course-term .fa {
+    transition: .3s transform ease-in-out;
+}
+
+.course-term .collapsed .fa {
+    transform: rotate(90deg);
+}
+
+@media (min-width: 768px) {
+    #modalLogin .modal-dialog {
+        width: 400px !important;
+    }
+}
+
+input, textarea {
+    outline: none;
+    border: none;
+    display: block;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    color: #555f77;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #ced2db;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+    color: #ced2db;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+    color: #ced2db;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    color: #ced2db;
+}
+
+.comments {
+    margin: 2.5rem auto 0;
+    max-width: 60.75rem;
+}
+
+.comment-wrap {
+    margin-bottom: 1.25rem;
+    display: table;
+    width: 100%;
+    min-height: 5.3125rem;
+}
+
+.photo {
+    padding-top: 0.625rem;
+    display: table-cell;
+    width: 3.5rem;
+}
+
+.photo .avatar {
+    height: 2.25rem;
+    width: 2.25rem;
+    border-radius: 50%;
+    background-size: contain;
+}
+
+.comment-block {
+    padding: 1rem;
+    background-color: #fff;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.comment-block textarea {
+    width: 100%;
+    resize: none;
+}
+
+.comment-text {
+    margin-bottom: 1.25rem;
+}
+
+.bottom-comment {
+    color: #acb4c2;
+    font-size: 10px;
+}
+
+.comment-date {
+    float: left;
+}
+
+.comment-actions {
+    float: right;
+}
+
+.comment-actions li {
+    display: inline;
+    margin: -2px;
+    cursor: pointer;
+}
+
+.comment-actions li.complain {
+    padding-right: 0.75rem;
+    border-right: 1px solid #e1e5eb;
+}
+
+.comment-actions li.reply {
+    padding-left: 0.75rem;
+    padding-right: 0.125rem;
+}
+
+.comment-actions li:hover {
+    color: #0095ff;
+}
+
+.embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    height: auto;
+}
+
+.embed-container iframe, .embed-container object, .embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+label.error {
+    color: #C50000
+}
+
+body.iosBugFixCaret.modal-open {
+    position: fixed;
+    width: 100%;
 }

@@ -3,23 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Base;
-use App\CalendarEvent;
 use App\Category;
 use App\CategoryProduct;
-use App\ClassLesson;
+use App\Console\Commands\SendSurvey;
 use App\Console\Commands\WorkShiftsCheckInCheckOutNoti;
 use App\Course;
 use App\Email;
-use App\EmailCampaign;
 use App\EmailForm;
 use App\EmailTemplate;
 use App\Gen;
 use App\Http\Requests\RegisterFormRequest;
 use App\Image;
-use App\Jobs\CloseSurvey;
-use App\Jobs\CreateSurvey;
 use App\Landing;
-use App\LessonSurvey;
 use App\Notification;
 use App\Product;
 use App\Providers\AppServiceProvider;
@@ -34,7 +29,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\PublicCrawlController;
 
 class PublicController extends Controller
 {
@@ -48,6 +42,8 @@ class PublicController extends Controller
     {
         $this->data = array();
         $this->data['rating'] = false;
+        $courses = Course::where('status', '1')->orderBy('created_at', 'asc')->get();
+        $this->data['courses'] = $courses;
         if (!empty(Auth::user())) {
             $this->user = Auth::user();
             $this->data['user'] = $this->user;
@@ -220,7 +216,7 @@ class PublicController extends Controller
     {
         //send mail here
         $user = User::where('email', '=', $request->email)->first();
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
             $user->name = $request->name;
@@ -230,7 +226,7 @@ class PublicController extends Controller
             $user->work = $request->work;
             $user->address = $request->address;
             $user->how_know = how_know($request->how_know);
-            $user->username = $request->email;
+            $user->username = $request->username ? $request->username : $request->email;
             $user->facebook = $request->facebook;
             $user->gender = $request->gender;
             $user->dob = strtotime($request->dob);
@@ -266,7 +262,7 @@ class PublicController extends Controller
 
         $register->save();
 
-        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id);
 
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
@@ -283,13 +279,15 @@ class PublicController extends Controller
     {
         //send mail here
         $user = User::where('email', '=', $request->email)->first();
-        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null)
             $user = new User;
 
         $user->name = $request->name;
         $user->phone = $phone;
         $user->email = $request->email;
+        $user->username = $request->email;
+
         $user->save();
 
         $register = new Register;
@@ -738,28 +736,29 @@ class PublicController extends Controller
     public function landing_register(Request $request)
     {
         $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
 //        dd('WORK');
         if ($user == null) {
             $user = new User;
             $user->name = $request->name;
-            $user->phone = $request->phone;
+            $user->phone = $phone;
             $user->email = $request->email;
             $user->university = $request->university;
             $user->work = $request->work;
             $user->address = $request->address;
             $user->how_know = $request->how_know;
-            $user->username = $request->email;
+            $user->username = $request->username ? $request->username : $request->email;
             $user->facebook = $request->facebook;
             $user->gender = $request->gender;
             $user->dob = strtotime($request->dob);
-            $user->password = bcrypt($request->phone);
+            $user->password = bcrypt($phone);
             $user->save();
 
         } else {
             $user->university = $request->university;
             $user->work = $request->work;
             $user->address = $request->address;
-            $user->phone = $request->phone;
+            $user->phone = $phone;
             $user->gender = $request->gender;
             $user->dob = date('Y-m-d', strtotime($request->dob));
             $user->facebook = $request->facebook;
@@ -914,7 +913,9 @@ class PublicController extends Controller
 
     public function send_noti_test()
     {
-        return response()->json(send_notification_browser([], 123));
+        $a = new SendSurvey();
+        $a->handle();
+        return "test";
     }
 
     public function codeForm()

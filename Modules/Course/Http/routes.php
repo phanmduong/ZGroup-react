@@ -3,6 +3,16 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'cour
     Route::post('/{courseId}/pixel', 'PixelApiController@createPixel');
     Route::put('/pixel/{pixelId}', 'PixelApiController@editPixel');
     Route::delete('/pixel/{pixelId}', 'PixelApiController@deletePixel');
+
+    Route::get('/type', 'CourseTypeApiController@getTypes');
+    Route::post('/type','CourseTypeApiController@addType');
+    Route::put('/type/{typeId}','CourseTypeApiController@editType');
+    Route::delete('/type/{typeId}','CourseTypeApiController@deleteType');
+
+    Route::get('/category', 'CourseCategoryApiController@getCategories');
+    Route::post('/category', 'CourseCategoryApiController@createCategory');
+    Route::put('/category/{categoryId}', 'CourseCategoryApiController@editCategory');
+    Route::delete('/category/{categoryId}', 'CourseCategoryApiController@deleteCategory');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
@@ -19,7 +29,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::put('/lesson/edit/{lessonId}', 'CourseController@editLesson');
     Route::get('/get-attendance-lesson/{classId}/{lessonId}','CourseController@getAttendance');
     Route::post('/change-attendances','CourseController@changeAttendance');
-
+    Route::put('/{course_id}/change-status','CourseController@changeStatusCourse');
+    Route::post('/{courseId}/duplicate','CourseController@duplicateCourse');
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], function () {

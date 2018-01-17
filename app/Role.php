@@ -34,4 +34,11 @@ class Role extends Model
     {
         return $this->belongsToMany('App\Tab', 'tab_role');
     }
+
+    public function getData() {
+        return [
+            'id' => $this->id,
+            'role_title' => $this->role_title
+        ];
+    }
 }

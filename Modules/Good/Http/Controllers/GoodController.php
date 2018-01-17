@@ -2,12 +2,11 @@
 
 namespace Modules\Good\Http\Controllers;
 
+use App\Colorme\Transformers\GoodImportTransformer;
 use App\Good;
-use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\Task;
-use App\Warehouse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,17 +14,18 @@ use Modules\Book\Entities\Barcode;
 use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
-use Modules\Good\Providers\GoodServiceProvider;
 use Modules\Good\Repositories\GoodRepository;
 
 
 class GoodController extends ManageApiController
 {
     private $goodRepository;
+    private $goodImportTransformer;
 
-    public function __construct(GoodRepository $goodRepository)
+    public function __construct(GoodRepository $goodRepository, GoodImportTransformer $goodImportTransformer)
     {
         $this->goodRepository = $goodRepository;
+        $this->goodImportTransformer = $goodImportTransformer;
         parent::__construct();
     }
 
@@ -210,7 +210,7 @@ class GoodController extends ManageApiController
 
         if ($properties)
             foreach ($properties as $p) {
-                if($p->value == null && trim($p->value) =='')
+                if ($p->value == null && trim($p->value) == '')
                     return $this->respondErrorWithStatus([
                         'message' => 'Chưa nhập giá trị thuộc tính'
                     ]);
@@ -497,30 +497,23 @@ class GoodController extends ManageApiController
         if ($startTime)
             $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
 
-        $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
-        return $this->respondWithPagination(
-            $goods,
-            [
-                "goods" => $goods->map(function ($good) {
-                    $goods_count = Good::where('code', $good->code)->count();
-                    $data = $good->transform();
-                    $import_price = ImportedGoods::where('good_id', $good->id)->orderBy('created_at', 'desc')->first();
-                    $import_price = $import_price ? $import_price->import_price : 0;
-                    $warehouses_count = ImportedGoods::where('good_id', $good->id)
-                        ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
-                    $data['warehouses_count'] = $warehouses_count->count;
-                    $data['goods_count'] = $goods_count;
-                    $data['import_price'] = $import_price;
-                    if ($goods_count > 1) {
-                        $data['name'] .= ' ';
-                        foreach ($good->properties as $property) {
-                            $data['name'] = $data['name'] . "- " . $property->name . " " . $property->value;
-                        };
-                    }
-                    return $data;
-                })
-            ]
-        );
+        if ($request->limit != -1) {
+            $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+            return $this->respondWithPagination(
+                $goods,
+                [
+                    "goods" => $this->goodImportTransformer->transformCollection($goods)
+                ]
+            );
+        } else {
+            $goods = $goods->orderBy("created_at", "desc")->get();
+            return [
+                "status" => 1,
+                "goods" => $this->goodImportTransformer->transformCollection($goods)
+            ];
+        }
+
+
     }
 
     public function goodInformation(Request $request)

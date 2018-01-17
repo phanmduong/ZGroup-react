@@ -24,7 +24,17 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
+    <style>
+        .content {
+            float: right;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
     <script>
+        var navVue = {};
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
     </script>
@@ -56,6 +66,14 @@
                         .then(function (res) {
                             if (res.data.status === 1) {
                                 navVue.changeLoginCondition(res.data.user);
+                                // console.log(res.data.user);
+                                if (!res.data.user.first_login) {
+                                    $("#update-user-email").css("display", "none");
+                                    $("#updateUserInfoModal").modal({
+                                        backdrop: 'static',
+                                        keyboard: false
+                                    });
+                                }
                             } else {
                                 $("#loginFailNoticeModal").modal("toggle");
                             }
@@ -73,12 +91,18 @@
         }
     </script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
 </head>
 <body class="profile" style="background:#fafafa">
 <script>
+    var recaptchaCallBack = function (response) {
+        navVue.captcha = response;
+    };
+
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '357228831408634',
+            appId: '{{config("app.facebook_app_id")}}',
             autoLogAppEvents: true,
             xfbml: true,
             version: 'v2.11'
@@ -122,7 +146,100 @@
      id="vue-nav"
      style="height:35px; background:#272727!important">
 
+    <div class="modal fade " id="updateUserInfoModal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-register">
+            <div class="modal-content">
+                <div class="modal-header no-border-header text-center">
+                    <p>Bạn vui lòng hoàn thành thông tin trước khi tiếp tục</p>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id="update-user-email">
+                        <label>Email</label>
+                        <input v-model="user.email" type="email" value="" placeholder="Email"
+                               class="form-control"/>
+                        <div v-if="user.email && !validEmail()"
+                             class="alert alert-danger"
+                             style="text-align: center">
+                            Email không đúng định dạng
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input v-model="user.phone" type="number" value="" placeholder="Số điện thoại"
+                               class="form-control"/>
+                        <div v-if="user.phone && !validPhone()"
+                             class="alert alert-danger"
+                             style="text-align: center">
+                            Số điện thoại cần ít nhất 9 số và chỉ chứa số.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu</label>
+                        <input v-model="user.newPassword" type="password" value="" placeholder="Mật khẩu"
+                               class="form-control"/>
+                        <div v-if="user.newPassword && !validPassword()"
+                             class="alert alert-danger"
+                             style="text-align: center">
+                            Mật khẩu cần có độ dài ít nhất 8 kí tự
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Xác nhận Mật khẩu</label>
+                        <input v-model="user.confirmPassword" type="password" value="" placeholder="Xác nhận mật khẩu"
+                               class="form-control"/>
+                        <div v-if="user.confirmPassword !== '' && !validConfirmPassword()"
+                             class="alert alert-danger"
+                             style="text-align: center">
+                            Mật khẩu và Xác Nhận Mật khẩu chưa trùng khớp
+                        </div>
+                    </div>
+
+                    <div v-if="errorMessage"
+                         class="alert alert-danger"
+                         style="text-align: center">
+                        @{{ errorMessage }}
+                    </div>
+
+                    <div class="g-recaptcha"
+                         data-callback="recaptchaCallBack"
+                         data-sitekey="6LdS5j8UAAAAAD-7OJ2O68ECZdGiWo_27cbo6TUu"></div>
+
+                    <button style="margin-top: 20px;"
+                            :disabled="submitDisable()"
+                            v-on:click="onSubmitUpdateUserInfo"
+                            class="btn btn-block btn-round">
+
+                        <div v-if="isSubmitUserInfo" class="uil-reload-css reload-small" style="">
+                            <div></div>
+                        </div>
+                        Cập nhật
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
     @if(isset($user))
+
+        @if(!$user->first_login)
+            <script>
+                $(document).ready(function () {
+                    console.log("abc");
+                    $("#updateUserInfoModal").modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                });
+            </script>
+        @endif
+
+
         <div class="container">
             <div style="text-align:right; width:100%">
                 <a href="/profile"
@@ -130,6 +247,10 @@
                     <img src="{{generate_protocol_url($user->avatar_url)}}" style="width:17px;height: 17px"
                          alt=""> {{$user->name}}
                 </a>
+                <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
+                        data-target="#modal-fast-order" class="btn btn-primary">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
+                </button>
                 <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
                     <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
                 </a>
@@ -169,8 +290,8 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label>Email</label>
-                                    <input v-model="user.email" type="text" value="" placeholder="Email"
+                                    <label>Số điện thoại</label>
+                                    <input v-model="user.phone" type="text" value="" placeholder="Số điện thoại"
                                            class="form-control"/>
                                 </div>
                                 <div class="form-group">
@@ -182,7 +303,7 @@
                                     Sai email hoặc mật khẩu
                                 </div>
 
-                                <button :disabled="user.email ==='' || user.password === '' || isLoading"
+                                <button :disabled="user.phone ==='' || user.password === '' || isLoading"
                                         v-on:click="onClickLoginButton"
                                         class="btn btn-block btn-round">
                                     <div v-if="isLoading" class="uil-reload-css reload-small" style="">
@@ -235,6 +356,14 @@
                     <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Đặt hàng</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/product/new" data-scroll="true" href="javascript:void(0)">Sản phẩm
+                        mới</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/product/feature" data-scroll="true" href="javascript:void(0)">Sản phẩm
+                        nổi bật</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
                 </li>
                 <li class="nav-item">
@@ -244,18 +373,19 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" v-on:click="openModalBuyWithoutAdd" data-scroll="true"
-                       href="javascript:void(0)">
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
+                       v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center;">
                         <i class="fa fa-shopping-cart"></i>
+                        &nbsp
                         Giỏ hàng
-                        <p id="cart-num-items"
-                           style="display:none;background:#c50000!important; padding:5px 10px!important; border-radius:100px; color:white!important; margin-left:5px;">
-                            0
-                        </p>
+                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
+                            @{{ books_count }}
+                        </div>
                     </a>
                 </li>
             </ul>
-
         </div>
     </div>
 </nav>
@@ -275,7 +405,7 @@
                     <h6>Họ và tên</h6>
                     <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
                     <h6>Số điện thoại</h6>
-                    <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <input v-model="phone" type="text" class="form-control" placeholder="Email"><br>
                     <h6>Email</h6>
                     <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
@@ -310,7 +440,7 @@
                            placeholder="Đường, số nhà"
                            style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
-                    <select v-model="payment" class="form-control" id="sel1">
+                    <select v-model="payment" class="form-control">
                         <option value="Chuyển khoản">Chuyển khoản</option>
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
                             Thanh toán trực tiếp khi nhận hàng(COD)
@@ -318,7 +448,7 @@
                     </select>
                 </form>
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
-                    Bạn vui lòng nhập đầy đủ thông tin
+                    @{{message}}
                 </div>
             </div>
             <div class="modal-footer" style="display: block">
@@ -330,6 +460,7 @@
                         tục mua <i class="fa fa-angle-right"></i></button>
                     <button
                             v-on:click="submitOrder"
+                            {{--v-bind:disabled="disablePurchaseButton"--}}
                             class="btn btn-sm btn-success"
                             style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
                     </button>
@@ -360,7 +491,7 @@
                         </div>
                         <div class="col-md-4">
                             <p><b style="font-weight:600;">@{{good.name}}</b></p>
-                            <p>Connect the dots</p>
+                            <p>@{{ good.description }}</p>
                         </div>
                         <div class="col-md-3 h-center">
                             <button v-on:click="minusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
@@ -371,13 +502,13 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                             &nbsp
-                            <b style="font-weight:600;"> @{{ good.number }} </b>
+                            <b style="font-weight:600;"> @{{ good.number }}</b>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p>@{{ good.price}}</p>
+                            <p>@{{ good.vnd_price}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{good.price* good.number}}</b>
+                            <p><b style="font-weight:600;">@{{good.total_vnd_price}}</b>
                             </p>
                         </div>
                     </div>
@@ -388,17 +519,25 @@
                         <h4 class="text-left"><b>Tổng</b></h4>
                     </div>
                     <div class="col-md-8">
-                        <h4 class="text-right"><b>@{{ total_price }}</b></h4>
+                        <h4 class="text-right"><b>@{{ total_order_vnd_price }}</b></h4>
+                    </div>
+                </div>
+                <div v-if="coupon_programs_count" class="row" style="padding-top:20px;">
+                    <div class="col-md-12">
+                        <div style="font-weight: 600">Chương trình khuyến mãi: </div>
+                        <div v-for="coupon_program in coupon_programs">
+                            @{{ coupon_program.content }}
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
-                        style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                <button id="btn-purchase"
-                        v-on:click="openPurchaseModal"
-                        class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
-                            class="fa fa-angle-right"></i></button>
+                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                            style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                    <button id="btn-purchase"
+                            v-on:click="openPurchaseModal()"
+                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                                class="fa fa-angle-right"></i></button>
             </div>
         </div>
     </div>
@@ -424,6 +563,123 @@
 
     </div>
 </div>
+
+<div class="modal fade" id="modal-fast-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Đặt hàng siêu tốc</h2>
+            </div>
+
+            <div class="modal-body">
+                <div v-for="(order, index) in fastOrders">
+                    <div style="margin-bottom: 10px;">
+                        <span class="label label-success">Sản phẩm @{{order.id}}</span>
+                        <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
+                                data-placement="top" title="" data-original-title="Remove"
+                                class="btn btn-danger btn-link btn-sm">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <input type="text" v-model="order.link" placeholder="Link sản phẩm" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" v-model="order.price" placeholder="Giá bán" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" v-model="order.size" placeholder="Size" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" v-model="order.color" placeholder="Mã màu bạn chọn" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <select class="form-control"
+                                    v-model="order.number"
+                                    data-style="btn btn-default" name="bank_account_id"
+                                    style="display: block !important;">
+                                <option disabled="" selected="">Số lượng</option>
+                                @for ($i = 0; $i < 50; $i++)
+                                    <option value="{{$i+1}}">{{$i+1}}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control"
+                                    id="bank-account"
+                                    data-style="btn btn-default"
+                                    v-model="order.tax"
+                                    style="display: block !important;">
+                                <option value="Giá chưa thuế"  selected="">Giá chưa thuế</option>
+                                <option value="Giá có thuế">Giá có thuế</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" v-model="order.description" placeholder="Mô tả" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button type="button" v-on:click="plusOrder" class="btn btn-danger btn-round">
+                    Đặt thêm sản phẩm
+                </button>
+                <div v-if="loading" style="text-align: center;width: 100%;;padding: 15px;"><i
+                            class='fa fa-spin fa-spinner'></i>Đang tải...
+                </div>
+                <div class="row" v-if="check" style="margin-top: 10px; text-align: center">
+                    <div class="col-sm-12">
+                        <div  class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>
+                    </div>
+                </div>
+                <div class="row"  v-if="success" style="margin-top: 10px; text-align: center">
+                    <div class="col-sm-12">
+                        <div class='alert alert-success'>@{{ message }}</div>
+                    </div>
+                </div>
+                <div class="row" v-if="fail">
+                    <div class="col-sm-12" style="text-align: center">
+                        <div v-if="success" class='alert alert-success'>Bạn vui lòng kiểm tra lại đơn hàng hoặc kết nối mạng</div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button type="button" class="btn btn-default btn-link"  v-on:click="submitFastOrder">Đặt hàng</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
 
 
 <footer class="footer footer-light footer-big">
@@ -521,7 +777,7 @@
                 <hr>
                 <div class="copyright">
                     <div class="pull-left">
-                        ©
+
                         <script>document.write(new Date().getFullYear())</script>
                         KEE Agency
                     </div>
@@ -552,15 +808,69 @@
 
     </div>
 </footer>
+
+@if (isset($user))
+    <script>
+        window.INIT_USER = JSON.parse('{!! json_encode($user->transformAuth())!!}');
+        window.INIT_USER.confirmPassword = "";
+        window.INIT_USER.newPassword = "";
+    </script>
+@else
+    <script>
+        window.INIT_USER = {
+            phone: "",
+            email: "",
+            password: "",
+            facebook_id: "",
+            confirmPassword: "",
+            newPassword: ""
+        };
+    </script>
+@endif
+
 </body>
 <script>startApp();</script>
 <!-- Core JS Files -->
-<script src="/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
+<script src={!!url('/assets/js/jquery-ui-1.12.1.custom.min.js')  !!} type="text/javascript"></script>
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
+{{--<script src="https://cdn.jsdelivr.net/npm/vue"></script>--}}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/nhatquangshop.js?6868"></script>
+<script src="/js/nhatquangshop.js?68689"></script>
 <script src="/nhatquangshop/js/nav.vue.js"></script>
+<script>
+    window.fbMessengerPlugins = window.fbMessengerPlugins || {
+        init: function () {
+            FB.init({
+                appId            : '1678638095724206',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v2.10'
+            });
+        }, callable: []
+    };
+    window.fbAsyncInit = window.fbAsyncInit || function () {
+        window.fbMessengerPlugins.callable.forEach(function (item) { item(); });
+        window.fbMessengerPlugins.init();
+    };
+    setTimeout(function () {
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    }, 0);
+</script>
+
+<div
+        class="fb-customerchat"
+        page_id="537987856382181"
+        ref="">
+</div>
+
 </html>

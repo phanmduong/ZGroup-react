@@ -71,7 +71,7 @@ class WorkShiftsCheckInCheckOutNoti extends Command
                 $startTime = $session->start_time;
                 $endTime = $session->end_time;
                 $delayedStartTime = strtotime($startTime) - time() - 30 * 60;
-                $delayedEndTime = strtotime($endTime) - time() - 30 * 60;
+                $delayedEndTime = strtotime($endTime) - time();
 //                $delayedStartTime = 60;
 //                $delayedEndTime = 120;
 
@@ -79,41 +79,44 @@ class WorkShiftsCheckInCheckOutNoti extends Command
                 $previousSession = WorkShiftSession::where("end_time", $session->start_time)->first();
                 if ($previousSession == null) {
                     $this->sendCheckInWorkShiftJob($workShiftUser, $delayedStartTime);
-                } else {
-                    $workShift = $workShiftUser->workShift;
-                    $previousWorkShift = $previousSession->work_shifts()->where("base_id", $workShift->base_id)
-                        ->where("date", $formatted_time)->first();
-                    if ($previousWorkShift) {
-                        $previousWorkShiftUser = WorkShiftUser::where("work_shift_id", $previousWorkShift->id)->first();
-
-                        if ($previousWorkShiftUser == null ||
-                            ($workShiftUser->user_id != $previousWorkShiftUser->user->id &&
-                                $previousWorkShiftUser->workShift->base_id == $workShiftUser->workShift->base_id)) {
-                            $this->sendCheckInWorkShiftJob($workShiftUser, $delayedStartTime);
-                        }
-                    }
-
                 }
+
+//                else {
+//                    $workShift = $workShiftUser->workShift;
+//                    $previousWorkShift = $previousSession->work_shifts()->where("base_id", $workShift->base_id)
+//                        ->where("date", $formatted_time)->first();
+//                    if ($previousWorkShift) {
+//                        $previousWorkShiftUser = WorkShiftUser::where("work_shift_id", $previousWorkShift->id)->first();
+//
+//                        if ($previousWorkShiftUser == null ||
+//                            ($workShiftUser->user_id != $previousWorkShiftUser->user->id &&
+//                                $previousWorkShiftUser->workShift->base_id == $workShiftUser->workShift->base_id)) {
+//                            $this->sendCheckInWorkShiftJob($workShiftUser, $delayedStartTime);
+//                        }
+//                    }
+//
+//                }
 
                 // Check Out
                 $nextSession = WorkShiftSession::where("start_time", $session->end_time)->first();
                 if ($nextSession == null) {
                     $this->sendCheckOutWorkShiftJob($workShiftUser, $delayedEndTime);
-                } else {
-                    $nextWorkShift = $nextSession->work_shifts()->where("base_id", $workShiftUser->base_id)
-                        ->where("date", $formatted_time)->first();
-
-                    if ($nextWorkShift) {
-                        $nextWorkShiftUser = WorkShiftUser::where("work_shift_id", $nextWorkShift->id)->first();
-
-                        if ($nextWorkShiftUser == null ||
-                            ($workShiftUser->user_id != $nextWorkShiftUser->user_id &&
-                                $nextWorkShiftUser->workShift->base_id == $workShiftUser->workShift->base_id)) {
-                            $this->sendCheckOutWorkShiftJob($workShiftUser, $delayedEndTime);
-                        }
-                    }
-
                 }
+//                else {
+//                    $nextWorkShift = $nextSession->work_shifts()->where("base_id", $workShiftUser->base_id)
+//                        ->where("date", $formatted_time)->first();
+//
+//                    if ($nextWorkShift) {
+//                        $nextWorkShiftUser = WorkShiftUser::where("work_shift_id", $nextWorkShift->id)->first();
+//
+//                        if ($nextWorkShiftUser == null ||
+//                            ($workShiftUser->user_id != $nextWorkShiftUser->user_id &&
+//                                $nextWorkShiftUser->workShift->base_id == $workShiftUser->workShift->base_id)) {
+//                            $this->sendCheckOutWorkShiftJob($workShiftUser, $delayedEndTime);
+//                        }
+//                    }
+//
+//                }
 
             }
         }

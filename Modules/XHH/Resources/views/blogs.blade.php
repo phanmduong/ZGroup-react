@@ -20,14 +20,12 @@
         </div>
     </div>
 
-    <div class="blog-4" style="margin-top:150px">
+    <div class="blog-4" style="margin-top:20px">
         <div class="container">
             <div class="description">
-                <h1 class="medium-title">
-                    Bài viết mới nhất<br>
-                </h1>
-                <a href="#pablo" class="btn btn-link btn-google" style="padding:0!important; margin:0!important">Xem tất
-                    cả <i class="fa fa-angle-right"></i></a><br><br><br>
+                <input placeholder="Tìm kiếm" id="search-blog"
+                       style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                       type="text" v-on:keyup.enter="searchBlog" v-model="search" value="{{$search}}"/>
             </div>
             <div class="row">
                 @foreach($blogs as $blog)
@@ -67,13 +65,23 @@
             </div>
 
             <hr>
-            <div class="row">
-                <div class="col-md-2 offset-md-10">
-                    <div class="pull-right">
-                        {{--<button class="btn btn-link btn-default btn-move-right">Bài viết cũ hơn<i class="fa fa-angle-right"></i></button>--}}
-                        <a class="btn btn-link btn-default btn-move-right" href="{{'/blog?page='.$page_id}}"
-                           style="{{$display}}"> Bài viết cũ hơn </a>
-                    </div>
+            <div id="pagination-blogs">
+                <div class="pagination-area">
+                    <ul class="pagination pagination-primary justify-content-center">
+                        <li class="page-item"><a href="/blog?page=1&search={{$search}}"
+                                                 class="page-link"><i class="fa fa-angle-double-left"
+                                                                      aria-hidden="true"></i></a>
+                        </li>
+                        <li v-for="page in pages"
+                            v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
+                            <a v-bind:href="'/blog?page='+page+'&search={{$search}}'"
+                               class="page-link">@{{page}}</a>
+                        </li>
+                        <li class="page-item"><a
+                                    href="/blog?page={{$total_pages}}&search={{$search}}"
+                                    class="page-link"><i class="fa fa-angle-double-right"
+                                                         aria-hidden="true"></i></a></li>
+                    </ul>
                 </div>
             </div>
             <br>
@@ -81,3 +89,29 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var search = new Vue({
+            el: '#search-blog',
+            data: {
+                search: '{!! $search !!}'
+            },
+            methods: {
+                searchBlog: function () {
+                    window.open('/blog?page=1&search=' + this.search, '_self');
+                }
+            }
+
+        })
+
+        var pagination = new Vue({
+            el: '#pagination-blogs',
+            data: {
+                pages: []
+            },
+        });
+
+        pagination.pages = paginator({{$current_page}},{{$total_pages}})
+    </script>
+@endpush

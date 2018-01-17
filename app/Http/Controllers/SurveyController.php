@@ -14,9 +14,7 @@ use App\SurveyUser;
 use App\Tab;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SurveyController extends Controller

@@ -35,21 +35,26 @@ class Lesson extends Model
         return $this->belongsToMany('App\Survey', 'lesson_survey');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'lesson_id');
+    }
+
     public function detailTransform()
     {
         return [
             'id' => $this->id,
             'course_id' => $this->course_id,
-            'audio_url' =>$this->audio_url,
-            'video_url' =>$this->video_url,
-            'image_url' =>$this->image_url,
+            'audio_url' => $this->audio_url,
+            'video_url' => $this->video_url,
+            'image_url' => $this->image_url,
             'name' => $this->name,
             'description' => $this->description,
             'detail' => $this->detail,
             'order' => $this->order,
             'detail_content' => $this->detail_content,
             'detail_teacher' => $this->detail_teacher,
-            'term' => $this->terms,
+            'term_id' => $this->term_id,
             'created_at' => format_time_to_mysql(strtotime($this->created_at))
         ];
     }
