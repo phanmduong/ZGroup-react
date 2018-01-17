@@ -1,5 +1,5 @@
 /**
- * Created by Nguyen Tien Tai on 01/10/17.
+ * Created by Nguyen Tien Tai on 01/10/18.
  */
 import React from 'react';
 import {connect} from 'react-redux';
@@ -11,8 +11,10 @@ import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
-import {ORDER_STATUS} from "../../constants/constants";
+import {ORDERED_STATUS} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
+import * as orderedProductAction from "./orderedProductAction";
+import {bindActionCreators} from "redux";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -20,22 +22,148 @@ class OrderedContainer extends React.Component {
         this.state = {
             page: 1,
             query: '',
-            user: '',
             time: {
                 startTime: '',
                 endTime: ''
             },
-            staff: null,
-            base: null,
-            status: null
-
+            status: '',
+            staff_id: null,
+            user_id: null
         };
         this.timeOut = null;
+        this.orderedSearchChange = this.orderedSearchChange.bind(this);
+        this.loadOrders = this.loadOrders.bind(this);
+        this.updateFormDate = this.updateFormDate.bind(this);
+        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.statusesSearchChange = this.statusesSearchChange.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.orderedProductAction.loadAllOrders();
+        this.props.orderedProductAction.getAllStaffs();
+    }
+
+    orderedSearchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                value,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.status,
+                this.state.staff_id,
+                this.state.user_id
+            );
+        }.bind(this), 500);
+    }
+
+    staffsSearchChange(value) {
+        if (value) {
+            this.setState({
+                staff_id: value.value,
+                page: 1
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.status,
+                value.value,
+                this.state.user_id
+            );
+        } else {
+            this.setState({
+                staff_id: null,
+                page: 1
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.status,
+                null,
+                this.state.user_id
+            );
+        }
+    }
+
+    statusesSearchChange(value) {
+        if (value) {
+            this.setState({
+                status: value.value,
+                page: 1
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                value.value,
+                this.state.staff_id,
+                this.state.user_id
+            );
+        } else {
+            this.setState({
+                status: null,
+                page: 1
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                null,
+                this.state.staff_id,
+                this.state.user_id
+            );
+        }
+    }
+
+    loadOrders(page = 1) {
+        this.setState({page: page});
+        this.props.orderedProductAction.loadAllOrders(
+            page,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.status,
+            this.state.staff_id,
+            this.state.user_id
+        );
+    }
+
+    updateFormDate(event) {
+        const field = event.target.name;
+        let time = {...this.state.time};
+        time[field] = event.target.value;
+        if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                time.startTime,
+                time.endTime,
+                this.state.status,
+                this.state.staff_id,
+                this.state.user_id
+            );
+            this.setState({time: time, page: 1});
+        } else {
+            this.setState({time: time});
+        }
     }
 
     render() {
-        let first = (this.props.currentPage - 1) * this.props.limit + 1;
-        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
+        let first = this.props.totalCount ? (this.props.currentPage - 1) * 10 + 1 : 0;
+        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * 10 : this.props.totalCount;
         return (
             <div>
                 <div className="row">
@@ -73,24 +201,29 @@ class OrderedContainer extends React.Component {
                                 <Loading/>
                             ) : (
                                 <div>
-                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                        <div className="card card-stats">
+                                            <div className="card-header" data-background-color="orange">
+                                                <i className="material-icons">weekend</i>
+                                            </div>
+                                            <div className="card-content">
+                                                <p className="category">Tổng đơn chưa chốt</p>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.notLocked)}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-3 col-md-3 col-sm-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="green">
                                                 <i className="material-icons">store</i>
                                             </div>
                                             <div className="card-content">
                                                 <p className="category">Tổng đơn hàng</p>
-                                                <h3 className="card-title">{helper.dotNumber(this.props.totalOrder)}</h3>
-                                            </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">date_range</i> Last 24
-                                                    Hours
-                                                </div>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.totalDeliveryOrders)}</h3>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col-lg-3 col-md-3 col-sm-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="rose">
                                                 <i className="material-icons">equalizer</i>
@@ -99,27 +232,16 @@ class OrderedContainer extends React.Component {
                                                 <p className="category">Tổng tiền</p>
                                                 <h3 className="card-title">{helper.dotNumber(this.props.totalMoney)}đ</h3>
                                             </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">date_range</i> Last 24
-                                                    Hours
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col-lg-3 col-md-3 col-sm-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="blue">
                                                 <i className="fa fa-twitter"/>
                                             </div>
                                             <div className="card-content">
-                                                <p className="category">Tổng nợ</p>
-                                                <h3 className="card-title">{helper.dotNumber(this.props.totalMoney - this.props.totalPaidMoney)}đ</h3>
-                                            </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">update</i> Just Updated
-                                                </div>
+                                                <p className="category">Tổng tiền đã trả</p>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.totalPaidMoney)}đ</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -137,9 +259,9 @@ class OrderedContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-10">
                                         <Search
-                                            onChange={this.ordersSearchChange}
+                                            onChange={this.orderedSearchChange}
                                             value={this.state.query}
-                                            placeholder="Nhập mã đơn hoặc email khách hàng"
+                                            placeholder="Nhập tên hoặc số điện thoại khách hàng"
                                         />
                                     </div>
                                     <div className="col-md-2">
@@ -171,7 +293,6 @@ class OrderedContainer extends React.Component {
                                                         id="form-end-time"
                                                         value={this.state.time.endTime}
                                                         minDate={this.state.time.startTime}
-
                                                     />
                                                 </div>
                                             </div>
@@ -181,8 +302,8 @@ class OrderedContainer extends React.Component {
                                                 <div className="form-group col-md-4">
                                                     <label className="label-control">Tìm theo thu ngân</label>
                                                     <Select
-                                                        value={this.state.staff}
-                                                        options={this.props.allStaffs.map((staff) => {
+                                                        value={this.state.staff_id}
+                                                        options={this.props.staffs.map((staff) => {
                                                             return {
                                                                 ...staff,
                                                                 value: staff.id,
@@ -193,27 +314,10 @@ class OrderedContainer extends React.Component {
                                                     />
                                                 </div>
                                                 <div className="form-group col-md-4">
-                                                    <label className="label-control">Tìm theo cửa hàng</label>
-                                                    <Select
-                                                        value={this.state.base}
-                                                        options={[
-                                                            {
-                                                                value: 1,
-                                                                label: "HIỂN THỊ RA WEBSITE"
-                                                            },
-                                                            {
-                                                                value: "0",
-                                                                label: "KHÔNG HIỂN THỊ RA WEBSITE"
-                                                            }
-                                                        ]}
-                                                        onChange={this.displayStatusChange}
-                                                    />
-                                                </div>
-                                                <div className="form-group col-md-4">
                                                     <label className="label-control">Tìm theo trạng thái</label>
                                                     <Select
                                                         value={this.state.status}
-                                                        options={ORDER_STATUS}
+                                                        options={ORDERED_STATUS}
                                                         onChange={this.statusesSearchChange}
                                                     />
                                                 </div>
@@ -224,10 +328,8 @@ class OrderedContainer extends React.Component {
                                 <br/>
                                 <ListOrder
                                     changeStatusOrder={this.changeStatusOrder}
-                                    orders={this.props.orders}
+                                    deliveryOrders={this.props.deliveryOrders}
                                     isLoading={this.props.isLoading}
-                                    showShipGoodModal={this.showShipGoodModal}
-                                    showAddNoteModal={this.showAddNoteModal}
                                     user={this.props.user}
                                 />
                             </div>
@@ -251,39 +353,39 @@ class OrderedContainer extends React.Component {
 }
 
 OrderedContainer.propTypes = {
-    totalMoney: PropTypes.number.isRequired,
-    totalOrder: PropTypes.number.isRequired,
-    totalPaidMoney: PropTypes.number.isRequired,
-    limit: PropTypes.number.isRequired,
-    totalCount: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    orders: PropTypes.array.isRequired,
-    goodOrderActions: PropTypes.object.isRequired,
+    totalPaidMoney: PropTypes.number.isRequired,
+    totalMoney: PropTypes.number.isRequired,
+    totalDeliveryOrders: PropTypes.number.isRequired,
+    notLocked: PropTypes.number.isRequired,
+    deliveryOrders: PropTypes.array.isRequired,
     currentPage: PropTypes.number.isRequired,
-    allStaffs: PropTypes.array.isRequired,
-    user: PropTypes.object.isRequired
-
+    totalPages: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    staffs: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+    orderedProductAction: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.goodOrders.isLoading,
-        totalPages: state.goodOrders.totalPages,
-        orders: state.goodOrders.orders,
-        totalMoney: state.goodOrders.totalMoney,
-        totalOrder: state.goodOrders.totalOrder,
-        totalPaidMoney: state.goodOrders.totalPaidMoney,
-        limit: state.goodOrders.limit,
-        totalCount: state.goodOrders.totalCount,
-        allStaffs: state.goodOrders.allStaffs,
-        currentPage: state.goodOrders.currentPage,
+        isLoading: state.orderedProduct.isLoading,
+        totalPaidMoney: state.orderedProduct.totalPaidMoney,
+        totalMoney: state.orderedProduct.totalMoney,
+        totalDeliveryOrders: state.orderedProduct.totalDeliveryOrders,
+        notLocked: state.orderedProduct.notLocked,
+        deliveryOrders: state.orderedProduct.deliveryOrders,
+        currentPage: state.orderedProduct.currentPage,
+        totalPages: state.orderedProduct.totalPages,
+        totalCount: state.orderedProduct.totalCount,
+        staffs: state.orderedProduct.staffs,
         user: state.login.user
     };
 }
 
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
     return {
+        orderedProductAction: bindActionCreators(orderedProductAction, dispatch)
     };
 }
 

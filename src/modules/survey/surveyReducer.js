@@ -3,11 +3,19 @@ import {
     BEGIN_LOAD_SURVEY_DETAIL, BEGIN_LOAD_SURVEYS_LIST, BEGIN_SAVE_QUESTION,
     LOAD_SURVEY_DETAIL_SUCCESS,
     LOAD_SURVEYS_LIST_SUCCESS, SAVE_QUESTION_SUCCESS,
-    TOGGLE_EDIT_SURVEY, UPDATE_ANSWER, UPDATE_QUESTION_FORM_DATA
+    TOGGLE_EDIT_SURVEY, UPDATE_ANSWER, UPDATE_QUESTION_FORM_DATA, UPDATE_QUESTIONS_ORDER
 } from "../../constants/actionTypes";
 
 export default function surveyReducer(state = initialState.survey, action) {
     switch (action.type) {
+        case UPDATE_QUESTIONS_ORDER:
+            return {
+                ...state,
+                survey: {
+                    ...state.survey,
+                    questions: action.questions
+                }
+            };
         case UPDATE_ANSWER:
             return {
                 ...state,

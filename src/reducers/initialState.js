@@ -1,5 +1,16 @@
 export default {
-    orderedProduct: {},
+    orderedProduct: {
+        totalPaidMoney: 0,
+        totalMoney: 0,
+        totalDeliveryOrders: 0,
+        notLocked: 0,
+        deliveryOrders: [],
+        currentPage: 0,
+        totalPages: 0,
+        totalCount: 0,
+        isLoading: false,
+        staffs: []
+    },
 
     createProduct: {
         categories: [],
