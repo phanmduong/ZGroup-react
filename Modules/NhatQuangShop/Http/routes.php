@@ -1,6 +1,4 @@
 <?php
-
-
 $nhatquangShopRoute = function () {
     //views
     Route::get('/', 'NhatQuangShopController@index');
@@ -36,20 +34,18 @@ $nhatquangShopRoute = function () {
     Route::get('/province', 'NhatQuangApiController@provinces');
     Route::get('/district/{provinceId}', 'NhatQuangApiController@districts');
     Route::get('/ward/{districtId}', 'NhatQuangApiController@wards');
-
-
     Route::get("/logout", "NhatQuangShopController@logout");
-
     Route::get("/manage/orders", "NhatQuangShopManageController@userOrder");
     Route::get("/manage/orders/{order_id}", "NhatQuangShopManageController@infoOrder");
     Route::post("/manage/orders", "NhatQuangShopManageController@filterOrders");
-//    Route::get("/manage/orders", "NhatQuangShopManageController@getFilterOrders");
+    Route::post('/manage/save-fast-order', "NhatQuangShopController@saveFastOrder");
 
     //login
     Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
     Route::get("/api/facebook/tokensignin", "NhatQuangAuthApiController@facebookTokenSignin");
     Route::post("/api/login", "NhatQuangAuthApiController@login");
     Route::put("/api/user", "NhatQuangShopManageApiController@updateUserInfo");
+
     //e-banking
     Route::get("/manage/account", "NhatQuangShopManageController@account_information");
     Route::get("/manage/account_change", "NhatQuangShopManageController@get_account_change_information");

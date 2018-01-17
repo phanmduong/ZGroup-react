@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\NhatQuangShop\Repositories\BookRepository;
 
 class NhatQuangShopController extends Controller
 {
@@ -313,6 +313,27 @@ class NhatQuangShopController extends Controller
             ];
         }
     }
+    //code api dat hang nhanh
+    public function saveFastOrder(Request $request){
+        $user = Auth::user();
+        $email = $user->email;
+        $user_id = $user->id;
+        $address = $user->address;
+
+        $fast_orders = json_decode($request->fastOrders);
+        if ($fast_orders) {
+            $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders);
+            return [
+                "fast_order" => $fast_orders,
+                "status" => 1,
+                "message" => $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders)
+            ];
+        } else {
+            return [
+                "status" => 0,
+            ];
+        }
+    }
 
     public function test(Request $request)
     {
@@ -332,4 +353,6 @@ class NhatQuangShopController extends Controller
         Auth::logout();
         return redirect()->intended("/");
     }
+    // code cua cuong
+
 }

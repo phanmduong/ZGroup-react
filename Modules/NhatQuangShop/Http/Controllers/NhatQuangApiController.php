@@ -11,6 +11,7 @@ use App\GoodCategory;
 use App\Http\Controllers\PublicApiController;
 use App\Province;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\Good\Entities\GoodProperty;
 use Modules\NhatQuangShop\Repositories\BookRepository;
 
@@ -174,7 +175,6 @@ class NhatQuangApiController extends PublicApiController
 
     public function saveOrder(Request $request)
     {
-        //code phan api dat sach o day hihi
         $email = $request->email;
         $name = $request->name;
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
@@ -197,6 +197,8 @@ class NhatQuangApiController extends PublicApiController
             ];
         }
     }
+
+
 
     public function provinces()
     {
@@ -222,7 +224,8 @@ class NhatQuangApiController extends PublicApiController
         ];
     }
 
-    public function addCoupon($couponName, Request $request)
+    public function addCouponCode($couponName, Request $request)
+
     {
         $couponCodes_str = $request->session()->get('couponCodes');
         if ($couponCodes_str == null)
@@ -254,6 +257,7 @@ class NhatQuangApiController extends PublicApiController
 
         $couponCodes_str = json_encode($couponCodes);
         $request->session()->put('couponCodes', $couponCodes_str);
+        $this->applyCoupons($request);
         return [
             'status' => 1,
             'message' => 'Thêm mã thành công'
@@ -299,7 +303,7 @@ class NhatQuangApiController extends PublicApiController
         return false;
     }
 
-    public function applyCoupons(Request $request)
+    public function applyCoupons($request)
     {
         $goods_str = $request->session()->get('goods');
 
@@ -317,11 +321,11 @@ class NhatQuangApiController extends PublicApiController
             $couponCodes = [];
         }
 
-        foreach ($goods as $good) {
+        foreach ($goods as &$good) {
             $sharedCoupons = [];
             $notSharedCoupons = [];
             $objGood = Good::find($good->id);
-//            $coupons = [];
+//          $coupons = [];
 
             foreach ($couponCodes as $couponCode) {
                 $objCouponCode = Coupon::find($couponCode->id);
@@ -345,14 +349,27 @@ class NhatQuangApiController extends PublicApiController
                         $notSharedCoupons[] = $temp;
                 }
             }
-//            $notSharedCouponValue = 0;
-//            foreach ($notSharedCoupons as $notSharedCoupon) {
-//                if($notSharedCoupon->type == 'fix')
-//                    $discountValue = $notSharedCoupon->discount_value;
-//                if($notSharedCoupon->type == 'percentage')
-//                    $discountValue = $notSharedCoupon->discount_value * $objGood->
-//                $notSharedCoupon_value = max($notSharedCoupon->type == 'fix' ? $notSharedCoupon->discount_value : $discount, );
-//            }
+            $notSharedCouponValue = 0;
+            $sharedCounponValue = 0;
+            foreach ($notSharedCoupons as $notSharedCoupon) {
+                if($notSharedCoupon->type == 'fix')
+                    $discountValue = $notSharedCoupon->discount_value;
+                if($notSharedCoupon->type == 'percentage')
+                    $discountValue = $notSharedCoupon->discount_value * $objGood->price / 100;
+                $notSharedCouponValue = max($notSharedCouponValue, $discountValue);
+            }
+
+            foreach ($sharedCoupons as $sharedCoupon) {
+                if($sharedCoupon->type == 'fix')
+                    $discountValue = $notSharedCoupon->discount_value;
+                if($sharedCoupon->type == 'percentage')
+                    $discountValue = $notSharedCoupon->discount_value * $objGood->price / 100;
+                $sharedCounponValue += $discountValue;
+            }
+            $good->discount_value = max($notSharedCouponValue, $notSharedCouponValue);
         }
+
+        $goods_str = json_encode($goods);
+        $request->session()->put('goods', $goods_str);
     }
 }
