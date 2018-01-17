@@ -74,7 +74,7 @@ class AttendancesRepository
         $attendance = $class_lesson->teachingLesson()->first();
         $data_attendance = [
             'class_lesson_id' => $class_lesson->id,
-            'order' => $class_lesson->lesson->order,
+            'order' => $class_lesson->lesson ? $class_lesson->lesson->order : 0,
             'start_teaching_time' => $class_lesson->start_time,
             'end_teaching_time' => $class_lesson->end_time,
             'is_change' => is_class_lesson_change($class_lesson)
@@ -110,7 +110,7 @@ class AttendancesRepository
         $attendance = $class_lesson->teachingLesson()->first();
         $data_attendance = [
             'class_lesson_id' => $class_lesson->id,
-            'order' => $class_lesson->lesson->order,
+            'order' => $class_lesson->lesson ? $class_lesson->lesson->order : 0,
             'start_teaching_time' => $class_lesson->start_time,
             'end_teaching_time' => $class_lesson->end_time,
             'is_change' => is_class_lesson_change($class_lesson)

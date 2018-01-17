@@ -10,6 +10,7 @@ use App\Lesson;
 use App\Question;
 use App\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SurveyController extends ManageApiController
 {
@@ -64,7 +65,9 @@ class SurveyController extends ManageApiController
         $survey = Survey::find($surveyId);
         $question = $survey->questions()->where("id", $questionId)->first();
         if ($question == null) {
-            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+            $question = new Question();
+            $maxOrder = $survey->questions()->select(DB::raw("max(order) as max_order"))->pluck("max_order")->first();
+            dd($maxOrder);
         }
 
         $question->content = $request->content_data;
@@ -72,17 +75,20 @@ class SurveyController extends ManageApiController
 
         $question->save();
 
-
-        if ($request->answers) {
+        if ($question->type === 0) {
             $question->answers()->delete();
-            $answers = json_decode($request->answers);
+        } else {
+            if ($request->answers) {
+                $question->answers()->delete();
+                $answers = json_decode($request->answers);
 
-            foreach ($answers as $a) {
-                $answer = new Answer();
-                $answer->question_id = $question->id;
-                $answer->content = $a->content;
-                $answer->correct = $a->correct;
-                $answer->save();
+                foreach ($answers as $a) {
+                    $answer = new Answer();
+                    $answer->question_id = $question->id;
+                    $answer->content = $a->content;
+                    $answer->correct = $a->correct;
+                    $answer->save();
+                }
             }
         }
 
