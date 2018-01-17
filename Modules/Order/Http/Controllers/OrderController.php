@@ -311,6 +311,9 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => $response['message']
             ]);
+        $order = Order::find($orderId);
+        $order->staff_id = $this->user->id;
+        $order->save();
         return $this->respondSuccessWithStatus([
             'message' => $response['message']
         ]);
