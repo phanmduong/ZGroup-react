@@ -74,11 +74,9 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     updateFormDataBonusType(e){
-        console.log(e);
-        if(!e) return;
-        let value = e.value;
-        let newdata = {...this.props.data,currency : value};
-        this.props.jobAssignmentAction.updateFormData(newdata);
+        if(!e) return;e
+        let newdata = {...this.props.data,currency : e};
+        this.props.jobAssgnmentAction.updateFormData(newdata);
     }
 
 

@@ -143,11 +143,12 @@ class JobAssignmentContainer extends React.Component {
     }
 
     render() {
-        let pending = [], doing = [], done = [], cancel = [];
-        let {works} = this.props;
+        let pending = [], doing = [], done = [], cancel = [], pay = [];
+        let {works, user} = this.props;
         let {typeFilter, selectedStaffs} =this.state;
         if(works) {
             works = works.filter(obj => typeFilter == "all" ? true : (obj.type == typeFilter));
+
             if (selectedStaffs && selectedStaffs.length > 0) selectedStaffs.forEach(staff => {
                 works = works.filter(work => checkStaff(staff, work.staffs));
             });
@@ -155,6 +156,7 @@ class JobAssignmentContainer extends React.Component {
                 switch (obj.status) {
                     case STATUS_WORK[0].value: {
                         pending = [...pending, obj];
+                        pay = [...pay, obj];
                         break;
                     }
                     case STATUS_WORK[1].value: {
@@ -171,6 +173,10 @@ class JobAssignmentContainer extends React.Component {
                     }
                 }
             });
+            console.log(user.id);
+            console.log(pay);
+            pay = pay.filter(obj => obj.payer.id == user.id);
+            console.log(pay);
         }
         return (
             <div>
@@ -231,7 +237,7 @@ class JobAssignmentContainer extends React.Component {
                 <div className="board-canvas">
 
                     <div className="board-container">
-                        {/*1*/}
+                        {/*pending*/}
                         <div  data-order="0" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đợi chấp nhận</span>
@@ -244,11 +250,10 @@ class JobAssignmentContainer extends React.Component {
                                         return (
                                             <CardWork
                                                 work={work}
-                                                delete={this.deleteWork}
                                                 change={this.changeWorkStatus}
                                                 status="pending"
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
-                                                user={this.props.user}
+                                                user={user}
                                                 acceptWork={this.acceptWork}
                                             />
                                         );
@@ -256,8 +261,31 @@ class JobAssignmentContainer extends React.Component {
                                 }
                             </div>
                         </div>
-                        {/*1*/}
-                        {/*2*/}
+                        {/*pending*/}
+                        {/*pay*/}
+                        <div  data-order="0" className="card card-container keetool-board">
+                            <div className="board-title undraggable">
+                                <span style={{fontWeight: 600}}>Chi tiền</span>
+                            </div>
+                            <div className="board">
+                                {this.props.isLoading ?
+                                    <Loading/>
+                                    :
+                                    pay.map((work)=>{
+                                        return (
+                                            <CardWork
+                                                work={work}
+                                                status="pay"
+                                                openInfoModal={()=>{return this.openInfoModal(work);}}
+                                                user={user}
+                                            />
+                                        );
+                                    })
+                                }
+                            </div>
+                        </div>
+                        {/*pay*/}
+                        {/*doing*/}
                         <div  data-order="1" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đang làm</span>
@@ -270,10 +298,9 @@ class JobAssignmentContainer extends React.Component {
                                         return (
                                             <CardWork
                                                 work={work}
-                                                delete={this.deleteWork}
                                                 status="doing"
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
-                                                user={this.props.user}
+                                                user={user}
                                                 doneWork={this.doneWork}
                                                 openExtendModal={()=>{return this.openExtendModal(work);}}
                                                 openFinishModal={()=>{return this.openFinishModal(work);}}
@@ -283,8 +310,8 @@ class JobAssignmentContainer extends React.Component {
                                 }
                             </div>
                         </div>
-                    {/*2*/}
-                    {/*3*/}
+                    {/*doing*/}
+                    {/*done*/}
                         <div  data-order="2" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hoàn thành</span>
@@ -297,10 +324,9 @@ class JobAssignmentContainer extends React.Component {
                                         return (
                                             <CardWork
                                                 work={work}
-                                                delete={this.deleteWork}
                                                 status="done"
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
-                                                user={this.props.user}
+                                                user={user}
                                                 revertWork={this.revertWork}
                                             />
                                         );
@@ -308,8 +334,8 @@ class JobAssignmentContainer extends React.Component {
                                 }
                             </div>
                         </div>
-                        {/*3*/}
-                        {/*4*/}
+                        {/*done*/}
+                        {/*cancel*/}
 
                         <div  data-order="3" className="card card-container keetool-board">
                             <div className="board-title undraggable">
@@ -323,10 +349,9 @@ class JobAssignmentContainer extends React.Component {
                                         return (
                                             <CardWork
                                                 work={work}
-                                                delete={this.deleteWork}
                                                 status="cancel"
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
-                                                user={this.props.user}
+                                                user={user}
                                             />
                                         );
                                     })
@@ -334,7 +359,7 @@ class JobAssignmentContainer extends React.Component {
                             </div>
                         </div>
 
-                        {/*4*/}
+                        {/*cancel*/}
                     </div>
                 </div>
             </div>

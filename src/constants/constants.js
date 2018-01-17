@@ -235,6 +235,11 @@ export const STATUS_WORK = [
         action: "",
         value: "cancel",
     },
+    {
+        label: "Chi tiền",
+        action: "",
+        value: "pay",
+    },
 ];
 
 export const ORDER_STATUS_COLORS = {

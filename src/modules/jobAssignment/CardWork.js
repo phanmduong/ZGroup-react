@@ -77,12 +77,16 @@ class CardWork extends React.Component {
                                                 Chấp nhận
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
-                                            <a onClick={(e) => {
-                                                e.stopPropagation();
-                                                return this.props.change(work, "cancel");
-                                            }}>
+
+                                        <li className="more-dropdown-item" hidden={(status != STATUS_WORK[4].value)}>
+                                            <a onClick={(e)=>{e.stopPropagation();}}>
+                                                <i style={{fontSize: "16px"}}
+                                                   className="material-icons keetool-card">local_atm</i>
+                                                Chấp nhận chi tiền
+                                            </a>
+                                        </li>
+                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
+                                            <a onClick={(e)=>{e.stopPropagation();return this.props.change(work, "cancel");}}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">delete</i>
                                                 Hủy
