@@ -514,10 +514,10 @@
                             <b style="font-weight:600;"> @{{ good.number }}</b>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p>@{{ good.vnd_price}}</p>
+                            <p>@{{ formatPrice(good.price)}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{good.total_vnd_price}}</b>
+                            <p><b style="font-weight:600;">@{{formatPrice(good.price*good.number)}}</b>
                             </p>
                         </div>
                     </div>
@@ -528,7 +528,7 @@
                         <h4 class="text-left"><b>Tổng</b></h4>
                     </div>
                     <div class="col-md-8">
-                        <h4 class="text-right"><b>@{{ total_order_vnd_price }}</b></h4>
+                        <h4 class="text-right"><b>@{{ formatPrice(total_order_price) }}</b></h4>
                     </div>
                 </div>
                 <div v-if="coupon_programs_count" class="row" style="padding-top:20px;">

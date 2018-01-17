@@ -1,3 +1,7 @@
+function formatPrice(price) {
+    return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ'
+}
+
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
@@ -5,7 +9,6 @@ var modalBuy = new Vue({
         isLoadingCoupons: false,
         goods: [],
         total_order_price: 0,
-        total_order_vnd_price: '',
         coupon_code: '',
         coupon_programs: [],
         coupon_programs_count: 0,
@@ -13,9 +16,6 @@ var modalBuy = new Vue({
         coupon_codes_count: 0
     },
     methods: {
-        vnd_formatting: function (number) {
-            return number.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
-        },
         getCouponPrograms: function () {
             axios.get(window.url + '/coupon-programs')
                 .then(function (response) {
@@ -44,7 +44,6 @@ var modalBuy = new Vue({
                 .then(function (response) {
                     this.goods = response.data.goods;
                     this.total_order_price = response.data.total_order_price;
-                    this.total_order_vnd_price = response.data.total_order_vnd_price;
                     this.isLoading = false;
                     openWithoutAdd.countBooksFromSession();
                     this.getCouponCodes();
@@ -71,9 +70,6 @@ var modalBuy = new Vue({
                 if (good.id === goodId) {
                     good.number -= 1;
                     this.total_order_price -= good.price;
-                    this.total_order_vnd_price = this.vnd_formatting(this.total_order_price);
-                    good.total_price = good.price * good.number;
-                    good.total_vnd_price = this.vnd_formatting(good.total_price);
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
@@ -97,9 +93,6 @@ var modalBuy = new Vue({
                 if (good.id === goodId) {
                     good.number += 1;
                     this.total_order_price += good.price;
-                    this.total_order_vnd_price = this.vnd_formatting(this.total_order_price);
-                    good.total_price = good.price * good.number;
-                    good.total_vnd_price = this.vnd_formatting(good.total_price);
                 }
                 newGoods.push(good);
             }
