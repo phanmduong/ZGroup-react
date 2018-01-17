@@ -81,7 +81,7 @@ class firstLoginContainer extends React.Component {
                 changeColor={this.changeColor}
                 editProfile={this.editProfile}
                 handleFileUpload={this.handleFileUpload}
-                first_login={this.props.user.first_login}
+                first_login={this.props.user ? this.props.user.first_login : 1}
                 updateSuccess={this.props.updateSuccess}
             />
         );

@@ -1,9 +1,34 @@
 export default {
+    orderedProduct: {
+        totalPaidMoney: 0,
+        totalMoney: 0,
+        totalDeliveryOrders: 0,
+        notLocked: 0,
+        deliveryOrders: [],
+        currentPage: 0,
+        totalPages: 0,
+        totalCount: 0,
+        isLoading: false,
+        staffs: []
+    },
+
     createProduct: {
         categories: [],
         manufactures: [],
+        manufacturesRender: [],
+        manufacturesFilter: [],
+        properties_list_filter: [],
         isUploadingAvatar: false,
+        totalPagesManufactures: 1,
+        currentPageManufactures: 1,
+        totalCountManufactures: 1,
+        totalPagesProperties: 1,
+        currentPageProperties: 1,
+        totalCountProperties: 1,
         childImagesModal: false,
+        propertiesManageModal: false,
+        manufacturesManageModal: false,
+        isLoadingManufacture: false,
         child_index: 0,
         percent: 0,
         productWorking: {
@@ -33,6 +58,7 @@ export default {
         isLoading: false,
         avatar_url: '',
         properties_list: [],
+        properties_list_render: [],
         images: []
     },
 
@@ -89,6 +115,7 @@ export default {
             productAvatar: {},
             productPrice: {},
             productPresent: {},
+            productWarehouse: {},
             good_category_id: -1,
             manufacture_id: -1,
             status: null,
@@ -664,6 +691,8 @@ export default {
         errorProgress: false,
         isEditingStudent: false,
         errorEditing: false,
+        isChangingPassword: false,
+        errorChangePassword: false
     },
 
     dashboard: {
@@ -672,6 +701,7 @@ export default {
             pointByDate: [],
             cardsByDate: [],
             cards: [],
+            staffs: [],
             isLoading: false,
             showCardsModal: false,
             isLoadingCardsModal: false,
@@ -841,9 +871,17 @@ export default {
     },
 
     goodOrders: {
+        warehousesList: [],
+        selectWarehouseModal: false,
+        isLoadingWarehouse: false,
+        totalCountWarehouse: 1,
+        totalPagesWarehouse: 1,
+        currentPageWarehouse: 1,
         isUpdate: false,
+        nextStatus: '',
+        orderIdWarehouseModal: 0,
         orderId: 0,
-        labelId: 0,
+        labelId: -1,
         shipGoodModal: false,
         addNoteModal: false,
         orderNote: {},
@@ -1097,13 +1135,18 @@ export default {
             lessons: [],
             links: [],
             pixels: [],
+            type_id: null,
+            categories: [],
         }
     },
     courses: {
         isLoading: false,
+        isDuplicating: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
         isUploadingPixel: false,
+        isUploadingTermIcon: false,
+        isUploadingTerm: false,
         error: false,
         coursesList: [],
         isDeleting: false,
@@ -1142,6 +1185,11 @@ export default {
             lessons: [],
             links: [],
             pixels: [],
+            terms: [],
+            categories: [],
+            type_id: "",
+            type: "",
+
         },
         link: {
             id: null,
@@ -1154,12 +1202,27 @@ export default {
         pixel: {
             name: "",
             code: "",
-        }
+        },
+        term: {
+            id: null,
+            name: "",
+            description: "",
+            short_description: "",
+            course_id: "",
+            image_url: "",
+            audio_url: "",
+        },
+        categories: [],
+        types: [],
+
+
     },
     lessons: {
         isLoading: false,
         isCommitting: false,
         commitSuccess: false,
+        isUploadingLessonIcon: false,
+        terms: [],
         data: {
             id: null,
             course_id: 1,
@@ -1170,6 +1233,10 @@ export default {
             detail_content: "",
             detail_teacher: "",
             created_at: "",
+            term_id: "",
+            audio_url: "",
+            video_url: "",
+            image_url: "",
         }
     },
     marketingCampaigns: {
@@ -1289,7 +1356,18 @@ export default {
             bonus_value: 0,
             bonus_type: "coin",
             staffs: [],
+            payer: {
+                id: null,
+                name: "",
+                avatar_url: "",
+            },
+            currency:{
+                id: null,
+                value: "",
+                label: "",
+            },
         },
+        currencies:[],
         staffs: [
             {
                 value: "value1",
@@ -1335,6 +1413,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
+
         },
         coupon: {
             name: '',
@@ -1404,6 +1483,7 @@ export default {
         isDeleting: false,
         errorDelete: false,
     },
+
     createSaleGoods: {
         customer: {
             name: '',
@@ -1423,5 +1503,59 @@ export default {
         totalGoodPages: 0,
         warehouse: 0,
         isSaving: false,
-    }
+    },
+
+    historyExtension: {
+        isLoading: false,
+        paginator: {
+            total_count: 0,
+            total_pages: 0,
+            current_page: 1,
+            limit: 20,
+        },
+        data: [{
+            id: null,
+            penalty: 0,
+            new_deadline: "0000-00-00 00:00:00",
+            deadline: "",
+            reason: "",
+            status: "Waiting",
+            staff: {
+                id: 0,
+                name: "error",
+            },
+            work: {
+                id: 0,
+                name: "error",
+            },
+        }],
+    },
+    summaryStaff: {
+        isLoadingWork: true,
+        isLoadingDepartment: true,
+        staff_work: [{
+            count: 1,
+            month: 1,
+        }],
+        staff_department: [{
+            count: 1,
+            department_name: "",
+        }],
+    },
+    survey: {
+        surveys: [],
+        isLoading: false,
+        survey: {},
+        showEditQuestionModal: false,
+        question: {},
+        isSavingQuestion: false
+    },
+    dashboardXHH: {
+        dashboard: {
+            user: {}
+        },
+        isLoading: true,
+        error: false,
+    },
+
 };

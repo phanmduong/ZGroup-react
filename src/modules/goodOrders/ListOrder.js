@@ -4,6 +4,7 @@ import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
 import ShipGoodModalContainer from "./ShipGoodModalContainer";
 import AddNoteModal from "./AddNoteModal";
+import SelectWarehouseModal from "./SelectWarehouseModal";
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -25,11 +26,10 @@ class ListOrder extends React.Component {
                                     <th>Thu ngân</th>
                                     <th>Cửa hàng</th>
                                     <th>Trạng thái</th>
+                                    <th>Ghi chú</th>
                                     <th>Tổng tiền</th>
                                     <th>Nợ</th>
                                     <th/>
-                                    <th/>
-                                    <th>Ghi chú</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -40,7 +40,8 @@ class ListOrder extends React.Component {
                                                        changeStatusOrder={this.props.changeStatusOrder}
                                                        showShipGoodModal={this.props.showShipGoodModal}
                                                        showAddNoteModal={this.props.showAddNoteModal}
-                                                       user={this.props.user}/>
+                                                       user={this.props.user}
+                                                       showSelectWarehouseModal={this.props.showSelectWarehouseModal}/>
                                         );
                                     })
                                 }
@@ -50,6 +51,7 @@ class ListOrder extends React.Component {
                 }
                 <ShipGoodModalContainer/>
                 <AddNoteModal/>
+                <SelectWarehouseModal/>
             </div>
         );
     }
@@ -61,7 +63,8 @@ ListOrder.propTypes = {
     orders: PropTypes.array.isRequired,
     showShipGoodModal: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    showSelectWarehouseModal: PropTypes.func.isRequired
 };
 
 

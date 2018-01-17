@@ -13,6 +13,7 @@ class coursesCreateEditCurriculum extends React.Component {
 
         this.state = {};
         this.deleteLesson = this.deleteLesson.bind(this);
+        this.duplicateLesson = this.duplicateLesson.bind(this);
     }
     componentWillMount() {
         id = this.props.params.courseId;
@@ -21,6 +22,14 @@ class coursesCreateEditCurriculum extends React.Component {
     deleteLesson(id){
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa buổi học này không?", () => {
             this.props.coursesActions.deleteLesson(id);
+        });
+    }
+
+    duplicateLesson(lesson){
+        helper.confirm('warning', 'Duplicate', "Bạn có muốn duplicate buổi học này không?", () => {
+            this.props.coursesActions.duplicateLesson(lesson, ()=>{
+                return this.props.coursesActions.loadOneCourse(id);
+            });
         });
     }
 
@@ -54,10 +63,22 @@ class coursesCreateEditCurriculum extends React.Component {
                                               <td>{lesson.description}</td>
                                               <td>{lesson['updated_at']}</td>
                                               <td><ButtonGroupAction
-                                                  editUrl={"/teaching/courses/lessons/edit/" + lesson.id}
+                                                  editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id +"/" + lesson.id }
                                                   delete={()=>{return this.deleteLesson(lesson.id);}}
                                                   object={lesson}
-                                              />
+                                              >
+                                                  {
+                                                      !this.props.isDuplicating &&
+                                                      <a data-toggle="tooltip" title="Duplicate"
+                                                         type="button"
+                                                         onClick={() => {return this.duplicateLesson(lesson);}}
+                                                         rel="tooltip"
+                                                      >
+                                                          <i className="material-icons">control_point_duplicate</i>
+                                                      </a>
+                                                  }
+
+                                              </ButtonGroupAction>
                                               </td>
                                           </tr>
                                       );
@@ -78,13 +99,16 @@ coursesCreateEditCurriculum.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
     data                : PropTypes.object,
     params                : PropTypes.object,
-    coursesActions      : PropTypes.object.isRequired
+    coursesActions      : PropTypes.object.isRequired,
+    duplicateLesson      : PropTypes.func,
+    isDuplicating      : PropTypes.bool,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading           : state.courses.isLoading,
-        data                : state.courses.data
+        data                : state.courses.data,
+        isDuplicating                : state.courses.isDuplicating,
     };
 }
 

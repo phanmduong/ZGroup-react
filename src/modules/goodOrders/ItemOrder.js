@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import TooltipButton from '../../components/common/TooltipButton';
-import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
@@ -51,14 +50,22 @@ class ItemOrder extends React.Component {
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                this.props.changeStatusOrder(value, this.props.order.id, this.props.order.label_id);
-            });
+            if (currentStatus.order < 2 && nextStatus.order > 1) {
+                this.props.showSelectWarehouseModal(value, this.props.order.id);
+            } else {
+                helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
+                    this.props.changeStatusOrder(value, this.props.order.id, null);
+                });
+            }
         }
     }
 
     render() {
         const order = this.props.order;
+        let order_note;
+        if (order.note) {
+            order_note = order.note.length < 16 ? order.note : order.note.substring(0, 15) + "...";
+        } else order_note = "";
         return (
             <tr>
                 <td>
@@ -112,11 +119,21 @@ class ItemOrder extends React.Component {
                                   onChange={this.changeStatusOrder}
                                   value={order.status}/>
                 </td>
+                <td>
+                    <a data-toggle="tooltip" title="Ghi chú" type="button" className="text-rose"
+                       rel="tooltip"
+                       onClick={() => this.props.showAddNoteModal(order)}>
+                        {
+                            order_note === "" ? (
+                                <i className="material-icons">edit</i>
+                            ) : (
+                                <p>{order_note}</p>
+                            )
+                        }
+                    </a>
+                </td>
                 <td>{helper.dotNumber(order.total)}đ</td>
                 <td>{helper.dotNumber(order.debt)}đ</td>
-                <td>
-                    <ButtonGroupAction/>
-                </td>
                 <td>
                     <button
                         disabled={order.status !== "ship_order"}
@@ -124,13 +141,6 @@ class ItemOrder extends React.Component {
                         onClick={() => this.props.showShipGoodModal(order)}>
                         <i className="fa fa-twitter"/> Ship hàng
                     </button>
-                </td>
-                <td>
-                    <a data-toggle="tooltip" title="Ghi chú" type="button"
-                       rel="tooltip"
-                       onClick={() => this.props.showAddNoteModal(order)}>
-                        <i className="material-icons">edit</i>
-                    </a>
                 </td>
             </tr>
         );
@@ -142,7 +152,8 @@ ItemOrder.propTypes = {
     changeStatusOrder: PropTypes.func.isRequired,
     showShipGoodModal: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    showSelectWarehouseModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

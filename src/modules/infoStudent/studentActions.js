@@ -90,3 +90,25 @@ export function editInfoStudent(student, closeModal) {
             });
     };
 }
+
+export function changePassword(studentId, newPassword, closeModal) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CHANGE_PASSWORD_STUDENT});
+        studentApi.changePassword(studentId, newPassword)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification(res.data.data.message);
+                    closeModal();
+                    dispatch({type: types.CHANGE_PASSWORD_STUDENT_SUCCESS});
+
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({type: types.CHANGE_PASSWORD_STUDENT_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Cập nhật thất bại");
+                dispatch({type: types.CHANGE_PASSWORD_STUDENT_ERROR});
+            });
+    };
+}

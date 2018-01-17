@@ -46,10 +46,22 @@ export function editStudent(student) {
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url,{
+    return axios.post(url, {
         id: student.id,
         name: student.name,
         email: student.email,
         phone: student.phone,
+    });
+}
+
+export function changePassword(studentId, newPassword) {
+    let url = env.MANAGE_API_URL + '/change-password-student';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        id: studentId,
+        new_password: newPassword,
     });
 }
