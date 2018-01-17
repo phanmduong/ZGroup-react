@@ -142,7 +142,8 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                         ...state.order.order,
                         status: action.status
                     }
-                }
+                },
+                selectWarehouseModal: false
             };
         case types.TOGGLE_SHIP_GOOD_MODAL:
             return {
