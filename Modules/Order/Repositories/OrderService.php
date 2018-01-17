@@ -172,6 +172,7 @@ class OrderService
         foreach ($order->goodOrders as $goodOrder)
             $this->importedGoodsExportProcess($goodOrder, $warehouseId);
         $order->exported = true;
+        $order->warehouse_id = $warehouseId;
         $order->save();
         return [
             'status' => 1,
@@ -183,7 +184,7 @@ class OrderService
     {
         $order = Order::find($orderId);
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2 && $this->statusToNum($request->status) != 5) {
-            $response = $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : 4);
+            $response = $this->exportOrder($order->id, $request->warehouse_id);
             if ($response['status'] == 0)
                 return [
                     'status' => 0,
@@ -194,8 +195,7 @@ class OrderService
 
         if (($this->statusToNum($order->status) >= 2 && $this->statusToNum($order->status) <= 4)
             && ($this->statusToNum($request->status) < 2 || $this->statusToNum($request->status) == 5)) {
-//            $this->fixStatusBackWard($order->id, $request->warehouse_id, $staff_id);
-            $this->fixStatusBackWard($order->id, 4, $staff_id); //fix cung
+            $this->fixStatusBackWard($order->id, $request->warehouse_id, $staff_id);
         }
         if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;

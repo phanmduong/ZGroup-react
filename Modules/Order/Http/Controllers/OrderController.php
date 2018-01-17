@@ -152,9 +152,14 @@ class OrderController extends ManageApiController
             return $this->respondSuccessWithStatus([
                 'message' => 'Khong ton tai order'
             ]);
-        return $this->respondSuccessWithStatus(
-            $order->detailedTransform()
-        );
+        $data = $order->detailedTransform();
+        $returnOrders = Order::where('type', 'return')->where('code', $order->code)->get();
+        $data['return_orders'] = $returnOrders->map(function ($returnOrder) {
+            return $returnOrder->returnOrderData();
+        });
+        return $this->respondSuccessWithStatus([
+            'order' => $data,
+        ]);
     }
 
     public function editOrder($order_id, Request $request)
@@ -306,6 +311,9 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => $response['message']
             ]);
+        $order = Order::find($orderId);
+        $order->staff_id = $this->user->id;
+        $order->save();
         return $this->respondSuccessWithStatus([
             'message' => $response['message']
         ]);
@@ -330,8 +338,7 @@ class OrderController extends ManageApiController
                     'price' => $good_order->price
                 ]);
         }
-//        $this->orderService->returnProcess($returnOrder->id, $request->warehouse_id, $this->user->id);
-        $this->orderService->returnProcess($returnOrder->id, 4, $this->user->id); //fix
+        $this->orderService->returnProcess($returnOrder->id, $request->warehouse_id, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'Thành công'
         ]);
@@ -350,7 +357,7 @@ class OrderController extends ManageApiController
         $order->staff_id = $this->user->id;
         $order->status = 'completed';
 
-        if($request->phone != null || $request->email != null) {
+        if ($request->phone != null || $request->email != null) {
             $user = User::where('phone', $request->phone)->first();
             if ($user == null) {
                 $user = new User;
@@ -361,8 +368,7 @@ class OrderController extends ManageApiController
             $user->save();
 
             $order->user_id = $user->save();
-        }
-        else $order->user_id = 0;
+        } else $order->user_id = 0;
 
         $order->save();
 

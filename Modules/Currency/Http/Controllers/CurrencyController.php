@@ -19,7 +19,7 @@ class CurrencyController extends ManageApiController
         $currencies = Currency::all();
         return $this->respondSuccessWithStatus([
             "currencies" => $currencies->map(function($currency){
-                return $currency->tranform();
+                return $currency->transform();
             })
         ]);
     }
@@ -33,11 +33,12 @@ class CurrencyController extends ManageApiController
         ) return $this->respondErrorWithStatus("Thiếu trường");
         $currency = new Currency;
         $currency->name = $request->name;
-        $currency->notation = $request->name;
-        $currency->ration = $request->ratio;
+        $currency->notation = $request->notation;
+        $currency->ratio = $request->ratio;
         $currency->save();
         return $this->respondSuccessWithStatus([
-           "message" => "Tạo thành công"
+           "message" => "Tạo thành công",
+           "currency" => $currency->transform(),
         ]);
     }
 
@@ -45,8 +46,8 @@ class CurrencyController extends ManageApiController
         $currency= Currency::find($currencyId);
         if(!$currency) return $this->respondErrorWithStatus("Không tồn tại");
         $currency->name = $request->name;
-        $currency->notation = $request->name;
-        $currency->ration = $request->ratio;
+        $currency->notation = $request->notation;
+        $currency->ratio = $request->ratio;
         $currency->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công"

@@ -28,6 +28,7 @@
         .content {
             float: right;
         }
+
         #map {
             height: 500px;
             width: 100%;
@@ -514,6 +515,20 @@
                     </div>
                 </div>
                 <hr>
+                <div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input v-model="coupon_code" type="text" value="" placeholder="Mã giảm giá" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" v-on:click="addCoupon" class="btn btn-danger btn-round">
+                                Thêm mã giảm giá
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         <h4 class="text-left"><b>Tổng</b></h4>
@@ -524,7 +539,7 @@
                 </div>
                 <div v-if="coupon_programs_count" class="row" style="padding-top:20px;">
                     <div class="col-md-12">
-                        <div style="font-weight: 600">Chương trình khuyến mãi: </div>
+                        <div style="font-weight: 600">Chương trình khuyến mãi:</div>
                         <div v-for="coupon_program in coupon_programs">
                             @{{ coupon_program.content }}
                         </div>
@@ -532,12 +547,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
-                            style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                    <button id="btn-purchase"
-                            v-on:click="openPurchaseModal()"
-                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
-                                class="fa fa-angle-right"></i></button>
+                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                        style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                <button id="btn-purchase"
+                        v-on:click="openPurchaseModal()"
+                        class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                            class="fa fa-angle-right"></i></button>
             </div>
         </div>
     </div>
@@ -844,21 +859,25 @@
     window.fbMessengerPlugins = window.fbMessengerPlugins || {
         init: function () {
             FB.init({
-                appId            : '1678638095724206',
-                autoLogAppEvents : true,
-                xfbml            : true,
-                version          : 'v2.10'
+                appId: '1678638095724206',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v2.10'
             });
         }, callable: []
     };
     window.fbAsyncInit = window.fbAsyncInit || function () {
-        window.fbMessengerPlugins.callable.forEach(function (item) { item(); });
+        window.fbMessengerPlugins.callable.forEach(function (item) {
+            item();
+        });
         window.fbMessengerPlugins.init();
     };
     setTimeout(function () {
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
+            if (d.getElementById(id)) {
+                return;
+            }
             js = d.createElement(s);
             js.id = id;
             js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
