@@ -2,23 +2,37 @@ var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
         isLoading: false,
+        isLoadingCoupons: false,
         goods: [],
         total_order_price: 0,
         total_order_vnd_price: '',
         coupon_code: '',
         coupon_programs: [],
         coupon_programs_count: 0,
+        coupon_codes: [],
+        coupon_codes_count: 0
     },
     methods: {
         vnd_formatting: function (number) {
-            number = number.toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
-            return number;
+            return number.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
         },
         getCouponPrograms: function () {
             axios.get(window.url + '/coupon-programs')
                 .then(function (response) {
                     this.coupon_programs = response.data.coupon_programs;
                     this.coupon_programs_count = response.data.coupon_programs_count;
+                }.bind(this))
+                .catch(function (error) {
+
+                });
+        },
+        getCouponCodes: function() {
+            this.isLoadingCoupons = true;
+            axios.get(window.url + '/coupon-codes')
+                .then(function (response) {
+                    this.coupon_codes = response.data.coupon_codes;
+                    this.coupon_codes_count = response.data.coupon_codes_count;
+                    this.isLoadingCoupons = false;
                 }.bind(this))
                 .catch(function (error) {
 
@@ -33,6 +47,7 @@ var modalBuy = new Vue({
                     this.total_order_vnd_price = response.data.total_order_vnd_price;
                     this.isLoading = false;
                     openWithoutAdd.countBooksFromSession();
+                    this.getCouponCodes();
                 }.bind(this))
                 .catch(function (error) {
 
@@ -107,10 +122,10 @@ var modalBuy = new Vue({
             modalPurchase.openModal();
         },
         addCoupon: function () {
-            console.log(this.coupon_code);
             axios.get(window.url + '/add-coupon/' + this.coupon_code + '/v2')
                 .then(function (response) {
                     this.coupon_code = '';
+                    this.getCouponCodes();
                 }.bind(this))
                 .catch(function (error) {
                 });
