@@ -79,14 +79,20 @@ class CardWork extends React.Component {
                                         </li>
 
                                         <li className="more-dropdown-item" hidden={(status != STATUS_WORK[4].value)}>
-                                            <a onClick={(e)=>{e.stopPropagation();}}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                            }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">local_atm</i>
                                                 Chấp nhận chi tiền
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
-                                            <a onClick={(e)=>{e.stopPropagation();return this.props.change(work, "cancel");}}>
+                                        <li className="more-dropdown-item"
+                                            hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.change(work, "cancel");
+                                            }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">delete</i>
                                                 Hủy
@@ -136,20 +142,16 @@ class CardWork extends React.Component {
                             {work.name}
                         </div>
 
-                        <div className="keetool-card">
-                            <div className="keetool-card" style={{padding: "2px 0", display : "flex"}}>
-                                <Avatar className="keetool-card"
-                                        url={helper.validateLinkImage(work.payer.avatar_url)}
-                                        size={25}/>
-                                {work.payer.name}
-                            </div>
-                            {this.type[work.type]} / {work.bonus_value + " "+ (work.currency.name || "")}
-                            </div>
+                        <div className="keetool-card" style={{padding: "2px 0", display: "flex"}}>
+                            <Avatar className="keetool-card"
+                                    url={helper.validateLinkImage(work.payer.avatar_url)}
+                                    size={25}/>
+                            {work.payer.name}
+                        </div>
+
 
                         <div
-                            className="keetool-card">{this.type[work.type]} / {work.bonus_value + " " + this.bonus_type[work.bonus_type]}</div>
-
-                        <div className="keetool-card"></div>
+                            className="keetool-card">{this.type[work.type]} / {work.bonus_value + " " + (work.currency.name || "")}</div>
 
                         <div className="keetool-card" style={{marginTop: "5px"}}>
                             {
