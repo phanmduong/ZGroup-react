@@ -68,7 +68,20 @@ class SurveyController extends ManageApiController
         }
 
         $question->content = $request->content_data;
+
         $question->save();
+
+        if ($request->answers) {
+            $question->answers()->delete();
+            $answers = json_decode($request->answers);
+            foreach ($answers as $a) {
+                $answer = new Answer();
+                $answer->question_id = $question->id;
+                $answer->content = $a->content;
+                $answer->correct = $a->correct;
+                $answer->save();
+            }
+        }
 
 
         return $this->respondSuccessWithStatus([
