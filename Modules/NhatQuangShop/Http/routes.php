@@ -24,11 +24,12 @@ $nhatquangShopRoute = function () {
     //modals
     Route::get('/load-books-from-session/v2', 'NhatQuangApiController@getGoodsFromSession');
     Route::get('/count-books-from-session/v2', 'NhatQuangApiController@countGoodsFromSession');
-    Route::get('/coupon-programs', 'NhatQuangApiController@getCouponProgram');
+    Route::get('/coupon-programs', 'NhatQuangApiController@getCouponPrograms');
+    Route::get('/coupon-codes', 'NhatQuangApiController@getCouponCodes');
     Route::get('/flush', 'NhatQuangApiController@flush');
     Route::get('/add-book/{goodId}/v2', 'NhatQuangApiController@addGoodToCart');
     Route::get('/remove-book/{goodId}/v2', 'NhatQuangApiController@removeBookFromCart');
-    Route::get('/add-coupon/{couponName}/v2', 'NhatQuangApiController@addCoupon');
+    Route::get('/add-coupon/{couponName}/v2', 'NhatQuangApiController@addCouponCode');
     Route::get('/remove-coupon/{couponId}/v2', 'NhatQuangApiController@removeCoupon');
     Route::post('/save-order/v2', 'NhatQuangApiController@saveOrder');
     Route::get('/province', 'NhatQuangApiController@provinces');
