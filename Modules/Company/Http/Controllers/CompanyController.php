@@ -82,6 +82,16 @@ class CompanyController extends ManageApiController
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
         $company->save();
+        $field = Field::find($company->field_id);
+        $str = convert_vi_to_en_not_url($field->name);
+        $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
+        $str = strtoupper($str);
+        $day = date_format($company->created_at,'d');
+        $month = date_format($company->created_at,'m');
+        $id = (string)$company->id;
+        while (strlen($id) < 4) $id = '0' . $id;
+        $company->partner_code =$str.$day.$month.$id;
+        $company->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công",
         ]);
