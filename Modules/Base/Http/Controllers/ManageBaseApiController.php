@@ -19,7 +19,6 @@ class ManageBaseApiController extends ManageApiController
     {
         $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))
             ->select("district.provinceid as province_id")->pluck("province_id")->toArray();
-
         $provinceIds = collect(array_unique($provinceIds));
         return $this->respondSuccessWithStatus([
             "provinces" => $provinceIds->map(function ($provinceId) {
