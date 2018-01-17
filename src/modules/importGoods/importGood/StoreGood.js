@@ -28,11 +28,12 @@ class StoreGood extends React.Component {
         this.timeOut = setTimeout(function () {
             importGoodsApi.searchGoods(input).then(res => {
                 let goods = res.data.goods.map((good) => {
+                    let label = good.barcode ? `${good.name} (${good.code}, ${good.barcode})` : `${good.name} (${good.code}`;
                     return {
                         ...good,
                         ...{
                             value: good.id,
-                            label: `${good.name} (${good.code}, ${good.barcode})`,
+                            label: label,
                             quantity: 0,
                             import_price: 0
                         }

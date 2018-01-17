@@ -26,13 +26,19 @@ class InfoStaffContainer extends React.Component {
         this.props.roleActions.loadRolesData();
         this.props.staffActions.loadDataBase();
         this.props.staffActions.loadDepartments();
-        this.props.staffActions.loadStaffData(this.props.params.staffId);
+        if(this.props.params) this.props.staffActions.loadStaffData(this.props.params.staffId);
+        else
+        if(this.props.staffId) this.props.staffActions.loadStaffData(this.props.staffId);
         this.usernameEmpty = false;
-
     }
 
     componentDidUpdate() {
         this.initForm();
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.staffId != this.props.staffId)
+            this.props.staffActions.loadStaffData(nextProps.staffId);
     }
 
     updateFormData(event) {
@@ -104,7 +110,6 @@ class InfoStaffContainer extends React.Component {
                 changeColor={this.changeColor}
                 addStaff={this.addStaff}
                 resetPassword={this.resetPassword}
-                type={this.props.route.type}
                 handleFileUpload={this.handleFileUpload}
                 roles={[{id: 0, role_title: ''}, ...roles]}
                 bases={[{id: 0, name: '', address: ''}, ...bases]}
@@ -116,21 +121,25 @@ class InfoStaffContainer extends React.Component {
 }
 
 InfoStaffContainer.propTypes = {
-    staffForm: PropTypes.object.isRequired,
-    staffActions: PropTypes.object.isRequired,
-    roleActions: PropTypes.object.isRequired,
-    isLoadingAddStaff: PropTypes.bool.isRequired,
-    isLoadingStaff: PropTypes.bool.isRequired,
-    isChangingAvatar: PropTypes.bool.isRequired,
-    isLoadingRoles: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired,
-    roles: PropTypes.array.isRequired,
-    bases: PropTypes.array.isRequired,
-    location: PropTypes.object.isRequired,
-    route: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
-    departments: PropTypes.array.isRequired,
+    staffForm: PropTypes.object,
+    staffActions: PropTypes.object,
+    roleActions: PropTypes.object,
+    isLoadingAddStaff: PropTypes.bool,
+    isLoadingStaff: PropTypes.bool,
+    isChangingAvatar: PropTypes.bool,
+    isLoadingRoles: PropTypes.bool,
+    error: PropTypes.bool,
+    roles: PropTypes.array,
+    bases: PropTypes.array,
+    location: PropTypes.object,
+    route: PropTypes.object,
+    params: PropTypes.object,
+    departments: PropTypes.array,
     role: PropTypes.number,
+    staffId: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
 };
 
 InfoStaffContainer.contextTypes = {

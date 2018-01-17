@@ -313,7 +313,7 @@ class ProductListContainer extends React.Component {
     showWareHouseModal(product) {
         this.props.modalProductAction.showWareHouseModal();
         this.props.modalProductAction.openWareHouseTab();
-        this.props.modalProductAction.handleProduct(product);
+        this.props.modalProductAction.handleWarehouseProduct(product);
         this.props.inventoryGoodAction.getWarehouseInventories(product);
     }
 
@@ -336,7 +336,7 @@ class ProductListContainer extends React.Component {
     }
 
     render() {
-        let first = (this.props.currentPage - 1) * this.props.limit + 1;
+        let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
             <div className="wrapper">
@@ -389,12 +389,6 @@ class ProductListContainer extends React.Component {
                                                                 <p className="category">Tổng sản phẩm</p>
                                                                 <h3 className="card-title">{helper.dotNumber(this.props.productsTotal)}</h3>
                                                             </div>
-                                                            <div className="card-footer">
-                                                                <div className="stats">
-                                                                    <i className="material-icons">date_range</i> Last 24
-                                                                    Hours
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-6 col-md-6 col-sm-6">
@@ -405,12 +399,6 @@ class ProductListContainer extends React.Component {
                                                             <div className="card-content">
                                                                 <p className="category">Tổng số lượng</p>
                                                                 <h3 className="card-title">{helper.dotNumber(this.props.productsQuantity)}</h3>
-                                                            </div>
-                                                            <div className="card-footer">
-                                                                <div className="stats">
-                                                                    <i className="material-icons">date_range</i> Last 24
-                                                                    Hours
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -567,7 +555,7 @@ class ProductListContainer extends React.Component {
                                                             showWareHouseModal={this.showWareHouseModal}
                                                             showAvatarModal={this.showAvatarModal}
                                                             showSameProductModal={this.showSameProductModal}
-                                                            deleteProduct={this.props.productListAction.deleteProduct}/>
+                                                            deleteProduct={this.deleteProduct}/>
                                                     )
                                                 }
                                             </div>

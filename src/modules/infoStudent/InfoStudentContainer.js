@@ -12,6 +12,7 @@ import {NO_AVATAR, PROTOCOL} from '../../constants/env';
 import Loading from '../../components/common/Loading';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
+import ChangePassword from "./ChangePassword";
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
@@ -22,9 +23,12 @@ class InfoStudentContainer extends React.Component {
         this.openModal = this.openModal.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.editInfoStudent = this.editInfoStudent.bind(this);
+        this.openModalChangePassword = this.openModalChangePassword.bind(this);
+        this.closeModalChangePassword = this.closeModalChangePassword.bind(this);
         this.state = {
             showModal: false,
-            student: {}
+            student: {},
+            showModalChangePassword: false
         };
     }
 
@@ -64,6 +68,14 @@ class InfoStudentContainer extends React.Component {
         if ($('#form-edit-student').valid()) {
             this.props.studentActions.editInfoStudent(this.state.student, this.closeModal);
         }
+    }
+
+    closeModalChangePassword() {
+        this.setState({showModalChangePassword: false});
+    }
+
+    openModalChangePassword() {
+        this.setState({showModalChangePassword: true});
     }
 
     render() {
@@ -149,9 +161,37 @@ class InfoStudentContainer extends React.Component {
                                     }
                                 </div>
                             </div>
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">contacts</i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Thay đổi mật khẩu</h4>
+                                        <button className="btn btn-rose btn-main"
+                                                onClick={this.openModalChangePassword}
+                                        >
+                                            Thay đổi mật khẩu
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.showModalChangePassword}>
+                    <Modal.Header closeButton={!this.props.isChangingPassword}
+                                  onHide={this.props.isChangingPassword ? '' : this.closeModalChangePassword}
+                                  closeLabel="Đóng">
+                        <Modal.Title>Thay đổi mật khẩu</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ChangePassword
+                            studentId={this.studentId}
+                            closeModal={this.closeModalChangePassword}
+                        />
+                    </Modal.Body>
+                </Modal>
                 <Modal show={this.state.showModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Chỉnh sửa thông tin học viên</Modal.Title>
@@ -215,6 +255,7 @@ InfoStudentContainer.propTypes = {
     studentActions: PropTypes.object.isRequired,
     isLoadingStudent: PropTypes.bool.isRequired,
     isEditingStudent: PropTypes.bool.isRequired,
+    isChangingPassword: PropTypes.bool.isRequired,
     children: PropTypes.element,
     pathname: PropTypes.string,
     location: PropTypes.object.isRequired,
@@ -225,7 +266,8 @@ function mapStateToProps(state) {
     return {
         student: state.infoStudent.student,
         isLoadingStudent: state.infoStudent.isLoadingStudent,
-        isEditingStudent: state.infoStudent.isEditingStudent
+        isEditingStudent: state.infoStudent.isEditingStudent,
+        isChangingPassword: state.infoStudent.isChangingPassword,
     };
 }
 

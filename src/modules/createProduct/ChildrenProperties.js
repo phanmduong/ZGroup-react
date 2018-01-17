@@ -99,13 +99,24 @@ class ChildrenProperties extends React.Component {
                             ) : (<div/>)
                         }
                     </div>
-                    <div className="col-md-12"
+                    <div className="row"
                          style={{zIndex: 0}}>
-                        <CheckBoxMaterial
-                            name="sale_status"
-                            checked={this.props.goods_count_check}
-                            onChange={this.props.selectGoodCountCheck}
-                            label={"Có " + this.props.goods_count + " hàng hóa cùng loại"}/>
+                        <div className="col-md-9"
+                             style={{zIndex: 0}}>
+                            <CheckBoxMaterial
+                                name="sale_status"
+                                checked={this.props.goods_count_check}
+                                onChange={this.props.selectGoodCountCheck}
+                                label={"Có " + this.props.goods_count + " hàng hóa cùng loại"}/>
+                        </div>
+                        <div className="col-md-3">
+                            <button type="button"
+                                    className="btn btn-rose btn-sm"
+                                    onClick={() => this.props.showPropertiesManageModal()}>
+                                <i className="material-icons">list</i>
+                                Quản lý thuộc tính
+                            </button>
+                        </div>
                     </div>
                     {
                         (this.props.goods_count_check && this.props.goods_count > 0) ? (
@@ -205,7 +216,8 @@ ChildrenProperties.propTypes = {
     checkChildProduct: PropTypes.func.isRequired,
     updateFormData: PropTypes.func.isRequired,
     showAddChildImagesModal: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    showPropertiesManageModal: PropTypes.func.isRequired
 };
 
 export default ChildrenProperties;

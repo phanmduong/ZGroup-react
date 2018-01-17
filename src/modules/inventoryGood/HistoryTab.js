@@ -21,7 +21,7 @@ class HistoryTab extends React.Component {
                 page: 1
             });
             this.props.getHistoryInventories(
-                this.props.inventory,
+                this.props.productWarehouse,
                 1,
                 value.value,
                 false
@@ -32,7 +32,7 @@ class HistoryTab extends React.Component {
                 page: 1
             });
             this.props.getHistoryInventories(
-                this.props.inventory,
+                this.props.productWarehouse,
                 1,
                 null,
                 false
@@ -45,7 +45,7 @@ class HistoryTab extends React.Component {
             page: page
         });
         this.props.getHistoryInventories(
-            this.props.inventory,
+            this.props.productWarehouse,
             page,
             this.state.warehouse_id,
             true
@@ -155,7 +155,8 @@ HistoryTab.propTypes = {
     warehousesList: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    isLoadingHistoryList: PropTypes.bool.isRequired
+    isLoadingHistoryList: PropTypes.bool.isRequired,
+    productWarehouse: PropTypes.object.isRequired
 };
 
 export default HistoryTab;

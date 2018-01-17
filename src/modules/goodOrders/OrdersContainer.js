@@ -31,7 +31,6 @@ class OrdersContainer extends React.Component {
             staff: null,
             base: null,
             status: null
-
         };
         this.timeOut = null;
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
@@ -47,10 +46,7 @@ class OrdersContainer extends React.Component {
     componentWillMount() {
         this.loadOrders();
         this.props.goodOrderActions.getAllStaffs();
-    }
-
-    toggleShipModal(order) {
-        this.props.goodOrderActions.openShipModal(order);
+        this.props.goodOrderActions.loadWareHouse();
     }
 
     closeModal() {
@@ -162,7 +158,7 @@ class OrdersContainer extends React.Component {
     }
 
     render() {
-        let first = (this.props.currentPage - 1) * this.props.limit + 1;
+        let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
             <div>
@@ -214,12 +210,6 @@ class OrdersContainer extends React.Component {
                                                 <p className="category">Tổng đơn hàng</p>
                                                 <h3 className="card-title">{helper.dotNumber(this.props.totalOrder)}</h3>
                                             </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">date_range</i> Last 24
-                                                    Hours
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-4 col-md-4 col-sm-4">
@@ -231,12 +221,6 @@ class OrdersContainer extends React.Component {
                                                 <p className="category">Tổng tiền</p>
                                                 <h3 className="card-title">{helper.dotNumber(this.props.totalMoney)}đ</h3>
                                             </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">date_range</i> Last 24
-                                                    Hours
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-4 col-md-4 col-sm-4">
@@ -247,11 +231,6 @@ class OrdersContainer extends React.Component {
                                             <div className="card-content">
                                                 <p className="category">Tổng nợ</p>
                                                 <h3 className="card-title">{helper.dotNumber(this.props.totalMoney - this.props.totalPaidMoney)}đ</h3>
-                                            </div>
-                                            <div className="card-footer">
-                                                <div className="stats">
-                                                    <i className="material-icons">update</i> Just Updated
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -267,18 +246,11 @@ class OrdersContainer extends React.Component {
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách đơn hàng</h4>
                                 <div className="row">
-                                    <div className="col-md-6">
+                                    <div className="col-md-10">
                                         <Search
                                             onChange={this.ordersSearchChange}
                                             value={this.state.query}
-                                            placeholder="Nhập mã đơn hoặc mã/họ tên/SĐT khách hàng"
-                                        />
-                                    </div>
-                                    <div className="col-md-4">
-                                        <Search
-                                            onChange={this.ordersSearchChange}
-                                            value={this.state.user}
-                                            placeholder="Nhập tên khách hàng"
+                                            placeholder="Nhập mã đơn hoặc email khách hàng"
                                         />
                                     </div>
                                     <div className="col-md-2">
@@ -368,6 +340,7 @@ class OrdersContainer extends React.Component {
                                     showShipGoodModal={this.showShipGoodModal}
                                     showAddNoteModal={this.showAddNoteModal}
                                     user={this.props.user}
+                                    showSelectWarehouseModal={this.props.goodOrderActions.showSelectWarehouseModal}
                                 />
                             </div>
                             <div className="row float-right">

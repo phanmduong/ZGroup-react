@@ -64,6 +64,27 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     error: false
                 }
             };
+        case types.TOGGLE_SELECT_WAREHOUSE_MODAL:
+            return {
+                ...state,
+                selectWarehouseModal: !state.selectWarehouseModal,
+                nextStatus: action.nextStatus,
+                orderIdWarehouseModal: action.orderIdWarehouseModal
+            };
+        case types.BEGIN_LOAD_WAREHOUSES_GOOD_ORDER:
+            return {
+                ...state,
+                isLoadingWarehouse: true
+            };
+        case types.GET_WAREHOUSES_GOOD_ORDER:
+            return {
+                ...state,
+                warehousesList: action.warehousesList,
+                isLoadingWarehouse: false,
+                totalCountWarehouse: action.totalCountWarehouse,
+                totalPagesWarehouse: action.totalPagesWarehouse,
+                currentPageWarehouse: action.currentPageWarehouse
+            };
         case types.LOAD_DETAIL_ORDER_SUCCESS:
             return {
                 ...state,
@@ -174,7 +195,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             return {
                 ...state,
                 orderId: action.order.id,
-                labelId: action.order.label_id,
+                labelId: action.order.label_id ? action.order.label_id : -1,
                 shippingGood: {
                     ...state.shipGoodModal,
                     products,

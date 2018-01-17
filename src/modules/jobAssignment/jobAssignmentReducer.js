@@ -1,11 +1,8 @@
-
+import * as helper from "../../helpers/helper";
 import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function jobAssignmentReducer(state = initialState.jobAssignment, action) {
-
-    console.log(action.type);
-
     switch (action.type) {
         case types.UPDATE_DATA_CREATE_JOB_ASSIGNMENT: {
             return {
@@ -143,6 +140,30 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+        case types.BEGIN_EXTEND_WORK: {
+            return {
+                ...state,
+                ...{
+                    isSaving: true,
+                }
+            };
+        }
+        case types.EXTEND_WORK_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isSaving: false,
+                }
+            };
+        }
+        case types.EXTEND_WORK_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isSaving: false,
+                }
+            };
+        }
         case types.BEGIN_CHANGE_STATUS_WORK: {
             return {
                 ...state,
@@ -253,6 +274,10 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 bonus_value: 0,
                 bonus_type: "coin",
                 staffs: [],
+                payer:{
+                    id: null,
+                    name : "",
+                }
             };
             return {
                 ...state,
@@ -260,6 +285,36 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                     isLoading: false,
                     data: defaultData,
                 }
+            };
+        }
+        case types.BEGIN_LOAD_CURRENCIES_JOB_ASSIGNMENT: {
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        }
+        case types.LOAD_CURRENCIES_JOB_ASSIGNMENT_SUCCESS: {
+            let currencies = action.currencies.map((obj)=>{
+                return({
+                    ...obj,
+                    value : obj.id,
+                    label : obj.name,
+                });
+            });
+            let data = {...state.data, currency: currencies[0]};
+            return {
+                ...state,
+                ...{
+                    currencies,
+                    data,
+                }
+            };
+        }
+        case types.LOAD_CURRENCIES_JOB_ASSIGNMENT_ERROR: {
+            return {
+                ...state,
             };
         }
 
@@ -270,7 +325,7 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
 
 
 function getStaffs(arr) {
-    return arr.map((obj)=>{return {...obj, label: obj.name,value: obj.id}});
+    return arr.map((obj)=>{return {...obj, label: obj.name,value: obj.id, avatar_url: helper.validateLinkImage(obj.avatar_url) }});
 }
 
 function remove(obj, arr) {

@@ -1,4 +1,4 @@
-
+import * as helper      from '../../helpers/helper';
 import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
@@ -127,16 +127,25 @@ export default function courseReducer(state = initialState.courses, action) {
                     link: state.link,
                 }
             };
-        case types.LOAD_COURSE_SUCCESS:
+        case types.LOAD_COURSE_SUCCESS: {
+            let categories = action.data.categories.map((obj)=>{
+                return {
+                    ...obj,
+                    value: obj.id,
+                    label: obj.name,
+                    avatar_url: helper.validateLinkImage(obj.icon_url),
+                };
+            });
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     error: false,
-                    data: action.data,
+                    data: {...action.data, categories},
                     link: state.link,
                 }
             };
+        }
         case types.LOAD_COURSE_ERROR:
             return {
                 ...state,
@@ -294,8 +303,8 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
                 ...{
                     isCommitting: false,
-                    data: action.data,
-                    commitSuccess: true
+                    //data: action.data,
+                    commitSuccess: true,
                 }
             };
         }
@@ -435,27 +444,224 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    data: {
-                        id: null,
-                        name: "",
-                        duration: "",
-                        price: "",
-                        description: "",
-                        linkmac: "",
-                        linkwindow: "",
-                        num_classes: "",
-                        mac_how_install: "",
-                        window_how_install: "",
-                        cover_url: "",
-                        color: "",
-                        image_url: "",
-                        icon_url: "",
-                        created_at: "",
-                        detail: "",
-                        lessons: [],
-                        links: []
-                    }
+                    data:defaultData,
                 }
+            };
+        }
+        case types.BEGIN_CREATE_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: true,
+                }
+            };
+        case types.CREATE_TERM_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+        }
+        case types.CREATE_TERM_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+
+        case types.BEGIN_UPLOAD_ICON_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: true,
+                }
+            };
+        case types.UPLOAD_ICON_TERM_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: false,
+                    data: state.data,
+                    term: action.term,
+                }
+            };
+        }
+        case types.UPLOAD_ICON_TERM_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUploadingTermIcon: false,
+
+                }
+            };
+
+        case types.BEGIN_EDIT_TERM:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: true,
+                }
+            };
+        case types.EDIT_TERM_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+        }
+        case types.EDIT_TERM_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingTerm: false,
+                }
+            };
+        case types.BEGIN_DELETE_TERM:
+            return {
+                ...state,
+            };
+        case types.DELETE_TERM_SUCCESS:
+
+            return {
+                ...state,
+            };
+        case types.DELETE_TERM_ERROR:
+            return {
+                ...state,
+
+            };
+        case types.BEGIN_CHANGE_STATUS_COURSES: {
+            let newdata = [...state.coursesList];
+            let newcourse = {...state.coursesList[action.index]};
+            newcourse.status = !newdata[action.index].status;
+            newdata[action.index] = newcourse;
+            return {
+                ...state,
+                coursesList: newdata
+            };
+        }
+        case types.CHANGE_STATUS_COURSES_SUCCESS:
+
+            return {
+                ...state,
+            };
+        case types.CHANGE_STATUS_COURSES_ERROR:{
+            let newdata = [...state.coursesList];
+            let newcourse = {...state.coursesList[action.index]};
+            newcourse.status = !newdata[action.index].status;
+            newdata[action.index] = newcourse;
+            return {
+                ...state,
+                coursesList: newdata
+            };
+        }
+        case types.BEGIN_LOAD_ALL_TYPES: {
+            return {
+                ...state,
+                //isLoading: true,
+            };
+        }
+        case types.LOAD_ALL_TYPES_SUCCESS: {
+            let data = action.types.map((obj)=>{return {...obj, value: obj.id, label: obj.name,}});
+            return {
+                ...state,
+                // isLoading: false,
+                types: data,
+            };
+        }
+        case types.LOAD_ALL_TYPES_ERROR:{
+            return {
+                ...state,
+                // isLoading: false,
+            };
+        }
+        case types.BEGIN_LOAD_ALL_CATEGORIES: {
+            return {
+                ...state,
+                // isLoading: true,
+            };
+        }
+        case types.LOAD_ALL_CATEGORIES_SUCCESS: {
+            let data = action.categories.map((obj)=>{
+                return {
+                    ...obj,
+                    value: obj.id,
+                    label: obj.name,
+                    avatar_url: helper.validateLinkImage(obj.icon_url),
+                };
+            });
+            return {
+                ...state,
+                // isLoading: false,
+                categories: data,
+            };
+        }
+        case types.LOAD_ALL_CATEGORIES_ERROR:{
+            return {
+                ...state,
+                // isLoading: false,
+            };
+        }
+        case types.BEGIN_DUPLICATE_COURSES:
+            return {
+                isDuplicating: true,
+                ...state,
+            };
+        case types.DUPLICATE_COURSES_SUCCESS:{
+            return {
+                isDuplicating: false,
+                ...state,
+            };
+        }
+        case types.DUPLICATE_COURSES_ERROR:
+            return {
+                isDuplicating: false,
+                ...state,
+
+            };
+        case types.BEGIN_DUPLICATE_LESSON:
+            return {
+                isDuplicating: true,
+                ...state,
+            };
+        case types.DUPLICATE_LESSON_SUCCESS:{
+            return {
+                isDuplicating: false,
+                ...state,
+            };
+        }
+        case types.DUPLICATE_LESSON_ERROR:
+            return {
+                isDuplicating: false,
+                ...state,
+
+            };
+        case types.BEGIN_DUPLICATE_TERM:
+            return {
+                isDuplicating: true,
+                ...state,
+            };
+        case types.DUPLICATE_TERM_SUCCESS:{
+            return {
+                isDuplicating: false,
+                ...state,
+            };
+        }
+        case types.DUPLICATE_TERM_ERROR:
+            return {
+                isDuplicating: false,
+                ...state,
+
+            };
+        case types.CHANGE_CATEGORY_COURSE: {
+            let newdata = {...state.data};
+            newdata.categories = action.data;
+            return {
+                ...state,
+                data : newdata,
             };
         }
         default:
@@ -486,22 +692,27 @@ function deleteLesson(lessonId, lessonList) {
 
 
 const defaultData = {
-        id: null,
-        name: "",
-        duration: "",
-        price: "",
-        description: "",
-        linkmac: "",
-        linkwindow: "",
-        num_classes: "",
-        mac_how_install: "",
-        window_how_install: "",
-        cover_url: "",
-        color: "",
-        image_url: "",
-        icon_url: "",
-        created_at: "",
-        detail: "",
-        lessons: [],
-        links: []
+    id: null,
+    name: "",
+    duration: "",
+    price: "",
+    description: "",
+    linkmac: "",
+    linkwindow: "",
+    num_classes: "",
+    mac_how_install: "",
+    window_how_install: "",
+    cover_url: "",
+    color: "",
+    image_url: "",
+    icon_url: "",
+    created_at: "",
+    detail: "",
+    lessons: [],
+    links: [],
+    pixels: [],
+    terms: [],
+    categories: [],
+    type_id: "",
+    type: "",
 };

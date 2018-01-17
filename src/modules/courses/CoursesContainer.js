@@ -28,7 +28,8 @@ class CoursesContainer extends React.Component {
         this.loadCourses                    = this.loadCourses.bind(this);
         this.deleteCourse                   = this.deleteCourse.bind(this);
         this.courseSearchChange             = this.courseSearchChange.bind(this);
-
+        this.changeStatusCourse             = this.changeStatusCourse.bind(this);
+        this.duplicateCourse                = this.duplicateCourse.bind(this);
     }
 
     componentWillMount() {
@@ -68,6 +69,18 @@ class CoursesContainer extends React.Component {
         }.bind(this), 500);
     }
 
+    changeStatusCourse(index,course){
+        this.props.coursesActions.changeStatusCourse(index,course);
+    }
+
+    duplicateCourse(data){
+        helper.confirm('warning', 'Duplicate', "Bạn có muốn duplicate môn học này không?", () => {
+            this.props.coursesActions.duplicateCourse(data, ()=>{
+                return this.props.coursesActions.loadCourses(this.state.page);
+            });
+        });
+    }
+
     render() {
 
         return (
@@ -102,7 +115,10 @@ class CoursesContainer extends React.Component {
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
                                             courses={this.props.coursesList}
+                                            isDuplicating={this.props.isDuplicating}
                                             deleteCourse={this.deleteCourse}
+                                            changeStatusCourse={this.changeStatusCourse}
+                                            duplicateCourse={this.duplicateCourse}
                                         />
                                     }
                                     <ul className="pagination pagination-primary">
@@ -146,6 +162,7 @@ CoursesContainer.propTypes = {
     coursesList     : PropTypes.array.isRequired,
     paginator       : PropTypes.object.isRequired,
     isDeleting      : PropTypes.bool,
+    isDuplicating   : PropTypes.bool,
 
 };
 
@@ -155,7 +172,8 @@ function mapStateToProps(state) {
         error       : state.courses.error,
         coursesList : state.courses.coursesList,
         paginator   : state.courses.paginator,
-        isDeleting  : state.courses.isDeleting
+        isDeleting  : state.courses.isDeleting,
+        isDuplicating  : state.courses.isDuplicating,
     };
 }
 

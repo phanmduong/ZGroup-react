@@ -13,7 +13,7 @@ export function loadWorks() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_WORKS_JOB_ASSIGNMENT_SUCCESS,
-                    works: res.data.works
+                    works: res.data.data.works
                 });
             })
             .catch(() => {
@@ -114,14 +114,15 @@ export function editWork(data, status, success) {
     };
 }
 export function revertWork(data, status, success) {
+    helper.showWarningNotification("Đang yêu cầu");
     return function (dispatch) {
         dispatch({type: types.BEGIN_REVERT_WORK});
         jobAssignmentApi.editWork(data,status)
             .then((res) => {
+
                 if(res.data.status == 1) {
-                    if(!status)
-                        helper.sweetAlertSuccess("Lưu thành công");
-                    else success();
+                    success();
+                    helper.showNotification("Yêu cầu thành công");
                     dispatch({
                         type: types.REVERT_WORK_SUCCESS,
                     });
@@ -200,6 +201,47 @@ export function changeStatusWork(workId, staffId, status, success) {
             });
     };
 }
+export function extendWork(workId, staffId, data, success) {
+    return function (dispatch) {
+        helper.showWarningNotification("Đang yêu cầu...");
+        dispatch({type: types.BEGIN_EXTEND_WORK});
+        jobAssignmentApi.extendWork(workId,staffId, data)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({type: types.EXTEND_WORK_SUCCESS});
+                    helper.showNotification("Đã xin gia hạn, vui lòng chờ xét duyệt.");
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.EXTEND_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.EXTEND_WORK_ERROR});
+            });
+    };
+}
+export function doneWork(workId, staffId, data, success) {
+    return function (dispatch) {
+        helper.showWarningNotification("Đang lưu...");
+        dispatch({type: types.BEGIN_CHANGE_STATUS_WORK});
+        jobAssignmentApi.doneWork(workId,staffId, data)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({type: types.CHANGE_STATUS_WORK_SUCCESS});
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.CHANGE_STATUS_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.CHANGE_STATUS_WORK_ERROR});
+            });
+    };
+}
 export function resetDataCreate(){
     return function (dispatch) {
         dispatch({type: types.RESET_DATA_CREATE_WORK});
@@ -208,3 +250,25 @@ export function resetDataCreate(){
 }
 
 
+
+export function loadCurrencies() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_CURRENCIES_JOB_ASSIGNMENT});
+        jobAssignmentApi.loadCurrencies()
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_SUCCESS,
+                        currencies: res.data.data.currencies
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_ERROR});
+            });
+    };
+}

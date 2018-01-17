@@ -70,6 +70,11 @@ export function createEditCourse(data) {
     if (token) {
         url += "?token=" + token;
     }
+    let categories = JSON.stringify(data.categories.map(obj => { return ({id: obj.id});}));
+    data = {
+        ...data,
+        categories,
+    };
     return axios.post(url, data);
     //http://manageapi.keetool.tk/v2/course/create-edit?token=
 }
@@ -104,8 +109,27 @@ export function createPixel(courseId, data) {
     return axios.post(url, data);
 }
 
+export function createTerm(data) {
+    //http://manageapi.keetool.xyz/v2/lesson/term/create?token=
+    let url = env.MANAGE_API_URL + "/v2/lesson/term/create";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, data);
+}
+
 export function editPixel(pixelId, data) {
     let url = env.MANAGE_API_URL + "/course/pixel/" + pixelId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, data);
+}
+export function editTerm( data) {
+    //http://manageapi.keetool.xyz/v2/lesson/term/1/edit?token=
+    let url = env.MANAGE_API_URL + "/v2/lesson/term/" + data.id +"/edit";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -120,4 +144,68 @@ export function deletePixel(pixelId) {
         url += "?token=" + token;
     }
     return axios.delete(url);
+}
+export function deleteTerm(termId) {
+    let url = env.MANAGE_API_URL + "/v2/lesson/term/" + termId + "/delete";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
+export function changeStatusCourse(course) {
+    //http://manageapi.keetool.xyz/v2/course/1/change-status?token=
+    let url = env.MANAGE_API_URL + "/v2/course/"+ course.id +"/change-status";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {status: !course.status});
+}
+export function loadAllTypes() {
+    //manageapi.keetool.xyz/course/type?token=
+    let url = env.MANAGE_API_URL + "/course/type";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&limit=-1";
+    }
+    return axios.get(url);
+}
+export function loadAllCategories() {
+    //manageapi.keetool.xyz/course/category?&limit=&page=&token=
+    let url = env.MANAGE_API_URL + "/course/category";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&limit=-1";
+    }
+    return axios.get(url);
+}
+
+
+export function duplicateCourse(id) {
+    let url = env.MANAGE_API_URL + "/v2/course/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+export function duplicateLesson(id) {
+    let url = env.MANAGE_API_URL + "/v2/lesson/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+export function duplicateTerm(id) {
+    let url = env.MANAGE_API_URL + "/v2/lesson/term/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
 }

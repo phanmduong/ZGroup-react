@@ -5,6 +5,10 @@ import {connect}                        from 'react-redux';
 import  * as coursesActions             from '../coursesActions';
 import FormInputText                    from '../../../components/common/FormInputText';
 import * as helper                      from '../../../helpers/helper';
+import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
+import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
+import Select from 'react-select';
+import ReactSelect from 'react-select';
 
 class coursesCreateEditGeneral extends React.Component {
     constructor(props, context) {
@@ -15,6 +19,7 @@ class coursesCreateEditGeneral extends React.Component {
         this.updateFormData     = this.updateFormData.bind(this);
         this.commitCourseData   = this.commitCourseData.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
+        this.onCategoryChange      = this.onCategoryChange.bind(this);
     }
 
     componentWillMount() {
@@ -31,15 +36,20 @@ class coursesCreateEditGeneral extends React.Component {
 
 
     updateFormData(e){
-        const   feild   = e.target.name;
-        const   value   = e.target.value;
+        let   feild, value;
+        if(e.target){
+            feild   = e.target.name;
+            value   = e.target.value;
+        }else{
+            feild = "type_id";
+            value = e.id;
+        }
         let data = {...this.props.data};
         data[feild] = value;
         this.props.coursesActions.updateData(data);
     }
 
     checkValidate() {
-
         if ($('#form-course-create-edit').valid()) {
 
             if (helper.isEmptyInput(this.props.data.icon_url)) {
@@ -59,6 +69,11 @@ class coursesCreateEditGeneral extends React.Component {
         return false;
     }
 
+    onCategoryChange(obj){
+        console.log(obj);
+        this.props.coursesActions.onCategoryChange(obj);
+    }
+
     render(){
         return (
             <div className="card-content">
@@ -76,14 +91,14 @@ class coursesCreateEditGeneral extends React.Component {
                                 /></div>
 
                             {/*<div className="col-md-6">*/}
-                                {/*<FormInputText*/}
-                                    {/*label="Thời lượng"*/}
-                                    {/*required*/}
-                                    {/*type="number"*/}
-                                    {/*name="duration"*/}
-                                    {/*updateFormData={this.updateFormData}*/}
-                                    {/*value={this.props.data.duration}*/}
-                                {/*/></div>*/}
+                            {/*<FormInputText*/}
+                            {/*label="Thời lượng"*/}
+                            {/*required*/}
+                            {/*type="number"*/}
+                            {/*name="duration"*/}
+                            {/*updateFormData={this.updateFormData}*/}
+                            {/*value={this.props.data.duration}*/}
+                            {/*/></div>*/}
                             <div className="col-md-12">
                                 <FormInputText
                                     label="Giá"
@@ -132,6 +147,35 @@ class coursesCreateEditGeneral extends React.Component {
                                     value={this.props.data.mac_how_install}
                                 />
                             </div>
+                            <div className="col-md-6">
+                                    <label>
+                                        Nhãn
+                                    </label>
+                                    <Select
+                                        placeholder="Nhập nhãn"
+                                        style={{width: "100%"}}
+                                        value={this.props.data.categories}
+                                        name="categories"
+                                        multi={true}
+                                        valueComponent={MemberReactSelectValue}
+                                        optionComponent={MemberReactSelectOption}
+                                        options={this.props.categories}
+                                        onChange={this.onCategoryChange}
+                                    />
+                                </div>
+                            <div className="col-md-6">
+                                <label>
+                                    Hình thức
+                                </label>
+                                <ReactSelect
+                                    name="type_id"
+                                    className=""
+                                    options={this.props.types}
+                                    onChange={this.updateFormData}
+                                    value={this.props.data.type_id || ""}
+                                    defaultMessage="Tuỳ chọn"
+                                />
+                            </div>
 
                         </div>
 
@@ -140,11 +184,11 @@ class coursesCreateEditGeneral extends React.Component {
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                             </button>
                             :
-                                    <button
-                                        className="btn btn-fill btn-rose"
-                                        type="button"
-                                        onClick={this.commitCourseData}
-                                    > Lưu </button>
+                            <button
+                                className="btn btn-fill btn-rose"
+                                type="button"
+                                onClick={this.commitCourseData}
+                            > Lưu </button>
                         }
                     </div>
                 }
@@ -167,8 +211,10 @@ coursesCreateEditGeneral.propTypes = {
     updateCoverError    : PropTypes.bool,
     isCommitting        : PropTypes.bool,
     commitSuccess       : PropTypes.bool,
-    updateData       : PropTypes.func,
-    coursesActions      : PropTypes.object.isRequired
+    updateData          : PropTypes.func,
+    coursesActions      : PropTypes.object.isRequired,
+    types               : PropTypes.array,
+    categories          : PropTypes.array,
 };
 
 function mapStateToProps(state) {
@@ -182,7 +228,9 @@ function mapStateToProps(state) {
         isUpdatingCover     : state.courses.isUpdatingCover,
         updateCoverError    : state.courses.updateCoverError,
         isCommitting        : state.courses.isCommitting,
-        commitSuccess       : state.courses.commitSuccess
+        commitSuccess       : state.courses.commitSuccess,
+        types               : state.courses.types,
+        categories          : state.courses.categories,
     };
 }
 

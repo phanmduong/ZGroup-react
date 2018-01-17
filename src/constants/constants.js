@@ -1,5 +1,20 @@
 import * as env from './env';
 
+export const QUESTION_TYPE = [
+    {
+        value: 0,
+        label: "Textbox"
+    },
+    {
+        value: 1,
+        label: "Radio"
+    },
+    {
+        value: 2,
+        label: "Checkbox"
+    }
+];
+
 export const MARITAL = [
     {
         id: 0,
@@ -153,6 +168,39 @@ export const ORDER_STATUS = [
         order: 5,
         label: "Hủy",
         value: "cancel"
+    }
+];
+
+export const ORDERED_STATUS = [
+    {
+        order: 0,
+        label: "Đơn mới",
+        value: "place_order"
+    },
+    {
+        order: 1,
+        label: "Đã báo giá",
+        value: "sent_price"
+    },
+    {
+        order: 2,
+        label: "Đặt hàng",
+        value: "ordered"
+    },
+    {
+        order: 3,
+        label: "Hết hàng",
+        value: "unavailable"
+    },
+    {
+        order: 4,
+        label: "Hủy",
+        value: "cancel"
+    },
+    {
+        order: 5,
+        label: "Về VN",
+        value: "came_to_VN"
     }
 ];
 

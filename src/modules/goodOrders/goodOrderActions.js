@@ -6,22 +6,27 @@ import moment from 'moment';
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_GOOD_ORDERS});
-        goodOrdersApi.loadAllOrders(page, search, startTime, endTime, staff, status)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_GOOD_ORDERS_SUCCESS,
-                    totalOrder: res.data.total_order,
-                    totalMoney: res.data.total_money,
-                    totalPaidMoney: res.data.total_paid_money,
-                    orders: res.data.orders,
-                    currentPage: res.data.paginator.current_page,
-                    totalPages: res.data.paginator.total_pages,
-                    limit: res.data.paginator.limit,
-                    totalCount: res.data.paginator.total_count
-                });
-            }).catch(() => {
+        const infoPromise = new Promise((resolve) => {
+            goodOrdersApi.loadOrderInfo(page, search, startTime, endTime, staff, status)
+                .then(res => resolve(res));
+        });
+        const orderPromise = new Promise((resolve) => {
+            goodOrdersApi.loadAllOrders(page, search, startTime, endTime, staff, status)
+                .then(res => resolve(res));
+        });
+        Promise.all([infoPromise, orderPromise]).then(data => {
+            const infoRes = data[0];
+            const orderRes = data[1];
             dispatch({
-                type: types.LOAD_GOOD_ORDERS_ERROR
+                type: types.LOAD_GOOD_ORDERS_SUCCESS,
+                totalOrder: infoRes.data.data.total_orders,
+                totalMoney: infoRes.data.data.total_money,
+                totalPaidMoney: infoRes.data.data.total_paid_money,
+                orders: orderRes.data.orders,
+                currentPage: orderRes.data.paginator.current_page,
+                totalPages: orderRes.data.paginator.total_pages,
+                limit: orderRes.data.paginator.limit,
+                totalCount: orderRes.data.paginator.total_count
             });
         });
     };
@@ -77,11 +82,36 @@ export function getAllStaffs() {
     };
 }
 
-export function changeStatusOrder(status, orderId, labelId ) {
+export function loadWareHouse(page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_WAREHOUSES_GOOD_ORDER
+        });
+        goodOrdersApi.loadWareHouseApi(page, search)
+            .then(res => {
+                dispatch({
+                    type: types.GET_WAREHOUSES_GOOD_ORDER,
+                    warehousesList: res.data.warehouses,
+                    totalCountWarehouse: res.data.paginator.total_count,
+                    totalPagesWarehouse: res.data.paginator.total_pages,
+                    currentPageWarehouse: res.data.paginator.current_page
+                });
+            });
+    };
+}
+
+export function showSelectWarehouseModal(nextStatus, orderIdWarehouseModal) {
+    return ({
+        type: types.TOGGLE_SELECT_WAREHOUSE_MODAL,
+        nextStatus,
+        orderIdWarehouseModal
+    });
+}
+
+export function changeStatusOrder(status, orderId, warehouse_id) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
-        dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
-        goodOrdersApi.changeStatusOrder(status, orderId, labelId)
+        goodOrdersApi.changeStatusOrder(status, orderId, warehouse_id)
             .then((res) => {
                 if (res.data.status === 0) {
                     helper.showErrorNotification(res.data.message.message);
@@ -89,8 +119,7 @@ export function changeStatusOrder(status, orderId, labelId ) {
                     helper.showNotification("Thay đổi trạng thái thành công");
                     dispatch({
                         type: types.CHANGE_STATUS_ORDER_SUCCESS,
-                        status,
-                        labelId,
+                        status
                     });
                 }
             })
@@ -182,7 +211,7 @@ export function sendShipOrder(shippingGood, orderId, labelId) {
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-        if (labelId) {
+        if (labelId || labelId < 0) {
             goodOrdersApi.cancelShipOrder(labelId)
                 .then(() => {
                     goodOrdersApi.sendShipOrder(shippingGood)

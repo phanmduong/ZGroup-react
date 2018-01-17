@@ -130,6 +130,30 @@ export default function studySessionReducer(state = initialState.infoStudent, ac
                     errorEditing: true,
                 }
             };
+        case types.BEGIN_CHANGE_PASSWORD_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isChangingPassword: true,
+                    errorChangePassword: false
+                }
+            };
+        case types.CHANGE_PASSWORD_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isChangingPassword: false,
+                    errorChangePassword: false
+                }
+            };
+        case types.CHANGE_PASSWORD_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingPassword: false,
+                    errorChangePassword: true,
+                }
+            };
         default:
             return state;
     }

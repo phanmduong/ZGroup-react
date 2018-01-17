@@ -14,6 +14,8 @@ import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectO
 import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
 import CardListModalContainer from "./CardListModalContainer";
 import CardDetailModalContainer from "../../tasks/card/CardDetailModalContainer";
+import {ProgressBar} from "react-bootstrap";
+import Avatar from "../../../components/common/Avatar";
 
 // Import actions here!!
 
@@ -114,14 +116,18 @@ class DashboardItContainer extends React.Component {
     }
 
     render() {
-        const {dateArray, pointByDate, cardsByDate, isLoading} = this.props;
+        const {dateArray, pointByDate, cardsByDate, isLoading, staffs} = this.props;
         const {from, to, selectedStaff, selectedProject} = this.state;
+        const maxPoint = Math.max.apply(Math, staffs.map((staff) => staff.total_points));
+        const maxNumCard = Math.max.apply(Math, staffs.map((staff) => staff.num_cards));
+
         const totalPoint = pointByDate.reduce((total, point) => {
             return total + parseInt(point);
         }, 0);
         const totalCards = cardsByDate.reduce((total, cards) => {
             return total + parseInt(cards);
         }, 0);
+
         return (
 
             <div className="row">
@@ -134,7 +140,11 @@ class DashboardItContainer extends React.Component {
                     />
                     <CardDetailModalContainer isProcess={false}/>
                     <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
+                        <div className="card-header card-header-icon"
+                             style={{
+                                 zIndex: 0
+                             }}
+                             data-background-color="rose">
                             <i className="material-icons">insert_chart</i>
                         </div>
                         <div className="card-content">
@@ -212,6 +222,9 @@ class DashboardItContainer extends React.Component {
                                                         <div className="col-lg-4 col-md-4 col-sm-4">
                                                             <div className="card card-stats">
                                                                 <div className="card-header"
+                                                                     style={{
+                                                                         zIndex: 0
+                                                                     }}
                                                                      data-background-color="rose">
                                                                     <i className="material-icons">fiber_manual_record</i>
                                                                 </div>
@@ -226,6 +239,9 @@ class DashboardItContainer extends React.Component {
                                                         <div className="col-lg-4 col-md-4 col-sm-4">
                                                             <div className="card card-stats">
                                                                 <div className="card-header"
+                                                                     style={{
+                                                                         zIndex: 0
+                                                                     }}
                                                                      data-background-color="green">
                                                                     <i className="material-icons">credit_card</i>
                                                                 </div>
@@ -240,6 +256,9 @@ class DashboardItContainer extends React.Component {
                                                         <div className="col-lg-4 col-md-4 col-sm-4">
                                                             <div className="card card-stats">
                                                                 <div className="card-header"
+                                                                     style={{
+                                                                         zIndex: 0
+                                                                     }}
                                                                      data-background-color="blue">
                                                                     <i className="material-icons">gps_not_fixed</i>
                                                                 </div>
@@ -255,11 +274,63 @@ class DashboardItContainer extends React.Component {
                                                             label={dateArray}
                                                             data={[pointByDate, cardsByDate]}
                                                             id="barchar_task_and_point_by_date"/>
+                                                        <div className="col-sm-12">
+                                                            <div className="table-responsive">
+                                                                <table className="table">
+                                                                    <thead className="text-primary">
+                                                                    <tr className="text-rose">
+                                                                        <th>Tên nhân viên</th>
+                                                                        <th>Thẻ</th>
+                                                                        <th>Điểm</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {
+                                                                        staffs && staffs.map((staff) => (
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <Avatar
+                                                                                        style={{display: "inline-block"}}
+                                                                                        url={staff.avatar_url}
+                                                                                        size="20"/>
+                                                                                    <div style={{
+                                                                                        position: "relative",
+                                                                                        display: "inline-block",
+                                                                                        top: -4
+                                                                                    }}>
+                                                                                        {staff.name}
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    {staff.num_cards} / {maxNumCard}
+                                                                                    <ProgressBar
+                                                                                        bsStyle="rose"
+                                                                                        now={staff.num_cards * 100 / maxNumCard}
+                                                                                        label={staff.num_cards * 100 / maxNumCard}/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    {staff.total_points} / {maxPoint}
+                                                                                    <ProgressBar
+                                                                                        bsStyle="rose"
+                                                                                        now={staff.total_points * 100 / totalPoint}
+                                                                                        label={staff.total_points * 100 / totalPoint}/>
+                                                                                </td>
+                                                                            </tr>
+                                                                        ))
+
+                                                                    }
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 )
                                             }
                                         </div>
+
                                     </div>
+
                                 )
                             }
 
@@ -278,6 +349,7 @@ DashboardItContainer.propTypes = {
     dateArray: PropTypes.array,
     pointByDate: PropTypes.array,
     cardsByDate: PropTypes.array,
+    staffs: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired
 };
 
@@ -287,7 +359,8 @@ function mapStateToProps(state) {
         dateArray: state.dashboard.it.dateArray,
         pointByDate: state.dashboard.it.pointByDate,
         cardsByDate: state.dashboard.it.cardsByDate,
-        isLoading: state.dashboard.it.isLoading
+        isLoading: state.dashboard.it.isLoading,
+        staffs: state.dashboard.it.staffs
     };
 }
 

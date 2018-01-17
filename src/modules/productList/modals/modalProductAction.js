@@ -67,6 +67,13 @@ export function showSameProductModal(index) {
     });
 }
 
+export function handleWarehouseProduct(product) {
+    return({
+       type:types.HANDLE_WAREHOUSE_PRODUCT,
+       product
+    });
+}
+
 export function openWareHouseTab() {
     return function (dispatch) {
         dispatch({
