@@ -131,7 +131,6 @@ const appReducer = combineReducers({
     landingPages: landingPagesReducer,
     orderedProduct: orderedProductReducer,
     survey: surveyReducer,
-    landingPages: landingPagesReducer,
     historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
     dashboardXHH: dashboardXHHReducer,
