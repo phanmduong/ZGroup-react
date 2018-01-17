@@ -15,8 +15,7 @@ class CurrencyController extends ManageApiController
         parent::__construct();
     }
 
-    public function getAllCurrencies(Request $request)
-    {
+    public function getAllCurrencies(Request $request){
         $currencies = Currency::all();
         return $this->respondSuccessWithStatus([
             "currencies" => $currencies->map(function($currency){
@@ -29,26 +28,23 @@ class CurrencyController extends ManageApiController
     {
         if ($request->name === null || trim($request->name) == "" ||
             $request->notation === null || trim($request->notation) == "" ||
-            $request->ratio === null || trim($request->ratio) == "")
-            return $this->respondErrorWithStatus("Thiếu trường");
+            $request->ratio === null || trim($request->ratio) == ""
+
+        ) return $this->respondErrorWithStatus("Thiếu trường");
         $currency = new Currency;
         $currency->name = $request->name;
         $currency->notation = $request->notation;
         $currency->ratio = $request->ratio;
         $currency->save();
         return $this->respondSuccessWithStatus([
-            "message" => "Tạo thành công"
+           "message" => "Tạo thành công",
+           "currency" => $currency->transform(),
         ]);
     }
 
-    public function editCurrency($currencyId, Request $request)
-    {
-        if ($request->name === null || trim($request->name) == "" ||
-            $request->notation === null || trim($request->notation) == "" ||
-            $request->ratio === null || trim($request->ratio) == "")
-            return $this->respondErrorWithStatus("Thiếu trường");
-        $currency = Currency::find($currencyId);
-        if (!$currency) return $this->respondErrorWithStatus("Không tồn tại");
+    public function editCurrency($currencyId,Request $request){
+        $currency= Currency::find($currencyId);
+        if(!$currency) return $this->respondErrorWithStatus("Không tồn tại");
         $currency->name = $request->name;
         $currency->notation = $request->notation;
         $currency->ratio = $request->ratio;
