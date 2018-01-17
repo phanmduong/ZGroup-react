@@ -1,21 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ControlLabel, FormControl, FormGroup, ListGroup, ListGroupItem} from "react-bootstrap";
+import {ListGroup, ListGroupItem} from "react-bootstrap";
+import AddAnswerInputContainer from "../AddAnswerInputContainer";
+import DeleteAnswerContainer from "../DeleteAnswerContainer";
 
 class OneCorrectAnswerComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.onAnswerChecked = this.onAnswerChecked.bind(this);
-        this.state = {
-            answer: ""
-        };
-        this.onChangeAnswerInput = this.onChangeAnswerInput.bind(this);
-    }
-
-    onChangeAnswerInput(event) {
-        this.setState({
-            answer: event.target.value
-        });
     }
 
     onAnswerChecked(index, event) {
@@ -46,7 +38,7 @@ class OneCorrectAnswerComponent extends React.Component {
                     {
                         question.answers && question.answers.map((answer, index) => {
                             return (
-                                <ListGroupItem key={index}>
+                                <ListGroupItem key={index} style={{position: "relative"}}>
                                     <div className="radio">
                                         <label>
                                             <input
@@ -57,25 +49,23 @@ class OneCorrectAnswerComponent extends React.Component {
                                             <span className="circle"/>
                                             <span className="check"/>
                                             {answer.content}
+
                                         </label>
+                                    </div>
+                                    <div style={{
+                                        position: "absolute",
+                                        right: 15,
+                                        top: 10
+                                    }}>
+                                        <DeleteAnswerContainer answer={answer}/>
                                     </div>
                                 </ListGroupItem>
                             );
                         })
                     }
-                    <ListGroupItem>
-                        <FormGroup controlId="Câu trả lời" style={{marginTop: 0}}>
-                            <ControlLabel>Nội dung câu trả lời</ControlLabel>
-                            <FormControl
-                                style={{height: 80}}
-                                componentClass="textarea"
-                                name="content"
-                                value={this.state.answer}
-                                placeholder="Nội dung câu trả lời"
-                                onChange={this.handleInputChange}/>
-                        </FormGroup>
-                    </ListGroupItem>
+
                 </ListGroup>
+                <AddAnswerInputContainer/>
             </div>
         );
     }

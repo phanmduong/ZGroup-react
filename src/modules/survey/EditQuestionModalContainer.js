@@ -93,7 +93,10 @@ class EditQuestionModalContainer extends React.Component {
                     {
                         isSavingQuestion ? <Loading/> : (
                             <div>
-                                <Button className="btn btn-rose" onClick={this.saveQuestion}>Lưu</Button>
+                                <Button
+                                    disabled={question.type === undefined || question.type === null || !question.content}
+                                    className="btn btn-rose"
+                                    onClick={this.saveQuestion}>Lưu</Button>
                                 <Button className="btn btn-default" onClick={this.handleClose}>Đóng</Button>
                             </div>
                         )

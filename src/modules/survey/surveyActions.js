@@ -4,10 +4,10 @@ import {
     LOAD_SURVEYS_LIST_SUCCESS,
     LOAD_SURVEY_DETAIL_SUCCESS,
     TOGGLE_EDIT_SURVEY, UPDATE_QUESTION_FORM_DATA, BEGIN_SAVE_QUESTION, SAVE_QUESTION_SUCCESS
-    , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER
+    , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER, ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
-import {showErrorMessage} from "../../helpers/helper";
+import {showErrorMessage, showNotification} from "../../helpers/helper";
 
 
 export const loadSurveys = (page = 1, search = '') => {
@@ -56,6 +56,15 @@ export const updateQuestionFormData = (question) => {
     };
 };
 
+export const removeAnswer = (answer) => {
+    return (dispatch) => {
+        dispatch({
+            type: REMOVE_ANSWER_FROM_QUESTION,
+            answer
+        });
+    };
+};
+
 export const saveQuestion = (question) => {
     return async (dispatch, getState) => {
         const survey = getState().survey.survey;
@@ -69,9 +78,10 @@ export const saveQuestion = (question) => {
         });
 
         if (res.data.status === 1) {
-            loadSurveyDetailPrivate(dispatch, survey.id);
+            showNotification("Lưu câu hỏi thành công");
             dispatch({
-                type: SAVE_QUESTION_SUCCESS
+                type: SAVE_QUESTION_SUCCESS,
+                question: res.data.data.question
             });
         } else {
             showErrorMessage("Lỗi", res.data.message);
@@ -89,8 +99,11 @@ export const updateAnswerToStore = (answer) => {
 };
 
 export const saveAnswer = (answer) => {
-    return () => {
-        surveyApi.saveAnswer(answer);
+    return (dispatch) => {
+        dispatch({
+            type: ADD_ANSWER_TO_QUESTION,
+            answer
+        });
     };
 };
 

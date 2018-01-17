@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
+import AddAnswerInputContainer from "../AddAnswerInputContainer";
+import DeleteAnswerContainer from "../DeleteAnswerContainer";
 
 class ManyCorrectAnswerComponent extends React.Component {
     constructor(props, context) {
@@ -33,7 +35,7 @@ class ManyCorrectAnswerComponent extends React.Component {
                     {
                         question.answers && question.answers.map((answer, index) => {
                             return (
-                                <ListGroupItem key={index}>
+                                <ListGroupItem key={index} style={{position: "relative"}}>
                                     <div className="checkbox">
                                         <label>
                                             <input
@@ -44,13 +46,22 @@ class ManyCorrectAnswerComponent extends React.Component {
                                             <span className="checkbox-material" style={{zIndex: 0}}>
                                                 <span className="check"/>
                                             </span> {answer.content}
+
                                         </label>
+                                    </div>
+                                    <div style={{
+                                        position: "absolute",
+                                        right: 15,
+                                        top: 10
+                                    }}>
+                                        <DeleteAnswerContainer answer={answer}/>
                                     </div>
                                 </ListGroupItem>
                             );
                         })
                     }
                 </ListGroup>
+                <AddAnswerInputContainer/>
             </div>
         );
     }
