@@ -180,7 +180,7 @@ class OrderService
         ];
     }
 
-    public function changeOrderStatus($orderId, $request, $staff_id)
+    public function changeOrderStatus($orderId, $request, $staffId)
     {
         $order = Order::find($orderId);
         if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2 && $this->statusToNum($request->status) != 5) {
@@ -195,7 +195,7 @@ class OrderService
 
         if (($this->statusToNum($order->status) >= 2 && $this->statusToNum($order->status) <= 4)
             && ($this->statusToNum($request->status) < 2 || $this->statusToNum($request->status) == 5)) {
-            $this->fixStatusBackWard($order->id, $staff_id);
+            $this->fixStatusBackWard($order->id, $staffId);
         }
         if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;
@@ -218,6 +218,7 @@ class OrderService
             }
         }
         $order->status = $request->status;
+        $order->staff_id = $staffId;
         if ($request->label_id) {
             $order->label_id = $request->label_id;
         }
