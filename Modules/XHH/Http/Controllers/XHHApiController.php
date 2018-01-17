@@ -77,9 +77,10 @@ class XHHApiController extends ApiPublicController
 
         $books = $books->select('goods.*')->paginate($limit);
 
-        $this->data['books'] = $books;
-        $this->data['search'] = $search;
-
+        $this->data['books'] = $books->map(function ($book) {
+            $book->properties;
+            return $book;
+        });;
 
         return $this->respondWithPagination($books, $this->data);
     }
