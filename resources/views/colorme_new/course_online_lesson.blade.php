@@ -198,8 +198,7 @@
 
 @push('scripts')
     <script>
-        {!! $comments !!}
-                @if(isset($user))
+        @if(isset($user))
             vueData.isLogin = true;
         vueData.user = JSON.parse(localStorage.getItem('auth')).user;
 
