@@ -45,8 +45,7 @@ class Base extends Model
             "id" => $this->id,
             "name" => $this->name,
             "avatar_url" => $this->avatar_url,
-            "images_url" => $this->images_url,
-            "address" => $this->address
+            "description" => $this->description,
         ];
     }
 
