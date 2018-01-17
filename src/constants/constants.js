@@ -1,5 +1,20 @@
 import * as env from './env';
 
+export const QUESTION_TYPE = [
+    {
+        value: 0,
+        label: "Textbox"
+    },
+    {
+        value: 1,
+        label: "Radio"
+    },
+    {
+        value: 2,
+        label: "Checkbox"
+    }
+];
+
 export const MARITAL = [
     {
         id: 0,

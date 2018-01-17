@@ -30,7 +30,6 @@ class OrdersContainer extends React.Component {
             staff: null,
             base: null,
             status: null
-
         };
         this.timeOut = null;
         this.ordersSearchChange = this.ordersSearchChange.bind(this);

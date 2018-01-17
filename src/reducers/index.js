@@ -65,6 +65,7 @@ import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/History
 import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
 import surveyReducer from '../modules/survey/surveyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
+import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 
 
 const appReducer = combineReducers({
@@ -133,7 +134,8 @@ const appReducer = combineReducers({
     survey: surveyReducer,
     historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
-    currency: currencyReducer
+    currency: currencyReducer,
+    dashboardXHH: dashboardXHHReducer,
 });
 
 const rootReducer = (state, action) => {

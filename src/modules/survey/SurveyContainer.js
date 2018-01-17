@@ -81,7 +81,8 @@ class SurveyContainer extends React.Component {
                                                                 return (
                                                                     <tr key={survey.id}>
                                                                         <td>
-                                                                            <Link to={"/survey/" + survey.id}>
+                                                                            <Link className="text-rose"
+                                                                                  to={"/survey/" + survey.id}>
                                                                                 {survey.name}
                                                                             </Link>
                                                                         </td>

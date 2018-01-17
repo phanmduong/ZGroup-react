@@ -274,6 +274,10 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 bonus_value: 0,
                 bonus_type: "coin",
                 staffs: [],
+                payer:{
+                    id: null,
+                    name : "",
+                }
             };
             return {
                 ...state,
@@ -281,6 +285,36 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                     isLoading: false,
                     data: defaultData,
                 }
+            };
+        }
+        case types.BEGIN_LOAD_CURRENCIES_JOB_ASSIGNMENT: {
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        }
+        case types.LOAD_CURRENCIES_JOB_ASSIGNMENT_SUCCESS: {
+            let currencies = action.currencies.map((obj)=>{
+                return({
+                    ...obj,
+                    value : obj.id,
+                    label : obj.name,
+                });
+            });
+            let data = {...state.data, currency: currencies[0]};
+            return {
+                ...state,
+                ...{
+                    currencies,
+                    data,
+                }
+            };
+        }
+        case types.LOAD_CURRENCIES_JOB_ASSIGNMENT_ERROR: {
+            return {
+                ...state,
             };
         }
 
