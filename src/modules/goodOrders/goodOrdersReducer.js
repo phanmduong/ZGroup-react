@@ -237,19 +237,9 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
 
 
         case types.BEGIN_EDIT_ORDER:
-            if (action.isReturnOrders)
-                return {
-                    ...state,
-                    order: {
-                        ...state.order,
-                        isSavingQuantityInReturnOrders: {
-                            ...state.order.isSavingQuantityInReturnOrders,
-                            id: action.index,
-                            status: true,
-                        },
-                    }
-                };
-            else {
+
+            if (action.isQuantity) {
+
                 return {
                     ...state,
                     order: {
@@ -262,20 +252,18 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     }
                 };
             }
-        case types.EDIT_ORDER_ERROR:
-            if (action.isReturnOrders)
+            else{
                 return {
                     ...state,
-                    order: {
+                    order : {
                         ...state.order,
-                        isSavingQuantityInReturnOrders: {
-                            ...state.order.isSavingQuantityInReturnOrders,
-                            id: action.index,
-                            status: false,
-                        },
+                        isSaving : true,
                     }
                 };
-            else
+            }
+
+        case types.EDIT_ORDER_ERROR:
+            if(action.isQuantity) {
                 return {
                     ...state,
                     order: {
@@ -287,21 +275,21 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                         },
                     }
                 };
+            }
+            else{
+                return {
+                    ...state,
+                    order : {
+                        ...state.order,
+                        isSaving : false,
+                    }
+                };
+            }
 
         case types.EDIT_ORDER_SUCCESS:
-            if (action.isReturnOrders)
-                return {
-                    ...state,
-                    order: {
-                        ...state.order,
-                        isSavingQuantityInReturnOrders: {
-                            ...state.order.isSavingQuantityInReturnOrders,
-                            id: action.index,
-                            status: false,
-                        },
-                    }
-                };
-            else
+
+            if (action.isQuantity) {
+
                 return {
                     ...state,
                     order: {
@@ -313,6 +301,17 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                         },
                     }
                 };
+            }
+            else{
+                return {
+                    ...state,
+                    order : {
+                        ...state.order,
+                        isSaving : false,
+                    }
+                };
+            }
+
 
 
         case  types.OPEN_RETURN_ORDER_IN_ORDER:
@@ -414,7 +413,74 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     }
                 }
             };
+        case types.BEGIN_EDIT_RETURN_ORDER:
+            if (action.isQuantity)
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantityInReturnOrders: {
+                            ...state.order.isSavingQuantityInReturnOrders,
+                            id: action.index,
+                            status: true,
+                        },
+                    }
+                };
+            else {
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                            isSavingReturnOrders: true,
+                    }
+                };
+            }
 
+            case types.EDIT_RETURN_ORDER_SUCCESS:
+                if (action.isQuantity)
+                    return {
+                        ...state,
+                        order: {
+                            ...state.order,
+                            isSavingQuantityInReturnOrders: {
+                                ...state.order.isSavingQuantityInReturnOrders,
+                                id: action.index,
+                                status: false,
+                            },
+                        }
+                    };
+                else {
+                    return {
+                        ...state,
+                        order: {
+                            ...state.order,
+                            isSavingReturnOrders: false,
+                        }
+                    };
+                }
+
+        case types.EDIT_RETURN_ORDER_ERROR:
+            if (action.isQuantity)
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantityInReturnOrders: {
+                            ...state.order.isSavingQuantityInReturnOrders,
+                            id: action.index,
+                            status: false,
+                        },
+                    }
+                };
+            else {
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingReturnOrders: false,
+                    }
+                };
+            }
 
         default:
             return state;

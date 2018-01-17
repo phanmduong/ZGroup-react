@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import EditButton from "./EditButton";
 
 
-
-
 class ListGood extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -21,8 +19,6 @@ class ListGood extends React.Component {
     }
 
 
-
-
     searchTable(value) {
         this.table.search(value).draw();
     }
@@ -30,7 +26,7 @@ class ListGood extends React.Component {
     render() {
         let totalMoneyAll = 0;
         return (
-            <div style={{marginTop : 50}}>
+            <div style={{marginTop: 50}}>
                 <div className="material-datatables">
                     <table id="datatables-goodorders" className="table"
                            width="100%">
@@ -70,12 +66,12 @@ class ListGood extends React.Component {
                                         </td>
                                         <td>{goodOrder.name}</td>
                                         <EditButton
-                                            goodOrder = {goodOrder}
+                                            goodOrder={goodOrder}
                                             index={index}
-                                            updateQuantity = {this.props.updateQuantity}
-                                            orderId = {this.props.orderId}
-                                            quantity = {goodOrder.quantity}
-                                            isReturnOrders = {this.props.isReturnOrders}
+                                            updateQuantity={this.props.updateQuantity}
+                                            orderId={this.props.orderId}
+                                            quantity={goodOrder.quantity}
+                                            isReturnOrders={this.props.isReturnOrders}
                                         />
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>
@@ -145,7 +141,7 @@ class ListGood extends React.Component {
                                 <h4><b>Còn lại</b></h4>
                             </th>
                             <th className="text-align-right" colSpan="5">
-                                <h4><b>{helper.dotNumber(totalMoneyAll- this.props.paid)}đ</b></h4>
+                                <h4><b>{helper.dotNumber(totalMoneyAll - this.props.paid)}đ</b></h4>
                             </th>
                             <th/>
                         </tr>

@@ -216,9 +216,9 @@ export function updateOrderFormData(order) {
     };
 }
 
-export function editOrder(order, orderId, index, isReturnOrders) {
+export function editOrder(order, orderId,isQuantity, index) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_EDIT_ORDER, index: index, isReturnOrders});
+        dispatch({type: types.BEGIN_EDIT_ORDER, index: index,isQuantity});
         goodOrdersApi.editOrderApi(order, orderId)
             .then((res) => {
                 if (res.data.status) {
@@ -226,7 +226,7 @@ export function editOrder(order, orderId, index, isReturnOrders) {
                     dispatch({
                         type: types.EDIT_ORDER_SUCCESS,
                         index: index,
-                        isReturnOrders: isReturnOrders
+                        isQuantity
                         // customer: res.data.data.user,
                     });
                     // browserHistory.push('/goods/customer');
@@ -236,7 +236,7 @@ export function editOrder(order, orderId, index, isReturnOrders) {
                     dispatch({
                         type: types.EDIT_ORDER_ERROR,
                         index: index,
-                        isReturnOrders
+                        isQuantity
                     });
                 }
             })
@@ -245,11 +245,44 @@ export function editOrder(order, orderId, index, isReturnOrders) {
                     dispatch({
                         type: types.EDIT_ORDER_ERROR,
                         index: index,
+                        isQuantity
                     });
                 }
             );
     };
 }
+
+
+
+
+export function editReturnOrders(order,orderId,isQuantity,index) {
+    return function (dispatch) {
+      dispatch({type : types.BEGIN_EDIT_RETURN_ORDER,isQuantity , index});
+        goodOrdersApi.editReturnOrdersApi(order,orderId)
+            .then((res)=>{
+            if(res.data.status) {
+                dispatch({
+                    type: types.EDIT_RETURN_ORDER_SUCCESS,
+                    isQuantity , index
+                });
+                helper.showTypeNotification('Đã chỉnh sửa đơn trả hàng', 'success');
+            }
+            else {
+                dispatch({
+                    type :types.EDIT_RETURN_ORDER_ERROR,
+                    isQuantity , index
+                });
+            }})
+            .catch(()=>{
+               dispatch({
+                   type :types.EDIT_RETURN_ORDER_ERROR,
+                   isQuantity , index
+               });
+            });
+    };
+}
+
+
 
 export function openReturnOrder(isOpenReturnOrder) {
     return function (dispatch) {

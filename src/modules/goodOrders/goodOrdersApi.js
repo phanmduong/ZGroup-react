@@ -137,3 +137,21 @@ export function loadGoodsApi(page , limit , query ) {
     }
     return axios.get(url);
 }
+
+export function editReturnOrdersApi(order,orderId) {
+    let url = env.MANAGE_API_URL + "/order/" + orderId + "/warehouse/" + order.order.warehouse;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let tmp = order.order.return_orders.map((good_order) => {
+        return {'good_id': good_order.good_id, 'quantity': good_order.quantity};
+    });
+
+    return axios.post(url,
+        {
+            'note': order.order.note,
+            'good_orders': JSON.stringify(tmp),
+        }
+    );
+}
