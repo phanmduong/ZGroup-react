@@ -84,9 +84,6 @@ class ElightController extends Controller
 
     public function book($subfix, $book_id, $lesson_id = null)
     {
-        $sound_cloud_track_id = sound_cloud_track_id("https://soundcloud.com/phan-m-d-ng-94692190/anh-khong-muon-bat-cong-voi-em");
-        dd($sound_cloud_track_id);
-
         $lesson = Lesson::find($lesson_id);
 
         $course = Course::find($book_id);
@@ -106,13 +103,15 @@ class ElightController extends Controller
             ];
         });
 
+        $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
 
 
         return view('elight::book', [
             'book' => $course,
             'lesson_selected' => $lesson,
             'lessons' => $lessons,
-            'course' => $course
+            'course' => $course,
+            'track_id' => $sound_cloud_track_id
         ]);
     }
 
