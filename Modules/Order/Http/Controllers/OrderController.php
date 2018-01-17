@@ -335,8 +335,7 @@ class OrderController extends ManageApiController
                     'price' => $good_order->price
                 ]);
         }
-//        $this->orderService->returnProcess($returnOrder->id, $request->warehouse_id, $this->user->id);
-        $this->orderService->returnProcess($returnOrder->id, 4, $this->user->id); //fix
+        $this->orderService->returnProcess($returnOrder->id, $request->warehouse_id, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'Thành công'
         ]);
