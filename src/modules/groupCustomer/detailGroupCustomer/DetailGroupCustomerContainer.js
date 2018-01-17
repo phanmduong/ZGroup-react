@@ -36,10 +36,10 @@ class DetailGroupCustomerContainer extends React.Component {
     }
 
 
-
     loadCustomersInOverlay(page, limit, query, stringId) {
         this.props.groupCustomerActions.loadCustomersInOverlay(page, limit, query, stringId);
     }
+
     editFormData(event) {
         const field = event.target.name;
         let groupCustomerForm = {...this.props.groupCustomerForm};
@@ -58,14 +58,17 @@ class DetailGroupCustomerContainer extends React.Component {
     openAddCustomerModal() {
         this.setState({isOpenAddCustomerModal: true});
     }
+
     closeAddCustomerModal() {
         this.setState({isOpenAddCustomerModal: false});
     }
+
     changeColor(color) {
         let groupCustomerForm = {...this.props.groupCustomerForm};
         groupCustomerForm.color = color.hex;
         this.updateFormData(groupCustomerForm);
     }
+
     updateFormData(groupCustomerForm) {
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
     }                   // tách ra để dùng cho overlay
@@ -121,7 +124,6 @@ class DetailGroupCustomerContainer extends React.Component {
                 <form id="form-add-group-customer">
 
 
-
                     <GeneralInfoGroup
                         groupCustomerForm={this.props.groupCustomerForm}
                         editFormData={this.editFormData}
@@ -129,13 +131,9 @@ class DetailGroupCustomerContainer extends React.Component {
                     />
 
 
-
-
-
                     <div className="row">
                         <div className="col-md-7">
                             {/*-----------------CUSTOMER TABLE------------------*/}
-
 
 
                             <ListChildCustomer
@@ -180,8 +178,6 @@ class DetailGroupCustomerContainer extends React.Component {
                     </div>
 
 
-
-
                     {/*-----------------BUTTON------------------*/}
 
 
@@ -209,10 +205,10 @@ class DetailGroupCustomerContainer extends React.Component {
                             }
 
                             <a className="btn btn-sm btn-danger"
-                                    onClick={(e) => {
-                                        browserHistory.push("/good/goods/group-customer");
-                                        e.preventDefault();
-                                    }}
+                               onClick={(e) => {
+                                   browserHistory.push("/good/goods/group-customer");
+                                   e.preventDefault();
+                               }}
                             >
                                 <i className="material-icons">cancel</i> Huỷ
                             </a>
@@ -220,16 +216,11 @@ class DetailGroupCustomerContainer extends React.Component {
                     </div>
 
 
-
-
-
-
-
                     <Modal show={this.state.isOpenDiscountModal}
                            bsSize="large"
                            bsStyle="primary"
                            onHide={() => this.closeDiscountModal()}>
-                        <Modal.Header closeButton  />
+                        <Modal.Header closeButton/>
                         <Modal.Body>
                             <div className="card">
                                 <form id="form-add-coupon-in-group-customer">
@@ -277,40 +268,33 @@ class DetailGroupCustomerContainer extends React.Component {
                     </Modal>
 
 
-
-
-
-
-
-
-
                     <Modal show={this.state.isOpenAddCustomerModal}
                            bsSize="large"
                            bsStyle="primary"
                            onHide={() => this.closeAddCustomerModal()}>
-                        <Modal.Header closeButton />
+                        <Modal.Header closeButton/>
                         <Modal.Body>
                             <div className="card">
                                 <form id="form-add-coupon-in-group-customer">
                                     <AddCustomerModal
-                                    items={this.props.customersList}
-                                    name="Khách hàng"
-                                    isSearch={true}
-                                    isPagination={true}
-                                    isLoadingOverlay={this.props.isLoadingOverlay}
-                                    icon="people"
-                                    loadFunction={this.loadCustomersInOverlay}
-                                    totalPages={this.props.totalCustomerInOverlayPages}
-                                    formData={this.props.groupCustomerForm}
-                                    fieldName="stringId"
-                                    fieldName2="customersShowInAddModal"
-                                    updateFormData={this.updateFormData}
-                                    assignCustomer={this.assignCustomer}
-                                    stringId={stringId}
-                                    customersShowInAddModal={customersShowInAddModal}
-                                    removeCustomer={this.removeCustomer}
-                                />
-                                    <div className="row" >
+                                        items={this.props.customersList}
+                                        name="Khách hàng"
+                                        isSearch={true}
+                                        isPagination={true}
+                                        isLoadingOverlay={this.props.isLoadingOverlay}
+                                        icon="people"
+                                        loadFunction={this.loadCustomersInOverlay}
+                                        totalPages={this.props.totalCustomerInOverlayPages}
+                                        formData={this.props.groupCustomerForm}
+                                        fieldName="stringId"
+                                        fieldName2="customersShowInAddModal"
+                                        updateFormData={this.updateFormData}
+                                        assignCustomer={this.assignCustomer}
+                                        stringId={stringId}
+                                        customersShowInAddModal={customersShowInAddModal}
+                                        removeCustomer={this.removeCustomer}
+                                    />
+                                    <div className="row">
                                         <div className="col-md-8"/>
                                         <div className="col-md-4">
                                             {this.props.isSavingCustomer ?

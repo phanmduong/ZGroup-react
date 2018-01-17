@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as goodOrderActions from '../goodOrderActions';
 import * as helper from '../../../helpers/helper';
+import TooltipButton from '../../../components/common/TooltipButton';
 
 
 class EditButton extends React.Component {
@@ -79,27 +80,55 @@ class EditButton extends React.Component {
                                  )
                                  :
                                  (
-                                     !this.state.isEdit ?
-                                         <span className="btn-group-action">
-                            <a onClick={(e) => this.openEditQuantity(e, goodOrder.quantity)}
-                            >
-                                <i className="material-icons" style={{fontSize: 20, marginLeft: 8}}>edit</i>
-                            </a>
-                        </span>
+                                     !this.state.isEdit
+
+                                         ? (
+                                             this.props.order.order.status === "completed_order" && !this.props.isReturnOrders
+
+
+                                                 ?
+                                                 (
+                                                     <TooltipButton text="Không chỉnh sửa khi ở trạng thái hoàn thành"
+                                                                    placement="top">
+                                                         <span className="btn-group-action ">
+                                                             <a className="disabled">
+                                                                 <i className="material-icons"
+                                                                    style={{fontSize: 20, marginLeft: 8}}>edit</i>
+                                                             </a>
+                                                         </span>
+                                                     </TooltipButton>
+                                                 )
+                                                 :
+                                                 (
+                                                     <span className="btn-group-action">
+                                                         <a onClick={(e) => this.openEditQuantity(e, goodOrder.quantity)}>
+                                                             <i className="material-icons"
+                                                                style={{fontSize: 20, marginLeft: 8}}>edit</i>
+                                                         </a>
+                                                     </span>
+                                                 )
+                                         )
+
+
                                          :
-                                         <span className="btn-group-action" style={{marginTop: 10}}>
-                            <a onClick={(e) => {
-                                this.openEditQuantity(e, goodOrder.quantity);
-                            }}>
-                                <i className="material-icons" style={{fontSize: 20, marginLeft: 8, color: "green"}}>check</i>
-                            </a>
-                                <a
-                                    onClick={(e) => this.clearEditQuantity(e, goodOrder.quantity)}
-                                >
-                                <i className="material-icons"
-                                   style={{fontSize: 20, marginLeft: 8, color: "red"}}>clear</i>
-                            </a>
-                        </span>
+
+
+                                         (
+                                             <span className="btn-group-action" style={{marginTop: 10}}>
+                                             <a onClick={(e) => {
+                                                 this.openEditQuantity(e, goodOrder.quantity);
+                                             }}>
+                                                 <i className="material-icons"
+                                                    style={{fontSize: 20, marginLeft: 8, color: "green"}}>check</i>
+                                             </a>
+                                             <a onClick={(e) => this.clearEditQuantity(e, goodOrder.quantity)}>
+                                                 <i className="material-icons"
+                                                    style={{fontSize: 20, marginLeft: 8, color: "red"}}>clear</i>
+                                             </a>
+                                         </span>
+                                         )
+
+
                                  )
                              :
                              this.props.isSavingQuantityInReturnOrders && this.props.isSavingQuantityInReturnOrders.id === index && this.props.isSavingQuantityInReturnOrders.status ?

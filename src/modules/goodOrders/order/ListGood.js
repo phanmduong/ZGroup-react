@@ -1,6 +1,5 @@
 import React from 'react';
 import TooltipButton from '../../../components/common/TooltipButton';
-import Search from '../../../components/common/Search';
 import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
 import EditButton from "./EditButton";
@@ -31,11 +30,7 @@ class ListGood extends React.Component {
     render() {
         let totalMoneyAll = 0;
         return (
-            <div>
-                <Search
-                    onChange={this.searchTable}
-                    placeholder="Nhập mã barcode hoặc tên hàng hóa"
-                />
+            <div style={{marginTop : 50}}>
                 <div className="material-datatables">
                     <table id="datatables-goodorders" className="table"
                            width="100%">

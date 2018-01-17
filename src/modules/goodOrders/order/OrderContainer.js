@@ -14,6 +14,7 @@ import {ORDER_STATUS} from "../../../constants/constants";
 import ReactSelect from 'react-select';
 import {browserHistory} from 'react-router';
 import * as goodOrdersApi from '../goodOrdersApi' ;
+import AddGoodOverlay from "./AddGoodOverlay";
 
 
 class OrderContainer extends React.Component {
@@ -99,6 +100,7 @@ class OrderContainer extends React.Component {
     openReturnOrder() {
         this.props.goodOrderActions.openReturnOrder(this.props.isOpenReturnOrder);
     }
+
     loadWarehouses(input, callback) {
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
@@ -119,13 +121,13 @@ class OrderContainer extends React.Component {
         }.bind(this), 500);
     }
 
-    changeWarehouse(value){
+    changeWarehouse(value) {
         this.props.goodOrderActions.changeWarehouse(value.value);
     }
-    resetReturnOrders(){
+
+    resetReturnOrders() {
         this.props.goodOrderActions.resetReturnOrders();
     }
-
 
 
     render() {
@@ -138,10 +140,19 @@ class OrderContainer extends React.Component {
                                 <i className="material-icons">assignment</i>
                             </div>
                             <div className="card-content">
-                                <h4 className="card-title">Chi tiết đơn hàng</h4>
+                                <div className="row">
+                                    <div className="col-md-7"
+                                    >
+                                        <h4 className="card-title">Chi tiết đơn hàng đặt</h4>
+                                    </div>
+                                    <div className="col-md-2">
+                                        <AddGoodOverlay
+                                            status={this.props.order.order.status}
+                                        />
+                                    </div>
+                                </div>
                                 {this.props.isLoading ? <Loading/> :
                                     <div>
-                                        <h4><strong>Chọn sản phẩm</strong></h4>
                                         <ListGood
                                             goodOrders={this.props.order.order.good_orders}
                                             updateQuantity={this.updateQuantity}
@@ -175,34 +186,39 @@ class OrderContainer extends React.Component {
                                     <i className="material-icons">assignment</i>
                                 </div>
                                 <div className="card-content">
-                                    <h4 className="card-title">Chi tiết đơn hàng</h4>
+                                    <h4 className="card-title">Chi tiết đơn hàng trả lại</h4>
 
+                                    <div className="row">
+                                        <div className="col-md-10">
+                                            <div className="form-group">
+                                                <label className="label-control">Chọn kho hàng trả lại</label>
+                                                <ReactSelect.Async
+                                                    loadOptions={this.loadWarehouses}
+                                                    loadingPlaceholder="Đang tải..."
+                                                    placeholder="Chọn nhà kho"
+                                                    searchPromptText="Không có dữ liệu "
+                                                    onChange={this.changeWarehouse}
+                                                    value={this.props.warehouse}
+                                                />
+                                            </div>
+                                        </div>
 
+                                        <div className="col-md-2" >
+                                            <TooltipButton text="Load lại hàng trả lại" placement="top" style={{marginTop : 40}}>
+                                                <button className="btn btn-md btn-info"
+                                                        onClick={() => {
+                                                            this.resetReturnOrders();
+                                                        }}
+                                                >
+                                                    <i className="material-icons">cached</i>
+                                                </button>
+                                            </TooltipButton>
+                                        </div>
 
-                                    <div className="form-group">
-                                        <label className="label-control">Chọn kho hàng</label>
-                                        <ReactSelect.Async
-                                            loadOptions={this.loadWarehouses}
-                                            loadingPlaceholder="Đang tải..."
-                                            placeholder="Chọn nhà kho"
-                                            searchPromptText="Không có dữ liệu "
-                                            onChange={this.changeWarehouse}
-                                            value={this.props.warehouse}
-                                        />
                                     </div>
-
-                                    <TooltipButton text="Load lại hàng trả lại" placement="top">
-                                        <button className="btn btn-md btn-info"
-                                        onClick={()=> {this.resetReturnOrders();}}
-                                        >
-                                            <i className="material-icons">cached</i>Reset
-                                        </button>
-                                    </TooltipButton>
-
 
                                     {this.props.isLoading ? <Loading/> :
                                         <div>
-                                            <h4><strong>Chọn sản phẩm</strong></h4>
                                             <ListGood
                                                 goodOrders={this.props.order.order.return_orders}
                                                 updateQuantity={this.updateQuantityInReturnOrders}
@@ -368,6 +384,7 @@ function mapStateToProps(state) {
         warehouse: state.goodOrders.order.order.warehouse,
     };
 }
+
 function mapDispatchToProps(dispatch) {
     return {
         goodOrderActions: bindActionCreators(goodOrderActions, dispatch)

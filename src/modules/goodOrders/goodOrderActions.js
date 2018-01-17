@@ -77,7 +77,7 @@ export function getAllStaffs() {
     };
 }
 
-export function changeStatusOrder(status, orderId, labelId) {
+export function changeStatusOrder(status, orderId, labelId ) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
         dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
@@ -216,9 +216,9 @@ export function updateOrderFormData(order) {
     };
 }
 
-export function editOrder(order, orderId, index,isReturnOrders) {
+export function editOrder(order, orderId, index, isReturnOrders) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_EDIT_ORDER, index: index,isReturnOrders});
+        dispatch({type: types.BEGIN_EDIT_ORDER, index: index, isReturnOrders});
         goodOrdersApi.editOrderApi(order, orderId)
             .then((res) => {
                 if (res.data.status) {
@@ -226,7 +226,7 @@ export function editOrder(order, orderId, index,isReturnOrders) {
                     dispatch({
                         type: types.EDIT_ORDER_SUCCESS,
                         index: index,
-                        isReturnOrders : isReturnOrders
+                        isReturnOrders: isReturnOrders
                         // customer: res.data.data.user,
                     });
                     // browserHistory.push('/goods/customer');
@@ -253,10 +253,13 @@ export function editOrder(order, orderId, index,isReturnOrders) {
 
 export function openReturnOrder(isOpenReturnOrder) {
     return function (dispatch) {
-        dispatch({type: types.OPEN_RETURN_ORDER_IN_ORDER,
-            isOpenReturnOrder: isOpenReturnOrder});
+        dispatch({
+            type: types.OPEN_RETURN_ORDER_IN_ORDER,
+            isOpenReturnOrder: isOpenReturnOrder
+        });
     };
 }
+
 export function changeWarehouse(id) {
 
     return function (dispatch) {
@@ -269,8 +272,39 @@ export function changeWarehouse(id) {
 
 export function resetReturnOrders() {
     return function (dispatch) {
+        dispatch({
+            type: types.RESET_RETURN_ORDERS,
+        });
+    };
+}
+
+export function loadGoodsInOverlay(page, limit, query,good_orders) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOODS_IN_OVERLAY_IN_ORDER,
+        });
+        goodOrdersApi.loadGoodsApi(page, limit, query)
+            .then((res) => {
+                dispatch({
+                        type: types.LOADED_GOODS_SUCCESS_IN_OVERLAY_IN_ORDER,
+                        goods: res.data.goods,
+                        total_pages: res.data.paginator.total_pages,
+                        good_orders : good_orders,
+                    });
+            })
+
+            .catch(dispatch({
+                type: types.LOADED_GOODS_ERROR_IN_OVERLAY_IN_ORDER
+            }));
+    };
+}
+
+export function assignGoodFormData(good) {
+    return function (dispatch) {
       dispatch({
-          type : types.RESET_RETURN_ORDERS,
+          type : types.ASSIGN_GOOD_FORM_DATA_IN_ORDER,
+          good,
       });
     };
 }
+

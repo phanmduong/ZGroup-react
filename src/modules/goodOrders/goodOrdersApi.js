@@ -119,3 +119,21 @@ export function loadWareHouseApi() {
     return axios.get(url);
 }
 
+
+export function loadGoodsApi(page , limit , query ) {
+    let url = env.MANAGE_API_URL + "/good/all?";
+    let token = localStorage.getItem('token');
+    if (limit){
+        url += "&limit=" + limit;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (query) {
+        url += "&search=" + query;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}

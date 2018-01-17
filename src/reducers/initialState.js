@@ -910,8 +910,12 @@ export default {
                     phone: "test",
                     email: "po01636863831@gmail.com"
                 },
-                returnGoodOrder: [],
+                return_orders: [],
                 warehouse : 0,
+
+                isLoadingGoodOverlay : false,
+                goodsList : [],
+                totalGoodPages : 0,
             },
         },
         staffs: [],
