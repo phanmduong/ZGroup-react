@@ -76,6 +76,7 @@ class SurveyController extends ManageApiController
         if ($request->answers) {
             $question->answers()->delete();
             $answers = json_decode($request->answers);
+
             foreach ($answers as $a) {
                 $answer = new Answer();
                 $answer->question_id = $question->id;
