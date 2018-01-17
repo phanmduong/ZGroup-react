@@ -79,8 +79,12 @@ class SurveyDetailContainer extends React.Component {
             <div className="container-fluid">
                 <EditQuestionModalContainer/>
                 <div className="row">
+
                     <div className="col-md-12">
                         <h3 className="title">{survey.name}</h3>
+                        <button className="btn btn-rose" onClick={() => this.showEditQuestionModal({})}>
+                            Thêm câu hỏi
+                        </button>
                         {
                             isLoading ? <Loading/> : (
                                 <div className="drake">

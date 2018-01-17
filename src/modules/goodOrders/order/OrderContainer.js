@@ -12,6 +12,10 @@ import * as goodOrderActions from '../goodOrderActions';
 import PropTypes from 'prop-types';
 import {ORDER_STATUS} from "../../../constants/constants";
 import ReactSelect from 'react-select';
+import {browserHistory} from 'react-router';
+import * as goodOrdersApi from '../goodOrdersApi' ;
+import AddGoodOverlay from "./AddGoodOverlay";
+
 
 class OrderContainer extends React.Component {
     constructor(props, context) {
@@ -25,7 +29,11 @@ class OrderContainer extends React.Component {
         // this.loadDetailOrder = this.loadDetailOrder.bind(this);
         this.editOrder = this.editOrder.bind(this);
         this.updateQuantity = this.updateQuantity.bind(this);
-
+        this.updateQuantityInReturnOrders = this.updateQuantityInReturnOrders.bind(this);
+        this.openReturnOrder = this.openReturnOrder.bind(this);
+        this.loadWarehouses = this.loadWarehouses.bind(this);
+        this.changeWarehouse = this.changeWarehouse.bind(this);
+        this.resetReturnOrders = this.resetReturnOrders.bind(this);
     }
 
     componentWillMount() {
@@ -57,15 +65,25 @@ class OrderContainer extends React.Component {
         this.props.goodOrderActions.updateOrderFormData(order);
     }
 
-    updateQuantity(event, id) {
-        const field = event.target.name;
+    updateQuantity(quantity, id) {
         const good_orders = this.props.order.order.good_orders.map((good_order, index) => {
             if (index === id) {
-                return {...good_order, [field]: event.target.value};
+                return {...good_order, quantity: quantity};
             }
             return good_order;
         });
         const order = {...this.props.order.order, good_orders: good_orders};
+        this.props.goodOrderActions.updateOrderFormData(order);
+    }
+
+    updateQuantityInReturnOrders(quantity, id) {
+        const return_orders = this.props.order.order.return_orders.map((good_order, index) => {
+            if (index === id) {
+                return {...good_order, quantity: quantity};
+            }
+            return good_order;
+        });
+        const order = {...this.props.order.order, return_orders: return_orders};
         this.props.goodOrderActions.updateOrderFormData(order);
     }
 
@@ -79,34 +97,146 @@ class OrderContainer extends React.Component {
         e.preventDefault();
     }
 
+    openReturnOrder() {
+        this.props.goodOrderActions.openReturnOrder(this.props.isOpenReturnOrder);
+    }
+
+    loadWarehouses(input, callback) {
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            goodOrdersApi.loadWareHouseApi(input).then(res => {
+                let warehouses = res.data.data.warehouses.map((warehouse) => {
+                    return {
+                        ...warehouse,
+                        ...{
+                            value: warehouse.id,
+                            label: warehouse.name,
+                        }
+                    };
+                });
+                callback(null, {options: warehouses, complete: true});
+            });
+        }.bind(this), 500);
+    }
+
+    changeWarehouse(value) {
+        this.props.goodOrderActions.changeWarehouse(value.value);
+    }
+
+    resetReturnOrders() {
+        this.props.goodOrderActions.resetReturnOrders();
+    }
+
+
     render() {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-9">
+                    <div className="col-md-8">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
                             </div>
                             <div className="card-content">
-                                <h4 className="card-title">Chi tiết đơn hàng</h4>
+                                <div className="row">
+                                    <div className="col-md-7"
+                                    >
+                                        <h4 className="card-title">Chi tiết đơn hàng đặt</h4>
+                                    </div>
+                                    <div className="col-md-2">
+                                        <AddGoodOverlay
+                                            status={this.props.order.order.status}
+                                        />
+                                    </div>
+                                </div>
                                 {this.props.isLoading ? <Loading/> :
                                     <div>
-                                        <h4><strong>Chọn sản phẩm</strong></h4>
                                         <ListGood
                                             goodOrders={this.props.order.order.good_orders}
                                             updateQuantity={this.updateQuantity}
-                                            updateOrderFormData={this.updateOrderFormData}
                                             paid={this.props.order.order.paid}
-                                            orderId = {this.props.params.orderId}
+                                            orderId={this.props.params.orderId}
+                                            isReturnOrders={false}
                                         />
                                     </div>
                                 }
 
                             </div>
                         </div>
+                        <div>
+                            {(this.props.order.order.status === 'completed_order') ?
+                                <button className="btn btn-md btn-info" onClick={() => {
+                                    this.openReturnOrder();
+                                }}>
+                                    <i className="material-icons">assignment_return </i>Trả lại hàng
+                                </button> :
+                                <TooltipButton text="Chỉ trả hàng khi ở trạng thái hoàn thành" placement="top">
+                                    <button className="btn btn-md btn-info disabled">
+                                        <i className="material-icons">assignment_return </i>Trả lại hàng
+                                    </button>
+                                </TooltipButton>
+                            }
+
+                        </div>
+                        {this.props.isOpenReturnOrder && this.props.order.order.status === 'completed_order' ?
+                            <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">assignment</i>
+                                </div>
+                                <div className="card-content">
+                                    <h4 className="card-title">Chi tiết đơn hàng trả lại</h4>
+
+                                    <div className="row">
+                                        <div className="col-md-10">
+                                            <div className="form-group">
+                                                <label className="label-control">Chọn kho hàng trả lại</label>
+                                                <ReactSelect.Async
+                                                    loadOptions={this.loadWarehouses}
+                                                    loadingPlaceholder="Đang tải..."
+                                                    placeholder="Chọn nhà kho"
+                                                    searchPromptText="Không có dữ liệu "
+                                                    onChange={this.changeWarehouse}
+                                                    value={this.props.warehouse}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-2" >
+                                            <TooltipButton text="Load lại hàng trả lại" placement="top" style={{marginTop : 40}}>
+                                                <button className="btn btn-md btn-info"
+                                                        onClick={() => {
+                                                            this.resetReturnOrders();
+                                                        }}
+                                                >
+                                                    <i className="material-icons">cached</i>
+                                                </button>
+                                            </TooltipButton>
+                                        </div>
+
+                                    </div>
+
+                                    {this.props.isLoading ? <Loading/> :
+                                        <div>
+                                            <ListGood
+                                                goodOrders={this.props.order.order.return_orders}
+                                                updateQuantity={this.updateQuantityInReturnOrders}
+                                                paid={this.props.order.order.paid}
+                                                orderId={this.props.params.orderId}
+                                                isReturnOrders={true}
+                                            />
+                                        </div>
+                                    }
+                                </div>
+                            </div> :
+                            null
+
+                        }
                     </div>
-                    <div className="col-md-3">
+
+
+                    <div className="col-md-4">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">announcement</i></div>
@@ -145,13 +275,13 @@ class OrderContainer extends React.Component {
                                             />
                                             <div className="form-group">
                                                 <label className="control-label"/>Ghi chú
-                                            <textarea
-                                                className="form-control"
-                                                name='note'
-                                                rows = '5'
-                                                value={this.props.order.order.note}
-                                                onChange={(e) => this.updateOrderFormData(e)}
-                                            />
+                                                <textarea
+                                                    className="form-control"
+                                                    name="note"
+                                                    rows="5"
+                                                    value={this.props.order.order.note}
+                                                    onChange={(e) => this.updateOrderFormData(e)}
+                                                />
                                             </div>
                                         </div>
                                         <div>
@@ -188,11 +318,6 @@ class OrderContainer extends React.Component {
                                                 disabled
                                             />
                                         </div>
-                                        <div>
-                                            <h4><strong>Thông tin giao hàng</strong></h4>
-                                            <FormInputText label="Ngày giao" name="ae3qsd"/>
-                                            <FormInputText label="Người giao" name="dsadasd"/>
-                                        </div>
                                     </div>
                                 }
                             </div>
@@ -218,7 +343,12 @@ class OrderContainer extends React.Component {
                                         <i className="material-icons">save</i> Lưu
                                     </button>
                                 }
-                                <button className="btn btn-sm btn-danger">
+                                <button className="btn btn-sm btn-danger"
+                                        onClick={(e) => {
+                                            browserHistory.push("/good/goods/orders");
+                                            e.preventDefault();
+                                        }}
+                                >
                                     <i className="material-icons">cancel</i> Huỷ
                                 </button>
                             </div>
@@ -232,22 +362,26 @@ class OrderContainer extends React.Component {
 }
 
 OrderContainer.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool,
     isLoadingStaffs: PropTypes.bool.isRequired,
     staffs: PropTypes.array.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     order: PropTypes.object,
     isSaving: PropTypes.bool,
+    isOpenReturnOrder: PropTypes.bool,
+    warehouse: PropTypes.number,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.goodOrders.order.isLoading,
+        isOpenReturnOrder: state.goodOrders.order.isOpenReturnOrder,
         isSaving: state.goodOrders.order.isSaving,
         isLoadingStaffs: state.goodOrders.isLoadingStaffs,
         staffs: state.goodOrders.staffs,
         order: state.goodOrders.order,
+        warehouse: state.goodOrders.order.order.warehouse,
     };
 }
 

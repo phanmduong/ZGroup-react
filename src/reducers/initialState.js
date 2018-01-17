@@ -932,7 +932,16 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isOpenReturnOrder: false,
             isSaving: false,
+            isSavingQuantity: {
+                id: 0,
+                status: false,
+            },
+            isSavingQuantityInReturnOrders: {
+                id: 0,
+                status: false,
+            },
             isLoading: false,
             error: false,
             total: 1130000,
@@ -951,6 +960,12 @@ export default {
                     phone: "test",
                     email: "po01636863831@gmail.com"
                 },
+                return_orders: [],
+                warehouse : 0,
+
+                isLoadingGoodOverlay : false,
+                goodsList : [],
+                totalGoodPages : 0,
             },
         },
         staffs: [],
@@ -1183,6 +1198,7 @@ export default {
             categories: [],
             type_id: "",
             type: "",
+
         },
         link: {
             id: null,
@@ -1192,7 +1208,6 @@ export default {
             link_description: "",
             link_icon: "",
         },
-
         pixel: {
             name: "",
             code: "",
@@ -1208,6 +1223,7 @@ export default {
         },
         categories: [],
         types: [],
+
 
     },
     lessons: {
@@ -1383,14 +1399,15 @@ export default {
 
     groupCustomers: {
         isSaving: false,
+        isSavingCustomer: false,
         isSavingCoupon: false,
         isLoading: false,
         isLoadingCoupon: false,
-        isLoadingModal: false,
+        isLoadingCustomer: false,
         isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
+        customersList: [],         // (chứa trong overlay)    +  customersShowInTable  = full = customers
         totalCustomerInOverlayPages: 1,
-        totalCustomerInModalPages: 1,
+        totalCustomerPages: 1,
         totalCustomerCount: 1,
         totalGroupCustomerPages: 1,
         groupCustomerForm: {
@@ -1399,11 +1416,13 @@ export default {
             description: '',
             stringId: [],
             customers: [],                         // tat ca cac customer trong mot group
-            customersShowInModal: [],              // cac customer show ra bang trong mot group
+            customersShowInTable: [],              // cac customer show ra bang trong mot group
             color: '',
             coupons: [],
             order_value: '',
             delivery_value: '',
+            customersShowInAddModal: [],            // cac customer them vao vung tam
+
         },
         coupon: {
             name: '',
@@ -1473,6 +1492,28 @@ export default {
         isDeleting: false,
         errorDelete: false,
     },
+
+    createSaleGoods: {
+        customer: {
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+        },
+        infoOrder: {
+            payment: "",
+            note: "",
+            status: "completed_order",
+        },
+        goods: [],
+        goodsList: [],
+        goodsShowInTable: [],
+        isLoadingGoodModal: false,
+        totalGoodPages: 0,
+        warehouse: 0,
+        isSaving: false,
+    },
+
     historyExtension: {
         isLoading: false,
         paginator: {

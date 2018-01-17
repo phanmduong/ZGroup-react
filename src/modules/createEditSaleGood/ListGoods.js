@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import Loading from "../../components/common/Loading";
 import Avatar from "../../components/common/Avatar";
-import * as addDiscountActions from './addDiscountActions';
+import * as createSaleGoodsActions from './createSaleGoodsActions';
 import Search from '../../components/common/Search';
 import Pagination from '../../components/common/Pagination';
 
@@ -19,13 +19,18 @@ class ListGoods extends React.Component {
             query: "",
             limit: 6,
         };
-        // this.toggleAssign = this.toggleAssign.bind(this);
         this.loadGoods = this.loadGoods.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
+        this.onSearchChange = this.onSearchChange.bind(this);
     }
 
     componentWillMount() {
-        this.loadGoods( 1);
+        this.loadGoods(1);
+    }
+
+    loadGoods(page) {
+        this.setState({page: page});
+        this.props.createSaleGoodsActions.loadGoodsInModal(page, this.state.limit, this.state.query, this.props.warehouse);
     }
 
     onSearchChange(value) {
@@ -37,22 +42,12 @@ class ListGoods extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.addDiscountActions.loadGoods(this.state.page, this.state.limit, this.state.query);
+            this.props.createSaleGoodsActions.loadGoodsInModal(this.state.page, this.state.limit, this.state.query, this.props.warehouse);
         }.bind(this), 500);
     }
 
-    updateFormData(good) {
-        const field = 'good';
-        let discount = {...this.props.discount};
-        discount[field] = good;
-        this.props.addDiscountActions.updateDiscountFormData(discount);
-    }
-    // toggleAssign(member) {
-    //     this.props.addDiscountActions.assignMember(this.props.card, member);
-    // }  Hàm dùng để chọn nhiều người
-    loadGoods(page) {
-        this.setState({page: page});
-        this.props.addDiscountActions.loadGoods(page, this.state.limit, this.state.query);
+    updateFormData(item) {
+        this.props.createSaleGoodsActions.assignGoodFormData(item);
     }
 
 
@@ -78,16 +73,15 @@ class ListGoods extends React.Component {
                 />
 
                 {
-                    this.props.isLoading ?
+                    this.props.isLoadingGoodModal ?
                         <Loading/> : (
                             <ListGroup>
-                                {this.props.goods.map((good) =>
+                                {this.props.goodsList && this.props.goodsList.map((good) =>
                                     (
                                         <ListGroupItem
                                             key={good.id}
                                             onClick={(e) => {
                                                 this.updateFormData(good);
-                                                this.props.toggle();
                                                 e.preventDefault();
                                             }}>
 
@@ -95,13 +89,18 @@ class ListGoods extends React.Component {
                                                 display: "flex", justifyContent: "space-between",
                                                 lineHeight: "30px"
                                             }}>
-                                                <div style={{display: "flex"}}>
+                                                <div style={{display: "flex", justifyContent: "spaceBetween"}}>
                                                     <Avatar size={30} url={good.avatar_url}/>
                                                     {good.name}
                                                 </div>
-                                                {/*{*/}
-                                                {/*good.added && <i className="material-icons">done</i>*/}
-                                                {/*}*/}
+
+                                                <div className="bootstrap-tagsinput">
+                                                        <span className="tag btn" style={{
+                                                            backgroundColor: "green",
+                                                            fontSize: 12
+                                                        }}>{good.quantity}
+                                                        </span>
+                                                </div>
                                             </div>
                                         </ListGroupItem>
                                     )
@@ -121,26 +120,28 @@ class ListGoods extends React.Component {
 }
 
 ListGoods.propTypes = {
-    discount : PropTypes.object,
-    goods: PropTypes.array,
-    isLoading: PropTypes.bool,
-    addDiscountActions: PropTypes.object.isRequired,
-    totalGoodPages : PropTypes.number,
-    toggle : PropTypes.func,
+    createSaleGoodsActions: PropTypes.object,
+    goodsList: PropTypes.array,
+    isLoadingGoodModal: PropTypes.bool,
+    goodsShowInTable: PropTypes.array,
+    totalGoodPages: PropTypes.number,
+    warehouse: PropTypes.number,
+    toggle: PropTypes.func,
 };
 
 function mapStateToProps(state) {
     return {
-        discount: state.addDiscount.discount,
-        goods: state.addDiscount.goods,
-        isLoading: state.addDiscount.isLoading,
-        totalGoodPages: state.addDiscount.totalGoodPages,
+        goodsList: state.createSaleGoods.goodsList,
+        isLoadingGoodModal: state.createSaleGoods.isLoadingGoodModal,
+        goodsShowInTable: state.createSaleGoods.goodsShowInTable,
+        totalGoodPages: state.createSaleGoods.totalGoodPages,
+        warehouse: state.createSaleGoods.warehouse,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        addDiscountActions: bindActionCreators(addDiscountActions, dispatch)
+        createSaleGoodsActions: bindActionCreators(createSaleGoodsActions, dispatch)
     };
 }
 

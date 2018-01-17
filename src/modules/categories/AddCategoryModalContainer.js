@@ -85,7 +85,7 @@ class AddCategoryModalContainer extends React.Component {
                                 }
 
                                 <button className="btn btn-sm btn-danger"
-                                        onClick={() => this.close()}
+                                        onClick={(e) => {this.close(); e.preventDefault();}}
                                 >
                                     <i className="material-icons">cancel</i> Huỷ
                                 </button>

@@ -60,12 +60,14 @@ import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSess
 import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
 import historyWorkShiftRegistersReducer from "../modules/historyWorkShiftRegisters/historyWorkShiftRegistersReducer";
 import landingPagesReducer from "../modules/landingpage/landingPagesReducer";
+import createSaleGoodsReducer from "../modules/createEditSaleGood/createSaleGoodsReducer";
 import orderedProductReducer from "../modules/orderedProduct/orderedProductReducer";
 import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/HistoryExtensionWorkReducer";
 import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
 import surveyReducer from '../modules/survey/surveyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
+
 
 
 const appReducer = combineReducers({
@@ -129,13 +131,15 @@ const appReducer = combineReducers({
     workShiftSessions: workShiftSessionsReducer,
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
-    landingPages: landingPagesReducer,
+    landingPages : landingPagesReducer,
+    createSaleGoods : createSaleGoodsReducer,
     orderedProduct: orderedProductReducer,
     survey: surveyReducer,
     historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
+
 });
 
 const rootReducer = (state, action) => {

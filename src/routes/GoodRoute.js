@@ -16,7 +16,8 @@ import OrdersContainer from "../modules/goodOrders/OrdersContainer";
 import OrderContainer from "../modules/goodOrders/order/OrderContainer";
 import CategoriesContainer from "../modules/categories/CategoriesContainer";
 import SupplierContainer from "../modules/supplier/SupplierContainer";
-import DetailGroupCustomerContainer from "../modules/groupCustomer/DetailGroupCustomerContainer";
+import DetailGroupCustomerContainer from "../modules/groupCustomer/detailGroupCustomer/DetailGroupCustomerContainer";
+import SaleGoodContainer from "../modules/createEditSaleGood/SaleGoodContainer";
 
 /**
  * Tab Hang hoa
@@ -130,5 +131,9 @@ export default [
     {
         path: "/good/goods/supplier",
         component: SupplierContainer
+    },
+    {
+        path : "/good/goods/add-sale-good",
+        component : SaleGoodContainer,
     }
 ];

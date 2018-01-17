@@ -8,6 +8,8 @@ import * as helper from '../../helpers/helper';
 import OrdersListCustomerComponent from './OrdersListCustomerComponent';
 import InfoCustomerComponent from './InfoCustomerComponent';
 import AddOverlay from './AddOverlay';
+import {browserHistory} from 'react-router';
+
 
 
 class InfoCustomerContainer extends React.Component {
@@ -145,7 +147,7 @@ class InfoCustomerContainer extends React.Component {
 
                                     <h4><strong>Nhóm khách hàng</strong></h4>
                                     <div className="bootstrap-tagsinput">
-                                        {this.props.customer.groups.map((group) => {
+                                        {this.props.customer.groups && this.props.customer.groups.map((group) => {
                                             return (
                                                 <span className="tag btn" key={group.id} style={{
                                                     backgroundColor: group.color,
@@ -195,7 +197,11 @@ class InfoCustomerContainer extends React.Component {
                                             </button>
                                         }
 
-                                        <button className="btn btn-sm btn-danger">
+                                        <button className="btn btn-sm btn-danger"
+                                                onClick={(e)=>{browserHistory.push("/good/goods/customer");
+                                                e.preventDefault();
+                                                }}
+                                        >
                                             <i className="material-icons">cancel</i> Huỷ
                                         </button>
                                     </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import TooltipButton from '../../../components/common/TooltipButton';
-import Search from '../../../components/common/Search';
 import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
 import EditButton from "./EditButton";
@@ -31,11 +30,7 @@ class ListGood extends React.Component {
     render() {
         let totalMoneyAll = 0;
         return (
-            <div>
-                <Search
-                    onChange={this.searchTable}
-                    placeholder="Nhập mã barcode hoặc tên hàng hóa"
-                />
+            <div style={{marginTop : 50}}>
                 <div className="material-datatables">
                     <table id="datatables-goodorders" className="table"
                            width="100%">
@@ -52,7 +47,7 @@ class ListGood extends React.Component {
                         </thead>
                         <tbody>
                         {
-                            this.props.goodOrders.map((goodOrder, index) => {
+                            this.props.goodOrders && this.props.goodOrders.map((goodOrder, index) => {
                                 let totalMoney = goodOrder.quantity * goodOrder.price;
 
                                 if (goodOrder.discount_money) {
@@ -79,6 +74,8 @@ class ListGood extends React.Component {
                                             index={index}
                                             updateQuantity = {this.props.updateQuantity}
                                             orderId = {this.props.orderId}
+                                            quantity = {goodOrder.quantity}
+                                            isReturnOrders = {this.props.isReturnOrders}
                                         />
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>
@@ -165,9 +162,9 @@ class ListGood extends React.Component {
 ListGood.propTypes = {
     goodOrders: PropTypes.array.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    updateOrderFormData: PropTypes.func.isRequired,
     paid: PropTypes.number.isRequired,
     orderId: PropTypes.number.isRequired,
+    isReturnOrders: PropTypes.bool.isRequired,
 };
 
 export default ListGood;

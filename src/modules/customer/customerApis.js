@@ -79,7 +79,6 @@ export function editCustomerApi(customer ) {
     if (token) {
         url += "?token=" + token;
     }
-    console.log(customer.stringId.join(';'));
     return axios.put(url, {
         'name': customer.name,
         'email': customer.email,
