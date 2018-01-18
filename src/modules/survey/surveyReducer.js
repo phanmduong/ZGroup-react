@@ -1,7 +1,7 @@
 import initialState from '../../reducers/initialState';
 import {
     ADD_ANSWER_TO_QUESTION,
-    BEGIN_LOAD_SURVEY_DETAIL, BEGIN_LOAD_SURVEYS_LIST, BEGIN_SAVE_QUESTION,
+    BEGIN_LOAD_SURVEY_DETAIL, BEGIN_LOAD_SURVEYS_LIST, BEGIN_SAVE_QUESTION, DELETE_SURVEY_QUESTION,
     LOAD_SURVEY_DETAIL_SUCCESS,
     LOAD_SURVEYS_LIST_SUCCESS, REMOVE_ANSWER_FROM_QUESTION, SAVE_QUESTION_SUCCESS,
     TOGGLE_EDIT_SURVEY, UPDATE_ANSWER, UPDATE_QUESTION_FORM_DATA, UPDATE_QUESTIONS_ORDER
@@ -9,6 +9,14 @@ import {
 
 export default function surveyReducer(state = initialState.survey, action) {
     switch (action.type) {
+        case DELETE_SURVEY_QUESTION:
+            return {
+                ...state,
+                survey: {
+                    ...state.survey,
+                    questions: state.survey.questions.filter((question) => question.id !== action.question.id)
+                }
+            };
         case ADD_ANSWER_TO_QUESTION:
             return {
                 ...state,
@@ -69,12 +77,13 @@ export default function surveyReducer(state = initialState.survey, action) {
                 showEditQuestionModal: false,
                 survey: {
                     ...state.survey,
-                    questions: state.survey.questions.map((question) => {
-                        if (question.id === action.question.id) {
-                            return action.question;
-                        }
-                        return question;
-                    })
+                    questions: action.isCreate ? [...state.survey.questions, action.question] :
+                        state.survey.questions.map((question) => {
+                            if (question.id === action.question.id) {
+                                return action.question;
+                            }
+                            return question;
+                        })
                 }
             };
 

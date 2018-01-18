@@ -7,6 +7,7 @@ import Loading from "../../components/common/Loading";
 import EditQuestionModalContainer from "./EditQuestionModalContainer";
 import Dragula from "react-dragula";
 import {QUESTION_TYPE} from "../../constants/constants";
+import {confirm} from "../../helpers/helper";
 
 class SurveyDetailContainer extends React.Component {
     constructor(props, context) {
@@ -15,6 +16,8 @@ class SurveyDetailContainer extends React.Component {
         this.initDragula = this.initDragula.bind(this);
         this.drake = null;
         this.showQuestionType = this.showQuestionType.bind(this);
+        this.deleteQuestion = this.deleteQuestion.bind(this);
+        this.duplicateQuestion = this.duplicateQuestion.bind(this);
     }
 
     componentWillMount() {
@@ -36,6 +39,17 @@ class SurveyDetailContainer extends React.Component {
             data[item.value] = item.label;
         });
         return <span>{data[type]}</span>;
+    }
+
+    duplicateQuestion(question) {
+        this.props.surveyActions.duplicateQuestion(question);
+    }
+
+    deleteQuestion(question) {
+        confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá", () => {
+            this.props.surveyActions.deleteQuestion(question);
+        });
+
     }
 
     initDragula() {
@@ -89,7 +103,7 @@ class SurveyDetailContainer extends React.Component {
                             isLoading ? <Loading/> : (
                                 <div className="drake">
                                     {
-                                        survey.questions && survey.questions.sort((a, b) => a.order > b.order).map((question) => {
+                                        survey.questions && survey.questions.sort((a, b) => a.order - b.order).map((question) => {
                                             return (
                                                 <ul className="timeline timeline-simple"
                                                     key={question.id} data-order={question.order} id={question.id}
@@ -117,10 +131,12 @@ class SurveyDetailContainer extends React.Component {
                                                                        onClick={() => this.showEditQuestionModal(question)}>
                                                                         <i className="material-icons">build</i>
                                                                     </a>
-                                                                    <a className="btn btn-info btn-sm">
+                                                                    <a onClick={() => this.duplicateQuestion(question)}
+                                                                       className="btn btn-info btn-sm">
                                                                         <i className="material-icons">content_copy</i>
                                                                     </a>
-                                                                    <a className="btn btn-default btn-sm">
+                                                                    <a onClick={() => this.deleteQuestion(question)}
+                                                                       className="btn btn-default btn-sm">
                                                                         <i className="material-icons">delete</i>
                                                                     </a>
                                                                 </div>

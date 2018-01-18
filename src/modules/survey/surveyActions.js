@@ -4,11 +4,33 @@ import {
     LOAD_SURVEYS_LIST_SUCCESS,
     LOAD_SURVEY_DETAIL_SUCCESS,
     TOGGLE_EDIT_SURVEY, UPDATE_QUESTION_FORM_DATA, BEGIN_SAVE_QUESTION, SAVE_QUESTION_SUCCESS
-    , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER, ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION
+    , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER, ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION,
+    DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
 import {showErrorMessage, showNotification} from "../../helpers/helper";
 
+export const duplicateQuestion = (question) => {
+    return async (dispatch) => {
+        dispatch({
+            type: DISPLAY_GLOBAL_LOADING,
+        });
+        const res = await surveyApi.duplicateQuestion(question.survey_id, question);
+        dispatch({
+            type: HIDE_GLOBAL_LOADING
+        });
+        if (res.data.status === 1) {
+            showNotification("Nhân đôi câu hỏi thành công");
+            dispatch({
+                type: SAVE_QUESTION_SUCCESS,
+                question: res.data.data.question,
+                isCreate: true
+            });
+        } else {
+            showErrorMessage("Lỗi", res.data.message);
+        }
+    };
+};
 
 export const loadSurveys = (page = 1, search = '') => {
     return async function (dispatch) {
@@ -65,6 +87,23 @@ export const removeAnswer = (answer) => {
     };
 };
 
+export const deleteQuestion = (question) => {
+    return async (dispatch) => {
+        dispatch({
+            type: DISPLAY_GLOBAL_LOADING
+        });
+
+        await surveyApi.deleteQuestion(question);
+
+        loadSurveyDetailPrivate(dispatch, question.survey_id);
+
+        dispatch({
+            type: HIDE_GLOBAL_LOADING
+        });
+
+    };
+};
+
 export const saveQuestion = (question) => {
     return async (dispatch, getState) => {
         const survey = getState().survey.survey;
@@ -77,11 +116,13 @@ export const saveQuestion = (question) => {
             answers: JSON.stringify(question.answers)
         });
 
+
         if (res.data.status === 1) {
             showNotification("Lưu câu hỏi thành công");
             dispatch({
                 type: SAVE_QUESTION_SUCCESS,
-                question: res.data.data.question
+                question: res.data.data.question,
+                isCreate: !question.id
             });
         } else {
             showErrorMessage("Lỗi", res.data.message);
