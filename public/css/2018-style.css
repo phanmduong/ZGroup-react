@@ -1118,7 +1118,7 @@ a.navbar-brand img {
     background-color: #435c86
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .navbar-header {
         float: none
     }

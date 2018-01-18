@@ -121,7 +121,7 @@ class ColormeNewController extends CrawlController
 //        dd($this->data['paid_courses_user']);
         if ($user) {
             $user->avatar_url = generate_protocol_url($user->avatar_url);
-            $this->data['user'] = $user;
+            $this->data['user_profile'] = $user;
             $courses = $user->registers()->get()->map(function ($register) {
                 $data = [
                     "id" => $register->studyClass->course->id,
@@ -152,7 +152,7 @@ class ColormeNewController extends CrawlController
     {
         $user = User::where('username', $username)->first();
         $user->avatar_url = generate_protocol_url($user->avatar_url);
-        $this->data['user'] = $user;
+        $this->data['user_profile'] = $user;
         if ($user) {
             return view('colorme_new.profile.profile_react', $this->data);
         }
