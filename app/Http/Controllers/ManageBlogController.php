@@ -97,6 +97,8 @@ class ManageBlogController extends ManageApiController
                     'id' => $post->id,
                     'title' => $post->title,
                     'status' => $post->status,
+                    'image_url' => $post->url,
+                    'thumb_url' => $post->thumb_url,
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
                 if ($post->category) {
@@ -111,7 +113,15 @@ class ManageBlogController extends ManageApiController
         ];
         return $this->respondWithPagination($posts, $data);
     }
+    public function changeStatusPost($postId,Request $request){
+        $post = Product::find($postId);
+        if(!$post) return $this->respondErrorWithStatus("Không tồn tại post");
+        $post->status = 1- $post->status;
+        return $this->respondSuccessWithStatus([
+           "message" => "Thành công"
+        ]);
 
+    }
     public function delete_post($postId)
     {
         $post = Product::find($postId);
