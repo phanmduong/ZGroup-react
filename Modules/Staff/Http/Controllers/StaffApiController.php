@@ -175,6 +175,9 @@ class StaffApiController extends ManageApiController
             $work->status = "doing";
             $work->save();
         }
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
     }
 
 }
