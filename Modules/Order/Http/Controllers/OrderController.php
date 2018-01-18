@@ -306,9 +306,6 @@ class OrderController extends ManageApiController
 
     public function changeOrderStatus($orderId, Request $request)
     {
-        return $this->respondSuccessWithStatus([
-            'measmd' => 'asdad'
-        ]);
         $response = $this->orderService->changeOrderStatus($orderId, $request, $this->user->id);
         if ($response['status'] == 0)
             return $this->respondErrorWithStatus([
