@@ -738,10 +738,6 @@ body {
     }
 }
 
-#app {
-    padding-top: 51px
-}
-
 #app, body, html {
     height: 100%
 }
