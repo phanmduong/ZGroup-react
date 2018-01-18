@@ -307,8 +307,12 @@
                                 <button :disabled="user.phone ==='' || user.password === '' || isLoading"
                                         v-on:click="onClickLoginButton"
                                         class="btn btn-block btn-round">
-                                    <div v-if="isLoading" class="uil-reload-css reload-small" style="">
-                                        <div></div>
+                                    <div v-if="isLoading">
+                                        <div style="text-align: center;width: 100%;;padding: 15px;">
+                                            <div class='uil-reload-css reload-background reload-small' style=''>
+                                                <div></div>
+                                            </div>
+                                        </div>
                                     </div>
                                     Đăng nhập
                                 </button>
@@ -481,8 +485,12 @@
             </div>
             <div class="modal-body" id="modal-buy-body">
                 <br>
-                <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i
-                            class='fa fa-spin fa-spinner'></i>Đang tải...
+                <div v-if="isLoading">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        <div class='uil-reload-css reload-background reload-small' style=''>
+                            <div></div>
+                        </div>
+                    </div>
                 </div>
                 <div v-for="good in goods">
                     <div class="row" style="margin-bottom:20px;">
@@ -506,15 +514,47 @@
                             <b style="font-weight:600;"> @{{ good.number }}</b>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p>@{{ good.vnd_price}}</p>
+                            <p>@{{ formatPrice(good.price)}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{good.total_vnd_price}}</b>
+                            <p><b style="font-weight:600;">@{{formatPrice(good.price*good.number)}}</b>
                             </p>
                         </div>
                     </div>
                 </div>
                 <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="text-left"><b>Tổng</b></h4>
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="text-right"><b>@{{ formatPrice(total_order_price) }}</b></h4>
+                    </div>
+                </div>
+                <div v-if="coupon_programs_count" class="row" style="padding-top:20px;">
+                    <div class="col-md-12">
+                        <div style="font-weight: 600">Chương trình khuyến mãi:</div>
+                        <div v-for="coupon_program in coupon_programs">
+                            @{{ coupon_program.content }}
+                        </div>
+                    </div>
+                </div>
+                <div v-if="isLoadingCoupons">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        <div class='uil-reload-css reload-background reload-small' style=''>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="coupon_codes_count" class="row" style="padding-top:20px;">
+                    <div class="col-md-12">
+                        <div style="font-weight: 600">Mã khuyến mãi:</div>
+                        <div v-for="coupon_code in coupon_codes">
+                            @{{ coupon_code.content }}
+                        </div>
+                    </div>
+                </div>
+                <br>
                 <div>
                     <div class="row">
                         <div class="col-md-4">
@@ -526,22 +566,6 @@
                             <button type="button" v-on:click="addCoupon" class="btn btn-danger btn-round">
                                 Thêm mã giảm giá
                             </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <h4 class="text-left"><b>Tổng</b></h4>
-                    </div>
-                    <div class="col-md-8">
-                        <h4 class="text-right"><b>@{{ total_order_vnd_price }}</b></h4>
-                    </div>
-                </div>
-                <div v-if="coupon_programs_count" class="row" style="padding-top:20px;">
-                    <div class="col-md-12">
-                        <div style="font-weight: 600">Chương trình khuyến mãi:</div>
-                        <div v-for="coupon_program in coupon_programs">
-                            @{{ coupon_program.content }}
                         </div>
                     </div>
                 </div>

@@ -87,15 +87,11 @@ class NhatQuangApiController extends PublicApiController
             foreach ($goods_arr as $item) {
                 $good = Good::find($item->id);
                 $good->number = $item->number;
-                $good->price = $item->price;
                 $good->discount_price = $item->discount_price;
                 $properties = GoodProperty::where('good_id', $good->id)->get();
                 foreach ($properties as $property) {
                     $good[$property->name] = $property->value;
                 }
-                $good->vnd_price = currency_vnd_format($good->price);
-                $good->total_price = $good->price * $good->number;
-                $good->total_vnd_price = currency_vnd_format($good->price * $good->number);
                 $goods[] = $good;
             }
         }
@@ -103,13 +99,11 @@ class NhatQuangApiController extends PublicApiController
         $totalPrice = 0;
 
         foreach ($goods as $good) {
-            $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
+            $totalPrice += $good->price  * $good->number;
         }
-        $totalVndPrice = currency_vnd_format($totalPrice);
         $data = [
             "goods" => $goods,
             "total_order_price" => $totalPrice,
-            "total_order_vnd_price" => $totalVndPrice,
         ];
         return $data;
     }

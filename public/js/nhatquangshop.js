@@ -1,19 +1,21 @@
+function formatPrice(price) {
+    return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ'
+}
+
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
         isLoading: false,
+        isLoadingCoupons: false,
         goods: [],
         total_order_price: 0,
-        total_order_vnd_price: '',
         coupon_code: '',
         coupon_programs: [],
         coupon_programs_count: 0,
+        coupon_codes: [],
+        coupon_codes_count: 0
     },
     methods: {
-        vnd_formatting: function (number) {
-            number = number.toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
-            return number;
-        },
         getCouponPrograms: function () {
             axios.get(window.url + '/coupon-programs')
                 .then(function (response) {
@@ -24,15 +26,27 @@ var modalBuy = new Vue({
 
                 });
         },
+        getCouponCodes: function() {
+            this.isLoadingCoupons = true;
+            axios.get(window.url + '/coupon-codes')
+                .then(function (response) {
+                    this.coupon_codes = response.data.coupon_codes;
+                    this.coupon_codes_count = response.data.coupon_codes_count;
+                    this.isLoadingCoupons = false;
+                }.bind(this))
+                .catch(function (error) {
+
+                });
+        },
         getGoodsFromSesson: function () {
             this.isLoading = true;
             axios.get(window.url + '/load-books-from-session/v2')
                 .then(function (response) {
                     this.goods = response.data.goods;
-                    this.total_order_price = response.data.total_order_price,
-                        this.total_order_vnd_price = response.data.total_order_vnd_price;
+                    this.total_order_price = response.data.total_order_price;
                     this.isLoading = false;
                     openWithoutAdd.countBooksFromSession();
+                    this.getCouponCodes();
                 }.bind(this))
                 .catch(function (error) {
 
@@ -56,9 +70,6 @@ var modalBuy = new Vue({
                 if (good.id === goodId) {
                     good.number -= 1;
                     this.total_order_price -= good.price;
-                    this.total_order_vnd_price = this.vnd_formatting(this.total_order_price);
-                    good.total_price = good.price * good.number;
-                    good.total_vnd_price = this.vnd_formatting(good.total_price);
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
@@ -82,9 +93,6 @@ var modalBuy = new Vue({
                 if (good.id === goodId) {
                     good.number += 1;
                     this.total_order_price += good.price;
-                    this.total_order_vnd_price = this.vnd_formatting(this.total_order_price);
-                    good.total_price = good.price * good.number;
-                    good.total_vnd_price = this.vnd_formatting(good.total_price);
                 }
                 newGoods.push(good);
             }
@@ -107,10 +115,10 @@ var modalBuy = new Vue({
             modalPurchase.openModal();
         },
         addCoupon: function () {
-            console.log(this.coupon_code);
             axios.get(window.url + '/add-coupon/' + this.coupon_code + '/v2')
                 .then(function (response) {
                     this.coupon_code = '';
+                    this.getCouponCodes();
                 }.bind(this))
                 .catch(function (error) {
                 });
@@ -270,38 +278,58 @@ var fastOrder = new Vue({
     el: '#modal-fast-order',
     data: {
         fastOrders: [
-            {id: 1, seen: false, link : "", price:"", size : "", color : "", number : 1, tax:"Giá chưa thuế", describe : ""},
+            {
+                id: 1,
+                seen: false,
+                link: "",
+                price: "",
+                size: "",
+                color: "",
+                number: 1,
+                tax: "Giá chưa thuế",
+                describe: ""
+            },
         ],
-        loading : false,
-        check:false,
-        success : false,
-        fail : false,
-        message : ""
+        loading: false,
+        check: false,
+        success: false,
+        fail: false,
+        message: ""
     },
     methods: {
 
-        plusOrder :  function (){
-          this.fastOrders.push({id : this.fastOrders.length+1, seen:true,link : "", price:"", size : "", color : "", number : 1, tax:"Giá chưa thuế", describe : "" });
+        plusOrder: function () {
+            this.fastOrders.push({
+                id: this.fastOrders.length + 1,
+                seen: true,
+                link: "",
+                price: "",
+                size: "",
+                color: "",
+                number: 1,
+                tax: "Giá chưa thuế",
+                describe: ""
+            });
         },
-        remove : function (index){
+        remove: function (index) {
             this.fastOrders.splice(index, 1)
         },
-        submitFastOrder : function(){
+        submitFastOrder: function () {
             // this.check=false,
             //     this.success = false,
             //     this.fail = false,
             this.loading = true;
             this.success = false;
-          // for (var i = 0; i< this.fastOrders.length; i++){
-          //          if(this.fastOrders[i].link === ""|| this.fastOrders[i].price === ""|| this.fastOrders[i].size === ""|| this.fastOrders[i].color=== ""|| this.fastOrders[i].describe === "" ){
-          //              this.check = true;
-          //              this.loading = false;
-          //              break;
-          //          }
-          // }
-            axios.post(window.url + '/manage/save-fast-order',{
-                fastOrders : JSON.stringify(this.fastOrders)
-            }).then(function(response){
+            // for (var i = 0; i< this.fastOrders.length; i++){
+            //          if(this.fastOrders[i].link === ""|| this.fastOrders[i].price === ""|| this.fastOrders[i].size === ""|| this.fastOrders[i].color=== ""|| this.fastOrders[i].describe === "" ){
+            //              this.check = true;
+            //              this.loading = false;
+            //              break;
+            //          }
+            // }
+            axios.post(window.url + '/manage/save-fast-order', {
+                fastOrders: JSON.stringify(this.fastOrders)
+            }).then(function (response) {
                 // $("#submitFastOrder").modal("hide");
                 // $("#modal-fast-order").modal("hide");
                 this.loading = false;
@@ -310,13 +338,12 @@ var fastOrder = new Vue({
                 // this.fail = false;
                 this.message = response.data.message.message;
             }.bind(this))
-                .catch( function (error){
-                  console.log(error)  ;
-                  this.fail = true;
+                .catch(function (error) {
+                    console.log(error);
+                    this.fail = true;
                 }.bind(this))
         }
     },
-
 
 
 });
