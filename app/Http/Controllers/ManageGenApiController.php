@@ -9,7 +9,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Course;
 use App\Gen;
+use App\StudyClass;
 use Illuminate\Http\Request;
 
 class ManageGenApiController extends ManageApiController
@@ -69,6 +71,17 @@ class ManageGenApiController extends ManageApiController
         $gen->start_time = date('Y-m-d', strtotime($request->start_time));
         $gen->end_time = date('Y-m-d', strtotime($request->end_time));
         $gen->save();
+
+        $courses = Course::where('type_id', 2)->get();
+
+        $courses->map(function ($course) use ($gen) {
+            $class = new StudyClass();
+            $class->name = $course->name . ' - ' . $gen->name;
+            $class->course_id = $course->id;
+            $class->gen_id = $gen->id;
+            $class->save();
+        });
+
         return $this->respondSuccessWithStatus([
             'gen' => $gen
         ]);
