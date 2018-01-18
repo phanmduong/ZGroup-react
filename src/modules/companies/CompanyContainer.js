@@ -1,20 +1,100 @@
 import React from 'react';
 import {Link} from 'react-router';
-import CompaniesList from "./CompaniesList"
+import CompaniesList from "./CompaniesList";
+import InfoCompanyModal from "./InfoCompanyModal";
 import * as CompanyActions from "./CompanyActions";
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
 import Loading from "../../components/common/Loading";
-class CompanyContainer extends React.Component{
+import Search from "../../components/common/Search";
+import _ from 'lodash';
+import ReactSelect from 'react-select';
+import PropTypes from 'prop-types';
+
+class CompanyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            page: 1,
+            ok: 0,
+            search: '',
+            type: '',
+            company: {
+                field: {
+                    id: 1,
+                },
+            },
+            showInfoModal: false,
+            paginator: {
+                current_page: 1,
+                limit: 5,
+                total_pages: 1,
+                total_count: 1
+            },
+        };
+        this.editCompany = this.editCompany.bind(this);
+        this.loadCompanies = this.loadCompanies.bind(this);
+        this.searchCompany = this.searchCompany.bind(this);
+        this.searchCompanybyType = this.searchCompanybyType.bind(this);
+        this.openInfoModal = this.openInfoModal.bind(this);
+        this.closeInfoModal = this.closeInfoModal.bind(this);
     }
+
     componentWillMount() {
         this.props.CompanyActions.loadCompanies();
     }
-    render(){
-        return(
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({paginator: nextProps.paginator});
+    }
+
+    loadCompanies(page = 1) {
+        this.setState({page});
+        this.props.CompanyActions.loadCompanies(page);
+    }
+
+    editCompany(id, data) {
+        this.props.CompanyActions.editCompany(id, data);
+    }
+
+    openInfoModal(company) {
+        this.setState({showInfoModal: true, company: company,});
+    }
+
+    closeInfoModal() {
+        this.setState({showInfoModal: false});
+    }
+
+    searchCompany(value) {
+        this.setState({
+            page: 1,
+            search: value,
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.CompanyActions.loadCompanies(1, this.state.type, value);
+        }.bind(this), 500);
+    }
+
+    searchCompanybyType(e) {
+        let p = e.value;
+        this.setState({
+            page: 1,
+            type: p,
+        });
+        this.props.CompanyActions.loadCompanies(1, p, this.state.search);
+    }
+
+    render() {
+        return (
             <div className="content">
+                <InfoCompanyModal
+                    show={this.state.showInfoModal}
+                    onHide={this.closeInfoModal}
+                    data={this.state.company}
+                />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -34,14 +114,59 @@ class CompanyContainer extends React.Component{
                                                     Thêm Công Ty
                                                 </Link>
                                             </div>
+                                            <Search
+                                                className="col-md-5"
+                                                placeholder="Tìm kiếm công ty"
+                                                value={this.state.search}
+                                                onChange={this.searchCompany}
+                                            />
+                                            <div className="col-md-4">
+                                                <label> Loại </label>
+                                                <ReactSelect
+                                                    options={[
+                                                        {value: '', label: 'Tất cả',},
+                                                        {value: 'provided', label: 'Cung cấp',},
+                                                        {value: 'share', label: 'Phân phối',},
+                                                        {value: 'different', label: 'Khác',},
+                                                    ]}
+                                                    onChange={this.searchCompanybyType}
+                                                    value={this.state.type || ""}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="type"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                     {
-                                        this.props.isLoadingCompanies ? <Loading /> :
-                                        <CompaniesList
-                                           data={this.props.data}
-                                        />
+                                        this.props.isLoadingCompanies ? <Loading/> :
+                                            <CompaniesList
+                                                data={this.props.data}
+                                                editCompany={this.editCompany}
+                                                openInfoModal={this.openInfoModal}
+                                            />
                                     }
+                                    <ul className="pagination pagination-primary">
+                                        {_.range(1, this.props.paginator.total_pages + 1).map(page => {
+
+                                            if (Number(this.state.page) === page) {
+                                                return (
+                                                    <li key={page} className="active">
+                                                        <a onClick={() => {
+                                                            this.loadCompanies(page);
+                                                        }}>{page}</a>
+                                                    </li>
+                                                );
+                                            } else {
+                                                return (
+                                                    <li key={page}>
+                                                        <a onClick={() => {
+                                                            this.loadCompanies(page);
+                                                        }}>{page}</a>
+                                                    </li>
+                                                );
+                                            }
+                                        })}
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -51,10 +176,19 @@ class CompanyContainer extends React.Component{
         );
     }
 }
+CompanyContainer.propTypes = {
+    CompanyActions: PropTypes.object.isRequired,
+    isLoadingCompanies: PropTypes.bool.isRequired,
+    data: PropTypes.array.isRequired,
+    paginator: PropTypes.object.isRequired,
+};
+
+
 function mapStateToProps(state) {
     return {
         isLoadingCompanies: state.companies.isLoadingCompanies,
         data: state.companies.company,
+        paginator: state.companies.paginator,
     };
 }
 
@@ -63,4 +197,5 @@ function mapDispatchToProps(dispatch) {
         CompanyActions: bindActionCreators(CompanyActions, dispatch),
     };
 }
-export default connect(mapStateToProps,mapDispatchToProps) (CompanyContainer);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyContainer);

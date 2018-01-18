@@ -6,21 +6,32 @@ import FormInputText from "../../components/common/FormInputText";
 import * as CompanyActions from '../companies/CompanyActions';
 import ReactSelect from 'react-select';
 import * as helper from '../../helpers/helper';
+import AddFieldModal from "./AddFieldModal";
+import PropTypes from 'prop-types';
 
 class CreateCompanyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            showAddField: false,
+        };
         this.changeFields = this.changeFields.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.updateFormDataBonus = this.updateFormDataBonus.bind(this);
         this.updateFormDataType = this.updateFormDataType.bind(this);
         this.submit = this.submit.bind(this);
+        this.openAddFieldModal = this.openAddFieldModal.bind(this);
+        this.closeAddFieldModal = this.closeAddFieldModal.bind(this);
 
     }
 
     componentWillMount() {
-        console.log(this.props.data);
+        helper.setFormValidation('#form-company');
         this.props.CompanyActions.loadFields();
+        if(this.props.params.companyId)
+            this.props.CompanyActions.loadCompany(this.props.params.companyId);
+        else this.props.CompanyActions.resetDataCompany();
+
     }
     componentWillReceiveProps() {
 
@@ -29,7 +40,13 @@ class CreateCompanyContainer extends React.Component {
         helper.setFormValidation('#form-company');
     }
 
+    openAddFieldModal() {
+        this.setState({showAddField: true});
+    }
 
+    closeAddFieldModal() {
+        this.setState({showAddField: false});
+    }
     changeFields() {
         let data = [];
         data = this.props.fields.map((field) => {
@@ -57,23 +74,31 @@ class CreateCompanyContainer extends React.Component {
     updateFormDataBonus(e){
         if(!e) return;
         let value = e.value;
-        let newdata = {...this.props.data,field_id : value};
+        let newdata = {...this.props.data,field : {
+                "id": value,
+            }};
         this.props.CompanyActions.updateFormData(newdata);
 
     }
+
     submit(){
         if($('#form-company').valid()) {
             helper.showNotification("Đang lưu...");
-            if(!this.props.companyId) this.props.CompanyActions.addCompany(this.props.data);
-            else this.props.CompanyActions.editCompany(this.props.companyId,this.props.data);
+            if(!this.props.params.companyId) this.props.CompanyActions.addCompany(this.props.data);
+            else this.props.CompanyActions.editCompany(this.props.params.companyId,this.props.data);
         } else helper.showErrorNotification("Vui lòng nhập đủ các thông tin");
     }
 
     render() {
         return (
             <div className="content">
+                <AddFieldModal
+                    show={this.state.showAddField}
+                    onHide={this.closeAddFieldModal}
+                    loadFields={this.props.CompanyActions.loadFields}
+                />
                 <div className="container-fluid">{
-                    (this.props.isLoadingFields || this.props.isLoading) ? <Loading/> :
+                    (this.props.isLoadingCompany) ? <Loading/> :
                         <form role="form" id="form-company" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-12">
@@ -214,16 +239,18 @@ class CreateCompanyContainer extends React.Component {
                                                         Lĩnh vực
                                                     </label>
                                                 </div>
-                                                <div className="col-md-4">
 
+                                                <div className="col-md-4">
                                                     <ReactSelect
                                                         required
                                                         disabled={false}
+                                                        isLoading={this.props.isLoadingFields}
                                                         options={this.changeFields()}
                                                         onChange={this.updateFormDataBonus}
-                                                        value={this.props.data.field_id||""}
+                                                        value={this.props.data.field.id||""}
+
                                                         defaultMessage="Tuỳ chọn"
-                                                        name="field_id"
+                                                        name="field"
                                                     />
                                                 </div>
                                                 <div className="col-md-2">
@@ -231,6 +258,7 @@ class CreateCompanyContainer extends React.Component {
                                                         className="btn btn-danger btn-round btn-fab btn-fab-mini"
                                                         type="button"
                                                         data-toggle="tooltip" title="Thêm lĩnh vực"
+                                                        onClick={() => this.openAddFieldModal()}
                                                     >
                                                         <i className="material-icons keetool-card">add</i>
                                                     </button>
@@ -292,6 +320,16 @@ class CreateCompanyContainer extends React.Component {
         );
     }
 }
+CreateCompanyContainer.propTypes = {
+    CompanyActions: PropTypes.object.isRequired,
+    data: PropTypes.array.isRequired,
+    isLoadingFields: PropTypes.bool.isRequired,
+    isSavingField: PropTypes.bool.isRequired,
+    isSavingCompany: PropTypes.bool.isRequired,
+    isLoanding: PropTypes.bool.isRequired,
+    isLoadingCompany: PropTypes.bool.isRequired,
+    fields: PropTypes.array.isRequired,
+};
 
 function mapStateToProps(state) {
     return {
@@ -299,6 +337,7 @@ function mapStateToProps(state) {
         isSavingField: state.companies.isSavingField,
         isSavingCompany: state.companies.isSavingCompany,
         isLoanding: state.companies.isLoading,
+        isLoadingCompany: state.companies.isLoadingCompany,
         data: state.companies.company,
         fields: state.companies.fields,
     };

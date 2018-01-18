@@ -13,6 +13,7 @@ export function loadCompanies(page = 1, type ="", search="") {
               dispatch({
                 type: types.LOAD_COMPANIES_SUCCESS,
                 data: res.data.company,
+                paginator: res.data.paginator,
               });
           }).catch(()=>{
            helper.showNotification("Có lỗi xảy ra");
@@ -32,7 +33,7 @@ export function loadCompany(id) {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_COMPANY_SUCCESS,
-                    data: res.data.company,
+                    data: res.data.data.company,
                 });
             }).catch(()=>{
             helper.showNotification("Có lỗi xảy ra");
@@ -92,6 +93,7 @@ export function editCompany(id,object){
                 dispatch({
                     type: types.EDIT_COMPANY_SUCCESS,
                 });
+                browserHistory.push("business/companies");
             }).catch(()=>{
             helper.showNotification("Có lỗi xảy ra");
             dispatch({
@@ -100,7 +102,7 @@ export function editCompany(id,object){
         });
     };
 }
-export function addField(name) {
+export function addField(name,loadFields) {
     return function (dispatch){
         dispatch({
             type: types.BEGIN_ADD_FIELD,
@@ -110,11 +112,13 @@ export function addField(name) {
                 helper.showNotification("Thêm thành công");
                 dispatch({
                     type: types.ADD_FIELD_SUCCESS,
+
                 });
+                loadFields();
             }).catch(()=>{
             helper.showNotification("Có lỗi xảy ra");
             dispatch({
-                type: types.ADD_FILED_ERROR,
+                type: types.ADD_FIELD_ERROR,
             });
         });
     };
@@ -125,5 +129,12 @@ export function updateFormData(data) {
             type: types.UPDATE_DATA_CREATE_COMPANY,
             data : data,
         });
+    };
+}
+export function resetDataCompany(){
+    return function (dispatch){
+      dispatch({
+         type: types.RESET_DATA_COMPANY,
+      });
     };
 }

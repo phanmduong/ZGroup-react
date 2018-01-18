@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link} from 'react-router';
+import PropTypes from 'prop-types';
 
 class CompaniesList extends React.Component{
     constructor(props, context) {
@@ -24,6 +26,7 @@ class CompaniesList extends React.Component{
                         <th>Mã số thuế</th>
                         <th>Loại</th>
                         <th/>
+                        <th/>
                     </tr>
                     </thead>
                     <tbody>
@@ -32,7 +35,11 @@ class CompaniesList extends React.Component{
                            return(
                                 <tr key={pp.id}>
                                     <td/>
-                                    <td>{pp.partner_code}</td>
+                                    <td>
+                                        <a onClick={()=>{return this.props.openInfoModal(pp);}}>
+                                            {pp.partner_code}</a>
+
+                                    </td>
                                     <td>{pp.name}</td>
                                     <td>{pp.office_address}</td>
                                     <td>{pp.field.name}</td>
@@ -42,6 +49,15 @@ class CompaniesList extends React.Component{
                                         (pp.type === "provided") ? "Cung cấp" :
                                             (pp.type === "share") ? "Phân phối" : "Khác"
                                     }</td>
+                                    <td>
+                                        <div style={{display: "inline-block"}}>
+                                            <Link data-toggle="tooltip" title="Sửa"
+                                                  to={"/business/company/edit/" + pp.id}
+                                                  type="button" rel="tooltip">
+                                                <i className="material-icons">edit</i>
+                                            </Link>
+                                        </div>
+                                    </td>
                                     <td/>
                                 </tr>
                            );
@@ -56,4 +72,9 @@ class CompaniesList extends React.Component{
         );
     }
 }
+CompaniesList.propTypes = {
+    data: PropTypes.array.isRequired,
+    editCompany: PropTypes.func,
+    openInfoModal: PropTypes.func,
+};
 export default CompaniesList;

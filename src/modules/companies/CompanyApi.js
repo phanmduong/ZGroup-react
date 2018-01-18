@@ -41,7 +41,7 @@ export function addCompany(object) {
         "account_number": object.account_number,
         "bank_name": object.bank_name,
         "bank_branch": object.bank_branch,
-        "field_id": object.field_id,
+        "field_id": object.field.id,
         "user_contact": object.user_contact,
         "user_contact_phone": object.user_contact_phone,
         "type": object.type,
@@ -62,7 +62,7 @@ export function editCompany(id,object){
         "account_number": object.account_number,
         "bank_name": object.bank_name,
         "bank_branch": object.bank_branch,
-        "field_id": object.field_id,
+        "field_id": object.field.id,
         "user_contact": object.user_contact,
         "user_contact_phone": object.user_contact_phone,
         "type": object.type,
@@ -73,7 +73,7 @@ export function addField(name){
     let token = localStorage.getItem('token');
     if (token)
         url += "?token=" + token;
-    axios.post(url,{
+    return axios.post(url,{
        "name" : name,
     });
 }

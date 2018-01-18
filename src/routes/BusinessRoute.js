@@ -12,4 +12,9 @@ export default [
         path: "/business/company/create",
         component: CreateCompanyContainer,
     },
+    {
+        path: "/business/company/edit/:companyId",
+        component: CreateCompanyContainer,
+        type: "edit"
+    },
 ];

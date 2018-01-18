@@ -15,6 +15,7 @@ export default function companyReducer(state = initialState.companies, action) {
                 ...state,
                 isLoadingCompanies: false,
                 company: data,
+                paginator: action.paginator,
             };
         }
         case types.LOAD_COMPANIES_ERROR:
@@ -30,7 +31,7 @@ export default function companyReducer(state = initialState.companies, action) {
         case types.LOAD_COMPANY_SUCCESS:
             return{
                 ...state,
-                isLoadingCompany: true,
+                isLoadingCompany: false,
                 company: action.data,
             };
         case types.LOAD_COMPANY_ERROR:
@@ -90,7 +91,7 @@ export default function companyReducer(state = initialState.companies, action) {
                 ...state,
                 isSavingField: false,
             };
-        case types.ADD_FILED_ERROR:
+        case types.ADD_FIELD_ERROR:
             return{
                 ...state,
                 isSavingField: false,
@@ -99,10 +100,36 @@ export default function companyReducer(state = initialState.companies, action) {
 
             return {
                 ...state,
-                isLoading: false,
+                isLoadingComapny: false,
                 company: action.data,
             };
         }
+        case types.RESET_DATA_COMPANY:{
+            let defaultdata={
+                name: "",
+                registered_business_address: "",
+                office_address: "",
+                phone_company: "",
+                tax_code: "",
+                account_name: "",
+                account_number: "",
+                bank_name: "",
+                bank_branch: "",
+                field:{
+                  id: 0,
+                  name: "",
+                },
+                user_contact: "",
+                user_contact_phone: "",
+                type: "",
+            };
+            return{
+                ...state,
+                isLoadingCompany: false,
+                company: defaultdata,
+            };
+        }
+
         default:
             return state;
     }

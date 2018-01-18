@@ -1485,8 +1485,10 @@ export default {
             account_number: "",
             bank_name: "",
             bank_branch: "",
-            field_id: 0,
-            field_name: "",
+            field:{
+              id: 0,
+              name: "",
+            },
             user_contact: "",
             user_contact_phone: "",
             type: "",
