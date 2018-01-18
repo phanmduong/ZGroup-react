@@ -287,6 +287,7 @@ class PublicController extends Controller
         $user->phone = $phone;
         $user->email = $request->email;
         $user->username = $request->email;
+        $user->password = bcrypt($user->phone);
 
         $user->save();
 
