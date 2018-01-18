@@ -9,7 +9,7 @@
                 <h2>{{$user->name}}</h2>
                 <div>{{$user->university}}</div>
                 <div style="padding-top: 20px;">
-                    <button class="btn btn-success">Tạo CV</button>
+                    <button class="btn btn-success" id="button-open-cv">Tạo CV</button>
                 </div>
                 <p style="padding: 20px; font-size: 22px;"></p>
             </div>
@@ -41,9 +41,13 @@
             </div>
         </div>
     </div>
-    @yield('content_profile')
+    <div style="margin-top: 50px">
+        @yield('content_profile')
+    </div>
+
 @endsection
 
 @push('scripts')
+
 
 @endpush

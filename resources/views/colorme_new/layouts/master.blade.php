@@ -51,6 +51,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
+                        <li class=""><a href="/posts/7">Học viên</a></li>
                         @if (isset($user) && count($paid_courses)>0)
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                                     role="button"
@@ -132,7 +133,8 @@
                                 <a v-on:click="openModalLogin">Đăng
                                     nhập</a>
                             </li>
-                            <li v-if="isLogin" class=""><a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li v-if="isLogin" class=""><a href="/search"><i class="fa fa-search"
+                                                                             aria-hidden="true"></i></a></li>
                             <li v-if="isLogin" class="dropdown" id="noti-dropdown">
                                 <a href="#" id="btn-noti" class="dropdown-toggle"
                                    data-toggle="dropdown" role="button"
@@ -181,7 +183,9 @@
                 </div>
             </div>
             <div class="row" style="padding-top: 20px;">
-                <div class="col-xs-12">Copyright © 2005–2016 KEE Education. All screenshots and videos © their
+                <div class="col-xs-12">Copyright © 2015 –
+                    <script>document.write(new Date().getFullYear())</script>
+                    KEE Education. All screenshots and videos © their
                     respective owners.
                 </div>
                 <div class="col-xs-12"><a class="social-button"
