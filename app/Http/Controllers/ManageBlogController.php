@@ -122,6 +122,7 @@ class ManageBlogController extends ManageApiController
         $post = Product::find($postId);
         if(!$post) return $this->respondErrorWithStatus("Không tồn tại post");
         $post->status = 1- $post->status;
+        $post->save();
         return $this->respondSuccessWithStatus([
            "message" => "Thành công"
         ]);
