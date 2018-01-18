@@ -17,12 +17,6 @@ class CardWork extends React.Component {
             'team': 'Nhóm',
             'person_project': 'Dự án riêng',
         };
-
-        this.bonus_type = {
-            'coin': 'Coin',
-            'vnd': 'VNĐ',
-
-        };
     }
 
     render() {
@@ -35,20 +29,13 @@ class CardWork extends React.Component {
                     e.stopPropagation();
                     return this.props.openInfoModal(work);
                 }}
-                key={key} id={key} data-order={key}
-                className="card-content keetool-idcard">
-
+                key={key} id={key} data-order={key} className="card-content keetool-idcard">
                 <div className="card keetool-card keetool-card-wrapper">
                     <div className="card-content keetool-card" style={{position: "relative"}}>
-                        <div style={{position: "absolute", top: 10, right: 10}}
-                             hidden={(user.role != 2) && checkId}
-                        >
+                        <div style={{position: "absolute", top: 10, right: 10}} hidden={(user.role != 2) && checkId}>
                             <div className="board-action keetool-card">
                                 <div className="dropdown">
-                                    <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                       data-toggle="dropdown">
-                                        <i className="material-icons">more_horiz</i>
-                                    </a>
+                                    <a className="dropdown-toggle btn-more-dropdown" type="button" data-toggle="dropdown"><i className="material-icons">more_horiz</i></a>
                                     <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
                                         {/*<li className="more-dropdown-item" hidden={(status == STATUS_WORK[3].value) ? true : user.role != 2}>*/}
                                         {/*<Link*/}
@@ -87,8 +74,7 @@ class CardWork extends React.Component {
                                                 Chấp nhận chi tiền
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
+                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.change(work, "cancel");
@@ -98,8 +84,7 @@ class CardWork extends React.Component {
                                                 Hủy
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == "doing") ? checkId : true}>
+                                        <li className="more-dropdown-item" hidden={(status == "doing") ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.openExtendModal(work);
@@ -109,8 +94,7 @@ class CardWork extends React.Component {
                                                 Xin gia hạn
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[1].value) ? checkId : true}>
+                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[1].value) ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.openFinishModal(work);
@@ -120,8 +104,7 @@ class CardWork extends React.Component {
                                                 Hoàn thành
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}>
+                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.revertWork(work);
@@ -137,27 +120,25 @@ class CardWork extends React.Component {
                             </div>
                         </div>
 
-                        <div className="card-title keetool-card"
-                             style={{paddingRight: "25px", lineHeight: "18px", fontWeight: 600}}>
+                        <div className="card-title keetool-card" style={{paddingRight: "25px", lineHeight: "18px", fontWeight: 600}}>
                             {work.name}
                         </div>
 
                         <div className="keetool-card" style={{padding: "2px 0", display: "flex"}}>
-                            <Avatar className="keetool-card"
-                                    url={helper.validateLinkImage(work.payer.avatar_url)}
-                                    size={25}/>
+                            <Avatar className="keetool-card" size={25}
+                                    url={helper.validateLinkImage(work.payer.avatar_url)}/>
                             {work.payer.name}
                         </div>
 
 
-                        <div
-                            className="keetool-card">{this.type[work.type]} / {work.bonus_value + " " + (work.currency.name || "")}</div>
+                        <div className="keetool-card">
+                            {this.type[work.type]} / {work.bonus_value + " " + (work.currency.name || "")}
+                            </div>
 
                         <div className="keetool-card" style={{marginTop: "5px"}}>
                             {
                                 work.staffs && work.staffs.length > 0 && (
-                                    <div className="keetool-card"
-                                         style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
+                                    <div className="keetool-card" style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
                                         {
                                             (work.staffs && work.staffs.length > 5) &&
                                             <div key={-1} className="keetool-card" style={{padding: "2px 0"}}>
@@ -177,9 +158,8 @@ class CardWork extends React.Component {
                                         {work.staffs.slice(0, Math.min(work.staffs.length, 4)).map((staff) => {
                                             return (
                                                 <div key={staff.id} className="keetool-card" style={{padding: "2px 0"}}>
-                                                    <Avatar className="keetool-card"
-                                                            url={helper.validateLinkImage(staff.avatar_url)}
-                                                            size={25}/>
+                                                    <Avatar className="keetool-card" size={25}
+                                                            url={helper.validateLinkImage(staff.avatar_url)}/>
                                                 </div>
                                             );
                                         })}
