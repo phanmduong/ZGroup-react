@@ -1557,6 +1557,7 @@ export default {
         survey: {},
         showEditQuestionModal: false,
         question: {},
+        showDisplaySettingModal: false,
         isSavingQuestion: false
     },
     dashboardXHH: {

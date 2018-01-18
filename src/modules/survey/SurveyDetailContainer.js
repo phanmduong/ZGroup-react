@@ -8,6 +8,7 @@ import EditQuestionModalContainer from "./EditQuestionModalContainer";
 import Dragula from "react-dragula";
 import {QUESTION_TYPE} from "../../constants/constants";
 import {confirm} from "../../helpers/helper";
+import SurveyDisplayModalContainer from "./SurveyDisplayModalContainer";
 
 class SurveyDetailContainer extends React.Component {
     constructor(props, context) {
@@ -18,6 +19,7 @@ class SurveyDetailContainer extends React.Component {
         this.showQuestionType = this.showQuestionType.bind(this);
         this.deleteQuestion = this.deleteQuestion.bind(this);
         this.duplicateQuestion = this.duplicateQuestion.bind(this);
+        this.showDisplayModal = this.showDisplayModal.bind(this);
     }
 
     componentWillMount() {
@@ -27,6 +29,10 @@ class SurveyDetailContainer extends React.Component {
 
     componentDidUpdate() {
         this.initDragula();
+    }
+
+    showDisplayModal() {
+        this.props.surveyActions.showSurveyDisplaySettingModal(true);
     }
 
     showEditQuestionModal(question) {
@@ -92,15 +98,18 @@ class SurveyDetailContainer extends React.Component {
         return (
             <div className="container-fluid">
                 <EditQuestionModalContainer/>
+                <SurveyDisplayModalContainer/>
                 <div className="row">
-
-                    <div className="col-md-12">
-                        <h3 className="title">{survey.name}</h3>
-                        <button className="btn btn-rose" onClick={() => this.showEditQuestionModal({})}>
-                            Thêm câu hỏi
-                        </button>
-                        {
-                            isLoading ? <Loading/> : (
+                    {
+                        isLoading ? <Loading/> : (
+                            <div className="col-md-12">
+                                <h3 className="title">{survey.name}</h3>
+                                <button className="btn btn-rose" onClick={() => this.showEditQuestionModal({})}>
+                                    Thêm câu hỏi
+                                </button>
+                                <button className="btn btn-info" onClick={this.showDisplayModal}>
+                                    Cài đặt hiển thị
+                                </button>
                                 <div className="drake">
                                     {
                                         survey.questions && survey.questions.sort((a, b) => a.order - b.order).map((question) => {
@@ -159,10 +168,11 @@ class SurveyDetailContainer extends React.Component {
                                         })
                                     }
                                 </div>
-                            )
-                        }
+                            </div>
+                        )
+                    }
 
-                    </div>
+
                 </div>
             </div>
         );

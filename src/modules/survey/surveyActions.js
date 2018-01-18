@@ -5,7 +5,7 @@ import {
     LOAD_SURVEY_DETAIL_SUCCESS,
     TOGGLE_EDIT_SURVEY, UPDATE_QUESTION_FORM_DATA, BEGIN_SAVE_QUESTION, SAVE_QUESTION_SUCCESS
     , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER, ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION,
-    DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING
+    DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING, OPEN_EDIT_SURVEY_DISPLAY_ORDER
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
 import {showErrorMessage, showNotification} from "../../helpers/helper";
@@ -184,6 +184,16 @@ export const changeQuestionsOrder = (questionId, siblingOrder, inQuestions) => {
         dispatch({
             type: UPDATE_QUESTIONS_ORDER,
             questions: newQuestions
+        });
+    };
+};
+
+
+export const showSurveyDisplaySettingModal = (showDisplaySettingModal) => {
+    return (dispatch) => {
+        dispatch({
+            type: OPEN_EDIT_SURVEY_DISPLAY_ORDER,
+            showDisplaySettingModal
         });
     };
 };
