@@ -1,7 +1,7 @@
 @extends('colorme_new.layouts.master')
 
 @section('styles')
-    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?882188888">
+    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?8128888">
 @endsection
 
 @section('content')
@@ -9,5 +9,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{url('colorme-react/bundle.js')}}?883218888"></script>
+    <script src="{{url('colorme-react/bundle.js')}}?8218888"></script>
 @endpush

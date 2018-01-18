@@ -36,7 +36,6 @@ class ColormeNewController extends CrawlController
 
     public function home()
     {
-
         $current_gen = Gen::getCurrentGen();
         $this->data['gen_cover'] = $current_gen->cover_url;
         return view('colorme_new.home', $this->data);
