@@ -99,6 +99,11 @@ class ManageBlogController extends ManageApiController
                     'status' => $post->status,
                     'image_url' => $post->url,
                     'thumb_url' => $post->thumb_url,
+                    'author' => [
+                       'id' => $this->author->id,
+                       'name' => $this->author->name,
+                       'avatar_url' => $this->author->avater_url,
+                    ],
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
                 if ($post->category) {
