@@ -7,6 +7,8 @@ use App\District;
 use App\Http\Controllers\ManageApiController;
 use App\Province;
 use App\Room;
+use App\Seat;
+use App\Seats;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -69,6 +71,7 @@ class ManageBaseApiController extends ManageApiController
             'message' => 'SUCCESS'
         ]);
     }
+
     public function editBase($baseId, Request $request)
     {
         if ($request->name == null || trim($request->name) == '')
@@ -76,7 +79,7 @@ class ManageBaseApiController extends ManageApiController
                 'message' => 'Thiếu tên cơ sở'
             ]);
         $base = Base::find($baseId);
-        if($base == null)
+        if ($base == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại cơ sở'
             ]);
@@ -136,5 +139,39 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
+    public function createSeat($roomId, Request $request)
+    {
+        if($request->name==null || trim($request->name) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu tên'
+            ]);
+        $seat = new Seat;
+        $seat->name = $request->name;
+        $seat->type = $request->type;
+        $seat->room_id = $roomId;
+        $seat->save();
+        $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
 
+    public function editSeat($roomId, $seatId, Request $request)
+    {
+        if($request->name==null || trim($request->name) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu tên'
+            ]);
+        $seat = Seat::find($seatId);
+        if($seat==null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại chỗ ngồi'
+            ]);
+        $seat->name = $request->name;
+        $seat->type = $request->type;
+        $seat->room_id = $roomId;
+        $seat->save();
+        $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
 }
