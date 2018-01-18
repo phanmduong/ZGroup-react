@@ -109,12 +109,12 @@ class DeliveryOrderApiController extends ManageApiController
         $order->staff_id = $this->user->id;
         $order->attach_info = $request->attach_info;
         $order->status = 'place_order';
-        $order->money = $request->money;
 
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
             $user = new User;
         }
+
         $user->name = $request->name ? $request->name : $request->phone;
         $user->email = $request->email;
         $user->phone = $request->phone;
@@ -126,4 +126,42 @@ class DeliveryOrderApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
     }
+
+    public function editDeliveryOrder($orderId, Request $request)
+    {
+        $request->code = $request->code ? $request->code : 'DELIVERY' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        if ($request->phone == null || $request->email == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu thông tin người mua'
+            ]);
+
+        $order = Order::find($orderId);
+        if($order == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại đơn hàng'
+            ]);
+        $order->note = $request->note;
+        $order->code = $request->code;
+        $order->staff_id = $this->user->id;
+        $order->attach_info = $request->attach_info;
+        $order->status = 'place_order';
+
+        $user = User::where('phone', $request->phone)->first();
+        if ($user == null) {
+            $user = new User;
+        }
+
+        $user->name = $request->name ? $request->name : $request->phone;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+
+        $order->user_id = $user->id;
+
+        $order->save();
+
+        return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
+    }
+
+
 }
