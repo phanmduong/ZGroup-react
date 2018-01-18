@@ -162,7 +162,8 @@ class BookRepository
                 $good = Good::find($item->id);
                 $order->goods()->attach($item->id, [
                     "quantity" => $item->number,
-                    "price" => $good->price,
+                    "price" => $item->price - $item->discount_value,
+                    'discount_money' => $item->discount_value,
                 ]);
             }
         }

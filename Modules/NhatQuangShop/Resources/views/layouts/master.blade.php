@@ -498,11 +498,11 @@
                             <img class="shadow-image"
                                  v-bind:src="good.avatar_url">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <p><b style="font-weight:600;">@{{good.name}}</b></p>
                             <p>@{{ good.description }}</p>
                         </div>
-                        <div class="col-md-3 h-center">
+                        <div class="col-md-2 h-center">
                             <button v-on:click="minusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
                                 <i class="fa fa-minus"></i>
                             </button>
@@ -513,11 +513,12 @@
                             &nbsp
                             <b style="font-weight:600;"> @{{ good.number }}</b>
                         </div>
-                        <div class="col-md-2 h-center">
+                        <div class="col-md-3 h-center">
                             <p>@{{ formatPrice(good.price)}}</p>
+                            <p v-if="good.discount_value"> - @{{ formatPrice(good.discount_value)}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{formatPrice(good.price*good.number)}}</b>
+                            <p><b style="font-weight:600;">@{{formatPrice((good.price - good.discount_value)*good.number)}}</b>
                             </p>
                         </div>
                     </div>

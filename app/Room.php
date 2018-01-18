@@ -17,4 +17,8 @@ class Room extends Model
     {
         return $this->hasMany('App\StudyClass', 'room_id');
     }
+
+    public function seats() {
+        return $this->hasMany(Seats::class, 'room_id');
+    }
 }
