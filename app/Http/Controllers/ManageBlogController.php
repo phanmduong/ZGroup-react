@@ -102,7 +102,7 @@ class ManageBlogController extends ManageApiController
                     'author' => [
                        'id' => $this->author->id,
                        'name' => $this->author->name,
-                       'avatar_url' => $this->author->avater_url,
+                       'avatar_url' => $this->author->avatar_url,
                     ],
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
