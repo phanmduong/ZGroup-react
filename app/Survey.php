@@ -36,6 +36,7 @@ class Survey extends Model
             'id' => $this->id,
             'name' => $this->name,
             'staff' => $this->user ? $this->user->getData() : null,
+            "questions_count" => $this->questions()->count()
         ];
     }
 
