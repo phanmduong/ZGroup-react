@@ -99,9 +99,23 @@
                         </li>
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <li class=""><a href="/about-us">Về chúng tôi</a></li>
+                        @if (isset($user))
+                            <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
+                                            class="glyphicon glyphicon-cloud-upload"></span>
+                                    Đăng bài</a>
+                            </li>
+                        @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="vue-nav">
                         @if (isset($user))
+                            <li class=""><a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li class="dropdown" id="noti-dropdown">
+                                  <a href="#" id="btn-noti" class="dropdown-toggle"
+                                   data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false"><i
+                                            class="fa fa-bell" aria-hidden="true"></i>
+                                </a>
+                            </li>
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                                     role="button" aria-haspopup="true" aria-expanded="true">
                                     <img src="{{$user->avatar_url}}"
