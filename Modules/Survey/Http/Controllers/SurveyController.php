@@ -19,6 +19,50 @@ class SurveyController extends ManageApiController
         parent::__construct();
     }
 
+
+    public function deleteQuestion($questionId)
+    {
+        $question = Question::find($questionId);
+        if ($question === null) {
+            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+        }
+
+        $question->delete();
+
+        $survey = $question->survey;
+
+        $order = 0;
+
+        foreach ($survey->questions()->orderBy("order")->get() as $question) {
+            $question->order = $order;
+            $order += 1;
+            $question->save();
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
+        ]);
+    }
+
+    public function duplicateQuestion($surveyId, $questionId)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Khảo sát không tồn tại");
+        }
+        $question = Question::find($questionId);
+        $newQuestion = $question->replicate();
+
+        $maxOrder = $survey->questions()->select(DB::raw("max(`order`) as max_order"))->pluck("max_order")->first();
+
+        $newQuestion->order = $maxOrder + 1;
+        $newQuestion->save();
+
+        return $this->respondSuccessWithStatus([
+            "question" => $newQuestion->getData()
+        ]);
+    }
+
     public function updateQuestionOrder(Request $request)
     {
         if ($request->questions == null) {
@@ -60,16 +104,16 @@ class SurveyController extends ManageApiController
         ];
     }
 
-    public function updateQuestion($surveyId, $questionId, Request $request)
+    public function updateQuestion($surveyId, Request $request, $questionId = null)
     {
         $survey = Survey::find($surveyId);
         $question = $survey->questions()->where("id", $questionId)->first();
         if ($question == null) {
             $question = new Question();
-            $maxOrder = $survey->questions()->select(DB::raw("max(order) as max_order"))->pluck("max_order")->first();
-            dd($maxOrder);
+            $maxOrder = $survey->questions()->select(DB::raw("max(`order`) as max_order"))->pluck("max_order")->first();
+            $question->order = $maxOrder + 1;
         }
-
+        $question->survey_id = $surveyId;
         $question->content = $request->content_data;
         $question->type = $request->type;
 

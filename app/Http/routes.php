@@ -63,6 +63,9 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/hr/{path}', 'ClientController@hr')
         ->where('path', '.*');
 
+    Route::get('/survey/{path}', 'ClientController@survey')
+        ->where('path', '.*');
+
     Route::get('/good/{path}', 'ClientController@good')
         ->where('path', '.*');
 
@@ -469,7 +472,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
     Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/sign-in', 'PublicController@beta');
-    Route::get('/upload-post', 'PublicController@be¬ta');
+    Route::get('/upload-post', 'PublicController@beta');
     Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'ColormeNewController@course');
     Route::get('/profile/{username}', 'PublicController@beta');
     Route::get('/profile/{username}/progress', 'PublicController@beta');
