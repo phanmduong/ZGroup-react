@@ -102,7 +102,7 @@ class ManageBlogController extends ManageApiController
                     'author' => [
                        'id' => $post->author->id,
                        'name' => $post->author->name,
-                       'avatar_url' => $post->author->avatar_url,
+                       'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : "http://api.colorme.vn/img/user.png",
                     ],
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
