@@ -153,7 +153,7 @@ class XHHController extends Controller
 
         $books = $books->leftJoin('good_properties', 'goods.id', '=', 'good_properties.good_id')
             ->where(function ($q) {
-                $q->where('good_properties.name', 'TYPE_BOOK');
+                $q->where('good_properties.name', 'like', '%TYPE_BOOK%');
             });
 
         if ($search) {
