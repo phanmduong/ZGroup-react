@@ -63,6 +63,9 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/hr/{path}', 'ClientController@hr')
         ->where('path', '.*');
 
+    Route::get('/survey/{path}', 'ClientController@survey')
+        ->where('path', '.*');
+
     Route::get('/good/{path}', 'ClientController@good')
         ->where('path', '.*');
 
@@ -163,6 +166,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/create-category', 'ManageBlogController@create_category');
     Route::post('/save-post', 'ManageBlogController@save_post');
     Route::get('/posts', 'ManageBlogController@get_posts');
+    Route::post('/post/{postId}/change-status','ManageBlogController@changeStatusPost');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
     //End blog api
@@ -468,7 +472,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
     Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/sign-in', 'PublicController@beta');
-    Route::get('/upload-post', 'PublicController@be¬ta');
+    Route::get('/upload-post', 'PublicController@beta');
     Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'ColormeNewController@course');
     Route::get('/profile/{username}', 'PublicController@beta');
     Route::get('/profile/{username}/progress', 'PublicController@beta');
