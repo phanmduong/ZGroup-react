@@ -8,9 +8,13 @@
                 <div style="background: url('{{$user_profile->avatar_url}}') center center / cover; width: 100px; height: 100px; border-radius: 50px; display: inline-block;"></div>
                 <h2>{{$user_profile->name}}</h2>
                 <div>{{$user_profile->university}}</div>
+
                 <div style="padding-top: 20px;">
-                    <button class="btn btn-success" id="button-open-cv">Tạo CV</button>
+                    @if ($user->id == $user_profile->id)
+                        <button class="btn btn-success" id="button-open-cv">Tạo CV</button>
+                    @endif
                 </div>
+
                 <p style="padding: 20px; font-size: 22px;"></p>
             </div>
         </div>
