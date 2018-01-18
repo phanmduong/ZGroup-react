@@ -39,6 +39,9 @@ Route::post('manage/receive_video_convert_notifications', 'PublicController@rece
 Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
+
+//Route::get('/login/secret', 'AuthenticateController@secretLogin');
+
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
@@ -465,7 +468,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
     Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/sign-in', 'PublicController@beta');
-    Route::get('/upload-post', 'PublicController@be¬ta');
+    Route::get('/upload-post', 'PublicController@beta');
     Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'ColormeNewController@course');
     Route::get('/profile/{username}', 'ColormeNewController@profileProcess');
     Route::get('/profile/{username}/attendance', 'ColormeNewController@profile');

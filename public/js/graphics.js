@@ -7,8 +7,7 @@ var modalBuy = new Vue({
     data: {
         isLoading: false,
         goods: [],
-        total_price: 0,
-        price_vnd: '',
+        total_order_price: 0,
         disablePurchaseButton: true,
     },
     methods: {
@@ -16,8 +15,7 @@ var modalBuy = new Vue({
             axios.get(window.url + '/load-books-from-session')
                 .then(function (response) {
                     this.goods = response.data.goods;
-                    this.total_price = response.data.total_price;
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                    this.total_order_price = response.data.total_order_price;
                     this.isLoading = false;
                     this.disablePurchaseButton = false;
                     openWithoutAdd.countBooksFromSession();
@@ -44,8 +42,7 @@ var modalBuy = new Vue({
                 good = this.goods[i];
                 if (good.id === goodId) {
                     good.number -= 1;
-                    this.total_price -= good.price * (1 - good.coupon_value);
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                    this.total_order_price -= good.price * (1 - good.coupon_value);
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
@@ -67,8 +64,7 @@ var modalBuy = new Vue({
                 good = this.goods[i];
                 if (good.id === goodId) {
                     good.number += 1;
-                    this.total_price += good.price * (1 - good.coupon_value);
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                    this.total_order_price += good.price * (1 - good.coupon_value);
                 }
                 newGoods.push(good);
             }
@@ -209,7 +205,7 @@ var modalPurchase = new Vue({
         },
         changeProvince: function () {
             this.loadingDistrict = true;
-            this.goodsPrice = modalBuy.total_price;
+            this.goodsPrice = modalBuy.total_order_price;
             this.getDistricts();
             if (this.provinceid === "01" || this.provinceid === "79") {
                 this.shipPrice = 20000;

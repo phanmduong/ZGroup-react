@@ -10,12 +10,35 @@ use App\Lesson;
 use App\Question;
 use App\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SurveyController extends ManageApiController
 {
     public function __construct(TermTransformer $termTransformer)
     {
         parent::__construct();
+    }
+
+    public function updateQuestionOrder(Request $request)
+    {
+        if ($request->questions == null) {
+            return [
+                "status" => 0,
+                "message" => "Bạn cần phải truyền danh sách câu hỏi lên"
+            ];
+        }
+
+        $questions = json_decode($request->questions);
+
+        foreach ($questions as $item) {
+            $question = Question::find($item->id);
+            $question->order = $item->order;
+            $question->save();
+        }
+
+        return [
+            "status" => 1
+        ];
     }
 
     public function saveAnswer($answerId, Request $request)
@@ -42,11 +65,32 @@ class SurveyController extends ManageApiController
         $survey = Survey::find($surveyId);
         $question = $survey->questions()->where("id", $questionId)->first();
         if ($question == null) {
-            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+            $question = new Question();
+            $maxOrder = $survey->questions()->select(DB::raw("max(order) as max_order"))->pluck("max_order")->first();
+            dd($maxOrder);
         }
 
         $question->content = $request->content_data;
+        $question->type = $request->type;
+
         $question->save();
+
+        if ($question->type === 0) {
+            $question->answers()->delete();
+        } else {
+            if ($request->answers) {
+                $question->answers()->delete();
+                $answers = json_decode($request->answers);
+
+                foreach ($answers as $a) {
+                    $answer = new Answer();
+                    $answer->question_id = $question->id;
+                    $answer->content = $a->content;
+                    $answer->correct = $a->correct;
+                    $answer->save();
+                }
+            }
+        }
 
 
         return $this->respondSuccessWithStatus([

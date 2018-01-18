@@ -131,7 +131,7 @@ class GraphicsController extends Controller
         }
         $data = [
             "goods" => $goods,
-            "total_price" => $totalPrice
+            "total_order_price" => $totalPrice
         ];
 
         return $data;

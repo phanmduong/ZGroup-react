@@ -6,6 +6,6 @@
 
 @section("js")
 
-    <script type="text/javascript" src="manage/dashboard/main.ffa484888950aacdc122.js"></script>
+    <script type="text/javascript" src="manage/dashboard/main.3f54e2f8f5bb3fa933ea.js"></script>
 
 @endsection
