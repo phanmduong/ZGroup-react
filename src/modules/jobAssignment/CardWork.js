@@ -68,6 +68,7 @@ class CardWork extends React.Component {
                                         <li className="more-dropdown-item" hidden={(status != STATUS_WORK[4].value)}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
+                                                return this.props.acceptPay(work.id);
                                             }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">local_atm</i>
@@ -194,12 +195,17 @@ function checkUser(id, arr) {
 }
 
 CardWork.propTypes = {
+    change: PropTypes.func,
     delete: PropTypes.func,
     acceptWork: PropTypes.func,
+    acceptPay: PropTypes.func,
     doneWork: PropTypes.func,
     revertWork: PropTypes.func,
     openInfoModal: PropTypes.func,
+    openExtendModal: PropTypes.func,
+    openFinishModal: PropTypes.func,
     work: PropTypes.object,
+    user: PropTypes.object,
     key: PropTypes.number,
     status: PropTypes.string,
 };

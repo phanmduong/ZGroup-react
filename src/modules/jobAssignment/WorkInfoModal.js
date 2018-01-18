@@ -9,9 +9,8 @@ import FormInputText from "../../components/common/FormInputText";
 import ListStaffs from './ListStaffs';
 import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
-import {Modal} from 'react-bootstrap';
 import * as helper from "../../helpers/helper";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
+import {ListGroup, ListGroupItem, Modal} from "react-bootstrap";
 import Avatar from "../../components/common/Avatar";
 import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
 
@@ -143,7 +142,7 @@ class WorkInfoModal extends React.Component {
                                                                             return this.setState({show: true,staffId: payer.id});
                                                                         }}><i className="material-icons">info</i></div>
                                                                         :
-                                                                        <div></div>
+                                                                        <div/>
                                                                 }</div>
 
                                                             </div>
@@ -152,7 +151,7 @@ class WorkInfoModal extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="card">
-                                                <div className="card-header card-header-icon"data-background-color="rose">
+                                                <div className="card-header card-header-icon" data-background-color="rose">
                                                     <i className="material-icons">people</i>
                                                 </div>
 

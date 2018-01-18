@@ -41,6 +41,7 @@ class JobAssignmentContainer extends React.Component {
         this.extendWork =this.extendWork.bind(this);
         this.onWorkTypeChange =this.onWorkTypeChange.bind(this);
         this.onStaffFilterChange =this.onStaffFilterChange.bind(this);
+        this.acceptPay =this.acceptPay.bind(this);
 
         this.state = {
             showInfoModal: false,
@@ -54,7 +55,7 @@ class JobAssignmentContainer extends React.Component {
             typeFilter: "all",
             staffs: [],
             selectedStaffs:[],
-        }
+        };
     }
 
     componentWillMount() {
@@ -142,6 +143,13 @@ class JobAssignmentContainer extends React.Component {
         this.setState({ selectedStaffs: obj});
     }
 
+    acceptPay(workId){
+        this.props.jobAssignmentAction.acceptPay(workId,this.props.user.id, ()=>{
+            helper.showNotification("Đã chấp chi tiền");
+            return this.props.jobAssignmentAction.loadWorks();
+        });
+    }
+
     render() {
         let pending = [], doing = [], done = [], cancel = [], pay = [];
         let {works, user} = this.props;
@@ -173,10 +181,7 @@ class JobAssignmentContainer extends React.Component {
                     }
                 }
             });
-            console.log(user.id);
-            console.log(pay);
             pay = pay.filter(obj => obj.payer.id == user.id);
-            console.log(pay);
         }
         return (
             <div>
@@ -249,6 +254,7 @@ class JobAssignmentContainer extends React.Component {
                                     pending.map((work)=>{
                                         return (
                                             <CardWork
+                                                key={work.id}
                                                 work={work}
                                                 change={this.changeWorkStatus}
                                                 status="pending"
@@ -274,10 +280,12 @@ class JobAssignmentContainer extends React.Component {
                                     pay.map((work)=>{
                                         return (
                                             <CardWork
+                                                key={work.id}
                                                 work={work}
                                                 status="pay"
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={user}
+                                                acceptPay={this.acceptPay}
                                             />
                                         );
                                     })
@@ -297,6 +305,7 @@ class JobAssignmentContainer extends React.Component {
                                     doing.map((work)=>{
                                         return (
                                             <CardWork
+                                                key={work.id}
                                                 work={work}
                                                 status="doing"
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
@@ -323,6 +332,7 @@ class JobAssignmentContainer extends React.Component {
                                     done.map((work)=>{
                                         return (
                                             <CardWork
+                                                key={work.id}
                                                 work={work}
                                                 status="done"
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
@@ -348,6 +358,7 @@ class JobAssignmentContainer extends React.Component {
                                     cancel.map((work)=>{
                                         return (
                                             <CardWork
+                                                key={work.id}
                                                 work={work}
                                                 status="cancel"
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
