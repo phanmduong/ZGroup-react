@@ -11,5 +11,4 @@
 
 @push('scripts')
     <script src="{{url('colorme-react/bundle.js')}}?883218888"></script>
-
 @endpush

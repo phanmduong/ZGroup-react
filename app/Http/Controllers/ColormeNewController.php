@@ -133,7 +133,12 @@ class ColormeNewController extends CrawlController
                     "duration" => $register->studyClass->course->duration,
                     "description" => $register->studyClass->course->description,
                     "image_url" => $register->studyClass->course->image_url,
-                    "first_lesson" => $register->studyClass->course->lessons()->orderBy('order')->first()
+                    "first_lesson" => $register->studyClass->course->lessons()->orderBy('order')->first(),
+                    "total_lesson" => $register->studyClass->course->lessons()->count(),
+                    "total_passed" => $register->studyClass->course->lessons()
+                        ->join('class_lesson', 'class_lesson.lesson_id', '=', 'lessons.id')
+                        ->where('class_lesson.class_id', $register->studyClass->id)
+                        ->whereRaw('date(now()) >= date(class_lesson.time)')->count()
                 ];
                 return $data;
             });
@@ -153,6 +158,11 @@ class ColormeNewController extends CrawlController
             return view('colorme_new.profile.profile_react', $this->data);
         }
         return redirect("/");
+    }
+
+    public function social()
+    {
+        return view('colorme_new.colorme_react', $this->data);
     }
 
 }

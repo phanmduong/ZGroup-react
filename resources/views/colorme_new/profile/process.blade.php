@@ -17,8 +17,10 @@
                             </div>
                             <div class="w3-light-grey" style="background: rgba(39,187,42,0.33)!important">
                                 <div class="w3-grey"
-                                     style="height:20px;width:25%; background:#27bb2a!important">
-                                    <p style="color:white;padding-left:10px">25%</p>
+                                     style="height:20px;width:{{round($course['total_passed']*100/$course['total_lesson'])}}%; background:#27bb2a!important">
+                                    <p style="color:white;padding-left:10px">
+                                        {{round($course['total_passed']*100/$course['total_lesson'])}}%
+                                    </p>
                                 </div>
                             </div>
                             <div class="product-info">

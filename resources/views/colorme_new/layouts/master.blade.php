@@ -111,7 +111,7 @@
                         @if (isset($user))
                             <li class=""><a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                             <li class="dropdown" id="noti-dropdown">
-                                  <a href="#" id="btn-noti" class="dropdown-toggle"
+                                <a href="#" id="btn-noti" class="dropdown-toggle"
                                    data-toggle="dropdown" role="button"
                                    aria-haspopup="true" aria-expanded="false"><i
                                             class="fa fa-bell" aria-hidden="true"></i>
@@ -120,7 +120,7 @@
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                                     role="button" aria-haspopup="true" aria-expanded="true">
                                     <img src="{{$user->avatar_url}}"
-                                         style="width:25px;height: 25px; border-radius: 50%; margin-right: 5px"
+                                         style="width:20px;height: 20px; border-radius: 50%; margin-right: 5px"
                                          alt="">{{$user->name}}<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="width: 100%">
                                     <li><a href="/profile/{{$user->username}}">Trang cá nhân</a></li>
@@ -129,15 +129,23 @@
                             </li>
                         @else
                             <li v-if="!isLogin">
-                                <a data-toggle="modal" data-target="#modalLogin" v-on:click="openModalLogin">Đăng
+                                <a v-on:click="openModalLogin">Đăng
                                     nhập</a>
+                            </li>
+                            <li v-if="isLogin" class=""><a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li v-if="isLogin" class="dropdown" id="noti-dropdown">
+                                <a href="#" id="btn-noti" class="dropdown-toggle"
+                                   data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false"><i
+                                            class="fa fa-bell" aria-hidden="true"></i>
+                                </a>
                             </li>
                             <li v-if="isLogin" class="dropdown"><a href="#" class="dropdown-toggle"
                                                                    data-toggle="dropdown"
                                                                    role="button" aria-haspopup="true"
                                                                    aria-expanded="true">
                                     <img v-bind:src="user.avatar_url"
-                                         style="width:25px;height: 25px; border-radius: 50%; margin-right: 5px"
+                                         style="width:20px;height: 20px; border-radius: 50%; margin-right: 5px"
                                          alt="">@{{ user.name}}<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="width: 100%">
                                     <li><a v-bind:href="'/profile/' + user.username">Trang cá nhân</a></li>
