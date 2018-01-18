@@ -63,6 +63,9 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/hr/{path}', 'ClientController@hr')
         ->where('path', '.*');
 
+    Route::get('/survey/{path}', 'ClientController@survey')
+        ->where('path', '.*');
+
     Route::get('/good/{path}', 'ClientController@good')
         ->where('path', '.*');
 

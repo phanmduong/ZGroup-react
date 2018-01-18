@@ -9,7 +9,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::put('{surveyId}', 'SurveyController@editSurvey');
 
     Route::delete('{surveyId}', 'SurveyController@deleteSurvey');
-    Route::post('/{surveyId}/question', 'SurveyController@createSurveyQuestion');
+    Route::post('/{surveyId}/question', 'SurveyController@updateQuestion');
     Route::put('/{surveyId}/question/{questionId}', 'SurveyController@updateQuestion');
+    Route::post('/{surveyId}/question/{questionId}', 'SurveyController@duplicateQuestion');
+    Route::delete('/question/{questionId}', 'SurveyController@deleteQuestion');
 
 });

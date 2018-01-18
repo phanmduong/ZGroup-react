@@ -32,6 +32,7 @@ class Work extends Model
             "status"=> $this->status,
             "deadline" => $this->deadline,
             "bonus_value" => $this->bonus_value,
+            "hired_status" => $this->hired_status,
             "currency" => $this->currency ? $this->currency->transform() : [],
             "payer" =>$this->payer ? [
                 "id" => $this->payer->id,
