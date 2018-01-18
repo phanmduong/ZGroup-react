@@ -237,7 +237,7 @@ class BookRepository
         }
         $order->save();
         return [
-            "message" => "Xac nhan thanh cong don hang",
+            "message" => "Xác nhận thành công đơn hàng",
             "status"=>1,
         ];
     }

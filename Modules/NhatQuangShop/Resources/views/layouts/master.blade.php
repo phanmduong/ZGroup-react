@@ -652,7 +652,7 @@
                         <div  class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>
                     </div>
                 </div>
-                <div class="row"  v-if="success" style="margin-top: 10px; text-align: center">
+                <div class="row"  v-if="success" style="margin-top: 20px; text-align: center; border-radius: 15px">
                     <div class="col-sm-12">
                         <div class='alert alert-success'>@{{ message }}</div>
                     </div>
