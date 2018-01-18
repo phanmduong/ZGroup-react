@@ -87,7 +87,7 @@ class ExtendWorkModal extends React.Component {
                                     </div>
                                     <div className="col-md-12">
                                         <FormInputText
-                                            label={"Số tiền phạt(" + (this.props.data.bonus_type == "coin" ? "Coin" : "VNĐ") + ")"}
+                                            label={"Số tiền phạt(" + (this.props.data.bonus_type === "coin" ? "Coin" : "VNĐ") + ")"}
                                             required
                                             type="number"
                                             name="penalty"
