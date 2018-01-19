@@ -84,10 +84,10 @@ class ManageBlogController extends ManageApiController
         $category_id = $request->category_id;
         $limit = 20;
         $posts = Product::query();
-//        if ($q) {
-//            $posts = $posts->where('title', 'like', '%' . $q . '%');
         if($category_id)
             $posts = $posts->where('category_id', $category_id);
+        if($q)
+            $posts = $posts->where('title','like', '%'.$q.'%');
         $posts = $posts->orderBy('created_at')->paginate($limit);
 
         $data = [
