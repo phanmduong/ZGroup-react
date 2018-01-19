@@ -21,7 +21,7 @@ export function saveOrder(order, customer) {
 
 export function handleOrder(order) {
     return ({
-        type: types.HANDLE_PRODUCT_CREATE,
+        type: types.HANDLE_ORDER_ORDERED_DETAIL,
         order
     });
 }

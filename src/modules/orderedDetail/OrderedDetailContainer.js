@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Select from 'react-select';
 import PropTypes from 'prop-types';
 import FormInputDate from "../../components/common/FormInputDate";
 import *as orderedDetailAction from "./orderedDetailAction";
@@ -9,16 +8,18 @@ import *as orderedDetailAction from "./orderedDetailAction";
 class OrderedDetailContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.updateFormData = this.updateFormData.bind(this);
     }
 
     updateFormData(e) {
         const field = e.target.name;
         let order = {...this.props.order};
         order[field] = e.target.value;
-        this.props.createorderAction.handleorderCreate(order);
+        this.props.orderedDetailAction.handleOrder(order);
     }
 
     render() {
+        console.log("order", this.props.order);
         let order = this.props.order;
         let customer = this.props.customer;
         return (
@@ -121,7 +122,9 @@ class OrderedDetailContainer extends React.Component {
                                         <label className="label-control">Thuế</label>
                                         <select
                                             className="form-control"
-                                            value={order.tax}>
+                                            name="tax"
+                                            value={order.tax}
+                                            onChange={this.updateFormData}>
                                             <option value={true}>Có</option>
                                             <option value={false}>Không</option>
                                         </select>
@@ -202,7 +205,7 @@ class OrderedDetailContainer extends React.Component {
                                     <FormInputDate
                                         label="Ngày về"
                                         name="endTime"
-                                        updateFormData={this.updateFormDate}
+                                        updateFormData={this.updateFormData}
                                         id="form-end-time"
                                         value={order.endTime}
                                     />
