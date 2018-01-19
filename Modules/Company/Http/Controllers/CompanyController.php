@@ -131,7 +131,7 @@ class CompanyController extends ManageApiController
     }
 
     public function createPayment(Request $request){
-        if(!$request->image || $request->payer_id === null || !$request->receiver_id === null||
+        if($request->payer_id === null || !$request->receiver_id === null||
             $request->money_value === null || trim($request->money_value) == ''||
             $request->bill_image_url === null || trim($request->bill_image_url) == '' )
             return $this->respondErrorWithStatus("Thiếu trường");
@@ -151,7 +151,7 @@ class CompanyController extends ManageApiController
     public function editPayment($paymentId,Request $request){
         $payment =Payment::find($paymentId);
         if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
-        if(!$request->image || $request->payer_id === null || !$request->receiver_id === null||
+        if($request->payer_id === null || !$request->receiver_id === null||
             $request->money_value === null || trim($request->money_value) == ''||
             $request->bill_image_url === null || trim($request->bill_image_url) == '' )
             return $this->respondErrorWithStatus("Thiếu trường");
