@@ -16,6 +16,7 @@ class EditButton extends React.Component {
         };
         this.openEditQuantity = this.openEditQuantity.bind(this);
         this.clearEditQuantity = this.clearEditQuantity.bind(this);
+        this.openEditQuantityInReturnOrder = this.openEditQuantityInReturnOrder.bind(this);
     }
 
     openEditQuantity(e, quantity) {
@@ -23,11 +24,11 @@ class EditButton extends React.Component {
             if (quantity <= 0) {
                 helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa ",
                     function () {
-                        this.props.goodOrderActions.editOrder(this.props.order, this.props.orderId, this.props.index, this.props.isReturnOrders);
+                        this.props.goodOrderActions.editOrder(this.props.order, this.props.orderId, true, this.props.index);
                     }.bind(this));
             }
             else {
-                this.props.goodOrderActions.editOrder(this.props.order, this.props.orderId, this.props.index, this.props.isReturnOrders);
+                this.props.goodOrderActions.editOrder(this.props.order, this.props.orderId, true, this.props.index);
                 e.preventDefault();
             }
             this.setState({isEdit: !this.state.isEdit, quantity: this.props.quantity});
@@ -35,6 +36,31 @@ class EditButton extends React.Component {
         else
             this.setState({isEdit: !this.state.isEdit});
     }
+
+    openEditQuantityInReturnOrder(e, quantity) {
+        if (this.state.isEdit) {
+            if (quantity <= 0) {
+                helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa ",
+                    function () {
+                        this.props.goodOrderActions.editReturnOrders(this.props.order, this.props.orderId, true, this.props.index);
+                    }.bind(this));
+            }
+            else {
+                if (this.props.order.order.warehouse === null || this.props.order.order.warehouse === undefined || this.props.order.order.warehouse === '') {
+                    helper.showTypeNotification("Vui lòng nhập kho hàng", 'warning');
+                    return;
+                }
+                else {
+                    this.props.goodOrderActions.editReturnOrders(this.props.order, this.props.params.orderId, false);
+                }
+                e.preventDefault();
+            }
+            this.setState({isEdit: !this.state.isEdit, quantity: this.props.quantity});
+        }
+        else
+            this.setState({isEdit: !this.state.isEdit});
+    }
+
 
     clearEditQuantity(e) {
         if (this.state.isEdit) {
@@ -51,15 +77,29 @@ class EditButton extends React.Component {
         const goodOrder = this.props.goodOrder;
         const index = this.props.index;
         return (
-            <td style={{width: 120, display: "flex"}}>
+            <td style={{width: 120, display: "flex", justifyContent: "space-around"}}>
                 {this.state.isEdit ?
-                    <input type="number" name="quantity" value={goodOrder.quantity}
-                           className="form-control"
-                           style={{width: 40}}
-                           onChange={(e) => {
-                               this.props.updateQuantity(e.target.value, index);
-                           }}
-                    />
+                    (
+                        this.props.isReturnOrders ?
+                            <input type="number" name="quantity" value={goodOrder.quantity}
+                                   className="form-control"
+                                   style={{width: 40}}
+                                   onChange={(e) => {
+                                       this.props.updateQuantity(e.target.value, index);
+                                   }}
+                                   max={this.props.order.order.good_orders[index].quantity}
+                                   min={0}
+                            />
+                            :
+                            <input type="number" name="quantity" value={goodOrder.quantity}
+                                   className="form-control"
+                                   style={{width: 40}}
+                                   onChange={(e) => {
+                                       this.props.updateQuantity(e.target.value, index);
+                                   }}
+                                   min={0}
+                            />
+                    )
                     :
                     goodOrder.quantity
                 }
@@ -143,7 +183,7 @@ class EditButton extends React.Component {
                                  (
                                      !this.state.isEdit ?
                                          <span className="btn-group-action">
-                            <a onClick={(e) => this.openEditQuantity(e, goodOrder.quantity)}
+                            <a onClick={(e) => this.openEditQuantityInReturnOrder(e, goodOrder.quantity)}
                             >
                                 <i className="material-icons" style={{fontSize: 20, marginLeft: 8}}>edit</i>
                             </a>
@@ -151,7 +191,7 @@ class EditButton extends React.Component {
                                          :
                                          <span className="btn-group-action" style={{marginTop: 10}}>
                             <a onClick={(e) => {
-                                this.openEditQuantity(e, goodOrder.quantity);
+                                this.openEditQuantityInReturnOrder(e, goodOrder.quantity);
                             }}>
                                 <i className="material-icons" style={{fontSize: 20, marginLeft: 8, color: "green"}}>check</i>
                             </a>

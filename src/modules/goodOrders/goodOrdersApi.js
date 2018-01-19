@@ -34,6 +34,18 @@ export function loadWareHouseApi(page, search) {
     return axios.get(url);
 }
 
+// export function loadWareHouseApi() {
+//     let url = env.MANAGE_API_URL + "/order/warehouses/all?";
+//     let token = localStorage.getItem('token');
+//
+//     if (token) {
+//         url += "&token=" + token;
+//     }
+//     url += "&limit=" + -1;
+//
+//     return axios.get(url);
+// }
+
 export function loadOrderInfo(page = 1, search, startTime, endTime, staff, status) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + '/order/statistic?token=' + token + '&page=' + page;
@@ -138,6 +150,7 @@ export function editOrderApi(order, orderId) {
     );
 }
 
+
 export function loadGoodsApi(page , limit , query ) {
     let url = env.MANAGE_API_URL + "/good/all?";
     let token = localStorage.getItem('token');
@@ -154,4 +167,22 @@ export function loadGoodsApi(page , limit , query ) {
         url += "&token=" + token;
     }
     return axios.get(url);
+}
+
+export function editReturnOrdersApi(order,orderId) {
+    let url = env.MANAGE_API_URL + "/order/" + orderId + "/warehouse/" + order.order.warehouse;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let tmp = order.order.return_orders.map((good_order) => {
+        return {'good_id': good_order.good_id, 'quantity': good_order.quantity};
+    });
+
+    return axios.post(url,
+        {
+            'note': order.order.note,
+            'good_orders': JSON.stringify(tmp),
+        }
+    );
 }

@@ -15,6 +15,7 @@ import ReactSelect from 'react-select';
 import {browserHistory} from 'react-router';
 import * as goodOrdersApi from '../goodOrdersApi' ;
 import AddGoodOverlay from "./AddGoodOverlay";
+import * as helper from '../../../helpers/helper';
 
 
 class OrderContainer extends React.Component {
@@ -34,6 +35,7 @@ class OrderContainer extends React.Component {
         this.loadWarehouses = this.loadWarehouses.bind(this);
         this.changeWarehouse = this.changeWarehouse.bind(this);
         this.resetReturnOrders = this.resetReturnOrders.bind(this);
+        this.editReturnOrders = this.editReturnOrders.bind(this);
     }
 
     componentWillMount() {
@@ -93,7 +95,7 @@ class OrderContainer extends React.Component {
     }
 
     editOrder(e) {
-        this.props.goodOrderActions.editOrder(this.props.order, this.props.params.orderId);
+        this.props.goodOrderActions.editOrder(this.props.order, this.props.params.orderId, false);
         e.preventDefault();
     }
 
@@ -127,6 +129,17 @@ class OrderContainer extends React.Component {
 
     resetReturnOrders() {
         this.props.goodOrderActions.resetReturnOrders();
+    }
+
+    editReturnOrders(e) {
+        if (this.props.warehouse === null || this.props.warehouse === undefined || this.props.warehouse === '') {
+            helper.showTypeNotification("Vui lòng nhập kho hàng", 'warning');
+            return;
+        }
+        else {
+            this.props.goodOrderActions.editReturnOrders(this.props.order, this.props.params.orderId, false);
+        }
+        e.preventDefault();
     }
 
 
@@ -189,7 +202,7 @@ class OrderContainer extends React.Component {
                                     <h4 className="card-title">Chi tiết đơn hàng trả lại</h4>
 
                                     <div className="row">
-                                        <div className="col-md-10">
+                                        <div className="col-md-8">
                                             <div className="form-group">
                                                 <label className="label-control">Chọn kho hàng trả lại</label>
                                                 <ReactSelect.Async
@@ -203,9 +216,11 @@ class OrderContainer extends React.Component {
                                             </div>
                                         </div>
 
-                                        <div className="col-md-2" >
-                                            <TooltipButton text="Load lại hàng trả lại" placement="top" style={{marginTop : 40}}>
+                                        <div className="col-md-4" style={{marginTop: 34, display:"flex"}}>
+                                            <TooltipButton text="Load lại hàng trả lại" placement="top"
+                                            >
                                                 <button className="btn btn-md btn-info"
+                                                        style={{height: 36,display:"flex"}}
                                                         onClick={() => {
                                                             this.resetReturnOrders();
                                                         }}
@@ -213,8 +228,29 @@ class OrderContainer extends React.Component {
                                                     <i className="material-icons">cached</i>
                                                 </button>
                                             </TooltipButton>
-                                        </div>
 
+                                            <TooltipButton text="Lưu" placement="top"
+                                            >
+                                                {this.props.isSavingReturnOrders ?
+                                                    <button
+                                                        className="btn btn-md btn-success disabled"
+                                                        style={{height: 36,display:"flex"}}
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"/>
+                                                    </button>
+                                                    :
+                                                    <button className="btn btn-md btn-success"
+                                                            style={{height: 36,display:"flex"}}
+
+                                                            onClick={(e) => {
+                                                                this.editReturnOrders(e);
+                                                            }}
+                                                    >
+                                                        <i className="material-icons">save</i>
+                                                    </button>
+                                                }
+                                            </TooltipButton>
+                                        </div>
                                     </div>
 
                                     {this.props.isLoading ? <Loading/> :
@@ -286,12 +322,12 @@ class OrderContainer extends React.Component {
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin khách hàng </strong>
-                                                <TooltipButton text="Thêm khách hàng" placement="top">
-                                                    <button className="btn btn-round btn-sm btn-danger"
-                                                            style={{width: '20px', height: '20px', padding: '0'}}>
-                                                        <i className="material-icons">add</i>
-                                                    </button>
-                                                </TooltipButton>
+                                                {/*<TooltipButton text="Thêm khách hàng" placement="top">*/}
+                                                {/*<button className="btn btn-round btn-sm btn-danger"*/}
+                                                {/*style={{width: '20px', height: '20px', padding: '0'}}>*/}
+                                                {/*<i className="material-icons">add</i>*/}
+                                                {/*</button>*/}
+                                                {/*</TooltipButton>*/}
                                             </h4>
                                             <FormInputText
                                                 label="Tên khách hàng"
@@ -370,6 +406,7 @@ OrderContainer.propTypes = {
     order: PropTypes.object,
     isSaving: PropTypes.bool,
     isOpenReturnOrder: PropTypes.bool,
+    isSavingReturnOrders: PropTypes.bool,
     warehouse: PropTypes.number,
 };
 
@@ -382,6 +419,7 @@ function mapStateToProps(state) {
         staffs: state.goodOrders.staffs,
         order: state.goodOrders.order,
         warehouse: state.goodOrders.order.order.warehouse,
+        isSavingReturnOrders: state.goodOrders.order.isSavingReturnOrders,
     };
 }
 

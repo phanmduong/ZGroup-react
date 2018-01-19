@@ -17,7 +17,6 @@ class AddDiscountContainer extends React.Component {
         this.state = {
             id: this.props.params.discountId,
             discount : props.addDiscount.discount};
-        console.log(this.state.discount,"CONTAINER");
         this.updateFormData = this.updateFormData.bind(this);
         this.addDiscount = this.addDiscount.bind(this);
         this.loadDiscount = this.loadDiscount.bind(this);
