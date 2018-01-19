@@ -7,7 +7,7 @@ use App\Course;
 use App\Lesson;
 use App\Link;
 
-class ResourceApiController extends ApiPublicController
+class ResourceApiController extends ApiController
 {
     protected $courseTransformer;
 
