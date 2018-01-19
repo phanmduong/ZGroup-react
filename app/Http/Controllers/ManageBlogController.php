@@ -81,15 +81,14 @@ class ManageBlogController extends ManageApiController
     public function get_posts(Request $request)
     {
         $q = trim($request->search);
-
+        $category_id = $request->category_id;
         $limit = 20;
-
-        if ($q) {
-            $posts = Product::where('title', 'like', '%' . $q . '%')
-                ->orderBy('created_at')->paginate($limit);
-        } else {
-            $posts = Product::where('title', 'like', '%' . $q . '%')->orderBy('created_at')->paginate($limit);
-        }
+        $posts = Product::query();
+//        if ($q) {
+//            $posts = $posts->where('title', 'like', '%' . $q . '%');
+        if($category_id)
+            $posts = $posts->where('category_id', $category_id);
+        $posts = $posts->orderBy('created_at')->paginate($limit);
 
         $data = [
             "posts" => $posts->map(function ($post) {
