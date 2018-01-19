@@ -119,7 +119,8 @@ export function changeStatusOrder(status, orderId, warehouse_id) {
                     helper.showNotification("Thay đổi trạng thái thành công");
                     dispatch({
                         type: types.CHANGE_STATUS_ORDER_SUCCESS,
-                        status
+                        status,
+                        order_id: orderId
                     });
                 }
             })
@@ -307,7 +308,7 @@ export function resetReturnOrders() {
     };
 }
 
-export function loadGoodsInOverlay(page, limit, query,good_orders) {
+export function loadGoodsInOverlay(page, limit, query, good_orders) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_GOODS_IN_OVERLAY_IN_ORDER,
@@ -315,11 +316,11 @@ export function loadGoodsInOverlay(page, limit, query,good_orders) {
         goodOrdersApi.loadGoodsApi(page, limit, query)
             .then((res) => {
                 dispatch({
-                        type: types.LOADED_GOODS_SUCCESS_IN_OVERLAY_IN_ORDER,
-                        goods: res.data.goods,
-                        total_pages: res.data.paginator.total_pages,
-                        good_orders : good_orders,
-                    });
+                    type: types.LOADED_GOODS_SUCCESS_IN_OVERLAY_IN_ORDER,
+                    goods: res.data.goods,
+                    total_pages: res.data.paginator.total_pages,
+                    good_orders: good_orders,
+                });
             })
 
             .catch(dispatch({
@@ -330,10 +331,10 @@ export function loadGoodsInOverlay(page, limit, query,good_orders) {
 
 export function assignGoodFormData(good) {
     return function (dispatch) {
-      dispatch({
-          type : types.ASSIGN_GOOD_FORM_DATA_IN_ORDER,
-          good,
-      });
+        dispatch({
+            type: types.ASSIGN_GOOD_FORM_DATA_IN_ORDER,
+            good,
+        });
     };
 }
 

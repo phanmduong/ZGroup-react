@@ -65,10 +65,6 @@ export function loadOrderInfo(page = 1, search, startTime, endTime, staff, statu
 
 }
 
-
-
-
-
 export function loadDetailOrder(orderId) {
     let url = env.MANAGE_API_URL + `/order/${orderId}/info`;
     let token = localStorage.getItem('token');
@@ -95,7 +91,6 @@ export function getAllStaffs() {
     }
     return axios.get(url);
 }
-
 
 export function changeStatusOrder(status, orderId, warehouse_id) {
     let url = env.MANAGE_API_URL + "/order/" + orderId + "/status";
@@ -154,8 +149,6 @@ export function editOrderApi(order, orderId) {
         }
     );
 }
-
-
 
 
 export function loadGoodsApi(page , limit , query ) {
