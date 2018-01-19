@@ -2,19 +2,19 @@ import * as inventoryGoodApi from './inventoryGoodApi';
 import * as types from '../../constants/actionTypes';
 import * as helper from "../../helpers/helper";
 
-export function getInventories(page, search, manufacture_id, good_category_id) {
+export function getInventories(page, search, manufacture_id, good_category_id, warehouse_id) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_INVENTORIES_GOODS
         });
         const infoPromise = new Promise((resolve) => {
-            inventoryGoodApi.getInfoInventoriesApi(page, search, manufacture_id, good_category_id)
+            inventoryGoodApi.getInfoInventoriesApi(page, search, manufacture_id, good_category_id, warehouse_id)
                 .then(function (response) {
                     resolve(response);
                 });
         });
         const getInventoryPromise = new Promise((resolve) => {
-            inventoryGoodApi.getInventoriesApi(page, search, manufacture_id, good_category_id)
+            inventoryGoodApi.getInventoriesApi(page, search, manufacture_id, good_category_id, warehouse_id)
                 .then(function (response) {
                     resolve(response);
                 });

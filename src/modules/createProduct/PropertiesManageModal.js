@@ -14,6 +14,7 @@ class PropertiesManageModal extends React.Component {
         super(props, context);
         this.state = {
             name: null,
+            page: 1,
             query: ''
         };
         this.timeOut = null;
@@ -36,7 +37,8 @@ class PropertiesManageModal extends React.Component {
         } else {
             this.setState({
                 page: 1,
-                query: ''
+                query: '',
+                name:null
             });
             this.props.createProductAction.createPropertyModal(name);
         }

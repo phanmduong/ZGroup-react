@@ -180,7 +180,7 @@ class AvatarModalContainer extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label className="control-label">Giá bán</label>
-                                <input type="text"
+                                <input type="number"
                                        name="price"
                                        className="form-control"
                                        value={product.price}

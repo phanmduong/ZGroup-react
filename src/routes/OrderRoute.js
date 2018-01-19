@@ -2,6 +2,7 @@
 // import RoomsContainer from "../modules/rooms/RoomsContainer";
 // import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
 import OrderedContainer from "../modules/orderedProduct/OrderedContainer";
+import OrderedDetailContainer from "../modules/orderedDetail/OrderedDetailContainer";
 
 /**
  * Tab Hàng đặt
@@ -12,7 +13,7 @@ export default [
         component: OrderedContainer
     },
     {
-        //path: "/order/currencies",
-        //component: CurrencyContainer
+        path: "/order/detail",
+        component: OrderedDetailContainer
     }
 ];

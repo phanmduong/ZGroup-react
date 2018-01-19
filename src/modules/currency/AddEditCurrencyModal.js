@@ -70,7 +70,7 @@ class AddEditCurrencyModal extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label className="control-label">Tỷ giá</label>
-                                <input type="text"
+                                <input type="number"
                                        name="ratio"
                                        className="form-control"
                                        value={currency.ratio}

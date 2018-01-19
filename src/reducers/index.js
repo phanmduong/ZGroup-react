@@ -67,7 +67,7 @@ import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
 import surveyReducer from '../modules/survey/surveyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
-
+import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
 
 
 const appReducer = combineReducers({
@@ -131,15 +131,15 @@ const appReducer = combineReducers({
     workShiftSessions: workShiftSessionsReducer,
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
-    landingPages : landingPagesReducer,
-    createSaleGoods : createSaleGoodsReducer,
+    landingPages: landingPagesReducer,
+    createSaleGoods: createSaleGoodsReducer,
     orderedProduct: orderedProductReducer,
     survey: surveyReducer,
     historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
-
+    orderedDetail: orderedDetailReducer,
 });
 
 const rootReducer = (state, action) => {

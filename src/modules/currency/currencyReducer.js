@@ -59,13 +59,6 @@ export default function currencyReducer(state = initialState.currency, action) {
                 currencies: currencies
             };
         }
-        case types.DELETE_CURRENCY_SUCCESS: {
-            let currencies = state.currencies.filter((currency) => action.currency.id !== currency.id);
-            return {
-                ...state,
-                currencies: currencies
-            };
-        }
         default:
             return state;
     }

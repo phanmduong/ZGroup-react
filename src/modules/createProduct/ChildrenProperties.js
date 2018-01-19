@@ -162,11 +162,12 @@ class ChildrenProperties extends React.Component {
                                                         <input type="text"
                                                                name="barcode"
                                                                className="form-control"
+                                                               placeholder="Hệ thống tự sinh nếu để trống"
                                                                value={child.barcode}
                                                                onChange={this.props.updateFormData(index)}/>
                                                     </td>
                                                     <td className="form-group">
-                                                        <input type="text"
+                                                        <input type="number"
                                                                name="price"
                                                                className="form-control"
                                                                placeholder="0"

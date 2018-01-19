@@ -1,4 +1,30 @@
 export default {
+    orderedDetail: {
+        order: {
+            size: '',
+            link: '',
+            color: '',
+            description: '',
+            quantity: 0,
+            sale_off: 0,
+            weight: 0,
+            tax: true,
+            price: 0,
+            unit: '',
+            ratio: 1,
+            money: 0,
+            fee: 0,
+            code: '',
+            endTime: ''
+        },
+        customer: {
+            name: '',
+            phone: '',
+            email: '',
+            note: ''
+        }
+    },
+
     currency: {
         currencies: [],
         isLoading: false,
@@ -961,11 +987,11 @@ export default {
                     email: "po01636863831@gmail.com"
                 },
                 return_orders: [],
-                warehouse : 0,
+                warehouse: 0,
 
-                isLoadingGoodOverlay : false,
-                goodsList : [],
-                totalGoodPages : 0,
+                isLoadingGoodOverlay: false,
+                goodsList: [],
+                totalGoodPages: 0,
             },
         },
         staffs: [],
@@ -1370,13 +1396,13 @@ export default {
                 name: "",
                 avatar_url: "",
             },
-            currency:{
+            currency: {
                 id: null,
                 value: "",
                 label: "",
             },
         },
-        currencies:[],
+        currencies: [],
         staffs: [
             {
                 value: "value1",

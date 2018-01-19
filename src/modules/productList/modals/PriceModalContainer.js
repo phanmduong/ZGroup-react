@@ -38,7 +38,7 @@ class PriceModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="form-group">
                         <label className="label-control">Nhập giá</label>
-                        <input type="text"
+                        <input type="number"
                                name="price"
                                className="form-control date-picker"
                                value={product.price}

@@ -75,7 +75,15 @@ class ItemOrder extends React.Component {
                     </Link>
                 </td>
                 <td>{order.created_at}</td>
-                <td>{order.customer ? order.customer.name : "Không nhập"}</td>
+                <td>
+                    {
+                        order.customer ? (
+                            <span>{order.customer.name}<br/>
+                        ({order.customer.phone})
+                    </span>
+                        ) : "Không nhập"
+                    }
+                </td>
                 <td>
                     {
                         order.staff ?
@@ -112,14 +120,6 @@ class ItemOrder extends React.Component {
                     </a>
                 </td>
                 <td>{helper.dotNumber(order.total)}đ</td>
-                <td>{helper.dotNumber(order.debt)}đ</td>
-                <td>
-                    <button
-                        disabled={order.status !== "ship_order"}
-                        className="btn btn-social btn-fill btn-twitter">
-                        <i className="fa fa-twitter"/> Ship hàng
-                    </button>
-                </td>
             </tr>
         );
     }
