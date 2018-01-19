@@ -304,7 +304,7 @@ var fastOrder = new Vue({
     methods: {
         getCurrencies : function(){
             this.isLoadingCurrency = true;
-            axios.get('http://nhatquangshop.test/currency')
+            axios.get( window.url + '/currency')
                 .then(function (response) {
                     this.currencies = response.data.currencies;
                     this.isLoadingCurrency = false;
@@ -323,7 +323,6 @@ var fastOrder = new Vue({
             this.fastOrders.splice(index, 1)
         },
         submitFastOrder: function () {
-
             this.loading = true;
             this.success = false;
             axios.post(window.url + '/manage/save-fast-order', {
@@ -343,6 +342,9 @@ var fastOrder = new Vue({
                 }.bind(this))
         }
     },
+    mounted : function () {
+       this.getCurrencies();
+    }
 
 
 });
