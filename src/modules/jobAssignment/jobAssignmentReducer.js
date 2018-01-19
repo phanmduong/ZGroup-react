@@ -324,10 +324,10 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
             };
         }
         case types.LOAD_ARCHIVED_WORK_SUCCESS: {
-            console.log(action.archivedWorks);
             return {
                 ...state,
                 isLoadingArchivedWork: false,
+                archivedWorks : action.archivedWorks,
             };
         }
         case types.LOAD_ARCHIVED_WORK_ERROR: {

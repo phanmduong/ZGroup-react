@@ -6,6 +6,8 @@ import * as jobAssignmentAction from '../jobAssignment/jobAssignmentAction';
 import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import {Modal} from 'react-bootstrap';
+import  CardWork from '../jobAssignment/CardWork';
+import {STATUS_WORK} from "../../constants/constants";
 
 class ArchivedWorkModal extends React.Component {
     constructor(props, context) {
@@ -25,7 +27,7 @@ class ArchivedWorkModal extends React.Component {
 
 
     render() {
-
+        let {user,archivedWorks} = this.props;
         return (
             <Modal
                 show={this.props.show}
@@ -36,10 +38,31 @@ class ArchivedWorkModal extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     {this.props.isLoadingArchivedWork ? <Loading/> :
-                        this.props.archivedWorks.map(()=>{
+                        <div  data-order="0" className="card card-container keetool-board" style={{width: "100%"}}>
+                            <div className="board">
+                                {
+                                    archivedWorks.length <= 0 &&
+                                    <h3 style={{textAlign: "center"}}>Chưa có công việc nào được lưu trữ.</h3>
+                                }
+                                {
+                                    archivedWorks.map((work)=>{
+                                        return (
+                                            <CardWork
+                                                key={work.id}
+                                                work={work}
+                                                status={STATUS_WORK[5].value}
+                                                openInfoModal={()=>{return this.props.openInfoModal(work);}}
+                                                user={user}
+                                                unArchiveWork={this.props.unArchiveWork}
+                                            />
+                                        );
+                                    })
 
-                        })
-                    }</Modal.Body>
+                                }
+                            </div>
+                        </div>
+                    }
+                </Modal.Body>
             </Modal>
 
         );
@@ -50,7 +73,10 @@ ArchivedWorkModal.propTypes = {
     isLoadingArchivedWork: PropTypes.bool.isRequired,
     show: PropTypes.bool,
     onHide: PropTypes.func,
+    openInfoModal: PropTypes.func,
     archivedWork: PropTypes.array,
+    unArchiveWork: PropTypes.func,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -59,6 +85,7 @@ function mapStateToProps(state) {
         isSaving : state.jobAssignment.isSaving,
         archivedWorks : state.jobAssignment.archivedWorks,
         isLoadingArchivedWork : state.jobAssignment.isLoadingArchivedWork,
+        user: state.login.user,
     };
 }
 

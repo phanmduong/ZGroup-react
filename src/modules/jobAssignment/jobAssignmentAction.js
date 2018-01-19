@@ -301,7 +301,7 @@ export function loadArchivedWork() {
                 if(res.data.status == 1) {
                     dispatch({
                         type: types.LOAD_ARCHIVED_WORK_SUCCESS,
-                        archivedWorks: res.data,
+                        archivedWorks: res.data.data.works,
                     });
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
