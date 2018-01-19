@@ -12,11 +12,11 @@ class HistoryExtensionList extends React.Component{
         this.acceptHistory = this.acceptHistory.bind(this);
 
     }
-    deleteHistory(id){
-        this.props.deleteHistory(id);
+    deleteHistory(id,userId){
+        this.props.deleteHistory(id,userId);
     }
-    acceptHistory(id){
-        this.props.acceptHistory(id);
+    acceptHistory(id,userId){
+        this.props.acceptHistory(id,userId);
     }
     render(){
         return (
@@ -35,6 +35,7 @@ class HistoryExtensionList extends React.Component{
                         <th>Lí do</th>
                         <th>Phạt</th>
                         <th>Trạng thái</th>
+                        <th>Người duyệt</th>
                         <th/>
                     </tr>
                     </thead>
@@ -59,6 +60,7 @@ class HistoryExtensionList extends React.Component{
                                         (data.status === "") ?
                                             ( <ButtonGroupAction
                                             object={data}
+                                            userId={this.props.userId}
                                             delete={this.deleteHistory}
                                             accept={this.acceptHistory}
                                             />
@@ -66,7 +68,13 @@ class HistoryExtensionList extends React.Component{
                                                         <div style={{color: "#bc250c"}}>Đã từ chối</div>
                                                         : <div style={{color: "#03bc16"}}>Đã chấp nhận</div>
                                     }</td>
-
+                                    <td>{
+                                        (data.manager.id !== 0) ?
+                                        <a onClick={() => {
+                                            return this.props.openStaffModal(data.manager.id);
+                                        }}>
+                                            {data.manager.name}</a> : "Chưa có"
+                                    }</td>
                                     <td/>
                                 </tr>
                             );
@@ -83,5 +91,9 @@ HistoryExtensionList.propTypes= {
     acceptHistory : PropTypes.func,
     openInfoModal : PropTypes.func,
     openStaffModal : PropTypes.func,
+    userId: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
 };
 export default HistoryExtensionList;

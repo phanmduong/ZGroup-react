@@ -45,7 +45,6 @@ class HistoryExtensionWorkContainer extends React.Component {
 
     componentWillMount() {
         this.props.HistoryExtensionWorkActions.historyExtensionWork();
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -59,16 +58,16 @@ class HistoryExtensionWorkContainer extends React.Component {
         this.props.HistoryExtensionWorkActions.historyExtensionWork(page);
     }
 
-    deleteHistoryExtensionWork(id) {
+    deleteHistoryExtensionWork(id,userId) {
         helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này không?", () => {
-            this.props.HistoryExtensionWorkActions.deleteHistoryExtensionWork(id);
+            this.props.HistoryExtensionWorkActions.deleteHistoryExtensionWork(id,userId);
             this.setState({ok: 1});
         });
     }
 
-    acceptHistoryExtensionWork(id) {
+    acceptHistoryExtensionWork(id,userId) {
         helper.confirm('success', 'Đồng ý', "Bạn muốn chấp nhận yêu cầu này không?", () => {
-            this.props.HistoryExtensionWorkActions.acceptHistoryExtensionWork(id);
+            this.props.HistoryExtensionWorkActions.acceptHistoryExtensionWork(id,userId);
             this.setState({ok: 1});
         });
     }
@@ -144,6 +143,7 @@ class HistoryExtensionWorkContainer extends React.Component {
                                         this.props.isLoading ? <Loading/> :
                                             <HistoryExtensionList
                                                 data={this.props.data || []}
+                                                userId={this.props.user.id}
                                                 deleteHistory={this.deleteHistoryExtensionWork}
                                                 acceptHistory={this.acceptHistoryExtensionWork}
                                                 openInfoModal={this.openInfoModal}
@@ -187,6 +187,7 @@ HistoryExtensionWorkContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     data: PropTypes.array.isRequired,
     paginator: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -194,6 +195,7 @@ function mapStateToProps(state) {
         isLoading: state.historyExtension.isLoading,
         data: state.historyExtension.data,
         paginator: state.historyExtension.paginator,
+        user: state.login.user,
     };
 }
 
