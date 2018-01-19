@@ -95,4 +95,9 @@ class ClientController extends Controller
         return view("client.survey");
     }
 
+    public function order()
+    {
+        return view("client.order");
+    }
+
 }
