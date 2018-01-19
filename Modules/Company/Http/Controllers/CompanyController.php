@@ -110,17 +110,26 @@ class CompanyController extends ManageApiController
         $search = $request->search;
         $type = $request->type;
         $limit = $request->limit ? $request->limit : 20;
-        $company = Company::query();
-        if($search)
-          $company->where('name','like','%' . $search . '%');
-        if($type)
-            $company->where('type',$type);
-        $company = $company->orderBy('created_at','desc')->paginate($limit);
-        return $this->respondWithPagination($company,[
-            "company" => $company->map(function($data){
-                return $data->transform();
-            }),
-        ]);
+        if($limit != -1) {
+            $company = Company::query();
+            if ($search)
+                $company->where('name', 'like', '%' . $search . '%');
+            if ($type)
+                $company->where('type', $type);
+            $company = $company->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($company, [
+                "company" => $company->map(function ($data) {
+                    return $data->transform();
+                }),
+            ]);
+        } else{
+            $company = Company::all();
+            return $this->respondSuccessWithStatus([
+                "company" => $company->map(function($pp){
+                    return $pp->transform();
+                })
+            ]);
+        }
     }
     public function getDetailCompany($companyId,Request $request){
         $company = Company::find($companyId);
