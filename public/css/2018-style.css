@@ -1727,7 +1727,8 @@ a.more-products {
     font-size: 13px;
     color: #999;
     background-color: #fff;
-    z-index: 9999
+    z-index: 9999;
+    height: auto;
 }
 
 #footer ul {
