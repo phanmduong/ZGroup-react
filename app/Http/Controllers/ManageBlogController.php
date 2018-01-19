@@ -121,7 +121,10 @@ class ManageBlogController extends ManageApiController
         $categories = CategoryProduct::all();
         return $this->respondSuccessWithStatus([
             "categories" => $categories->map(function($category){
-                return $category->name;
+                return [
+                   "id" => $category->id,
+                   "name" => $category->name,
+                ];
             })
         ]);
     }
