@@ -68,6 +68,16 @@ export const saveAnswer = (answer) => {
     });
 };
 
+export const addSurveyLesson = (surveyId, lessonId, minutesDuration, minuteStart) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/lesson/${lessonId}?token=${token}`;
+    return axios.post(url, {
+        time_display: minutesDuration,
+        start_time_display: minuteStart
+    });
+};
+
+
 export const updateQuestionOrders = (questions) => {
     const token = getToken();
     const url = env.MANAGE_API_URL + `/v2/survey/questions?token=${token}`;
@@ -85,3 +95,4 @@ export const deleteQuestion = (question) => {
     const url = env.MANAGE_API_URL + `/v2/survey/question/${question.id}?token=${token}`;
     return axios.delete(url);
 };
+
