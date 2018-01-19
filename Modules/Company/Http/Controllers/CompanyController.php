@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\ManageApiController;
 use App\Company;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends ManageApiController
 {
@@ -131,13 +132,11 @@ class CompanyController extends ManageApiController
 
     public function createPayment(Request $request){
         if(!$request->image || $request->payer_id === null || !$request->receiver_id === null||
-           $request->money_value === null || trim($request->money_value) == '')
-           return $this->respondErrorWithStatus("Thiếu trường");
+            $request->money_value === null || trim($request->money_value) == ''||
+            $request->bill_image_url === null || trim($request->bill_image_url) == '' )
+            return $this->respondErrorWithStatus("Thiếu trường");
         $payment = new Payment;
-        $image_name = uploadFileToS3($request,'image',1000);
-        if($image_name != null){
-            $payment->bill_image_url = generate_protocol_url($this->s3_url . $image_name);
-        }
+        $payment->bill_image_url = $request->bill_image_url;
         $payment->description = $request->description;
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
@@ -153,19 +152,16 @@ class CompanyController extends ManageApiController
         $payment =Payment::find($paymentId);
         if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
         if(!$request->image || $request->payer_id === null || !$request->receiver_id === null||
-            $request->money_value === null || trim($request->money_value) == '')
+            $request->money_value === null || trim($request->money_value) == ''||
+            $request->bill_image_url === null || trim($request->bill_image_url) == '' )
             return $this->respondErrorWithStatus("Thiếu trường");
-        $image_name = uploadFileToS3($request,'image',1000);
-        if($image_name != null){
-            $payment->bill_image_url = generate_protocol_url($this->s3_url . $image_name);
-        }
+        $payment->bill_image_url = $request->bill_image_url;
         $payment->description = $request->description;
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
         $payment->receiver_id = $request->receiver_id;
+        $payment->save();
 
-        $payment->save();
-        $payment->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
         ]);
