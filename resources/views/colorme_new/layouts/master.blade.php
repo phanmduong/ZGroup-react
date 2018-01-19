@@ -159,7 +159,7 @@
                 </div>
             </div>
         </nav>
-        <div style="margin-top: 50px">
+        <div style="margin-top: 50px;">
             @yield('content')
         </div>
         <div class="container-fluid " id="footer">

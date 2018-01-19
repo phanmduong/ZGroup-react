@@ -128,12 +128,12 @@ class StaffApiController extends ManageApiController
 
         $count_doing = WorkStaff::where('work_id', $workId)->where('status', "doing")->count();
         $work = Work::find($workId);
-        if ($count_staff == $count_done) {
+        if ($count_staff == $count_done && $work->hired_status === 1) {
             $work->status = "done";
             $work->save();
         }
 
-        if ($count_staff == $count_doing) {
+        if ($count_staff == $count_doing && $work->hired_status === 1) {
             $work->status = "doing";
             $work->save();
         }
@@ -159,6 +159,24 @@ class StaffApiController extends ManageApiController
         $log->save();
         return $this->respondSuccessWithStatus([
             "message" => "Gia hạn công việc thành công"
+        ]);
+    }
+    public function hireWork($staffId,$workId,Request $request){
+        $staff = User::find($staffId);
+        $work = Work::find($workId);
+        if (!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
+        if (!$staff) return $this->respondErrorWithStatus("Không tồn tại nhân viên");
+        if($work->payer_id != $staffId) return $this->respondErrorWithStatus("Bạn không có quyền chi tiền");
+        $work->hired_status = 1;
+        $work->save();
+        $count_staff = WorkStaff::where('work_id', $workId)->count();
+        $count_doing = WorkStaff::where('work_id', $workId)->where('status', "doing")->count();
+        if ($count_staff == $count_doing) {
+            $work->status = "doing";
+            $work->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
         ]);
     }
 

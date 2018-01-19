@@ -18,21 +18,6 @@ class DeliveryOrderTransformer extends Transformer
 
     public function transform($deliveryOrder)
     {
-        $goodOrders = $deliveryOrder->goodOrders->map(function ($goodOrder) {
-            $goodOrderData = [
-                'id' => $goodOrder->id,
-                'price' => $goodOrder->price,
-                'quantity' => $goodOrder->quantity,
-                'name' => $goodOrder->good->name,
-                'code' => $goodOrder->good->code,
-                'link' => $goodOrder->good->download,
-            ];
-            if ($goodOrder->discount_money)
-                $goodOrderData['discount_money'] = $goodOrder->discount_money;
-            if ($goodOrder->discount_percent)
-                $goodOrderData['discount_percent'] = $goodOrder->discount_percent;
-            return $goodOrderData;
-        });
         $data = [
             'id' => $deliveryOrder->id,
             'note' => $deliveryOrder->note,
@@ -52,9 +37,9 @@ class DeliveryOrderTransformer extends Transformer
                 }, 0) - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                     return $paid + $orderPaidMoney->money;
                 }, 0),
+            'attach_info' => $deliveryOrder->attach_info,
+            'money' => $deliveryOrder->money,
         ];
-        if ($goodOrders)
-            $data['good_orders'] = $goodOrders;
         if ($deliveryOrder->staff)
             $data['staff'] = [
                 'id' => $deliveryOrder->staff->id,

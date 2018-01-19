@@ -81,15 +81,16 @@ class ManageBlogController extends ManageApiController
     public function get_posts(Request $request)
     {
         $q = trim($request->search);
-
+        $category_id = $request->category_id;
         $limit = 20;
-
+        $posts = Product::query();
         if ($q) {
-            $posts = Product::where('title', 'like', '%' . $q . '%')
-                ->orderBy('created_at')->paginate($limit);
-        } else {
-            $posts = Product::where('title', 'like', '%' . $q . '%')->orderBy('created_at')->paginate($limit);
+            $posts = $posts->where('title', 'like', '%' . $q . '%');
         }
+        if($category_id)
+            $posts = $posts->where('category_id',$category_id);
+        $posts = $posts->orderBy('created_at')->paginate($limit);
+
 
         $data = [
             "posts" => $posts->map(function ($post) {
@@ -97,6 +98,13 @@ class ManageBlogController extends ManageApiController
                     'id' => $post->id,
                     'title' => $post->title,
                     'status' => $post->status,
+                    'image_url' => $post->url,
+                    'thumb_url' => $post->thumb_url,
+                    'author' => [
+                       'id' => $post->author->id,
+                       'name' => $post->author->name,
+                       'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : "http://api.colorme.vn/img/user.png",
+                    ],
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
                 if ($post->category) {
@@ -111,7 +119,16 @@ class ManageBlogController extends ManageApiController
         ];
         return $this->respondWithPagination($posts, $data);
     }
+    public function changeStatusPost($postId,Request $request){
+        $post = Product::find($postId);
+        if(!$post) return $this->respondErrorWithStatus("Không tồn tại post");
+        $post->status = 1- $post->status;
+        $post->save();
+        return $this->respondSuccessWithStatus([
+           "message" => "Thành công"
+        ]);
 
+    }
     public function delete_post($postId)
     {
         $post = Product::find($postId);

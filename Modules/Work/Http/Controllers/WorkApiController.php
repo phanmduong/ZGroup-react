@@ -115,9 +115,9 @@ class WorkApiController extends ManageApiController
         $keyword = $request->search;
         $works = Work::where(function ($query) use ($keyword) {
             $query->where('name', 'like', "%$keyword%")->where('status','=','archive');
-        })->orderBy("created_at", "desc")->paginate($limit);
+        })->orderBy("created_at", "desc")->get();
 
-        return $this->respondWithPagination($works, [
+        return $this->respondSuccessWithStatus([
             "works" => $works->map(function ($work) {
                 return $work->transform();
             })
