@@ -292,3 +292,25 @@ export function acceptPay(workId, staffId, success) {
             });
     };
 }
+
+export function loadArchivedWork() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ARCHIVED_WORK});
+        jobAssignmentApi.loadArchivedWork()
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.LOAD_ARCHIVED_WORK_SUCCESS,
+                        archivedWorks: res.data.data.works,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_ARCHIVED_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_ARCHIVED_WORK_ERROR});
+            });
+    };
+}

@@ -10,6 +10,7 @@ import * as helper from "../../helpers/helper";
 import WorkInfoModal from './WorkInfoModal';
 import ExtendWorkModal from './ExtendWorkModal';
 import FinishWorkModal from './FinishWorkModal';
+import ArchivedWorkModal from './ArchivedWorkModal';
 import {Link} from "react-router";
 import Select from 'react-select';
 import ReactSelect from 'react-select';
@@ -38,15 +39,20 @@ class JobAssignmentContainer extends React.Component {
         this.closeExtendModal =this.closeExtendModal.bind(this);
         this.openFinishModal =this.openFinishModal.bind(this);
         this.closeFinishModal =this.closeFinishModal.bind(this);
+        this.openArchivedWorkModal =this.openArchivedWorkModal.bind(this);
+        this.closeArchivedWorkModal =this.closeArchivedWorkModal.bind(this);
         this.extendWork =this.extendWork.bind(this);
         this.onWorkTypeChange =this.onWorkTypeChange.bind(this);
         this.onStaffFilterChange =this.onStaffFilterChange.bind(this);
         this.acceptPay =this.acceptPay.bind(this);
+        this.archiveWork =this.archiveWork.bind(this);
+        this.unArchiveWork =this.unArchiveWork.bind(this);
 
         this.state = {
             showInfoModal: false,
             showExtendModal: false,
             showFinishModal: false,
+            showArchivedWorkModal: false,
             work: {
                 staffs:[],
                 payer: {},
@@ -109,6 +115,16 @@ class JobAssignmentContainer extends React.Component {
         this.setState({showFinishModal: false});
     }
 
+    openArchivedWorkModal(){
+        this.setState({showArchivedWorkModal: true});
+        this.props.jobAssignmentAction.loadArchivedWork();
+    }
+
+    closeArchivedWorkModal(){
+        this.setState({showArchivedWorkModal: false});
+        this.props.jobAssignmentAction.loadWorks();
+    }
+
     acceptWork(workId, staffId){
         this.props.jobAssignmentAction.changeStatusWork(workId,staffId, STATUS_WORK[1].value, ()=>{
             helper.showNotification("Đã chấp nhận công việc.");
@@ -150,7 +166,26 @@ class JobAssignmentContainer extends React.Component {
         });
     }
 
+    archiveWork(work, stt){
+        helper.confirm('warning', 'Lưu trữ', "Bạn có muốn lưu trữ công việc này không?", () => {
+            this.props.jobAssignmentAction.editWork(work, stt, ()=>{
+                helper.showNotification("Lưu trữ thành công");
+                return this.props.jobAssignmentAction.loadWorks();
+            });
+        });
+    }
+
+    unArchiveWork(work, stt){
+        helper.confirm('warning', 'Khôi phục', "Bạn có muốn bỏ lưu trữ công việc này không?", () => {
+            this.props.jobAssignmentAction.editWork(work, stt, ()=>{
+                helper.showNotification("Bỏ lưu trữ thành công");
+                return this.props.jobAssignmentAction.loadArchivedWork();
+            });
+        });
+    }
+
     render() {
+        //console.log(this.props);
         let pending = [], doing = [], done = [], cancel = [], pay = [];
         let {works, user} = this.props;
         let {typeFilter, selectedStaffs} =this.state;
@@ -161,10 +196,11 @@ class JobAssignmentContainer extends React.Component {
                 works = works.filter(work => checkStaff(staff, work.staffs));
             });
             works.forEach((obj) => {
+                let check = checkStaff(user, obj.staffs);
                 switch (obj.status) {
                     case STATUS_WORK[0].value: {
-                        pending = [...pending, obj];
-                        pay = [...pay, obj];
+                        if(obj.payer.id == user.id) pay = [...pay, obj];
+                        if(check) pending = [...pending, obj];
                         break;
                     }
                     case STATUS_WORK[1].value: {
@@ -203,6 +239,13 @@ class JobAssignmentContainer extends React.Component {
                     data={this.state.work}
                     submit={this.doneWork}
                 />
+                <ArchivedWorkModal
+                    show={this.state.showArchivedWorkModal}
+                    onHide={this.closeArchivedWorkModal}
+                    openInfoModal={this.openInfoModal}
+                    unArchiveWork={this.unArchiveWork}
+                />
+
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "5px",}}>
                     <div className="filter-container" style={{alignItems:"center"}}>
                         <div className="select-container">
@@ -233,10 +276,14 @@ class JobAssignmentContainer extends React.Component {
 
                     </div>
                     <div className="filter-item">
-                        <Link to="hr/job-assignment/create" className="btn btn-rose">
+                        <Link to="hr/job-assignment/create" className="btn btn-rose" style={{marginLeft: 10}}>
                             <i className="material-icons keetool-card">add</i>
                             Thêm công việc
                         </Link>
+                        <button onClick={this.openArchivedWorkModal} className="btn btn-rose" style={{marginLeft: 10}}>
+                            <i className="material-icons keetool-card">archive</i>
+                            Đã lưu trữ
+                        </button>
                     </div>
                 </div>
                 <div className="board-canvas">
@@ -257,7 +304,7 @@ class JobAssignmentContainer extends React.Component {
                                                 key={work.id}
                                                 work={work}
                                                 change={this.changeWorkStatus}
-                                                status="pending"
+                                                status={STATUS_WORK[0].value}
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={user}
                                                 acceptWork={this.acceptWork}
@@ -269,7 +316,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                         {/*pending*/}
                         {/*pay*/}
-                        <div  data-order="0" className="card card-container keetool-board">
+                        <div  data-order="1" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Chi tiền</span>
                             </div>
@@ -282,7 +329,7 @@ class JobAssignmentContainer extends React.Component {
                                             <CardWork
                                                 key={work.id}
                                                 work={work}
-                                                status="pay"
+                                                status={STATUS_WORK[4].value}
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={user}
                                                 acceptPay={this.acceptPay}
@@ -294,7 +341,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                         {/*pay*/}
                         {/*doing*/}
-                        <div  data-order="1" className="card card-container keetool-board">
+                        <div  data-order="2" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đang làm</span>
                             </div>
@@ -307,7 +354,7 @@ class JobAssignmentContainer extends React.Component {
                                             <CardWork
                                                 key={work.id}
                                                 work={work}
-                                                status="doing"
+                                                status={STATUS_WORK[1].value}
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={user}
                                                 doneWork={this.doneWork}
@@ -321,7 +368,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                     {/*doing*/}
                     {/*done*/}
-                        <div  data-order="2" className="card card-container keetool-board">
+                        <div  data-order="3" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hoàn thành</span>
                             </div>
@@ -334,10 +381,11 @@ class JobAssignmentContainer extends React.Component {
                                             <CardWork
                                                 key={work.id}
                                                 work={work}
-                                                status="done"
+                                                status={STATUS_WORK[2].value}
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={user}
                                                 revertWork={this.revertWork}
+                                                archiveWork={this.archiveWork}
                                             />
                                         );
                                     })
@@ -347,7 +395,7 @@ class JobAssignmentContainer extends React.Component {
                         {/*done*/}
                         {/*cancel*/}
 
-                        <div  data-order="3" className="card card-container keetool-board">
+                        <div  data-order="4" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hủy</span>
                             </div>
@@ -360,7 +408,7 @@ class JobAssignmentContainer extends React.Component {
                                             <CardWork
                                                 key={work.id}
                                                 work={work}
-                                                status="cancel"
+                                                status={STATUS_WORK[3].value}
                                                 openInfoModal={()=>{return this.openInfoModal(work);}}
                                                 user={user}
                                             />
