@@ -13,11 +13,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/room', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
-    Route::delete('/{roomId}', 'ManageBaseApiController@deleteRoom');
     Route::post('/{roomId}/seat', 'ManageBaseApiController@createSeat');
-    Route::put('/{roomId}/seat', 'ManageBaseApiController@editSeat');
+    Route::put('/{roomId}/seat/{seatId}', 'ManageBaseApiController@editSeat');
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
-
+    Route::get('/base/{baseId}/room', 'ManageBasePublicApiController@baseRooms');
 });

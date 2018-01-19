@@ -7,6 +7,8 @@ use App\District;
 use App\Http\Controllers\ManageApiController;
 use App\Province;
 use App\Room;
+use App\Seat;
+use App\Seats;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,6 +17,30 @@ class ManageBaseApiController extends ManageApiController
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function assignBaseInfo(&$base, $request)
+    {
+        $base->name = $request->name;
+        $base->center = $request->center ? $request->center : 0;
+        $base->longtitude = $request->longtitude;
+        $base->latitude = $request->latitude;
+        $base->avatar_url = $request->avatar_url;
+        $base->district_id = $request->district_id;
+        $base->display_status = $request->display_status;
+        $base->images_url = $request->images_url;
+        $base->description = $request->description;
+        $base->save();
+    }
+
+    public function assignRoomInfo(&$room, $baseId, $request)
+    {
+        $room->name = $request->name;
+        $room->base_id = $baseId;
+        $room->type = $request->type;
+        $room->seats_count = $request->seats_count;
+        $room->images_url = $request->images_url;
+        $room->save();
     }
 
     public function provinces()
@@ -54,21 +80,13 @@ class ManageBaseApiController extends ManageApiController
                 'message' => 'Thiếu tên cơ sở'
             ]);
         $base = new Base;
-        $base->name = $request->name;
-        $base->center = $request->center ? $request->center : 0;
-        $base->longtitude = $request->longtitude;
-        $base->latitude = $request->latitude;
-        $base->avatar_url = $request->avatar_url;
-        $base->district_id = $request->district_id;
-        $base->display_status = $request->display_status;
-        $base->images_url = $request->images_url;
-        $base->description = $request->description;
-        $base->save();
+        $this->assignBaseInfo($base, $request);
 
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
     }
+
     public function editBase($baseId, Request $request)
     {
         if ($request->name == null || trim($request->name) == '')
@@ -76,20 +94,11 @@ class ManageBaseApiController extends ManageApiController
                 'message' => 'Thiếu tên cơ sở'
             ]);
         $base = Base::find($baseId);
-        if($base == null)
+        if ($base == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại cơ sở'
             ]);
-        $base->name = $request->name;
-        $base->center = $request->center ? $request->center : 0;
-        $base->longtitude = $request->longtitude;
-        $base->latitude = $request->latitude;
-        $base->avatar_url = $request->avatar_url;
-        $base->district_id = $request->district_id;
-        $base->display_status = $request->display_status;
-        $base->images_url = $request->images_url;
-        $base->description = $request->description;
-        $base->save();
+        $this->assignBaseInfo($base, $request);
 
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
@@ -103,12 +112,7 @@ class ManageBaseApiController extends ManageApiController
                 'message' => 'Thiếu tên phòng'
             ]);
         $room = new Room;
-        $room->name = $request->name;
-        $room->base_id = $baseId;
-        $room->type = $request->type;
-        $room->seats_count = $request->seats_count;
-        $room->images_url = $request->images_url;
-        $room->save();
+        $this->assignRoomInfo($room, $baseId, $request);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
@@ -125,16 +129,45 @@ class ManageBaseApiController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại phòng'
             ]);
-        $room->name = $request->name;
-        $room->base_id = $baseId;
-        $room->type = $request->type;
-        $room->seats_count = $request->seats_count;
-        $room->images_url = $request->images_url;
-        $room->save();
+        $this->assignRoomInfo($room, $baseId, $request);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
     }
 
+    public function createSeat($roomId, Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu tên'
+            ]);
+        $seat = new Seat;
+        $seat->name = $request->name;
+        $seat->type = $request->type;
+        $seat->room_id = $roomId;
+        $seat->save();
+        $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
 
+    public function editSeat($roomId, $seatId, Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu tên'
+            ]);
+        $seat = Seat::find($seatId);
+        if ($seat == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại chỗ ngồi'
+            ]);
+        $seat->name = $request->name;
+        $seat->type = $request->type;
+        $seat->room_id = $roomId;
+        $seat->save();
+        $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
 }
