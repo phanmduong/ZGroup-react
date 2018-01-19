@@ -202,7 +202,8 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             disabled={this.props.isLoading}
                                                             options={this.props.currencies}
                                                             onChange={this.updateFormDataBonusType}
-                                                            value={this.props.data.currency || ""}                                                           defaultMessage="Đơn vị"
+                                                            value={this.props.data.currency || ""}
+                                                            defaultMessage="Đơn vị"
                                                             style={{marginTop: "20px", width: "100%"}}
                                                         /></div>
                                                     <div className="col-md-12"
