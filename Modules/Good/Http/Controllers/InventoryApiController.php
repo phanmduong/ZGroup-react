@@ -208,7 +208,7 @@ class InventoryApiController extends ManageApiController
                         'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
                         'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
                         'remain' => $singular_history->remain,
-                        'order_code' => $singular_history->order->code,
+//                        'order_code' => $singular_history->order->code,
                         'warehouse' => [
                             'id' => $singular_history->warehouse->id,
                             'name' => $singular_history->warehouse->name,
