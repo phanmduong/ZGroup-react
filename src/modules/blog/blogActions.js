@@ -139,12 +139,12 @@ export function updateFormCategory(category) {
     };
 }
 
-export function getPosts(page, search) {
+export function getPosts(page, search,category_id) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_POSTS_BLOG,
         });
-        blogApi.getPosts(page, search)
+        blogApi.getPosts(page, search,category_id)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_POSTS_BLOG_SUCCESS,
@@ -217,5 +217,25 @@ export function getPost(postId) {
 export function resetForm() {
     return {
         type: types.RESET_FORM_POST_BLOG
-    }
+    };
+}
+
+export function changeStatus(id, status,name) {
+    console.log(id,status);
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_STATUS_IN_BLOG,
+            id, status
+        });
+        blogApi.changeStatusApi(id)
+            .then((res) => {
+                if (res.data.status) {
+                    status ?
+                        helper.showNotification("Đã ẩn " + name)
+                        :
+                        helper.showNotification("Đã hiển thị " + name);
+                }
+            })
+        ;
+    };
 }

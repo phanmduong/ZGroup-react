@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import * as createSaleGoodApis from './createSaleGoodApis';
 import * as helper from '../../helpers/helper';
+import {browserHistory} from 'react-router';
 
 
 
@@ -93,6 +94,7 @@ export function createSaleGood(createSaleGood) {
                         type: types.CREATE_SALE_GOOD_SUCCESS,
                     });
                     helper.showTypeNotification('Đã thêm đơn hàng' , 'success');
+                    browserHistory.push("/good/goods/orders");
                 }
                 else {dispatch({
                     type: types.CREATE_SALE_GOOD_ERROR,

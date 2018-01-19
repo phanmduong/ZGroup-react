@@ -143,7 +143,7 @@ export function editOrderApi(order, orderId) {
     );
 }
 
-export function loadWareHouseApi() {
+export function loadWareHouseDetailApi() {
     let url = env.MANAGE_API_URL + "/order/warehouses/all?";
     let token = localStorage.getItem('token');
 

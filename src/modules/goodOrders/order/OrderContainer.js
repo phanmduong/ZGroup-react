@@ -108,7 +108,7 @@ class OrderContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            goodOrdersApi.loadWareHouseApi(input).then(res => {
+            goodOrdersApi.loadWareHouseDetailApi(input).then(res => {
                 let warehouses = res.data.data.warehouses.map((warehouse) => {
                     return {
                         ...warehouse,

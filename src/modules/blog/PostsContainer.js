@@ -13,12 +13,14 @@ import Search from "../../components/common/Search";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 
+
 class BlogsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.postsSearchChange = this.postsSearchChange.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.loadPosts = this.loadPosts.bind(this);
+        this.handleSwitch = this.handleSwitch.bind(this);
         this.state = {
             page: 1,
             query: ""
@@ -38,6 +40,7 @@ class BlogsContainer extends React.Component {
     }
 
 
+
     postsSearchChange(value) {
         this.setState({
             page: 1,
@@ -52,11 +55,14 @@ class BlogsContainer extends React.Component {
 
     }
 
-    loadPosts(page = 1) {
+    loadPosts(page = 1,category_id) {
         this.setState({page});
-        this.props.blogActions.getPosts(page, this.state.query);
+        this.props.blogActions.getPosts(page, this.state.query ,category_id);
     }
 
+    handleSwitch(id , status ,name){
+        this.props.blogActions.changeStatus(id, status, name);
+    }
 
     render() {
         return (
@@ -88,8 +94,12 @@ class BlogsContainer extends React.Component {
 
                             {this.props.isLoading ? <Loading/> :
                                 <ListPost
+                                    handleSwitch = {this.handleSwitch}
                                     deletePost={this.deletePost}
-                                    posts={this.props.posts}/>}
+                                    posts={this.props.posts}
+                                    loadPosts = {this.loadPosts}
+                                />
+                            }
                         </div>
 
                         <div className="card-content">
@@ -121,7 +131,7 @@ function mapStateToProps(state) {
         posts: state.blog.posts,
         isLoading: state.blog.isLoading,
         totalPages: state.blog.totalPages,
-        currentPage: state.blog.currentPage
+        currentPage: state.blog.currentPage,
     };
 }
 

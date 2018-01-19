@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let tmpposts;
 export default function rolesReducer(state = initialState.blog, action) {
 
     switch (action.type) {
@@ -248,12 +249,14 @@ export default function rolesReducer(state = initialState.blog, action) {
                 }
             };
         case types.LOAD_POSTS_BLOG_SUCCESS:
+            tmpposts = changeUrlAvatar(action.posts);
+            tmpposts = changeUrlImageurl(tmpposts);
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     error: false,
-                    posts: action.posts,
+                    posts: tmpposts,
                     currentPage: action.currentPage,
                     totalPages: action.totalPages,
                 }
@@ -299,7 +302,56 @@ export default function rolesReducer(state = initialState.blog, action) {
                     errorPost: true,
                 }
             };
+
+
+        case types.CHANGE_STATUS_IN_BLOG:
+            tmpposts = changeStatus(state.posts, action.id, action.status);
+            return {
+                ...state,
+                posts: tmpposts,
+            };
         default:
             return state;
     }
+}
+
+function changeStatus(posts, id, status) {
+    tmpposts = [];
+    tmpposts = posts.map((post) => {
+        if (post.id === id) {
+            return {...post, status: 1 - status};
+        }
+        else {
+            return post;
+        }
+    });
+    return tmpposts;
+}
+
+function changeUrlAvatar(posts) {
+    tmpposts = [];
+    tmpposts = posts.map((post) => {
+        let tmppost = post.author.avatar_url.split('');
+        if (tmppost[0] === 'h' && tmppost[1] === 't' && tmppost[2] === 't' && tmppost[3] === 'p')
+            return post;
+        else {
+            tmppost.unshift("http://");
+            return {...post, author: {...post.author, avatar_url: tmppost.join("")}};
+        }
+    });
+    return tmpposts;
+}
+
+function changeUrlImageurl(posts) {
+    tmpposts = [];
+    tmpposts = posts.map((post) => {
+        let tmppost = post.image_url.split('');
+        if (tmppost[0] === 'h' && tmppost[1] === 't' && tmppost[2] === 't' && tmppost[3] === 'p')
+            return post;
+        else {
+            tmppost.unshift("http://");
+            return {...post, image_url: tmppost.join("")};
+        }
+    });
+return tmpposts;
 }

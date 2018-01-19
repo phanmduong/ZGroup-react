@@ -214,10 +214,10 @@ class EditButton extends React.Component {
 EditButton.propTypes = {
     goodOrderActions: PropTypes.object.isRequired,
     order: PropTypes.object,
-    isSavingQuantity: PropTypes.bool,
-    isSavingQuantityInReturnOrders: PropTypes.bool,
+    isSavingQuantity: PropTypes.object,
+    isSavingQuantityInReturnOrders: PropTypes.object,
     isReturnOrders: PropTypes.bool.isRequired,
-    orderId: PropTypes.number,
+    orderId: PropTypes.string,
     goodOrder: PropTypes.object.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     index: PropTypes.number,
