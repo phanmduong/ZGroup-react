@@ -369,10 +369,7 @@
                         nổi bật</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about-us" data-scroll="true" href="javascript:void(0)">Về chúng tôi</a>
+                    <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Tin tức</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
