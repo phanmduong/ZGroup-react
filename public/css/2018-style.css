@@ -391,3 +391,7 @@ body.iosBugFixCaret.modal-open {
 div#app {
     min-height: 60vh;
 }
+
+#vue-nav {
+    display: none;
+}
