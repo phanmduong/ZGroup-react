@@ -169,6 +169,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/post/{postId}/change-status','ManageBlogController@changeStatusPost');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
+    Route::get('/post/categories','ManageBlogController@getAllCategory');
     //End blog api
 
     //Begin register students api

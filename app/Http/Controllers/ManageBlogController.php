@@ -117,6 +117,14 @@ class ManageBlogController extends ManageApiController
         ];
         return $this->respondWithPagination($posts, $data);
     }
+    public function getAllCategory(Request $request){
+        $categories = CategoryProduct::all();
+        return $this->respondSuccessWithStatus([
+            "categories" => $categories->map(function($category){
+                return $category->name;
+            })
+        ]);
+    }
     public function changeStatusPost($postId,Request $request){
         $post = Product::find($postId);
         if(!$post) return $this->respondErrorWithStatus("Không tồn tại post");
