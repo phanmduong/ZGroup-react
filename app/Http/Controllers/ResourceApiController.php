@@ -21,17 +21,12 @@ class ResourceApiController extends ApiController
     {
         $lesson = Lesson::find($lesson_id);
 
-        $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
-
-        $audio_url = 'https://api.soundcloud.com/tracks/' . $sound_cloud_track_id . '/stream' . '?client_id=' . config("app.sound_cloud_client_id");
-
         return $this->respond([
             "name" => $lesson->name,
             "detail" => $lesson->detail_content,
             "order" => $lesson->order,
             "id" => $lesson->id,
             "image_url" => $lesson->image_url,
-            "audio_url" => $audio_url,
         ]);
     }
 

@@ -19,3 +19,7 @@ Route::group(['middleware' => 'web', 'domain' => "keetool3.{subfix}", 'namespace
 
     Route::get('/sach/{book_id}/{lesson_id?}', 'ElightController@book');
 });
+
+Route::group(['domain' => "api.keetool3.{subfix}", 'namespace' => 'Modules\Elight\Http\Controllers'], function () {
+    Route::get('/lesson-detail/{lesson_id}', 'ElightPublicApiController@lesson');
+});
