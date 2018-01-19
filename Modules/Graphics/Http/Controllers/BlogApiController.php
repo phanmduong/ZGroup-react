@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller;
 
 class BlogApiController extends NoAuthApiController
 {
-    public function getAllBlogs(Request $request)
+    public function getAllBlogs( Request $request)
     {
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(10);
         return $this->respondWithPagination($blogs, ["blogs" => $blogs->map(function ($blog) {
@@ -19,21 +19,14 @@ class BlogApiController extends NoAuthApiController
         })]);
     }
 
-    public function getDetailBlog($id)
+    public function getDetailBlog( $id)
     {
         $product = Product::find($id);
         if ($product == null) {
             return $this->respondErrorWithStatus("Bài viết không tồn tại");
         }
-
-        $posts_related = Product::where('id', '<>', $product->id)->inRandomOrder()->limit(3)->get();
-        $posts_related = $posts_related->map(function ($p) {
-            return $p->blogTransform();
-        });
-
         return $this->respondSuccessWithStatus([
-            "product" => $product->blogDetailTransform(),
-            "product_relation" => $posts_related
+            "product" => $product->blogDetailTransform()
         ]);
     }
 }
