@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller;
 
 class BlogApiController extends NoAuthApiController
 {
-    public function getAllBlogs($subfix, Request $request)
+    public function getAllBlogs( Request $request)
     {
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(10);
         return $this->respondWithPagination($blogs, ["blogs" => $blogs->map(function ($blog) {
@@ -19,7 +19,7 @@ class BlogApiController extends NoAuthApiController
         })]);
     }
 
-    public function getDetailBlog($subfix, $id)
+    public function getDetailBlog( $id)
     {
         $product = Product::find($id);
         if ($product == null) {
