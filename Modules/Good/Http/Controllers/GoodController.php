@@ -87,7 +87,7 @@ class GoodController extends ManageApiController
     public function createGoodBeta(Request $request)
     {
         $name = $request->name;
-        $code = $request->code;
+        $code = $request->code ? $request->code : 'GOOD' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $description = $request->description;
         $price = $request->price;
         $avatarUrl = $request->avatar_url;
