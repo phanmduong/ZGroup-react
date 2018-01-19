@@ -600,15 +600,27 @@
                     </div>
                     <div>
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="text" v-model="order.link" placeholder="Link sản phẩm" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <input type="text" v-model="order.price" placeholder="Giá bán" class="form-control">
                                 </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div v-if="isLoadingCurrency" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                            class='fa fa-spin fa-spinner'></i>
+                                </div>
+                                <select v-if="isShowCurrency"
+                                        class="form-control" placeholder="Tỉnh/Thành phố">
+                                    <option value="">Đơn vị tiền</option>
+                                    <option v-for="currency in currencies">
+                                        @{{currency.name}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>

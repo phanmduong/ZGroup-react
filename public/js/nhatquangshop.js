@@ -272,14 +272,29 @@ var fastOrder = new Vue({
         fastOrders: [
             {id: 1, seen: false, link : "", price:"", size : "", color : "", number : 1, tax:"Giá chưa thuế", describe : ""},
         ],
+        isShowCurrency : false,
         loading : false,
         check:false,
         success : false,
         fail : false,
-        message : ""
+        message : "",
+        currencies : [],
+        isLoadingCurrency : false,
     },
     methods: {
+        getCurrencies : function(){
+            this.isLoadingCurrency = true;
+            axios.get('http://nhatquangshop.test/currency')
+                .then(function (response) {
+                    this.currencies = response.data.currencies;
+                    this.isLoadingCurrency = false;
+                    this.isShowCurrency = true;
+                    console.log(response);
+                }.bind(this))
+                .catch(function (error) {
 
+                });
+        },
         plusOrder :  function (){
           this.fastOrders.push({id : this.fastOrders.length+1, seen:true,link : "", price:"", size : "", color : "", number : 1, tax:"Giá chưa thuế", describe : "" });
         },

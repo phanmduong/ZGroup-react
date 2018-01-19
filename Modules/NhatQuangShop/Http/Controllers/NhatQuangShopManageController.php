@@ -38,7 +38,7 @@ class NhatQuangShopManageController extends Controller
     public function userOrder()
     {
         $user = Auth::user();
-        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(5);
+        $orders = Order::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->paginate(15);
         $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }
@@ -148,7 +148,7 @@ class NhatQuangShopManageController extends Controller
 //            $orders = $orders->where('status', $status);
         if($code)
          $orders = $orders->where('code','like', '%'.$code.'%');
-        $orders = $orders->orderBy('created_at', 'desc')->paginate(5);
+        $orders = $orders->orderBy('created_at', 'desc')->paginate(15);
         $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }
