@@ -78,7 +78,7 @@ class CardWork extends React.Component {
                                         <li className="more-dropdown-item" hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
-                                                return this.props.change(work, "cancel");
+                                                return this.props.change(work, STATUS_WORK[3].value);
                                             }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">delete</i>
@@ -113,6 +113,16 @@ class CardWork extends React.Component {
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">undo</i>
                                                 Yêu cầu làm lại
+                                            </a>
+                                        </li>
+                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.change(work, STATUS_WORK[5].value);
+                                            }}>
+                                                <i style={{fontSize: "16px"}}
+                                                   className="material-icons keetool-card">archive</i>
+                                                Lưu trữ công việc
                                             </a>
                                         </li>
                                     </ul>

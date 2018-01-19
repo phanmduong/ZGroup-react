@@ -240,6 +240,11 @@ export const STATUS_WORK = [
         action: "",
         value: "pay",
     },
+    {
+        label: "Lưu trữ",
+        action: "",
+        value: "archive",
+    },
 ];
 
 export const ORDER_STATUS_COLORS = {

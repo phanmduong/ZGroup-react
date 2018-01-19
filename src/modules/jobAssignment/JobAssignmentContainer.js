@@ -10,6 +10,7 @@ import * as helper from "../../helpers/helper";
 import WorkInfoModal from './WorkInfoModal';
 import ExtendWorkModal from './ExtendWorkModal';
 import FinishWorkModal from './FinishWorkModal';
+import ArchivedWorkModal from './ArchivedWorkModal';
 import {Link} from "react-router";
 import Select from 'react-select';
 import ReactSelect from 'react-select';
@@ -38,6 +39,8 @@ class JobAssignmentContainer extends React.Component {
         this.closeExtendModal =this.closeExtendModal.bind(this);
         this.openFinishModal =this.openFinishModal.bind(this);
         this.closeFinishModal =this.closeFinishModal.bind(this);
+        this.openArchivedWorkModal =this.openArchivedWorkModal.bind(this);
+        this.closeArchivedWorkModal =this.closeArchivedWorkModal.bind(this);
         this.extendWork =this.extendWork.bind(this);
         this.onWorkTypeChange =this.onWorkTypeChange.bind(this);
         this.onStaffFilterChange =this.onStaffFilterChange.bind(this);
@@ -47,6 +50,7 @@ class JobAssignmentContainer extends React.Component {
             showInfoModal: false,
             showExtendModal: false,
             showFinishModal: false,
+            showArchivedWorkModal: false,
             work: {
                 staffs:[],
                 payer: {},
@@ -107,6 +111,15 @@ class JobAssignmentContainer extends React.Component {
 
     closeFinishModal(){
         this.setState({showFinishModal: false});
+    }
+
+    openArchivedWorkModal(){
+        this.setState({showArchivedWorkModal: true});
+        this.props.jobAssignmentAction.loadArchivedWork();
+    }
+
+    closeArchivedWorkModal(){
+        this.setState({showArchivedWorkModal: false});
     }
 
     acceptWork(workId, staffId){
@@ -203,6 +216,11 @@ class JobAssignmentContainer extends React.Component {
                     data={this.state.work}
                     submit={this.doneWork}
                 />
+                <ArchivedWorkModal
+                    show={this.state.showArchivedWorkModal}
+                    onHide={this.closeArchivedWorkModal}
+                />
+
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "5px",}}>
                     <div className="filter-container" style={{alignItems:"center"}}>
                         <div className="select-container">
@@ -233,10 +251,14 @@ class JobAssignmentContainer extends React.Component {
 
                     </div>
                     <div className="filter-item">
-                        <Link to="hr/job-assignment/create" className="btn btn-rose">
+                        <Link to="hr/job-assignment/create" className="btn btn-rose" style={{marginLeft: 10}}>
                             <i className="material-icons keetool-card">add</i>
                             Thêm công việc
                         </Link>
+                        <button onClick={this.openArchivedWorkModal} className="btn btn-rose" style={{marginLeft: 10}}>
+                            <i className="material-icons keetool-card">archive</i>
+                            Đã lưu trữ
+                        </button>
                     </div>
                 </div>
                 <div className="board-canvas">

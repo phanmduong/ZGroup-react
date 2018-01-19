@@ -1360,6 +1360,7 @@ export default {
         isLoading: false,
         isLoadingStaffs: false,
         isSaving: false,
+        isLoadingArchivedWork: false,
         data: {
             name: "",
             type: "personal",
@@ -1398,6 +1399,7 @@ export default {
                 "bonus_type": null
             },
         ],
+        archivedWorks: [],
     },
 
     groupCustomers: {
