@@ -351,6 +351,7 @@ class OrderController extends ManageApiController
         $order = new Order;
         $order->note = $request->note;
         $order->code = $request->code;
+        $order->type = "order";
         $order->staff_id = $this->user->id;
         $order->status = 'completed';
 
