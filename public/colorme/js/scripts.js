@@ -81,15 +81,15 @@ var google_conversion_id = 923433004;
 var google_custom_params = window.google_tag_params;
 var google_remarketing_only = true;
 
-window.addEventListener('scroll', function () {
-    var diff = $('#first-after-nav').offset().top - $(window).scrollTop();
-    if (diff <= $('#bl-routing-wrapper').height()) {
-        $('#bl-routing-wrapper').addClass('bl-fix-routing');
-    } else {
-        $('#bl-routing-wrapper').removeClass('bl-fix-routing');
-    }
-
-});
+// window.addEventListener('scroll', function () {
+//     var diff = $('#first-after-nav').offset() ? $('#first-after-nav').offset().top - $(window).scrollTop() : '';
+//     if (diff <= $('#bl-routing-wrapper').height()) {
+//         $('#bl-routing-wrapper').addClass('bl-fix-routing');
+//     } else {
+//         $('#bl-routing-wrapper').removeClass('bl-fix-routing');
+//     }
+//
+// });
 
 function removeStorage(name) {
     try {
@@ -159,4 +159,15 @@ function setStorage(key, value, expires) {
     }
     return true;
 }
+
+
+//react truyền call để mở modal cv của react
+function openModalCV(callback) {
+    $('#button-open-cv').click(function () {
+        callback();
+    });
+}
+
+
+
 

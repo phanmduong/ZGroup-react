@@ -69,7 +69,7 @@ var modalBuy = new Vue({
                 good = this.goods[i];
                 if (good.id === goodId) {
                     good.number -= 1;
-                    this.total_order_price -= good.price;
+                    this.total_order_price -= (good.price - good.discount_value);
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
@@ -92,7 +92,7 @@ var modalBuy = new Vue({
                 good = this.goods[i];
                 if (good.id === goodId) {
                     good.number += 1;
-                    this.total_order_price += good.price;
+                    this.total_order_price += (good.price - good.discount_value);
                 }
                 newGoods.push(good);
             }
@@ -119,6 +119,7 @@ var modalBuy = new Vue({
                 .then(function (response) {
                     this.coupon_code = '';
                     this.getCouponCodes();
+                    this.getGoodsFromSesson();
                 }.bind(this))
                 .catch(function (error) {
                 });

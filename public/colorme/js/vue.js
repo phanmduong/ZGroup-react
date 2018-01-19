@@ -8,6 +8,7 @@ var vueNav = new Vue({
     data: vueData,
     methods: {
         openModalLogin: function () {
+            $('#modalLogin').modal("toggle");
             modalLogin.user.email = '';
             modalLogin.user.password = '';
             modalLogin.isClose = false;
