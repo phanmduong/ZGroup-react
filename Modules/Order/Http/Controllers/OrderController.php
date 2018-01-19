@@ -353,7 +353,7 @@ class OrderController extends ManageApiController
         $order->code = $request->code;
         $order->type = "order";
         $order->staff_id = $this->user->id;
-        $order->status = 'completed';
+        $order->status = 'completed_order';
 
         if ($request->phone != null || $request->email != null) {
             $user = User::where('phone', $request->phone)->first();
