@@ -32,8 +32,18 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
 });
 
 Route::group(['domain' => "api.graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
-    Route::get('/books', 'GraphicsAppController@index');
     Route::get('/detail-book/{book_id}', 'GraphicsAppController@detailedBook');
     Route::post('/save-order', 'GraphicsAppController@saveOrder');
 });
+
+Route::group(['domain' => "api." . config('app.domain') . ".{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+    Route::get('/books', 'GraphicsAppController@index');
+});
+
+Route::group(['middleware' => 'web', 'domain' => config('app.domain') . ".{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+    Route::get('/api/blogs', 'BlogApiController@getAllBlogs');
+    Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
+});
+
+
 
