@@ -34,6 +34,18 @@ export function loadWareHouseApi(page, search) {
     return axios.get(url);
 }
 
+// export function loadWareHouseApi() {
+//     let url = env.MANAGE_API_URL + "/order/warehouses/all?";
+//     let token = localStorage.getItem('token');
+//
+//     if (token) {
+//         url += "&token=" + token;
+//     }
+//     url += "&limit=" + -1;
+//
+//     return axios.get(url);
+// }
+
 export function loadOrderInfo(page = 1, search, startTime, endTime, staff, status) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + '/order/statistic?token=' + token + '&page=' + page;
@@ -52,10 +64,6 @@ export function loadOrderInfo(page = 1, search, startTime, endTime, staff, statu
     return axios.get(url);
 
 }
-
-
-
-
 
 export function loadDetailOrder(orderId) {
     let url = env.MANAGE_API_URL + `/order/${orderId}/info`;
@@ -83,7 +91,6 @@ export function getAllStaffs() {
     }
     return axios.get(url);
 }
-
 
 export function changeStatusOrder(status, orderId, warehouse_id) {
     let url = env.MANAGE_API_URL + "/order/" + orderId + "/status";
@@ -141,18 +148,6 @@ export function editOrderApi(order, orderId) {
             'user_id' : order.order.customer.id,
         }
     );
-}
-
-export function loadWareHouseApi() {
-    let url = env.MANAGE_API_URL + "/order/warehouses/all?";
-    let token = localStorage.getItem('token');
-
-    if (token) {
-        url += "&token=" + token;
-    }
-    url += "&limit=" + -1;
-
-    return axios.get(url);
 }
 
 

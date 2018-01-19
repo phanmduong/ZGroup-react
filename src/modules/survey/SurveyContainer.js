@@ -3,10 +3,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import AddSurveyModal from "./AddSurveyModal";
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import Loading from "../../components/common/Loading";
 import * as surveyActions from "./surveyActions";
-import {Link} from "react-router";
+import SurveyItem from "./SurveyItem";
 
 class SurveyContainer extends React.Component {
     constructor(props, context) {
@@ -37,6 +36,7 @@ class SurveyContainer extends React.Component {
 
 
     render() {
+
         return (
             <div className="content">
                 <AddSurveyModal
@@ -64,45 +64,16 @@ class SurveyContainer extends React.Component {
                                     {
                                         this.props.isLoading ?
                                             <Loading/> : (
-                                                <div className="table-responsive">
-                                                    <table className="table table-striped table-no-bordered table-hover"
-                                                           cellSpacing="0" width="100%" style={{width: "100%"}}>
-                                                        <thead className="text-rose">
-                                                        <tr>
-                                                            <th>Tên survey</th>
-                                                            <th>Người tạo</th>
-                                                            <th>Actions</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {
-                                                            (this.props.surveys && this.props.surveys.length > 0) &&
-                                                            this.props.surveys.map((survey) => {
-                                                                return (
-                                                                    <tr key={survey.id}>
-                                                                        <td>
-                                                                            <Link className="text-rose"
-                                                                                  to={"/survey/" + survey.id}>
-                                                                                {survey.name}
-                                                                            </Link>
-                                                                        </td>
-                                                                        <td>{survey.staff ? survey.staff.name : ""}</td>
-                                                                        <td>
-                                                                            <ButtonGroupAction
-                                                                                disabledEdit={true}
-                                                                                delete={() => {
-                                                                                    // return this.deletePixel(pixel.id);
-                                                                                }}
-                                                                                object={survey}
-                                                                            />
-                                                                        </td>
-                                                                    </tr>
-                                                                );
+                                                <div className="row">
+                                                    {
+                                                        (this.props.surveys && this.props.surveys.length > 0) &&
+                                                        this.props.surveys.map((survey) => {
+                                                            return (
+                                                                <SurveyItem survey={survey}/>
+                                                            );
 
-                                                            })
-                                                        }
-                                                        </tbody>
-                                                    </table>
+                                                        })
+                                                    }
                                                 </div>
                                             )
                                     }

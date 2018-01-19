@@ -33,11 +33,31 @@ export const loadSurvey = (surveyId) => {
 
 export const saveQuestion = (surveyId, question) => {
     const token = getToken();
+
+    let url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/question`;
+
+    if (question.id) {
+        url += `/${question.id}?token=${token}`;
+        return axios.put(url, {
+            ...question,
+            content_data: question.content
+        });
+    } else {
+        url += `?token=${token}`;
+        return axios.post(url, {
+            ...question,
+            content_data: question.content
+        });
+    }
+};
+
+export const duplicateQuestion = (surveyId, question) => {
+    const token = getToken();
+
     const url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/question/${question.id}?token=${token}`;
-    return axios.put(url, {
-        ...question,
-        content_data: question.content
-    });
+
+    return axios.post(url);
+
 };
 
 export const saveAnswer = (answer) => {
@@ -58,4 +78,10 @@ export const updateQuestionOrders = (questions) => {
         }
     );
 
+};
+
+export const deleteQuestion = (question) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/question/${question.id}?token=${token}`;
+    return axios.delete(url);
 };

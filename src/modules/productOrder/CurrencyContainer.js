@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import CurrencyComponent from './CurrencyComponent';
+import CurrencyComponent from '../currency/CurrencyComponent';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import {Link} from "react-router";

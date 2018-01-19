@@ -7,6 +7,8 @@ import Loading from "../../components/common/Loading";
 import EditQuestionModalContainer from "./EditQuestionModalContainer";
 import Dragula from "react-dragula";
 import {QUESTION_TYPE} from "../../constants/constants";
+import {confirm} from "../../helpers/helper";
+import SurveyDisplayModalContainer from "./SurveyDisplayModalContainer";
 
 class SurveyDetailContainer extends React.Component {
     constructor(props, context) {
@@ -15,6 +17,9 @@ class SurveyDetailContainer extends React.Component {
         this.initDragula = this.initDragula.bind(this);
         this.drake = null;
         this.showQuestionType = this.showQuestionType.bind(this);
+        this.deleteQuestion = this.deleteQuestion.bind(this);
+        this.duplicateQuestion = this.duplicateQuestion.bind(this);
+        this.showDisplayModal = this.showDisplayModal.bind(this);
     }
 
     componentWillMount() {
@@ -24,6 +29,10 @@ class SurveyDetailContainer extends React.Component {
 
     componentDidUpdate() {
         this.initDragula();
+    }
+
+    showDisplayModal() {
+        this.props.surveyActions.showSurveyDisplaySettingModal(true);
     }
 
     showEditQuestionModal(question) {
@@ -36,6 +45,17 @@ class SurveyDetailContainer extends React.Component {
             data[item.value] = item.label;
         });
         return <span>{data[type]}</span>;
+    }
+
+    duplicateQuestion(question) {
+        this.props.surveyActions.duplicateQuestion(question);
+    }
+
+    deleteQuestion(question) {
+        confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá", () => {
+            this.props.surveyActions.deleteQuestion(question);
+        });
+
     }
 
     initDragula() {
@@ -78,18 +98,21 @@ class SurveyDetailContainer extends React.Component {
         return (
             <div className="container-fluid">
                 <EditQuestionModalContainer/>
+                <SurveyDisplayModalContainer/>
                 <div className="row">
-
-                    <div className="col-md-12">
-                        <h3 className="title">{survey.name}</h3>
-                        <button className="btn btn-rose" onClick={() => this.showEditQuestionModal({})}>
-                            Thêm câu hỏi
-                        </button>
-                        {
-                            isLoading ? <Loading/> : (
+                    {
+                        isLoading ? <Loading/> : (
+                            <div className="col-md-12">
+                                <h3 className="title">{survey.name}</h3>
+                                <button className="btn btn-rose" onClick={() => this.showEditQuestionModal({})}>
+                                    Thêm câu hỏi
+                                </button>
+                                <button className="btn btn-info" onClick={this.showDisplayModal}>
+                                    Cài đặt hiển thị
+                                </button>
                                 <div className="drake">
                                     {
-                                        survey.questions && survey.questions.sort((a, b) => a.order > b.order).map((question) => {
+                                        survey.questions && survey.questions.sort((a, b) => a.order - b.order).map((question) => {
                                             return (
                                                 <ul className="timeline timeline-simple"
                                                     key={question.id} data-order={question.order} id={question.id}
@@ -117,10 +140,12 @@ class SurveyDetailContainer extends React.Component {
                                                                        onClick={() => this.showEditQuestionModal(question)}>
                                                                         <i className="material-icons">build</i>
                                                                     </a>
-                                                                    <a className="btn btn-info btn-sm">
+                                                                    <a onClick={() => this.duplicateQuestion(question)}
+                                                                       className="btn btn-info btn-sm">
                                                                         <i className="material-icons">content_copy</i>
                                                                     </a>
-                                                                    <a className="btn btn-default btn-sm">
+                                                                    <a onClick={() => this.deleteQuestion(question)}
+                                                                       className="btn btn-default btn-sm">
                                                                         <i className="material-icons">delete</i>
                                                                     </a>
                                                                 </div>
@@ -143,10 +168,11 @@ class SurveyDetailContainer extends React.Component {
                                         })
                                     }
                                 </div>
-                            )
-                        }
+                            </div>
+                        )
+                    }
 
-                    </div>
+
                 </div>
             </div>
         );
