@@ -362,9 +362,10 @@ class OrderController extends ManageApiController
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = $request->phone;
+            $user->username = $request->email;
             $user->save();
 
-            $order->user_id = $user->save();
+            $order->user_id = $user->id;
         } else $order->user_id = 0;
 
         $order->save();

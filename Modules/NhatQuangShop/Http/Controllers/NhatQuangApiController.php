@@ -45,12 +45,12 @@ class NhatQuangApiController extends PublicApiController
 
     public function flush(Request $request)
     {
-        dd($request->session()->get('couponCodes'));
+//        dd($request->session()->get('couponCodes'));
 //        dd($request->session()->get('goods'));
-        //$request->session()->flush();
+        $request->session()->flush();
     }
 
-    public function getCouponProgram()
+    public function getCouponPrograms()
     {
         $couponPrograms = Coupon::where('type', 'program')->where('activate', 1)->get();
         return [
@@ -81,6 +81,7 @@ class NhatQuangApiController extends PublicApiController
 
     public function getGoodsFromSession(Request $request)
     {
+        $this->applyCoupons($request);
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
         $goods = [];
@@ -88,15 +89,11 @@ class NhatQuangApiController extends PublicApiController
             foreach ($goods_arr as $item) {
                 $good = Good::find($item->id);
                 $good->number = $item->number;
-                $good->price = $item->price;
-                $good->discount_price = $item->discount_price;
+                $good->discount_value = $item->discount_value;
                 $properties = GoodProperty::where('good_id', $good->id)->get();
                 foreach ($properties as $property) {
                     $good[$property->name] = $property->value;
                 }
-                $good->vnd_price = currency_vnd_format($good->price);
-                $good->total_price = $good->price * $good->number;
-                $good->total_vnd_price = currency_vnd_format($good->price * $good->number);
                 $goods[] = $good;
             }
         }
@@ -104,13 +101,12 @@ class NhatQuangApiController extends PublicApiController
         $totalPrice = 0;
 
         foreach ($goods as $good) {
-            $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
+            $totalPrice += ($good->price - $good->discount_value)  * $good->number;
         }
-        $totalVndPrice = currency_vnd_format($totalPrice);
+
         $data = [
             "goods" => $goods,
             "total_order_price" => $totalPrice,
-            "total_order_vnd_price" => $totalVndPrice,
         ];
         return $data;
     }
@@ -137,7 +133,6 @@ class NhatQuangApiController extends PublicApiController
             $temp->id = $goodId;
             $temp->number = 1;
             $temp->price = $product->price;
-            $temp->discount_price = $product->price;
             $temp->discount_value = 0;
             $goods[] = $temp;
         }
@@ -198,7 +193,6 @@ class NhatQuangApiController extends PublicApiController
             ];
         }
     }
-
 
 
     public function provinces()
@@ -304,6 +298,23 @@ class NhatQuangApiController extends PublicApiController
         return false;
     }
 
+
+    public function getCouponCodes(Request $request)
+    {
+        $couponCodes_str = $request->session()->get('couponCodes');
+
+        if ($couponCodes_str) {
+            $couponCodes = json_decode($couponCodes_str);
+        } else {
+            $couponCodes = [];
+        }
+
+        return [
+            'coupon_codes' => $couponCodes,
+            'coupon_codes_count' => count($couponCodes),
+        ];
+    }
+
     public function applyCoupons($request)
     {
         $goods_str = $request->session()->get('goods');
@@ -317,7 +328,7 @@ class NhatQuangApiController extends PublicApiController
         $couponCodes_str = $request->session()->get('couponCodes');
 
         if ($couponCodes_str) {
-            $couponCodes = json_decode($goods_str);
+            $couponCodes = json_decode($couponCodes_str);
         } else {
             $couponCodes = [];
         }
@@ -332,42 +343,43 @@ class NhatQuangApiController extends PublicApiController
                 $objCouponCode = Coupon::find($couponCode->id);
                 if ($this->isApply($objGood, $objCouponCode)) {
                     if ($objCouponCode->shared === 1)
-                        $sharedCoupons[] = $couponCode;
+                        $sharedCoupons[] = $objCouponCode;
                     else
-                        $notSharedCoupons[] = $couponCode;
+                        $notSharedCoupons[] = $objCouponCode;
                 }
             }
 
             $couponPrograms = Coupon::where('type', 'program')->where('activate', 1)->get();
             foreach ($couponPrograms as $couponProgram) {
-                if ($this->isApply($objGood, $couponProgram)) {
-                    $temp = new \stdClass();
-                    $temp->id = $couponProgram->id;
-                    $temp->used = false;
+                $objCouponProgram = Coupon::find($couponProgram->id);
+                if ($this->isApply($objGood, $objCouponProgram)) {
                     if ($couponProgram->shared === 1)
-                        $sharedCoupons[] = $temp;
+                        $sharedCoupons[] = $objCouponProgram;
                     else
-                        $notSharedCoupons[] = $temp;
+                        $notSharedCoupons[] = $objCouponProgram;
                 }
             }
             $notSharedCouponValue = 0;
             $sharedCounponValue = 0;
+
             foreach ($notSharedCoupons as $notSharedCoupon) {
-                if($notSharedCoupon->type == 'fix')
+                $discountValue = 0;
+                if ($notSharedCoupon->discount_type == 'fix')
                     $discountValue = $notSharedCoupon->discount_value;
-                if($notSharedCoupon->type == 'percentage')
+                if ($notSharedCoupon->discount_type == 'percentage')
                     $discountValue = $notSharedCoupon->discount_value * $objGood->price / 100;
                 $notSharedCouponValue = max($notSharedCouponValue, $discountValue);
             }
 
             foreach ($sharedCoupons as $sharedCoupon) {
-                if($sharedCoupon->type == 'fix')
-                    $discountValue = $notSharedCoupon->discount_value;
-                if($sharedCoupon->type == 'percentage')
-                    $discountValue = $notSharedCoupon->discount_value * $objGood->price / 100;
+                $discountValue = 0;
+                if ($sharedCoupon->discount_type == 'fix')
+                    $discountValue = $sharedCoupon->discount_value;
+                if ($sharedCoupon->discount_type == 'percentage')
+                    $discountValue = $sharedCoupon->discount_value * $objGood->price / 100;
                 $sharedCounponValue += $discountValue;
             }
-            $good->discount_value = max($notSharedCouponValue, $notSharedCouponValue);
+            $good->discount_value = max($notSharedCouponValue, $sharedCounponValue);
         }
 
         $goods_str = json_encode($goods);

@@ -738,10 +738,6 @@ body {
     }
 }
 
-#app {
-    padding-top: 51px
-}
-
 #app, body, html {
     height: 100%
 }
@@ -1122,7 +1118,7 @@ a.navbar-brand img {
     background-color: #435c86
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .navbar-header {
         float: none
     }
@@ -2981,4 +2977,8 @@ label.error {
 body.iosBugFixCaret.modal-open {
     position: fixed;
     width: 100%;
+}
+
+div#app {
+    min-height: 60vh;
 }

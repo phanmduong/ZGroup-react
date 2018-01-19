@@ -3,6 +3,7 @@
 namespace Modules\Company\Http\Controllers;
 
 use App\Field;
+use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -82,6 +83,16 @@ class CompanyController extends ManageApiController
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
         $company->save();
+        $field = Field::find($company->field_id);
+        $str = convert_vi_to_en_not_url($field->name);
+        $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
+        $str = strtoupper($str);
+        $day = date_format($company->created_at,'d');
+        $month = date_format($company->created_at,'m');
+        $id = (string)$company->id;
+        while (strlen($id) < 4) $id = '0' . $id;
+        $company->partner_code =$str.$day.$month.$id;
+        $company->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công",
         ]);
@@ -115,6 +126,64 @@ class CompanyController extends ManageApiController
         if(!$company) return $this->respondErrorWithStatus("Không tồn tại công ty");
         return $this->respondSuccessWithStatus([
             "company" => $company->transform()
+        ]);
+    }
+
+    public function createPayment(Request $request){
+        if(!$request->image || $request->payer_id === null || !$request->receiver_id === null||
+           $request->money_value === null || trim($request->money_value) == '')
+           return $this->respondErrorWithStatus("Thiếu trường");
+        $payment = new Payment;
+        $image_name = uploadFileToS3($request,'image',1000);
+        if($image_name != null){
+            $payment->bill_image_url = generate_protocol_url($this->s3_url . $image_name);
+        }
+        $payment->description = $request->description;
+        $payment->money_value = $request->money_value;
+        $payment->payer_id = $request->payer_id;
+        $payment->receiver_id = $request->receiver_id;
+
+        $payment->save();
+        return $this->respondSuccessWithStatus([
+           "message" => "Thành công"
+        ]);
+    }
+
+    public function editPayment($paymentId,Request $request){
+        $payment =Payment::find($paymentId);
+        if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
+        if(!$request->image || $request->payer_id === null || !$request->receiver_id === null||
+            $request->money_value === null || trim($request->money_value) == '')
+            return $this->respondErrorWithStatus("Thiếu trường");
+        $image_name = uploadFileToS3($request,'image',1000);
+        if($image_name != null){
+            $payment->bill_image_url = generate_protocol_url($this->s3_url . $image_name);
+        }
+        $payment->description = $request->description;
+        $payment->money_value = $request->money_value;
+        $payment->payer_id = $request->payer_id;
+        $payment->receiver_id = $request->receiver_id;
+
+        $payment->save();
+        $payment->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+    }
+
+    public function getAllPayment(Request $request){
+        $keyword = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $payments = Payment::join(DB::raw('users as payers'),'payments.payer_id','=','payers.id')
+         ->join(DB::raw('users as receivers'),'payments.receiver_id','=','receivers.id')->
+         select('payments.*')->where(function($query) use ($keyword){
+                $query->where('payers.name', 'like', '%' . $keyword . '%')->orWhere('receivers.name', 'like', '%' . $keyword . '%');
+            })->orderby('payments.created_at','desc')->paginate($limit);
+
+        return $this->respondWithPagination($payments,[
+            "payments" => $payments->map(function($payment){
+                 return $payment->transform();
+            })
         ]);
     }
 
