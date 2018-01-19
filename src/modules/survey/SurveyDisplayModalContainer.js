@@ -18,6 +18,7 @@ class SurveyDisplayModalContainer extends React.Component {
             isLoadingCourses: true
         };
         this.handleClose = this.handleClose.bind(this);
+        this.handleChangeCourse = this.handleChangeCourse.bind(this);
     }
 
     async componentWillMount() {
@@ -38,6 +39,12 @@ class SurveyDisplayModalContainer extends React.Component {
         this.props.surveyActions.showSurveyDisplaySettingModal(false);
     }
 
+    handleChangeCourse(course) {
+        this.setState({
+            course
+        });
+    }
+
     render() {
         return (
             <Modal show={this.props.showDisplaySettingModal} onHide={this.handleClose}>
@@ -50,7 +57,7 @@ class SurveyDisplayModalContainer extends React.Component {
                         isLoading={this.state.isLoadingCourses}
                         value={this.state.course}
                         options={this.state.courses}
-                        onChange={this.changeStartBoard}
+                        onChange={this.}
                     />
                 </Modal.Body>
             </Modal>
