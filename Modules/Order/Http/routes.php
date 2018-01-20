@@ -18,7 +18,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@getDetailedDeliveryOrder');
     Route::post('/delivery', 'DeliveryOrderApiController@createDeliveryOrder');
     Route::put('/delivery/{orderId}', 'DeliveryOrderApiController@createDeliveryOrder');
-    Route::delete('/delivery/{$deliveryOrderId}', 'DeliveryOrderApiController@deleteDeliveryOrder');
+    Route::delete('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@deleteDeliveryOrder');
 
 
     Route::get('/all-customers', 'CustomerController@allCustomers');
