@@ -29,25 +29,33 @@
             </div>
             <div class="row">
                 @foreach($blogs as $blog)
-                <div class="col-md-4">
-                    <div class="card card-plain card-blog">
-                        <div class="card-image">
-                            <a href="#pablo">
-                                <img class="img img-raised" src="{{$blog->url}}">
-                            </a>
-                        </div>
-                        <div class="card-block">
-                            <h3 class="card-title">
-                                <a href="#pablo">{{$blog->title}}</a>
-                            </h3>
-                            <p class="card-description">
-                                {{$blog->description}}
-                            </p>
-                            <br>
-                            <a href="{{'/blog/post/'.$blog->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
+                    <div class="col-md-4">
+                        <div class="card card-plain card-blog">
+                            <div class="card-image">
+                                <a href="{{'/blog/post/'.$blog->id}}">
+                                    <div
+                                            style="width: 100%;
+                                                    border-radius: 15px;
+                                                    background: url({{generate_protocol_url($blog->url)}});
+                                                    background-size: cover;
+                                                    background-position: center;
+                                                    padding-bottom: 70%;"
+
+                                    ></div>
+                                </a>
+                            </div>
+                            <div class="card-block">
+                                <h3 class="card-title">
+                                    <a href="{{'/blog/post/'.$blog->id}}">{{$blog->title}}</a>
+                                </h3>
+                                <p class="card-description">
+                                    {{$blog->description}}
+                                </p>
+                                <br>
+                                <a href="{{'/blog/post/'.$blog->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
 
@@ -56,7 +64,7 @@
                 <div class="col-md-2 offset-md-10">
                     <div class="pull-right">
                         {{--<button class="btn btn-link btn-default btn-move-right">Bài viết cũ hơn<i class="fa fa-angle-right"></i></button>--}}
-                        <a href="{{'/blog?page='.$page_id}}" class="fa fa-angle-right" style="{{$display}}" >Bài viết cũ hơn</a>
+                        <a class="btn btn-link btn-default btn-move-right" href="{{'/blog?page='.$page_id}}" style="{{$display}}">  Bài viết cũ hơn  </a>
                     </div>
                 </div>
             </div>
