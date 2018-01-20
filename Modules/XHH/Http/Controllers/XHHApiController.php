@@ -97,7 +97,7 @@ class XHHApiController extends ApiPublicController
         }
 
         return $this->respondSuccessWithStatus([
-            'type_books' => $type_books
+            'type_books' => $arrTypeBooks
         ]);
 
     }
