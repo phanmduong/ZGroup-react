@@ -254,4 +254,24 @@ class Order extends Model
         });
         return $data;
     }
+
+    public function getDeliveryData()
+    {
+        $data = [
+            'id' => $this->id,
+            'note' => $this->note,
+            'code' => $this->code,
+            'attach_info' => $this->attach_info
+        ];
+        if ($this->user) {
+            $data['customer'] = [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'address' => $this->user->address,
+                'phone' => $this->user->phone,
+                'email' => $this->user->email,
+            ];
+        }
+        return $data;
+    }
 }
