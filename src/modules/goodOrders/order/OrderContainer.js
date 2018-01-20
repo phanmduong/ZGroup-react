@@ -1,3 +1,4 @@
+/*eslint-disable */
 /**
  * Created by phanmduong on 10/23/17.
  */
@@ -144,6 +145,7 @@ class OrderContainer extends React.Component {
 
 
     render() {
+
         const ORDER_STATUS_UP = [
             {
                 order: 0,
