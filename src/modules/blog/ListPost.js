@@ -54,7 +54,7 @@ class ListPost extends React.Component {
                                                         <button className="tag btn btn-xs btn-danger"
                                                                 style={{marginLeft: 15, borderRadius: 10}}
                                                                 onClick={(e) => {
-                                                                    this.props.loadPosts(1, post.category.id);
+                                                                    this.props.loadByCategories(post.category.id);
                                                                     e.stopPropagation();
                                                                 }}
                                                         >
@@ -133,6 +133,7 @@ ListPost.propTypes = {
     posts: PropTypes.array.isRequired,
     deletePost: PropTypes.func.isRequired,
     handleSwitch: PropTypes.func.isRequired,
+    loadByCategories: PropTypes.func.isRequired,
     loadPosts: PropTypes.func,
 };
 

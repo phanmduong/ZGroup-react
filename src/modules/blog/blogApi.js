@@ -58,6 +58,14 @@ export function getPosts(page = 1, search = '',category_id) {
     }
     return axios.get(url);
 }
+export function getCategoriesApi() {
+    let url = env.MANAGE_API_URL + "/post/categories?" ;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
 
 export function deletePost(postId) {
     let url = env.MANAGE_API_URL + `/post/${postId}/delete`;

@@ -160,6 +160,25 @@ export function getPosts(page, search,category_id) {
             });
     };
 }
+export function getCategories() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CATEGORIES_IN_BLOG,
+        });
+        blogApi.getCategoriesApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CATEGORIES_IN_BLOG_SUCCESS,
+                    categoriesList: res.data.data.categories,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_CATEGORIES_IN_BLOG_ERROR
+                });
+            });
+    };
+}
 
 export function deletePost(postId) {
     return function (dispatch) {

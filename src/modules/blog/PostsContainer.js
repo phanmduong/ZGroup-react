@@ -12,6 +12,9 @@ import Link from "react-router/es/Link";
 import Search from "../../components/common/Search";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
+import Select from "./Select";
+
+// import Select from '../../components/common/Select';
 
 
 class BlogsContainer extends React.Component {
@@ -20,17 +23,27 @@ class BlogsContainer extends React.Component {
         this.postsSearchChange = this.postsSearchChange.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.loadPosts = this.loadPosts.bind(this);
+        // this.loadCategories = this.loadCategories.bind(this);
+        this.loadByCategories = this.loadByCategories.bind(this);
         this.handleSwitch = this.handleSwitch.bind(this);
         this.state = {
             page: 1,
-            query: ""
+            query: "",
+            category_id: 0,
+
         };
+        console.log(this.state.category_id,"ASDFGHJK");
         this.timeOut = null;
     }
 
     componentWillMount() {
-        this.loadPosts();
+
+        this.loadPosts(1);
     }
+
+    // loadCategories() {
+    //     this.props.blogActions.loadCategories();
+    // }
 
     deletePost(post) {
         helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá bài viết này",
@@ -38,8 +51,6 @@ class BlogsContainer extends React.Component {
                 this.props.blogActions.deletePost(post.id);
             }.bind(this));
     }
-
-
 
     postsSearchChange(value) {
         this.setState({
@@ -50,18 +61,29 @@ class BlogsContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.blogActions.getPosts(this.state.page, this.state.query);
+            this.props.blogActions.getPosts(this.state.page, this.state.query,this.state.category_id);
         }.bind(this), 500);
 
     }
 
-    loadPosts(page = 1,category_id) {
+    loadPosts(page, category_id) {
         this.setState({page});
-        this.props.blogActions.getPosts(page, this.state.query ,category_id);
+        if (category_id === 0) {
+            this.props.blogActions.getPosts(page, this.state.query);
+        }
+        else {
+            this.props.blogActions.getPosts(page, this.state.query, category_id);
+        }
     }
 
-    handleSwitch(id , status ,name){
+    handleSwitch(id, status, name) {
         this.props.blogActions.changeStatus(id, status, name);
+    }
+
+    loadByCategories(category_id){
+        console.log(category_id,"QWERTYUIO");
+        this.setState({category_id});
+        this.loadPosts(1,category_id);
     }
 
     render() {
@@ -86,18 +108,35 @@ class BlogsContainer extends React.Component {
                             </div>
 
 
-                            <Search
-                                onChange={this.postsSearchChange}
-                                value={this.state.query}
-                                placeholder="Tìm kiếm tiêu đề"
-                            />
+                            <div style={{display: "flex"}}>
+                                <div style={{width: "80%", marginLeft: 30}}>
+                                    <Search
+                                        onChange={this.postsSearchChange}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm tiêu đề"
+                                    />
+                                </div>
+                                <Select
+                                    category_id ={this.state.category_id}
+                                loadByCategory={this.loadByCategories}
+                                // categoriesList = {this.props.categoriesList}
+                                />
+
+
+                                {this.props.categoriesList.map((item) => {
+                                    return (
+                                        <p>{item.name}</p>  );
+                                })}
+
+                            </div>
 
                             {this.props.isLoading ? <Loading/> :
                                 <ListPost
-                                    handleSwitch = {this.handleSwitch}
+                                    handleSwitch={this.handleSwitch}
                                     deletePost={this.deletePost}
                                     posts={this.props.posts}
-                                    loadPosts = {this.loadPosts}
+                                    loadPosts={this.loadPosts}
+                                    loadByCategories = {this.loadByCategories}
                                 />
                             }
                         </div>
@@ -121,9 +160,11 @@ class BlogsContainer extends React.Component {
 BlogsContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     posts: PropTypes.array.isRequired,
+    categoriesList: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    blogActions: PropTypes.object.isRequired
+    blogActions: PropTypes.object.isRequired,
+    categories: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -132,6 +173,8 @@ function mapStateToProps(state) {
         isLoading: state.blog.isLoading,
         totalPages: state.blog.totalPages,
         currentPage: state.blog.currentPage,
+        categories: state.blog.categories.categories,
+        categoriesList: state.blog.categoriesList,
     };
 }
 

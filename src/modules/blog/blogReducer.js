@@ -310,6 +310,22 @@ export default function rolesReducer(state = initialState.blog, action) {
                 ...state,
                 posts: tmpposts,
             };
+        case types.BEGIN_LOAD_CATEGORIES_IN_BLOG:
+            return{
+                ...state,
+                isLoadingCategories: true,
+            };
+            case types.LOAD_CATEGORIES_IN_BLOG_SUCCESS:
+            return{
+                ...state,
+                isLoadingCategories: false,
+                categoriesList :  action.categoriesList,
+            };
+            case types.LOAD_CATEGORIES_IN_BLOG_ERROR:
+            return{
+                ...state,
+                isLoadingCategories: false,
+            };
         default:
             return state;
     }
