@@ -27,8 +27,8 @@ var modalBuy = new Vue({
                 });
         },
         getCouponCodes: function () {
-            this.isLoadingCoupons = true;
             this.coupon_codes = [];
+            this.isLoadingCoupons = true;
             axios.get(window.url + '/coupon-codes')
                 .then(function (response) {
                     this.coupon_codes = response.data.coupon_codes;
