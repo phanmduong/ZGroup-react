@@ -83,7 +83,13 @@ class BlogsContainer extends React.Component {
     loadByCategories(category_id){
         console.log(category_id,"QWERTYUIO");
         this.setState({category_id});
-        this.loadPosts(1,category_id);
+        // this.loadPosts(1,category_id);
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.blogActions.getPosts(this.state.page, this.state.query,this.state.category_id);
+        }.bind(this), 500);
     }
 
     render() {
