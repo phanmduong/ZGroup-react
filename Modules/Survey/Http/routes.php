@@ -11,8 +11,11 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::delete('{surveyId}', 'SurveyController@deleteSurvey');
     Route::post('/{surveyId}/question', 'SurveyController@updateQuestion');
     Route::post('/{surveyId}/lesson/{lessonId}', 'SurveyController@addSurveyLesson');
+    Route::delete('/{surveyId}/lesson/{lessonId}', 'SurveyController@removeSurveyLesson');
+    Route::get('/{surveyId}/lesson', 'SurveyController@getSurveyLessons');
     Route::put('/{surveyId}/question/{questionId}', 'SurveyController@updateQuestion');
     Route::post('/{surveyId}/question/{questionId}', 'SurveyController@duplicateQuestion');
+    Route::delete('/question/{questionId}', 'SurveyController@deleteQuestion');
     Route::delete('/question/{questionId}', 'SurveyController@deleteQuestion');
 
 });

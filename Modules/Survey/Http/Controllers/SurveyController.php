@@ -246,6 +246,36 @@ class SurveyController extends ManageApiController
         ]);
     }
 
+    public function getSurveyLessons($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        $lessons = $survey->lessons;
+
+        $surveyLessons = $lessons->map(function ($lesson) {
+            $course = $lesson->course;
+            return [
+                "lesson_id" => $lesson->id,
+                "course" => $course->shortTransform(),
+                "lesson" => $lesson->shortTransform(),
+                'time_display' => $lesson->pivot->time_display,
+                'start_time_display' => $lesson->pivot->start_time_display
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            "survey_lessons" => $surveyLessons
+        ]);
+    }
+
+    public function removeSurveyLesson($surveyId, $lessonId)
+    {
+        $survey = Survey::find($surveyId);
+        $survey->lessons()->detach($lessonId);
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
+        ]);
+    }
+
     public function addSurveyLesson($surveyId, $lessonId, Request $request)
     {
         $startTimeDisplay = $request->start_time_display;
