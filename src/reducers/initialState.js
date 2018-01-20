@@ -1617,6 +1617,7 @@ export default {
         isSavingPayment: false,
         isUploading: false,
         isLoadingCompanies: false,
+        link: "",
         payment: {
             money_value: 0,
             bill_image_url: "",

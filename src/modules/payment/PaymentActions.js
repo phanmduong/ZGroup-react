@@ -124,3 +124,19 @@ export function uploadImage(file){
 
       };
 }
+
+export function updateFormData(data) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_DATA_CREATE_PAYMENT,
+            data : data,
+        });
+    };
+}
+export function resetDataPayment(){
+    return function (dispatch){
+        dispatch({
+            type: types.RESET_DATA_PAYMENT,
+        });
+    };
+}
