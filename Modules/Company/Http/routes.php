@@ -10,5 +10,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::get('{companyId}','CompanyController@getDetailCompany');
     Route::post('/payment','CompanyController@createPayment');
     Route::put('/payment/{paymentId}','CompanyController@editPayment');
+    Route::get('/payment/{paymentId}','CompanyController@getPayment');
     Route::get('/payment','CompanyController@getAllPayment');
 });
