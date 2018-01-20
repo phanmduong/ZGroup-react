@@ -1,4 +1,16 @@
 export default {
+    currency: {
+        currencies: [],
+        isLoading: false,
+        addEditCurrencyModal: false,
+        currencyEditModal: {
+            name: '',
+            notation: '',
+            ratio: ''
+        },
+        isUpdatingEditModal: false,
+    },
+
     orderedProduct: {
         totalPaidMoney: 0,
         totalMoney: 0,
@@ -1551,6 +1563,7 @@ export default {
         survey: {},
         showEditQuestionModal: false,
         question: {},
+        showDisplaySettingModal: false,
         isSavingQuestion: false
     },
     dashboardXHH: {

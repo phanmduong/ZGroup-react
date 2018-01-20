@@ -15,8 +15,7 @@ import * as helper from '../../helpers/helper';
 import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 import MemberReactSelectOption from "../tasks/board/filter/MemberReactSelectOption";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
-import {Modal} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Modal} from "react-bootstrap";
 import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
 import Avatar from "../../components/common/Avatar";
 
@@ -74,11 +73,9 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     updateFormDataBonusType(e){
-        console.log(e);
         if(!e) return;
-        let value = e.value;
-        let newdata = {...this.props.data,currency : value};
-        this.props.jobAssignmentAction.updateFormData(newdata);
+        let newdata = {...this.props.data,currency : e};
+        this.props.jobAssgnmentAction.updateFormData(newdata);
     }
 
 
@@ -354,6 +351,8 @@ CreateJobAssignmentContainer.propTypes = {
     data: PropTypes.object,
     staffs: PropTypes.array,
     currencies: PropTypes.array,
+    jobAssignmentAction: PropTypes.object,
+    params: PropTypes.object,
 };
 
 function mapStateToProps(state) {

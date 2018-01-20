@@ -65,6 +65,7 @@ import orderedProductReducer from "../modules/orderedProduct/orderedProductReduc
 import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/HistoryExtensionWorkReducer";
 import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
 import surveyReducer from '../modules/survey/surveyReducer';
+import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 
 
@@ -136,6 +137,7 @@ const appReducer = combineReducers({
     survey: surveyReducer,
     historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
+    currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
 
 });
