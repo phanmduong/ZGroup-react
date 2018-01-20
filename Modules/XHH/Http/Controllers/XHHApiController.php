@@ -24,7 +24,7 @@ class XHHApiController extends ApiPublicController
         $startDate = $date->format("Y-m-d h:i:s");
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
 
-        $blogs = Product::where('type', 2);
+        $blogs = Product::where('type', 2)->where('status', 1);
 
         $search = $request->search;
 

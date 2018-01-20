@@ -61,7 +61,7 @@ class XHHController extends Controller
 
     public function blog($subfix, Request $request)
     {
-        $blogs = Product::where('type', 2);
+        $blogs = Product::where('type', 2)->where('status', 1);
 
         $search = $request->search;
 
