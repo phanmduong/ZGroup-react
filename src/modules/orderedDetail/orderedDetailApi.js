@@ -13,3 +13,19 @@ export function saveOrderApi(order, customer) {
         email: customer.email
     });
 }
+
+export function editOrderApi(order, customer) {
+    let url = env.MANAGE_API_URL + "/order/delivery/" + order.id + "?token=" + token;
+    return axios.put(url, {
+        attach_info: JSON.stringify(order),
+        note: customer.note,
+        name: customer.name,
+        phone: customer.phone,
+        email: customer.email
+    });
+}
+
+export function loadOrderApi(order_id) {
+    let url = env.MANAGE_API_URL + "/order/delivery/" + order_id + "?token=" + token;
+    return axios.get(url);
+}

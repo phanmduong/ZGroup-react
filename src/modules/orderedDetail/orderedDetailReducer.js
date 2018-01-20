@@ -8,6 +8,23 @@ export default function orderedDetailReducer(state = initialState.orderedDetail,
                 ...state,
                 order: action.order
             };
+        case types.HANDLE_CUSTOMER_ORDERED_DETAIL:
+            return {
+                ...state,
+                customer: action.customer
+            };
+        case types.BEGIN_LOAD_ORDER_ORDERED_DETAIL:
+            return {
+                ...state,
+                isLoading: true
+            };
+        case types.LOAD_ORDER_ORDERED_DETAIL_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                order: action.order,
+                customer: action.customer
+            };
         default:
             return state;
     }

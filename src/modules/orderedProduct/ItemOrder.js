@@ -104,12 +104,12 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>
                     <StatusSelect options={ORDERED_STATUS}
-                                  onChange={this.changeStatusOrder}
+                                  //onChange={this.changeStatusOrder}
                                   value={order.status}/>
                 </td>
                 <td>
                     <a data-toggle="tooltip" title="Ghi chú" type="button"
-                       rel="tooltip">
+                       rel="tooltip" onClick={() => this.props.showAddNoteModal(order)}>
                         {
                             order_note === "" ? (
                                 <i className="material-icons">edit</i>
@@ -120,6 +120,24 @@ class ItemOrder extends React.Component {
                     </a>
                 </td>
                 <td>{helper.dotNumber(order.total)}đ</td>
+                <td>
+                    <div className="btn-group-action">
+                        <Link to={`/order/${order.id}/edit`}
+                              style={{color: "#878787"}}
+                              data-toggle="tooltip" title=""
+                              type="button" rel="tooltip"
+                              data-original-title="Sửa"><i
+                            className="material-icons">edit</i>
+                        </Link>
+                        <a style={{color: "#878787"}}
+                           data-toggle="tooltip" title=""
+                           type="button" rel="tooltip"
+                           data-original-title="Xoá"
+                           onClick={() => this.props.deleteOrder(order)}>
+                            <i className="material-icons">delete</i>
+                        </a>
+                    </div>
+                </td>
             </tr>
         );
     }
@@ -127,8 +145,10 @@ class ItemOrder extends React.Component {
 
 ItemOrder.propTypes = {
     order: PropTypes.object.isRequired,
-    changeStatusOrder: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    //changeStatusOrder: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    deleteOrder: PropTypes.func.isRequired,
+    showAddNoteModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

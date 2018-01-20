@@ -24,6 +24,7 @@ class ListOrder extends React.Component {
                                     <th>Trạng thái</th>
                                     <th>Ghi chú</th>
                                     <th>Tổng tiền</th>
+                                    <th/>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -31,8 +32,10 @@ class ListOrder extends React.Component {
                                     this.props.deliveryOrders && this.props.deliveryOrders.map((order, index) => {
                                         return (
                                             <ItemOrder order={order} key={index}
-                                                       changeStatusOrder={this.props.changeStatusOrder}
-                                                       user={this.props.user}/>
+                                                       //changeStatusOrder={this.props.changeStatusOrder}
+                                                       user={this.props.user}
+                                                       deleteOrder={this.props.deleteOrder}
+                                                       showAddNoteModal={this.props.showAddNoteModal}/>
                                         );
                                     })
                                 }
@@ -46,10 +49,12 @@ class ListOrder extends React.Component {
 }
 
 ListOrder.propTypes = {
-    changeStatusOrder: PropTypes.func.isRequired,
+    //changeStatusOrder: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     deliveryOrders: PropTypes.array.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    deleteOrder: PropTypes.func.isRequired,
+    showAddNoteModal: PropTypes.func.isRequired
 };
 
 

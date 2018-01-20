@@ -19,36 +19,12 @@ export function saveOrder(order, customer) {
     };
 }
 
-export function handleOrder(order) {
-    return ({
-        type: types.HANDLE_ORDER_ORDERED_DETAIL,
-        order
-    });
-}
-
-
-export function saveCategoriesCreateProduct(categories) {
-    return ({
-        type: types.GET_CATEGORIES_CREATE_PRODUCT,
-        categories
-    });
-}
-
-
-
-export function selectGoodCountCheck() {
-    return ({
-        type: types.SELECT_GOOD_COUNT_CHECK
-    });
-}
-
-
-export function saveProductEdit(product) {
+export function editOrder(product) {
     return function (dispatch) {
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-        createProductApi.editProductApi(product)
+        orderedDetailApi.editOrderApi(product)
             .then(function () {
                 browserHistory.push("/good/goods/products");
                 helper.showNotification("Thêm sản phẩm thành công");
@@ -59,57 +35,62 @@ export function saveProductEdit(product) {
     };
 }
 
-
-export function loadProduct(productId) {
+export function loadOrder(order_id) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_PRODUCT_DETAIL
+            type: types.BEGIN_LOAD_ORDER_ORDERED_DETAIL
         });
-        createProductApi.loadProductApi(productId)
-            .then((res) => {
-                let product = {...res.data.data.good};
-                if (res.data.data.good.property_list && res.data.data.good.children) {
-                    let property_list = res.data.data.good.property_list.map(property => {
-                        return {
-                            ...property,
-                            value: property.value.map(e => {
-                                return {
-                                    old: true,
-                                    value: e,
-                                    label: e
-                                };
-                            })
-                        };
-                    });
-                    let goods_count = res.data.data.good.property_list.reduce((result, property) => property.value.length * result, 1);
-                    product = {
-                        ...product,
-                        property_list: property_list,
-                        goods_count: goods_count,
-                        children: helper.childrenLoadedEditSuccess(property_list, res.data.data.good.children)
-                    };
-                    dispatch({
-                        type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
-                        product: product
-                    });
-                } else {
-                    product = {
-                        ...product,
-                        property_list: [{
-                            name: 'coool',
-                            property_item_id: 3,
-                            value: []
-                        }],
-                        goods_count: 0,
-                        children: []
-                    };
-                    dispatch({
-                        type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
-                        product: product
-                    });
-                }
+        orderedDetailApi.loadOrderApi(order_id)
+            .then(function (res) {
+                let order = res.data.data.delivery_order.attach_info ? (
+                    JSON.parse(res.data.data.delivery_order.attach_info)
+                ) : ({
+                    size: '',
+                    link: '',
+                    color: '',
+                    description: '',
+                    quantity: 0,
+                    sale_off: 0,
+                    weight: 0,
+                    tax: true,
+                    price: 0,
+                    unit: '',
+                    ratio: 1,
+                    money: 0,
+                    fee: 0,
+                    code: '',
+                    endTime: ''
+                });
+                let customer = res.data.data.delivery_order.customer ? ({
+                    ...res.data.data.delivery_order.customer,
+                    note: res.data.data.delivery_order.note || ''
+                }) : ({
+                    name: '',
+                    phone: '',
+                    email: '',
+                    note: ''
+                });
+                dispatch({
+                    type: types.LOAD_ORDER_ORDERED_DETAIL_SUCCESS,
+                    order: order,
+                    customer: customer
+                });
             });
     };
+}
+
+export function handleOrder(order) {
+    return ({
+        type: types.HANDLE_ORDER_ORDERED_DETAIL,
+        order
+    });
+}
+
+export function handleCustomer(customer) {
+    return ({
+        type: types.HANDLE_CUSTOMER_ORDERED_DETAIL,
+        customer
+    });
 }
 
 

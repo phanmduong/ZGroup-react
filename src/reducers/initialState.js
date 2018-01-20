@@ -1,5 +1,6 @@
 export default {
     orderedDetail: {
+        isLoading: false,
         order: {
             size: '',
             link: '',
@@ -38,6 +39,9 @@ export default {
     },
 
     orderedProduct: {
+        addNoteModal: false,
+        orderNote: {},
+        isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
         totalDeliveryOrders: 0,
@@ -960,7 +964,7 @@ export default {
         order: {
             isOpenReturnOrder: false,
             isSaving: false,
-            isSavingReturnOrders :false,
+            isSavingReturnOrders: false,
             isSavingQuantity: {
                 id: 0,
                 status: false,

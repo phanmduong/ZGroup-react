@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as orderedProductApi from './orderedProductApi';
+import * as helper from "../../helpers/helper";
 
 export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id) {
     return function (dispatch) {
@@ -41,3 +42,57 @@ export function getAllStaffs() {
             });
     };
 }
+
+export function deleteOrder(order) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+      orderedProductApi.deleteOrderApi(order)
+          .then(res=>{
+              if (res.data.status) {
+                  helper.showNotification("Xóa đơn hàng đặt thành công");
+                  dispatch({
+                      type: types.DELETE_ORDER_ORDERED_PRODUCT_SUCCESS,
+                      order,
+                  });
+              } else {
+                  helper.showErrorNotification(res.data.message);
+              }
+              dispatch({
+                  type: types.HIDE_GLOBAL_LOADING
+              });
+          });
+    };
+}
+
+export function showAddNoteModal() {
+    return ({
+        type: types.TOGGLE_ADD_NOTE_MODAL_ORDERED_PRODUCT
+    });
+}
+
+export function handleAddNoteModal(order) {
+    return ({
+        type: types.HANDLE_ADD_NOTE_MODAL_ORDERED_PRODUCT,
+        order
+    });
+}
+
+export function editNote(order) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_EDIT_NOTE_ORDERED_PRODUCT
+        });
+        helper.showTypeNotification("Đang chỉnh sửa ghi chú", "info");
+        orderedProductApi.editNote(order)
+            .then(() => {
+                dispatch({
+                    type: types.EDIT_NOTE_SUCCESS_ORDERED_PRODUCT,
+                    order
+                });
+                helper.showNotification("Thay đổi ghi chú thành công");
+            });
+    };
+}
+

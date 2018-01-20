@@ -14,6 +14,12 @@ export default [
     },
     {
         path: "/order/detail",
-        component: OrderedDetailContainer
+        component: OrderedDetailContainer,
+        type: "create"
+    },
+    {
+        path: "/order/:orderId/edit",
+        component: OrderedDetailContainer,
+        type: "edit"
     }
 ];
