@@ -38,7 +38,8 @@ export const loadSurveys = (page = 1, search = '') => {
         const res = await surveyApi.loadSurveys(page, search);
         dispatch({
             type: LOAD_SURVEYS_LIST_SUCCESS,
-            surveys: res.data.surveys
+            surveys: res.data.surveys,
+            paginator: res.data.paginator
         });
     };
 };

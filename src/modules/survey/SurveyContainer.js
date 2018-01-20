@@ -6,6 +6,7 @@ import AddSurveyModal from "./AddSurveyModal";
 import Loading from "../../components/common/Loading";
 import * as surveyActions from "./surveyActions";
 import SurveyItem from "./SurveyItem";
+import Pagination from "../../components/common/Pagination";
 
 class SurveyContainer extends React.Component {
     constructor(props, context) {
@@ -16,10 +17,15 @@ class SurveyContainer extends React.Component {
 
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.loadSurveys = this.loadSurveys.bind(this);
     }
 
     componentWillMount() {
         this.props.surveyActions.loadSurveys();
+    }
+
+    loadSurveys(page) {
+        this.props.surveyActions.loadSurveys(page);
     }
 
     openModal() {
@@ -77,6 +83,10 @@ class SurveyContainer extends React.Component {
                                                 </div>
                                             )
                                     }
+                                    <Pagination
+                                        currentPage={this.props.paginator.current_page}
+                                        totalPages={this.props.paginator.total_pages}
+                                        loadDataPage={this.loadSurveys}/>
                                 </div>
                             </div>
                         </div>
@@ -90,12 +100,14 @@ class SurveyContainer extends React.Component {
 SurveyContainer.propTypes = {
     surveys: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    paginator: PropTypes.object.isRequired,
     surveyActions: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         surveys: state.survey.surveys,
+        paginator: state.survey.paginator,
         isLoading: state.survey.isLoading
     };
 }

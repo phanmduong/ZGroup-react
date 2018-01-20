@@ -934,7 +934,7 @@ export default {
         order: {
             isOpenReturnOrder: false,
             isSaving: false,
-            isSavingReturnOrders :false,
+            isSavingReturnOrders: false,
             isSavingQuantity: {
                 id: 0,
                 status: false,
@@ -964,11 +964,11 @@ export default {
 
 
                 return_orders: [],
-                warehouse : 0,
+                warehouse: 0,
 
-                isLoadingGoodOverlay : false,
-                goodsList : [],
-                totalGoodPages : 0,
+                isLoadingGoodOverlay: false,
+                goodsList: [],
+                totalGoodPages: 0,
             },
         },
         staffs: [],
@@ -1374,13 +1374,13 @@ export default {
                 name: "",
                 avatar_url: "",
             },
-            currency:{
+            currency: {
                 id: null,
                 value: "",
                 label: "",
             },
         },
-        currencies:[],
+        currencies: [],
         staffs: [
             {
                 value: "value1",
@@ -1566,6 +1566,7 @@ export default {
         survey: {},
         showEditQuestionModal: false,
         question: {},
+        paginator: {},
         showDisplaySettingModal: false,
         isSavingQuestion: false
     },
@@ -1594,9 +1595,9 @@ export default {
             account_number: "",
             bank_name: "",
             bank_branch: "",
-            field:{
-              id: 0,
-              name: "",
+            field: {
+                id: 0,
+                name: "",
             },
             user_contact: "",
             user_contact_phone: "",
