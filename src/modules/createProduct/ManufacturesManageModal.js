@@ -35,7 +35,13 @@ class ManufacturesManageModal extends React.Component {
     createManufactureModal(name) {
         if (helper.isNull(name)) {
             helper.showErrorNotification("Bạn cần nhập tên nhà sản xuất");
-        } else this.props.createProductAction.createManufactureModal(name);
+        } else {
+            this.setState({
+                query: '',
+                page: 1
+            });
+            this.props.createProductAction.createManufactureModal(name);
+        }
     }
 
     deleteManufactureModal(manufacture) {
@@ -69,7 +75,7 @@ class ManufacturesManageModal extends React.Component {
     }
 
     render() {
-        let first = (this.props.currentPageManufactures - 1) * 10 + 1;
+        let first = this.props.totalCountManufactures ? (this.props.currentPageManufactures - 1) * 10 + 1 : 0;
         let end = this.props.currentPageManufactures < this.props.totalPagesManufactures ? this.props.currentPageManufactures * 10 : this.props.totalCountManufactures;
         return (
             <Modal show={this.props.manufacturesManageModal}

@@ -33,7 +33,13 @@ class PropertiesManageModal extends React.Component {
     createPropertyModal(name) {
         if (helper.isNull(name)) {
             helper.showErrorNotification("Bạn cần nhập tên thuộc tính");
-        } else this.props.createProductAction.createPropertyModal(name);
+        } else {
+            this.setState({
+                page: 1,
+                query: ''
+            });
+            this.props.createProductAction.createPropertyModal(name);
+        }
     }
 
     deletePropertyModal(property) {
@@ -67,7 +73,7 @@ class PropertiesManageModal extends React.Component {
     }
 
     render() {
-        let first = (this.props.currentPageProperties - 1) * 10 + 1;
+        let first = this.props.totalCountProperties ? (this.props.currentPageProperties - 1) * 10 + 1 : 0;
         let end = this.props.currentPageProperties < this.props.totalPagesProperties ? this.props.currentPageProperties * 10 : this.props.totalCountProperties;
         return (
             <Modal show={this.props.propertiesManageModal}

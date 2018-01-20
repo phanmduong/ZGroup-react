@@ -1,5 +1,20 @@
 import * as env from './env';
 
+export const QUESTION_TYPE = [
+    {
+        value: 0,
+        label: "Textbox"
+    },
+    {
+        value: 1,
+        label: "Radio"
+    },
+    {
+        value: 2,
+        label: "Checkbox"
+    }
+];
+
 export const MARITAL = [
     {
         id: 0,
@@ -156,6 +171,39 @@ export const ORDER_STATUS = [
     }
 ];
 
+export const ORDERED_STATUS = [
+    {
+        order: 0,
+        label: "Đơn mới",
+        value: "place_order"
+    },
+    {
+        order: 1,
+        label: "Đã báo giá",
+        value: "sent_price"
+    },
+    {
+        order: 2,
+        label: "Đặt hàng",
+        value: "ordered"
+    },
+    {
+        order: 3,
+        label: "Hết hàng",
+        value: "unavailable"
+    },
+    {
+        order: 4,
+        label: "Hủy",
+        value: "cancel"
+    },
+    {
+        order: 5,
+        label: "Về VN",
+        value: "came_to_VN"
+    }
+];
+
 export const TYPE_CLASSES = [
     {
         label: "Hoạt động",
@@ -167,25 +215,35 @@ export const TYPE_CLASSES = [
     }
 ];
 export const STATUS_WORK = [
-    {
+    {//0
         label: "Đợi chấp nhận",
         action: "Chấp nhận",
         value: "pending",
     },
-    {
+    {//1
         label: "Đang thực hiện",
         action: "Xin gia hạn",
         value: "doing",
     },
-    {
+    {//2
         label: "Hoàn thành",
         action: "",
         value: "done",
     },
-    {
+    {//3
         label: "Hủy",
         action: "",
         value: "cancel",
+    },
+    {//4
+        label: "Chi tiền",
+        action: "",
+        value: "pay",
+    },
+    {//5
+        label: "Lưu trữ",
+        action: "",
+        value: "archive",
     },
 ];
 

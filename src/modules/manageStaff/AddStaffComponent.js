@@ -131,7 +131,7 @@ class AddStaffComponent extends React.Component {
                                                         name="salary"
                                                         value={salary}
                                                         //required={true}
-                                                        type="text"
+                                                        type="number"
                                                         updateFormData={this.props.updateFormData}
                                                     />
                                                     < FormInputText
@@ -139,7 +139,7 @@ class AddStaffComponent extends React.Component {
                                                         name="salary_revenue"
                                                         value={salary_revenue}
                                                         //required={true}
-                                                        type="text"
+                                                        type="number"
                                                         updateFormData={this.props.updateFormData}
                                                     />
                                                     <FormInputText
@@ -147,7 +147,7 @@ class AddStaffComponent extends React.Component {
                                                         name="salary_allowance"
                                                         value={salary_allowance}
                                                         //required={true}
-                                                        type="text"
+                                                        type="number"
                                                         updateFormData={this.props.updateFormData}
                                                     />
                                                 </div>

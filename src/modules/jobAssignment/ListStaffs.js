@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ListGroup, ListGroupItem} from "react-bootstrap";
+import {ListGroup, ListGroupItem,Modal} from "react-bootstrap";
 import Avatar from "../../components/common/Avatar";
 import * as helper from "../../helpers/helper";
-import {Modal} from 'react-bootstrap';
 import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
 
 class ListStaffs extends React.Component {
@@ -23,7 +22,9 @@ class ListStaffs extends React.Component {
     render() {
         return (
             <div className="col-md-12">
+                <div><strong>Tổng số nhân viên:</strong> {this.props.staffs.length}</div><br/>
                 <ListGroup>
+                    <div style={{overflowY:"scroll", maxHeight:300}}>
                     {this.props.staffs.map((m,index) =>
                         (
                             <ListGroupItem
@@ -40,22 +41,24 @@ class ListStaffs extends React.Component {
                                                 <i className="material-icons">info</i>
                                             </div>
                                             :
-                                            <div></div>
+                                            <div/>
                                     }
                                         {
                                             this.props.remove ?
-                                                <div onClick={() => {return this.props.remove(m)}}>
+                                                <div onClick={() => {return this.props.remove(m);}}>
                                                     <i className="material-icons">highlight_off</i>
                                                 </div>
                                                 :
-                                                <div></div>
+                                                <div/>
                                         }</div>
 
                                 </div>
                             </ListGroupItem>
                         )
                     )}
+                    </div>
                 </ListGroup>
+
                 <Modal
                     show={this.state.show}
                     onHide={this.onHide}

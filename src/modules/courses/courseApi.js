@@ -70,6 +70,11 @@ export function createEditCourse(data) {
     if (token) {
         url += "?token=" + token;
     }
+    let categories = JSON.stringify(data.categories.map(obj => { return ({id: obj.id});}));
+    data = {
+        ...data,
+        categories,
+    };
     return axios.post(url, data);
     //http://manageapi.keetool.tk/v2/course/create-edit?token=
 }
@@ -175,4 +180,32 @@ export function loadAllCategories() {
         url += "?token=" + token + "&limit=-1";
     }
     return axios.get(url);
+}
+
+
+export function duplicateCourse(id) {
+    let url = env.MANAGE_API_URL + "/v2/course/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+export function duplicateLesson(id) {
+    let url = env.MANAGE_API_URL + "/v2/lesson/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+export function duplicateTerm(id) {
+    let url = env.MANAGE_API_URL + "/v2/lesson/term/" + id + "/duplicate";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
 }

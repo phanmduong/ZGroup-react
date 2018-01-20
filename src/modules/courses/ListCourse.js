@@ -6,8 +6,6 @@ import {connect}                        from 'react-redux';
 import  * as coursesActions   from './coursesActions';
 import {bindActionCreators}             from 'redux';
 import initialState                     from '../../reducers/initialState';
-import Switch                           from "../../components/common/Switch";
-import FormInputSelect from "../../components/common/FormInputSelect";
 
 
 class ListCourse extends React.Component {
@@ -45,8 +43,7 @@ class ListCourse extends React.Component {
                         <th>Số lớp</th>
                         <th>Số buổi</th>
                         <th>Giá</th>
-                        <th>Phân loại</th>
-                        <th>Hình thức</th>
+                        {/*<th>Hình thức</th>*/}
                         <th>Trạng thái</th>
                         <th/>
                     </tr>
@@ -54,7 +51,7 @@ class ListCourse extends React.Component {
                     <tbody>
                     {this.props.courses.map((course, index) => {
                         return (
-                            <tr key={course.id}>
+                            <tr key={index}>
                                 <td>
                                     <button className="btn btn-round btn-fab btn-fab-mini text-white"
                                             data-toggle="tooltip"
@@ -81,24 +78,13 @@ class ListCourse extends React.Component {
                                 <td>{course.num_classes}</td>
                                 <td>{course.duration}</td>
                                 <td>{helper.convertMoneyToK(course.price)}</td>
-                                <td><FormInputSelect name="" updateFormData={() => {
-                                }} isNotForm={true}
-                                                     data={[
-                                                         {id: "online", name: "online"},
-                                                         {id: "offline", name: "offline"},
-                                                     ]}/></td>
-                                <td>
-                                    <FormInputSelect
-                                        name="" isNotForm={true}
-                                        updateFormData={() => {}}
-                                        data={[{id: "online", name: "online"}, {id: "offline", name: "offline"},]}/>
-                                </td>
-                                <td><Switch
-                                    onChange={() => {
-                                        return this.props.changeStatusCourse(index, course);
-                                    }}
-                                    value={course.status} onText="Hiện" offText="Ẩn"
-                                /></td>
+                                <td>{this.props.type || ""}</td>
+                                {/*<td><Switch*/}
+                                    {/*onChange={() => {*/}
+                                        {/*return this.props.changeStatusCourse(index, course);*/}
+                                    {/*}}*/}
+                                    {/*value={course.status} onText="Hiện" offText="Ẩn"*/}
+                                {/*/></td>*/}
                                 <td>
                                     <ButtonGroupAction
                                         editUrl={"/teaching/courses/edit/" + course.id + ""}
@@ -106,10 +92,10 @@ class ListCourse extends React.Component {
                                         object={course}
                                     >
                                         {
-                                            !course.is_duplicate &&
+                                            !this.props.isDuplicating &&
                                             <a data-toggle="tooltip" title="Duplicate"
                                                type="button"
-                                               onClick={() => {}}
+                                               onClick={() => {return this.props.duplicateCourse(course);}}
                                                rel="tooltip"
                                             >
                                                 <i className="material-icons">control_point_duplicate</i>
@@ -134,6 +120,8 @@ ListCourse.propTypes = {
     coursesActions : PropTypes.object.isRequired,
     deleteCourse : PropTypes.func,
     changeStatusCourse : PropTypes.func,
+    duplicateCourse : PropTypes.func,
+    isDuplicating : PropTypes.bool,
 };
 
 function mapStateToProps(state) {

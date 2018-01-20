@@ -10,26 +10,43 @@ class ListPost extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
-                <table className="table">
-                    <thead>
-                    <tr className="text-rose">
-                        <th className="text-center">Tiêu đề</th>
-                        <th className="text-center"> Nhóm bài viết</th>
-                        <th className="text-center">Trạng thái</th>
-                        <th className="text-center">Ngày tạo</th>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.props.posts.map(post => {
-                        return (
-                            <tr key={post.id}>
-                                <td><Link to={"blog/post/" + post.id + "/edit"}>{post.title}</Link></td>
-                                <td>
-                                    {post.category ? post.category.name : 'Không có'}
-                                </td>
-                                <td>
+
+            <div className="row">
+
+
+                {this.props.posts && this.props.posts.map((post) => {
+                    return (
+                        <div className="col-sm-4" id="card-email-template" key={post.id}>
+                            <div className="card card-chart">
+                                <div className="card-header" data-background-color="white" style={{
+                                    borderRadius: '10px'
+                                }}>
+                                    <div id="simpleBarChart" className="ct-chart"
+                                         style={{
+                                             width: '100%',
+                                             background: 'url(' + post.thumb_url && post.thumb_url + ')',
+                                             backgroundSize: 'cover',
+                                             backgroundPosition: 'center',
+                                             height: '200px',
+                                             borderRadius: '10px'
+                                         }}
+                                    />
+                                </div>
+                                <div className="card-content">
+                                    <div className="card-action">
+                                        <h4 className="card-title"><Link
+                                            to={"blog/post/" + post.id + "/edit"}>{post.title ? post.title : "Chưa có tên"}</Link>
+                                        </h4>
+                                        <ButtonGroupAction
+                                            editUrl={"blog/post/" + post.id + "/edit"}
+                                            delete={this.props.deletePost}
+                                            object={post}
+                                            disabledEdit
+                                        />
+                                    </div>
+                                    <p className="category">Nhóm bài
+                                        : {post.category ? post.category.name : 'Không có'}</p>
+                                    <p className="category">{"Ngày tạo : " + post.created_at}</p>
                                     {
                                         post.status === 1 ?
                                             <div className="btn btn-xs btn-main btn-success">
@@ -40,25 +57,14 @@ class ListPost extends React.Component {
                                                 Ẩn
                                             </div>
                                     }
-                                </td>
-                                <td className="text-center">
-                                    {
-                                        post.created_at
-                                    }
-                                </td>
-                                <td>
-                                    <ButtonGroupAction
-                                        editUrl={"blog/post/" + post.id + "/edit"}
-                                        delete={this.props.deletePost}
-                                        object={post}
-                                    />
-                                </td>
-                            </tr>
-                        );
-                    })}
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+
             </div>
+
         );
     }
 }

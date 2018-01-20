@@ -13,7 +13,7 @@ export function loadWorks() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_WORKS_JOB_ASSIGNMENT_SUCCESS,
-                    works: res.data.works
+                    works: res.data.data.works
                 });
             })
             .catch(() => {
@@ -249,4 +249,68 @@ export function resetDataCreate(){
     };
 }
 
+export function loadCurrencies() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_CURRENCIES_JOB_ASSIGNMENT});
+        jobAssignmentApi.loadCurrencies()
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_SUCCESS,
+                        currencies: res.data.data.currencies
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_CURRENCIES_JOB_ASSIGNMENT_ERROR});
+            });
+    };
+}
 
+export function acceptPay(workId, staffId, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_ACCEPT_PAY_WORK});
+        jobAssignmentApi.acceptPay(workId, staffId)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.ACCEPT_PAY_WORK_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.ACCEPT_PAY_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.ACCEPT_PAY_WORK_ERROR});
+            });
+    };
+}
+
+export function loadArchivedWork() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ARCHIVED_WORK});
+        jobAssignmentApi.loadArchivedWork()
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.LOAD_ARCHIVED_WORK_SUCCESS,
+                        archivedWorks: res.data.data.works,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_ARCHIVED_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_ARCHIVED_WORK_ERROR});
+            });
+    };
+}

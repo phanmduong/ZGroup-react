@@ -23,30 +23,33 @@ class ListChildWareHouse extends React.Component {
                     <tbody>
 
                     {this.props.wareHousesList.map((wareHouse) => {
-                        return(
-                                <tr key = {wareHouse.id} >
-                                    <td>{wareHouse.name}</td>
-                                    <td>{wareHouse.location}</td>
-                                    <td>{wareHouse.base ? wareHouse.base.name : 'Chưa có '}</td>
-                                    <td>{wareHouse.base ? wareHouse.base.address : 'Chưa có'}</td>
-                                    <td style={{width: 70}}>
-                                        <div className="btn-group-action">
-                                            <a style={{color: '#878787'}} data-toggle="tooltip"
-                                                type="button"
-                                               data-original-title="Sửa"
-                                            onClick={() => {this.props.openModal(wareHouse, true);}}
-                                            ><i
-                                                className="material-icons">edit</i></a>
-                                            <a style={{color: '#878787'}} data-toggle="tooltip"
-                                               title type="button"
-                                               rel="tooltip" data-original-title="Xoá"><i
-                                                className="material-icons"
-                                            onClick={()=>{this.props.deleteWareHouse(wareHouse.id, wareHouse.name);}}
-                                            >delete</i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                        return (
+                            <tr key={wareHouse.id}>
+                                <td>{wareHouse.name}</td>
+                                <td>{wareHouse.location}</td>
+                                <td>{wareHouse.base ? wareHouse.base.name : 'Chưa có '}</td>
+                                <td>{wareHouse.base ? wareHouse.base.address : 'Chưa có'}</td>
+                                <td style={{width: 70}}>
+                                    <div className="btn-group-action">
+                                        <a style={{color: '#878787'}}
+                                           type="button"
+                                           onClick={() => {
+                                               this.props.openModal(wareHouse, true);
+                                           }}
+                                        ><i
+                                            className="material-icons">edit</i></a>
+                                        <a style={{color: '#878787'}}
+                                           type="button"
+                                        ><i
+                                            className="material-icons"
+                                            onClick={() => {
+                                                this.props.deleteWareHouse(wareHouse.id, wareHouse.name);
+                                            }}
+                                        >delete</i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
                         );
                     })}
                     </tbody>
@@ -59,8 +62,8 @@ class ListChildWareHouse extends React.Component {
 }
 
 ListChildWareHouse.propTypes = {
-  wareHousesList : PropTypes.array,
-    openModal : PropTypes.func,
-    deleteWareHouse : PropTypes.func,
+    wareHousesList: PropTypes.array,
+    openModal: PropTypes.func,
+    deleteWareHouse: PropTypes.func,
 };
 export default ListChildWareHouse;

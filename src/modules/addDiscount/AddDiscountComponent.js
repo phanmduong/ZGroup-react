@@ -46,6 +46,10 @@ class AddDiscountComponent extends React.Component {
                 id: '',
             },
             {
+                name: 'Tất cả',
+                id: 'all',
+            },
+            {
                 name: 'Mã khuyến mãi',
                 id: 'code',
             },

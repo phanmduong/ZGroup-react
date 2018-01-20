@@ -1,8 +1,35 @@
 export default {
+    currency: {
+        currencies: [],
+        isLoading: false,
+        addEditCurrencyModal: false,
+        currencyEditModal: {
+            name: '',
+            notation: '',
+            ratio: ''
+        },
+        isUpdatingEditModal: false,
+    },
+
+    orderedProduct: {
+        totalPaidMoney: 0,
+        totalMoney: 0,
+        totalDeliveryOrders: 0,
+        notLocked: 0,
+        deliveryOrders: [],
+        currentPage: 0,
+        totalPages: 0,
+        totalCount: 0,
+        isLoading: false,
+        staffs: []
+    },
+
     createProduct: {
         categories: [],
         manufactures: [],
         manufacturesRender: [],
+        manufacturesFilter: [],
+        properties_list_filter: [],
         isUploadingAvatar: false,
         totalPagesManufactures: 1,
         currentPageManufactures: 1,
@@ -686,6 +713,7 @@ export default {
             pointByDate: [],
             cardsByDate: [],
             cards: [],
+            staffs: [],
             isLoading: false,
             showCardsModal: false,
             isLoadingCardsModal: false,
@@ -855,7 +883,15 @@ export default {
     },
 
     goodOrders: {
+        warehousesList: [],
+        selectWarehouseModal: false,
+        isLoadingWarehouse: false,
+        totalCountWarehouse: 1,
+        totalPagesWarehouse: 1,
+        currentPageWarehouse: 1,
         isUpdate: false,
+        nextStatus: '',
+        orderIdWarehouseModal: 0,
         orderId: 0,
         labelId: -1,
         shipGoodModal: false,
@@ -896,7 +932,17 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isOpenReturnOrder: false,
             isSaving: false,
+            isSavingReturnOrders :false,
+            isSavingQuantity: {
+                id: 0,
+                status: false,
+            },
+            isSavingQuantityInReturnOrders: {
+                id: 0,
+                status: false,
+            },
             isLoading: false,
             error: false,
             total: 1130000,
@@ -915,6 +961,14 @@ export default {
                     phone: "test",
                     email: "po01636863831@gmail.com"
                 },
+
+
+                return_orders: [],
+                warehouse : 0,
+
+                isLoadingGoodOverlay : false,
+                goodsList : [],
+                totalGoodPages : 0,
             },
         },
         staffs: [],
@@ -1093,10 +1147,13 @@ export default {
             lessons: [],
             links: [],
             pixels: [],
+            type_id: null,
+            categories: [],
         }
     },
     courses: {
         isLoading: false,
+        isDuplicating: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
         isUploadingPixel: false,
@@ -1144,6 +1201,7 @@ export default {
             categories: [],
             type_id: "",
             type: "",
+
         },
         link: {
             id: null,
@@ -1153,7 +1211,6 @@ export default {
             link_description: "",
             link_icon: "",
         },
-
         pixel: {
             name: "",
             code: "",
@@ -1169,6 +1226,7 @@ export default {
         },
         categories: [],
         types: [],
+
 
     },
     lessons: {
@@ -1302,6 +1360,7 @@ export default {
         isLoading: false,
         isLoadingStaffs: false,
         isSaving: false,
+        isLoadingArchivedWork: false,
         data: {
             name: "",
             type: "personal",
@@ -1310,7 +1369,18 @@ export default {
             bonus_value: 0,
             bonus_type: "coin",
             staffs: [],
+            payer: {
+                id: null,
+                name: "",
+                avatar_url: "",
+            },
+            currency:{
+                id: null,
+                value: "",
+                label: "",
+            },
         },
+        currencies:[],
         staffs: [
             {
                 value: "value1",
@@ -1329,18 +1399,20 @@ export default {
                 "bonus_type": null
             },
         ],
+        archivedWorks: [],
     },
 
     groupCustomers: {
         isSaving: false,
+        isSavingCustomer: false,
         isSavingCoupon: false,
         isLoading: false,
         isLoadingCoupon: false,
-        isLoadingModal: false,
+        isLoadingCustomer: false,
         isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
+        customersList: [],         // (chứa trong overlay)    +  customersShowInTable  = full = customers
         totalCustomerInOverlayPages: 1,
-        totalCustomerInModalPages: 1,
+        totalCustomerPages: 1,
         totalCustomerCount: 1,
         totalGroupCustomerPages: 1,
         groupCustomerForm: {
@@ -1349,11 +1421,13 @@ export default {
             description: '',
             stringId: [],
             customers: [],                         // tat ca cac customer trong mot group
-            customersShowInModal: [],              // cac customer show ra bang trong mot group
+            customersShowInTable: [],              // cac customer show ra bang trong mot group
             color: '',
             coupons: [],
             order_value: '',
             delivery_value: '',
+            customersShowInAddModal: [],            // cac customer them vao vung tam
+
         },
         coupon: {
             name: '',
@@ -1423,6 +1497,28 @@ export default {
         isDeleting: false,
         errorDelete: false,
     },
+
+    createSaleGoods: {
+        customer: {
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+        },
+        infoOrder: {
+            payment: "",
+            note: "",
+            status: "completed_order",
+        },
+        goods: [],
+        goodsList: [],
+        goodsShowInTable: [],
+        isLoadingGoodModal: false,
+        totalGoodPages: 0,
+        warehouse: 0,
+        isSaving: false,
+    },
+
     historyExtension: {
         isLoading: false,
         paginator: {
@@ -1467,6 +1563,19 @@ export default {
     survey: {
         surveys: [],
         isLoading: false,
+        survey: {},
+        showEditQuestionModal: false,
+        question: {},
+        showDisplaySettingModal: false,
+        isSavingQuestion: false
+    },
+    dashboardXHH: {
+        dashboard: {
+            user: {}
+        },
+        isLoading: true,
+        error: false,
+
     },
     companies: {
         isLoadingCompanies: false,
@@ -1500,6 +1609,7 @@ export default {
             current_page: 1,
             limit: 20,
         },
+
     },
     payment: {
         isLoadingPayments: false,

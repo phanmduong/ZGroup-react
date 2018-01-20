@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import * as groupCustomerActions from './groupCustomerActions';
-import Loading from "../../components/common/Loading";
+import * as groupCustomerActions from '../groupCustomerActions';
+import Loading from "../../../components/common/Loading";
+import Switch from 'react-bootstrap-switch';
+import * as helper from '../../../helpers/helper';
 
 
 class ListChildCoupon extends React.Component {
@@ -18,6 +20,13 @@ class ListChildCoupon extends React.Component {
 
     loadCouponsInModal() {
         this.props.groupCustomerActions.loadCouponsInModal(this.props.idGroup);
+    }
+
+    handleSwitch(id, name) {
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,
+            function () {
+                this.props.groupCustomerActions.deleteCoupon(id, name);
+            }.bind(this));
     }
 
     render() {
@@ -38,6 +47,7 @@ class ListChildCoupon extends React.Component {
                                     <th>Kết thúc</th>
                                     <th>Giá trị</th>
                                     <th>Mô tả</th>
+                                    <th>Kích hoạt</th>
                                 </tr>
                                 </thead>
                                 : null
@@ -52,14 +62,25 @@ class ListChildCoupon extends React.Component {
                                             <td>{coupon.end_time}</td>
                                             <td>{coupon.discount_value + ((coupon.discount_type === 'percentage') ? '%' : '₫')}</td>
                                             <td>{coupon.description}</td>
+                                            <td>
+                                                <Switch
+                                                    baseId={coupon.id}
+                                                    onChange={() => this.handleSwitch(coupon.id, coupon.name)}
+                                                    bsSize="mini"
+                                                    onText="Bật" offText="Tắt"
+                                                    value={(coupon.activate === 1)}
+                                                    disabled={(coupon.activate === 0)}
+                                                />
+                                            </td>
                                         </tr>
-
                                     );
                                 })}
                             </tbody>
                         </table>
                     </div>
                 }
+
+
             </div>
         );
     }

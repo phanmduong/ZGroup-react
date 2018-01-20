@@ -55,6 +55,7 @@ class ListGoods extends React.Component {
         this.props.addDiscountActions.loadGoods(page, this.state.limit, this.state.query);
     }
 
+
     render() {
         let currentPage = this.state.page;
         return (

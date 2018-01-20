@@ -50,9 +50,13 @@ class ItemOrder extends React.Component {
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                this.props.changeStatusOrder(value, this.props.order.id);
-            });
+            if (currentStatus.order < 2 && nextStatus.order > 1) {
+                this.props.showSelectWarehouseModal(value, this.props.order.id);
+            } else {
+                helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
+                    this.props.changeStatusOrder(value, this.props.order.id, null);
+                });
+            }
         }
     }
 
@@ -148,7 +152,8 @@ ItemOrder.propTypes = {
     changeStatusOrder: PropTypes.func.isRequired,
     showShipGoodModal: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    showSelectWarehouseModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

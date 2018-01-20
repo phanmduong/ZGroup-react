@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {browserHistory} from 'react-router';
+import Switch from 'react-bootstrap-switch';
 
 
 class ListChildDiscount extends React.Component {
@@ -8,11 +9,15 @@ class ListChildDiscount extends React.Component {
         super(props);
     }
 
+    handleSwitch(id, name) {
+        this.props.deleteDiscount(id, name);
+    }
+
     render() {
         return (
             <div>
                 <div className="row">
-                    <div className="table-responsive" >
+                    <div className="table-responsive">
                         <table className="table table-hover ">
                             <thead>
                             <tr className="text-rose">
@@ -22,10 +27,8 @@ class ListChildDiscount extends React.Component {
                                 <th>Thời gian kết thúc</th>
                                 <th>Sử dụng cho</th>
                                 <th>Điều kiện khuyến mãi</th>
-                                <th>Số lần</th>
                                 <th>Mô tả</th>
-                                <th/>
-                                <th/>
+                                <th> Kích hoạt</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,18 +36,25 @@ class ListChildDiscount extends React.Component {
                                 (discount) => {
                                     return (
                                         <tr role="row" className="even" key={discount.id}>
-                                            <td><a className="text-name-student-register" rel="tooltip" title
-                                                   data-original-title="Remove item"
-                                                   onClick={() => {
-                                                       browserHistory.push('/good/discount/edit/' + discount.id);
-                                                   }}
-                                            >{discount.name}</a></td>
+                                            <td>
+                                                <a onClick={() => {
+                                                    browserHistory.push('/good/discount/edit/' + discount.id);
+                                                }}
+                                                >{discount.name}
+                                                </a>
+                                            </td>
                                             <td>{discount.type === 'code' ?
-                                                <button className="btn btn-xs btn-main btn-success">Mã khuyến
-                                                    mãi</button>
+                                                <span className="bootstrap-tagsinput" style={{width:165, display : "flex", justifyContent : "space-around"}}>
+                                                    <p className="text-name-student-register">Mã khuyến mãi</p>
+                                                    <button className="tag btn btn-info" style={{
+                                                        fontSize: 10,
+                                                        height : 20,
+                                                    }}>{discount.quantity === -1 ? "Vô số lần" : discount.quantity === null ? "Chưa điền" : discount.quantity + " lần"}
+                                                    </button>
+                                                </span>
+
                                                 :
-                                                <button className="btn btn-xs btn-main btn-info">Chương trình khuyến
-                                                    mãi</button>
+                                                <a className="text-name-student-register">Chương trình khuyến mãi</a>
                                             }</td>
                                             <td>{discount.start_time}</td>
                                             <td>{discount.end_time}</td>
@@ -86,7 +96,6 @@ class ListChildDiscount extends React.Component {
                                                 {discount.used_for === 'good' ?
                                                     discount.good.name ? 'Mặt hàng:' + discount.good.name : 'Chưa có' :
                                                     (
-
                                                         discount.used_for === 'category' ?
                                                             discount.category.name ? 'Danh mục: ' + discount.category.name : 'Chưa có' :
                                                             (
@@ -104,27 +113,29 @@ class ListChildDiscount extends React.Component {
                                                     )
                                                 }
                                             </td>
-                                            <td>{discount.quantity === -1 ? "Vô số lần" : discount.quantity === null ? "Chưa điền" : discount.quantity + " lần"}</td>
                                             <td>{discount.description}</td>
+                                            {/*<td>*/}
+                                            {/*<div className="btn-group-action">*/}
+                                            {/*<div style={{display: 'inline-block'}}>*/}
+                                            {/*<a onClick={() => {*/}
+                                            {/*browserHistory.push('/good/discount/edit/' + discount.id);*/}
+                                            {/*}}>*/}
+                                            {/*<i className="material-icons">edit</i>*/}
+                                            {/*</a></div>*/}
+                                            {/*</div>*/}
+                                            {/*</td>*/}
+
+
                                             <td>
-                                                <div className="btn-group-action">
-                                                    <div style={{display: 'inline-block'}}>
-                                                        <a onClick={() => {
-                                                            browserHistory.push('/good/discount/edit/' + discount.id);
-                                                        }}>
-                                                            <i className="material-icons">edit</i>
-                                                        </a></div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="btn-group-action">
-                                                    <div style={{display: 'inline-block'}}>
-                                                        <a onClick={() => this.props.deleteDiscount(discount.id, discount.name)}
-                                                        >
-                                                            <i className="material-icons">delete</i>
-                                                        </a>
-                                                    </div>
-                                                </div>
+
+                                                <Switch
+                                                    baseId={discount.id}
+                                                    onChange={() => this.handleSwitch(discount.id, discount.name)}
+                                                    bsSize="mini"
+                                                    onText="Bật" offText="Tắt"
+                                                    value={(discount.activate === 1)}
+                                                    disabled={(discount.activate === 0)}
+                                                />
                                             </td>
                                         </tr>
 

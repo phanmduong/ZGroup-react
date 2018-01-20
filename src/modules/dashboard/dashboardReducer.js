@@ -44,6 +44,7 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                 it: {
                     ...state.it,
                     isLoading: false,
+                    staffs: action.staffs,
                     dateArray: action.days,
                     cardsByDate: action.num_cards,
                     pointByDate: action.total_points

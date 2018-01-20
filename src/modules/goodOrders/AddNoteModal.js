@@ -31,7 +31,7 @@ class AddNoteModal extends React.Component {
                 <Modal.Body>
                     <div className="form-group">
                         <label className="control-label">Ghi chú</label>
-                        <input type="text" className="form-control"
+                        <textarea type="text" className="form-control"
                                value={this.props.orderNote.note ? this.props.orderNote.note : ''}
                                name="note"
                                onChange={this.handleNote}/>
