@@ -77,6 +77,18 @@ export const addSurveyLesson = (surveyId, lessonId, minutesDuration, minuteStart
     });
 };
 
+export const removeSurveyLesson = (surveyId, lessonId) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/lesson/${lessonId}?token=${token}`;
+    return axios.delete(url);
+};
+
+export const loadSurveyLessons = (surveyId) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/lesson?token=${token}`;
+    return axios.get(url);
+};
+
 
 export const updateQuestionOrders = (questions) => {
     const token = getToken();

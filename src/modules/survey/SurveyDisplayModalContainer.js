@@ -2,11 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
+import {Button, ControlLabel, FormControl, FormGroup, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Select from 'react-select';
 import * as surveyActions from '../survey/surveyActions';
 import {loadAllCourses} from "../marketingCampaign/marketingCampaignApi";
-import {addSurveyLesson} from "./surveyApi";
+import {addSurveyLesson, loadSurveyLessons, removeSurveyLesson} from "./surveyApi";
+import Loading from "../../components/common/Loading";
+import {showErrorMessage} from "../../helpers/helper";
 
 // Import actions here!!
 
@@ -17,8 +19,11 @@ class SurveyDisplayModalContainer extends React.Component {
             course: {},
             courses: [],
             lesson: {},
+            surveyLessons: [],
             minutesDuration: 0,
             minuteStart: 0,
+            isSavingSurveyLesson: false,
+            isLoadingSurveyLesson: true,
             isLoadingCourses: true
         };
         this.handleClose = this.handleClose.bind(this);
@@ -26,6 +31,8 @@ class SurveyDisplayModalContainer extends React.Component {
         this.handleChangeLesson = this.handleChangeLesson.bind(this);
         this.handleFormInput = this.handleFormInput.bind(this);
         this.saveSurveyLesson = this.saveSurveyLesson.bind(this);
+        this.removeSurveyLesson = this.removeSurveyLesson.bind(this);
+        this.loadSurveyLesson = this.loadSurveyLesson.bind(this);
     }
 
     async componentWillMount() {
@@ -41,10 +48,41 @@ class SurveyDisplayModalContainer extends React.Component {
             }),
             isLoadingCourses: false
         });
+        this.loadSurveyLesson();
+
     }
 
-    saveSurveyLesson() {
-        addSurveyLesson(this.props.survey.id, this.state.lesson.value, this.state.minutesDuration, this.state.minuteStart);
+    async loadSurveyLesson() {
+        this.setState({
+            isLoadingSurveyLesson: true
+        });
+        const surveyLessonRes = await loadSurveyLessons(this.props.survey.id);
+        this.setState({
+            surveyLessons: surveyLessonRes.data.data.survey_lessons,
+            isLoadingSurveyLesson: false
+        });
+    }
+
+    async saveSurveyLesson() {
+        this.setState({
+            isSavingSurveyLesson: true
+        });
+        const res = await addSurveyLesson(
+            this.props.survey.id,
+            this.state.lesson.value,
+            this.state.minutesDuration,
+            this.state.minuteStart
+        );
+        this.setState({
+            isSavingSurveyLesson: false,
+            course: {},
+            lesson: {}
+        });
+        if (res.data.status === 0) {
+            showErrorMessage("Lỗi", res.data.message);
+        } else {
+            this.loadSurveyLesson();
+        }
     }
 
     handleClose() {
@@ -68,6 +106,13 @@ class SurveyDisplayModalContainer extends React.Component {
         this.setState(state);
     }
 
+    removeSurveyLesson(lessonId) {
+        removeSurveyLesson(this.props.survey.id, lessonId);
+        this.setState({
+            surveyLessons: this.state.surveyLessons.filter((surveyLesson) => surveyLesson.lesson_id !== lessonId)
+        });
+    }
+
     render() {
         return (
             <Modal show={this.props.showDisplaySettingModal} onHide={this.handleClose}>
@@ -75,7 +120,7 @@ class SurveyDisplayModalContainer extends React.Component {
                     <Modal.Title>Cài đặt hiển thị</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormGroup>
+                    <FormGroup style={{marginTop: 0}}>
                         <ControlLabel>Môn học hiển thị</ControlLabel>
                         <Select
                             name="course"
@@ -95,7 +140,7 @@ class SurveyDisplayModalContainer extends React.Component {
                                         options={this.state.course.lessons.map((lesson) => {
                                             return {
                                                 value: lesson.id,
-                                                label: lesson.name
+                                                label: "Buổi " + lesson.order + ": " + lesson.name
                                             };
                                         })}
                                         value={this.state.lesson}
@@ -123,17 +168,76 @@ class SurveyDisplayModalContainer extends React.Component {
                                         onChange={this.handleFormInput}
                                     />
                                 </FormGroup>
+                                <Button
+                                    disabled={
+                                        this.state.isSavingSurveyLesson ||
+                                        this.state.course === {} || this.state.lesson === {} || !this.state.minutesDuration
+                                    }
+                                    className="btn btn-rose" onClick={this.saveSurveyLesson}>
+                                    {
+                                        this.state.isSavingSurveyLesson &&
+                                        <i className="fa fa-spinner fa-spin disabled"/>
+                                    }
+                                    {" "}Thêm
+                                </Button>
+                            </div>
+                        )
+                    }
+                    {
+                        this.state.isLoadingSurveyLesson ? <Loading/> : (
+                            <div className="table-responsive">
+                                <table className="table">
+                                    <thead className="text-rose">
+                                    <tr>
+                                        <th/>
+                                        <th>Môn học</th>
+                                        <th>Buổi</th>
+                                        <th>Hiển thị lúc</th>
+                                        <th>Thời gian hiển thị</th>
+                                        <th/>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {
+                                        this.state.surveyLessons.map((surveyLesson, index) => {
+                                            const tooltip = (
+                                                <Tooltip id="tooltip">
+                                                    {surveyLesson.lesson.name}
+                                                </Tooltip>
+                                            );
+                                            return (
+                                                <tr key={index}>
+                                                    <td>
+                                                        <img className="image-class-attendance-class-dashboard"
+                                                             src={surveyLesson.course.icon_url}/>
+                                                    </td>
+                                                    <td className="text-rose">
+                                                        <OverlayTrigger placement="top" overlay={tooltip}>
+                                                            <div>
+                                                                Buổi {surveyLesson.lesson.order}
+                                                            </div>
+                                                        </OverlayTrigger>
+                                                    </td>
+                                                    <td>{surveyLesson.course.name}</td>
+                                                    <td><strong>Phút {surveyLesson.start_time_display}</strong></td>
+                                                    <td><strong>{surveyLesson.time_display} phút</strong></td>
+                                                    <td>
+                                                        <a style={{color:"#575757"}}
+                                                           onClick={() => this.removeSurveyLesson(surveyLesson.lesson_id)}>&times;</a>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })
+                                    }
+
+
+                                    </tbody>
+                                </table>
                             </div>
                         )
                     }
 
-
                     <Modal.Footer>
-                        <Button
-                            disabled={
-                                this.state.course === {} || this.state.lesson === {} || !this.state.minutesDuration
-                            }
-                            className="btn btn-rose" onClick={this.handleClose}>Thêm</Button>
                         <Button onClick={this.handleClose}>Close</Button>
                     </Modal.Footer>
                 </Modal.Body>
