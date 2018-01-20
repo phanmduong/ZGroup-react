@@ -6,6 +6,8 @@ import ReactEditor from '../../components/common/ReactEditor';
 import * as helper from '../../helpers/helper';
 import {NO_IMAGE} from '../../constants/env';
 import PropTypes from 'prop-types';
+import TooltipButton from '../../components/common/TooltipButton';
+
 
 class StorePostComponent extends React.Component {
     constructor(props, context) {
@@ -28,7 +30,9 @@ class StorePostComponent extends React.Component {
                 <div className="row">
 
 
-                    {/*<div className="col-md-4">*/}
+                    <form role="form"
+                          id="form-post">
+
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">announcement</i>
@@ -40,71 +44,85 @@ class StorePostComponent extends React.Component {
 
 
                                     <div className="col-md-4">
-                                        <img
-                                            src={helper.isEmptyInput(imageUrl) ?
-                                                NO_IMAGE : imageUrl
-                                            }/>
+                                        {isUpdatingImage ?
+                                            <Loading/>
+                                            :
+                                            <TooltipButton text="Chọn ảnh đại diện" placement="top">
+                                                <a type="button">
+                                                    <img
+                                                        src={helper.isEmptyInput(imageUrl) ?
+                                                            NO_IMAGE : imageUrl
+                                                        }/>
+                                                    <input type="file"
+                                                           accept=".jpg,.png,.gif"
+                                                           onChange={this.props.handleFileUpload}
+                                                           style={{
+                                                               cursor: 'pointer',
+                                                               opacity: "0.0",
+                                                               position: "absolute",
+                                                               top: 0,
+                                                               left: 0,
+                                                               bottom: 0,
+                                                               right: 0,
+                                                               width: "100%",
+                                                               height: "100%"
+                                                           }}
+                                                    />
+                                                </a>
+                                            </TooltipButton>
+
+                                        }
                                     </div>
 
 
                                     <div className="col-md-8">
 
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                {isUpdatingImage ?
-                                                    (
-                                                        <button className="btn btn-rose btn-round disabled"
-                                                                type="button">
-                                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                        </button>
-                                                    )
-                                                    :
-                                                    (
-                                                        <button className="btn btn-fill btn-rose" type="button">
-                                                            Chọn ảnh đại diện
-                                                            <input type="file"
-                                                                   accept=".jpg,.png,.gif"
-                                                                   onChange={this.props.handleFileUpload}
-                                                                   style={{
-                                                                       cursor: 'pointer',
-                                                                       opacity: "0.0",
-                                                                       position: "absolute",
-                                                                       top: 0,
-                                                                       left: 0,
-                                                                       bottom: 0,
-                                                                       right: 0,
-                                                                       width: "100%",
-                                                                       height: "100%"
-                                                                   }}
-                                                            />
-                                                        </button>
-                                                    )
-                                                }
-                                            </div>
-                                            <div className="col-md-3">
+                                        {/*<div className="row">*/}
+                                            {/*<div className="col-md-3">*/}
 
-                                                {isSaving ?
-                                                    (
-                                                        <button className="btn btn-fill btn-rose disabled"
-                                                                type="button">
-                                                            <i className="fa fa-spinner fa-spin "/> Đang cập nhật
-                                                        </button>
-                                                    )
-                                                    :
-                                                    (
-                                                        <button
-                                                            className="btn btn-fill btn-rose"
-                                                            type="button"
-                                                            onClick={this.props.savePost}
-                                                        >
-                                                            Cập nhật
-                                                        </button>
-                                                    )
+                                                {/*{isSaving ?*/}
+                                                    {/*(*/}
+                                                        {/*<button className="btn btn-fill btn-rose disabled"*/}
+                                                                {/*type="button">*/}
+                                                            {/*<i className="fa fa-spinner fa-spin "/> Đang cập nhật*/}
+                                                        {/*</button>*/}
+                                                    {/*)*/}
+                                                    {/*:*/}
+                                                    {/*(*/}
+                                                        {/*<button*/}
+                                                            {/*className="btn btn-fill btn-rose"*/}
+                                                            {/*type="button"*/}
+                                                            {/*onClick={this.props.savePost}*/}
+                                                        {/*>*/}
+                                                            {/*Cập nhật*/}
+                                                        {/*</button>*/}
+                                                    {/*)*/}
 
-                                                }
-                                            </div>
-                                        </div>
+                                                {/*}*/}
+                                            {/*</div>*/}
+                                        {/*</div>*/}
 
+
+
+
+
+                                                <FormInputText
+                                                    label="Tên bài viết"
+                                                    required
+                                                    name="title"
+                                                    updateFormData={this.props.updateFormPostData}
+                                                    value={title}
+                                                />
+
+
+                                                <FormInputText
+                                                    height="100%"
+                                                    label="Mô tả ngắn"
+                                                    required
+                                                    name="description"
+                                                    updateFormData={this.props.updateFormPostData}
+                                                    value={description}
+                                                />
 
                                         <div className="form-group"><label>Nhóm bài viết</label>
                                             <div className="row">
@@ -134,6 +152,9 @@ class StorePostComponent extends React.Component {
                                                     >
                                                         <i className="material-icons">control_point</i>
                                                     </button>
+
+
+
                                                     <div className="modal fade" id="addCategoryModal"
                                                          role="dialog" aria-labelledby="myModalLabel"
                                                          aria-hidden="true">
@@ -212,8 +233,6 @@ class StorePostComponent extends React.Component {
                         </div>
                     </div>
 
-                    {/*</div>*/}
-
 
                     {/*<div className="col-md-8">*/}
                     <div className="card">
@@ -223,45 +242,8 @@ class StorePostComponent extends React.Component {
                             <h4 className="card-title">Viết bài</h4>
                             {this.props.isLoadingPost ? <Loading/>
                                 :
-                                <form role="form"
-                                      id="form-post">
-                                    <div className="row">
-                                        <div className="col-md-5">
-                                            <FormInputText
-                                                label="Tên bài viết"
-                                                required
-                                                name="title"
-                                                updateFormData={this.props.updateFormPostData}
-                                                value={title}
-                                            />
-                                        </div>
 
-
-                                        <div className="col-md-7 " id="form-input-title">
-                                            {/*<div className="form-group label-floating">*/}
-                                            {/*<label className="control-label"/>Mô tả ngắn*/}
-                                            {/*<star style={{color: "red"}}>*</star>*/}
-                                            {/*<input*/}
-                                            {/*height= "40%"*/}
-                                            {/*className="form-control"*/}
-                                            {/*name="description"*/}
-                                            {/*value={description}*/}
-                                            {/*onChange={(e) => this.updateFormPostData(e)}*/}
-                                            {/*/>*/}
-                                            {/*</div>*/}
-                                            <FormInputText
-                                                height="100%"
-                                                label="Mô tả ngắn"
-                                                required
-                                                name="description"
-                                                updateFormData={this.props.updateFormPostData}
-                                                value={description}
-                                            />
-                                        </div>
-                                    </div>
-
-
-
+                               <div>
 
                                     <ReactEditor
                                         urlPost={linkUploadImageEditor()}
@@ -270,7 +252,7 @@ class StorePostComponent extends React.Component {
                                         value={content}
                                     />
 
-                                    <div style={{display : "flex", justifyContent : "flex-end", marginTop : 40}} >
+                                    <div style={{display: "flex", justifyContent: "flex-end", marginTop: 40}}>
                                         {isPreSaving ?
                                             (
                                                 <button className="btn btn-fill btn-default"
@@ -310,16 +292,14 @@ class StorePostComponent extends React.Component {
 
                                         }
                                     </div>
-                                </form>
+                               </div>
                             }
 
 
                         </div>
                     </div>
+                    </form>
                 </div>
-
-
-                {/*</div>*/}
             </div>
         );
     }
