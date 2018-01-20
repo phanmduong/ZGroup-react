@@ -36,7 +36,15 @@ class Survey extends Model
             'id' => $this->id,
             'name' => $this->name,
             'staff' => $this->user ? $this->user->getData() : null,
-            "questions_count" => $this->questions()->count()
+            "questions_count" => $this->questions()->count(),
+            "survey_lessons" => $this->lessons->map(function ($lesson) {
+                $course = $lesson->course;
+                return [
+                    "lesson_id" => $lesson->id,
+                    "course" => $course->shortTransform(),
+                    "lesson" => $lesson->shortTransform()
+                ];
+            })
         ];
     }
 
