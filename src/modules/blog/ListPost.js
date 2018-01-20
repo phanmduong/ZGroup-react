@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
-import {Link} from 'react-router';
+// import {Link} from 'react-router';
 
 import Switch from 'react-bootstrap-switch';
 import Avatar from '../../components/common/Avatar';
@@ -11,12 +11,15 @@ import {browserHistory} from 'react-router';
 class ListPost extends React.Component {
     constructor(props, context) {
         super(props, context);
+
         this.handleSwitch = this.handleSwitch.bind(this);
+
     }
 
     handleSwitch(id, status, name) {
         this.props.handleSwitch(id, status, name);
     }
+
 
     render() {
         return (
@@ -73,8 +76,9 @@ class ListPost extends React.Component {
                                     <div className="card-content">
                                         <div className="card-action" style={{height:73}}>
                                             <h4 className="card-title">
-                                                <Link
-                                                    to={"blog/post/" + post.id + "/edit"}>{post.title ? post.title : "Chưa có tên"}</Link>
+                                                {/*<Link*/}
+                                                    {/*to={"blog/post/" + post.id + "/edit"}>{post.title ? post.title : "Chưa có tên"}</Link>*/}
+                                                <a onClick={()=>{this.props.openModal(true, post.id);}}>{post.title ? post.title : "Chưa có tên"}</a>
                                             </h4>
                                             <ButtonGroupAction
                                                 editUrl={"blog/post/" + post.id + "/edit"}
@@ -83,6 +87,7 @@ class ListPost extends React.Component {
                                                 disabledEdit
                                             />
                                         </div>
+
 
 
 
@@ -124,6 +129,8 @@ class ListPost extends React.Component {
 
 
 
+
+
             </div>
         );
     }
@@ -132,6 +139,7 @@ class ListPost extends React.Component {
 ListPost.propTypes = {
     posts: PropTypes.array.isRequired,
     deletePost: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     handleSwitch: PropTypes.func.isRequired,
     loadByCategories: PropTypes.func.isRequired,
     loadPosts: PropTypes.func,

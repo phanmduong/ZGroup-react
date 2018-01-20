@@ -16,6 +16,11 @@ import Select from "./Select";
 
 // import Select from '../../components/common/Select';
 
+import {Modal} from 'react-bootstrap';
+
+
+import StorePostModal from "./StorePostModal";
+
 
 class BlogsContainer extends React.Component {
     constructor(props, context) {
@@ -31,19 +36,31 @@ class BlogsContainer extends React.Component {
             query: "",
             category_id: 0,
 
+
+            isOpenModal : false,
+            postId : 0,
+            isEdit : false,
         };
-        console.log(this.state.category_id,"ASDFGHJK");
         this.timeOut = null;
+        this.closeModal = this.closeModal.bind(this);
+        this.openModal = this.openModal.bind(this);
     }
+
+
 
     componentWillMount() {
-
+        this.props.blogActions.getCategories();
         this.loadPosts(1);
+
     }
 
-    // loadCategories() {
-    //     this.props.blogActions.loadCategories();
-    // }
+    openModal(isEdit ,postId ){
+        this.setState({isOpenModal : true,postId :postId , isEdit : isEdit});
+    }
+
+    closeModal(){
+        this.setState({isOpenModal : false});
+    }
 
     deletePost(post) {
         helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá bài viết này",
@@ -81,9 +98,7 @@ class BlogsContainer extends React.Component {
     }
 
     loadByCategories(category_id){
-        console.log(category_id,"QWERTYUIO");
         this.setState({category_id});
-        // this.loadPosts(1,category_id);
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
@@ -98,64 +113,119 @@ class BlogsContainer extends React.Component {
                 <div className="container-fluid">
 
 
-                    <div className="card">
+                    {this.props.isLoadingCategories || this.props.isLoading ?
+                        <Loading/>
+                        :
+                        <div className="card">
 
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
-                        <div className="card-content">
-                            <h4 className="card-title">Danh sách bài viết</h4>
-
-                            <div style={{marginTop: "15px"}}>
-                                <Link to="/blog/new-post" className="btn btn-rose">
-                                    Tạo bài viết
-                                </Link>
+                            <div className="card-header card-header-icon" data-background-color="rose">
+                                <i className="material-icons">assignment</i>
                             </div>
 
+                            <div className="card-content">
+                                <h4 className="card-title">Danh sách bài viết</h4>
 
-                            <div style={{display: "flex"}}>
-                                <div style={{width: "80%", marginLeft: 30}}>
-                                    <Search
-                                        onChange={this.postsSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm tiêu đề"
-                                    />
+                                <div style={{marginTop: "15px"}}>
+                                    {/*<Link to="/blog/new-post" className="btn btn-rose">*/}
+                                    <a onClick={()=> this.openModal(false)}
+                                       className="btn btn-rose"
+                                    >
+                                        Tạo bài viết
+                                    </a>
+                                    {/*</Link>*/}
                                 </div>
-                                <Select
-                                    category_id ={this.state.category_id}
-                                loadByCategory={this.loadByCategories}
-                                // categoriesList = {this.props.categoriesList}
-                                />
 
 
-                                {this.props.categoriesList.map((item) => {
-                                    return (
-                                        <p>{item.name}</p>  );
-                                })}
+                                <div style={{display: "flex"}}>
+                                    <div style={{width: "80%", marginLeft: 30}}>
+                                        <Search
+                                            onChange={this.postsSearchChange}
+                                            value={this.state.query}
+                                            placeholder="Tìm kiếm tiêu đề"
+                                        />
+                                    </div>
 
+                                            <Select
+                                                category_id ={this.state.category_id}
+                                                loadByCategory={this.loadByCategories}
+                                                catetrugoriesList = {this.props.categoriesList}
+                                            />
+
+
+                                </div>
+
+                                    <ListPost
+                                        openModal = {this.openModal}
+                                        handleSwitch={this.handleSwitch}
+                                        deletePost={this.deletePost}
+                                        posts={this.props.posts}
+                                        loadPosts={this.loadPosts}
+                                        loadByCategories = {this.loadByCategories}
+                                    />
                             </div>
 
-                            {this.props.isLoading ? <Loading/> :
-                                <ListPost
-                                    handleSwitch={this.handleSwitch}
-                                    deletePost={this.deletePost}
-                                    posts={this.props.posts}
-                                    loadPosts={this.loadPosts}
-                                    loadByCategories = {this.loadByCategories}
+                            <div className="card-content">
+                                <Pagination
+                                    totalPages={this.props.totalPages}
+                                    currentPage={this.state.page}
+                                    loadDataPage={this.loadPosts}
                                 />
-                            }
+                            </div>
                         </div>
 
-                        <div className="card-content">
-                            <Pagination
-                                totalPages={this.props.totalPages}
-                                currentPage={this.state.page}
-                                loadDataPage={this.loadPosts}
-                            />
-                        </div>
-                    </div>
+                    }
 
+
+                    <Modal show={this.state.isOpenModal} bsSize="lg" bsStyle="primary" onHide={this.closeModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>
+                                <strong>Bài viết</strong>
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                                <form id="form-add-customer" onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}>
+                                    <StorePostModal
+                                        postId = {this.state.postId}
+                                        isEdit = {this.state.isEdit}
+                                    />
+
+                                    <div className="row">
+                                        <div className="col-md-8"/>
+                                        {/*<div className="col-md-4">*/}
+                                        {/*{this.props.isSaving ?*/}
+                                        {/*(*/}
+                                        {/*<button*/}
+                                        {/*className="btn btn-sm btn-success disabled"*/}
+                                        {/*>*/}
+                                        {/*<i className="fa fa-spinner fa-spin"/>*/}
+                                        {/*{!this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật'}*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*:*/}
+                                        {/*(*/}
+                                        {/*<button className="btn btn-success btn-sm"*/}
+                                        {/*onClick={(e) => {*/}
+                                        {/*this.activeModal(e);*/}
+                                        {/*}}>*/}
+                                        {/*<i className="material-icons">save</i>*/}
+                                        {/*{this.state.isEdit ? 'Cập nhật' : 'Thêm'}*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*}*/}
+
+                                        {/*<button className="btn btn-sm btn-danger"*/}
+                                        {/*onClick={this.closeAddModal}*/}
+                                        {/*>*/}
+                                        {/*<i className="material-icons">cancel</i> Huỷ*/}
+                                        {/*</button>*/}
+                                        {/*</div>*/}
+                                    </div>
+
+                                </form>
+                        </Modal.Body>
+                    </Modal>
 
                 </div>
             </div>
@@ -165,6 +235,7 @@ class BlogsContainer extends React.Component {
 
 BlogsContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isLoadingCategories: PropTypes.bool.isRequired,
     posts: PropTypes.array.isRequired,
     categoriesList: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
@@ -177,6 +248,7 @@ function mapStateToProps(state) {
     return {
         posts: state.blog.posts,
         isLoading: state.blog.isLoading,
+        isLoadingCategories: state.blog.isLoadingCategories,
         totalPages: state.blog.totalPages,
         currentPage: state.blog.currentPage,
         categories: state.blog.categories.categories,

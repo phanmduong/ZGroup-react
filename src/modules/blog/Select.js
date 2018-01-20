@@ -8,20 +8,19 @@ import * as blogActions from './blogActions';
 class Select extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.timeOut = null;
-        // console.log(this.props.categoriesList, "SSSSSSSSSSS");
     }
 
-    componentWillMount(){
-        this.props.blogActions.getCategories();
-    }
+    // componentWillMount(){
+    //     this.props.blogActions.getCategories();
+    // }
 
-    componentDidMount() {
+    componentDidUpdate() {
         $('.selectpicker').selectpicker();
     }
     render(){
         return(
             <div style={{marginTop: 5, marginLeft: -3}}>
+
                 <select
                     value={this.props.category_id}
                     onChange={(event) => this.props.loadByCategory(event.target.value)}
@@ -29,19 +28,23 @@ class Select extends React.Component {
                     data-style="btn btn-rose">
                     <option selected disabled value={-1}>{"Chọn theo nhóm"}
                     </option>
-                    <option value={0}>{"Tất cả"}
+                    <option
+                        style={{display :"flex"}}
+                        value={0}>{"Tất cả "}
                     </option>
+                    {
+                        this.props.categoriesList &&
+                        this.props.categoriesList.map((item, key) => {
+                            return (
+                                <option
+                                    style={{display :"flex"}}
+                                    key={key}
+                                    value={item.id}
+                                >
+                                    { item.name + " "}
+                                </option>);
+                        })}
 
-                    {this.props.categoriesList !== null && this.props.categoriesList !== undefined&&
-                    this.props.categoriesList.map((item, key) => {
-                        return (
-                            <option
-                                key={key}
-                                value={item.id}
-                            >
-                                { item.name}
-                            </option>);
-                    })}
                 </select>
             </div>
         );

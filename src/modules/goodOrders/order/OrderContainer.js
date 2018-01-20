@@ -144,6 +144,42 @@ class OrderContainer extends React.Component {
 
 
     render() {
+        const ORDER_STATUS_UP = [
+            {
+                order: 0,
+                label: "Đặt hàng",
+                value: "place_order"
+            },
+            {
+                order: 1,
+                label: "Chưa gọi",
+                value: "not_reach"
+            },
+
+        ];
+        const ORDER_STATUS_DOWN=[
+            {
+                order: 2,
+                label: "Xác nhận",
+                value: "confirm_order"
+            },
+            {
+                order: 3,
+                label: "Giao hàng",
+                value: "ship_order"
+            },
+            {
+                order: 4,
+                label: "Hoàn thành",
+                value: "completed_order"
+            },
+            {
+                order: 5,
+                label: "Hủy",
+                value: "cancel"
+            }
+        ];
+        const  user = JSON.parse(localStorage.getItem('user'));
         return (
             <div>
                 <div className="row">
@@ -216,11 +252,11 @@ class OrderContainer extends React.Component {
                                             </div>
                                         </div>
 
-                                        <div className="col-md-4" style={{marginTop: 34, display:"flex"}}>
+                                        <div className="col-md-4" style={{marginTop: 34, display: "flex"}}>
                                             <TooltipButton text="Load lại hàng trả lại" placement="top"
                                             >
                                                 <button className="btn btn-md btn-info"
-                                                        style={{height: 36,display:"flex"}}
+                                                        style={{height: 36, display: "flex"}}
                                                         onClick={() => {
                                                             this.resetReturnOrders();
                                                         }}
@@ -234,13 +270,13 @@ class OrderContainer extends React.Component {
                                                 {this.props.isSavingReturnOrders ?
                                                     <button
                                                         className="btn btn-md btn-success disabled"
-                                                        style={{height: 36,display:"flex"}}
+                                                        style={{height: 36, display: "flex"}}
                                                     >
                                                         <i className="fa fa-spinner fa-spin"/>
                                                     </button>
                                                     :
                                                     <button className="btn btn-md btn-success"
-                                                            style={{height: 36,display:"flex"}}
+                                                            style={{height: 36, display: "flex"}}
 
                                                             onClick={(e) => {
                                                                 this.editReturnOrders(e);
@@ -302,6 +338,9 @@ class OrderContainer extends React.Component {
                                                 value={this.props.order.order.payment ? this.props.order.order.payment : ''}
                                                 disabled
                                             />
+
+
+
                                             <ReactSelect
                                                 name="form-field-name"
                                                 options={ORDER_STATUS}
@@ -309,6 +348,10 @@ class OrderContainer extends React.Component {
                                                 placeholder="Chọn trạng thái"
                                                 onChange={this.changeStatusOrder}
                                             />
+
+
+
+
                                             <div className="form-group">
                                                 <label className="control-label"/>Ghi chú
                                                 <textarea

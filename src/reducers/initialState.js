@@ -581,7 +581,7 @@ export default {
         posts: [],
         categoriesList :[
         ],
-        isLoadingCategories : false,
+        isLoadingCategories : true,
         isLoadingPost: false,
         errorPost: false,
     },

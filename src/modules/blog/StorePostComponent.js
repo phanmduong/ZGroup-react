@@ -26,122 +26,86 @@ class StorePostComponent extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose"><i
-                                className="material-icons">bookmark</i></div>
-                            <div className="card-content">
-                                <h4 className="card-title">Viết bài</h4>
-                                {this.props.isLoadingPost ? <Loading/>
-                                    :
-                                    <form role="form"
-                                          id="form-post">
-                                        <FormInputText
-                                            label="Tên bài viết"
-                                            required
-                                            name="title"
-                                            updateFormData={this.props.updateFormPostData}
-                                            value={title}
-                                        />
-                                        <FormInputText
-                                            label="Mô tả ngắn"
-                                            required
-                                            name="description"
-                                            updateFormData={this.props.updateFormPostData}
-                                            value={description}
-                                        />
-                                        <ReactEditor
-                                            urlPost={linkUploadImageEditor()}
-                                            fileField="image"
-                                            updateEditor={this.props.updateEditor}
-                                            value={content}
-                                        />
-                                        {isPreSaving ?
-                                            (
-                                                <button className="btn btn-fill btn-default"
-                                                        type="button">
-                                                    <i className="fa fa-spinner fa-spin disabled"/> Đang tạo bài viết
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button
-                                                    className="btn btn-fill btn-default"
-                                                    type="button"
-                                                    onClick={this.props.preSavePost}
-                                                >
-                                                    Xem thử
-                                                </button>
-                                            )
-
-                                        }
-                                        {isSaving ?
-                                            (
-                                                <button className="btn btn-fill btn-rose"
-                                                        type="button">
-                                                    <i className="fa fa-spinner fa-spin disabled"/> Đang đăng bài
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button
-                                                    className="btn btn-fill btn-rose"
-                                                    type="button"
-                                                    onClick={this.props.savePost}
-                                                >
-                                                    Đăng bài
-                                                </button>
-                                            )
-
-                                        }
-                                    </form>
-                                }
 
 
-                            </div>
+                    {/*<div className="col-md-4">*/}
+                    <div className="card">
+                        <div className="card-header card-header-icon" data-background-color="rose">
+                            <i className="material-icons">announcement</i>
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose">
-                                <i className="material-icons">announcement</i>
-                            </div>
-                            <div className="card-content"><h4 className="card-title">Thông tin về bài viết </h4>
-                                {this.props.isLoadingPost ? <Loading/>
-                                    :
-                                    <div>
+                        <div className="card-content"><h4 className="card-title">Thông tin về bài viết </h4>
+                            {this.props.isLoadingPost ? <Loading/>
+                                :
+                                <div className="row">
+
+
+                                    <div className="col-md-4">
                                         <img
                                             src={helper.isEmptyInput(imageUrl) ?
                                                 NO_IMAGE : imageUrl
                                             }/>
-                                        {isUpdatingImage ?
-                                            (
-                                                <button className="btn btn-rose btn-round disabled" type="button">
-                                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-fill btn-rose" type="button">
-                                                    Chọn ảnh đại diện
-                                                    <input type="file"
-                                                           accept=".jpg,.png,.gif"
-                                                           onChange={this.props.handleFileUpload}
-                                                           style={{
-                                                               cursor: 'pointer',
-                                                               opacity: "0.0",
-                                                               position: "absolute",
-                                                               top: 0,
-                                                               left: 0,
-                                                               bottom: 0,
-                                                               right: 0,
-                                                               width: "100%",
-                                                               height: "100%"
-                                                           }}
-                                                    />
-                                                </button>
-                                            )
-                                        }
+                                    </div>
+
+
+                                    <div className="col-md-8">
+
+                                        <div className="row">
+                                            <div className="col-md-4">
+                                                {isUpdatingImage ?
+                                                    (
+                                                        <button className="btn btn-rose btn-round disabled"
+                                                                type="button">
+                                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                        </button>
+                                                    )
+                                                    :
+                                                    (
+                                                        <button className="btn btn-fill btn-rose" type="button">
+                                                            Chọn ảnh đại diện
+                                                            <input type="file"
+                                                                   accept=".jpg,.png,.gif"
+                                                                   onChange={this.props.handleFileUpload}
+                                                                   style={{
+                                                                       cursor: 'pointer',
+                                                                       opacity: "0.0",
+                                                                       position: "absolute",
+                                                                       top: 0,
+                                                                       left: 0,
+                                                                       bottom: 0,
+                                                                       right: 0,
+                                                                       width: "100%",
+                                                                       height: "100%"
+                                                                   }}
+                                                            />
+                                                        </button>
+                                                    )
+                                                }
+                                            </div>
+                                            <div className="col-md-3">
+
+                                                {isSaving ?
+                                                    (
+                                                        <button className="btn btn-fill btn-rose disabled"
+                                                                type="button">
+                                                            <i className="fa fa-spinner fa-spin "/> Đang cập nhật
+                                                        </button>
+                                                    )
+                                                    :
+                                                    (
+                                                        <button
+                                                            className="btn btn-fill btn-rose"
+                                                            type="button"
+                                                            onClick={this.props.savePost}
+                                                        >
+                                                            Cập nhật
+                                                        </button>
+                                                    )
+
+                                                }
+                                            </div>
+                                        </div>
+
+
                                         <div className="form-group"><label>Nhóm bài viết</label>
                                             <div className="row">
                                                 <div className="col-md-9">
@@ -226,6 +190,8 @@ class StorePostComponent extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
+
+
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <input type="text" className="tagsinput" data-role="tagsinput"
@@ -237,10 +203,98 @@ class StorePostComponent extends React.Component {
                                                 />
                                             </div>
                                         </div>
+
+
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    {/*</div>*/}
+
+
+                    {/*<div className="col-md-8">*/}
+                    <div className="card">
+                        <div className="card-header card-header-icon" data-background-color="rose"><i
+                            className="material-icons">bookmark</i></div>
+                        <div className="card-content">
+                            <h4 className="card-title">Viết bài</h4>
+                            {this.props.isLoadingPost ? <Loading/>
+                                :
+                                <form role="form"
+                                      id="form-post">
+                                    <div className="row">
+                                        <div className="col-md-5">
+                                            <FormInputText
+                                                label="Tên bài viết"
+                                                required
+                                                name="title"
+                                                updateFormData={this.props.updateFormPostData}
+                                                value={title}
+                                            />
+                                        </div>
+
+
+                                        <div className="col-md-7 " id="form-input-title">
+                                            {/*<div className="form-group label-floating">*/}
+                                            {/*<label className="control-label"/>Mô tả ngắn*/}
+                                            {/*<star style={{color: "red"}}>*</star>*/}
+                                            {/*<input*/}
+                                            {/*height= "40%"*/}
+                                            {/*className="form-control"*/}
+                                            {/*name="description"*/}
+                                            {/*value={description}*/}
+                                            {/*onChange={(e) => this.updateFormPostData(e)}*/}
+                                            {/*/>*/}
+                                            {/*</div>*/}
+                                            <FormInputText
+                                                height="100%"
+                                                label="Mô tả ngắn"
+                                                required
+                                                name="description"
+                                                updateFormData={this.props.updateFormPostData}
+                                                value={description}
+                                            />
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <ReactEditor
+                                        urlPost={linkUploadImageEditor()}
+                                        fileField="image"
+                                        updateEditor={this.props.updateEditor}
+                                        value={content}
+                                    />
+
+                                    <div style={{display : "flex", justifyContent : "flex-end", marginTop : 40}} >
+                                        {isPreSaving ?
+                                            (
+                                                <button className="btn btn-fill btn-default"
+                                                        type="button">
+                                                    <i className="fa fa-spinner fa-spin disabled"/> Đang tạo bài viết
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button
+                                                    className="btn btn-fill btn-default"
+                                                    type="button"
+                                                    onClick={this.props.preSavePost}
+                                                >
+                                                    Xem thử
+                                                </button>
+                                            )
+
+                                        }
                                         {isSaving ?
                                             (
-                                                <button className="btn btn-fill btn-rose disabled" type="button">
-                                                    <i className="fa fa-spinner fa-spin "/> Đang cập nhật
+                                                <button className="btn btn-fill btn-rose"
+                                                        type="button">
+                                                    <i className="fa fa-spinner fa-spin disabled"/> Đang đăng bài
                                                 </button>
                                             )
                                             :
@@ -250,17 +304,22 @@ class StorePostComponent extends React.Component {
                                                     type="button"
                                                     onClick={this.props.savePost}
                                                 >
-                                                    Cập nhật
+                                                    Đăng bài
                                                 </button>
                                             )
 
                                         }
                                     </div>
-                                }
-                            </div>
+                                </form>
+                            }
+
+
                         </div>
                     </div>
                 </div>
+
+
+                {/*</div>*/}
             </div>
         );
     }
