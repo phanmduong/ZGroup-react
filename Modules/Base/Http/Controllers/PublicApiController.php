@@ -4,6 +4,7 @@ namespace Modules\Base\Http\Controllers;
 
 use App\Base;
 use App\Http\Controllers\NoAuthApiController;
+use App\Product;
 use Illuminate\Http\Request;
 
 class PublicApiController extends NoAuthApiController
@@ -29,7 +30,7 @@ class PublicApiController extends NoAuthApiController
         })]);
     }
 
-    public function getDetailBlog()
+    public function getDetailBlog($id)
     {
         $product = Product::find($id);
         if ($product == null) {
