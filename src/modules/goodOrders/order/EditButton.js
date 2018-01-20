@@ -51,7 +51,7 @@ class EditButton extends React.Component {
                     return;
                 }
                 else {
-                    this.props.goodOrderActions.editReturnOrders(this.props.order, this.props.params.orderId, false);
+                    this.props.goodOrderActions.editReturnOrders(this.props.order, this.props.orderId, true, this.props.index);
                 }
                 e.preventDefault();
             }
@@ -80,55 +80,44 @@ class EditButton extends React.Component {
             <td style={{width: 120, display: "flex", justifyContent: "space-around"}}>
                 {this.state.isEdit ?
                     (
-                        this.props.isReturnOrders ?
                             <input type="number" name="quantity" value={goodOrder.quantity}
                                    className="form-control"
                                    style={{width: 40}}
-                                   onChange={(e) => {
-                                       this.props.updateQuantity(e.target.value, index);
-                                   }}
-                                   max={this.props.order.order.good_orders[index].quantity}
-                                   min={0}
-                            />
-                            :
-                            <input type="number" name="quantity" value={goodOrder.quantity}
-                                   className="form-control"
-                                   style={{width: 40}}
-                                   onChange={(e) => {
-                                       this.props.updateQuantity(e.target.value, index);
-                                   }}
+                                   onChange={(e) => {this.props.updateQuantity(e.target.value, index);}}
+                                   max={this.props.isReturnOrders && this.props.order.order.good_orders[index].quantity}
                                    min={0}
                             />
                     )
                     :
                     goodOrder.quantity
                 }
+
+
                 <span>
-
                      {
-                         this.props.isReturnOrders === false
-
+                         !this.props.isReturnOrders
                              ?
-
                              this.props.isSavingQuantity && this.props.isSavingQuantity.id === index && this.props.isSavingQuantity.status ?
                                  (
                                      <span className="btn-group-action">
-                                <a className="btn-group-action disabled">
-                                    <i className="fa fa-spinner fa-spin" style={{fontSize: 20, marginLeft: 8}}/>
-                                </a>
-                            </span>
+                                         <a className="btn-group-action disabled">
+                                             <i className="fa fa-spinner fa-spin"
+                                                style={{fontSize: 20, marginLeft: 8}}/>
+                                         </a>
+                                     </span>
                                  )
                                  :
                                  (
                                      !this.state.isEdit
-
                                          ? (
-                                             this.props.order.order.status === "completed_order" && !this.props.isReturnOrders
-
-
+                                             !this.props.isReturnOrders &&
+                                             this.props.order.order.status === "confirm_order" ||
+                                             this.props.order.order.status === "ship_order" ||
+                                             this.props.order.order.status === "completed_order" ||
+                                             this.props.order.order.status === "cancel"
                                                  ?
                                                  (
-                                                     <TooltipButton text="Không chỉnh sửa khi ở trạng thái hoàn thành"
+                                                     <TooltipButton text="Không chỉnh sửa sau khi xác nhận đơn hàng"
                                                                     placement="top">
                                                          <span className="btn-group-action ">
                                                              <a className="disabled">
@@ -148,16 +137,10 @@ class EditButton extends React.Component {
                                                      </span>
                                                  )
                                          )
-
-
                                          :
-
-
                                          (
                                              <span className="btn-group-action" style={{marginTop: 10}}>
-                                             <a onClick={(e) => {
-                                                 this.openEditQuantity(e, goodOrder.quantity);
-                                             }}>
+                                             <a onClick={(e) => {this.openEditQuantity(e, goodOrder.quantity);}}>
                                                  <i className="material-icons"
                                                     style={{fontSize: 20, marginLeft: 8, color: "green"}}>check</i>
                                              </a>
@@ -165,43 +148,41 @@ class EditButton extends React.Component {
                                                  <i className="material-icons"
                                                     style={{fontSize: 20, marginLeft: 8, color: "red"}}>clear</i>
                                              </a>
-                                         </span>
+                                             </span>
                                          )
-
-
                                  )
                              :
                              this.props.isSavingQuantityInReturnOrders && this.props.isSavingQuantityInReturnOrders.id === index && this.props.isSavingQuantityInReturnOrders.status ?
                                  (
                                      <span className="btn-group-action">
-                                <a className="btn-group-action disabled">
-                                    <i className="fa fa-spinner fa-spin" style={{fontSize: 20, marginLeft: 8}}/>
-                                </a>
-                            </span>
+                                         <a className="btn-group-action disabled">
+                                             <i className="fa fa-spinner fa-spin"
+                                                style={{fontSize: 20, marginLeft: 8}}/>
+                                         </a>
+                                     </span>
                                  )
                                  :
                                  (
                                      !this.state.isEdit ?
-                                         <span className="btn-group-action">
-                            <a onClick={(e) => this.openEditQuantityInReturnOrder(e, goodOrder.quantity)}
-                            >
-                                <i className="material-icons" style={{fontSize: 20, marginLeft: 8}}>edit</i>
-                            </a>
-                        </span>
+                                         (<span className="btn-group-action">
+                                                 <a onClick={(e) => this.openEditQuantityInReturnOrder(e, goodOrder.quantity)}>
+                                                 <i className="material-icons" style={{fontSize: 20, marginLeft: 8}}>edit</i>
+                                             </a>
+                                         </span>
+
+                                         )
                                          :
-                                         <span className="btn-group-action" style={{marginTop: 10}}>
-                            <a onClick={(e) => {
-                                this.openEditQuantityInReturnOrder(e, goodOrder.quantity);
-                            }}>
-                                <i className="material-icons" style={{fontSize: 20, marginLeft: 8, color: "green"}}>check</i>
-                            </a>
-                                <a
-                                    onClick={(e) => this.clearEditQuantity(e, goodOrder.quantity)}
-                                >
-                                <i className="material-icons"
-                                   style={{fontSize: 20, marginLeft: 8, color: "red"}}>clear</i>
-                            </a>
-                        </span>)
+                                         (<span className="btn-group-action" style={{marginTop: 10}}>
+                                             <a onClick={(e) => {this.openEditQuantityInReturnOrder(e, goodOrder.quantity);}}>
+                                                 <i className="material-icons"
+                                                    style={{fontSize: 20, marginLeft: 8, color: "green"}}>check</i>
+                                             </a>
+                                             <a onClick={(e) => this.clearEditQuantity(e, goodOrder.quantity)}>
+                                                 <i className="material-icons"
+                                                    style={{fontSize: 20, marginLeft: 8, color: "red"}}>clear</i>
+                                             </a>
+                                         </span>)
+                                 )
                      }
 
                 </span>

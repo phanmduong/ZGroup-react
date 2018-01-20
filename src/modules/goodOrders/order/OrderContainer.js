@@ -179,7 +179,7 @@ class OrderContainer extends React.Component {
                 value: "cancel"
             }
         ];
-        const  user = JSON.parse(localStorage.getItem('user'));
+        const  user = JSON.parse(localStorage.getItem("user"));
         return (
             <div>
                 <div className="row">
@@ -195,6 +195,7 @@ class OrderContainer extends React.Component {
                                         <h4 className="card-title">Chi tiết đơn hàng đặt</h4>
                                     </div>
                                     <div className="col-md-2">
+
                                         <AddGoodOverlay
                                             status={this.props.order.order.status}
                                         />
@@ -338,16 +339,38 @@ class OrderContainer extends React.Component {
                                                 value={this.props.order.order.payment ? this.props.order.order.payment : ''}
                                                 disabled
                                             />
+                                            {
+                                                (user.role === 1)?
+                                                    <ReactSelect
+                                                        name="form-field-name"
+                                                        options={ORDER_STATUS}
+                                                        value={this.props.order.order.status}
+                                                        placeholder="Chọn trạng thái"
+                                                        onChange={this.changeStatusOrder}
+                                                    />:
+
+                                                    (
+                                                        this.props.order.order.status=== "place_order" || this.props.order.order.status==="not_reach" ?
+                                                            <ReactSelect
+                                                                name="form-field-name"
+                                                                options={ORDER_STATUS}
+                                                                value={this.props.order.order.status}
+                                                                placeholder="Chọn trạng thái"
+                                                                onChange={this.changeStatusOrder}
+                                                            />:
+                                                            <ReactSelect
+                                                                name="form-field-name"
+                                                                options={ORDER_STATUS_DOWN}
+                                                                value={this.props.order.order.status}
+                                                                placeholder="Chọn trạng thái"
+                                                                onChange={this.changeStatusOrder}
+                                                            />
+                                                    )
+                                            }
 
 
 
-                                            <ReactSelect
-                                                name="form-field-name"
-                                                options={ORDER_STATUS}
-                                                value={this.props.order.order.status}
-                                                placeholder="Chọn trạng thái"
-                                                onChange={this.changeStatusOrder}
-                                            />
+
 
 
 
