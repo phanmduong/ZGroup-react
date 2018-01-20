@@ -169,7 +169,7 @@ class DeliveryOrderApiController extends ManageApiController
     public function getDetailedDeliveryOrder($deliveryOrderId, Request $request)
     {
         $deliveryOrder = Order::find($deliveryOrderId);
-        if($deliveryOrder == null)
+        if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
         return $this->respondSuccessWithStatus([
             'delivery_order' => $deliveryOrder->getDeliveryData(),
@@ -179,9 +179,28 @@ class DeliveryOrderApiController extends ManageApiController
     public function deleteDeliveryOrder($deliveryOrderId)
     {
         $deliveryOrder = Order::find($deliveryOrderId);
-        if($deliveryOrder == null)
+        if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
         $deliveryOrder->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function changeNote($deliveryOrderId, Request $request)
+    {
+        $order = Order::find($deliveryOrderId);
+        if ($order == null)
+            return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
+        if ($request->note == null) {
+            $order->note = '';
+            $order->save();
+            return $this->respondSuccessWithStatus([
+                'message' => 'SUCCESS'
+            ]);
+        }
+        $order->note = $request->note;
+        $order->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
