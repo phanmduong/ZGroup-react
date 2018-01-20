@@ -1485,9 +1485,9 @@ export default {
             account_number: "",
             bank_name: "",
             bank_branch: "",
-            field:{
-              id: 0,
-              name: "",
+            field: {
+                id: 0,
+                name: "",
             },
             user_contact: "",
             user_contact_phone: "",
@@ -1500,6 +1500,32 @@ export default {
             current_page: 1,
             limit: 20,
         },
+    },
+    payment: {
+        isLoadingPayments: false,
+        isLoadingPayment: false,
+        isSavingPayment: false,
+        isUploading: false,
+        isLoadingCompanies: false,
+        payment: {
+            money_value: 0,
+            bill_image_url: "",
+            payer: {
+                id: 0,
+            },
+            receiver: {
+                id: 0,
+            },
+            description: "",
+        },
+        company: [],
+        paginator: {
+            total_count: 0,
+            total_pages: 0,
+            current_page: 1,
+            limit: 20,
+        },
+
     },
 
 };
