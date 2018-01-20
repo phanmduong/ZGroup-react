@@ -641,8 +641,8 @@
                                 </div>
                                 <div class="col-md-3">
                                     <select
-                                            id="currency"
-                                            v-on:change="changeCurrency"
+                                            v-model="order.currencyId"
+                                            v-on:change="changeCurrency(index)"
                                             class="form-control" placeholder="Đơn vị tiền">
                                         <option value="">Đơn vị tiền</option>
                                             <option v-for="(currency, index) in currencies"  v-bind:value="index">
@@ -652,12 +652,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" v-if="showRatio">
+                        <div class="row" v-if="order.showRatio">
                             <div class="col-md-6"></div>
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
                                         <div class="form-group">
-                                            <div>1 @{{ currency.name }}: <strong>@{{ currency.ratio }}</strong></div>
+                                            <div>1 @{{ order.currency.name }}: <strong>@{{ order.currency.ratio }} đ</strong></div>
                                         </div>
                             </div>
                         </div>

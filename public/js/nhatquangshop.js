@@ -26,7 +26,7 @@ var modalBuy = new Vue({
 
                 });
         },
-        getCouponCodes: function() {
+        getCouponCodes: function () {
             this.isLoadingCoupons = true;
             axios.get(window.url + '/coupon-codes')
                 .then(function (response) {
@@ -288,25 +288,27 @@ var fastOrder = new Vue({
                 color: "",
                 number: 1,
                 tax: "Giá chưa thuế",
-                describe: ""
+                describe: "",
+                showRatio: false,
+                currency : {},
+                currencyId : 0,
             },
         ],
-        ratio : "",
-        isShowCurrency : false,
-        loading : false,
-        check:false,
-        success : false,
-        fail : false,
-        message : "",
-        currencies : [],
-        isLoadingCurrency : false,
-        showRatio : false,
-        currency : {},
+        ratio: "",
+        isShowCurrency: false,
+        loading: false,
+        check: false,
+        success: false,
+        fail: false,
+        message: "",
+        currencies: [],
+        isLoadingCurrency: false,
+
     },
     methods: {
-        getCurrencies : function(){
+        getCurrencies: function () {
             this.isLoadingCurrency = true;
-            axios.get( window.url + '/currency')
+            axios.get(window.url + '/currency')
                 .then(function (response) {
                     this.currencies = response.data.currencies;
                     this.isLoadingCurrency = false;
@@ -318,12 +320,23 @@ var fastOrder = new Vue({
 
                 });
         },
-        plusOrder :  function (){
-          this.fastOrders.push({id : this.fastOrders.length+1, seen:true,link : "", price:"", size : "", color : "", number : 1, tax:"Giá chưa thuế", describe : "" });
+        plusOrder: function () {
+            this.fastOrders.push({
+                id: this.fastOrders.length + 1,
+                seen: true,
+                link: "",
+                price: "",
+                size: "",
+                color: "",
+                number: 1,
+                tax: "Giá chưa thuế",
+                describe: "",
+                showRatio : false,
+            });
         },
-        changeCurrency : function() {
-            this.showRatio = true;
-            this.currency = this.currencies[$("#currency").val()];
+        changeCurrency: function (index) {
+            this.fastOrders[index].showRatio = true;
+            this.fastOrders[index].currency = this.currencies[this.fastOrders[index].currencyId];
         },
         remove: function (index) {
             this.fastOrders.splice(index, 1)
@@ -348,8 +361,8 @@ var fastOrder = new Vue({
                 }.bind(this))
         }
     },
-    mounted : function () {
-       this.getCurrencies();
+    mounted: function () {
+        this.getCurrencies();
     }
 
 
