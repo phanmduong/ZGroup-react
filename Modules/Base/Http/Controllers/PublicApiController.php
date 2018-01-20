@@ -22,9 +22,11 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
-    public function getAllBlogs()
+    public function getAllBlogs(Request $request)
     {
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(10);
+        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
+        $blogs = $blogs->where('title', 'like', '%' . trim($request->search) . '%');
+
         return $this->respondWithPagination($blogs, ["blogs" => $blogs->map(function ($blog) {
             return $blog->blogTransform();
         })]);
