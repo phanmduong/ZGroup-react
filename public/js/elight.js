@@ -141,6 +141,7 @@ var openWithoutAdd = new Vue({
         },
     },
     mounted: function () {
+        $('#booksCount').css("display", "flex");
         this.countBooksFromSession()
     },
 });

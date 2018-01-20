@@ -78,13 +78,19 @@
                     </div>
                     <div class="media-wrapper">
                         <audio id="player2" preload="none" controls style="max-width:100%;">
-                            <source src="{{$lesson_selected->audio_url . '?client_id='.config("app.sound_cloud_client_id")}}"
+                            <source src="{{'https://api.soundcloud.com/tracks/'.$track_id.'/stream' . '?client_id='.config("app.sound_cloud_client_id")}}"
                                     type="audio/mp3">
                         </audio>
                     </div>
                     <br>
                     <div>
                         {!! $lesson_selected->detail !!}
+                    </div>
+                    <div class="comments media-area">
+                        <div class="fb-comments"
+                             data-href="{{config('app.protocol').config('app.domain').'/sach/'.$course->id.'/'.$lesson_selected->id}}"
+                             data-width="100%" data-numposts="5">
+                        </div>
                     </div>
                 </div>
             @endif

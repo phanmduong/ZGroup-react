@@ -29,7 +29,7 @@ class GraphicsAppController extends NoAuthApiController
         $this->bookRepository = $bookRepository;
     }
 
-    public function index($subfix)
+    public function index()
     {
         $bookArr = $this->bookRepository->getAllBooks();
 
@@ -38,7 +38,7 @@ class GraphicsAppController extends NoAuthApiController
         ]);
     }
 
-    public function detailedBook($subfix, $book_id, Request $request)
+    public function detailedBook( $book_id, Request $request)
     {
         $bookData = $this->bookRepository->getBookDetail($book_id);
 
@@ -47,7 +47,7 @@ class GraphicsAppController extends NoAuthApiController
         ]);
     }
 
-    public function saveOrder($subfix, Request $request)
+    public function saveOrder( Request $request)
     {
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $email = $request->email;

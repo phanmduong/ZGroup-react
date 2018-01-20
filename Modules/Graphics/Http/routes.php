@@ -1,6 +1,5 @@
 <?php
-
-Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+$graphicRoute = function () {
     Route::get('/', 'GraphicsController@index');
     Route::get('/contact-us', 'GraphicsController@contact_us');
     Route::post('/contact_information', 'GraphicsController@contact_info');
@@ -29,11 +28,29 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::get('/flush', 'GraphicsController@flush');
     Route::get('/province', 'GraphicsController@provinces');
     Route::get('/district/{provinceId}', 'GraphicsController@districts');
-});
+};
 
-Route::group(['domain' => "api.graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
-    Route::get('/books', 'GraphicsAppController@index');
+$graphicApiRoute = function () {
     Route::get('/detail-book/{book_id}', 'GraphicsAppController@detailedBook');
     Route::post('/save-order', 'GraphicsAppController@saveOrder');
+};
+
+Route::group(['middleware' => 'web', 'domain' => "graphics.vn", 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicRoute);
+Route::group(['middleware' => 'web', 'domain' => "graphics.test", 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicRoute);
+Route::group(['middleware' => 'web', 'domain' => "graphics.dev", 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicRoute);
+
+Route::group(['domain' => "api.graphics.vn", 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicApiRoute);
+Route::group(['domain' => "api.graphics.test", 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicApiRoute);
+Route::group(['domain' => "api.graphics.dev", 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicApiRoute);
+
+Route::group(['domain' => "api." . config('app.domain'), 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+    Route::get('/books', 'GraphicsAppController@index');
 });
+
+Route::group(['middleware' => 'web', 'domain' => config('app.domain'), 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+    Route::get('/api/blogs', 'BlogApiController@getAllBlogs');
+    Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
+});
+
+
 
