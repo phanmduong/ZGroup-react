@@ -56,6 +56,22 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
+    public function getAllProvinces()
+    {
+        $provinces = Province::all();
+        $provinces = $provinces->map(function ($province) {
+            $data = $province->transform();
+            $data['districts'] = $province->districts->map(function ($district) {
+                return $district->transform();
+            });
+            return $data;
+        });
+
+        return $this->respondSuccessWithStatus([
+            'provinces' => $provinces
+        ]);
+    }
+
     public function basesInProvince($provinceId)
     {
         $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
@@ -70,7 +86,42 @@ class ManageBaseApiController extends ManageApiController
 
     public function getBases(Request $request)
     {
+        $query = trim($request->q);
 
+        $limit = 20;
+
+        if ($query) {
+            $bases = Base::where("name", "like", "%$query%")
+                ->orWhere("address", "like", "%$query%")
+                ->orderBy('created_at')->paginate($limit);
+        } else {
+            $bases = Base::orderBy('created_at')->paginate($limit);
+        }
+
+        $data = [
+            "bases" => $bases->map(function ($base) {
+                $data = [
+                    'id' => $base->id,
+                    'name' => $base->name,
+                    'address' => $base->address,
+                    'created_at' => format_time_main($base->created_at),
+                    'updated_at' => format_time_main($base->updated_at),
+                    'center' => $base->center,
+                    'image_url' => config('app.protocol') . trim_url($base->image_url),
+                    'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
+                ];
+
+
+                if ($base->district) {
+                    $data['district'] = $base->district->transform();
+                    $data['province'] = $base->district->province->transform();
+                }
+
+                return $data;
+            }),
+
+        ];
+        return $this->respondWithPagination($bases, $data);
     }
 
     public function createBase(Request $request)

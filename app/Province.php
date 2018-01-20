@@ -21,7 +21,8 @@ class Province extends Model
     {
         return [
             "id" => $this->provinceid,
-            "name" => $this->name
+            "name" => $this->name,
+            "type" => $this->type,
         ];
     }
 }

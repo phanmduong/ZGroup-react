@@ -31,7 +31,9 @@ class District extends Model
     {
         return [
             "id" => $this->districtid,
-            "name" => $this->name
+            "name" => $this->name,
+            "type" => $this->type,
+            "location" => $this->location,
         ];
     }
 }
