@@ -186,9 +186,17 @@ class CompanyController extends ManageApiController
             })->orderby('payments.created_at','desc')->paginate($limit);
 
         return $this->respondWithPagination($payments,[
-            "payments" => $payments->map(function($payment){
+            "payment" => $payments->map(function($payment){
                  return $payment->transform();
             })
+        ]);
+    }
+
+    public function getPayment($paymentId){
+        $payment =Payment::find($paymentId);
+        if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+           'payment' => $payment->transform(),
         ]);
     }
 
