@@ -164,7 +164,7 @@ class DeliveryOrderApiController extends ManageApiController
         return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
     }
 
-    public function getDetailedDeliveryOrders($deliveryOrderId, Request $request)
+    public function getDetailedDeliveryOrder($deliveryOrderId, Request $request)
     {
         $deliveryOrder = Order::find($deliveryOrderId);
         if($deliveryOrder == null)
