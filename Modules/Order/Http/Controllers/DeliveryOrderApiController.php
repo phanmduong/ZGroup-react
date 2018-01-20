@@ -101,7 +101,7 @@ class DeliveryOrderApiController extends ManageApiController
         $request->code = $request->code ? $request->code : 'DELIVERY' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu thông tin người mua'
+                'message' => 'Thiếu thông tin người dùng'
             ]);
 
         $order = new Order;
