@@ -269,7 +269,7 @@ class OrderedDetailContainer extends React.Component {
                                             <FormInputDate
                                                 label="Ngày về"
                                                 name="endTime"
-                                                updateFormData={this.updateFormData}
+                                                updateFormData={(e) => this.props.orderedDetailAction.handleDate(e.target.value)}
                                                 id="form-end-time"
                                                 value={order.endTime}
                                             />

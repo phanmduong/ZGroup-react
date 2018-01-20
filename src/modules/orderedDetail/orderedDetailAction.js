@@ -93,4 +93,11 @@ export function handleCustomer(customer) {
     });
 }
 
+export function handleDate(endTime) {
+    return ({
+        type: types.HANDLE_DATE_ORDERED_DETAIL,
+        endTime
+    });
+}
+
 

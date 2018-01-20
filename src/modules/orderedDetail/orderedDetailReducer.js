@@ -25,6 +25,14 @@ export default function orderedDetailReducer(state = initialState.orderedDetail,
                 order: action.order,
                 customer: action.customer
             };
+        case types.HANDLE_DATE_ORDERED_DETAIL:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    endTime: action.endTime
+                }
+            };
         default:
             return state;
     }
