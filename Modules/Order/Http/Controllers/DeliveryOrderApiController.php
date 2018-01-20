@@ -175,4 +175,15 @@ class DeliveryOrderApiController extends ManageApiController
             'delivery_order' => $deliveryOrder->getDeliveryData(),
         ]);
     }
+
+    public function deleteDeliveryOrder($deliveryOrderId)
+    {
+        $deliveryOrder = Order::find($deliveryOrderId);
+        if($deliveryOrder == null)
+            return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
+        $deliveryOrder->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
 }
