@@ -245,4 +245,29 @@ class SurveyController extends ManageApiController
             'message' => 'SUCCESS'
         ]);
     }
+
+    public function addSurveyLesson($surveyId, $lessonId, Request $request)
+    {
+        $startTimeDisplay = $request->start_time_display;
+        $timeDisplay = $request->time_display;
+        $survey = Survey::find($surveyId);
+        $lesson = Lesson::find($lessonId);
+        $course = $lesson->course;
+        $exist_lesson = $survey->lessons()->where('id', $lessonId)->first();
+        if ($exist_lesson == null) {
+            $survey->lessons()->attach($lessonId, [
+                'time_display' => $timeDisplay,
+                'start_time_display' => $startTimeDisplay
+            ]);
+            return $this->respondSuccessWithStatus([
+                "survey_lesson" => [
+                    "course" => $course->shortTransform(),
+                    'time_display' => $timeDisplay,
+                    'start_time_display' => $startTimeDisplay
+                ]
+            ]);
+        } else {
+            return response()->json(['message' => 'Buổi này đã được thêm vào survey', 'status' => 0]);
+        }
+    }
 }

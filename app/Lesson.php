@@ -40,6 +40,14 @@ class Lesson extends Model
         return $this->hasMany(Comment::class, 'lesson_id');
     }
 
+    public function shortTransform(){
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+            'image_url' => $this->image_url
+        ];
+    }
+
     public function detailTransform()
     {
         return [

@@ -44,9 +44,9 @@ class Base extends Model
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "avatar_url" => $this->avatar_url,
+            "avatar_url" => $this->avatar_url ? $this->avatar_url : "",
             "description" => $this->description,
-            "image_url" => $this->image_url,
+            "images_url" => $this->images_url ? $this->images_url : "",
         ];
     }
 
