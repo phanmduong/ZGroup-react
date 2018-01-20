@@ -641,15 +641,24 @@
                                 </div>
                                 <div class="col-md-3">
                                     <select
+                                            id="currency"
+                                            v-on:change="changeCurrency"
                                             class="form-control" placeholder="Đơn vị tiền">
                                         <option value="">Đơn vị tiền</option>
-                                        <div v-if="currencies && currencies.length">
-                                            <option v-for="currency in currencies">
+                                            <option v-for="(currency, index) in currencies"  v-bind:value="index">
                                                 @{{currency.name}}
                                             </option>
-                                        </div>
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row" v-if="showRatio">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div>1 @{{ currency.name }}: <strong>@{{ currency.ratio }}</strong></div>
+                                        </div>
                             </div>
                         </div>
 
@@ -726,7 +735,7 @@
                 <div class="left-side">
                     <button type="button" class="btn btn-default btn-link"  v-on:click="submitFastOrder">Đặt hàng</button>
                 </div>
-                <div class="divider"></div>
+                <div class="divider"></div>ast
                 <div class="right-side">
                     <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
                 </div>

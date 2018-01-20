@@ -291,7 +291,7 @@ var fastOrder = new Vue({
                 describe: ""
             },
         ],
-
+        ratio : "",
         isShowCurrency : false,
         loading : false,
         check:false,
@@ -300,6 +300,8 @@ var fastOrder = new Vue({
         message : "",
         currencies : [],
         isLoadingCurrency : false,
+        showRatio : false,
+        currency : {},
     },
     methods: {
         getCurrencies : function(){
@@ -318,6 +320,10 @@ var fastOrder = new Vue({
         },
         plusOrder :  function (){
           this.fastOrders.push({id : this.fastOrders.length+1, seen:true,link : "", price:"", size : "", color : "", number : 1, tax:"Giá chưa thuế", describe : "" });
+        },
+        changeCurrency : function() {
+            this.showRatio = true;
+            this.currency = this.currencies[$("#currency").val()];
         },
         remove: function (index) {
             this.fastOrders.splice(index, 1)
