@@ -20,8 +20,8 @@ class XHHController extends Controller
         $endDate = $date->format("Y-m-d h:i:s");
         $date->modify("-31 days");
         $startDate = $date->format("Y-m-d h:i:s");
-        $totalBlogs = Product::where('type', 2)->count();
-        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
+        $totalBlogs = Product::where('type', 2)->where('status', 1)->count();
+        $countNewBlogs = Product::where('type', 2)->where('status', 1)->whereBetween('created_at', array($startDate, $endDate))->count();
         $totalBooks = Good::where('type', 'book')->count();
         $this->data = [
             'count_new_blogs' => $countNewBlogs,
@@ -32,19 +32,19 @@ class XHHController extends Controller
 
     public function index()
     {
-        $newestBlog = Product::where('type', 2)->orderBy('created_at', 'desc')->first();
+        $newestBlog = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->first();
         if ($newestBlog) {
-            $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
+            $newestTop3 = Product::where('type', 2)->where('status', 1)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
         } else {
-            $newestTop3 = Product::where('type', 2)->orderBy('created_at', 'desc')->limit(3)->get();
+            $newestTop3 = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         }
-        $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
-        $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
-        $newestBlog2 = Product::where('type', 2)->where('category_id', 7)->orderBy('created_at', 'desc')->first();
+        $blogSection1 = Product::where('type', 2)->where('status', 1)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
+        $blogSection2 = Product::where('type', 2)->where('status', 1)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
+        $newestBlog2 = Product::where('type', 2)->where('status', 1)->where('category_id', 7)->orderBy('created_at', 'desc')->first();
         if ($newestBlog2) {
-            $blogSection4 = Product::where('type', 2)->where('id', '<>', $newestBlog2->id)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
+            $blogSection4 = Product::where('type', 2)->where('status', 1)->where('id', '<>', $newestBlog2->id)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
         } else {
-            $blogSection4 = Product::where('type', 2)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
+            $blogSection4 = Product::where('type', 2)->where('status', 1)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
         }
         $books = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
 
