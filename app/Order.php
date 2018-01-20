@@ -261,7 +261,8 @@ class Order extends Model
             'id' => $this->id,
             'note' => $this->note,
             'code' => $this->code,
-            'attach_info' => $this->attach_info
+            'attach_info' => $this->attach_info,
+            'status' => $this->status,
         ];
         if ($this->user) {
             $data['customer'] = [
@@ -272,6 +273,11 @@ class Order extends Model
                 'email' => $this->user->email,
             ];
         }
+        if ($this->staff)
+            $data['staff'] = [
+                'id' => $this->staff->id,
+                'name' => $this->staff->name,
+            ];
         return $data;
     }
 }
