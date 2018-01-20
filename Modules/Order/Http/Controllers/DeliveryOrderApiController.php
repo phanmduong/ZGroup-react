@@ -6,6 +6,7 @@ use App\Colorme\Transformers\DeliveryOrderTransformer;
 use App\Order;
 use App\Register;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ManageApiController;
 
@@ -100,7 +101,7 @@ class DeliveryOrderApiController extends ManageApiController
         $request->code = $request->code ? $request->code : 'DELIVERY' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu thông tin người mua'
+                'message' => 'Thiếu thông tin người dùng'
             ]);
 
         $order = new Order;
@@ -109,6 +110,7 @@ class DeliveryOrderApiController extends ManageApiController
         $order->staff_id = $this->user->id;
         $order->attach_info = $request->attach_info;
         $order->status = 'place_order';
+        $order->type = 'delivery';
 
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
@@ -136,7 +138,7 @@ class DeliveryOrderApiController extends ManageApiController
             ]);
 
         $order = Order::find($orderId);
-        if($order == null)
+        if ($order == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại đơn hàng'
             ]);
@@ -149,6 +151,7 @@ class DeliveryOrderApiController extends ManageApiController
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
             $user = new User;
+            $user->password = Hash::make($request->phone);
         }
 
         $user->name = $request->name ? $request->name : $request->phone;
@@ -163,5 +166,13 @@ class DeliveryOrderApiController extends ManageApiController
         return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
     }
 
-
+    public function getDetailedDeliveryOrder($deliveryOrderId, Request $request)
+    {
+        $deliveryOrder = Order::find($deliveryOrderId);
+        if($deliveryOrder == null)
+            return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
+        return $this->respondSuccessWithStatus([
+            'delivery_order' => $deliveryOrder->getDeliveryData(),
+        ]);
+    }
 }

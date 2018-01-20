@@ -27,9 +27,9 @@ class GoodPropertyApiController extends ManageApiController
         $keyword = $request->search;
         $goodPropertyItems = GoodPropertyItem::query();
 
-        if($request->type)
+        if ($request->type)
             $goodPropertyItems = $goodPropertyItems->where('type', $request->type);
-        $goodPropertyItems = $goodPropertyItems->where('name', 'like', '%'.$keyword.'%');
+        $goodPropertyItems = $goodPropertyItems->where('name', 'like', '%' . $keyword . '%');
 
         if ($limit == -1) {
             $goodPropertyItems = $goodPropertyItems->orderBy('created_at', 'desc')->get();
@@ -69,6 +69,12 @@ class GoodPropertyApiController extends ManageApiController
 
     public function deletePropertyItem($property_item_id, Request $request)
     {
+        $goodProperty = GoodProperty::where('property_item_id', $property_item_id)->first();
+        if ($goodProperty)
+            return $this->respondErrorWithStatus(
+                'Thuộc tính có sản phẩm xử dụng không xóa'
+            );
+
         $goodPropertyItem = GoodPropertyItem::find($property_item_id);
         $goodPropertyItem->delete();
         return $this->respondSuccessWithStatus([

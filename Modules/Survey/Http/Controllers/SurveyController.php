@@ -245,4 +245,59 @@ class SurveyController extends ManageApiController
             'message' => 'SUCCESS'
         ]);
     }
+
+    public function getSurveyLessons($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        $lessons = $survey->lessons;
+
+        $surveyLessons = $lessons->map(function ($lesson) {
+            $course = $lesson->course;
+            return [
+                "lesson_id" => $lesson->id,
+                "course" => $course->shortTransform(),
+                "lesson" => $lesson->shortTransform(),
+                'time_display' => $lesson->pivot->time_display,
+                'start_time_display' => $lesson->pivot->start_time_display
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            "survey_lessons" => $surveyLessons
+        ]);
+    }
+
+    public function removeSurveyLesson($surveyId, $lessonId)
+    {
+        $survey = Survey::find($surveyId);
+        $survey->lessons()->detach($lessonId);
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
+        ]);
+    }
+
+    public function addSurveyLesson($surveyId, $lessonId, Request $request)
+    {
+        $startTimeDisplay = $request->start_time_display;
+        $timeDisplay = $request->time_display;
+        $survey = Survey::find($surveyId);
+        $lesson = Lesson::find($lessonId);
+        $course = $lesson->course;
+        $exist_lesson = $survey->lessons()->where('id', $lessonId)->first();
+        if ($exist_lesson == null) {
+            $survey->lessons()->attach($lessonId, [
+                'time_display' => $timeDisplay,
+                'start_time_display' => $startTimeDisplay
+            ]);
+            return $this->respondSuccessWithStatus([
+                "survey_lesson" => [
+                    "course" => $course->shortTransform(),
+                    'time_display' => $timeDisplay,
+                    'start_time_display' => $startTimeDisplay
+                ]
+            ]);
+        } else {
+            return response()->json(['message' => 'Buổi này đã được thêm vào survey', 'status' => 0]);
+        }
+    }
 }
