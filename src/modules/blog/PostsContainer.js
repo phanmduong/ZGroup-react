@@ -8,7 +8,6 @@ import {bindActionCreators} from 'redux';
 import * as blogActions from './blogActions';
 import ListPost from './ListPost';
 import * as helper from '../../helpers/helper';
-import Link from "react-router/es/Link";
 import Search from "../../components/common/Search";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
