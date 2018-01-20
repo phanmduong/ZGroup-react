@@ -110,6 +110,7 @@ class DeliveryOrderApiController extends ManageApiController
         $order->staff_id = $this->user->id;
         $order->attach_info = $request->attach_info;
         $order->status = 'place_order';
+        $order->type = 'delivery';
 
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
