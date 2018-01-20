@@ -10,9 +10,11 @@ class Select extends React.Component {
         super(props, context);
     }
 
-    // componentWillMount(){
-    //     this.props.blogActions.getCategories();
-    // }
+    componentDidMount(){
+        $('.selectpicker').selectpicker();
+    }
+
+
 
     componentDidUpdate() {
         $('.selectpicker').selectpicker();
