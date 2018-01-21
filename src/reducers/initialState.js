@@ -579,6 +579,9 @@ export default {
         totalPages: 1,
         currentPage: 1,
         posts: [],
+        categoriesList :[
+        ],
+        isLoadingCategories : true,
         isLoadingPost: false,
         errorPost: false,
     },

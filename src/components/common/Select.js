@@ -5,7 +5,6 @@ class Select extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
-
     componentDidMount() {
         $('.selectpicker').selectpicker();
     }

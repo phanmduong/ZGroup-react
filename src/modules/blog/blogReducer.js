@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let tmpposts;
 export default function rolesReducer(state = initialState.blog, action) {
 
     switch (action.type) {
@@ -248,12 +249,13 @@ export default function rolesReducer(state = initialState.blog, action) {
                 }
             };
         case types.LOAD_POSTS_BLOG_SUCCESS:
+            tmpposts = prefixDataPost(action.posts);
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     error: false,
-                    posts: action.posts,
+                    posts: tmpposts,
                     currentPage: action.currentPage,
                     totalPages: action.totalPages,
                 }
@@ -299,7 +301,74 @@ export default function rolesReducer(state = initialState.blog, action) {
                     errorPost: true,
                 }
             };
+
+
+        case types.CHANGE_STATUS_IN_BLOG:
+            tmpposts = changeStatus(state.posts, action.id, action.status);
+            return {
+                ...state,
+                posts: tmpposts,
+            };
+
+
+        case types.BEGIN_LOAD_CATEGORIES_IN_BLOG:
+            return {
+                ...state,
+                isLoadingCategories: true,
+            };
+        case types.LOAD_CATEGORIES_IN_BLOG_SUCCESS:
+            return {
+                ...state,
+                isLoadingCategories: false,
+                categoriesList: action.categoriesList,
+            };
+        case types.LOAD_CATEGORIES_IN_BLOG_ERROR:
+            return {
+                ...state,
+                isLoadingCategories: false,
+            };
         default:
             return state;
     }
 }
+
+function changeStatus(posts, id, status) {
+    tmpposts = [];
+    tmpposts = posts.map((post) => {
+        if (post.id === id) {
+            return {...post, status: 1 - status};
+        }
+        else {
+            return post;
+        }
+    });
+    return tmpposts;
+}
+
+function prefixDataPost(posts) {
+    tmpposts = [];
+    tmpposts = posts.map((post) => {
+        let tmpAva = post.author.avatar_url;
+        let tmpImg = post.image_url;
+        let tmpTit = post.title.split('');
+        if (tmpAva.slice(0, 4) !== "http") {
+            tmpAva = "http://".concat(tmpAva);
+        }
+        if (tmpImg.slice(0, 4) !== "http") {
+            tmpImg = "http://".concat(tmpImg);
+        }
+        if (tmpTit.length > 40) {
+            tmpTit = [...tmpTit.slice(0, 40) , ' . . .'];
+        }
+        return {
+            ...post,
+            author: {...post.author, avatar_url: tmpAva},
+            image_url: tmpImg,
+            title: tmpTit.join(""),
+        };
+
+    });
+    return tmpposts;
+}
+
+
