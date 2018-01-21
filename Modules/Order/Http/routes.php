@@ -15,11 +15,12 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
 
     Route::get('/delivery', 'DeliveryOrderApiController@getDeliveryOrders');
     Route::get('/delivery-info', 'DeliveryOrderApiController@infoDeliveryOrders');
-    Route::get('/delivery/inventories', 'DeliveryOrderApiController@delveryInventories');
+    Route::get('/delivery/inventories', 'DeliveryOrderApiController@deliveryInventories');
     Route::post('/delivery', 'DeliveryOrderApiController@createDeliveryOrder');
     Route::put('/delivery/{orderId}', 'DeliveryOrderApiController@createDeliveryOrder');
     Route::delete('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@deleteDeliveryOrder');
     Route::put('/delivery/{deliveryOrderId}/change-note','DeliveryOrderApiController@changeNote');
+    Route::put('/delivery/{deliveryOrderId}/change-status','DeliveryOrderApiController@changeStatus');
     Route::get('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@getDetailedDeliveryOrder');
 
     Route::get('/all-customers', 'CustomerController@allCustomers');

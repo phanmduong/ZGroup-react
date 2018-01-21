@@ -9,16 +9,18 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ManageApiController;
+use Modules\Order\Repositories\OrderService;
 
 class DeliveryOrderApiController extends ManageApiController
 {
     private $deliveryOrderTransformer;
 
-    public function __construct(DeliveryOrderTransformer $deliveryOrderTransformer)
+    public function __construct(DeliveryOrderTransformer $deliveryOrderTransformer, OrderService $orderService)
     {
         parent::__construct();
 
         $this->deliveryOrderTransformer = $deliveryOrderTransformer;
+        $this->orderService = $orderService;
     }
 
     public function getDeliveryOrders(Request $request)
@@ -146,7 +148,6 @@ class DeliveryOrderApiController extends ManageApiController
         $order->code = $request->code;
         $order->staff_id = $this->user->id;
         $order->attach_info = $request->attach_info;
-        $order->status = 'place_order';
 
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
@@ -218,8 +219,6 @@ class DeliveryOrderApiController extends ManageApiController
             $deliveryOrders = $deliveryOrders->where('staff_id', $request->staff_id);
         if ($request->start_time)
             $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($request->start_time, $request->end_time));
-        if ($request->status)
-            $deliveryOrders = $deliveryOrders->where('status', $request->status);
         if ($request->user_id)
             $deliveryOrders = $deliveryOrders->where('user_id', $request->user_id);
 
@@ -237,5 +236,13 @@ class DeliveryOrderApiController extends ManageApiController
             [
                 'delivery_orders' => $this->deliveryOrderTransformer->transformCollection($deliveryOrders)
             ]);
+    }
+
+    public function changeStatus($deliveryOrderId, Request $request)
+    {
+        $order = Order::find($deliveryOrderId);
+        if ($order == null)
+            return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
+
     }
 }
