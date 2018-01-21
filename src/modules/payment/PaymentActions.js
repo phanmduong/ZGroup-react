@@ -3,6 +3,7 @@ import * as PaymentApi from './PaymentApi';
 import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
+
 export function loadPayments(page = 1, search = "") {
     return function (dispatch) {
         dispatch({
@@ -109,20 +110,30 @@ export function editPayment(id,object){
 }
 
 export function uploadImage(file){
-      return function (dispatch){
-          dispatch({
-                type: types.BEGIN_UPLOAD_IMAGE_PAYMENT,
-          });
-          PaymentApi.uploadImage(file, function (event){
-                let data = JSON.parse(event.currentTarget.response);
-                dispatch({
-                   type: types.UPLOAD_IMAGE_PAYMENT_SUCCESS,
-                   data: data.link,
-                });
-          });
-
-
-      };
+    return function (dispatch) {
+        const error = () => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const data = JSON.parse(event.currentTarget.responseText);
+            dispatch({
+                type: types.UPLOAD_IMAGE_PAYMENT_SUCCESS,
+                link: data.link,
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_IMAGE_PROGRESS_PAYMENT,
+                percent: percentComplete
+            });
+        };
+        dispatch({
+            type: types.BEGIN_UPLOAD_IMAGE_PAYMENT,
+        });
+        PaymentApi.uploadImage(file,
+            completeHandler, progressHandler, error);
+    };
 }
 
 export function updateFormData(data) {

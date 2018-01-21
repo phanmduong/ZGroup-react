@@ -56,12 +56,14 @@ export function loadCompanies(){
     }
     return axios.get(url);
 }
-export function uploadImage(file,completeHandler){
+export function uploadImage(file,completeHandler, progressHandler, error){
     let url = env.API_URL + '/upload-image-froala';
     let formdata = new FormData();
     formdata.append("image", file);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
+    ajax.upload.onprogress = progressHandler;
+    ajax.addEventListener("error", error, false);
     ajax.open("POST", url);
     ajax.send(formdata);
 }

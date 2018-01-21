@@ -91,6 +91,7 @@ export default function companyReducer(state = initialState.payment, action) {
         case types.BEGIN_UPLOAD_IMAGE_PAYMENT:
             return{
                 ...state,
+                percent: 0,
                 isUploading: true,
             };
         case types.UPLOAD_IMAGE_PAYMENT_SUCCESS:
@@ -98,6 +99,11 @@ export default function companyReducer(state = initialState.payment, action) {
                 ...state,
                 isUploading: false,
                 link: action.data,
+            };
+        case types.UPDATE_IMAGE_PROGRESS_PAYMENT:
+            return{
+                ...state,
+                percent: action.percent,
             };
         case types.UPDATE_DATA_CREATE_PAYMENT:
             return{
