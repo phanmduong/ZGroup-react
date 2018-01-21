@@ -259,10 +259,10 @@ class DeliveryOrderApiController extends ManageApiController
         }
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->get();
 
-        $totalQuantity = $deliveryOrders->map(function ($total, $deliveryOrder){
+        $totalQuantity = $deliveryOrders->reduce(function ($total, $deliveryOrder){
             return $total + $deliveryOrder->quantity;
         }, 0);
-        $totalMoney = $deliveryOrders->map(function ($total, $deliveryOrder){
+        $totalMoney = $deliveryOrders->reduce(function ($total, $deliveryOrder){
             return $total + $deliveryOrder->quantity * $deliveryOrder->price;
         }, 0);
         return $this->respondSuccessWithStatus([
