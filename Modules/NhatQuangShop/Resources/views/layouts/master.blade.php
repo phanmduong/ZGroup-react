@@ -611,73 +611,99 @@
             </div>
 
             <div class="modal-body">
-                <div v-for="(order, index) in fastOrders">
-                    <div style="margin-bottom: 10px;">
-                        <span class="label label-success">Sản phẩm @{{order.id}}</span>
-                        <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
-                                data-placement="top" title="" data-original-title="Remove"
-                                class="btn btn-danger btn-link btn-sm">
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </div>
-                    <div>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <input type="text" v-model="order.link" placeholder="Link sản phẩm" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <input type="text" v-model="order.price" placeholder="Giá bán" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" v-model="order.size" placeholder="Size" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" v-model="order.color" placeholder="Mã màu bạn chọn" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <select class="form-control"
-                                    v-model="order.number"
-                                    data-style="btn btn-default" name="bank_account_id"
-                                    style="display: block !important;">
-                                <option disabled="" selected="">Số lượng</option>
-                                @for ($i = 0; $i < 50; $i++)
-                                    <option value="{{$i+1}}">{{$i+1}}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-control"
-                                    id="bank-account"
-                                    data-style="btn btn-default"
-                                    v-model="order.tax"
-                                    style="display: block !important;">
-                                <option value="Giá chưa thuế"  selected="">Giá chưa thuế</option>
-                                <option value="Giá có thuế">Giá có thuế</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <input type="text" v-model="order.description" placeholder="Mô tả" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-
+                <div v-if="isLoadingCurrency" style="text-align: center;width: 100%;;padding: 15px;"><i
+                            class='fa fa-spin fa-spinner'></i>
                 </div>
+                <div v-if="isShowCurrency">
+                    <div v-for="(order, index) in fastOrders">
+                        <div style="margin-bottom: 10px;">
+                            <span class="label label-success">Sản phẩm @{{order.id}}</span>
+                            <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
+                                    data-placement="top" title="" data-original-title="Remove"
+                                    class="btn btn-danger btn-link btn-sm">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" v-model="order.link" placeholder="Link sản phẩm" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" v-model="order.price" placeholder="Giá bán" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <select
+                                            id="currency"
+                                            v-on:change="changeCurrency"
+                                            class="form-control" placeholder="Đơn vị tiền">
+                                        <option value="">Đơn vị tiền</option>
+                                            <option v-for="(currency, index) in currencies"  v-bind:value="index">
+                                                @{{currency.name}}
+                                            </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" v-if="showRatio">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div>1 @{{ currency.name }}: <strong>@{{ currency.ratio }}</strong></div>
+                                        </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input type="text" v-model="order.size" placeholder="Size" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input type="text" v-model="order.color" placeholder="Mã màu bạn chọn" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <select class="form-control"
+                                        v-model="order.number"
+                                        data-style="btn btn-default" name="bank_account_id"
+                                        style="display: block !important;">
+                                    <option disabled="" selected="">Số lượng</option>
+                                    @for ($i = 0; $i < 50; $i++)
+                                        <option value="{{$i+1}}">{{$i+1}}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control"
+                                        id="bank-account"
+                                        data-style="btn btn-default"
+                                        v-model="order.tax"
+                                        style="display: block !important;">
+                                    <option value="Giá chưa thuế"  selected="">Giá chưa thuế</option>
+                                    <option value="Giá có thuế">Giá có thuế</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="text" v-model="order.description" placeholder="Mô tả" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <button type="button" v-on:click="plusOrder" class="btn btn-danger btn-round">
                     Đặt thêm sản phẩm
                 </button>
@@ -689,7 +715,7 @@
                         <div  class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>
                     </div>
                 </div>
-                <div class="row"  v-if="success" style="margin-top: 10px; text-align: center">
+                <div class="row"  v-if="success" style="margin-top: 20px; text-align: center; border-radius: 15px">
                     <div class="col-sm-12">
                         <div class='alert alert-success'>@{{ message }}</div>
                     </div>
@@ -706,7 +732,7 @@
                 <div class="left-side">
                     <button type="button" class="btn btn-default btn-link"  v-on:click="submitFastOrder">Đặt hàng</button>
                 </div>
-                <div class="divider"></div>
+                <div class="divider"></div>ast
                 <div class="right-side">
                     <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
                 </div>
