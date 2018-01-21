@@ -244,6 +244,18 @@ class CompanyController extends ManageApiController
         ]);
     }
 
+    public function getAllPrintOrder(Request $request){
+        $limit = $request->limit ? $request->limit : 20;
+        $printorders = PrintOrder::query();
 
+        $printorders = $printorders->orderBy('created_at','desc')->paginate($limit);
+
+        return $this->respondWithPagination($printorders,[
+            "printorders" => $printorders->map(function($printorder){
+                 return $printorder->transform();
+            })
+        ]);
+
+    }
 
 }
