@@ -249,8 +249,7 @@ export default function rolesReducer(state = initialState.blog, action) {
                 }
             };
         case types.LOAD_POSTS_BLOG_SUCCESS:
-            tmpposts = changeUrlAvatar(action.posts);
-            tmpposts = changeUrlImageurl(tmpposts);
+            tmpposts = prefixDataPost(action.posts);
             return {
                 ...state,
                 ...{
@@ -313,18 +312,18 @@ export default function rolesReducer(state = initialState.blog, action) {
 
 
         case types.BEGIN_LOAD_CATEGORIES_IN_BLOG:
-            return{
+            return {
                 ...state,
                 isLoadingCategories: true,
             };
-            case types.LOAD_CATEGORIES_IN_BLOG_SUCCESS:
-            return{
+        case types.LOAD_CATEGORIES_IN_BLOG_SUCCESS:
+            return {
                 ...state,
                 isLoadingCategories: false,
-                categoriesList :  action.categoriesList,
+                categoriesList: action.categoriesList,
             };
-            case types.LOAD_CATEGORIES_IN_BLOG_ERROR:
-            return{
+        case types.LOAD_CATEGORIES_IN_BLOG_ERROR:
+            return {
                 ...state,
                 isLoadingCategories: false,
             };
@@ -346,30 +345,30 @@ function changeStatus(posts, id, status) {
     return tmpposts;
 }
 
-function changeUrlAvatar(posts) {
+function prefixDataPost(posts) {
     tmpposts = [];
     tmpposts = posts.map((post) => {
-        let tmppost = post.author.avatar_url.split('');
-        if (tmppost[0] === 'h' && tmppost[1] === 't' && tmppost[2] === 't' && tmppost[3] === 'p')
-            return post;
-        else {
-            tmppost.unshift("http://");
-            return {...post, author: {...post.author, avatar_url: tmppost.join("")}};
+        let tmpAva = post.author.avatar_url.split('');
+        let tmpImg = post.image_url.split('');
+        let tmpTit = post.title.split('');
+        if (!(tmpImg.slice(0, 4) === ['h', 't', 't', 'p'])) {
+            tmpImg.unshift("http://");
         }
+        if (!(tmpAva.slice(0, 4) === ['h', 't', 't', 'p'])) {
+            tmpAva.unshift("http://");
+        }
+        if (tmpTit.length > 30) {
+            tmpTit = tmpTit.slice(0, 30);
+        }
+        return {
+            ...post,
+            author: {...post.author, avatar_url: tmpAva.join("")},
+            image_url: tmpImg.join(""),
+            title: tmpTit.join(""),
+        };
+
     });
     return tmpposts;
 }
 
-function changeUrlImageurl(posts) {
-    tmpposts = [];
-    tmpposts = posts.map((post) => {
-        let tmppost = post.image_url.split('');
-        if (tmppost[0] === 'h' && tmppost[1] === 't' && tmppost[2] === 't' && tmppost[3] === 'p')
-            return post;
-        else {
-            tmppost.unshift("http://");
-            return {...post, image_url: tmppost.join("")};
-        }
-    });
-return tmpposts;
-}
+

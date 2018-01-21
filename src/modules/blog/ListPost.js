@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
-// import {Link} from 'react-router';
-
 import Switch from 'react-bootstrap-switch';
 import Avatar from '../../components/common/Avatar';
-import {browserHistory} from 'react-router';
 
 
 class ListPost extends React.Component {
@@ -37,9 +34,7 @@ class ListPost extends React.Component {
                                         borderRadius: '10px'
                                     }}>
 
-                                        <a onClick={() => {
-                                            browserHistory.push("blog/post/" + post.id + "/edit");
-                                        }}>
+                                        <a onClick={()=>{this.props.openModal(true, post.id);}}>
                                             <div id="simpleBarChart" className="ct-chart"
                                                  style={{
                                                      width: '100%',
@@ -76,8 +71,6 @@ class ListPost extends React.Component {
                                     <div className="card-content">
                                         <div className="card-action" style={{height:73}}>
                                             <h4 className="card-title">
-                                                {/*<Link*/}
-                                                    {/*to={"blog/post/" + post.id + "/edit"}>{post.title ? post.title : "Chưa có tên"}</Link>*/}
                                                 <a onClick={()=>{this.props.openModal(true, post.id);}}>{post.title ? post.title : "Chưa có tên"}</a>
                                             </h4>
                                             <ButtonGroupAction

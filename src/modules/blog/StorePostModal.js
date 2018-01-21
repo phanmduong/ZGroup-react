@@ -30,21 +30,6 @@ class StorePostModal extends React.Component {
         this.loadCategories();
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.category.isCreating !== this.props.category.isCreating
-    //         && !nextProps.category.isCreating && !nextProps.category.error) {
-    //         $('#addCategoryModal').modal('hide');
-    //     }
-    //     if (this.props.location.pathname != nextProps.location.pathname) {
-    //         if (nextProps.location.pathname == "/blog/new-post") {
-    //             this.props.blogActions.resetForm();
-    //         } else {
-    //             this.props.blogActions.getPost(nextProps.params.postId);
-    //         }
-    //
-    //     }
-    // }
-
     loadCategories() {
         this.props.blogActions.loadCategories();
     }
@@ -141,14 +126,12 @@ class StorePostModal extends React.Component {
 
 StorePostModal.propTypes = {
     post: PropTypes.object.isRequired,
-    // location: PropTypes.object.isRequired,
     category: PropTypes.object.isRequired,
     blogActions: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     isLoadingPost: PropTypes.bool.isRequired,
     isEdit: PropTypes.bool.isRequired,
-    postId: PropTypes.number.isRequired,
-    // route: PropTypes.object.isRequired,
+    postId: PropTypes.number,
 };
 
 function mapStateToProps(state) {

@@ -27,7 +27,6 @@ class BlogsContainer extends React.Component {
         this.postsSearchChange = this.postsSearchChange.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.loadPosts = this.loadPosts.bind(this);
-        // this.loadCategories = this.loadCategories.bind(this);
         this.loadByCategories = this.loadByCategories.bind(this);
         this.handleSwitch = this.handleSwitch.bind(this);
         this.state = {
@@ -36,15 +35,14 @@ class BlogsContainer extends React.Component {
             category_id: 0,
 
 
-            isOpenModal : false,
-            postId : 0,
-            isEdit : false,
+            isOpenModal: false,
+            postId: 0,
+            isEdit: false,
         };
         this.timeOut = null;
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
     }
-
 
 
     componentWillMount() {
@@ -53,12 +51,12 @@ class BlogsContainer extends React.Component {
 
     }
 
-    openModal(isEdit ,postId ){
-        this.setState({isOpenModal : true,postId :postId , isEdit : isEdit});
+    openModal(isEdit, postId) {
+        this.setState({isOpenModal: true, postId: postId, isEdit: isEdit});
     }
 
-    closeModal(){
-        this.setState({isOpenModal : false});
+    closeModal() {
+        this.setState({isOpenModal: false});
     }
 
     deletePost(post) {
@@ -77,7 +75,7 @@ class BlogsContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.blogActions.getPosts(this.state.page, this.state.query,this.state.category_id);
+            this.props.blogActions.getPosts(this.state.page, this.state.query, this.state.category_id);
         }.bind(this), 500);
 
     }
@@ -96,13 +94,13 @@ class BlogsContainer extends React.Component {
         this.props.blogActions.changeStatus(id, status, name);
     }
 
-    loadByCategories(category_id){
+    loadByCategories(category_id) {
         this.setState({category_id});
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.blogActions.getPosts(this.state.page, this.state.query,this.state.category_id);
+            this.props.blogActions.getPosts(this.state.page, this.state.query, this.state.category_id);
         }.bind(this), 500);
     }
 
@@ -124,43 +122,39 @@ class BlogsContainer extends React.Component {
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách bài viết</h4>
 
-                                <div style={{marginTop: "15px"}}>
-                                    {/*<Link to="/blog/new-post" className="btn btn-rose">*/}
-                                    <a onClick={()=> this.openModal(false)}
-                                       className="btn btn-rose"
-                                    >
-                                        Tạo bài viết
+                                <div style={{marginTop: "15px", marginLeft: 25}}>
+                                    <a onClick={() => this.openModal(false)}
+                                       className="btn btn-rose">Tạo bài viết
                                     </a>
-                                    {/*</Link>*/}
                                 </div>
 
 
-                                <div style={{display: "flex"}}>
-                                    <div style={{width: "80%", marginLeft: 30}}>
+                                <div className="row" style={{marginRight:2}}>
+                                    <div className="col-md-10" style={{marginLeft: 27}}>
                                         <Search
                                             onChange={this.postsSearchChange}
                                             value={this.state.query}
                                             placeholder="Tìm kiếm tiêu đề"
                                         />
                                     </div>
-
-                                            <Select
-                                                category_id ={this.state.category_id}
-                                                loadByCategory={this.loadByCategories}
-                                                catetrugoriesList = {this.props.categoriesList}
-                                            />
-
-
+                                    <div className="col-md-2" style={{marginLeft: -27}}>
+                                        <Select
+                                            category_id={this.state.category_id}
+                                            loadByCategory={this.loadByCategories}
+                                            catetrugoriesList={this.props.categoriesList}
+                                        />
+                                    </div>
                                 </div>
 
-                                    <ListPost
-                                        openModal = {this.openModal}
-                                        handleSwitch={this.handleSwitch}
-                                        deletePost={this.deletePost}
-                                        posts={this.props.posts}
-                                        loadPosts={this.loadPosts}
-                                        loadByCategories = {this.loadByCategories}
-                                    />
+
+                                <ListPost
+                                    openModal={this.openModal}
+                                    handleSwitch={this.handleSwitch}
+                                    deletePost={this.deletePost}
+                                    posts={this.props.posts}
+                                    loadPosts={this.loadPosts}
+                                    loadByCategories={this.loadByCategories}
+                                />
                             </div>
 
                             <div className="card-content">
@@ -182,47 +176,10 @@ class BlogsContainer extends React.Component {
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                                <form id="form-add-customer" onSubmit={(e) => {
-                                    e.preventDefault();
-                                }}>
-                                    <StorePostModal
-                                        postId = {this.state.postId}
-                                        isEdit = {this.state.isEdit}
-                                    />
-
-                                    <div className="row">
-                                        <div className="col-md-8"/>
-                                        {/*<div className="col-md-4">*/}
-                                        {/*{this.props.isSaving ?*/}
-                                        {/*(*/}
-                                        {/*<button*/}
-                                        {/*className="btn btn-sm btn-success disabled"*/}
-                                        {/*>*/}
-                                        {/*<i className="fa fa-spinner fa-spin"/>*/}
-                                        {/*{!this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật'}*/}
-                                        {/*</button>*/}
-                                        {/*)*/}
-                                        {/*:*/}
-                                        {/*(*/}
-                                        {/*<button className="btn btn-success btn-sm"*/}
-                                        {/*onClick={(e) => {*/}
-                                        {/*this.activeModal(e);*/}
-                                        {/*}}>*/}
-                                        {/*<i className="material-icons">save</i>*/}
-                                        {/*{this.state.isEdit ? 'Cập nhật' : 'Thêm'}*/}
-                                        {/*</button>*/}
-                                        {/*)*/}
-                                        {/*}*/}
-
-                                        {/*<button className="btn btn-sm btn-danger"*/}
-                                        {/*onClick={this.closeAddModal}*/}
-                                        {/*>*/}
-                                        {/*<i className="material-icons">cancel</i> Huỷ*/}
-                                        {/*</button>*/}
-                                        {/*</div>*/}
-                                    </div>
-
-                                </form>
+                                <StorePostModal
+                                    postId={this.state.postId}
+                                    isEdit={this.state.isEdit}
+                                />
                         </Modal.Body>
                     </Modal>
 
