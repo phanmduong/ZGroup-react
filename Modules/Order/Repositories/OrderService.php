@@ -265,6 +265,20 @@ class OrderService
 
     public function changeDeliveryOrderStatus($deliveryOrderId, $request, $staffId)
     {
+        $order = Order::find($deliveryOrderId);
+        if ($order == null)
+            return [
+                'status' => 0,
+                'message' => 'Không tồn tại đơn hàng'
+            ];
+        $order->status = $request->status;
+        $order->staff_id = $staffId;
+        $order->save();
+
+        return [
+            'status' => 1,
+            'message' => 'Chuyển trạng thái thành công'
+        ];
 
     }
 }
