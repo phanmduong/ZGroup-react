@@ -30,6 +30,7 @@ class ManageBaseApiController extends ManageApiController
         $base->display_status = $request->display_status;
         $base->images_url = $request->images_url;
         $base->description = $request->description;
+        $base->address = $request->address;
         $base->save();
     }
 
@@ -88,7 +89,7 @@ class ManageBaseApiController extends ManageApiController
     {
         $query = trim($request->q);
 
-        $limit = 20;
+        $limit = 6;
 
         if ($query) {
             $bases = Base::where("name", "like", "%$query%")
@@ -104,6 +105,9 @@ class ManageBaseApiController extends ManageApiController
                     'id' => $base->id,
                     'name' => $base->name,
                     'address' => $base->address,
+                    'display_status' => $base->display_status,
+                    'longitude' => $base->longtitude,
+                    'latitude' => $base->latitude,
                     'created_at' => format_time_main($base->created_at),
                     'updated_at' => format_time_main($base->updated_at),
                     'center' => $base->center,
@@ -122,6 +126,40 @@ class ManageBaseApiController extends ManageApiController
 
         ];
         return $this->respondWithPagination($bases, $data);
+    }
+
+    public function getBase($baseId)
+    {
+        $base = Base::find($baseId);
+        if ($base == null) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+
+        $data = [
+            'id' => $base->id,
+            'name' => $base->name,
+            'address' => $base->address,
+            'display_status' => $base->display_status,
+            'longitude' => $base->longtitude,
+            'latitude' => $base->latitude,
+            'created_at' => format_time_main($base->created_at),
+            'updated_at' => format_time_main($base->updated_at),
+            'center' => $base->center,
+            'image_url' => config('app.protocol') . trim_url($base->image_url),
+            'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
+        ];
+
+
+        if ($base->district) {
+            $data['district'] = $base->district->transform();
+            $data['province'] = $base->district->province->transform();
+            $data['province_id'] = $base->district->province->provinceid;
+            $data['district_id'] = $base->district->districtid;
+        }
+
+        return $this->respondSuccessWithStatus([
+            'base' => $data
+        ]);
     }
 
     public function createBase(Request $request)
