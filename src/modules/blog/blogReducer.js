@@ -358,7 +358,7 @@ function prefixDataPost(posts) {
             tmpAva.unshift("http://");
         }
         if (tmpTit.length > 40) {
-            tmpTit = [...tmpTit.slice(0, 40) , ' ...'];
+            tmpTit = [...tmpTit.slice(0, 40) , ' . . .'];
         }
         return {
             ...post,
