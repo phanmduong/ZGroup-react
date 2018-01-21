@@ -215,7 +215,7 @@ class BookRepository
                     ];
                     break;
                 }
-                $order->attach_info = $good;
+                $order->attach_info = json_encode($good);
              }
         }
         $order->save();
