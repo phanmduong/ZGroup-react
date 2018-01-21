@@ -303,7 +303,6 @@ var fastOrder = new Vue({
         message: "",
         currencies: [],
         isLoadingCurrency: false,
-
     },
     methods: {
         getCurrencies: function () {
