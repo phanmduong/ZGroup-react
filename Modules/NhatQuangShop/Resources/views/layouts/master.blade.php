@@ -243,7 +243,7 @@
 
         <div class="container">
             <div style="text-align:right; width:100%">
-                <a href="/profile"
+                <a href="/manage/account"
                    style="padding:3px 5px;margin:3px;font-size:10px;color: white;font-size: 12px;font-weight: normal">
                     <img src="{{generate_protocol_url($user->avatar_url)}}" style="width:17px;height: 17px"
                          alt=""> {{$user->name}}
@@ -261,11 +261,15 @@
         <div class="container" id="logged-nav" style="display: none">
             <div style="text-align:right; width:100%">
                 <div style="text-align:right; width:100%">
-                    <a href="/profile"
+                    <a href="/manage/account"
                        style="padding:3px 5px;margin:3px;font-size:10px;color: white;font-size: 12px;font-weight: normal">
                         <img v-bind:src="user.avatar_url" style="width:17px;height: 17px"
                              alt=""> @{{ user.name }}
                     </a>
+                    <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
+                            data-target="#modal-fast-order" class="btn btn-primary">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
+                    </button>
                     <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
                         <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
                     </a>

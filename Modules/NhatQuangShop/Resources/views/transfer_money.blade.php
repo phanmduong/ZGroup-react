@@ -12,6 +12,13 @@
                     });
                 </script>
             @endif
+
+            @if (session('message'))
+                <div class="alert alert-success">
+                    {{ session('message') }}
+                </div>
+            @endif
+
             <h4><span style="font-weight:bold">Báo chuyển khoản</span></h4>
             <br>
             <div class="media-body collapse" style="margin-bottom: 100px" id="form">
@@ -30,9 +37,9 @@
                                     id="bank-account"
                                     data-style="btn btn-default" name="bank_account_id"
                                     style="display: block !important;">
-                                <option disabled="" selected="">Số tài khoản</option>
+                                <option disabled selected>Số tài khoản</option>
                                 @foreach ($bankaccounts as $bankaccount)
-                                    <option selected="{{$bankaccount->id == old("bank_account_id")}}"
+                                    <option {{$bankaccount->id == old("bank_account_id")?"selected":""}}
                                             value="{{$bankaccount->id}}">{{$bankaccount->bank_account_name}}</option>
                                 @endforeach
                             </select>
@@ -65,7 +72,8 @@
                 <button type="submit" style="margin-top: 20px" class="btn">Gửi thông tin chuyển tiền</button>
             </div>
         </form>
-        <button type="button" class="btn btn-twitter" data-toggle="collapse" data-target="#form">Thêm chuyển khoản</button>
+        <button type="button" class="btn btn-twitter" data-toggle="collapse" data-target="#form">Thêm chuyển khoản
+        </button>
         <div class="table-responsive" style="margin-top: 20px">
             <table class="table">
                 <tr>
@@ -95,15 +103,16 @@
                         </td>
                         <td class="text-right">{{$transfer->note}}</td>
                         <td class="text-right">
-                            {{--<div class="label" style="background-color: {{$transfer->status()["color"]}}">--}}
-                                {{--{{$transfer->status()["text"]}}--}}
-                            {{--</div>--}}
+                            <div class="label" style="background-color: {{$transfer->status()["color"]}}">
+                                {{$transfer->status()["text"]}}
+                            </div>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
+        @include('pagination.default', ['paginator' => $transfers])
     </div>
     <script type="text/javascript">
         var oldId = 0;
