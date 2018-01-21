@@ -14,7 +14,7 @@ class BarChartDepartment extends React.Component {
 
         let options = {
             seriesBarDistance: 5,
-            height: '500px',
+            height: '400px',
             plugins: [
                 // eslint-disable-next-line
                 Chartist.plugins.tooltip()
@@ -29,6 +29,7 @@ class BarChartDepartment extends React.Component {
                         return value;
                     }
                 }
+
             }]
         ];
         // eslint-disable-next-line

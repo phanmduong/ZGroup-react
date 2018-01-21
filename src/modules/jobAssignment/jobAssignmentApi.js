@@ -143,3 +143,12 @@ export function acceptPay(workId, staffId) {
     }
     return axios.post(url);
 }
+export function loadArchivedWork() {
+    //manageapi.ketool.xyz/work/archive?token=&limit=&search=
+    let url     = env.MANAGE_API_URL +"/work/archive?search=" ;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+    return axios.get(url);
+}
