@@ -82,7 +82,7 @@ class StorePostModal extends React.Component {
                 helper.showTypeNotification('Vui lòng chọn ảnh đại diện', 'warning');
                 return;
             }
-            this.props.blogActions.savePostBlog(post);
+            this.props.blogActions.savePostBlog(post, this.props.closeModal);
         }
     }
 
@@ -119,6 +119,7 @@ class StorePostModal extends React.Component {
                 openModal={this.openModal}
                 preSavePost={this.preSavePost}
                 categories={[{value: 0, text: 'Chọn nhóm bài viết'}, ...categories]}
+                closeModal = {this.props.closeModal}
             />
         );
     }
@@ -132,6 +133,7 @@ StorePostModal.propTypes = {
     isLoadingPost: PropTypes.bool.isRequired,
     isEdit: PropTypes.bool.isRequired,
     postId: PropTypes.number,
+    closeModal: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -45,7 +45,7 @@ export function updateFormPost(post) {
     };
 }
 
-export function savePostBlog(post) {
+export function savePostBlog(post,closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_SAVE_POST_BLOG
@@ -57,6 +57,8 @@ export function savePostBlog(post) {
                     type: types.SAVE_POST_BLOG_SUCCESS,
                     postId: res.data.data.product.id,
                 });
+                closeModal();
+                dispatch(getPosts(1,"",0));
             }).catch(() => {
             helper.showErrorNotification("Tải lên thất bại");
             dispatch({

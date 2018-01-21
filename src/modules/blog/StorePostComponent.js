@@ -178,7 +178,7 @@ class StorePostComponent extends React.Component {
                                                 :
                                                 (
                                                     <button className="btn btn-fill btn-rose" type="button"
-                                                            onClick={this.props.savePost}>Đăng bài
+                                                            onClick={()=>{this.props.savePost();}}>Đăng bài
                                                     </button>
                                                 )
                                             }

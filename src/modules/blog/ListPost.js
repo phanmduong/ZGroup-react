@@ -22,8 +22,6 @@ class ListPost extends React.Component {
         return (
             <div>
                 <div className="row">
-
-
                     {this.props.posts && this.props.posts.map((post) => {
                         return (
 

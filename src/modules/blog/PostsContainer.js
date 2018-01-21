@@ -114,30 +114,28 @@ class BlogsContainer extends React.Component {
                         <Loading/>
                         :
                         <div className="card">
-
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
                             </div>
 
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách bài viết</h4>
-
-                                <div style={{marginTop: "15px", marginLeft: 25}}>
-                                    <a onClick={() => this.openModal(false)}
-                                       className="btn btn-rose">Tạo bài viết
-                                    </a>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <a onClick={() => this.openModal(false)}
+                                           className="btn btn-rose">Tạo bài viết
+                                        </a>
+                                    </div>
                                 </div>
-
-
-                                <div className="row" style={{marginRight:2}}>
-                                    <div className="col-md-10" style={{marginLeft: 27}}>
+                                <div className="row">
+                                    <div className="col-md-10">
                                         <Search
                                             onChange={this.postsSearchChange}
                                             value={this.state.query}
                                             placeholder="Tìm kiếm tiêu đề"
                                         />
                                     </div>
-                                    <div className="col-md-2" style={{marginLeft: -27}}>
+                                    <div className="col-md-2">
                                         <Select
                                             category_id={this.state.category_id}
                                             loadByCategory={this.loadByCategories}
@@ -145,8 +143,6 @@ class BlogsContainer extends React.Component {
                                         />
                                     </div>
                                 </div>
-
-
                                 <ListPost
                                     openModal={this.openModal}
                                     handleSwitch={this.handleSwitch}
@@ -179,6 +175,7 @@ class BlogsContainer extends React.Component {
                                 <StorePostModal
                                     postId={this.state.postId}
                                     isEdit={this.state.isEdit}
+                                    closeModal = {this.closeModal}
                                 />
                         </Modal.Body>
                     </Modal>
