@@ -23,6 +23,29 @@ class DeliveryOrderApiController extends ManageApiController
         $this->orderService = $orderService;
     }
 
+    public function assignDeliveryOrderInfo(&$order, $request)
+    {
+        $order->note = $request->note;
+        $order->code = $request->code;
+        $order->staff_id = $this->user->id;
+        $order->attach_info = $request->attach_info;
+        $order->quantity = $request->quantity;
+        $order->price = $request->price;
+
+        $user = User::where('phone', $request->phone)->first();
+        if ($user == null) {
+            $user = new User;
+            $user->password = Hash::make($request->phone);
+        }
+
+        $user->name = $request->name ? $request->name : $request->phone;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+
+        $order->user_id = $user->id;
+    }
+
     public function getDeliveryOrders(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
@@ -107,27 +130,10 @@ class DeliveryOrderApiController extends ManageApiController
             ]);
 
         $order = new Order;
-        $order->note = $request->note;
-        $order->code = $request->code;
-        $order->staff_id = $this->user->id;
-        $order->attach_info = $request->attach_info;
+        $this->assignDeliveryOrderInfo($order, $request);
         $order->status = 'place_order';
         $order->type = 'delivery';
-
-        $user = User::where('phone', $request->phone)->first();
-        if ($user == null) {
-            $user = new User;
-        }
-
-        $user->name = $request->name ? $request->name : $request->phone;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->save();
-
-        $order->user_id = $user->id;
-
         $order->save();
-
         return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
     }
 
@@ -136,7 +142,7 @@ class DeliveryOrderApiController extends ManageApiController
         $request->code = $request->code ? $request->code : 'DELIVERY' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu thông tin người mua'
+                'message' => 'Thiếu thông tin người dùng'
             ]);
 
         $order = Order::find($orderId);
@@ -144,24 +150,7 @@ class DeliveryOrderApiController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại đơn hàng'
             ]);
-        $order->note = $request->note;
-        $order->code = $request->code;
-        $order->staff_id = $this->user->id;
-        $order->attach_info = $request->attach_info;
-
-        $user = User::where('phone', $request->phone)->first();
-        if ($user == null) {
-            $user = new User;
-            $user->password = Hash::make($request->phone);
-        }
-
-        $user->name = $request->name ? $request->name : $request->phone;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->save();
-
-        $order->user_id = $user->id;
-
+        $this->assignDeliveryOrderInfo($order, $request);
         $order->save();
 
         return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
