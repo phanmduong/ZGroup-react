@@ -47,9 +47,11 @@ class NhatQuangTransferController extends Controller
         $validator = Validator::make($request->all(), [
             'money' => 'required|numeric|min:0',
             'bank_account_id' => 'required',
+            "transfer_purpose" => 'required',
             'transfer_day' => 'required'
         ], [
                 'money.required' => 'Bạn chưa nhập số tiền cần chuyển',
+                "transfer_purpose.required" => 'Bạn cần nhập mục đích chuyển tiền',
                 'transfer_day.required' => 'Bạn chưa nhập ngày chuyển tiền',
                 'money.min' => "Bạn không thể báo chuyển khoản số tiền âm ",
                 'bank_account_id.required' => 'Bạn chưa chọn phương thức chuyển khoản',
