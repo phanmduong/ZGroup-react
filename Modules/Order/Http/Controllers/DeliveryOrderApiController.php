@@ -136,7 +136,7 @@ class DeliveryOrderApiController extends ManageApiController
             ]);
 
         $order = Order::find($orderId);
-        if($order == null)
+        if ($order == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại đơn hàng'
             ]);
@@ -149,6 +149,7 @@ class DeliveryOrderApiController extends ManageApiController
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
             $user = new User;
+            $user->password = Hash::make($request->phone);
         }
 
         $user->name = $request->name ? $request->name : $request->phone;
@@ -163,5 +164,13 @@ class DeliveryOrderApiController extends ManageApiController
         return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
     }
 
-
+    public function getDetailedDeliveryOrders($deliveryOrderId, Request $request)
+    {
+        $deliveryOrder = Order::find($deliveryOrderId);
+        if($deliveryOrder == null)
+            return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
+        return $this->respondSuccessWithStatus([
+            'delivery_order' => $deliveryOrder->getDeliveryData(),
+        ]);
+    }
 }

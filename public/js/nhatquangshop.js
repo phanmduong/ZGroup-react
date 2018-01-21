@@ -26,8 +26,9 @@ var modalBuy = new Vue({
 
                 });
         },
-        getCouponCodes: function() {
+        getCouponCodes: function () {
             this.isLoadingCoupons = true;
+            this.coupon_codes = [];
             axios.get(window.url + '/coupon-codes')
                 .then(function (response) {
                     this.coupon_codes = response.data.coupon_codes;
@@ -40,20 +41,20 @@ var modalBuy = new Vue({
         },
         getGoodsFromSesson: function () {
             this.isLoading = true;
+            this.goods = [];
             axios.get(window.url + '/load-books-from-session/v2')
                 .then(function (response) {
                     this.goods = response.data.goods;
                     this.total_order_price = response.data.total_order_price;
                     this.isLoading = false;
                     openWithoutAdd.countBooksFromSession();
-                    this.getCouponCodes();
+
                 }.bind(this))
                 .catch(function (error) {
 
                 });
         },
         addGoodToCart: function (goodId) {
-            this.goods = [];
             this.isLoading = true;
             axios.get(window.url + '/add-book/' + goodId + '/v2')
                 .then(function (response) {
@@ -118,8 +119,8 @@ var modalBuy = new Vue({
             axios.get(window.url + '/add-coupon/' + this.coupon_code + '/v2')
                 .then(function (response) {
                     this.coupon_code = '';
-                    this.getCouponCodes();
                     this.getGoodsFromSesson();
+                    this.getCouponCodes();
                 }.bind(this))
                 .catch(function (error) {
                 });
@@ -165,7 +166,6 @@ var openWithoutAdd = new Vue({
         },
         openModalBuyWithoutAdd: function () {
             $('#modalBuy').modal('show');
-            modalBuy.goods = [];
             modalBuy.getGoodsFromSesson();
         },
     },
@@ -173,6 +173,7 @@ var openWithoutAdd = new Vue({
         $('#booksCount').css('display', 'flex');
         this.countBooksFromSession();
         modalBuy.getCouponPrograms();
+        modalBuy.getCouponCodes();
     },
 });
 
