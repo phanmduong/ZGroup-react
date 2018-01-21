@@ -348,22 +348,22 @@ function changeStatus(posts, id, status) {
 function prefixDataPost(posts) {
     tmpposts = [];
     tmpposts = posts.map((post) => {
-        let tmpAva = post.author.avatar_url.split('');
-        let tmpImg = post.image_url.split('');
+        let tmpAva = post.author.avatar_url;
+        let tmpImg = post.image_url;
         let tmpTit = post.title.split('');
-        if (!(tmpImg.slice(0, 4) === ['h', 't', 't', 'p'])) {
-            tmpImg.unshift("http://");
+        if (tmpAva.slice(0, 4) !== "http") {
+            tmpAva = "http://".concat(tmpAva);
         }
-        if (!(tmpAva.slice(0, 4) === ['h', 't', 't', 'p'])) {
-            tmpAva.unshift("http://");
+        if (tmpImg.slice(0, 4) !== "http") {
+            tmpImg = "http://".concat(tmpImg);
         }
         if (tmpTit.length > 40) {
             tmpTit = [...tmpTit.slice(0, 40) , ' . . .'];
         }
         return {
             ...post,
-            author: {...post.author, avatar_url: tmpAva.join("")},
-            image_url: tmpImg.join(""),
+            author: {...post.author, avatar_url: tmpAva},
+            image_url: tmpImg,
             title: tmpTit.join(""),
         };
 

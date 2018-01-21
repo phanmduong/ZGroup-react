@@ -80,13 +80,15 @@ class EditButton extends React.Component {
             <td style={{width: 120, display: "flex", justifyContent: "space-around"}}>
                 {this.state.isEdit ?
                     (
-                            <input type="number" name="quantity" value={goodOrder.quantity}
-                                   className="form-control"
-                                   style={{width: 40}}
-                                   onChange={(e) => {this.props.updateQuantity(e.target.value, index);}}
-                                   max={this.props.isReturnOrders && this.props.order.order.good_orders[index].quantity}
-                                   min={0}
-                            />
+                        <input type="number" name="quantity" value={goodOrder.quantity}
+                               className="form-control"
+                               style={{width: 40}}
+                               onChange={(e) => {
+                                   this.props.updateQuantity(e.target.value, index);
+                               }}
+                               max={this.props.isReturnOrders && this.props.order.order.good_orders[index].quantity}
+                               min={0}
+                        />
                     )
                     :
                     goodOrder.quantity
@@ -110,11 +112,11 @@ class EditButton extends React.Component {
                                  (
                                      !this.state.isEdit
                                          ? (
-                                             !this.props.isReturnOrders &&
-                                             this.props.order.order.status === "confirm_order" ||
-                                             this.props.order.order.status === "ship_order" ||
-                                             this.props.order.order.status === "completed_order" ||
-                                             this.props.order.order.status === "cancel"
+                                             !(this.props.isReturnOrders &&
+                                                 this.props.order.order.status === "confirm_order" ||
+                                                 this.props.order.order.status === "ship_order" ||
+                                                 this.props.order.order.status === "completed_order" ||
+                                                 this.props.order.order.status === "cancel")
                                                  ?
                                                  (
                                                      <TooltipButton text="Không chỉnh sửa sau khi xác nhận đơn hàng"
@@ -140,7 +142,9 @@ class EditButton extends React.Component {
                                          :
                                          (
                                              <span className="btn-group-action" style={{marginTop: 10}}>
-                                             <a onClick={(e) => {this.openEditQuantity(e, goodOrder.quantity);}}>
+                                             <a onClick={(e) => {
+                                                 this.openEditQuantity(e, goodOrder.quantity);
+                                             }}>
                                                  <i className="material-icons"
                                                     style={{fontSize: 20, marginLeft: 8, color: "green"}}>check</i>
                                              </a>
@@ -173,7 +177,9 @@ class EditButton extends React.Component {
                                          )
                                          :
                                          (<span className="btn-group-action" style={{marginTop: 10}}>
-                                             <a onClick={(e) => {this.openEditQuantityInReturnOrder(e, goodOrder.quantity);}}>
+                                             <a onClick={(e) => {
+                                                 this.openEditQuantityInReturnOrder(e, goodOrder.quantity);
+                                             }}>
                                                  <i className="material-icons"
                                                     style={{fontSize: 20, marginLeft: 8, color: "green"}}>check</i>
                                              </a>
