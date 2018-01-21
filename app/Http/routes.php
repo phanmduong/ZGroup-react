@@ -147,8 +147,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     // End staff api
 
     // Begin Base api
-//    Route::get('/bases', "ManageBaseApiController@bases");
-//    Route::get('/base/all', "ManageBaseApiController@get_base_all");
+    Route::get('/bases', "ManageBaseApiController@bases");
+    Route::get('/base/all', "ManageBaseApiController@get_base_all");
     Route::get('/base/center/all', "ManageBaseApiController@get_base_center_all");
     Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
     Route::post('/base/create', "ManageBaseApiController@createBase");
