@@ -263,6 +263,8 @@ class Order extends Model
             'code' => $this->code,
             'attach_info' => $this->attach_info,
             'status' => $this->status,
+            'price' => $this->price,
+            'quantity' => $this->quantity
         ];
         if ($this->user) {
             $data['customer'] = [

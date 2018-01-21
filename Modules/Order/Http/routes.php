@@ -16,6 +16,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/delivery', 'DeliveryOrderApiController@getDeliveryOrders');
     Route::get('/delivery-info', 'DeliveryOrderApiController@infoDeliveryOrders');
     Route::get('/delivery/inventories', 'DeliveryOrderApiController@deliveryInventories');
+    Route::get('/delivery/inventories-info', 'DeliveryOrderApiController@deliveryInventoriesInfo');
     Route::post('/delivery', 'DeliveryOrderApiController@createDeliveryOrder');
     Route::put('/delivery/{orderId}', 'DeliveryOrderApiController@createDeliveryOrder');
     Route::delete('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@deleteDeliveryOrder');
