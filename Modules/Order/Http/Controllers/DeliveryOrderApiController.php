@@ -9,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ManageApiController;
+use Illuminate\Support\Facades\Hash;
 use Modules\Order\Repositories\OrderService;
 
 class DeliveryOrderApiController extends ManageApiController
@@ -31,6 +32,7 @@ class DeliveryOrderApiController extends ManageApiController
         $order->attach_info = $request->attach_info;
         $order->quantity = $request->quantity;
         $order->price = $request->price;
+        $order->email = $request->email;
 
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
