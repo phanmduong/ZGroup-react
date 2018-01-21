@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import {Link} from "react-router";
+import ItemThumbnails from "../../components/common/ItemThumbnails";
 
 class SurveyItem extends React.Component {
     constructor(props, context) {
@@ -76,41 +77,7 @@ class SurveyItem extends React.Component {
                         hỏi
                         <br/>
                     </div>
-                    <div className="row"
-                         style={{
-                             display: "flex",
-                             flexFlow: "row-reverse wrap",
-                             height: "29px"
-                         }}>
-
-                        {/*{*/}
-                        {/*survey.members && survey.members.map((member) => {*/}
-                        {/*return (*/}
-                        {/*<div*/}
-                        {/*onClick={(event) => {*/}
-                        {/*if (isAdmin) {*/}
-                        {/*event.preventDefault();*/}
-                        {/*event.stopPropagation();*/}
-                        {/*this.onEditClick(event);*/}
-                        {/*}*/}
-                        {/*}}*/}
-                        {/*key={member.id}*/}
-                        {/*style={{padding: "2px 0px"}}>*/}
-                        {/*<div style={{*/}
-                        {/*width: "25px",*/}
-                        {/*marginRight: "5px",*/}
-                        {/*height: "25px",*/}
-                        {/*backgroundPosition: "center center",*/}
-                        {/*backgroundSize: "cover",*/}
-                        {/*borderRadius: "4px",*/}
-                        {/*backgroundImage: `url('${member.avatar_url}')`*/}
-                        {/*}}/>*/}
-                        {/*</div>*/}
-                        {/*);*/}
-                        {/*})*/}
-                        {/*}*/}
-
-                    </div>
+                    <ItemThumbnails images={survey.survey_lessons.map((surveyLesson) => surveyLesson.course.icon_url)}/>
                     <div className="ripple-container"/>
                 </Link>
             </div>

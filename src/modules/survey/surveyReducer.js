@@ -125,6 +125,7 @@ export default function surveyReducer(state = initialState.survey, action) {
                 ...state,
                 isLoading: false,
                 surveys: action.surveys,
+                paginator: action.paginator
             };
         default:
             return state;

@@ -78,7 +78,7 @@ class CardWork extends React.Component {
                                         <li className="more-dropdown-item" hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
-                                                return this.props.change(work, "cancel");
+                                                return this.props.change(work, STATUS_WORK[3].value);
                                             }}>
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">delete</i>
@@ -113,6 +113,26 @@ class CardWork extends React.Component {
                                                 <i style={{fontSize: "16px"}}
                                                    className="material-icons keetool-card">undo</i>
                                                 Yêu cầu làm lại
+                                            </a>
+                                        </li>
+                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.archiveWork(work, STATUS_WORK[5].value);
+                                            }}>
+                                                <i style={{fontSize: "16px"}}
+                                                   className="material-icons keetool-card">archive</i>
+                                                Lưu trữ công việc
+                                            </a>
+                                        </li>
+                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[5].value) ? (user.role != 2) : true}>
+                                            <a onClick={(e) => {
+                                                e.stopPropagation();
+                                                return this.props.unArchiveWork(work, STATUS_WORK[2].value);
+                                            }}>
+                                                <i style={{fontSize: "16px"}}
+                                                   className="material-icons keetool-card">unarchive</i>
+                                                Khôi phục công việc
                                             </a>
                                         </li>
                                     </ul>
@@ -201,6 +221,7 @@ CardWork.propTypes = {
     acceptPay: PropTypes.func,
     doneWork: PropTypes.func,
     revertWork: PropTypes.func,
+    archiveWork: PropTypes.func,
     openInfoModal: PropTypes.func,
     openExtendModal: PropTypes.func,
     openFinishModal: PropTypes.func,

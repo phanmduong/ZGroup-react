@@ -937,7 +937,7 @@ export default {
         order: {
             isOpenReturnOrder: false,
             isSaving: false,
-            isSavingReturnOrders :false,
+            isSavingReturnOrders: false,
             isSavingQuantity: {
                 id: 0,
                 status: false,
@@ -967,11 +967,11 @@ export default {
 
 
                 return_orders: [],
-                warehouse : 0,
+                warehouse: 0,
 
-                isLoadingGoodOverlay : false,
-                goodsList : [],
-                totalGoodPages : 0,
+                isLoadingGoodOverlay: false,
+                goodsList: [],
+                totalGoodPages: 0,
             },
         },
         staffs: [],
@@ -1363,6 +1363,7 @@ export default {
         isLoading: false,
         isLoadingStaffs: false,
         isSaving: false,
+        isLoadingArchivedWork: false,
         data: {
             name: "",
             type: "personal",
@@ -1376,13 +1377,13 @@ export default {
                 name: "",
                 avatar_url: "",
             },
-            currency:{
+            currency: {
                 id: null,
                 value: "",
                 label: "",
             },
         },
-        currencies:[],
+        currencies: [],
         staffs: [
             {
                 value: "value1",
@@ -1401,6 +1402,7 @@ export default {
                 "bonus_type": null
             },
         ],
+        archivedWorks: [],
     },
 
     groupCustomers: {
@@ -1543,6 +1545,10 @@ export default {
                 id: 0,
                 name: "error",
             },
+            manager: {
+                id: 0,
+                name: "",
+            },
         }],
     },
     summaryStaff: {
@@ -1563,6 +1569,7 @@ export default {
         survey: {},
         showEditQuestionModal: false,
         question: {},
+        paginator: {},
         showDisplaySettingModal: false,
         isSavingQuestion: false
     },
@@ -1572,6 +1579,41 @@ export default {
         },
         isLoading: true,
         error: false,
+
+    },
+    companies: {
+        isLoadingCompanies: false,
+        isLoadingCompany: false,
+        isLoadingFields: false,
+        isSavingCompany: false,
+        isSavingField: false,
+        isLoading: false,
+        company: {
+            name: "",
+            registered_business_address: "",
+            office_address: "",
+            phone_company: "",
+            tax_code: "",
+            account_name: "",
+            account_number: "",
+            bank_name: "",
+            bank_branch: "",
+            field: {
+                id: 0,
+                name: "",
+            },
+            user_contact: "",
+            user_contact_phone: "",
+            type: "",
+        },
+        fields: [],
+        paginator: {
+            total_count: 0,
+            total_pages: 0,
+            current_page: 1,
+            limit: 20,
+        },
+
     },
 
 };

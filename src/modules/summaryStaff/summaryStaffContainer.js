@@ -8,13 +8,14 @@ import SummaryStaffbyWork from './summaryStaffbyWork';
 import SummaryStaffbyDepartment from "./summaryStaffbyDepartment";
 import PropTypes from 'prop-types';
 import Select from './Select';
+
 class summaryStaffContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             openFilter: false,
             value: "",
-            year:2018,
+            year: 2018,
         };
         this.load = this.load.bind(this);
 
@@ -33,12 +34,13 @@ class summaryStaffContainer extends React.Component {
         this.props.summaryStaffActions.loadSummaryStaffWork(year);
 
     }
-    getyear(){
-        let data=[];
+
+    getyear() {
+        let data = [];
         let i = new Date().getFullYear();
         let x;
-        for(x=i ; x>i-10; x--){
-           data = [...data,{id : x, name: x}];
+        for (x = i; x > i - 10; x--) {
+            data = [...data, {id: x, name: x}];
 
         }
         return data;
@@ -90,12 +92,23 @@ class summaryStaffContainer extends React.Component {
                                         </div>
                                     </div>
                                 </Panel>
-                                <SummaryStaffbyWork
-                                    staff_work ={this.props.staff_work}
-                                />
-                                <SummaryStaffbyDepartment
-                                    staff_department={this.props.staff_department}
-                                />
+
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        {/*<div className="col-sm-12">*/}
+                                            <SummaryStaffbyWork
+                                                staff_work={this.props.staff_work}
+                                            />
+                                        {/*</div>*/}
+                                    </div>
+                                    <div className="col-md-6">
+                                        {/*<div className="col-sm-12">*/}
+                                            <SummaryStaffbyDepartment
+                                                staff_department={this.props.staff_department}
+                                            />
+                                        {/*</div>*/}
+                                    </div>
+                                </div>
 
 
                             </div>
@@ -107,13 +120,15 @@ class summaryStaffContainer extends React.Component {
         );
     }
 }
+
 summaryStaffContainer.PropTypes = {
     isLoadingWork: PropTypes.bool.isRequired,
     isLoadingDepartment: PropTypes.bool.isRequired,
     staff_work: PropTypes.array.isRequired,
     staff_department: PropTypes.array.isRequired,
-    summaryStaffActions:  PropTypes.object.isRequired,
+    summaryStaffActions: PropTypes.object.isRequired,
 };
+
 function mapStateToProps(state) {
     return {
         isLoadingWork: state.summaryStaff.isLoadingWork,

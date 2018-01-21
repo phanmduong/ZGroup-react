@@ -12,7 +12,7 @@ class ButtonGroupAction extends React.Component{
         return(
             <div className="btn-group-action">
                 <a data-toggle="tooltip" title="Chấp nhận"
-                   onClick={() => this.props.accept(this.props.object.id)}
+                   onClick={() => this.props.accept(this.props.object.id,this.props.userId)}
                    type="button"
                    rel="tooltip"
 
@@ -20,7 +20,7 @@ class ButtonGroupAction extends React.Component{
                     <i className="material-icons" style={{color: 'green'}}>done</i>
                 </a>
                 <a data-toggle="tooltip" title="Không chấp nhận"
-                    onClick={() => this.props.delete(this.props.object.id)}
+                    onClick={() => this.props.delete(this.props.object.id,this.props.userId)}
                    type="button"
                    rel="tooltip">
                     <i className="material-icons" style={{color: 'red'}}>clear</i>
@@ -33,5 +33,9 @@ ButtonGroupAction.propTypes= {
     accept: PropTypes.func,
     delete: PropTypes.func,
     object: PropTypes.object,
+    userId: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
 };
 export default ButtonGroupAction;
