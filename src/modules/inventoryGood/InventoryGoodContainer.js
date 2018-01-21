@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import * as inventoryGoodAction from './inventoryGoodAction';
 import * as modalProductAction from '../productList/modals/modalProductAction';
 import {dotNumber} from "../../helpers/helper";
+import WareHouseModalContainer from "../productList/modals/WareHouseModalContainer";
 
 class InventoryGoodContainer extends React.Component {
     constructor(props, context) {
@@ -23,7 +24,7 @@ class InventoryGoodContainer extends React.Component {
             manufacture: null,
             category: null,
             warehouse_id: null,
-            page: '',
+            page: 1,
             status: ''
         };
         this.timeOut = null;
@@ -358,6 +359,8 @@ class InventoryGoodContainer extends React.Component {
                         </nav>
                     </div>
                 </footer>
+                <WareHouseModalContainer
+                    showWareHouseModal={this.showWareHouseModal}/>
             </div>
 
         );

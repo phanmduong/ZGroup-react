@@ -38,7 +38,6 @@ class OrderedContainer extends React.Component {
         this.updateFormDate = this.updateFormDate.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
-        this.deleteOrder = this.deleteOrder.bind(this);
         this.showAddNoteModal = this.showAddNoteModal.bind(this);
     }
 
@@ -165,12 +164,6 @@ class OrderedContainer extends React.Component {
         }
     }
 
-    deleteOrder(order) {
-        helper.confirm("error", "Xóa sản phẩm", "Bạn có chắc muốn xóa đơn hàng này", () => {
-            this.props.orderedProductAction.deleteOrder(order);
-        });
-    }
-
     showAddNoteModal(order) {
         this.props.orderedProductAction.showAddNoteModal();
         this.props.orderedProductAction.handleAddNoteModal(order);
@@ -192,12 +185,6 @@ class OrderedContainer extends React.Component {
                                     className="btn btn-rose">
                                     Thêm đơn hàng đặt
                                 </Link>
-                                <TooltipButton text="Bán hàng" placement="top">
-                                    <button className="btn btn-rose">Bán hàng</button>
-                                </TooltipButton>
-                                <TooltipButton text="Đặt hàng" placement="top">
-                                    <button className="btn btn-rose">Đặt hàng</button>
-                                </TooltipButton>
                             </div>
                             <div>
                                 <TooltipButton text="In dưới dạng pdf" placement="top">
@@ -210,10 +197,6 @@ class OrderedContainer extends React.Component {
                                         <i className="material-icons">save</i> Lưu về máy
                                     </button>
                                 </TooltipButton>
-                                <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
-                                        type="button" className="btn btn-info">
-                                    <i className="material-icons">save</i> Lưu về máy
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -353,7 +336,6 @@ class OrderedContainer extends React.Component {
                                     deliveryOrders={this.props.deliveryOrders}
                                     isLoading={this.props.isLoading}
                                     user={this.props.user}
-                                    deleteOrder={this.deleteOrder}
                                     showAddNoteModal={this.showAddNoteModal}
                                 />
                             </div>

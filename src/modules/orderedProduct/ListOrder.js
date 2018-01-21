@@ -34,7 +34,6 @@ class ListOrder extends React.Component {
                                             <ItemOrder order={order} key={index}
                                                        //changeStatusOrder={this.props.changeStatusOrder}
                                                        user={this.props.user}
-                                                       deleteOrder={this.props.deleteOrder}
                                                        showAddNoteModal={this.props.showAddNoteModal}/>
                                         );
                                     })
@@ -53,7 +52,6 @@ ListOrder.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     deliveryOrders: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
-    deleteOrder: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired
 };
 

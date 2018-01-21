@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import FormInputDate from "../../components/common/FormInputDate";
 import *as orderedDetailAction from "./orderedDetailAction";
 import Loading from "../../components/common/Loading";
+import * as helper from '../../helpers/helper';
 
 class OrderedDetailContainer extends React.Component {
     constructor(props, context) {
@@ -75,8 +76,22 @@ class OrderedDetailContainer extends React.Component {
     saveOrder() {
         const order = {...this.props.order};
         const customer = {...this.props.customer};
-        if (this.state.type === "create") this.props.orderedDetailAction.saveOrder(order, customer);
-        else this.props.orderedDetailAction.editOrder(order, customer);
+        if (
+            helper.isEmptyInput(customer.phone)
+            || helper.isEmptyInput(customer.email)
+            || helper.isEmptyInput(order.link)
+            || helper.isEmptyInput(order.quantity)
+            || helper.isEmptyInput(customer.name)
+        ) {
+            if (helper.isEmptyInput(order.link)) helper.showErrorNotification("Bạn cần nhập Link sản phẩm");
+            if (helper.isEmptyInput(order.quantity)) helper.showErrorNotification("Bạn cần nhập Số lượng sản phẩm");
+            if (helper.isEmptyInput(customer.name)) helper.showErrorNotification("Bạn cần nhập Tên khách hàng");
+            if (helper.isEmptyInput(customer.phone)) helper.showErrorNotification("Bạn cần nhập Số điện thoại khách hàng");
+            if (helper.isEmptyInput(customer.email)) helper.showErrorNotification("Bạn cần nhập Email khách hàng");
+        } else {
+            if (this.state.type === "create") this.props.orderedDetailAction.saveOrder(order, customer);
+            else this.props.orderedDetailAction.editOrder(order, customer);
+        }
     }
 
     render() {
@@ -104,7 +119,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="size"
                                                        placeholder="Nhập kích thước"
                                                        className="form-control"
-                                                       value={order.size}
+                                                       value={order.size || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -116,7 +131,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="link"
                                                        placeholder="Link"
                                                        className="form-control"
-                                                       value={order.link}
+                                                       value={order.link || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -128,7 +143,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="color"
                                                        placeholder="Màu sắc"
                                                        className="form-control"
-                                                       value={order.color}
+                                                       value={order.color || ""}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -140,7 +155,7 @@ class OrderedDetailContainer extends React.Component {
                                                           name="description"
                                                           placeholder="Mô tả đơn hàng"
                                                           className="form-control"
-                                                          value={order.description}
+                                                          value={order.description || ''}
                                                           onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -152,8 +167,8 @@ class OrderedDetailContainer extends React.Component {
                                                        name="quantity"
                                                        placeholder="Nhập số lượng"
                                                        className="form-control"
-                                                       value={order.quantity}
-                                                       onChange={this.updateFormData}/>
+                                                       value={customer.quantity || 0}
+                                                       onChange={this.handleCustomer}/>
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
@@ -164,7 +179,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="sale_off"
                                                        placeholder="Nhập phần trăm giảm giá"
                                                        className="form-control"
-                                                       value={order.sale_off}
+                                                       value={order.sale_off || 0}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -176,7 +191,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="weight"
                                                        placeholder="Nhập khối lượng"
                                                        className="form-control"
-                                                       value={order.weight}
+                                                       value={order.weight || 0}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -187,7 +202,7 @@ class OrderedDetailContainer extends React.Component {
                                                 <select
                                                     className="form-control"
                                                     name="tax"
-                                                    value={order.tax}
+                                                    value={order.tax || 0}
                                                     onChange={this.updateFormData}>
                                                     <option value={true}>Có</option>
                                                     <option value={false}>Không</option>
@@ -201,8 +216,8 @@ class OrderedDetailContainer extends React.Component {
                                                        name="price"
                                                        placeholder="Nhập giá sản phẩm"
                                                        className="form-control"
-                                                       value={order.price}
-                                                       onChange={this.updateFormData}/>
+                                                       value={customer.price || 0}
+                                                       onChange={this.handleCustomer}/>
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
@@ -213,7 +228,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="unit"
                                                        placeholder="Nhập đơn vị"
                                                        className="form-control"
-                                                       value={order.unit}
+                                                       value={order.unit || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -225,7 +240,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="ratio"
                                                        placeholder="Nhập tỷ giá"
                                                        className="form-control"
-                                                       value={order.ratio}
+                                                       value={order.ratio || 1}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -236,7 +251,7 @@ class OrderedDetailContainer extends React.Component {
                                                 <input type="number"
                                                        name="money"
                                                        className="form-control"
-                                                       value={order.money}
+                                                       value={order.money || 0}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -248,7 +263,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="fee"
                                                        placeholder="Nhập kích thước"
                                                        className="form-control"
-                                                       value={order.fee}
+                                                       value={order.fee || 0}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -260,7 +275,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="code"
                                                        placeholder="Nhập mã"
                                                        className="form-control"
-                                                       value={order.code}
+                                                       value={order.code || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -271,7 +286,7 @@ class OrderedDetailContainer extends React.Component {
                                                 name="endTime"
                                                 updateFormData={(e) => this.props.orderedDetailAction.handleDate(e.target.value)}
                                                 id="form-end-time"
-                                                value={order.endTime}
+                                                value={order.endTime || ''}
                                             />
                                         </div>
                                     </div>
@@ -300,7 +315,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="name"
                                                        placeholder="Nhập tên"
                                                        className="form-control"
-                                                       value={customer.name}
+                                                       value={customer.name || ''}
                                                        onChange={this.handleCustomer}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -312,7 +327,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="email"
                                                        placeholder="Nhập email"
                                                        className="form-control"
-                                                       value={customer.email}
+                                                       value={customer.email || ''}
                                                        onChange={this.handleCustomer}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -324,7 +339,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="phone"
                                                        placeholder="Nhập số điện thoại"
                                                        className="form-control"
-                                                       value={customer.phone}
+                                                       value={customer.phone || ''}
                                                        onChange={this.handleCustomer}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -336,7 +351,7 @@ class OrderedDetailContainer extends React.Component {
                                                           name="note"
                                                           placeholder="Ghi chú đơn hàng"
                                                           className="form-control"
-                                                          value={customer.note}
+                                                          value={customer.note || ''}
                                                           onChange={this.handleCustomer}/>
                                                 <span className="material-input"/>
                                             </div>

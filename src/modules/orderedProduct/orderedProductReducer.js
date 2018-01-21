@@ -29,11 +29,6 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 ...state,
                 staffs: action.staffs
             };
-        case types.DELETE_ORDER_ORDERED_PRODUCT_SUCCESS:
-            return {
-                ...state,
-                deliveryOrders: state.deliveryOrders.filter(order => order.id !== action.order.id)
-            };
         case types.TOGGLE_ADD_NOTE_MODAL_ORDERED_PRODUCT:
             return {
                 ...state,

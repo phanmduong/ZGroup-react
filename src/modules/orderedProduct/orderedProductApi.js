@@ -58,15 +58,6 @@ export function getAllStaffApi() {
     return axios.get(url);
 }
 
-export function deleteOrderApi(order) {
-    let url = env.MANAGE_API_URL + '/order/delivery/' + order.id;
-    let token = localStorage.getItem('token');
-    if (token) {
-        url += "?token=" + token;
-    }
-    return axios.delete(url);
-}
-
 export function editNote(order) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + "/order/delivery/" + order.id + "/change-note?token=" + token;

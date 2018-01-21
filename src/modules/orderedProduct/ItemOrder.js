@@ -129,13 +129,6 @@ class ItemOrder extends React.Component {
                               data-original-title="Sửa"><i
                             className="material-icons">edit</i>
                         </Link>
-                        <a style={{color: "#878787"}}
-                           data-toggle="tooltip" title=""
-                           type="button" rel="tooltip"
-                           data-original-title="Xoá"
-                           onClick={() => this.props.deleteOrder(order)}>
-                            <i className="material-icons">delete</i>
-                        </a>
                     </div>
                 </td>
             </tr>
@@ -147,7 +140,6 @@ ItemOrder.propTypes = {
     order: PropTypes.object.isRequired,
     //changeStatusOrder: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    deleteOrder: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired
 };
 

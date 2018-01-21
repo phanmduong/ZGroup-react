@@ -10,7 +10,9 @@ export function saveOrderApi(order, customer) {
         note: customer.note,
         name: customer.name,
         phone: customer.phone,
-        email: customer.email
+        email: customer.email,
+        price: customer.price,
+        quantity: customer.quantity
     });
 }
 
@@ -21,7 +23,9 @@ export function editOrderApi(order, customer) {
         note: customer.note,
         name: customer.name,
         phone: customer.phone,
-        email: customer.email
+        email: customer.email,
+        price: customer.price,
+        quantity: customer.quantity
     });
 }
 

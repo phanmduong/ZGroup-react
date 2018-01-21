@@ -3,6 +3,7 @@
 // import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
 import OrderedContainer from "../modules/orderedProduct/OrderedContainer";
 import OrderedDetailContainer from "../modules/orderedDetail/OrderedDetailContainer";
+import InventoryOrderContainer from "../modules/inventoryOrder/InventoryOrderContainer";
 
 /**
  * Tab Hàng đặt
@@ -21,5 +22,9 @@ export default [
         path: "/order/:orderId/edit",
         component: OrderedDetailContainer,
         type: "edit"
+    },
+    {
+        path: "/order/inventories",
+        component: InventoryOrderContainer
     }
 ];

@@ -68,6 +68,7 @@ import surveyReducer from '../modules/survey/surveyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
+import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
 
 
 const appReducer = combineReducers({
@@ -140,6 +141,7 @@ const appReducer = combineReducers({
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
     orderedDetail: orderedDetailReducer,
+    inventoryOrder: inventoryOrderReducer,
 });
 
 const rootReducer = (state, action) => {

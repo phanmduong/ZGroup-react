@@ -1,4 +1,16 @@
 export default {
+    inventoryOrder: {
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        inventories: [],
+        totalMoney: 0,
+        totalQuantity: 0,
+        staffs: []
+    },
+
     orderedDetail: {
         isLoading: false,
         order: {
@@ -6,11 +18,9 @@ export default {
             link: '',
             color: '',
             description: '',
-            quantity: 0,
             sale_off: 0,
             weight: 0,
             tax: true,
-            price: 0,
             unit: '',
             ratio: 1,
             money: 0,
@@ -22,7 +32,9 @@ export default {
             name: '',
             phone: '',
             email: '',
-            note: ''
+            note: '',
+            quantity: 0,
+            price: 0
         }
     },
 

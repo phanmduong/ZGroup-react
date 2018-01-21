@@ -49,11 +49,9 @@ export function loadOrder(order_id) {
                     link: '',
                     color: '',
                     description: '',
-                    quantity: 0,
                     sale_off: 0,
                     weight: 0,
                     tax: true,
-                    price: 0,
                     unit: '',
                     ratio: 1,
                     money: 0,
@@ -63,12 +61,16 @@ export function loadOrder(order_id) {
                 });
                 let customer = res.data.data.delivery_order.customer ? ({
                     ...res.data.data.delivery_order.customer,
-                    note: res.data.data.delivery_order.note || ''
+                    note: res.data.data.delivery_order.note || '',
+                    quantity: res.data.data.delivery_order.quantity,
+                    price: res.data.data.delivery_order.price
                 }) : ({
                     name: '',
                     phone: '',
                     email: '',
-                    note: ''
+                    note: '',
+                    quantity: 0,
+                    price: 0
                 });
                 dispatch({
                     type: types.LOAD_ORDER_ORDERED_DETAIL_SUCCESS,
