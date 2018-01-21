@@ -4,6 +4,7 @@ namespace Modules\Company\Http\Controllers;
 
 use App\Field;
 use App\Payment;
+use App\PrintOrder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -140,7 +141,7 @@ class CompanyController extends ManageApiController
     }
 
     public function createPayment(Request $request){
-        if($request->payer_id === null || !$request->receiver_id === null||
+        if($request->payer_id === null || $request->receiver_id === null||
             $request->money_value === null || trim($request->money_value) == ''||
             $request->bill_image_url === null || trim($request->bill_image_url) == '' )
             return $this->respondErrorWithStatus("Thiếu trường");
@@ -199,5 +200,49 @@ class CompanyController extends ManageApiController
            'payment' => $payment->transform(),
         ]);
     }
+
+
+    public function createPrintOrder(Request $request){
+        if( $request->staff_id === null ||
+            $request->company_id === null||
+            $request->good_id === null )
+            return $this->respondErrorWithStatus("Thiếu trường");
+        $printorder = new PrintOrder();
+        $printorder->staff_id = $request->staff_id;
+        $printorder->company_id = $request->company_id;
+        $printorder->good_id = $request->good_id;
+        $printorder->quantity = $request->quantity;
+        $printorder->core1 = $request->core1;
+        $printorder->core2 = $request->core2;
+        $printorder->cover1 = $request->cover1;
+        $printorder->cover2 = $request->cover2;
+        $printorder->spare_part1 = $request->spare_part1;
+        $printorder->spare_part2 = $request->spare_part2;
+        $printorder->packing1 = $request->packing1;
+        $printorder->packing2 = $request->packing2;
+        $printorder->other = $request->other;
+        $printorder->price = $request->price;
+        $printorder->note = $request->note;
+        $printorder->order_date = $request->order_date;
+        $printorder->receive_date = $request->receive_date;
+        $printorder->save();
+
+        $name = $printorder->company->name;
+        $str = convert_vi_to_en_not_url($name);
+        $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
+        $str = strtoupper($str);
+        $day = date_format($printorder->order_date,'d');
+        $month = date_format($printorder->order_date,'m');
+        $year = date_format($printorder->order_date,'y');
+        $id = (string)  $printorder->id;
+        while (strlen($id) < 4) $id = '0' . $id;
+        $printorder->command_code ="DATIN".$id.$str.$day.$month.$year;
+        $printorder->save();
+
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+    }
+
 
 }
