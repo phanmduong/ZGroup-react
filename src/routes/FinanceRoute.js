@@ -17,5 +17,9 @@ export default [
     {
         path: "/finance/currencies",
         component: CurrencyContainer
+    },
+    {
+        path: "/finance/bank-account",
+        component: CurrencyContainer
     }
 ];
