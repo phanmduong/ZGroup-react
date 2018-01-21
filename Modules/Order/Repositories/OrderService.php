@@ -176,10 +176,10 @@ class OrderService
             $history->save();
             $quantity -= $min_quantity;
             $importedGood->quantity -= $min_quantity;
-            $earn += $min_quantity*$importedGood->import_price;
+            $earn += $min_quantity * $importedGood->import_price;
             $importedGood->save();
         }
-        $goodOrder->import_price = floor($earn/$goodOrder->quantity);
+        $goodOrder->import_price = floor($earn / $goodOrder->quantity);
         $goodOrder->save();
     }
 
@@ -261,5 +261,10 @@ class OrderService
             'status' => 1,
             'message' => 'SUCCESS'
         ];
+    }
+
+    public function changeDeliveryOrderStatus($deliveryOrderId, $request, $staffId)
+    {
+
     }
 }

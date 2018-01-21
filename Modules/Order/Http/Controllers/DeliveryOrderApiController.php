@@ -240,9 +240,13 @@ class DeliveryOrderApiController extends ManageApiController
 
     public function changeStatus($deliveryOrderId, Request $request)
     {
-        $order = Order::find($deliveryOrderId);
-        if ($order == null)
-            return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
-
+        $response = $this->orderService->changeDeliveryOrderStatus($deliveryOrderId, $request, $this->user->id);
+        if ($response['status'] == 0)
+            return $this->respondErrorWithStatus([
+                'message' => $response['message']
+            ]);
+        return $this->respondSuccessWithStatus([
+            'message' => $response['message']
+        ]);
     }
 }
