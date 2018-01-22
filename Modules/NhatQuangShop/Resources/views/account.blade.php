@@ -28,6 +28,6 @@
         <br>
         <a href="/manage/account_change" class="btn btn-info">Đổi thông tin</a>
         <a href="/manage/password_change" class="btn btn-primary">Đổi mật khẩu</a>
-        <a href="/manage/logout" class="btn btn-default">Đăng xuất</a>
+        <a href="/logout" class="btn btn-default">Đăng xuất</a>
     </div>
 @endsection

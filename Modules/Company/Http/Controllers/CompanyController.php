@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\ManageApiController;
 use App\Company;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends ManageApiController
 {
@@ -109,17 +110,26 @@ class CompanyController extends ManageApiController
         $search = $request->search;
         $type = $request->type;
         $limit = $request->limit ? $request->limit : 20;
-        $company = Company::query();
-        if($search)
-          $company->where('name','like','%' . $search . '%');
-        if($type)
-            $company->where('type',$type);
-        $company = $company->orderBy('created_at','desc')->paginate($limit);
-        return $this->respondWithPagination($company,[
-            "company" => $company->map(function($data){
-                return $data->transform();
-            }),
-        ]);
+        if($limit != -1) {
+            $company = Company::query();
+            if ($search)
+                $company->where('name', 'like', '%' . $search . '%');
+            if ($type)
+                $company->where('type', $type);
+            $company = $company->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($company, [
+                "company" => $company->map(function ($data) {
+                    return $data->transform();
+                }),
+            ]);
+        } else{
+            $company = Company::all();
+            return $this->respondSuccessWithStatus([
+                "company" => $company->map(function($pp){
+                    return $pp->transform();
+                })
+            ]);
+        }
     }
     public function getDetailCompany($companyId,Request $request){
         $company = Company::find($companyId);
@@ -130,14 +140,12 @@ class CompanyController extends ManageApiController
     }
 
     public function createPayment(Request $request){
-        if(!$request->image || $request->payer_id === null || !$request->receiver_id === null||
-           $request->money_value === null || trim($request->money_value) == '')
-           return $this->respondErrorWithStatus("Thiếu trường");
+        if($request->payer_id === null || !$request->receiver_id === null||
+            $request->money_value === null || trim($request->money_value) == ''||
+            $request->bill_image_url === null || trim($request->bill_image_url) == '' )
+            return $this->respondErrorWithStatus("Thiếu trường");
         $payment = new Payment;
-        $image_name = uploadFileToS3($request,'image',1000);
-        if($image_name != null){
-            $payment->bill_image_url = generate_protocol_url($this->s3_url . $image_name);
-        }
+        $payment->bill_image_url = $request->bill_image_url;
         $payment->description = $request->description;
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
@@ -152,20 +160,17 @@ class CompanyController extends ManageApiController
     public function editPayment($paymentId,Request $request){
         $payment =Payment::find($paymentId);
         if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
-        if(!$request->image || $request->payer_id === null || !$request->receiver_id === null||
-            $request->money_value === null || trim($request->money_value) == '')
+        if($request->payer_id === null || !$request->receiver_id === null||
+            $request->money_value === null || trim($request->money_value) == ''||
+            $request->bill_image_url === null || trim($request->bill_image_url) == '' )
             return $this->respondErrorWithStatus("Thiếu trường");
-        $image_name = uploadFileToS3($request,'image',1000);
-        if($image_name != null){
-            $payment->bill_image_url = generate_protocol_url($this->s3_url . $image_name);
-        }
+        $payment->bill_image_url = $request->bill_image_url;
         $payment->description = $request->description;
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
         $payment->receiver_id = $request->receiver_id;
+        $payment->save();
 
-        $payment->save();
-        $payment->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
         ]);
@@ -181,9 +186,17 @@ class CompanyController extends ManageApiController
             })->orderby('payments.created_at','desc')->paginate($limit);
 
         return $this->respondWithPagination($payments,[
-            "payments" => $payments->map(function($payment){
+            "payment" => $payments->map(function($payment){
                  return $payment->transform();
             })
+        ]);
+    }
+
+    public function getPayment($paymentId){
+        $payment =Payment::find($paymentId);
+        if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+           'payment' => $payment->transform(),
         ]);
     }
 

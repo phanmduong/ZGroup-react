@@ -14,7 +14,7 @@
                     Cùng học tiếng anh với Elight nhé
                 </h4>
                 <br>
-                <a href="#buyBooks" class="btn btn-neutral btn-border btn-round" style="color:white">Đặt mua sách</a>
+                <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Đặt mua sách</a>
             </div>
         </div>
     </div>
@@ -23,21 +23,21 @@
         <br><br>
         <div class="row" id="buyBooks">
             <div class="col-md-6">
-                <div>
-                    <div class="description">
-                        <h1 class="medium-title">
-                            Sản phẩm mới nhất<br>
-                        </h1>
-                        <br><a href="/all-books" class="btn btn-link btn-success"
-                               style="padding:0!important; margin:0!important">Xem tất cả <i
-                                    class="fa fa-angle-right"></i></a><br><br>
-                    </div>
+                <div class="description">
+                    <h1 class="medium-title">
+                        Sản phẩm mới nhất<br>
+                    </h1>
                     <br>
+                    {{--<a href="/all-books" class="btn btn-link btn-success"--}}
+                    {{--style="padding:0!important; margin:0!important">Xem tất cả <i--}}
+                    {{--class="fa fa-angle-right"></i></a>--}}
+                    <br><br>
                 </div>
+                <br>
             </div>
         </div>
         <div class="row" id="vuejs1">
-            @foreach($books as $book)
+            @foreach($goods as $good)
                 <div class="col-md-6 book-item">
                     <div class="card card-profile" style="border-radius:0; height: 90%">
                         <div class="flex flex-col flex-justify-content-space-between" style="height: 100%">
@@ -45,16 +45,16 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="card card-profile card-plain">
-                                            <img class="card-book-image" src="{{$book->avatar_url}}">
+                                            <img class="card-book-image" src="{{$good->avatar_url}}">
                                         </div>
                                     </div>
                                     <div class="col-md-8 text-left">
                                         <br>
-                                        <h5 style="font-weight:600">{{$book->name}}</h5>
-                                        <p>{{$book->description}}</p>
+                                        <h5 style="font-weight:600">{{$good->name}}</h5>
+                                        <p>{{shortString($good->description,18)}}</p>
                                         <h5>
-                                            <b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>
-                                            <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']*(1-$book['coupon_value']))}}
+                                            <b style="text-decoration: line-through;">{{currency_vnd_format($good['price'])}}</b>
+                                            <i class="fa fa-angle-right"></i>{{currency_vnd_format($good['price']*(1-$good['coupon_value']))}}
                                         </h5><br>
                                     </div>
 
@@ -65,10 +65,10 @@
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                             <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                                 <div>
-                                    <a href="/sach/{{$book['id']}}" class="btn btn-link btn-success">
+                                    <a href="/sach/{{$good['id']}}" class="btn btn-link btn-success">
                                         Xem thêm
                                     </a>
-                                    <button v-on:click="openModalBuy({{$book['id']}})"
+                                    <button v-on:click="openModalBuy({{$good['id']}})"
                                             onclick="fbq('track', 'AddToCart')"
                                             class="btn btn-success" style="padding:3px;margin:3px;font-size:10px;">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i>
@@ -86,10 +86,12 @@
     <div class="container" id="bookinfo">
         <div class="row">
             <div class="col-md-12">
-                <h3>
-                    <b>Bài viết mới nhất</b>
-                </h3>
-                <a href="/blog" style="color:#138edc!important"><b>Xem thêm</b></a>
+                <div class="description">
+                    <h1 class="medium-title">
+                        Bài viết mới nhất<br>
+                    </h1>
+                </div>
+                {{--<a href="/blog" style="color:#138edc!important"><b>Xem thêm</b></a>--}}
                 <br><br>
             </div>
             <div class="col-md-6">
@@ -97,7 +99,7 @@
                     <div class="card-image">
                         <a href="/blog/post/{{$newestBlog->id}}">
                             <div style="width: 100%;
-                                    border-radius: 2px;
+                                    border-radius: 10px;
                                     background: url({{generate_protocol_url($newestBlog->url)}});
                                     background-size: cover;
                                     background-position: center;
@@ -107,7 +109,7 @@
                     <div class="card-block">
                         <p style="margin-top:15px"><b>{{$newestBlog->title}}</b></p>
                         <p class="card-description">
-                            {{$newestBlog->description}}
+                            {{shortString($newestBlog->description,7)}}
                         </p>
                         <a href="/blog/post/{{$newestBlog->id}}" style="color:#138edc!important"><b>Xem thêm</b></a>
                     </div>
@@ -121,7 +123,7 @@
                                 <div class="card-image">
                                     <a href="/blog/post/{{$blog->id}}">
                                         <div style="width: 100%;
-                                                border-radius: 2px;
+                                                border-radius: 10px;
                                                 background: url({{generate_protocol_url($blog->url)}});
                                                 background-size: cover;
                                                 background-position: center;
@@ -166,10 +168,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>
-                            <b>Học giao tiếp</b>
-                        </h3>
-                        <a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>
+                        <div class="description">
+                            <h1 class="medium-title">
+                                Học giao tiếp<br>
+                            </h1>
+                        </div>
+                        {{--<a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>--}}
 
                         <br><br>
                     </div>
@@ -181,7 +185,7 @@
                                         <div class="card-image">
                                             <a href="/blog/post/{{$blog->id}}">
                                                 <div style="width: 100%;
-                                                        border-radius: 2px;
+                                                        border-radius: 10px;
                                                         background: url('{{generate_protocol_url($blog->url)}}');
                                                         background-size: cover;
                                                         background-position: center;
@@ -198,7 +202,8 @@
                                             <p class="card-description">
                                                 {{$blog->description}}
                                             </p>
-                                            <a href="/blog/post/{{$blog->id}}" style="color:#138edc!important"><br><b>Xem
+                                            <a href="/blog/post/{{$blog->id}}"
+                                               style="color:#138edc!important"><br><b>Xem
                                                     thêm</b></a>
                                         </div>
 
@@ -216,10 +221,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>
-                            <b>Học từ vựng</b>
-                        </h3>
-                        <a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>
+                        <div class="description">
+                            <h1 class="medium-title">
+                                Học từ vựng<br>
+                            </h1>
+                        </div>
+                        {{--<a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>--}}
 
                         <br><br>
                     </div>
@@ -229,7 +236,7 @@
                                 <div class="card-image">
                                     <a href="/blog/post/14676">
                                         <div style="width: 100%;
-                                                border-radius: 2px;
+                                                border-radius: 10px;
                                                 background: url('{{generate_protocol_url($blog->url)}}');
                                                 background-size: cover;
                                                 background-position: center;
@@ -239,13 +246,14 @@
                                 <div class="card-body">
                                     <h6 class="card-category text-facebook">{{$blog->author->name}}</h6>
                                     <h3 class="card-title">
-                                        <a href="#pablo">{{$blog->title}}</a>
+                                        <a href="#pablo">{{shortString($blog->title,4)}}</a>
                                     </h3>
                                     <p class="card-description">
                                         {{$blog->description}}
                                     </p>
                                     <br>
-                                    <a href="/blog/post/{{$blog->id}}" class="btn btn-facebook btn-round"> Đọc thêm</a>
+                                    <a href="/blog/post/{{$blog->id}}" class="btn btn-success btn-round"> Đọc
+                                        thêm</a>
                                 </div>
                             </div>
                         </div>
@@ -278,18 +286,19 @@
                         <div class="col-md-3">
                             <div class="card card-profile" style="border-radius: 0px;">
                                 <div style="padding: 3%;">
-                                    <div style="background-image: url('{{$book->avatar_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>
+                                    <div style="background-image: url('{{$book->icon_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>
                                 </div>
                                 <div>
                                     <div class="container text-left" style="min-height: 130px;"><br>
                                         <p style="font-weight: 600;">{{$book->name}}</p>
-                                        <p>{{$book->description}}</p></div>
+                                        <p>{{shortString($book->description,15)}}</p>
+                                    </div>
                                 </div>
                                 <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
                                     <div style="text-align: right;">
-                                        <a class="btn btn-facebook" style="margin: 3px; font-size: 10px;"
-                                           href="/sach/{{$book->id}}">
-                                            Tải xuống<i class="fa fa-download"></i></a>
+                                        <a class="btn btn-success" href="/sach/{{$book->id}}"
+                                           style="padding: 3px; margin: 3px; font-size: 10px;">
+                                            Nghe online <i class="fa fa-headphones" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>

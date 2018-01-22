@@ -158,7 +158,6 @@ class NhatQuangApiController extends PublicApiController
                 $temp->id = $good->id;
                 $temp->number = $good->number;
                 $temp->price = $good->price;
-                $temp->discount_price = $good->discount_price;
                 $temp->discount_value = $good->discount_value;
                 $new_goods[] = $temp;
             }
