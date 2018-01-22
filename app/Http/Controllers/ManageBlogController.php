@@ -98,6 +98,7 @@ class ManageBlogController extends ManageApiController
                     'status' => $post->status,
                     'image_url' => $post->url,
                     'thumb_url' => $post->thumb_url,
+                    'description' => $post->description,
                     'author' => [
                        'id' => $post->author->id,
                        'name' => $post->author->name,
