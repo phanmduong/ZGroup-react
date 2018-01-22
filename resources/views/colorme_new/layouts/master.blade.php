@@ -125,6 +125,9 @@
                                          alt="">{{$user->name}}<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="width: 100%">
                                     <li><a href="/profile/{{$user->username}}">Trang cá nhân</a></li>
+                                    <li><a href="http://manage.colorme.vn/" target="_blank">Quản lý</a></li>
+                                    <li><a href="/posts/uncomment">Nhận xét</a></li>
+                                    <li role="separator" class="divider"></li>
                                     <li><a href="/logout" v-on:click="logout">Đăng xuất</a></li>
                                 </ul>
                             </li>
