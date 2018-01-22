@@ -12,7 +12,7 @@ class CreateRoomServiceRegisterSeatTable extends Migration
      */
     public function up()
     {
-        Schema::table('register_seat', function(Blueprint $table) {
+        Schema::create('room_service_register_seat', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('room_service_register_id')->index()->unsigned();
             $table->integer('seat_id')->index()->unsigned();

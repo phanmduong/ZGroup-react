@@ -12,7 +12,7 @@ class CreateRoomServiceSubcriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('subcriptions', function(Blueprint $table) {
+        Schema::create('room_service_subcriptions', function(Blueprint $table) {
             $table->increments('id');
             $table->text('description');
             $table->integer('user_pack_id')->default(0)->index();

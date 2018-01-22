@@ -13,7 +13,7 @@ class CreateRoomServiceSubcriptionKindsTable extends Migration
     public function up()
     {
         //
-        Schema::table('subription_kinds', function(Blueprint $table) {
+        Schema::create('room_service_subcription_kinds', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('hours')->default(0);
