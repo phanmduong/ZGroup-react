@@ -91,6 +91,7 @@ class Course extends Model
             'status' => $this->status,
             'color' => $this->color,
             'type_id' => $this->type_id,
+            'description' => $this->description,
             'categories' => $this->courseCategories->map(function ($courseCategory) {
                 return $courseCategory->getData();
             }),
