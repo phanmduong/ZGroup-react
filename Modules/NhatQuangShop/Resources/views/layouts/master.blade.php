@@ -645,7 +645,7 @@
                                             v-model="order.currencyId"
                                             v-on:change="changeCurrency(index)"
                                             class="form-control" placeholder="Đơn vị tiền">
-                                        <option value="">Đơn vị tiền</option>
+                                        <option v-bind:value="-1">Đơn vị tiền</option>
                                             <option v-for="(currency, index) in currencies"  v-bind:value="index">
                                                 @{{currency.name}}
                                             </option>
@@ -676,15 +676,9 @@
                             </div>
 
                             <div class="col-md-3">
-                                <select class="form-control"
-                                        v-model="order.number"
-                                        data-style="btn btn-default" name="bank_account_id"
-                                        style="display: block !important;">
-                                    <option disabled="" selected="">Số lượng</option>
-                                    @for ($i = 0; $i < 50; $i++)
-                                        <option value="{{$i+1}}">{{$i+1}}</option>
-                                    @endfor
-                                </select>
+                                <div class="form-group">
+                                    <input type="text" v-model="order.number" placeholder="Số lượng" class="form-control">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <select class="form-control"
@@ -736,7 +730,7 @@
                 <div class="left-side">
                     <button type="button" class="btn btn-default btn-link"  v-on:click="submitFastOrder">Đặt hàng</button>
                 </div>
-                <div class="divider"></div>ast
+                <div class="divider"></div>
                 <div class="right-side">
                     <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Thoát</button>
                 </div>
