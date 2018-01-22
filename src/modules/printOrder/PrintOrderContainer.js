@@ -3,20 +3,23 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
+import Pagination from "../../components/common/Pagination";
 import  * as printOrderActions from "./printOrderActions";
-
+import ListPrintOrder from  "./ListPrintOrder";
+import Search                   from "../../components/common/Search";
 
 class PrintOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-
+            query: "",
         };
 
     }
 
     componentWillMount() {
         console.log(this.props);
+        this.props.printOrderActions.loadPrintOrders();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -25,6 +28,7 @@ class PrintOrderContainer extends React.Component {
 
 
     render() {
+        let {paginator, printOrderActions} = this.props;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -38,7 +42,27 @@ class PrintOrderContainer extends React.Component {
 
                                 <div className="card-content">
                                     <h4 className="card-title">Danh sách đặt in</h4>
-                                    <Loading/>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="col-xs-3">
+                                                <button className="btn btn-rose" style={{width: "100%"}}>
+                                                    Đặt In
+                                                </button>
+                                            </div>
+                                            <Search className="col-xs-9" placeholder="Tìm kiếm"
+                                                value={this.state.query}
+                                                onChange={()=>{}}
+                                            />
+                                        </div>
+                                    </div>
+                                    {
+                                        this.props.isLoading ? <Loading/>:
+                                            <ListPrintOrder/>
+                                    }
+                                    <Pagination
+                                        currentPage={paginator.current_page}
+                                        totalPages={paginator.total_pages}
+                                        loadDataPage={printOrderActions.loadPrintOrders}/>
                                 </div>
 
 
@@ -53,12 +77,15 @@ class PrintOrderContainer extends React.Component {
 
 PrintOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    user: PropTypes.object,
+    paginator: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.printOrder.isLoading,
-
+        paginator: state.printOrder.paginator,
+        user: state.login.user,
     };
 }
 

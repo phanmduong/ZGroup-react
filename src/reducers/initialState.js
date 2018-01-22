@@ -1615,8 +1615,83 @@ export default {
         },
 
     },
-    printOrder:{
+    printOrder: {
         isLoading: false,
+        listPrintOrder: [
+            {
+                company:{id: 1, name: "company"},
+                staff: {id: 1, name: "staff"},
+                good: {id: 1, name: "good"},
+                quantity: 0,
+                command_code: "DATIN1234556",
+                core1: {
+                    number: 0,
+                    material: "none",
+                    color:"none",
+                    size: 1,
+                    price: 0,
+                },
+                core2: {
+                    number: 0,
+                    material: "none",
+                    color:"none",
+                    size: 1,
+                    price: 0,
+                },
+                cover1: {
+                    number: 0,
+                    material: "none",
+                    color:"none",
+                    size: 1,
+                    price: 0,
+                },
+                cover2: {
+                    number: 0,
+                    material: "none",
+                    color:"none",
+                    size: 1,
+                    price: 0,
+                },
+                spare_part1: {
+                    name: "noname",
+                    number: 0,
+                    material: "none",
+                    size: 1,
+                    price: 0,
+                    made_by: "none",
+                },
+                spare_part2: {
+                    name: "noname",
+                    number: 0,
+                    material: "none",
+                    size: 1,
+                    price: 0,
+                    made_by: "none",
+                },
+                packing1:{
+                  name: "noname",
+                  price: 0,
+                },
+                packing2:{
+                    name: "noname",
+                    price: 0,
+                },
+                other: {
+                    name: "noname",
+                    price: 0,
+                },
+                price: 0,
+                note: "none",
+                order_date: "2012-01-17",
+                receive_date: "2012-01-17",
+            }
+        ],
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        }
     }
 
 };
