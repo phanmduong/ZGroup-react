@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TransferMoney extends Model
 {
     //
-    protected  $table = 'transfer_money';
+    protected $table = 'transfer_money';
 
     public static $PURPOSE = [
         "deposit" => "Đặt cọc",
@@ -42,5 +42,19 @@ class TransferMoney extends Model
             default:
                 return "";
         }
+    }
+
+    public function transform()
+    {
+        return [
+            "id" => $this->id,
+            "money" => $this->money,
+            "transfer_day" => $this->transfer_day,
+            "note" => $this->note,
+            "purpose" => $this->purpose,
+            "status" => $this->status,
+            "bank_account" => $this->bankAccount,
+            "customer" => $this->user->transformAuth()
+        ];
     }
 }
