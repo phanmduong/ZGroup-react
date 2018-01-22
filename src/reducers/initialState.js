@@ -1615,5 +1615,8 @@ export default {
         },
 
     },
+    printOrder:{
+        isLoading: false,
+    }
 
 };
