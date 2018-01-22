@@ -73,11 +73,14 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function basesInProvince($provinceId)
+    public function basesInProvince($provinceId, Request $request)
+
     {
         $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
             ->where("province.provinceid", $provinceId)->select("district.*")->pluck("districtid");
-        $bases = Base::whereIn("district_id", $districtIds)->get();
+        $bases = Base::whereIn("district_id", $districtIds);
+        $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
+        $bases = $bases->get();
         return $this->respondSuccessWithStatus([
             "bases" => $bases->map(function ($base) {
                 return $base->transform();

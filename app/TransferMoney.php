@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class TransferMoney extends Model
 {
     //
-    protected  $table = 'transfer_money';
+    protected $table = 'transfer_money';
 
-    protected static $PURPOSE = [
+    public static $PURPOSE = [
         "deposit" => "Đặt cọc",
         "pay_order" => "Thanh toán tiền hàng đặt",
         "pay_good" => "Mua hàng sẵn"
     ];
 
-    protected static $PURPOSE_COLOR = [
-        "deposit" => "#f5593d",
-        "pay_order" => "#51bcda",
-        "pay_good" => "#cc90cc"
+    public static $PURPOSE_COLOR = [
+        "deposit" => "#6bd098",
+        "pay_order" => "#f5593d",
+        "pay_good" => "#51bcda"
     ];
 
     public function user()
@@ -42,5 +42,19 @@ class TransferMoney extends Model
             default:
                 return "";
         }
+    }
+
+    public function transform()
+    {
+        return [
+            "id" => $this->id,
+            "money" => $this->money,
+            "transfer_day" => $this->transfer_day,
+            "note" => $this->note,
+            "purpose" => $this->purpose,
+            "status" => $this->status,
+            "bank_account" => $this->bankAccount,
+            "customer" => $this->user->transformAuth()
+        ];
     }
 }

@@ -289,17 +289,37 @@ var fastOrder = new Vue({
                 color: "",
                 number: 1,
                 tax: "Giá chưa thuế",
-                describe: ""
+                describe: "",
+                showRatio: false,
+                currency : {},
+                currencyId : 0,
             },
         ],
+        ratio: "",
+        isShowCurrency: false,
         loading: false,
         check: false,
         success: false,
         fail: false,
-        message: ""
+        message: "",
+        currencies: [],
+        isLoadingCurrency: false,
     },
     methods: {
+        getCurrencies: function () {
+            this.isLoadingCurrency = true;
+            axios.get(window.url + '/currency')
+                .then(function (response) {
+                    this.currencies = response.data.currencies;
+                    this.isLoadingCurrency = false;
+                    this.isShowCurrency = true;
+                    console.log(response);
+                }.bind(this))
+                .catch(function (error) {
 
+
+                });
+        },
         plusOrder: function () {
             this.fastOrders.push({
                 id: this.fastOrders.length + 1,
@@ -310,25 +330,20 @@ var fastOrder = new Vue({
                 color: "",
                 number: 1,
                 tax: "Giá chưa thuế",
-                describe: ""
+                describe: "",
+                showRatio : false,
             });
+        },
+        changeCurrency: function (index) {
+            this.fastOrders[index].showRatio = true;
+            this.fastOrders[index].currency = this.currencies[this.fastOrders[index].currencyId];
         },
         remove: function (index) {
             this.fastOrders.splice(index, 1)
         },
         submitFastOrder: function () {
-            // this.check=false,
-            //     this.success = false,
-            //     this.fail = false,
             this.loading = true;
             this.success = false;
-            // for (var i = 0; i< this.fastOrders.length; i++){
-            //          if(this.fastOrders[i].link === ""|| this.fastOrders[i].price === ""|| this.fastOrders[i].size === ""|| this.fastOrders[i].color=== ""|| this.fastOrders[i].describe === "" ){
-            //              this.check = true;
-            //              this.loading = false;
-            //              break;
-            //          }
-            // }
             axios.post(window.url + '/manage/save-fast-order', {
                 fastOrders: JSON.stringify(this.fastOrders)
             }).then(function (response) {
@@ -346,6 +361,9 @@ var fastOrder = new Vue({
                 }.bind(this))
         }
     },
+    mounted: function () {
+        this.getCurrencies();
+    }
 
 
 });

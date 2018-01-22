@@ -23,5 +23,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
-    Route::get('/base/{baseId}/room', 'ManageBasePublicApiController@baseRooms');
+    Route::get('/base/{baseId}/room', 'PublicApiController@baseRooms');
+    Route::get('/blogs', 'PublicApiController@getAllBlogs');
+    Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
 });

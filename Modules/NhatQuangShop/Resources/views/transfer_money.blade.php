@@ -99,8 +99,8 @@
         <div class="table-responsive" style="margin-top: 20px">
             <table class="table">
                 <tr>
-                    <th>Mục đích</th>
                     <th>Ngày chuyển</th>
+                    <th>Mục đích</th>
                     <th>Số tiền(VNĐ)</th>
                     <th>Ngân hàng</th>
                     <th>Nội dung</th>
@@ -109,8 +109,15 @@
                 <tbody>
                 @foreach($transfers as $transfer)
                     <tr>
-                        <td>{{$transfer->purpose}}</td>
+
                         <td>{{format_date($transfer->transfer_day)}}</td>
+                        <td class="text-center">
+                            <div class="label"
+                                 style="font-weight: bold;text-align: center;background-color: {{\App\TransferMoney::$PURPOSE_COLOR[$transfer->purpose]}}">
+                                {{\App\TransferMoney::$PURPOSE[$transfer->purpose]}}
+                            </div>
+
+                        </td>
                         <td style="font-weight: bold">
                             {{currency_vnd_format($transfer->money)}}
                         </td>
@@ -126,8 +133,9 @@
                             </div>
                         </td>
                         <td class="text-right">{{$transfer->note}}</td>
-                        <td class="text-right">
-                            <div class="label" style="background-color: {{$transfer->status()["color"]}}">
+                        <td style="min-width: 120px;">
+                            <div class="label"
+                                 style="background-color: {{$transfer->status()["color"]}}">
                                 {{$transfer->status()["text"]}}
                             </div>
                         </td>

@@ -207,7 +207,6 @@ class OrderController extends ManageApiController
             }
         }
 
-        //$response = $this->orderService->changeOrderStatus($order_id, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
