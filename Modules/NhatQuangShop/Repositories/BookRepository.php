@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
+use App\Currency;
 
 class BookRepository
 {
@@ -202,23 +203,31 @@ class BookRepository
     }
 
     public function saveFastOrder($email, $address, $user_id, $goods_arr){
-       $order = new Order;
-       $order->user_id = $user_id;
-       $order->address = $address;
-       $order->email = $email;
-       $order->save();
+
         if ($goods_arr) {
             foreach ($goods_arr as $good) {
+                $order = new Order;
+                $order->user_id = $user_id;
+                $order->address = $address;
+                $order->email = $email;
                 if($good->link === "" || $good->size==="" || $good->color==="" ){
                     return [
                         "message" => "Bạn chưa nhập đầy đủ thông tin"
                     ];
                     break;
                 }
-                $order->attach_info = json_encode($good);
+                $order->quantity = $good->number;
+                $order->price    = $good->number * $good->currency->ratio * $good->price;
+                $object = new stdClass();
+                $object->tax = $good->tax;
+                $object->size = $good->size;
+                $object->color = $good->color;
+                $object->link = $good->link;
+                $object->describe = $good->describe;
+                $order->attach_info = json_encode($object);
+                $order->save();
              }
         }
-        $order->save();
         return [
             "message" => "Xác nhận thành công đơn hàng",
             "status"=>1,
