@@ -345,7 +345,6 @@ var fastOrder = new Vue({
                 fastOrders: JSON.stringify(this.fastOrders)
             }).then(function (response) {
                 this.isLoading = false;
-                console.log(response);
                 if (response.data.status === 1) {
                     this.showSuccessMessage = true;
                     this.message = response.data.message;
