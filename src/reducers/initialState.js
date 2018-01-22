@@ -1,5 +1,28 @@
 export default {
-    orderedProduct: {},
+    currency: {
+        currencies: [],
+        isLoading: false,
+        addEditCurrencyModal: false,
+        currencyEditModal: {
+            name: '',
+            notation: '',
+            ratio: ''
+        },
+        isUpdatingEditModal: false,
+    },
+
+    orderedProduct: {
+        totalPaidMoney: 0,
+        totalMoney: 0,
+        totalDeliveryOrders: 0,
+        notLocked: 0,
+        deliveryOrders: [],
+        currentPage: 0,
+        totalPages: 0,
+        totalCount: 0,
+        isLoading: false,
+        staffs: []
+    },
 
     createProduct: {
         categories: [],
@@ -556,6 +579,9 @@ export default {
         totalPages: 1,
         currentPage: 1,
         posts: [],
+        categoriesList :[
+        ],
+        isLoadingCategories : true,
         isLoadingPost: false,
         errorPost: false,
     },
@@ -909,7 +935,17 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isOpenReturnOrder: false,
             isSaving: false,
+            isSavingReturnOrders: false,
+            isSavingQuantity: {
+                id: 0,
+                status: false,
+            },
+            isSavingQuantityInReturnOrders: {
+                id: 0,
+                status: false,
+            },
             isLoading: false,
             error: false,
             total: 1130000,
@@ -928,6 +964,14 @@ export default {
                     phone: "test",
                     email: "po01636863831@gmail.com"
                 },
+
+
+                return_orders: [],
+                warehouse: 0,
+
+                isLoadingGoodOverlay: false,
+                goodsList: [],
+                totalGoodPages: 0,
             },
         },
         staffs: [],
@@ -1160,6 +1204,7 @@ export default {
             categories: [],
             type_id: "",
             type: "",
+
         },
         link: {
             id: null,
@@ -1169,7 +1214,6 @@ export default {
             link_description: "",
             link_icon: "",
         },
-
         pixel: {
             name: "",
             code: "",
@@ -1185,6 +1229,7 @@ export default {
         },
         categories: [],
         types: [],
+
 
     },
     lessons: {
@@ -1318,6 +1363,7 @@ export default {
         isLoading: false,
         isLoadingStaffs: false,
         isSaving: false,
+        isLoadingArchivedWork: false,
         data: {
             name: "",
             type: "personal",
@@ -1331,13 +1377,13 @@ export default {
                 name: "",
                 avatar_url: "",
             },
-            currency:{
+            currency: {
                 id: null,
                 value: "",
                 label: "",
             },
         },
-        currencies:[],
+        currencies: [],
         staffs: [
             {
                 value: "value1",
@@ -1356,18 +1402,20 @@ export default {
                 "bonus_type": null
             },
         ],
+        archivedWorks: [],
     },
 
     groupCustomers: {
         isSaving: false,
+        isSavingCustomer: false,
         isSavingCoupon: false,
         isLoading: false,
         isLoadingCoupon: false,
-        isLoadingModal: false,
+        isLoadingCustomer: false,
         isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
+        customersList: [],         // (chứa trong overlay)    +  customersShowInTable  = full = customers
         totalCustomerInOverlayPages: 1,
-        totalCustomerInModalPages: 1,
+        totalCustomerPages: 1,
         totalCustomerCount: 1,
         totalGroupCustomerPages: 1,
         groupCustomerForm: {
@@ -1376,11 +1424,13 @@ export default {
             description: '',
             stringId: [],
             customers: [],                         // tat ca cac customer trong mot group
-            customersShowInModal: [],              // cac customer show ra bang trong mot group
+            customersShowInTable: [],              // cac customer show ra bang trong mot group
             color: '',
             coupons: [],
             order_value: '',
             delivery_value: '',
+            customersShowInAddModal: [],            // cac customer them vao vung tam
+
         },
         coupon: {
             name: '',
@@ -1450,6 +1500,28 @@ export default {
         isDeleting: false,
         errorDelete: false,
     },
+
+    createSaleGoods: {
+        customer: {
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+        },
+        infoOrder: {
+            payment: "",
+            note: "",
+            status: "completed_order",
+        },
+        goods: [],
+        goodsList: [],
+        goodsShowInTable: [],
+        isLoadingGoodModal: false,
+        totalGoodPages: 0,
+        warehouse: 0,
+        isSaving: false,
+    },
+
     historyExtension: {
         isLoading: false,
         paginator: {
@@ -1473,6 +1545,10 @@ export default {
                 id: 0,
                 name: "error",
             },
+            manager: {
+                id: 0,
+                name: "",
+            },
         }],
     },
     summaryStaff: {
@@ -1493,6 +1569,8 @@ export default {
         survey: {},
         showEditQuestionModal: false,
         question: {},
+        paginator: {},
+        showDisplaySettingModal: false,
         isSavingQuestion: false
     },
     dashboardXHH: {
@@ -1501,6 +1579,41 @@ export default {
         },
         isLoading: true,
         error: false,
+
+    },
+    companies: {
+        isLoadingCompanies: false,
+        isLoadingCompany: false,
+        isLoadingFields: false,
+        isSavingCompany: false,
+        isSavingField: false,
+        isLoading: false,
+        company: {
+            name: "",
+            registered_business_address: "",
+            office_address: "",
+            phone_company: "",
+            tax_code: "",
+            account_name: "",
+            account_number: "",
+            bank_name: "",
+            bank_branch: "",
+            field: {
+                id: 0,
+                name: "",
+            },
+            user_contact: "",
+            user_contact_phone: "",
+            type: "",
+        },
+        fields: [],
+        paginator: {
+            total_count: 0,
+            total_pages: 0,
+            current_page: 1,
+            limit: 20,
+        },
+
     },
 
 };

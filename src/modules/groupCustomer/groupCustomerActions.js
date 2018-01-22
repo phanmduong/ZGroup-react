@@ -11,6 +11,7 @@ export function loadCustomersInOverlay(page, limit, query, stringId) {
         });
         groupCustomerApis.loadCustomersInOverlayApi(limit, page, query)
             .then((res) => {
+
                 dispatch({
                     type: types.LOADED_CUSTOMER_SUCCESS_IN_GROUP_CUSTOMER,
                     customersList: res.data.customers,
@@ -20,6 +21,7 @@ export function loadCustomersInOverlay(page, limit, query, stringId) {
                 stringId.map((id) => {
                     dispatch(assignGroupCustomerFormData(id));
                 }); // loc luon những người có trong stringId
+
             })
             .catch(() => {
                 dispatch({
@@ -200,6 +202,45 @@ export function editGroupCustomer(groupCustomerForm, groupId) {
             });
     };
 }
+export function addCustomer(groupCustomerForm, groupId ,closeAddCustomerModal) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_ADD_CUSTOMER_IN_GROUP_CUSTOMER,});
+        groupCustomerApis.editGroupCustomerApi(groupCustomerForm , groupId)
+            .then((res) => {
+                if (res.data.status) {
+
+                    dispatch({
+                        type: types.ADD_CUSTOMER_SUCCESS_IN_GROUP_CUSTOMER,
+                    });
+                    dispatch({
+                        type: types.BEGIN_LOAD_CUSTOMER_IN_MODAL_IN_GROUP_CUSTOMER
+                    });
+                    groupCustomerApis.loadCustomersInModal(1, 6, '', groupId)
+                        .then((res) => {
+                            dispatch({
+                                type: types.LOADED_CUSTOMER_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER,
+                                groupCustomerForm: res.data,
+                                total_pages: res.data.paginator.total_pages,
+                            });
+                        })
+                        .catch(() => {
+                            dispatch({
+                                type: types.LOADED_CUSTOMER_IN_MODAL_ERROR_IN_GROUP_CUSTOMER,
+                            });
+                        });
+                    helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomerForm.name, 'success');
+                    closeAddCustomerModal();
+                }
+                else {
+                    helper.sweetAlertError(res.data.data.message);
+                    dispatch({type: types.ADD_CUSTOMER_ERROR_IN_GROUP_CUSTOMER,});
+                }
+            })
+            .catch(() => {
+                helper.sweetAlertError("Thất bại");
+            });
+    };
+}
 
 export function deleteGroupCustomer(id) {
     return function (dispatch) {
@@ -219,6 +260,24 @@ export function deleteGroupCustomer(id) {
             })
             .catch(() => {
                 helper.sweetAlertError("Nhóm vẫn còn khách hàng ");
+            });
+    };
+}
+export function deleteCoupon(id,name) {
+    return function (dispatch ) {
+        helper.showTypeNotification("Đang xóa " + name, "info");
+        groupCustomerApis.deleteCouponApi(id)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showTypeNotification(" Đã xóa " + name, "success");
+                    dispatch({
+                        type: types.DELETE_DISCOUNT_SUCCESS_IN_GROUP_CUSTOMER,
+                        id: id,
+                    });
+                }
+                else {
+                    helper.sweetAlertError(res.data.message.message);
+                }
             });
     };
 }

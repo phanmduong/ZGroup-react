@@ -107,6 +107,16 @@ export function deleteGroupCustomerApi(id) {
     return axios.delete(url);
 }
 
+export function deleteCouponApi(id) {
+    let token = localStorage.getItem("token");
+    let url = env.MANAGE_API_URL + '/coupon/'+ id + '/delete?';
+    if (token) {
+        url += 'token=' + token;
+    }
+    return axios.delete(url);
+}
+
+
 export function addCouponApi(coupon,idGroup) {
     let url = env.MANAGE_API_URL + "/coupon/create?";
     let token = localStorage.getItem('token');

@@ -59,7 +59,7 @@ class BasesContainer extends React.Component {
         this.props.baseListActions.loadBases(page, this.state.query);
     }
 
-
+    
     handleSwitch(state, baseId) {
         if (!state) {
             toastr.error("Phải luôn có 1 trụ sở");

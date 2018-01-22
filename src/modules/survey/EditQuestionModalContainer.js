@@ -5,6 +5,10 @@ import {connect} from "react-redux";
 import * as surveyActions from "./surveyActions";
 import {bindActionCreators} from "redux";
 import Loading from "../../components/common/Loading";
+import Select from 'react-select';
+import {QUESTION_TYPE} from "../../constants/constants";
+import ManyCorrectAnswerComponent from "./questionType/ManyCorrectAnswerComponent";
+import OneCorrectAnswerComponent from "./questionType/OneCorrectAnswerComponent";
 
 class EditQuestionModalContainer extends React.Component {
     constructor(props, context) {
@@ -12,6 +16,8 @@ class EditQuestionModalContainer extends React.Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.saveQuestion = this.saveQuestion.bind(this);
+        this.changeQuestionType = this.changeQuestionType.bind(this);
+        this.renderAnswerEdit = this.renderAnswerEdit.bind(this);
     }
 
     handleClose() {
@@ -28,6 +34,26 @@ class EditQuestionModalContainer extends React.Component {
         question[field] = event.target.value;
         this.props.surveyActions.updateQuestionFormData(question);
     }
+
+    changeQuestionType(option) {
+        const question = {...this.props.question};
+        question["type"] = option.value;
+        this.props.surveyActions.updateQuestionFormData(question);
+    }
+
+    renderAnswerEdit(question) {
+        switch (question.type) {
+            case 1:
+                return <OneCorrectAnswerComponent
+                    updateQuestionFormData={this.props.surveyActions.updateQuestionFormData}
+                    question={question}/>;
+            case 2:
+                return <ManyCorrectAnswerComponent
+                    updateQuestionFormData={this.props.surveyActions.updateQuestionFormData}
+                    question={question}/>;
+        }
+    }
+
 
     render() {
         const {question, isSavingQuestion} = this.props;
@@ -47,12 +73,30 @@ class EditQuestionModalContainer extends React.Component {
                             placeholder="Nội dung câu hỏi"
                             onChange={this.handleInputChange}/>
                     </FormGroup>
+                    <FormGroup>
+                        <ControlLabel>Loại câu hỏi</ControlLabel>
+                        <Select
+                            clearable={false}
+                            placeholder="Loại câu hỏi"
+                            value={question.type}
+                            name="cardLabels"
+                            options={QUESTION_TYPE}
+                            onChange={this.changeQuestionType}
+                        />
+                    </FormGroup>
+                    {
+                        this.renderAnswerEdit(question)
+                    }
+
                 </Modal.Body>
                 <Modal.Footer>
                     {
                         isSavingQuestion ? <Loading/> : (
                             <div>
-                                <Button className="btn btn-rose" onClick={this.saveQuestion}>Lưu</Button>
+                                <Button
+                                    disabled={question.type === undefined || question.type === null || !question.content}
+                                    className="btn btn-rose"
+                                    onClick={this.saveQuestion}>Lưu</Button>
                                 <Button className="btn btn-default" onClick={this.handleClose}>Đóng</Button>
                             </div>
                         )

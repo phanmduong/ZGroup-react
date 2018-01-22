@@ -15,6 +15,7 @@ import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
 import {ORDER_STATUS} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
+import {Link} from "react-router";
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -157,7 +158,7 @@ class OrdersContainer extends React.Component {
     }
 
     render() {
-        let first = (this.props.currentPage - 1) * this.props.limit + 1;
+        let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
             <div>
@@ -165,9 +166,13 @@ class OrdersContainer extends React.Component {
                     <div className="col-md-12">
                         <div className="flex flex-row flex-space-between">
                             <div>
-                                <TooltipButton text="Bán hàng" placement="top">
-                                    <button className="btn btn-rose">Bán hàng</button>
-                                </TooltipButton>
+                                <Link to="/good/goods/add-sale-good">
+                                    <TooltipButton text="Bán hàng" placement="top">
+                                        <button className="btn btn-rose">Bán hàng</button>
+                                    </TooltipButton>
+                                </Link>
+
+
                                 <TooltipButton text="Đặt hàng" placement="top">
                                     <button className="btn btn-rose">Đặt hàng</button>
                                 </TooltipButton>

@@ -2,10 +2,10 @@ import React from 'react';
 import {Overlay, ListGroup, ListGroupItem} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
-import Avatar from "../../components/common/Avatar";
-import Search from '../../components/common/Search';
-import Loading from "../../components/common/Loading";
-import Pagination from '../../components/common/Pagination';
+import Avatar from "./Avatar";
+import Search from './Search';
+import Loading from "./Loading";
+import Pagination from './Pagination';
 
 
 class AddOverlay extends React.Component {
@@ -24,8 +24,8 @@ class AddOverlay extends React.Component {
 
     loadFunction(page) {
         this.setState({page: page});
-        this.props.loadFunction(page, this.state.limit, this.state.query, this.props.stringId);
-    }
+        this.props.loadFunction(page, this.state.limit, this.state.query);
+    } // Load data
 
 
     toggle() {
@@ -45,7 +45,7 @@ class AddOverlay extends React.Component {
         this.timeOut = setTimeout(function () {
             this.props.loadFunction(this.state.page, this.state.limit, this.state.query);
         }.bind(this), 500);
-    }
+    }   // search data
 
 
 
@@ -54,7 +54,7 @@ class AddOverlay extends React.Component {
         const field2 = this.props.fieldName2;
         let formData = {...this.props.formData};
         formData[field] = [... formData[field],item.id];
-        formData[field2] = [... formData[field2], item] ;
+        formData[field2] = [... formData[field2], item] ; // Add obj to array
         this.props.updateFormData(formData);
         this.props.assignCustomer(item.id);
     }
@@ -168,7 +168,6 @@ AddOverlay.propTypes = {
     isPagination: PropTypes.bool,
     isSearch: PropTypes.bool,
     items: PropTypes.array,   // element co name , avatar_url , id
-    stringId: PropTypes.array,
     totalPages: PropTypes.number,
 };
 export default AddOverlay;

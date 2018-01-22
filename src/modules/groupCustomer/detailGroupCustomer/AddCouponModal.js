@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormInputText from '../../components/common/FormInputText';
+import FormInputText from '../../../components/common/FormInputText';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import * as groupCustomerActions from './groupCustomerActions';
-import FormInputDate from '../../components/common/FormInputDate';
-import FormInputSelect from '../../components/common/FormInputSelect';
-import CheckBoxMaterial from '../../components/common/CheckBoxMaterial';
+import * as groupCustomerActions from '../groupCustomerActions';
+import FormInputDate from '../../../components/common/FormInputDate';
+import FormInputSelect from '../../../components/common/FormInputSelect';
+import CheckBoxMaterial from '../../../components/common/CheckBoxMaterial';
 
 
 class AddCouponModal extends React.Component {
@@ -135,7 +135,6 @@ class AddCouponModal extends React.Component {
                                 updateFormData={this.updateFormData}
                                 type="text"
                                 value={name}
-                                required={true}
                             />
                         </div>
                         <div className="col-md-3">

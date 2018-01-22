@@ -1,7 +1,8 @@
 import * as types from '../../constants/actionTypes';
 import * as helper from '../../helpers/helper';
-import * as goodOrdersApi from './goodOrdersApi';
+import * as goodOrdersApi from '../goodOrders/goodOrdersApi';
 import moment from 'moment';
+import {browserHistory} from "react-router";
 
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
@@ -119,8 +120,8 @@ export function changeStatusOrder(status, orderId, warehouse_id) {
                     helper.showNotification("Thay đổi trạng thái thành công");
                     dispatch({
                         type: types.CHANGE_STATUS_ORDER_SUCCESS,
-                        order_id: orderId,
-                        status
+                        status,
+                        order_id: orderId
                     });
                 }
             })
@@ -246,32 +247,128 @@ export function updateOrderFormData(order) {
     };
 }
 
-export function editOrder(order, orderId) {
+export function editOrder(order, orderId,isQuantity, index) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_EDIT_ORDER});
+        dispatch({type: types.BEGIN_EDIT_ORDER, index: index,isQuantity});
         goodOrdersApi.editOrderApi(order, orderId)
             .then((res) => {
                 if (res.data.status) {
                     helper.showTypeNotification('Đã chỉnh sửa thành công', 'success');
                     dispatch({
                         type: types.EDIT_ORDER_SUCCESS,
-                        // customer: res.data.data.user,
+                        index: index,
+                        isQuantity
                     });
-                    // browserHistory.push('/goods/customer');
+                    if(!isQuantity)
+                    {browserHistory.push("/good/goods/orders");}
                 }
                 else {
                     helper.showErrorNotification(res.data.message.message);
                     dispatch({
                         type: types.EDIT_ORDER_ERROR,
+                        index: index,
+                        isQuantity
                     });
                 }
             })
             .catch(() => {
                     helper.showErrorNotification("Lỗi");
                     dispatch({
-                        type: types.EDIT_ORDER_ERROR
+                        type: types.EDIT_ORDER_ERROR,
+                        index: index,
+                        isQuantity
                     });
                 }
             );
     };
 }
+
+
+
+
+export function editReturnOrders(order,orderId,isQuantity,index) {
+    return function (dispatch) {
+      dispatch({type : types.BEGIN_EDIT_RETURN_ORDER,isQuantity , index});
+        goodOrdersApi.editReturnOrdersApi(order,orderId)
+            .then((res)=>{
+            if(res.data.status) {
+                dispatch({
+                    type: types.EDIT_RETURN_ORDER_SUCCESS,
+                    isQuantity , index
+                });
+                helper.showTypeNotification('Đã chỉnh sửa đơn trả hàng', 'success');
+            }
+            else {
+                dispatch({
+                    type :types.EDIT_RETURN_ORDER_ERROR,
+                    isQuantity , index
+                });
+            }})
+            .catch(()=>{
+               dispatch({
+                   type :types.EDIT_RETURN_ORDER_ERROR,
+                   isQuantity , index
+               });
+            });
+    };
+}
+
+
+
+export function openReturnOrder(isOpenReturnOrder) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_RETURN_ORDER_IN_ORDER,
+            isOpenReturnOrder: isOpenReturnOrder
+        });
+    };
+}
+
+export function changeWarehouse(id) {
+
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_WAREHOUSE_RETURN_ORDERS,
+            id: id,
+        });
+    };
+}
+
+export function resetReturnOrders() {
+    return function (dispatch) {
+        dispatch({
+            type: types.RESET_RETURN_ORDERS,
+        });
+    };
+}
+
+export function loadGoodsInOverlay(page, limit, query, good_orders) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOODS_IN_OVERLAY_IN_ORDER,
+        });
+        goodOrdersApi.loadGoodsApi(page, limit, query)
+            .then((res) => {
+                dispatch({
+                    type: types.LOADED_GOODS_SUCCESS_IN_OVERLAY_IN_ORDER,
+                    goods: res.data.goods,
+                    total_pages: res.data.paginator.total_pages,
+                    good_orders: good_orders,
+                });
+            })
+
+            .catch(dispatch({
+                type: types.LOADED_GOODS_ERROR_IN_OVERLAY_IN_ORDER
+            }));
+    };
+}
+
+export function assignGoodFormData(good) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ASSIGN_GOOD_FORM_DATA_IN_ORDER,
+            good,
+        });
+    };
+}
+

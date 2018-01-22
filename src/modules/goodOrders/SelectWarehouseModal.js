@@ -45,7 +45,7 @@ class SelectWarehouseModal extends React.Component {
     }
 
     render() {
-        let first = (this.props.currentPageWarehouse - 1) * 10 + 1;
+        let first = this.props.totalCountWarehouse ? (this.props.currentPageWarehouse - 1) * 10 + 1 : 0;
         let end = this.props.currentPageWarehouse < this.props.totalPagesWarehouse ? this.props.currentPageWarehouse * 10 : this.props.totalCountWarehouse;
         return (
             <Modal show={this.props.selectWarehouseModal}
@@ -83,7 +83,8 @@ class SelectWarehouseModal extends React.Component {
                                                         this.props.nextStatus,
                                                         this.props.orderIdWarehouseModal,
                                                         warehouse.id
-                                                    )}>
+                                                    )}
+                                                    style={{cursor: "pointer"}}>
                                                     <td>{warehouse.name}</td>
                                                     <td>{warehouse.location}</td>
                                                     <td>{warehouse.base ? warehouse.base.name : "Không có"}</td>

@@ -25,12 +25,12 @@ export function historyExtensionWork(page = 1,search = '') {
     };
 }
 
-export function deleteHistoryExtensionWork(id) {
+export function deleteHistoryExtensionWork(id,userId) {
    return function (dispatch) {
         dispatch({
             type: types.BEGIN_DELETE_HISTORY_EXTENSION_WORK,
         });
-        HistoryExtensionWorkApi.deleteHistoryExtensionWork(id)
+        HistoryExtensionWorkApi.deleteHistoryExtensionWork(id,userId)
             .then((res) => {
                if(res.data.status === 1) {
                    helper.showNotification("Từ chối thành công");
@@ -47,12 +47,12 @@ export function deleteHistoryExtensionWork(id) {
         });
     };
 }
-export function acceptHistoryExtensionWork(id){
+export function acceptHistoryExtensionWork(id,userId){
     return function (dispatch){
         dispatch({
            type : types.BEGIN_ACCEPT_HISTORY_EXTENSION_WORK,
         });
-        HistoryExtensionWorkApi.acceptHistoryExtensionWork(id)
+        HistoryExtensionWorkApi.acceptHistoryExtensionWork(id,userId)
             .then((res)=>{
                if(res.data.status === 1) {
                    helper.showNotification("Chấp nhận thành công");

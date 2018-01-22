@@ -1,11 +1,8 @@
 import React from 'react';
 import TooltipButton from '../../../components/common/TooltipButton';
-import Search from '../../../components/common/Search';
 import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
 import EditButton from "./EditButton";
-
-
 
 
 class ListGood extends React.Component {
@@ -22,8 +19,6 @@ class ListGood extends React.Component {
     }
 
 
-
-
     searchTable(value) {
         this.table.search(value).draw();
     }
@@ -31,14 +26,9 @@ class ListGood extends React.Component {
     render() {
         let totalMoneyAll = 0;
         return (
-            <div>
-                <Search
-                    onChange={this.searchTable}
-                    placeholder="Nhập mã barcode hoặc tên hàng hóa"
-                />
-                <div className="material-datatables">
-                    <table id="datatables-goodorders" className="table"
-                           width="100%">
+            <div style={{marginTop: 50}}>
+                <div className="table-responsive">
+                    <table className="table table-hover">
                         <thead className="text-rose">
                         <tr>
                             <th>STT</th>
@@ -52,7 +42,7 @@ class ListGood extends React.Component {
                         </thead>
                         <tbody>
                         {
-                            this.props.goodOrders.map((goodOrder, index) => {
+                            this.props.goodOrders && this.props.goodOrders.map((goodOrder, index) => {
                                 let totalMoney = goodOrder.quantity * goodOrder.price;
 
                                 if (goodOrder.discount_money) {
@@ -75,10 +65,12 @@ class ListGood extends React.Component {
                                         </td>
                                         <td>{goodOrder.name}</td>
                                         <EditButton
-                                            goodOrder = {goodOrder}
+                                            goodOrder={goodOrder}
                                             index={index}
-                                            updateQuantity = {this.props.updateQuantity}
-                                            orderId = {this.props.orderId}
+                                            updateQuantity={this.props.updateQuantity}
+                                            orderId={this.props.orderId}
+                                            quantity={goodOrder.quantity}
+                                            isReturnOrders={this.props.isReturnOrders}
                                         />
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>
@@ -148,7 +140,7 @@ class ListGood extends React.Component {
                                 <h4><b>Còn lại</b></h4>
                             </th>
                             <th className="text-align-right" colSpan="5">
-                                <h4><b>{helper.dotNumber(totalMoneyAll- this.props.paid)}đ</b></h4>
+                                <h4><b>{helper.dotNumber(totalMoneyAll - this.props.paid)}đ</b></h4>
                             </th>
                             <th/>
                         </tr>
@@ -165,9 +157,9 @@ class ListGood extends React.Component {
 ListGood.propTypes = {
     goodOrders: PropTypes.array.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    updateOrderFormData: PropTypes.func.isRequired,
-    paid: PropTypes.number.isRequired,
+    paid: PropTypes.number,
     orderId: PropTypes.number.isRequired,
+    isReturnOrders: PropTypes.bool.isRequired,
 };
 
 export default ListGood;

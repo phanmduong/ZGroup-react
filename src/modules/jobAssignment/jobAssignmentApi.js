@@ -133,3 +133,22 @@ export function loadCurrencies() {
     }
     return axios.get(url);
 }
+
+export function acceptPay(workId, staffId) {
+    //manageapi.keetool.xyz/staff/{staffID}/{workID}/acceptHire?token=
+    let url     = env.MANAGE_API_URL +"/staff/" + staffId + "/" + workId + "/acceptHire";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.post(url);
+}
+export function loadArchivedWork() {
+    //manageapi.ketool.xyz/work/archive?token=&limit=&search=
+    let url     = env.MANAGE_API_URL +"/work/archive?search=" ;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+    return axios.get(url);
+}

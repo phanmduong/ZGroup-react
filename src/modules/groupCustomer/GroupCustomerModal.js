@@ -128,7 +128,7 @@ GroupCustomerModal.propTypes = {
     groupCustomerForm: PropTypes.object,
     customersList: PropTypes.array,
     totalCustomerInOverlayPages: PropTypes.number,
-    totalCustomerInModalPages: PropTypes.number,
+    totalCustomerPages: PropTypes.number,
     isEdit: PropTypes.bool,
 };
 
@@ -139,7 +139,7 @@ function mapStateToProps(state) {
         customersList: state.groupCustomers.customersList,
         groupCustomerForm: state.groupCustomers.groupCustomerForm,
         totalCustomerInOverlayPages: state.groupCustomers.totalCustomerInOverlayPages,
-        totalCustomerInModalPages: state.groupCustomers.totalCustomerInModalPages,
+        totalCustomerPages: state.groupCustomers.totalCustomerPages,
     };
 }
 

@@ -75,7 +75,7 @@ class ManufacturesManageModal extends React.Component {
     }
 
     render() {
-        let first = (this.props.currentPageManufactures - 1) * 10 + 1;
+        let first = this.props.totalCountManufactures ? (this.props.currentPageManufactures - 1) * 10 + 1 : 0;
         let end = this.props.currentPageManufactures < this.props.totalPagesManufactures ? this.props.currentPageManufactures * 10 : this.props.totalCountManufactures;
         return (
             <Modal show={this.props.manufacturesManageModal}

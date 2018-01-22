@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
-// import ReactSelect from 'react-select';
 
 
 import Loading from "../../components/common/Loading";
@@ -49,11 +48,6 @@ class DiscountContainer extends React.Component {
             this.props.discountActions.loadDiscounts(this.state.page, this.state.limit, this.state.query);
         }.bind(this), 500);
     }
-
-    // openInfoCustomer(customer){
-    //     this.props.discountActions.updateAddCustomerFormData(customer);     //      Gán customer vào để show ra trong InfoCustomerContainer
-    //     browserHistory.push('/goods/customer/info-customer/'+customer.id);
-    // }
 
 
     deleteDiscount(id, name) {

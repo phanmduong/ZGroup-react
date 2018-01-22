@@ -3,12 +3,13 @@ import {Link} from 'react-router';
 import TooltipButton from '../../components/common/TooltipButton';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
-import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
+import {ORDERED_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
+import StatusSelect from "../goodOrders/status/StatusSelect";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.changeStatusOrder = this.changeStatusOrder.bind(this);
+        //this.changeStatusOrder = this.changeStatusOrder.bind(this);
     }
 
     statusOrder(status) {
@@ -42,7 +43,7 @@ class ItemOrder extends React.Component {
         }
     }
 
-    changeStatusOrder(value) {
+    /*changeStatusOrder(value) {
         const user = this.props.user;
         let currentStatus = ORDER_STATUS.filter(status => this.props.order.status === status.value)[0];
         let nextStatus = ORDER_STATUS.filter(status => status.value === value)[0];
@@ -53,7 +54,7 @@ class ItemOrder extends React.Component {
                 this.props.changeStatusOrder(value, this.props.order.id);
             });
         }
-    }
+    }*/
 
     render() {
         const order = this.props.order;
@@ -94,28 +95,13 @@ class ItemOrder extends React.Component {
                     }
                 </td>
                 <td>
-                    {
-                        order.base ?
-                            (
-                                <TooltipButton text={order.base.name} placement="top">
-                                    <button className="btn btn-xs btn-main">
-                                        {order.base.name}
-                                    </button>
-                                </TooltipButton>
-                            )
-                            :
-                            (
-                                <div>Không có</div>
-                            )
-                    }
-                </td>
-                <td>
-                    fuck
+                    <StatusSelect options={ORDERED_STATUS}
+                                  onChange={this.changeStatusOrder}
+                                  value={order.status}/>
                 </td>
                 <td>
                     <a data-toggle="tooltip" title="Ghi chú" type="button"
-                       rel="tooltip"
-                       onClick={() => this.props.showAddNoteModal(order)}>
+                       rel="tooltip">
                         {
                             order_note === "" ? (
                                 <i className="material-icons">edit</i>
@@ -130,8 +116,7 @@ class ItemOrder extends React.Component {
                 <td>
                     <button
                         disabled={order.status !== "ship_order"}
-                        className="btn btn-social btn-fill btn-twitter"
-                        onClick={() => this.props.showShipGoodModal(order)}>
+                        className="btn btn-social btn-fill btn-twitter">
                         <i className="fa fa-twitter"/> Ship hàng
                     </button>
                 </td>
@@ -143,8 +128,6 @@ class ItemOrder extends React.Component {
 ItemOrder.propTypes = {
     order: PropTypes.object.isRequired,
     changeStatusOrder: PropTypes.func.isRequired,
-    showShipGoodModal: PropTypes.func.isRequired,
-    showAddNoteModal: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired
 };
 

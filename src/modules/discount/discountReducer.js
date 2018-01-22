@@ -37,10 +37,10 @@ export default function discountReducer(state = initialState.discounts, action) 
 
         case types.DELETE_DISCOUNT_SUCCESS:
 
-            discountsList = deleteDiscountReducer(action.id , state.discountsList);
+            discountsList = deleteDiscountReducer(action.id, state.discountsList);
             return {
                 ...state,
-                discountsList : discountsList,
+                discountsList: discountsList,
             };
         default :
             return state;
@@ -48,8 +48,12 @@ export default function discountReducer(state = initialState.discounts, action) 
 }
 
 function deleteDiscountReducer(id, discountsList) {
-    if (discountsList){
-        discountsList = discountsList.filter((discount) => discount.id !== id);
+    if (discountsList) {
+        discountsList = discountsList.map((discount) => {
+            if (discount.id === id) {
+                return  {...discount,activate : 0};
+            } else return discount;
+        });
     }
     return discountsList;
 }

@@ -19,10 +19,10 @@ class GroupCustomerItem extends React.Component {
                        color: 'rgb(69, 90, 100)',
                        textAlign: 'left'
                    }}
-                    onClick={(e) => {
-                        browserHistory.push('/good/goods/group-customer/' + groupCustomerItem.id);
-                        e.stopPropagation();
-                    }}
+                   onClick={(e) => {
+                       browserHistory.push('/good/goods/group-customer/' + groupCustomerItem.id);
+                       e.stopPropagation();
+                   }}
                 >
 
                     <div className="dropdown" style={{position: "absolute", top: "10px", right: "10px"}}>
@@ -34,8 +34,8 @@ class GroupCustomerItem extends React.Component {
 
                             <li className="more-dropdown-item">
                                 <a onClick={() => {
-                                       this.props.openEditModal(groupCustomerItem);
-                                   }}
+                                    this.props.openEditModal(groupCustomerItem);
+                                }}
                                 >
                                     <i className="material-icons">edit</i> Sửa nhóm
                                 </a>
@@ -43,7 +43,8 @@ class GroupCustomerItem extends React.Component {
                             <li className="more-dropdown-item">
                                 <a onClick={(event) => {
                                     event.stopPropagation(event);
-                                    this.props.deleteGroupCustomer(groupCustomerItem.id, groupCustomerItem.name);}}
+                                    this.props.deleteGroupCustomer(groupCustomerItem.id, groupCustomerItem.name);
+                                }}
                                 >
                                     <i className="material-icons">delete</i> Xóa nhóm
                                 </a>
@@ -60,52 +61,24 @@ class GroupCustomerItem extends React.Component {
                         background: groupCustomerItem.color
                     }}/>
                     <div className="row" style={{textTransform: 'none', marginBottom: 10}}>
-                        <span>{groupCustomerItem.description}</span>
+                        <span>{"Mô tả : " + groupCustomerItem.description}</span>
                         <br/>
                         <br/>
-                        | {groupCustomerItem.customers.length}
-                        khách hàng<br/>
+                        | {groupCustomerItem.customers.length + " "}
+                        Khách hàng
+                        | {"       " + groupCustomerItem.coupons_count ? groupCustomerItem.coupons_count + " " : 0}
+                        Khuyến mãi
+                        <br/>
                     </div>
 
-
-
-
-
-
-                            {/*                           AVATAR                             */}
-
-                    {/*<div className="row"*/}
-                         {/*style={{display: 'flex', flexFlow: 'row-reverse wrap', height: 29}}>*/}
-                        {/*<div style={{padding: '2px 0px'}}>*/}
-                            {/*<div style={{*/}
-                                {/*width: 25,*/}
-                                {/*marginRight: 5,*/}
-                                {/*height: 25,*/}
-
-                            {/*}}>*/}
-                                {/*<div style={{*/}
-                                    {/*backgroundPosition: 'center center',*/}
-                                    {/*backgroundSize: 'cover',*/}
-                                    {/*borderRadius: 4,*/}
-                                {/*}}*/}
-
-                                {/*>*/}
-                                    {/*{groupCustomerItem.customers.map((customer) => {*/}
-                                        {/*return (*/}
-                                            {/*<Avatar size={20} url={customer.avatar_url} key={customer.id}*/}
-                                            {/*/>*/}
-                                        {/*);*/}
-                                    {/*})}*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
-
-                        {/*</div>*/}
-                    {/*</div>                                   THÊM AVATAR VÀO THẺ              */}
-
-
-
-
-
+                    <div className="row" style={{textTransform: 'none', marginBottom: 10}}>
+                        <br/>
+                        |Tiền mua theo đơn : {groupCustomerItem.order_value ? groupCustomerItem.order_value + " " : 0}
+                        <br/>
+                        |Tiền mua hàng sẵn
+                        : {groupCustomerItem.delivery_value ? groupCustomerItem.delivery_value + " " : 0}
+                        <br/>
+                    </div>
 
 
                     <div className="ripple-container"/>
