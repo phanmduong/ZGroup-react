@@ -4,7 +4,6 @@
 //    Route::get('/', 'TaskController@index');
 //});
 
-
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Task\Http\Controllers'], function () {
 
     // project api

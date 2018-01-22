@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // $('#vue-nav').css("display", "block");
+    $('#vue-nav').css("display", "block");
 
     function detectmob() {
         if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
@@ -81,26 +81,27 @@ var google_conversion_id = 923433004;
 var google_custom_params = window.google_tag_params;
 var google_remarketing_only = true;
 
-window.addEventListener('scroll', function () {
-    var diff = $('#first-after-nav').offset().top - $(window).scrollTop();
-    if (diff <= $('#bl-routing-wrapper').height()) {
-        $('#bl-routing-wrapper').addClass('bl-fix-routing');
-    } else {
-        $('#bl-routing-wrapper').removeClass('bl-fix-routing');
-    }
-
-});
+// window.addEventListener('scroll', function () {
+//     var diff = $('#first-after-nav').offset() ? $('#first-after-nav').offset().top - $(window).scrollTop() : '';
+//     if (diff <= $('#bl-routing-wrapper').height()) {
+//         $('#bl-routing-wrapper').addClass('bl-fix-routing');
+//     } else {
+//         $('#bl-routing-wrapper').removeClass('bl-fix-routing');
+//     }
+//
+// });
 
 function removeStorage(name) {
     try {
         localStorage.removeItem(name);
         localStorage.removeItem(name + '_expiresIn');
-    } catch(e) {
-        console.log('removeStorage: Error removing key ['+ key + '] from localStorage: ' + JSON.stringify(e) );
+    } catch (e) {
+        console.log('removeStorage: Error removing key [' + key + '] from localStorage: ' + JSON.stringify(e));
         return false;
     }
     return true;
 }
+
 /*  getStorage: retrieves a key from localStorage previously set with setStorage().
     params:
         key <string> : localStorage key
@@ -112,8 +113,10 @@ function getStorage(key) {
 
     var now = Date.now();  //epoch time, lets deal only with integer
     // set expiration for storage
-    var expiresIn = localStorage.getItem(key+'_expiresIn');
-    if (expiresIn===undefined || expiresIn===null) { expiresIn = 0; }
+    var expiresIn = localStorage.getItem(key + '_expiresIn');
+    if (expiresIn === undefined || expiresIn === null) {
+        expiresIn = 0;
+    }
 
     if (expiresIn < now) {// Expired
         removeStorage(key);
@@ -122,12 +125,13 @@ function getStorage(key) {
         try {
             var value = localStorage.getItem(key);
             return value;
-        } catch(e) {
-            console.log('getStorage: Error reading key ['+ key + '] from localStorage: ' + JSON.stringify(e) );
+        } catch (e) {
+            console.log('getStorage: Error reading key [' + key + '] from localStorage: ' + JSON.stringify(e));
             return null;
         }
     }
 }
+
 /*  setStorage: writes a key into localStorage setting a expire time
     params:
         key <string>     : localStorage key
@@ -138,20 +142,32 @@ function getStorage(key) {
  */
 function setStorage(key, value, expires) {
 
-    if (expires===undefined || expires===null) {
-        expires = (24*60*60);  // default: seconds for 1 day
+    if (expires === undefined || expires === null) {
+        expires = (24 * 60 * 60);  // default: seconds for 1 day
     } else {
         expires = Math.abs(expires); //make sure it's positive
     }
 
     var now = Date.now();  //millisecs since epoch time, lets deal only with integer
-    var schedule = now + expires*1000;
+    var schedule = now + expires * 1000;
     try {
         localStorage.setItem(key, value);
         localStorage.setItem(key + '_expiresIn', schedule);
-    } catch(e) {
-        console.log('setStorage: Error setting key ['+ key + '] in localStorage: ' + JSON.stringify(e) );
+    } catch (e) {
+        console.log('setStorage: Error setting key [' + key + '] in localStorage: ' + JSON.stringify(e));
         return false;
     }
     return true;
 }
+
+
+//react truyền call để mở modal cv của react
+function openModalCV(callback) {
+    $('#button-open-cv').click(function () {
+        callback();
+    });
+}
+
+
+
+

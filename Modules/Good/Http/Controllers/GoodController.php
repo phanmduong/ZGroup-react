@@ -87,7 +87,7 @@ class GoodController extends ManageApiController
     public function createGoodBeta(Request $request)
     {
         $name = $request->name;
-        $code = $request->code;
+        $code = $request->code ? $request->code : 'GOOD' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $description = $request->description;
         $price = $request->price;
         $avatarUrl = $request->avatar_url;
@@ -254,7 +254,7 @@ class GoodController extends ManageApiController
             foreach ($children as $child) {
                 $good = $child->id ? Good::find($child->id) : new Good;
                 $this->assignGoodInfor($good, $request);
-                $good->barcode = $child->barcode;
+                $good->barcode = $child->Øbarcode;
                 $good->price = $child->price ? $child->price : $request->price;
                 $good->save();
 

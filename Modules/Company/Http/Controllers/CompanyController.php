@@ -3,11 +3,13 @@
 namespace Modules\Company\Http\Controllers;
 
 use App\Field;
+use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\ManageApiController;
 use App\Company;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends ManageApiController
 {
@@ -18,8 +20,11 @@ class CompanyController extends ManageApiController
             $request->office_address === null || trim($request->office_address) == '' ||
             $request->phone_company === null || trim($request->phone_company) == '' ||
             $request->tax_code === null || trim($request->tax_code) == '' ||
-            $request->info_account === null || trim($request->info_account) == '' ||
-            $request->field_id === null ||
+            $request->account_number === null || trim($request->account_number) == '' ||
+            $request->account_name === null || trim($request->account_name) == '' ||
+            $request->bank_name === null || trim($request->bank_name) == '' ||
+            $request->field_id === null || trim($request->field_id) == '' ||
+            $request->bank_branch === null || trim($request->bank_branch) == '' ||
             $request->user_contact === null || trim($request->user_contact) == '' ||
             $request->user_contact_phone === null || trim($request->user_contact_phone) == '' ||
             $request->type === null || trim($request->type) == ''
@@ -30,7 +35,10 @@ class CompanyController extends ManageApiController
         $company->office_address = $request->office_address;
         $company->phone_company = $request->phone_company;
         $company->tax_code = $request->tax_code;
-        $company->info_account = $request->info_account;
+        $company->account_number = $request->account_number;
+        $company->account_name = $request->account_name;
+        $company->bank_name = $request->bank_name;
+        $company->bank_branch = $request->bank_branch;
         $company->field_id = $request->field_id;
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
@@ -67,11 +75,24 @@ class CompanyController extends ManageApiController
         $company->office_address = $request->office_address;
         $company->phone_company = $request->phone_company;
         $company->tax_code = $request->tax_code;
-        $company->info_account = $request->info_account;
+        $company->account_number = $request->account_number;
+        $company->account_name = $request->account_name;
+        $company->bank_name = $request->bank_name;
+        $company->bank_branch = $request->bank_branch;
         $company->field_id = $request->field_id;
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
+        $company->save();
+        $field = Field::find($company->field_id);
+        $str = convert_vi_to_en_not_url($field->name);
+        $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
+        $str = strtoupper($str);
+        $day = date_format($company->created_at,'d');
+        $month = date_format($company->created_at,'m');
+        $id = (string)$company->id;
+        while (strlen($id) < 4) $id = '0' . $id;
+        $company->partner_code =$str.$day.$month.$id;
         $company->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công",
@@ -89,23 +110,93 @@ class CompanyController extends ManageApiController
         $search = $request->search;
         $type = $request->type;
         $limit = $request->limit ? $request->limit : 20;
-        $company = Company::query();
-        if($search)
-          $company->where('name','like','%' . $search . '%');
-        if($type)
-            $company->where('type',$type);
-        $company = $company->orderBy('created_at','desc')->paginate($limit);
-        return $this->respondWithPagination($company,[
-            "company" => $company->map(function($data){
-                return $data->transform();
-            }),
-        ]);
+        if($limit != -1) {
+            $company = Company::query();
+            if ($search)
+                $company->where('name', 'like', '%' . $search . '%');
+            if ($type)
+                $company->where('type', $type);
+            $company = $company->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($company, [
+                "company" => $company->map(function ($data) {
+                    return $data->transform();
+                }),
+            ]);
+        } else{
+            $company = Company::all();
+            return $this->respondSuccessWithStatus([
+                "company" => $company->map(function($pp){
+                    return $pp->transform();
+                })
+            ]);
+        }
     }
     public function getDetailCompany($companyId,Request $request){
         $company = Company::find($companyId);
         if(!$company) return $this->respondErrorWithStatus("Không tồn tại công ty");
         return $this->respondSuccessWithStatus([
             "company" => $company->transform()
+        ]);
+    }
+
+    public function createPayment(Request $request){
+        if($request->payer_id === null || !$request->receiver_id === null||
+            $request->money_value === null || trim($request->money_value) == ''||
+            $request->bill_image_url === null || trim($request->bill_image_url) == '' )
+            return $this->respondErrorWithStatus("Thiếu trường");
+        $payment = new Payment;
+        $payment->bill_image_url = $request->bill_image_url;
+        $payment->description = $request->description;
+        $payment->money_value = $request->money_value;
+        $payment->payer_id = $request->payer_id;
+        $payment->receiver_id = $request->receiver_id;
+
+        $payment->save();
+        return $this->respondSuccessWithStatus([
+           "message" => "Thành công"
+        ]);
+    }
+
+    public function editPayment($paymentId,Request $request){
+        $payment =Payment::find($paymentId);
+        if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
+        if($request->payer_id === null || !$request->receiver_id === null||
+            $request->money_value === null || trim($request->money_value) == ''||
+            $request->bill_image_url === null || trim($request->bill_image_url) == '' )
+            return $this->respondErrorWithStatus("Thiếu trường");
+        $payment->bill_image_url = $request->bill_image_url;
+        $payment->description = $request->description;
+        $payment->money_value = $request->money_value;
+        $payment->payer_id = $request->payer_id;
+        $payment->receiver_id = $request->receiver_id;
+        $payment->save();
+
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+    }
+
+    public function getAllPayment(Request $request){
+        $keyword = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $payments = Payment::join(DB::raw('users as payers'),'payments.payer_id','=','payers.id')
+         ->join(DB::raw('users as receivers'),'payments.receiver_id','=','receivers.id')->
+         select('payments.*')->where(function($query) use ($keyword){
+                $query->where('payers.name', 'like', '%' . $keyword . '%')->orWhere('receivers.name', 'like', '%' . $keyword . '%');
+            })->orderby('payments.created_at','desc')->paginate($limit);
+
+        return $this->respondWithPagination($payments,[
+            "payment" => $payments->map(function($payment){
+                 return $payment->transform();
+            })
+        ]);
+    }
+
+    public function getPayment($paymentId){
+        $payment =Payment::find($paymentId);
+        if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+           'payment' => $payment->transform(),
         ]);
     }
 

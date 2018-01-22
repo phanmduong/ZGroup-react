@@ -51,11 +51,14 @@ class Order extends Model
             "good_id")->withPivot("quantity", "price");
     }
 
+
     public function ship_infor()
     {
         return $this->belongsTo(ShipInfor::class, 'ship_infor_id');
     }
-    public function bank_count(){
+
+    public function bank_count()
+    {
         return $this->belongsTo(BankAccount::class, 'bank_count_id');
     }
 
@@ -189,6 +192,15 @@ class Order extends Model
                 'email' => $this->email,
             ];
         }
+        if ($this->ship_infor) {
+            $data['ship_infor'] = [
+                'name' => $this->ship_infor->name,
+                'phone' => $this->ship_infor->phone,
+                'province' => $this->ship_infor->province,
+                'district' => $this->ship_infor->district,
+                'address' => $this->ship_infor->address,
+            ];
+        }
         $data['total'] = $this->goodOrders->reduce(function ($total, $goodOrder) {
             return $total + $goodOrder->price * $goodOrder->quantity;
         }, 0);
@@ -200,8 +212,72 @@ class Order extends Model
             }, 0) - $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0);
-        return [
-            'order' => $data,
+        return $data;
+    }
+
+    public function returnOrderData()
+    {
+        $data = [];
+        if ($this->staff)
+            $data['staff'] = [
+                'id' => $this->staff->id,
+                'name' => $this->staff->name,
+            ];
+        if ($this->warehouse)
+            if ($this->warehouse->base)
+                $data['base'] = [
+                    'name' => $this->warehouse->base->name,
+                    'address' => $this->warehouse->base->address,
+                ];
+        if ($this->user) {
+            $data['customer'] = [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'address' => $this->user->address,
+                'phone' => $this->user->phone,
+                'email' => $this->user->email,
+            ];
+        }
+        $data['good_orders'] = $this->goodOrders->map(function ($goodOrder) {
+            $goodOrderData = [
+                'good_id' => $goodOrder->good_id,
+                'price' => $goodOrder->price,
+                'quantity' => $goodOrder->quantity,
+                'name' => $goodOrder->good->name,
+                'code' => $goodOrder->good->code,
+            ];
+            if ($goodOrder->discount_money)
+                $goodOrderData['discount_money'] = $goodOrder->discount_money;
+            if ($goodOrder->discount_percent)
+                $goodOrderData['discount_percent'] = $goodOrder->discount_percent;
+            return $goodOrderData;
+        });
+        return $data;
+    }
+
+    public function getDeliveryData()
+    {
+        $data = [
+            'id' => $this->id,
+            'note' => $this->note,
+            'code' => $this->code,
+            'attach_info' => $this->attach_info,
+            'status' => $this->status,
         ];
+        if ($this->user) {
+            $data['customer'] = [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'address' => $this->user->address,
+                'phone' => $this->user->phone,
+                'email' => $this->user->email,
+            ];
+        }
+        if ($this->staff)
+            $data['staff'] = [
+                'id' => $this->staff->id,
+                'name' => $this->staff->name,
+            ];
+        return $data;
     }
 }

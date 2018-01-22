@@ -738,10 +738,6 @@ body {
     }
 }
 
-#app {
-    padding-top: 51px
-}
-
 #app, body, html {
     height: 100%
 }
@@ -1122,7 +1118,7 @@ a.navbar-brand img {
     background-color: #435c86
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .navbar-header {
         float: none
     }
@@ -1730,15 +1726,9 @@ a.more-products {
     padding: 30px 30px 20px;
     font-size: 13px;
     color: #999;
-    height: 650px;
     background-color: #fff;
-    z-index: 9999
-}
-
-@media screen and (min-width: 760px) {
-    #footer {
-        height: 300px
-    }
+    z-index: 9999;
+    height: auto;
 }
 
 #footer ul {
@@ -2668,6 +2658,11 @@ section {
     padding: 10px 30px !important
 }
 
+.btn-login {
+    margin-top: 10px;
+    padding: 10px 30px !important
+}
+
 .btn-register, .btn-register:active {
     background-color: #7bc043 !important;
     margin-top: 10px;
@@ -2976,4 +2971,12 @@ label.error {
 body.iosBugFixCaret.modal-open {
     position: fixed;
     width: 100%;
+}
+
+div#app {
+    min-height: 60vh;
+}
+
+#vue-nav {
+    display: none;
 }

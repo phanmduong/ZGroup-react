@@ -162,7 +162,8 @@ class BookRepository
                 $good = Good::find($item->id);
                 $order->goods()->attach($item->id, [
                     "quantity" => $item->number,
-                    "price" => $good->price,
+                    "price" => $item->price - $item->discount_value,
+                    'discount_money' => $item->discount_value,
                 ]);
             }
         }
@@ -198,5 +199,47 @@ class BookRepository
                 $address . ", " . $district . ", " . $province, $email, $phone);
         }
         return null;
+    }
+
+    public function saveFastOrder($email, $address, $user_id, $goods_arr){
+       $order = new Order;
+       $order->user_id = $user_id;
+       $order->address = $address;
+       $order->email = $email;
+       $order->save();
+        if ($goods_arr) {
+            foreach ($goods_arr as $good) {
+                if($good->link === "" || $good->size==="" || $good->color==="" ){
+                    return [
+                        "message" => "Bạn chưa nhập đầy đủ thông tin"
+                    ];
+                    break;
+                }
+                 $newGood = new Good;
+                 $newGood->name = "Link";
+                 $newGood->download = $good->link;
+                 $newGood->description = $good->describe;
+                 $newGood->save();
+                $order->goods()->attach($newGood->id, [
+                    "quantity" => $good->number,
+                    "price" => $good->price,
+                ]);
+                $newProPerTies1 = new GoodProperty;
+                $newProPerTies1->name = "size";
+                $newProPerTies1->good_id = $newGood->id;
+                $newProPerTies1->value = $good->size;
+                $newProPerTies1->save();
+                $newProPerTies2 = new GoodProperty;
+                $newProPerTies2->name = "color";
+                $newProPerTies2->good_id = $newGood->id;
+                $newProPerTies2->value = $good->color;
+                $newProPerTies2->save();
+             }
+        }
+        $order->save();
+        return [
+            "message" => "Xac nhan thanh cong don hang",
+            "status"=>1,
+        ];
     }
 }

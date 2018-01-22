@@ -27,7 +27,7 @@ class GraphicsController extends Controller
         $this->bookRepository = $bookRepository;
     }
 
-    public function index($subfix)
+    public function index()
     {
         $book_arr = $this->bookRepository->getAllBooks();
         return view('graphics::index', [
@@ -35,12 +35,12 @@ class GraphicsController extends Controller
         ]);
     }
 
-    public function about_us($subfix)
+    public function about_us()
     {
         return view('graphics::about_us');
     }
 
-    public function countGoodsFromSession($subfix, Request $request)
+    public function countGoodsFromSession( Request $request)
     {
         $goods_str = $request->session()->get('goods');
         $goods = json_decode($goods_str);
@@ -55,7 +55,7 @@ class GraphicsController extends Controller
         return $count;
     }
 
-    public function addGoodToCart($subfix, $goodId, Request $request)
+    public function addGoodToCart( $goodId, Request $request)
     {
         $goods_str = $request->session()->get('goods');
 
@@ -82,7 +82,7 @@ class GraphicsController extends Controller
         return ["status" => 1];
     }
 
-    public function removeBookFromCart($subfix, $goodId, Request $request)
+    public function removeBookFromCart( $goodId, Request $request)
     {
         $goods_str = $request->session()->get('goods');
 
@@ -107,7 +107,7 @@ class GraphicsController extends Controller
         return ["status" => 1];
     }
 
-    public function getGoodsFromSession($subfix, Request $request)
+    public function getGoodsFromSession( Request $request)
     {
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
@@ -131,13 +131,13 @@ class GraphicsController extends Controller
         }
         $data = [
             "goods" => $goods,
-            "total_price" => $totalPrice
+            "total_order_price" => $totalPrice
         ];
 
         return $data;
     }
 
-    public function book($subfix, $good_id)
+    public function book( $good_id)
     {
         $book = Good::find($good_id);
         if ($book == null)
@@ -149,12 +149,12 @@ class GraphicsController extends Controller
         ]);
     }
 
-    public function contact_us($subfix)
+    public function contact_us()
     {
         return view('graphics::contact_us');
     }
 
-    public function contact_info($subfix, Request $request)
+    public function contact_info( Request $request)
     {
         $data = ['email' => $request->email, 'name' => $request->name, 'message_str' => $request->message_str];
 
@@ -171,7 +171,7 @@ class GraphicsController extends Controller
         return "OK";
     }
 
-    public function post($subfix, $post_id)
+    public function post( $post_id)
     {
         $post = Product::find($post_id);
         $post->author;
@@ -201,7 +201,7 @@ class GraphicsController extends Controller
         );
     }
 
-    public function blog($subfix, Request $request)
+    public function blog( Request $request)
     {
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = "";
@@ -215,7 +215,7 @@ class GraphicsController extends Controller
         ]);
     }
 
-    public function onlinePaidOrder($subfix, $orderId, $money, Request $request)
+    public function onlinePaidOrder( $orderId, $money, Request $request)
     {
         if (Hash::check($orderId, $request->hash)) {
             $order = Order::find($orderId);
@@ -240,7 +240,7 @@ class GraphicsController extends Controller
     }
 
 
-    public function saveOrder($subfix, Request $request)
+    public function saveOrder( Request $request)
     {
         $email = $request->email;
         $name = $request->name;
@@ -274,7 +274,7 @@ class GraphicsController extends Controller
         }
     }
 
-    public function provinces($subfix)
+    public function provinces()
     {
         $provinces = Province::get();
         return [
@@ -282,7 +282,7 @@ class GraphicsController extends Controller
         ];
     }
 
-    public function districts($subfix, $provinceId)
+    public function districts( $provinceId)
     {
         $province = Province::find($provinceId);
         return [
@@ -290,7 +290,7 @@ class GraphicsController extends Controller
         ];
     }
 
-    public function flush($subfix, Request $request)
+    public function flush( Request $request)
     {
         $request->session()->flush();
     }

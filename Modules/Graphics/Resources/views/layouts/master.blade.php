@@ -257,7 +257,6 @@
                             </div>
                             <div class="col-md-4">
                                 <p><b style="font-weight:600;">@{{good.name}}</b></p>
-                                <p>Connect the dots</p>
                             </div>
                             <div class="col-md-3 h-center">
                                 <button v-on:click="minusGood(event, good.id)"
@@ -273,11 +272,10 @@
                                 <b style="font-weight:600;"> @{{ good.number }} </b>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p>@{{ good.price * (1 - good.coupon_value)}}</p>
+                                <p>@{{formatPrice(good.price * (1 - good.coupon_value))}}</p>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) *
-                                        good.number}}</b>
+                                <p><b style="font-weight:600;">@{{formatPrice(good.price * (1 - good.coupon_value) * good.number)}}</b>
                                 </p>
                             </div>
                         </div>
@@ -288,7 +286,7 @@
                             <h4 class="text-left"><b>Tổng</b></h4>
                         </div>
                         <div class="col-md-8">
-                            <h4 class="text-right"><b>@{{ price_vnd }}</b></h4>
+                            <h4 class="text-right"><b>@{{ formatPrice(total_order_price) }}</b></h4>
                         </div>
                     </div>
                     <div class="row" style="padding-top:20px;">

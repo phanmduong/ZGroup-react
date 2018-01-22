@@ -18,9 +18,9 @@
                 <div class="info-horizontal">
                     <br>
                     <div class="description">
-                        <p><b><b>Author:</b></b> Alexandra Dicapria</p>
-                        <p><b><b>Year:</b></b> 2048</p>
-                        <p><b><b>Publisher:</b></b> Keetool</p>
+                        <p><b><b>Author:</b></b> {{$author}}</p>
+                        <p><b><b>Language:</b></b> {{$language}}</p>
+                        <p><b><b>Publisher:</b></b> {{$publisher}}</p>
                     </div>
                 </div>
 

@@ -241,6 +241,9 @@ class LessonController extends ManageApiController
         $lesson_new->audio_url = $lesson->audio_url;
         $lesson_new->video_url = $lesson->video_url;
         $lesson_new->save();
+        $course = Course::find($lesson_new->course_id);
+        $course->duration = $course->lessons->count();
+        $course->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công",
         ]);

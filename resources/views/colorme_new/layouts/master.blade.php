@@ -29,13 +29,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/css/2018-style.css?123432">
     <script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/923433004/?random=1514429909110&amp;cv=8&amp;fst=1514429909110&amp;num=1&amp;guid=ON&amp;eid=659238991&amp;u_h=768&amp;u_w=1366&amp;u_ah=768&amp;u_aw=1366&amp;u_cd=24&amp;u_his=3&amp;u_tz=420&amp;u_java=false&amp;u_nplug=4&amp;u_nmime=5&amp;frm=0&amp;url=http%3A%2F%2Fcolorme.vn%2Fposts%2F7&amp;tiba=Color%20ME%20-%20Tr%C6%B0%E1%BB%9Dng%20h%E1%BB%8Dc%20thi%E1%BA%BFt%20k%E1%BA%BF%20Color%20ME&amp;rfmt=3&amp;fmt=4"></script>
     <link rel="stylesheet" href="/assets/css/facebook.css">
+    @yield('styles')
+    <link rel="stylesheet" href="/css/2018-style.css?1232131432">
 </head>
 <body>
 <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
-<div id="app">
+
+<div style="">
     <div data-reactroot="" style="height: 100%;">
         <nav class="navbar navbar-inverse navbar-fixed-top" style="font-size: 12px;">
             <div class="container-fluid" style="padding-left: 0px;">
@@ -49,6 +51,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
+                        <li class=""><a href="/posts/7">Học viên</a></li>
                         @if (isset($user) && count($paid_courses)>0)
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                                     role="button"
@@ -57,15 +60,27 @@
                                 {{--{{dd($paid_courses)}}--}}
                                 <ul class="dropdown-menu">
                                     @foreach($paid_courses as $paid_course)
+                                        @if($paid_course['type_id'] == 2)
+                                            <li>
+                                                <a href="{{'/elearning/'.$paid_course['id']}}">
+                                                    <img
+                                                            class="img-circle"
+                                                            src="{{$paid_course['icon_url']}}"
+                                                            style="width: 20px; height: 20px; margin-right: 5px;">
+                                                    {{$paid_course['name']}}</a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{$paid_course['first_lesson'] ? '/resource/'.convert_vi_to_en($paid_course['name']).'/lesson/'.$paid_course['first_lesson']->id : ''}}">
+                                                    <img
+                                                            class="img-circle"
+                                                            src="{{$paid_course['icon_url']}}"
+                                                            style="width: 20px; height: 20px; margin-right: 5px;">
+                                                    {{$paid_course['name']}}</a>
+                                            </li>
+                                        @endif
                                         {{--{{dd($paid_course)}}--}}
-                                        <li>
-                                            <a href="{{$paid_course['first_lesson'] ? '/resource/'.convert_vi_to_en($paid_course['name']).'/lesson/'.$paid_course['first_lesson']->id : ''}}">
-                                                <img
-                                                        class="img-circle"
-                                                        src="{{$paid_course['icon_url']}}"
-                                                        style="width: 20px; height: 20px; margin-right: 5px;">
-                                                {{$paid_course['name']}}</a>
-                                        </li>
+
                                     @endforeach
                                 </ul>
                             </li>
@@ -86,30 +101,56 @@
                         </li>
                         <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
                         <li class=""><a href="/about-us">Về chúng tôi</a></li>
+                        @if (isset($user))
+                            <li class="" style="margin-left: 10px;"><a class="btn-upload" href="/upload-post"><span
+                                            class="glyphicon glyphicon-cloud-upload"></span>
+                                    Đăng bài</a>
+                            </li>
+                        @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right" id="vue-nav">
                         @if (isset($user))
+                            <li class=""><a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li class="dropdown" id="noti-dropdown">
+                                <a href="#" id="btn-noti" class="dropdown-toggle"
+                                   data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false"><i
+                                            class="fa fa-bell" aria-hidden="true"></i>
+                                </a>
+                            </li>
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                                     role="button" aria-haspopup="true" aria-expanded="true">
                                     <img src="{{$user->avatar_url}}"
-                                         style="width:25px;height: 25px; border-radius: 50%; margin-right: 5px"
+                                         style="width:20px;height: 20px; border-radius: 50%; margin-right: 5px"
                                          alt="">{{$user->name}}<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="width: 100%">
                                     <li><a href="/profile/{{$user->username}}">Trang cá nhân</a></li>
+                                    <li><a href="http://manage.colorme.vn/" target="_blank">Quản lý</a></li>
+                                    <li><a href="/posts/uncomment">Nhận xét</a></li>
+                                    <li role="separator" class="divider"></li>
                                     <li><a href="/logout" v-on:click="logout">Đăng xuất</a></li>
                                 </ul>
                             </li>
                         @else
                             <li v-if="!isLogin">
-                                <a data-toggle="modal" data-target="#modalLogin" v-on:click="openModalLogin">Đăng
+                                <a v-on:click="openModalLogin">Đăng
                                     nhập</a>
+                            </li>
+                            <li v-if="isLogin" class=""><a href="/search"><i class="fa fa-search"
+                                                                             aria-hidden="true"></i></a></li>
+                            <li v-if="isLogin" class="dropdown" id="noti-dropdown">
+                                <a href="#" id="btn-noti" class="dropdown-toggle"
+                                   data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false"><i
+                                            class="fa fa-bell" aria-hidden="true"></i>
+                                </a>
                             </li>
                             <li v-if="isLogin" class="dropdown"><a href="#" class="dropdown-toggle"
                                                                    data-toggle="dropdown"
                                                                    role="button" aria-haspopup="true"
                                                                    aria-expanded="true">
                                     <img v-bind:src="user.avatar_url"
-                                         style="width:25px;height: 25px; border-radius: 50%; margin-right: 5px"
+                                         style="width:20px;height: 20px; border-radius: 50%; margin-right: 5px"
                                          alt="">@{{ user.name}}<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="width: 100%">
                                     <li><a v-bind:href="'/profile/' + user.username">Trang cá nhân</a></li>
@@ -121,7 +162,9 @@
                 </div>
             </div>
         </nav>
-        @yield('content')
+        <div style="margin-top: 50px;">
+            @yield('content')
+        </div>
         <div class="container-fluid " id="footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-2"><img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
@@ -143,7 +186,9 @@
                 </div>
             </div>
             <div class="row" style="padding-top: 20px;">
-                <div class="col-xs-12">Copyright © 2005–2016 KEE Education. All screenshots and videos © their
+                <div class="col-xs-12">Copyright © 2015 –
+                    <script>document.write(new Date().getFullYear())</script>
+                    KEE Education. All screenshots and videos © their
                     respective owners.
                 </div>
                 <div class="col-xs-12"><a class="social-button"

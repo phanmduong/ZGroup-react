@@ -23,7 +23,10 @@ class Company extends Model
             "office_address" => $this->office_address,
             "phone_company" => $this->phone_company,
             "tax_code" => $this->tax_code,
-            "info_account" => $this->info_account,
+            "account_name" => $this->account_name,
+            "account_number" => $this->account_number,
+            "bank_name" => $this->bank_name,
+            "bank_branch" => $this->bank_branch,
             "field" => [
                 "id" => $field->id,
                 "name" => $field->name,

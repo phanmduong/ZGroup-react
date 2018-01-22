@@ -1,6 +1,4 @@
 <?php
-
-
 $nhatquangShopRoute = function () {
     //views
     Route::get('/', 'NhatQuangShopController@index');
@@ -20,34 +18,35 @@ $nhatquangShopRoute = function () {
     Route::post('/save-order', "NhatQuangShopController@saveOrder");
     Route::get('/product/new', "NhatQuangShopController@productNew");
     Route::get('/product/feature', "NhatQuangShopController@productFeature");
+    Route::get('/product/detail', "NhatQuangShopController@productDetail");
     Route::get('/test', 'NhatQuangShopController@test');
 
-    //modal buy & purchase apis
+    //modals
     Route::get('/load-books-from-session/v2', 'NhatQuangApiController@getGoodsFromSession');
     Route::get('/count-books-from-session/v2', 'NhatQuangApiController@countGoodsFromSession');
-    Route::get('/coupon-programs', 'NhatQuangApiController@getCouponProgram');
+    Route::get('/coupon-programs', 'NhatQuangApiController@getCouponPrograms');
+    Route::get('/coupon-codes', 'NhatQuangApiController@getCouponCodes');
     Route::get('/flush', 'NhatQuangApiController@flush');
     Route::get('/add-book/{goodId}/v2', 'NhatQuangApiController@addGoodToCart');
     Route::get('/remove-book/{goodId}/v2', 'NhatQuangApiController@removeBookFromCart');
-    Route::get('/add-coupon/{couponId}/v2', 'NhatQuangApiController@addCoupon');
+    Route::get('/add-coupon/{couponName}/v2', 'NhatQuangApiController@addCouponCode');
     Route::get('/remove-coupon/{couponId}/v2', 'NhatQuangApiController@removeCoupon');
     Route::post('/save-order/v2', 'NhatQuangApiController@saveOrder');
     Route::get('/province', 'NhatQuangApiController@provinces');
     Route::get('/district/{provinceId}', 'NhatQuangApiController@districts');
     Route::get('/ward/{districtId}', 'NhatQuangApiController@wards');
-
     Route::get("/logout", "NhatQuangShopController@logout");
-
     Route::get("/manage/orders", "NhatQuangShopManageController@userOrder");
     Route::get("/manage/orders/{order_id}", "NhatQuangShopManageController@infoOrder");
     Route::post("/manage/orders", "NhatQuangShopManageController@filterOrders");
-//    Route::get("/manage/orders", "NhatQuangShopManageController@getFilterOrders");
+    Route::post('/manage/save-fast-order', "NhatQuangShopController@saveFastOrder");
 
     //login
     Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
     Route::get("/api/facebook/tokensignin", "NhatQuangAuthApiController@facebookTokenSignin");
     Route::post("/api/login", "NhatQuangAuthApiController@login");
     Route::put("/api/user", "NhatQuangShopManageApiController@updateUserInfo");
+
     //e-banking
     Route::get("/manage/account", "NhatQuangShopManageController@account_information");
     Route::get("/manage/account_change", "NhatQuangShopManageController@get_account_change_information");
@@ -59,5 +58,5 @@ $nhatquangShopRoute = function () {
 };
 
 
-Route::group(['middleware' => 'web', 'domain' => "keetool.xyz", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);
+Route::group(['middleware' => 'web', 'domain' => "keetool5.xyz", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);
 Route::group(['middleware' => 'web', 'domain' => "nhatquangshop.test", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);

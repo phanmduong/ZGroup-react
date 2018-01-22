@@ -81,22 +81,27 @@ class ManageBlogController extends ManageApiController
     public function get_posts(Request $request)
     {
         $q = trim($request->search);
-
+        $category_id = $request->category_id;
         $limit = 20;
-
-        if ($q) {
-            $posts = Product::where('title', 'like', '%' . $q . '%')
-                ->orderBy('created_at')->paginate($limit);
-        } else {
-            $posts = Product::where('title', 'like', '%' . $q . '%')->orderBy('created_at')->paginate($limit);
-        }
-
+        $posts = Product::query();
+        if($category_id)
+            $posts = $posts->where('category_id', $category_id);
+        if($q)
+            $posts = $posts->where('title','like', '%'.$q.'%');
+        $posts = $posts->orderBy('created_at')->paginate($limit);
         $data = [
             "posts" => $posts->map(function ($post) {
                 $data = [
                     'id' => $post->id,
                     'title' => $post->title,
                     'status' => $post->status,
+                    'image_url' => $post->url,
+                    'thumb_url' => $post->thumb_url,
+                    'author' => [
+                       'id' => $post->author->id,
+                       'name' => $post->author->name,
+                       'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : "http://api.colorme.vn/img/user.png",
+                    ],
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
                 if ($post->category) {
@@ -111,7 +116,27 @@ class ManageBlogController extends ManageApiController
         ];
         return $this->respondWithPagination($posts, $data);
     }
+    public function getAllCategory(Request $request){
+        $categories = CategoryProduct::all();
+        return $this->respondSuccessWithStatus([
+            "categories" => $categories->map(function($category){
+                return [
+                   "id" => $category->id,
+                   "name" => $category->name,
+                ];
+            })
+        ]);
+    }
+    public function changeStatusPost($postId,Request $request){
+        $post = Product::find($postId);
+        if(!$post) return $this->respondErrorWithStatus("Không tồn tại post");
+        $post->status = 1- $post->status;
+        $post->save();
+        return $this->respondSuccessWithStatus([
+           "message" => "Thành công"
+        ]);
 
+    }
     public function delete_post($postId)
     {
         $post = Product::find($postId);

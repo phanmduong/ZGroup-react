@@ -65,13 +65,23 @@
             </div>
 
             <hr>
-            <div class="row">
-                <div class="col-md-2 offset-md-10">
-                    <div class="pull-right">
-                        {{--<button class="btn btn-link btn-default btn-move-right">Bài viết cũ hơn<i class="fa fa-angle-right"></i></button>--}}
-                        <a class="btn btn-link btn-default btn-move-right" href="{{'/blog?page='.$page_id}}"
-                           style="{{$display}}"> Bài viết cũ hơn </a>
-                    </div>
+            <div id="pagination-blogs">
+                <div class="pagination-area">
+                    <ul class="pagination pagination-primary justify-content-center">
+                        <li class="page-item"><a href="/blog?page=1&search={{$search}}"
+                                                 class="page-link"><i class="fa fa-angle-double-left"
+                                                                      aria-hidden="true"></i></a>
+                        </li>
+                        <li v-for="page in pages"
+                            v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
+                            <a v-bind:href="'/blog?page='+page+'&search={{$search}}'"
+                               class="page-link">@{{page}}</a>
+                        </li>
+                        <li class="page-item"><a
+                                    href="/blog?page={{$total_pages}}&search={{$search}}"
+                                    class="page-link"><i class="fa fa-angle-double-right"
+                                                         aria-hidden="true"></i></a></li>
+                    </ul>
                 </div>
             </div>
             <br>
@@ -94,5 +104,14 @@
             }
 
         })
+
+        var pagination = new Vue({
+            el: '#pagination-blogs',
+            data: {
+                pages: []
+            },
+        });
+
+        pagination.pages = paginator({{$current_page}},{{$total_pages}})
     </script>
 @endpush

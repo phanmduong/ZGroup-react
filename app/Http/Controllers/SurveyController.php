@@ -43,8 +43,6 @@ class SurveyController extends Controller
         return view('manage.survey', $this->data);
     }
 
-
-
     public function attach_mail_goodbye($survey_id)
     {
         $survey = Survey::find($survey_id);

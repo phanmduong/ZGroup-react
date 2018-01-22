@@ -257,11 +257,11 @@ class ManageStaffApiController extends ManageApiController
         $users = User::all();
 
         foreach ($users as $user) {
-            if (empty($user->username) && (!empty($user->email))) {
-                $user->username = $user->email;
+            if (!empty($user->phone) && (empty($user->password))) {
+                $user->password = bcrypt($user->phone);
             }
 
-            $user->phone = preg_replace('/[^0-9]+/', '', $user->phone);
+//            $user->phone = preg_replace('/[^0-9]+/', '', $user->phone);
             $user->save();
         }
 

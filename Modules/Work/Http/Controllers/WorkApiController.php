@@ -24,7 +24,8 @@ class WorkApiController extends ManageApiController
         $work->cost = $request->cost ? $request->cost : 0;
         $work->deadline = $request->deadline;
         $work->bonus_value = $request->bonus_value ? $request->bonus_value : 0;
-        $work->bonus_type = $request->bonus_type;
+        $work->payer_id = $request->payer_id;
+        $work->currency_id = $request->currency_id;
         $work->status = $request->status;
         $staffs = json_decode($request->staffs);
         $work->save();
@@ -70,7 +71,8 @@ class WorkApiController extends ManageApiController
         $work->cost = $request->cost ? $request->cost : 0;
         $work->deadline = $request->deadline;
         $work->bonus_value = $request->bonus_value ? $request->bonus_value : 0;
-        $work->bonus_type = $request->bonus_type;
+        $work->payer_id = $request->payer_id;
+        $work->currency_id = $request->currency_id;
         if ($work->status == "done" && $request->status == "doing") {
             $work_staffs = WorkStaff::where('work_id', $workId)->get();
             foreach ($work_staffs as $work_staff) {
@@ -98,9 +100,9 @@ class WorkApiController extends ManageApiController
         $keyword = $request->search;
         $works = Work::where(function ($query) use ($keyword) {
             $query->where('name', 'like', "%$keyword%")->where('status','<>','archive');
-        })->orderBy("created_at", "desc")->paginate($limit);
+        })->orderBy("created_at", "desc")->get();
 
-        return $this->respondWithPagination($works, [
+        return $this->respondSuccessWithStatus([
             "works" => $works->map(function ($work) {
                 return $work->transform();
             })
@@ -108,6 +110,19 @@ class WorkApiController extends ManageApiController
 
     }
 
+    public function getAllWorkArchive(Request $request){
+        $limit = $request->limit ? $request->limit : 20;
+        $keyword = $request->search;
+        $works = Work::where(function ($query) use ($keyword) {
+            $query->where('name', 'like', "%$keyword%")->where('status','=','archive');
+        })->orderBy("created_at", "desc")->get();
+
+        return $this->respondSuccessWithStatus([
+            "works" => $works->map(function ($work) {
+                return $work->transform();
+            })
+        ]);
+    }
     public function getAllExtension(Request $request)
     {
         $keyword = $request->search;

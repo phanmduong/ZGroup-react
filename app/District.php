@@ -21,4 +21,19 @@ class District extends Model
     {
         return $this->belongsTo(Province::class, 'provinceid');
     }
+
+    public function bases()
+    {
+        return $this->hasMany(Base::class, "district_id");
+    }
+
+    public function transform()
+    {
+        return [
+            "id" => $this->districtid,
+            "name" => $this->name,
+            "type" => $this->type,
+            "location" => $this->location,
+        ];
+    }
 }

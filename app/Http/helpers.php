@@ -1363,7 +1363,6 @@ function haversineGreatCircleDistance(
 
 function is_class_lesson_change($class_lesson)
 {
-    return true;
     $time_class_lesson = strtotime($class_lesson->time . ' ' . $class_lesson->start_time);
     $time_now = strtotime("now");
     if ($time_now < $time_class_lesson) return true;
@@ -1469,7 +1468,7 @@ function shortString($string, $max)
     $arr = explode(" ", $string);
     $arr = array_slice($arr, 0, min(count($arr), $max));
     $data = implode(" ", $arr);
-    if (strlen($string) > $max) return $data . ' ...';
+    if (count(explode(" ", $string)) > $max) return $data . ' ...';
     return $data;
 }
 
@@ -1478,3 +1477,47 @@ function convert_image_html($string)
     return str_replace("<img ", '<img style="width:100%; height:auto"', $string);
 }
 
+function sound_cloud_track_id($url)
+{
+
+    $url_api = 'https://api.soundcloud.com/resolve.json';
+    $params = array(
+        'url' => $url,
+        'client_id' => config('app.sound_cloud_client_id')
+    );
+
+    $post_field = '';
+    foreach ($params as $key => $value) {
+        if ($post_field != '') $post_field .= '&';
+        $post_field .= $key . "=" . $value;
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url_api);
+    curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+    curl_setopt($ch, CURLOPT_VERBOSE, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_field);
+    $result = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($status == 302) {
+        $url = json_decode($result)->location;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($status == 200) {
+            return json_decode($result)->id;
+        }
+    }
+
+    return '';
+}

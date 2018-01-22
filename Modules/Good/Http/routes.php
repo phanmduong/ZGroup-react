@@ -1,5 +1,11 @@
 <?php
 
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/manufacture', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
+    Route::get('/', 'ManufactureApiController@allManufactures');
+    Route::post('/', 'ManufactureApiController@createManufacture');
+    Route::delete('/{manufactureId}', 'ManufactureApiController@deleteManufacture');
+});
+
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
     Route::get('/status/count', 'InventoryApiController@statusCount');
     Route::get('/inventories/all', 'InventoryApiController@allInventories');
@@ -32,9 +38,3 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/{goodId}', 'GoodController@good');
 });
 
-
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/manufacture', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
-    Route::get('/', 'ManufactureApiController@allManufactures');
-    Route::post('/', 'ManufactureApiController@createManufacture');
-    Route::delete('/{manufactureId}', 'ManufactureApiController@deleteManufacture');
-});

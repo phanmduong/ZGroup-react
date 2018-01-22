@@ -152,9 +152,14 @@ class OrderController extends ManageApiController
             return $this->respondSuccessWithStatus([
                 'message' => 'Khong ton tai order'
             ]);
-        return $this->respondSuccessWithStatus(
-            $order->detailedTransform()
-        );
+        $data = $order->detailedTransform();
+        $returnOrders = Order::where('type', 'return')->where('code', $order->code)->get();
+        $data['return_orders'] = $returnOrders->map(function ($returnOrder) {
+            return $returnOrder->returnOrderData();
+        });
+        return $this->respondSuccessWithStatus([
+            'order' => $data,
+        ]);
     }
 
     public function editOrder($order_id, Request $request)
@@ -165,7 +170,7 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại order'
             ]);
-        if ($this->user->role != 2){
+        if ($this->user->role != 2) {
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
                     'message' => 'Bạn không có quyền đổi trạng thái này'
@@ -202,7 +207,7 @@ class OrderController extends ManageApiController
             }
         }
 
-        $response = $this->orderService->changeOrderStatus($order_id, $request, $this->user->id);
+        //$response = $this->orderService->changeOrderStatus($order_id, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
@@ -330,8 +335,7 @@ class OrderController extends ManageApiController
                     'price' => $good_order->price
                 ]);
         }
-//        $this->orderService->returnOnPurposeOrStaffMistake($returnOrder->id, $request->warehouse_id, $this->user->id);
-        $this->orderService->returnProcess($returnOrder->id, 4, $this->user->id); //fix
+        $this->orderService->returnProcess($returnOrder->id, $request->warehouse_id, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'Thành công'
         ]);
@@ -339,6 +343,7 @@ class OrderController extends ManageApiController
 
     public function storeOrder(Request $request)
     {
+        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         if ($request->warehouse_id == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu mã kho'
@@ -346,9 +351,24 @@ class OrderController extends ManageApiController
         $order = new Order;
         $order->note = $request->note;
         $order->code = $request->code;
+        $order->type = "order";
         $order->staff_id = $this->user->id;
-        $order->user_id = $request->user_id;
-        $order->status = 'completed';
+        $order->status = 'completed_order';
+
+        if ($request->phone != null || $request->email != null) {
+            $user = User::where('phone', $request->phone)->first();
+            if ($user == null) {
+                $user = new User;
+            }
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->username = $request->email;
+            $user->save();
+
+            $order->user_id = $user->id;
+        } else $order->user_id = 0;
+
         $order->save();
 
 

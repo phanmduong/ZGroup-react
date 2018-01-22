@@ -10,12 +10,79 @@ use App\Lesson;
 use App\Question;
 use App\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SurveyController extends ManageApiController
 {
     public function __construct(TermTransformer $termTransformer)
     {
         parent::__construct();
+    }
+
+
+    public function deleteQuestion($questionId)
+    {
+        $question = Question::find($questionId);
+        if ($question === null) {
+            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+        }
+
+        $question->delete();
+
+        $survey = $question->survey;
+
+        $order = 0;
+
+        foreach ($survey->questions()->orderBy("order")->get() as $question) {
+            $question->order = $order;
+            $order += 1;
+            $question->save();
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
+        ]);
+    }
+
+    public function duplicateQuestion($surveyId, $questionId)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Khảo sát không tồn tại");
+        }
+        $question = Question::find($questionId);
+        $newQuestion = $question->replicate();
+
+        $maxOrder = $survey->questions()->select(DB::raw("max(`order`) as max_order"))->pluck("max_order")->first();
+
+        $newQuestion->order = $maxOrder + 1;
+        $newQuestion->save();
+
+        return $this->respondSuccessWithStatus([
+            "question" => $newQuestion->getData()
+        ]);
+    }
+
+    public function updateQuestionOrder(Request $request)
+    {
+        if ($request->questions == null) {
+            return [
+                "status" => 0,
+                "message" => "Bạn cần phải truyền danh sách câu hỏi lên"
+            ];
+        }
+
+        $questions = json_decode($request->questions);
+
+        foreach ($questions as $item) {
+            $question = Question::find($item->id);
+            $question->order = $item->order;
+            $question->save();
+        }
+
+        return [
+            "status" => 1
+        ];
     }
 
     public function saveAnswer($answerId, Request $request)
@@ -37,16 +104,37 @@ class SurveyController extends ManageApiController
         ];
     }
 
-    public function updateQuestion($surveyId, $questionId, Request $request)
+    public function updateQuestion($surveyId, Request $request, $questionId = null)
     {
         $survey = Survey::find($surveyId);
         $question = $survey->questions()->where("id", $questionId)->first();
         if ($question == null) {
-            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+            $question = new Question();
+            $maxOrder = $survey->questions()->select(DB::raw("max(`order`) as max_order"))->pluck("max_order")->first();
+            $question->order = $maxOrder + 1;
         }
-
+        $question->survey_id = $surveyId;
         $question->content = $request->content_data;
+        $question->type = $request->type;
+
         $question->save();
+
+        if ($question->type === 0) {
+            $question->answers()->delete();
+        } else {
+            if ($request->answers) {
+                $question->answers()->delete();
+                $answers = json_decode($request->answers);
+
+                foreach ($answers as $a) {
+                    $answer = new Answer();
+                    $answer->question_id = $question->id;
+                    $answer->content = $a->content;
+                    $answer->correct = $a->correct;
+                    $answer->save();
+                }
+            }
+        }
 
 
         return $this->respondSuccessWithStatus([
@@ -156,5 +244,60 @@ class SurveyController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
+    }
+
+    public function getSurveyLessons($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        $lessons = $survey->lessons;
+
+        $surveyLessons = $lessons->map(function ($lesson) {
+            $course = $lesson->course;
+            return [
+                "lesson_id" => $lesson->id,
+                "course" => $course->shortTransform(),
+                "lesson" => $lesson->shortTransform(),
+                'time_display' => $lesson->pivot->time_display,
+                'start_time_display' => $lesson->pivot->start_time_display
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            "survey_lessons" => $surveyLessons
+        ]);
+    }
+
+    public function removeSurveyLesson($surveyId, $lessonId)
+    {
+        $survey = Survey::find($surveyId);
+        $survey->lessons()->detach($lessonId);
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
+        ]);
+    }
+
+    public function addSurveyLesson($surveyId, $lessonId, Request $request)
+    {
+        $startTimeDisplay = $request->start_time_display;
+        $timeDisplay = $request->time_display;
+        $survey = Survey::find($surveyId);
+        $lesson = Lesson::find($lessonId);
+        $course = $lesson->course;
+        $exist_lesson = $survey->lessons()->where('id', $lessonId)->first();
+        if ($exist_lesson == null) {
+            $survey->lessons()->attach($lessonId, [
+                'time_display' => $timeDisplay,
+                'start_time_display' => $startTimeDisplay
+            ]);
+            return $this->respondSuccessWithStatus([
+                "survey_lesson" => [
+                    "course" => $course->shortTransform(),
+                    'time_display' => $timeDisplay,
+                    'start_time_display' => $startTimeDisplay
+                ]
+            ]);
+        } else {
+            return response()->json(['message' => 'Buổi này đã được thêm vào survey', 'status' => 0]);
+        }
     }
 }

@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\NhatQuangShop\Repositories\BookRepository;
 
 class NhatQuangShopController extends Controller
 {
@@ -50,12 +50,12 @@ class NhatQuangShopController extends Controller
         $search = $request->search;
         if ($search == null) {
             $products = Good::where('name', 'like', '%' . "$search" . '%')->orderBy('created_at', 'desc')
-                ->paginate(2);
+                ->paginate(20);
         } else {
             $products = Good::where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
-                ->paginate(2);
+                ->paginate(20);
         }
         $this->data["products"] = $products;
         return view('nhatquangshop::product_new', $this->data);
@@ -66,15 +66,21 @@ class NhatQuangShopController extends Controller
         $search = $request->search;
         if ($search == null) {
             $products = Good::where('highlight_status', '=', '1' )->orderBy('created_at', 'desc')
-                ->paginate(2);
+                ->paginate(20);
         } else {
             $products = Good::where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
-                ->paginate(2);
+                ->andWhere('highlight_status', '=', '1')
+                ->paginate(20);
         }
         $this->data["products"] = $products;
         return view('nhatquangshop::product_feature', $this->data);
+    }
+
+    public function productDetail()
+    {
+        return view('nhatquangshop::product_detail');
     }
 
     public function about_us()
@@ -271,7 +277,7 @@ class NhatQuangShopController extends Controller
 
     public function blog(Request $request)
     {
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(9);
+        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = "";
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $request->page) $display = "display:none";
@@ -307,6 +313,27 @@ class NhatQuangShopController extends Controller
             ];
         }
     }
+    //code api dat hang nhanh
+    public function saveFastOrder(Request $request){
+        $user = Auth::user();
+        $email = $user->email;
+        $user_id = $user->id;
+        $address = $user->address;
+
+        $fast_orders = json_decode($request->fastOrders);
+        if ($fast_orders) {
+            $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders);
+            return [
+                "fast_order" => $fast_orders,
+                "status" => 1,
+                "message" => $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders)
+            ];
+        } else {
+            return [
+                "status" => 0,
+            ];
+        }
+    }
 
     public function test(Request $request)
     {
@@ -326,4 +353,6 @@ class NhatQuangShopController extends Controller
         Auth::logout();
         return redirect()->intended("/");
     }
+    // code cua cuong
+
 }

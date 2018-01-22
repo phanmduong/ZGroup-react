@@ -68,13 +68,23 @@ class Course extends Model
             'links' => $this->links,
             'terms' => $this->terms,
             'status' => $this->status,
-            'type' => $this->courseType ? $this->courseType->getData : null,
+            'type_id' => $this->type_id,
+            'type' => $this->courseType ? $this->courseType->getData() : null,
             'categories' => $this->courseCategories->map(function ($courseCategory) {
                 return $courseCategory->getData();
             }),
             'pixels' => $this->coursePixels->map(function ($coursePixel) {
                 return $coursePixel->getData();
             })
+        ];
+    }
+
+    public function shortTransform()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'icon_url' => $this->icon_url,
         ];
     }
 
@@ -90,6 +100,9 @@ class Course extends Model
             'status' => $this->status,
             'color' => $this->color,
             'type_id' => $this->type_id,
+            'lessons' => $this->lessons->map(function ($lesson) {
+                return $lesson->shortTransform();
+            }),
             'categories' => $this->courseCategories->map(function ($courseCategory) {
                 return $courseCategory->getData();
             }),

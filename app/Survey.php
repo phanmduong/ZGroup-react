@@ -30,17 +30,28 @@ class Survey extends Model
             ->withTimestamps();
     }
 
-    public function getData() {
+    public function getData()
+    {
         return [
             'id' => $this->id,
             'name' => $this->name,
             'staff' => $this->user ? $this->user->getData() : null,
+            "questions_count" => $this->questions()->count(),
+            "survey_lessons" => $this->lessons->map(function ($lesson) {
+                $course = $lesson->course;
+                return [
+                    "lesson_id" => $lesson->id,
+                    "course" => $course->shortTransform(),
+                    "lesson" => $lesson->shortTransform()
+                ];
+            })
         ];
     }
 
-    public function getDetailedData() {
+    public function getDetailedData()
+    {
         $data = $this->getData();
-        $data['questions'] = $this->questions->map(function ($question){
+        $data['questions'] = $this->questions()->orderBy("order")->get()->map(function ($question) {
             return $question->getData();
         });
         return $data;

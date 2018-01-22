@@ -5,4 +5,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'staf
     Route::get("/", "StaffApiController@getStaffs");
     Route::post('/{staffId}/{workId}','StaffApiController@changeStatusInWork');
     Route::post('/{staffId}/{workId}/extension','StaffApiController@extensionWork');
+    Route::post('{staffId}/{workId}/acceptHire','StaffApiController@hireWork');
 });

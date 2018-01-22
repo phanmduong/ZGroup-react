@@ -11,6 +11,7 @@ use App\Lesson;
 use App\Order;
 use App\Product;
 use App\Repositories\CourseRepository;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +36,6 @@ class ColormeNewController extends CrawlController
 
     public function home()
     {
-
         $current_gen = Gen::getCurrentGen();
         $this->data['gen_cover'] = $current_gen->cover_url;
         return view('colorme_new.home', $this->data);
@@ -66,14 +66,20 @@ class ColormeNewController extends CrawlController
         return view('colorme_new.course', $this->data);
     }
 
-
     public function courseOnline($courseId, $lessonId = null)
     {
         $lesson = Lesson::find($lessonId);
 
         $course = Course::find($courseId);
+
         if ($course == null) {
             return view('colorme_new.404.not_found_course', $this->data);
+        }
+
+        $this->data['course'] = $course;
+
+        if ($this->user == null || $this->user->registers()->where('course_id', $course->id)->where('status', 1)->first() == null) {
+            return view('colorme_new.course_detail', $this->data);
         }
 
         if ($lesson == null) {
@@ -94,7 +100,6 @@ class ColormeNewController extends CrawlController
             ];
         });
 
-        $this->data['course'] = $course;
         $this->data['lesson_selected'] = $lesson;
         $this->data['lessons'] = $lessons;
         $this->data['comments'] = $lesson ? $lesson->comments()->where('parent_id', '0')->orderBy('created_at', 'desc')->get()->map(function ($comment) {
@@ -106,7 +111,57 @@ class ColormeNewController extends CrawlController
             return $data;
         }) : [];
 
-        return view('colorme_new.course_online_detail', $this->data);
+        return view('colorme_new.course_online_lesson', $this->data);
+    }
+
+    public function profileProcess($username)
+    {
+        $user = User::where('username', $username)->first();
+
+//        dd($this->data['paid_courses_user']);
+        if ($user) {
+            $user->avatar_url = generate_protocol_url($user->avatar_url);
+            $this->data['user_profile'] = $user;
+            $courses = $user->registers()->get()->map(function ($register) {
+                $data = [
+                    "id" => $register->studyClass->course->id,
+                    "type_id" => $register->studyClass->course->type_id,
+                    "name" => $register->studyClass->course->name,
+                    "linkId" => convert_vi_to_en($register->studyClass->course->name),
+                    "icon_url" => $register->studyClass->course->icon_url,
+                    "duration" => $register->studyClass->course->duration,
+                    "description" => $register->studyClass->course->description,
+                    "image_url" => $register->studyClass->course->image_url,
+                    "first_lesson" => $register->studyClass->course->lessons()->orderBy('order')->first(),
+                    "total_lesson" => $register->studyClass->course->lessons()->count(),
+                    "total_passed" => $register->studyClass->course->lessons()
+                        ->join('class_lesson', 'class_lesson.lesson_id', '=', 'lessons.id')
+                        ->where('class_lesson.class_id', $register->studyClass->id)
+                        ->whereRaw('date(now()) >= date(class_lesson.time)')->count()
+                ];
+                return $data;
+            });
+            $this->data['paid_courses_user'] = $courses;
+//            dd($this->data['paid_courses_user']);
+            return view('colorme_new.profile.process', $this->data);
+        }
+        return redirect("/");
+    }
+
+    public function profile($username)
+    {
+        $user = User::where('username', $username)->first();
+        $user->avatar_url = generate_protocol_url($user->avatar_url);
+        $this->data['user_profile'] = $user;
+        if ($user) {
+            return view('colorme_new.profile.profile_react', $this->data);
+        }
+        return redirect("/");
+    }
+
+    public function social()
+    {
+        return view('colorme_new.colorme_react', $this->data);
     }
 
 }

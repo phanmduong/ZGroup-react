@@ -16,6 +16,12 @@ class Work extends Model
         return $this->belongsToMany(User::class, 'work_staff', 'work_id', 'staff_id');
     }
 
+    public function payer(){
+        return $this->belongsTo(User::class,'payer_id');
+    }
+    public function currency(){
+        return $this->belongsTo(Currency::class,'currency_id');
+    }
     public function transform()
     {
         return [
@@ -26,7 +32,13 @@ class Work extends Model
             "status"=> $this->status,
             "deadline" => $this->deadline,
             "bonus_value" => $this->bonus_value,
-            "bonus_type" => $this->bonus_type,
+            "hired_status" => $this->hired_status,
+            "currency" => $this->currency ? $this->currency->transform() : [],
+            "payer" =>$this->payer ? [
+                "id" => $this->payer->id,
+                "name" => $this->payer->name,
+                "avatar_url" => $this->payer->avatar_url,
+            ] : [],
             "staffs" => $this->staffs->map(function ($staff) {
                 return [
                     "id" => $staff->id,

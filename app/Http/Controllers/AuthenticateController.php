@@ -14,6 +14,18 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticateController extends Controller
 {
+//    public function secretLogin(Request $request)
+//    {
+//        $email = $request->email;
+//        $user = User::where("email", $email)->first();
+//        if ($user) {
+//            Auth::login($user);
+//            return "success";
+//        } else {
+//            return "wrong email";
+//        }
+//    }
+
     public function login(Request $request)
     {
         // grab credentials from the request

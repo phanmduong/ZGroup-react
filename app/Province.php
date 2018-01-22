@@ -14,6 +14,15 @@ class Province extends Model
 
     public function districts()
     {
-        return $this->hasMany(District::class, 'provinceid',"provinceid");
+        return $this->hasMany(District::class, 'provinceid', "provinceid");
+    }
+
+    public function transform()
+    {
+        return [
+            "id" => $this->provinceid,
+            "name" => $this->name,
+            "type" => $this->type,
+        ];
     }
 }

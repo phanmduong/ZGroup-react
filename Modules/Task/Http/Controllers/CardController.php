@@ -284,21 +284,21 @@ class CardController extends ManageApiController
         if ($to < $from) {
             return $this->respondErrorWithStatus("Thời gian bắt đầu không được lớn hơn thời gian kết thúc");
         }
-        $cards = Card::query();
+        $cardsQuery = Card::query();
 
         if ($request->staff_id) {
-            $cards = $cards
+            $cardsQuery = $cardsQuery
                 ->join('card_user', 'cards.id', '=', 'card_user.card_id')
                 ->where("card_user.user_id", (int)$request->staff_id);
         }
 
         if ($request->project_id) {
-            $cards = $cards
+            $cardsQuery = $cardsQuery
                 ->join('boards', 'boards.id', '=', 'cards.board_id')
                 ->where("boards.project_id", (int)$request->project_id);
         }
 
-        $cards = $cards->where("cards.status", "close")
+        $cards = $cardsQuery->where("cards.status", "close")
             ->whereBetween("cards.updated_at", [$from, $to])->groupBy(DB::raw("date(cards.updated_at)"))
             ->select(DB::raw('count(1) as num_cards, sum(point) as total_points, date(cards.updated_at) as day'))
             ->orderBy("day")->get();
@@ -324,10 +324,26 @@ class CardController extends ManageApiController
             }
         }
 
+        $staffs = Card::join("card_user", "card_user.card_id", "=", "cards.id")
+            ->where("cards.status", "close")
+            ->whereBetween("cards.updated_at", [$from, $to])
+            ->groupBy(DB::raw("card_user.user_id"))
+            ->select(DB::raw('count(1) as num_cards, sum(point) as total_points, card_user.user_id as user_id'))
+            ->orderBy("total_points", "desc")
+            ->get();
+
+
         return $this->respondSuccessWithStatus([
             "days" => $dateArray,
             "num_cards" => array_values($returnCards),
-            "total_points" => array_values($returnPoints)
+            "total_points" => array_values($returnPoints),
+            "staffs" => $staffs->map(function ($staff) {
+                $user = User::find($staff->user_id);
+                $data = $user->transformAuth();
+                $data["num_cards"] = $staff->num_cards;
+                $data["total_points"] = $staff->total_points;
+                return $data;
+            })
         ]);
     }
 

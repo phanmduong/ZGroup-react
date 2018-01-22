@@ -23,9 +23,42 @@
     <div class="blog-4" style="margin-top:20px">
         <div class="container">
             <div class="description">
-                <input placeholder="Tìm kiếm" id="search-book"
-                       style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
-                       type="text" v-on:keyup.enter="searchBook" v-model="search" value="{{$search}}"/>
+                <div style="display: flex; flex-direction: row; align-items: center" id="search-book">
+                    <input placeholder="Tìm kiếm"
+                           style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                           type="text" v-on:keyup.enter="searchBook" v-model="search" value="{{$search}}"/>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                style="height: 62px;
+                                background-color: #C50000;
+                                color: white;
+                                border-color: #C50000;
+                                text-align: right;
+                                border-radius: 0px;
+                        ">@if($type)
+                                {!! $type !!}
+                            @else
+                                Thể loại
+                            @endif
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right"
+                            style="background: white; overflow: scroll; height: 300px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);border-radius: 0px!important;">
+                            <a class="dropdown-item"
+                               v-bind:href="'/all-books?page=1&search='+search"
+                               style="padding: 10px 15px!important; border-radius: 0px!important;">
+                                Tất cả
+                            </a>
+                            @foreach($type_books as $type_book)
+                                <a class="dropdown-item"
+                                   v-bind:href="'/all-books?page=1&search='+search+'&type={{$type_book}}'"
+                                   style="padding: 10px 15px!important; border-radius: 0px!important;">
+                                    {{$type_book}}
+                                </a>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 @foreach($books as $book)
@@ -37,7 +70,7 @@
                             <div>
                                 <div class="container text-left" style="min-height: 130px;"><br>
                                     @if($book->properties()->where('name','TYPE_BOOK')->first())
-                                        <a href="/all-books?page=1&search={{$book->properties()->where('name','TYPE_BOOK')->first()->value}}"
+                                        <a href="/all-books?page=1&type={{$book->properties()->where('name','TYPE_BOOK')->first()->value}}"
                                            class="label label-danger"
                                            style="color: white;">{{$book->properties()->where('name','TYPE_BOOK')->first()->value}}</a>
                                         <br>
@@ -59,6 +92,25 @@
             </div>
 
             <hr>
+            <div id="pagination-books">
+                <div class="pagination-area">
+                    <ul class="pagination pagination-primary justify-content-center">
+                        <li class="page-item"><a href="/all-books?page=1&search={{$search}}&type={{$type}}"
+                                                 class="page-link"><i class="fa fa-angle-double-left"
+                                                                      aria-hidden="true"></i></a>
+                        </li>
+                        <li v-for="page in pages"
+                            v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
+                            <a v-bind:href="'/all-books?page='+page+'&search={{$search}}&type={{$type}}'"
+                               class="page-link">@{{page}}</a>
+                        </li>
+                        <li class="page-item"><a
+                                    href="/all-books?page={{$total_pages}}&search={{$search}}&type={{$type}}"
+                                    class="page-link"><i class="fa fa-angle-double-right"
+                                                         aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
             {{--<div class="row">--}}
             {{--<div class="col-md-2 offset-md-10">--}}
             {{--<div class="pull-right">--}}
@@ -78,14 +130,25 @@
         var search = new Vue({
             el: '#search-book',
             data: {
-                search: '{!! $search !!}'
+                search: '{!! $search !!}',
+                page: []
             },
             methods: {
                 searchBook: function () {
-                    window.open('/all-books?page=1&search=' + this.search, '_self');
+                    window.open('/all-books?page=1&search=' + this.search + '&type={!! $type !!}', '_self');
                 }
             }
 
         })
+
+        var pagination = new Vue({
+            el: '#pagination-books',
+            data: {
+                pages: []
+            },
+            methods: {}
+        });
+
+        pagination.pages = paginator({{$current_page}},{{$total_pages}})
     </script>
 @endpush

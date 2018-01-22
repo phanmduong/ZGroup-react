@@ -39,6 +39,9 @@ Route::post('manage/receive_video_convert_notifications', 'PublicController@rece
 Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 Route::get('/send-noti-test', 'PublicController@send_noti_test');
+
+//Route::get('/login/secret', 'AuthenticateController@secretLogin');
+
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
@@ -60,10 +63,13 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/hr/{path}', 'ClientController@hr')
         ->where('path', '.*');
 
+    Route::get('/survey/{path}', 'ClientController@survey')
+        ->where('path', '.*');
+
     Route::get('/good/{path}', 'ClientController@good')
         ->where('path', '.*');
 
-    Route::get('/order/{path}', 'ClientController@good')
+    Route::get('/order/{path}', 'ClientController@order')
         ->where('path', '.*');
 
 
@@ -148,7 +154,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/base/create', "ManageBaseApiController@createBase");
     Route::get('/base/rooms', "ManageBaseApiController@getRooms");
     Route::post('/base/room', "ManageBaseApiController@storeRoom");
-    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
+//    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
     Route::get('/base/{baseId}', "ManageBaseApiController@base");
     // End Base api
 
@@ -160,6 +166,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/create-category', 'ManageBlogController@create_category');
     Route::post('/save-post', 'ManageBlogController@save_post');
     Route::get('/posts', 'ManageBlogController@get_posts');
+    Route::post('/post/{postId}/change-status','ManageBlogController@changeStatusPost');
+    Route::get('/post/categories','ManageBlogController@getAllCategory');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
     //End blog api
@@ -450,27 +458,29 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('/check', 'PublicController@check');
 
     Route::get('/mua-sach', 'PublicCrawlController@buy_book');
-    Route::get('/group/{group_id}', 'PublicController@beta');
-    Route::get('/upload-post/{topic_id}', 'PublicController@beta');
-    Route::get('/group/{group_id}/topic/{topic_id}', 'PublicController@beta');
-    Route::get('/group/{group_id}/create-topic', 'PublicController@beta');
-    Route::get('/group/{group_id}/topic/{topic_id}/posts', 'PublicController@beta');
-    Route::get('/post/{post_id}/edit', 'PublicController@beta');
-    Route::get('/search', 'PublicController@beta');
-    Route::get('/courses', 'PublicController@beta');
-    Route::get('/notifications-list', 'PublicController@beta');
-    Route::get('/posts/{popular}', 'PublicController@beta');
-    Route::get('/about-us', 'PublicController@beta');
+    Route::get('/group/{group_id}', 'ColormeNewController@social');
+    Route::get('/upload-post/{topic_id}', 'ColormeNewController@social');
+    Route::get('/group/{group_id}/topic/{topic_id}', 'ColormeNewController@social');
+    Route::get('/group/{group_id}/create-topic', 'ColormeNewController@social');
+    Route::get('/group/{group_id}/topic/{topic_id}/posts', 'ColormeNewController@social');
+    Route::get('/post/{post_id}/edit', 'ColormeNewController@social');
+    Route::get('/search', 'ColormeNewController@social');
+    Route::get('/courses', 'ColormeNewController@social');
+    Route::get('/notifications-list', 'ColormeNewController@social');
+    Route::get('/posts/{popular}', 'ColormeNewController@social');
+    Route::get('/about-us', 'ColormeNewController@social');
     Route::get('/', 'ColormeNewController@home');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
-    Route::get('/post/{LinkId}', 'PublicCrawlController@post');
-    Route::get('/sign-in', 'PublicController@beta');
-    Route::get('/upload-post', 'PublicController@be¬ta');
+//    Route::get('/post/{LinkId}', 'PublicCrawlController@post');
+    Route::get('/post/{LinkId}', 'ColormeNewController@social');
+    Route::get('/sign-in', 'ColormeNewController@social');
+    Route::get('/upload-post', 'ColormeNewController@social');
     Route::get('/course/{LinkId?}/{salerId?}/{campaignId?}', 'ColormeNewController@course');
-    Route::get('/profile/{username}', 'PublicController@beta');
-    Route::get('/profile/{username}/progress', 'PublicController@beta');
-    Route::get('/profile/{username}/info', 'PublicController@beta');
-    Route::get('resource/{linkId}/lesson/{lessonId}', 'PublicController@beta');
+    Route::get('/profile/{username}', 'ColormeNewController@profileProcess');
+    Route::get('/profile/{username}/attendance', 'ColormeNewController@profile');
+    Route::get('/profile/{username}/info', 'ColormeNewController@profile');
+    Route::get('/profile/{username}/project', 'ColormeNewController@profile');
+    Route::get('resource/{linkId}/lesson/{lessonId}', 'ColormeNewController@social');
 
     Route::get('manage/changeclass/{registerId}', 'ManageStudentController@change_class');
     Route::get('manage/confirmchangeclass', 'ManageStudentController@confirm_change_class');
