@@ -92,6 +92,7 @@ class Course extends Model
             'color' => $this->color,
             'type_id' => $this->type_id,
             'description' => $this->description,
+            'image_url' => generate_protocol_url($this->image_url),
             'categories' => $this->courseCategories->map(function ($courseCategory) {
                 return $courseCategory->getData();
             }),
