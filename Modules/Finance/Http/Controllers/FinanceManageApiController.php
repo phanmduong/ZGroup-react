@@ -9,6 +9,19 @@ use Illuminate\Http\Response;
 
 class FinanceManageApiController extends ManageApiController
 {
+    public function updatebankTransfer($bankTransferId, Request $request)
+    {
+        $bankTransfer = TransferMoney::find($bankTransferId);
+        if ($bankTransfer === null) {
+            return $this->respondErrorWithStatus("Không tồn tại tài khoản nào");
+        }
+        $bankTransfer->status = $request->status;
+        $bankTransfer->save();
+        return $this->respondSuccessWithStatus([
+            "bank_transfer" => $bankTransfer->transform()
+        ]);
+    }
+
     public function bankTransfers(Request $request)
     {
         $limit = 20;
