@@ -111,7 +111,7 @@ class ManageBaseApiController extends ManageApiController
                     'created_at' => format_time_main($base->created_at),
                     'updated_at' => format_time_main($base->updated_at),
                     'center' => $base->center,
-                    'image_url' => config('app.protocol') . trim_url($base->image_url),
+                    'images_url' => $base->images_url,
                     'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
                 ];
 
@@ -145,7 +145,7 @@ class ManageBaseApiController extends ManageApiController
             'created_at' => format_time_main($base->created_at),
             'updated_at' => format_time_main($base->updated_at),
             'center' => $base->center,
-            'image_url' => config('app.protocol') . trim_url($base->image_url),
+            'images_url' => $base->images_url,
             'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
         ];
 
