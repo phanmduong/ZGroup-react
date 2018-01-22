@@ -9,16 +9,16 @@ class TransferMoney extends Model
     //
     protected  $table = 'transfer_money';
 
-    protected static $PURPOSE = [
+    public static $PURPOSE = [
         "deposit" => "Đặt cọc",
         "pay_order" => "Thanh toán tiền hàng đặt",
         "pay_good" => "Mua hàng sẵn"
     ];
 
-    protected static $PURPOSE_COLOR = [
-        "deposit" => "#f5593d",
-        "pay_order" => "#51bcda",
-        "pay_good" => "#cc90cc"
+    public static $PURPOSE_COLOR = [
+        "deposit" => "#6bd098",
+        "pay_order" => "#f5593d",
+        "pay_good" => "#51bcda"
     ];
 
     public function user()
