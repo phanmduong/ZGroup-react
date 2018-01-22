@@ -81,16 +81,14 @@ class ManageBlogController extends ManageApiController
     public function get_posts(Request $request)
     {
         $q = trim($request->search);
-
+        $category_id = $request->category_id;
         $limit = 20;
-
-        if ($q) {
-            $posts = Product::where('title', 'like', '%' . $q . '%')
-                ->orderBy('created_at')->paginate($limit);
-        } else {
-            $posts = Product::where('title', 'like', '%' . $q . '%')->orderBy('created_at')->paginate($limit);
-        }
-
+        $posts = Product::query();
+        if($category_id)
+            $posts = $posts->where('category_id', $category_id);
+        if($q)
+            $posts = $posts->where('title','like', '%'.$q.'%');
+        $posts = $posts->orderBy('created_at')->paginate($limit);
         $data = [
             "posts" => $posts->map(function ($post) {
                 $data = [
@@ -117,6 +115,17 @@ class ManageBlogController extends ManageApiController
             })
         ];
         return $this->respondWithPagination($posts, $data);
+    }
+    public function getAllCategory(Request $request){
+        $categories = CategoryProduct::all();
+        return $this->respondSuccessWithStatus([
+            "categories" => $categories->map(function($category){
+                return [
+                   "id" => $category->id,
+                   "name" => $category->name,
+                ];
+            })
+        ]);
     }
     public function changeStatusPost($postId,Request $request){
         $post = Product::find($postId);

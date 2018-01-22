@@ -28,13 +28,15 @@ class ElightController extends Controller
         $newestTop3 = Product::where('type', 2)->where('category_id', 1)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
         $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
-        $books = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
+        $goods = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
+        $books = Course::orderBy('created_at', 'desc')->limit(8)->get();
         return view('elight::index', [
             'newestBlog' => $newestBlog,
             'newestTop3' => $newestTop3,
             'blogSection1' => $blogSection1,
             'blogSection2' => $blogSection2,
-            'books' => $books
+            'books' => $books,
+            'goods' => $goods,
         ]);
     }
 
@@ -101,11 +103,15 @@ class ElightController extends Controller
             ];
         });
 
+        $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
+
+
         return view('elight::book', [
             'book' => $course,
             'lesson_selected' => $lesson,
             'lessons' => $lessons,
-            'course'=> $course
+            'course' => $course,
+            'track_id' => $sound_cloud_track_id
         ]);
     }
 

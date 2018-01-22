@@ -6,10 +6,15 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
 
     Route::get('/', 'ManageBaseApiController@getBases');
     Route::post('/', 'ManageBaseApiController@createBase');
-    Route::put('/{baseId}', 'ManageBaseApiController@eidtBase');
+    Route::get('/{baseId}', 'ManageBaseApiController@getBase');
+    Route::put('/{baseId}', 'ManageBaseApiController@editBase');
 
     Route::post('/{baseId}/room', 'ManageBaseApiController@createRoom');
     Route::put('/{baseId}/room/{roomId}', 'ManageBaseApiController@editRoom');
+});
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/province', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
+    Route::get('/all', 'ManageBaseApiController@getAllProvinces');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/room', 'namespace' => 'Modules\Base\Http\Controllers'], function () {

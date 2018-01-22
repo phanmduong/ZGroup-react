@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Nhật Quang Shop</title>
-
+    @yield('meta')
     <meta name="google-signin-client_id"
           content="852725173616-8jvub3lqquejv84gep11uuk0npsdtu3g.apps.googleusercontent.com">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
@@ -243,7 +243,7 @@
 
         <div class="container">
             <div style="text-align:right; width:100%">
-                <a href="/profile"
+                <a href="/manage/account"
                    style="padding:3px 5px;margin:3px;font-size:10px;color: white;font-size: 12px;font-weight: normal">
                     <img src="{{generate_protocol_url($user->avatar_url)}}" style="width:17px;height: 17px"
                          alt=""> {{$user->name}}
@@ -261,11 +261,15 @@
         <div class="container" id="logged-nav" style="display: none">
             <div style="text-align:right; width:100%">
                 <div style="text-align:right; width:100%">
-                    <a href="/profile"
+                    <a href="/manage/account"
                        style="padding:3px 5px;margin:3px;font-size:10px;color: white;font-size: 12px;font-weight: normal">
                         <img v-bind:src="user.avatar_url" style="width:17px;height: 17px"
                              alt=""> @{{ user.name }}
                     </a>
+                    <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
+                            data-target="#modal-fast-order" class="btn btn-primary">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
+                    </button>
                     <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
                         <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
                     </a>
@@ -369,10 +373,7 @@
                         nổi bật</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about-us" data-scroll="true" href="javascript:void(0)">Về chúng tôi</a>
+                    <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Tin tức</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
