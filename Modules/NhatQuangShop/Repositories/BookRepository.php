@@ -218,7 +218,7 @@ class BookRepository
                 }
                 $order->quantity = $good->number;
                 $order->price    = $good->number * $good->currency->ratio * $good->price;
-                $object = new stdClass();
+                $object = new \stdClass();
                 $object->tax = $good->tax;
                 $object->size = $good->size;
                 $object->color = $good->color;
