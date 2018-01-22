@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import loginReducer from '../modules/login/loginReducer';
 import tabsReducer from '../modules/tab/tabsReducer';
+import financeReducer from '../modules/finance/financeReducer';
 import staffsReducer from '../modules/manageStaff/staffsReducer';
 import rolesReducer from '../modules/role/rolesReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
@@ -70,7 +71,6 @@ import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 
 
-
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
     login: loginReducer,
@@ -132,15 +132,15 @@ const appReducer = combineReducers({
     workShiftSessions: workShiftSessionsReducer,
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
-    landingPages : landingPagesReducer,
-    createSaleGoods : createSaleGoodsReducer,
+    landingPages: landingPagesReducer,
+    createSaleGoods: createSaleGoodsReducer,
     orderedProduct: orderedProductReducer,
     survey: surveyReducer,
     historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
-
+    finance: financeReducer,
     companies: CompanyReducer,
 });
 
