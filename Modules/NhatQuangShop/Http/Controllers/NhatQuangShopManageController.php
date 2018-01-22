@@ -152,7 +152,27 @@ class NhatQuangShopManageController extends Controller
         $this->data['orders'] = $orders;
         return view("nhatquangshop::orders", $this->data);
     }
-    public function getFilterOrders(){
-
-    }
+   public function userFastOrders(){
+       $user = Auth::user();
+       $fastOrders = Order::where([['user_id', '=', $user->id], ['type', '=' , 'delivery']])->orderBy('created_at', 'desc')->paginate(15);
+       $this->data['fastOrders'] = $fastOrders;
+        return view('nhatquangshop::fast_orders', $this->data);
+   }
+   public function filterFastOrders(Request $request){
+        $user = Auth::user();
+        $fastOrders = Order::where([['user_id', '=', $user->id], ['type', '=' , 'delivery']])->orderBy('created_at', 'desc');
+       $code = $request->code;
+       $status = $request->status;
+       $start_day = $request->start_day;
+       $end_day = $request->end_day;
+       if ($start_day)
+           $fastOrders = $fastOrders->whereBetween('created_at', array($start_day, $end_day));
+//        if ($status)
+//            $orders = $orders->where('status', $status);
+       if($code)
+           $fastOrders = $fastOrders->where('code','like', '%'.$code.'%');
+       $fastOrders = $fastOrders->orderBy('created_at', 'desc')->paginate(15);
+       $this->data['fastOrders'] = $fastOrders;
+       return view("nhatquangshop::fast_orders", $this->data);
+   }
 }
