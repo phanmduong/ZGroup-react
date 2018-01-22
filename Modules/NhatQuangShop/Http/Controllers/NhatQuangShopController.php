@@ -65,7 +65,7 @@ class NhatQuangShopController extends Controller
     {
         $search = $request->search;
         if ($search == null) {
-            $products = Good::where('highlight_status', '=', '1' )->orderBy('created_at', 'desc')
+            $products = Good::where('highlight_status', '=', '1')->orderBy('created_at', 'desc')
                 ->paginate(20);
         } else {
             $products = Good::where('name', 'like', '%' . "$search" . '%')
@@ -228,7 +228,7 @@ class NhatQuangShopController extends Controller
     }
 
 
-    public function contact_info( $subfix, Request $request)
+    public function contact_info($subfix, Request $request)
     {
         $data = ['email' => $request->email, 'name' => $request->name, 'message_str' => $request->message_str];
 
@@ -277,7 +277,7 @@ class NhatQuangShopController extends Controller
 
     public function blog(Request $request)
     {
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(9);
+        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = "";
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $request->page) $display = "display:none";
@@ -313,26 +313,28 @@ class NhatQuangShopController extends Controller
             ];
         }
     }
+
     //code api dat hang nhanh
-    public function saveFastOrder(Request $request){
+    public function saveFastOrder(Request $request)
+    {
         $user = Auth::user();
         $email = $user->email;
         $user_id = $user->id;
         $address = $user->address;
 
         $fast_orders = json_decode($request->fastOrders);
-        if ($fast_orders) {
-            $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders);
+        $response = $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders);
+        if ($response['status'] === 1) {
             return [
                 "fast_order" => $fast_orders,
                 "status" => 1,
-                "message" => $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders)
-            ];
-        } else {
-            return [
-                "status" => 0,
+                "message" => $response['message'],
             ];
         }
+        return [
+            "status" => 0,
+            "message" => $response['message'],
+        ];
     }
 
     public function test(Request $request)

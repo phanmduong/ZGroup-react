@@ -175,10 +175,11 @@ class GoodController extends ManageApiController
         if ($request->children) {
             //Tao san pham cung loai
             $children = json_decode($request->children);
+            $index = 0;
             foreach ($children as $child) {
                 $good = new Good;
                 $this->assignGoodInfor($good, $request);
-                $good->barcode = $child->barcode;
+                $good->barcode = $child->barcode ? $child->barcode : $request->code . "." . (string)$index;
                 $good->price = $child->price ? $child->price : $request->price;
                 $good->save();
 
@@ -195,7 +196,7 @@ class GoodController extends ManageApiController
 
                 $child_images_url = new GoodProperty;
                 $this->assignPropertyInfor($child_images_url, 'child_images_url', $child->child_images_url, $good->id);
-
+                ++$index;
             }
             return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
         }

@@ -89,7 +89,6 @@ class ManageBlogController extends ManageApiController
         if($q)
             $posts = $posts->where('title','like', '%'.$q.'%');
         $posts = $posts->orderBy('created_at')->paginate($limit);
-
         $data = [
             "posts" => $posts->map(function ($post) {
                 $data = [

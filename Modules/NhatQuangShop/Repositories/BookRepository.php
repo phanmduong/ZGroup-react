@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
+use App\Currency;
 
 class BookRepository
 {
@@ -201,45 +202,43 @@ class BookRepository
         return null;
     }
 
-    public function saveFastOrder($email, $address, $user_id, $goods_arr){
-       $order = new Order;
-       $order->user_id = $user_id;
-       $order->address = $address;
-       $order->email = $email;
-       $order->save();
+    public function saveFastOrder($email, $address, $user_id, $goods_arr)
+    {
         if ($goods_arr) {
             foreach ($goods_arr as $good) {
-                if($good->link === "" || $good->size==="" || $good->color==="" ){
+                if ($good->link === "") {
                     return [
+                        "status" => 0,
                         "message" => "Bạn chưa nhập đầy đủ thông tin"
                     ];
                     break;
                 }
-                 $newGood = new Good;
-                 $newGood->name = "Link";
-                 $newGood->download = $good->link;
-                 $newGood->description = $good->describe;
-                 $newGood->save();
-                $order->goods()->attach($newGood->id, [
-                    "quantity" => $good->number,
-                    "price" => $good->price,
-                ]);
-                $newProPerTies1 = new GoodProperty;
-                $newProPerTies1->name = "size";
-                $newProPerTies1->good_id = $newGood->id;
-                $newProPerTies1->value = $good->size;
-                $newProPerTies1->save();
-                $newProPerTies2 = new GoodProperty;
-                $newProPerTies2->name = "color";
-                $newProPerTies2->good_id = $newGood->id;
-                $newProPerTies2->value = $good->color;
-                $newProPerTies2->save();
-             }
+                if ($good->currencyId == 0)
+                    return [
+                        'status' => 0,
+                        "message" => "Xin bạn vui lòng chọn tiền tệ"
+                    ];
+            }
+            foreach ($goods_arr as $good) {
+                $order = new Order;
+                $order->user_id = $user_id;
+                $order->address = $address;
+                $order->email = $email;
+                $order->quantity = $good->number;
+                $order->price = $good->number * $good->currency->ratio * $good->price;
+                $object = new \stdClass();
+                $object->tax = $good->tax;
+                $object->size = $good->size;
+                $object->color = $good->color;
+                $object->link = $good->link;
+                $object->describe = $good->describe;
+                $order->attach_info = json_encode($object);
+                $order->save();
+            }
         }
-        $order->save();
         return [
-            "message" => "Xac nhan thanh cong don hang",
-            "status"=>1,
+            "status" => 1,
+            "message" => "Xác nhận gửi thành công đơn hàng",
         ];
     }
 }

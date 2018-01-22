@@ -186,7 +186,7 @@
                             <a href="/blog/post/{{$newestBlog2->id}}">
                                 <div style="width: 100%;
                                         border-radius: 2px;
-                                        background: url({{generate_protocol_url($newestBlog->url)}});
+                                        background: url({{generate_protocol_url($newestBlog2->url)}});
                                         background-size: cover;
                                         background-position: center;
                                         padding-bottom: 70%;"></div>

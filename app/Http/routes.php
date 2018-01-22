@@ -154,7 +154,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/base/create', "ManageBaseApiController@createBase");
     Route::get('/base/rooms', "ManageBaseApiController@getRooms");
     Route::post('/base/room', "ManageBaseApiController@storeRoom");
-    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
+//    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
     Route::get('/base/{baseId}', "ManageBaseApiController@base");
     // End Base api
 

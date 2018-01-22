@@ -30,6 +30,7 @@ class ManageBaseApiController extends ManageApiController
         $base->display_status = $request->display_status;
         $base->images_url = $request->images_url;
         $base->description = $request->description;
+        $base->address = $request->address;
         $base->save();
     }
 
@@ -56,11 +57,29 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function basesInProvince($provinceId)
+    public function getAllProvinces()
+    {
+        $provinces = Province::all();
+        $provinces = $provinces->map(function ($province) {
+            $data = $province->transform();
+            $data['districts'] = $province->districts->map(function ($district) {
+                return $district->transform();
+            });
+            return $data;
+        });
+
+        return $this->respondSuccessWithStatus([
+            'provinces' => $provinces
+        ]);
+    }
+
+    public function basesInProvince($provinceId, Request $request)
     {
         $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
             ->where("province.provinceid", $provinceId)->select("district.*")->pluck("districtid");
-        $bases = Base::whereIn("district_id", $districtIds)->get();
+        $bases = Base::whereIn("district_id", $districtIds);
+        $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
+        $bases = $bases->get();
         return $this->respondSuccessWithStatus([
             "bases" => $bases->map(function ($base) {
                 return $base->transform();
@@ -70,7 +89,79 @@ class ManageBaseApiController extends ManageApiController
 
     public function getBases(Request $request)
     {
+        $query = trim($request->q);
 
+        $limit = 6;
+
+        if ($query) {
+            $bases = Base::where("name", "like", "%$query%")
+                ->orWhere("address", "like", "%$query%")
+                ->orderBy('created_at')->paginate($limit);
+        } else {
+            $bases = Base::orderBy('created_at')->paginate($limit);
+        }
+
+        $data = [
+            "bases" => $bases->map(function ($base) {
+                $data = [
+                    'id' => $base->id,
+                    'name' => $base->name,
+                    'address' => $base->address,
+                    'display_status' => $base->display_status,
+                    'longitude' => $base->longtitude,
+                    'latitude' => $base->latitude,
+                    'created_at' => format_time_main($base->created_at),
+                    'updated_at' => format_time_main($base->updated_at),
+                    'center' => $base->center,
+                    'image_url' => config('app.protocol') . trim_url($base->image_url),
+                    'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
+                ];
+
+
+                if ($base->district) {
+                    $data['district'] = $base->district->transform();
+                    $data['province'] = $base->district->province->transform();
+                }
+
+                return $data;
+            }),
+
+        ];
+        return $this->respondWithPagination($bases, $data);
+    }
+
+    public function getBase($baseId)
+    {
+        $base = Base::find($baseId);
+        if ($base == null) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+
+        $data = [
+            'id' => $base->id,
+            'name' => $base->name,
+            'address' => $base->address,
+            'display_status' => $base->display_status,
+            'longitude' => $base->longtitude,
+            'latitude' => $base->latitude,
+            'created_at' => format_time_main($base->created_at),
+            'updated_at' => format_time_main($base->updated_at),
+            'center' => $base->center,
+            'image_url' => config('app.protocol') . trim_url($base->image_url),
+            'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
+        ];
+
+
+        if ($base->district) {
+            $data['district'] = $base->district->transform();
+            $data['province'] = $base->district->province->transform();
+            $data['province_id'] = $base->district->province->provinceid;
+            $data['district_id'] = $base->district->districtid;
+        }
+
+        return $this->respondSuccessWithStatus([
+            'base' => $data
+        ]);
     }
 
     public function createBase(Request $request)

@@ -254,4 +254,32 @@ class Order extends Model
         });
         return $data;
     }
+
+    public function getDeliveryData()
+    {
+        $data = [
+            'id' => $this->id,
+            'note' => $this->note,
+            'code' => $this->code,
+            'attach_info' => $this->attach_info,
+            'status' => $this->status,
+            'price' => $this->price,
+            'quantity' => $this->quantity
+        ];
+        if ($this->user) {
+            $data['customer'] = [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'address' => $this->user->address,
+                'phone' => $this->user->phone,
+                'email' => $this->user->email,
+            ];
+        }
+        if ($this->staff)
+            $data['staff'] = [
+                'id' => $this->staff->id,
+                'name' => $this->staff->name,
+            ];
+        return $data;
+    }
 }

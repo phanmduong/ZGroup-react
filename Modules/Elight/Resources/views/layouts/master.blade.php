@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" type="image/png"
-          href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" cph-ssorder="0">
+          href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1515853471glZIdDdlEwbXivK.png" cph-ssorder="0">
     <link rel="icon" type="image/png" href="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
@@ -16,64 +16,9 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
-    <style type="text/css">
-        .bs-example {
-            font-family: sans-serif;
-            position: relative;
-        }
-
-        .twitter-typeahead {
-            width: 100%;
-        }
-
-        .typeahead, .tt-query, .tt-hint {
-            border: 2px solid #CCCCCC;
-            font-size: 22px; /* Set input font size */
-            height: 30px;
-            line-height: 30px;
-            outline: medium none;
-            padding: 8px 12px;
-        }
-
-        .typeahead {
-            background-color: #FFFFFF;
-        }
-
-        .tt-query {
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-        }
-
-        .tt-hint {
-            color: #999999;
-        }
-
-        .tt-menu {
-            background-color: #FFFFFF;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-            margin-top: 0px;
-            padding: 8px 0;
-            width: 100%;
-        }
-
-        .tt-suggestion {
-            font-size: 15px; /* Set suggestion dropdown font size */
-            padding: 3px 20px;
-        }
-
-        .tt-suggestion:hover {
-            cursor: pointer;
-            background-color: #0097CF;
-            color: #FFFFFF;
-        }
-
-        .tt-suggestion p {
-            margin: 0;
-        }
-    </style>
     <link href="/elight-assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/elight-assets/css/paper-kit.css" rel="stylesheet"/>
-    <link href="/elight-assets/css/demo.css" rel="stylesheet"/>
+    <link href="/elight-assets/css/demo.css?12321" rel="stylesheet"/>
 
     <script>
         window.url = "{{url("/")}}";
@@ -81,6 +26,47 @@
     </script>
 </head>
 <body class="profile" style="background: #f2f2f2;">
+<div class="fb-livechat">
+    <div class="ctrlq fb-overlay"></div>
+    <div class="fb-widget">
+        <div class="ctrlq fb-close"></div>
+        <div class="fb-page" data-href="https://www.facebook.com/bookelight" data-tabs="messages" data-width="360"
+             data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
+        <div class="fb-credit"></div>
+        <div id="fb-root"></div>
+    </div>
+    <a href="https://m.me/bookelight" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+        <div class="bubble">1</div>
+        <div class="bubble-msg">Bạn cần hỗ trợ?</div>
+    </a></div>
+<script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>$(document).ready(function () {
+        function detectmob() {
+            if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        var t = {delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button")};
+        setTimeout(function () {
+            $("div.fb-livechat").fadeIn()
+        }, 8 * t.delay);
+        if (!detectmob()) {
+            $(".ctrlq").on("click", function (e) {
+                e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({
+                    bottom: 0,
+                    opacity: 0
+                }, 2 * t.delay, function () {
+                    $(this).hide("slow"), t.button.show()
+                })) : t.button.fadeOut("medium", function () {
+                    t.widget.stop().show().animate({bottom: "30px", opacity: 1}, 2 * t.delay), t.overlay.fadeIn(t.delay)
+                })
+            })
+        }
+    });</script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"
         type="text/javascript"></script>
 <nav class="navbar navbar-light navbar-toggleable-md fixed-top" style="background: #138edc!important">
@@ -111,13 +97,14 @@
                     <a class="nav-link" style="color:white" href="/blog" data-scroll="true">BLOGS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" data-scroll="true" v-on:click="openModalBuyWithoutAdd()"
-                       style="display: flex; align-content: center; color:white" >
+                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
+                       v-on:click="openModalBuyWithoutAdd()"
+                       style="display: flex; align-content: center; color:white">
                         <i class="fa fa-shopping-cart"></i>
                         &nbsp
                         Giỏ hàng
-                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
+                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center; display: none!important;">
                             @{{ books_count }}
                         </div>
                     </a>
@@ -151,7 +138,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/library">
+                                    <a href="/all-books">
                                         Thư viện
                                     </a>
                                 </li>
@@ -177,13 +164,7 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                            <ul class="uppercase-links stacked-links">
-                                <li>
-                                    <a href="#">
-                                        Tuyển dụng
-                                    </a>
-                                </li>
-                            </ul>
+
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
@@ -209,8 +190,7 @@
                     <div class="pull-left">
                         ©
                         <script>document.write(new Date().getFullYear())</script>
-                        2017
-                        KEE Agency
+                        KEETOOL
                     </div>
                     <div class="links pull-right">
                         <ul>
