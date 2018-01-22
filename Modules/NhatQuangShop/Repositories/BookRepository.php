@@ -202,23 +202,31 @@ class BookRepository
         return null;
     }
 
-    public function saveFastOrder($email, $address, $user_id, $goods_arr){
-
+    public function saveFastOrder($email, $address, $user_id, $goods_arr)
+    {
         if ($goods_arr) {
+            foreach ($goods_arr as $good) {
+                if ($good->link === "") {
+                    return [
+                        "status" => 0,
+                        "message" => "Bạn chưa nhập đầy đủ thông tin"
+                    ];
+                    break;
+                }
+                if ($good->currencyId == 0)
+                    return [
+                        'status' => 0,
+                        "message" => "Xin bạn vui lòng chọn tiền tệ"
+                    ];
+            }
             foreach ($goods_arr as $good) {
                 $order = new Order;
                 $order->user_id = $user_id;
                 $order->address = $address;
                 $order->email = $email;
-                if($good->link === "" || $good->size==="" || $good->color==="" ){
-                    return [
-                        "message" => "Bạn chưa nhập đầy đủ thông tin"
-                    ];
-                    break;
-                }
                 $order->quantity = $good->number;
-                $order->price    = $good->number * $good->currency->ratio * $good->price;
-                $object = new stdClass();
+                $order->price = $good->number * $good->currency->ratio * $good->price;
+                $object = new \stdClass();
                 $object->tax = $good->tax;
                 $object->size = $good->size;
                 $object->color = $good->color;
@@ -226,11 +234,11 @@ class BookRepository
                 $object->describe = $good->describe;
                 $order->attach_info = json_encode($object);
                 $order->save();
-             }
+            }
         }
         return [
-            "message" => "Xác nhận thành công đơn hàng",
-            "status"=>1,
+            "status" => 1,
+            "message" => "Xác nhận gửi thành công đơn hàng",
         ];
     }
 }
