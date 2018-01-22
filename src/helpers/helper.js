@@ -1248,3 +1248,11 @@ export function randomMonoChromeHEX(degree) {
 
 
 }
+
+export function shortString(str, maxLength) {
+    let arrStr = str.trim().split(" ");
+    arrStr = arrStr.slice(0, Math.min(arrStr.length, maxLength));
+    const result = arrStr.join(" ");
+    if (arrStr.length < maxLength) return str;
+    return result + " ..."
+}

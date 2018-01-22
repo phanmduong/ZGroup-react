@@ -305,33 +305,52 @@ export default {
         isLoadingBases: false,
         currentPage: 1,
         totalPages: 1,
+        provinces: [],
+        isLoadingProvinces: false,
         createBase: {
+            percent: 0,
+            percentImage: 0,
+            isUploadingAvatar: false,
+            isUploadingImage: false,
             isSavingBase: false,
-            isLoadingBase: false,
-            base: {
-                name: "",
-                address: ""
-            }
+            isLoadingBase:
+                false,
+            base:
+                {
+                    name: "",
+                    address:
+                        "",
+                    images: []
+                }
         }
     },
 
     book: {
         taskListTemplateModal: {
             showModal: false,
-            boards: [],
-            isLoading: false
-        },
+            boards:
+                [],
+            isLoading:
+                false
+        }
+        ,
         taskSpan: {
             showModal: false,
-            hours: 0,
-            task: {
-                span: 0
-            },
+            hours:
+                0,
+            task:
+                {
+                    span: 0
+                }
+            ,
             isSaving: false
-        },
+        }
+        ,
         taskListDetail: {
             showModal: false,
-            taskList: {},
+            taskList:
+                {}
+            ,
             isSaving: false,
             isSavingTask: false,
             showEditTaskModal: false,

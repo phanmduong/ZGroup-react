@@ -670,3 +670,14 @@ img .product-image {
 .list-group-item label {
   white-space: pre;
 }
+.col-container {
+  display: flex;
+}
+
+.col {
+  flex: 1;
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}
