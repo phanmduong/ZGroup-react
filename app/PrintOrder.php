@@ -21,7 +21,7 @@ class PrintOrder extends Model
 
     public function staff()
     {
-        return $this->belongsTo(User::class, "user_id");
+        return $this->belongsTo(User::class, "staff_id");
     }
 
     public function transform()
