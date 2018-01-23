@@ -111,49 +111,59 @@
                     <h2 class="medium-title">Thông tin đơn hàng</h2>
                 </div>
 
-                <div class="modal-body ">
+                <div class="modal-body" style="height: 50%">
                     @foreach($fastOrders as $order)
-                        <div class = "table-responsive col-md-12" >
-                            <table class="table" id ="order{{$order->id}}" style="display: none">
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th>OrderCode</th>
-                                    <th class="text-center">Màu</th>
-                                    <th class="text-center">Size</th>
-                                    <th class="text-center">Số lượng</th>
-                                    <th class="text-center">Giá trị</th>
-                                    <th class ="text-center">Trạng thái</th>
-                                    <th class="text-center">Link sản phẩm</th>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">{{$order->id}}</td>
-                                    <td>
-                                        @if($order->code != null )
-                                            <a href="fast_orders/{{$order->id}}" class="btn btn-round btn-twitter">
-                                                {{$order->code}}
-                                            </a>
-                                        @endif
-                                    </td>
+                                <table cellpadding="10px" id ="order{{$order->id}}" style="display: none" >
+                                    <tbody><tr class="border-0 ">
+                                        <td class="text-left small-title">Mã đơn hàng :</td>
+                                        <th>
+                                            @if($order->code != null )
+                                                <a href="orders/{{$order->id}}" class="btn btn-round btn-twitter">
+                                                    {{$order->code}}
+                                                </a>
+                                            @endif
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"><b>Màu :</b></td>
+                                        <th>
+                                                <input id="editColor{{$order->id}}" type="text" value="{{json_decode($order->attach_info)->color}}" name="color" class="form-control">
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"><b>Size :</b></td>
+                                        <th>
+                                                <input type="text" id="editSize{{$order->id}}" value="{{json_decode($order->attach_info)->size}}" name="size" class="form-control">
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"><b>Link sản phẩm :</b></td>
+                                        <th>
+                                                <input type="text" id="editLink{{$order->id}}" value="{{json_decode($order->attach_info)->link}}" name="link" class="form-control">
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"><b>Số lượng :</b></td>
+                                        <th>
+                                                <input type="text" id = "editQuantity{{$order->id}}" value="{{$order->quantity}}" name="số lượng" class="form-control">
+                                        </th>
+                                    </tr>
 
-                                    <td class="text-center">{{json_decode($order->attach_info)->color}}</td>
-                                    <td class="text-center">{{json_decode($order->attach_info)->size}}</td>
-                                    <td class="text-center">{{$order->quantity}}</td>
-                                    <td class="text-center">{{$order->price}} đ</td>
-                                    <td class="text-center">{{$order->status}}</td>
-                                    <td class="text-center">{{json_decode($order->attach_info)->link}}</td>
+                                    </tbody></table>
+                                <br>
                             @endforeach
-                        </div>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="updateOrder({{$order->id}})"
+                    <button type="submit" onclick="updateOrder({{$order->id}})"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Cập nhật đơn hàng <i
                                 class="fa fa-angle-right"></i></button>
                 </div>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
     @include('pagination.custom', ['paginator' => $fastOrders])
     <script>
         var old = 0;
@@ -165,18 +175,20 @@
            old = orderId;
         }
         function updateOrder(orderId) {
-            // $.ajax({
-            //     url : window.url + "/manage/fast_orders" + orderId,
-            //     type : "put",
-            //     data : {
-            //         number : $('#number').val()
-            //     },
-            //     success : function (result){
-            //         // Sau khi gửi và kết quả trả về thành công thì gán nội dung trả về
-            //         // đó vào thẻ div có id = result
-            //         $('#result').html(result);
-            //     }
-            // });
+            $.ajax({
+                url : window.url + "/manage/fast_orders/" + orderId,
+                type : "put",
+                data : {
+                    link : $("#editLink" + orderId).val(),
+                    quantity : $("#editQuantity" + orderId).val(),
+                    // color    : $("#editColor" + orderId).val(),
+                    // size     : $("#editSize" + orderId).val(),
+                },
+                success : function (){
+                   alert("Cập nhật đơn hàng thành công");
+                    window.location.reload();
+                }
+            });
         }
     </script>
 

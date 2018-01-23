@@ -225,6 +225,7 @@ class BookRepository
                 $order->address = $address;
                 $order->email = $email;
                 $order->quantity = $good->number;
+                $order->type = "delivery";
                 $order->price    = $good->number * $good->currency->ratio * $good->price;
                 $object = new \stdClass();
                 $object->tax = $good->tax;
