@@ -61,7 +61,7 @@
             </tr>
             <tbody>
             @if (count($fastOrders) > 0)
-                @foreach($fastOrders as$order)
+                @foreach($fastOrders as $order)
                     <tr>
                         <td class="text-center">{{$order->id}}</td>
                         <td>

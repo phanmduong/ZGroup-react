@@ -213,7 +213,7 @@ class BookRepository
                     ];
                     break;
                 }
-                if ($good->currencyId == 0)
+                if ($good->currencyId == -1)
                     return [
                         'status' => 0,
                         "message" => "Xin bạn vui lòng chọn tiền tệ"
@@ -227,6 +227,7 @@ class BookRepository
                 $order->quantity = $good->number;
                 $order->type = "delivery";
                 $order->price    = $good->number * $good->currency->ratio * $good->price;
+                $order->status = 'place_order';
                 $object = new \stdClass();
                 $object->tax = $good->tax;
                 $object->size = $good->size;
