@@ -16,7 +16,7 @@ class SurveyService
     public function startSurvey($userId, $surveyId)
     {
         $userLessonSurvey = new UserLessonSurvey();
-        $userLessonSurvey->name = "SURVEY" . date('d/m/Y H:i:s', time());
+        $userLessonSurvey->name = "SURVEY" . date('dmYHis', time());
         $userLessonSurvey->duration = 0;
         $userLessonSurvey->mark = 0;
         $userLessonSurvey->take = 0;
