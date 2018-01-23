@@ -24,8 +24,6 @@ class ListPost extends React.Component {
                 <div className="row">
                     {this.props.posts && this.props.posts.map((post) => {
                         return (
-
-
                             <div className="col-sm-6 col-md-6 col-lg-4" id="card-email-template" key={post.id}>
                                 <div className="card card-chart">
                                     <div className="card-header" data-background-color="white" style={{
