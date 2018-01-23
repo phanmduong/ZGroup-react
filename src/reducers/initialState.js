@@ -1571,6 +1571,7 @@ export default {
         isLoading: false,
         survey: {},
         showEditQuestionModal: false,
+        showEditSurveyModal: false,
         question: {},
         paginator: {},
         showDisplaySettingModal: false,

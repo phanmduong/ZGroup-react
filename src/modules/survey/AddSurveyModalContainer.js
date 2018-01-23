@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Modal} from "react-bootstrap";
+import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
 import {createSurvey} from './surveyApi';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import * as surveyActions from "./surveyActions";
 
-class AddSurveyModal extends React.Component {
+class AddSurveyModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -17,7 +20,7 @@ class AddSurveyModal extends React.Component {
     }
 
     handleClose() {
-        this.props.closeModal();
+        this.props.surveyActions.toggleEditSurveyModal(false);
     }
 
     submitButtonOnClick() {
@@ -40,7 +43,7 @@ class AddSurveyModal extends React.Component {
 
     render() {
         return (
-            <Modal show={this.props.showModal} onHide={this.handleClose}>
+            <Modal show={this.props.showEditSurveyModal} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm khảo sát</Modal.Title>
                 </Modal.Header>
@@ -51,6 +54,22 @@ class AddSurveyModal extends React.Component {
                                placeholder="Tên khảo sát"
                                onChange={this.inputOnchange}/>
                     </div>
+
+                    <FormGroup
+                        controlId="target">
+                        <ControlLabel>Chỉ tiêu</ControlLabel>
+                        <FormControl
+                            type="text"
+                            value={this.state.value}
+                            placeholder="Chỉ tiêu"
+                            onChange={this.handleChange}
+                        />
+                    </FormGroup>
+
+                    <FormGroup controlId="description">
+                        <ControlLabel>Mô tả</ControlLabel>
+                        <FormControl componentClass="textarea" placeholder="Mô tả"/>
+                    </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
                     {
@@ -77,9 +96,23 @@ class AddSurveyModal extends React.Component {
     }
 }
 
-AddSurveyModal.propTypes = {
-    showModal: PropTypes.bool.isRequired,
-    closeModal: PropTypes.func.isRequired
+AddSurveyModalContainer.propTypes = {
+    showEditSurveyModal: PropTypes.bool.isRequired,
+    surveyActions: PropTypes.object.isRequired,
+    survey: PropTypes.object.isRequired
 };
 
-export default AddSurveyModal;
+function mapStateToProps(state) {
+    return {
+        showEditSurveyModal: state.survey.showEditSurveyModal,
+        survey: state.survey.survey,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        surveyActions: bindActionCreators(surveyActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddSurveyModalContainer);

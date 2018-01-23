@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import AddSurveyModal from "./AddSurveyModal";
+import AddSurveyModalContainer from "./AddSurveyModalContainer";
 import Loading from "../../components/common/Loading";
 import * as surveyActions from "./surveyActions";
 import SurveyItem from "./SurveyItem";
@@ -29,9 +29,7 @@ class SurveyContainer extends React.Component {
     }
 
     openModal() {
-        this.setState({
-            showModal: true
-        });
+        this.props.surveyActions.toggleEditSurveyModal(true);
     }
 
     closeModal() {
@@ -45,10 +43,7 @@ class SurveyContainer extends React.Component {
 
         return (
             <div className="content">
-                <AddSurveyModal
-                    showModal={this.state.showModal}
-                    closeModal={this.closeModal}
-                />
+                <AddSurveyModalContainer/>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -75,7 +70,9 @@ class SurveyContainer extends React.Component {
                                                         (this.props.surveys && this.props.surveys.length > 0) &&
                                                         this.props.surveys.map((survey) => {
                                                             return (
-                                                                <SurveyItem survey={survey}/>
+                                                                <SurveyItem
+                                                                    key={survey.id}
+                                                                    survey={survey}/>
                                                             );
 
                                                         })
@@ -84,8 +81,8 @@ class SurveyContainer extends React.Component {
                                             )
                                     }
                                     <Pagination
-                                        currentPage={this.props.paginator.current_page}
-                                        totalPages={this.props.paginator.total_pages}
+                                        currentPage={this.props.paginator.current_page || 0}
+                                        totalPages={this.props.paginator.total_pages || 0}
                                         loadDataPage={this.loadSurveys}/>
                                 </div>
                             </div>

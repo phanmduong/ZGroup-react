@@ -3,12 +3,24 @@ import {
     BEGIN_LOAD_SURVEYS_LIST,
     LOAD_SURVEYS_LIST_SUCCESS,
     LOAD_SURVEY_DETAIL_SUCCESS,
-    TOGGLE_EDIT_SURVEY, UPDATE_QUESTION_FORM_DATA, BEGIN_SAVE_QUESTION, SAVE_QUESTION_SUCCESS
-    , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER, ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION,
-    DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING, OPEN_EDIT_SURVEY_DISPLAY_ORDER
+    TOGGLE_EDIT_SURVEY, UPDATE_QUESTION_FORM_DATA,
+    BEGIN_SAVE_QUESTION, SAVE_QUESTION_SUCCESS
+    , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER,
+    ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION,
+    DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING,
+    OPEN_EDIT_SURVEY_DISPLAY_ORDER, TOGGLE_EDIT_SURVEY_MODAL,
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
 import {showErrorMessage, showNotification} from "../../helpers/helper";
+
+export const toggleEditSurveyModal = (showEditSurveyModal) => {
+    return (dispatch) => {
+        dispatch({
+            type: TOGGLE_EDIT_SURVEY_MODAL,
+            showEditSurveyModal
+        });
+    };
+};
 
 export const duplicateQuestion = (question) => {
     return async (dispatch) => {
