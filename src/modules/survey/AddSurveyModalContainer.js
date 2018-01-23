@@ -5,6 +5,7 @@ import {createSurvey} from './surveyApi';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as surveyActions from "./surveyActions";
+import FieldGroup from "../../components/common/FieldGroup";
 
 class AddSurveyModalContainer extends React.Component {
     constructor(props, context) {
@@ -42,15 +43,31 @@ class AddSurveyModalContainer extends React.Component {
     }
 
     render() {
+        const {survey} = this.props;
+
         return (
             <Modal show={this.props.showEditSurveyModal} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm khảo sát</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <div className="fileinput fileinput-new text-center" data-provides="fileinput">
+                        <div className="fileinput-new thumbnail">
+                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1514889391e5VI7T5ybUMuOPN.jpg"/>
+                        </div>
+                        <div className="fileinput-preview fileinput-exists thumbnail"/>
+                        <div>
+                            <span className="btn btn-rose btn-round btn-file">
+                                <span className="fileinput-new">Ảnh đại diện</span>
+                                <span className="fileinput-exists">Change</span>
+                                <input type="file" name="..."/>
+                                <div className="ripple-container"/>
+                            </span>
+                        </div>
+                    </div>
                     <div className="form-group">
                         <label>Tên:</label>
-                        <input type="text" value={this.state.surveyName} className="form-control"
+                        <input type="text" value={survey.name} className="form-control"
                                placeholder="Tên khảo sát"
                                onChange={this.inputOnchange}/>
                     </div>
@@ -60,7 +77,7 @@ class AddSurveyModalContainer extends React.Component {
                         <ControlLabel>Chỉ tiêu</ControlLabel>
                         <FormControl
                             type="text"
-                            value={this.state.value}
+                            value={survey.target}
                             placeholder="Chỉ tiêu"
                             onChange={this.handleChange}
                         />
@@ -68,7 +85,9 @@ class AddSurveyModalContainer extends React.Component {
 
                     <FormGroup controlId="description">
                         <ControlLabel>Mô tả</ControlLabel>
-                        <FormControl componentClass="textarea" placeholder="Mô tả"/>
+                        <FormControl
+                            value={survey.description}
+                            componentClass="textarea" placeholder="Mô tả"/>
                     </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
