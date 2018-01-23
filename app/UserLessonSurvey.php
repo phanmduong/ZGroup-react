@@ -32,6 +32,7 @@ class UserLessonSurvey extends Model
     public function transform()
     {
         return [
+            "id" => $this->id,
             "name" => $this->name,
             "duration" => $this->duration,
             "mark" => $this->mark,
