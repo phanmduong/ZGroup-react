@@ -26,7 +26,7 @@ class SurveyController extends ManageApiController
 
     public function endUserLessonSurvey($userLessonSurveyId, Request $request)
     {
-        $userLessonSurvey = Survey::find($userLessonSurveyId);
+        $userLessonSurvey = UserLessonSurvey::find($userLessonSurveyId);
         if ($userLessonSurvey == null) {
             return $this->respondErrorWithStatus("Phiên survey không tồn tại");
         }
