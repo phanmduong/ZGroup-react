@@ -7,6 +7,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::get('{surveyId}', 'SurveyController@getSurvey');
     Route::post('', 'SurveyController@createSurvey');
 
+    Route::post('/{surveyId}/user-lesson', 'SurveyController@createUserLessonSurvey');
+
     Route::put('/questions', 'SurveyController@updateQuestionOrder');
     Route::put('{surveyId}', 'SurveyController@editSurvey');
 

@@ -3,22 +3,42 @@
 namespace Modules\Survey\Http\Controllers;
 
 use App\Answer;
-use App\Colorme\Transformers\TermTransformer;
-use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use App\Question;
 use App\Survey;
+use App\UserLessonSurvey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Survey\Services\SurveyService;
 
 class SurveyController extends ManageApiController
 {
-    public function __construct(TermTransformer $termTransformer)
+    protected $surveyService;
+
+    public function __construct(
+        SurveyService $surveyService
+    )
     {
         parent::__construct();
+        $this->surveyService = $surveyService;
     }
 
+    public function createUserLessonSurvey($surveyId, Request $request)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Survey không tồn tại");
+        }
+
+        $userLessonSurvey = $this->surveyService->startSurvey($this->user->id, $survey->id);
+
+        return $this->respondSuccessWithStatus([
+            'user_lesson_survey' => $userLessonSurvey->transform(),
+            'survey' => $survey->getDetailedData(),
+        ]);
+
+    }
 
     public function deleteQuestion($questionId)
     {
