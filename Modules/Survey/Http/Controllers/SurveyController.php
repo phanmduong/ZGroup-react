@@ -31,7 +31,7 @@ class SurveyController extends ManageApiController
             return $this->respondErrorWithStatus("Phiên survey không tồn tại");
         }
 
-        $userLessonSurvey = $this->surveyService->endSurvey($userLessonSurveyId, $request->images_url, $request->records_url);
+        $userLessonSurvey = $this->surveyService->endSurvey($userLessonSurveyId, $request->mark, $request->images_url, $request->records_url);
 
         return $this->respondSuccessWithStatus([
             'user_lesson_survey' => $userLessonSurvey->transform()
@@ -55,6 +55,7 @@ class SurveyController extends ManageApiController
         }
 
         $userLessonSurveyQuestion = $this->surveyService->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $answer);
+
         return $this->respondSuccessWithStatus([
             "user_lesson_survey_question" => $userLessonSurveyQuestion
         ]);

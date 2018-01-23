@@ -17,30 +17,36 @@ class SurveyService
 {
     public function startSurvey($userId, $surveyId)
     {
+        $maxTake = UserLessonSurvey::where("survey_id", $surveyId)->where("user_id", $userId)->select("max(take) as value")->first();
+
+        if ($maxTake == null) {
+            $maxTake = 0;
+        }
         $userLessonSurvey = new UserLessonSurvey();
         $userLessonSurvey->name = "SURVEY" . date('dmYHis', time());
         $userLessonSurvey->duration = 0;
         $userLessonSurvey->mark = 0;
-        if ($userLessonSurvey->take) {
-            $userLessonSurvey->take += 1;
-        } else {
-            $userLessonSurvey->take = 1;
-        }
+
+        $userLessonSurvey->is_open = true;
+
+        $userLessonSurvey->take = $maxTake + 1;
 
         $userLessonSurvey->user_id = $userId;
         $userLessonSurvey->survey_id = $surveyId;
         $userLessonSurvey->images_url = "";
         $userLessonSurvey->records_url = "";
         $userLessonSurvey->save();
+
         return $userLessonSurvey;
     }
 
-    public function endSurvey($userLessonSurveyId, $images_url = "", $records_url = "")
+    public function endSurvey($userLessonSurveyId, $mark = 0, $images_url = "", $records_url = "")
     {
         $userLessonSurvey = UserLessonSurvey::find($userLessonSurveyId);
         $userLessonSurvey->name = "SURVEY" . date('dmYHis', time());
         $userLessonSurvey->duration = (time() - strtotime($userLessonSurvey->created_at)) / 60;
-        $userLessonSurvey->mark = 0;
+        $userLessonSurvey->mark = $mark;
+        $userLessonSurvey->is_open = false;
         $userLessonSurvey->images_url = $images_url;
         $userLessonSurvey->records_url = $records_url;
         $userLessonSurvey->save();
