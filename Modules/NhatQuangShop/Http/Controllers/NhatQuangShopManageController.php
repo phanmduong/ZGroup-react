@@ -179,12 +179,12 @@ class NhatQuangShopManageController extends Controller
    public function editFastOrder($order_id, Request $request){
         $user = Auth::user();
           $order = Order::find($order_id);
-//          $order->link = $request->link;
-//          $object = json_decode($order->attach_info);
-//          $object->color = $request->color;
-//          $object->size = $request->size;
-//          $order->attach_info = json_decode($object);
-          $order->price             = $order->price / $order->quantity * $request->quantity;
+
+          $object = json_decode($order->attach_info);
+          $object->color = $request->color;
+          $object->size = $request->size;
+          $order->attach_info = json_encode($object);
+          $order->price        = $order->price / $order->quantity * $request->quantity;
        $order->quantity = $request->quantity;
           $order->save();
           return [
