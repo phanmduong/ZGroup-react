@@ -30,10 +30,22 @@ class Survey extends Model
             ->withTimestamps();
     }
 
+    public function shortData()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'staff' => $this->user ? $this->user->getData() : null,
+            "created_at" => format_time_to_mysql(strtotime($this->created_at))
+        ];
+    }
+
     public function getData()
     {
         return [
             'id' => $this->id,
+            "image_url" => $this->image_url ? $this->image_url : emptyImageUrl(),
+            "description" => $this->description,
             'name' => $this->name,
             'staff' => $this->user ? $this->user->getData() : null,
             "questions_count" => $this->questions()->count(),
