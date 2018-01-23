@@ -384,3 +384,27 @@ var fastOrder = new Vue({
         this.getCurrencies();
     }
 });
+
+// var listFastOrders = new Vue({
+//     el : '#listFastOrder',
+//     data : {
+//         isLoading : false,
+//         listFastOrders : [],
+//     },
+//     method : {
+//         getListFastOrders : function(){
+//             this.isLoading = true;
+//             axios.get(window.url + '/manage/fast_orders')
+//                 .then(function (res){
+//                     this.isLoading = false;
+//                     this.listFastOrders = res.data.fastOrders;
+//                 })
+//                 .catch(function(error){
+//                     console.log(error)
+//                 })
+//         }
+//     },
+//     mounted : function() {
+//         this.getListFastOrders();
+//     }
+// })
