@@ -49,7 +49,10 @@ class SurveyService
 
     public function saveUserLessonSurveyQuestion($question, $userLessonSurvey, $answer)
     {
-        $userLessonSurveyQuestion = new UserLessonSurveyQuestion();
+        $userLessonSurveyQuestion = UserLessonSurveyQuestion::where("question_id", $question->id)->where("user_lesson_survey_id", $userLessonSurvey->id)->first();
+        if ($userLessonSurveyQuestion == null) {
+            $userLessonSurveyQuestion = new UserLessonSurveyQuestion();
+        }
         $userLessonSurveyQuestion->question_id = $question->id;
         $userLessonSurveyQuestion->user_lesson_survey_id = $userLessonSurvey->id;
         $userLessonSurveyQuestion->answer = $answer->content;
