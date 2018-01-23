@@ -89,7 +89,7 @@ class ListCourse extends React.Component {
                                                             event.stopPropagation(event);
                                                             browserHistory.push("/teaching/courses/edit/" + course.id + "");
                                                         }}>
-                                                            <i className="material-icons">edit</i>
+                                                            <i className="material-icons">edit</i> Sửa
                                                         </a>
 
                                                     </li>
@@ -98,7 +98,7 @@ class ListCourse extends React.Component {
                                                             event.stopPropagation(event);
                                                             this.deleteCourse(course.id);
                                                         }}>
-                                                            <i className="material-icons">delete</i>
+                                                            <i className="material-icons">delete</i> Xóa
                                                         </a>
                                                     </li>
                                                     {
@@ -108,7 +108,7 @@ class ListCourse extends React.Component {
                                                                 e.stopPropagation(event);
                                                                 return this.props.duplicateCourse(course);
                                                             }}>
-                                                                <i className="material-icons">control_point_duplicate</i>
+                                                                <i className="material-icons">control_point_duplicate</i> Nhân đôi
                                                             </a>
                                                         </li>
                                                     }
