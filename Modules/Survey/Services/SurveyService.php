@@ -63,6 +63,9 @@ class SurveyService
         if ($userLessonSurveyQuestion == null) {
             $userLessonSurveyQuestion = new UserLessonSurveyQuestion();
         }
+        if (!$userLessonSurvey->is_open) {
+            return null;
+        }
         $userLessonSurveyQuestion->question_id = $question->id;
         $userLessonSurveyQuestion->user_lesson_survey_id = $userLessonSurvey->id;
         $userLessonSurveyQuestion->answer = $answer->content;

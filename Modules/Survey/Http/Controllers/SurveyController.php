@@ -54,6 +54,10 @@ class SurveyController extends ManageApiController
             return $this->respondErrorWithStatus("câu trả lời không tồn tại");
         }
 
+        if (!$userLessonSurvey->is_open) {
+            return $this->respondErrorWithStatus("Phiên trả lời này đã đóng");
+        }
+
         $userLessonSurveyQuestion = $this->surveyService->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $answer);
 
         return $this->respondSuccessWithStatus([
