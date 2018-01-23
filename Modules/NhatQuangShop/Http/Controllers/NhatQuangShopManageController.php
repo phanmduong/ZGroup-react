@@ -175,4 +175,17 @@ class NhatQuangShopManageController extends Controller
        $this->data['fastOrders'] = $fastOrders;
        return view("nhatquangshop::fast_orders", $this->data);
    }
+
+   public function editFastOrder($order_id, Request $request){
+        $user = Auth::user();
+          $order = Order::find($order_id);
+          $order->status = $request->status;
+          $order->quantity = $request->quantity;
+          $order->attach_info->color = $request->color;
+          $order->attach_info->size = $request->size;
+          $order->save();
+          return [
+              'message' => "Cập nhật đơn hàng thành công"
+          ];
+   }
 }

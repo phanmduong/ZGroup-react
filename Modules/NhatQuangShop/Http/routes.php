@@ -59,6 +59,7 @@ $nhatquangShopRoute = function () {
     Route::post("/manage/password_change", "NhatQuangShopManageController@password_change");
     Route::post("/manage/transfermoney", "NhatQuangTransferController@createTransfer");
     Route::get("/manage/transfermoney", "NhatQuangTransferController@transferMoneys");
+    Route::put("/manage/fast_orders/{order_id}", "NhatQuangShopManageController@editFastOrder");
 };
 
 

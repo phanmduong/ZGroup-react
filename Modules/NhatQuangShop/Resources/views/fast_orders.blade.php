@@ -84,13 +84,15 @@
                                 <i class="fa fa-user"></i>
                             </button>
                             <button type="button" data-toggle="tooltip" data-placement="top" title=""
-                                    data-original-title="Edit Profile" class="btn btn-success btn-link btn-sm">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button type="button" data-toggle="tooltip" data-placement="top" title=""
-                                    data-original-title="Remove" class="btn btn-danger btn-link btn-sm">
+                                    data-original-title="Xoá" class="btn btn-danger btn-link btn-sm">
                                 <i class="fa fa-times"></i>
                             </button>
+                            @if($order->status == "place_order" || $order->status == "sent_price")
+                            <button   data-toggle="tooltip" data-placement="top" title=""
+                                    data-original-title="Điều chỉnh" class ="btn btn-success btn-link btn-sm" onclick="edit({{$order->id}})" >
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -100,6 +102,82 @@
             </tbody>
         </table>
     </div>
+    <div class="modal fade" id = "infoOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="medium-title">Thông tin đơn hàng</h2>
+                </div>
+
+                <div class="modal-body ">
+                    @foreach($fastOrders as $order)
+                        <div class = "table-responsive col-md-12" >
+                            <table class="table" id ="order{{$order->id}}" style="display: none">
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>OrderCode</th>
+                                    <th class="text-center">Màu</th>
+                                    <th class="text-center">Size</th>
+                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-center">Giá trị</th>
+                                    <th class ="text-center">Trạng thái</th>
+                                    <th class="text-center">Link sản phẩm</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">{{$order->id}}</td>
+                                    <td>
+                                        @if($order->code != null )
+                                            <a href="fast_orders/{{$order->id}}" class="btn btn-round btn-twitter">
+                                                {{$order->code}}
+                                            </a>
+                                        @endif
+                                    </td>
+
+                                    <td class="text-center">{{json_decode($order->attach_info)->color}}</td>
+                                    <td class="text-center">{{json_decode($order->attach_info)->size}}</td>
+                                    <td class="text-center">{{$order->quantity}}</td>
+                                    <td class="text-center">{{$order->price}} đ</td>
+                                    <td class="text-center">{{$order->status}}</td>
+                                    <td class="text-center">{{json_decode($order->attach_info)->link}}</td>
+                            @endforeach
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="updateOrder({{$order->id}})"
+                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Cập nhật đơn hàng <i
+                                class="fa fa-angle-right"></i></button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
     @include('pagination.custom', ['paginator' => $fastOrders])
+    <script>
+        var old = 0;
+        function edit(orderId){
+
+           $("#infoOrder").modal("show");
+           $("#order" + old).css("display", "none")
+           $("#order" + orderId).css("display", "block");
+           old = orderId;
+        }
+        function updateOrder(orderId) {
+            // $.ajax({
+            //     url : window.url + "/manage/fast_orders" + orderId,
+            //     type : "put",
+            //     data : {
+            //         number : $('#number').val()
+            //     },
+            //     success : function (result){
+            //         // Sau khi gửi và kết quả trả về thành công thì gán nội dung trả về
+            //         // đó vào thẻ div có id = result
+            //         $('#result').html(result);
+            //     }
+            // });
+        }
+    </script>
 
 @endsection
