@@ -12,12 +12,13 @@ namespace Modules\Survey\Services;
 use App\Http\Requests\Request;
 use App\UserLessonSurvey;
 use App\UserLessonSurveyQuestion;
+use Illuminate\Support\Facades\DB;
 
 class SurveyService
 {
     public function startSurvey($userId, $surveyId)
     {
-        $maxTake = UserLessonSurvey::where("survey_id", $surveyId)->where("user_id", $userId)->select("max(take) as value")->first();
+        $maxTake = UserLessonSurvey::where("survey_id", $surveyId)->where("user_id", $userId)->select(DB::raw("max(`take`) as value"))->first();
 
         if ($maxTake == null) {
             $maxTake = 0;
