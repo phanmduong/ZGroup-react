@@ -24,7 +24,41 @@ class SurveyController extends ManageApiController
         $this->surveyService = $surveyService;
     }
 
-    public function createUserLessonSurvey($surveyId, Request $request)
+    public function endUserLessonSurvey($userLessonSurveyId, Request $request)
+    {
+        $userLessonSurvey = Survey::find($userLessonSurveyId);
+        if ($userLessonSurvey == null) {
+            return $this->respondErrorWithStatus("Phiên survey không tồn tại");
+        }
+
+        $userLessonSurvey = $this->surveyService->endSurvey($userLessonSurveyId, $request->images_url, $request->records_url);
+
+        return $this->respondSuccessWithStatus([
+            'user_lesson_survey' => $userLessonSurvey->transform()
+        ]);
+    }
+
+    public function saveUserLessonSurveyQuestion($questionId, $userLessonSurveyId, $answerId)
+    {
+        $question = Question::find($questionId);
+        if ($question == null) {
+            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+        }
+        $userLessonSurvey = UserLessonSurvey::find($userLessonSurveyId);
+        if ($userLessonSurvey == null) {
+            return $this->respondErrorWithStatus("Phiên trả lời không tồn tại");
+        }
+
+        $answer = Answer::find($answerId);
+        if ($answer == null) {
+            return $this->respondErrorWithStatus("câu trả lời không tồn tại");
+        }
+
+        $this->surveyService->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $answer);
+
+    }
+
+    public function createUserLessonSurvey($surveyId)
     {
         $survey = Survey::find($surveyId);
         if ($survey == null) {
