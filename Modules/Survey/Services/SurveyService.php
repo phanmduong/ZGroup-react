@@ -22,7 +22,10 @@ class SurveyService
 
         if ($maxTake == null) {
             $maxTake = 0;
+        } else {
+            $maxTake = $maxTake->value;
         }
+
         $userLessonSurvey = new UserLessonSurvey();
         $userLessonSurvey->name = "SURVEY" . date('dmYHis', time());
         $userLessonSurvey->duration = 0;
