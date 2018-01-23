@@ -45,7 +45,7 @@ class Survey extends Model
         return [
             'id' => $this->id,
             "image_url" => $this->image_url ? $this->image_url : emptyImageUrl(),
-            "description" => $this->description,
+            "description" => $this->description ? $this->description : "",
             'name' => $this->name,
             'staff' => $this->user ? $this->user->getData() : null,
             "questions_count" => $this->questions()->count(),
