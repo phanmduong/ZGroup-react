@@ -53,7 +53,7 @@ class ListCourse extends React.Component {
 
 
                                 <div style={{
-                                    backgroundImage: 'url(' + course.icon_url + ')',
+                                    backgroundImage: 'url(' + course.image_url + ')',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center center',
                                     paddingBottom: '70%'
@@ -130,29 +130,23 @@ class ListCourse extends React.Component {
                                         height: 1,
                                         marginTop: 10,
                                         marginBottom: 10,
-                                        background: course.color || "#B5B5B5",
+                                        background:  course.color || "#B5B5B5",
                                         borderBottom: '1px',
                                     }}/>
                                     <div style={{
                                         color: course.color,
                                         fontSize: 13,
-                                        position: 'absolute',
+                                        display : "flex",
+                                        alignItems : "center",
+                                        flexDirection: "row-reverse",
+                                        height : 30,
                                         bottom: 10,
-                                        right: 5
+                                        margin : 10,
                                     }}>
                                         {helper.dotNumber(course.price)}
                                     </div>
                                 </div>
 
-                                <div className="row" style={{textTransform: 'none', marginBottom: 10}}>
-                                    <br/>
-                                    {/*|Tiền mua theo đơn*/}
-                                    {/*: {groupCustomerItem.order_value ? groupCustomerItem.order_value + " " : 0}*/}
-                                    {/*<br/>*/}
-                                    {/*|Tiền mua hàng sẵn*/}
-                                    {/*: {groupCustomerItem.delivery_value ? groupCustomerItem.delivery_value + " " : 0}*/}
-                                    <br/>
-                                </div>
                             </a>
                         </div>
 
