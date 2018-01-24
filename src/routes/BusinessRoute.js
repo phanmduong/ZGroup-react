@@ -2,6 +2,8 @@ import CompanyContainer from "../modules/companies/CompanyContainer";
 import CreateCompanyContainer from "../modules/companies/CreateCompanyContainer";
 import PaymentContainer from "../modules/payment/PaymentContainer";
 import CreatePaymentContainer from "../modules/payment/CreatePaymentContainer";
+import PrintOrderContainer from "../modules/printOrder/PrintOrderContainer";
+
 /**
  * Tab Kinh Doanh
  */
@@ -20,6 +22,7 @@ export default [
         type: "edit"
     },
     {
+
         path: "/business/company/payment/edit/:paymentId",
         component: CreatePaymentContainer,
         type: "edit"
@@ -31,5 +34,9 @@ export default [
     {
         path: "/business/company/payments",
         component: PaymentContainer,
+    },
+    {
+        path: "/business/print-order",
+        component: PrintOrderContainer,
     },
 ];

@@ -271,7 +271,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                                         return this.setState({show: true,staffId: payer.id});
                                                                     }}><i className="material-icons">info</i></div>
                                                                     :
-                                                                    <div></div>
+                                                                    <div/>
                                                             }</div>
 
                                                         </div>

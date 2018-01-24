@@ -27,9 +27,8 @@ class ListGood extends React.Component {
         let totalMoneyAll = 0;
         return (
             <div style={{marginTop: 50}}>
-                <div className="material-datatables">
-                    <table id="datatables-goodorders" className="table"
-                           width="100%">
+                <div className="table-responsive">
+                    <table className="table table-hover">
                         <thead className="text-rose">
                         <tr>
                             <th>STT</th>
@@ -158,7 +157,7 @@ class ListGood extends React.Component {
 ListGood.propTypes = {
     goodOrders: PropTypes.array.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    paid: PropTypes.number.isRequired,
+    paid: PropTypes.number,
     orderId: PropTypes.number.isRequired,
     isReturnOrders: PropTypes.bool.isRequired,
 };

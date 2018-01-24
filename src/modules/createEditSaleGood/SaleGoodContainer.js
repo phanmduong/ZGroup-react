@@ -9,7 +9,6 @@ import AddGoodOverlay from "./AddGoodOverlay";
 import ReactSelect from 'react-select';
 import * as createSaleGoodApis from './createSaleGoodApis';
 import * as helper from '../../helpers/helper';
-
 import {browserHistory} from 'react-router';
 
 
@@ -81,7 +80,6 @@ class SaleGoodContainer extends React.Component {
                                     <div className="col-md-2"
                                          style={{
                                              display: 'flex',
-                                             marginTop: "15px"
                                          }}>
                                         <AddGoodOverlay
                                         />

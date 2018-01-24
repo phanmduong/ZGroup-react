@@ -301,7 +301,7 @@ class CreateGoodContainer extends React.Component {
                                                     <div className="progress-bar" role="progressbar" aria-valuenow="70"
                                                          aria-valuemin="0" aria-valuemax="100"
                                                          style={{width: `${this.props.percentCover}%`}}>
-                                                        <span className="sr-only">{this.props.percent}% Complete</span>
+                                                        <span className="sr-only">{this.props.percentCover}% Complete</span>
                                                     </div>
                                                 </div>
                                             ) : (

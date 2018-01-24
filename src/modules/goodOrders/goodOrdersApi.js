@@ -150,6 +150,18 @@ export function editOrderApi(order, orderId) {
     );
 }
 
+export function loadWareHouseDetailApi() {
+    let url = env.MANAGE_API_URL + "/order/warehouses/all?";
+    let token = localStorage.getItem('token');
+
+    if (token) {
+        url += "&token=" + token;
+    }
+    url += "&limit=" + -1;
+
+    return axios.get(url);
+}
+
 
 export function loadGoodsApi(page , limit , query ) {
     let url = env.MANAGE_API_URL + "/good/all?";

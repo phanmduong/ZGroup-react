@@ -69,7 +69,7 @@ import CompanyReducer from '../modules/companies/CompanyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 import PaymentReducer from '../modules/payment/PaymentReducer';
-
+import printOrderReducer from "../modules/printOrder/printOrderReducer";
 
 
 const appReducer = combineReducers({
@@ -143,6 +143,7 @@ const appReducer = combineReducers({
     dashboardXHH: dashboardXHHReducer,
     companies: CompanyReducer,
     payment: PaymentReducer,
+    printOrder: printOrderReducer,
 });
 
 const rootReducer = (state, action) => {
