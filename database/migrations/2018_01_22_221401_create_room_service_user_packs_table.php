@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RCreateRoomServiceUserPacksTable extends Migration
+class CreateRoomServiceUserPacksTable extends Migration
 {
     /**
      * Run the migrations.
