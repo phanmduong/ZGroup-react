@@ -2,17 +2,25 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import {getToken} from '../../helpers/tokenHelper';
 
+
+const createSurveyFormData = (survey, file) => {
+    const formData = new FormData();
+    formData.append('image_url', file);
+    formData.append("target", survey.target);
+    formData.append("name", survey.name);
+    formData.append("description", survey.description);
+    return formData;
+};
+
 export function createSurvey(survey, file) {
     let url = env.MANAGE_API_URL + "/v2/survey";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    const formData = new FormData();
-    formData.append('image_url', file);
-    formData.append("target", survey.target);
-    formData.append("name", survey.name);
-    formData.append("description", survey.description);
+
+    const formData = createSurveyFormData(survey, file);
+
     const config = {
         headers: {
             'content-type': 'multipart/form-data'
@@ -20,6 +28,24 @@ export function createSurvey(survey, file) {
     };
     return axios.post(url, formData, config);
 }
+
+export function editSurvey(survey, file) {
+    let url = env.MANAGE_API_URL + `/v2/survey/${survey.id}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    const formData = createSurveyFormData(survey, file);
+
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+    return axios.put(url, formData, config);
+}
+
 
 export const loadSurveys = (page, search) => {
     let url = env.MANAGE_API_URL + "/v2/survey";

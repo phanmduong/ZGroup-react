@@ -16,6 +16,9 @@ class AddSurveyModalContainer extends React.Component {
         this.handleClose = this.handleClose.bind(this);
         this.inputOnchange = this.inputOnchange.bind(this);
         this.submitButtonOnClick = this.submitButtonOnClick.bind(this);
+        this.setState({
+            isCreate: true
+        });
     }
 
     handleClose() {
@@ -24,7 +27,12 @@ class AddSurveyModalContainer extends React.Component {
 
     submitButtonOnClick() {
         const file = this.refs.file.files[0];
-        saveSurvey(this.props.survey, file);
+        if (this.isCreate) {
+            this.props.surveyActions.saveSurvey(this.props.survey, file);
+        } else {
+            this.props.surveyActions.saveSurvey(this.props.survey, file);
+        }
+
     }
 
     inputOnchange(event) {
@@ -131,7 +139,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         surveyActions: bindActionCreators({
-            toggleEditSurveyModal, updateSurveyFormData
+            saveSurvey,
+            toggleEditSurveyModal,
+            updateSurveyFormData
         }, dispatch)
     };
 }
