@@ -36,6 +36,6 @@ class Question extends Model
             return $answer->getData();
         });
 
-        return;
+        return $data;
     }
 }
