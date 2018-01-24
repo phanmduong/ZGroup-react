@@ -27,7 +27,7 @@ class SurveyController extends ManageApiController
     public function getSurveyHistory()
     {
         $userLessonSurveys = $this->user->userLessonSurveys->map(function ($userLessonSurvey) {
-            return $userLessonSurvey->transform();
+            return $userLessonSurvey->transformWithQuestions();
         });
         return $this->respondSuccessWithStatus([
             "user_lesson_surveys" => $userLessonSurveys
