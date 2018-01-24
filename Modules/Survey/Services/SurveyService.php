@@ -57,8 +57,11 @@ class SurveyService
         return $userLessonSurvey;
     }
 
-    public function saveUserLessonSurveyQuestion($question, $userLessonSurvey, $answerContent)
+    public function saveUserLessonSurveyQuestion($question, $userLessonSurvey, $answerId, $answerContent)
     {
+        if ($answerId == null) {
+            $answerId = 0;
+        }
         $userLessonSurveyQuestion = UserLessonSurveyQuestion::where("question_id", $question->id)->where("user_lesson_survey_id", $userLessonSurvey->id)->first();
         if ($userLessonSurveyQuestion == null) {
             $userLessonSurveyQuestion = new UserLessonSurveyQuestion();
@@ -69,6 +72,7 @@ class SurveyService
         $userLessonSurveyQuestion->question_id = $question->id;
         $userLessonSurveyQuestion->user_lesson_survey_id = $userLessonSurvey->id;
         $userLessonSurveyQuestion->answer = $answerContent;
+        $userLessonSurveyQuestion->answer_id = $answerId;
         $userLessonSurveyQuestion->result = 0;
         $userLessonSurveyQuestion->save();
         return $userLessonSurveyQuestion;
