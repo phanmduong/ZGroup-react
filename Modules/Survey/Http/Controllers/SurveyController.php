@@ -220,6 +220,8 @@ class SurveyController extends ManageApiController
         $survey->name = $request->name;
         $survey->user_id = $this->user->id;
         $survey->is_final = $request->is_final;
+        $survey->description = $request->description;
+        $survey->target = $request->target;
         $survey->save();
         if ($request->questions) {
             $questions = json_decode($request->questions);
