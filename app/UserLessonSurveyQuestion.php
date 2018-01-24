@@ -18,5 +18,14 @@ class UserLessonSurveyQuestion extends Model
         return $this->belongsTo(Question::class, 'question_id');
     }
 
-
+    public function transform()
+    {
+        return [
+            "id" => $this->id,
+            "answer" => $this->answer,
+            "result" => $this->result,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at
+        ];
+    }
 }

@@ -24,6 +24,17 @@ class SurveyController extends ManageApiController
         $this->surveyService = $surveyService;
     }
 
+    public function getSurveyHistory()
+    {
+        $userLessonSurveys = $this->userLessonSurveys->map(function ($userLessonSurvey) {
+            $survey = $userLessonSurvey->survey;
+            return [
+                "user_lesson_survey" => $userLessonSurvey->transform(),
+            ];
+        });
+
+    }
+
     public function endUserLessonSurvey($userLessonSurveyId, Request $request)
     {
         $userLessonSurvey = UserLessonSurvey::find($userLessonSurveyId);

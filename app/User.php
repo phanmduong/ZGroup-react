@@ -424,5 +424,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(BankAccount::class, 'user_id');
     }
+
+    public function userLessonSurveys()
+    {
+        return $this->hasMany(UserLessonSurvey::class, "user_id");
+    }
 }
 
