@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIsOpenToUserLessonSurvey extends Migration
+class AddAnswerIdUserQuestionSurvey extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddIsOpenToUserLessonSurvey extends Migration
      */
     public function up()
     {
-        Schema::table("user_lesson_survey", function (Blueprint $table) {
-            $table->boolean("is_open")->default(true);
+        Schema::table("user_lesson_survey_question", function (Blueprint $table) {
+            $table->integer("answer_id")->unsigned()->default(0)->nullable();
         });
     }
 
