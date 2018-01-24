@@ -7,6 +7,7 @@ import Pagination from "../../components/common/Pagination";
 import  * as printOrderActions from "./printOrderActions";
 import ListPrintOrder from  "./ListPrintOrder";
 import Search                   from "../../components/common/Search";
+import {Link} from "react-router";
 
 class PrintOrderContainer extends React.Component {
     constructor(props, context) {
@@ -45,9 +46,9 @@ class PrintOrderContainer extends React.Component {
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="col-xs-3">
-                                                <button className="btn btn-rose" style={{width: "100%"}}>
+                                                <Link to="/business/print-order/create" className="btn btn-rose" style={{width: "100%"}}>
                                                     Đặt In
-                                                </button>
+                                                </Link>
                                             </div>
                                             <Search className="col-xs-9" placeholder="Tìm kiếm"
                                                 value={this.state.query}
