@@ -135,7 +135,7 @@ class CompanyController extends ManageApiController
         }
     }
     public function getCompanyProvide(){
-        $companies = Company::where('type','provided')->get();
+        $companies = Company::where('type','<>', 'share')->get();
         return $this->respondSuccessWithStatus([
             "companies" => $companies->map(function($company){
                 return $company->transform();
@@ -143,7 +143,7 @@ class CompanyController extends ManageApiController
         ]);
     }
     public function getCompanyShare(){
-        $companies = Company::where('type','share')->get();
+        $companies = Company::where('type','<>','provided')->get();
         return $this->respondSuccessWithStatus([
             "companies" => $companies->map(function($company){
                 return $company->transform();
