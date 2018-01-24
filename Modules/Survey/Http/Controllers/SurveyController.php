@@ -269,9 +269,7 @@ class SurveyController extends ManageApiController
     {
         $survey = Survey::find($surveyId);
         if ($survey == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại bộ câu hỏi'
-            ]);
+            return $this->respondErrorWithStatus('Không tồn tại bộ câu hỏi');
         return $this->respondSuccessWithStatus([
             'survey' => $survey->getDetailedData(),
         ]);
