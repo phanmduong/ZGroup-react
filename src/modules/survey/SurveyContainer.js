@@ -7,6 +7,7 @@ import Loading from "../../components/common/Loading";
 import * as surveyActions from "./surveyActions";
 import SurveyItem from "./SurveyItem";
 import Pagination from "../../components/common/Pagination";
+import SurveyDisplayModalContainer from "./SurveyDisplayModalContainer";
 
 class SurveyContainer extends React.Component {
     constructor(props, context) {
@@ -14,11 +15,12 @@ class SurveyContainer extends React.Component {
         this.state = {
             showModal: false
         };
-
+        this.handleActiveSwitch = this.handleActiveSwitch.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.loadSurveys = this.loadSurveys.bind(this);
         this.editSurvey = this.editSurvey.bind(this);
+        this.showDisplayModal = this.showDisplayModal.bind(this);
     }
 
     componentWillMount() {
@@ -27,6 +29,23 @@ class SurveyContainer extends React.Component {
 
     loadSurveys(page) {
         this.props.surveyActions.loadSurveys(page);
+    }
+
+    showDisplayModal(survey) {
+        this.props.surveyActions.updateSurveyFormData({...survey});
+        this.props.surveyActions.showSurveyDisplaySettingModal(true);
+    }
+
+    handleActiveSwitch(survey) {
+        const newSurvey = {...survey};
+        if (Number(newSurvey.active) === 0) {
+            newSurvey.active = 1;
+        } else {
+            newSurvey.active = 0;
+        }
+
+        this.props.surveyActions.updateSurveyList(newSurvey);
+        this.props.surveyActions.saveSurvey(newSurvey, null, false);
     }
 
     openModal() {
@@ -51,6 +70,7 @@ class SurveyContainer extends React.Component {
         return (
             <div className="content">
                 <AddSurveyModalContainer/>
+                <SurveyDisplayModalContainer/>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -78,6 +98,8 @@ class SurveyContainer extends React.Component {
                                                         this.props.surveys.map((survey) => {
                                                             return (
                                                                 <SurveyItem
+                                                                    showSurveyDisplayModal={this.showDisplayModal}
+                                                                    handleSwitch={this.handleActiveSwitch}
                                                                     editSurvey={this.editSurvey}
                                                                     key={survey.id}
                                                                     survey={survey}/>

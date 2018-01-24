@@ -9,9 +9,19 @@ import {
     ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION,
     DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING,
     OPEN_EDIT_SURVEY_DISPLAY_ORDER, TOGGLE_EDIT_SURVEY_MODAL, UPDATE_SURVEY_FORM_DATA, SAVE_SURVEY_DATA_SUCCESS,
+    UPDATE_SURVEY_DATA_IN_LIST,
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
 import {showErrorMessage, showNotification} from "../../helpers/helper";
+
+export const updateSurveyList = (survey) => {
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_SURVEY_DATA_IN_LIST,
+            survey
+        });
+    };
+};
 
 
 export const updateSurveyFormData = (survey) => {
@@ -69,24 +79,31 @@ export const loadSurveys = (page = 1, search = '') => {
     };
 };
 
-export const saveSurvey = (survey, file) => {
+export const saveSurvey = (survey, file, reload = true) => {
     return async (dispatch) => {
-        dispatch({
-            type: DISPLAY_GLOBAL_LOADING
-        });
+        if (reload) {
+            dispatch({
+                type: DISPLAY_GLOBAL_LOADING
+            });
+        }
+
         if (survey.id) {
             await surveyApi.editSurvey(survey, file);
         } else {
             await surveyApi.createSurvey(survey, file);
         }
 
-        dispatch({
-            type: HIDE_GLOBAL_LOADING
-        });
+        if (reload) {
+            dispatch({
+                type: HIDE_GLOBAL_LOADING
+            });
+        }
+
         dispatch({
             type: SAVE_SURVEY_DATA_SUCCESS
         });
-        _loadSurveys(dispatch);
+        if (reload)
+            _loadSurveys(dispatch);
     };
 };
 
