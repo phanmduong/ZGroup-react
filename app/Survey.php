@@ -57,7 +57,7 @@ class Survey extends Model
             'staff' => $this->user ? $this->user->getData() : null,
             "questions_count" => $this->questions()->count(),
             "target" => $this->target,
-            "take" => $this->userLessonSurveys()->select(DB::raw("sum(`take`) as sum_take"))->first()->sum_take,
+            "take" => $this->userLessonSurveys()->count(),
             "survey_lessons" => $this->lessons->map(function ($lesson) {
                 $course = $lesson->course;
                 return [
