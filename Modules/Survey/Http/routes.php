@@ -9,7 +9,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
 
     Route::post('/{surveyId}/user-lesson', 'SurveyController@createUserLessonSurvey');
     Route::put('/user-lesson-survey/{userLessonSurveyId}', 'SurveyController@endUserLessonSurvey');
-    Route::post('/question/{questionId}/user-lesson/{userLessonSurveyId}/answer/{answerId}', 'SurveyController@saveUserLessonSurveyQuestion');
+    Route::post('/question/{questionId}/user-lesson/{userLessonSurveyId}/answer', 'SurveyController@saveUserLessonSurveyQuestion');
 
     Route::put('/questions', 'SurveyController@updateQuestionOrder');
     Route::put('{surveyId}', 'SurveyController@editSurvey');

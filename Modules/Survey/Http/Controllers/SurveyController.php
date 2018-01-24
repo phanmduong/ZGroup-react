@@ -38,7 +38,7 @@ class SurveyController extends ManageApiController
         ]);
     }
 
-    public function saveUserLessonSurveyQuestion($questionId, $userLessonSurveyId, $answerId)
+    public function saveUserLessonSurveyQuestion($questionId, $userLessonSurveyId, Request $request)
     {
         $question = Question::find($questionId);
         if ($question == null) {
@@ -49,16 +49,15 @@ class SurveyController extends ManageApiController
             return $this->respondErrorWithStatus("Phiên trả lời không tồn tại");
         }
 
-        $answer = Answer::find($answerId);
-        if ($answer == null) {
-            return $this->respondErrorWithStatus("câu trả lời không tồn tại");
-        }
-
         if (!$userLessonSurvey->is_open) {
             return $this->respondErrorWithStatus("Phiên trả lời này đã đóng");
         }
 
-        $userLessonSurveyQuestion = $this->surveyService->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $answer);
+        if ($request->answer_content == null) {
+            return $this->respondErrorWithStatus("Bạn cần truyền lên nội dung câu trả lời");
+        }
+
+        $userLessonSurveyQuestion = $this->surveyService->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $request->answer_content);
 
         return $this->respondSuccessWithStatus([
             "user_lesson_survey_question" => $userLessonSurveyQuestion
