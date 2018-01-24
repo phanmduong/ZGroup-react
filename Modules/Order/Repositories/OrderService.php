@@ -12,6 +12,7 @@ use App\HistoryGood;
 use App\ImportedGoods;
 use App\Order;
 use App\User;
+use Carbon\Carbon;
 
 class OrderService
 {
@@ -279,6 +280,12 @@ class OrderService
             'status' => 1,
             'message' => 'Chuyển trạng thái thành công'
         ];
+    }
 
+    public function getTodayOrderId($type)
+    {
+        $orders_count = Order::where('type', $type)->where('created_at', '>=', Carbon::today())->count();
+        return $orders_count;
+//            str_pad($orders_count, 4, '0', STR_PAD_LEFT);
     }
 }

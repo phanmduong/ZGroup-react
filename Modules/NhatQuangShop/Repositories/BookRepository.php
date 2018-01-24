@@ -202,7 +202,7 @@ class BookRepository
         return null;
     }
 
-    public function saveFastOrder($email, $address, $user_id, $goods_arr)
+    public function saveFastOrder($email, $address, $user_id, $goods_arr, $todayOrderCount)
     {
         if ($goods_arr) {
             foreach ($goods_arr as $good) {
@@ -213,7 +213,7 @@ class BookRepository
                     ];
                     break;
                 }
-                if ($good->currencyId == -1)
+                if ($good->currencyId == 0)
                     return [
                         'status' => 0,
                         "message" => "Xin bạn vui lòng chọn tiền tệ"
@@ -221,12 +221,14 @@ class BookRepository
             }
             foreach ($goods_arr as $good) {
                 $order = new Order;
+                $currency = Currency::find($good->currencyId);
+                $order->code =  'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad(++$todayOrderCount, 4, '0',STR_PAD_LEFT);
                 $order->user_id = $user_id;
                 $order->address = $address;
                 $order->email = $email;
                 $order->quantity = $good->number;
                 $order->type = "delivery";
-                $order->price    = $good->number * $good->currency->ratio * $good->price;
+                $order->price    = $good->number * $currency->ratio * $good->price;
                 $order->status = 'place_order';
                 $object = new \stdClass();
                 $object->tax = $good->tax;

@@ -646,10 +646,9 @@
                                     </div>
                                     <div class="col-md-3">
                                         <select v-model="order.currencyId"
-                                                v-on:change="changeCurrency(index)"
                                                 class="form-control" placeholder="Đơn vị tiền">
-                                            <option value="-1" selected>Đơn vị tiền</option>
-                                            <option v-for="(currency, index) in currencies" v-bind:value="index">
+                                            <option value="0" selected>Đơn vị tiền</option>
+                                            <option v-for="currency in currencies" v-bind:value="currency.id">
                                                 @{{currency.name}}: 1 @{{ currency.notation }} = @{{ formatPrice(currency.ratio) }}
                                             </option>
                                         </select>

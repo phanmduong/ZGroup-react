@@ -290,7 +290,6 @@ var fastOrder = new Vue({
                 number: 1,
                 tax: "Giá chưa thuế",
                 describe: "",
-                currency: {},
                 currencyId: 0
             },
         ],
@@ -300,7 +299,8 @@ var fastOrder = new Vue({
         showSuccessMessage: false,
         failMessage: "",
         message: "",
-        currencies: [],
+        currencies: [
+        ],
         isLoadingCurrency: false,
         isOrdering: true,
     },
@@ -309,7 +309,12 @@ var fastOrder = new Vue({
             this.isLoadingCurrency = true;
             axios.get(window.url + '/currency')
                 .then(function (response) {
+                    // this.currencies.push({
+                    //     name: 'default'
+                    // });
+
                     this.currencies = response.data.currencies;
+                    // console.log(this.currencies);
                     this.isLoadingCurrency = false;
                 }.bind(this))
                 .catch(function (error) {
@@ -327,12 +332,8 @@ var fastOrder = new Vue({
                 number: 1,
                 tax: "Giá chưa thuế",
                 describe: "",
-                currency: {},
                 currencyId: 0,
             });
-        },
-        changeCurrency: function (index) {
-            this.fastOrders[index].currency = this.currencies[this.fastOrders[index].currencyId];
         },
         remove: function (index) {
             this.fastOrders.splice(index, 1)
@@ -375,7 +376,6 @@ var fastOrder = new Vue({
                 number: 1,
                 tax: "Giá chưa thuế",
                 describe: "",
-                currency: {},
                 currencyId: 0,
             });
         }

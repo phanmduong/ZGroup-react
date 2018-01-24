@@ -125,7 +125,8 @@ class DeliveryOrderApiController extends ManageApiController
 
     public function createDeliveryOrder(Request $request)
     {
-        $request->code = $request->code ? $request->code : 'DELIVERY' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $request->code = $request->code ? $request->code :
+            'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('delivery') + 1, 4, '0',STR_PAD_LEFT);
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu thông tin người dùng'
@@ -141,13 +142,13 @@ class DeliveryOrderApiController extends ManageApiController
 
     public function editDeliveryOrder($orderId, Request $request)
     {
-        $request->code = $request->code ? $request->code : 'DELIVERY' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu thông tin người dùng'
             ]);
 
         $order = Order::find($orderId);
+        $request->code = $order->code;
         if ($order == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại đơn hàng'

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 use Modules\NhatQuangShop\Repositories\BookRepository;
+use Modules\Order\Repositories\OrderService;
 
 class NhatQuangShopController extends Controller
 {
@@ -19,9 +20,10 @@ class NhatQuangShopController extends Controller
     protected $data;
     protected $user;
 
-    public function __construct(BookRepository $bookRepository)
+    public function __construct(BookRepository $bookRepository, OrderService $oderService)
     {
         $this->bookRepository = $bookRepository;
+        $this->orderService = $oderService;
         $this->data = array();
         if (!empty(Auth::user())) {
             $this->user = Auth::user();
@@ -323,7 +325,7 @@ class NhatQuangShopController extends Controller
         $address = $user->address;
 
         $fast_orders = json_decode($request->fastOrders);
-        $response = $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders);
+        $response = $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders, $this->orderService->getTodayOrderId('delivery'));
         if ($response['status'] === 1) {
             return [
                 "fast_order" => $fast_orders,
