@@ -112,6 +112,7 @@
                 </div>
 
                 <div class="modal-body" style="height: 50%">
+                    @if(count($fastOrders) > 0)
                     @foreach($fastOrders as $order)
                                 <table cellpadding="10px" id ="order{{$order->id}}" style="display: none" >
                                     <tbody><tr class="border-0 ">
@@ -152,6 +153,7 @@
                                     </tbody></table>
                                 <br>
                             @endforeach
+                        @endif
                 </div>
                 <div class="modal-footer">
                     <button type="submit" onclick="updateOrder()"
