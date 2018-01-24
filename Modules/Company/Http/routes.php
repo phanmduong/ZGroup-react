@@ -8,10 +8,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::get('/all','CompanyController@getAllCompany');
     Route::get('/field/all','CompanyController@getAllField');
     Route::get('{companyId}','CompanyController@getDetailCompany');
+    Route::get('/payment','CompanyController@getAllPayment');
     Route::post('/payment','CompanyController@createPayment');
     Route::put('/payment/{paymentId}','CompanyController@editPayment');
     Route::get('/payment/{paymentId}','CompanyController@getPayment');
-    Route::get('/payment','CompanyController@getAllPayment');
     Route::post('/print-order','CompanyController@createPrintOrder');
     Route::get('/print-order/all','CompanyController@getAllPrintOrder');
 });
