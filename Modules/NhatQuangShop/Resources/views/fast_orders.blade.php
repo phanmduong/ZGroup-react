@@ -112,6 +112,7 @@
                 </div>
 
                 <div class="modal-body" style="height: 50%">
+                    @if(count($fastOrders) > 0)
                     @foreach($fastOrders as $order)
                                 <table cellpadding="10px" id ="order{{$order->id}}" style="display: none" >
                                     <tbody><tr class="border-0 ">
@@ -152,9 +153,10 @@
                                     </tbody></table>
                                 <br>
                             @endforeach
+                        @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" onclick="updateOrder({{$order->id}})"
+                    <button type="submit" onclick="updateOrder()"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Cập nhật đơn hàng <i
                                 class="fa fa-angle-right"></i></button>
                 </div>
@@ -168,21 +170,20 @@
     <script>
         var old = 0;
         function edit(orderId){
-
            $("#infoOrder").modal("show");
            $("#order" + old).css("display", "none")
            $("#order" + orderId).css("display", "block");
            old = orderId;
         }
-        function updateOrder(orderId) {
+        function updateOrder() {
             $.ajax({
-                url : window.url + "/manage/fast_orders/" + orderId,
+                url : window.url + "/manage/fast_orders/" + old,
                 type : "put",
                 data : {
-                    link : $("#editLink" + orderId).val(),
-                    quantity : $("#editQuantity" + orderId).val(),
-                    // color    : $("#editColor" + orderId).val(),
-                    // size     : $("#editSize" + orderId).val(),
+                    link : $("#editLink" + old).val(),
+                    quantity : $("#editQuantity" + old).val(),
+                    color    : $("#editColor" + old).val(),
+                    size     : $("#editSize" + old).val(),
                 },
                 success : function (){
                    alert("Cập nhật đơn hàng thành công");
