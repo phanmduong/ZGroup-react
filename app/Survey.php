@@ -40,6 +40,7 @@ class Survey extends Model
     {
         return [
             'id' => $this->id,
+            "active" => $this->active,
             "image_url" => $this->image_url ? $this->image_url : emptyImageUrl(),
             "description" => $this->description ? $this->description : "",
             'name' => $this->name,

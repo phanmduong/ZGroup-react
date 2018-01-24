@@ -221,12 +221,14 @@ class SurveyController extends ManageApiController
         $survey->user_id = $this->user->id;
         $survey->is_final = $request->is_final;
         $survey->description = $request->description;
+        $survey->active = $request->active;
         $survey->target = $request->target;
         if ($request->image) {
             $survey->image_name = uploadFileToS3($request, "image", 1000, $survey->image_name);
             $survey->image_url = config("app.s3_url") . $survey->image_name;
         } else {
-            $survey->image_url = emptyImageUrl();
+            if (!$survey->id)
+                $survey->image_url = emptyImageUrl();
         }
 
         $survey->save();
