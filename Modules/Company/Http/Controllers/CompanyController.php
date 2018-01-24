@@ -182,10 +182,11 @@ class CompanyController extends ManageApiController
         $keyword = $request->search;
         $limit = $request->limit ? $request->limit : 20;
         $payments = Payment::join(DB::raw('users as payers'),'payments.payer_id','=','payers.id')
-         ->join(DB::raw('users as receivers'),'payments.receiver_id','=','receivers.id')->
-         select('payments.*')->where(function($query) use ($keyword){
+         ->join(DB::raw('users as receivers'),'payments.receiver_id','=','receivers.id')
+            ->where(function($query) use ($keyword){
                 $query->where('payers.name', 'like', '%' . $keyword . '%')->orWhere('receivers.name', 'like', '%' . $keyword . '%');
-            })->orderby('payments.created_at','desc')->paginate($limit);
+            })->
+         select('payments.*')->orderby('payments.created_at','desc')->paginate($limit);
 
         return $this->respondWithPagination($payments,[
             "payment" => $payments->map(function($payment){
