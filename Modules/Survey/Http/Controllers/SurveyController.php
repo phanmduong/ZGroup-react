@@ -222,8 +222,13 @@ class SurveyController extends ManageApiController
         $survey->is_final = $request->is_final;
         $survey->description = $request->description;
         $survey->target = $request->target;
-        $survey->image_name = uploadFileToS3($request, "image_url", 1000, $survey->image_name);
-        $survey->image_url = config("app.s3_url") . $survey->image_name;
+        if ($request->image) {
+            $survey->image_name = uploadFileToS3($request, "image", 1000, $survey->image_name);
+            $survey->image_url = config("app.s3_url") . $survey->image_name;
+        } else {
+            $survey->image_url = emptyImageUrl();
+        }
+
         $survey->save();
         if ($request->questions) {
             $questions = json_decode($request->questions);
@@ -299,14 +304,13 @@ class SurveyController extends ManageApiController
     {
         $survey = Survey::find($surveyId);
         if ($survey == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại đề'
-            ]);
+            return $this->respondErrorWithStatus('Không tồn tại đề');
         //validate
 
-        $this->assignSurveyInfo($survey, $request);
+        $survey = $this->assignSurveyInfo($survey, $request);
+
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'survey' => $survey->shortData()
         ]);
     }
 
