@@ -13,7 +13,7 @@ class AddIsOpenToUserLessonSurvey extends Migration
     public function up()
     {
         Schema::table("user_lesson_survey", function (Blueprint $table) {
-            $table->boolean("is_open")->default(true);
+            $table->foreign();
         });
     }
 

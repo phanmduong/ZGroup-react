@@ -69,7 +69,8 @@ class SurveyController extends ManageApiController
             return $this->respondErrorWithStatus("Bạn cần truyền lên nội dung câu trả lời");
         }
 
-        $userLessonSurveyQuestion = $this->surveyService->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $request->answer_content);
+        $userLessonSurveyQuestion = $this->surveyService
+            ->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $request->answer_id, $request->answer_content);
 
         return $this->respondSuccessWithStatus([
             "user_lesson_survey_question" => $userLessonSurveyQuestion
