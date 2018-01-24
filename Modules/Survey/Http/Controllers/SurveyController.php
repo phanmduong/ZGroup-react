@@ -247,6 +247,7 @@ class SurveyController extends ManageApiController
                 }
             }
         }
+        return $survey;
     }
 
     public function getSurveys(Request $request)
@@ -284,15 +285,15 @@ class SurveyController extends ManageApiController
 
     public function createSurvey(Request $request)
     {
-        $survey = new Survey;
+        $survey = new Survey();
         //validate
-
         $survey = $this->assignSurveyInfo($survey, $request);
 
         return $this->respondSuccessWithStatus([
             'survey' => $survey->shortData()
         ]);
     }
+
 
     public function editSurvey($surveyId, Request $request)
     {
