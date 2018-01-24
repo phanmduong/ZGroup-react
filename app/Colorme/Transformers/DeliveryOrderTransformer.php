@@ -38,7 +38,8 @@ class DeliveryOrderTransformer extends Transformer
                     return $paid + $orderPaidMoney->money;
                 }, 0),
             'attach_info' => $deliveryOrder->attach_info,
-            'money' => $deliveryOrder->money,
+            'price' => $deliveryOrder->price,
+            'quantity' => $deliveryOrder->quantity
         ];
         if ($deliveryOrder->staff)
             $data['staff'] = [

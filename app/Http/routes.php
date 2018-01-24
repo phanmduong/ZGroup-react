@@ -69,7 +69,7 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/good/{path}', 'ClientController@good')
         ->where('path', '.*');
 
-    Route::get('/order/{path}', 'ClientController@good')
+    Route::get('/order/{path}', 'ClientController@order')
         ->where('path', '.*');
 
 
@@ -154,7 +154,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/base/create', "ManageBaseApiController@createBase");
     Route::get('/base/rooms', "ManageBaseApiController@getRooms");
     Route::post('/base/room', "ManageBaseApiController@storeRoom");
-    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
+//    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
     Route::get('/base/{baseId}', "ManageBaseApiController@base");
     // End Base api
 
@@ -167,6 +167,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/save-post', 'ManageBlogController@save_post');
     Route::get('/posts', 'ManageBlogController@get_posts');
     Route::post('/post/{postId}/change-status','ManageBlogController@changeStatusPost');
+    Route::get('/post/categories','ManageBlogController@getAllCategory');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
     //End blog api

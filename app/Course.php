@@ -79,6 +79,15 @@ class Course extends Model
         ];
     }
 
+    public function shortTransform()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'icon_url' => $this->icon_url,
+        ];
+    }
+
     public function transform()
     {
         return [
@@ -91,6 +100,11 @@ class Course extends Model
             'status' => $this->status,
             'color' => $this->color,
             'type_id' => $this->type_id,
+            'description' => $this->description,
+            'image_url' => generate_protocol_url($this->image_url),
+            'lessons' => $this->lessons->map(function ($lesson) {
+                return $lesson->shortTransform();
+            }),
             'categories' => $this->courseCategories->map(function ($courseCategory) {
                 return $courseCategory->getData();
             }),

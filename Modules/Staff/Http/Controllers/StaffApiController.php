@@ -2,8 +2,10 @@
 
 namespace Modules\Staff\Http\Controllers;
 
+use App\Currency;
 use App\HistoryExtensionWork;
 use App\Http\Controllers\ManageApiController;
+use App\UserCurrency;
 use App\Work;
 use App\WorkStaff;
 use Illuminate\Http\Request;
@@ -63,6 +65,13 @@ class StaffApiController extends ManageApiController
         $salary->revenue = $request->revenue ? $request->revenue : 0;
         $salary->allowance = $request->allowance ? $request->allowance : 0;
         $salary->save();
+        $currencies = Currency::all();
+        foreach($currencies as $currency){
+            $user_currency = new UserCurrency;
+            $user_currency->user_id = $user->id;
+            $user_currency->currency_id = $currency->id;
+            $user_currency->save();
+        }
         return $this->respondSuccessWithStatus([
             "user" => $user
         ]);

@@ -3,22 +3,94 @@
 namespace Modules\Survey\Http\Controllers;
 
 use App\Answer;
-use App\Colorme\Transformers\TermTransformer;
-use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use App\Question;
 use App\Survey;
+use App\UserLessonSurvey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Survey\Services\SurveyService;
 
 class SurveyController extends ManageApiController
 {
-    public function __construct(TermTransformer $termTransformer)
+    protected $surveyService;
+
+    public function __construct(
+        SurveyService $surveyService
+    )
     {
         parent::__construct();
+        $this->surveyService = $surveyService;
     }
 
+    public function getSurveyHistory()
+    {
+        $userLessonSurveys = $this->user->userLessonSurveys()->orderBy("created_at", "desc")
+            ->paginate(20);
+
+        return $this->respondWithPagination($userLessonSurveys, [
+            "user_lesson_surveys" => $userLessonSurveys->map(function ($userLessonSurvey) {
+                return $userLessonSurvey->transformWithQuestions();
+            })
+        ]);
+    }
+
+    public function endUserLessonSurvey($userLessonSurveyId, Request $request)
+    {
+        $userLessonSurvey = UserLessonSurvey::find($userLessonSurveyId);
+        if ($userLessonSurvey == null) {
+            return $this->respondErrorWithStatus("Phiên survey không tồn tại");
+        }
+
+        $userLessonSurvey = $this->surveyService->endSurvey($userLessonSurveyId, $request->mark, $request->images_url, $request->records_url);
+
+        return $this->respondSuccessWithStatus([
+            'user_lesson_survey' => $userLessonSurvey->transform()
+        ]);
+    }
+
+    public function saveUserLessonSurveyQuestion($questionId, $userLessonSurveyId, Request $request)
+    {
+        $question = Question::find($questionId);
+        if ($question == null) {
+            return $this->respondErrorWithStatus("Câu hỏi không tồn tại");
+        }
+        $userLessonSurvey = UserLessonSurvey::find($userLessonSurveyId);
+        if ($userLessonSurvey == null) {
+            return $this->respondErrorWithStatus("Phiên trả lời không tồn tại");
+        }
+
+        if (!$userLessonSurvey->is_open) {
+            return $this->respondErrorWithStatus("Phiên trả lời này đã đóng");
+        }
+
+        if ($request->answer_content == null) {
+            return $this->respondErrorWithStatus("Bạn cần truyền lên nội dung câu trả lời");
+        }
+
+        $userLessonSurveyQuestion = $this->surveyService->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $request->answer_content);
+
+        return $this->respondSuccessWithStatus([
+            "user_lesson_survey_question" => $userLessonSurveyQuestion
+        ]);
+    }
+
+    public function createUserLessonSurvey($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Survey không tồn tại");
+        }
+
+        $userLessonSurvey = $this->surveyService->startSurvey($this->user->id, $survey->id);
+
+        return $this->respondSuccessWithStatus([
+            'user_lesson_survey' => $userLessonSurvey->transform(),
+            'survey' => $survey->getDetailedData(),
+        ]);
+
+    }
 
     public function deleteQuestion($questionId)
     {
@@ -148,24 +220,26 @@ class SurveyController extends ManageApiController
         $survey->user_id = $this->user->id;
         $survey->is_final = $request->is_final;
         $survey->save();
-        $questions = json_decode($request->questions);
-        $order = 0;
-        foreach ($questions as $question) {
-            $newQuestion = new Question;
-            $newQuestion->survey_id = $survey->id;
-            $newQuestion->content = $question->content;
-            $newQuestion->type = $question->type;
-            $newQuestion->image_url = $question->image_url;
-            $newQuestion->order = ++$order;
-            $newQuestion->save();
-            $answers = $newQuestion->answers;
-            foreach ($answers as $answer) {
-                $newAnswer = new Answer;
-                $newAnswer->question_id = $newQuestion->id;
-                $newAnswer->content = $answer->content;
-                $newAnswer->image_url = $answer->image_url;
-                $newAnswer->correct = $answer->correct;
-                $newAnswer->save();
+        if ($request->questions) {
+            $questions = json_decode($request->questions);
+            $order = 0;
+            foreach ($questions as $question) {
+                $newQuestion = new Question;
+                $newQuestion->survey_id = $survey->id;
+                $newQuestion->content = $question->content;
+                $newQuestion->type = $question->type;
+                $newQuestion->image_url = $question->image_url;
+                $newQuestion->order = ++$order;
+                $newQuestion->save();
+                $answers = $newQuestion->answers;
+                foreach ($answers as $answer) {
+                    $newAnswer = new Answer;
+                    $newAnswer->question_id = $newQuestion->id;
+                    $newAnswer->content = $answer->content;
+                    $newAnswer->image_url = $answer->image_url;
+                    $newAnswer->correct = $answer->correct;
+                    $newAnswer->save();
+                }
             }
         }
     }
@@ -197,9 +271,7 @@ class SurveyController extends ManageApiController
     {
         $survey = Survey::find($surveyId);
         if ($survey == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại bộ câu hỏi'
-            ]);
+            return $this->respondErrorWithStatus('Không tồn tại bộ câu hỏi');
         return $this->respondSuccessWithStatus([
             'survey' => $survey->getDetailedData(),
         ]);
@@ -244,5 +316,60 @@ class SurveyController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
+    }
+
+    public function getSurveyLessons($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        $lessons = $survey->lessons;
+
+        $surveyLessons = $lessons->map(function ($lesson) {
+            $course = $lesson->course;
+            return [
+                "lesson_id" => $lesson->id,
+                "course" => $course->shortTransform(),
+                "lesson" => $lesson->shortTransform(),
+                'time_display' => $lesson->pivot->time_display,
+                'start_time_display' => $lesson->pivot->start_time_display
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            "survey_lessons" => $surveyLessons
+        ]);
+    }
+
+    public function removeSurveyLesson($surveyId, $lessonId)
+    {
+        $survey = Survey::find($surveyId);
+        $survey->lessons()->detach($lessonId);
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
+        ]);
+    }
+
+    public function addSurveyLesson($surveyId, $lessonId, Request $request)
+    {
+        $startTimeDisplay = $request->start_time_display;
+        $timeDisplay = $request->time_display;
+        $survey = Survey::find($surveyId);
+        $lesson = Lesson::find($lessonId);
+        $course = $lesson->course;
+        $exist_lesson = $survey->lessons()->where('id', $lessonId)->first();
+        if ($exist_lesson == null) {
+            $survey->lessons()->attach($lessonId, [
+                'time_display' => $timeDisplay,
+                'start_time_display' => $startTimeDisplay
+            ]);
+            return $this->respondSuccessWithStatus([
+                "survey_lesson" => [
+                    "course" => $course->shortTransform(),
+                    'time_display' => $timeDisplay,
+                    'start_time_display' => $startTimeDisplay
+                ]
+            ]);
+        } else {
+            return response()->json(['message' => 'Buổi này đã được thêm vào survey', 'status' => 0]);
+        }
     }
 }

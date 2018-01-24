@@ -37,7 +37,7 @@ class NhatQuangTransferController extends Controller
     {
         $bankaccounts = BankAccount::all();
         $this->data['bankaccounts'] = $bankaccounts;
-        $transfers = TransferMoney::where('user_id', '=', $this->user->id)->orderBy('created_at', 'desc')->paginate(5);
+        $transfers = TransferMoney::where('user_id', '=', $this->user->id)->orderBy('created_at', 'desc')->paginate(10);
         $this->data['transfers'] = $transfers;
         return view('nhatquangshop::transfer_money', $this->data);
     }
@@ -47,9 +47,11 @@ class NhatQuangTransferController extends Controller
         $validator = Validator::make($request->all(), [
             'money' => 'required|numeric|min:0',
             'bank_account_id' => 'required',
+            "transfer_purpose" => 'required',
             'transfer_day' => 'required'
         ], [
                 'money.required' => 'Bạn chưa nhập số tiền cần chuyển',
+                "transfer_purpose.required" => 'Bạn cần nhập mục đích chuyển tiền',
                 'transfer_day.required' => 'Bạn chưa nhập ngày chuyển tiền',
                 'money.min' => "Bạn không thể báo chuyển khoản số tiền âm ",
                 'bank_account_id.required' => 'Bạn chưa chọn phương thức chuyển khoản',
@@ -69,10 +71,7 @@ class NhatQuangTransferController extends Controller
         $transfer->bank_account_id = $request->bank_account_id;
         $transfer->status = "pending";
         $transfer->save();
-        $bankaccounts = BankAccount::all();
-        $this->data['bankaccounts'] = $bankaccounts;
-        $transfers = TransferMoney::where('user_id', '=', $this->user->id)->orderBy('created_at', 'desc')->get();
-        $this->data['transfers'] = $transfers;
-        return view('nhatquangshop::transfer_money', $this->data)->with('noti', 'Gửi thành công');
+
+        return redirect("manage/transfermoney")->with('message', 'Thêm lượt chuyển khoản thành công');;
     }
 }
