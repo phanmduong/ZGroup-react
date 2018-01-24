@@ -14,10 +14,7 @@ export default function surveyReducer(state = initialState.survey, action) {
         case SAVE_SURVEY_DATA_SUCCESS:
             return {
                 ...state,
-                survey: {
-                    ...state.survey,
-                    showEditSurveyModal: false
-                }
+                showEditSurveyModal: false
             };
         case UPDATE_SURVEY_FORM_DATA:
             return {

@@ -5,7 +5,8 @@ import {getToken} from '../../helpers/tokenHelper';
 
 const createSurveyFormData = (survey, file) => {
     const formData = new FormData();
-    formData.append('image_url', file);
+    if (file)
+        formData.append('image', file);
     formData.append("target", survey.target);
     formData.append("name", survey.name);
     formData.append("description", survey.description);
@@ -43,7 +44,7 @@ export function editSurvey(survey, file) {
             'content-type': 'multipart/form-data'
         }
     };
-    return axios.put(url, formData, config);
+    return axios.post(url, formData, config);
 }
 
 

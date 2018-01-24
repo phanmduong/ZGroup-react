@@ -74,7 +74,28 @@ export const saveSurvey = (survey, file) => {
         dispatch({
             type: DISPLAY_GLOBAL_LOADING
         });
-        await surveyApi.createSurvey(survey, file);
+        if (survey.id) {
+            await surveyApi.editSurvey(survey, file);
+        } else {
+            await surveyApi.createSurvey(survey, file);
+        }
+
+        dispatch({
+            type: HIDE_GLOBAL_LOADING
+        });
+        dispatch({
+            type: SAVE_SURVEY_DATA_SUCCESS
+        });
+        _loadSurveys(dispatch);
+    };
+};
+
+export const editSurvey = (survey, file) => {
+    return async (dispatch) => {
+        dispatch({
+            type: DISPLAY_GLOBAL_LOADING
+        });
+        await surveyApi.editSurvey(survey, file);
         dispatch({
             type: HIDE_GLOBAL_LOADING
         });
@@ -84,7 +105,6 @@ export const saveSurvey = (survey, file) => {
         _loadSurveys();
     };
 };
-
 
 const loadSurveyDetailPrivate = async (dispatch, surveyId) => {
     dispatch({type: BEGIN_LOAD_SURVEY_DETAIL});

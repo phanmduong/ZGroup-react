@@ -7,6 +7,13 @@ import ItemThumbnails from "../../components/common/ItemThumbnails";
 class SurveyItem extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.editSurvey = this.editSurvey.bind(this);
+    }
+
+    editSurvey(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        this.props.editSurvey(this.props.survey);
     }
 
     render() {
@@ -41,7 +48,7 @@ class SurveyItem extends React.Component {
                         <ul className="dropdown-menu dropdown-menu-right">
 
                             <li className="more-dropdown-item">
-                                <a onClick={this.onEditClick}>
+                                <a onClick={this.editSurvey}>
                                     <i className="material-icons"
                                        style={{fontSize: "18px"}}>edit</i>
                                     Chỉnh sửa
@@ -73,8 +80,7 @@ class SurveyItem extends React.Component {
                         marginBottom: "10px"
                     }}>
                         <br/>
-                        {survey.questions_count ? survey.questions_count : 0} câu
-                        hỏi
+                        {survey.questions_count ? survey.questions_count : 0} câu hỏi
                         <br/>
                     </div>
                     <ItemThumbnails images={survey.survey_lessons.map((surveyLesson) => surveyLesson.course.icon_url)}/>
@@ -86,7 +92,8 @@ class SurveyItem extends React.Component {
 }
 
 SurveyItem.propTypes = {
-    survey: PropTypes.object.isRequired
+    survey: PropTypes.object.isRequired,
+    editSurvey: PropTypes.func.isRequired
 };
 
 export default SurveyItem;

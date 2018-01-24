@@ -19,7 +19,7 @@ export function updateFormData(login) {
 
             dispatch(updatedLoginForm(res));
         }).catch(error => {
-            // console.log(error);
+            console.log(error);
             dispatch(loginError());
         });
     };

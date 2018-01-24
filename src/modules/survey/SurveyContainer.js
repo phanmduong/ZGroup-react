@@ -18,6 +18,7 @@ class SurveyContainer extends React.Component {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.loadSurveys = this.loadSurveys.bind(this);
+        this.editSurvey = this.editSurvey.bind(this);
     }
 
     componentWillMount() {
@@ -29,7 +30,13 @@ class SurveyContainer extends React.Component {
     }
 
     openModal() {
+        this.props.surveyActions.updateSurveyFormData({});
         this.props.surveyActions.toggleEditSurveyModal(true);
+    }
+
+    editSurvey(survey) {
+        this.props.surveyActions.toggleEditSurveyModal(true);
+        this.props.surveyActions.updateSurveyFormData(survey);
     }
 
     closeModal() {
@@ -71,6 +78,7 @@ class SurveyContainer extends React.Component {
                                                         this.props.surveys.map((survey) => {
                                                             return (
                                                                 <SurveyItem
+                                                                    editSurvey={this.editSurvey}
                                                                     key={survey.id}
                                                                     survey={survey}/>
                                                             );

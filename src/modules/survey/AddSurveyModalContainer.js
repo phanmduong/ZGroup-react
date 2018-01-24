@@ -16,9 +16,6 @@ class AddSurveyModalContainer extends React.Component {
         this.handleClose = this.handleClose.bind(this);
         this.inputOnchange = this.inputOnchange.bind(this);
         this.submitButtonOnClick = this.submitButtonOnClick.bind(this);
-        this.setState({
-            isCreate: true
-        });
     }
 
     handleClose() {
@@ -26,12 +23,11 @@ class AddSurveyModalContainer extends React.Component {
     }
 
     submitButtonOnClick() {
-        const file = this.refs.file.files[0];
-        if (this.isCreate) {
-            this.props.surveyActions.saveSurvey(this.props.survey, file);
-        } else {
-            this.props.surveyActions.saveSurvey(this.props.survey, file);
+        let file = null;
+        if (this.refs.file.files.length > 0) {
+            file = this.refs.file.files[0];
         }
+        this.props.surveyActions.saveSurvey(this.props.survey, file);
 
     }
 
@@ -53,7 +49,9 @@ class AddSurveyModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="fileinput fileinput-new text-center" data-provides="fileinput">
                         <div className="fileinput-new thumbnail">
-                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg"/>
+                            <img
+                                src={survey.image_url ||
+                                "http://d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg"}/>
                         </div>
                         <div className="fileinput-preview fileinput-exists thumbnail"/>
                         <div>
@@ -62,7 +60,7 @@ class AddSurveyModalContainer extends React.Component {
                                 <span className="fileinput-exists">Change</span>
                                 <input type="file"
                                        ref="file"
-                                       name="image_url"/>
+                                       name="image"/>
                                 <div className="ripple-container"/>
                             </span>
                         </div>
