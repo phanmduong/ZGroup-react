@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import {loadBankTransfers, updateBankTransferStatus} from "./financeActions";
 import {numberWithCommas} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
-import Select from 'react-select';
-import {STATUS_OPTIONS} from "./financeConstant";
+// import Select from 'react-select';
+// import {STATUS_OPTIONS} from "./financeConstant";
 
 
 // Import actions here!!

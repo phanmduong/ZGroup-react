@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
-import {createSurvey} from './surveyApi';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import * as surveyActions from "./surveyActions";
-import FieldGroup from "../../components/common/FieldGroup";
+import {saveSurvey, toggleEditSurveyModal, updateSurveyFormData} from "./surveyActions";
 
 class AddSurveyModalContainer extends React.Component {
     constructor(props, context) {
@@ -25,21 +23,15 @@ class AddSurveyModalContainer extends React.Component {
     }
 
     submitButtonOnClick() {
-        this.setState({
-            isLoading: true,
-        });
-        createSurvey(this.state.surveyName).then(() => {
-            this.setState({
-                isLoading: false,
-            });
-            this.handleClose();
-        });
+        const file = this.refs.file.files[0];
+        saveSurvey(this.props.survey, file);
     }
 
     inputOnchange(event) {
-        this.setState({
-            surveyName: event.target.value
-        });
+        const survey = {...this.props.survey};
+        const field = event.target.name;
+        survey[field] = event.target.value;
+        this.props.surveyActions.updateSurveyFormData(survey);
     }
 
     render() {
@@ -53,21 +45,26 @@ class AddSurveyModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="fileinput fileinput-new text-center" data-provides="fileinput">
                         <div className="fileinput-new thumbnail">
-                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1514889391e5VI7T5ybUMuOPN.jpg"/>
+                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg"/>
                         </div>
                         <div className="fileinput-preview fileinput-exists thumbnail"/>
                         <div>
                             <span className="btn btn-rose btn-round btn-file">
                                 <span className="fileinput-new">Ảnh đại diện</span>
                                 <span className="fileinput-exists">Change</span>
-                                <input type="file" name="..."/>
+                                <input type="file"
+                                       ref="file"
+                                       name="image_url"/>
                                 <div className="ripple-container"/>
                             </span>
                         </div>
                     </div>
                     <div className="form-group">
                         <label>Tên:</label>
-                        <input type="text" value={survey.name} className="form-control"
+                        <input type="text"
+                               name="name"
+                               value={survey.name || ""}
+                               className="form-control"
                                placeholder="Tên khảo sát"
                                onChange={this.inputOnchange}/>
                     </div>
@@ -76,17 +73,20 @@ class AddSurveyModalContainer extends React.Component {
                         controlId="target">
                         <ControlLabel>Chỉ tiêu</ControlLabel>
                         <FormControl
-                            type="text"
-                            value={survey.target}
+                            type="number"
+                            name="target"
+                            value={survey.target || ""}
                             placeholder="Chỉ tiêu"
-                            onChange={this.handleChange}
+                            onChange={this.inputOnchange}
                         />
                     </FormGroup>
 
                     <FormGroup controlId="description">
                         <ControlLabel>Mô tả</ControlLabel>
                         <FormControl
-                            value={survey.description}
+                            name="description"
+                            value={survey.description || ""}
+                            onChange={this.inputOnchange}
                             componentClass="textarea" placeholder="Mô tả"/>
                     </FormGroup>
                 </Modal.Body>
@@ -102,7 +102,7 @@ class AddSurveyModalContainer extends React.Component {
                             (
                                 <div>
                                     <button
-                                        disabled={this.state.surveyName === ""}
+                                        // disabled={this.state.surveyName === ""}
                                         className="btn btn-rose" onClick={this.submitButtonOnClick}>Tạo
                                     </button>
                                     <Button className="btn btn-default" onClick={this.handleClose}>Đóng</Button>
@@ -130,7 +130,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        surveyActions: bindActionCreators(surveyActions, dispatch)
+        surveyActions: bindActionCreators({
+            toggleEditSurveyModal, updateSurveyFormData
+        }, dispatch)
     };
 }
 

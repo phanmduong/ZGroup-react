@@ -8,10 +8,20 @@ import {
     , UPDATE_ANSWER, UPDATE_QUESTIONS_ORDER,
     ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION,
     DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING,
-    OPEN_EDIT_SURVEY_DISPLAY_ORDER, TOGGLE_EDIT_SURVEY_MODAL,
+    OPEN_EDIT_SURVEY_DISPLAY_ORDER, TOGGLE_EDIT_SURVEY_MODAL, UPDATE_SURVEY_FORM_DATA, SAVE_SURVEY_DATA_SUCCESS,
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
 import {showErrorMessage, showNotification} from "../../helpers/helper";
+
+
+export const updateSurveyFormData = (survey) => {
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_SURVEY_FORM_DATA,
+            survey
+        });
+    };
+};
 
 export const toggleEditSurveyModal = (showEditSurveyModal) => {
     return (dispatch) => {
@@ -44,17 +54,37 @@ export const duplicateQuestion = (question) => {
     };
 };
 
+const _loadSurveys = async (dispatch, page = 1, search = '') => {
+    dispatch({type: BEGIN_LOAD_SURVEYS_LIST});
+    const res = await surveyApi.loadSurveys(page, search);
+    dispatch({
+        type: LOAD_SURVEYS_LIST_SUCCESS,
+        surveys: res.data.surveys,
+        paginator: res.data.paginator
+    });
+};
 export const loadSurveys = (page = 1, search = '') => {
-    return async function (dispatch) {
-        dispatch({type: BEGIN_LOAD_SURVEYS_LIST});
-        const res = await surveyApi.loadSurveys(page, search);
-        dispatch({
-            type: LOAD_SURVEYS_LIST_SUCCESS,
-            surveys: res.data.surveys,
-            paginator: res.data.paginator
-        });
+    return (dispatch) => {
+        _loadSurveys(dispatch, page, search);
     };
 };
+
+export const saveSurvey = (survey, file) => {
+    return async (dispatch) => {
+        dispatch({
+            type: DISPLAY_GLOBAL_LOADING
+        });
+        await surveyApi.createSurvey(survey, file);
+        dispatch({
+            type: HIDE_GLOBAL_LOADING
+        });
+        dispatch({
+            type: SAVE_SURVEY_DATA_SUCCESS
+        });
+        _loadSurveys();
+    };
+};
+
 
 const loadSurveyDetailPrivate = async (dispatch, surveyId) => {
     dispatch({type: BEGIN_LOAD_SURVEY_DETAIL});

@@ -2,15 +2,23 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import {getToken} from '../../helpers/tokenHelper';
 
-export function createSurvey(surveyName) {
+export function createSurvey(survey, file) {
     let url = env.MANAGE_API_URL + "/v2/survey";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, {
-        name: surveyName,
-    });
+    const formData = new FormData();
+    formData.append('image_url', file);
+    formData.append("target", survey.target);
+    formData.append("name", survey.name);
+    formData.append("description", survey.description);
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+    return axios.post(url, formData, config);
 }
 
 export const loadSurveys = (page, search) => {
