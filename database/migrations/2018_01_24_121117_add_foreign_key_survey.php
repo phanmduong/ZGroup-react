@@ -13,15 +13,15 @@ class AddForeignKeySurvey extends Migration
     public function up()
     {
         Schema::table("user_lesson_survey", function (Blueprint $table) {
-            $table->foreign("survey_id")->references("id")->on("surveys");
-            $table->foreign("user_id")->references("id")->on("users");
+            $table->index("survey_id");
+            $table->index("user_id");
+            $table->index("lesson_survey_id");
             $table->softDeletes();
         });
 
         Schema::table("user_lesson_survey_question", function (Blueprint $table) {
-            $table->integer("user_lesson_survey_id")->unsigned()->change();
-            $table->foreign("user_lesson_survey_id")->references("id")->on("user_lesson_survey");
-            $table->foreign("question_id")->references("id")->on("questions");
+            $table->index("user_lesson_survey_id");
+            $table->index("question_id");
             $table->softDeletes();
         });
     }
