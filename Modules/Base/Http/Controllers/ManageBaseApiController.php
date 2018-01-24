@@ -74,7 +74,6 @@ class ManageBaseApiController extends ManageApiController
     }
 
     public function basesInProvince($provinceId, Request $request)
-
     {
         $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
             ->where("province.provinceid", $provinceId)->select("district.*")->pluck("districtid");

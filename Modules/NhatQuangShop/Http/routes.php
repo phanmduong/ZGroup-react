@@ -40,7 +40,8 @@ $nhatquangShopRoute = function () {
     Route::get("/manage/orders/{order_id}", "NhatQuangShopManageController@infoOrder");
     Route::post("/manage/orders", "NhatQuangShopManageController@filterOrders");
     Route::post('/manage/save-fast-order', "NhatQuangShopController@saveFastOrder");
-   Route::get('/currency', 'NhatQuangApiController@getCurrencies');
+    Route::get('/currency', 'NhatQuangApiController@getCurrencies');
+
 
     //login
     Route::get("/api/google/tokensignin", "NhatQuangAuthApiController@googleTokenSignin");
@@ -49,6 +50,8 @@ $nhatquangShopRoute = function () {
     Route::put("/api/user", "NhatQuangShopManageApiController@updateUserInfo");
 
     //e-banking
+    Route::get('/manage/fast_orders', 'NhatQuangShopManageController@userFastOrders');
+    Route::post('/manage/fast_orders', 'NhatQuangShopManageController@filterFastOrders');
     Route::get("/manage/account", "NhatQuangShopManageController@account_information");
     Route::get("/manage/account_change", "NhatQuangShopManageController@get_account_change_information");
     Route::post("/manage/account_change", "NhatQuangShopManageController@account_change_information");
@@ -56,6 +59,7 @@ $nhatquangShopRoute = function () {
     Route::post("/manage/password_change", "NhatQuangShopManageController@password_change");
     Route::post("/manage/transfermoney", "NhatQuangTransferController@createTransfer");
     Route::get("/manage/transfermoney", "NhatQuangTransferController@transferMoneys");
+    Route::put("/manage/fast_orders/{order_id}", "NhatQuangShopManageController@editFastOrder");
 };
 
 
