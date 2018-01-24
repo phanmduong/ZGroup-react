@@ -24,8 +24,8 @@ class UserLessonSurveyQuestion extends Model
             "id" => $this->id,
             "answer" => $this->answer,
             "result" => $this->result,
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at
+            "created_at" => format_time_to_mysql(strtotime($this->created_at)),
+            "updated_at" => format_time_to_mysql(strtotime($this->updated_at))
         ];
     }
 }

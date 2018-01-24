@@ -40,7 +40,7 @@ class UserLessonSurvey extends Model
             "user" => $this->user->transformAuth(),
             "survey" => $this->survey->shortData(),
             "created_at" => format_time_to_mysql(strtotime($this->created_at)),
-            "updated_at" => format_time_to_mysql(strtotime($this->created_at)),
+            "updated_at" => format_time_to_mysql(strtotime($this->updated_at)),
             "images_url" => $this->images_url,
             "records_url" => $this->records_url,
             "is_open" => $this->is_open

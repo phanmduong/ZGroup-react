@@ -26,11 +26,13 @@ class SurveyController extends ManageApiController
 
     public function getSurveyHistory()
     {
-        $userLessonSurveys = $this->user->userLessonSurveys->map(function ($userLessonSurvey) {
-            return $userLessonSurvey->transformWithQuestions();
-        });
-        return $this->respondSuccessWithStatus([
-            "user_lesson_surveys" => $userLessonSurveys
+        $userLessonSurveys = $this->user->userLessonSurveys()->orderBy("created_at", "desc")
+            ->paginate(20);
+
+        return $this->respondWithPagination($userLessonSurveys, [
+            "user_lesson_surveys" => $userLessonSurveys->map(function ($userLessonSurvey) {
+                return $userLessonSurvey->transformWithQuestions();
+            })
         ]);
     }
 
