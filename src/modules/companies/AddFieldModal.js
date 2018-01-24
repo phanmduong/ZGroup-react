@@ -44,7 +44,6 @@ class AddFieldModal extends React.Component {
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
-                bsSize="large"
             >
                 <Modal.Header closeButton/>
                 <Modal.Body>

@@ -13,7 +13,7 @@ export default function companyReducer(state = initialState.payment, action) {
                 ...state,
                 isLoadingPayments: false,
                 payment: action.data,
-                paginnator: action.paginnator,
+                paginator: action.paginator,
             };
         case types.LOAD_PAYMENTS_ERROR:
             return {
@@ -99,6 +99,7 @@ export default function companyReducer(state = initialState.payment, action) {
                 ...state,
                 isUploading: false,
                 link: action.data,
+                payment: {...action.pp,bill_image_url: action.data}
             };
         case types.UPDATE_IMAGE_PROGRESS_PAYMENT:
             return{
@@ -109,7 +110,7 @@ export default function companyReducer(state = initialState.payment, action) {
             return{
                 ...state,
                 isLoadingPayment: true,
-                company: action.data,
+                payment: action.data,
             };
         case types.RESET_DATA_PAYMENT: {
             let defaultdata={
@@ -117,16 +118,20 @@ export default function companyReducer(state = initialState.payment, action) {
                 bill_image_url: "",
                 payer: {
                     id: 0,
+                    account_number:"",
                 },
                 receiver: {
                     id: 0,
+                    account_number:"",
                 },
                 description: "",
+                link: ""
             };
             return {
                 ...state,
                 isLoadingPayment: false,
                 payment : defaultdata,
+                link: "",
             };
         }
         default:

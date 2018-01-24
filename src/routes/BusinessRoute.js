@@ -20,7 +20,7 @@ export default [
         type: "edit"
     },
     {
-        path: "/business/company/payment/:paymentId",
+        path: "/business/company/payment/edit/:paymentId",
         component: CreatePaymentContainer,
         type: "edit"
     },

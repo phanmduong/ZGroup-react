@@ -2,13 +2,14 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function createPayment(object){
-    let url = env.MANAGE_API_URL + '/company/payment';
+    console.log(object);
+    let url = env.MANAGE_API_URL + '/company/payment/create';
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url,{
-        'bill_image_url': object.bill_mage_url,
+        'bill_image_url': object.bill_image_url,
         'payer_id': object.payer.id,
         'receiver_id': object.receiver.id,
         'money_value': object.money_value,
@@ -17,13 +18,13 @@ export function createPayment(object){
 
 }
 export function editPayment(id,object){
-    let url = env.MANAGE_API_URL + '/company/payment/' + id ;
+    let url = env.MANAGE_API_URL + '/company/payment/edit/' + id ;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url,{
-        'bill_image_url': object.bill_mage_url,
+    return axios.put(url,{
+        'bill_image_url': object.bill_image_url,
         'payer_id': object.payer.id,
         'receiver_id': object.receiver.id,
         'money_value': object.money_value,
@@ -32,10 +33,10 @@ export function editPayment(id,object){
 
 }
 export function loadPayments(page,search){
-    let url = env.MANAGE_API_URL + '/company/payment';
+    let url = env.MANAGE_API_URL + '/company/payment/all';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page + "&search=" + search;
+        url += "?token=" + token + "&page=" + page + "&search=" + search + "&limit=20";
     }
     return axios.get(url);
 }

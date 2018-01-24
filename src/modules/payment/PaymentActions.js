@@ -55,7 +55,7 @@ export function loadCompanies() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_COMPANIES_SUCCESS_PAYMENT,
-                    data: res.data.company,
+                    data: res.data.data.company,
 
                 });
             }).catch(() => {
@@ -67,7 +67,7 @@ export function loadCompanies() {
     };
 }
 
-export function createPayment(object) {
+export function addPayment(object) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_PAYMENT,
@@ -109,16 +109,18 @@ export function editPayment(id,object){
     };
 }
 
-export function uploadImage(file){
+export function uploadImage(file,pp){
     return function (dispatch) {
         const error = () => {
             helper.showErrorNotification("Có lỗi xảy ra");
         };
         const completeHandler = (event) => {
+            helper.showNotification("Tải lên ảnh thành công");
             const data = JSON.parse(event.currentTarget.responseText);
             dispatch({
                 type: types.UPLOAD_IMAGE_PAYMENT_SUCCESS,
-                link: data.link,
+                data: data.link,
+                pp: pp,
             });
         };
         const progressHandler = (event) => {
