@@ -215,30 +215,12 @@ class BookRepository
                     ];
                     break;
                 }
-                 $newGood = new Good;
-                 $newGood->name = "Link";
-                 $newGood->download = $good->link;
-                 $newGood->description = $good->describe;
-                 $newGood->save();
-                $order->goods()->attach($newGood->id, [
-                    "quantity" => $good->number,
-                    "price" => $good->price,
-                ]);
-                $newProPerTies1 = new GoodProperty;
-                $newProPerTies1->name = "size";
-                $newProPerTies1->good_id = $newGood->id;
-                $newProPerTies1->value = $good->size;
-                $newProPerTies1->save();
-                $newProPerTies2 = new GoodProperty;
-                $newProPerTies2->name = "color";
-                $newProPerTies2->good_id = $newGood->id;
-                $newProPerTies2->value = $good->color;
-                $newProPerTies2->save();
+                $order->attach_info = json_encode($good);
              }
         }
         $order->save();
         return [
-            "message" => "Xac nhan thanh cong don hang",
+            "message" => "Xác nhận thành công đơn hàng",
             "status"=>1,
         ];
     }

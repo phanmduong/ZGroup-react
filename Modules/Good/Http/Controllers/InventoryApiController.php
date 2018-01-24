@@ -156,18 +156,15 @@ class InventoryApiController extends ManageApiController
             $goodIds = Good::where('manufacture_id', $manufacture_id)->pluck('id')->toArray();
             $inventories = $inventories->whereIn('good_id', $goodIds);
         }
-        if ($warehouse_id) {
-            $goodIds = Good::where('warehouse_id', $warehouse_id)->pluck('id')->toArray();
-            $inventories = $inventories->whereIn('good_id', $goodIds);
-        }
+        if ($warehouse_id)
+            $inventories = $inventories->where('warehouse_id', $warehouse_id);
+
         if ($keyword) {
             $goodIds = Good::where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             })->pluck('id')->toArray();
             $inventories = $inventories->whereIn('good_id', $goodIds)->get();
         }
-
-
         $count = $inventories->reduce(function ($total, $inventory) {
             return $total + $inventory->quantity;
         }, 0);
@@ -208,7 +205,7 @@ class InventoryApiController extends ManageApiController
                         'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
                         'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
                         'remain' => $singular_history->remain,
-                        'order_code' => $singular_history->order->code,
+//                        'order_code' => $singular_history->order->code,
                         'warehouse' => [
                             'id' => $singular_history->warehouse->id,
                             'name' => $singular_history->warehouse->name,
