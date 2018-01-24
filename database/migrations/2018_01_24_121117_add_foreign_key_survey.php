@@ -14,8 +14,6 @@ class AddForeignKeySurvey extends Migration
     {
         Schema::table("user_lesson_survey", function (Blueprint $table) {
             $table->index("survey_id");
-            $table->index("user_id");
-            $table->index("lesson_survey_id");
             $table->softDeletes();
         });
 
