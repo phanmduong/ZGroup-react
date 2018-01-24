@@ -52,7 +52,7 @@ class UserLessonSurvey extends Model
         $data = $this->transform();
         $data["questions"] = $this->userLessonSurveyQuestions->map(function ($userLessonSurveyQuestion) {
             $returnData = $userLessonSurveyQuestion->transform();
-            $returnData["question"] = $userLessonSurveyQuestion->question->shortData;
+            $returnData["question"] = $userLessonSurveyQuestion->question->shortData();
             return $returnData;
         });
         return $data;
