@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Survey extends Model
 {
@@ -30,6 +31,11 @@ class Survey extends Model
             ->withTimestamps();
     }
 
+    public function userLessonSurveys()
+    {
+        return $this->hasMany(UserLessonSurvey::class, "survey_id");
+    }
+
     public function shortData()
     {
         return [
@@ -50,6 +56,8 @@ class Survey extends Model
             "created_at" => format_time_to_mysql(strtotime($this->created_at)),
             'staff' => $this->user ? $this->user->getData() : null,
             "questions_count" => $this->questions()->count(),
+            "target" => $this->target,
+            "take" => $this->userLessonSurveys()->select(DB::raw("sum(`take`) as sum_take"))->first()->sum_take,
             "survey_lessons" => $this->lessons->map(function ($lesson) {
                 $course = $lesson->course;
                 return [
