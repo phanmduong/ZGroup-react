@@ -6,7 +6,7 @@ $routes = function () {
 
 $apiRoutes = function () {
     Route::get('/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
-    Route::post('/register', 'UpCoworkingSpaceApiController@allUserPacks');
+    Route::post('/register', 'UpCoworkingSpaceApiController@register');
 };
 
 
