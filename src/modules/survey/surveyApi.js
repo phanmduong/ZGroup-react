@@ -9,6 +9,7 @@ const createSurveyFormData = (survey, file) => {
         formData.append('image', file);
     formData.append("target", survey.target);
     formData.append("name", survey.name);
+    formData.append("active", survey.active);
     formData.append("description", survey.description);
     return formData;
 };

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import Switch from 'react-bootstrap-switch';
 import {saveSurvey, toggleEditSurveyModal, updateSurveyFormData} from "./surveyActions";
 
 class AddSurveyModalContainer extends React.Component {
@@ -15,6 +16,7 @@ class AddSurveyModalContainer extends React.Component {
 
         this.handleClose = this.handleClose.bind(this);
         this.inputOnchange = this.inputOnchange.bind(this);
+        this.changeSwitch = this.changeSwitch.bind(this);
         this.submitButtonOnClick = this.submitButtonOnClick.bind(this);
     }
 
@@ -29,6 +31,17 @@ class AddSurveyModalContainer extends React.Component {
         }
         this.props.surveyActions.saveSurvey(this.props.survey, file);
 
+    }
+
+    changeSwitch() {
+        const survey = {...this.props.survey};
+        if (Number(survey.active) === 0) {
+            survey.active = 1;
+        } else {
+            survey.active = 0;
+        }
+
+        this.props.surveyActions.updateSurveyFormData(survey);
     }
 
     inputOnchange(event) {
@@ -95,6 +108,17 @@ class AddSurveyModalContainer extends React.Component {
                             onChange={this.inputOnchange}
                             componentClass="textarea" placeholder="Mô tả"/>
                     </FormGroup>
+                    <FormGroup controlId="description">
+                        <ControlLabel>Hiện khảo sát cho học viên:</ControlLabel>
+                        <div>
+                            <Switch
+                                onChange={this.changeSwitch}
+                                bsSize="mini"
+                                onText="Hiện" offText="Ẩn"
+                                value={Number(survey.active) === 1}
+                            />
+                        </div>
+                    </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
                     {
@@ -109,7 +133,7 @@ class AddSurveyModalContainer extends React.Component {
                                 <div>
                                     <button
                                         // disabled={this.state.surveyName === ""}
-                                        className="btn btn-rose" onClick={this.submitButtonOnClick}>Tạo
+                                        className="btn btn-rose" onClick={this.submitButtonOnClick}>Lưu
                                     </button>
                                     <Button className="btn btn-default" onClick={this.handleClose}>Đóng</Button>
                                 </div>
