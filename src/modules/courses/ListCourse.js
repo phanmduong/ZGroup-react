@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as helper from "../../helpers/helper";
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import {connect} from 'react-redux';
 import * as coursesActions from './coursesActions';
 import {bindActionCreators} from 'redux';
