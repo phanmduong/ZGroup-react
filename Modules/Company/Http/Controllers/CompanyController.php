@@ -2,6 +2,7 @@
 
 namespace Modules\Company\Http\Controllers;
 
+use App\ExportOrder;
 use App\Field;
 use App\Payment;
 use App\PrintOrder;
@@ -133,6 +134,22 @@ class CompanyController extends ManageApiController
             ]);
         }
     }
+    public function getCompanyProvide(){
+        $companies = Company::where('type','<>', 'share')->get();
+        return $this->respondSuccessWithStatus([
+            "companies" => $companies->map(function($company){
+                return $company->transform();
+            })
+        ]);
+    }
+    public function getCompanyShare(){
+        $companies = Company::where('type','<>','provided')->get();
+        return $this->respondSuccessWithStatus([
+            "companies" => $companies->map(function($company){
+                return $company->transform();
+            })
+        ]);
+    }
     public function getDetailCompany($companyId,Request $request){
         $company = Company::find($companyId);
         if(!$company) return $this->respondErrorWithStatus("Không tồn tại công ty");
@@ -247,6 +264,48 @@ class CompanyController extends ManageApiController
         ]);
     }
 
+    public function editPrintOrder($printOrderId,Request $request){
+        $printorder = PrintOrder::find($printOrderId);
+        if(!$printorder) return $this->respondErrorWithStatus("Không tồn tại");
+        if( $request->staff_id === null ||
+            $request->company_id === null||
+            $request->good_id === null )
+            return $this->respondErrorWithStatus("Thiếu trường");
+        $printorder->staff_id = $request->staff_id;
+        $printorder->company_id = $request->company_id;
+        $printorder->good_id = $request->good_id;
+        $printorder->quantity = $request->quantity;
+        $printorder->core1 = $request->core1;
+        $printorder->core2 = $request->core2;
+        $printorder->cover1 = $request->cover1;
+        $printorder->cover2 = $request->cover2;
+        $printorder->spare_part1 = $request->spare_part1;
+        $printorder->spare_part2 = $request->spare_part2;
+        $printorder->packing1 = $request->packing1;
+        $printorder->packing2 = $request->packing2;
+        $printorder->other = $request->other;
+        $printorder->price = $request->price;
+        $printorder->note = $request->note;
+        $printorder->order_date = $request->order_date;
+        $printorder->receive_date = $request->receive_date;
+        $printorder->save();
+
+        $name = $printorder->company->name;
+        $str = convert_vi_to_en_not_url($name);
+        $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
+        $str = strtoupper($str);
+        $ppp = DateTime::createFromFormat('Y-m-d', $printorder->order_date);
+        $day = date_format($ppp,'d');
+        $month = date_format($ppp,'m');
+        $year = date_format($ppp,'y');
+        $id = (string)  $printorder->id;
+        while (strlen($id) < 4) $id = '0' . $id;
+        $printorder->command_code ="DATIN".$id.$str.$day.$month.$year;
+        $printorder->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Sửa thành công"
+        ]);
+    }
     public function getAllPrintOrder(Request $request){
         $limit = $request->limit ? $request->limit : 20;
         $printorders = PrintOrder::query();
@@ -259,6 +318,57 @@ class CompanyController extends ManageApiController
             })
         ]);
 
+    }
+    public function createExportOrder(Request $request){
+        if($request->good_id === null ||
+           $request->company_id === null ||
+           $request->warehouse_id === null ||
+           $request->price === null || trim($request->price) === "" ||
+            $request->quantity === null || trim($request->quantity) === ""
+        ) return $this->respondErrorWithStatus("Thiếu trường");
+        $exportOrder = new ExportOrder;
+        $exportOrder->good_id = $request->good_id;
+        $exportOrder->company_id = $request->company_id;
+        $exportOrder->warehouse_id = $request->warehouse_id;
+        $exportOrder->price = $request->price;
+        $exportOrder->quantity = $request->quantity;
+        $exportOrder->total_price = $request->total_price;
+        $exportOrder->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Tạo thành công"
+        ]);
+    }
+    public function editExportOrder($exportOrderId,Request $request){
+        $exportOrder = ExportOrder::find($exportOrderId);
+        if(!$exportOrder) return $this->respondErrorWithStatus("Không tồn tại");
+        if($request->good_id === null ||
+            $request->company_id === null ||
+            $request->warehouse_id === null ||
+            $request->price === null || trim($request->price) === "" ||
+            $request->quantity === null || trim($request->quantity) === ""
+        ) return $this->respondErrorWithStatus("Thiếu trường");
+        $exportOrder->good_id = $request->good_id;
+        $exportOrder->company_id = $request->company_id;
+        $exportOrder->warehouse_id = $request->warehouse_id;
+        $exportOrder->price = $request->price;
+        $exportOrder->quantity = $request->quantity;
+        $exportOrder->total_price = $request->total_price;
+        $exportOrder->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Sửa thành công"
+        ]);
+    }
+    public function getAllExportOrder(Request $request){
+        $limit = $request->limit ? $request->limit : 20;
+        $exportorders = ExportOrder::query();
+
+        $exportorders = $exportorders->orderBy('created_at','desc')->paginate($limit);
+
+        return $this->respondWithPagination($exportorders,[
+            "exportorders" => $exportorders->map(function($exportorder){
+                return $exportorder->transform();
+            })
+        ]);
     }
 
 }
