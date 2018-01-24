@@ -9,6 +9,14 @@ import initialState from '../../reducers/initialState';
 
 import {browserHistory} from "react-router";
 
+import Avatar from '../../components/common/Avatar';
+
+function prefixDataPost(data) {
+    if (data.length > 40) {
+        data = [...data.slice(0, 40), ' . . .'];
+    }
+    return data;
+}
 
 class ListCourse extends React.Component {
     constructor(props, context) {
@@ -36,54 +44,69 @@ class ListCourse extends React.Component {
             <div className="row">
                 {this.props.courses.map((course, index) => {
                     return (
-                        <div className="col-sm-6 col-md-6 col-md-4 col-lg-3" key={index}>
-                            <a className=" btn btn-default btn-lg row"
-                               style={{
-                                   width: '100%',
-                                   background: 'white',
-                                   color: 'rgb(69, 90, 100)',
-                                   textAlign: 'left',
-                                   padding: 0
-                               }}
-                               onClick={(e) => {
-                                   browserHistory.push("/teaching/courses/edit/" + course.id + "");
-                                   e.stopPropagation();
-                               }}
-                            >
-
-
-                                <div style={{
-                                    backgroundImage: 'url(' + course.image_url + ')',
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center center',
-                                    paddingBottom: '70%'
-                                }}/>
-
-
-
-
-
-
-                                <div style={{
-                                    fontSize: 12,
-                                    marginTop: 10,
-                                    padding: '5px 10px',
-                                    whiteSpace: "pre-line",
-                                    textTransform: "none",
-                                    height : 130,
+                        <div className="col-sm-6 col-md-6 col-lg-4" id="card-email-template" key={index}>
+                            <div className="card card-chart">
+                                <div className="card-header" data-background-color="white" style={{
+                                    borderRadius: '10px'
                                 }}>
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <strong> {course.name || "Chưa có tên"}</strong>
+
+                                    <a onClick={(e) => {
+                                        browserHistory.push("/teaching/courses/edit/" + course.id + "");
+                                        e.stopPropagation();
+                                    }}>
+                                        <div id="simpleBarChart" className="ct-chart"
+                                             style={{
+                                                 width: '100%',
+                                                 background: 'url(' + course.image_url + ')',
+                                                 backgroundSize: 'cover',
+                                                 backgroundPosition: 'center',
+                                                 height: '200px',
+                                                 borderRadius: '10px',
+                                                 position: "relative"
+                                             }}
+                                        >
+
+
+                                            {/*<div style={{position: "absolute"}}>*/}
+                                            {/*{post.category ?*/}
+                                            {/*<button className="tag btn btn-xs btn-danger"*/}
+                                            {/*style={{marginLeft: 15, borderRadius: 10}}*/}
+                                            {/*onClick={(e) => {*/}
+                                            {/*this.props.loadByCategories(post.category.id);*/}
+                                            {/*e.stopPropagation();*/}
+                                            {/*}}*/}
+                                            {/*>*/}
+                                            {/*{post.category ? post.category.name : 'Không có'}</button>*/}
+                                            {/*: null*/}
+                                            {/*}*/}
+                                            {/*</div>*/}
                                         </div>
-                                        <div className="col-md-2">
+                                    </a>
+                                </div>
+
+
+                                <div className="card-content">
+                                    <div className="card-action row" style={{height: 73}}>
+                                        <div className="col-md-11">
+                                            <h4 className="card-title">
+                                                <a onClick={(e) => {
+                                                    browserHistory.push("/teaching/courses/edit/" + course.id + "");
+                                                    e.stopPropagation();
+                                                }}>
+                                                    <strong> {prefixDataPost(course.description)}</strong>
+                                                </a>
+                                            </h4>
+                                        </div>
+
+                                        <div className="col-md-1">
+
                                             <div className="dropdown"
                                                  style={{right: "10px"}}>
                                                 <a className="dropdown-toggle btn-more-dropdown" type="button"
                                                    data-toggle="dropdown">
                                                     <i className="material-icons">more_horiz</i>
                                                 </a>
-                                                <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu" >
+                                                <ul className="dropdown-menu dropdown-menu-top hover-dropdown-menu">
                                                     <li className="more-dropdown-item">
                                                         <a onClick={() => {
                                                             event.stopPropagation(event);
@@ -108,7 +131,8 @@ class ListCourse extends React.Component {
                                                                 e.stopPropagation(event);
                                                                 return this.props.duplicateCourse(course);
                                                             }}>
-                                                                <i className="material-icons">control_point_duplicate</i> Nhân đôi
+                                                                <i className="material-icons">control_point_duplicate</i>
+                                                                Nhân đôi
                                                             </a>
                                                         </li>
                                                     }
@@ -117,39 +141,30 @@ class ListCourse extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div><label>{course.duration + " buổi"} </label></div>
-                                    <div><p>{course.description}</p></div>
-                                </div>
 
 
+                                    <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
+                                        <div style={{display: "flex", alignItems: "center"}}>
+                                            {course.icon_url ?
+                                                <Avatar size={40} url={course.icon_url}
+                                                        style={{borderRadius: 6}}/> : null}
+                                            <div>
+                                                <strong>{course.name}</strong><br/>
+                                                <p className="category"
+                                                   style={{fontSize: 12}}>{course.duration + " buổi"}</p>
+                                            </div>
+                                        </div>
 
+                                        <div style={{display: "flex", alignItems: "center", color: "#76b031"}}>
+                                            {helper.dotNumber(course.price)}
+                                        </div>
 
-
-                                <div >
-                                    <div style={{
-                                        height: 1,
-                                        marginTop: 10,
-                                        marginBottom: 10,
-                                        background:  course.color || "#B5B5B5",
-                                        borderBottom: '1px',
-                                    }}/>
-                                    <div style={{
-                                        color: course.color,
-                                        fontSize: 13,
-                                        display : "flex",
-                                        alignItems : "center",
-                                        flexDirection: "row-reverse",
-                                        height : 30,
-                                        bottom: 10,
-                                        margin : 10,
-                                    }}>
-                                        {helper.dotNumber(course.price)}
                                     </div>
+
+
                                 </div>
-
-                            </a>
+                            </div>
                         </div>
-
 
                     );
                 })}
