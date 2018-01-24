@@ -12,9 +12,6 @@ class AddForeignKeySurvey extends Migration
      */
     public function up()
     {
-        Schema::table("surveys", function (Blueprint $table) {
-            $table->softDeletes();
-        });
         Schema::table("user_lesson_survey", function (Blueprint $table) {
             $table->foreign("survey_id")->references("id")->on("surveys");
             $table->foreign("user_id")->references("id")->on("users");
