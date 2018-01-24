@@ -43,7 +43,11 @@ class ListPrintOrder extends React.Component {
                         return(
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td><a className="text-name-student-register"> {order.command_code}</a></td>
+                                <td>{order.command_code ?
+                                    <a className="text-name-student-register"> {order.command_code}</a>
+                                    :
+                                    "Chưa có"
+                                }</td>
                                 <td>{order.company.name}</td>
                                 <td>{order.good.name}</td>
                                 <td>{order.quantity}</td>
