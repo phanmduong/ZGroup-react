@@ -20,13 +20,13 @@ class ResourceApiController extends ApiController
     public function lesson($lesson_id)
     {
         $lesson = Lesson::find($lesson_id);
+
         return $this->respond([
             "name" => $lesson->name,
             "detail" => $lesson->detail_content,
             "order" => $lesson->order,
             "id" => $lesson->id,
             "image_url" => $lesson->image_url,
-            "audio_url" => $lesson->audio_url,
         ]);
     }
 

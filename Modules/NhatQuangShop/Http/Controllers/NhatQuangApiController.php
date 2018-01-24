@@ -10,6 +10,7 @@ use App\Good;
 use App\GoodCategory;
 use App\Http\Controllers\PublicApiController;
 use App\Province;
+use App\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Good\Entities\GoodProperty;
@@ -382,5 +383,11 @@ class NhatQuangApiController extends PublicApiController
 
         $goods_str = json_encode($goods);
         $request->session()->put('goods', $goods_str);
+    }
+    public function getCurrencies(){
+        $currencies = Currency::get();
+        return [
+            'currencies' => $currencies,
+        ];
     }
 }

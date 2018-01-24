@@ -1726,15 +1726,9 @@ a.more-products {
     padding: 30px 30px 20px;
     font-size: 13px;
     color: #999;
-    height: 650px;
     background-color: #fff;
-    z-index: 9999
-}
-
-@media screen and (min-width: 760px) {
-    #footer {
-        height: 300px
-    }
+    z-index: 9999;
+    height: auto;
 }
 
 #footer ul {
@@ -2981,4 +2975,8 @@ body.iosBugFixCaret.modal-open {
 
 div#app {
     min-height: 60vh;
+}
+
+#vue-nav {
+    display: none;
 }

@@ -207,7 +207,6 @@ class OrderController extends ManageApiController
             }
         }
 
-        //$response = $this->orderService->changeOrderStatus($order_id, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
@@ -351,8 +350,9 @@ class OrderController extends ManageApiController
         $order = new Order;
         $order->note = $request->note;
         $order->code = $request->code;
+        $order->type = "order";
         $order->staff_id = $this->user->id;
-        $order->status = 'completed';
+        $order->status = 'completed_order';
 
         if ($request->phone != null || $request->email != null) {
             $user = User::where('phone', $request->phone)->first();
