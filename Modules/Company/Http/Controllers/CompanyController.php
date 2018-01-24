@@ -181,8 +181,8 @@ class CompanyController extends ManageApiController
     public function getAllPayment(Request $request){
         $keyword = $request->search;
         $limit = $request->limit ? $request->limit : 20;
-        $payments = Payment::join(DB::raw('users as payers'),'payments.payer_id','=','payers.id')
-         ->join(DB::raw('users as receivers'),'payments.receiver_id','=','receivers.id')
+        $payments = Payment::join(DB::raw('companies as payers'),'payments.payer_id','=','payers.id')
+         ->join(DB::raw('companies as receivers'),'payments.receiver_id','=','receivers.id')
             ->where(function($query) use ($keyword){
                 $query->where('payers.name', 'like', '%' . $keyword . '%')->orWhere('receivers.name', 'like', '%' . $keyword . '%');
             })->
