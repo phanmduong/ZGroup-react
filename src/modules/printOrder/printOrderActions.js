@@ -19,3 +19,13 @@ export function loadPrintOrders(page=1, search='') {
             });
     };
 }
+
+export function updateFormData(newdata){
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_FORM_DATA_PRINT_ORDER,
+            newdata: newdata,
+        });
+
+    };
+}

@@ -46,7 +46,7 @@ class TaskDeadlineModalContainer extends React.Component {
                         </span>
                     </button>
                     <FormInputDate
-                        value={this.props.task.deadline || ""}
+                        ormInputDatevalue={this.props.task.deadline || ""}
                         name="deadline"
                         id="deadline"
                         label="Hạn chót"

@@ -25,6 +25,11 @@ export default function printOrderReducer(state = initialState.printOrder, actio
                 ...state,
                 isLoading: false,
             };
+        case types.UPDATE_FORM_DATA_PRINT_ORDER:
+            return {
+                ...state,
+                data: action.newdata,
+            };
         default:
             return state;
     }

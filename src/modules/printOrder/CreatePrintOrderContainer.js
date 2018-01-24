@@ -7,11 +7,13 @@ import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import ReactSelect from 'react-select';
 import FormInputText from "../../components/common/FormInputText";
+import FormInputDate from "../../components/common/FormInputDate";
 
 class CreatePrintOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {};
+        this.updateFormData = this.updateFormData.bind(this);
     }
 
     componentWillMount() {
@@ -23,16 +25,74 @@ class CreatePrintOrderContainer extends React.Component {
 
     }
 
+    updateFormData(e){
+        let name = e.target.name;
+        let value = e.target.value;
+        let attribute = name.split('-');
+        let newdata = {...this.props.data};
+        if(attribute[1]) {
+            let newAttribute = {...this.props.data[attribute[0]]};
+            newAttribute[attribute[1]] = value;
+            newdata = {
+                ...this.props.data,
+                [attribute[0]]: newAttribute,
+            };
+        }else {
+            newdata = {
+                ...this.props.data,
+                [attribute[0]]: value,
+            };
+        }
+        this.props.printOrderActions.updateFormData(newdata);
+    }
+
     render() {
 
 
-        let {companies, goods, data} = this.props;
+        let {companies, goods, data, isLoading} = this.props;
+        let total_price =
+            data.core1.number * data.core1.price
+            +
+            data.core2.number * data.core2.price
+            +
+            data.cover1.number * data.cover1.price
+            +
+            data.cover2.number * data.cover2.price
+            +
+            data.spare_part1.number * data.spare_part1.price
+            +
+            data.spare_part2.number * data.spare_part2.price
+            +
+            data.packing1.price*1 + data.packing2.price*1
+            +
+            data.other.price*1
+        ;
+        let VAT_price = Math.round(1.1 * total_price).toFixed(2);
+        console.log(
+            total_price,
+            VAT_price,
+            data.core1.number,
+            data.core1.price,
+            data.core2.number,
+            data.core2.price,
+            data.cover1.number,
+            data.cover1.price,
+            data.cover2.number,
+            data.cover2.price,
+            data.spare_part1.number,
+            data.spare_part1.price,
+            data.spare_part2.number,
+            data.spare_part2.price,
+            data.packing1.price ,
+            data.packing2.price,
+            data.other.price
+            )
         return (
             <div className="content">
                 <div className="container-fluid">
                     {
 
-                        (this.props.isLoading)
+                        (isLoading)
 
                             ?
                             <Loading/> :
@@ -48,53 +108,50 @@ class CreatePrintOrderContainer extends React.Component {
                                             <div className="card-content">
                                                 <h4 className="card-title">Chất liệu</h4>
                                                 <div className="table-responsive">
-                                                    <table id="datatables" className="table table-no-bordered" cellSpacing="0" width="100%" style={{width: "100%"}}>
+                                                    <table id="datatables" className="table table-no-bordered"
+                                                           cellSpacing="0" width="100%" style={{width: "100%"}}>
                                                         <tbody>
                                                         <tr>
                                                             <td width="15%">Ruột 1</td>
                                                             <td><FormInputText
+                                                                minValue="0"
                                                                 label="Số trang"
-                                                                type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="core1-number"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.core1.number || ""}
 
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
                                                                 type="text"
-                                                                name="material"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="core1-material"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.core1.material || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Màu"
                                                                 type="text"
-                                                                name="color"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="core1-color"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.core1.color || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
-                                                                type="text"
-                                                                name="size"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="core1-size"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.core1.size || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
-                                                                type="text"
-                                                                name="price"
-                                                                updateFormData={() => {
-                                                                }}
-                                                                value={data.core1.prize || ""}
+                                                                type="number" minValue="0"
+                                                                name="core1-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.core1.price || ""}
 
                                                             /></td>
                                                         </tr>
@@ -102,47 +159,42 @@ class CreatePrintOrderContainer extends React.Component {
                                                             <td>Ruột 2</td>
                                                             <td><FormInputText
                                                                 label="Số trang"
-                                                                type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="core2-number"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.core2.number || ""}
 
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
                                                                 type="text"
-                                                                name="material"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="core2-material"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.core2.material || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Màu"
                                                                 type="text"
-                                                                name="color"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="core2-color"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.core2.color || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
-                                                                type="text"
-                                                                name="size"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="core2-size"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.core2.size || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
-                                                                type="text"
-                                                                name="price"
-                                                                updateFormData={() => {
-                                                                }}
-                                                                value={data.core2.prize || ""}
+                                                                type="number" minValue="0"
+                                                                name="core2-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.core2.price || ""}
 
                                                             /></td>
                                                         </tr>
@@ -150,47 +202,42 @@ class CreatePrintOrderContainer extends React.Component {
                                                             <td>Bìa 1</td>
                                                             <td><FormInputText
                                                                 label="Số trang"
-                                                                type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="cover1-number"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover1.number || ""}
 
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
                                                                 type="text"
-                                                                name="material"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="cover1-material"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover1.material || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Màu"
                                                                 type="text"
-                                                                name="color"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="cover1-color"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover1.color || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
-                                                                type="text"
-                                                                name="size"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="cover1-size"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover1.size || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
-                                                                type="text"
-                                                                name="price"
-                                                                updateFormData={() => {
-                                                                }}
-                                                                value={data.cover1.prize || ""}
+                                                                type="number" minValue="0"
+                                                                name="cover1-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.cover1.price || ""}
 
                                                             /></td>
                                                         </tr>
@@ -198,47 +245,42 @@ class CreatePrintOrderContainer extends React.Component {
                                                             <td>Bìa 2</td>
                                                             <td><FormInputText
                                                                 label="Số trang"
-                                                                type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="cover2-number"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover2.number || ""}
 
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
                                                                 type="text"
-                                                                name="material"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="cover2-material"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover2.material || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Màu"
                                                                 type="text"
-                                                                name="color"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="cover2-color"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover2.color || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
-                                                                type="text"
-                                                                name="size"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="cover2-size"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover2.size || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
-                                                                type="text"
-                                                                name="price"
-                                                                updateFormData={() => {
-                                                                }}
-                                                                value={data.cover2.prize || ""}
+                                                                type="number" minValue="0"
+                                                                name="cover2-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.cover2.price || ""}
 
                                                             /></td>
                                                         </tr>
@@ -247,55 +289,49 @@ class CreatePrintOrderContainer extends React.Component {
                                                             <td><FormInputText
                                                                 label="Tên"
                                                                 type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="spare_part1-name"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.name || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Số lượng"
-                                                                type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="spare_part1-number"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.number || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Chất liệu"
                                                                 type="text"
-                                                                name="material"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="spare_part1-material"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.material || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Gia công"
                                                                 type="text"
-                                                                name="color"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="spare_part1-made_by"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.made_by || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
-                                                                type="text"
-                                                                name="size"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="spare_part1-size"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.size || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
-                                                                type="text"
-                                                                name="price"
-                                                                updateFormData={() => {
-                                                                }}
-                                                                value={data.spare_part1.prize || ""}
+                                                                type="number" minValue="0"
+                                                                name="spare_part1-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.spare_part1.price || ""}
 
                                                             /></td>
                                                         </tr>
@@ -304,98 +340,134 @@ class CreatePrintOrderContainer extends React.Component {
                                                             <td><FormInputText
                                                                 label="Tên"
                                                                 type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="spare_part2-name"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.name || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Số lượng"
-                                                                type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="spare_part2-number"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.number || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Chất liệu"
                                                                 type="text"
-                                                                name="material"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="spare_part2-material"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.material || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Gia công"
                                                                 type="text"
-                                                                name="color"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="spare_part2-made_byádads"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.made_by || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
-                                                                type="text"
-                                                                name="size"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                type="number" minValue="0"
+                                                                name="spare_part2-size"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.size || ""}
 
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
-                                                                type="text"
-                                                                name="price"
-                                                                updateFormData={() => {
-                                                                }}
-                                                                value={data.spare_part2.prize || ""}
+                                                                type="number" minValue="0"
+                                                                name="spare_part2-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.spare_part2.price || ""}
 
                                                             /></td>
                                                         </tr>
                                                         <tr>
-                                                            <td colSpan={1}>Đóng gói-<wbr/>Gia công<wbr/>1</td>
+                                                            <td colSpan={1}>Đóng gói-
+                                                                <wbr/>
+                                                                Gia công
+                                                                <wbr/>
+                                                                1
+                                                            </td>
                                                             <td colSpan={3}><FormInputText
                                                                 label="Tên"
                                                                 type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="packing1-name"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.packing1.name || ""}
 
                                                             /></td>
                                                             <td colSpan={3}><FormInputText
                                                                 label="Giá"
-                                                                type="text"
-                                                                name="price"
-                                                                updateFormData={() => {
-                                                                }}
-                                                                value={data.packing2.prize || ""}
+                                                                type="number" minValue="0"
+                                                                name="packing1-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.packing1.price || ""}
 
                                                             /></td>
                                                         </tr>
                                                         <tr>
-                                                            <td colSpan={1}>Đóng gói-<wbr/>Gia công<wbr/>2</td>
+                                                            <td colSpan={1}>Đóng gói-
+                                                                <wbr/>
+                                                                Gia công
+                                                                <wbr/>
+                                                                2
+                                                            </td>
                                                             <td colSpan={3}><FormInputText
                                                                 label="Tên"
                                                                 type="text"
-                                                                name="pageNum"
-                                                                updateFormData={() => {
-                                                                }}
+                                                                name="packing2-name"
+                                                                updateFormData={this.updateFormData}
                                                                 value={data.packing2.name || ""}
 
                                                             /></td>
                                                             <td colSpan={3}><FormInputText
                                                                 label="Giá"
-                                                                type="text"
-                                                                name="price"
-                                                                updateFormData={() => {
-                                                                }}
-                                                                value={data.packing2.prize || ""}
+                                                                type="number" minValue="0"
+                                                                name="packing2-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.packing2.price || ""}
 
+                                                            /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colSpan={1}>Khác</td>
+                                                            <td colSpan={3}><FormInputText
+                                                                label="Tên"
+                                                                type="text"
+                                                                name="other-name"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.other.name || ""}
+
+                                                            /></td>
+                                                            <td colSpan={3}><FormInputText
+                                                                label="Giá"
+                                                                type="number" minValue="0"
+                                                                name="other-price"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.other.price || ""}
+
+                                                            /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colSpan={1}>Thời gian</td>
+                                                            <td colSpan={3}><FormInputDate
+                                                                label="Ngày đặt in"
+                                                                name="order_date"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.order_date || ""}
+                                                                id="form-order-date"
+                                                            /></td>
+                                                            <td colSpan={3}><FormInputDate
+                                                                label="Ngày nhận hàng"
+                                                                name="receive_date"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.receive_date || ""}
+                                                                id="form-receive-date"
                                                             /></td>
                                                         </tr>
                                                         </tbody>
@@ -418,7 +490,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                     <div className="col-md-12">
                                                         <label>Nhà cung cấp</label>
                                                         <ReactSelect
-                                                            disabled={this.props.isLoading}
+                                                            disabled={isLoading}
                                                             options={companies}
                                                             onChange={() => {
                                                             }}
@@ -429,7 +501,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                     <div className="col-md-12">
                                                         <label>Sản phẩm</label>
                                                         <ReactSelect
-                                                            disabled={this.props.isLoading}
+                                                            disabled={isLoading}
                                                             options={goods}
                                                             onChange={() => {
                                                             }}
@@ -437,7 +509,73 @@ class CreatePrintOrderContainer extends React.Component {
                                                             name="good"
                                                             defaultMessage="Chọn sản phẩm"
                                                         /></div>
+                                                    <div className="col-md-12">
+                                                        <label className="control-label">Ghi chú</label>
+                                                        <div className="comment-input-wrapper">
+                                                                <textarea
+                                                                    id="textarea-card-comment"
+                                                                    name="note"
+                                                                    onChange={this.updateFormData}
+                                                                    value={data.note}
+                                                                    onKeyUp={()=>{}}
+                                                                    placeholder="Tự đánh giá"
+                                                                    className="comment-input"
+                                                                    required
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        margin: "10px",
+                                                                        height: "150px",
+                                                                    }}
+                                                                />
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
+
+                                        </div>
+                                        <div className="card">
+                                            <div className="card-header card-header-icon" data-background-color="rose">
+                                                <i className="material-icons">contacts</i>
+                                            </div>
+
+                                            <div className="card-content">
+                                                <h4 className="card-title">Kết quả</h4>
+                                                <div className="row">
+                                                    <div className="col-md-12">
+                                                        <FormInputText
+                                                            label="Tên sản phẩm"
+                                                            type="text"
+                                                            name="name"
+                                                            updateFormData={() => {
+                                                            }}
+                                                            value={data.good.name || ""}
+                                                            disabled={true}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-12">
+                                                        <FormInputText
+                                                            label="Giá thành"
+                                                            type="number" minValue="0"
+                                                            name="totalprice"
+                                                            updateFormData={() => {
+                                                            }}
+                                                            value={total_price || ""}
+                                                            disabled={true}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-12">
+                                                        <FormInputText
+                                                            label="Giá sau VAT(10%)"
+                                                            type="number" minValue="0"
+                                                            name="vatprice"
+                                                            updateFormData={() => {
+                                                            }}
+                                                            value={VAT_price || ""}
+                                                            disabled={true}
+                                                        />
+                                                    </div>
+                                                </div>
+
                                             </div>
 
                                         </div>
