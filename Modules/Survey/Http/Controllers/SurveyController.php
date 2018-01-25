@@ -221,9 +221,16 @@ class SurveyController extends ManageApiController
         $survey->user_id = $this->user->id;
         $survey->is_final = $request->is_final;
         $survey->description = $request->description;
+        $survey->active = $request->active;
         $survey->target = $request->target;
-        $survey->image_name = uploadFileToS3($request, "image_url", 1000, $survey->image_name);
-        $survey->image_url = config("app.s3_url") . $survey->image_name;
+        if ($request->image) {
+            $survey->image_name = uploadFileToS3($request, "image", 1000, $survey->image_name);
+            $survey->image_url = config("app.s3_url") . $survey->image_name;
+        } else {
+            if (!$survey->id)
+                $survey->image_url = emptyImageUrl();
+        }
+
         $survey->save();
         if ($request->questions) {
             $questions = json_decode($request->questions);
@@ -247,6 +254,7 @@ class SurveyController extends ManageApiController
                 }
             }
         }
+        return $survey;
     }
 
     public function getSurveys(Request $request)
@@ -284,9 +292,8 @@ class SurveyController extends ManageApiController
 
     public function createSurvey(Request $request)
     {
-        $survey = new Survey;
+        $survey = new Survey();
         //validate
-
         $survey = $this->assignSurveyInfo($survey, $request);
 
         return $this->respondSuccessWithStatus([
@@ -294,18 +301,18 @@ class SurveyController extends ManageApiController
         ]);
     }
 
+
     public function editSurvey($surveyId, Request $request)
     {
         $survey = Survey::find($surveyId);
         if ($survey == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại đề'
-            ]);
+            return $this->respondErrorWithStatus('Không tồn tại đề');
         //validate
 
-        $this->assignSurveyInfo($survey, $request);
+        $survey = $this->assignSurveyInfo($survey, $request);
+
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'survey' => $survey->shortData()
         ]);
     }
 
