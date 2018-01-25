@@ -97,19 +97,19 @@ class SurveyItem extends React.Component {
                             <div>
                                 <OverlayTrigger placement="top" overlay={UserSummaryTooltip}>
                                     <a onClick={this.summarySurvey} type="button" style={{color: "#757575"}}>
-                                        <i className="material-icons">insert_chart</i>
+                                        <i className="material-icons" style={{fontSize: 20}}>insert_chart</i>
                                     </a>
                                 </OverlayTrigger>
 
                                 <OverlayTrigger placement="top" overlay={ExportTooltip}>
                                     <a onClick={this.exportSurvey} type="button" style={{color: "#757575"}}>
-                                        <i className="material-icons">archive</i>
+                                        <i className="material-icons" style={{fontSize: 20}}>archive</i>
                                     </a>
                                 </OverlayTrigger>
 
                                 <OverlayTrigger placement="top" overlay={toolTip}>
                                     <a onClick={this.editSurvey} type="button" style={{color: "#757575"}}>
-                                        <i className="material-icons">edit</i>
+                                        <i className="material-icons" style={{fontSize: 20}}>edit</i>
                                     </a>
                                 </OverlayTrigger>
                             </div>
