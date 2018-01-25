@@ -24,8 +24,6 @@ class ListPost extends React.Component {
                 <div className="row">
                     {this.props.posts && this.props.posts.map((post) => {
                         return (
-
-
                             <div className="col-sm-6 col-md-6 col-lg-4" id="card-email-template" key={post.id}>
                                 <div className="card card-chart">
                                     <div className="card-header" data-background-color="white" style={{
@@ -64,8 +62,6 @@ class ListPost extends React.Component {
 
 
 
-
-
                                     <div className="card-content">
                                         <div className="card-action" style={{height:73}}>
                                             <h4 className="card-title">
@@ -78,12 +74,6 @@ class ListPost extends React.Component {
                                                 disabledEdit
                                             />
                                         </div>
-
-
-
-
-
-
 
                                         <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
                                             <div style={{display: "flex", alignItems: "center"}}>
@@ -105,10 +95,6 @@ class ListPost extends React.Component {
                                                 />
                                             </div>
                                         </div>
-
-
-
-
 
                                     </div>
                                 </div>

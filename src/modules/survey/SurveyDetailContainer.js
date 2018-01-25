@@ -9,6 +9,7 @@ import Dragula from "react-dragula";
 import {QUESTION_TYPE} from "../../constants/constants";
 import {confirm} from "../../helpers/helper";
 import SurveyDisplayModalContainer from "./SurveyDisplayModalContainer";
+import AddSurveyModalContainer from "./AddSurveyModalContainer";
 
 class SurveyDetailContainer extends React.Component {
     constructor(props, context) {
@@ -20,6 +21,7 @@ class SurveyDetailContainer extends React.Component {
         this.deleteQuestion = this.deleteQuestion.bind(this);
         this.duplicateQuestion = this.duplicateQuestion.bind(this);
         this.showDisplayModal = this.showDisplayModal.bind(this);
+        this.editSurvey = this.editSurvey.bind(this);
     }
 
     componentWillMount() {
@@ -56,6 +58,11 @@ class SurveyDetailContainer extends React.Component {
             this.props.surveyActions.deleteQuestion(question);
         });
 
+    }
+
+    editSurvey() {
+        this.props.surveyActions.toggleEditSurveyModal(true);
+        this.props.surveyActions.updateSurveyFormData(this.props.survey);
     }
 
     initDragula() {
@@ -98,17 +105,22 @@ class SurveyDetailContainer extends React.Component {
         return (
             <div className="container-fluid">
                 <EditQuestionModalContainer/>
+                <AddSurveyModalContainer/>
                 <SurveyDisplayModalContainer/>
                 <div className="row">
                     {
                         isLoading ? <Loading/> : (
                             <div className="col-md-12">
                                 <h3 className="title">{survey.name}</h3>
+                                <p>Mô tả: {survey.description}</p>
                                 <button className="btn btn-rose" onClick={() => this.showEditQuestionModal({})}>
                                     Thêm câu hỏi
                                 </button>
                                 <button className="btn btn-info" onClick={this.showDisplayModal}>
                                     Cài đặt hiển thị
+                                </button>
+                                <button className="btn btn-success" onClick={this.editSurvey}>
+                                    Chỉnh sửa
                                 </button>
                                 <div className="drake">
                                     {

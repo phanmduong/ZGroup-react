@@ -1,4 +1,8 @@
 export default {
+    finance: {
+        bankTransfers: [],
+        isLoading: false
+    },
     currency: {
         currencies: [],
         isLoading: false,
@@ -1586,6 +1590,7 @@ export default {
         isLoading: false,
         survey: {},
         showEditQuestionModal: false,
+        showEditSurveyModal: false,
         question: {},
         paginator: {},
         showDisplaySettingModal: false,

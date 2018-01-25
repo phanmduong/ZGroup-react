@@ -943,7 +943,6 @@ export function saveWorkBookToExcel(wb, filename) {
     }
 }
 
-
 export function superSortCategories(categories) {
     categories.reverse();
     let result = [];
