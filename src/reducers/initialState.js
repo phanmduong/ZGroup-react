@@ -1722,7 +1722,7 @@ export default {
             staff: {id: 0, name: ""},
             good: {id: 0, name: ""},
             quantity: 1,
-            command_code: "DATIN1234556",
+            command_code: "",
             core1: {
                 number: 1,
                 material: "",
@@ -1780,9 +1780,9 @@ export default {
                 price: 1,
             },
             price: 1,
-            note: "note",
-            order_date: "2012-01-17",
-            receive_date: "2012-01-17",
+            note: "",
+            order_date: "",
+            receive_date: "",
         },
     }
 

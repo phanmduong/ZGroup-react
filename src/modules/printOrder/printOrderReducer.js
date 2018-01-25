@@ -5,6 +5,7 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function printOrderReducer(state = initialState.printOrder, action) {
+    console.log(action.type, state.data);
     switch (action.type) {
         case types.BEGIN_LOAD_PRINT_ORDERS:
             return {
@@ -25,12 +26,6 @@ export default function printOrderReducer(state = initialState.printOrder, actio
                 ...state,
                 isLoading: false,
             };
-        case types.UPDATE_FORM_DATA_PRINT_ORDER:
-            return {
-                ...state,
-                data: action.newdata,
-            };
-
         case types.BEGIN_LOAD_ALL_GOODS_PRINT_ORDER:
             return {
                 ...state,

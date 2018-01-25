@@ -8,11 +8,14 @@ import Loading from "../../components/common/Loading";
 import ReactSelect from 'react-select';
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDate from "../../components/common/FormInputDate";
+import moment from "moment/moment";
 
 class CreatePrintOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {};
+        this.state = {
+            data: {...defaultData},
+        };
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGood = this.changeGood.bind(this);
         this.changeCompany = this.changeCompany.bind(this);
@@ -20,9 +23,13 @@ class CreatePrintOrderContainer extends React.Component {
 
     componentWillMount() {
 
+        //this.props.printOrderActions.resetData();
         this.props.printOrderActions.loadAllGoods();
         this.props.printOrderActions.loadAllCompanies();
-
+        this.setState({data: defaultData});
+        if(this.props.params.printOrderId){
+            console.log("id", this.props.params.printOrderId);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -33,35 +40,39 @@ class CreatePrintOrderContainer extends React.Component {
         let name = e.target.name;
         let value = e.target.value;
         let attribute = name.split('-');
-        let newdata = {...this.props.data};
+        let newdata = {...this.state.data};
         if(attribute[1]) {
-            let newAttribute = {...this.props.data[attribute[0]]};
+            let newAttribute = {...this.state.data[attribute[0]]};
             newAttribute[attribute[1]] = value;
             newdata = {
-                ...this.props.data,
+                ...this.state.data,
                 [attribute[0]]: newAttribute,
             };
         }else {
             newdata = {
-                ...this.props.data,
+                ...this.state.data,
                 [attribute[0]]: value,
             };
         }
-        this.props.printOrderActions.updateFormData(newdata);
+        //this.props.printOrderActions.updateFormData(newdata);
+        this.setState({data: newdata});
     }
 
     changeGood(e){
-        let newdata ={...this.props.data, good: e};
-        this.props.printOrderActions.updateFormData(newdata);
+        let newdata ={...this.state.data, good: e};
+        //this.props.printOrderActions.updateFormData(newdata);
+        this.setState({data: newdata});
     }
 
     changeCompany(e){
-        let newdata ={...this.props.data, company: e};
-        this.props.printOrderActions.updateFormData(newdata);
+        let newdata ={...this.state.data, company: e};
+        //this.props.printOrderActions.updateFormData(newdata);
+        this.setState({data: newdata});
     }
 
     render() {
-        let {companies, goods, data, isLoading} = this.props;
+        let {companies, goods, isLoading} = this.props;
+        let {data} = this.state;
         let total_price =
             data.core1.number * data.core1.price
             +
@@ -448,23 +459,29 @@ class CreatePrintOrderContainer extends React.Component {
 
                                                             /></td>
                                                         </tr>
-                                                        <tr>
-                                                            <td colSpan={1}>Thời gian</td>
-                                                            <td colSpan={3}><FormInputDate
-                                                                label="Ngày đặt in"
-                                                                name="order_date"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.order_date || ""}
-                                                                id="form-order-date"
-                                                            /></td>
-                                                            <td colSpan={3}><FormInputDate
-                                                                label="Ngày nhận hàng"
-                                                                name="receive_date"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.receive_date || ""}
-                                                                id="form-receive-date"
-                                                            /></td>
-                                                        </tr>
+                                                        {
+                                                            !this.props.isLoading &&
+
+                                                            <tr>
+                                                                <td colSpan={1}>Thời gian</td>
+                                                                <td colSpan={3}><FormInputDate
+                                                                    label="Ngày đặt in"
+                                                                    name="order_date"
+                                                                    updateFormData={this.updateFormData}
+                                                                    value={data.order_date || ""}
+                                                                    id="form-order-date"
+                                                                    minDate={moment()}
+                                                                /></td>
+                                                                <td colSpan={3}><FormInputDate
+                                                                    label="Ngày nhận hàng"
+                                                                    name="receive_date"
+                                                                    updateFormData={this.updateFormData}
+                                                                    value={data.receive_date || ""}
+                                                                    id="form-receive-date"
+                                                                    minDate={moment()}
+                                                                /></td>
+                                                            </tr>
+                                                        }
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -539,8 +556,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Tên sản phẩm"
                                                             type="text"
                                                             name="name"
-                                                            updateFormData={() => {
-                                                            }}
+                                                            updateFormData={() => {}}
                                                             value={data.good.name || ""}
                                                             disabled={true}
                                                         />
@@ -550,8 +566,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Mã sản phẩm"
                                                             type="text"
                                                             name="code"
-                                                            updateFormData={() => {
-                                                            }}
+                                                            updateFormData={() => {}}
                                                             value={data.good.code || ""}
                                                             disabled={true}
                                                         />
@@ -561,8 +576,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Giá thành"
                                                             type="number" minValue="0"
                                                             name="totalprice"
-                                                            updateFormData={() => {
-                                                            }}
+                                                            updateFormData={() => {}}
                                                             value={total_price || ""}
                                                             disabled={true}
                                                         />
@@ -572,8 +586,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Giá sau VAT(10%)"
                                                             type="number" minValue="0"
                                                             name="vatprice"
-                                                            updateFormData={() => {
-                                                            }}
+                                                            updateFormData={() => {}}
                                                             value={VAT_price || ""}
                                                             disabled={true}
                                                         />
@@ -622,3 +635,72 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePrintOrderContainer);
+
+
+let defaultData = {
+    company: {id: 0, name: ""},
+    staff: {id: 0, name: ""},
+    good: {id: 0, name: ""},
+    quantity: 1,
+    command_code: "",
+    core1: {
+        number: 1,
+        material: "",
+        color: "",
+        size: 1,
+        price: 1,
+    },
+    core2: {
+        number: 1,
+        material: "",
+        color: "",
+        size: 1,
+        price: 1,
+    },
+    cover1: {
+        number: 1,
+        material: "",
+        color: "",
+        size: 1,
+        price: 1,
+    },
+    cover2: {
+        number: 1,
+        material: "",
+        color: "",
+        size: 1,
+        price: 1,
+    },
+    spare_part1: {
+        name: "",
+        number: 1,
+        material: "",
+        size: 1,
+        price: 1,
+        made_by: "",
+    },
+    spare_part2: {
+        name: "",
+        number: 1,
+        material: "",
+        size: 1,
+        price: 1,
+        made_by: "",
+    },
+    packing1: {
+        name: "",
+        price: 1,
+    },
+    packing2: {
+        name: "",
+        price: 1,
+    },
+    other: {
+        name: "",
+        price: 1,
+    },
+    price: 1,
+    note: "",
+    order_date: "",
+    receive_date: "",
+};
