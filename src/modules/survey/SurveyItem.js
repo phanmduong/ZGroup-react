@@ -10,6 +10,7 @@ class SurveyItem extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.editSurvey = this.editSurvey.bind(this);
+        this.exportSurvey = this.exportSurvey.bind(this);
     }
 
     editSurvey(event) {
@@ -18,8 +19,17 @@ class SurveyItem extends React.Component {
         this.props.editSurvey(this.props.survey);
     }
 
+    exportSurvey() {
+        this.props.exportSurvey();
+    }
+
     render() {
         const {survey} = this.props;
+        const ExportTooltip = (
+            <Tooltip id="tooltip">
+                Download kết quả survey
+            </Tooltip>
+        );
         const toolTip = (
             <Tooltip id="tooltip">
                 Sửa Survey
@@ -74,13 +84,19 @@ class SurveyItem extends React.Component {
                                 </OverlayTrigger>
                             </h4>
 
+                            <div>
+                                <OverlayTrigger placement="top" overlay={ExportTooltip}>
+                                    <a onClick={this.exportSurvey} type="button" style={{color: "#757575"}}>
+                                        <i className="material-icons">archive</i>
+                                    </a>
+                                </OverlayTrigger>
 
-                            <OverlayTrigger placement="top" overlay={toolTip}>
-                                <a onClick={this.editSurvey} type="button" style={{color: "#757575"}}>
-                                    <i className="material-icons">edit</i>
-                                </a>
-                            </OverlayTrigger>
-
+                                <OverlayTrigger placement="top" overlay={toolTip}>
+                                    <a onClick={this.editSurvey} type="button" style={{color: "#757575"}}>
+                                        <i className="material-icons">edit</i>
+                                    </a>
+                                </OverlayTrigger>
+                            </div>
                         </div>
                         <div style={{
                             display: "flex",
@@ -139,6 +155,7 @@ class SurveyItem extends React.Component {
 
 SurveyItem.propTypes = {
     handleSwitch: PropTypes.func.isRequired,
+    exportSurvey: PropTypes.func.isRequired,
     showSurveyDisplayModal: PropTypes.func.isRequired,
     survey: PropTypes.object.isRequired,
     editSurvey: PropTypes.func.isRequired
