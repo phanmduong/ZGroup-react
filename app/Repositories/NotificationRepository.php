@@ -110,7 +110,7 @@ class NotificationRepository
         $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
         $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
 
-        $notification->save();
+//        $notification->save();
         $this->sendNotification($notification);
     }
 
