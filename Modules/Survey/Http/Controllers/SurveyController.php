@@ -36,8 +36,34 @@ class SurveyController extends ManageApiController
         ]);
     }
 
-    public function surveyResult(){
+    public function surveyResult($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Survey không tồn tại");
+        }
+        $result = [];
 
+        $questions = $survey->questions()->orderBy("order")->get()->map(function ($question) {
+            return $question->content;
+        });
+
+        $result[] = $questions;
+
+        $userLessonSurveys = $survey->userLessonSurveys;
+        foreach ($userLessonSurveys as $userLessonSurvey) {
+            $result[] = $userLessonSurvey->userLessonSurveyQuestions()
+                ->join("questions", "quetions.id", "=", "user_lesson_survey_question.question_id")
+                ->order("questions.order")
+                ->select(DB::raw("questions.order as order, user_lesson_survey_question.answer as answer, user_lesson_survey_question.answer_id as answer_id"))
+                ->get()
+                ->map(function ($userLessonSurveyQuestion) {
+                    return $userLessonSurveyQuestion->answer;
+                })->toArray();
+        }
+        return $this->respondSuccessWithStatus([
+            "result" => $result
+        ]);
     }
 
     public function endUserLessonSurvey($userLessonSurveyId, Request $request)
