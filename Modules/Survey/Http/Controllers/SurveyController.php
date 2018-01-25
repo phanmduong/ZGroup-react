@@ -42,25 +42,43 @@ class SurveyController extends ManageApiController
         if ($survey == null) {
             return $this->respondErrorWithStatus("Survey không tồn tại");
         }
-        $result = [];
+        $result = ["Tên", "Email", "Số điện thoại"];
 
         $questions = $survey->questions()->orderBy("order")->get()->map(function ($question) {
             return $question->content;
         });
 
-        $result[] = $questions;
+        $result = [array_merge($result, $questions->toArray())];
+
+
+        $numQuestions = $questions->count();
 
         $userLessonSurveys = $survey->userLessonSurveys;
         foreach ($userLessonSurveys as $userLessonSurvey) {
-            $result[] = $userLessonSurvey->userLessonSurveyQuestions()
-                ->join("questions", "quetions.id", "=", "user_lesson_survey_question.question_id")
-                ->order("questions.order")
-                ->select(DB::raw("questions.order as order, user_lesson_survey_question.answer as answer, user_lesson_survey_question.answer_id as answer_id"))
+            $data = [];
+            $userLessonSurvey->userLessonSurveyQuestions()
+                ->join("questions", "questions.id", "=", "user_lesson_survey_question.question_id")
+                ->orderBy("order")
+                ->select(DB::raw("questions.order as `order`, user_lesson_survey_question.answer as answer, user_lesson_survey_question.answer_id as answer_id"))
                 ->get()
-                ->map(function ($userLessonSurveyQuestion) {
-                    return $userLessonSurveyQuestion->answer;
+                ->each(function ($userLessonSurveyQuestion) use (&$data) {
+                    $data[$userLessonSurveyQuestion->order] = $userLessonSurveyQuestion->answer;
                 })->toArray();
+            $user = $userLessonSurvey->user;
+
+            $answers = [$user->name, $user->email, $user->phone];
+
+            for ($i = 3; $i < $numQuestions + 3; $i += 1) {
+                if (array_key_exists($i, $data)) {
+                    $answers[$i] = $data[$i];
+                } else {
+                    $answers[$i] = "";
+                }
+
+            }
+            $result[] = $answers;
         }
+
         return $this->respondSuccessWithStatus([
             "result" => $result
         ]);
