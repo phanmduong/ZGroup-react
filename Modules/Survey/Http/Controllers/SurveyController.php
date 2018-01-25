@@ -36,6 +36,10 @@ class SurveyController extends ManageApiController
         ]);
     }
 
+    public function surveyResult(){
+
+    }
+
     public function endUserLessonSurvey($userLessonSurveyId, Request $request)
     {
         $userLessonSurvey = UserLessonSurvey::find($userLessonSurveyId);
