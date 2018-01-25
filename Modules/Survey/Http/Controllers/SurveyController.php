@@ -36,8 +36,52 @@ class SurveyController extends ManageApiController
         ]);
     }
 
-    public function surveyResult(){
+    public function surveyResult($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Survey không tồn tại");
+        }
+        $result = ["Tên", "Email", "Số điện thoại"];
 
+        $questions = $survey->questions()->orderBy("order")->get()->map(function ($question) {
+            return $question->content;
+        });
+
+        $result = [array_merge($result, $questions->toArray())];
+
+
+        $numQuestions = $questions->count();
+
+        $userLessonSurveys = $survey->userLessonSurveys;
+        foreach ($userLessonSurveys as $userLessonSurvey) {
+            $data = [];
+            $userLessonSurvey->userLessonSurveyQuestions()
+                ->join("questions", "questions.id", "=", "user_lesson_survey_question.question_id")
+                ->orderBy("order")
+                ->select(DB::raw("questions.order as `order`, user_lesson_survey_question.answer as answer, user_lesson_survey_question.answer_id as answer_id"))
+                ->get()
+                ->each(function ($userLessonSurveyQuestion) use (&$data) {
+                    $data[$userLessonSurveyQuestion->order] = $userLessonSurveyQuestion->answer;
+                })->toArray();
+            $user = $userLessonSurvey->user;
+
+            $answers = [$user->name, $user->email, $user->phone];
+
+            for ($i = 3; $i < $numQuestions + 3; $i += 1) {
+                if (array_key_exists($i, $data)) {
+                    $answers[$i] = $data[$i];
+                } else {
+                    $answers[$i] = "";
+                }
+
+            }
+            $result[] = $answers;
+        }
+
+        return $this->respondSuccessWithStatus([
+            "result" => $result
+        ]);
     }
 
     public function endUserLessonSurvey($userLessonSurveyId, Request $request)
