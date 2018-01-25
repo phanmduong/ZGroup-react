@@ -52,3 +52,24 @@ export function loadAllGoods() {
             });
     };
 }
+export function loadAllCompanies() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_COMPANIES_PRINT_ORDER});
+        printOrderApi.loadAllCompanies()
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.LOAD_ALL_COMPANIES_PRINT_ORDER_SUCCESS,
+                        companies : res.data.data.companies,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_ALL_COMPANIES_PRINT_ORDER_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_ALL_COMPANIES_PRINT_ORDER_ERROR});
+            });
+    };
+}

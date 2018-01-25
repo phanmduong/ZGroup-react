@@ -40,7 +40,7 @@ export default function printOrderReducer(state = initialState.printOrder, actio
             return {
                 ...state,
                 isLoading: false,
-                goods: getGoods(action.goods),
+                goods: getSelectArray(action.goods),
             };
         }
 
@@ -49,17 +49,37 @@ export default function printOrderReducer(state = initialState.printOrder, actio
                 ...state,
                 isLoading: false,
             };
+
+        case types.BEGIN_LOAD_ALL_COMPANIES_PRINT_ORDER:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.LOAD_ALL_COMPANIES_PRINT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isLoading: false,
+                companies: getSelectArray(action.companies),
+            };
+        }
+
+        case types.LOAD_ALL_COMPANIES_PRINT_ORDER_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+            };
+
         default:
             return state;
     }
 }
 
-function getGoods(goods){
-    return goods.map(good => {
+function getSelectArray(arr){
+    return arr.map(obj => {
         return {
-            ...good,
-            value: good.id,
-            label: good.name,
+            ...obj,
+            value: obj.id,
+            label: obj.name,
         };
     });
 }

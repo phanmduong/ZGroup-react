@@ -15,16 +15,18 @@ class CreatePrintOrderContainer extends React.Component {
         this.state = {};
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGood = this.changeGood.bind(this);
+        this.changeCompany = this.changeCompany.bind(this);
     }
 
     componentWillMount() {
-        console.log(this.props);
+
         this.props.printOrderActions.loadAllGoods();
+        this.props.printOrderActions.loadAllCompanies();
+
     }
 
     componentWillReceiveProps(nextProps) {
         console.log("next", nextProps);
-
     }
 
     updateFormData(e){
@@ -49,8 +51,12 @@ class CreatePrintOrderContainer extends React.Component {
     }
 
     changeGood(e){
-        console.log(e);
         let newdata ={...this.props.data, good: e};
+        this.props.printOrderActions.updateFormData(newdata);
+    }
+
+    changeCompany(e){
+        let newdata ={...this.props.data, company: e};
         this.props.printOrderActions.updateFormData(newdata);
     }
 
@@ -481,8 +487,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                         <ReactSelect
                                                             disabled={isLoading}
                                                             options={companies}
-                                                            onChange={() => {}}
-                                                            value={""}
+                                                            onChange={this.changeCompany}
+                                                            value={data.company.id}
                                                             name="company"
                                                             defaultMessage="Chọn nhà cung cấp"
                                                         /></div>
@@ -536,6 +542,17 @@ class CreatePrintOrderContainer extends React.Component {
                                                             updateFormData={() => {
                                                             }}
                                                             value={data.good.name || ""}
+                                                            disabled={true}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-12">
+                                                        <FormInputText
+                                                            label="Mã sản phẩm"
+                                                            type="text"
+                                                            name="code"
+                                                            updateFormData={() => {
+                                                            }}
+                                                            value={data.good.code || ""}
                                                             disabled={true}
                                                         />
                                                     </div>
