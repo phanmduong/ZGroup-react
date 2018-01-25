@@ -45,7 +45,7 @@ class SurveyController extends ManageApiController
         $result = $survey->userLessonSurveys()
             ->join("users", "users.id", "=", "user_lesson_survey.user_id")
             ->groupBy("user_lesson_survey.user_id")->select(DB::raw("users.*, count(1) as num"))
-            ->orderBy("num")
+            ->orderBy("num", "desc")
             ->paginate(20);
         $maxNum = $survey->userLessonSurveys()->select(DB::raw("max(`take`) as max_num"))->first()->max_num;
         return $this->respondWithPagination($result, [
