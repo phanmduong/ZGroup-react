@@ -17,9 +17,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/question/{questionId}/user-lesson/{userLessonSurveyId}/answer', 'SurveyController@saveUserLessonSurveyQuestion');
 
     Route::put('/questions', 'SurveyController@updateQuestionOrder');
-    Route::put('{surveyId}', 'SurveyController@editSurvey');
+    Route::put('/{surveyId}', 'SurveyController@editSurvey');
 
-    Route::delete('{surveyId}', 'SurveyController@deleteSurvey');
+    Route::delete('/{surveyId}', 'SurveyController@deleteSurvey');
     Route::post('/{surveyId}/question', 'SurveyController@updateQuestion');
     Route::post('/{surveyId}/lesson/{lessonId}', 'SurveyController@addSurveyLesson');
     Route::delete('/{surveyId}/lesson/{lessonId}', 'SurveyController@removeSurveyLesson');
