@@ -110,7 +110,7 @@ class SurveyItem extends React.Component {
                                 <div>
                                     <strong>{survey.staff.name}</strong><br/>
                                     <p className="category"
-                                       style={{fontSize: 12}}>
+                                       style={{fontSize: 12, color: "#505050"}}>
                                         {survey.created_at}
                                     </p>
                                 </div>

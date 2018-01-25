@@ -35,11 +35,6 @@ class SurveyDisplayModalContainer extends React.Component {
         this.loadSurveyLesson = this.loadSurveyLesson.bind(this);
     }
 
-    // async componentWillMount() {
-    //
-    //
-    // }
-
     async componentWillReceiveProps(nextProps) {
         if (nextProps.showDisplaySettingModal && !this.props.showDisplaySettingModal) {
             const res = await loadAllCourses();
@@ -88,6 +83,12 @@ class SurveyDisplayModalContainer extends React.Component {
             showErrorMessage("Lỗi", res.data.message);
         } else {
             this.loadSurveyLesson();
+            const survey = {
+                ...this.props.survey,
+                survey_lessons: [res.data.data.survey_lesson, ...this.props.survey.survey_lessons]
+            };
+            this.props.surveyActions.updateSurveyList(survey);
+            this.props.surveyActions.updateSurveyFormData(survey);
         }
     }
 
