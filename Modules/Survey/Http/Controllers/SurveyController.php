@@ -36,6 +36,31 @@ class SurveyController extends ManageApiController
         ]);
     }
 
+    public function summarySurvey($surveyId)
+    {
+        $survey = Survey::find($surveyId);
+        if ($survey == null) {
+            return $this->respondErrorWithStatus("Survey không tồn tại");
+        }
+        $result = $survey->userLessonSurveys()
+            ->join("users", "users.id", "=", "user_lesson_survey.user_id")
+            ->groupBy("user_lesson_survey.user_id")->select(DB::raw("users.*, count(1) as num"))
+            ->paginate(20);
+        $maxNum = $survey->userLessonSurveys()->select(DB::raw("max(`take`) as max_num"))->first()->max_num;
+        return $this->respondWithPagination($result, [
+            "max_num" => $maxNum,
+            "summary" => $result->map(function ($item) {
+                return [
+                    "avatar_url" => generate_protocol_url($item->avatar_url),
+                    "name" => $item->name,
+                    "email" => $item->email,
+                    "username" => $item->username,
+                    "num" => $item->num
+                ];
+            })
+        ]);
+    }
+
     public function surveyResult($surveyId)
     {
         $survey = Survey::find($surveyId);
@@ -70,7 +95,7 @@ class SurveyController extends ManageApiController
                 })->toArray();
 
             $user = $userLessonSurvey->user;
-            
+
             $answers = [$user->name, $user->email, $user->phone];
 
             for ($i = 3; $i < $numQuestions + 3; $i += 1) {

@@ -21,7 +21,11 @@ class PermissionTab
         if (Auth::user()->havePermissionTab($tab) || Auth::user()->isAdmin()) {
             return $next($request);
         } else {
-            return redirect('/access_forbidden');
+//            return redirect('/access_forbidden');
+            return [
+                "status" => 0,
+                "message" => "Bạn không có quyền truy cập"
+            ];
         }
     }
 }
