@@ -68,7 +68,7 @@ class SurveyController extends ManageApiController
 
             $answers = [$user->name, $user->email, $user->phone];
 
-            for ($i = 3; $i < $numQuestions + 3; $i += 1) {
+            for ($i = 2; $i < $numQuestions + 3; $i += 1) {
                 if (array_key_exists($i - 3, $data)) {
                     $answers[$i] = $data[$i - 3];
                 } else {
