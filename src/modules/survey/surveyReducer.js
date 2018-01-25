@@ -5,13 +5,19 @@ import {
     LOAD_SURVEY_DETAIL_SUCCESS,
     LOAD_SURVEYS_LIST_SUCCESS, OPEN_EDIT_SURVEY_DISPLAY_ORDER, REMOVE_ANSWER_FROM_QUESTION, SAVE_QUESTION_SUCCESS,
     SAVE_SURVEY_DATA_SUCCESS,
-    TOGGLE_EDIT_SURVEY, TOGGLE_EDIT_SURVEY_MODAL, UPDATE_ANSWER, UPDATE_QUESTION_FORM_DATA, UPDATE_QUESTIONS_ORDER,
+    TOGGLE_EDIT_SURVEY, TOGGLE_EDIT_SURVEY_MODAL, TOGGLE_SUMMARY_SURVEY_MODAL, UPDATE_ANSWER, UPDATE_QUESTION_FORM_DATA,
+    UPDATE_QUESTIONS_ORDER,
     UPDATE_SURVEY_DATA_IN_LIST,
     UPDATE_SURVEY_FORM_DATA
 } from "../../constants/actionTypes";
 
 export default function surveyReducer(state = initialState.survey, action) {
     switch (action.type) {
+        case TOGGLE_SUMMARY_SURVEY_MODAL:
+            return {
+                ...state,
+                showSummaryModal: action.showSummaryModal
+            };
         case UPDATE_SURVEY_DATA_IN_LIST:
             return {
                 ...state,

@@ -34,7 +34,7 @@ class AddSurveyModalContainer extends React.Component {
 
     changeSwitch() {
         const survey = {...this.props.survey};
-        if (Number(survey.active) === 0) {
+        if (Number(survey.active) === 0 || !survey.active) {
             survey.active = 1;
         } else {
             survey.active = 0;

@@ -1589,6 +1589,7 @@ export default {
         surveys: [],
         isLoading: false,
         survey: {},
+        showSummaryModal: false,
         showEditQuestionModal: false,
         showEditSurveyModal: false,
         question: {},
@@ -1642,7 +1643,7 @@ export default {
         isLoading: false,
         listPrintOrder: [
             {
-                company:{id: 1, name: "company"},
+                company: {id: 1, name: "company"},
                 staff: {id: 1, name: "staff"},
                 good: {id: 1, name: "good"},
                 quantity: 0,
@@ -1650,28 +1651,28 @@ export default {
                 core1: {
                     number: 0,
                     material: "none",
-                    color:"none",
+                    color: "none",
                     size: 1,
                     price: 0,
                 },
                 core2: {
                     number: 0,
                     material: "none",
-                    color:"none",
+                    color: "none",
                     size: 1,
                     price: 0,
                 },
                 cover1: {
                     number: 0,
                     material: "none",
-                    color:"none",
+                    color: "none",
                     size: 1,
                     price: 0,
                 },
                 cover2: {
                     number: 0,
                     material: "none",
-                    color:"none",
+                    color: "none",
                     size: 1,
                     price: 0,
                 },
@@ -1691,11 +1692,11 @@ export default {
                     price: 0,
                     made_by: "none",
                 },
-                packing1:{
-                  name: "noname",
-                  price: 0,
+                packing1: {
+                    name: "noname",
+                    price: 0,
                 },
-                packing2:{
+                packing2: {
                     name: "noname",
                     price: 0,
                 },

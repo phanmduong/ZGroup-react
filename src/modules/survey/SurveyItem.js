@@ -11,6 +11,7 @@ class SurveyItem extends React.Component {
         super(props, context);
         this.editSurvey = this.editSurvey.bind(this);
         this.exportSurvey = this.exportSurvey.bind(this);
+        this.summarySurvey = this.summarySurvey.bind(this);
     }
 
     editSurvey(event) {
@@ -19,12 +20,21 @@ class SurveyItem extends React.Component {
         this.props.editSurvey(this.props.survey);
     }
 
+    summarySurvey() {
+        this.props.summarySurvey();
+    }
+
     exportSurvey() {
         this.props.exportSurvey();
     }
 
     render() {
         const {survey} = this.props;
+        const UserSummaryTooltip = (
+            <Tooltip id="tooltip">
+                Thống kê lượt thực hiện khảo sát
+            </Tooltip>
+        );
         const ExportTooltip = (
             <Tooltip id="tooltip">
                 Download kết quả survey
@@ -85,6 +95,12 @@ class SurveyItem extends React.Component {
                             </h4>
 
                             <div>
+                                <OverlayTrigger placement="top" overlay={UserSummaryTooltip}>
+                                    <a onClick={this.summarySurvey} type="button" style={{color: "#757575"}}>
+                                        <i className="material-icons">insert_chart</i>
+                                    </a>
+                                </OverlayTrigger>
+
                                 <OverlayTrigger placement="top" overlay={ExportTooltip}>
                                     <a onClick={this.exportSurvey} type="button" style={{color: "#757575"}}>
                                         <i className="material-icons">archive</i>
@@ -156,6 +172,7 @@ class SurveyItem extends React.Component {
 SurveyItem.propTypes = {
     handleSwitch: PropTypes.func.isRequired,
     exportSurvey: PropTypes.func.isRequired,
+    summarySurvey: PropTypes.func.isRequired,
     showSurveyDisplayModal: PropTypes.func.isRequired,
     survey: PropTypes.object.isRequired,
     editSurvey: PropTypes.func.isRequired
