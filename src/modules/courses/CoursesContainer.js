@@ -68,8 +68,9 @@ class CoursesContainer extends React.Component {
         }.bind(this), 500);
     }
 
-    changeStatusCourse(index,course){
+    changeStatusCourse(index,course,e){
         this.props.coursesActions.changeStatusCourse(index,course);
+        e.stopPropagation();
     }
 
     duplicateCourse(data){

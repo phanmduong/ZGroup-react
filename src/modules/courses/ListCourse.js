@@ -10,6 +10,8 @@ import {browserHistory} from "react-router";
 
 import Avatar from '../../components/common/Avatar';
 
+import Switch from 'react-bootstrap-switch';
+
 function prefixDataPost(data) {
     if (data.length > 40) {
         data = [...data.slice(0, 40), ' . . .'];
@@ -66,18 +68,19 @@ class ListCourse extends React.Component {
                                         >
 
 
-                                            {/*<div style={{position: "absolute"}}>*/}
-                                            {/*{post.category ?*/}
-                                            {/*<button className="tag btn btn-xs btn-danger"*/}
-                                            {/*style={{marginLeft: 15, borderRadius: 10}}*/}
-                                            {/*onClick={(e) => {*/}
-                                            {/*this.props.loadByCategories(post.category.id);*/}
-                                            {/*e.stopPropagation();*/}
-                                            {/*}}*/}
-                                            {/*>*/}
-                                            {/*{post.category ? post.category.name : 'Không có'}</button>*/}
-                                            {/*: null*/}
-                                            {/*}*/}
+                                            {/*<div style={{position: "absolute", right : 0, margin : 10}}>*/}
+                                                {/*{post.category ?*/}
+                                                {/*<button className="tag btn btn-xs btn-danger"*/}
+                                                {/*style={{marginLeft: 15, borderRadius: 10}}*/}
+                                                {/*onClick={(e) => {*/}
+                                                {/*this.props.loadByCategories(post.category.id);*/}
+                                                {/*e.stopPropagation();*/}
+                                                {/*}}*/}
+                                                {/*>*/}
+                                                {/*{post.category ? post.category.name : 'Không có'}</button>*/}
+                                                {/*: null*/}
+                                                {/*}*/}
+
                                             {/*</div>*/}
                                         </div>
                                     </a>
@@ -85,8 +88,8 @@ class ListCourse extends React.Component {
 
 
                                 <div className="card-content">
-                                    <div className="card-action row" style={{height: 73}}>
-                                        <div className="col-md-11">
+                                    <div className="card-action row" style={{height: 90}}>
+                                        <div className="col-md-9">
                                             <h4 className="card-title">
                                                 <a onClick={(e) => {
                                                     browserHistory.push("/teaching/courses/edit/" + course.id + "");
@@ -97,15 +100,13 @@ class ListCourse extends React.Component {
                                             </h4>
                                         </div>
 
-                                        <div className="col-md-1">
-
-                                            <div className="dropdown"
-                                                 style={{right: "10px"}}>
+                                        <div className="col-md-3" style={{marginRight : -20, display : "flex" , flexDirection : "column" , justifyContent : "space-between" }}>
+                                            <div className="dropdown" style={{position : "relative" , left : "23"}}>
                                                 <a className="dropdown-toggle btn-more-dropdown" type="button"
                                                    data-toggle="dropdown">
                                                     <i className="material-icons">more_horiz</i>
                                                 </a>
-                                                <ul className="dropdown-menu dropdown-menu-top hover-dropdown-menu">
+                                                <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
                                                     <li className="more-dropdown-item">
                                                         <a onClick={() => {
                                                             event.stopPropagation(event);
@@ -138,11 +139,24 @@ class ListCourse extends React.Component {
 
                                                 </ul>
                                             </div>
+                                            <Switch
+                                                onChange={(e) => {
+                                                    return this.props.changeStatusCourse(index, course ,e);
+                                                }}
+                                                value={course.status}
+                                                onText="Hiện" offText="Ẩn"
+                                                bsSize="mini"
+                                            />
+
                                         </div>
                                     </div>
 
 
+
+
                                     <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
+
+
                                         <div style={{display: "flex", alignItems: "center"}}>
                                             {course.icon_url ?
                                                 <Avatar size={40} url={course.icon_url}
@@ -154,8 +168,11 @@ class ListCourse extends React.Component {
                                             </div>
                                         </div>
 
+
                                         <div style={{display: "flex", alignItems: "center", color: "#76b031"}}>
                                             {helper.dotNumber(course.price)}
+
+
                                         </div>
 
                                     </div>
