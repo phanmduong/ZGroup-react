@@ -30,3 +30,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::delete('/question/{questionId}', 'SurveyController@deleteQuestion');
 
 });
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/app/survey', 'namespace' => 'Modules\Survey\Http\Controllers'], function () {
+    Route::get('', 'AppSurveyController@getSurveys');
+});
