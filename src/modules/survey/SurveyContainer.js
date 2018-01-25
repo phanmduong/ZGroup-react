@@ -2,11 +2,15 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import AddSurveyModal from "./AddSurveyModal";
+import AddSurveyModalContainer from "./AddSurveyModalContainer";
 import Loading from "../../components/common/Loading";
 import * as surveyActions from "./surveyActions";
 import SurveyItem from "./SurveyItem";
 import Pagination from "../../components/common/Pagination";
+import SurveyDisplayModalContainer from "./SurveyDisplayModalContainer";
+import XLSX from 'xlsx';
+import {saveWorkBookToExcel} from "../../helpers/helper";
+import {loadSurveyResult} from "./surveyApi";
 
 class SurveyContainer extends React.Component {
     constructor(props, context) {
@@ -14,10 +18,13 @@ class SurveyContainer extends React.Component {
         this.state = {
             showModal: false
         };
-
+        this.handleActiveSwitch = this.handleActiveSwitch.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.loadSurveys = this.loadSurveys.bind(this);
+        this.editSurvey = this.editSurvey.bind(this);
+        this.showDisplayModal = this.showDisplayModal.bind(this);
+        this.exportSurveyResultExcel = this.exportSurveyResultExcel.bind(this);
     }
 
     componentWillMount() {
@@ -28,10 +35,48 @@ class SurveyContainer extends React.Component {
         this.props.surveyActions.loadSurveys(page);
     }
 
+    showDisplayModal(survey) {
+        this.props.surveyActions.updateSurveyFormData({...survey});
+        this.props.surveyActions.showSurveyDisplaySettingModal(true);
+    }
+
+    handleActiveSwitch(survey) {
+        const newSurvey = {...survey};
+        if (Number(newSurvey.active) === 0) {
+            newSurvey.active = 1;
+        } else {
+            newSurvey.active = 0;
+        }
+
+        this.props.surveyActions.updateSurveyList(newSurvey);
+        this.props.surveyActions.saveSurvey(newSurvey, null, false);
+    }
+
     openModal() {
-        this.setState({
-            showModal: true
-        });
+        this.props.surveyActions.updateSurveyFormData({});
+        this.props.surveyActions.toggleEditSurveyModal(true);
+    }
+
+    editSurvey(survey) {
+        this.props.surveyActions.toggleEditSurveyModal(true);
+        this.props.surveyActions.updateSurveyFormData(survey);
+    }
+
+    async exportSurveyResultExcel(survey) {
+        this.props.surveyActions.showGlobalLoading();
+        const res = await loadSurveyResult(survey.id);
+        this.props.surveyActions.hideGlobalLoading();
+        const wsData = res.data.data.result;
+
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
+        const sheetName = "Kết quả Survey";
+        let workbook = {
+            SheetNames: [],
+            Sheets: {}
+        };
+        workbook.SheetNames.push(sheetName);
+        workbook.Sheets[sheetName] = ws;
+        saveWorkBookToExcel(workbook, survey.name);
     }
 
     closeModal() {
@@ -45,10 +90,8 @@ class SurveyContainer extends React.Component {
 
         return (
             <div className="content">
-                <AddSurveyModal
-                    showModal={this.state.showModal}
-                    closeModal={this.closeModal}
-                />
+                <AddSurveyModalContainer/>
+                <SurveyDisplayModalContainer/>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -75,7 +118,13 @@ class SurveyContainer extends React.Component {
                                                         (this.props.surveys && this.props.surveys.length > 0) &&
                                                         this.props.surveys.map((survey) => {
                                                             return (
-                                                                <SurveyItem survey={survey}/>
+                                                                <SurveyItem
+                                                                    exportSurvey={() => this.exportSurveyResultExcel(survey)}
+                                                                    showSurveyDisplayModal={this.showDisplayModal}
+                                                                    handleSwitch={this.handleActiveSwitch}
+                                                                    editSurvey={this.editSurvey}
+                                                                    key={survey.id}
+                                                                    survey={survey}/>
                                                             );
 
                                                         })
@@ -84,8 +133,8 @@ class SurveyContainer extends React.Component {
                                             )
                                     }
                                     <Pagination
-                                        currentPage={this.props.paginator.current_page}
-                                        totalPages={this.props.paginator.total_pages}
+                                        currentPage={this.props.paginator.current_page || 0}
+                                        totalPages={this.props.paginator.total_pages || 0}
                                         loadDataPage={this.loadSurveys}/>
                                 </div>
                             </div>

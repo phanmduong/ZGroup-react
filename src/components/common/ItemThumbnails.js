@@ -12,7 +12,7 @@ class ItemThumbnails extends React.Component {
             <div className="row"
                  style={{display: "flex", flexFlow: "row-reverse wrap", height: "29px"}}>
                 {
-                    images.length > 5 && (
+                    (images.length === 0 || images.length > 5) && (
                         <div onClick={this.props.onClick}
                              key={-1} style={{padding: "2px 0px"}}>
                             <div style={{
@@ -24,7 +24,7 @@ class ItemThumbnails extends React.Component {
                                 backgroundColor: "#d9d9d9",
                                 borderRadius: "4px"
                             }}>
-                                <i className="material-icons">add</i>
+                                <i style={{color: "rgb(69, 90, 100)"}} className="material-icons">add</i>
                             </div>
                         </div>
                     )

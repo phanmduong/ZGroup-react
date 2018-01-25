@@ -35,21 +35,22 @@ class SurveyDisplayModalContainer extends React.Component {
         this.loadSurveyLesson = this.loadSurveyLesson.bind(this);
     }
 
-    async componentWillMount() {
-        const res = await loadAllCourses();
-        const {courses} = res.data.data;
-        this.setState({
-            courses: courses.map(({id, name, lessons}) => {
-                return {
-                    value: id,
-                    label: name,
-                    lessons
-                };
-            }),
-            isLoadingCourses: false
-        });
-        this.loadSurveyLesson();
-
+    async componentWillReceiveProps(nextProps) {
+        if (nextProps.showDisplaySettingModal && !this.props.showDisplaySettingModal) {
+            const res = await loadAllCourses();
+            const {courses} = res.data.data;
+            this.setState({
+                courses: courses.map(({id, name, lessons}) => {
+                    return {
+                        value: id,
+                        label: name,
+                        lessons
+                    };
+                }),
+                isLoadingCourses: false
+            });
+            this.loadSurveyLesson();
+        }
     }
 
     async loadSurveyLesson() {
@@ -82,6 +83,12 @@ class SurveyDisplayModalContainer extends React.Component {
             showErrorMessage("Lỗi", res.data.message);
         } else {
             this.loadSurveyLesson();
+            const survey = {
+                ...this.props.survey,
+                survey_lessons: [res.data.data.survey_lesson, ...this.props.survey.survey_lessons]
+            };
+            this.props.surveyActions.updateSurveyList(survey);
+            this.props.surveyActions.updateSurveyFormData(survey);
         }
     }
 
@@ -222,7 +229,7 @@ class SurveyDisplayModalContainer extends React.Component {
                                                     <td><strong>Phút {surveyLesson.start_time_display}</strong></td>
                                                     <td><strong>{surveyLesson.time_display} phút</strong></td>
                                                     <td>
-                                                        <a style={{color:"#575757"}}
+                                                        <a style={{color: "#575757"}}
                                                            onClick={() => this.removeSurveyLesson(surveyLesson.lesson_id)}>&times;</a>
                                                     </td>
                                                 </tr>
