@@ -1425,6 +1425,11 @@ function defaultAvatarUrl()
     return generate_protocol_url("d1j8r0kxyu9tj8.cloudfront.net/user.png");
 }
 
+function emptyImageUrl()
+{
+    return generate_protocol_url("d1j8r0kxyu9tj8.cloudfront.net/images/1516675031ayKt10MXsow6QAh.jpg");
+}
+
 function abbrev($s)
 {
     $v = "";

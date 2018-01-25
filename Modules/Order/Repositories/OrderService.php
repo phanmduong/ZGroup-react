@@ -12,6 +12,7 @@ use App\HistoryGood;
 use App\ImportedGoods;
 use App\Order;
 use App\User;
+use Carbon\Carbon;
 
 class OrderService
 {
@@ -36,6 +37,39 @@ class OrderService
             case 'cancel':
                 return 5;
                 break;
+            default:
+                return 0;
+                break;
+        }
+    }
+
+    public function deliveryStatusToNum($status)
+    {
+        switch ($status) {
+            case 'place_order':
+                return 0;
+                break;
+            case 'sent_price':
+                return 1;
+                break;
+            case 'confirm_order':
+                return 2;
+                break;
+            case 'ordered':
+                return 3;
+                break;
+            case 'expected_date':
+                return 4;
+                break;
+            case 'arrived':
+                return 5;
+                break;
+            case 'ship':
+                return 6;
+            case 'completed':
+                return 7;
+            case 'cancel':
+                return 8;
             default:
                 return 0;
                 break;
@@ -143,10 +177,10 @@ class OrderService
             $history->save();
             $quantity -= $min_quantity;
             $importedGood->quantity -= $min_quantity;
-            $earn += $min_quantity*$importedGood->import_price;
+            $earn += $min_quantity * $importedGood->import_price;
             $importedGood->save();
         }
-        $goodOrder->import_price = floor($earn/$goodOrder->quantity);
+        $goodOrder->import_price = floor($earn / $goodOrder->quantity);
         $goodOrder->save();
     }
 
@@ -228,5 +262,30 @@ class OrderService
             'status' => 1,
             'message' => 'SUCCESS'
         ];
+    }
+
+    public function changeDeliveryOrderStatus($deliveryOrderId, $request, $staffId)
+    {
+        $order = Order::find($deliveryOrderId);
+        if ($order == null)
+            return [
+                'status' => 0,
+                'message' => 'Không tồn tại đơn hàng'
+            ];
+        $order->status = $request->status;
+        $order->staff_id = $staffId;
+        $order->save();
+
+        return [
+            'status' => 1,
+            'message' => 'Chuyển trạng thái thành công'
+        ];
+    }
+
+    public function getTodayOrderId($type)
+    {
+        $orders_count = Order::where('type', $type)->where('created_at', '>=', Carbon::today())->count();
+        return $orders_count;
+//            str_pad($orders_count, 4, '0', STR_PAD_LEFT);
     }
 }

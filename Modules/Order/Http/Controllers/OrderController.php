@@ -164,7 +164,6 @@ class OrderController extends ManageApiController
 
     public function editOrder($order_id, Request $request)
     {
-        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
         if ($order_id == null)
             return $this->respondErrorWithStatus([
@@ -190,7 +189,6 @@ class OrderController extends ManageApiController
             ]);
 
         $order->note = $request->note;
-        $order->code = $request->code;
         $order->staff_id = $this->user->id;
         $order->user_id = $request->user_id;
         $order->save();
@@ -207,7 +205,6 @@ class OrderController extends ManageApiController
             }
         }
 
-        //$response = $this->orderService->changeOrderStatus($order_id, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
@@ -343,7 +340,8 @@ class OrderController extends ManageApiController
 
     public function storeOrder(Request $request)
     {
-        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $request->code = $request->code ? $request->code :
+            'ORDER' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('order') + 1, 4, '0',STR_PAD_LEFT);
         if ($request->warehouse_id == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu mã kho'

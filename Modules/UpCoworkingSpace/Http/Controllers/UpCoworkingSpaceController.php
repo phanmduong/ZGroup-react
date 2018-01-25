@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Finance\Http\Controllers;
+namespace Modules\UpCoworkingSpace\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-class FinanceController extends Controller
+class UpCoworkingSpaceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class FinanceController extends Controller
      */
     public function index()
     {
-        return view('finance::index');
+        return view('upcoworkingspace::index');
     }
 
     /**
@@ -23,7 +23,7 @@ class FinanceController extends Controller
      */
     public function create()
     {
-        return view('finance::create');
+        return view('upcoworkingspace::create');
     }
 
     /**
@@ -41,7 +41,7 @@ class FinanceController extends Controller
      */
     public function show()
     {
-        return view('finance::show');
+        return view('upcoworkingspace::show');
     }
 
     /**
@@ -50,7 +50,7 @@ class FinanceController extends Controller
      */
     public function edit()
     {
-        return view('finance::edit');
+        return view('upcoworkingspace::edit');
     }
 
     /**

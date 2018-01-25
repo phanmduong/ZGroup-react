@@ -289,17 +289,38 @@ var fastOrder = new Vue({
                 color: "",
                 number: 1,
                 tax: "Giá chưa thuế",
-                describe: ""
+                describe: "",
+                currencyId: 0
             },
         ],
-        loading: false,
-        check: false,
-        success: false,
-        fail: false,
-        message: ""
+        ratio: "",
+        isLoading: false,
+        showFailMessage: false,
+        showSuccessMessage: false,
+        failMessage: "",
+        message: "",
+        currencies: [
+        ],
+        isLoadingCurrency: false,
+        isOrdering: true,
     },
     methods: {
+        getCurrencies: function () {
+            this.isLoadingCurrency = true;
+            axios.get(window.url + '/currency')
+                .then(function (response) {
+                    // this.currencies.push({
+                    //     name: 'default'
+                    // });
 
+                    this.currencies = response.data.currencies;
+                    // console.log(this.currencies);
+                    this.isLoadingCurrency = false;
+                }.bind(this))
+                .catch(function (error) {
+
+                });
+        },
         plusOrder: function () {
             this.fastOrders.push({
                 id: this.fastOrders.length + 1,
@@ -310,42 +331,80 @@ var fastOrder = new Vue({
                 color: "",
                 number: 1,
                 tax: "Giá chưa thuế",
-                describe: ""
+                describe: "",
+                currencyId: 0,
             });
         },
         remove: function (index) {
             this.fastOrders.splice(index, 1)
         },
         submitFastOrder: function () {
-            // this.check=false,
-            //     this.success = false,
-            //     this.fail = false,
-            this.loading = true;
-            this.success = false;
-            // for (var i = 0; i< this.fastOrders.length; i++){
-            //          if(this.fastOrders[i].link === ""|| this.fastOrders[i].price === ""|| this.fastOrders[i].size === ""|| this.fastOrders[i].color=== ""|| this.fastOrders[i].describe === "" ){
-            //              this.check = true;
-            //              this.loading = false;
-            //              break;
-            //          }
-            // }
+            this.isLoading = true;
+            this.showSuccessMessage = false;
+            this.showFailMessage = false;
             axios.post(window.url + '/manage/save-fast-order', {
                 fastOrders: JSON.stringify(this.fastOrders)
             }).then(function (response) {
-                // $("#submitFastOrder").modal("hide");
-                // $("#modal-fast-order").modal("hide");
-                this.loading = false;
-                // this.check=false;
-                this.success = true;
-                // this.fail = false;
-                this.message = response.data.message.message;
+                this.isLoading = false;
+                if (response.data.status === 1) {
+                    this.showSuccessMessage = true;
+                    this.message = response.data.message;
+                    this.isOrdering = false;
+                }
+                else {
+                    this.showFailMessage = true;
+                    this.failMessage = response.data.message;
+                }
             }.bind(this))
                 .catch(function (error) {
-                    console.log(error);
+                    this.failMessage = "Xin bạn vui lòng kiểm tra kết nối mạng";
                     this.fail = true;
                 }.bind(this))
+        },
+        continueOrdering: function () {
+            this.isOrdering = true;
+            this.showSuccessMessage = false;
+            this.showFailMessage = false;
+            this.fastOrders = [];
+            this.fastOrders.push({
+                id: this.fastOrders.length + 1,
+                seen: false,
+                link: "",
+                price: "",
+                size: "",
+                color: "",
+                number: 1,
+                tax: "Giá chưa thuế",
+                describe: "",
+                currencyId: 0,
+            });
         }
     },
-
-
+    mounted: function () {
+        this.getCurrencies();
+    }
 });
+
+// var listFastOrders = new Vue({
+//     el : '#listFastOrder',
+//     data : {
+//         isLoading : false,
+//         listFastOrders : [],
+//     },
+//     method : {
+//         getListFastOrders : function(){
+//             this.isLoading = true;
+//             axios.get(window.url + '/manage/fast_orders')
+//                 .then(function (res){
+//                     this.isLoading = false;
+//                     this.listFastOrders = res.data.fastOrders;
+//                 })
+//                 .catch(function(error){
+//                     console.log(error)
+//                 })
+//         }
+//     },
+//     mounted : function() {
+//         this.getListFastOrders();
+//     }
+// })

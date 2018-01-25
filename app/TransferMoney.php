@@ -7,18 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 class TransferMoney extends Model
 {
     //
-    protected  $table = 'transfer_money';
+    protected $table = 'transfer_money';
 
-    protected static $PURPOSE = [
+    public static $PURPOSE = [
         "deposit" => "Đặt cọc",
         "pay_order" => "Thanh toán tiền hàng đặt",
         "pay_good" => "Mua hàng sẵn"
     ];
 
-    protected static $PURPOSE_COLOR = [
-        "deposit" => "#f5593d",
-        "pay_order" => "#51bcda",
-        "pay_good" => "#cc90cc"
+    public static $PURPOSE_COLOR = [
+        "deposit" => "#6bd098",
+        "pay_order" => "#f5593d",
+        "pay_good" => "#51bcda"
+    ];
+
+    public static $STATUS_COLOR = [
+        "pending" => "#51bcda",
+        "accept" => "#6bd098",
+        "cancel" => "#f5593d"
+    ];
+
+    public static $STATUS = [
+        "pending" => "Đang chờ",
+        "accept" => "Xác nhận",
+        "cancel" => "Huỷ"
     ];
 
     public function user()
@@ -31,16 +43,18 @@ class TransferMoney extends Model
         return $this->belongsTo(BankAccount::class, "bank_account_id");
     }
 
-    public function status()
+
+    public function transform()
     {
-        switch ($this->status) {
-            case "pending":
-                return [
-                    "color" => "#51bcda",
-                    "text" => "Đang chờ"
-                ];
-            default:
-                return "";
-        }
+        return [
+            "id" => $this->id,
+            "money" => $this->money,
+            "transfer_day" => $this->transfer_day,
+            "note" => $this->note,
+            "purpose" => $this->purpose,
+            "status" => $this->status,
+            "bank_account" => $this->bankAccount,
+            "customer" => $this->user->transformAuth()
+        ];
     }
 }

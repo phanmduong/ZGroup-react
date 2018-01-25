@@ -100,6 +100,8 @@ class Course extends Model
             'status' => $this->status,
             'color' => $this->color,
             'type_id' => $this->type_id,
+            'description' => $this->description,
+            'image_url' => generate_protocol_url($this->image_url),
             'lessons' => $this->lessons->map(function ($lesson) {
                 return $lesson->shortTransform();
             }),
