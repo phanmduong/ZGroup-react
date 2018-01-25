@@ -34,7 +34,7 @@ class EditButton extends React.Component {
             this.setState({isEdit: !this.state.isEdit, quantity: this.props.quantity});
         }
         else
-            this.setState({isEdit: !this.state.isEdit});
+        this.setState({isEdit: !this.state.isEdit ,quantity : quantity});
     }
 
     openEditQuantityInReturnOrder(e, quantity) {
@@ -58,17 +58,13 @@ class EditButton extends React.Component {
             this.setState({isEdit: !this.state.isEdit, quantity: this.props.quantity});
         }
         else
-            this.setState({isEdit: !this.state.isEdit});
+            this.setState({isEdit: !this.state.isEdit,quantity : quantity});
     }
 
 
     clearEditQuantity(e) {
-        if (this.state.isEdit) {
             this.props.updateQuantity(this.state.quantity, this.props.index);
             e.preventDefault();
-            this.setState({isEdit: !this.state.isEdit});
-        }
-        else
             this.setState({isEdit: !this.state.isEdit});
     }
 
@@ -112,7 +108,7 @@ class EditButton extends React.Component {
                                  (
                                      !this.state.isEdit
                                          ? (
-                                             !(this.props.isReturnOrders &&
+                                             (this.props.isReturnOrders &&
                                                  this.props.order.order.status === "confirm_order" ||
                                                  this.props.order.order.status === "ship_order" ||
                                                  this.props.order.order.status === "completed_order" ||
