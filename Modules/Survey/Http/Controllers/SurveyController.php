@@ -45,8 +45,9 @@ class SurveyController extends ManageApiController
         $result = ["Tên", "Email", "Số điện thoại"];
 
         $questions = $survey->questions()->orderBy("order")->get()->map(function ($question) {
-            return $question->content;
+            return trim($question->content);
         });
+
 
         $result = [array_merge($result, $questions->toArray())];
 
@@ -54,21 +55,26 @@ class SurveyController extends ManageApiController
         $numQuestions = $questions->count();
 
         $userLessonSurveys = $survey->userLessonSurveys;
+
         foreach ($userLessonSurveys as $userLessonSurvey) {
             $data = [];
+            $index = 0;
             $userLessonSurvey->userLessonSurveyQuestions()
                 ->join("questions", "questions.id", "=", "user_lesson_survey_question.question_id")
                 ->orderBy("order")
                 ->select(DB::raw("questions.order as `order`, user_lesson_survey_question.answer as answer, user_lesson_survey_question.answer_id as answer_id"))
                 ->get()
-                ->each(function ($userLessonSurveyQuestion) use (&$data) {
-                    $data[$userLessonSurveyQuestion->order] = $userLessonSurveyQuestion->answer;
+                ->each(function ($userLessonSurveyQuestion) use (&$data, &$index) {
+                    $data[$index] = $userLessonSurveyQuestion->answer ? $userLessonSurveyQuestion->answer : "";
+                    $index += 1;
                 })->toArray();
-            $user = $userLessonSurvey->user;
 
+            $user = $userLessonSurvey->user;
+            
             $answers = [$user->name, $user->email, $user->phone];
 
-            for ($i = 2; $i < $numQuestions + 3; $i += 1) {
+            for ($i = 3; $i < $numQuestions + 3; $i += 1) {
+
                 if (array_key_exists($i - 3, $data)) {
                     $answers[$i] = $data[$i - 3];
                 } else {
