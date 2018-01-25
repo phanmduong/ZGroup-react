@@ -14,10 +14,12 @@ class CreatePrintOrderContainer extends React.Component {
         super(props, context);
         this.state = {};
         this.updateFormData = this.updateFormData.bind(this);
+        this.changeGood = this.changeGood.bind(this);
     }
 
     componentWillMount() {
         console.log(this.props);
+        this.props.printOrderActions.loadAllGoods();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,9 +48,13 @@ class CreatePrintOrderContainer extends React.Component {
         this.props.printOrderActions.updateFormData(newdata);
     }
 
+    changeGood(e){
+        console.log(e);
+        let newdata ={...this.props.data, good: e};
+        this.props.printOrderActions.updateFormData(newdata);
+    }
+
     render() {
-
-
         let {companies, goods, data, isLoading} = this.props;
         let total_price =
             data.core1.number * data.core1.price
@@ -68,25 +74,9 @@ class CreatePrintOrderContainer extends React.Component {
             data.other.price*1
         ;
         let VAT_price = Math.round(1.1 * total_price).toFixed(2);
-        console.log(
-            total_price,
-            VAT_price,
-            data.core1.number,
-            data.core1.price,
-            data.core2.number,
-            data.core2.price,
-            data.cover1.number,
-            data.cover1.price,
-            data.cover2.number,
-            data.cover2.price,
-            data.spare_part1.number,
-            data.spare_part1.price,
-            data.spare_part2.number,
-            data.spare_part2.price,
-            data.packing1.price ,
-            data.packing2.price,
-            data.other.price
-            )
+//        console.log(total_price,VAT_price,data.core1.number,data.core1.price,data.core2.number,data.core2.price,data.cover1.number,data.cover1.price,data.cover2.number,data.cover2.price,data.spare_part1.number,data.spare_part1.price,data.spare_part2.number,data.spare_part2.price,data.packing1.price ,data.packing2.price,data.other.price)
+
+
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -120,7 +110,6 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core1-number"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core1.number || ""}
-
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
@@ -492,8 +481,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                         <ReactSelect
                                                             disabled={isLoading}
                                                             options={companies}
-                                                            onChange={() => {
-                                                            }}
+                                                            onChange={() => {}}
                                                             value={""}
                                                             name="company"
                                                             defaultMessage="Chọn nhà cung cấp"
@@ -503,9 +491,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                         <ReactSelect
                                                             disabled={isLoading}
                                                             options={goods}
-                                                            onChange={() => {
-                                                            }}
-                                                            value={""}
+                                                            onChange={this.changeGood}
+                                                            value={data.good.id}
                                                             name="good"
                                                             defaultMessage="Chọn sản phẩm"
                                                         /></div>
@@ -597,7 +584,7 @@ CreatePrintOrderContainer.propTypes = {
     user: PropTypes.object,
     companies: PropTypes.array,
     goods: PropTypes.array,
-    data: PropTypes.array,
+    data: PropTypes.object,
 
 };
 

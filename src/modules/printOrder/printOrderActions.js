@@ -29,3 +29,26 @@ export function updateFormData(newdata){
 
     };
 }
+
+
+export function loadAllGoods() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_GOODS_PRINT_ORDER});
+        printOrderApi.loadAllGoods()
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.LOAD_ALL_GOODS_PRINT_ORDER_SUCCESS,
+                        goods : res.data.data.goods,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_ALL_GOODS_PRINT_ORDER_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_ALL_GOODS_PRINT_ORDER_ERROR});
+            });
+    };
+}

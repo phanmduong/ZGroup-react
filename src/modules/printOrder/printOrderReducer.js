@@ -30,7 +30,36 @@ export default function printOrderReducer(state = initialState.printOrder, actio
                 ...state,
                 data: action.newdata,
             };
+
+        case types.BEGIN_LOAD_ALL_GOODS_PRINT_ORDER:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.LOAD_ALL_GOODS_PRINT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isLoading: false,
+                goods: getGoods(action.goods),
+            };
+        }
+
+        case types.LOAD_ALL_GOODS_PRINT_ORDER_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+            };
         default:
             return state;
     }
+}
+
+function getGoods(goods){
+    return goods.map(good => {
+        return {
+            ...good,
+            value: good.id,
+            label: good.name,
+        };
+    });
 }
