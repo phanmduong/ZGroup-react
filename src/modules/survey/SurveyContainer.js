@@ -8,12 +8,9 @@ import * as surveyActions from "./surveyActions";
 import SurveyItem from "./SurveyItem";
 import Pagination from "../../components/common/Pagination";
 import SurveyDisplayModalContainer from "./SurveyDisplayModalContainer";
-import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
-import * as helper from "../../helpers/helper";
-import moment from "moment/moment";
 import XLSX from 'xlsx';
 import {saveWorkBookToExcel} from "../../helpers/helper";
-import {sheetFromArrayOfArrays} from "../../helpers/helper";
+import {loadSurveyResult} from "./surveyApi";
 
 class SurveyContainer extends React.Component {
     constructor(props, context) {
@@ -65,12 +62,13 @@ class SurveyContainer extends React.Component {
         this.props.surveyActions.updateSurveyFormData(survey);
     }
 
-    exportSurveyResultExcel() {
-        const ws_data = [
-            ["S", "h", "e", "e", "t", "J", "S"],
-            [1, 2, 3, 4, 5]
-        ];
-        const ws = XLSX.utils.aoa_to_sheet(ws_data);
+    async exportSurveyResultExcel(survey) {
+        this.props.surveyActions.showGlobalLoading();
+        const res = await loadSurveyResult(survey.id);
+        this.props.surveyActions.hideGlobalLoading();
+        const wsData = res.data.data.result;
+
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
         const sheetName = "Kết quả Survey";
         let workbook = {
             SheetNames: [],
@@ -78,9 +76,7 @@ class SurveyContainer extends React.Component {
         };
         workbook.SheetNames.push(sheetName);
         workbook.Sheets[sheetName] = ws;
-        saveWorkBookToExcel(workbook, "test");
-        /* the saveAs call downloads a file on the local machine */
-        // saveAs(new Blob([wbout],{type:"application/octet-stream"}), "test.xlsx");
+        saveWorkBookToExcel(workbook, survey.name);
     }
 
     closeModal() {
@@ -123,7 +119,7 @@ class SurveyContainer extends React.Component {
                                                         this.props.surveys.map((survey) => {
                                                             return (
                                                                 <SurveyItem
-                                                                    exportSurvey={this.exportSurveyResultExcel}
+                                                                    exportSurvey={() => this.exportSurveyResultExcel(survey)}
                                                                     showSurveyDisplayModal={this.showDisplayModal}
                                                                     handleSwitch={this.handleActiveSwitch}
                                                                     editSurvey={this.editSurvey}

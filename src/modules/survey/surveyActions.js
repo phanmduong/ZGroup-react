@@ -14,6 +14,21 @@ import {
 import * as surveyApi from './surveyApi';
 import {showErrorMessage, showNotification} from "../../helpers/helper";
 
+export const showGlobalLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: DISPLAY_GLOBAL_LOADING
+        });
+    };
+};
+export const hideGlobalLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: HIDE_GLOBAL_LOADING
+        });
+    };
+};
+
 export const updateSurveyList = (survey) => {
     return (dispatch) => {
         dispatch({

@@ -14,6 +14,15 @@ const createSurveyFormData = (survey, file) => {
     return formData;
 };
 
+export const loadSurveyResult = (surveyId) => {
+    let url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/result`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+};
+
 export function createSurvey(survey, file) {
     let url = env.MANAGE_API_URL + "/v2/survey";
     let token = localStorage.getItem('token');

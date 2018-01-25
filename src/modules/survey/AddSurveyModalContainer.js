@@ -30,7 +30,6 @@ class AddSurveyModalContainer extends React.Component {
             file = this.refs.file.files[0];
         }
         this.props.surveyActions.saveSurvey(this.props.survey, file);
-
     }
 
     changeSwitch() {
