@@ -45,7 +45,7 @@ export function updateFormPost(post) {
     };
 }
 
-export function savePostBlog(post) {
+export function savePostBlog(post,closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_SAVE_POST_BLOG
@@ -57,6 +57,8 @@ export function savePostBlog(post) {
                     type: types.SAVE_POST_BLOG_SUCCESS,
                     postId: res.data.data.product.id,
                 });
+                closeModal();
+                dispatch(getPosts(1,"",0));
             }).catch(() => {
             helper.showErrorNotification("Tải lên thất bại");
             dispatch({
@@ -139,12 +141,12 @@ export function updateFormCategory(category) {
     };
 }
 
-export function getPosts(page, search) {
+export function getPosts(page, search,category_id) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_POSTS_BLOG,
         });
-        blogApi.getPosts(page, search)
+        blogApi.getPosts(page, search,category_id)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_POSTS_BLOG_SUCCESS,
@@ -156,6 +158,25 @@ export function getPosts(page, search) {
             .catch(() => {
                 dispatch({
                     type: types.LOAD_POSTS_BLOG_ERROR
+                });
+            });
+    };
+}
+export function getCategories() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CATEGORIES_IN_BLOG,
+        });
+        blogApi.getCategoriesApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CATEGORIES_IN_BLOG_SUCCESS,
+                    categoriesList: res.data.data.categories,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_CATEGORIES_IN_BLOG_ERROR
                 });
             });
     };
@@ -217,5 +238,25 @@ export function getPost(postId) {
 export function resetForm() {
     return {
         type: types.RESET_FORM_POST_BLOG
-    }
+    };
+}
+
+export function changeStatus(id, status,name) {
+    console.log(id,status);
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_STATUS_IN_BLOG,
+            id, status
+        });
+        blogApi.changeStatusApi(id)
+            .then((res) => {
+                if (res.data.status) {
+                    status ?
+                        helper.showNotification("Đã ẩn " + name)
+                        :
+                        helper.showNotification("Đã hiển thị " + name);
+                }
+            })
+        ;
+    };
 }

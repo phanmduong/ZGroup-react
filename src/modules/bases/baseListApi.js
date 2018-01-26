@@ -14,7 +14,7 @@ export function deleteBase(base) {
 }
 
 export function loadBases(page = 1, query = null) {
-    let url = env.MANAGE_API_URL + "/bases?page=" + page;
+    let url = env.MANAGE_API_URL + "/v2/base?page=" + page;
     let token = localStorage.getItem('token');
     if (query) {
         url += "&q=" + query;
@@ -26,7 +26,7 @@ export function loadBases(page = 1, query = null) {
 }
 
 export function loadBase(baseId) {
-    let url = env.MANAGE_API_URL + "/base/" + baseId;
+    let url = env.MANAGE_API_URL + "/v2/base/" + baseId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -45,10 +45,67 @@ export function setDefaultBase(baseId) {
 }
 
 export function createBase(base) {
-    let url = env.MANAGE_API_URL + "/base/create";
+    let url = env.MANAGE_API_URL + "/v2/base";
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, {id: base.id, name: base.name, address: base.address});
+    return axios.post(url, {
+        id: base.id,
+        name: base.name,
+        address: base.address,
+        district_id: base.district_id,
+        latitude: base.latitude,
+        avatar_url: base.avatar_url,
+        description: base.description,
+        center: base.center,
+        images_url: base.images.join(','),
+        longtitude: base.longitude,
+        display_status: base.display_status,
+    });
+}
+
+export function editBase(base) {
+    let url = env.MANAGE_API_URL + "/v2/base/" + base.id;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        name: base.name,
+        address: base.address,
+        district_id: base.district_id,
+        latitude: base.latitude,
+        images_url: base.images.join(','),
+        avatar_url: base.avatar_url,
+        description: base.description,
+        center: base.center,
+        longtitude: base.longitude,
+        display_status: base.display_status,
+    });
+}
+
+export function getAllProvinces() {
+    let url = env.MANAGE_API_URL + "/province/all";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function uploadImage(file, completeHandler, progressHandler, error) {
+    let url = env.MANAGE_API_URL + "/file/upload-image";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formData = new FormData();
+    formData.append('file', file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.upload.onprogress = progressHandler;
+    ajax.addEventListener("error", error, false);
+    ajax.open("POST", url);
+    ajax.send(formData);
 }

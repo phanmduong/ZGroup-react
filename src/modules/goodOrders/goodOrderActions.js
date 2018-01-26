@@ -2,6 +2,7 @@ import * as types from '../../constants/actionTypes';
 import * as helper from '../../helpers/helper';
 import * as goodOrdersApi from '../goodOrders/goodOrdersApi';
 import moment from 'moment';
+import {browserHistory} from "react-router";
 
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
@@ -257,9 +258,9 @@ export function editOrder(order, orderId,isQuantity, index) {
                         type: types.EDIT_ORDER_SUCCESS,
                         index: index,
                         isQuantity
-                        // customer: res.data.data.user,
                     });
-                    // browserHistory.push('/goods/customer');
+                    if(!isQuantity)
+                    {browserHistory.push("/good/goods/orders");}
                 }
                 else {
                     helper.showErrorNotification(res.data.message.message);

@@ -2,16 +2,70 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import {getToken} from '../../helpers/tokenHelper';
 
-export function createSurvey(surveyName) {
+
+export const loadSurveySummaryResult = (surveyId, page = 1) => {
+    let url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/user-summary?page=${page}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+};
+
+const createSurveyFormData = (survey, file) => {
+    const formData = new FormData();
+    if (file)
+        formData.append('image', file);
+    formData.append("target", survey.target);
+    formData.append("name", survey.name);
+    formData.append("active", survey.active);
+    formData.append("description", survey.description);
+    return formData;
+};
+
+export const loadSurveyResult = (surveyId) => {
+    let url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/result`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+};
+
+export function createSurvey(survey, file) {
     let url = env.MANAGE_API_URL + "/v2/survey";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, {
-        name: surveyName,
-    });
+
+    const formData = createSurveyFormData(survey, file);
+
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+    return axios.post(url, formData, config);
 }
+
+export function editSurvey(survey, file) {
+    let url = env.MANAGE_API_URL + `/v2/survey/${survey.id}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    const formData = createSurveyFormData(survey, file);
+
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+    return axios.post(url, formData, config);
+}
+
 
 export const loadSurveys = (page, search) => {
     let url = env.MANAGE_API_URL + "/v2/survey";
@@ -68,6 +122,28 @@ export const saveAnswer = (answer) => {
     });
 };
 
+export const addSurveyLesson = (surveyId, lessonId, minutesDuration, minuteStart) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/lesson/${lessonId}?token=${token}`;
+    return axios.post(url, {
+        time_display: minutesDuration,
+        start_time_display: minuteStart
+    });
+};
+
+export const removeSurveyLesson = (surveyId, lessonId) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/lesson/${lessonId}?token=${token}`;
+    return axios.delete(url);
+};
+
+export const loadSurveyLessons = (surveyId) => {
+    const token = getToken();
+    const url = env.MANAGE_API_URL + `/v2/survey/${surveyId}/lesson?token=${token}`;
+    return axios.get(url);
+};
+
+
 export const updateQuestionOrders = (questions) => {
     const token = getToken();
     const url = env.MANAGE_API_URL + `/v2/survey/questions?token=${token}`;
@@ -85,3 +161,4 @@ export const deleteQuestion = (question) => {
     const url = env.MANAGE_API_URL + `/v2/survey/question/${question.id}?token=${token}`;
     return axios.delete(url);
 };
+

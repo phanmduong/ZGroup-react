@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import loginReducer from '../modules/login/loginReducer';
 import tabsReducer from '../modules/tab/tabsReducer';
+import financeReducer from '../modules/finance/financeReducer';
 import staffsReducer from '../modules/manageStaff/staffsReducer';
 import rolesReducer from '../modules/role/rolesReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
@@ -65,11 +66,14 @@ import orderedProductReducer from "../modules/orderedProduct/orderedProductReduc
 import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/HistoryExtensionWorkReducer";
 import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
 import surveyReducer from '../modules/survey/surveyReducer';
+import CompanyReducer from '../modules/companies/CompanyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
 import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
+import printOrderReducer from "../modules/printOrder/printOrderReducer";
+
 
 
 const appReducer = combineReducers({
@@ -144,6 +148,10 @@ const appReducer = combineReducers({
     orderedDetail: orderedDetailReducer,
     inventoryOrder: inventoryOrderReducer,
     bankAccount: bankAccountReducer,
+    finance: financeReducer,
+    companies: CompanyReducer,
+    printOrder: printOrderReducer,
+
 });
 
 const rootReducer = (state, action) => {

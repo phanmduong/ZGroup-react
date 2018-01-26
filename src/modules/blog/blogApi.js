@@ -47,8 +47,19 @@ export function createCategory(catogory) {
     });
 }
 
-export function getPosts(page = 1, search = '') {
+export function getPosts(page = 1, search = '',category_id) {
     let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    if(category_id){
+        url += "&category_id=" + category_id;
+    }
+    return axios.get(url);
+}
+export function getCategoriesApi() {
+    let url = env.MANAGE_API_URL + "/post/categories?" ;
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
@@ -72,4 +83,13 @@ export function getPost(postId) {
         url += "?token=" + token;
     }
     return axios.get(url);
+}
+
+export function changeStatusApi(id) {
+    let url = env.MANAGE_API_URL + "/post/"+id+"/change-status";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
 }

@@ -317,6 +317,25 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 ...state,
             };
         }
+        case types.BEGIN_LOAD_ARCHIVED_WORK: {
+            return {
+                ...state,
+                isLoadingArchivedWork: true,
+            };
+        }
+        case types.LOAD_ARCHIVED_WORK_SUCCESS: {
+            return {
+                ...state,
+                isLoadingArchivedWork: false,
+                archivedWorks : action.archivedWorks,
+            };
+        }
+        case types.LOAD_ARCHIVED_WORK_ERROR: {
+            return {
+                ...state,
+                isLoadingArchivedWork: false,
+            };
+        }
 
         default:
             return state;
@@ -339,7 +358,7 @@ function filterStaff(staffs, allstaffs) {
     allstaffs.forEach((obj)=>{
         let check = false;
         staffs.forEach((item)=>{
-            if(item.id ==obj.id) {
+            if(item.id == obj.id) {
                 check = true;}
         });
         if(!check) res = [...res, obj];

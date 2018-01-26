@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Switch from 'react-bootstrap-switch';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
+import {avatarEmpty, shortString} from "../../helpers/helper";
+import {Link} from "react-router";
 
 class ListBase extends React.Component {
     constructor(props, context) {
@@ -10,49 +11,54 @@ class ListBase extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
-                <table className="table">
-                    <thead>
-                    <tr className="text-rose">
-                        <th>Tên cơ sở</th>
-                        <th>Địa chỉ</th>
-                        <th>Thêm vào lúc</th>
-                        <th>Sửa gần nhất</th>
-                        <th>Trụ sở</th>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.props.bases.map(base => {
-                        return (
-                            <tr key={base.id}>
-                                <td>{base.name}</td>
-                                <td>{base.address}</td>
-                                <td>{base.created_at}</td>
-                                <td>{base.updated_at}</td>
-                                <td>
-                                    <Switch
-                                        baseId={base.id}
-                                        onChange={(elem, state) => this.props.handleSwitch(state, base.id)}
-                                        bsSize="mini"
-                                        onText="Bật" offText="Tắt"
-                                        value={(base.center === 1)}/>
-                                </td>
-                                <td>
-                                    <ButtonGroupAction
-                                        editUrl={"base/" + base.id + "/edit"}
-                                        delete={this.props.deleteBase}
-                                        object={base}
-                                        disabledDelete
-                                    />
-                                </td>
-                            </tr>
-                        );
-                    })}
-                    </tbody>
-                </table>
+            <div className="row" id="list-base">
+                {this.props.bases && this.props.bases.map((base) => {
+                    var imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
+                    return (
+                        <div className="col-sm-4" key={base.id} id="card-email-template">
+                            <div className="card card-chart">
+                                <div className="card-header" data-background-color="white" style={{
+                                    borderRadius: '10px'
+                                }}>
+                                    <Link to={'/base/' + base.id + '/edit'}>
+                                        <div id="simpleBarChart" className="ct-chart"
+                                             style={{
+                                                 width: '100%',
+                                                 background: 'url(' + imageUrl + ')',
+                                                 backgroundSize: 'cover',
+                                                 backgroundPosition: 'center',
+                                                 height: '200px',
+                                                 borderRadius: '10px'
+                                             }}
+                                        />
+                                    </Link>
+
+                                </div>
+                                <div className="card-content" style={{minHeight: '140px'}}>
+                                    <div className="card-action">
+                                        <h4 className="card-title">
+                                            <Link to={'/base/' + base.id + '/edit'}>{shortString(base.name, 6)}</Link>
+                                        </h4>
+                                        <ButtonGroupAction
+                                            disabledDelete
+                                            object={base}
+                                            editUrl={'/base/' + base.id + '/edit'}
+                                        />
+                                    </div>
+                                    <p className="category">{shortString(base.address, 15)}</p>
+                                    {base.district &&
+                                    <p className="category">
+                                        {`${base.district.type} ${base.district.name}, ${base.province.type} ${base.province.name}`}
+                                    </p>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
-        );
+        )
     }
 }
 

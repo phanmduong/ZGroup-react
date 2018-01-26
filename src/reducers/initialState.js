@@ -1,4 +1,5 @@
 export default {
+
     bankAccount: {
         accounts: [1,2,3,4],
         isLoading: false
@@ -41,6 +42,12 @@ export default {
             quantity: 0,
             price: 0
         }
+    },
+
+
+    finance: {
+        bankTransfers: [],
+        isLoading: false
     },
 
     currency: {
@@ -352,33 +359,52 @@ export default {
         isLoadingBases: false,
         currentPage: 1,
         totalPages: 1,
+        provinces: [],
+        isLoadingProvinces: false,
         createBase: {
+            percent: 0,
+            percentImage: 0,
+            isUploadingAvatar: false,
+            isUploadingImage: false,
             isSavingBase: false,
-            isLoadingBase: false,
-            base: {
-                name: "",
-                address: ""
-            }
+            isLoadingBase:
+                false,
+            base:
+                {
+                    name: "",
+                    address:
+                        "",
+                    images: []
+                }
         }
     },
 
     book: {
         taskListTemplateModal: {
             showModal: false,
-            boards: [],
-            isLoading: false
-        },
+            boards:
+                [],
+            isLoading:
+                false
+        }
+        ,
         taskSpan: {
             showModal: false,
-            hours: 0,
-            task: {
-                span: 0
-            },
+            hours:
+                0,
+            task:
+                {
+                    span: 0
+                }
+            ,
             isSaving: false
-        },
+        }
+        ,
         taskListDetail: {
             showModal: false,
-            taskList: {},
+            taskList:
+                {}
+            ,
             isSaving: false,
             isSavingTask: false,
             showEditTaskModal: false,
@@ -626,6 +652,8 @@ export default {
         totalPages: 1,
         currentPage: 1,
         posts: [],
+        categoriesList: [],
+        isLoadingCategories: true,
         isLoadingPost: false,
         errorPost: false,
     },
@@ -1386,8 +1414,13 @@ export default {
         rooms: [],
         isLoadingBases: false,
         errorBases: false,
-        isStoringRoom: false,
         errorStoreRoom: false,
+
+        room: {},
+        showEditRoomModal: false,
+        isStoringRoom: false,
+        isEditRoom: false,
+
         bases: [],
     },
     excel: {
@@ -1407,6 +1440,7 @@ export default {
         isLoading: false,
         isLoadingStaffs: false,
         isSaving: false,
+        isLoadingArchivedWork: false,
         data: {
             name: "",
             type: "personal",
@@ -1445,6 +1479,7 @@ export default {
                 "bonus_type": null
             },
         ],
+        archivedWorks: [],
     },
 
     groupCustomers: {
@@ -1587,6 +1622,10 @@ export default {
                 id: 0,
                 name: "error",
             },
+            manager: {
+                id: 0,
+                name: "",
+            },
         }],
     },
     summaryStaff: {
@@ -1605,8 +1644,11 @@ export default {
         surveys: [],
         isLoading: false,
         survey: {},
+        showSummaryModal: false,
         showEditQuestionModal: false,
+        showEditSurveyModal: false,
         question: {},
+        paginator: {},
         showDisplaySettingModal: false,
         isSavingQuestion: false
     },
@@ -1616,6 +1658,119 @@ export default {
         },
         isLoading: true,
         error: false,
+
     },
+    companies: {
+        isLoadingCompanies: false,
+        isLoadingCompany: false,
+        isLoadingFields: false,
+        isSavingCompany: false,
+        isSavingField: false,
+        isLoading: false,
+        company: {
+            name: "",
+            registered_business_address: "",
+            office_address: "",
+            phone_company: "",
+            tax_code: "",
+            account_name: "",
+            account_number: "",
+            bank_name: "",
+            bank_branch: "",
+            field: {
+                id: 0,
+                name: "",
+            },
+            user_contact: "",
+            user_contact_phone: "",
+            type: "",
+        },
+        fields: [],
+        paginator: {
+            total_count: 0,
+            total_pages: 0,
+            current_page: 1,
+            limit: 20,
+        },
+
+    },
+    printOrder: {
+        isLoading: false,
+        listPrintOrder: [
+            {
+                company: {id: 1, name: "company"},
+                staff: {id: 1, name: "staff"},
+                good: {id: 1, name: "good"},
+                quantity: 0,
+                command_code: "DATIN1234556",
+                core1: {
+                    number: 0,
+                    material: "none",
+                    color: "none",
+                    size: 1,
+                    price: 0,
+                },
+                core2: {
+                    number: 0,
+                    material: "none",
+                    color: "none",
+                    size: 1,
+                    price: 0,
+                },
+                cover1: {
+                    number: 0,
+                    material: "none",
+                    color: "none",
+                    size: 1,
+                    price: 0,
+                },
+                cover2: {
+                    number: 0,
+                    material: "none",
+                    color: "none",
+                    size: 1,
+                    price: 0,
+                },
+                spare_part1: {
+                    name: "noname",
+                    number: 0,
+                    material: "none",
+                    size: 1,
+                    price: 0,
+                    made_by: "none",
+                },
+                spare_part2: {
+                    name: "noname",
+                    number: 0,
+                    material: "none",
+                    size: 1,
+                    price: 0,
+                    made_by: "none",
+                },
+                packing1: {
+                    name: "noname",
+                    price: 0,
+                },
+                packing2: {
+                    name: "noname",
+                    price: 0,
+                },
+                other: {
+                    name: "noname",
+                    price: 0,
+                },
+                price: 0,
+                note: "none",
+                order_date: "2012-01-17",
+                receive_date: "2012-01-17",
+            }
+        ],
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        }
+    }
 
 };
