@@ -25,10 +25,15 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
 
-        $registers = RoomServiceRegister::query();
+        if($search)
+        $registers = RoomServiceRegister::join('users','users.id','=','room_service_registers.user_id')
+            ->select('room_service_registers.*')->where('users.name','like','%'.$search.'%');
+        else $registers = RoomServiceRegister::query();
 
-        if ($request->user_id)
-            $registers = $registers->where('user_id', $request->user_id);
+
+//        if ($request->user_id)
+//            $registers = $registers->where('user_id', $request->user_id);
+
         if ($request->staff_id)
             $registers = $registers->where('staff_id', $request->staff_id);
         if ($request->status)
