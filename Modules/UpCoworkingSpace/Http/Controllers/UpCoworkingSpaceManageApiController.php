@@ -25,10 +25,15 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
 
-        $registers = RoomServiceRegister::query();
+        if($search)
+        $registers = RoomServiceRegister::join('users','users.id','=','room_service_registers.user_id')
+            ->select('room_service_registers.*')->where('users.name','like','%'.$search.'%');
+        else $registers = RoomServiceRegister::query();
 
-        if ($request->user_id)
-            $registers = $registers->where('user_id', $request->user_id);
+
+//        if ($request->user_id)
+//            $registers = $registers->where('user_id', $request->user_id);
+
         if ($request->staff_id)
             $registers = $registers->where('staff_id', $request->staff_id);
         if ($request->status)
@@ -98,7 +103,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $subscriptionKinds = $subscriptionKinds->where('name', 'like', '%' . $search . '%');
         $subscriptionKinds = $subscriptionKinds->orderBy('created_at', 'desc')->get();
         return $this->respondErrorWithStatus([
-            'subscription_kinds' => $subscriptionKinds->map(function($subscriptionKind){
+            'subscription_kinds' => $subscriptionKinds->map(function ($subscriptionKind) {
                 return $subscriptionKind->getData();
             })
         ]);
@@ -117,5 +122,34 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $subscriptionKind->save();
 
         return $this->respondSuccess('Tạo thành công');
+    }
+
+    public function createUserPack(Request $request)
+    {
+        if ($request->name === null || trim($request->name) == "" ||
+            $request->avatar_url === null || trim($request->avatar_url) == "")
+            return $this->respondErrorWithStatus("Thiếu trường");
+        $userPack = new RoomServiceUserPack;
+        $userPack->name = $request->name;
+        $userPack->avatar_url = $request->avatar_url;
+        $userPack->detail = $request->detail;
+        $userPack->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Tạo thành công"
+        ]);
+    }
+    public function editUserPack($userPackId,Request $request){
+        $userPack = RoomServiceUserPack::find($userPackId);
+        if(!$userPack) return $this->respondErrorWithStatus("Không tồn tại");
+        if ($request->name === null || trim($request->name) == "" ||
+            $request->avatar_url === null || trim($request->avatar_url) == "")
+            return $this->respondErrorWithStatus("Thiếu trường");
+        $userPack->name = $request->name;
+        $userPack->avatar_url = $request->avatar_url;
+        $userPack->detail = $request->detail;
+        $userPack->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Sửa thành công"
+        ]);
     }
 }
