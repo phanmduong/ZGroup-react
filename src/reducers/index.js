@@ -69,7 +69,11 @@ import surveyReducer from '../modules/survey/surveyReducer';
 import CompanyReducer from '../modules/companies/CompanyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
+import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
+import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
+import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
 import printOrderReducer from "../modules/printOrder/printOrderReducer";
+
 
 
 const appReducer = combineReducers({
@@ -141,9 +145,13 @@ const appReducer = combineReducers({
     summaryStaff: summaryStaffReducer,
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
+    orderedDetail: orderedDetailReducer,
+    inventoryOrder: inventoryOrderReducer,
+    bankAccount: bankAccountReducer,
     finance: financeReducer,
     companies: CompanyReducer,
     printOrder: printOrderReducer,
+
 });
 
 const rootReducer = (state, action) => {

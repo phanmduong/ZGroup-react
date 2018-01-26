@@ -11,6 +11,7 @@ import SurveyDisplayModalContainer from "./SurveyDisplayModalContainer";
 import XLSX from 'xlsx';
 import {saveWorkBookToExcel} from "../../helpers/helper";
 import {loadSurveyResult} from "./surveyApi";
+import UserSurveySummaryContainer from "./UserSurveySummaryContainer";
 
 class SurveyContainer extends React.Component {
     constructor(props, context) {
@@ -25,10 +26,16 @@ class SurveyContainer extends React.Component {
         this.editSurvey = this.editSurvey.bind(this);
         this.showDisplayModal = this.showDisplayModal.bind(this);
         this.exportSurveyResultExcel = this.exportSurveyResultExcel.bind(this);
+        this.openSummarySurveyModal = this.openSummarySurveyModal.bind(this);
     }
 
     componentWillMount() {
         this.props.surveyActions.loadSurveys();
+    }
+
+    openSummarySurveyModal(survey) {
+        this.props.surveyActions.updateSurveyFormData(survey);
+        this.props.surveyActions.toggleSummaryModal(true);
     }
 
     loadSurveys(page) {
@@ -92,6 +99,7 @@ class SurveyContainer extends React.Component {
             <div className="content">
                 <AddSurveyModalContainer/>
                 <SurveyDisplayModalContainer/>
+                <UserSurveySummaryContainer/>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -119,6 +127,7 @@ class SurveyContainer extends React.Component {
                                                         this.props.surveys.map((survey) => {
                                                             return (
                                                                 <SurveyItem
+                                                                    summarySurvey={() => this.openSummarySurveyModal(survey)}
                                                                     exportSurvey={() => this.exportSurveyResultExcel(survey)}
                                                                     showSurveyDisplayModal={this.showDisplayModal}
                                                                     handleSwitch={this.handleActiveSwitch}

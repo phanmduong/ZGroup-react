@@ -10,10 +10,8 @@ import Search from "../../components/common/Search";
 import Pagination from "../../components/common/Pagination";
 import ListRoom from "./ListRoom";
 import PropTypes from "prop-types";
-import {Modal} from "react-bootstrap";
-import FormInputText from "../../components/common/FormInputText";
 import Select from "../../components/common/Select";
-import * as helper from "../../helpers/helper";
+import EditRoomModalContainer from "../bases/room/EditRoomModalContainer";
 
 class RoomsContainer extends React.Component {
     constructor(props, context) {
@@ -21,7 +19,6 @@ class RoomsContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
-            edit: false,
             showModal: false,
             room: {},
             selectBaseId: 0,
@@ -30,12 +27,8 @@ class RoomsContainer extends React.Component {
         this.timeOut = null;
         this.roomsSearchChange = this.roomsSearchChange.bind(this);
         this.loadRooms = this.loadRooms.bind(this);
-        this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
-        this.updateFormData = this.updateFormData.bind(this);
-        this.onChangeBaseForm = this.onChangeBaseForm.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
-        this.storeRoom = this.storeRoom.bind(this);
     }
 
     roomsSearchChange(value) {
@@ -56,13 +49,13 @@ class RoomsContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoadingBases != this.props.isLoadingBases && !nextProps.isLoadingBases) {
+        if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
             const bases = this.getBases(nextProps.bases);
             this.setState({
                 bases: bases
             });
         }
-        if (nextProps.isStoringRoom != this.props.isStoringRoom && !nextProps.isStoringRoom) {
+        if (nextProps.isStoringRoom !== this.props.isStoringRoom && !nextProps.isStoringRoom) {
             if (!nextProps.errorStoreRoom) {
                 this.props.roomActions.loadRoomsData(this.state.page, this.state.query, this.state.selectBaseId);
             }
@@ -83,24 +76,9 @@ class RoomsContainer extends React.Component {
         }, ...baseData];
     }
 
-    closeModal() {
-        this.setState({showModal: false});
-    }
 
     openModal(room) {
-        if (room) {
-            this.setState({
-                showModal: true,
-                room,
-                edit: true,
-            });
-        } else {
-            this.setState({
-                showModal: true,
-                room: {},
-                edit: false,
-            });
-        }
+
     }
 
     loadRooms(page = 1) {
@@ -108,40 +86,18 @@ class RoomsContainer extends React.Component {
         this.props.roomActions.loadRoomsData(page, this.state.query, this.state.selectBaseId);
     }
 
-    updateFormData(event) {
-        const field = event.target.name;
-        let room = {...this.state.room};
-        room[field] = event.target.value;
-        this.setState({room: room});
-    }
 
     onChangeBase(value) {
         this.setState({selectBaseId: value, page: 1});
         this.props.roomActions.loadRoomsData(1, this.state.query, value);
     }
 
-    onChangeBaseForm(value) {
-        this.setState({
-            room: {
-                ...this.state.room,
-                base_id: value
-            }
-        });
-    }
-
-    storeRoom() {
-        if (helper.isEmptyInput(this.state.room.base_id)) {
-            helper.showTypeNotification("Vui lòng chọn cơ sở", "warning");
-            return;
-        }
-        this.props.roomActions.storeRoom(this.state.room, this.closeModal);
-    }
 
     render() {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-
+                    <EditRoomModalContainer/>
 
                     <div className="card">
 
@@ -150,7 +106,7 @@ class RoomsContainer extends React.Component {
                         </div>
 
                         <div className="card-content">
-                            <h4 className="card-title">Phòng học</h4>
+                            <h4 className="card-title">Phòng</h4>
 
 
                             {this.props.isLoadingBases ? <Loading/> :
@@ -198,51 +154,7 @@ class RoomsContainer extends React.Component {
 
 
                 </div>
-                <Modal show={this.state.showModal} onHide={this.closeModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.state.edit ? "Sửa phòng" : "Tạo phòng"}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form role="form"
-                              id="form-add-room">
-                            <FormInputText
-                                label="Tên phòng"
-                                required
-                                name="name"
-                                updateFormData={this.updateFormData}
-                                value={this.state.room.name}
-                            />
-                            <Select
-                                defaultMessage={'Chọn cơ sở'}
-                                options={this.state.bases}
-                                value={this.state.room.base_id}
-                                onChange={this.onChangeBaseForm}
-                            />
-                            {
-                                this.props.isStoringRoom ?
-                                    (
-                                        <button
-                                            className="btn btn-rose disabled"
-                                            type="button"
-                                        >
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            {this.state.edit ? 'Đang lưu' : 'Đang tạo'}
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button
-                                            className="btn btn-rose"
-                                            type="button"
-                                            onClick={this.storeRoom}
-                                        >
-                                            {this.state.edit ? 'Lưu' : 'Tạo'}
-                                        </button>
-                                    )
-                            }
-                        </form>
-                    </Modal.Body>
-                </Modal>
+
             </div>
         );
     }
@@ -250,6 +162,7 @@ class RoomsContainer extends React.Component {
 
 RoomsContainer.propTypes = {
     isStoringRoom: PropTypes.bool.isRequired,
+    roomActions: PropTypes.object.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     errorStoreRoom: PropTypes.bool.isRequired,
@@ -263,7 +176,6 @@ function mapStateToProps(state) {
     return {
         isLoading: state.rooms.isLoading,
         isLoadingBases: state.rooms.isLoadingBases,
-        isStoringRoom: state.rooms.isStoringRoom,
         errorStoreRoom: state.rooms.errorStoreRoom,
         currentPage: state.rooms.currentPage,
         totalPages: state.rooms.totalPages,

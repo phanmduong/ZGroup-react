@@ -118,9 +118,9 @@ class ProductSystemContainer extends React.Component {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label className="label-control">Giá bán</label>
-                            <input type="text"
+                            <input type="number"
                                    name="price"
-                                   placeholder="0"
+                                   placeholder="Nhập giá bán của sản phẩm"
                                    className="form-control"
                                    value={product.price}
                                    onChange={this.updateFormData}/>

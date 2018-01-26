@@ -1,8 +1,55 @@
 export default {
+
+    bankAccount: {
+        accounts: [1,2,3,4],
+        isLoading: false
+    },
+
+    inventoryOrder: {
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        inventories: [],
+        totalMoney: 0,
+        totalQuantity: 0,
+        staffs: []
+    },
+
+    orderedDetail: {
+        isLoading: false,
+        order: {
+            size: '',
+            link: '',
+            color: '',
+            description: '',
+            sale_off: 0,
+            weight: 0,
+            tax: true,
+            unit: '',
+            ratio: 1,
+            money: 0,
+            fee: 0,
+            code: '',
+            endTime: ''
+        },
+        customer: {
+            name: '',
+            phone: '',
+            email: '',
+            note: '',
+            quantity: 0,
+            price: 0
+        }
+    },
+
+
     finance: {
         bankTransfers: [],
         isLoading: false
     },
+
     currency: {
         currencies: [],
         isLoading: false,
@@ -16,6 +63,9 @@ export default {
     },
 
     orderedProduct: {
+        addNoteModal: false,
+        orderNote: {},
+        isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
         totalDeliveryOrders: 0,
@@ -1364,8 +1414,13 @@ export default {
         rooms: [],
         isLoadingBases: false,
         errorBases: false,
-        isStoringRoom: false,
         errorStoreRoom: false,
+
+        room: {},
+        showEditRoomModal: false,
+        isStoringRoom: false,
+        isEditRoom: false,
+
         bases: [],
     },
     excel: {
@@ -1589,6 +1644,7 @@ export default {
         surveys: [],
         isLoading: false,
         survey: {},
+        showSummaryModal: false,
         showEditQuestionModal: false,
         showEditSurveyModal: false,
         question: {},

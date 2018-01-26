@@ -9,10 +9,19 @@ import {
     ADD_ANSWER_TO_QUESTION, REMOVE_ANSWER_FROM_QUESTION,
     DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING,
     OPEN_EDIT_SURVEY_DISPLAY_ORDER, TOGGLE_EDIT_SURVEY_MODAL, UPDATE_SURVEY_FORM_DATA, SAVE_SURVEY_DATA_SUCCESS,
-    UPDATE_SURVEY_DATA_IN_LIST,
+    UPDATE_SURVEY_DATA_IN_LIST, TOGGLE_SUMMARY_SURVEY_MODAL,
 } from '../../constants/actionTypes';
 import * as surveyApi from './surveyApi';
 import {showErrorMessage, showNotification} from "../../helpers/helper";
+
+export const toggleSummaryModal = (showSummaryModal) => {
+    return (dispatch) => {
+        dispatch({
+            type: TOGGLE_SUMMARY_SURVEY_MODAL,
+            showSummaryModal
+        });
+    };
+};
 
 export const showGlobalLoading = () => {
     return (dispatch) => {
