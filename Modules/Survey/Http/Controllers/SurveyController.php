@@ -69,7 +69,8 @@ class SurveyController extends ManageApiController
             return $this->respondErrorWithStatus("Bạn cần truyền lên nội dung câu trả lời");
         }
 
-        $userLessonSurveyQuestion = $this->surveyService->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $request->answer_content);
+        $userLessonSurveyQuestion = $this->surveyService
+            ->saveUserLessonSurveyQuestion($question, $userLessonSurvey, $request->answer_id, $request->answer_content);
 
         return $this->respondSuccessWithStatus([
             "user_lesson_survey_question" => $userLessonSurveyQuestion
@@ -219,6 +220,10 @@ class SurveyController extends ManageApiController
         $survey->name = $request->name;
         $survey->user_id = $this->user->id;
         $survey->is_final = $request->is_final;
+        $survey->description = $request->description;
+        $survey->target = $request->target;
+        $survey->image_name = uploadFileToS3($request, "image_url", 1000, $survey->image_name);
+        $survey->image_url = config("app.s3_url") . $survey->image_name;
         $survey->save();
         if ($request->questions) {
             $questions = json_decode($request->questions);
@@ -282,9 +287,10 @@ class SurveyController extends ManageApiController
         $survey = new Survey;
         //validate
 
-        $this->assignSurveyInfo($survey, $request);
+        $survey = $this->assignSurveyInfo($survey, $request);
+
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'survey' => $survey->shortData()
         ]);
     }
 
