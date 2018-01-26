@@ -5,6 +5,8 @@ namespace Modules\UpCoworkingSpace\Http\Controllers;
 use App\Http\Controllers\ApiPublicController;
 use App\Http\Controllers\ManageApiController;
 use App\RoomServiceRegister;
+use App\RoomServiceSubscription;
+use App\RoomServiceSubscriptionKind;
 use App\RoomServiceUserPack;
 use App\User;
 use Illuminate\Http\Request;
@@ -21,6 +23,8 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
     public function getRegisters(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        $search = $request->search;
+
         $registers = RoomServiceRegister::query();
 
         if ($request->user_id)
@@ -59,5 +63,59 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
                 return $userPack->getData();
             })
         ]);
+    }
+
+    public function getSubscription($userPackId, Request $request)
+    {
+        $subscriptions = RoomServiceSubscription::where('user_pack_id', $userPackId);
+
+        $subscriptions = $subscriptions->orderBy('created_at', 'desc')->get();
+        return $this->respondSuccessWithStatus([
+            'subscriptions' => $subscriptions->map(function ($subscription) {
+                return $subscription->getData();
+            })
+        ]);
+    }
+
+    public function createSubscription($userPackId, Request $request)
+    {
+        $subscription = new RoomServiceSubscription;
+
+        $subscription->description = $request->description;
+        $subscription->price = $request->price;
+        $subscription->subscription_kind_id = $request->subscription_kind_id;
+
+        $subscription->save();
+
+        return $this->respondSuccess('Tạo gói thành viên thành công');
+    }
+
+    public function getSubscriptionKinds(Request $request)
+    {
+        $search = $request->search;
+
+        $subscriptionKinds = RoomServiceSubscriptionKind::query();
+        $subscriptionKinds = $subscriptionKinds->where('name', 'like', '%' . $search . '%');
+        $subscriptionKinds = $subscriptionKinds->orderBy('created_at', 'desc')->get();
+        return $this->respondErrorWithStatus([
+            'subscription_kinds' => $subscriptionKinds->map(function($subscriptionKind){
+                return $subscriptionKind->getData();
+            })
+        ]);
+    }
+
+    public function createSubscriptionKind(Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus('Thiếu tên');
+
+        $subscriptionKind = new RoomServiceSubscriptionKind;
+
+        $subscriptionKind->name = $request->name;
+        $subscriptionKind->hours = $request->hours;
+
+        $subscriptionKind->save();
+
+        return $this->respondSuccess('Tạo thành công');
     }
 }
