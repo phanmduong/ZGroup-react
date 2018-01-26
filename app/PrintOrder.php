@@ -34,10 +34,10 @@ class PrintOrder extends Model
                 "name" => $this->staff->name,
             ],
             "status" => $this->status,
-            "company" => [
+            "company" => $this->company ? [
                 "id" => $this->company->id,
                 "name" => $this->company->name,
-            ],
+            ] : [],
             "good" => [
                 "id" => $this->good->id,
                 "name" => $this->good->name,
