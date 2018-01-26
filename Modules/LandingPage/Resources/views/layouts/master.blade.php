@@ -93,7 +93,7 @@
 
     $(document).ready(function () {
         $('#imageFileField').on('change',function(evt) {
-            if (evt.target.files[0].name.indexOf(" ")>0){
+            if (evt.target.files[0] && evt.target.files[0].name.indexOf(" ")>0){
                 $(this).val("");
                 toastr.warning("Tên file không được rỗng");
             };
