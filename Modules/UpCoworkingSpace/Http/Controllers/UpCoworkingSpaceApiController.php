@@ -23,7 +23,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $user_packs = $user_packs->map(function ($user_pack) {
             $data = $user_pack->transform();
             $data['subscriptions'] = $user_pack->subscriptions->map(function ($subscription) {
-                return $subscription->transform();
+                return $subscription->getData();
             });
             return $data;
         });
