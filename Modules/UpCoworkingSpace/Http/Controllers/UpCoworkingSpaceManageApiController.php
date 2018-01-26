@@ -25,9 +25,11 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
 
-        if($search)
-        $registers = RoomServiceRegister::join('users','users.id','=','room_service_registers.user_id')
-            ->select('room_service_registers.*')->where('users.name','like','%'.$search.'%');
+        if ($search)
+            $registers = RoomServiceRegister::join('users', 'users.id', '=', 'room_service_registers.user_id')
+                ->select('room_service_registers.*')->where(function ($query) use ($search) {
+                    $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
+                });
         else $registers = RoomServiceRegister::query();
 
 
@@ -139,9 +141,11 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
             "message" => "Tạo thành công"
         ]);
     }
-    public function editUserPack($userPackId,Request $request){
+
+    public function editUserPack($userPackId, Request $request)
+    {
         $userPack = RoomServiceUserPack::find($userPackId);
-        if(!$userPack) return $this->respondErrorWithStatus("Không tồn tại");
+        if (!$userPack) return $this->respondErrorWithStatus("Không tồn tại");
         if ($request->name === null || trim($request->name) == "" ||
             $request->avatar_url === null || trim($request->avatar_url) == "")
             return $this->respondErrorWithStatus("Thiếu trường");
