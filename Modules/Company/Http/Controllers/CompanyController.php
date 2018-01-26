@@ -319,6 +319,13 @@ class CompanyController extends ManageApiController
         ]);
 
     }
+    public function getPrintOrder($printOrderId,Request $request){
+        $printorder = PrintOrder::find($printOrderId);
+        if(!$printorder) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+           "printOrder" => $printorder->transform()
+        ]);
+    }
     public function createExportOrder(Request $request){
         if($request->good_id === null ||
            $request->company_id === null ||
