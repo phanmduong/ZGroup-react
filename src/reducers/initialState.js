@@ -1364,8 +1364,13 @@ export default {
         rooms: [],
         isLoadingBases: false,
         errorBases: false,
-        isStoringRoom: false,
         errorStoreRoom: false,
+
+        room: {},
+        showEditRoomModal: false,
+        isStoringRoom: false,
+        isEditRoom: false,
+
         bases: [],
     },
     excel: {
