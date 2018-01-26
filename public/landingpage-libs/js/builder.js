@@ -1442,7 +1442,7 @@ function styleClick(el) {
                 formdata = new FormData(form[0]);
             }
 
-            if (formdata.filename.indexOf(" ") < 0) {
+            if (form[0].file[0].name.indexOf(" ") < 0) {
                 var formAction = form.attr('action');
 
                 $.ajax({
