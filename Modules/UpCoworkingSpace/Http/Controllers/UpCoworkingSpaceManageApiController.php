@@ -86,6 +86,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
     {
         $subscription = new RoomServiceSubscription;
 
+        $subscription->user_pack_id = $userPackId;
         $subscription->description = $request->description;
         $subscription->price = $request->price;
         $subscription->subscription_kind_id = $request->subscription_kind_id;
