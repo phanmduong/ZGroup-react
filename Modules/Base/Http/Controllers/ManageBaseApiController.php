@@ -44,18 +44,7 @@ class ManageBaseApiController extends ManageApiController
         $room->save();
     }
 
-    public function provinces()
-    {
-        $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))
-            ->select("district.provinceid as province_id")->pluck("province_id")->toArray();
-        $provinceIds = collect(array_unique($provinceIds));
-        return $this->respondSuccessWithStatus([
-            "provinces" => $provinceIds->map(function ($provinceId) {
-                $province = Province::find($provinceId);
-                return $province->transform();
-            })->values()
-        ]);
-    }
+
 
     public function getAllProvinces()
     {
@@ -73,19 +62,7 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function basesInProvince($provinceId, Request $request)
-    {
-        $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
-            ->where("province.provinceid", $provinceId)->select("district.*")->pluck("districtid");
-        $bases = Base::whereIn("district_id", $districtIds);
-        $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
-        $bases = $bases->get();
-        return $this->respondSuccessWithStatus([
-            "bases" => $bases->map(function ($base) {
-                return $base->transform();
-            })
-        ]);
-    }
+
 
     public function getBases(Request $request)
     {

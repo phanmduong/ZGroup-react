@@ -328,7 +328,7 @@ class User extends Authenticatable
         return [
             'id' => $this->id,
             'name' => $this->name,
-            "avatar_url" => $this->avatar_url ? $this->avatar_url : defaultAvatarUrl(),
+            "avatar_url" => $this->avatar_url ? generate_protocol_url($this->avatar_url) : defaultAvatarUrl(),
             'role' => $this->current_role ? $this->current_role->getData() : null,
         ];
     }

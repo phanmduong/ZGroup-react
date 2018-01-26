@@ -6,18 +6,21 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::get('', 'SurveyController@getSurveys');
 
     Route::get('/history', 'SurveyController@getSurveyHistory');
-    Route::get('{surveyId}', 'SurveyController@getSurvey');
+    Route::get('/{surveyId}', 'SurveyController@getSurvey');
+    Route::get('/{surveyId}/result', 'SurveyController@surveyResult');
+    Route::get('/{surveyId}/user-summary', 'SurveyController@summarySurvey');
 
     Route::post('', 'SurveyController@createSurvey');
+    Route::post('/{surveyId}', 'SurveyController@editSurvey');
 
     Route::post('/{surveyId}/user-lesson', 'SurveyController@createUserLessonSurvey');
     Route::put('/user-lesson-survey/{userLessonSurveyId}', 'SurveyController@endUserLessonSurvey');
     Route::post('/question/{questionId}/user-lesson/{userLessonSurveyId}/answer', 'SurveyController@saveUserLessonSurveyQuestion');
 
     Route::put('/questions', 'SurveyController@updateQuestionOrder');
-    Route::put('{surveyId}', 'SurveyController@editSurvey');
+    Route::put('/{surveyId}', 'SurveyController@editSurvey');
 
-    Route::delete('{surveyId}', 'SurveyController@deleteSurvey');
+    Route::delete('/{surveyId}', 'SurveyController@deleteSurvey');
     Route::post('/{surveyId}/question', 'SurveyController@updateQuestion');
     Route::post('/{surveyId}/lesson/{lessonId}', 'SurveyController@addSurveyLesson');
     Route::delete('/{surveyId}/lesson/{lessonId}', 'SurveyController@removeSurveyLesson');
@@ -27,4 +30,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::delete('/question/{questionId}', 'SurveyController@deleteQuestion');
     Route::delete('/question/{questionId}', 'SurveyController@deleteQuestion');
 
+});
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/app/survey', 'namespace' => 'Modules\Survey\Http\Controllers'], function () {
+    Route::get('', 'AppSurveyController@getSurveys');
 });

@@ -40,6 +40,7 @@ class Survey extends Model
     {
         return [
             'id' => $this->id,
+            "active" => $this->active,
             "image_url" => $this->image_url ? $this->image_url : emptyImageUrl(),
             "description" => $this->description ? $this->description : "",
             'name' => $this->name,
@@ -54,14 +55,15 @@ class Survey extends Model
     public function getData()
     {
         $data = $this->shortData();
-        $data["survey_lessons"] = $this->lessons->map(function ($lesson) {
-            $course = $lesson->course;
-            return [
-                "lesson_id" => $lesson->id,
-                "course" => $course->shortTransform(),
-                "lesson" => $lesson->shortTransform()
-            ];
-        });
+        $data["survey_lessons"] = $this->lessons()->orderBy("created_at", "desc")
+            ->get()->map(function ($lesson) {
+                $course = $lesson->course;
+                return [
+                    "lesson_id" => $lesson->id,
+                    "course" => $course->shortTransform(),
+                    "lesson" => $lesson->shortTransform()
+                ];
+            });
         return $data;
     }
 
