@@ -127,7 +127,7 @@ class DeliveryOrderApiController extends ManageApiController
     public function createDeliveryOrder(Request $request)
     {
         $request->code = $request->code ? $request->code :
-            'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('delivery') + 1, 4, '0',STR_PAD_LEFT);
+            'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('delivery') + 1, 4, '0', STR_PAD_LEFT);
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu thông tin người dùng'
@@ -261,10 +261,10 @@ class DeliveryOrderApiController extends ManageApiController
         }
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->get();
 
-        $totalQuantity = $deliveryOrders->reduce(function ($total, $deliveryOrder){
+        $totalQuantity = $deliveryOrders->reduce(function ($total, $deliveryOrder) {
             return $total + $deliveryOrder->quantity;
         }, 0);
-        $totalMoney = $deliveryOrders->reduce(function ($total, $deliveryOrder){
+        $totalMoney = $deliveryOrders->reduce(function ($total, $deliveryOrder) {
             return $total + $deliveryOrder->quantity * $deliveryOrder->price;
         }, 0);
         return $this->respondSuccessWithStatus([
@@ -283,5 +283,11 @@ class DeliveryOrderApiController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'message' => $response['message']
         ]);
+    }
+
+    public function importDeliveryOrder($deliveryOrderId, Request $request)
+    {
+        if($request->warehouse_id == null)
+            return $this->respondErrorWithStatus('Cần phải chọn kho hàng để nhập');
     }
 }

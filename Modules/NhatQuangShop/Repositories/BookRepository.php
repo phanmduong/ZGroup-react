@@ -154,7 +154,9 @@ class BookRepository
         $order->ship_infor_id = $ship_infor->id;
         $order->status_paid = 0;
         $order->type = "order";
-        $order->code = "ORDER" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $orders_count = Order::where('type', 'order')->where('created_at', '>=', Carbon::today())->count();
+        $order->code = 'ORDER' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($orders_count + 1, 4, '0', STR_PAD_LEFT);
+
         $order->save();
 
 
@@ -222,13 +224,13 @@ class BookRepository
             foreach ($goods_arr as $good) {
                 $order = new Order;
                 $currency = Currency::find($good->currencyId);
-                $order->code =  'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad(++$todayOrderCount, 4, '0',STR_PAD_LEFT);
+                $order->code = 'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad(++$todayOrderCount, 4, '0', STR_PAD_LEFT);
                 $order->user_id = $user_id;
                 $order->address = $address;
                 $order->email = $email;
                 $order->quantity = $good->number;
                 $order->type = "delivery";
-                $order->price    = $good->number * $currency->ratio * $good->price;
+                $order->price = $good->number * $currency->ratio * $good->price;
                 $order->status = 'place_order';
                 $object = new \stdClass();
                 $object->tax = $good->tax;
