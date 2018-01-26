@@ -28,7 +28,7 @@ export default [
         component: CreatePrintOrderContainer,
     },
     {
-        path: "/business/print-order/create/:printOrderId",
+        path: "/business/print-order/edit/:printOrderId",
         component: CreatePrintOrderContainer,
     },
 ];

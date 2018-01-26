@@ -70,3 +70,39 @@ export function loadAllCompanies() {
     };
 }
 
+export function createPrintOrder(data, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CREATE_PRINT_ORDER});
+        printOrderApi.createPrintOrder(data)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.CREATE_PRINT_ORDER_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.CREATE_PRINT_ORDER_ERROR});
+                }
+            });
+    };
+}
+
+export function loadPrintOrderInfo(id, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_INFO_PRINT_ORDER});
+        printOrderApi.loadPrintOrderInfo(id)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.LOAD_INFO_PRINT_ORDER_SUCCESS,
+                    });
+                    success(res.data.data.printOrder);
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.LOAD_INFO_PRINT_ORDER_ERROR});
+                }
+            });
+    };
+}
+

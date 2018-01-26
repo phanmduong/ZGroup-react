@@ -8,6 +8,7 @@ import Loading from "../../components/common/Loading";
 import ReactSelect from 'react-select';
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDate from "../../components/common/FormInputDate";
+import {browserHistory} from 'react-router';
 
 class CreatePrintOrderContainer extends React.Component {
     constructor(props, context) {
@@ -18,6 +19,7 @@ class CreatePrintOrderContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGood = this.changeGood.bind(this);
         this.changeCompany = this.changeCompany.bind(this);
+        this.commitData = this.commitData.bind(this);
     }
 
     componentWillMount() {
@@ -25,10 +27,29 @@ class CreatePrintOrderContainer extends React.Component {
         //this.props.printOrderActions.resetData();
         this.props.printOrderActions.loadAllGoods();
         this.props.printOrderActions.loadAllCompanies();
-        //this.setState({data: defaultData});
-        this.state.data=defaultData;
-        if(this.props.params.printOrderId){
-            console.log("id", this.props.params.printOrderId);
+
+        //this.state.data = defaultData;
+        if (this.props.params.printOrderId) {
+            this.props.printOrderActions.loadPrintOrderInfo(this.props.params.printOrderId,
+                (data)=>{
+                    console.log(data);
+
+                    this.setState({
+                        data: {...data,
+                        core1: JSON.parse(data.core1),
+                        core2: JSON.parse(data.core2),
+                        cover1: JSON.parse(data.cover1),
+                        cover2: JSON.parse(data.cover2),
+                        spare_part1: JSON.parse(data.spare_part1),
+                        spare_part2: JSON.parse(data.spare_part2),
+                        packing1: JSON.parse(data.packing1),
+                        packing2: JSON.parse(data.packing2),
+                        other: JSON.parse(data.other),}
+                    });
+                }
+            );
+        }else{
+            this.state.data = defaultData;
         }
     }
 
@@ -36,19 +57,19 @@ class CreatePrintOrderContainer extends React.Component {
         console.log("next", nextProps);
     }
 
-    updateFormData(e){
+    updateFormData(e) {
         let name = e.target.name;
         let value = e.target.value;
         let attribute = name.split('-');
         let newdata = {...this.state.data};
-        if(attribute[1]) {
+        if (attribute[1]) {
             let newAttribute = {...this.state.data[attribute[0]]};
             newAttribute[attribute[1]] = value;
             newdata = {
                 ...this.state.data,
                 [attribute[0]]: newAttribute,
             };
-        }else {
+        } else {
             newdata = {
                 ...this.state.data,
                 [attribute[0]]: value,
@@ -58,16 +79,38 @@ class CreatePrintOrderContainer extends React.Component {
         this.setState({data: newdata});
     }
 
-    changeGood(e){
-        let newdata ={...this.state.data, good: e};
+    changeGood(e) {
+        let newdata = {...this.state.data, good: e};
         //this.props.printOrderActions.updateFormData(newdata);
         this.setState({data: newdata});
     }
 
-    changeCompany(e){
-        let newdata ={...this.state.data, company: e};
+    changeCompany(e) {
+        let newdata = {...this.state.data, company: e};
         //this.props.printOrderActions.updateFormData(newdata);
         this.setState({data: newdata});
+    }
+
+    commitData(){
+        let {data} = this.state;
+        let commitData = {
+            ...data,
+            staff_id: this.props.user.id,
+            company_id: data.company.id,
+            good_id: data.good.id,
+            core1: JSON.stringify(data.core1),
+            core2: JSON.stringify(data.core2),
+            cover1: JSON.stringify(data.cover1),
+            cover2: JSON.stringify(data.cover2),
+            spare_part1: JSON.stringify(data.spare_part1),
+            spare_part2: JSON.stringify(data.spare_part2),
+            packing1: JSON.stringify(data.packing1),
+            packing2: JSON.stringify(data.packing2),
+            other: JSON.stringify(data.other),
+        };
+        this.props.printOrderActions.createPrintOrder(commitData, ()=>{
+            return browserHistory.push("/business/print-order");
+        });
     }
 
     render() {
@@ -86,9 +129,9 @@ class CreatePrintOrderContainer extends React.Component {
             +
             data.spare_part2.number * data.spare_part2.price
             +
-            data.packing1.price*1 + data.packing2.price*1
+            data.packing1.price * 1 + data.packing2.price * 1
             +
-            data.other.price*1
+            data.other.price * 1
         ;
         let VAT_price = Math.round(1.1 * total_price).toFixed(2);
 //        console.log(total_price,VAT_price,data.core1.number,data.core1.price,data.core2.number,data.core2.price,data.cover1.number,data.cover1.price,data.cover2.number,data.cover2.price,data.spare_part1.number,data.spare_part1.price,data.spare_part2.number,data.spare_part2.price,data.packing1.price ,data.packing2.price,data.other.price)
@@ -370,7 +413,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             <td><FormInputText
                                                                 label="Gia công"
                                                                 type="text"
-                                                                name="spare_part2-made_byádads"
+                                                                name="spare_part2-made_by"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.made_by || ""}
 
@@ -500,7 +543,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                     <div className="col-md-12">
                                                         <label>Nhà cung cấp</label>
                                                         <ReactSelect
-                                                            disabled={isLoading}
+                                                            disabled={this.props.isLoadingCompanies}
                                                             options={companies || []}
                                                             onChange={this.changeCompany}
                                                             value={data.company.id || ""}
@@ -510,7 +553,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                     <div className="col-md-12">
                                                         <label>Sản phẩm</label>
                                                         <ReactSelect
-                                                            disabled={isLoading}
+                                                            disabled={this.props.isLoadingGoods}
                                                             options={goods || []}
                                                             onChange={this.changeGood}
                                                             value={data.good.id || ""}
@@ -525,7 +568,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                                     name="note"
                                                                     onChange={this.updateFormData}
                                                                     value={data.note}
-                                                                    onKeyUp={()=>{}}
+                                                                    onKeyUp={() => {
+                                                                    }}
                                                                     placeholder="Tự đánh giá"
                                                                     className="comment-input"
                                                                     required
@@ -554,7 +598,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Tên sản phẩm"
                                                             type="text"
                                                             name="name"
-                                                            updateFormData={() => {}}
+                                                            updateFormData={() => {
+                                                            }}
                                                             value={data.good.name || ""}
                                                             disabled={true}
                                                         />
@@ -564,7 +609,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Mã sản phẩm"
                                                             type="text"
                                                             name="code"
-                                                            updateFormData={() => {}}
+                                                            updateFormData={() => {
+                                                            }}
                                                             value={data.good.code || ""}
                                                             disabled={true}
                                                         />
@@ -574,7 +620,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Giá thành"
                                                             type="number" minValue="0"
                                                             name="totalprice"
-                                                            updateFormData={() => {}}
+                                                            updateFormData={() => {
+                                                            }}
                                                             value={total_price || ""}
                                                             disabled={true}
                                                         />
@@ -584,16 +631,46 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Giá sau VAT(10%)"
                                                             type="number" minValue="0"
                                                             name="vatprice"
-                                                            updateFormData={() => {}}
+                                                            updateFormData={() => {
+                                                            }}
                                                             value={VAT_price || ""}
                                                             disabled={true}
                                                         />
                                                     </div>
-                                                </div>
 
+                                                    {this.props.isCommitting ?
+                                                        <div className="col-md-12">
+                                                            <button className="btn btn-rose  disabled" type="button"
+                                                                    disabled>
+                                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                            </button>
+                                                        </div>
+
+                                                        :
+                                                        <div className="col-md-12">
+                                                            <button
+                                                                className="btn btn-fill btn-rose"
+                                                                type="button"
+                                                                onClick={this.commitData}
+                                                            > Lưu
+                                                            </button>
+                                                            <button
+                                                                className="btn btn-fill btn-rose"
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    browserHistory.push("/business/print-order");
+                                                                }}
+                                                            > Hủy
+                                                            </button>
+                                                        </div>
+
+                                                    }
+
+                                                </div>
                                             </div>
 
                                         </div>
+
 
                                     </div>
                                 </div>
@@ -609,6 +686,10 @@ class CreatePrintOrderContainer extends React.Component {
 
 CreatePrintOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isCommitting: PropTypes.bool,
+    isLoadingInfoPrintOrder: PropTypes.bool,
+    isLoadingGoods: PropTypes.bool,
+    isLoadingCompanies: PropTypes.bool,
     user: PropTypes.object,
     companies: PropTypes.array,
     goods: PropTypes.array,
@@ -619,6 +700,10 @@ CreatePrintOrderContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading: state.printOrder.isLoading,
+        isCommitting: state.printOrder.isCommitting,
+        isLoadingInfoPrintOrder: state.printOrder.isCommitting,
+        isLoadingGoods: state.printOrder.isCommitting,
+        isLoadingCompanies: state.printOrder.isCommitting,
         user: state.login.user,
         companies: state.printOrder.companies,
         goods: state.printOrder.goods,

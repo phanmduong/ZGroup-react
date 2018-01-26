@@ -1640,6 +1640,10 @@ export default {
     },
     printOrder: {
         isLoading: false,
+        isCommitting: false,
+        isLoadingInfoPrintOrder: false,
+        isLoadingGoods: false,
+        isLoadingCompanies: false,
         listPrintOrder: [
             {
                 company: {id: 0, name: "company"},

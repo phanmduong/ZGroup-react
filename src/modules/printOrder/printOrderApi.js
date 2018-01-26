@@ -32,3 +32,24 @@ export function loadAllCompanies() {
     return axios.get(url);
 }
 
+export function createPrintOrder(data) {
+    //http://manageapi.keetool.xyz/company/print-order?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+
+    return axios.post(url, data);
+}
+export function loadPrintOrderInfo(id) {
+    //http://manageapi.keetool.xyz/company/print-order/21?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order/" + id;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+

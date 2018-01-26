@@ -29,12 +29,12 @@ export default function printOrderReducer(state = initialState.printOrder, actio
         case types.BEGIN_LOAD_ALL_GOODS_PRINT_ORDER:
             return {
                 ...state,
-                isLoading: true,
+                isLoadingGoods: true,
             };
         case types.LOAD_ALL_GOODS_PRINT_ORDER_SUCCESS:{
             return {
                 ...state,
-                isLoading: false,
+                isLoadingGoods: false,
                 goods: getSelectArray(action.goods),
             };
         }
@@ -42,18 +42,18 @@ export default function printOrderReducer(state = initialState.printOrder, actio
         case types.LOAD_ALL_GOODS_PRINT_ORDER_ERROR:
             return {
                 ...state,
-                isLoading: false,
+                isLoadingGoods: false,
             };
 
         case types.BEGIN_LOAD_ALL_COMPANIES_PRINT_ORDER:
             return {
                 ...state,
-                isLoading: true,
+                isLoadingCompanies: true,
             };
         case types.LOAD_ALL_COMPANIES_PRINT_ORDER_SUCCESS:{
             return {
                 ...state,
-                isLoading: false,
+                isLoadingCompanies: false,
                 companies: getSelectArray(action.companies),
             };
         }
@@ -61,7 +61,24 @@ export default function printOrderReducer(state = initialState.printOrder, actio
         case types.LOAD_ALL_COMPANIES_PRINT_ORDER_ERROR:
             return {
                 ...state,
-                isLoading: false,
+                isLoadingCompanies: false,
+            };
+
+        case types.BEGIN_CREATE_PRINT_ORDER:
+            return {
+                ...state,
+                isCommitting: true,
+            };
+        case types.CREATE_PRINT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        }
+        case types.CREATE_PRINT_ORDER_ERROR:
+            return {
+                ...state,
+                isCommitting: false,
             };
 
         default:

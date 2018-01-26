@@ -55,7 +55,7 @@ class ListPrintOrder extends React.Component {
                                 <td>{order.receive_date}</td>
                                 <td>{order.note}</td>
                                 <td><ButtonGroupAction
-                                    edit={()=>{}}
+                                    editUrl={"/business/print-order/edit/" + order.id}
                                     disabledDelete={true}
                                 /></td>
                             </tr>
