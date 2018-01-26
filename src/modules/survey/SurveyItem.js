@@ -52,7 +52,7 @@ class SurveyItem extends React.Component {
         );
         const percent = (
             <Tooltip id="tooltip">
-                {survey.target === 0 ? 0 : (survey.take * 100 / survey.target).toFixed(2)}%
+                {survey.take}/{survey.target} - {survey.target === 0 ? 0 : (survey.take * 100 / survey.target).toFixed(2)}%
             </Tooltip>
         );
         const SurveyNametoolTip = (
