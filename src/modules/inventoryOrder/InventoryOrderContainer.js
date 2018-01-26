@@ -28,6 +28,7 @@ class InventoryOrderContainer extends React.Component {
         this.inventoriesOrderSearchChange = this.inventoriesOrderSearchChange.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.updateFormDate = this.updateFormDate.bind(this);
     }
 
     componentWillMount() {
@@ -191,12 +192,12 @@ class InventoryOrderContainer extends React.Component {
                                                 className="material-icons">assignment</i>
                                             </div>
                                             <div className="card-content"><h4 className="card-title">Danh sách
-                                                hàng tồn kho</h4>
+                                                hàng đặt tồn kho</h4>
                                                 <div className="row">
                                                     <Search
                                                         onChange={this.inventoriesOrderSearchChange}
                                                         value={this.state.query}
-                                                        placeholder="Nhập tên hoặc mã hàng hoá để tìm"
+                                                        placeholder="Nhập tên hoặc số điện thoại người dùng để tìm"
                                                         className="col-lg-10 col-md-10 col-sm-10"
                                                     />
                                                     <div className="col-lg-2 col-md-2 col-sm-2">
@@ -208,7 +209,7 @@ class InventoryOrderContainer extends React.Component {
                                                 </div>
                                                 <div id="demo" className="collapse">
                                                     <div className="row">
-                                                        <div className="form-group col-lg-3 col-md-3 col-sm-3">
+                                                        <div className="form-group col-lg-4 col-md-4 col-sm-4">
                                                             <label className="label-control">Tìm theo thu ngân</label>
                                                             <Select
                                                                 value={this.state.staff_id}
@@ -222,16 +223,7 @@ class InventoryOrderContainer extends React.Component {
                                                                 onChange={this.staffsSearchChange}
                                                             />
                                                         </div>
-                                                        <div className="form-group col-lg-3 col-md-3 col-sm-3">
-                                                            <label className="label-control">Tìm theo người dùng</label>
-                                                            <Select
-                                                                name="categories"
-                                                                value={this.state.user_id}
-                                                                options={[]}
-                                                                onChange={this.categoriesSearchChange}
-                                                            />
-                                                        </div>
-                                                        <div className="col-lg-3 col-md-3 col-sm-3">
+                                                        <div className="col-lg-4 col-md-4 col-sm-4">
                                                             <FormInputDate
                                                                 label="Từ ngày"
                                                                 name="startTime"
@@ -241,7 +233,7 @@ class InventoryOrderContainer extends React.Component {
                                                                 maxDate={this.state.time.endTime}
                                                             />
                                                         </div>
-                                                        <div className="col-lg-3 col-md-3 col-sm-3">
+                                                        <div className="col-lg-4 col-md-4 col-sm-4">
                                                             <FormInputDate
                                                                 label="Đến ngày"
                                                                 name="endTime"

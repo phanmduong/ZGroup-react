@@ -1,4 +1,9 @@
 export default {
+    bankAccount: {
+        accounts: [1,2,3,4],
+        isLoading: false
+    },
+
     inventoryOrder: {
         isLoading: false,
         totalPages: 1,

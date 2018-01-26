@@ -1,6 +1,7 @@
 import CollectMoneyContainer from "../modules/collectMoney/CollectMoneyContainer";
 import HistoryCollectMoneyContainer from "../modules/historyCollectMoney/HistoryCollectMoneyContainer";
 import CurrencyContainer from "../modules/currency/CurrencyContainer";
+import BankAccountContainer from "../modules/bankAccount/BankAccountContainer";
 
 /**
  * Tab Quản lý tài chính
@@ -17,5 +18,9 @@ export default [
     {
         path: "/finance/currencies",
         component: CurrencyContainer
+    },
+    {
+        path: "/finance/bank-account",
+        component: BankAccountContainer
     }
 ];
