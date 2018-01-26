@@ -48,7 +48,6 @@ class BlogsContainer extends React.Component {
     componentWillMount() {
         this.props.blogActions.getCategories();
         this.loadPosts(1);
-
     }
 
     openModal(isEdit, postId) {

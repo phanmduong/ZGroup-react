@@ -1616,4 +1616,20 @@ export default {
 
     },
 
+    userpacks : {
+        ListUserpacks : [],
+        isLoadingUserpacks : false,
+        isLoadingUserpack : false,
+        isLoadingSubKind : false,
+        isSavingAdd : false,
+        isSavingUserpack : false,
+        isSavingSubKind : false,
+        userpack : {
+            avatar_url : "",
+            name :"",
+            isUpdatingImage : false,
+        },
+        isSavingAddUserpack : false,
+    },
+
 };

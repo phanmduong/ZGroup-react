@@ -1,6 +1,7 @@
 import BasesContainer from "../modules/bases/BasesContainer";
 import RoomsContainer from "../modules/rooms/RoomsContainer";
 import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
+import UserpackContainer from "../modules/userpack/UserpackContainer";
 
 /**
  * Tab Cơ sở
@@ -25,5 +26,9 @@ export default [
         path: "/base/:baseId/edit",
         component: CreateBaseContainer,
         type: "edit"
-    }
+    },
+    {
+        path: "/base/member-package",
+        component: UserpackContainer,
+    },
 ];
