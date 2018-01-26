@@ -18,21 +18,45 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function allRegisters(Request $request)
+    public function getRegisters(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
         $registers = RoomServiceRegister::query();
 
-        if($request->staff_id)
+        if ($request->user_id)
+            $registers = $registers->where('user_id', $request->user_id);
+        if ($request->staff_id)
             $registers = $registers->where('staff_id', $request->staff_id);
-        if($request->status)
+        if ($request->status)
             $registers = $registers->where('status', $request->status);
 
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($registers, [
-            'room_service_registers' => $registers->map(function ($register){
+            'room_service_registers' => $registers->map(function ($register) {
                 return $register->getData();
+            })
+        ]);
+    }
+
+    public function getUserPacks(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $userPacks = RoomServiceUserPack::query();
+
+        if ($limit == -1) {
+            $userPacks = $userPacks->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'user_packs' => $userPacks->map(function ($userPack) {
+                    return $userPack->getData();
+                })
+            ]);
+        }
+
+        $userPacks = $userPacks->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($userPacks, [
+            'user_packs' => $userPacks->map(function ($userPack) {
+                return $userPack->getData();
             })
         ]);
     }

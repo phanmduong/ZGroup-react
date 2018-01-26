@@ -21,7 +21,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
     {
         $user_packs = RoomServiceUserPack::all();
         $user_packs = $user_packs->map(function ($user_pack) {
-            $data = $user_pack->transform();
+            $data = $user_pack->getData();
             $data['subscriptions'] = $user_pack->subscriptions->map(function ($subscription) {
                 return $subscription->getData();
             });

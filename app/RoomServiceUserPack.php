@@ -11,11 +11,13 @@ class RoomServiceUserPack extends Model
         return $this->hasMany(RoomServiceSubscription::class, 'user_pack_id');
     }
 
-    public function transform()
+    public function getData()
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'avatar_url' => $this->avatar_url,
+            'detail' => $this->detail,
         ];
     }
 }

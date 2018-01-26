@@ -6,7 +6,9 @@ $apiRoutes = function () {
 };
 
 $manageapiRoutes = function () {
-    Route::get('/register', 'UpCoworkingSpaceManageApiController@allRegisters');
+    Route::get('/register', 'UpCoworkingSpaceManageApiController@getRegisters');
+    Route::get('/subscription', 'UpCoworkingSpaceManageApiController@allSubscriptions');
+    Route::get('/user-pack', 'UpCoworkingSpaceManageApiController@allUserPacks');
 };
 
 
