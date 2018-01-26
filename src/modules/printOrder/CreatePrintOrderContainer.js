@@ -8,13 +8,12 @@ import Loading from "../../components/common/Loading";
 import ReactSelect from 'react-select';
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDate from "../../components/common/FormInputDate";
-import moment from "moment/moment";
 
 class CreatePrintOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            data: {...defaultData},
+            data: defaultData,
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGood = this.changeGood.bind(this);
@@ -26,7 +25,8 @@ class CreatePrintOrderContainer extends React.Component {
         //this.props.printOrderActions.resetData();
         this.props.printOrderActions.loadAllGoods();
         this.props.printOrderActions.loadAllCompanies();
-        this.setState({data: defaultData});
+        //this.setState({data: defaultData});
+        this.state.data=defaultData;
         if(this.props.params.printOrderId){
             console.log("id", this.props.params.printOrderId);
         }
@@ -470,7 +470,6 @@ class CreatePrintOrderContainer extends React.Component {
                                                                     updateFormData={this.updateFormData}
                                                                     value={data.order_date || ""}
                                                                     id="form-order-date"
-                                                                    minDate={moment()}
                                                                 /></td>
                                                                 <td colSpan={3}><FormInputDate
                                                                     label="Ngày nhận hàng"
@@ -478,7 +477,6 @@ class CreatePrintOrderContainer extends React.Component {
                                                                     updateFormData={this.updateFormData}
                                                                     value={data.receive_date || ""}
                                                                     id="form-receive-date"
-                                                                    minDate={moment()}
                                                                 /></td>
                                                             </tr>
                                                         }
@@ -503,9 +501,9 @@ class CreatePrintOrderContainer extends React.Component {
                                                         <label>Nhà cung cấp</label>
                                                         <ReactSelect
                                                             disabled={isLoading}
-                                                            options={companies}
+                                                            options={companies || []}
                                                             onChange={this.changeCompany}
-                                                            value={data.company.id}
+                                                            value={data.company.id || ""}
                                                             name="company"
                                                             defaultMessage="Chọn nhà cung cấp"
                                                         /></div>
@@ -513,9 +511,9 @@ class CreatePrintOrderContainer extends React.Component {
                                                         <label>Sản phẩm</label>
                                                         <ReactSelect
                                                             disabled={isLoading}
-                                                            options={goods}
+                                                            options={goods || []}
                                                             onChange={this.changeGood}
-                                                            value={data.good.id}
+                                                            value={data.good.id || ""}
                                                             name="good"
                                                             defaultMessage="Chọn sản phẩm"
                                                         /></div>

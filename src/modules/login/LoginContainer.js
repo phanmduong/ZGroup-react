@@ -54,9 +54,9 @@ class LoginContainer extends React.Component {
     }
 
     clickLogin() {
-        if ($('#form-login').valid()) {
+        // if ($('#form-login').valid()) {
             this.props.loginActions.updateFormData(this.state.login);
-        }
+        // }
     }
 
     render() {
