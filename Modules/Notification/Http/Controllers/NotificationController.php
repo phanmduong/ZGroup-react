@@ -3,6 +3,7 @@
 namespace Modules\Notification\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
+use App\NotificationType;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -40,47 +41,103 @@ class NotificationController extends ManageApiController
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function allNotificationTypes(Request $request)
     {
+
+        $limit = 1;
+
+        $notificationTypes = NotificationType::where('status', 1);
+        if ($request->search) {
+            $notificationTypes = $notificationTypes->where(function ($q) use ($request) {
+                $q->orWhere('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('template', 'like', '%' . $request->search . '%')
+                    ->orWhere('content_template', 'like', '%' . $request->search . '%');
+            });
+        }
+        $notificationTypes = $notificationTypes->orderBy('created_at', 'desc')->paginate($limit);
+
+        $data = [
+            'notification_types' => $notificationTypes->map(function ($notificationType) {
+                return $notificationType->transform();
+            })
+        ];
+
+        return $this->respondWithPagination($notificationTypes, $data);
     }
 
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
+    public function createNotificationType(Request $request)
     {
-        return view('notification::show');
+
+        if ($request->name == null) {
+            return $this->respondErrorWithStatus("Thiếu name");
+        }
+        if ($request->description == null) {
+            return $this->respondErrorWithStatus("Thiếu description");
+        }
+        if ($request->type == null) {
+            return $this->respondErrorWithStatus("Thiếu type");
+        }
+        $notificationType = new NotificationType();
+        $notificationType->color = $request->color;
+        $notificationType->name = $request->name;
+        $notificationType->template = $request->description;
+        $notificationType->icon = '<i class="material-icons">notifications</i>';
+        $notificationType->type = $request->type;
+        $notificationType->content_template = $request->content_template;
+        $notificationType->status = 1;
+        $notificationType->mobile_notification_type_id = $request->mobile_notification_type_id;
+        $notificationType->save();
+
+        return $this->respondSuccessWithStatus([
+            'notification_type' => $notificationType->transform()
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
+    public function editNotificationType($notificationTypeId, Request $request)
     {
-        return view('notification::edit');
+
+        if ($request->name == null) {
+            return $this->respondErrorWithStatus("Thiếu name");
+        }
+        if ($request->description == null) {
+            return $this->respondErrorWithStatus("Thiếu description");
+        }
+        if ($request->type == null) {
+            return $this->respondErrorWithStatus("Thiếu type");
+        }
+        $notificationType = NotificationType::find($notificationTypeId);
+        if ($notificationType == null) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+        $notificationType->color = $request->color;
+        $notificationType->name = $request->name;
+        $notificationType->template = $request->description;
+        $notificationType->icon = '<i class="material-icons">notifications</i>';
+        $notificationType->type = $request->type;
+        $notificationType->content_template = $request->content_template;
+        $notificationType->status = 1;
+        $notificationType->mobile_notification_type_id = $request->mobile_notification_type_id;
+        $notificationType->save();
+
+        return $this->respondSuccessWithStatus([
+            'notification_type' => $notificationType->transform()
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
+    public function deleteNotificationType($notificationTypeId)
     {
+        $notificationType = NotificationType::find($notificationTypeId);
+        if ($notificationType == null) {
+            return $this->respondErrorWithStatus("Không tồn tại");
+        }
+        $notificationType->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => "Xóa thành công"
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
+    public function sendNotification(Request $request)
     {
+
     }
 }
