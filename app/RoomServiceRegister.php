@@ -27,8 +27,9 @@ class RoomServiceRegister extends Model
     {
         $data = [
             'id' => $this->id,
+            'code' => $this->code,
             'money' => $this->money,
-            'status' => $this->status
+            'status' => $this->status,
         ];
         if ($this->user)
             $data['user'] = [
