@@ -12,6 +12,8 @@ $manageapiRoutes = function () {
     Route::post('/user-pack/{userPackId}/subscription', 'UpCoworkingSpaceManageApiController@createSubscriptions');
     Route::get('/subscription-kind', 'UpCoworkingSpaceManageApiController@getSubscriptionKinds');
     Route::post('/subscription-kind', 'UpCoworkingSpaceManageApiController@createSubscriptionKind');
+    Route::post('user-pack','UpCoworkingSpaceManageApiController@createUserPack');
+    Route::put('user-pack/{userPackId}','UpCoworkingSpaceManageApiController@editUserPack');
 };
 
 
