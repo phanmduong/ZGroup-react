@@ -92,6 +92,12 @@
 
 
     $(document).ready(function () {
+        $('#imageFileField').on('change',function(evt) {
+            if (evt.target.files[0].name.indexOf(" ")>0){
+                $(this).val("");
+                toastr.warning("Tên file không được rỗng");
+            };
+        });
         setTimeout(function () {
         }, 1000);
         jQuery.validator.addMethod("noSpace", function (value, element) {
@@ -206,6 +212,7 @@
             $("#exportSubmit").html("<i class=\"pi pixicon-download\"></i> Xuất");
             $("#exportSubmit").removeClass("disabled");
         });
+        
     }
 </script>
 </body>
