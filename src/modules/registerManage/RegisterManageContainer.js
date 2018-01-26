@@ -5,7 +5,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Search from '../../components/common/Search';
-import FormInputDate from '../../components/common/FormInputDate';
 import TooltipButton from '../../components/common/TooltipButton';
 import ListOrder from './ListOrder';
 import * as registerManageAction from './registerManageAction';
@@ -15,6 +14,7 @@ import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
 //import Loading from "../../components/common/Loading";
 import {Link} from "react-router";
+import {REGISTER_STATUS} from "../../constants/constants";
 
 class RegisterManageContainer extends React.Component {
     constructor(props, context) {
@@ -22,17 +22,19 @@ class RegisterManageContainer extends React.Component {
         this.state = {
             page: 1,
             query: '',
-            user_id: null,
             staff_id: null,
             status: null
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
+        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.statusesSearchChange = this.statusesSearchChange.bind(this);
     }
 
     componentWillMount() {
         this.props.registerManageAction.loadAllRegisters();
+        this.props.registerManageAction.getAllStaffs();
     }
 
     registersSearchChange(value) {
@@ -47,11 +49,62 @@ class RegisterManageContainer extends React.Component {
             this.props.registerManageAction.loadAllRegisters(
                 1,
                 value,
-                this.state.user_id,
                 this.state.staff_id,
                 this.state.status
             );
         }.bind(this), 500);
+    }
+
+    staffsSearchChange(value) {
+        if (value) {
+            this.setState({
+                staff_id: value.value,
+                page: 1
+            });
+            this.props.registerManageAction.loadAllRegisters(
+                1,
+                this.state.query,
+                value.value,
+                this.state.status
+            );
+        } else {
+            this.setState({
+                staff_id: null,
+                page: 1
+            });
+            this.props.registerManageAction.loadAllRegisters(
+                1,
+                this.state.query,
+                null,
+                this.state.status
+            );
+        }
+    }
+
+    statusesSearchChange(value) {
+        if (value) {
+            this.setState({
+                status: value.value,
+                page: 1
+            });
+            this.props.registerManageAction.loadAllRegisters(
+                1,
+                this.state.query,
+                this.state.staff_id,
+                value.value
+            );
+        } else {
+            this.setState({
+                status: null,
+                page: 1
+            });
+            this.props.registerManageAction.loadAllRegisters(
+                1,
+                this.state.query,
+                this.state.staff_id,
+                null
+            );
+        }
     }
 
     loadOrders(page = 1) {
@@ -59,7 +112,6 @@ class RegisterManageContainer extends React.Component {
         this.props.registerManageAction.loadAllRegisters(
             page,
             this.state.query,
-            this.state.user_id,
             this.state.staff_id,
             this.state.status
         );
@@ -115,7 +167,7 @@ class RegisterManageContainer extends React.Component {
                                         <Search
                                             onChange={this.registersSearchChange}
                                             value={this.state.query}
-                                            placeholder="Nhập mã đơn hoặc email khách hàng"
+                                            placeholder="Nhập mã đăng ký hoặc tên khách hàng"
                                         />
                                     </div>
                                     <div className="col-md-2">
@@ -132,24 +184,22 @@ class RegisterManageContainer extends React.Component {
                                                 <div className="form-group col-md-4">
                                                     <label className="label-control">Tìm theo thu ngân</label>
                                                     <Select
-                                                        value={this.state.staff}
-                                                        options={[]}
+                                                        value={this.state.staff_id}
+                                                        options={this.props.staffs.map((staff) => {
+                                                            return {
+                                                                ...staff,
+                                                                value: staff.id,
+                                                                label: staff.name
+                                                            };
+                                                        })}
                                                         onChange={this.staffsSearchChange}
-                                                    />
-                                                </div>
-                                                <div className="form-group col-md-4">
-                                                    <label className="label-control">Tìm theo cửa hàng</label>
-                                                    <Select
-                                                        value={this.state.base}
-                                                        options={[]}
-                                                        onChange={this.displayStatusChange}
                                                     />
                                                 </div>
                                                 <div className="form-group col-md-4">
                                                     <label className="label-control">Tìm theo trạng thái</label>
                                                     <Select
                                                         value={this.state.status}
-                                                        options={[]}
+                                                        options={REGISTER_STATUS}
                                                         onChange={this.statusesSearchChange}
                                                     />
                                                 </div>
@@ -189,7 +239,8 @@ RegisterManageContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     registers: PropTypes.array.isRequired,
     registerManageAction: PropTypes.object.isRequired,
-    currentPage: PropTypes.number.isRequired
+    currentPage: PropTypes.number.isRequired,
+    staffs: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -199,7 +250,8 @@ function mapStateToProps(state) {
         registers: state.registerManage.registers,
         limit: state.registerManage.limit,
         totalCount: state.registerManage.totalCount,
-        currentPage: state.registerManage.currentPage
+        currentPage: state.registerManage.currentPage,
+        staffs: state.registerManage.staffs
     };
 }
 

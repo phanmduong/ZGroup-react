@@ -1,8 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router';
 import TooltipButton from '../../components/common/TooltipButton';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
+import {REGISTER_STATUS} from "../../constants/constants";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
@@ -45,7 +45,7 @@ class ItemOrder extends React.Component {
         return (
             <tr>
                 <td>
-                    {register.code}
+                    {register.code || "Chưa có"}
                 </td>
                 <td>{register.subscription.subscription_kind_name}</td>
                 <td>{register.subscription.user_pack_name}</td>
@@ -56,7 +56,7 @@ class ItemOrder extends React.Component {
                     {register.subscription.hours}
                 </td>
                 <td>
-                    {register.status}
+                    {REGISTER_STATUS.filter(status => status.value === register.status)[0].label}
                 </td>
                 <td>
                     {helper.dotNumber(register.subscription.price)}đ

@@ -1,6 +1,7 @@
 export default {
     registerManage: {
         registers: [],
+        staffs: [],
         isLoading: false,
         totalPages: 1,
         currentPage: 1,

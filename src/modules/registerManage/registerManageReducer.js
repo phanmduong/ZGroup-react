@@ -20,6 +20,11 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                 currentPage: action.currentPage,
                 totalCount: action.totalCount
             };
+        case types.GET_ALL_STAFFS_REGISTER_MANAGE:
+            return {
+                ...state,
+                staffs: action.staffs
+            };
         default:
             return state;
     }
