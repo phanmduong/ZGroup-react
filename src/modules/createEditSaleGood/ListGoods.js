@@ -9,6 +9,8 @@ import * as createSaleGoodsActions from './createSaleGoodsActions';
 import Search from '../../components/common/Search';
 import Pagination from '../../components/common/Pagination';
 
+import * as helper from '../../helpers/helper';
+
 
 class ListGoods extends React.Component {
     constructor(props, context) {
@@ -47,7 +49,12 @@ class ListGoods extends React.Component {
     }
 
     updateFormData(item) {
-        this.props.createSaleGoodsActions.assignGoodFormData(item);
+        if (item.quantity === 0) {
+            helper.showTypeNotification(item.name + " hiện đã hết hàng" , "warning");
+        }
+        else {
+            this.props.createSaleGoodsActions.assignGoodFormData(item);
+        }
     }
 
 

@@ -7,11 +7,10 @@ import Link from "react-router/es/Link";
 import Search from "../../components/common/Search";
 import ListBase from "./ListBase";
 import Loading from "../../components/common/Loading";
-import _ from 'lodash';
-// Import actions here!!
 import * as baseListActions from './baseListActions';
 import toastr from 'toastr';
 import {confirm} from "../../helpers/helper";
+import Pagination from "../../components/common/Pagination";
 
 
 class BasesContainer extends React.Component {
@@ -106,24 +105,11 @@ class BasesContainer extends React.Component {
                         </div>
 
                         <div className="card-content">
-                            <ul className="pagination pagination-primary">
-                                {_.range(1, this.props.totalPages + 1).map(page => {
-                                    if (Number(currentPage) === page) {
-                                        return (
-                                            <li key={page} className="active">
-                                                <a onClick={() => this.loadBases(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    } else {
-                                        return (
-                                            <li key={page}>
-                                                <a onClick={() => this.loadBases(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    }
-
-                                })}
-                            </ul>
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={this.props.totalPages}
+                                loadDataPage={this.loadBases}
+                            />
                         </div>
                     </div>
 

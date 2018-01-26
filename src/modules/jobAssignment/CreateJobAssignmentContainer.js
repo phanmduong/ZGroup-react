@@ -75,7 +75,7 @@ class CreateJobAssignmentContainer extends React.Component {
     updateFormDataBonusType(e){
         if(!e) return;
         let newdata = {...this.props.data,currency : e};
-        this.props.jobAssgnmentAction.updateFormData(newdata);
+        this.props.jobAssignmentAction.updateFormData(newdata);
     }
 
 
@@ -202,7 +202,8 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             disabled={this.props.isLoading}
                                                             options={this.props.currencies}
                                                             onChange={this.updateFormDataBonusType}
-                                                            value={this.props.data.currency || ""}                                                           defaultMessage="Đơn vị"
+                                                            value={this.props.data.currency || ""}
+                                                            defaultMessage="Đơn vị"
                                                             style={{marginTop: "20px", width: "100%"}}
                                                         /></div>
                                                     <div className="col-md-12"
@@ -270,7 +271,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                                         return this.setState({show: true,staffId: payer.id});
                                                                     }}><i className="material-icons">info</i></div>
                                                                     :
-                                                                    <div></div>
+                                                                    <div/>
                                                             }</div>
 
                                                         </div>

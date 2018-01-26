@@ -248,30 +248,35 @@ export const TYPE_CLASSES = [
     }
 ];
 export const STATUS_WORK = [
-    {
+    {//0
         label: "Đợi chấp nhận",
         action: "Chấp nhận",
         value: "pending",
     },
-    {
+    {//1
         label: "Đang thực hiện",
         action: "Xin gia hạn",
         value: "doing",
     },
-    {
+    {//2
         label: "Hoàn thành",
         action: "",
         value: "done",
     },
-    {
+    {//3
         label: "Hủy",
         action: "",
         value: "cancel",
     },
-    {
+    {//4
         label: "Chi tiền",
         action: "",
         value: "pay",
+    },
+    {//5
+        label: "Lưu trữ",
+        action: "",
+        value: "archive",
     },
 ];
 

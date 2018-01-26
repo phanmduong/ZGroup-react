@@ -943,7 +943,6 @@ export function saveWorkBookToExcel(wb, filename) {
     }
 }
 
-
 export function superSortCategories(categories) {
     categories.reverse();
     let result = [];
@@ -1247,4 +1246,12 @@ export function randomMonoChromeHEX(degree) {
     return hslToHex(degree, 99, Math.floor(Math.random() * 40) + 50);
 
 
+}
+
+export function shortString(str, maxLength) {
+    let arrStr = str.trim().split(" ");
+    arrStr = arrStr.slice(0, Math.min(arrStr.length, maxLength));
+    const result = arrStr.join(" ");
+    if (arrStr.length < maxLength) return str;
+    return result + " ..."
 }
