@@ -18,7 +18,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function allRegister(Request $request)
+    public function allRegisters(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
         $registers = RoomServiceRegister::query();
