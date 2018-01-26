@@ -45,7 +45,6 @@ class ManageBaseApiController extends ManageApiController
     }
 
 
-
     public function getAllProvinces()
     {
         $provinces = Province::all();
@@ -61,7 +60,6 @@ class ManageBaseApiController extends ManageApiController
             'provinces' => $provinces
         ]);
     }
-
 
 
     public function getBases(Request $request)

@@ -298,7 +298,7 @@ class SurveyController extends ManageApiController
     public function assignSurveyInfo(&$survey, $request)
     {
         $survey->name = $request->name;
-        $survey->user_id = $this->user->id;
+//        $survey->user_id = $this->user->id;
         $survey->is_final = $request->is_final;
         $survey->description = $request->description;
         $survey->active = $request->active;
@@ -373,6 +373,7 @@ class SurveyController extends ManageApiController
     public function createSurvey(Request $request)
     {
         $survey = new Survey();
+        $survey->user_id = $this->user->id;
         //validate
         $survey = $this->assignSurveyInfo($survey, $request);
 
