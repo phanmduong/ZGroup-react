@@ -77,7 +77,7 @@
 <script src="js/redactor/bufferButtons.js"></script>
 <script src="js/src-min-noconflict/ace.js"></script>
 <script src="elements.json"></script>
-<script src="js/builder.js"></script>
+<script src="js/builder.js?123"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(function () {

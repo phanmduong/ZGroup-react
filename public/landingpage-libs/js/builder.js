@@ -1442,58 +1442,64 @@ function styleClick(el) {
                 formdata = new FormData(form[0]);
             }
 
-            var formAction = form.attr('action');
+            if (formdata.filename.indexOf(" ") < 0) {
+                var formAction = form.attr('action');
 
-            $.ajax({
-                url: formAction,
-                data: formdata ? formdata : form.serialize(),
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                type: 'POST',
-            }).done(function (response) {
+                $.ajax({
+                    url: formAction,
+                    data: formdata ? formdata : form.serialize(),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    type: 'POST',
+                }).done(function (response) {
 
-                if (response.code == 1) {//success
-                    $('input#imageURL').val(response.response);
-                    //	$(el).css( 'background-image', response.response )	;
+                    if (response.code == 1) {//success
+                        $('input#imageURL').val(response.response);
+                        //	$(el).css( 'background-image', response.response )	;
 
 
-                    if ((hasClass(el, 'pix_builder_bg'))) {
-                        //	$(el).css( 'padding-top', '200px' )	;
-                        var stringurl = "url('" + response.response + "')";
-                        $(el).css('background-image', stringurl);
-                        //$(el).style.backgroundSize = "cover";
-                        //	$(el).style.backgroundImage = stringurl;
-                    } else {
-                        $(el).attr('src', response.response);
+                        if ((hasClass(el, 'pix_builder_bg'))) {
+                            //	$(el).css( 'padding-top', '200px' )	;
+                            var stringurl = "url('" + response.response + "')";
+                            $(el).css('background-image', stringurl);
+                            //$(el).style.backgroundSize = "cover";
+                            //	$(el).style.backgroundImage = stringurl;
+                        } else {
+                            $(el).attr('src', response.response);
+                        }
+                        //reset the file upload
+                        $('.imageFileTab').find('a.fileinput-exists').click();
+
+
+                        /* SANDBOX */
+
+                        sandboxID = hasSandbox($(el))
+
+                        if (sandboxID) {
+
+                            elementID = $(el).attr('id');
+
+                            $('#' + sandboxID).contents().find('#' + elementID).attr('src', response.response);
+
+                        }
+
+                        /* END SANDBOX */
+                        $('input[name=background-image]').val("url(" + response.response + ")");
+
+                    } else if (response.code == 0) {//error
+
+                        alert('Something went wrong: ' + response.response)
+
                     }
-                    //reset the file upload
-                    $('.imageFileTab').find('a.fileinput-exists').click();
 
 
-                    /* SANDBOX */
-
-                    sandboxID = hasSandbox($(el))
-
-                    if (sandboxID) {
-
-                        elementID = $(el).attr('id');
-
-                        $('#' + sandboxID).contents().find('#' + elementID).attr('src', response.response);
-
-                    }
-
-                    /* END SANDBOX */
-                    $('input[name=background-image]').val("url(" + response.response + ")");
-
-                } else if (response.code == 0) {//error
-
-                    alert('Something went wrong: ' + response.response)
-
-                }
-
-            })
+                })
+            } else {
+                toastr.warning("File không được chứa khoảng trắng");
+                $('input#imageFileField').val('');
+            }
 
 
         } else if ($('a#img_Link').css('display') == 'block') {
