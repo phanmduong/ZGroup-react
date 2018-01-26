@@ -19,13 +19,12 @@ class PrintOrderContainer extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props);
         this.props.printOrderActions.loadPrintOrders();
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log(nextProps);
+    // }
 
 
     render() {
@@ -45,12 +44,12 @@ class PrintOrderContainer extends React.Component {
                                     <h4 className="card-title">Danh sách đặt in</h4>
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <div className="col-xs-3">
+                                            <div className="col-sm-3">
                                                 <Link to="/business/print-order/create" className="btn btn-rose" style={{width: "100%"}}>
                                                     Đặt In
                                                 </Link>
                                             </div>
-                                            <Search className="col-xs-9" placeholder="Tìm kiếm"
+                                            <Search className="col-sm-9" placeholder="Tìm kiếm"
                                                 value={this.state.query}
                                                 onChange={()=>{}}
                                             />
@@ -65,8 +64,6 @@ class PrintOrderContainer extends React.Component {
                                         totalPages={paginator.total_pages}
                                         loadDataPage={printOrderActions.loadPrintOrders}/>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>

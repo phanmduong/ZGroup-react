@@ -34,7 +34,7 @@ class ListPrintOrder extends React.Component {
                         <th>Số lượng</th>
                         <th>Ngày đặt</th>
                         <th>Ngày nhận</th>
-                        <th>Ghi chú</th>
+                        <th style={{width: "10%"}}>Ghi chú</th>
                         <th/>
                     </tr>
                     </thead>
@@ -53,7 +53,12 @@ class ListPrintOrder extends React.Component {
                                 <td>{order.quantity}</td>
                                 <td>{order.order_date}</td>
                                 <td>{order.receive_date}</td>
-                                <td>{order.note}</td>
+                                <td style={{wordBreak: "break-word"}}>{
+                                    order.note.length > 60 ?
+                                        (order.note.substring(0,60)  + "...")
+                                        :
+                                        order.note
+                                }</td>
                                 <td><ButtonGroupAction
                                     editUrl={"/business/print-order/edit/" + order.id}
                                     disabledDelete={true}

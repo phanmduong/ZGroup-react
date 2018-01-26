@@ -5,7 +5,7 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function printOrderReducer(state = initialState.printOrder, action) {
-    console.log(action.type, state.data);
+    // console.log(action.type, state.data);
     switch (action.type) {
         case types.BEGIN_LOAD_PRINT_ORDERS:
             return {
@@ -76,6 +76,22 @@ export default function printOrderReducer(state = initialState.printOrder, actio
             };
         }
         case types.CREATE_PRINT_ORDER_ERROR:
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        case types.BEGIN_EDIT_PRINT_ORDER:
+            return {
+                ...state,
+                isCommitting: true,
+            };
+        case types.EDIT_PRINT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        }
+        case types.EDIT_PRINT_ORDER_ERROR:
             return {
                 ...state,
                 isCommitting: false,

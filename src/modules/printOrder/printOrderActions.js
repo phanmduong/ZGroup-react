@@ -87,6 +87,23 @@ export function createPrintOrder(data, success) {
             });
     };
 }
+export function editPrintOrder(data, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_PRINT_ORDER});
+        printOrderApi.editPrintOrder(data)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.EDIT_PRINT_ORDER_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.EDIT_PRINT_ORDER_ERROR});
+                }
+            });
+    };
+}
 
 export function loadPrintOrderInfo(id, success) {
     return function (dispatch) {

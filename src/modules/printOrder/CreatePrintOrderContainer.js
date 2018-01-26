@@ -9,6 +9,7 @@ import ReactSelect from 'react-select';
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDate from "../../components/common/FormInputDate";
 import {browserHistory} from 'react-router';
+import * as helper from "../../helpers/helper";
 
 class CreatePrintOrderContainer extends React.Component {
     constructor(props, context) {
@@ -31,31 +32,31 @@ class CreatePrintOrderContainer extends React.Component {
         //this.state.data = defaultData;
         if (this.props.params.printOrderId) {
             this.props.printOrderActions.loadPrintOrderInfo(this.props.params.printOrderId,
-                (data)=>{
-                    console.log(data);
-
+                (data) => {
                     this.setState({
-                        data: {...data,
-                        core1: JSON.parse(data.core1),
-                        core2: JSON.parse(data.core2),
-                        cover1: JSON.parse(data.cover1),
-                        cover2: JSON.parse(data.cover2),
-                        spare_part1: JSON.parse(data.spare_part1),
-                        spare_part2: JSON.parse(data.spare_part2),
-                        packing1: JSON.parse(data.packing1),
-                        packing2: JSON.parse(data.packing2),
-                        other: JSON.parse(data.other),}
+                        data: {
+                            ...data,
+                            core1: JSON.parse(data.core1),
+                            core2: JSON.parse(data.core2),
+                            cover1: JSON.parse(data.cover1),
+                            cover2: JSON.parse(data.cover2),
+                            spare_part1: JSON.parse(data.spare_part1),
+                            spare_part2: JSON.parse(data.spare_part2),
+                            packing1: JSON.parse(data.packing1),
+                            packing2: JSON.parse(data.packing2),
+                            other: JSON.parse(data.other),
+                        }
                     });
                 }
             );
-        }else{
+        } else {
             this.state.data = defaultData;
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log("next", nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log("next", nextProps);
+    // }
 
     updateFormData(e) {
         let name = e.target.name;
@@ -91,30 +92,59 @@ class CreatePrintOrderContainer extends React.Component {
         this.setState({data: newdata});
     }
 
-    commitData(){
+    commitData() {
         let {data} = this.state;
-        let commitData = {
-            ...data,
-            staff_id: this.props.user.id,
-            company_id: data.company.id,
-            good_id: data.good.id,
-            core1: JSON.stringify(data.core1),
-            core2: JSON.stringify(data.core2),
-            cover1: JSON.stringify(data.cover1),
-            cover2: JSON.stringify(data.cover2),
-            spare_part1: JSON.stringify(data.spare_part1),
-            spare_part2: JSON.stringify(data.spare_part2),
-            packing1: JSON.stringify(data.packing1),
-            packing2: JSON.stringify(data.packing2),
-            other: JSON.stringify(data.other),
-        };
-        this.props.printOrderActions.createPrintOrder(commitData, ()=>{
-            return browserHistory.push("/business/print-order");
-        });
+        if(!data.company.id  || !data.good.id){
+            helper.showErrorNotification("Vui lòng chọn Nhà cung cấp và Sản phẩm");
+            return;
+        }
+        if(!data.order_date  || !data.receive_date){
+            helper.showErrorNotification("Vui lòng chọn Ngày đặt in và Ngày nhận hàng");
+            return;
+        }
+        if (this.props.params.printOrderId) {
+            let commitData = {
+                ...data,
+                staff_id: this.props.user.id,
+                company_id: data.company.id,
+                good_id: data.good.id,
+                core1: JSON.stringify(data.core1),
+                core2: JSON.stringify(data.core2),
+                cover1: JSON.stringify(data.cover1),
+                cover2: JSON.stringify(data.cover2),
+                spare_part1: JSON.stringify(data.spare_part1),
+                spare_part2: JSON.stringify(data.spare_part2),
+                packing1: JSON.stringify(data.packing1),
+                packing2: JSON.stringify(data.packing2),
+                other: JSON.stringify(data.other),
+            };
+            this.props.printOrderActions.editPrintOrder(commitData, () => {
+                return browserHistory.push("/business/print-order");
+            });
+        }else {
+            let commitData = {
+                ...data,
+                staff_id: this.props.user.id,
+                company_id: data.company.id,
+                good_id: data.good.id,
+                core1: JSON.stringify(data.core1),
+                core2: JSON.stringify(data.core2),
+                cover1: JSON.stringify(data.cover1),
+                cover2: JSON.stringify(data.cover2),
+                spare_part1: JSON.stringify(data.spare_part1),
+                spare_part2: JSON.stringify(data.spare_part2),
+                packing1: JSON.stringify(data.packing1),
+                packing2: JSON.stringify(data.packing2),
+                other: JSON.stringify(data.other),
+            };
+            this.props.printOrderActions.createPrintOrder(commitData, () => {
+                return browserHistory.push("/business/print-order");
+            });
+        }
     }
 
     render() {
-        let {companies, goods, isLoading} = this.props;
+        let {companies, goods, isLoading, isCommitting} = this.props;
         let {data} = this.state;
         let total_price =
             data.core1.number * data.core1.price
@@ -170,6 +200,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core1-number"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core1.number || ""}
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
@@ -177,7 +208,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core1-material"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core1.material || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Màu"
@@ -185,7 +216,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core1-color"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core1.color || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
@@ -193,7 +224,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core1-size"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core1.size || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
@@ -201,7 +232,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core1-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core1.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
                                                         <tr>
@@ -212,7 +243,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core2-number"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core2.number || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
@@ -220,7 +251,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core2-material"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core2.material || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Màu"
@@ -228,7 +259,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core2-color"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core2.color || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
@@ -236,7 +267,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core2-size"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core2.size || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
@@ -244,7 +275,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="core2-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core2.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
                                                         <tr>
@@ -255,7 +286,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover1-number"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover1.number || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
@@ -263,7 +294,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover1-material"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover1.material || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Màu"
@@ -271,7 +302,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover1-color"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover1.color || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
@@ -279,7 +310,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover1-size"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover1.size || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
@@ -287,7 +318,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover1-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover1.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
                                                         <tr>
@@ -298,7 +329,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover2-number"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover2.number || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td colSpan={2}><FormInputText
                                                                 label="Chất liệu"
@@ -306,7 +337,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover2-material"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover2.material || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Màu"
@@ -314,7 +345,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover2-color"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover2.color || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
@@ -322,7 +353,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover2-size"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover2.size || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
@@ -330,7 +361,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="cover2-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.cover2.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
                                                         <tr>
@@ -341,7 +372,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part1-name"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.name || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Số lượng"
@@ -349,7 +380,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part1-number"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.number || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Chất liệu"
@@ -357,7 +388,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part1-material"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.material || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Gia công"
@@ -365,7 +396,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part1-made_by"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.made_by || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
@@ -373,7 +404,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part1-size"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.size || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
@@ -381,7 +412,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part1-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
                                                         <tr>
@@ -392,7 +423,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part2-name"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.name || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Số lượng"
@@ -400,7 +431,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part2-number"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.number || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Chất liệu"
@@ -408,7 +439,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part2-material"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.material || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Gia công"
@@ -416,7 +447,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part2-made_by"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.made_by || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Khổ in"
@@ -424,7 +455,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part2-size"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.size || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td><FormInputText
                                                                 label="Giá"
@@ -432,7 +463,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="spare_part2-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
                                                         <tr>
@@ -448,7 +479,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="packing1-name"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.packing1.name || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td colSpan={3}><FormInputText
                                                                 label="Giá"
@@ -456,7 +487,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="packing1-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.packing1.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
                                                         <tr>
@@ -472,7 +503,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="packing2-name"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.packing2.name || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td colSpan={3}><FormInputText
                                                                 label="Giá"
@@ -480,7 +511,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="packing2-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.packing2.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
                                                         <tr>
@@ -491,7 +522,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="other-name"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.other.name || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                             <td colSpan={3}><FormInputText
                                                                 label="Giá"
@@ -499,11 +530,9 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 name="other-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.other.price || ""}
-
+                                                                disabled={isCommitting}
                                                             /></td>
                                                         </tr>
-                                                        {
-                                                            !this.props.isLoading &&
 
                                                             <tr>
                                                                 <td colSpan={1}>Thời gian</td>
@@ -513,6 +542,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                     updateFormData={this.updateFormData}
                                                                     value={data.order_date || ""}
                                                                     id="form-order-date"
+                                                                    disabled={isCommitting}
                                                                 /></td>
                                                                 <td colSpan={3}><FormInputDate
                                                                     label="Ngày nhận hàng"
@@ -520,9 +550,10 @@ class CreatePrintOrderContainer extends React.Component {
                                                                     updateFormData={this.updateFormData}
                                                                     value={data.receive_date || ""}
                                                                     id="form-receive-date"
+                                                                    disabled={isCommitting}
                                                                 /></td>
                                                             </tr>
-                                                        }
+
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -543,7 +574,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                     <div className="col-md-12">
                                                         <label>Nhà cung cấp</label>
                                                         <ReactSelect
-                                                            disabled={this.props.isLoadingCompanies}
+                                                            disabled={this.props.isLoadingCompanies || isCommitting}
                                                             options={companies || []}
                                                             onChange={this.changeCompany}
                                                             value={data.company.id || ""}
@@ -553,7 +584,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                     <div className="col-md-12">
                                                         <label>Sản phẩm</label>
                                                         <ReactSelect
-                                                            disabled={this.props.isLoadingGoods}
+                                                            disabled={this.props.isLoadingGoods || isCommitting}
                                                             options={goods || []}
                                                             onChange={this.changeGood}
                                                             value={data.good.id || ""}
@@ -568,9 +599,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                                     name="note"
                                                                     onChange={this.updateFormData}
                                                                     value={data.note}
-                                                                    onKeyUp={() => {
-                                                                    }}
-                                                                    placeholder="Tự đánh giá"
+                                                                    onKeyUp={() => {}}
+                                                                    placeholder="Nhập ghi chú"
                                                                     className="comment-input"
                                                                     required
                                                                     style={{
@@ -578,6 +608,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                                         margin: "10px",
                                                                         height: "150px",
                                                                     }}
+                                                                    disabled={isCommitting}
                                                                 />
                                                         </div>
                                                     </div>
@@ -598,8 +629,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Tên sản phẩm"
                                                             type="text"
                                                             name="name"
-                                                            updateFormData={() => {
-                                                            }}
+                                                            updateFormData={() => {}}
                                                             value={data.good.name || ""}
                                                             disabled={true}
                                                         />
@@ -609,8 +639,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Mã sản phẩm"
                                                             type="text"
                                                             name="code"
-                                                            updateFormData={() => {
-                                                            }}
+                                                            updateFormData={() => {}}
                                                             value={data.good.code || ""}
                                                             disabled={true}
                                                         />
@@ -652,13 +681,16 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 className="btn btn-fill btn-rose"
                                                                 type="button"
                                                                 onClick={this.commitData}
+                                                                disabled={isCommitting}
                                                             > Lưu
                                                             </button>
                                                             <button
                                                                 className="btn btn-fill btn-rose"
                                                                 type="button"
                                                                 onClick={() => {
-                                                                    browserHistory.push("/business/print-order");
+                                                                    helper.confirm("warning","Hủy bỏ","Bạn có chắc muốn hủy không?",
+                                                                        ()=>{return browserHistory.push("/business/print-order");}
+                                                                    );
                                                                 }}
                                                             > Hủy
                                                             </button>
@@ -721,9 +753,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreatePrintOrderCont
 
 
 let defaultData = {
-    company: {id: 0, name: ""},
-    staff: {id: 0, name: ""},
-    good: {id: 0, name: ""},
+    company: {id: null, name: ""},
+    staff: {id: null, name: ""},
+    good: {id: null, name: ""},
     quantity: 1,
     command_code: "",
     core1: {
@@ -784,6 +816,6 @@ let defaultData = {
     },
     price: 1,
     note: "",
-    order_date: "",
-    receive_date: "",
+    order_date: null,
+    receive_date: null,
 };
