@@ -157,4 +157,13 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
             "message" => "Sửa thành công"
         ]);
     }
+    public function changeStatusUserPack($userPackId,Request $request){
+        $userPack = RoomServiceUserPack::find($userPackId);
+        if (!$userPack) return $this->respondErrorWithStatus("Không tồn tại");
+        $userPack->status = 1-$userPack->status;
+        $userPack->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Đổi thành công"
+        ]);
+    }
 }
