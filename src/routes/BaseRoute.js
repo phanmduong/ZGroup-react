@@ -1,6 +1,7 @@
 import BasesContainer from "../modules/bases/BasesContainer";
 import RoomsContainer from "../modules/rooms/RoomsContainer";
 import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
+import RegisterManageContainer from "../modules/registerManage/RegisterManageContainer";
 
 /**
  * Tab Cơ sở
@@ -25,5 +26,9 @@ export default [
         path: "/base/:baseId/edit",
         component: CreateBaseContainer,
         type: "edit"
+    },
+    {
+        path: "base/registers",
+        component: RegisterManageContainer
     }
 ];

@@ -1,6 +1,15 @@
 export default {
+    registerManage: {
+        registers: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+    },
+
     bankAccount: {
-        accounts: [1,2,3,4],
+        accounts: [1, 2, 3, 4],
         isLoading: false
     },
 

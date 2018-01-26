@@ -70,7 +70,7 @@ import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
 import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
-
+import registerManageReducer from "../modules/registerManage/registerManageReducer";
 
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
@@ -144,6 +144,7 @@ const appReducer = combineReducers({
     orderedDetail: orderedDetailReducer,
     inventoryOrder: inventoryOrderReducer,
     bankAccount: bankAccountReducer,
+    registerManage: registerManageReducer,
 });
 
 const rootReducer = (state, action) => {
