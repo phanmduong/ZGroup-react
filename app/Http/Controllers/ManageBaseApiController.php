@@ -170,6 +170,8 @@ class ManageBaseApiController extends ManageApiController
                     'base_id' => $room->base_id,
                     'base_name' => $room->base_name,
                     'address' => $room->address,
+                    'avatar_url' => $room->avatar_url,
+                    'images_url' => $room->images_url
                 ];
             })
         ];
