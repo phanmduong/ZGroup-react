@@ -308,8 +308,15 @@ class CompanyController extends ManageApiController
     }
     public function getAllPrintOrder(Request $request){
         $limit = $request->limit ? $request->limit : 20;
+        $search = $request->search;
         $printorders = PrintOrder::query();
+        if($search)
+            $printorders = $printorders->where('command_code','like','%'.$search.'%');
+        if($request->company_id)
+            $printorders = $printorders->where('company_id',$request->company_id);
 
+        if($request->good_id)
+            $printorders = $printorders->where('good_id',$request->good_id);
         $printorders = $printorders->orderBy('created_at','desc')->paginate($limit);
 
         return $this->respondWithPagination($printorders,[
