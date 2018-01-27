@@ -1424,13 +1424,15 @@ export default {
         isLoadingBases: false,
         errorBases: false,
         errorStoreRoom: false,
-
         room: {},
         showEditRoomModal: false,
+        indexEditModal: -1,
         isStoringRoom: false,
         isEditRoom: false,
-
         bases: [],
+        isUploadingAvatar: false,
+        percent: 0,
+        isUploadingImage: false,
     },
     excel: {
         isLoading: false,

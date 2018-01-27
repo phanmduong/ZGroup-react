@@ -80,6 +80,75 @@ export default function rolesReducer(state = initialState.rooms, action) {
                     errorStoreRoom: true,
                 }
             };
+        case types.TOGGLE_ROOM_EDIT_MODAL:
+            return {
+                ...state,
+                showEditRoomModal: !state.showEditRoomModal,
+                indexEditModal: action.index
+            };
+        case types.HANDLE_ROOM_EDIT_MODAL:
+            return {
+                ...state,
+                room: action.room
+            };
+        case types.UPLOAD_ROOM_AVATAR_COMPLETE:
+            return {
+                ...state,
+                room: {
+                    ...state.room,
+                    avatar_url: action.avatar_url
+                },
+                isUploadingAvatar: false
+            };
+        case types.UPDATE_ROOM_AVATAR_PROGRESS:
+            return {
+                ...state,
+                percent: action.percent
+            };
+        case types.BEGIN_UPLOAD_ROOM_AVATAR:
+            return {
+                ...state,
+                isUploadingAvatar: true
+            };
+        case types.BEGIN_UPLOAD_IMAGE_ROOM:
+            return {
+                ...state,
+                percent: 0,
+                isUploadingImage: true
+            };
+        case types.UPLOAD_IMAGE_COMPLETE_ROOM: {
+            let images_url = [];
+            if (state.room.images_url) images_url = JSON.parse(state.room.images_url);
+            if (action.length + action.first_length === images_url.length + 1) {
+                return {
+                    ...state,
+                    isUploadingImage: false,
+                    room: {
+                        ...state.room,
+                        images_url: JSON.stringify([...images_url, action.image])
+                    },
+                };
+            } else {
+                return {
+                    ...state,
+                    room: {
+                        ...state.room,
+                        images_url: JSON.stringify([...images_url, action.image])
+                    },
+                    isUploadingImage: true
+                };
+            }
+        }
+        case types.DELETE_IMAGE_ROOM: {
+            let images_url = JSON.parse(state.room.images_url);
+            return {
+                ...state,
+                room: {
+                    ...state.room,
+                    images_url: JSON.stringify(images_url.filter(image => image !== action.image))
+                }
+            };
+        }
         default:
             return state;
     }
