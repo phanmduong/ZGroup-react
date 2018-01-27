@@ -1852,5 +1852,14 @@ export default {
             receive_date: "",
         },
     }
+    notificationTypes: {
+        isLoading: false,
+        error: false,
+        notificationTypes: [],
+        totalPages: 1,
+        currentPage: 1,
+        isStoring: false,
+        errorStore: false,
+    }
 
 };

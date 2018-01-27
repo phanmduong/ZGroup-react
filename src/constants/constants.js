@@ -30,6 +30,25 @@ export const MARITAL = [
     }
 ];
 
+export const TYPE_NOTI = [
+    {
+        label: 'Web',
+        value: 'social'
+    },
+    {
+        label: 'Trang quản lý',
+        value: 'manage'
+    },
+    {
+        label: 'App',
+        value: 'mobile_social'
+    },
+    {
+        label: 'App quản lý',
+        value: 'mobile_social'
+    },
+];
+
 export const LITERACY = [
     {
         id: 0,
