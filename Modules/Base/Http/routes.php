@@ -9,6 +9,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
 
     Route::post('/{baseId}/room', 'ManageBaseApiController@createRoom');
     Route::put('/{baseId}/room/{roomId}', 'ManageBaseApiController@editRoom');
+
+
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/province', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
