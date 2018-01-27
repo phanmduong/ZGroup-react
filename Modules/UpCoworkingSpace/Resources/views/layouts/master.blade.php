@@ -2,7 +2,8 @@
 <html lang="en" class="no-js">
 <head>
     <meta charset="utf-8"/>
-    <link rel="shortcut icon" type="image/png" href="http://up-co.vn/wp-content/uploads/2016/06/384x176logo_03.png" cph-ssorder="0">
+    <link rel="shortcut icon" type="image/png" href="http://up-co.vn/wp-content/uploads/2016/06/384x176logo_03.png"
+          cph-ssorder="0">
     <link rel="icon" type="image/png" href="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
@@ -34,39 +35,29 @@
             <span class="navbar-toggler-bar"></span>
         </button>
         <a class="navbar-brand" href="/">
-            <img src="http://up-co.vn/wp-content/uploads/2016/06/384x176logo.png" height="60px">
+            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1516965782QmmrvfDJkT7urB9.png" height="35px">
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/landing-page/introduction/" data-scroll="true">Giới thiệu</a>
+                    <a class="nav-link" href="/landing-page/introduction/" data-scroll="true">VỀ UP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/all-books" data-scroll="true">Thư viện</a>
+                    <a class="nav-link" href="/all-books" data-scroll="true">ĐĂNG KÍ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/blog" data-scroll="true"
-                       style="display: flex; align-content: center">
-                        BLOGS
-                        <div style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;">
-{{--                            {{$count_new_blogs}}--}}
-                        </div>
-                    </a>
+                    <a class="nav-link" href="/all-books" data-scroll="true">BLOGS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/all-books" data-scroll="true">LIÊN HỆ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/all-books" data-scroll="true">DÙNG THỬ</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div id="fb-root"></div>
-<script>(function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.11';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
 
 @yield('content')
 
@@ -74,7 +65,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-12">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513241627VqTNu2QuUiqvs9X.png" width="150px">
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1516965782QmmrvfDJkT7urB9.png" width="150px">
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
                 <div class="row">
@@ -109,23 +100,6 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6">
-                        <div class="links">
-                            <ul class="stacked-links">
-                                <li>
-                                    {{--<h4>{{$total_blogs}}<br>--}}
-                                        <small>Bài viết</small>
-                                    </h4>
-                                </li>
-                                <li>
-                                    {{--<h4>{{$total_books}}<br>--}}
-                                        <small>Cuốn sách</small>
-                                    </h4>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
                 </div>
                 <hr>
                 <div class="copyright">
@@ -150,84 +124,6 @@
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/nhatquangshop.js?6868"></script>
-<div id="modalPurchase" class="modal fade" style="overflow-y: scroll;">
-    <div class="modal-dialog modal-large">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" class="close">×</button>
-                <h2 class="medium-title">Thanh toán</h2></div>
-            <div class="modal-body">
-                <form class="register-form "><h6>Họ và tên</h6> <input type="text" placeholder="Họ và tên"
-                                                                       class="form-control"><br> <h6>Số điện thoại</h6>
-                    <input type="text" placeholder="Số điện thoại" class="form-control"><br> <h6>Email</h6> <input
-                            type="text" placeholder="Số điện thoại" class="form-control"><br> <h6>Địa chỉ nhận sách</h6>
-                    <input type="text" placeholder="Địa chỉ nhận sách" class="form-control"><br> <h6>Phương thức thanh
-                        toán</h6> <select id="sel1" class="form-control">
-                        <option value="Chuyển khoản">Chuyển khoản</option>
-                        <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
-                            Thanh toán trực tiếp khi nhận hàng(COD)
-                        </option>
-                    </select></form>
-                <div id="purchase-error" style="display: none; color: red; padding: 10px; text-align: center;">
-                    Bạn vui lòng nhập đầy đủ thông tin
-                </div>
-            </div>
-            <div class="modal-footer" style="display: block;">
-                <div id="purchase-loading-text" style="display: none; text-align: center; width: 100%; padding: 15px;">
-                    <i class="fa fa-spin fa-spinner"></i>Đang tải...
-                </div>
-                <div id="btn-purchase-group" style="text-align: right;">
-                    <button data-dismiss="modal" class="btn btn-link btn-google" style="width: auto !important;">Tiếp
-                        tục mua <i class="fa fa-angle-right"></i></button>
-                    <button class="btn btn-sm btn-google" style="margin: 10px 10px 10px 0px !important;">Thanh toán <i
-                                class="fa fa-angle-right"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modalBuy" class="modal fade">
-    <div class="modal-dialog modal-large">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" class="close">×</button>
-                <h2 class="medium-title">Giỏ hàng</h2></div>
-            <div id="modal-buy-body" class="modal-body"><br> <!---->
-                <hr>
-                <div class="row">
-                    <div class="col-md-4"><h4 class="text-left"><b>Tổng</b></h4></div>
-                    <div class="col-md-8"><h4 class="text-right"><b>0</b></h4></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-google"
-                        style="width: auto !important;">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                <button id="btn-purchase" class="btn btn-sm btn-google" style="margin: 10px 10px 10px 0px !important;">
-                    Thanh toán <i class="fa fa-angle-right"></i></button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modalgoogle" class="modal fade">
-    <div class="modal-dialog modal-large">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h2 class="medium-title">Đặt hàng thành công</h2>
-            </div>
-            <div class="modal-body">
-                <div style="text-align: center">
-                    Chúng tôi đã nhận được đơn hàng của bạn, bạn vui lòng kiểm tra email. Chúng tôi sẽ liên hệ lại với
-                    bạn trong thời gian sớm nhất
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 </body>
 
 <!--  Plugins -->

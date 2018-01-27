@@ -72,7 +72,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         ]);
     }
 
-    public function getSubscription($userPackId, Request $request)
+    public function getSubscriptions($userPackId, Request $request)
     {
         $subscriptions = RoomServiceSubscription::where('user_pack_id', $userPackId);
 
