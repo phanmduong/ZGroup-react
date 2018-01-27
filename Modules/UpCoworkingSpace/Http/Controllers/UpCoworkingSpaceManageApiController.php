@@ -86,7 +86,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         ]);
     }
 
-    public function createSubscription($userPackId, Request $request)
+    public function createSubscriptions($userPackId, Request $request)
     {
         $subscription = new RoomServiceSubscription;
 

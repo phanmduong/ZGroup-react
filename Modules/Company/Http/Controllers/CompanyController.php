@@ -196,19 +196,33 @@ class CompanyController extends ManageApiController
     }
 
     public function getAllPayment(Request $request){
-        $keyword = $request->search;
         $limit = $request->limit ? $request->limit : 20;
-        $payments = Payment::join(DB::raw('companies as payers'),'payments.payer_id','=','payers.id')
-         ->join(DB::raw('companies as receivers'),'payments.receiver_id','=','receivers.id')
-            ->where(function($query) use ($keyword){
-                $query->where('payers.name', 'like', '%' . $keyword . '%')->orWhere('receivers.name', 'like', '%' . $keyword . '%');
-            })->
-         select('payments.*')->orderby('payments.created_at','desc')->paginate($limit);
+        $payments = Payment::query();
+        $company_id = $request->company_id;
+        $start_time = $request->start_time;
+        $end_time = $request->end_time;
+
+        if($company_id) {
+            $payments = $payments->where(function ($query) use ($company_id) {
+                $query->where('payer_id',$company_id)->orWhere('receiver_id',$company_id);
+            });
+        }
+
+        if($start_time){
+            $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+            $payments = $payments->whereBetween('created_at', array($start_time, $end_time));
+        }
+        $payments = $payments->orderBy('created_at','desc')->paginate($limit);
+        $summary_money = $payments->reduce(function($total,$payment){
+            if($payment->type == "debt") return $total - $payment->money_value;
+            else return $total + $payment->money_value;
+        },0);
 
         return $this->respondWithPagination($payments,[
             "payment" => $payments->map(function($payment){
                  return $payment->transform();
-            })
+            }),
+            "summary_money" => $summary_money,
         ]);
     }
 
