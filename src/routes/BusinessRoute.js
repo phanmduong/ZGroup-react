@@ -2,7 +2,8 @@ import CompanyContainer from "../modules/companies/CompanyContainer";
 import CreateCompanyContainer from "../modules/companies/CreateCompanyContainer";
 import PrintOrderContainer from "../modules/printOrder/PrintOrderContainer";
 import CreatePrintOrderContainer from "../modules/printOrder/CreatePrintOrderContainer";
-import ExportOderContainer from "../modules/Zgroup/exportGood/ExportOrderContainer";
+import ExportOrderContainer from "../modules/Zgroup/exportGood/ExportOrderContainer";
+import CreateExportOrderContainer from "../modules/Zgroup/exportGood/CreateExportOrderContainer";
 /**
  * Tab Kinh Doanh
  */
@@ -34,6 +35,10 @@ export default [
     },
     {
         path: "/business/export-order",
-        component: ExportOderContainer,
+        component: ExportOrderContainer,
+    },
+    {
+        path: "/business/export-order/create",
+        component: CreateExportOrderContainer,
     },
 ];

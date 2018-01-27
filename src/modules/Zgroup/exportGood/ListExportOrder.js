@@ -14,7 +14,7 @@ class ListExportOrder extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("nextProps",nextProps);
+        console.log("next list props",nextProps);
     }
 
     render() {

@@ -45,7 +45,7 @@ class ExportOrderContainer extends React.Component {
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="col-sm-3">
-                                                <Link to="/business/print-order/create" className="btn btn-rose" style={{width: "100%"}}>
+                                                <Link to="/business/export-order/create" className="btn btn-rose" style={{width: "100%"}}>
                                                     Xuất hàng
                                                 </Link>
                                             </div>
@@ -62,7 +62,7 @@ class ExportOrderContainer extends React.Component {
                                     <Pagination
                                         currentPage={paginator.current_page}
                                         totalPages={paginator.total_pages}
-                                        loadDataPage={exportOrderActions.loadPrintOrders}/>
+                                        loadDataPage={exportOrderActions.loadExportOrders}/>
                                 </div>
                             </div>
                         </div>

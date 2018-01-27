@@ -1847,6 +1847,7 @@ export default {
     },
     exportOrder:{
         isLoading: false,
+        isCommitting: false,
         paginator: {
             current_page: 1,
             limit: 20,
@@ -1862,6 +1863,13 @@ export default {
                 quantity:0,
             }
         ],
+        data:{
+            good: {id: 0, name:"noname"},
+            warehouse: {id: 0, name:"noname"},
+            company:{id:"", name:"noname"},
+            price:0,
+            quantity:0,
+        },
     },
 
 };
