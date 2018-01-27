@@ -1,30 +1,28 @@
 <!doctype html>
 <html lang="en" class="no-js">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/png" href="http://up-co.vn/wp-content/uploads/2016/06/384x176logo_03.png"
           cph-ssorder="0">
-    <link rel="icon" type="image/png" href="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <title>Up Coworking Space - Không gian làm việc chung hàng đầu Việt Nam</title>
 
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
-    <meta name="viewport" content="width=device-width"/>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
 
-    <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/paper-kit.css" rel="stylesheet"/>
-    <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/demo.css" rel="stylesheet"/>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/paper-kit.css" rel="stylesheet"/>
+    <link href="assets/css/demo.css" rel="stylesheet" />
 
     <!--     Fonts and icons     -->
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
-    <link href="/assets/css/up-co.css" rel="stylesheet">
-
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet">
 
 </head>
-<body class="profile" style="background: #f2f2f2;">
+<body class="profile" style="background: #fcfcfc;">
 <nav class="navbar navbar-toggleable-md fixed-top">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
@@ -114,109 +112,39 @@
 
     </div>
 </footer>
-
-
-<!-- Core JS Files -->
-
-<script src="/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
-<script src="/assets/js/tether.min.js" type="text/javascript"></script>
-<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/js/paper-kit.js?v=2.0.0"></script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 
-<!--  Plugins -->
-<!-- Core JS Files -->
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"
-        type="text/javascript"></script>
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
-        type="text/javascript"></script>
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/tether.min.js" type="text/javascript"></script>
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/bootstrap.min.js"
-        type="text/javascript"></script>
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/paper-kit.js?v=2.0.0"></script>
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/demo.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
+<script src="assets/js/tether.min.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/js/paper-kit.js?v=2.0.0"></script>
 
-<!--  Plugins for presentation page -->
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/main.js"></script>
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/jquery.sharrre.js"></script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
-<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Plugin for Share buttons -->
+<script src="assets/js/jquery.sharrre.js"></script>
 
-<script type="text/javascript">
-    (function () {
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+<!-- Switches -->
+<script src="assets/js/bootstrap-switch.min.js"></script>
 
-        new IsoGrid(document.querySelector('.isolayer--deco1'), {
-            transform: 'translateX(33vw) translateY(-340px) rotateX(45deg) rotateZ(45deg)',
-            stackItemsAnimation: {
-                properties: function (pos) {
-                    return {
-                        translateZ: (pos + 1) * 30,
-                        rotateZ: getRandomInt(-4, 4)
-                    };
-                },
-                options: function (pos, itemstotal) {
-                    return {
-                        type: dynamics.bezier,
-                        duration: 500,
-                        points: [{"x": 0, "y": 0, "cp": [{"x": 0.2, "y": 1}]}, {
-                            "x": 1,
-                            "y": 1,
-                            "cp": [{"x": 0.3, "y": 1}]
-                        }],
-                        delay: (itemstotal - pos - 1) * 40
-                    };
-                }
-            }
-        });
-    })();
+<!--  Plugins for Slider -->
+<script src="assets/js/nouislider.js"></script>
 
-    function paginator(currentPageData, totalPagesData) {
-        var page = [];
-        var currentPage = currentPageData;
-        var totalPages = totalPagesData;
+<!--  Photoswipe files -->
+<script src="assets/js/photo_swipe/photoswipe.min.js"></script>
+<script src="assets/js/photo_swipe/photoswipe-ui-default.min.js"></script>
+<script src="assets/js/photo_swipe/init-gallery.js"></script>
 
-        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
-        for (var i = startPage; i <= currentPage; i++) {
-            page.push(i);
-        }
+<!--  Plugins for Select -->
+<script src="assets/js/bootstrap-select.js"></script>
 
-        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+<!--  for fileupload -->
+<script src="assets/js/jasny-bootstrap.min.js"></script>
 
-        for (var i = currentPage + 1; i <= endPage; i++) {
-            page.push(i);
-        }
+<!--  Plugins for Tags -->
+<script src="assets/js/bootstrap-tagsinput.js"></script>
 
-        if (page && page.length < 5) {
-            var pageData = Object.assign(page);
-            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
-                pageData.unshift(i);
-            }
-            page = pageData;
-        }
-
-        return page;
-    }
-</script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111696061-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-
-    gtag('config', 'UA-111696061-1');
-</script>
-
-@stack("scripts")
+<!--  Plugins for DateTimePicker -->
+<script src="assets/js/moment.min.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 
 </html>
