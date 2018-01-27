@@ -1855,6 +1855,9 @@ export default {
     exportOrder:{
         isLoading: false,
         isCommitting: false,
+        isLoadingGoods: false,
+        isLoadingCompanies: false,
+        isLoadingWarehouses: false,
         paginator: {
             current_page: 1,
             limit: 20,
@@ -1877,6 +1880,9 @@ export default {
             price:0,
             quantity:0,
         },
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
     },
 
 };

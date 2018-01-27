@@ -20,13 +20,78 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
                 paginator: action.paginator,
             };
         }
-
         case types.LOAD_EXPORT_ORDERS_ERROR:
             return {
                 ...state,
                 isLoading: false,
             };
+        case types.BEGIN_LOAD_ALL_GOODS_EXPORT_ORDER:
+            return {
+                ...state,
+                isLoadingGoods: true,
+            };
+        case types.LOAD_ALL_GOODS_EXPORT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isLoadingGoods: false,
+                goods: getSelectArray(action.goods),
+            };
+        }
+
+        case types.LOAD_ALL_GOODS_EXPORT_ORDER_ERROR:
+            return {
+                ...state,
+                isLoadingGoods: false,
+            };
+
+        case types.BEGIN_LOAD_ALL_COMPANIES_EXPORT_ORDER:
+            return {
+                ...state,
+                isLoadingCompanies: true,
+            };
+        case types.LOAD_ALL_COMPANIES_EXPORT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isLoadingCompanies: false,
+                companies: getSelectArray(action.companies),
+            };
+        }
+
+        case types.LOAD_ALL_COMPANIES_EXPORT_ORDER_ERROR:
+            return {
+                ...state,
+                isLoadingCompanies: false,
+            };
+        case types.BEGIN_LOAD_ALL_WAREHOUSES_EXPORT_ORDER:
+            return {
+                ...state,
+                isLoadingWarehouses: true,
+            };
+        case types.LOAD_ALL_WAREHOUSES_EXPORT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isLoadingWarehouses: false,
+                warehouses: getSelectArray(action.warehouses),
+            };
+        }
+
+        case types.LOAD_ALL_WAREHOUSES_EXPORT_ORDER_ERROR:
+            return {
+                ...state,
+                isLoadingWarehouses: false,
+            };
+
         default:
             return state;
     }
+}
+
+function getSelectArray(arr){
+    return arr.map(obj => {
+        return {
+            ...obj,
+            value: obj.id,
+            label: obj.name,
+        };
+    });
 }
