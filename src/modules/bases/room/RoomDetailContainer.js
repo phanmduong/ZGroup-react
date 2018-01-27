@@ -2,9 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import RoomGrid from "./RoomGrid";
-import {getSeats} from "../../rooms/roomApi";
 import PropTypes from 'prop-types';
-import Loading from "../../../components/common/Loading";
+import {loadSeats} from "../seat/seatActions";
 
 // Import actions here!!
 
@@ -18,61 +17,61 @@ class RoomDetailContainer extends React.Component {
         };
         this.onClick = this.onClick.bind(this);
         this.onDrag = this.onDrag.bind(this);
+        this.onPointClick = this.onPointClick.bind(this);
     }
 
     async componentWillMount() {
-
-        const res = await getSeats(this.props.params.roomId);
-        const {seats} = res.data.data;
-        this.setState({
-            data: seats,
-            isLoading: false
-        });
-
+        this.props.actions.loadSeats(this.props.params.roomId);
     }
 
-    onClick(data){
-        console.log(data);
+    onClick(data) {
+        console.log("Canvas Click", data);
     }
 
-    onDrag(data){
-        console.log(data);
+    onDrag(data) {
+        console.log("Drag", data);
+    }
+
+    onPointClick(data) {
+        console.log("Point Click", data);
     }
 
     render() {
         return (
             <div>
-                {
-                    this.state.isLoading ? <Loading/> : (
-                        <RoomGrid
-                            onClick={this.onClick}
-                            onDrag={this.onDrag}
-                            roomId={Number(this.props.params.roomId)}
-                            data={this.state.data}
-                            domain={this.state.domain}
-                        />
-                    )
-                }
 
+                <RoomGrid
+                    onClick={this.onClick}
+                    onDrag={this.onDrag}
+                    onPointClick={this.onPointClick}
+                    roomId={Number(this.props.params.roomId)}
+                    data={this.props.seats}
+                    domain={this.props.domain}
+                />
             </div>
         );
     }
 }
 
 RoomDetailContainer.propTypes = {
-    location: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    domain: PropTypes.object.isRequired,
+    seats: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
+    const {seats, domain} = state.seat;
     return {
-        state: state
+        seats,
+        domain
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({}, dispatch)
+        actions: bindActionCreators({loadSeats}, dispatch)
     };
 }
 

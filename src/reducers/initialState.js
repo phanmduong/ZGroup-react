@@ -1,7 +1,7 @@
 export default {
 
     bankAccount: {
-        accounts: [1,2,3,4],
+        accounts: [1, 2, 3, 4],
         isLoading: false
     },
 
@@ -1692,6 +1692,13 @@ export default {
             current_page: 1,
             limit: 20,
         },
+
+    },
+    seat: {
+        showCreateSeatModal: false,
+        seat: {},
+        seats: [],
+        domain: {x: [0, 600], y: [0, 400]}
 
     },
     printOrder: {

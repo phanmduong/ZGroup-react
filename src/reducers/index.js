@@ -73,6 +73,7 @@ import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer"
 import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
 import printOrderReducer from "../modules/printOrder/printOrderReducer";
+import seatReducer from "../modules/bases/seat/seatReducer";
 
 
 
@@ -151,7 +152,7 @@ const appReducer = combineReducers({
     finance: financeReducer,
     companies: CompanyReducer,
     printOrder: printOrderReducer,
-
+    seat: seatReducer
 });
 
 const rootReducer = (state, action) => {

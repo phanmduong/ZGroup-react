@@ -14,6 +14,7 @@ class RoomGrid extends React.Component {
     componentDidMount() {
         D3RoomGrid.onClick(this.props.onClick);
         D3RoomGrid.onDrag(this.props.onDrag);
+        D3RoomGrid.onPointClick(this.props.onPointClick);
 
         this.dispatcher = D3RoomGrid.create(this.el, {
             width: '600',
@@ -49,7 +50,8 @@ RoomGrid.propTypes = {
     domain: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
-    roomId: PropTypes.number.isRequired
+    roomId: PropTypes.number.isRequired,
+    onPointClick: PropTypes.func.isRequired
 };
 
 

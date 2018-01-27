@@ -12,6 +12,10 @@ ns.onClick = (onClick) => {
     ns.onClick = onClick;
 };
 
+ns.onPointClick = (onPointClick) => {
+    ns.onPointClick = onPointClick
+};
+
 ns.onDrag = (onDrag) => {
     ns.onDrag = onDrag;
 };
@@ -138,7 +142,6 @@ ns._drawPoints = function (el, scales, state, dispatcher) {
 
         })
         .on("end", function (d) {
-            // console.log("end", d);
             ns.onDrag(d);
         });
 
@@ -155,7 +158,9 @@ ns._drawPoints = function (el, scales, state, dispatcher) {
             return d.color;
         })
         .on('click', function (d) {
+            d3.event.stopPropagation();
             // console.log("point", d);
+            ns.onPointClick(d);
         })
         .call(drag);
 
