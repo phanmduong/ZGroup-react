@@ -2,6 +2,7 @@ import CompanyContainer from "../modules/companies/CompanyContainer";
 import CreateCompanyContainer from "../modules/companies/CreateCompanyContainer";
 import PrintOrderContainer from "../modules/printOrder/PrintOrderContainer";
 import CreatePrintOrderContainer from "../modules/printOrder/CreatePrintOrderContainer";
+import ExportOderContainer from "../modules/Zgroup/exportGood/ExportOrderContainer";
 /**
  * Tab Kinh Doanh
  */
@@ -30,5 +31,9 @@ export default [
     {
         path: "/business/print-order/edit/:printOrderId",
         component: CreatePrintOrderContainer,
+    },
+    {
+        path: "/business/export-order",
+        component: ExportOderContainer,
     },
 ];

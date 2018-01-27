@@ -1844,6 +1844,24 @@ export default {
             order_date: "",
             receive_date: "",
         },
-    }
+    },
+    exportOrder:{
+        isLoading: false,
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        listExportOrder:[
+            {
+                good: {id: 0, name:"noname"},
+                warehouse: {id: 0, name:"noname"},
+                company:{id:"", name:"noname"},
+                price:0,
+                quantity:0,
+            }
+        ],
+    },
 
 };
