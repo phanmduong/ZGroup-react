@@ -57,3 +57,11 @@ export function getAllStaffApi() {
     }
     return axios.get(url);
 }
+
+export function editNote(order) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/order/delivery/" + order.id + "/change-note?token=" + token;
+    return axios.put(url, {
+        note: order.note
+    });
+}

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {dotNumber} from "../../helpers/helper";
-import WareHouseModalContainer from "../productList/modals/WareHouseModalContainer";
 
 class InventoryGoodComponent extends React.Component {
     constructor(props, context) {
@@ -24,7 +23,7 @@ class InventoryGoodComponent extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.inventories.map((inventory) => {
+                        this.props.inventories && this.props.inventories.map((inventory) => {
                             return (
                                 <tr key={inventory.id}>
                                     <td style={{width: "40px"}}>
@@ -59,8 +58,6 @@ class InventoryGoodComponent extends React.Component {
                     }
                     </tbody>
                 </table>
-                <WareHouseModalContainer
-                    showWareHouseModal={this.props.showWareHouseModal}/>
             </div>
         );
     }

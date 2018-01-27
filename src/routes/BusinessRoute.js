@@ -3,7 +3,7 @@ import CreateCompanyContainer from "../modules/companies/CreateCompanyContainer"
 import PaymentContainer from "../modules/payment/PaymentContainer";
 import CreatePaymentContainer from "../modules/payment/CreatePaymentContainer";
 import PrintOrderContainer from "../modules/printOrder/PrintOrderContainer";
-
+import CreatePrintOrderContainer from "../modules/printOrder/CreatePrintOrderContainer";
 /**
  * Tab Kinh Doanh
  */
@@ -38,5 +38,13 @@ export default [
     {
         path: "/business/print-order",
         component: PrintOrderContainer,
+    },
+    {
+        path: "/business/print-order/create",
+        component: CreatePrintOrderContainer,
+    },
+    {
+        path: "/business/print-order/edit/:printOrderId",
+        component: CreatePrintOrderContainer,
     },
 ];

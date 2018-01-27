@@ -40,15 +40,15 @@ class SameProductModalContainer extends React.Component {
                                     return (
                                         <tr key={index}>
                                             <td>
-                                                <a>
+                                                <span>
                                                     {`${product.name} `}
-                                                </a>
+                                                </span>
                                                 {
                                                     child.properties.map((pro, index) => {
                                                         return (
-                                                            <a key={index}>
+                                                            <span key={index}>
                                                                 {`${pro.value} `}
-                                                            </a>
+                                                            </span>
                                                         );
                                                     })
                                                 }
@@ -56,7 +56,9 @@ class SameProductModalContainer extends React.Component {
                                             <td>{child.barcode}</td>
                                             <td>
                                                 <a onClick={() => this.props.showPriceModal(child)}>
-                                                    {helper.dotNumber(child.price)}đ
+                                                    <span className="label label-rose">
+                                                        {helper.dotNumber(child.price)}đ
+                                                    </span>
                                                 </a>
                                             </td>
                                             <td>

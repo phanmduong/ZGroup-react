@@ -41,13 +41,6 @@ class CurrencyComponent extends React.Component {
                                                onClick={() => this.props.showAddEditCurrencyModal(currency)}><i
                                                 className="material-icons">edit</i>
                                             </a>
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Xoá"
-                                               onClick={() => this.props.deleteCurrency(currency)}>
-                                                <i className="material-icons">delete</i>
-                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -64,7 +57,6 @@ class CurrencyComponent extends React.Component {
 CurrencyComponent.propTypes = {
     currencies: PropTypes.array.isRequired,
     showAddEditCurrencyModal: PropTypes.func.isRequired,
-    deleteCurrency: PropTypes.func.isRequired
 };
 
 export default CurrencyComponent;

@@ -6,13 +6,11 @@ import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import *as currencyAction from "./currencyAction";
 import AddEditCurrencyModal from "./AddEditCurrencyModal";
-import * as helper from "../../helpers/helper";
 
 class CurrencyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.showAddEditCurrencyModal = this.showAddEditCurrencyModal.bind(this);
-        this.deleteCurrency = this.deleteCurrency.bind(this);
     }
 
     componentWillMount() {
@@ -22,12 +20,6 @@ class CurrencyContainer extends React.Component {
     showAddEditCurrencyModal(currency) {
         this.props.currencyAction.handleCurrency(currency);
         this.props.currencyAction.showAddEditCurrencyModal();
-    }
-
-    deleteCurrency(currency) {
-        helper.confirm("error", "Xóa tiền tệ", "Bạn có chắc muốn xóa loại tiền này", () => {
-            this.props.currencyAction.deleteCurrency(currency);
-        });
     }
 
     render() {
@@ -55,18 +47,6 @@ class CurrencyContainer extends React.Component {
                                                     Thêm loại tiền tệ
                                                 </button>
                                             </div>
-                                            <div>
-                                                <button rel="tooltip" data-placement="top" title=""
-                                                        data-original-title="Remove item" type="button"
-                                                        className="btn btn-success">
-                                                    <i className="material-icons">print</i> In mã vạch
-                                                </button>
-                                                <button rel="tooltip" data-placement="top" title=""
-                                                        data-original-title="Remove item" type="button"
-                                                        className="btn btn-info">
-                                                    <i className="material-icons">save</i> Lưu về máy
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-md-12">
@@ -83,7 +63,6 @@ class CurrencyContainer extends React.Component {
                                                         <CurrencyComponent
                                                             currencies={this.props.currencies}
                                                             showAddEditCurrencyModal={this.showAddEditCurrencyModal}
-                                                            deleteCurrency={this.deleteCurrency}
                                                         />
                                                     )
                                                 }

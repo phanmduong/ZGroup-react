@@ -14,10 +14,6 @@ class WareHouseModalContainer extends React.Component {
         super(props, context);
     }
 
-    componentWillMount() {
-        this.props.inventoryGoodAction.getWarehouseList();
-    }
-
     render() {
         return (
             <Modal show={this.props.wareHouseModal}

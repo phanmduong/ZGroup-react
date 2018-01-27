@@ -62,20 +62,3 @@ export function editCurrency(currency) {
     };
 }
 
-export function deleteCurrency(currency) {
-    return function (dispatch) {
-        dispatch({
-            type: types.DISPLAY_GLOBAL_LOADING
-        });
-        currencyApi.deleteCurrencyApi(currency)
-            .then(() => {
-                dispatch({
-                    type: types.DELETE_CURRENCY_SUCCESS,
-                    currency
-                });
-                dispatch({
-                    type: types.HIDE_GLOBAL_LOADING
-                });
-            });
-    };
-}

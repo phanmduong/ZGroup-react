@@ -1,4 +1,55 @@
 export default {
+
+    bankAccount: {
+        accounts: [1,2,3,4],
+        isLoading: false
+    },
+
+    inventoryOrder: {
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        inventories: [],
+        totalMoney: 0,
+        totalQuantity: 0,
+        staffs: []
+    },
+
+    orderedDetail: {
+        isLoading: false,
+        order: {
+            size: '',
+            link: '',
+            color: '',
+            description: '',
+            sale_off: 0,
+            weight: 0,
+            tax: true,
+            unit: '',
+            ratio: 1,
+            money: 0,
+            fee: 0,
+            code: '',
+            endTime: ''
+        },
+        customer: {
+            name: '',
+            phone: '',
+            email: '',
+            note: '',
+            quantity: 0,
+            price: 0
+        }
+    },
+
+
+    finance: {
+        bankTransfers: [],
+        isLoading: false
+    },
+
     currency: {
         currencies: [],
         isLoading: false,
@@ -12,6 +63,9 @@ export default {
     },
 
     orderedProduct: {
+        addNoteModal: false,
+        orderNote: {},
+        isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
         totalDeliveryOrders: 0,
@@ -598,9 +652,8 @@ export default {
         totalPages: 1,
         currentPage: 1,
         posts: [],
-        categoriesList :[
-        ],
-        isLoadingCategories : true,
+        categoriesList: [],
+        isLoadingCategories: true,
         isLoadingPost: false,
         errorPost: false,
     },
@@ -1361,8 +1414,13 @@ export default {
         rooms: [],
         isLoadingBases: false,
         errorBases: false,
-        isStoringRoom: false,
         errorStoreRoom: false,
+
+        room: {},
+        showEditRoomModal: false,
+        isStoringRoom: false,
+        isEditRoom: false,
+
         bases: [],
     },
     excel: {
@@ -1586,7 +1644,9 @@ export default {
         surveys: [],
         isLoading: false,
         survey: {},
+        showSummaryModal: false,
         showEditQuestionModal: false,
+        showEditSurveyModal: false,
         question: {},
         paginator: {},
         showDisplaySettingModal: false,
@@ -1667,71 +1727,75 @@ export default {
     },
     printOrder: {
         isLoading: false,
+        isCommitting: false,
+        isLoadingInfoPrintOrder: false,
+        isLoadingGoods: false,
+        isLoadingCompanies: false,
         listPrintOrder: [
             {
-                company:{id: 1, name: "company"},
-                staff: {id: 1, name: "staff"},
-                good: {id: 1, name: "good"},
-                quantity: 0,
+                company: {id: 0, name: "company"},
+                staff: {id: 0, name: "staff"},
+                good: {id: 0, name: "good"},
+                quantity: 1,
                 command_code: "DATIN1234556",
                 core1: {
-                    number: 0,
-                    material: "none",
-                    color:"none",
+                    number: 1,
+                    material: "",
+                    color: "",
                     size: 1,
-                    price: 0,
+                    price: 1,
                 },
                 core2: {
-                    number: 0,
-                    material: "none",
-                    color:"none",
+                    number: 1,
+                    material: "",
+                    color: "",
                     size: 1,
-                    price: 0,
+                    price: 1,
                 },
                 cover1: {
-                    number: 0,
-                    material: "none",
-                    color:"none",
+                    number: 1,
+                    material: "",
+                    color: "",
                     size: 1,
-                    price: 0,
+                    price: 1,
                 },
                 cover2: {
-                    number: 0,
-                    material: "none",
-                    color:"none",
+                    number: 1,
+                    material: "",
+                    color: "",
                     size: 1,
-                    price: 0,
+                    price: 1,
                 },
                 spare_part1: {
-                    name: "noname",
-                    number: 0,
-                    material: "none",
+                    name: "",
+                    number: 1,
+                    material: "",
                     size: 1,
-                    price: 0,
-                    made_by: "none",
+                    price: 1,
+                    made_by: "",
                 },
                 spare_part2: {
-                    name: "noname",
-                    number: 0,
-                    material: "none",
+                    name: "",
+                    number: 1,
+                    material: "",
                     size: 1,
-                    price: 0,
-                    made_by: "none",
+                    price: 1,
+                    made_by: "",
                 },
-                packing1:{
-                  name: "noname",
-                  price: 0,
+                packing1: {
+                    name: "",
+                    price: 1,
                 },
-                packing2:{
-                    name: "noname",
-                    price: 0,
+                packing2: {
+                    name: "",
+                    price: 1,
                 },
                 other: {
-                    name: "noname",
-                    price: 0,
+                    name: "",
+                    price: 1,
                 },
-                price: 0,
-                note: "none",
+                price: 1,
+                note: "",
                 order_date: "2012-01-17",
                 receive_date: "2012-01-17",
             }
@@ -1741,7 +1805,76 @@ export default {
             limit: 20,
             total_count: 1,
             total_pages: 1,
-        }
+        },
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        data: {
+            company: {id: 0, name: ""},
+            staff: {id: 0, name: ""},
+            good: {id: 0, name: ""},
+            quantity: 1,
+            command_code: "",
+            core1: {
+                number: 1,
+                material: "",
+                color: "",
+                size: 1,
+                price: 1,
+            },
+            core2: {
+                number: 1,
+                material: "",
+                color: "",
+                size: 1,
+                price: 1,
+            },
+            cover1: {
+                number: 1,
+                material: "",
+                color: "",
+                size: 1,
+                price: 1,
+            },
+            cover2: {
+                number: 1,
+                material: "",
+                color: "",
+                size: 1,
+                price: 1,
+            },
+            spare_part1: {
+                name: "",
+                number: 1,
+                material: "",
+                size: 1,
+                price: 1,
+                made_by: "",
+            },
+            spare_part2: {
+                name: "",
+                number: 1,
+                material: "",
+                size: 1,
+                price: 1,
+                made_by: "",
+            },
+            packing1: {
+                name: "",
+                price: 1,
+            },
+            packing2: {
+                name: "",
+                price: 1,
+            },
+            other: {
+                name: "",
+                price: 1,
+            },
+            price: 1,
+            note: "",
+            order_date: "",
+            receive_date: "",
+        },
     }
 
 

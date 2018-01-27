@@ -28,7 +28,7 @@ class StatusSelect extends React.Component {
 
 StatusSelect.propTypes = {
     options: PropTypes.array.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     value: PropTypes.string.isRequired
 };
 

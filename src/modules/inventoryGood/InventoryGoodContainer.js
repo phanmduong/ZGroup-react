@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import * as inventoryGoodAction from './inventoryGoodAction';
 import * as modalProductAction from '../productList/modals/modalProductAction';
 import {dotNumber} from "../../helpers/helper";
+import WareHouseModalContainer from "../productList/modals/WareHouseModalContainer";
 
 class InventoryGoodContainer extends React.Component {
     constructor(props, context) {
@@ -22,7 +23,8 @@ class InventoryGoodContainer extends React.Component {
             query: '',
             manufacture: null,
             category: null,
-            page: '',
+            warehouse_id: null,
+            page: 1,
             status: ''
         };
         this.timeOut = null;
@@ -32,12 +34,14 @@ class InventoryGoodContainer extends React.Component {
         this.getHistoryInventories = this.getHistoryInventories.bind(this);
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
         this.showWareHouseModal = this.showWareHouseModal.bind(this);
+        this.warehousesSearchChange = this.warehousesSearchChange.bind(this);
     }
 
     componentWillMount() {
         this.props.inventoryGoodAction.getInventories();
         this.props.inventoryGoodAction.getManufacturesInventoryGood();
         this.props.inventoryGoodAction.getCategoriesInventoryGood();
+        this.props.inventoryGoodAction.getWarehouseList();
     }
 
     loadOrders(page = 1) {
@@ -46,7 +50,8 @@ class InventoryGoodContainer extends React.Component {
             page,
             this.state.query,
             this.state.manufacture,
-            this.state.category
+            this.state.category,
+            this.state.warehouse_id
         );
     }
 
@@ -63,7 +68,8 @@ class InventoryGoodContainer extends React.Component {
                 1,
                 value,
                 this.state.manufacture,
-                this.state.category
+                this.state.category,
+                this.state.warehouse_id
             );
         }.bind(this), 500);
     }
@@ -78,7 +84,8 @@ class InventoryGoodContainer extends React.Component {
                 1,
                 this.state.query,
                 value.id,
-                this.state.category
+                this.state.category,
+                this.state.warehouse_id
             );
         } else {
             this.setState({
@@ -88,7 +95,8 @@ class InventoryGoodContainer extends React.Component {
                 1,
                 this.state.query,
                 null,
-                this.state.category
+                this.state.category,
+                this.state.warehouse_id
             );
         }
     }
@@ -103,7 +111,8 @@ class InventoryGoodContainer extends React.Component {
                 1,
                 this.state.query,
                 this.state.manufacture,
-                value.id
+                value.id,
+                this.state.warehouse_id
             );
         } else {
             this.setState({
@@ -113,6 +122,35 @@ class InventoryGoodContainer extends React.Component {
                 1,
                 this.state.query,
                 this.state.manufacture,
+                null,
+                this.state.warehouse_id
+            );
+        }
+    }
+
+    warehousesSearchChange(value) {
+        if (value) {
+            this.setState({
+                warehouse_id: value.value,
+                page: 1
+            });
+            this.props.inventoryGoodAction.getInventories(
+                1,
+                this.state.query,
+                this.state.manufacture,
+                this.state.category,
+                value.value
+            );
+        } else {
+            this.setState({
+                warehouse_id: null,
+                page: 1
+            });
+            this.props.inventoryGoodAction.getInventories(
+                1,
+                this.state.query,
+                this.state.manufacture,
+                this.state.category,
                 null
             );
         }
@@ -248,6 +286,21 @@ class InventoryGoodContainer extends React.Component {
                                                             onChange={this.categoriesSearchChange}
                                                         />
                                                     </div>
+                                                    <div className="form-group col-md-4">
+                                                        <label className="label-control">Tìm theo kho hàng</label>
+                                                        <Select
+                                                            name="warehouses"
+                                                            value={this.state.warehouse_id}
+                                                            options={this.props.warehousesList.map((warehouse) => {
+                                                                return {
+                                                                    ...warehouse,
+                                                                    value: warehouse.id,
+                                                                    label: warehouse.name
+                                                                };
+                                                            })}
+                                                            onChange={this.warehousesSearchChange}
+                                                        />
+                                                    </div>
                                                     <br/>
                                                 </div>
                                                 <br/>
@@ -306,6 +359,8 @@ class InventoryGoodContainer extends React.Component {
                         </nav>
                     </div>
                 </footer>
+                <WareHouseModalContainer
+                    showWareHouseModal={this.showWareHouseModal}/>
             </div>
 
         );
@@ -325,7 +380,8 @@ InventoryGoodContainer.propTypes = {
     limit: PropTypes.number.isRequired,
     count: PropTypes.number.isRequired,
     totalImportMoney: PropTypes.number.isRequired,
-    totalMoney: PropTypes.number.isRequired
+    totalMoney: PropTypes.number.isRequired,
+    warehousesList: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -340,7 +396,8 @@ function mapStateToProps(state) {
         limit: state.inventoryGood.limit,
         count: state.inventoryGood.count,
         totalImportMoney: state.inventoryGood.totalImportMoney,
-        totalMoney: state.inventoryGood.totalMoney
+        totalMoney: state.inventoryGood.totalMoney,
+        warehousesList: state.inventoryGood.warehousesList,
     };
 }
 

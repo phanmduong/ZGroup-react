@@ -1,6 +1,7 @@
 import BasesContainer from "../modules/bases/BasesContainer";
 import RoomsContainer from "../modules/rooms/RoomsContainer";
 import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
+import RoomDetailContainer from "../modules/bases/room/RoomDetailContainer";
 
 /**
  * Tab Cơ sở
@@ -25,5 +26,10 @@ export default [
         path: "/base/:baseId/edit",
         component: CreateBaseContainer,
         type: "edit"
+    },
+    {
+        path: "/base/room/:roomId",
+        component: RoomDetailContainer
     }
+
 ];
