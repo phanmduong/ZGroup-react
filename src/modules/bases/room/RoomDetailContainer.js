@@ -1,39 +1,67 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import RoomGridContainer from "./RoomGridContainer";
+import RoomGrid from "./RoomGrid";
+import {getSeats} from "../../rooms/roomApi";
+import PropTypes from 'prop-types';
+import Loading from "../../../components/common/Loading";
 
 // Import actions here!!
 
 class RoomDetailContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        let sampleData = [
-            {id: 1, x: 200, y: 100, r: 2, color: "blue"},
-            {id: 2, x: 11, y: 45, r: 2, color: "red"},
-            {id: 3, x: 100, y: 200, r: 2, color: "green"},
-        ];
         this.state = {
-            data: sampleData,
-            domain: {x: [0, 600], y: [0, 400]}
+            data: [],
+            domain: {x: [0, 600], y: [0, 400]},
+            isLoading: true
         };
+        this.onClick = this.onClick.bind(this);
+        this.onDrag = this.onDrag.bind(this);
+    }
 
+    async componentWillMount() {
+
+        const res = await getSeats(this.props.params.roomId);
+        const {seats} = res.data.data;
+        this.setState({
+            data: seats,
+            isLoading: false
+        });
+
+    }
+
+    onClick(data){
+        console.log(data);
+    }
+
+    onDrag(data){
+        console.log(data);
     }
 
     render() {
         return (
             <div>
-                <RoomGridContainer
-                    data={this.state.data}
-                    domain={this.state.domain}
-                />
+                {
+                    this.state.isLoading ? <Loading/> : (
+                        <RoomGrid
+                            onClick={this.onClick}
+                            onDrag={this.onDrag}
+                            roomId={Number(this.props.params.roomId)}
+                            data={this.state.data}
+                            domain={this.state.domain}
+                        />
+                    )
+                }
+
             </div>
         );
     }
 }
 
 RoomDetailContainer.propTypes = {
-    //myProp: PropTypes.string.isRequired
+    location: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
