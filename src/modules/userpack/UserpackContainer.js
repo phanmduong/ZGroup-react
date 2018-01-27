@@ -15,6 +15,7 @@ import Search from '../../components/common/Search';
 import ListUserpacks from "./ListUserpacks";
 import * as userpacksActions from "./userpacksActions";
 import AddUserpackModal from "./AddUserpackModal";
+import EditUserpackModal from "./EditUserpackModal";
 
 
 class UserpackContainer extends React.Component {
@@ -26,6 +27,7 @@ class UserpackContainer extends React.Component {
             page: 1,
             limit: 9,
             query: "",
+            id : 0,
         };
         this.timeOut = null;
         this.openModalAdd = this.openModalAdd.bind(this);
@@ -94,7 +96,10 @@ class UserpackContainer extends React.Component {
     }
 
     openModalEdit(id) {
-        this.setState({isOpenModalEdit: true, id: id});
+        let data = {...this.props.userpack};
+        data['id'] = id;
+        this.props.userpacksActions.updateFormUserpack(data);
+        this.setState({isOpenModalEdit: true});
     }
 
     closeModalAdd() {
@@ -102,6 +107,7 @@ class UserpackContainer extends React.Component {
     }
 
     openModalAdd() {
+        this.props.userpacksActions.updateFormUserpack({});
         this.setState({isOpenModalAdd: true});
     }
 
@@ -157,6 +163,15 @@ class UserpackContainer extends React.Component {
                     </div>
 
 
+
+
+
+
+
+
+
+
+
                     <Modal show={this.state.isOpenModalAdd} bsSize="lg" bsStyle="primary" onHide={this.closeModalAdd}>
                         <Modal.Header closeButton>
                             <Modal.Title>
@@ -165,6 +180,7 @@ class UserpackContainer extends React.Component {
                         </Modal.Header>
                         <Modal.Body>
                             <AddUserpackModal
+                                userpack={this.props.userpack}
                                 updateFormUserpack={this.updateFormUserpack}
                                 handleFileUpload={this.handleFileUpload}
                             />
@@ -204,6 +220,14 @@ class UserpackContainer extends React.Component {
                     </Modal>
 
 
+
+
+
+
+
+
+
+
                     <Modal show={this.state.isOpenModalEdit} bsSize="lg" bsStyle="primary" onHide={this.closeModalEdit}>
                         <Modal.Header closeButton>
                             <Modal.Title>
@@ -211,11 +235,11 @@ class UserpackContainer extends React.Component {
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            {/*<StorePostModal*/}
-                            {/*postId={this.state.postId}*/}
-                            {/*isEdit={this.state.isEdit}*/}
-                            {/*closeModal = {this.closeModal}*/}
-                            {/*/>*/}
+                            <EditUserpackModal
+                                updateFormUserpack={this.updateFormUserpack}
+                                handleFileUpload={this.handleFileUpload}
+                                closeModalEdit = {this.closeModalEdit}
+                            />
                         </Modal.Body>
                     </Modal>
 
@@ -228,7 +252,7 @@ class UserpackContainer extends React.Component {
 
 UserpackContainer.propTypes = {
     userpacksActions: PropTypes.object,
-    userpack: PropTypes.object,
+    userpack: PropTypes.object.isRequired,
     isLoadingUserpacks: PropTypes.bool,
     totalPagesPacks: PropTypes.number,
     totalCountPacks: PropTypes.number,

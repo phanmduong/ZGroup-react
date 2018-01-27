@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ButtonGroupAction from '../../components/common/ButtonGroupAction';
+// import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import Switch from 'react-bootstrap-switch';
-import Avatar from '../../components/common/Avatar';
 
 class ListUserpacks extends React.Component{
     constructor(props, context){
@@ -20,9 +19,7 @@ class ListUserpacks extends React.Component{
                                         borderRadius: '10px'
                                     }}>
 
-                                        <a
-                                            onClick={()=>{this.props.openModalEdit();}}
-                                        >
+                                        <a onClick={()=>{this.props.openModalEdit(pack.id);}}>
                                             <div id="simpleBarChart" className="ct-chart"
                                                  style={{
                                                      width: '100%',
@@ -59,7 +56,7 @@ class ListUserpacks extends React.Component{
                                         <div className="card-action" style={{height:73}}>
                                             <h4 className="card-title">
                                                 <a
-                                                    onClick={()=>{this.props.openModalEdit();}}
+                                                    onClick={()=>{this.props.openModalEdit(pack.id);}}
                                                 >{pack.name ? pack.name : "Chưa có tên"}</a>
                                             </h4>
                                             <Switch

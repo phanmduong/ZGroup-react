@@ -49,3 +49,63 @@ export function changeStatusApi(id) {
     }
     return axios.post(url);
 }
+export function loadSubscriptionsKindApi() {
+    let url = env.MANAGE_API_URL + "/coworking-space/subscription-kind?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadDetailUserpackApi(id) {
+    let url = env.MANAGE_API_URL + "/coworking-space/user-pack/"+id+"/subscription?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+
+export function editUserpackApi(userpack) {
+    let url = env.MANAGE_API_URL + "/coworking-space/user-pack/"+userpack.id+"?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.put(url,{
+        "name" : userpack.name,
+        "avatar_url" : userpack.avatar_url,
+        "detail" : userpack.detail || "",
+    });
+}
+
+
+
+
+export function addSubscriptionApi(id ,subscription) {
+    let url = env.MANAGE_API_URL + "/coworking-space/user-pack/"+id+"/subscription?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.post(url,{
+        "description" : subscription.description,
+        "price" : subscription.price,
+        "subscription_kind_id" : subscription.subscriptionKind ,
+    });
+}
+
+
+export function addSubscriptionKindApi(subscriptionKind) {
+    let url = env.MANAGE_API_URL + "/coworking-space/subscription-kind?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.post(url,{
+        "name" : subscriptionKind.name,
+        "hours" : subscriptionKind.hours,
+    });
+}

@@ -1,8 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import * as userPacksActions from './userpacksActions';
 import * as helper from '../../helpers/helper';
 import TooltipButton from '../../components/common/TooltipButton';
 import Loading from '../../components/common/Loading';
@@ -18,11 +15,9 @@ class AddUserpackModal extends React.Component {
 
     }
 
-    componentWillMount() {
-    }
 
     render() {
-        let {name, avatar_url, isUpdatingImage, isSaving, isPreSaving} = this.props.userpack;
+        let {name, avatar_url, isUpdatingImage} = this.props.userpack;
 
         return (
                 <form role="form" id="form-post">
@@ -89,17 +84,4 @@ AddUserpackModal.propTypes = {
     updateFormUserpack: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state) {
-    return {
-        isLoadingPost: state.userpacks.isLoadingPost,
-        userpack: state.userpacks.userpack,
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        userPacksActions: bindActionCreators(userPacksActions, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddUserpackModal);
+export default AddUserpackModal;

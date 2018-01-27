@@ -1625,10 +1625,25 @@ export default {
         isSavingUserpack : false,
         isSavingSubKind : false,
         userpack : {
+            id : 0,
             avatar_url : "",
             name :"",
+            detail :"",
             isUpdatingImage : false,
+            subscriptions : [],
         },
+        subscription  : {
+            price : 0,
+            id : 0,
+            description : "",
+            subscriptionKind : "",  // id
+        },
+        subscriptionKind :{
+            name : "",
+            hours : 0,
+        },
+        isSavingSubscription : false,
+        isSavingSubscriptionKind : false,
         isSavingAddUserpack : false,
     },
 
