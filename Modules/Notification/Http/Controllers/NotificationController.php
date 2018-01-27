@@ -105,7 +105,7 @@ class NotificationController extends ManageApiController
         if ($request->type == null) {
             return $this->respondErrorWithStatus("Thiếu type");
         }
-        $notificationType = NotificationType::find($notificationTypeId);
+        $notificationType = NotificationType::where('id', $notificationTypeId)->where('status', 1)->first();
         if ($notificationType == null) {
             return $this->respondErrorWithStatus("Không tồn tại");
         }
@@ -126,7 +126,7 @@ class NotificationController extends ManageApiController
 
     public function deleteNotificationType($notificationTypeId)
     {
-        $notificationType = NotificationType::find($notificationTypeId);
+        $notificationType = NotificationType::where('id', $notificationTypeId)->where('status', 1)->first();
         if ($notificationType == null) {
             return $this->respondErrorWithStatus("Không tồn tại");
         }
