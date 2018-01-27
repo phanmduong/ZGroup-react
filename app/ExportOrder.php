@@ -29,10 +29,10 @@ class ExportOrder extends Model
                 "name" => $this->good->name,
                 "code" => $this->good->code,
             ],
-            "warehouse" => [
+            "warehouse" => $this->warehouse ?[
                 "id" => $this->warehouse->id,
                 "name" => $this->warehouse->name,
-            ],
+            ]: [],
             "company" => [
                 "id" => $this->company->id,
                 "name" => $this->company->name,
