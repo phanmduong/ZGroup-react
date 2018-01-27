@@ -16,7 +16,7 @@ class RoomServiceSubscription extends Model
         return $this->belongsTo(RoomServiceSubscriptionKind::class, 'subscription_kind_id');
     }
 
-    public function transform()
+    public function getData()
     {
         return [
             'id' => $this->id,

@@ -1,8 +1,6 @@
 <?php
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/base', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
-    Route::get('/provinces', 'ManageBaseApiController@provinces');
-    Route::get('/province/{provinceId}', 'ManageBaseApiController@basesInProvince');
 
     Route::get('/', 'ManageBaseApiController@getBases');
     Route::post('/', 'ManageBaseApiController@createBase');
@@ -23,6 +21,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
+    Route::get('/base/provinces', 'PublicApiController@provinces');
+    Route::get('/base/province/{provinceId}', 'PublicApiController@basesInProvince');
     Route::get('/base/{baseId}/room', 'PublicApiController@baseRooms');
     Route::get('/blogs', 'PublicApiController@getAllBlogs');
     Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
