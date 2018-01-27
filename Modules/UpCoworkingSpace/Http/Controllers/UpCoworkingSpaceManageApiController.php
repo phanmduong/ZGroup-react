@@ -77,9 +77,11 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $subscriptions = RoomServiceSubscription::where('user_pack_id', $userPackId);
 
         $subscriptions = $subscriptions->orderBy('created_at', 'desc')->get();
+        $userPack = RoomServiceUserPack::find($userPackId);
         return $this->respondSuccessWithStatus([
+            'userPack' => $userPack->getData(),
             'subscriptions' => $subscriptions->map(function ($subscription) {
-                return $subscription->getData();
+                return $subscription->transform();
             })
         ]);
     }
