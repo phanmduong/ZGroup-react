@@ -18,6 +18,7 @@ import MemberReactSelectOption from "../tasks/board/filter/MemberReactSelectOpti
 import {ListGroup, ListGroupItem, Modal} from "react-bootstrap";
 import InfoStaffContainer from "../../modules/manageStaff/InfoStaffContainer";
 import Avatar from "../../components/common/Avatar";
+import {browserHistory} from "react-router";
 
 class CreateJobAssignmentContainer extends React.Component {
     constructor(props, context) {
@@ -206,19 +207,35 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             defaultMessage="Đơn vị"
                                                             style={{marginTop: "20px", width: "100%"}}
                                                         /></div>
-                                                    <div className="col-md-12"
-                                                         style={{display: "flex", flexFlow: "row-reverse"}}>
-                                                        {this.props.isSaving ?
+
+                                                    {this.props.isSaving ?
+                                                        <div className="col-md-12"
+                                                             style={{display: "flex", flexFlow: "row-reverse"}}>
                                                             <button disabled className="btn btn-rose  disabled"
                                                                     type="button">
                                                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                                             </button>
-                                                            :
+                                                        </div>
+                                                        :
+                                                        <div className="col-md-12"
+                                                             style={{display: "flex", flexFlow: "row-reverse"}}>
+                                                            <button
+                                                                className="btn btn-fill btn-rose"
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
+                                                                        () => {
+                                                                            return browserHistory.push("/hr/job-assignment");
+                                                                        }
+                                                                    );
+                                                                }}
+                                                            > Hủy
+                                                            </button>
                                                             <button onClick={this.submit}
-                                                                    className="btn btn-rose">Lưu</button>
-                                                        }
-
-                                                    </div>
+                                                                    className="btn btn-rose">Lưu
+                                                            </button>
+                                                        </div>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
