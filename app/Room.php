@@ -31,7 +31,9 @@ class Room extends Model
             'type' => $this->type,
             'base' => $this->base->transform(),
             'seats_count' => $this->seats_count,
-            'images_url' => $this->images_url
+            'images_url' => $this->images_url,
+            'avatar_url' => $this->avatar_url,
+            'address' => $this->address,
         ];
     }
 }
