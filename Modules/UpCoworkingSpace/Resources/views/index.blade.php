@@ -8,7 +8,7 @@
             <div class="container">
                 <h1>KHÔNG GIAN LÀM VIỆC</h1>
                 <h3>Sáng tạo, năng động, hiện đại</h3><br>
-                <a class="btn btn-round btn-danger" style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#modalBuy" data-toggle="modal">Đăng kí trải nghiệm</a>
+                <a class="btn btn-round btn-danger" style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#registerModal" data-toggle="modal">Đăng kí trải nghiệm</a>
             </div>
         </div>
     </div>
