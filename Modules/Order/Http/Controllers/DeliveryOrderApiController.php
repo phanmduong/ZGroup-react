@@ -314,6 +314,13 @@ class DeliveryOrderApiController extends ManageApiController
         $good->barcode = $request->barcode;
         $good->save();
 
+        $property = new GoodProperty();
+        $property->name = 'images_url';
+        $property->value = $request->images_url;
+        $property->good_id = $good->id;
+        $property->editor_id = $this->user->id;
+        $property->save();
+
         $importOrder = new Order;
         $importOrder->code = $request->code ? $request->code : 'IMPORT' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString()));
         $importOrder->note = $request->note;

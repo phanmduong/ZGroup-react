@@ -35,7 +35,6 @@ class GoodController extends ManageApiController
         $property->value = $value;
         $property->good_id = $goodId;
         $property->editor_id = $this->user->id;
-        $property->good_id = $goodId;
         $property->save();
     }
 
