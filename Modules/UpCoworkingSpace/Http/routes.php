@@ -2,9 +2,14 @@
 
 $publicRoutes = function () {
     Route::get('/', 'UpCoworkingSpaceController@index');
+    Route::get('/blog', 'UpCoworkingSpaceController@blog');
+    Route::get('/blog/post/{post_id}', 'UpCoworkingSpaceController@post');
+
+
 };
 
 $apiRoutes = function () {
+    Route::get('/blogs', 'XHHApiController@blogs');
     Route::get('/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
     Route::post('/register', 'UpCoworkingSpaceApiController@register');
 };

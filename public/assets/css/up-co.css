@@ -1,63 +1,139 @@
-@font-face {
-    font-family: myFirstFont;
-    src: url(http://d1j8r0kxyu9tj8.cloudfront.net/files/1515253034YOMw7ULyai2KGhi.otf);
+.icon-main-color {
+    color: #8bd100;
 }
 
-.font-bebas {
-    font-family: myFirstFont;
+.text-main-color {
+    color: #8bd100 !important;
 }
 
-.dropdown-menu-right .dropdown-item:hover {
-    background: #b7b7b7 !important;
+.card-body {
+    padding: 15px;
+}
+
+/*
+Author: Bootstrapthemes
+Author URI: http://bootstrapthemes.co
+*/
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+.p-top-100 {
+    padding: 100px 0;
+}
+
+.m-top-40 {
+    margin-top: 40px;
+}
+
+/*=================================================
+Pricint fiv
+===================================================*/
+.bs-five-area {
+    width: 100%;
+    display: inline-block;
+    box-shadow: 0px 0px 6px 0px #ddd;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+
+.bs-five-area.bs-radius {
+    border-radius: 30px;
+}
+
+.bs-five-area > div {
+    padding: 0;
+}
+
+.bs-five-area .bs-five {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    transition: all 0.4s;
+    padding: 20px 0px;
+}
+
+.bs-five-area .bs-five h6 {
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.bs-five-area .bs-five h1 {
+    font-size: 64px;
+    font-weight: 100;
+    line-height: 72px;
+}
+
+.bs-five-area .bs-five h1 sup {
+    font-size: 30px;
+    top: -30px;
+}
+
+.bs-five-area .bs-five ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bs-five-area .bs-five ul li {
+    line-height: 45px;
+    border-bottom: 0px;
+}
+
+.bs-five-area .bs-five:hover {
+
+    background: #7bc043;
+    transition: all 0.4s;
+
+}
+
+.bs-five-area .bs-five.active {
+    background: #7bc043;
+    background: -webkit-linear-gradient(left, #7bc043, #7bc043);
+    background: -o-linear-gradient(right, #7bc043, #7bc043);
+    background: -moz-linear-gradient(right, #7bc043, #7bc043);
+    background: linear-gradient(to right, #7bc043, #7bc043);
+}
+
+.bs-five-area .bs-five .btn-success {
+    padding: 10px 50px;
+    display: inline-block;
+    border-radius: 30px;
     color: white;
+    background-color: #7bc043;
+    border-color: #7bc043;
 }
 
-.nav-pills-primary > li > a,
-.pagination-primary > li > a,
-.pagination-primary > li > span,
-.pagination-primary > li:first-child > a,
-.pagination-primary > li:first-child > span,
-.pagination-primary > li:last-child > a,
-.pagination-primary > li:last-child > span {
-    border: 2px solid #c50000;
-    color: #c50000;
+.bs-five-area .bs-five.active .btn.btn-success,
+.bs-five-area .bs-five:hover.bs-five .btn.btn-success {
+    background: #E0FFF6;
+    color: #444;
+
 }
 
-.nav-pills-primary > li.active > a,
-.nav-pills-primary > li.active > a:hover,
-.nav-pills-primary > li.active > a:focus,
-.pagination-primary > li > a:hover,
-.pagination-primary > li > a:focus,
-.pagination-primary > li > a:active,
-.pagination-primary > li.active > a,
-.pagination-primary > li.active > span,
-.pagination-primary > li.active > a:hover,
-.pagination-primary > li.active > span:hover,
-.pagination-primary > li.active > a:focus,
-.pagination-primary > li.active > span:focus {
-    background-color: #c50000 !important;
-    border-color: #c50000 !important;
-    color: #FFFFFF;
+.bs-five-area .bs-five.active,
+.bs-five-area .bs-five.active ul li,
+.bs-five-area .bs-five:hover.bs-five,
+.bs-five-area .bs-five:hover.bs-five ul li {
+    color: #fff;
 }
 
-.nav-pills-info > li > a,
-.pagination-info > li > a,
-.pagination-info > li > span,
-.pagination-info > li:first-child > a,
-.pagination-info > li:first-child > span,
-.pagination-info > li:last-child > a,
-.pagination-info > li:last-child > span {
-    border: 2px solid #c50000;
-    color: #c50000;
+.hover-change:hover {
+    color: white !important;
+    background-color: #8bd100;
+    border-color: #8bd100;
 }
 
-.noselect *{
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none;
-    /* Non-prefixed version, currently
-                                     supported by Chrome and Opera */
+.hover-change:active {
+    color: white !important;
+    background-color: #8bd100;
+    border-color: #8bd100;
+}
+
+.btn-up {
+    background-color: transparent;
+    border-color: transparent;
 }
