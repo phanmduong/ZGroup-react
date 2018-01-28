@@ -13,6 +13,7 @@ redis.on('message', function (channel, message) {
     message = JSON.parse(message);
     io.emit(channel + ':' + message.event, message.data);
     if (message.event === 'notification' && message.data && message.data.receiver_id) {
+        sendNotificationUser(message.data);
         sendNotification(message.data, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
         sendNotification(message.data, env.NOTI_APP_ID, env.NOTI_APP_KEY);
     }
@@ -21,6 +22,29 @@ http.listen(env.SOCKET_PORT, function () {
     console.log('Listening on Port ' + env.SOCKET_PORT);
 });
 
+
+var sendNotificationUser = function (notification) {
+    switch (notification.type) {
+        case 'social':
+            notification.device_type = 'social';
+            notification.url = env.PROTOCOL + env.DOMAIN + notification.link;
+            return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
+        case 'mobile_social':
+            notification.device_type = 'mobile_social';
+            notification.url = '';
+            return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
+        case 'manage':
+            notification.device_type = 'manage';
+            notification.url = env.PROTOCOL + 'manage.' + env.DOMAIN + notification.link;
+            return sendNotification(notification, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
+        case 'mobile_manage':
+            notification.device_type = 'mobile_manage';
+            notification.url = '';
+            return sendNotification(notification, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
+        default:
+            return;
+    }
+};
 var sendNotification = function (notification, appID, appKey) {
     var text = htmlToText.fromString(notification.message, {
         wordwrap: 130
@@ -40,7 +64,7 @@ var sendNotification = function (notification, appID, appKey) {
         app_id: appID,
         contents: {"en": text, "vi": text},
         filters: filter,
-        url: env.PROTOCOL + 'manage.' + env.DOMAIN + notification.link
+        url: notification.url
     };
 
     var headers = {
