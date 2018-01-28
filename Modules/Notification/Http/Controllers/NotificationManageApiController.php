@@ -152,7 +152,7 @@ class NotificationManageApiController extends ManageApiController
         $users->map(function ($user) use ($notificationType) {
             $notification = new Notification();
             $notification->actor_id = 0;
-            $notification->receiver_id = $user->id;
+            $notification->receiver_id = $user;
             $notification->product_id = "send-notification";
             $notification->type = $notificationType->id;
             $notification->message = $notificationType->template;
