@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
 import  * as exportOrderActions from "./exportOrderActions";
-import Search from "../../../components/common/Search";
+//import Search from "../../../components/common/Search";
 import {Link} from "react-router";
 import ListExportGood from "./ListExportOrder";
 
@@ -49,10 +49,10 @@ class ExportOrderContainer extends React.Component {
                                                     Xuất hàng
                                                 </Link>
                                             </div>
-                                            <Search className="col-sm-9" placeholder="Tìm kiếm"
-                                                    value={this.state.query}
-                                                    onChange={()=>{}}
-                                            />
+                                            {/*<Search className="col-sm-9" placeholder="Tìm kiếm"*/}
+                                                    {/*value={this.state.query}*/}
+                                                    {/*onChange={()=>{}}*/}
+                                            {/*/>*/}
                                         </div>
                                     </div>
                                     {

@@ -33,7 +33,7 @@ class CreateExportOrderContainer extends React.Component {
                 this.setState({data});
             });
         }else {
-            this.state.data = defaultData;
+            this.setState({data: defaultData});
         }
     }
 
