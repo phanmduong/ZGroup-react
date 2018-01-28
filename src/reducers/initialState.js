@@ -1851,7 +1851,7 @@ export default {
             order_date: "",
             receive_date: "",
         },
-    }
+    },
     notificationTypes: {
         isLoading: false,
         error: false,

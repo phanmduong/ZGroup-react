@@ -56,64 +56,62 @@ class StoreNotificationType extends React.Component {
     }
 
     storeNotificationType() {
-        setFormValidation("#form-notification-type");
-        if ($("#form-notification-type").valid()) {
+        setFormValidation("#form-store-notification-type");
+        if ($('#form-store-notification-type').valid()) {
             if (isEmptyInput(this.state.notificationType.type)) {
                 showTypeNotification("Vui lòng chọn loại thông báo", "warning");
-                return;
+            } else {
+                this.props.notificationTypeActions.storeNotificationType(this.state.notificationType, this.props.closeModal);
             }
-            this.props.notificationTypeActions.storeNotificationType(this.state.notificationType, this.props.closeModal);
         }
     }
 
     render() {
         return (
-            <form id="form-notification-type" onSubmit={(e) => {
-                e.preventDefault();
-            }}>
-                <FormInputText
-                    label="Tên"
-                    name="name"
-                    updateFormData={this.updateFormData}
-                    value={this.state.notificationType.name}
-                    required={true}
-                    type="text"
-                />
-                <FormInputText
-                    label="Thông báo ngắn"
-                    name="description"
-                    updateFormData={this.updateFormData}
-                    value={this.state.notificationType.description}
-                    required={true}
-                    type="text"
-                />
-                <div className="form-group">
-                    <label className="label-control">Loại thông báo</label>
-                    <ReactSelect
-                        name="form-field-name"
-                        value={this.state.notificationType.type}
-                        options={TYPE_NOTI}
-                        onChange={this.changeType}
-                        placeholder="Chọn loại thông báo"
+            <div>
+                <form id="form-store-notification-type">
+                    <FormInputText
+                        label="Tên"
+                        name="name"
+                        updateFormData={this.updateFormData}
+                        value={this.state.notificationType.name}
+                        required={true}
                     />
-                </div>
-                <div className="form-group">
-                    <label className="label-control">Chọn màu</label>
-                    <div style={{paddingTop: '10px'}}>
-                        <CirclePicker width="100%"
-                                      color={this.state.notificationType.color ? this.state.notificationType.color : ''}
-                                      onChangeComplete={this.changeColor}
+                    <FormInputText
+                        label="Thông báo ngắn"
+                        name="description"
+                        updateFormData={this.updateFormData}
+                        value={this.state.notificationType.description}
+                        required={true}
+                    />
+                    <div className="form-group">
+                        <label className="label-control">Loại thông báo</label>
+                        <ReactSelect
+                            name="form-field-name"
+                            value={this.state.notificationType.type}
+                            options={TYPE_NOTI}
+                            onChange={this.changeType}
+                            placeholder="Chọn loại thông báo"
                         />
                     </div>
-                </div>
-                <div className="form-group">
-                    <label className="label-control">Nội dung thông báo</label>
-                    <ReactEditor
-                        urlPost={linkUploadImageEditor()}
-                        fileField="image"
-                        updateEditor={this.updateEditor}
-                        value={this.state.notificationType.content_template ? this.state.notificationType.content_template : ''}/>
-                </div>
+                    <div className="form-group">
+                        <label className="label-control">Chọn màu</label>
+                        <div style={{paddingTop: '10px'}}>
+                            <CirclePicker width="100%"
+                                          color={this.state.notificationType.color ? this.state.notificationType.color : ''}
+                                          onChangeComplete={this.changeColor}
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="label-control">Nội dung thông báo</label>
+                        <ReactEditor
+                            urlPost={linkUploadImageEditor()}
+                            fileField="image"
+                            updateEditor={this.updateEditor}
+                            value={this.state.notificationType.content_template ? this.state.notificationType.content_template : ''}/>
+                    </div>
+                </form>
                 {this.props.isStoring ?
                     (
                         <button className="btn btn-fill btn-rose" type="button">
@@ -123,11 +121,12 @@ class StoreNotificationType extends React.Component {
                     :
                     (
                         <button className="btn btn-fill btn-rose"
-                                type="button" onClick={this.storeNotificationType}>Lưu
+                                type="button" onClick={() => this.storeNotificationType()}>Lưu
                         </button>
                     )
                 }
-            </form>
+            </div>
+
         );
     }
 }

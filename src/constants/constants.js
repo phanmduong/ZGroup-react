@@ -45,7 +45,7 @@ export const TYPE_NOTI = [
     },
     {
         label: 'App quản lý',
-        value: 'mobile_social'
+        value: 'mobile_manage'
     },
 ];
 
