@@ -3,6 +3,7 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Colorme\Transformers\DeliveryOrderTransformer;
+use App\HistoryGood;
 use App\Order;
 use App\Register;
 use App\User;
@@ -289,5 +290,62 @@ class DeliveryOrderApiController extends ManageApiController
     {
         if($request->warehouse_id == null)
             return $this->respondErrorWithStatus('Cần phải chọn kho hàng để nhập');
+        if ($request->name == null || $request->code == null) {
+            return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
+        }
+        if($request->quantity == null)
+            return $this->respondErrorWithStatus('Thiếu số lượng sản phẩm');
+        if($request->price == null)
+            return $this->respondErrorWithStatus('Thiếu số giá sản phẩm');
+
+        $good = new Good;
+        $good->name = trim($request->name);
+        $good->code = trim($request->code);
+        $good->description = $request->description;
+        $good->avatarUrl = $request->avatar_url;
+        $good->coverUrl = $request->cover_url;
+        $good->sale_status = $request->sale_status ? $request->sale_status : 0;
+        $good->highlight_status = $request->highlight_status ? $request->highlight_status : 0;
+        $good->display_status = $request->display_status ? $request->display_status : 0;
+        $good->manufacture_id = $request->manufacture_id;
+        $good->good_category_id = $request->good_category_id;
+        $good->price = $request->price;
+        $good->barcode = $request->barcode;
+        $good->save();
+
+        $importOrder = new Order;
+        $importOrder->code = $request->code ? $request->code : 'IMPORT' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString()));
+        $importOrder->note = $request->note;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->staff_id = $this->user->id;
+        $importOrder->user_id = 0;
+        $importOrder->type = 'import';
+        $importOrder->status = 'completed';
+        $importOrder->save();
+
+        $importedGood = new ImportedGoods;
+        $importedGood->order_import_id = $importOrder->id;
+        $importedGood->good_id = $good->id;
+        $importedGood->quantity = $request->quantity;
+        $importedGood->import_quantity = $request->quantity;
+        $importedGood->import_price = $request->price;
+        $importedGood->status = 'completed';
+        $importedGood->staff_id = $this->user->id;
+        $importedGood->warehouse_id = $request->warehouse_id;
+        $importedGood->save();
+
+        $historyGood = new HistoryGood;
+        $lastest_good_history = HistoryGood::where('good_id', $good->id)->orderBy('created_at', 'desc')->first();
+        $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
+        $historyGood->good_id = $good->id;
+        $historyGood->quantity = $request->quantity;
+        $historyGood->remain = $remain + $request->quantity;
+        $historyGood->warehouse_id = $request->warehouse_id;
+        $historyGood->type = 'import';
+        $historyGood->order_id = $importOrder->id;
+        $historyGood->imported_good_id = $importedGood->id;
+        $historyGood->save();
+
+        return $this->respondSuccess('Nhập kho hàng sẵn thành công');
     }
 }
