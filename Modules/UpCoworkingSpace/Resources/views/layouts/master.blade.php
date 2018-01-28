@@ -74,10 +74,9 @@
         </div>
     </div>
 </nav>
+@include('upcoworkingspace::includes.register_modal')
 
 @yield('content')
-
-@include('upcoworkingspace::includes.register-modal')
 
 <footer class="footer footer-big">
     <div class="container">

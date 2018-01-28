@@ -1,5 +1,3 @@
-@extends('upcoworkingspace::layouts.master')
-
 <div id="registerModal" class="modal fade show">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

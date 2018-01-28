@@ -30,4 +30,4 @@ Route::group(['domain' => "api." . config('app.domain'), 'prefix' => 'coworking-
 Route::group(['domain' => "manageapi." . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $manageapiRoutes);
 Route::group(['middleware' => 'web', 'domain' => "keetool4.xyz", 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
 
-//Route::group(['middleware' => 'web', 'domain' => "keetool4.test", 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
+Route::group(['middleware' => 'web', 'domain' => "keetool4.test", 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
