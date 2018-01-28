@@ -3,7 +3,9 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Colorme\Transformers\DeliveryOrderTransformer;
+use App\Good;
 use App\HistoryGood;
+use App\ImportedGoods;
 use App\Order;
 use App\Register;
 use App\User;
@@ -291,14 +293,11 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrder = Order::find($deliveryOrderId);
         if($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tìm thấy đơn nhập');
-        $info = json_decode($deliveryOrder->attach_info);
         if($request->warehouse_id == null)
             return $this->respondErrorWithStatus('Cần phải chọn kho hàng để nhập');
         if ($request->name == null || $request->code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
-        if($request->price == null)
-            return $this->respondErrorWithStatus('Thiếu số giá sản phẩm');
 
         $good = new Good;
         $good->name = trim($request->name);
@@ -311,7 +310,7 @@ class DeliveryOrderApiController extends ManageApiController
         $good->display_status = $request->display_status ? $request->display_status : 0;
         $good->manufacture_id = $request->manufacture_id;
         $good->good_category_id = $request->good_category_id;
-        $good->price = $request->price;
+        $good->price = $deliveryOrder->price;
         $good->barcode = $request->barcode;
         $good->save();
 
@@ -328,9 +327,9 @@ class DeliveryOrderApiController extends ManageApiController
         $importedGood = new ImportedGoods;
         $importedGood->order_import_id = $importOrder->id;
         $importedGood->good_id = $good->id;
-        $importedGood->quantity = $info->quantity;
-        $importedGood->import_quantity = $info->quantity;
-        $importedGood->import_price = $request->price;
+        $importedGood->quantity = $deliveryOrder->quantity;
+        $importedGood->import_quantity = $deliveryOrder->quantity;
+        $importedGood->import_price = $deliveryOrder->price;
         $importedGood->status = 'completed';
         $importedGood->staff_id = $this->user->id;
         $importedGood->warehouse_id = $request->warehouse_id;
@@ -340,8 +339,8 @@ class DeliveryOrderApiController extends ManageApiController
         $lastest_good_history = HistoryGood::where('good_id', $good->id)->orderBy('created_at', 'desc')->first();
         $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
         $historyGood->good_id = $good->id;
-        $historyGood->quantity = $request->quantity;
-        $historyGood->remain = $remain + $info->quantity;
+        $historyGood->quantity = $deliveryOrder->quantity;
+        $historyGood->remain = $remain + $deliveryOrder->quantity;
         $historyGood->warehouse_id = $request->warehouse_id;
         $historyGood->type = 'import';
         $historyGood->order_id = $importOrder->id;
