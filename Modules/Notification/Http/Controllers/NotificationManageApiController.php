@@ -142,7 +142,8 @@ class NotificationManageApiController extends ManageApiController
 
         $users = [];
         foreach ($devices as $device) {
-            if ($device->tags && isset($device->tags->user_id) && !in_array($device->tags->user_id, $users)) {
+            if ($device->tags && isset($device->tags->user_id) && isset($device->tags->device_type)
+                && $device->tags->device_type == $notificationType->type && !in_array($device->tags->user_id, $users)) {
                 $users[] = $device->tags->user_id;
             }
         }
