@@ -101,6 +101,7 @@ export default {
         currentPageProperties: 1,
         totalCountProperties: 1,
         childImagesModal: false,
+        warehousesList: [],
         propertiesManageModal: false,
         manufacturesManageModal: false,
         isLoadingManufacture: false,
