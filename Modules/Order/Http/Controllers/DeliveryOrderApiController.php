@@ -303,8 +303,8 @@ class DeliveryOrderApiController extends ManageApiController
         $good->name = trim($request->name);
         $good->code = trim($request->code);
         $good->description = $request->description;
-        $good->avatarUrl = $request->avatar_url;
-        $good->coverUrl = $request->cover_url;
+        $good->avatar_url = $request->avatar_url;
+        $good->cover_url = $request->cover_url;
         $good->sale_status = $request->sale_status ? $request->sale_status : 0;
         $good->highlight_status = $request->highlight_status ? $request->highlight_status : 0;
         $good->display_status = $request->display_status ? $request->display_status : 0;
