@@ -13,11 +13,11 @@ class NotificationTypeSeeder extends Seeder
      */
     public function run()
     {
-//        $types = NotificationType::all();
-//
-//        foreach ($types as $type) {
-//            $type->delete();
-//        }
+        $types = NotificationType::where('status', 0)->get();
+
+        foreach ($types as $type) {
+            $type->forceDelete();
+        }
 
         DB::table('notification_types')->insert([
             [
