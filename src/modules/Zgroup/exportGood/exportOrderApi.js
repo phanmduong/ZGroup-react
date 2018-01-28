@@ -53,3 +53,23 @@ export function createExportOrder(data) {
     }
     return axios.post(url,data);
 }
+
+export function loadExportOrder(id) {
+    //http://manageapi.keetool.xyz/company/export-order?token=
+    let url     = env.MANAGE_API_URL +"/company/export-order/" + id;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function editExportOrder(data) {
+    //http://manageapi.keetool.xyz/company/export-order?token=
+    let url     = env.MANAGE_API_URL +"/company/export-order/" + data.id;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.put(url, data);
+}

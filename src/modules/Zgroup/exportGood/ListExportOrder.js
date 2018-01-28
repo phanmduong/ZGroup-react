@@ -13,9 +13,9 @@ class ListExportOrder extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log("next list props",nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log("next list props",nextProps);
+    // }
 
     render() {
         let {listExportOrder} = this.props;
@@ -49,7 +49,7 @@ class ListExportOrder extends React.Component {
                                 <td>{order.quantity}</td>
                                 <td>{order.total_price}</td>
                                 <td><ButtonGroupAction
-                                    editUrl={"/business/export-good/edit/" + order.id}
+                                    editUrl={"/business/export-order/edit/" + order.id}
                                     disabledDelete={true}
                                 /></td>
                             </tr>

@@ -41,4 +41,8 @@ export default [
         path: "/business/export-order/create",
         component: CreateExportOrderContainer,
     },
+    {
+        path: "/business/export-order/edit/:exportOrderId",
+        component: CreateExportOrderContainer,
+    },
 ];

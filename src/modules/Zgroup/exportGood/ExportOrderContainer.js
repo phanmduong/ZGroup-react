@@ -22,9 +22,9 @@ class ExportOrderContainer extends React.Component {
         this.props.exportOrderActions.loadExportOrders();
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log(nextProps);
+    // }
 
 
     render() {

@@ -27,6 +27,14 @@ class CreateExportOrderContainer extends React.Component {
         this.props.exportOrderActions.loadAllGoods();
         this.props.exportOrderActions.loadAllCompanies();
         this.props.exportOrderActions.loadAllWarehourses();
+        let id = this.props.params.exportOrderId;
+        if(id){
+            this.props.exportOrderActions.loadExportOrder(id, (data)=>{
+                this.setState({data});
+            });
+        }else {
+            this.state.data = defaultData;
+        }
     }
 
     // componentWillReceiveProps(nextProps) {
@@ -79,15 +87,27 @@ class CreateExportOrderContainer extends React.Component {
             helper.showErrorNotification("Vui lòng chọn Kho hàng");
             return;
         }
-        this.props.exportOrderActions.createExportOrder(
-            {...data,
-                company_id: data.company.id,
-                good_id: data.good.id,
-                warehouse_id: data.warehouse.id,
-                staff_id: this.props.user.id,
-            }, ()=>{
-            return browserHistory.push("/business/export-order");
-        });
+
+        if(this.props.params.exportOrderId){
+            this.props.exportOrderActions.editExportOrder(
+                {...data,
+                    company_id: data.company.id,
+                    good_id: data.good.id,
+                    warehouse_id: data.warehouse.id,
+                    staff_id: this.props.user.id,
+                    total_price: data.price * data.quantity,
+                });
+        }
+        else {
+            this.props.exportOrderActions.createExportOrder(
+                {...data,
+                    company_id: data.company.id,
+                    good_id: data.good.id,
+                    warehouse_id: data.warehouse.id,
+                    staff_id: this.props.user.id,
+                    total_price: data.price * data.quantity,
+                });
+        }
     }
 
     render() {
@@ -139,13 +159,22 @@ class CreateExportOrderContainer extends React.Component {
                                                             name="good"
                                                             defaultMessage="Chọn sản phẩm"
                                                         /></div>
-                                                    <div className="col-md-12">
+                                                    <div className="col-md-6">
                                                         <FormInputText
                                                             label="Giá"
                                                             type="number"
-                                                            name="total_price"
+                                                            name="price"
                                                             updateFormData={this.updateFormData}
-                                                            value={data.total_price || ""}
+                                                            value={data.price || ""}
+                                                            disabled={isCommitting || isLoadingGoods}
+                                                        /></div>
+                                                    <div className="col-md-6">
+                                                        <FormInputText
+                                                            label="Số lượng"
+                                                            type="number"
+                                                            name="quantity"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.quantity || ""}
                                                             disabled={isCommitting || isLoadingGoods}
                                                         /></div>
                                                     {this.props.isCommitting ?

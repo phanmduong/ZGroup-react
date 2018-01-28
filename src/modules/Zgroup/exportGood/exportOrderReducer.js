@@ -80,6 +80,58 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
                 ...state,
                 isLoadingWarehouses: false,
             };
+        case types.BEGIN_LOAD_INFO_EXPORT_ORDER:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.LOAD_INFO_EXPORT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isLoading: false,
+                data: action.data,
+            };
+        }
+
+        case types.LOAD_INFO_EXPORT_ORDER_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+            };
+        case types.BEGIN_EDIT_EXPORT_ORDER:
+            return {
+                ...state,
+                isCommitting: true,
+            };
+        case types.EDIT_EXPORT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        }
+
+        case types.EDIT_EXPORT_ORDER_ERROR:
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        case types.BEGIN_CREATE_EXPORT_ORDER:
+            return {
+                ...state,
+                isCommitting: true,
+            };
+        case types.CREATE_EXPORT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        }
+
+        case types.CREATE_EXPORT_ORDER_ERROR:
+            return {
+                ...state,
+                isCommitting: false,
+            };
 
         default:
             return state;

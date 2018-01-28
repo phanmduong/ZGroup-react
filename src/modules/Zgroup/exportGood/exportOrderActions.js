@@ -94,7 +94,7 @@ export function loadAllWarehourses() {
 }
 
 
-export function createExportOrder(data, success) {
+export function createExportOrder(data) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_EXPORT_ORDER});
         exportOrderApi.createExportOrder(data)
@@ -103,10 +103,46 @@ export function createExportOrder(data, success) {
                     dispatch({
                         type: types.CREATE_EXPORT_ORDER_SUCCESS,
                     });
-                    success();
+                    browserHistory.push("/business/export-order");
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
                     dispatch({type: types.CREATE_EXPORT_ORDER_ERROR});
+                }
+            });
+    };
+}
+
+export function loadExportOrder(id, callback) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_INFO_EXPORT_ORDER});
+        exportOrderApi.loadExportOrder(id)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.LOAD_INFO_EXPORT_ORDER_SUCCESS,
+                    });
+                    callback(res.data.data.exportOrder);
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.LOAD_INFO_EXPORT_ORDER_ERROR});
+                }
+            });
+    };
+}
+
+export function editExportOrder(data) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_EXPORT_ORDER});
+        exportOrderApi.editExportOrder(data)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.EDIT_EXPORT_ORDER_SUCCESS,
+                    });
+                    browserHistory.push("/business/export-order");
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.EDIT_EXPORT_ORDER_ERROR});
                 }
             });
     };
