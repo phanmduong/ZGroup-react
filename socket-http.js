@@ -28,21 +28,36 @@ var sendNotificationUser = function (notification) {
         case 'social':
             notification.device_type = 'social';
             notification.url = env.PROTOCOL + env.DOMAIN + notification.link;
+            addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
         case 'mobile_social':
             notification.device_type = 'mobile_social';
             notification.url = '';
+            addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
         case 'manage':
             notification.device_type = 'manage';
             notification.url = env.PROTOCOL + 'manage.' + env.DOMAIN + notification.link;
+            addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
         case 'mobile_manage':
             notification.device_type = 'mobile_manage';
             notification.url = '';
+            addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
         default:
             return;
+    }
+};
+
+var addNotificationId = function (notification) {
+    if (notification.url === undefined || notification.url === null || notification.url === '') {
+        return;
+    }
+    if (notification.url.indexOf("?") < 0) {
+        notification.url += "?notification_id=" + notification.id;
+    } else {
+        notification.url += "&notification_id=" + notification.id;
     }
 };
 var sendNotification = function (notification, appID, appKey) {
