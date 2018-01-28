@@ -34,39 +34,6 @@ export const CHANNEL = env.CHANNEL;
 export const SOCKET_HOST = env.SOCKET_HOST;
 export const SOCKET_PORT = env.SOCKET_PORT;
 
-let messageing;
-
-if (!helper.iOS()) {
-
-    // var configFirebase = {
-    //     apiKey: "AIzaSyDUlqBwvFM7FkfHx4RQAqz2BJBa6EyLI7k",
-    //     authDomain: "notificationkeetoolclient.firebaseapp.com",
-    //     databaseURL: "https://notificationkeetoolclient.firebaseio.com",
-    //     projectId: "notificationkeetoolclient",
-    //     storageBucket: "notificationkeetoolclient.appspot.com",
-    //     messagingSenderId: "1025515421415"
-    // };
-    // let firebaseApp = firebase.initializeApp(configFirebase);
-    //
-    // messageing = firebaseApp.messaging();
-    //
-    // messageing.onMessage(function (payload) {
-    //     console.log("Message received. ", payload);
-    // });
-    //
-    // messageing.requestPermission()
-    //     .then(function () {
-    //         console.log('Notification permission granted.');
-    //     })
-    //     .catch(function (err) {
-    //         console.log('Unable to get permission to notify.', err);
-    //     });
-
-}
-
-// console.log(helper.iOS());
-
-export let messageingFirebase = messageing;
 
 var OneSignal = window.OneSignal || [];
 OneSignal.push(["init", {
@@ -84,6 +51,9 @@ OneSignal.push(["init", {
         cancelButtonText: "HỦY"
     },
 }]);
+OneSignal.sendTag("device_type", 'manage', function (tagsSent) {
+    console.log("tag ok ", tagsSent);
+});
 
 
 
