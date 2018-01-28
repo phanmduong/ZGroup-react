@@ -2,9 +2,12 @@
 
 $publicRoutes = function () {
     Route::get('/', 'UpCoworkingSpaceController@index');
+    Route::get('/blog', 'UpCoworkingSpaceController@blog');
+    Route::get('/blog/post/{post_id}', 'UpCoworkingSpaceController@post');
 };
 
 $apiRoutes = function () {
+    Route::get('/blogs', 'UpCoworkingSpaceController@blogs');
     Route::get('/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
     Route::post('/register', 'UpCoworkingSpaceApiController@register');
 };
@@ -14,12 +17,12 @@ $manageapiRoutes = function () {
     Route::get('/user-pack', 'UpCoworkingSpaceManageApiController@getUserPacks');
     Route::get('/user-pack/{userPackId}/subscription', 'UpCoworkingSpaceManageApiController@getSubscriptions');
     Route::post('/user-pack/{userPackId}/subscription', 'UpCoworkingSpaceManageApiController@createSubscriptions');
+    Route::put('/user-pack/{userPackId}/subscription/{subcriptionId}', 'UpCoworkingSpaceManageApiController@editSubscriptions');
     Route::get('/subscription-kind', 'UpCoworkingSpaceManageApiController@getSubscriptionKinds');
     Route::post('/subscription-kind', 'UpCoworkingSpaceManageApiController@createSubscriptionKind');
-    Route::post('user-pack', 'UpCoworkingSpaceManageApiController@createUserPack');
-    Route::post('user-pack/{userPackId}/change-status', 'UpCoworkingSpaceManageApiController@changeStatusUserPack');
-    Route::put('user-pack/{userPackId}', 'UpCoworkingSpaceManageApiController@editUserPack');
-
+    Route::post('/user-pack', 'UpCoworkingSpaceManageApiController@createUserPack');
+    Route::post('/user-pack/{userPackId}/change-status', 'UpCoworkingSpaceManageApiController@changeStatusUserPack');
+    Route::put('/user-pack/{userPackId}', 'UpCoworkingSpaceManageApiController@editUserPack');
 };
 
 

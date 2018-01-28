@@ -153,18 +153,27 @@ class ManageBaseApiController extends ManageApiController
                 $q->where("rooms.name", "like", "%$query%")
                     ->orWhere("bases.name", "like", "%$query%")
                     ->orWhere("bases.address", "like", "%$query%");
-            })->select("bases.*", "rooms.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id")
+            })->select("bases.*", "rooms.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id","rooms.avatar_url as avatar_url","rooms.images_url as images_url")
                 ->orderBy('rooms.created_at')->paginate($limit);
         } else {
             $rooms = $rooms->join('bases', 'bases.id', '=', 'rooms.base_id')
-                ->select("rooms.*", "bases.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id")
+                ->select("rooms.*", "bases.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id","rooms.avatar_url as avatar_url","rooms.images_url as images_url")
                 ->orderBy('rooms.created_at')->paginate($limit);
         }
 
 
         $data = [
             'rooms' => $rooms->map(function ($room) {
-                return $room->getData();
+                return [
+                    'id' => $room->room_id,
+                    'name' => $room->room_name,
+                    'base_id' => $room->base_id,
+                    'base_name' => $room->base_name,
+                    'address' => $room->address,
+                    'avatar_url' => $room->avatar_url,
+                    'images_url' => $room->images_url,
+                    'type' => $room->type,
+                ];
             })
         ];
 
