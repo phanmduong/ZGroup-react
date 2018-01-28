@@ -288,13 +288,15 @@ class DeliveryOrderApiController extends ManageApiController
 
     public function importDeliveryOrder($deliveryOrderId, Request $request)
     {
+        $deliveryOrder = Order::find($deliveryOrderId);
+        if($deliveryOrder == null)
+            return $this->respondErrorWithStatus('Không tìm thấy đơn nhập');
+        $info = json_decode($deliveryOrder->attach_info);
         if($request->warehouse_id == null)
             return $this->respondErrorWithStatus('Cần phải chọn kho hàng để nhập');
         if ($request->name == null || $request->code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
-        if($request->quantity == null)
-            return $this->respondErrorWithStatus('Thiếu số lượng sản phẩm');
         if($request->price == null)
             return $this->respondErrorWithStatus('Thiếu số giá sản phẩm');
 
@@ -326,8 +328,8 @@ class DeliveryOrderApiController extends ManageApiController
         $importedGood = new ImportedGoods;
         $importedGood->order_import_id = $importOrder->id;
         $importedGood->good_id = $good->id;
-        $importedGood->quantity = $request->quantity;
-        $importedGood->import_quantity = $request->quantity;
+        $importedGood->quantity = $info->quantity;
+        $importedGood->import_quantity = $info->quantity;
         $importedGood->import_price = $request->price;
         $importedGood->status = 'completed';
         $importedGood->staff_id = $this->user->id;
@@ -339,7 +341,7 @@ class DeliveryOrderApiController extends ManageApiController
         $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
         $historyGood->good_id = $good->id;
         $historyGood->quantity = $request->quantity;
-        $historyGood->remain = $remain + $request->quantity;
+        $historyGood->remain = $remain + $info->quantity;
         $historyGood->warehouse_id = $request->warehouse_id;
         $historyGood->type = 'import';
         $historyGood->order_id = $importOrder->id;
