@@ -38,6 +38,7 @@ class RoomsContainer extends React.Component {
 
 
     componentWillMount() {
+        this.props.roomActions.loadRoomsData();
         this.props.roomActions.loadBasesData();
     }
 
@@ -176,6 +177,7 @@ function mapStateToProps(state) {
         totalPages: state.rooms.totalPages,
         rooms: state.rooms.rooms,
         bases: state.rooms.bases,
+        isStoringRoom:state.rooms.isStoringRoom
     };
 }
 

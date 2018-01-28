@@ -22,6 +22,7 @@ class ListRoom extends React.Component {
                 <div className="row">
                     {
                         this.props.rooms && this.props.rooms.map((room, index) => {
+                            let avatar = room.avatar_url || 'http://s3images.coroflot.com/user_files/individual_files/large_188723_s6nH2GYL11SSVLIkNiUbpdFqh.jpg';
                             return (
                                 <div className="col-sm-4" id="card-email-template" key={index}>
                                     <div className="card card-chart">
@@ -31,7 +32,7 @@ class ListRoom extends React.Component {
                                             <div id="simpleBarChart" className="ct-chart"
                                                  style={{
                                                      width: '100%',
-                                                     background: 'url(' + 'http://s3images.coroflot.com/user_files/individual_files/large_188723_s6nH2GYL11SSVLIkNiUbpdFqh.jpg' + ')',
+                                                     background: 'url(' + avatar + ')',
                                                      backgroundSize: 'cover',
                                                      backgroundPosition: 'center',
                                                      height: '200px',

@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import FormInputText from "../../../components/common/FormInputText";
 import {Modal} from "react-bootstrap";
-//import * as helper from "../../../helpers/helper";
+import * as helper from "../../../helpers/helper";
 import *as roomActions from "../../rooms/roomActions";
 import Select from 'react-select';
 import UploadButton from "../../../components/common/uploadButton/UploadButton";
@@ -18,6 +18,7 @@ class EditRoomModalContainer extends React.Component {
         this.changeAvatar = this.changeAvatar.bind(this);
         this.removeImageChange = this.removeImageChange.bind(this);
         this.handleImages = this.handleImages.bind(this);
+        this.storeRoom = this.storeRoom.bind(this);
     }
 
     updateFormData(event) {
@@ -57,6 +58,21 @@ class EditRoomModalContainer extends React.Component {
             base_name: value.label
         };
         this.props.roomActions.handleRoomEditModal(room);
+    }
+
+    storeRoom() {
+        let room = this.props.room;
+        if (
+            helper.isEmptyInput(room.name)
+        ) {
+            helper.showErrorNotification("Bạn cần nhập Tên phòng");
+        } else {
+            if (room.id) {
+                this.props.roomActions.editRoom(room);
+            } else {
+                this.props.roomActions.storeRoom(room);
+            }
+        }
     }
 
     render() {
@@ -251,11 +267,19 @@ class EditRoomModalContainer extends React.Component {
                                 value={room.name || ""}
                             />
                             <FormInputText
-                                label="Địa chỉ"
+                                label="Loại phòng"
                                 required
-                                name="address"
+                                name="type"
                                 updateFormData={this.updateFormData}
-                                value={room.address || ""}
+                                value={room.type || ""}
+                            />
+                            <FormInputText
+                                label="Số chỗ ngồi"
+                                required
+                                type="number"
+                                name="seats_count"
+                                updateFormData={this.updateFormData}
+                                value={room.seats_count || ""}
                             />
                             <div className="form-group">
                                 <label className="control-label">Chọn cơ sở</label>
@@ -281,7 +305,7 @@ class EditRoomModalContainer extends React.Component {
                                             type="button"
                                         >
                                             <i className="fa fa-spinner fa-spin"/>
-                                            {this.props.isEditRoom ? 'Đang lưu' : 'Đang tạo'}
+                                            {room.id ? 'Đang lưu' : 'Đang tạo'}
                                         </button>
                                     )
                                     :
@@ -291,7 +315,7 @@ class EditRoomModalContainer extends React.Component {
                                             type="button"
                                             onClick={this.storeRoom}
                                         >
-                                            {this.props.isEditRoom ? 'Lưu' : 'Tạo'}
+                                            {room.id ? 'Lưu' : 'Tạo'}
                                         </button>
                                     )
                             }

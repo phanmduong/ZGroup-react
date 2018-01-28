@@ -78,6 +78,7 @@ export default function rolesReducer(state = initialState.rooms, action) {
                 ...{
                     isStoringRoom: false,
                     errorStoreRoom: true,
+                    showEditRoomModal: false
                 }
             };
         case types.TOGGLE_ROOM_EDIT_MODAL:
@@ -149,6 +150,13 @@ export default function rolesReducer(state = initialState.rooms, action) {
                 }
             };
         }
+        case types.EDIT_ROOM_DATA_SUCCESS:
+            return {
+                ...state,
+                isStoringRoom: false,
+                showEditRoomModal: false,
+                errorStoreRoom: false
+            };
         default:
             return state;
     }

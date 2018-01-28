@@ -57,3 +57,18 @@ export function storeRoom(room) {
         base_id: room.base_id ? room.base_id : '',
     });
 }
+
+export function editRoom(room) {
+    let url = env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room/" + room.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        type: room.type ? room.type : '',
+        seats_count: room.seats_count ? room.seats_count : 0,
+        name: room.name ? room.name : '',
+        images_url: room.images_url ? room.images_url : '[]',
+        avatar_url: room.avatar_url ? room.avatar_url : ''
+    });
+}

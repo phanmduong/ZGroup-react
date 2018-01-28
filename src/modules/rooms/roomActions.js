@@ -129,6 +129,27 @@ export function storeRoom(room, closeModal) {
     };
 }
 
+export function editRoom(room) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_STORE_ROOM_DATA});
+        helper.showTypeNotification("Đang sửa phòng học", "info");
+        roomApi.editRoom(room)
+            .then(function (res) {
+                if (res.data.status) {
+                    helper.showNotification("Sửa phòng học thành công.");
+                    dispatch({
+                        type: types.EDIT_ROOM_DATA_SUCCESS
+                    });
+                } else {
+                    dispatch({
+                        type: types.STORE_ROOM_DATA_ERROR
+                    });
+                    helper.showTypeNotification(res.data.message.message, "warning");
+                }
+            });
+    };
+}
+
 export function showRoomEditModal(index) {
     return {
         type: types.TOGGLE_ROOM_EDIT_MODAL,
