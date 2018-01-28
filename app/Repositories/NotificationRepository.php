@@ -26,8 +26,9 @@ class NotificationRepository
             "actor_id" => $notification->actor_id,
             "icon" => $notification->icon,
             "color" => $notification->color,
-            "id" => $notification->id
-        );
+            "id" => $notification->id,
+            'type' => $notification->notificationType ? $notification->notificationType->type : ''
+    );
 
         $publish_data = array(
             "event" => "notification",
