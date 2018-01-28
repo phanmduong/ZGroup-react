@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Support\Facades\Hash;
+use Modules\Good\Entities\GoodProperty;
 use Modules\Order\Repositories\OrderService;
 
 class DeliveryOrderApiController extends ManageApiController
