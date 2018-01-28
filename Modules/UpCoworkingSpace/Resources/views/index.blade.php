@@ -30,10 +30,31 @@
                     <br>
                 </div>
             </div>
+            {{--<div class="col-md-6">--}}
+                {{--<div class="embed-responsive embed-responsive-16by9">--}}
+                    {{--<iframe class="embed-responsive-item" src="http://up-co.vn/wp-content/uploads/EDIT-UP-FINALL.mp4?_=1"--}}
+                            {{--allowfullscreen></iframe>--}}
+                {{--</div>--}}
+            {{--</div>--}}
             <div class="col-md-6">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="http://up-co.vn/wp-content/uploads/EDIT-UP-FINALL.mp4?_=1"
-                            allowfullscreen></iframe>
+                <style>.embed-container {
+                        position: relative;
+                        padding-bottom: 56.25%;
+                        height: 0;
+                        overflow: hidden;
+                        max-width: 100%;
+                        height: auto;
+                    }
+
+                    .embed-container iframe, .embed-container object, .embed-container embed {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                    }</style>
+                <div class="embed-container">
+                    <iframe src="https://player.vimeo.com/video/249153132?title=0&amp;byline=0&amp;portrait=0" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
                 </div>
             </div>
         </div>
