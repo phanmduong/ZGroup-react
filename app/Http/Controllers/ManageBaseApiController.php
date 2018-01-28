@@ -164,15 +164,7 @@ class ManageBaseApiController extends ManageApiController
 
         $data = [
             'rooms' => $rooms->map(function ($room) {
-                return [
-                    'id' => $room->room_id,
-                    'name' => $room->room_name,
-                    'base_id' => $room->base_id,
-                    'base_name' => $room->base_name,
-                    'address' => $room->address,
-                    'avatar_url' => $room->avatar_url,
-                    'images_url' => $room->images_url
-                ];
+                return $room->getData();
             })
         ];
 
