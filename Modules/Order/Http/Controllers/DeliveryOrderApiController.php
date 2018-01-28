@@ -317,7 +317,7 @@ class DeliveryOrderApiController extends ManageApiController
 
         $property = new GoodProperty();
         $property->name = 'images_url';
-        $property->value = $request->images_url;
+        $property->value = $request->images_url ? $request->image_url : '';
         $property->good_id = $good->id;
         $property->editor_id = $this->user->id;
         $property->save();
