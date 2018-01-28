@@ -51,10 +51,10 @@ class NhatQuangShopController extends Controller
     {
         $search = $request->search;
         if ($search == null) {
-            $products = Good::where('name', 'like', '%' . "$search" . '%')->orderBy('created_at', 'desc')
+            $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')->orderBy('created_at', 'desc')
                 ->paginate(20);
         } else {
-            $products = Good::where('name', 'like', '%' . "$search" . '%')
+            $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
                 ->paginate(20);
@@ -67,10 +67,10 @@ class NhatQuangShopController extends Controller
     {
         $search = $request->search;
         if ($search == null) {
-            $products = Good::where('highlight_status', '=', '1')->orderBy('created_at', 'desc')
+            $products = Good::groupBy('code')->where('highlight_status', '=', '1')->orderBy('created_at', 'desc')
                 ->paginate(20);
         } else {
-            $products = Good::where('name', 'like', '%' . "$search" . '%')
+            $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
                 ->andWhere('highlight_status', '=', '1')
@@ -89,117 +89,7 @@ class NhatQuangShopController extends Controller
     {
         return view('nhatquangshop::about_us');
     }
-
-
-    public function addGoodToCart($goodId, Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $number = $request->number;
-
-        if ($goods_str) {
-            $goods = json_decode($goods_str);
-        } else {
-            $goods = [];
-        }
-
-        $added = false;
-        foreach ($goods as &$good) {
-            if ($good->id == $goodId) {
-                if ($number) {
-                    $good->number = $number;
-                } else {
-                    $good->number += 1;
-                }
-                $added = true;
-            }
-        }
-
-        if (!$added) {
-            $temp = new \stdClass();
-            $temp->id = $goodId;
-            $temp->number = 1;
-            $goods[] = $temp;
-        }
-
-
-        $goods_str = json_encode($goods);
-        $request->session()->put('goods', $goods_str);
-        return ["status" => 1];
-    }
-
-    public function countGoodsFromSession(Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $goods = json_decode($goods_str);
-
-        $count = 0;
-        if ($goods) {
-            foreach ($goods as $good) {
-                $count += $good->number;
-            }
-        }
-
-        return $count;
-    }
-
-    public function removeBookFromCart($goodId, Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $number = $request->number;
-
-        $goods = json_decode($goods_str);
-
-        $new_goods = [];
-
-        foreach ($goods as &$good) {
-            if ($good->id == $goodId) {
-                $good->number = $number;
-            }
-            if ($good->number > 0) {
-                $temp = new \stdClass();
-                $temp->id = $good->id;
-                $temp->number = $good->number;
-                $new_goods[] = $temp;
-            }
-        }
-
-
-        $goods_str = json_encode($new_goods);
-        $request->session()->put('goods', $goods_str);
-        return ["status" => 1];
-    }
-
-    public function getGoodsFromSession(Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $goods_arr = json_decode($goods_str);
-
-        $goods = [];
-
-        if ($goods_arr) {
-            foreach ($goods_arr as $item) {
-                $good = Good::find($item->id);
-                $good->number = $item->number;
-                $properties = GoodProperty::where('good_id', $good->id)->get();
-                foreach ($properties as $property) {
-                    $good[$property->name] = $property->value;
-                }
-                $goods[] = $good;
-            }
-        }
-
-        $totalPrice = 0;
-
-        foreach ($goods as $good) {
-            $totalPrice += $good->price * $good->number;
-        }
-        $data = [
-            "books" => $goods,
-            "total_price" => $totalPrice
-        ];
-        return view("nhatquangshop::goods_cart", $data);
-    }
-
+    
     public function book($good_id)
     {
         $book = Good::find($good_id);
