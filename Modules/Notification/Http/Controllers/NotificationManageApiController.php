@@ -157,13 +157,13 @@ class NotificationManageApiController extends ManageApiController
             $notification->type = $notificationType->id;
             $notification->message = $notificationType->template;
             $notification->content = $notificationType->content_template;
-            $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
+            $notification->image_url = defaultAvatarUrl();
             $notification->url = "/";
             $notification->save();
 
             $this->notificationRepository->sendNotification($notification);
         });
 
-        return $this->respondSuccessWithStatus($users);
+        return $this->respondSuccess("Gửi thành công");
     }
 }
