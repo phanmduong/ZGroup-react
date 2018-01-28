@@ -398,5 +398,11 @@ class CompanyController extends ManageApiController
             })
         ]);
     }
-
+    public function getExportOrder($exportOrderId,Request $request){
+        $exportorder = ExportOrder::find($exportOrderId);
+        if(!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
+        return $this->respondSuccessWithStatus([
+            "exportOrder" => $exportorder->transform()
+        ]);
+    }
 }
