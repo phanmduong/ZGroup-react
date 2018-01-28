@@ -18,6 +18,7 @@ class RoomServiceUserPack extends Model
             'name' => $this->name,
             'avatar_url' => $this->avatar_url,
             'detail' => $this->detail,
+            'status' => $this->status,
         ];
     }
 }

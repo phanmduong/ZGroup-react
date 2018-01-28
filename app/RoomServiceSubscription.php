@@ -27,4 +27,16 @@ class RoomServiceSubscription extends Model
             'user_pack_name' => $this->user_pack->name,
         ];
     }
+    public function transform(){
+        return[
+            'id' => $this->id,
+            'price' => $this->price,
+            'description' => $this->description,
+            'subcription_kind' => [
+                'id' =>   $this->subscription_kind->id,
+                'name' => $this->subscription_kind->name,
+                'hours' => $this->subscription_kind->hours,
+            ],
+        ];
+    }
 }
