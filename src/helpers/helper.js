@@ -738,10 +738,11 @@ export function closeSidebar() {
     /* eslint-enable */
 }
 
-export function onesignalSetUserId(userId) {
+export function onesignalSetUserId(userId, loginSuccess) {
     /* eslint-disable */
     OneSignal.sendTag("user_id", userId, function (tagsSent) {
         console.log("tag ok ", tagsSent);
+        loginSuccess();
     });
     /* eslint-enable */
 }
