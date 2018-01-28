@@ -17,27 +17,28 @@ export function updateFormData(login) {
         dispatch(beginUpdateLoginForm());
         loadLoginApi.loadLoginApi(login).then(function (res) {
 
-            let token = null;
-            if (res.data.user.role !== 0) {
-                token = res.data.token;
-                localStorage.setItem('token', token);
-                localStorage.setItem('user', JSON.stringify(res.data.user));
-                helper.saveDataLoginLocal(helper.encodeToken(res.data));
-                helper.onesignalSetUserId(res.data.user.id, function () {
-                        dispatch({
-                            type: types.UPDATED_LOGIN_FORM,
-                            token: token,
-                            user: res.data.user
-                        });
-                    }
-                );
-            }
-
+            dispatch(updatedLoginForm(res));
         }).catch(error => {
             console.log(error);
             dispatch(loginError());
         });
     };
+}
+
+
+export function updatedLoginForm(res) {
+    let token = null;
+    if (res.data.user.role !== 0) {
+        token = res.data.token;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        helper.saveDataLoginLocal(helper.encodeToken(res.data));
+    }
+    return ({
+        type: types.UPDATED_LOGIN_FORM,
+        token: token,
+        user: res.data.user
+    });
 }
 
 export function getUserLocal() {
