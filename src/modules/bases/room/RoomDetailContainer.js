@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import RoomGrid from "./RoomGrid";
 import PropTypes from 'prop-types';
-import {loadSeats} from "../seat/seatActions";
+import {loadSeats, toggleCreateSeatModal} from "../seat/seatActions";
+import CreateSeatModalContainer from "../seat/CreateSeatModalContainer";
 
 // Import actions here!!
 
@@ -26,6 +27,7 @@ class RoomDetailContainer extends React.Component {
 
     onClick(data) {
         console.log("Canvas Click", data);
+        this.props.actions.toggleCreateSeatModal(true);
     }
 
     onDrag(data) {
@@ -39,7 +41,7 @@ class RoomDetailContainer extends React.Component {
     render() {
         return (
             <div>
-
+                <CreateSeatModalContainer/>
                 <RoomGrid
                     onClick={this.onClick}
                     onDrag={this.onDrag}
@@ -57,8 +59,7 @@ RoomDetailContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     domain: PropTypes.object.isRequired,
-    seats: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    seats: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -71,7 +72,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({loadSeats}, dispatch)
+        actions: bindActionCreators({loadSeats, toggleCreateSeatModal}, dispatch)
     };
 }
 

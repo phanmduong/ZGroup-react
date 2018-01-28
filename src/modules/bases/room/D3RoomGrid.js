@@ -56,6 +56,8 @@ ns.create = function (el, props, state) {
 
             state.data.push(seat);
 
+
+
             ns.update(el, state, dispatcher);
         });
 

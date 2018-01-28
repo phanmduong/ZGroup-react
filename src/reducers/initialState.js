@@ -1696,7 +1696,9 @@ export default {
     },
     seat: {
         showCreateSeatModal: false,
-        seat: {},
+        seat: {
+            r: 1
+        },
         seats: [],
         domain: {x: [0, 600], y: [0, 400]}
 

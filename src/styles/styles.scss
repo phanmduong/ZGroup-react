@@ -712,9 +712,18 @@ img .product-image {
   vertical-align: top;
   overflow: hidden;
 }
+
 .svg-content-responsive {
   display: inline-block;
   position: absolute;
   top: 10px;
   left: 0;
+}
+
+.noUi-handle {
+  border-color: #bbbbbb !important;
+}
+
+.noUi-active {
+  transform: scale3d(1, 1, 1) !important;
 }

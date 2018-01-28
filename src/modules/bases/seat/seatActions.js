@@ -1,12 +1,13 @@
-import * as types from "./seatActionTypes";
 import {getSeats} from "./seatApi";
-import {DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING} from "../../../constants/actionTypes";
-import {SEAT_LOAD_SEATS_SUCCESS} from "./seatActionTypes";
+import {
+    DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING, SEAT_LOAD_SEATS_SUCCESS,
+    SEAT_TOGGLE_CREATE_SEAT_MODAL, SEAT_UPDATE_SEAT_FORM_DATA
+} from "../../../constants/actionTypes";
 
 export function toggleCreateSeatModal(showCreateSeatModal) {
     return function (dispatch) {
         dispatch({
-            type: types.SEAT_TOGGLE_CREATE_SEAT_MODAL,
+            type: SEAT_TOGGLE_CREATE_SEAT_MODAL,
             showCreateSeatModal
         });
     };
@@ -32,3 +33,11 @@ export const loadSeats = (roomId) => {
     };
 };
 
+export const updateSeatFormData = (seat) => {
+    return (dispatch) => {
+        dispatch({
+            type: SEAT_UPDATE_SEAT_FORM_DATA,
+            seat
+        });
+    };
+};
