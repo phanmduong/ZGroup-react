@@ -36,15 +36,17 @@ class NotificationRepository
 
         $jsonData = json_encode($publish_data);
 
-        switch ($notification->notificationType->type) {
-            case "manage":
-                Redis::publish(config("app.channel"), $jsonData);
-                break;
-            case "social":
-                Redis::publish(config("app.social_channel"), $jsonData);
-                break;
-        }
-        send_push_notification($jsonData);
+//        switch ($notification->notificationType->type) {
+//        case "manage":
+//            Redis::publish(config("app.channel"), $jsonData);
+//            break;
+//        case "social":
+//            Redis::publish(config("app.social_channel"), $jsonData);
+//            break;
+
+//    }
+//        send_push_notification($jsonData);
+        Redis::publish(config("app.channel"), $jsonData);
     }
 
     public function sendLikeNotification($actor, $product)
@@ -54,7 +56,7 @@ class NotificationRepository
         $notification->product_id = $product->id;
         $notification->actor_id = $actor->id;
         $notification->receiver_id = $product->author->id;
-        $notification->type = 0;
+        $notification->type = 35;
 
         $message = $notification->notificationType->template;
 

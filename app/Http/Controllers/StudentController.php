@@ -140,7 +140,7 @@ class StudentController extends StudentAccessController
                 $notification->product_id = $request->product_id;
                 $notification->actor_id = $this->user->id;
                 $notification->receiver_id = $product->author->id;
-                $notification->type = 0;
+                $notification->type = 35;
                 $notification->save();
 
                 $data = array(

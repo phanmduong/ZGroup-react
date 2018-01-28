@@ -21,13 +21,6 @@ class NotificationTypeSeeder extends Seeder
 
         DB::table('notification_types')->insert([
             [
-                'name' => "like",
-                'color' => "#c50000",
-                'id' => 0,
-                "type" => "social",
-                "template" => "[[ACTOR]] đã thích bài viết [[TARGET]]",
-                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
-            ], [
                 'name' => "new_comment",
                 'color' => "#c50000",
                 'id' => 1,
@@ -271,8 +264,15 @@ class NotificationTypeSeeder extends Seeder
                 "type" => "manage",
                 "template" => "Bạn nhớ check out ca làm việc [[WORK_SHIFT]] lúc [[TIME]] nhé",
                 "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
-            ]
-
+            ],
+            [
+                'name' => "like",
+                'color' => "#c50000",
+                'id' => 35,
+                "type" => "social",
+                "template" => "[[ACTOR]] đã thích bài viết [[TARGET]]",
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
+            ],
         ]);
     }
 }
