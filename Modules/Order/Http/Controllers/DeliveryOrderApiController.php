@@ -317,6 +317,7 @@ class DeliveryOrderApiController extends ManageApiController
 
         $property = new GoodProperty();
         $property->name = 'images_url';
+        dd($request->images_url);
         $property->value = $request->images_url ? $request->image_url : '';
         $property->good_id = $good->id;
         $property->editor_id = $this->user->id;
@@ -354,7 +355,7 @@ class DeliveryOrderApiController extends ManageApiController
         $historyGood->order_id = $importOrder->id;
         $historyGood->imported_good_id = $importedGood->id;
         $historyGood->save();
-
+        $deliveryOrder->delivery
         return $this->respondSuccess('Nhập kho hàng sẵn thành công');
     }
 }
