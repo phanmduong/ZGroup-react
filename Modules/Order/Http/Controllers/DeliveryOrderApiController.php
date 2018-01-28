@@ -292,14 +292,15 @@ class DeliveryOrderApiController extends ManageApiController
     public function importDeliveryOrder($deliveryOrderId, Request $request)
     {
         $deliveryOrder = Order::find($deliveryOrderId);
-        if($deliveryOrder == null)
+        if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tìm thấy đơn nhập');
-        if($request->warehouse_id == null)
+        if ($request->warehouse_id == null)
             return $this->respondErrorWithStatus('Cần phải chọn kho hàng để nhập');
         if ($request->name == null || $request->code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
-
+        if (!$deliveryOrder->delivery_warehouse_status == 'arrived')
+            return $this->respondErrorWithStatus('Hàng chưa về, đã xuất hoặc đã chuyển kho');
         $good = new Good;
         $good->name = trim($request->name);
         $good->code = trim($request->code);
@@ -354,7 +355,7 @@ class DeliveryOrderApiController extends ManageApiController
         $historyGood->order_id = $importOrder->id;
         $historyGood->imported_good_id = $importedGood->id;
         $historyGood->save();
-        $deliveryOrder->delivery_warehouse_status = 'imported';
+        $deliveryOrder->delivery_warehouse_status = 'transfered';
         return $this->respondSuccess('Nhập kho hàng sẵn thành công');
     }
 }
