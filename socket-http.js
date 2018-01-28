@@ -14,8 +14,8 @@ redis.on('message', function (channel, message) {
     io.emit(channel + ':' + message.event, message.data);
     if (message.event === 'notification' && message.data && message.data.receiver_id) {
         sendNotificationUser(message.data);
-        sendNotification(message.data, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
-        sendNotification(message.data, env.NOTI_APP_ID, env.NOTI_APP_KEY);
+        // sendNotification(message.data, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
+        // sendNotification(message.data, env.NOTI_APP_ID, env.NOTI_APP_KEY);
     }
 });
 http.listen(env.SOCKET_PORT, function () {
