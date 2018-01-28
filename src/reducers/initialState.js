@@ -1884,5 +1884,14 @@ export default {
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
     },
+    notificationTypes: {
+        isLoading: false,
+        error: false,
+        notificationTypes: [],
+        totalPages: 1,
+        currentPage: 1,
+        isStoring: false,
+        errorStore: false,
+    }
 
 };

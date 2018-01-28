@@ -76,6 +76,7 @@ import printOrderReducer from "../modules/printOrder/printOrderReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 import exportOrderReducer from "../modules/Zgroup/exportGood/exportOrderReducer";
 
+import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
 
 
 const appReducer = combineReducers({
@@ -154,7 +155,8 @@ const appReducer = combineReducers({
     companies: CompanyReducer,
     printOrder: printOrderReducer,
     exportOrder: exportOrderReducer,
-    seat: seatReducer
+    seat: seatReducer,
+    notificationType: notificationTypeReducer,
 });
 
 const rootReducer = (state, action) => {
