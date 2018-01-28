@@ -1,23 +1,14 @@
 .icon-main-color {
-    color: #8bd100;
+    color: #96d21f;
 }
 
 .text-main-color {
-    color: #8bd100 !important;
+    color: #96d21f !important;
 }
 
 .card-body {
     padding: 15px;
 }
-
-/*
-Author: Bootstrapthemes
-Author URI: http://bootstrapthemes.co
-*/
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
 
 .p-top-100 {
     padding: 100px 0;
@@ -27,9 +18,6 @@ Author URI: http://bootstrapthemes.co
     margin-top: 40px;
 }
 
-/*=================================================
-Pricint fiv
-===================================================*/
 .bs-five-area {
     width: 100%;
     display: inline-block;
@@ -123,17 +111,61 @@ Pricint fiv
 
 .hover-change:hover {
     color: white !important;
-    background-color: #8bd100;
-    border-color: #8bd100;
-}
-
-.hover-change:active {
-    color: white !important;
-    background-color: #8bd100;
-    border-color: #8bd100;
+    background-color: #96d21f;
+    border-color: #96d21f;
 }
 
 .btn-up {
     background-color: transparent;
     border-color: transparent;
+}
+
+.nav-pills-primary > li > a,
+.pagination-primary > li > a,
+.pagination-primary > li > span,
+.pagination-primary > li:first-child > a,
+.pagination-primary > li:first-child > span,
+.pagination-primary > li:last-child > a,
+.pagination-primary > li:last-child > span {
+    border: 2px solid #96d21f;
+    color: #96d21f;
+}
+
+.nav-pills-primary > li.active > a,
+.nav-pills-primary > li.active > a:hover,
+.nav-pills-primary > li.active > a:focus,
+.pagination-primary > li > a:hover,
+.pagination-primary > li > a:focus,
+.pagination-primary > li > a:active,
+.pagination-primary > li.active > a,
+.pagination-primary > li.active > span,
+.pagination-primary > li.active > a:hover,
+.pagination-primary > li.active > span:hover,
+.pagination-primary > li.active > a:focus,
+.pagination-primary > li.active > span:focus {
+    background-color: #96d21f !important;
+    border-color: #96d21f !important;
+    color: #FFFFFF;
+}
+
+.nav-pills-info > li > a,
+.pagination-info > li > a,
+.pagination-info > li > span,
+.pagination-info > li:first-child > a,
+.pagination-info > li:first-child > span,
+.pagination-info > li:last-child > a,
+.pagination-info > li:last-child > span {
+    border: 2px solid #96d21f;
+    color: #96d21f;
+}
+
+.noselect *{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome and Opera */
 }

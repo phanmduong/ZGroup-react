@@ -35,7 +35,7 @@
                 <span class="navbar-toggler-bar"></span>
             </button>
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html" style="padding:0!important">
+                <a class="navbar-brand" href="/" style="padding:0!important">
                     <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"
                          style="margin:10px 0"/>
                 </a>
@@ -44,24 +44,28 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="about-us.html" data-scroll="true">VỀ UP</a>
+                    <a class="btn btn-round btn-up nav-link hover-change" href="about-us.html" data-scroll="true">VỀ
+                        UP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="index.html" data-scroll="true">GÓI THÀNH VIÊN</a>
+                    <a class="btn btn-round btn-up nav-link hover-change" href="index.html" data-scroll="true">GÓI THÀNH
+                        VIÊN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="blog.html" data-scroll="true">SỰ KIỆN</a>
+                    <a class="btn btn-round btn-up nav-link hover-change" href="blog.html" data-scroll="true">SỰ
+                        KIỆN</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-round btn-up nav-link hover-change" href="/blog" data-scroll="true">BLOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="price.html" data-scroll="true">PHÒNG HỌP</a>
+                    <a class="btn btn-round btn-up nav-link hover-change" href="price.html" data-scroll="true">PHÒNG
+                        HỌP</a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="btn btn-round btn-danger"
-                       style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" href="sections.html">TRẢI NGHIỆM</a>
+                    <a class="btn btn-round btn-danger nav-link"
+                       style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0); color:white!important;"
+                       href="sections.html">TRẢI NGHIỆM</a>
                 </li>
             </ul>
         </div>
@@ -69,6 +73,90 @@
 </nav>
 
 @yield('content')
+
+<div id="modalBuy" class="modal fade show">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" class="close">×</button>
+                <h3 class="medium-title">Đăng kí</h3></div>
+            <div id="modal-body" class="modal-body">
+                <div class="container">
+                    <div class="row" style="padding: 10px">
+                        <select id="sel1" class="form-control">
+                            <option value="Chuyển khoản">Cơ sở 1</option>
+                            <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
+                                Cơ sở 2
+                            </option>
+                        </select>
+
+                    </div>
+                    <div class="row" style="padding: 10px">
+                        <select id="sel1" class="form-control">
+                            <option value="Chuyển khoản">Cơ sở 1</option>
+                            <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
+                                Cơ sở 2
+                            </option>
+                        </select>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a>
+                                <div class="card card-profile"
+                                     style="padding-bottom: 70%; background-size: cover; background-position: center; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
+
+                                </div>
+                                <h6>
+                                    Thanh vien linh hoat
+                                </h6>
+                                <p>
+                                    Sample description
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a>
+                                <div class="card card-profile"
+                                     style="padding-bottom: 70%; background-size: cover; background-position: center; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
+
+                                </div>
+                                <h6>
+                                    Thanh vien linh hoat
+                                </h6>
+                                <p>
+                                    Sample description
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a>
+                                <div class="card card-profile"
+                                     style="padding-bottom: 70%; background-size: cover; background-position: center; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
+                                </div>
+                                <h6>
+                                    Thanh vien linh hoat
+                                </h6>
+                                <p>
+                                    Sample description
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="btn-purchase" class="btn btn-sm btn-main"
+                        style="margin: 10px 10px 10px 0px !important;">Đăng kí</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer class="footer footer-big">
     <div class="container">
