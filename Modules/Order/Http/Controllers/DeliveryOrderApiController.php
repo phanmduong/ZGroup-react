@@ -355,7 +355,7 @@ class DeliveryOrderApiController extends ManageApiController
         $historyGood->order_id = $importOrder->id;
         $historyGood->imported_good_id = $importedGood->id;
         $historyGood->save();
-        $deliveryOrder->delivery
+        $deliveryOrder->delivery_warehouse_status = 'imported';
         return $this->respondSuccess('Nhập kho hàng sẵn thành công');
     }
 }
