@@ -42,7 +42,6 @@ class ManageBaseApiController extends ManageApiController
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
         $room->avatar_url = $request->avatar_url;
-        $room->address = $request->address;
         $room->save();
     }
 
