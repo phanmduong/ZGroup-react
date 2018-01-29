@@ -202,7 +202,7 @@ class DeliveryOrderApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyWord = $request->search;
 
-        $deliveryOrders = Order::where('type', 'delivery')->where('delivery_warehouse_status', 'imported');
+        $deliveryOrders = Order::where('type', 'delivery')->where('delivery_warehouse_status', 'arrived');
         if ($keyWord) {
             $userIds = User::where(function ($query) use ($keyWord) {
                 $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");

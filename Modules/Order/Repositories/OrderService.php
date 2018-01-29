@@ -290,6 +290,15 @@ class OrderService
                 'message' => 'Chuyển trạng thái thành công'
             ];
         }
+        if ($this->deliveryStatusToNum($request->status)-$this->deliveryStatusToNum($order->status) != 1)
+            return [
+                'status' => 0,
+                'message' => 'Vui lòng chỉ chuyển trạng thái kế tiếp'
+            ];
+        if($this->deliveryStatusToNum($request->status) == 'arrived')
+            $order->delivery_warehouse_status = 'arrived';
+        if($this->deliveryStatusToNum($request->status) == 'ship')
+            $order->delivery_warehouse_status = 'exported';
         $order->status = $request->status;
         $order->staff_id = $staffId;
         $order->save();
