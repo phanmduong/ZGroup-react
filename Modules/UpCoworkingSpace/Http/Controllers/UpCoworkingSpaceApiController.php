@@ -2,12 +2,15 @@
 
 namespace Modules\UpCoworkingSpace\Http\Controllers;
 
+use App\Base;
+use App\District;
 use App\Http\Controllers\ApiPublicController;
+use App\Province;
 use App\RoomServiceRegister;
 use App\RoomServiceUserPack;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UpCoworkingSpaceApiController extends ApiPublicController
@@ -65,5 +68,33 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         return $this->respondSuccessWithStatus([
             'message' => "Đăng kí thành công"
         ]);
+    }
+
+    //web api
+    public function province()
+    {
+        $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))
+            ->select("district.provinceid as province_id")->pluck("province_id")->toArray();
+        $provinceIds = collect(array_unique($provinceIds));
+        return [
+            "provinces" => $provinceIds->map(function ($provinceId) {
+                $province = Province::find($provinceId);
+                return $province->transform();
+            })->values()
+        ];
+    }
+
+    public function basesInProvince($provinceId, Request $request)
+    {
+        $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
+            ->where("province.provinceid", $provinceId)->select("district.*")->pluck("districtid");
+        $bases = Base::whereIn("district_id", $districtIds);
+        $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
+        $bases = $bases->get();
+        return [
+            "bases" => $bases->map(function ($base) {
+                return $base->transform();
+            })
+        ];
     }
 }

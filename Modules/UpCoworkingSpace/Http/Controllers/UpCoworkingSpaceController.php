@@ -2,10 +2,13 @@
 
 namespace Modules\UpCoworkingSpace\Http\Controllers;
 
+use App\District;
 use App\Product;
+use App\Province;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use phpseclib\Crypt\Base;
 
 class UpCoworkingSpaceController extends Controller
 {
@@ -66,4 +69,5 @@ class UpCoworkingSpaceController extends Controller
         $this->data['posts_related'] = $posts_related;
         return view('upcoworkingspace::post', $this->data);
     }
+
 }

@@ -4,6 +4,9 @@ $publicRoutes = function () {
     Route::get('/', 'UpCoworkingSpaceController@index');
     Route::get('/blog', 'UpCoworkingSpaceController@blog');
     Route::get('/blog/post/{post_id}', 'UpCoworkingSpaceController@post');
+
+    Route::get('/api/province', 'UpCoworkingSpaceApiController@province');
+    Route::get('/api/province/{provinceId}/base', 'UpCoworkingSpaceApiController@basesInProvince');
 };
 
 $apiRoutes = function () {

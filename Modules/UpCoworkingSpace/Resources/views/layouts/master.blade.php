@@ -214,6 +214,7 @@
 <!--  Plugins for presentation page -->
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/main.js"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/jquery.sharrre.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
