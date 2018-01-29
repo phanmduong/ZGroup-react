@@ -23,6 +23,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::put('/delivery/{deliveryOrderId}/change-note','DeliveryOrderApiController@changeNote');
     Route::put('/delivery/{deliveryOrderId}/change-status','DeliveryOrderApiController@changeStatus');
     Route::get('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@getDetailedDeliveryOrder');
+    Route::post('/delivery/{deliveryOrderId}/import', 'DeliveryOrderApiController@importDeliveryOrder');
 
     Route::get('/all-customers', 'CustomerController@allCustomers');
     Route::get('/total-and-debt-money', 'CustomerController@countMoney');

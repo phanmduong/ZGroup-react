@@ -272,10 +272,25 @@ class OrderService
                 'status' => 0,
                 'message' => 'Không tồn tại đơn hàng'
             ];
+        if ($this->deliveryStatusToNum($order->status) == 7)
+            return [
+                'status' => 0,
+                'message' => 'Không được phép sửa đơn hoàn thành'
+            ];
+        if($this->deliveryStatusToNum($request->status) == 8)
+        {
+            $order->status = $request->status;
+            $order->note = $request->note;
+            $order->staff_id = $staffId;
+            $order->save();
+            return [
+                'status' => 1,
+                'message' => 'Chuyển trạng thái thành công'
+            ];
+        }
         $order->status = $request->status;
         $order->staff_id = $staffId;
         $order->save();
-
         return [
             'status' => 1,
             'message' => 'Chuyển trạng thái thành công'
