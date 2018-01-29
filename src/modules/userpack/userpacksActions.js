@@ -64,6 +64,7 @@ export function updateFormUserpack(data) {
         });
     };
 }
+
 export function updateFormSubscription(data) {
     return function (dispatch) {
         dispatch({
@@ -72,6 +73,7 @@ export function updateFormSubscription(data) {
         });
     };
 }
+
 export function updateFormSubscriptionKind(data) {
     return function (dispatch) {
         dispatch({
@@ -93,7 +95,7 @@ export function addUserpack(userpack) {
                     dispatch({type: types.ADDED_USERPACK_SUCCESS});
                     helper.showNotification("Đã thêm gói " + userpack.name, "success");
                 }
-            else {
+                else {
                     helper.showErrorNotification("Lỗi");
                     dispatch({type: types.ADDED_USERPACK_ERROR});
                 }
@@ -137,9 +139,10 @@ export function loadDetailUserpack(id) {
         dispatch({type: types.BEGIN_LOAD_DETAIL_USERPACK});
         userpacksApis.loadDetailUserpackApi(id)
             .then((res) => {
-                dispatch({type: types.LOADED_DETAIL_USERPACK_SUCCCESS,
-                    userpack : res.data.data.userPack,
-                    subscriptions : res.data.data.subscriptions,
+                dispatch({
+                    type: types.LOADED_DETAIL_USERPACK_SUCCCESS,
+                    userpack: res.data.data.userPack,
+                    subscriptions: res.data.data.subscriptions,
                 });
             })
             .catch(() => {
@@ -148,7 +151,8 @@ export function loadDetailUserpack(id) {
     };
 
 }
-export  function editUserpack(userpack, closeModal) {
+
+export function editUserpack(userpack, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_EDIT_USERPACK,
@@ -174,15 +178,17 @@ export  function editUserpack(userpack, closeModal) {
             });
     };
 }
-export  function addSubscription(id,subscription, closeModal) {
+
+export function addSubscription(id, subscription, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_SUBSCRIPTION,
         });
-        userpacksApis.addSubscriptionApi(id ,subscription)
+        userpacksApis.addSubscriptionApi(id, subscription)
             .then((res) => {
                 if (res.data.status) {
-                    dispatch({type: types.ADDED_SUBSCRIPTION_SUCCESS,
+                    dispatch({
+                        type: types.ADDED_SUBSCRIPTION_SUCCESS,
                         subscription,
                     });
                     closeModal();
@@ -203,17 +209,17 @@ export  function addSubscription(id,subscription, closeModal) {
 }
 
 
-
-export  function editSubscription(id,subscription, closeModal) {
+export function editSubscription(id, subscription, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_EDIT_SUBSCRIPTION,
         });
-        userpacksApis.editSubscriptionApi(id ,subscription)
+        userpacksApis.editSubscriptionApi(id, subscription)
             .then((res) => {
                 if (res.data.status) {
                     helper.showNotification("Đã sửa ", "success");
-                    dispatch({type: types.EDITED_SUBSCRIPTION_SUCCESS,
+                    dispatch({
+                        type: types.EDITED_SUBSCRIPTION_SUCCESS,
                         subscription,
                     });
                     closeModal();
@@ -233,7 +239,7 @@ export  function editSubscription(id,subscription, closeModal) {
 }
 
 
-export  function addSubscriptionKind(subscriptionKind, closeModal ) {
+export function addSubscriptionKind(subscriptionKind, closeModal,loadSubscriptionKinds) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_SUBSCRIPTION_KIND,
@@ -241,11 +247,13 @@ export  function addSubscriptionKind(subscriptionKind, closeModal ) {
         userpacksApis.addSubscriptionKindApi(subscriptionKind)
             .then((res) => {
                 if (res.data.status) {
-                    helper.showNotification("Đã thêm " + subscriptionKind.name , "success");
-                    dispatch({type: types.ADDED_SUBSCRIPTION_KIND_SUCCESS,
+                    helper.showNotification("Đã thêm " + subscriptionKind.name, "success");
+                    dispatch({
+                        type: types.ADDED_SUBSCRIPTION_KIND_SUCCESS,
                         subscriptionKind,
                     });
                     closeModal();
+                    loadSubscriptionKinds();
                 }
                 else {
                     helper.showErrorNotification("Lỗi");
@@ -256,6 +264,18 @@ export  function addSubscriptionKind(subscriptionKind, closeModal ) {
                 helper.showErrorNotification("Lỗi");
                 dispatch({
                     type: types.ADDED_SUBSCRIPTION_ERROR,
+                });
+            });
+    };
+}
+
+export function loadSubscriptionKinds() {
+    return function (dispatch) {
+        userpacksApis.loadSubscriptionsKindApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_SUBSCRIPTIONKINDS,
+                    subscriptionKinds: res.data.message.subscription_kinds,
                 });
             });
     };

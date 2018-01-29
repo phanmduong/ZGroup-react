@@ -190,6 +190,12 @@ export default function userpackReducer(state = initialState.userpacks, action) 
 
                 },
             };
+        case types.LOAD_SUBSCRIPTIONKINDS:{
+            return {
+                ...state,
+                subscriptionKinds : action.subscriptionKinds,
+            };
+        }
 
         case types.BEGIN_LOAD_DETAIL_USERPACK:
             return {

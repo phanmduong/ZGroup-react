@@ -3,13 +3,11 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as userpacksActions from './userpacksActions';
-import * as userpacksApis from "./userpacksApis";
-import ReactSelect from 'react-select';
+// import * as userpacksApis from "./userpacksApis";
+// import ReactSelect from 'react-select';
 import {Modal} from 'react-bootstrap';
-// import * as helper from '../../helpers/helper';
 
 import TooltipButton from '../../components/common/TooltipButton';
-// import Loading from '../../components/common/Loading';
 import FormInputText from '../../components/common/FormInputText';
 import AddSubcriptionKindModal from "./AddSubcriptionKindModal";
 
@@ -20,20 +18,25 @@ class SubscriptionModal extends React.Component {
         this.state = {
             isOpenModal: false,
         };
-        this.loadSubscriptionsKind = this.loadSubscriptionsKind.bind(this);
-        this.changeSubscriptionKind = this.changeSubscriptionKind.bind(this);
+        // this.loadSubscriptionsKind = this.loadSubscriptionsKind.bind(this);
+        // this.changeSubscriptionKind = this.changeSubscriptionKind.bind(this);
         this.updateFormSubscription = this.updateFormSubscription.bind(this);
         this.updateFormSubscriptionKind = this.updateFormSubscriptionKind.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
         this.addSubscriptionKind = this.addSubscriptionKind.bind(this);
         this.addSubscription = this.addSubscription.bind(this);
+        this.loadSubscriptionKinds = this.loadSubscriptionKinds.bind(this);
     }
 
     componentWillMount() {
-        this.loadSubscriptionsKind();
+        this.loadSubscriptionKinds();
     }
 
+    loadSubscriptionKinds(){
+        this.props.userpacksActions.loadSubscriptionKinds();
+
+    }
     openModal(data) {
         this.setState({isOpenModal: true});
         this.props.userpacksActions.updateFormSubscriptionKind(data);
@@ -43,25 +46,26 @@ class SubscriptionModal extends React.Component {
         this.setState({isOpenModal: false});
     }
 
-    loadSubscriptionsKind(input, callback) {
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            userpacksApis.loadSubscriptionsKindApi(input).then(res => {
-                let subscriptionsKind = res.data.message.subscription_kinds.map((subscriptionKind) => {
-                    return {
-                        ...subscriptionKind,
-                        ...{
-                            value: subscriptionKind.id,
-                            label: subscriptionKind.name,
-                        }
-                    };
-                });
-                callback(null, {options: subscriptionsKind, complete: true});
-            });
-        }.bind(this), 500);
-    }
+    // loadSubscriptionsKind(input, callback) {
+    //     if (this.timeOut !== null) {
+    //         clearTimeout(this.timeOut);
+    //     }
+    //     this.timeOut = setTimeout(function () {
+    //         userpacksApis.loadSubscriptionsKindApi(input).then(res => {
+    //             let subscriptionsKind = res.data.message.subscription_kinds.map((subscriptionKind) => {
+    //                 return {
+    //                     ...subscriptionKind,
+    //                     ...{
+    //                         value: subscriptionKind.id,
+    //                         label: subscriptionKind.name,
+    //                     }
+    //                 };
+    //             });
+    //             callback(null, {options: subscriptionsKind, complete: true});
+    //         });
+    //     }.bind(this), 500);
+    // }
+
 
     updateFormSubscription(event) {
         const field = event.target.name;
@@ -77,9 +81,9 @@ class SubscriptionModal extends React.Component {
         this.props.userpacksActions.updateFormSubscriptionKind(data);
     }
 
-    changeSubscriptionKind(value) {
-        this.props.userpacksActions.changeSubscriptionKind(value.value);
-    }
+    // changeSubscriptionKind(value) {
+    //     this.props.userpacksActions.changeSubscriptionKind(value.value);
+    // }
 
     addSubscription(e) {
         if (this.props.isEdit) {
@@ -92,7 +96,7 @@ class SubscriptionModal extends React.Component {
     }
 
     addSubscriptionKind(e) {
-        this.props.userpacksActions.addSubscriptionKind(this.props.subscriptionKind, this.closeModal, this.loadSubscriptionsKind);
+        this.props.userpacksActions.addSubscriptionKind(this.props.subscriptionKind, this.closeModal, this.loadSubscriptionKinds);
         e.preventDefault();
     }
 
@@ -123,28 +127,28 @@ class SubscriptionModal extends React.Component {
                                     <label className="label-control">Chọn loại subscription</label>
                                     <div className="row">
                                         <div className="col-md-10">
-                                            <ReactSelect.Async
-                                                loadOptions={this.loadSubscriptionsKind}
-                                                loadingPlaceholder="Đang tải..."
-                                                placeholder="Chọn loại subscription"
-                                                searchPromptText="Không có dữ liệu "
-                                                onChange={this.changeSubscriptionKind}
+                                            {/*<ReactSelect.Async*/}
+                                            {/*loadOptions={this.loadSubscriptionsKind}*/}
+                                            {/*loadingPlaceholder="Đang tải..."*/}
+                                            {/*placeholder="Chọn loại subscription"*/}
+                                            {/*searchPromptText="Không có dữ liệu "*/}
+                                            {/*onChange={this.changeSubscriptionKind}*/}
+                                            {/*value={subscriptionKind}*/}
+                                            {/*/>*/}
+                                            <select
+                                                className="form-control"
                                                 value={subscriptionKind}
-                                            />
-                                            {/*<select*/}
-                                                {/*className="form-control"*/}
-                                                {/*value={subscriptionKind}*/}
-                                                {/*onChange={this.updateFormSubscription}*/}
-                                                {/*name="subscriptionKind">*/}
-                                                {/*{this.props.categories !== null && this.props.categories !== undefined &&*/}
-                                                {/*this.props.categories.map((item, key) => {*/}
-                                                    {/*return (*/}
-                                                        {/*<option key={key}*/}
-                                                                {/*value={item.value}>*/}
-                                                            {/*{item.text}*/}
-                                                        {/*</option>);*/}
-                                                {/*})}*/}
-                                            {/*</select>*/}
+                                                onChange={this.updateFormSubscription}
+                                                name="subscriptionKind">
+                                                {this.props.subscriptionKinds !== null && this.props.subscriptionKinds !== undefined &&
+                                                this.props.subscriptionKinds.map((item, key) => {
+                                                    return (
+                                                        <option key={key}
+                                                                value={item.id}>
+                                                            {item.name}
+                                                        </option>);
+                                                })}
+                                            </select>
                                         </div>
                                         <TooltipButton placement="top" text="Thêm loại đăng kí">
                                             <div className="col-md-2" style={{marginTop: -6}}>
@@ -278,6 +282,7 @@ SubscriptionModal.propTypes = {
     isEdit: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
     userpack: PropTypes.object.isRequired,
+    subscriptionKinds: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -287,6 +292,7 @@ function mapStateToProps(state) {
         userpack: state.userpacks.userpack,
         isSavingSubscription: state.userpacks.isSavingSubscription,
         isSavingSubscriptionKind: state.userpacks.isSavingSubscriptionKind,
+        subscriptionKinds: state.userpacks.subscriptionKinds,
     };
 }
 
