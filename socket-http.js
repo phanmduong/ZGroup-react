@@ -11,7 +11,9 @@ redis.subscribe(env.CHANNEL, function (err, count) {
 redis.on('message', function (channel, message) {
     // console.log('Message Recieved: ' + message);
     message = JSON.parse(message);
-    io.emit(channel + ':' + message.event, message.data);
+    if (message.data.type && message.data.type.indexOf("mobile") < 0) {
+        io.emit(channel + ':' + message.event, message.data);
+    }
     if (message.event === 'notification' && message.data && message.data.receiver_id) {
         sendNotificationUser(message.data);
         // sendNotification(message.data, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
