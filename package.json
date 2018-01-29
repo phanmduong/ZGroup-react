@@ -56,6 +56,8 @@
     "build:workShift": "npm run lint && rimraf ./dist/workShift && mkdir dist/workShift && MODULE=workShift babel-node tools/build/module.js",
     "start:landingPage": "MODULE=landingPage npm-run-all --parallel open:src lint:watch",
     "build:landingPage": "npm run lint && rimraf ./dist/landingPage && mkdir dist/landingPage && MODULE=landingPage babel-node tools/build/module.js",
+    "start:notification": "MODULE=notification npm-run-all --parallel open:src lint:watch",
+    "build:notification": "npm run lint && rimraf ./dist/notification && mkdir dist/notification && MODULE=notification babel-node tools/build/module.js",
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",

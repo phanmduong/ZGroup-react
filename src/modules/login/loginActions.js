@@ -33,7 +33,6 @@ export function updatedLoginForm(res) {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
         helper.saveDataLoginLocal(helper.encodeToken(res.data));
-        helper.onesignalSetUserId(res.data.user.id);
     }
     return ({
         type: types.UPDATED_LOGIN_FORM,

@@ -75,6 +75,7 @@ import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
 import printOrderReducer from "../modules/printOrder/printOrderReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 
+import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
 
 
 const appReducer = combineReducers({
@@ -152,7 +153,8 @@ const appReducer = combineReducers({
     finance: financeReducer,
     companies: CompanyReducer,
     printOrder: printOrderReducer,
-    seat: seatReducer
+    seat: seatReducer,
+    notificationType: notificationTypeReducer,
 });
 
 const rootReducer = (state, action) => {
