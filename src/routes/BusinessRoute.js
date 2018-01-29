@@ -4,6 +4,8 @@ import PaymentContainer from "../modules/payment/PaymentContainer";
 import CreatePaymentContainer from "../modules/payment/CreatePaymentContainer";
 import PrintOrderContainer from "../modules/printOrder/PrintOrderContainer";
 import CreatePrintOrderContainer from "../modules/printOrder/CreatePrintOrderContainer";
+import ExportOrderContainer from "../modules/Zgroup/exportGood/ExportOrderContainer";
+import CreateExportOrderContainer from "../modules/Zgroup/exportGood/CreateExportOrderContainer";
 /**
  * Tab Kinh Doanh
  */
@@ -46,5 +48,17 @@ export default [
     {
         path: "/business/print-order/edit/:printOrderId",
         component: CreatePrintOrderContainer,
+    },
+    {
+        path: "/business/export-order",
+        component: ExportOrderContainer,
+    },
+    {
+        path: "/business/export-order/create",
+        component: CreateExportOrderContainer,
+    },
+    {
+        path: "/business/export-order/edit/:exportOrderId",
+        component: CreateExportOrderContainer,
     },
 ];

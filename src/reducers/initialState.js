@@ -1,7 +1,7 @@
 export default {
 
     bankAccount: {
-        accounts: [1,2,3,4],
+        accounts: [1, 2, 3, 4],
         isLoading: false
     },
 
@@ -1724,7 +1724,12 @@ export default {
             current_page: 1,
             limit: 20,
         },
-
+    },
+    seat: {
+        showCreateSeatModal: false,
+        seat: {},
+        seats: [],
+        domain: {x: [0, 600], y: [0, 400]}
     },
     printOrder: {
         isLoading: false,
@@ -1876,6 +1881,47 @@ export default {
             order_date: "",
             receive_date: "",
         },
+    },
+    exportOrder:{
+        isLoading: false,
+        isCommitting: false,
+        isLoadingGoods: false,
+        isLoadingCompanies: false,
+        isLoadingWarehouses: false,
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        listExportOrder:[
+            {
+                good: {id: 0, name:"noname"},
+                warehouse: {id: 0, name:"noname"},
+                company:{id:"", name:"noname"},
+                price:0,
+                quantity:0,
+            }
+        ],
+        data:{
+            good: {id: 0, name:"noname"},
+            warehouse: {id: 0, name:"noname"},
+            company:{id:"", name:"noname"},
+            price:0,
+            quantity:0,
+        },
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
+    },
+    notificationTypes: {
+        isLoading: false,
+        error: false,
+        notificationTypes: [],
+        totalPages: 1,
+        currentPage: 1,
+        isStoring: false,
+        errorStore: false,
     }
 
 

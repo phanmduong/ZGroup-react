@@ -23,6 +23,7 @@ class EditRoomModalContainer extends React.Component {
     }
 
     onChangeBaseForm(value) {
+        console.log(value);
         // this.setState({
         //     room: {
         //         ...this.state.room,

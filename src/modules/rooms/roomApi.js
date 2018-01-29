@@ -1,6 +1,8 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+
+
 export function getRooms(page, search, baseId) {
     let url = env.MANAGE_API_URL + "/base/rooms?page=" + page;
     let token = localStorage.getItem('token');
@@ -35,9 +37,5 @@ export function storeRoom(room) {
         url += "?token=" + token;
     }
 
-    return axios.post(url, {
-        id: room.id ? room.id : '',
-        name: room.name ? room.name : '',
-        base_id: room.base_id ? room.base_id : '',
-    });
+    return axios.post(url, {room});
 }

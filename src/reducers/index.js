@@ -74,7 +74,10 @@ import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer"
 import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
 import printOrderReducer from "../modules/printOrder/printOrderReducer";
+import seatReducer from "../modules/bases/seat/seatReducer";
+import exportOrderReducer from "../modules/Zgroup/exportGood/exportOrderReducer";
 
+import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
 
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
@@ -152,7 +155,9 @@ const appReducer = combineReducers({
     companies: CompanyReducer,
     payment: PaymentReducer,
     printOrder: printOrderReducer,
-
+    exportOrder: exportOrderReducer,
+    seat: seatReducer,
+    notificationType: notificationTypeReducer,
 });
 
 const rootReducer = (state, action) => {

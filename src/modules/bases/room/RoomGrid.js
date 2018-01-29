@@ -1,12 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import D3RoomGrid from './D3RoomGrid';
 
 // Import actions here!!
 
-class RoomGridContainer extends React.Component {
+class RoomGrid extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.getGridState = this.getGridState.bind(this);
@@ -14,10 +12,13 @@ class RoomGridContainer extends React.Component {
     }
 
     componentDidMount() {
+        D3RoomGrid.onClick(this.props.onClick);
+        D3RoomGrid.onDrag(this.props.onDrag);
+        D3RoomGrid.onPointClick(this.props.onPointClick);
+
         this.dispatcher = D3RoomGrid.create(this.el, {
-            width: '100%',
-            // width: '500px',
-            height: '500px'
+            width: '600',
+            height: '400'
         }, this.getGridState());
     }
 
@@ -39,26 +40,19 @@ class RoomGridContainer extends React.Component {
 
     render() {
         return (
-            <div id="room-canvas">
-            </div>
+            <div id="room-canvas"/>
         );
     }
 }
 
-RoomGridContainer.propTypes = {
-    //myProp: PropTypes.string.isRequired
+RoomGrid.propTypes = {
+    data: PropTypes.array.isRequired,
+    domain: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
+    onDrag: PropTypes.func.isRequired,
+    roomId: PropTypes.number.isRequired,
+    onPointClick: PropTypes.func.isRequired
 };
 
-function mapStateToProps(state) {
-    return {
-        state: state
-    };
-}
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({}, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RoomGridContainer);
+export default RoomGrid;

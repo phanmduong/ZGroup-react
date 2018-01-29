@@ -78,7 +78,7 @@ class RoomsContainer extends React.Component {
 
 
     openModal(room) {
-
+        console.log(room);
     }
 
     loadRooms(page = 1) {
