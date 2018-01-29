@@ -1712,7 +1712,8 @@ export default {
             r: 1
         },
         seats: [],
-        domain: {x: [0, 600], y: [0, 400]}
+        domain: {x: [0, 600], y: [0, 400]},
+        point: {}
 
     },
     printOrder: {
