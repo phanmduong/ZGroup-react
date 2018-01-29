@@ -70,7 +70,6 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         ]);
     }
 
-    //web api
     public function province()
     {
         $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))

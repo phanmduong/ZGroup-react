@@ -1,17 +1,18 @@
-<div id="registerModal" class="modal fade show">
+<div id="userPackModal" class="modal fade show">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" data-dismiss="modal" class="close">×</button>
-                <h3 class="medium-title">Đăng kí</h3></div>
+                <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
-                <div class="container">
+                <div v-if="modalLoading" class="container">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        @include('upcoworkingspace::includes.loading')
+                    </div>
+                </div>
+                <div v-else="modalLoading" class="container">
                     <div class="row" style="padding: 10px">
-                        <div v-if="provinceLoading" style="text-align: center;width: 100%;;padding: 15px;">
-                            @include('upcoworkingspace::includes.loading')
-                        </div>
-                        <select v-else="provinceLoading"
-                                v-on:change="changeProvince"
+                        <select v-on:change="changeProvince"
                                 v-model="provinceId"
                                 placeholder="Tỉnh/Thành phố"
                                 class="form-control">
@@ -36,75 +37,82 @@
                         </select>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div v-for="userPack in userPacks" class="col-md-4">
                             <a>
-                                <div class="card card-profile"
-                                     style="padding-bottom: 70%; background-size: cover; background-position: center; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
-
+                                <div    v-on:click="pickSubscription()"
+                                        class="card card-profile"
+                                        v-bind:style="{'background-image': 'url('+userPack.avatar_url+')', 'padding-bottom': '70%', 'background-size': 'cover', 'background-position': 'center'}">
                                 </div>
                                 <h6>
-                                    Thanh vien linh hoat
+                                    @{{ userPack.name }}
                                 </h6>
                                 <p>
-                                    Sample description
+                                    @{{ userPack.detail }}
                                 </p>
                             </a>
                         </div>
-                        <div class="col-md-4">
-                            <a>
-                                <div class="card card-profile"
-                                     style="padding-bottom: 70%; background-size: cover; background-position: center; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
-
-                                </div>
-                                <h6>
-                                    Thanh vien linh hoat
-                                </h6>
-                                <p>
-                                    Sample description
-                                </p>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a>
-                                <div class="card card-profile"
-                                     style="padding-bottom: 70%; background-size: cover; background-position: center; background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
-                                </div>
-                                <h6>
-                                    Thanh vien linh hoat
-                                </h6>
-                                <p>
-                                    Sample description
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-
                     </div>
                 </div>
-
+                <div class="alert alert-danger" v-if="message"
+                     style="margin-top: 10px"
+                     id="purchase-error">
+                    @{{ message }}
+                </div>
             </div>
             <div class="modal-footer">
                 <button id="btn-purchase" class="btn btn-sm btn-main"
-                        style="margin: 10px 10px 10px 0px !important;">Đăng kí</i>
+                        style="margin: 10px 10px 10px 0px !important; background-color: #7bc043; border-color: #7bc043">
+                    Đăng kí
                 </button>
             </div>
         </div>
     </div>
 </div>
-
+{{--<div id="subscriptionModal" class="modal fade show">--}}
+    {{--<div class="modal-dialog modal-lg">--}}
+        {{--<div class="modal-content">--}}
+            {{--<div class="modal-header">--}}
+                {{--<button type="button" data-dismiss="modal" class="close">×</button>--}}
+                {{--<h3 class="medium-title">Đăng kí </h3></div>--}}
+            {{--<div id="modal-body" class="modal-body">--}}
+                {{--<div class="container">--}}
+                    {{--<div style="text-align: center;width: 100%;;padding: 15px;">--}}
+                        {{--@include('upcoworkingspace::includes.loading')--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div v-else="modalLoading" class="container">--}}
+                {{--</div>--}}
+                {{--<div class="alert alert-danger" v-if="message"--}}
+                     {{--style="margin-top: 10px"--}}
+                     {{--id="purchase-error">--}}
+                    {{--@{{ message }}--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="modal-footer">--}}
+                {{--<button id="btn-purchase" class="btn btn-sm btn-main"--}}
+                        {{--style="margin: 10px 10px 10px 0px !important; background-color: #7bc043; border-color: #7bc043">--}}
+                    {{--Đăng kí--}}
+                {{--</button>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
 @push('scripts')
     <script>
-        var registerModal = new Vue(
+        var userPackModal = new Vue(
             {
-                el: "#registerModal",
+                el: "#userPackModal",
                 data: {
                     provinces: [],
                     bases: [],
+                    userPacks: [],
                     provinceId: '',
-                    provinceLoading: false,
                     baseId: '',
                     baseLoading: false,
+                    provinceLoading: false,
+                    userPackLoading: false,
+                    modalLoading: false,
+                    message: ''
                 },
                 methods: {
                     changeProvince: function () {
@@ -113,10 +121,26 @@
                     },
                     getProvinces: function () {
                         this.provinceLoading = true;
+                        this.modalLoading = true;
                         axios.get(window.url + '/api/province')
                             .then(function (response) {
                                 this.provinceLoading = false;
+                                if (this.userPackLoading === false)
+                                    this.modalLoading = false;
                                 this.provinces = response.data.provinces;
+                            }.bind(this))
+                            .catch(function (reason) {
+                            });
+                    },
+                    getUserPacks: function () {
+                        this.userPackLoading = true;
+                        this.modalLoading = true;
+                        axios.get(window.url + '/api/user-packs')
+                            .then(function (response) {
+                                this.userPackLoading = false;
+                                if (this.provinceLoading === false)
+                                    this.modalLoading = false;
+                                this.userPacks = response.data.data.user_packs;
                             }.bind(this))
                             .catch(function (reason) {
                             });
@@ -130,10 +154,17 @@
                             }.bind(this))
                             .catch(function (reason) {
                             });
+                    },
+                    pickSubscription: function () {
+                        // if(this.baseId === '')
+                        //     this.message = 'Xin bạn vui lòng chọn cơ sở';
+                        // $("#userPackModal").modal("hide");
+                        // $("#subscriptionModal").modal("show");
                     }
                 },
                 mounted: function () {
                     this.getProvinces();
+                    this.getUserPacks();
                 }
             })
     </script>
