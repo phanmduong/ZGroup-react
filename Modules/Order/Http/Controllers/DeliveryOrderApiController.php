@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Support\Facades\Hash;
+use Modules\Good\Entities\GoodProperty;
 use Modules\Order\Repositories\OrderService;
 
 class DeliveryOrderApiController extends ManageApiController
@@ -291,20 +292,21 @@ class DeliveryOrderApiController extends ManageApiController
     public function importDeliveryOrder($deliveryOrderId, Request $request)
     {
         $deliveryOrder = Order::find($deliveryOrderId);
-        if($deliveryOrder == null)
+        if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tìm thấy đơn nhập');
-        if($request->warehouse_id == null)
+        if ($request->warehouse_id == null)
             return $this->respondErrorWithStatus('Cần phải chọn kho hàng để nhập');
         if ($request->name == null || $request->code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
-
+        if (!$deliveryOrder->delivery_warehouse_status == 'arrived')
+            return $this->respondErrorWithStatus('Hàng chưa về, đã xuất hoặc đã chuyển kho');
         $good = new Good;
         $good->name = trim($request->name);
         $good->code = trim($request->code);
         $good->description = $request->description;
-        $good->avatarUrl = $request->avatar_url;
-        $good->coverUrl = $request->cover_url;
+        $good->avatar_url = $request->avatar_url;
+        $good->cover_url = $request->cover_url;
         $good->sale_status = $request->sale_status ? $request->sale_status : 0;
         $good->highlight_status = $request->highlight_status ? $request->highlight_status : 0;
         $good->display_status = $request->display_status ? $request->display_status : 0;
@@ -316,7 +318,7 @@ class DeliveryOrderApiController extends ManageApiController
 
         $property = new GoodProperty();
         $property->name = 'images_url';
-        $property->value = $request->images_url;
+        $property->value = $request->images_url ? $request->images_url : '';
         $property->good_id = $good->id;
         $property->editor_id = $this->user->id;
         $property->save();
@@ -353,7 +355,7 @@ class DeliveryOrderApiController extends ManageApiController
         $historyGood->order_id = $importOrder->id;
         $historyGood->imported_good_id = $importedGood->id;
         $historyGood->save();
-
+        $deliveryOrder->delivery_warehouse_status = 'transfered';
         return $this->respondSuccess('Nhập kho hàng sẵn thành công');
     }
 }
