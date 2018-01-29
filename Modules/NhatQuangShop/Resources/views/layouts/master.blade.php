@@ -379,6 +379,7 @@
                        style="display: flex; align-content: center;">
                         <i class="fa fa-shopping-cart"></i>
                         &nbsp
+
                         Giỏ hàng
                         <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
                         background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
@@ -391,8 +392,116 @@
     </div>
 </nav>
 
-@yield('content')
 
+
+<div id="modalBuy" class="modal fade">
+    <div class="modal-dialog modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Giỏ hàng</h2>
+            </div>
+            <div class="modal-body" id="modal-buy-body">
+                <br>
+                <div v-if="isLoading">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        <div class='uil-reload-css reload-background reload-small' style=''>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div v-for="good in goods">
+                    <div class="row" style="margin-bottom:20px;">
+                        <div class="col-md-1 h-center">
+                            <img class="shadow-image"
+                                 v-bind:src="good.avatar_url">
+                        </div>
+                        <div class="col-md-2">
+                            <p><b style="font-weight:600;">@{{good.name}}</b></p>
+                            <p>@{{ good.description }}</p>
+                        </div>
+                        <div class="col-md-2 h-center">
+                            <button v-on:click="minusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            &nbsp
+                            <button v-on:click="plusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            &nbsp
+                            <b style="font-weight:600;"> @{{ good.number }}</b>
+                        </div>
+                        <div class="col-md-3 h-center">
+                            <p>@{{ formatPrice(good.price)}}</p>
+                            <p v-if="good.discount_value"> - @{{ formatPrice(good.discount_value)}}</p>
+                        </div>
+                        <div class="col-md-2 h-center">
+                            <p><b style="font-weight:600;">@{{formatPrice((good.price -
+                                    good.discount_value)*good.number)}}</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="text-left"><b>Tổng</b></h4>
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="text-right"><b>@{{ formatPrice(total_order_price) }}</b></h4>
+                    </div>
+                </div>
+                <div v-if="coupon_programs_count" class="row" style="padding-top:20px;">
+                    <div class="col-md-12">
+                        <div style="font-weight: 600">Chương trình khuyến mãi:</div>
+                        <div v-for="coupon_program in coupon_programs">
+                            @{{ coupon_program.content }}
+                        </div>
+                    </div>
+                </div>
+                <div v-if="isLoadingCoupons">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        <div class='uil-reload-css reload-background reload-small' style=''>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="coupon_codes_count" class="row" style="padding-top:20px;">
+                    <div class="col-md-12">
+                        <div style="font-weight: 600">Mã khuyến mãi:</div>
+                        <div v-for="coupon_code in coupon_codes">
+                            @{{ coupon_code.content }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input v-model="coupon_code" type="text" value="" placeholder="Mã giảm giá"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" v-on:click="addCoupon" class="btn btn-danger btn-round">
+                                Thêm mã giảm giá
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                        style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                <button id="btn-purchase"
+                        v-on:click="openPurchaseModal()"
+                        class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                            class="fa fa-angle-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
 
@@ -740,7 +849,7 @@
 
 </div>
 
-
+@yield('content')
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">

@@ -385,26 +385,15 @@ var fastOrder = new Vue({
     }
 });
 
-// var listFastOrders = new Vue({
-//     el : '#listFastOrder',
-//     data : {
-//         isLoading : false,
-//         listFastOrders : [],
-//     },
-//     method : {
-//         getListFastOrders : function(){
-//             this.isLoading = true;
-//             axios.get(window.url + '/manage/fast_orders')
-//                 .then(function (res){
-//                     this.isLoading = false;
-//                     this.listFastOrders = res.data.fastOrders;
-//                 })
-//                 .catch(function(error){
-//                     console.log(error)
-//                 })
-//         }
-//     },
-//     mounted : function() {
-//         this.getListFastOrders();
-//     }
-// })
+var productInfo = new Vue({
+    el : "#product_info",
+    data : {
+        good : 1
+    },
+    methods : {
+        openBuyModal: function (goodId) {
+            $('#modalBuy').modal('show');
+            modalBuy.addGoodToCart(goodId);
+        },
+       },
+});
