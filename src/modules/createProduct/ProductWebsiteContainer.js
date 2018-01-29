@@ -24,7 +24,7 @@ class ProductWebsiteContainer extends React.Component {
     handleImages(e) {
         const fileList = e.target.files;
         const files = Array.from(fileList);
-        const first_length = this.props.productWorking.images_url.length;
+        const first_length = this.props.productWorking.images_url ? this.props.productWorking.images_url.length : 0;
         files.map((file) => this.props.createProductAction.changeImage(file, files.length, first_length));
     }
 

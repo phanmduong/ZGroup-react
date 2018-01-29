@@ -72,6 +72,7 @@ import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
 import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
+import registerManageReducer from "../modules/registerManage/registerManageReducer";
 import printOrderReducer from "../modules/printOrder/printOrderReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 
@@ -150,6 +151,7 @@ const appReducer = combineReducers({
     orderedDetail: orderedDetailReducer,
     inventoryOrder: inventoryOrderReducer,
     bankAccount: bankAccountReducer,
+    registerManage: registerManageReducer,
     finance: financeReducer,
     companies: CompanyReducer,
     printOrder: printOrderReducer,

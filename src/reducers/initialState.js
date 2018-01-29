@@ -1,4 +1,13 @@
 export default {
+    registerManage: {
+        registers: [],
+        staffs: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+    },
 
     bankAccount: {
         accounts: [1, 2, 3, 4],
@@ -92,6 +101,7 @@ export default {
         currentPageProperties: 1,
         totalCountProperties: 1,
         childImagesModal: false,
+        warehousesList: [],
         propertiesManageModal: false,
         manufacturesManageModal: false,
         isLoadingManufacture: false,
@@ -1415,13 +1425,15 @@ export default {
         isLoadingBases: false,
         errorBases: false,
         errorStoreRoom: false,
-
         room: {},
         showEditRoomModal: false,
+        indexEditModal: -1,
         isStoringRoom: false,
         isEditRoom: false,
-
         bases: [],
+        isUploadingAvatar: false,
+        percent: 0,
+        isUploadingImage: false,
     },
     excel: {
         isLoading: false,

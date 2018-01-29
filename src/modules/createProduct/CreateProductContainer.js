@@ -39,8 +39,38 @@ class CreateProductContainer extends React.Component {
                 type: this.props.params.type,
                 link: `/good/product/${this.productId}/edit`
             });
-        } else {
+        } else if (this.props.route.type === "create") {
             this.props.createProductAction.handleProductCreate({
+                name: '',
+                code: '',
+                description: '',
+                price: '',
+                avatar_url: '',
+                sale_status: 0,
+                highlight_status: 0,
+                display_status: 0,
+                goods_count: 0,
+                manufacture_id: '',
+                good_category_id: '',
+                images_url: [],
+                property_list: [
+                    {
+                        name: 'coool',
+                        property_item_id: 3,
+                        value: []
+                    }
+                ],
+                children: []
+            });
+        } else {
+            this.setState({
+                type: this.props.params.type,
+                link: `/order/${this.props.params.orderId}/warehouse-import`
+            });
+            this.props.createProductAction.getWarehouseListCreateProduct();
+            this.props.createProductAction.handleProductCreate({
+                id: this.props.params.orderId,
+                warehouse_id: 1,
                 name: '',
                 code: '',
                 description: '',
@@ -83,7 +113,8 @@ class CreateProductContainer extends React.Component {
             if (empty_arr.length > 0 && good.property_list.length > 1) helper.showErrorNotification("Bạn cần nhập giá trị cho thuộc tính");
         } else {
             if (this.state.type === "create") this.props.createProductAction.saveProductCreate(good);
-            else this.props.createProductAction.saveProductEdit(good);
+            else if (this.state.type === "edit") this.props.createProductAction.saveProductEdit(good);
+            else this.props.createProductAction.importOrder(good);
         }
     }
 
@@ -262,7 +293,7 @@ class CreateProductContainer extends React.Component {
                         </div>
                     </div>
                     {
-                        this.path === this.state.link ? (
+                        this.path === this.state.link && this.path.slice(1, 6) !== "order" ? (
                             <div className="col-md-12">
                                 <div className="card">
                                     {
