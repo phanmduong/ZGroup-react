@@ -171,6 +171,39 @@ export const ORDER_STATUS = [
     }
 ];
 
+export const REGISTER_STATUS = [
+    {
+        register: 0,
+        label: "Đăng ký mới",
+        value: "new-register"
+    },
+    {
+        register: 1,
+        label: "Đã gọi",
+        value: "called"
+    },
+    {
+        register: 2,
+        label: "Đã trả",
+        value: "paid"
+    },
+    {
+        register: 3,
+        label: "Đã trả đủ",
+        value: "fully-paid"
+    },
+    {
+        register: 4,
+        label: "Hoàn thành",
+        value: "completed"
+    },
+    {
+        register: 5,
+        label: "Kết thúc",
+        value: "end"
+    }
+];
+
 export const ORDERED_STATUS = [
     {
         order: 0,

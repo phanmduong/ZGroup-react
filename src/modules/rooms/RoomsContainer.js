@@ -1,6 +1,11 @@
 /**
  * Created by phanmduong on 12/12/17.
  */
+
+/**
+ * Edited by TienTaiNguyen on 01/26/18.
+ */
+
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -31,20 +36,9 @@ class RoomsContainer extends React.Component {
         this.onChangeBase = this.onChangeBase.bind(this);
     }
 
-    roomsSearchChange(value) {
-        this.setState({
-            page: 1,
-            query: value
-        });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.roomActions.loadRoomsData(1, value, this.state.selectBaseId);
-        }.bind(this), 500);
-    }
 
     componentWillMount() {
+        this.props.roomActions.loadRoomsData();
         this.props.roomActions.loadBasesData();
     }
 
@@ -62,6 +56,19 @@ class RoomsContainer extends React.Component {
         }
     }
 
+    roomsSearchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.roomActions.loadRoomsData(1, value, this.state.selectBaseId);
+        }.bind(this), 500);
+    }
+
     getBases(bases) {
         let baseData = bases.map(function (base) {
             return {
@@ -77,8 +84,9 @@ class RoomsContainer extends React.Component {
     }
 
 
-    openModal(room) {
-
+    openModal(index, room) {
+        this.props.roomActions.showRoomEditModal(index);
+        this.props.roomActions.handleRoomEditModal(room);
     }
 
     loadRooms(page = 1) {
@@ -86,75 +94,63 @@ class RoomsContainer extends React.Component {
         this.props.roomActions.loadRoomsData(page, this.state.query, this.state.selectBaseId);
     }
 
-
     onChangeBase(value) {
         this.setState({selectBaseId: value, page: 1});
         this.props.roomActions.loadRoomsData(1, this.state.query, value);
     }
-
 
     render() {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <EditRoomModalContainer/>
-
                     <div className="card">
-
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">assignment</i>
                         </div>
-
                         <div className="card-content">
                             <h4 className="card-title">Phòng</h4>
 
-
-                            {this.props.isLoadingBases ? <Loading/> :
-                                <div>
-                                    <Select
-                                        defaultMessage={'Chọn cơ sở'}
-                                        options={this.state.bases}
-                                        value={this.state.selectBaseId}
-                                        onChange={this.onChangeBase}
-                                    />
-                                    <div style={{marginTop: "15px"}}>
-                                        <div className="col-md-3">
-                                            <a className="btn btn-rose" onClick={this.openModal}>
-                                                Thêm phòng
-                                            </a>
+                            {
+                                this.props.isLoadingBases ? <Loading/> :
+                                    <div>
+                                        <Select
+                                            defaultMessage={'Chọn cơ sở'}
+                                            options={this.state.bases}
+                                            value={this.state.selectBaseId}
+                                            onChange={this.onChangeBase}
+                                        />
+                                        <div style={{marginTop: "15px"}}>
+                                            <div className="col-md-3">
+                                                <a className="btn btn-rose" onClick={this.openModal}>
+                                                    Thêm phòng
+                                                </a>
+                                            </div>
+                                            <Search
+                                                onChange={this.roomsSearchChange}
+                                                value={this.state.query}
+                                                placeholder="Tìm kiếm tên phòng, cơ sở"
+                                                className="col-md-9"
+                                            />
                                         </div>
-                                        <Search
-                                            onChange={this.roomsSearchChange}
-                                            value={this.state.query}
-                                            placeholder="Tìm kiếm tên phòng, cơ sở"
-                                            className="col-md-9"
+                                        <ListRoom
+                                            rooms={this.props.rooms}
+                                            isLoading={this.props.isLoading}
+                                            loadData={this.loadRooms}
+                                            openModalEdit={this.openModal}
                                         />
+                                        <div className="card-content">
+                                            <Pagination
+                                                currentPage={this.state.page}
+                                                totalPages={this.props.totalPages}
+                                                loadDataPage={this.loadRooms}
+                                            />
+                                        </div>
                                     </div>
-                                    <ListRoom
-                                        rooms={this.props.rooms}
-                                        isLoading={this.props.isLoading}
-                                        loadData={this.loadRooms}
-                                        openModalEdit={this.openModal}
-                                    />
-                                    <div className="card-content">
-                                        <Pagination
-                                            currentPage={this.state.page}
-                                            totalPages={this.props.totalPages}
-                                            loadDataPage={this.loadRooms}
-                                        />
-                                    </div>
-                                </div>
-
                             }
-
                         </div>
-
-
                     </div>
-
-
                 </div>
-
             </div>
         );
     }
@@ -181,6 +177,7 @@ function mapStateToProps(state) {
         totalPages: state.rooms.totalPages,
         rooms: state.rooms.rooms,
         bases: state.rooms.bases,
+        isStoringRoom:state.rooms.isStoringRoom
     };
 }
 

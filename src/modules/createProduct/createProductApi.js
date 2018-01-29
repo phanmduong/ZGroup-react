@@ -13,6 +13,11 @@ export function getManufacturesApi() {
     return axios.get(url);
 }
 
+export function getWarehouseListApi() {
+    let url = env.MANAGE_API_URL + "/order/all-warehouses" + "?token=" + token;
+    return axios.get(url);
+}
+
 export function getPropertiesApi() {
     let url = env.MANAGE_API_URL + "/good/all-property-items?token=" + token + "&limit=-1";
     return axios.get(url);
@@ -75,6 +80,24 @@ export function editProductApi(product) {
         good_category_id: product.good_category_id,
         images_url: JSON.stringify(product.images_url),
         children: children
+    });
+}
+
+export function importOrderApi(product) {
+    let url = env.MANAGE_API_URL + "/order/delivery/" + product.id + "/import?token=" + token;
+    return axios.post(url, {
+        name: product.name,
+        code: product.code,
+        description: product.description,
+        price: product.price,
+        avatar_url: product.avatar_url,
+        sale_status: product.sale_status,
+        highlight_status: product.highlight_status,
+        display_status: product.display_status,
+        manufacture_id: product.manufacture_id,
+        good_category_id: product.good_category_id,
+        images_url: JSON.stringify(product.images_url),
+        warehouse_id: product.warehouse_id
     });
 }
 
