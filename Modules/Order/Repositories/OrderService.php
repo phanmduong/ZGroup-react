@@ -58,18 +58,15 @@ class OrderService
             case 'ordered':
                 return 3;
                 break;
-            case 'expected_date':
+            case 'arrived':
                 return 4;
                 break;
-            case 'arrived':
-                return 5;
-                break;
             case 'ship':
-                return 6;
+                return 5;
             case 'completed':
-                return 7;
+                return 6;
             case 'cancel':
-                return 8;
+                return 7;
             default:
                 return 0;
                 break;
@@ -272,13 +269,18 @@ class OrderService
                 'status' => 0,
                 'message' => 'Không tồn tại đơn hàng'
             ];
-        if ($this->deliveryStatusToNum($order->status) == 7)
+        if ($this->deliveryStatusToNum($order->status) == 6)
             return [
                 'status' => 0,
                 'message' => 'Không được phép sửa đơn hoàn thành'
             ];
-        if($this->deliveryStatusToNum($request->status) == 8)
+        if($this->deliveryStatusToNum($request->status) == 7)
         {
+            if($request->note == null || trim($request->note) == '')
+                return [
+                    'status' => 0,
+                    'message' => 'Vui lòng nhập lý do hủy đơn'
+                ];
             $order->status = $request->status;
             $order->note = $request->note;
             $order->staff_id = $staffId;
