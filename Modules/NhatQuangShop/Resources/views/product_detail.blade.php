@@ -209,7 +209,7 @@
                     </div>
                     <br>
                     <p class="category">{{$relateGood->name}}</p>
-                    <h6>{{ number_format($relateGood->price, 3) }}đ</h6>
+                    <h6>{{ number_format($relateGood->price, 0) }}đ</h6>
                     <br>
                 </div>
                     @endforeach
