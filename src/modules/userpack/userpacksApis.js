@@ -97,6 +97,19 @@ export function addSubscriptionApi(id ,subscription) {
     });
 }
 
+export function editSubscriptionApi(id ,subscription) {
+    let url = env.MANAGE_API_URL + "/coworking-space/user-pack/"+id+"/subscription/"+subscription.id+ "?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.put(url,{
+        "description" : subscription.description,
+        "price" : subscription.price,
+        "subscription_kind_id" : subscription.subscriptionKind ,
+    });
+}
+
 
 export function addSubscriptionKindApi(subscriptionKind) {
     let url = env.MANAGE_API_URL + "/coworking-space/subscription-kind?";

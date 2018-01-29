@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-let tmpUserpacks;
+let tmpUserpacks , subs;
 export default function userpackReducer(state = initialState.userpacks, action) {
     switch (action.type) {
         case types.BEGIN_LOAD_USERPACKS:
@@ -130,6 +130,34 @@ export default function userpackReducer(state = initialState.userpacks, action) 
             };
 
 
+
+
+
+        case types.BEGIN_EDIT_SUBSCRIPTION :
+            return {
+                ...state,
+                isSavingSubscription: true,
+            };
+        case types.EDITED_SUBSCRIPTION_SUCCESS :
+            subs = changeSubscription(state.userpack.subscriptions,action.subscription);
+            return {
+                ...state,
+                isSavingSubscription: false,
+                userpack: {
+                    ...state.userpack,
+                    subscriptions: subs,
+                },
+            };
+        case types.EDITED_SUBSCRIPTION_ERROR :
+            return {
+                ...state,
+                isSavingSubscription: false,
+            };
+
+
+
+
+
         case types.BEGIN_ADD_SUBSCRIPTION_KIND :
             return {
                 ...state,
@@ -198,4 +226,13 @@ function changeStatus(ListUserpacks, id, status) {
         }
     });
     return tmpUserpacks;
+}
+function changeSubscription(subscriptions , subscription) {
+ subs = subscriptions.map((sub)=>{
+     if(sub.id === subscription.id){
+         return subscription;
+     }
+     else return sub;
+ });
+ return subs;
 }

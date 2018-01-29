@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 // import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import Switch from 'react-bootstrap-switch';
 
-class ListUserpacks extends React.Component{
-    constructor(props, context){
-        super(props,context);
+class ListUserpacks extends React.Component {
+    constructor(props, context) {
+        super(props, context);
     }
-    render(){
-        return(
+
+    render() {
+        return (
             <div>
                 <div className="row">
                     {this.props.ListUserpacks && this.props.ListUserpacks.map((pack) => {
@@ -19,7 +20,9 @@ class ListUserpacks extends React.Component{
                                         borderRadius: '10px'
                                     }}>
 
-                                        <a onClick={()=>{this.props.openModalEdit(pack.id);}}>
+                                        <a onClick={() => {
+                                            this.props.openModalEdit(pack.id);
+                                        }}>
                                             <div id="simpleBarChart" className="ct-chart"
                                                  style={{
                                                      width: '100%',
@@ -32,76 +35,69 @@ class ListUserpacks extends React.Component{
                                                  }}>
 
                                                 {/*<div style={{position: "absolute"}}>*/}
-                                                    {/*{post.category ?*/}
-                                                        {/*<button className="tag btn btn-xs btn-danger"*/}
-                                                                {/*style={{marginLeft: 15, borderRadius: 10}}*/}
-                                                                {/*onClick={(e) => {*/}
-                                                                    {/*this.props.loadByCategories(post.category.id);*/}
-                                                                    {/*e.stopPropagation();*/}
-                                                                {/*}}*/}
-                                                        {/*>*/}
-                                                            {/*{post.category ? post.category.name : 'Không có'}</button>*/}
-                                                        {/*: null*/}
-                                                    {/*}*/}
+                                                {/*{post.category ?*/}
+                                                {/*<button className="tag btn btn-xs btn-danger"*/}
+                                                {/*style={{marginLeft: 15, borderRadius: 10}}*/}
+                                                {/*onClick={(e) => {*/}
+                                                {/*this.props.loadByCategories(post.category.id);*/}
+                                                {/*e.stopPropagation();*/}
+                                                {/*}}*/}
+                                                {/*>*/}
+                                                {/*{post.category ? post.category.name : 'Không có'}</button>*/}
+                                                {/*: null*/}
+                                                {/*}*/}
                                                 {/*</div>*/}
                                             </div>
                                         </a>
                                     </div>
 
 
-
-
-
                                     <div className="card-content">
-                                        <div className="card-action" style={{height:73}}>
-                                            <h4 className="card-title">
+                                        <div className="card-action" style={{height: 73}}>
+                                            <h4 className="card-title" style={{marginTop : 24}}>
                                                 <a
-                                                    onClick={()=>{this.props.openModalEdit(pack.id);}}
+                                                    onClick={() => {
+                                                        this.props.openModalEdit(pack.id);
+                                                    }}
                                                 >{pack.name ? pack.name : "Chưa có tên"}</a>
                                             </h4>
-                                            <Switch
-                                            onChange={() => this.props.handleSwitch(pack.id, pack.status, pack.name)}
-                                            bsSize="mini"
-                                            onText="Hiện" offText="Ẩn"
-                                            value={(pack.status === 1)}
-                                            />
-                                            {/*<ButtonGroupAction*/}
+                                            <div style={{display: "flex", alignItems: "center"}}>
+                                                <Switch
+                                                    onChange={() => this.props.handleSwitch(pack.id, pack.status, pack.name)}
+                                                    bsSize="mini"
+                                                    onText="Hiện" offText="Ẩn"
+                                                    value={(pack.status === 1)}
+                                                />
+                                                {/*<ButtonGroupAction*/}
                                                 {/*editUrl={"blog/post/" + post.id + "/edit"}*/}
                                                 {/*delete={this.props.deletePost}*/}
                                                 {/*object={post}*/}
                                                 {/*disabledEdit*/}
-                                            {/*/>*/}
+                                                {/*/>*/}
+                                            </div>
                                         </div>
 
 
-
-
-
-
-
                                         {/*<div style={{display: "flex", justifyContent: "space-between", height: 40}}>*/}
-                                            {/*<div style={{display: "flex", alignItems: "center"}}>*/}
-                                                {/*{post.author.avatar_url ?*/}
-                                                    {/*<Avatar size={40} url={post.author.avatar_url}*/}
-                                                            {/*style={{borderRadius: 6}}/> : null}*/}
-                                                {/*<div>*/}
-                                                    {/*<strong>{post.author.name}</strong><br/>*/}
-                                                    {/*<p className="category" style={{fontSize: 12}}>{post.created_at}</p>*/}
-                                                {/*</div>*/}
-                                            {/*</div>*/}
-
-                                            {/*<div style={{display: "flex", alignItems: "center"}}>*/}
-                                                {/*<Switch*/}
-                                                    {/*onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}*/}
-                                                    {/*bsSize="mini"*/}
-                                                    {/*onText="Hiện" offText="Ẩn"*/}
-                                                    {/*value={(post.status === 1)}*/}
-                                                {/*/>*/}
-                                            {/*</div>*/}
+                                        {/*<div style={{display: "flex", alignItems: "center"}}>*/}
+                                        {/*{post.author.avatar_url ?*/}
+                                        {/*<Avatar size={40} url={post.author.avatar_url}*/}
+                                        {/*style={{borderRadius: 6}}/> : null}*/}
+                                        {/*<div>*/}
+                                        {/*<strong>{post.author.name}</strong><br/>*/}
+                                        {/*<p className="category" style={{fontSize: 12}}>{post.created_at}</p>*/}
+                                        {/*</div>*/}
                                         {/*</div>*/}
 
-
-
+                                        {/*<div style={{display: "flex", alignItems: "center"}}>*/}
+                                        {/*<Switch*/}
+                                        {/*onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}*/}
+                                        {/*bsSize="mini"*/}
+                                        {/*onText="Hiện" offText="Ẩn"*/}
+                                        {/*value={(post.status === 1)}*/}
+                                        {/*/>*/}
+                                        {/*</div>*/}
+                                        {/*</div>*/}
 
 
                                     </div>

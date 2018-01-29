@@ -76,11 +76,11 @@ class UserpackContainer extends React.Component {
     updateFormUserpack(event) {
         const field = event.target.name;
         let data = {...this.props.userpack};
-        if (event.target.type === "checkbox") {
-            data[field] = event.target.checked;
-        } else {
+        // if (event.target.type === "checkbox") {
+        //     data[field] = event.target.checked;
+        // } else {
             data[field] = event.target.value;
-        }
+        // }
         this.props.userpacksActions.updateFormUserpack(data);
     }
 
@@ -89,23 +89,18 @@ class UserpackContainer extends React.Component {
         this.props.userpacksActions.addUserpack(this.props.userpack);
         this.closeModalAdd();
     }
-
-
     closeModalEdit() {
         this.setState({isOpenModalEdit: false});
     }
-
     openModalEdit(id) {
         let data = {...this.props.userpack};
         data['id'] = id;
         this.props.userpacksActions.updateFormUserpack(data);
         this.setState({isOpenModalEdit: true});
     }
-
     closeModalAdd() {
         this.setState({isOpenModalAdd: false});
     }
-
     openModalAdd() {
         this.props.userpacksActions.updateFormUserpack({});
         this.setState({isOpenModalAdd: true});
@@ -113,10 +108,7 @@ class UserpackContainer extends React.Component {
 
     render() {
         return (
-            <div id="page-wrapper">
                 <div className="container-fluid">
-
-
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">assignment</i>
@@ -124,9 +116,7 @@ class UserpackContainer extends React.Component {
 
                         <div className="card-content">
                             <h4 className="card-title">Danh sách gói người dùng</h4>
-
-
-                            <div className="row">
+                            <div className="row" style={{marginBottom : 12}}>
                                 <div className="col-md-3">
                                     <a onClick={() => this.openModalAdd()}
                                        className="btn btn-rose">Tạo gói
@@ -140,6 +130,9 @@ class UserpackContainer extends React.Component {
                                     />
                                 </div>
                             </div>
+
+
+
                             {this.props.isLoadingUserpacks || this.props.isLoadingUserpacks ?
                                 <Loading/>
                                 :
@@ -151,6 +144,7 @@ class UserpackContainer extends React.Component {
                                 />
                             }
                         </div>
+
 
 
                         <div className="card-content">
@@ -244,7 +238,6 @@ class UserpackContainer extends React.Component {
                     </Modal>
 
                 </div>
-            </div>
         );
     }
 

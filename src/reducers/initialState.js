@@ -1638,10 +1638,10 @@ export default {
             description : "",
             subscriptionKind : "",  // id
         },
-        subscriptionKind :{
-            name : "",
-            hours : 0,
-        },
+        // subscriptionKind :{
+        //     name : "",
+        //     hours : 0,
+        // },
         isSavingSubscription : false,
         isSavingSubscriptionKind : false,
         isSavingAddUserpack : false,

@@ -17,7 +17,7 @@ class EditUserpackModal extends React.Component {
         super(props, context);
         this.state = {
             isOpenModal: false,
-            isEdit : false,
+            isEdit: false,
         };
 
         this.closeModal = this.closeModal.bind(this);
@@ -28,12 +28,12 @@ class EditUserpackModal extends React.Component {
         this.props.userpacksActions.loadDetailUserpack(this.props.userpack.id);
     }
 
-    openModal(isEdit , subscription) {
-        this.setState({isOpenModal: true,isEdit : isEdit});
+    openModal(isEdit, subscription) {
+        this.setState({isOpenModal: true, isEdit: isEdit});
         let data = {...subscription};
         if (subscription.subcription_kind !== undefined && subscription.subcription_kind !== null) {
             data["subscriptionKind"] = subscription.subcription_kind.id;
-        }
+        }    // đưa id trong object  ra ngoài
         this.props.userpacksActions.updateFormSubscription(data);
     }
 
@@ -59,7 +59,8 @@ class EditUserpackModal extends React.Component {
                                 <div className="card-header card-header-icon" data-background-color="rose">
                                     <i className="material-icons">announcement</i>
                                 </div>
-                                <div className="card-content"><h4 className="card-title">Thông tin về bài viết </h4>
+                                <div className="card-content">
+                                    <h4 className="card-title">Thông tin về bài viết </h4>
                                     <div className="row">
                                         <div className="col-md-4">
                                             {isUpdatingImage ?
@@ -89,6 +90,19 @@ class EditUserpackModal extends React.Component {
                                                     </a>
                                                 </TooltipButton>
                                             }
+                                            <div style={{display : "flex", flexDirection : "column-reverse", marginTop : 55}}>
+                                                <a className="btn btn-round btn-sm btn-primary"
+                                                   ref="target" onClick={() => this.openModal(false, {
+                                                    price: 0,
+                                                    id: 0,
+                                                    description: "",
+                                                    subscriptionKind: "",
+                                                })}>
+                                                    <span>
+                                                        <i className="material-icons">add</i>Thêm đăng kí gói
+                                                    </span>
+                                                </a>
+                                            </div>
                                         </div>
 
 
@@ -105,22 +119,27 @@ class EditUserpackModal extends React.Component {
                                                 <textarea
                                                     className="form-control"
                                                     name="detail"
-                                                    rows="5"
+                                                    rows="7"
                                                     value={detail && detail}
                                                     onChange={(e) => this.props.updateFormUserpack(e)}
                                                 />
                                             </div>
                                         </div>
                                     </div>
-                                    <table id="property-table" className="table table-hover" role="grid"
-                                           aria-describedby="property-table_info">
-                                        <thead>
-                                        <tr className="text-rose" role="row">
-                                            <th>Mô tả</th>
-                                            <th>Giá</th>
-                                            <th/>
-                                        </tr>
-                                        </thead>
+
+
+                                    <table className="table table-hover">
+                                        {subscriptions.length === 0 ?
+                                            null :
+                                            <thead>
+                                            <tr className="text-rose" role="row">
+                                                <th>Mô tả</th>
+                                                <th>Giá</th>
+                                                <th/>
+                                            </tr>
+                                            </thead>
+                                        }
+
                                         <tbody>
 
                                         {subscriptions && subscriptions.map((subscription, key) => {
@@ -146,19 +165,7 @@ class EditUserpackModal extends React.Component {
                                         })}
                                         </tbody>
                                     </table>
-                                    <div>
-                                        <a className="btn btn-round btn-sm btn-primary"
-                                           ref="target" onClick={() => this.openModal(true , {
-                                            price: 0,
-                                            id: 0,
-                                            description: "",
-                                            subscriptionKind: "",
-                                        })}>
-                                    <span>
-                                        <i className="material-icons">add</i>Thêm
-                                    </span>
-                                        </a>
-                                    </div>
+
                                 </div>
                             </div>
                     }
@@ -203,14 +210,11 @@ class EditUserpackModal extends React.Component {
 
                 <Modal show={this.state.isOpenModal} bsSize="lg" bsStyle="primary" onHide={this.closeModal}>
                     <Modal.Header closeButton>
-                        <Modal.Title>
-                            <strong>Gói khách hàng</strong>
-                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <SubscriptionModal
-                            closeModal = {this.closeModal}
-                        isEdit = {this.state.isEdit}
+                            closeModal={this.closeModal}
+                            isEdit={this.state.isEdit}
                         />
                     </Modal.Body>
                 </Modal>
