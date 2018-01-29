@@ -39,8 +39,38 @@ class CreateProductContainer extends React.Component {
                 type: this.props.params.type,
                 link: `/good/product/${this.productId}/edit`
             });
-        } else {
+        } else if (this.props.route.type === "create") {
             this.props.createProductAction.handleProductCreate({
+                name: '',
+                code: '',
+                description: '',
+                price: '',
+                avatar_url: '',
+                sale_status: 0,
+                highlight_status: 0,
+                display_status: 0,
+                goods_count: 0,
+                manufacture_id: '',
+                good_category_id: '',
+                images_url: [],
+                property_list: [
+                    {
+                        name: 'coool',
+                        property_item_id: 3,
+                        value: []
+                    }
+                ],
+                children: []
+            });
+        } else {
+            this.setState({
+                type: this.props.params.type,
+                link: `/order/${this.props.params.orderId}/warehouse-import`
+            });
+            this.props.createProductAction.getWarehouseListCreateProduct();
+            this.props.createProductAction.handleProductCreate({
+                id: this.props.params.orderId,
+                warehouse_id: 1,
                 name: '',
                 code: '',
                 description: '',
@@ -67,23 +97,24 @@ class CreateProductContainer extends React.Component {
 
     saveProductCreate() {
         const good = {...this.props.productWorking};
-        const children_not_satisfy = good.children.filter(child => (helper.isEmptyInput(child.price) || helper.isEmptyInput(child.barcode)) && child.check);
+        //const children_not_satisfy = good.children.filter(child => (helper.isEmptyInput(child.price) || helper.isEmptyInput(child.barcode)) && child.check);
         const empty_arr = good.property_list.filter(property => property.value.length === 0);
         if (
             helper.isEmptyInput(good.name)
             || helper.isEmptyInput(good.code)
             || (empty_arr.length > 0 && good.property_list.length > 1)
             || helper.isEmptyInput(good.price)
-            || children_not_satisfy.length > 0
+        //|| children_not_satisfy.length > 0
         ) {
-            if (children_not_satisfy.length > 0) helper.showErrorNotification("Bạn cần nhập đầy đủ thông tin cho sản phẩm con");
+            //if (children_not_satisfy.length > 0) helper.showErrorNotification("Bạn cần nhập đầy đủ thông tin cho sản phẩm con");
             if (helper.isEmptyInput(good.name)) helper.showErrorNotification("Bạn cần nhập Tên sản phẩm");
             if (helper.isEmptyInput(good.code)) helper.showErrorNotification("Bạn cần nhập Mã sản phẩm");
             if (helper.isEmptyInput(good.price)) helper.showErrorNotification("Bạn cần nhập Giá bán sản phẩm");
             if (empty_arr.length > 0 && good.property_list.length > 1) helper.showErrorNotification("Bạn cần nhập giá trị cho thuộc tính");
         } else {
             if (this.state.type === "create") this.props.createProductAction.saveProductCreate(good);
-            else this.props.createProductAction.saveProductEdit(good);
+            else if (this.state.type === "edit") this.props.createProductAction.saveProductEdit(good);
+            else this.props.createProductAction.importOrder(good);
         }
     }
 
@@ -262,7 +293,7 @@ class CreateProductContainer extends React.Component {
                         </div>
                     </div>
                     {
-                        this.path === this.state.link ? (
+                        this.path === this.state.link && this.path.slice(1, 6) !== "order" ? (
                             <div className="col-md-12">
                                 <div className="card">
                                     {

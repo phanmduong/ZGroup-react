@@ -2,6 +2,8 @@ import BasesContainer from "../modules/bases/BasesContainer";
 import RoomsContainer from "../modules/rooms/RoomsContainer";
 import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
 import UserpackContainer from "../modules/userpack/UserpackContainer";
+import RoomDetailContainer from "../modules/bases/room/RoomDetailContainer";
+import RegisterManageContainer from "../modules/registerManage/RegisterManageContainer";
 
 /**
  * Tab Cơ sở
@@ -31,4 +33,13 @@ export default [
         path: "/base/member-package",
         component: UserpackContainer,
     },
+    {
+        path: "/base/room/:roomId",
+        component: RoomDetailContainer
+    },
+    {
+        path: "base/registers",
+        component: RegisterManageContainer
+    }
+
 ];

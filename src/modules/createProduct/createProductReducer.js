@@ -218,6 +218,11 @@ export default function createProductReducer(state = initialState.createProduct,
                 ...state,
                 manufacturesManageModal: !state.manufacturesManageModal
             };
+        case types.GET_WAREHOUSES_CREATE_PRODUCT:
+            return {
+                ...state,
+                warehousesList: action.warehousesList
+            };
         default:
             return state;
     }

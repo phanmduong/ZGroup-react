@@ -358,7 +358,7 @@ function filterStaff(staffs, allstaffs) {
     allstaffs.forEach((obj)=>{
         let check = false;
         staffs.forEach((item)=>{
-            if(item.id ==obj.id) {
+            if(item.id == obj.id) {
                 check = true;}
         });
         if(!check) res = [...res, obj];

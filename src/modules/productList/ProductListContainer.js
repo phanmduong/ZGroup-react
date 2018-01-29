@@ -424,7 +424,7 @@ class ProductListContainer extends React.Component {
                                                     </div>
                                                     <div className="col-md-2">
                                                         <button type="button" data-toggle="collapse" data-target="#demo"
-                                                                className="btn btn-info">
+                                                                className="btn btn-rose">
                                                             <i className="material-icons">filter_list</i> Lọc
                                                         </button>
                                                     </div>

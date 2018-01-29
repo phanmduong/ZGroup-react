@@ -38,7 +38,8 @@ class ManufacturesManageModal extends React.Component {
         } else {
             this.setState({
                 query: '',
-                page: 1
+                page: 1,
+                name: null
             });
             this.props.createProductAction.createManufactureModal(name);
         }

@@ -738,10 +738,11 @@ export function closeSidebar() {
     /* eslint-enable */
 }
 
-export function onesignalSetUserId(userId) {
+export function onesignalSetUserId(userId, loginSuccess) {
     /* eslint-disable */
     OneSignal.sendTag("user_id", userId, function (tagsSent) {
         console.log("tag ok ", tagsSent);
+        loginSuccess();
     });
     /* eslint-enable */
 }
@@ -942,7 +943,6 @@ export function saveWorkBookToExcel(wb, filename) {
         if (typeof console != 'undefined') console.log(e, wbout);
     }
 }
-
 
 export function superSortCategories(categories) {
     categories.reverse();
@@ -1247,4 +1247,12 @@ export function randomMonoChromeHEX(degree) {
     return hslToHex(degree, 99, Math.floor(Math.random() * 40) + 50);
 
 
+}
+
+export function shortString(str, maxLength) {
+    let arrStr = str.trim().split(" ");
+    arrStr = arrStr.slice(0, Math.min(arrStr.length, maxLength));
+    const result = arrStr.join(" ");
+    if (arrStr.length < maxLength) return str;
+    return result + " ..."
 }

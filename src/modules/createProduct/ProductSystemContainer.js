@@ -18,6 +18,7 @@ class ProductSystemContainer extends React.Component {
         this.changeManufactureSelect = this.changeManufactureSelect.bind(this);
         this.changeCategorySelect = this.changeCategorySelect.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
+        this.changeWarehouseSelect = this.changeWarehouseSelect.bind(this);
     }
 
     componentWillMount() {
@@ -52,6 +53,14 @@ class ProductSystemContainer extends React.Component {
         } else {
             productWorking.manufacture_id = '';
         }
+        this.props.createProductAction.handleProductCreate(productWorking);
+    }
+
+    changeWarehouseSelect(value) {
+        let productWorking = {
+            ...this.props.productWorking,
+            warehouse_id: value.value
+        };
         this.props.createProductAction.handleProductCreate(productWorking);
     }
 
@@ -118,9 +127,9 @@ class ProductSystemContainer extends React.Component {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label className="label-control">Giá bán</label>
-                            <input type="text"
+                            <input type="number"
                                    name="price"
-                                   placeholder="0"
+                                   placeholder="Nhập giá bán của sản phẩm"
                                    className="form-control"
                                    value={product.price}
                                    onChange={this.updateFormData}/>
@@ -168,6 +177,26 @@ class ProductSystemContainer extends React.Component {
                             onChange={this.changeCategorySelect}
                         />
                     </div>
+                    {
+                        this.props.location.pathname.slice(1, 6) === "order" ? (
+                            <div className="col-md-12">
+                                <label className="label-control">Chọn kho muốn nhập vào</label>
+                                <Select
+                                    name="warehouse"
+                                    value={product.warehouse_id}
+                                    options={this.props.warehousesList.map((warehouse) => {
+                                        return {
+                                            ...warehouse,
+                                            value: warehouse.id,
+                                            label: warehouse.name
+                                        };
+                                    })}
+                                    clearable={false}
+                                    onChange={this.changeWarehouseSelect}
+                                />
+                            </div>
+                        ) : (<div/>)
+                    }
                 </div>
             </form>
         );
@@ -178,14 +207,17 @@ ProductSystemContainer.propTypes = {
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
     productWorking: PropTypes.object.isRequired,
-    createProductAction: PropTypes.object.isRequired
+    createProductAction: PropTypes.object.isRequired,
+    warehousesList: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         manufactures: state.createProduct.manufactures,
         categories: state.createProduct.categories,
-        productWorking: state.createProduct.productWorking
+        productWorking: state.createProduct.productWorking,
+        warehousesList: state.createProduct.warehousesList
     };
 }
 

@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import loginReducer from '../modules/login/loginReducer';
 import tabsReducer from '../modules/tab/tabsReducer';
+import financeReducer from '../modules/finance/financeReducer';
 import staffsReducer from '../modules/manageStaff/staffsReducer';
 import rolesReducer from '../modules/role/rolesReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
@@ -69,7 +70,13 @@ import CompanyReducer from '../modules/companies/CompanyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 import userpackReducer from '../modules/userpack/userpackReducer';
-
+import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
+import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
+import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
+import registerManageReducer from "../modules/registerManage/registerManageReducer";
+import printOrderReducer from "../modules/printOrder/printOrderReducer";
+import seatReducer from "../modules/bases/seat/seatReducer";
+import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
 
 
 const appReducer = combineReducers({
@@ -133,8 +140,8 @@ const appReducer = combineReducers({
     workShiftSessions: workShiftSessionsReducer,
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
-    landingPages : landingPagesReducer,
-    createSaleGoods : createSaleGoodsReducer,
+    landingPages: landingPagesReducer,
+    createSaleGoods: createSaleGoodsReducer,
     orderedProduct: orderedProductReducer,
     survey: surveyReducer,
     historyExtension: HistoryExtensionWorkReducer,
@@ -143,6 +150,14 @@ const appReducer = combineReducers({
     dashboardXHH: dashboardXHHReducer,
     companies: CompanyReducer,
     userpacks  : userpackReducer,
+    orderedDetail: orderedDetailReducer,
+    inventoryOrder: inventoryOrderReducer,
+    bankAccount: bankAccountReducer,
+    registerManage: registerManageReducer,
+    finance: financeReducer,
+    printOrder: printOrderReducer,
+    seat: seatReducer,
+    notificationType: notificationTypeReducer,
 });
 
 const rootReducer = (state, action) => {

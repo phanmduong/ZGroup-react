@@ -30,6 +30,25 @@ export const MARITAL = [
     }
 ];
 
+export const TYPE_NOTI = [
+    {
+        label: 'Web',
+        value: 'social'
+    },
+    {
+        label: 'Trang quản lý',
+        value: 'manage'
+    },
+    {
+        label: 'App',
+        value: 'mobile_social'
+    },
+    {
+        label: 'App quản lý',
+        value: 'mobile_manage'
+    },
+];
+
 export const LITERACY = [
     {
         id: 0,
@@ -168,6 +187,39 @@ export const ORDER_STATUS = [
         order: 5,
         label: "Hủy",
         value: "cancel"
+    }
+];
+
+export const REGISTER_STATUS = [
+    {
+        register: 0,
+        label: "Đăng ký mới",
+        value: "new-register"
+    },
+    {
+        register: 1,
+        label: "Đã gọi",
+        value: "called"
+    },
+    {
+        register: 2,
+        label: "Đã trả",
+        value: "paid"
+    },
+    {
+        register: 3,
+        label: "Đã trả đủ",
+        value: "fully-paid"
+    },
+    {
+        register: 4,
+        label: "Hoàn thành",
+        value: "completed"
+    },
+    {
+        register: 5,
+        label: "Kết thúc",
+        value: "end"
     }
 ];
 

@@ -15,6 +15,8 @@ import {ORDERED_STATUS} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
 import * as orderedProductAction from "./orderedProductAction";
 import {bindActionCreators} from "redux";
+import {Link} from "react-router";
+import AddNoteModal from "./AddNoteModal";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -36,6 +38,7 @@ class OrderedContainer extends React.Component {
         this.updateFormDate = this.updateFormDate.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
+        this.showAddNoteModal = this.showAddNoteModal.bind(this);
     }
 
     componentWillMount() {
@@ -161,6 +164,11 @@ class OrderedContainer extends React.Component {
         }
     }
 
+    showAddNoteModal(order) {
+        this.props.orderedProductAction.showAddNoteModal();
+        this.props.orderedProductAction.handleAddNoteModal(order);
+    }
+
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * 10 + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * 10 : this.props.totalCount;
@@ -170,12 +178,13 @@ class OrderedContainer extends React.Component {
                     <div className="col-md-12">
                         <div className="flex flex-row flex-space-between">
                             <div>
-                                <TooltipButton text="Bán hàng" placement="top">
-                                    <button className="btn btn-rose">Bán hàng</button>
-                                </TooltipButton>
-                                <TooltipButton text="Đặt hàng" placement="top">
-                                    <button className="btn btn-rose">Đặt hàng</button>
-                                </TooltipButton>
+                                <Link
+                                    to="/order/detail"
+                                    rel="tooltip" data-placement="top" title=""
+                                    data-original-title="Thêm đơn hàng đặt" type="button"
+                                    className="btn btn-rose">
+                                    Thêm đơn hàng đặt
+                                </Link>
                             </div>
                             <div>
                                 <TooltipButton text="In dưới dạng pdf" placement="top">
@@ -188,10 +197,6 @@ class OrderedContainer extends React.Component {
                                         <i className="material-icons">save</i> Lưu về máy
                                     </button>
                                 </TooltipButton>
-                                <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
-                                        type="button" className="btn btn-info">
-                                    <i className="material-icons">save</i> Lưu về máy
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -266,7 +271,7 @@ class OrderedContainer extends React.Component {
                                     </div>
                                     <div className="col-md-2">
                                         <button type="button" data-toggle="collapse" data-target="#demo"
-                                                className="btn btn-info">
+                                                className="btn btn-rose">
                                             <i className="material-icons">filter_list</i> Lọc
                                         </button>
                                     </div>
@@ -327,10 +332,11 @@ class OrderedContainer extends React.Component {
                                 </div>
                                 <br/>
                                 <ListOrder
-                                    changeStatusOrder={this.changeStatusOrder}
+                                    //changeStatusOrder={this.changeStatusOrder}
                                     deliveryOrders={this.props.deliveryOrders}
                                     isLoading={this.props.isLoading}
                                     user={this.props.user}
+                                    showAddNoteModal={this.showAddNoteModal}
                                 />
                             </div>
                             <div className="row float-right">
@@ -347,6 +353,7 @@ class OrderedContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <AddNoteModal/>
             </div>
         );
     }

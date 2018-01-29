@@ -28,13 +28,5 @@ export function editCurrencyApi(currency) {
     return axios.put(url, currency);
 }
 
-export function deleteCurrencyApi(currency) {
-    let url = env.MANAGE_API_URL + "fuck";
-    let token = localStorage.getItem('token');
-    if (token) {
-        url += "?token=" + token;
-    }
-    return axios.delete(url, currency);
-}
 
 

@@ -75,7 +75,15 @@ class ItemOrder extends React.Component {
                     </Link>
                 </td>
                 <td>{order.created_at}</td>
-                <td>{order.customer ? order.customer.name : "Không nhập"}</td>
+                <td>
+                    {
+                        order.customer ? (
+                            <span>{order.customer.name}<br/>
+                        ({order.customer.phone})
+                    </span>
+                        ) : "Không nhập"
+                    }
+                </td>
                 <td>
                     {
                         order.staff ?
@@ -96,12 +104,12 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>
                     <StatusSelect options={ORDERED_STATUS}
-                                  onChange={this.changeStatusOrder}
+                        //onChange={this.changeStatusOrder}
                                   value={order.status}/>
                 </td>
                 <td>
                     <a data-toggle="tooltip" title="Ghi chú" type="button"
-                       rel="tooltip">
+                       rel="tooltip" onClick={() => this.props.showAddNoteModal(order)}>
                         {
                             order_note === "" ? (
                                 <i className="material-icons">edit</i>
@@ -112,13 +120,23 @@ class ItemOrder extends React.Component {
                     </a>
                 </td>
                 <td>{helper.dotNumber(order.total)}đ</td>
-                <td>{helper.dotNumber(order.debt)}đ</td>
                 <td>
-                    <button
-                        disabled={order.status !== "ship_order"}
-                        className="btn btn-social btn-fill btn-twitter">
-                        <i className="fa fa-twitter"/> Ship hàng
-                    </button>
+                    <div className="btn-group-action">
+                        <Link to={`/order/${order.id}/edit`}
+                              style={{color: "#878787"}}
+                              data-toggle="tooltip" title=""
+                              type="button" rel="tooltip"
+                              data-original-title="Sửa">
+                            <i className="material-icons">edit</i>
+                        </Link>
+                        <Link to={`/order/${order.id}/warehouse-import`}
+                              style={{color: "#878787"}}
+                              data-toggle="tooltip" title=""
+                              type="button" rel="tooltip"
+                              data-original-title="Nhập kho">
+                            <i className="material-icons">import_export</i>
+                        </Link>
+                    </div>
                 </td>
             </tr>
         );
@@ -127,8 +145,9 @@ class ItemOrder extends React.Component {
 
 ItemOrder.propTypes = {
     order: PropTypes.object.isRequired,
-    changeStatusOrder: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    //changeStatusOrder: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    showAddNoteModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

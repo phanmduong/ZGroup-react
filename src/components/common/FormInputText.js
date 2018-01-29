@@ -53,6 +53,7 @@ class FormInputText extends React.Component {
                             disabled={this.props.disabled}
                             onKeyPress={this.props.onKeyPress}
                             placeholder={this.props.placeholder}
+                            min={this.props.minValue ? this.props.minValue : undefined}
                         />
                     )
 
@@ -81,8 +82,8 @@ FormInputText.propTypes = {
     className: PropTypes.string,
     placeholder: PropTypes.string,
     equalTo: PropTypes.string,
-    onKeyPress: PropTypes.func
-
+    onKeyPress: PropTypes.func,
+    minValue: PropTypes.string,
 };
 
 export default FormInputText;
