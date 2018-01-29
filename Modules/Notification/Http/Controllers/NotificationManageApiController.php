@@ -23,7 +23,7 @@ class NotificationManageApiController extends ManageApiController
     public function allNotificationTypes(Request $request)
     {
 
-        $limit = 1;
+        $limit = 20;
 
         $notificationTypes = NotificationType::where('status', 1);
         if ($request->search) {
