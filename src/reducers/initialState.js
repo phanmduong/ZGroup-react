@@ -1685,6 +1685,7 @@ export default {
             user_contact_phone: "",
             type: "",
         },
+        summay_money: 0,
         fields: [],
         paginator: {
             total_count: 0,

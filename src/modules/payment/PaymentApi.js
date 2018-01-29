@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function createPayment(object){
-    console.log(object);
     let url = env.MANAGE_API_URL + '/company/payment/create';
     let token = localStorage.getItem('token');
     if (token) {
@@ -32,12 +31,19 @@ export function editPayment(id,object){
     });
 
 }
-export function loadPayments(page,search){
+export function loadPayments(page,company_id,start_time,end_time){
     let url = env.MANAGE_API_URL + '/company/payment/all';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page + "&search=" + search + "&limit=20";
+        url += "?token=" + token + "&page=" + page;
     }
+    if(company_id){
+        url += "&company_id=" + company_id;
+    }
+    if(start_time && end_time){
+        url += "&start_time=" + start_time + "&end_time=" + end_time;
+    }
+
     return axios.get(url);
 }
 

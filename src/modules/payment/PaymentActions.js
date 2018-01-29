@@ -4,16 +4,17 @@ import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 
-export function loadPayments(page = 1, search = "") {
+export function loadPayments(page = 1, company_id , start_time ,end_time ) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PAYMENTS,
         });
-        PaymentApi.loadPayments(page, search)
+        PaymentApi.loadPayments(page, company_id , start_time, end_time)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_PAYMENTS_SUCCESS,
                     data: res.data.payment,
+                    summary_money: res.data.summary_money,
                     paginator: res.data.paginator,
                 });
             }).catch(() => {

@@ -22,6 +22,7 @@ class PaymentList extends React.Component {
                         <th>Số tiền</th>
                         <th>Nội dung</th>
                         <th/>
+                        <th/>
                     </tr>
                     </thead>
                     <tbody>
