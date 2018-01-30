@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-let tmpUserpacks , subs;
+let tmpUserpacks, subs, tmpSubscriptionKinds;
 export default function userpackReducer(state = initialState.userpacks, action) {
     switch (action.type) {
         case types.BEGIN_LOAD_USERPACKS:
@@ -130,16 +130,13 @@ export default function userpackReducer(state = initialState.userpacks, action) 
             };
 
 
-
-
-
         case types.BEGIN_EDIT_SUBSCRIPTION :
             return {
                 ...state,
                 isSavingSubscription: true,
             };
         case types.EDITED_SUBSCRIPTION_SUCCESS :
-            subs = changeSubscription(state.userpack.subscriptions,action.subscription);
+            subs = changeSubscription(state.userpack.subscriptions, action.subscription);
             return {
                 ...state,
                 isSavingSubscription: false,
@@ -153,9 +150,6 @@ export default function userpackReducer(state = initialState.userpacks, action) 
                 ...state,
                 isSavingSubscription: false,
             };
-
-
-
 
 
         case types.BEGIN_ADD_SUBSCRIPTION_KIND :
@@ -190,12 +184,34 @@ export default function userpackReducer(state = initialState.userpacks, action) 
 
                 },
             };
-        case types.LOAD_SUBSCRIPTIONKINDS:{
+        case types.LOAD_SUBSCRIPTIONKINDS: {
+            let tmpSubscriptionKinds = addSelect(action.subscriptionKinds);
             return {
                 ...state,
-                subscriptionKinds : action.subscriptionKinds,
+                subscriptionKinds: tmpSubscriptionKinds,
             };
         }
+
+        case types.BEGIN_LOAD_SUBSCRIPTIONS_IN_USERPACK:
+            return {
+                ...state,
+                isLoadingSubInUserpack: true,
+            };
+        case types.LOADED_SUBSCRIPTIONS_IN_USERPACK_SUCCCESS:
+            return {
+                ...state,
+                isLoadingSubInUserpack: false,
+                userpack: {
+                    ...state.userpack,
+                    subscriptions: action.subscriptions,
+                }
+            };
+        case types.LOADED_SUBSCRIPTIONS_IN_USERPACK_ERROR:
+            return {
+                ...state,
+                isLoadingSubInUserpack: false,
+            };
+
 
         case types.BEGIN_LOAD_DETAIL_USERPACK:
             return {
@@ -206,10 +222,7 @@ export default function userpackReducer(state = initialState.userpacks, action) 
             return {
                 ...state,
                 isLoadingUserpack: false,
-                userpack: {
-                    ...action.userpack,
-                    subscriptions: action.subscriptions,
-                }
+                userpack: {...action.userpack},
             };
         case types.LOADED_DETAIL_USERPACK_ERROR:
             return {
@@ -233,12 +246,21 @@ function changeStatus(ListUserpacks, id, status) {
     });
     return tmpUserpacks;
 }
-function changeSubscription(subscriptions , subscription) {
- subs = subscriptions.map((sub)=>{
-     if(sub.id === subscription.id){
-         return subscription;
-     }
-     else return sub;
- });
- return subs;
+
+function changeSubscription(subscriptions, subscription) {
+    subs = subscriptions.map((sub) => {
+        if (sub.id === subscription.id) {
+            return subscription;
+        }
+        else return sub;
+    });
+    return subs;
+}
+
+function addSelect(subscriptionKinds) {
+    tmpSubscriptionKinds = subscriptionKinds.map((item) => {
+        return {"value": item.id, "label": item.name};
+        // subscriptionKinds = [...tmpSubscriptionKinds , ...{value : item.id,label : item.name}];
+    });
+    return tmpSubscriptionKinds;
 }

@@ -26,6 +26,7 @@ class AddSubcriptionKindModal extends React.Component {
                     name="hours"
                     updateFormData={this.props.updateFormSubscriptionKind}
                     value={hours}
+                    minValue = "0"
                 />
             </div>
         );

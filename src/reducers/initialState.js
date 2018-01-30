@@ -1874,12 +1874,13 @@ export default {
         currentPage: 1,
         isStoring: false,
         errorStore: false,
-    }
+    },
 
     userpacks : {
         ListUserpacks : [],
         isLoadingUserpacks : false,
         isLoadingUserpack : false,
+        isLoadingSubInUserpack : false,
         isLoadingSubKind : false,
         isSavingAdd : false,
         isSavingUserpack : false,

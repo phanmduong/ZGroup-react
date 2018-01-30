@@ -11,6 +11,8 @@ import TooltipButton from '../../components/common/TooltipButton';
 import FormInputText from '../../components/common/FormInputText';
 import AddSubcriptionKindModal from "./AddSubcriptionKindModal";
 
+import ReactSelect from "react-select";
+
 
 class SubscriptionModal extends React.Component {
     constructor(props, context) {
@@ -19,7 +21,7 @@ class SubscriptionModal extends React.Component {
             isOpenModal: false,
         };
         // this.loadSubscriptionsKind = this.loadSubscriptionsKind.bind(this);
-        // this.changeSubscriptionKind = this.changeSubscriptionKind.bind(this);
+        this.changeSubscriptionKind = this.changeSubscriptionKind.bind(this);
         this.updateFormSubscription = this.updateFormSubscription.bind(this);
         this.updateFormSubscriptionKind = this.updateFormSubscriptionKind.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -81,9 +83,12 @@ class SubscriptionModal extends React.Component {
         this.props.userpacksActions.updateFormSubscriptionKind(data);
     }
 
-    // changeSubscriptionKind(value) {
-    //     this.props.userpacksActions.changeSubscriptionKind(value.value);
-    // }
+    changeSubscriptionKind(event) {
+        const field = "subscriptionKind";
+        let data = {...this.props.subscription};
+        data[field] = event.value;
+        this.props.userpacksActions.updateFormSubscription(data);
+    }
 
     addSubscription(e) {
         if (this.props.isEdit) {
@@ -123,9 +128,9 @@ class SubscriptionModal extends React.Component {
                                         name="price"
                                         updateFormData={this.updateFormSubscription}
                                         value={price}
+                                        minValue = "0"
                                     />
-                                    <label className="label-control">Chọn loại subscription</label>
-                                    <div className="row">
+                                    <div className="row" style={{ marginTop : 40}}>
                                         <div className="col-md-10">
                                             {/*<ReactSelect.Async*/}
                                             {/*loadOptions={this.loadSubscriptionsKind}*/}
@@ -135,23 +140,30 @@ class SubscriptionModal extends React.Component {
                                             {/*onChange={this.changeSubscriptionKind}*/}
                                             {/*value={subscriptionKind}*/}
                                             {/*/>*/}
-                                            <select
-                                                className="form-control"
+                                            <label className="label-control">Chọn gói đăng kí</label>
+                                            <ReactSelect
                                                 value={subscriptionKind}
-                                                onChange={this.updateFormSubscription}
-                                                name="subscriptionKind">
-                                                {this.props.subscriptionKinds !== null && this.props.subscriptionKinds !== undefined &&
-                                                this.props.subscriptionKinds.map((item, key) => {
-                                                    return (
-                                                        <option key={key}
-                                                                value={item.id}>
-                                                            {item.name}
-                                                        </option>);
-                                                })}
-                                            </select>
+                                                options={this.props.subscriptionKinds}
+                                                onChange={this.changeSubscriptionKind}
+                                                placeholder="Chọn gói đăng kí"
+                                            />
+                                            {/*<select*/}
+                                                {/*className="form-control"*/}
+                                                {/*value={subscriptionKind}*/}
+                                                {/*onChange={this.updateFormSubscription}*/}
+                                                {/*name="subscriptionKind">*/}
+                                                {/*{this.props.subscriptionKinds !== null && this.props.subscriptionKinds !== undefined &&*/}
+                                                {/*this.props.subscriptionKinds.map((item, key) => {*/}
+                                                    {/*return (*/}
+                                                        {/*<option key={key}*/}
+                                                                {/*value={item.id}>*/}
+                                                            {/*{item.name}*/}
+                                                        {/*</option>);*/}
+                                                {/*})}*/}
+                                            {/*</select>*/}
                                         </div>
                                         <TooltipButton placement="top" text="Thêm loại đăng kí">
-                                            <div className="col-md-2" style={{marginTop: -6}}>
+                                            <div className="col-md-2" style={{marginTop: 18}}>
                                                 <a className="btn btn-rose btn-sm"
                                                    onClick={() => {
                                                        this.openModal({});
