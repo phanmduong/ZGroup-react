@@ -11,6 +11,10 @@ class RoomGrid extends React.Component {
         this.el = "#room-canvas";
     }
 
+    componentWillReceiveProps(nextProps) {
+        D3RoomGrid.updateData(nextProps.data);
+    }
+
     componentDidMount() {
         D3RoomGrid.onClick(this.props.onClick);
         D3RoomGrid.onDrag(this.props.onDrag);

@@ -15,4 +15,4 @@ npm run build:shift
 npm run build:dashboard
 npm run build:workShift
 npm run build:landingPage
-
+npm run build:teaching
