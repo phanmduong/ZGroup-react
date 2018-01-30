@@ -232,7 +232,8 @@ class CompanyController extends ManageApiController
         if($type) {
             $payments = $payments->where('type',$type);
         }
-        $summary_money = $payments->reduce(function ($total, $payment) {
+        $pre_payments = $payments->get();
+        $summary_money = $pre_payments->reduce(function ($total, $payment) {
             if ($payment->payer_id == 1 || $payment->receiver_id == 1) {
                 if ($payment->type != "done") return $total - $payment->money_value;
                 else return $total + $payment->money_value;
