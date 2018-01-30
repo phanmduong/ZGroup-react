@@ -26,7 +26,7 @@
         window.token = "{{csrf_token()}}";
     </script>
 </head>
-<body>
+<body style="background-color: #f9f9f9">
 <nav class="navbar navbar-toggleable-md fixed-top">
     <div class="container">
         <div class="navbar-translate">
