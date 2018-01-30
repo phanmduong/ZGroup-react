@@ -34,7 +34,7 @@ var sendNotificationUser = function (notification) {
             return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
         case 'mobile_social':
             notification.device_type = 'mobile_social';
-            notification.url = '';
+            notification.url = env.PROTOCOL + env.DOMAIN + notification.link;
             addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
         case 'manage':
