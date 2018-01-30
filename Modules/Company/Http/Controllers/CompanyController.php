@@ -218,7 +218,7 @@ class CompanyController extends ManageApiController
         $company_id = $request->company_id;
         $start_time = $request->start_time;
         $end_time = $request->end_time;
-
+        $type = $request->type;
         if ($company_id) {
             $payments = $payments->where(function ($query) use ($company_id) {
                 $query->where('payer_id', $company_id)->orWhere('receiver_id', $company_id);
@@ -229,7 +229,9 @@ class CompanyController extends ManageApiController
             $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
             $payments = $payments->whereBetween('created_at', array($start_time, $end_time));
         }
-
+        if($type) {
+            $payments = $payments->where('type',$type);
+        }
         $summary_money = $payments->reduce(function ($total, $payment) {
             if ($payment->payer_id == 1 || $payment->receiver_id == 1) {
                 if ($payment->type != "done") return $total - $payment->money_value;
