@@ -1,5 +1,7 @@
 import CompanyContainer from "../modules/companies/CompanyContainer";
 import CreateCompanyContainer from "../modules/companies/CreateCompanyContainer";
+import PaymentContainer from "../modules/payment/PaymentContainer";
+import CreatePaymentContainer from "../modules/payment/CreatePaymentContainer";
 import PrintOrderContainer from "../modules/printOrder/PrintOrderContainer";
 import CreatePrintOrderContainer from "../modules/printOrder/CreatePrintOrderContainer";
 import ExportOrderContainer from "../modules/Zgroup/exportGood/ExportOrderContainer";
@@ -20,6 +22,20 @@ export default [
         path: "/business/company/edit/:companyId",
         component: CreateCompanyContainer,
         type: "edit"
+    },
+    {
+
+        path: "/business/company/payment/edit/:paymentId",
+        component: CreatePaymentContainer,
+        type: "edit"
+    },
+    {
+        path: "/business/company/payment/create",
+        component: CreatePaymentContainer,
+    },
+    {
+        path: "/business/company/payments",
+        component: PaymentContainer,
     },
     {
         path: "/business/print-order",
