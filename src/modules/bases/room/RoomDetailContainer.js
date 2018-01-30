@@ -25,9 +25,9 @@ class RoomDetailContainer extends React.Component {
         this.props.actions.loadSeats(this.props.params.roomId);
     }
 
-    onClick(data) {
-        console.log("Canvas Click", data);
-        this.props.actions.toggleCreateSeatModal(true);
+    onClick(point) {
+        console.log("Canvas Click", point);
+        this.props.actions.toggleCreateSeatModal(true, point);
     }
 
     onDrag(data) {
@@ -41,15 +41,24 @@ class RoomDetailContainer extends React.Component {
     render() {
         return (
             <div>
-                <CreateSeatModalContainer/>
-                <RoomGrid
-                    onClick={this.onClick}
-                    onDrag={this.onDrag}
-                    onPointClick={this.onPointClick}
-                    roomId={Number(this.props.params.roomId)}
-                    data={this.props.seats}
-                    domain={this.props.domain}
+                <CreateSeatModalContainer
+                    roomId={this.props.params.roomId}
                 />
+                <div style={{
+                    display: "flex"
+                }}>
+                    <div>abc</div>
+                    <div>
+                        <RoomGrid
+                            onClick={this.onClick}
+                            onDrag={this.onDrag}
+                            onPointClick={this.onPointClick}
+                            roomId={Number(this.props.params.roomId)}
+                            data={this.props.seats}
+                            domain={this.props.domain}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }
