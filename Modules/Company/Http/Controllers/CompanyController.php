@@ -450,8 +450,8 @@ class CompanyController extends ManageApiController
         $printOrder->save();
         $payment = new Payment;
         $payment->type = "debt_print";
-        $payment->payer = 1;
-        $payment->receiver = $printOrder->company_id;
+        $payment->payer_id = 1;
+        $payment->receiver_id = $printOrder->company_id;
         $payment->money_value = $printOrder->quantity * $printOrder->price * 1.1;
         $payment->save();
         return $this->respondSuccessWithStatus([
@@ -467,8 +467,8 @@ class CompanyController extends ManageApiController
         $exportorder->save();
         $payment = new Payment;
         $payment->type = "debt_export";
-        $payment->payer = 1;
-        $payment->receiver = $exportorder->company_id;
+        $payment->payer_id = 1;
+        $payment->receiver_id = $exportorder->company_id;
         $payment->money_value = $exportorder->total_price;
         $payment->save();
         return $this->respondSuccessWithStatus([
