@@ -123,3 +123,21 @@ export function loadPrintOrderInfo(id, success) {
     };
 }
 
+export function confirmOrder(id, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CONFIRM_PRINT_ORDER});
+        printOrderApi.confirmOrder(id)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.CONFIRM_PRINT_ORDER_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.CONFIRM_PRINT_ORDER_ERROR});
+                }
+            });
+    };
+}
+

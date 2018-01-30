@@ -4,6 +4,7 @@ import ButtonGroupAction                from "../../components/common/ButtonGrou
 import {connect}                        from 'react-redux';
 import  * as printOrderActions from "./printOrderActions";
 import {bindActionCreators}             from 'redux';
+import * as helper from "../../helpers/helper";
 
 class ListPrintOrder extends React.Component {
     constructor(props, context) {
@@ -11,11 +12,22 @@ class ListPrintOrder extends React.Component {
         this.state = {
             
         };
+        this.confirm = this.confirm.bind(this);
     }
 
     // componentWillReceiveProps(nextProps) {
     //     console.log("nextProps",nextProps);
     // }
+
+    confirm(id){
+        helper.confirm("warning","Xác Nhận Duyệt","Sau khi duyệt sẽ không thể hoàn tác?",
+            ()=>{return this.props.printOrderActions.confirmOrder(id,
+                ()=>{
+                    return this.props.printOrderActions.loadPrintOrders(this.props.paginator.current_page);
+                }
+                );}
+        );
+    }
 
     render() {
         let {listPrintOrder} = this.props;
@@ -34,6 +46,7 @@ class ListPrintOrder extends React.Component {
                         <th>Số lượng</th>
                         <th>Ngày đặt</th>
                         <th>Ngày nhận</th>
+                        <th>Trạng thái</th>
                         <th style={{width: "10%"}}>Ghi chú</th>
                         <th/>
                     </tr>
@@ -53,6 +66,7 @@ class ListPrintOrder extends React.Component {
                                 <td>{order.quantity}</td>
                                 <td>{order.order_date}</td>
                                 <td>{order.receive_date}</td>
+                                <td>{order.status ? "Đã duyệt" : "Chưa duyệt"}</td>
                                 <td style={{wordBreak: "break-word"}}>{
                                     order.note.length > 60 ?
                                         (order.note.substring(0,60)  + "...")
@@ -62,6 +76,16 @@ class ListPrintOrder extends React.Component {
                                 <td><ButtonGroupAction
                                     editUrl={"/business/print-order/edit/" + order.id}
                                     disabledDelete={true}
+                                    children= {
+                                         !order.status &&
+                                        <a data-toggle="tooltip" title="Duyệt"
+                                           type="button"
+                                           onClick={()=>{return this.confirm(order.id);}}
+                                           rel="tooltip"
+                                        >
+                                            <i className="material-icons">done</i>
+                                        </a>
+                                    }
                                 /></td>
                             </tr>
                         );
@@ -77,12 +101,14 @@ class ListPrintOrder extends React.Component {
 ListPrintOrder.propTypes = { 
     isLoading : PropTypes.bool,
     listPrintOrder : PropTypes.array,
+    paginator: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.printOrder.isLoading,
         listPrintOrder: state.printOrder.listPrintOrder,
+        paginator: state.printOrder.paginator,
     };
 }
 
