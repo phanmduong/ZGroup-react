@@ -157,6 +157,11 @@ export default function rolesReducer(state = initialState.rooms, action) {
                 showEditRoomModal: false,
                 errorStoreRoom: false
             };
+        case types.LOAD_TYPES_ROOM_DATA_SUCCESS:
+            return {
+                ...state,
+                types: action.types
+            };
         default:
             return state;
     }

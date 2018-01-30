@@ -1434,6 +1434,7 @@ export default {
         isUploadingAvatar: false,
         percent: 0,
         isUploadingImage: false,
+        types: []
     },
     excel: {
         isLoading: false,

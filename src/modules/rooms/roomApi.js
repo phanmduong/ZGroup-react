@@ -30,6 +30,15 @@ export function getBases() {
     return axios.get(url);
 }
 
+export function getTypesApi() {
+    let url = env.MANAGE_API_URL + "fuck";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
 export function changeAvatarApi(file, completeHandler, progressHandler, error) {
     let url = env.MANAGE_API_URL + '/file/upload';
     let token = localStorage.getItem('token');
