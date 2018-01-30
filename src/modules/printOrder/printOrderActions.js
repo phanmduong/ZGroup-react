@@ -79,6 +79,7 @@ export function createPrintOrder(data, success) {
                     dispatch({
                         type: types.CREATE_PRINT_ORDER_SUCCESS,
                     });
+                    helper.showNotification("Thêm thành công.");
                     success();
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
@@ -96,6 +97,7 @@ export function editPrintOrder(data, success) {
                     dispatch({
                         type: types.EDIT_PRINT_ORDER_SUCCESS,
                     });
+                    helper.showNotification("Thêm thành công.");
                     success();
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");

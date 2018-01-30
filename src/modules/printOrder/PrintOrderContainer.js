@@ -22,9 +22,9 @@ class PrintOrderContainer extends React.Component {
         this.props.printOrderActions.loadPrintOrders();
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log(nextProps);
+    // }
 
 
     render() {

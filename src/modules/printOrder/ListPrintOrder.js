@@ -23,6 +23,7 @@ class ListPrintOrder extends React.Component {
         helper.confirm("warning","Xác Nhận Duyệt","Sau khi duyệt sẽ không thể hoàn tác?",
             ()=>{return this.props.printOrderActions.confirmOrder(id,
                 ()=>{
+                    helper.showNotification("Duyệt thành công.");
                     return this.props.printOrderActions.loadPrintOrders(this.props.paginator.current_page);
                 }
                 );}

@@ -103,6 +103,7 @@ export function createExportOrder(data) {
                     dispatch({
                         type: types.CREATE_EXPORT_ORDER_SUCCESS,
                     });
+                    helper.showNotification("Thêm thành công.");
                     browserHistory.push("/business/export-order");
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
@@ -139,10 +140,30 @@ export function editExportOrder(data) {
                     dispatch({
                         type: types.EDIT_EXPORT_ORDER_SUCCESS,
                     });
+                    helper.showNotification("Thêm thành công.");
                     browserHistory.push("/business/export-order");
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
                     dispatch({type: types.EDIT_EXPORT_ORDER_ERROR});
+                }
+            });
+    };
+}
+
+
+export function confirmOrder(id, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CONFIRM_EXPORT_ORDER});
+        exportOrderApi.confirmOrder(id)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.CONFIRM_EXPORT_ORDER_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.CONFIRM_EXPORT_ORDER_ERROR});
                 }
             });
     };
