@@ -26,6 +26,8 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
+    <link rel="stylesheet" type="text/css" href="http://mineditor.com/assets/css/keetooltheme.css"/>
+
     {{--<link href="manage/email/main.8beb53522833d876fdbefef05a414858.css" rel="stylesheet">--}}
     @yield("css")
 
