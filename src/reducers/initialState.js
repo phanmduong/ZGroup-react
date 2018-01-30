@@ -1967,5 +1967,9 @@ export default {
         isSavingSubscriptionKind : false,
         isSavingAddUserpack : false,
     },
+    sendNotification: {
+        isSending: false,
+        errorSend: false,
+    },
 
 };

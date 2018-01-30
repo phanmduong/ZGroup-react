@@ -78,8 +78,8 @@ import registerManageReducer from "../modules/registerManage/registerManageReduc
 import printOrderReducer from "../modules/printOrder/printOrderReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 import exportOrderReducer from "../modules/Zgroup/exportGood/exportOrderReducer";
-
 import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
+import sendNotificationReducer from '../modules/sendNotification/sendNotificationReducer';
 
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
@@ -162,6 +162,7 @@ const appReducer = combineReducers({
     exportOrder: exportOrderReducer,
     seat: seatReducer,
     notificationType: notificationTypeReducer,
+    sendNotification: sendNotificationReducer,
 });
 
 const rootReducer = (state, action) => {
