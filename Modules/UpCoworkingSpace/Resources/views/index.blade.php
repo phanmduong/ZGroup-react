@@ -37,7 +37,9 @@
                             <p class="author">
                                 <a class="btn btn-round btn-danger"
                                    style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)"
-                                   href="sections.html">Đăng kí </a>
+                                   href="sections.html"
+                                   data-target="#userPackModal"
+                                   data-toggle="modal">Đăng kí </a>
                                 <br><br>
                             </p></div>
                     </div>
@@ -70,10 +72,8 @@
             <div class="features-1">
                 <div class="row">
                     <div class="col-md-8 ml-auto mr-auto text-center">
-                        <h2 class="title">Why our product is the best</h2>
-                        <h5 class="description">This is the paragraph where you can write more details about your
-                            product. Keep you user engaged by providing meaningful information. Remember that by this
-                            time, the user is curious, otherwise he wouldn't scroll to get here.</h5>
+                        <h3 class="title" style="font-weight: bold">NHỮNG LỢI ÍCH CHÚNG TÔI MANG ĐẾN CHO BẠN</h3>
+                        <h5 class="description" style="font-weight: bold">Thành viên của UP có những lợi ích gì?</h5>
                     </div>
                 </div>
 
@@ -84,7 +84,8 @@
                                 <i class="nc-icon nc-palette"></i>
                             </div>
                             <div class="description">
-                                <h4 class="info-title">Beautiful Gallery</h4>
+                                <h4 class="info-title">KHÔNG GIAN MỞ
+                                    SÁNG TẠO</h4>
                                 <p class="description">Spend your time generating new ideas. You don't have to think of
                                     implementing.</p>
                             </div>
@@ -96,7 +97,8 @@
                                 <i class="nc-icon nc-bulb-63"></i>
                             </div>
                             <div class="description">
-                                <h4 class="info-title">New Ideas</h4>
+                                <h4 class="info-title">PHÒNG HỌP
+                                    HIỆN ĐẠI</h4>
                                 <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient.</p>
                             </div>
                         </div>
@@ -107,7 +109,8 @@
                                 <i class="nc-icon nc-chart-bar-32"></i>
                             </div>
                             <div class="description">
-                                <h4 class="info-title">Statistics</h4>
+                                <h4 class="info-title">BẾP
+                                    TIỆN NGHI</h4>
                                 <p>Choose from a veriety of many colors resembling sugar paper pastels.</p>
                             </div>
                         </div>
@@ -118,7 +121,8 @@
                                 <i class="nc-icon nc-sun-fog-29"></i>
                             </div>
                             <div class="description">
-                                <h4 class="info-title">Delightful design</h4>
+                                <h4 class="info-title">INTERNET
+                                    TỐC ĐỘ CAO</h4>
                                 <p>Find unique and handmade delightful designs related items directly from our
                                     sellers.</p>
                             </div>
@@ -134,8 +138,8 @@
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
-                <h1>Xin chào, <br> Chúng tôi là KEE Technology.</h1>
-                <h3>Dưới đây là thông tin về chúng tôi.</h3>
+                <h3 style="font-weight: 500">UP CO-WORKING SPACE</h3>
+                <h2 style="font-weight: bold">VÌ CỘNG ĐỒNG KHỞI NGHIỆP VIỆT NAM</h2>
             </div>
         </div>
     </div>
@@ -170,7 +174,8 @@
                                 <div class="card-footer">
                                     <div class="author">
                                         <a href="{{'/blog/post/'.$newestBlog->id}}">
-                                            <img src="{{generate_protocol_url($newestBlog->author->avatar_url)}}" alt="..."
+                                            <img src="{{generate_protocol_url($newestBlog->author->avatar_url)}}"
+                                                 alt="..."
                                                  class="avatar img-raised">
                                             <span>{{$newestBlog->author->name}}</span>
                                         </a>
@@ -182,79 +187,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {{--<div class="col-md-4">--}}
-                        {{--<div class="card card-blog">--}}
-                            {{--<div class="card-image">--}}
-                                {{--<a href="#pablo">--}}
-                                    {{--<img class="img img-raised"--}}
-                                         {{--src="http://up-co.vn/wp-content/uploads/4-1024x1024.jpeg">--}}
-                                {{--</a>--}}
-                            {{--</div>--}}
-                            {{--<div class="card-body">--}}
-                                {{--<h6 class="card-category text-main-color">--}}
-                                    {{--Startups--}}
-                                {{--</h6>--}}
-                                {{--<h5 class="card-title">--}}
-                                    {{--<a href="#pablo">MIT’s Cheetah 3 robot is built to save lives</a>--}}
-                                {{--</h5>--}}
-                                {{--<p class="card-description">--}}
-                                    {{--The latest version of MIT’s Cheetah robot made its stage debut today at TC Sessions:--}}
-                                    {{--Robotics in Cambridge, Mass. It’s a familiar project... <br>--}}
-                                {{--</p>--}}
-                                {{--<hr>--}}
-                                {{--<div class="card-footer">--}}
-                                    {{--<div class="author">--}}
-                                        {{--<a href="#pablo">--}}
-                                            {{--<img src="assets/img/faces/kaci-baum-2.jpg" alt="..."--}}
-                                                 {{--class="avatar img-raised">--}}
-                                            {{--<span>Nickie Kelly</span>--}}
-                                        {{--</a>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="stats">--}}
-                                        {{--<i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="col-md-4">--}}
-                        {{--<div class="card card-blog">--}}
-                            {{--<div class="card-image">--}}
-                                {{--<a href="#pablo">--}}
-                                    {{--<img class="img img-raised"--}}
-                                         {{--src="http://up-co.vn/wp-content/uploads/6-1024x1024.jpeg">--}}
-                                {{--</a>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="card-body">--}}
-                                {{--<h6 class="card-category text-main-color">--}}
-                                    {{--Enterprise--}}
-                                {{--</h6>--}}
-                                {{--<h5 class="card-title">--}}
-                                    {{--<a href="#pablo">Lionel Richie says “Hello” to startup investors</a>--}}
-                                {{--</h5>--}}
-                                {{--<p class="card-description">--}}
-                                    {{--Because developing a doctor-on-demand service that would allow personalized medical--}}
-                                    {{--visits, booked through an app on a user’s phone is... <br>--}}
-                                {{--</p>--}}
-                                {{--<hr>--}}
-                                {{--<div class="card-footer">--}}
-                                    {{--<div class="author">--}}
-                                        {{--<a href="#pablo">--}}
-                                            {{--<img src="assets/img/faces/erik-lucatero-2.jpg" alt="..."--}}
-                                                 {{--class="avatar img-raised">--}}
-                                            {{--<span>Mike John</span>--}}
-                                        {{--</a>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="stats">--}}
-                                        {{--<i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
                 @endforeach
             </div>
         </div>
@@ -264,7 +196,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 ml-auto mr-auto text-center">
-                        <h2 class="title">Why our product is the best</h2>
+                        <h3 class="title" style="font-weight: 600">THÀNH VIÊN CỦA UP NGHĨ GÌ?
+                        </h3>
                         <h5 class="description">This is the paragraph where you can write more details about your
                             product. Keep you user engaged by providing meaningful information. Remember that by this
                             time, the user is curious, otherwise he wouldn't scroll to get here.</h5>
