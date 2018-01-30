@@ -1492,6 +1492,9 @@ export default {
             },
         ],
         archivedWorks: [],
+        rateData:{
+            staffs:[],
+        },
     },
 
     groupCustomers: {

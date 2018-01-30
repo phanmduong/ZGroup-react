@@ -118,13 +118,25 @@ class CardWork extends React.Component {
                                         <li className="more-dropdown-item" hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
-                                                return this.props.archiveWork(work, STATUS_WORK[5].value);
+                                                return this.props.openModalRateWork(work.id);
                                             }}>
                                                 <i style={{fontSize: "16px"}}
-                                                   className="material-icons keetool-card">archive</i>
-                                                Lưu trữ công việc
+                                                   className="material-icons keetool-card">done</i>
+                                                Đánh giá công việc
                                             </a>
                                         </li>
+                                        {/*<li className="more-dropdown-item"*/}
+                                            {/*// hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}*/}
+                                        {/*>*/}
+                                            {/*<a onClick={(e) => {*/}
+                                                {/*e.stopPropagation();*/}
+                                                {/*return this.props.archiveWork(work, STATUS_WORK[5].value);*/}
+                                            {/*}}>*/}
+                                                {/*<i style={{fontSize: "16px"}}*/}
+                                                   {/*className="material-icons keetool-card">archive</i>*/}
+                                                {/*Lưu trữ công việc*/}
+                                            {/*</a>*/}
+                                        {/*</li>*/}
                                         <li className="more-dropdown-item" hidden={(status == STATUS_WORK[5].value) ? (user.role != 2) : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
@@ -225,6 +237,7 @@ CardWork.propTypes = {
     openInfoModal: PropTypes.func,
     openExtendModal: PropTypes.func,
     openFinishModal: PropTypes.func,
+    openModalRateWork: PropTypes.func,
     work: PropTypes.object,
     user: PropTypes.object,
     key: PropTypes.number,

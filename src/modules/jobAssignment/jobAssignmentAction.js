@@ -314,3 +314,25 @@ export function loadArchivedWork() {
             });
     };
 }
+
+export function loadRateData(id) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_RATE_DATA_WORK});
+        jobAssignmentApi.loadRateData(id)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.LOAD_RATE_DATA_WORK_SUCCESS,
+                        rateData: res.data.data.work,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_RATE_DATA_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_RATE_DATA_WORK_ERROR});
+            });
+    };
+}
