@@ -247,7 +247,7 @@ class LessonsContainer extends React.Component {
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.video_url}
                                     disabled={this.props.isLoading}
-                                    required
+
                                 /></div>
                                 </div>
 
