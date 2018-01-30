@@ -303,6 +303,7 @@ class ManageDashboardApiController extends ManageApiController
 
         $data['time'] = strtotime(date("Y-m-d H:i:s"));
         $data['current_date'] = format_vn_date(strtotime(date("Y-m-d H:i:s")));
+        $data['end_time_gen'] = format_vn_date(strtotime($gen->end_time));
 
         return $this->respondSuccessWithStatus($data);
     }
