@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 npm run build:base
+npm run build:dashboard
 npm run build:blog
 npm run build:book
 npm run build:email
