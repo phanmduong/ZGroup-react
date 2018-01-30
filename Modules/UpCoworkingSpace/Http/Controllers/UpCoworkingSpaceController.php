@@ -14,7 +14,9 @@ class UpCoworkingSpaceController extends Controller
 {
     public function index()
     {
-        return view('upcoworkingspace::index');
+        $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        $this->data['newestBlogs'] = $newestBlogs;
+        return view('upcoworkingspace::index', $this->data);
     }
 
     public function blog(Request $request)

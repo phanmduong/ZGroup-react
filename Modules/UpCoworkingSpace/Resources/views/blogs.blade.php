@@ -23,11 +23,13 @@
 
     <div class="blog-4" style="margin-top:20px">
         <div class="container">
-            <div class="description">
-                <input placeholder="Tìm kiếm" id="search-blog"
-                       style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
-                       type="text" v-on:keyup.enter="searchBlog" v-model="search" value="{{$search}}"/>
-            </div>
+            {{--<div class="description">--}}
+            {{--<input placeholder="Tìm kiếm" id="search-blog"--}}
+            {{--style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"--}}
+            {{--type="text" v-on:keyup.enter="searchBlog" v-model="search" value="{{$search}}"/>--}}
+            {{--</div>--}}
+            <br>
+            <br>
             <div class="row">
                 @foreach($blogs as $blog)
                     <div class="col-md-6">
@@ -44,7 +46,7 @@
                                 <p class="card-description">
                                     {{shortString($blog->description, 15)}}                                </p>
                                 <br>
-                                <a href="{{'/blog/post/'.$blog->id}}" style="color:#c50000!important"><b>Xem
+                                <a href="{{'/blog/post/'.$blog->id}}" style="color:#7bc043!important"><b>Xem
                                         thêm</b></a>
                             </div>
                         </div>

@@ -51,18 +51,20 @@ class CompanyController extends ManageApiController
         $str = convert_vi_to_en_not_url($field->name);
         $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
         $str = strtoupper($str);
-        $day = date_format($company->created_at,'d');
-        $month = date_format($company->created_at,'m');
+        $day = date_format($company->created_at, 'd');
+        $month = date_format($company->created_at, 'm');
         $id = (string)$company->id;
         while (strlen($id) < 4) $id = '0' . $id;
-        $company->partner_code =$str.$day.$month.$id;
+        $company->partner_code = $str . $day . $month . $id;
         $company->save();
         return $this->respondSuccessWithStatus([
             "messange" => "Tạo thành công",
         ]);
     }
-    public function createField(Request $request){
-        if($request->name === null || trim($request->name) == '') return $this->respondErrorWithStatus("Thiếu tên");
+
+    public function createField(Request $request)
+    {
+        if ($request->name === null || trim($request->name) == '') return $this->respondErrorWithStatus("Thiếu tên");
         $field = new Field;
         $field->name = $request->name;
         $field->save();
@@ -70,9 +72,11 @@ class CompanyController extends ManageApiController
             "message" => "Tạo thành công",
         ]);
     }
-    public function editCompany($companyId,Request $request){
+
+    public function editCompany($companyId, Request $request)
+    {
         $company = Company::find($companyId);
-        if(!$company) return $this->respondErrorWithStatus("Không tồn tại công ty");
+        if (!$company) return $this->respondErrorWithStatus("Không tồn tại công ty");
         $company->name = $request->name;
         $company->registered_business_address = $request->registered_business_address;
         $company->office_address = $request->office_address;
@@ -91,29 +95,33 @@ class CompanyController extends ManageApiController
         $str = convert_vi_to_en_not_url($field->name);
         $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
         $str = strtoupper($str);
-        $day = date_format($company->created_at,'d');
-        $month = date_format($company->created_at,'m');
+        $day = date_format($company->created_at, 'd');
+        $month = date_format($company->created_at, 'm');
         $id = (string)$company->id;
         while (strlen($id) < 4) $id = '0' . $id;
-        $company->partner_code =$str.$day.$month.$id;
+        $company->partner_code = $str . $day . $month . $id;
         $company->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công",
         ]);
     }
-    public function getAllField(Request $request){
+
+    public function getAllField(Request $request)
+    {
         $fields = Field::all();
         return $this->respondSuccessWithStatus([
-            "fields" => $fields->map(function($field){
+            "fields" => $fields->map(function ($field) {
                 return $field->transform();
             })
         ]);
     }
-    public function getAllCompany(Request $request){
+
+    public function getAllCompany(Request $request)
+    {
         $search = $request->search;
         $type = $request->type;
         $limit = $request->limit ? $request->limit : 20;
-        if($limit != -1) {
+        if ($limit != -1) {
             $company = Company::query();
             if ($search)
                 $company->where('name', 'like', '%' . $search . '%');
@@ -125,43 +133,50 @@ class CompanyController extends ManageApiController
                     return $data->transform();
                 }),
             ]);
-        } else{
+        } else {
             $company = Company::all();
             return $this->respondSuccessWithStatus([
-                "company" => $company->map(function($pp){
+                "company" => $company->map(function ($pp) {
                     return $pp->transform();
                 })
             ]);
         }
     }
-    public function getCompanyProvide(){
-        $companies = Company::where('type','<>', 'share')->get();
+
+    public function getCompanyProvide()
+    {
+        $companies = Company::where('type', '<>', 'share')->get();
         return $this->respondSuccessWithStatus([
-            "companies" => $companies->map(function($company){
+            "companies" => $companies->map(function ($company) {
                 return $company->transform();
             })
         ]);
     }
-    public function getCompanyShare(){
-        $companies = Company::where('type','<>','provided')->get();
+
+    public function getCompanyShare()
+    {
+        $companies = Company::where('type', '<>', 'provided')->get();
         return $this->respondSuccessWithStatus([
-            "companies" => $companies->map(function($company){
+            "companies" => $companies->map(function ($company) {
                 return $company->transform();
             })
         ]);
     }
-    public function getDetailCompany($companyId,Request $request){
+
+    public function getDetailCompany($companyId, Request $request)
+    {
         $company = Company::find($companyId);
-        if(!$company) return $this->respondErrorWithStatus("Không tồn tại công ty");
+        if (!$company) return $this->respondErrorWithStatus("Không tồn tại công ty");
         return $this->respondSuccessWithStatus([
             "company" => $company->transform()
         ]);
     }
 
-    public function createPayment(Request $request){
-        if($request->payer_id === null || $request->receiver_id === null||
-            $request->money_value === null || trim($request->money_value) == ''||
-            $request->bill_image_url === null || trim($request->bill_image_url) == '' )
+    public function createPayment(Request $request)
+    {
+        if ($request->payer_id === null || $request->receiver_id === null ||
+            $request->money_value === null || trim($request->money_value) == '' ||
+            $request->bill_image_url === null || trim($request->bill_image_url) == '')
             return $this->respondErrorWithStatus("Thiếu trường");
         $payment = new Payment;
         $payment->bill_image_url = $request->bill_image_url;
@@ -169,19 +184,20 @@ class CompanyController extends ManageApiController
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
         $payment->receiver_id = $request->receiver_id;
-
+        $payment->type = "done";
         $payment->save();
         return $this->respondSuccessWithStatus([
-           "message" => "Thành công"
+            "message" => "Thành công"
         ]);
     }
 
-    public function editPayment($paymentId,Request $request){
-        $payment =Payment::find($paymentId);
-        if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
-        if($request->payer_id === null || !$request->receiver_id === null||
-            $request->money_value === null || trim($request->money_value) == ''||
-            $request->bill_image_url === null || trim($request->bill_image_url) == '' )
+    public function editPayment($paymentId, Request $request)
+    {
+        $payment = Payment::find($paymentId);
+        if (!$payment) return $this->respondErrorWithStatus("Không tồn tại");
+        if ($request->payer_id === null || !$request->receiver_id === null ||
+            $request->money_value === null || trim($request->money_value) == '' ||
+            $request->bill_image_url === null || trim($request->bill_image_url) == '')
             return $this->respondErrorWithStatus("Thiếu trường");
         $payment->bill_image_url = $request->bill_image_url;
         $payment->description = $request->description;
@@ -195,50 +211,58 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function getAllPayment(Request $request){
+    public function getAllPayment(Request $request)
+    {
         $limit = $request->limit ? $request->limit : 20;
         $payments = Payment::query();
         $company_id = $request->company_id;
         $start_time = $request->start_time;
         $end_time = $request->end_time;
-
-        if($company_id) {
+        $type = $request->type;
+        if ($company_id) {
             $payments = $payments->where(function ($query) use ($company_id) {
-                $query->where('payer_id',$company_id)->orWhere('receiver_id',$company_id);
+                $query->where('payer_id', $company_id)->orWhere('receiver_id', $company_id);
             });
         }
 
-        if($start_time){
+        if ($start_time) {
             $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
             $payments = $payments->whereBetween('created_at', array($start_time, $end_time));
         }
-        $payments = $payments->orderBy('created_at','desc')->paginate($limit);
-        $summary_money = $payments->reduce(function($total,$payment){
-            if($payment->type == "debt") return $total - $payment->money_value;
-            else return $total + $payment->money_value;
-        },0);
-
-        return $this->respondWithPagination($payments,[
-            "payment" => $payments->map(function($payment){
-                 return $payment->transform();
+        if($type) {
+            $payments = $payments->where('type',$type);
+        }
+        $pre_payments = $payments->get();
+        $summary_money = $pre_payments->reduce(function ($total, $payment) {
+            if ($payment->payer_id == 1 || $payment->receiver_id == 1) {
+                if ($payment->type != "done") return $total - $payment->money_value;
+                else return $total + $payment->money_value;
+            }
+        }, 0);
+        $payments = $payments->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($payments, [
+            "payment" => $payments->map(function ($payment) {
+                return $payment->transform();
             }),
             "summary_money" => $summary_money,
         ]);
     }
 
-    public function getPayment($paymentId){
-        $payment =Payment::find($paymentId);
-        if(!$payment) return $this->respondErrorWithStatus("Không tồn tại");
+    public function getPayment($paymentId)
+    {
+        $payment = Payment::find($paymentId);
+        if (!$payment) return $this->respondErrorWithStatus("Không tồn tại");
         return $this->respondSuccessWithStatus([
-           'payment' => $payment->transform(),
+            'payment' => $payment->transform(),
         ]);
     }
 
 
-    public function createPrintOrder(Request $request){
-        if( $request->staff_id === null ||
-            $request->company_id === null||
-            $request->good_id === null )
+    public function createPrintOrder(Request $request)
+    {
+        if ($request->staff_id === null ||
+            $request->company_id === null ||
+            $request->good_id === null)
             return $this->respondErrorWithStatus("Thiếu trường");
         $printorder = new PrintOrder();
         $printorder->staff_id = $request->staff_id;
@@ -265,12 +289,12 @@ class CompanyController extends ManageApiController
         $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
         $str = strtoupper($str);
         $ppp = DateTime::createFromFormat('Y-m-d', $printorder->order_date);
-        $day = date_format($ppp,'d');
-        $month = date_format($ppp,'m');
-        $year = date_format($ppp,'y');
-        $id = (string)  $printorder->id;
+        $day = date_format($ppp, 'd');
+        $month = date_format($ppp, 'm');
+        $year = date_format($ppp, 'y');
+        $id = (string)$printorder->id;
         while (strlen($id) < 4) $id = '0' . $id;
-        $printorder->command_code ="DATIN".$id.$str.$day.$month.$year;
+        $printorder->command_code = "DATIN" . $id . $str . $day . $month . $year;
         $printorder->save();
 
         return $this->respondSuccessWithStatus([
@@ -278,12 +302,13 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function editPrintOrder($printOrderId,Request $request){
+    public function editPrintOrder($printOrderId, Request $request)
+    {
         $printorder = PrintOrder::find($printOrderId);
-        if(!$printorder) return $this->respondErrorWithStatus("Không tồn tại");
-        if( $request->staff_id === null ||
-            $request->company_id === null||
-            $request->good_id === null )
+        if (!$printorder) return $this->respondErrorWithStatus("Không tồn tại");
+        if ($request->staff_id === null ||
+            $request->company_id === null ||
+            $request->good_id === null)
             return $this->respondErrorWithStatus("Thiếu trường");
         $printorder->staff_id = $request->staff_id;
         $printorder->company_id = $request->company_id;
@@ -309,49 +334,55 @@ class CompanyController extends ManageApiController
         $str = str_replace(" ", "", str_replace("&*#39;", "", $str));
         $str = strtoupper($str);
         $ppp = DateTime::createFromFormat('Y-m-d', $printorder->order_date);
-        $day = date_format($ppp,'d');
-        $month = date_format($ppp,'m');
-        $year = date_format($ppp,'y');
-        $id = (string)  $printorder->id;
+        $day = date_format($ppp, 'd');
+        $month = date_format($ppp, 'm');
+        $year = date_format($ppp, 'y');
+        $id = (string)$printorder->id;
         while (strlen($id) < 4) $id = '0' . $id;
-        $printorder->command_code ="DATIN".$id.$str.$day.$month.$year;
+        $printorder->command_code = "DATIN" . $id . $str . $day . $month . $year;
         $printorder->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công"
         ]);
     }
-    public function getAllPrintOrder(Request $request){
+
+    public function getAllPrintOrder(Request $request)
+    {
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
         $printorders = PrintOrder::query();
-        if($search)
-            $printorders = $printorders->where('command_code','like','%'.$search.'%');
-        if($request->company_id)
-            $printorders = $printorders->where('company_id',$request->company_id);
+        if ($search)
+            $printorders = $printorders->where('command_code', 'like', '%' . $search . '%');
+        if ($request->company_id)
+            $printorders = $printorders->where('company_id', $request->company_id);
 
-        if($request->good_id)
-            $printorders = $printorders->where('good_id',$request->good_id);
-        $printorders = $printorders->orderBy('created_at','desc')->paginate($limit);
+        if ($request->good_id)
+            $printorders = $printorders->where('good_id', $request->good_id);
+        $printorders = $printorders->orderBy('created_at', 'desc')->paginate($limit);
 
-        return $this->respondWithPagination($printorders,[
-            "printorders" => $printorders->map(function($printorder){
-                 return $printorder->transform();
+        return $this->respondWithPagination($printorders, [
+            "printorders" => $printorders->map(function ($printorder) {
+                return $printorder->transform();
             })
         ]);
 
     }
-    public function getPrintOrder($printOrderId,Request $request){
+
+    public function getPrintOrder($printOrderId, Request $request)
+    {
         $printorder = PrintOrder::find($printOrderId);
-        if(!$printorder) return $this->respondErrorWithStatus("Không tồn tại");
+        if (!$printorder) return $this->respondErrorWithStatus("Không tồn tại");
         return $this->respondSuccessWithStatus([
-           "printOrder" => $printorder->transform()
+            "printOrder" => $printorder->transform()
         ]);
     }
-    public function createExportOrder(Request $request){
-        if($request->good_id === null ||
-           $request->company_id === null ||
-           $request->warehouse_id === null ||
-           $request->price === null || trim($request->price) === "" ||
+
+    public function createExportOrder(Request $request)
+    {
+        if ($request->good_id === null ||
+            $request->company_id === null ||
+            $request->warehouse_id === null ||
+            $request->price === null || trim($request->price) === "" ||
             $request->quantity === null || trim($request->quantity) === ""
         ) return $this->respondErrorWithStatus("Thiếu trường");
         $exportOrder = new ExportOrder;
@@ -366,10 +397,12 @@ class CompanyController extends ManageApiController
             "message" => "Tạo thành công"
         ]);
     }
-    public function editExportOrder($exportOrderId,Request $request){
+
+    public function editExportOrder($exportOrderId, Request $request)
+    {
         $exportOrder = ExportOrder::find($exportOrderId);
-        if(!$exportOrder) return $this->respondErrorWithStatus("Không tồn tại");
-        if($request->good_id === null ||
+        if (!$exportOrder) return $this->respondErrorWithStatus("Không tồn tại");
+        if ($request->good_id === null ||
             $request->company_id === null ||
             $request->warehouse_id === null ||
             $request->price === null || trim($request->price) === "" ||
@@ -386,23 +419,61 @@ class CompanyController extends ManageApiController
             "message" => "Sửa thành công"
         ]);
     }
-    public function getAllExportOrder(Request $request){
+
+    public function getAllExportOrder(Request $request)
+    {
         $limit = $request->limit ? $request->limit : 20;
         $exportorders = ExportOrder::query();
 
-        $exportorders = $exportorders->orderBy('created_at','desc')->paginate($limit);
+        $exportorders = $exportorders->orderBy('created_at', 'desc')->paginate($limit);
 
-        return $this->respondWithPagination($exportorders,[
-            "exportorders" => $exportorders->map(function($exportorder){
+        return $this->respondWithPagination($exportorders, [
+            "exportorders" => $exportorders->map(function ($exportorder) {
                 return $exportorder->transform();
             })
         ]);
     }
-    public function getExportOrder($exportOrderId,Request $request){
+
+    public function getExportOrder($exportOrderId, Request $request)
+    {
         $exportorder = ExportOrder::find($exportOrderId);
-        if(!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
+        if (!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
         return $this->respondSuccessWithStatus([
             "exportOrder" => $exportorder->transform()
+        ]);
+    }
+
+    public function changeStatusPrintOrder($printOrderId, Request $request)
+    {
+        $printOrder = PrintOrder::find($printOrderId);
+        if (!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
+        $printOrder->status = 1;
+        $printOrder->save();
+        $payment = new Payment;
+        $payment->type = "debt_print";
+        $payment->payer_id = 1;
+        $payment->receiver_id = $printOrder->company_id;
+        $payment->money_value = $printOrder->quantity * $printOrder->price * 1.1;
+        $payment->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi thành công"
+        ]);
+    }
+
+    public function changeStatusExportOrder($exportOrderId, Request $request)
+    {
+        $exportorder = ExportOrder::find($exportOrderId);
+        if (!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
+        $exportorder->status = 1;
+        $exportorder->save();
+        $payment = new Payment;
+        $payment->type = "debt_export";
+        $payment->payer_id = 1;
+        $payment->receiver_id = $exportorder->company_id;
+        $payment->money_value = $exportorder->total_price;
+        $payment->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi thành công"
         ]);
     }
 }
