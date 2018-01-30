@@ -2,13 +2,16 @@
 
 @section('content')
 
-    <div class="page-header page-header-small" style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
+    <div class="page-header page-header-small"
+         style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
                 <h1>KHÔNG GIAN LÀM VIỆC</h1>
                 <h3>Sáng tạo, năng động, hiện đại</h3><br>
-                <a class="btn btn-round btn-danger" style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#userPackModal" data-toggle="modal">Đăng kí trải nghiệm</a>
+                <a class="btn btn-round btn-danger"
+                   style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#userPackModal"
+                   data-toggle="modal">Đăng kí trải nghiệm</a>
             </div>
         </div>
     </div>
@@ -25,11 +28,16 @@
                                 <a href="#pablo">TẠI UP CO-WORKING SPACE</a>
                             </h3>
                             <p class="card-description">
-                                Bạn thấy làm việc ở nhà thiếu động lực và cảm hứng, làm việc ở quán café không yên tĩnh và bền vững? StartUp của bạn cảm thấy chật vật với chi phí thuê văn phòng? UP cung cấp không gian làm việc hiện đại, đầy đủ tiện nghi, chuyên nghiệp, truyền cảm hứng sáng tạo với mức giá hỗ trợ tối đa. Tìm hiểu về bảng giá, các gói thành viên của UP.
+                                Bạn thấy làm việc ở nhà thiếu động lực và cảm hứng, làm việc ở quán café không yên tĩnh
+                                và bền vững? StartUp của bạn cảm thấy chật vật với chi phí thuê văn phòng? UP cung cấp
+                                không gian làm việc hiện đại, đầy đủ tiện nghi, chuyên nghiệp, truyền cảm hứng sáng tạo
+                                với mức giá hỗ trợ tối đa. Tìm hiểu về bảng giá, các gói thành viên của UP.
                             </p>
                             <br>
                             <p class="author">
-                                <a class="btn btn-round btn-danger" style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" href="sections.html">Đăng kí </a>
+                                <a class="btn btn-round btn-danger"
+                                   style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)"
+                                   href="sections.html">Đăng kí </a>
                                 <br><br>
                             </p></div>
                     </div>
@@ -52,7 +60,8 @@
                             }</style>
                         <div class="embed-container">
                             <!-- Copy & Pasted from YouTube -->
-                            <iframe src="https://www.youtube.com/embed/IA5ozLBHHYg" frameborder="0" allowfullscreen></iframe>
+                            <iframe src="https://www.youtube.com/embed/IA5ozLBHHYg" frameborder="0"
+                                    allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -62,7 +71,9 @@
                 <div class="row">
                     <div class="col-md-8 ml-auto mr-auto text-center">
                         <h2 class="title">Why our product is the best</h2>
-                        <h5 class="description">This is the paragraph where you can write more details about your product. Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious, otherwise he wouldn't scroll to get here.</h5>
+                        <h5 class="description">This is the paragraph where you can write more details about your
+                            product. Keep you user engaged by providing meaningful information. Remember that by this
+                            time, the user is curious, otherwise he wouldn't scroll to get here.</h5>
                     </div>
                 </div>
 
@@ -74,7 +85,8 @@
                             </div>
                             <div class="description">
                                 <h4 class="info-title">Beautiful Gallery</h4>
-                                <p class="description">Spend your time generating new ideas. You don't have to think of implementing.</p>
+                                <p class="description">Spend your time generating new ideas. You don't have to think of
+                                    implementing.</p>
                             </div>
                         </div>
                     </div>
@@ -107,7 +119,8 @@
                             </div>
                             <div class="description">
                                 <h4 class="info-title">Delightful design</h4>
-                                <p>Find unique and handmade delightful designs related items directly from our sellers.</p>
+                                <p>Find unique and handmade delightful designs related items directly from our
+                                    sellers.</p>
                             </div>
                         </div>
                     </div>
@@ -116,7 +129,8 @@
         </div>
     </div>
 
-    <div class="page-header page-header-xs" style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
+    <div class="page-header page-header-xs"
+         style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
@@ -134,103 +148,114 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card card-blog">
-                        <div class="card-image">
-                            <a href="#pablo">
-                                <img class="img img-raised" src="http://up-co.vn/wp-content/uploads/3-1024x1024.jpeg">
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-category text-main-color">Enterprise</h6>
-                            <h5 class="card-title">
-                                <a href="#pablo">LinkedIn’s new desktop app arrives</a>
-                            </h5>
-                            <p class="card-description">
-                                LinkedIn is today launching its official desktop application for Windows 10, allowing the professional social networking service to... <br>
-                            </p>
-                            <hr>
-                            <div class="card-footer">
-                                <div class="author">
-                                    <a href="#pablo">
-                                        <img src="assets/img/faces/ayo-ogunseinde-2.jpg" alt="..." class="avatar img-raised">
-                                        <span>Mike John</span>
-                                    </a>
-                                </div>
-                                <div class="stats">
-                                    <i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read
+                @foreach($newestBlogs as $newestBlog)
+                    <div class="col-md-4">
+                        <div class="card card-blog">
+                            <div class="card-image">
+                                <a href="{{'/blog/post/'.$newestBlog->id}}">
+                                    <img class="img img-raised"
+                                         src="{{generate_protocol_url($newestBlog->url)}}">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-category text-main-color">{{$newestBlog->category->name}}</h6>
+                                <h5 class="card-title">
+                                    <a href="{{'/blog/post/'.$newestBlog->id}}">{{$newestBlog->title}}</a>
+                                </h5>
+                                <p class="card-description">
+                                    LinkedIn is today launching its official desktop application for Windows 10,
+                                    allowing the professional social networking service to... <br>
+                                </p>
+                                <hr>
+                                <div class="card-footer">
+                                    <div class="author">
+                                        <a href="{{'/blog/post/'.$newestBlog->id}}">
+                                            <img src="{{generate_protocol_url($newestBlog->author->avatar_url)}}" alt="..."
+                                                 class="avatar img-raised">
+                                            <span>{{$newestBlog->author->name}}</span>
+                                        </a>
+                                    </div>
+                                    <div class="stats">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-4">
-                    <div class="card card-blog">
-                        <div class="card-image">
-                            <a href="#pablo">
-                                <img class="img img-raised" src="http://up-co.vn/wp-content/uploads/4-1024x1024.jpeg">
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-category text-main-color">
-                                Startups
-                            </h6>
-                            <h5 class="card-title">
-                                <a href="#pablo">MIT’s Cheetah 3 robot is built to save lives</a>
-                            </h5>
-                            <p class="card-description">
-                                The latest version of MIT’s Cheetah robot made its stage debut today at TC Sessions: Robotics in Cambridge, Mass. It’s a familiar project... <br>
-                            </p>
-                            <hr>
-                            <div class="card-footer">
-                                <div class="author">
-                                    <a href="#pablo">
-                                        <img src="assets/img/faces/kaci-baum-2.jpg" alt="..." class="avatar img-raised">
-                                        <span>Nickie Kelly</span>
-                                    </a>
-                                </div>
-                                <div class="stats">
-                                    <i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    {{--<div class="col-md-4">--}}
+                        {{--<div class="card card-blog">--}}
+                            {{--<div class="card-image">--}}
+                                {{--<a href="#pablo">--}}
+                                    {{--<img class="img img-raised"--}}
+                                         {{--src="http://up-co.vn/wp-content/uploads/4-1024x1024.jpeg">--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="card-body">--}}
+                                {{--<h6 class="card-category text-main-color">--}}
+                                    {{--Startups--}}
+                                {{--</h6>--}}
+                                {{--<h5 class="card-title">--}}
+                                    {{--<a href="#pablo">MIT’s Cheetah 3 robot is built to save lives</a>--}}
+                                {{--</h5>--}}
+                                {{--<p class="card-description">--}}
+                                    {{--The latest version of MIT’s Cheetah robot made its stage debut today at TC Sessions:--}}
+                                    {{--Robotics in Cambridge, Mass. It’s a familiar project... <br>--}}
+                                {{--</p>--}}
+                                {{--<hr>--}}
+                                {{--<div class="card-footer">--}}
+                                    {{--<div class="author">--}}
+                                        {{--<a href="#pablo">--}}
+                                            {{--<img src="assets/img/faces/kaci-baum-2.jpg" alt="..."--}}
+                                                 {{--class="avatar img-raised">--}}
+                                            {{--<span>Nickie Kelly</span>--}}
+                                        {{--</a>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="stats">--}}
+                                        {{--<i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                <div class="col-md-4">
-                    <div class="card card-blog">
-                        <div class="card-image">
-                            <a href="#pablo">
-                                <img class="img img-raised" src="http://up-co.vn/wp-content/uploads/6-1024x1024.jpeg">
-                            </a>
-                        </div>
+                    {{--<div class="col-md-4">--}}
+                        {{--<div class="card card-blog">--}}
+                            {{--<div class="card-image">--}}
+                                {{--<a href="#pablo">--}}
+                                    {{--<img class="img img-raised"--}}
+                                         {{--src="http://up-co.vn/wp-content/uploads/6-1024x1024.jpeg">--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
 
-                        <div class="card-body">
-                            <h6 class="card-category text-main-color">
-                                Enterprise
-                            </h6>
-                            <h5 class="card-title">
-                                <a href="#pablo">Lionel Richie says “Hello” to startup investors</a>
-                            </h5>
-                            <p class="card-description">
-                                Because developing a doctor-on-demand service that would allow personalized medical visits, booked through an app on a user’s phone is... <br>
-                            </p>
-                            <hr>
-                            <div class="card-footer">
-                                <div class="author">
-                                    <a href="#pablo">
-                                        <img src="assets/img/faces/erik-lucatero-2.jpg" alt="..." class="avatar img-raised">
-                                        <span>Mike John</span>
-                                    </a>
-                                </div>
-                                <div class="stats">
-                                    <i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            {{--<div class="card-body">--}}
+                                {{--<h6 class="card-category text-main-color">--}}
+                                    {{--Enterprise--}}
+                                {{--</h6>--}}
+                                {{--<h5 class="card-title">--}}
+                                    {{--<a href="#pablo">Lionel Richie says “Hello” to startup investors</a>--}}
+                                {{--</h5>--}}
+                                {{--<p class="card-description">--}}
+                                    {{--Because developing a doctor-on-demand service that would allow personalized medical--}}
+                                    {{--visits, booked through an app on a user’s phone is... <br>--}}
+                                {{--</p>--}}
+                                {{--<hr>--}}
+                                {{--<div class="card-footer">--}}
+                                    {{--<div class="author">--}}
+                                        {{--<a href="#pablo">--}}
+                                            {{--<img src="assets/img/faces/erik-lucatero-2.jpg" alt="..."--}}
+                                                 {{--class="avatar img-raised">--}}
+                                            {{--<span>Mike John</span>--}}
+                                        {{--</a>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="stats">--}}
+                                        {{--<i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                @endforeach
             </div>
         </div>
     </div>
@@ -240,19 +265,33 @@
                 <div class="row">
                     <div class="col-md-8 ml-auto mr-auto text-center">
                         <h2 class="title">Why our product is the best</h2>
-                        <h5 class="description">This is the paragraph where you can write more details about your product. Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious, otherwise he wouldn't scroll to get here.</h5>
+                        <h5 class="description">This is the paragraph where you can write more details about your
+                            product. Keep you user engaged by providing meaningful information. Remember that by this
+                            time, the user is curious, otherwise he wouldn't scroll to get here.</h5>
                     </div>
                 </div>
                 <div class="row">
 
                     <div class="col-md-2 mr-auto">
                         <div class="testimonials-people">
-                            <img class="left-first-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/110862/thumb.?1482812727" alt="">
-                            <img class="left-second-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/139481/thumb.jpg?1485460613" alt="">
-                            <img class="left-third-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/152441/thumb.jpg?1488233314" alt="">
-                            <img class="left-fourth-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/134607/thumb.?1487680276" alt="">
-                            <img class="left-fifth-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/161506/thumb.?1489848178" alt="">
-                            <img class="left-sixth-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/77627/thumb.jpg?1487360092" alt="">
+                            <img class="left-first-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/110862/thumb.?1482812727"
+                                 alt="">
+                            <img class="left-second-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/139481/thumb.jpg?1485460613"
+                                 alt="">
+                            <img class="left-third-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/152441/thumb.jpg?1488233314"
+                                 alt="">
+                            <img class="left-fourth-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/134607/thumb.?1487680276"
+                                 alt="">
+                            <img class="left-fifth-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/161506/thumb.?1489848178"
+                                 alt="">
+                            <img class="left-sixth-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/77627/thumb.jpg?1487360092"
+                                 alt="">
                         </div>
                     </div>
 
@@ -269,11 +308,13 @@
                                     <div class="carousel-item">
                                         <div class="card card-testimonial card-plain">
                                             <div class="card-avatar">
-                                                <img class="img" src="https://s3.amazonaws.com/uifaces/faces/twitter/mlane/128.jpg">
+                                                <img class="img"
+                                                     src="https://s3.amazonaws.com/uifaces/faces/twitter/mlane/128.jpg">
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-description">
-                                                    "I'm newer to the front-end... With my creative side lacking in experience this!"
+                                                    "I'm newer to the front-end... With my creative side lacking in
+                                                    experience this!"
                                                 </h5>
                                                 <div class="card-footer">
                                                     <h4 class="card-title">Chase Jackson</h4>
@@ -294,11 +335,13 @@
                                     <div class="carousel-item">
                                         <div class="card card-testimonial card-plain">
                                             <div class="card-avatar">
-                                                <img class="img" src="https://s3.amazonaws.com/creativetim_bucket/photos/134607/thumb.?1487680276">
+                                                <img class="img"
+                                                     src="https://s3.amazonaws.com/creativetim_bucket/photos/134607/thumb.?1487680276">
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-description">
-                                                    "Love the shapes and color palette on this one! Perfect for one of my pet projects!"
+                                                    "Love the shapes and color palette on this one! Perfect for one of
+                                                    my pet projects!"
                                                 </h5>
                                                 <div class="card-footer">
                                                     <h4 class="card-title">Robin Leysen</h4>
@@ -319,7 +362,8 @@
                                     <div class="carousel-item active">
                                         <div class="card card-testimonial card-plain">
                                             <div class="card-avatar">
-                                                <img class="img" src="https://s3.amazonaws.com/creativetim_bucket/photos/125268/thumb.jpeg?1497799215">
+                                                <img class="img"
+                                                     src="https://s3.amazonaws.com/creativetim_bucket/photos/125268/thumb.jpeg?1497799215">
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-description">
@@ -341,11 +385,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="left carousel-control carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+                                <a class="left carousel-control carousel-control-prev"
+                                   href="#carouselExampleIndicators2" role="button" data-slide="prev">
                                     <span class="fa fa-angle-left"></span>
                                     <span class="sr-only">Previous</span>
                                 </a>
-                                <a class="right carousel-control carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">
+                                <a class="right carousel-control carousel-control-next"
+                                   href="#carouselExampleIndicators2" role="button" data-slide="next">
                                     <span class="fa fa-angle-right"></span>
                                     <span class="sr-only">Next</span>
                                 </a>
@@ -355,12 +401,23 @@
 
                     <div class="col-md-2 ml-auto">
                         <div class="testimonials-people">
-                            <img class="right-first-person add-animation" src="https://s3.amazonaws.com/uifaces/faces/twitter/mlane/128.jpg" alt="">
-                            <img class="right-second-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/125268/thumb.jpeg?1497799215" alt="">
-                            <img class="right-third-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/123334/thumb.JPG?1479459618" alt="">
-                            <img class="right-fourth-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/118235/thumb.?1477435947" alt="">
-                            <img class="right-fifth-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/18/thumb.png?1431433244" alt="">
-                            <img class="right-sixth-person add-animation" src="https://s3.amazonaws.com/creativetim_bucket/photos/167683/thumb.?1491014996" alt="">
+                            <img class="right-first-person add-animation"
+                                 src="https://s3.amazonaws.com/uifaces/faces/twitter/mlane/128.jpg" alt="">
+                            <img class="right-second-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/125268/thumb.jpeg?1497799215"
+                                 alt="">
+                            <img class="right-third-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/123334/thumb.JPG?1479459618"
+                                 alt="">
+                            <img class="right-fourth-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/118235/thumb.?1477435947"
+                                 alt="">
+                            <img class="right-fifth-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/18/thumb.png?1431433244"
+                                 alt="">
+                            <img class="right-sixth-person add-animation"
+                                 src="https://s3.amazonaws.com/creativetim_bucket/photos/167683/thumb.?1491014996"
+                                 alt="">
                         </div>
                     </div>
 
@@ -375,11 +432,8 @@
         <div class="cd-section section-white" id="contact-us">
 
 
-
-
-
-
-            <div class="contactus-1 section-image" style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
+            <div class="contactus-1 section-image"
+                 style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg')">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
@@ -421,23 +475,27 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group label-floating">
                                                             <label class="control-label">Họ</label>
-                                                            <input type="text" name="name" class="form-control" placeholder="Ví dụ: Nguyễn">
+                                                            <input type="text" name="name" class="form-control"
+                                                                   placeholder="Ví dụ: Nguyễn">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group label-floating">
                                                             <label class="control-label">Tên</label>
-                                                            <input type="text" name="name" class="form-control" placeholder="Ví dụ: Lan Anh">
+                                                            <input type="text" name="name" class="form-control"
+                                                                   placeholder="Ví dụ: Lan Anh">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Email</label>
-                                                    <input type="email" name="email" class="form-control" placeholder="Ví dụ: android@colorme.vn">
+                                                    <input type="email" name="email" class="form-control"
+                                                           placeholder="Ví dụ: android@colorme.vn">
                                                 </div>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Lời nhắn</label>
-                                                    <textarea name="question" class="form-control" id="message" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
+                                                    <textarea name="question" class="form-control" id="message" rows="6"
+                                                              placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
                                                 </div>
 
                                                 <div class="row">
@@ -450,8 +508,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <button type="submit" class="btn pull-right" style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)">Gửi tin nhắn
-                                                        </button></div>
+                                                        <button type="submit" class="btn pull-right"
+                                                                style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)">
+                                                            Gửi tin nhắn
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
