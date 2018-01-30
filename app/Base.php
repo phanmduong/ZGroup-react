@@ -47,6 +47,7 @@ class Base extends Model
             "avatar_url" => $this->avatar_url ? $this->avatar_url : "",
             "description" => $this->description,
             "images_url" => $this->images_url ? $this->images_url : "",
+            "address" => $this->address ? $this->address : "",
         ];
     }
 

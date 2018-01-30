@@ -45,12 +45,14 @@
                                        style="padding: 3px; margin: 3px; font-size: 10px;"></a></h6><br></div>
                         </div>
                         <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
-                            <div style="text-align: right;"><a href="http://graphics.vn/book/9"
-                                                               class="btn btn-link btn-success"
-                                                               style="padding: 3px; margin: 3px; font-size: 10px;">
+                            <div style="text-align: right;">
+                                <a href="/book/{{$product->id}}"
+                                   class="btn btn-link btn-success"
+                                   style="padding: 3px; margin: 3px; font-size: 10px;">
                                     Xem thêm
                                 </a>
-                                <button class="btn btn-success" style="padding: 3px; margin: 3px; font-size: 10px;">
+                                <button v-on:click="openModalBuy({{$product->id}})" class="btn btn-success"
+                                        style="padding: 3px; margin: 3px; font-size: 10px;">
                                     Đặt mua ngay <i class="fa fa-angle-right"></i></button>
                             </div>
                         </div>

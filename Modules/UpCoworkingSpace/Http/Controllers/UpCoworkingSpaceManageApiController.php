@@ -100,6 +100,19 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         return $this->respondSuccess('Tạo gói thành viên thành công');
     }
 
+    public function editSubscriptions($userPackId, $subcriptionId, Request $request)
+    {
+        $subscription = RoomServiceSubscription::find($subcriptionId);
+        $subscription->user_pack_id = $userPackId;
+        $subscription->description = $request->description;
+        $subscription->price = $request->price;
+        $subscription->subscription_kind_id = $request->subscription_kind_id;
+
+        $subscription->save();
+
+        return $this->respondSuccess('Sửa gói thành viên thành công');
+    }
+
     public function getSubscriptionKinds(Request $request)
     {
         $search = $request->search;
@@ -159,10 +172,12 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
             "message" => "Sửa thành công"
         ]);
     }
-    public function changeStatusUserPack($userPackId,Request $request){
+
+    public function changeStatusUserPack($userPackId, Request $request)
+    {
         $userPack = RoomServiceUserPack::find($userPackId);
         if (!$userPack) return $this->respondErrorWithStatus("Không tồn tại");
-        $userPack->status = 1-$userPack->status;
+        $userPack->status = 1 - $userPack->status;
         $userPack->save();
         return $this->respondSuccessWithStatus([
             "message" => "Đổi thành công"

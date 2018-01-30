@@ -33,7 +33,6 @@ class Room extends Model
             'seats_count' => $this->seats_count,
             'images_url' => $this->images_url,
             'avatar_url' => $this->avatar_url,
-            'address' => $this->address,
         ];
     }
 }

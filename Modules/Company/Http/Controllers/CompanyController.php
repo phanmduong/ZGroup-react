@@ -169,7 +169,7 @@ class CompanyController extends ManageApiController
         $payment->money_value = $request->money_value;
         $payment->payer_id = $request->payer_id;
         $payment->receiver_id = $request->receiver_id;
-
+        $payment->type = "done";
         $payment->save();
         return $this->respondSuccessWithStatus([
            "message" => "Thành công"
@@ -214,7 +214,7 @@ class CompanyController extends ManageApiController
         }
         $payments = $payments->orderBy('created_at','desc')->paginate($limit);
         $summary_money = $payments->reduce(function($total,$payment){
-            if($payment->type == "debt") return $total - $payment->money_value;
+            if($payment->type != "done") return $total - $payment->money_value;
             else return $total + $payment->money_value;
         },0);
 
@@ -403,6 +403,36 @@ class CompanyController extends ManageApiController
         if(!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
         return $this->respondSuccessWithStatus([
             "exportOrder" => $exportorder->transform()
+        ]);
+    }
+    public function changeStatusPrintOrder($printOrderId,Request $request){
+        $printOrder = PrintOrder::find($printOrderId);
+        if(!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
+        $printOrder->status = 1;
+        $printOrder->save();
+        $payment = new Payment;
+        $payment->type = "debt_print";
+        $payment->payer = 1;
+        $payment->receiver = $printOrder->company_id;
+        $payment->money_value = $printOrder->quantity * $printOrder->price *1.1;
+        $payment->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi thành công"
+        ]);
+    }
+    public function changeStatusExportOrder($exportOrderId,Request $request){
+        $exportorder = ExportOrder::find($exportOrderId);
+        if(!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
+        $exportorder->status = 1;
+        $exportorder->save();
+        $payment = new Payment;
+        $payment->type = "debt_export";
+        $payment->payer = 1;
+        $payment->receiver = $exportorder->company_id;
+        $payment->money_value = $exportorder->total_price;
+        $payment->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi thành công"
         ]);
     }
 }

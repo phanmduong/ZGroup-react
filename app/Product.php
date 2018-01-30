@@ -76,7 +76,8 @@ class Product extends Model
                 "name" => $this->author->name,
                 "avatar_url" => $this->author->avatar_url
             ],
-            "title" => $this->title
+            "title" => $this->title,
+            "category" => $this->category ? $this->category->name : null,
         ];
     }
 
