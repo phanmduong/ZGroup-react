@@ -49,7 +49,9 @@ class CompanyContainer extends React.Component {
     }
 
     loadCompanies(page = 1) {
-        this.setState({page});
+        this.setState({
+            page
+        });
         this.props.CompanyActions.loadCompanies(page);
     }
 

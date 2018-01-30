@@ -2,14 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import Loading from "../../components/common/Loading";
-import Pagination from "../../components/common/Pagination";
-import  * as printOrderActions from "./printOrderActions";
-import ListPrintOrder from  "./ListPrintOrder";
-//import Search                   from "../../components/common/Search";
+import Loading from "../../../components/common/Loading";
+import Pagination from "../../../components/common/Pagination";
+import  * as exportOrderActions from "./exportOrderActions";
+//import Search from "../../../components/common/Search";
 import {Link} from "react-router";
+import ListExportGood from "./ListExportOrder";
 
-class PrintOrderContainer extends React.Component {
+class ExportOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -19,7 +19,7 @@ class PrintOrderContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.printOrderActions.loadPrintOrders();
+        this.props.exportOrderActions.loadExportOrders();
     }
 
     // componentWillReceiveProps(nextProps) {
@@ -28,7 +28,7 @@ class PrintOrderContainer extends React.Component {
 
 
     render() {
-        let {paginator, printOrderActions} = this.props;
+       let {isLoading, paginator, exportOrderActions} = this.props;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -37,32 +37,32 @@ class PrintOrderContainer extends React.Component {
 
                             <div className="card">
                                 <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">print</i>
+                                    <i className="material-icons">local_shipping</i>
                                 </div>
 
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách đặt in</h4>
+                                    <h4 className="card-title">Danh sách xuất hàng</h4>
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="col-sm-3">
-                                                <Link to="/business/print-order/create" className="btn btn-rose" style={{width: "100%"}}>
-                                                    Đặt In
+                                                <Link to="/business/export-order/create" className="btn btn-rose" style={{width: "100%"}}>
+                                                    Xuất hàng
                                                 </Link>
                                             </div>
                                             {/*<Search className="col-sm-9" placeholder="Tìm kiếm"*/}
-                                                {/*value={this.state.query}*/}
-                                                {/*onChange={()=>{}}*/}
+                                                    {/*value={this.state.query}*/}
+                                                    {/*onChange={()=>{}}*/}
                                             {/*/>*/}
                                         </div>
                                     </div>
                                     {
-                                        this.props.isLoading ? <Loading/>:
-                                            <ListPrintOrder/>
+                                        isLoading ? <Loading/> :
+                                            <ListExportGood/>
                                     }
                                     <Pagination
                                         currentPage={paginator.current_page}
                                         totalPages={paginator.total_pages}
-                                        loadDataPage={printOrderActions.loadPrintOrders}/>
+                                        loadDataPage={exportOrderActions.loadExportOrders}/>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@ class PrintOrderContainer extends React.Component {
     }
 }
 
-PrintOrderContainer.propTypes = {
+ExportOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     user: PropTypes.object,
     paginator: PropTypes.object,
@@ -89,8 +89,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        printOrderActions: bindActionCreators(printOrderActions, dispatch),
+        exportOrderActions: bindActionCreators(exportOrderActions, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrintOrderContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ExportOrderContainer);

@@ -1,37 +1,37 @@
 import React                            from 'react';
 import PropTypes                        from 'prop-types';
-import ButtonGroupAction                from "../../components/common/ButtonGroupAction";
+import ButtonGroupAction                from "../../../components/common/ButtonGroupAction";
 import {connect}                        from 'react-redux';
-import  * as printOrderActions from "./printOrderActions";
+import  * as exportOrderActions from "./exportOrderActions";
 import {bindActionCreators}             from 'redux';
-import * as helper from "../../helpers/helper";
+import * as helper from "../../../helpers/helper";
 
-class ListPrintOrder extends React.Component {
+class ListExportOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            
+
         };
         this.confirm = this.confirm.bind(this);
     }
 
     // componentWillReceiveProps(nextProps) {
-    //     console.log("nextProps",nextProps);
+    //     console.log("next list props",nextProps);
     // }
 
     confirm(id){
         helper.confirm("warning","Xác Nhận Duyệt","Sau khi duyệt sẽ không thể hoàn tác?",
-            ()=>{return this.props.printOrderActions.confirmOrder(id,
+            ()=>{return this.props.exportOrderActions.confirmOrder(id,
                 ()=>{
                     helper.showNotification("Duyệt thành công.");
-                    return this.props.printOrderActions.loadPrintOrders(this.props.paginator.current_page);
+                    return this.props.exportOrderActions.loadExportOrders(this.props.paginator.current_page);
                 }
-                );}
+            );}
         );
     }
 
     render() {
-        let {listPrintOrder} = this.props;
+        let {listExportOrder} = this.props;
         return (
             <div className="table-responsive">
 
@@ -41,44 +41,31 @@ class ListPrintOrder extends React.Component {
                     <thead className="text-rose">
                     <tr>
                         <th>STT</th>
-                        <th>Mã giao dịch</th>
-                        <th>Đối tác</th>
-                        <th>Tên sách</th>
+                        <th>Nhà phân phối</th>
+                        <th>Tên sản phầm</th>
+                        <th>Tên kho</th>
+                        <th>Đơn giá</th>
                         <th>Số lượng</th>
-                        <th>Ngày đặt</th>
-                        <th>Ngày nhận</th>
-                        <th>Trạng thái</th>
-                        <th style={{width: "10%"}}>Ghi chú</th>
+                        <th>Tổng tiền</th>
                         <th/>
                     </tr>
                     </thead>
                     <tbody>
-                    {listPrintOrder.map((order, index)=>{
+                    {listExportOrder.map((order, index)=>{
                         return(
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>{order.command_code ?
-                                    <a className="text-name-student-register"> {order.command_code}</a>
-                                    :
-                                    "Chưa có"
-                                }</td>
                                 <td>{order.company.name}</td>
                                 <td>{order.good.name}</td>
+                                <td>{order.warehouse.name}</td>
+                                <td>{order.price}</td>
                                 <td>{order.quantity}</td>
-                                <td>{order.order_date}</td>
-                                <td>{order.receive_date}</td>
-                                <td>{order.status ? "Đã duyệt" : "Chưa duyệt"}</td>
-                                <td style={{wordBreak: "break-word"}}>{
-                                    order.note.length > 60 ?
-                                        (order.note.substring(0,60)  + "...")
-                                        :
-                                        order.note
-                                }</td>
+                                <td>{order.total_price}</td>
                                 <td><ButtonGroupAction
-                                    editUrl={"/business/print-order/edit/" + order.id}
+                                    editUrl={"/business/export-order/edit/" + order.id}
                                     disabledDelete={true}
                                     children= {
-                                         !order.status &&
+                                        !order.status &&
                                         <a data-toggle="tooltip" title="Duyệt"
                                            type="button"
                                            onClick={()=>{return this.confirm(order.id);}}
@@ -99,26 +86,26 @@ class ListPrintOrder extends React.Component {
 }
 
 
-ListPrintOrder.propTypes = { 
+ListExportOrder.propTypes = {
     isLoading : PropTypes.bool,
-    listPrintOrder : PropTypes.array,
+    listExportOrder : PropTypes.array,
     paginator: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.printOrder.isLoading,
-        listPrintOrder: state.printOrder.listPrintOrder,
-        paginator: state.printOrder.paginator,
+        isLoading: state.exportOrder.isLoading,
+        listExportOrder: state.exportOrder.listExportOrder,
+        paginator: state.exportOrder.paginator,
     };
 }
 
 
 function mapDispatchToProps(dispatch) {
     return {
-        printOrderActions: bindActionCreators(printOrderActions, dispatch)
+        exportOrderActions: bindActionCreators(exportOrderActions, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListPrintOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(ListExportOrder);
 
