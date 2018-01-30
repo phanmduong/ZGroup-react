@@ -202,7 +202,7 @@ class InventoryOrderContainer extends React.Component {
                                                     />
                                                     <div className="col-lg-2 col-md-2 col-sm-2">
                                                         <button type="button" data-toggle="collapse" data-target="#demo"
-                                                                className="btn btn-info">
+                                                                className="btn btn-rose">
                                                             <i className="material-icons">filter_list</i> Lọc
                                                         </button>
                                                     </div>

@@ -242,7 +242,6 @@ export function resetForm() {
 }
 
 export function changeStatus(id, status,name) {
-    console.log(id,status);
     return function (dispatch) {
         dispatch({
             type: types.CHANGE_STATUS_IN_BLOG,

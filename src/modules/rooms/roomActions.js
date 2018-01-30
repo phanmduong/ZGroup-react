@@ -21,6 +21,66 @@ export function loadBasesData() {
     };
 }
 
+export function changeAvatar(file) {
+    return function (dispatch) {
+        const error = () => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const data = JSON.parse(event.currentTarget.responseText);
+            helper.showNotification("Tải lên ảnh đại diện thành công");
+            dispatch({
+                type: types.UPLOAD_ROOM_AVATAR_COMPLETE,
+                avatar_url: data.url
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_ROOM_AVATAR_PROGRESS,
+                percent: percentComplete
+            });
+        };
+
+        dispatch({
+            type: types.BEGIN_UPLOAD_ROOM_AVATAR
+        });
+        roomApi.changeAvatarApi(file,
+            completeHandler, progressHandler, error);
+    };
+}
+
+
+export function changeImage(file, length, first_length) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_UPLOAD_IMAGE_ROOM
+        });
+        const error = () => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const data = JSON.parse(event.currentTarget.responseText);
+            helper.showNotification("Tải lên ảnh thành công");
+            dispatch({
+                type: types.UPLOAD_IMAGE_COMPLETE_ROOM,
+                image: data.url,
+                length,
+                first_length
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_ROOM_AVATAR_PROGRESS,
+                percent: percentComplete
+            });
+        };
+        roomApi.changeAvatarApi(file,
+            completeHandler, progressHandler, error);
+    };
+}
+
 export function loadRoomsData(page, search, baseId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ROOMS_DATA});
@@ -37,6 +97,13 @@ export function loadRoomsData(page, search, baseId) {
                 type: types.LOAD_ROOMS_DATA_ERROR
             });
         });
+    };
+}
+
+export function deleteImage(image) {
+    return {
+        type: types.DELETE_IMAGE_ROOM,
+        image
     };
 }
 
@@ -59,5 +126,40 @@ export function storeRoom(room, closeModal) {
                 type: types.STORE_ROOM_DATA_ERROR
             });
         });
+    };
+}
+
+export function editRoom(room) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_STORE_ROOM_DATA});
+        helper.showTypeNotification("Đang sửa phòng học", "info");
+        roomApi.editRoom(room)
+            .then(function (res) {
+                if (res.data.status) {
+                    helper.showNotification("Sửa phòng học thành công.");
+                    dispatch({
+                        type: types.EDIT_ROOM_DATA_SUCCESS
+                    });
+                } else {
+                    dispatch({
+                        type: types.STORE_ROOM_DATA_ERROR
+                    });
+                    helper.showTypeNotification(res.data.message.message, "warning");
+                }
+            });
+    };
+}
+
+export function showRoomEditModal(index) {
+    return {
+        type: types.TOGGLE_ROOM_EDIT_MODAL,
+        index
+    };
+}
+
+export function handleRoomEditModal(room) {
+    return {
+        type: types.HANDLE_ROOM_EDIT_MODAL,
+        room
     };
 }

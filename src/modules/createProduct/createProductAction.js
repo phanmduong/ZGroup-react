@@ -46,6 +46,18 @@ export function getPropertiesCreateProduct() {
     };
 }
 
+export function getWarehouseListCreateProduct() {
+    return function (dispatch) {
+        createProductApi.getWarehouseListApi()
+            .then(function (response) {
+                dispatch({
+                    type: types.GET_WAREHOUSES_CREATE_PRODUCT,
+                    warehousesList: response.data.data.warehouses
+                });
+            });
+    };
+}
+
 export function getCategoriesCreateProduct() {
     return function (dispatch) {
         createProductApi.getCategoriesApi()
@@ -216,6 +228,26 @@ export function saveProductEdit(product) {
             .then(function () {
                 browserHistory.push("/good/goods/products");
                 helper.showNotification("Thêm sản phẩm thành công");
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function importOrder(product) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        createProductApi.importOrderApi(product)
+            .then(function (res) {
+                if (res.data.status) {
+                    browserHistory.push("/order/orders");
+                    helper.showNotification("Đã nhập vào kho hàng sẵn");
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
                 });
