@@ -229,14 +229,14 @@ class CompanyController extends ManageApiController
             $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
             $payments = $payments->whereBetween('created_at', array($start_time, $end_time));
         }
-        $payments = $payments->orderBy('created_at', 'desc')->paginate($limit);
+
         $summary_money = $payments->reduce(function ($total, $payment) {
             if ($payment->payer_id == 1 || $payment->receiver_id == 1) {
                 if ($payment->type != "done") return $total - $payment->money_value;
                 else return $total + $payment->money_value;
             }
         }, 0);
-
+        $payments = $payments->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($payments, [
             "payment" => $payments->map(function ($payment) {
                 return $payment->transform();
