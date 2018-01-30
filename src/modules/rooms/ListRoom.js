@@ -2,7 +2,6 @@ import React from 'react';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import Loading from "../../components/common/Loading";
 import PropTypes from "prop-types";
-import {Link} from "react-router";
 
 class ListRoom extends React.Component {
     constructor(props, context) {

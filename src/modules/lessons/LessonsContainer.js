@@ -238,7 +238,6 @@ class LessonsContainer extends React.Component {
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.audio_url}
                                     disabled={this.props.isLoading}
-                                    required
                                 /></div>
                                     <div className="col-md-12">
                                 <FormInputText
