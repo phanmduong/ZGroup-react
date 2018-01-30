@@ -56,7 +56,8 @@ class Notification extends Model
             "url" => $this->url,
             "object_id" => $this->product_id,
             'image_url' => $this->image_url,
-            "message" => $this->message
+            "message" => $this->message,
+            "content" => $this->content,
         ];
         return $data;
     }

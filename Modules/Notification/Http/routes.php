@@ -10,4 +10,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'noti
     Route::post('/notification-type/send', 'NotificationManageApiController@sendNotification');
 });
 
+Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'notification', 'namespace' => 'Modules\Notification\Http\Controllers'], function () {
+    Route::get('/{notificationId}', 'NotificationApiController@getNotification');
+});
+
 
