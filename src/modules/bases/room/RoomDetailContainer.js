@@ -44,14 +44,21 @@ class RoomDetailContainer extends React.Component {
                 <CreateSeatModalContainer
                     roomId={this.props.params.roomId}
                 />
-                <RoomGrid
-                    onClick={this.onClick}
-                    onDrag={this.onDrag}
-                    onPointClick={this.onPointClick}
-                    roomId={Number(this.props.params.roomId)}
-                    data={this.props.seats}
-                    domain={this.props.domain}
-                />
+                <div style={{
+                    display: "flex"
+                }}>
+                    <div>abc</div>
+                    <div>
+                        <RoomGrid
+                            onClick={this.onClick}
+                            onDrag={this.onDrag}
+                            onPointClick={this.onPointClick}
+                            roomId={Number(this.props.params.roomId)}
+                            data={this.props.seats}
+                            domain={this.props.domain}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }
