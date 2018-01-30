@@ -31,7 +31,7 @@ export function editPayment(id,object){
     });
 
 }
-export function loadPayments(page,company_id,start_time,end_time){
+export function loadPayments(page,company_id,start_time,end_time,type){
     let url = env.MANAGE_API_URL + '/company/payment/all';
     let token = localStorage.getItem('token');
     if (token) {
@@ -42,6 +42,9 @@ export function loadPayments(page,company_id,start_time,end_time){
     }
     if(start_time && end_time){
         url += "&start_time=" + start_time + "&end_time=" + end_time;
+    }
+    if(type){
+        url += "&type=" + type;
     }
 
     return axios.get(url);

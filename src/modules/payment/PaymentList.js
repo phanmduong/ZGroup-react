@@ -21,6 +21,7 @@ class PaymentList extends React.Component {
                         <th>Bên nhận</th>
                         <th>Số tiền</th>
                         <th>Nội dung</th>
+                        <th>Loại</th>
                         <th/>
                         <th/>
                     </tr>
@@ -35,6 +36,10 @@ class PaymentList extends React.Component {
                                     <td>{pp.receiver.name}</td>
                                     <td>{pp.money_value}</td>
                                     <td> {pp.description ? pp.description : "Không có"}</td>
+                                    <td>{
+                                        (pp.type === "debt_print") ? "Đặt in": (pp.type=== "debt_export")?
+                                            "Xuất hàng" : "Thanh toán"
+                                    }</td>
                                     <td>
                                         <div className="btn-group-action">
                                             <div style={{display: "inline-block"}}>

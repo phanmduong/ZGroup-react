@@ -1703,7 +1703,8 @@ export default {
         isLoadingCompanies: false,
         link: "",
         percent: 0,
-        payment: {
+        summary_money: 0,
+        payment: [{
             id: 0,
             money_value: 0,
             bill_image_url: "",
@@ -1716,7 +1717,7 @@ export default {
                 account_number: "",
             },
             description: "",
-        },
+        }],
         company: [],
         paginator: {
             total_count: 0,

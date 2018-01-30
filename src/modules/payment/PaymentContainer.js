@@ -28,9 +28,10 @@ class PaymentContainer extends React.Component {
             showInfoModal: false,
             openFilter: false,
             company_id: "",
-            time:{
-              startTime: '',
-              endTime: '',
+            type: "",
+            time: {
+                startTime: '',
+                endTime: '',
             },
             payment: {
                 payer: {
@@ -49,6 +50,7 @@ class PaymentContainer extends React.Component {
         this.changeCompanies = this.changeCompanies.bind(this);
         this.selectedCompany = this.selectedCompany.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
+        this.selectedType = this.selectedType.bind(this);
     }
 
     componentWillMount() {
@@ -80,12 +82,18 @@ class PaymentContainer extends React.Component {
     }
 
     selectedCompany(e) {
-        let value = e ? e.value :"";
+        let value = e ? e.value : "";
         this.setState({company_id: value});
-        this.props.PaymentActions.loadPayments(1,value);
+        this.props.PaymentActions.loadPayments(1, value,this.state.time.startTime,this.state.time.endTime,this.state.type);
 
     }
-    updateFormDate(event){
+    selectedType(e) {
+        let value = e ? e.value : "";
+        this.setState({type: value});
+        this.props.PaymentActions.loadPayments(1, this.state.company_id,this.state.time.startTime,this.state.time.endTime,value);
+
+    }
+    updateFormDate(event) {
         const field = event.target.name;
         let time = {...this.state.time};
         time[field] = event.target.value;
@@ -95,6 +103,7 @@ class PaymentContainer extends React.Component {
                 this.state.company_id,
                 time.startTime,
                 time.endTime,
+                this.state.type,
             );
             this.setState({
                 time: time,
@@ -107,114 +116,165 @@ class PaymentContainer extends React.Component {
             });
         }
     }
+
     closeInfoModal() {
         this.setState({showInfoModal: false});
     }
 
     render() {
+        console.log(this.props.summary_money);
         return (
-            <div className="content">
-                <InfoPaymentModal
-                    show={this.state.showInfoModal}
-                    onHide={this.closeInfoModal}
-                    data={this.state.payment}
-                />
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-12">
+            <div>
+                <div className="content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-12">
 
-                            <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">home</i>
-                                </div>
+                                <div className="card">
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">equalizer</i>
+                                    </div>
 
-                                <div className="card-content">
-                                    <h4 className="card-title">Quản lý danh sách hóa đơn</h4>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="col-md-3">
-                                                <Link className="btn btn-rose" to="/business/company/payment/create">
-                                                    <i className="material-icons keetool-card">add</i>
-                                                    Tạo hóa đơn
-                                                </Link>
-                                            </div>
-                                            <div className="col-md-7">
-                                            </div>
-                                            <div className="col-md-2">
-                                                <button className="btn btn-info btn-rose"
-                                                        onClick={() => this.setState({openFilter: !this.state.openFilter})}>
-                                                    <i className="material-icons">filter_list</i>
-                                                    Lọc
-                                                </button>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Doanh thu</h4>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <h3 className="card-title">  {this.props.summary_money} </h3>
                                             </div>
                                         </div>
                                     </div>
-                                    <Panel collapsible expanded={this.state.openFilter}>
-                                        <div className="col-md-12">
-                                            <div className="row">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="content">
+                    <InfoPaymentModal
+                        show={this.state.showInfoModal}
+                        onHide={this.closeInfoModal}
+                        data={this.state.payment}
+                    />
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-12">
+
+                                <div className="card">
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">home</i>
+                                    </div>
+
+                                    <div className="card-content">
+                                        <h4 className="card-title">Quản lý danh sách hóa đơn</h4>
+                                        <div className="row">
+                                            <div className="col-md-12">
                                                 <div className="col-md-3">
-                                                    <label>
-                                                        Tìm kiếm theo công ty
-                                                    </label>
-                                                    <Select
-                                                        options={this.changeCompanies()}
-                                                        value={this.state.company_id}
-                                                        onChange={this.selectedCompany}
-                                                    />
+                                                    <Link className="btn btn-rose"
+                                                          to="/business/company/payment/create">
+                                                        <i className="material-icons keetool-card">add</i>
+                                                        Tạo hóa đơn
+                                                    </Link>
                                                 </div>
-                                                <div className="col-md-3">
-                                                    <FormInputDate
-                                                        label="Từ ngày"
-                                                        name="startTime"
-                                                        updateFormData={this.updateFormDate}
-                                                        id="form-start-time"
-                                                        value={this.state.time.startTime}
-                                                        maxDate={this.state.time.endTime}
-                                                    />
+                                                <div className="col-md-7">
                                                 </div>
-                                                <div className="col-md-3">
-                                                    <FormInputDate
-                                                        label="Đến ngày"
-                                                        name="endTime"
-                                                        updateFormData={this.updateFormDate}
-                                                        id="form-end-time"
-                                                        value={this.state.time.endTime}
-                                                        minDate={this.state.time.startTime}
-                                                    />
+                                                <div className="col-md-2">
+                                                    <button className="btn btn-info btn-rose"
+                                                            onClick={() => this.setState({openFilter: !this.state.openFilter})}>
+                                                        <i className="material-icons">filter_list</i>
+                                                        Lọc
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </Panel>
+                                        <Panel collapsible expanded={this.state.openFilter}>
+                                            <div className="col-md-12">
+                                                <div className="row">
+                                                    <div className="col-md-6">
+                                                        <FormInputDate
+                                                            label="Từ ngày"
+                                                            name="startTime"
+                                                            updateFormData={this.updateFormDate}
+                                                            id="form-start-time"
+                                                            value={this.state.time.startTime}
+                                                            maxDate={this.state.time.endTime}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        <FormInputDate
+                                                            label="Đến ngày"
+                                                            name="endTime"
+                                                            updateFormData={this.updateFormDate}
+                                                            id="form-end-time"
+                                                            value={this.state.time.endTime}
+                                                            minDate={this.state.time.startTime}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        <label>
+                                                            Tìm kiếm theo công ty
+                                                        </label>
+                                                        <Select
+                                                            options={this.changeCompanies()}
+                                                            value={this.state.company_id}
+                                                            onChange={this.selectedCompany}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        <label>
+                                                            Tìm kiếm theo loại
+                                                        </label>
+                                                        <Select
+                                                            options={[
+                                                                {
+                                                                    value: "done",
+                                                                    label: "Thanh toán"
+                                                                },
+                                                                {
+                                                                    value: "debt_print",
+                                                                    label: "Đặt in"
+                                                                },
+                                                                {
+                                                                    value: "debt_export",
+                                                                    label: "Xuất hàng"
+                                                                }
+                                                            ]}
+                                                            value={this.state.type}
+                                                            onChange={this.selectedType}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Panel>
 
-                                    {
-                                        this.props.isLoadingPayments ? <Loading/> :
-                                            <PaymentList
-                                                data={this.props.data || []}
-                                                openInfoModal={this.openInfoModal}
-                                            />
-                                    }
-                                    <ul className="pagination pagination-primary">
-                                        {_.range(1, this.props.paginator.total_pages + 1).map(page => {
+                                        {
+                                            this.props.isLoadingPayments ? <Loading/> :
+                                                <PaymentList
+                                                    data={this.props.data || []}
+                                                    openInfoModal={this.openInfoModal}
+                                                />
+                                        }
+                                        <ul className="pagination pagination-primary">
+                                            {_.range(1, this.props.paginator.total_pages + 1).map(page => {
 
-                                            if (Number(this.state.page) === page) {
-                                                return (
-                                                    <li key={page} className="active">
-                                                        <a onClick={() => {
-                                                            this.loadPayments(page);
-                                                        }}>{page}</a>
-                                                    </li>
-                                                );
-                                            } else {
-                                                return (
-                                                    <li key={page}>
-                                                        <a onClick={() => {
-                                                            this.loadPayments(page);
-                                                        }}>{page}</a>
-                                                    </li>
-                                                );
-                                            }
-                                        })}
-                                    </ul>
+                                                if (Number(this.state.page) === page) {
+                                                    return (
+                                                        <li key={page} className="active">
+                                                            <a onClick={() => {
+                                                                this.loadPayments(page);
+                                                            }}>{page}</a>
+                                                        </li>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <li key={page}>
+                                                            <a onClick={() => {
+                                                                this.loadPayments(page);
+                                                            }}>{page}</a>
+                                                        </li>
+                                                    );
+                                                }
+                                            })}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
