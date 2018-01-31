@@ -132,10 +132,17 @@ class ManageBaseApiController extends ManageApiController
         $seats = json_decode($request->seats);
 
         foreach ($seats as $s) {
-            $seat = new Seat();
+
+            if ($s->id) {
+                $seat = Seat::find($s->id);
+            } else {
+                $seat = new Seat();
+            }
+
+            $seat->archived = $s->archived;
 
             $seat->name = $s->name;
-            $seat->type = $s->type;
+//            $seat->type = $s->type;
             $seat->room_id = $roomId;
 
             $seat->color = $s->color;
@@ -258,7 +265,7 @@ class ManageBaseApiController extends ManageApiController
         $seat = new Seat();
 
         $seat->name = $request->name;
-        $seat->type = $request->type;
+//        $seat->type = $request->type;
         $seat->room_id = $roomId;
 
         $seat->color = $request->color;
