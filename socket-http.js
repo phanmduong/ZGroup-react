@@ -45,7 +45,7 @@ var sendNotificationUser = function (notification) {
         case 'mobile_manage':
             notification.device_type = 'mobile_manage';
             notification.url = 'colormemanage://main';
-            addNotificationId(notification);
+            // addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
         default:
             return;
