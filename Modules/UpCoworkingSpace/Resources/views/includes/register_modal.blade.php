@@ -63,6 +63,7 @@
         </div>
     </div>
 </div>
+
 <div id="subscriptionModal" class="modal fade show">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -70,10 +71,10 @@
                 <button type="button" data-dismiss="modal" class="close">×</button>
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
-                <div class="container">
-                    <img class="img" v-bind:src="userPack.avatar_url"
-                         style="width: 100%; height: auto; border-radius: 10px"/>
-                </div>
+                {{--<div class="container">--}}
+                    {{--<img class="img" v-bind:src="userPack.avatar_url"--}}
+                         {{--style="width: 100%; height: auto; border-radius: 10px"/>--}}
+                {{--</div>--}}
                 <div class="container">
                     <div class="row">
                         <button class="btn" v-for="subscription in userPack.subscriptions"
@@ -88,6 +89,7 @@
         </div>
     </div>
 </div>
+
 @push('scripts')
     <script>
         var userPackModal = new Vue(
@@ -151,12 +153,8 @@
                             this.message = 'Xin bạn vui lòng chọn cơ sở';
                             return;
                         }
-                        subscriptionModal.userPack = this.userPacks.filter(userPack = > userPack.id === userPackId
-                    )
-                        [0];
-                        subscriptionModal.base = this.bases.filter(base = > base.id === this.baseId
-                    )
-                        [0];
+                        subscriptionModal.userPack = this.userPacks.filter(userPack = > userPack.id === userPackId)[0];
+                        subscriptionModal.base = this.bases.filter(base = > base.id === this.baseId)[0];
 
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
