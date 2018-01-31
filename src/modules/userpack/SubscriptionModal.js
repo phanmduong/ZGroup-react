@@ -178,7 +178,7 @@ class SubscriptionModal extends React.Component {
                                 </div>
                                 <div className="col-md-5">
                                     <div className="form-group">
-                                        <label className="control-label"/>Mô tả
+                                        <label className="control-label">Mô tả</label>
                                         <textarea
                                             className="form-control"
                                             name="description"
