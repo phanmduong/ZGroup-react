@@ -70,10 +70,10 @@
                 <button type="button" data-dismiss="modal" class="close">×</button>
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
-                {{--<div class="container">--}}
-                <img class="img" v-bind:src="userPack.avatar_url"
-                     style="width: 100%; height: auto; border-radius: 10px"/>
-                {{--</div>--}}
+                <div class="container">
+                    <img class="img" v-bind:src="userPack.avatar_url"
+                         style="width: 100%; height: auto; border-radius: 10px"/>
+                </div>
                 <div class="container">
                     <div class="row">
                         <button class="btn" v-for="subscription in userPack.subscriptions"
