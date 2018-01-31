@@ -3674,8 +3674,9 @@ class DashBoardUpComponent extends React.Component {
                 paid_by_date, money_by_date, classes, shifts, now_classes, current_date, end_time_gen
 
             } = this.state.dashboard;
+            console.log(classes,shifts,now_classes,current_date);
             let classProfile = user.is_saler && user.rating ? 'col-md-3' : 'col-md-4';
-            if (this.props.dashboard.user) {
+            if (this.state.dashboard.user) {
                 return (
                     <div>
                         <div className="row">

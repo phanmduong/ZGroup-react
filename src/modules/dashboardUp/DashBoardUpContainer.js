@@ -12,7 +12,7 @@ class DashBoardUpContainer extends React.Component{
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedMonth: 0,
+            selectedMonth: 10,
             openFilter: false,
             selectedBase: 0,
             filter: {
