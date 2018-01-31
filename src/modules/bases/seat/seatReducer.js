@@ -3,16 +3,21 @@
  */
 import initialState from '../../../reducers/initialState';
 import {
+    SEAT_SET_SEAT_CURRENT_ACTION,
     SEAT_CREATE_SEAT_SUCCESS, SEAT_LOAD_SEATS_SUCCESS, SEAT_TOGGLE_CREATE_SEAT_MODAL,
     SEAT_UPDATE_SEAT_FORM_DATA
 } from "../../../constants/actionTypes";
 
 export default function seatReducer(state = initialState.seat, action) {
     switch (action.type) {
+        case SEAT_SET_SEAT_CURRENT_ACTION:
+            return {
+                ...state,
+                currentAction: action.seatAction
+            };
         case SEAT_CREATE_SEAT_SUCCESS:
             return {
                 ...state,
-                seat: {r: 1},
                 seats: [...state.seats, action.seat],
                 point: {},
                 showCreateSeatModal: false

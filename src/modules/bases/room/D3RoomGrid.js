@@ -37,7 +37,7 @@ ns.create = function (el, props, state) {
     ns.el = el;
     const dispatcher = new EventEmitter();
     ns.dispatcher = dispatcher;
-
+    
     let svg = d3.select(el)
         .append("div")
         .classed("svg-container", true) //container class to make it responsive

@@ -739,3 +739,10 @@ img .product-image {
   margin-right: 0px;
 }
 
+.seat-btn.btn.active, .seat-btn.btn.active:hover {
+  background-color: #e6e6e6!important;
+  border-color: #adadad!important;
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+
+
