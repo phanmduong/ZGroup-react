@@ -1740,7 +1740,10 @@ export default {
     },
     seat: {
         showCreateSeatModal: false,
-        seat: {},
+        point: {},
+        seat: {
+            r: 1
+        },
         seats: [],
         domain: {x: [0, 600], y: [0, 400]}
     },

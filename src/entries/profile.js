@@ -28,3 +28,4 @@ render(
         <Router history={browserHistory} routes={renderRoutes(ProfileRoute)}/>
     </Provider>, document.getElementById('app')
 );
+
