@@ -6,16 +6,16 @@ import {
 
 export const createSeat = (roomId, seat) => {
     return async (dispatch) => {
-        dispatch({
-            type: DISPLAY_GLOBAL_LOADING
-        });
-        const res = await seatApi.createSeat(roomId, seat);
-        dispatch({
-            type: HIDE_GLOBAL_LOADING
-        });
+        // dispatch({
+        //     type: DISPLAY_GLOBAL_LOADING
+        // });
+        // const res = await seatApi.createSeat(roomId, seat);
+        // dispatch({
+        //     type: HIDE_GLOBAL_LOADING
+        // });
         dispatch({
             type: SEAT_CREATE_SEAT_SUCCESS,
-            seat: res.data.data.seat
+            seat
         });
     };
 

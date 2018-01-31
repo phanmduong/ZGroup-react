@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 npm run build:base
+npm run build:dashboard
 npm run build:blog
 npm run build:book
 npm run build:email
@@ -15,4 +16,7 @@ npm run build:shift
 npm run build:dashboard
 npm run build:workShift
 npm run build:landingPage
-npm run build:teaching
+npm run build:order
+npm run build:survey
+npm run build:business
+npm run build:notification
