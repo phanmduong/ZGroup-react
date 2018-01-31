@@ -222,7 +222,14 @@ export default function userpackReducer(state = initialState.userpacks, action) 
             return {
                 ...state,
                 isLoadingUserpack: false,
-                userpack: {...action.userpack},
+                userpack : {
+                    ...state.userpack,
+                    id : action.userpack.id,
+                    detail : action.userpack.detail,
+                    avatar_url : action.userpack.avatar_url,
+                    name :  action.userpack.name,
+                    status : action.userpack.status,
+                }
             };
         case types.LOADED_DETAIL_USERPACK_ERROR:
             return {

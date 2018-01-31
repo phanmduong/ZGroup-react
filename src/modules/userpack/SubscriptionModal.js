@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as userpacksActions from './userpacksActions';
 // import * as userpacksApis from "./userpacksApis";
-// import ReactSelect from 'react-select';
 import {Modal} from 'react-bootstrap';
 
 import TooltipButton from '../../components/common/TooltipButton';

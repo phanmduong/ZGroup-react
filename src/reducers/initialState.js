@@ -1017,6 +1017,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            provinces : [],
             isOpenReturnOrder: false,
             isSaving: false,
             isSavingReturnOrders: false,
