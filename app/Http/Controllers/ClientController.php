@@ -99,5 +99,9 @@ class ClientController extends Controller
     {
         return view("client.order");
     }
+    public function notification()
+    {
+        return view("client.notification");
+    }
 
 }

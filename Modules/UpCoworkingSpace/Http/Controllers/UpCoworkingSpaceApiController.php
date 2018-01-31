@@ -59,12 +59,12 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $user->phone = $phone;
         $user->email = $request->email;
         $user->username = $request->email;
-        $user->password = Hash::make($phone);
         $user->save();
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
+        $register->save();
 
         return $this->respondSuccessWithStatus([
             'message' => "Đăng kí thành công"

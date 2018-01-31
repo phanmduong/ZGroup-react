@@ -19,6 +19,19 @@ class ManageBaseApiController extends ManageApiController
         parent::__construct();
     }
 
+    public function getSeats($roomId)
+    {
+        $room = Room::find($roomId);
+        if ($room === null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+        $seats = $room->seats;
+        return $this->respondSuccessWithStatus([
+            "seats" => $seats
+        ]);
+
+    }
+
     public function assignBaseInfo(&$base, $request)
     {
         $base->name = $request->name;
@@ -39,10 +52,13 @@ class ManageBaseApiController extends ManageApiController
         $room->name = $request->name;
         $room->base_id = $baseId;
         $room->type = $request->type;
+
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
         $room->avatar_url = $request->avatar_url;
         $room->save();
+
+        return $room;
     }
 
 
@@ -179,9 +195,9 @@ class ManageBaseApiController extends ManageApiController
                 'message' => 'Thiếu tên phòng'
             ]);
         $room = new Room;
-        $this->assignRoomInfo($room, $baseId, $request);
+        $room = $this->assignRoomInfo($room, $baseId, $request);
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'room' => $room->getData()
         ]);
     }
 
@@ -204,17 +220,49 @@ class ManageBaseApiController extends ManageApiController
 
     public function createSeat($roomId, Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu tên'
-            ]);
-        $seat = new Seat;
+        $room = Room::find($roomId);
+        if ($room == null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+
+        $seat = new Seat();
+
         $seat->name = $request->name;
         $seat->type = $request->type;
         $seat->room_id = $roomId;
+
+        $seat->color = $request->color;
+        $seat->x = $request->x;
+        $seat->y = $request->y;
+        $seat->r = $request->r;
+
         $seat->save();
-        $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+
+        return $this->respondSuccessWithStatus([
+            'seat' => $seat
+        ]);
+    }
+
+    public function updateSeat($seatId, Request $request)
+    {
+        $seat = Seat::find($seatId);
+        if ($seat == null) {
+            return $this->respondErrorWithStatus("Chỗ ngồi không tồn tại");
+        }
+
+        $seat->name = $request->name;
+        $seat->type = $request->type;
+        $seat->room_id = $request->room_id;
+
+        $seat->color = $request->color;
+        $seat->x = $request->x;
+        $seat->y = $request->y;
+        $seat->r = $request->r;
+
+        $seat->save();
+
+        return $this->respondSuccessWithStatus([
+            'seat' => $seat
         ]);
     }
 

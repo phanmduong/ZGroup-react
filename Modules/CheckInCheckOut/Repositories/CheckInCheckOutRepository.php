@@ -314,9 +314,9 @@ class CheckInCheckOutRepository
 
         $workTimeSpan = 28;
         foreach ($workShiftUsers as $workShiftUser) {
-            $workShiftUserSession = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=", "work_shift_sessions.id")
+            $workShiftUserSession = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=",
+                "work_shift_sessions.id")
                 ->where("work_shifts.id", $workShiftUser->work_shift_id)->first();
-
             if ($workShiftUserSession) {
                 // lay ra start_time va end_time cua ca trực đó
                 $start_time = $today . " " . $workShiftUserSession->start_time;
