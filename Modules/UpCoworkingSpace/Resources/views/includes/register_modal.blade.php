@@ -71,18 +71,31 @@
                 <button type="button" data-dismiss="modal" class="close">×</button>
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
-                {{--<div class="container">--}}
-                    {{--<img class="img" v-bind:src="userPack.avatar_url"--}}
-                         {{--style="width: 100%; height: auto; border-radius: 10px"/>--}}
-                {{--</div>--}}
+
                 <div class="container">
                     <div class="row">
-                        <button class="btn" v-for="subscription in userPack.subscriptions"
-                                style="margin: 10px 10px 10px 0px !important; background-color: #c1c1c1; border-color: #c1c1c1"
-                                v-on:click="subscriptionOnclick(event, subscription.id)"
-                                v-bind:id="'subscription'+subscription.id + userPack.id">
-                            @{{ subscription.subscription_kind_name }}
-                        </button>
+                        <div class="col-md-6">
+                            <img class="img" v-bind:src="userPack.avatar_url"
+                                 style="width: 100%; height: auto; border-radius: 10px"/>
+                            {{--<div class="row">--}}
+                            <button class="btn" v-for="subscription in userPack.subscriptions"
+                                    style="margin: 10px 10px 10px 0px !important; background-color: #c1c1c1; border-color: #c1c1c1"
+                                    v-on:click="subscriptionOnclick(event, subscription.id)"
+                                    v-bind:id="'subscription'+subscription.id + userPack.id">
+                                @{{ subscription.subscription_kind_name }}
+                            </button>
+                            {{--</div>--}}
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Gói thành viên: </h6>
+                            <p>@{{ userPack.name }}</p>
+                            <br>
+                            <h6>Mô tả: </h6>
+                            <p>@{{ subscription.description }}</p>
+                            {{--<br>--}}
+                            {{--<b>Chi phí: </b>--}}
+                            {{--<p>@{{ formatPrice(subscription.price) }}</p>--}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,6 +105,10 @@
 
 @push('scripts')
     <script>
+        function formatPrice(price) {
+            return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+        }
+
         var userPackModal = new Vue(
             {
                 el: "#userPackModal",
@@ -153,9 +170,12 @@
                             this.message = 'Xin bạn vui lòng chọn cơ sở';
                             return;
                         }
-                        subscriptionModal.userPack = this.userPacks.filter(userPack = > userPack.id === userPackId)[0];
-                        subscriptionModal.base = this.bases.filter(base = > base.id === this.baseId)[0];
-
+                        subscriptionModal.userPack = this.userPacks.filter(function (userPack) {
+                            return userPack.id === userPackId;
+                        })[0];
+                        subscriptionModal.base = this.bases.filter(function (base) {
+                            return base.id === this.baseId;
+                        })[0];
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
                     }
@@ -171,6 +191,8 @@
                 userPack: [],
                 base: [],
                 subscriptionId: 0,
+                subscription: [],
+                // price: ''
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
@@ -184,6 +206,12 @@
                         'border-color': '#96d21f'
                     });
                     this.subscriptionId = subscriptionId;
+                    console.log(subscriptionId);
+                    this.subscription = this.userPacks.subscriptions.filter(function (subscription) {
+                        return subscription.id === subscriptionId;
+                    });
+                    console.log(this.subscription);
+                    // this.price = this.subscription.price.toString()
                 }
             }
         });
