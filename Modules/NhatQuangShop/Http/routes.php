@@ -63,5 +63,5 @@ $nhatquangShopRoute = function () {
 };
 
 
-Route::group(['middleware' => 'web', 'domain' => "keetool5.xyz", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);
+//Route::group(['middleware' => 'web', 'domain' => "keetool5.xyz", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);
 Route::group(['middleware' => 'web', 'domain' => "nhatquangshop.test", 'namespace' => 'Modules\NhatQuangShop\Http\Controllers'], $nhatquangShopRoute);
