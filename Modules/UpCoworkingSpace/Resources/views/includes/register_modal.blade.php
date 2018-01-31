@@ -40,7 +40,7 @@
                     <div class="row">
                         <div v-for="userPack in userPacks" class="col-md-4">
                             <a>
-                                <div v-on:click="pickSubscription()"
+                                <div v-on:click="pickSubscription(event, userPack.id)"
                                      class="card card-profile"
                                      v-bind:style="{'background-image': 'url('+userPack.avatar_url+')', 'padding-bottom': '70%', 'background-size': 'cover', 'background-position': 'center'}">
                                 </div>
@@ -60,12 +60,6 @@
                     @{{ message }}
                 </div>
             </div>
-            {{--<div class="modal-footer">--}}
-                {{--<button id="btn-purchase" class="btn btn-sm btn-main"--}}
-                        {{--style="margin: 10px 10px 10px 0px !important; background-color: #7bc043; border-color: #7bc043">--}}
-                    {{--Đăng kí--}}
-                {{--</button>--}}
-            {{--</div>--}}
         </div>
     </div>
 </div>
@@ -77,18 +71,19 @@
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
                 <div class="container">
-                    <button id="btn-purchase" class="btn btn-sm btn-main"
-                            style="margin: 10px 10px 10px 0px !important; background-color: #7bc043; border-color: #7bc043">
-                        Đăng kí
-                    </button>
+                    {{--<div class="col-md-12">--}}
+                        {{--<img class="img-responsive img-rounded"--}}
+                             {{--v-bind:src="userPack.avatar_url">--}}
+                    {{--</div>--}}
+                    <div class="row">
+                        <button class="btn" v-for="subscription in userPack.subscriptions"
+                                style="margin: 10px 10px 10px 0px !important;"
+                                v-on:click="subscriptionOnclick(event, subscription.id)">
+                            @{{ subscription.subscription_kind_name }}
+                        </button>
+                    </div>
                 </div>
             </div>
-            {{--<div class="modal-footer">--}}
-            {{--<button id="btn-purchase" class="btn btn-sm btn-main"--}}
-            {{--style="margin: 10px 10px 10px 0px !important; background-color: #7bc043; border-color: #7bc043">--}}
-            {{--Đăng kí--}}
-            {{--</button>--}}
-            {{--</div>--}}
         </div>
     </div>
 </div>
@@ -132,7 +127,6 @@
                         this.modalLoading = true;
                         axios.get(window.url + '/api/user-packs')
                             .then(function (response) {
-
                                 this.userPacks = response.data.data.user_packs;
                                 this.userPackLoading = false;
                                 if (this.provinceLoading === false)
@@ -151,11 +145,13 @@
                             .catch(function (reason) {
                             });
                     },
-                    pickSubscription: function () {
+                    pickSubscription: function (event, userPackId) {
                         if (this.baseId === '') {
                             this.message = 'Xin bạn vui lòng chọn cơ sở';
                             return;
                         }
+                        subscriptionModal.userPack = this.userPacks.filter(userPack => userPack.id === userPackId)[0];
+                        subscriptionModal.base = this.bases.filter(base => base.id === this.baseId)[0];
 
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
@@ -169,9 +165,15 @@
         var subscriptionModal = new Vue({
             el: '#subscriptionModal',
             data: {
-                message: 'you got in'
+                userPack: [],
+                base: [],
+                subscriptionId: 0,
             },
-            methods: {}
+            methods: {
+                subscriptionOnclick: function (event, subscriptionId) {
+                    console.log(subscriptionId);
+                }
+            }
         });
     </script>
 @endpush
