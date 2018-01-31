@@ -7,7 +7,6 @@ import {
     SEAT_CREATE_SEAT_SUCCESS, SEAT_LOAD_SEATS_SUCCESS, SEAT_TOGGLE_CREATE_SEAT_MODAL,
     SEAT_UPDATE_SEAT_FORM_DATA
 } from "../../../constants/actionTypes";
-import {CREATE_SEAT} from "./seatConstants";
 
 export default function seatReducer(state = initialState.seat, action) {
     switch (action.type) {
@@ -19,7 +18,14 @@ export default function seatReducer(state = initialState.seat, action) {
         case SEAT_CREATE_SEAT_SUCCESS:
             return {
                 ...state,
-                seats: [...state.seats, action.seat],
+                seats: action.seat.id ? 
+                    state.seats.map((seat) => {
+                        if (seat.id === action.seat.id) {
+                            return action.seat;
+                        }
+                        return seat;
+                    }) : 
+                    [...state.seats, action.seat],
                 showCreateSeatModal: false
             };
         case SEAT_UPDATE_SEAT_FORM_DATA:

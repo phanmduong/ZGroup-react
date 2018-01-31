@@ -23,6 +23,8 @@ export const setSeatCurrentAction = (seatAction) => {
     };
 };
 
+
+
 export const createSeats = (roomId, seats) => {
     return async (dispatch) => {
         dispatch({
@@ -44,7 +46,6 @@ export const createSeat = (seat) => {
             seat
         });
     };
-
 };
 
 export function toggleCreateSeatModal(showCreateSeatModal, point) {

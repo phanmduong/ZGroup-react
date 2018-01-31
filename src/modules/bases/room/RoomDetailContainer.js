@@ -63,8 +63,10 @@ class RoomDetailContainer extends React.Component {
         }
     }
 
-    onDrag(data) {
-        console.log("Drag", data);
+    onDrag(point) {
+        console.log("Drag", point);
+        const {actions} = this.props;
+         actions.createSeat(point);
     }
 
     onPointClick(data) {
