@@ -6,10 +6,33 @@ import {
 } from "../../../constants/actionTypes";
 
 export const setSeatCurrentAction = (seatAction) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const state = getState();
+        if (state.seat.currentAction === seatAction) {
+            dispatch({
+                type: SEAT_SET_SEAT_CURRENT_ACTION,
+                seatAction: ""
+            });
+        } else {
+            dispatch({
+                type: SEAT_SET_SEAT_CURRENT_ACTION,
+                seatAction
+            });
+        }
+
+    };
+};
+
+export const createSeats = (roomId, seats) => {
+    return async (dispatch) => {
         dispatch({
-            type: SEAT_SET_SEAT_CURRENT_ACTION,
-            seatAction
+            type: DISPLAY_GLOBAL_LOADING
+        });
+
+        await seatApi.createSeats(roomId, seats);
+
+        dispatch({
+            type: HIDE_GLOBAL_LOADING
         });
     };
 };

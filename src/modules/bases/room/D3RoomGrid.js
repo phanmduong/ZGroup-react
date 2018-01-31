@@ -37,7 +37,7 @@ ns.create = function (el, props, state) {
     ns.el = el;
     const dispatcher = new EventEmitter();
     ns.dispatcher = dispatcher;
-    
+
     let svg = d3.select(el)
         .append("div")
         .classed("svg-container", true) //container class to make it responsive
@@ -49,6 +49,8 @@ ns.create = function (el, props, state) {
         .classed("svg-content-responsive d3", true);
     d3.select(".svg-content-responsive")
         .on("click", function () {
+
+
 
             const mouse = d3.mouse(this);
             const x = mouse[0];

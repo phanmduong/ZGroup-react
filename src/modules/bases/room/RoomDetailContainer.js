@@ -6,13 +6,15 @@ import PropTypes from 'prop-types';
 import * as seatContants from "../seat/seatConstants";
 import {
     createSeat,
-    loadSeats, 
-    setSeatCurrentAction, 
-    toggleCreateSeatModal} 
-    from "../seat/seatActions";
+    loadSeats,
+    createSeats,
+    setSeatCurrentAction,
+    toggleCreateSeatModal
+} from "../seat/seatActions";
 import CreateSeatModalContainer from "../seat/CreateSeatModalContainer";
-import { ButtonToolbar, ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
 import CreateSeatContainer from '../seat/CreateSeatContainer';
+import ButtonList from "./ButtonList";
+import {showErrorMessage} from "../../../helpers/helper";
 
 // Import actions here!!
 
@@ -43,10 +45,20 @@ class RoomDetailContainer extends React.Component {
 
     onClick(point) {
         console.log("Canvas Click", point);
-        const {currentAction, actions} = this.props; 
+        const {currentAction, actions, seat} = this.props;
+
         switch (currentAction) {
             case seatContants.CREATE_SEAT:
-                actions.createSeat(point);
+                if (!seat.color || !seat.r || !seat.name) {
+                    showErrorMessage("Lưu ý", "Bạn cần nhập đủ thuộc tính của chỗ ngồi");
+                } else {
+                    actions.createSeat({
+                        ...seat,
+                        x: point.x,
+                        y: point.y
+                    });
+                }
+
                 return;
         }
     }
@@ -65,51 +77,39 @@ class RoomDetailContainer extends React.Component {
                 <CreateSeatModalContainer
                     roomId={this.props.params.roomId}
                 />
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td/>                                                           
-                                <td>
-                                    <CreateSeatContainer/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style={{
-                                     verticalAlign: "top"
-                                }}>
-                                    <ButtonToolbar>
-                                        <ToggleButtonGroup type="radio" name="options" 
-                                            defaultValue={this.props.currentAction}>
-                                            <ToggleButton 
-                                                className="seat-btn"
-                                                onClick={() => this.changeSeatAction(seatContants.CREATE_SEAT)}
-                                                value={seatContants.CREATE_SEAT}>
-                                                <i className="material-icons">add_circle</i>
-                                            </ToggleButton>
-                                            <ToggleButton 
-                                                className="seat-btn"
-                                                onClick={() => this.changeSeatAction(seatContants.REMOVE_SEAT)}
-                                                value={seatContants.REMOVE_SEAT}>
-                                                <i className="material-icons">delete</i>
-                                            </ToggleButton>
-                                        </ToggleButtonGroup>
-                                    </ButtonToolbar>                                
-                                </td>
-                                <td style={{
-                                    width: "100%"
-                                }}>
-                                    <RoomGrid
-                                        onClick={this.onClick}
-                                        onDrag={this.onDrag}
-                                        onPointClick={this.onPointClick}
-                                        roomId={Number(this.props.params.roomId)}
-                                        data={this.props.seats}
-                                        domain={this.props.domain}
-                                    />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td/>
+                        <td>
+                            <CreateSeatContainer/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{
+                            verticalAlign: "top"
+                        }}>
+                            <ButtonList
+                                saveSeats={() => this.props.actions.createSeats(this.state.roomId, this.props.seats)}
+                                changeAction={this.changeSeatAction}
+                                currentAction={this.props.currentAction}
+                            />
+                        </td>
+                        <td style={{
+                            width: "100%"
+                        }}>
+                            <RoomGrid
+                                onClick={this.onClick}
+                                onDrag={this.onDrag}
+                                onPointClick={this.onPointClick}
+                                roomId={Number(this.props.params.roomId)}
+                                data={this.props.seats}
+                                domain={this.props.domain}
+                            />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         );
     }
@@ -118,16 +118,18 @@ class RoomDetailContainer extends React.Component {
 RoomDetailContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    seat: PropTypes.object.isRequired,
     domain: PropTypes.object.isRequired,
     seats: PropTypes.array.isRequired,
     currentAction: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
-    const {seats, domain, currentAction} = state.seat;
+    const {seats, domain, currentAction, seat} = state.seat;
     return {
         seats,
         domain,
+        seat,
         currentAction
     };
 }
@@ -137,7 +139,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             createSeat,
             setSeatCurrentAction,
-            loadSeats, 
+            loadSeats,
+            createSeats,
             toggleCreateSeatModal
         }, dispatch)
     };
