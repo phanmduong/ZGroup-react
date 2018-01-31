@@ -7,6 +7,7 @@ use App\District;
 use App\Http\Controllers\ManageApiController;
 use App\Province;
 use App\Room;
+use App\RoomType;
 use App\Seat;
 use App\Seats;
 use Illuminate\Http\Request;
@@ -284,5 +285,53 @@ class ManageBaseApiController extends ManageApiController
         $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
+    }
+
+    public function getRoomTypes(Request $request)
+    {
+        $search = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $roomTypes = RoomType::query();
+        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%');
+        if ($limit == -1) {
+            $roomTypes = $roomTypes->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'room_types' => $roomTypes->map(function ($roomType) {
+                    return $roomType->getData();
+                })
+            ]);
+        }
+        $roomTypes = $roomTypes->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($roomTypes, [
+            'room_types' => $roomTypes->map(function ($roomType) {
+                return $roomType->getData();
+            })
+        ]);
+    }
+
+    public function createRoomType(Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus('Thiếu tên');
+        $roomType = new RoomType;
+        $roomType->name = $request->name;
+        $roomType->description = $request->description;
+        $roomType->save();
+
+        return $this->respondSuccess('Tạo thành công');
+    }
+
+    public function editRoomType($roomTypeId, Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus('Thiếu tên');
+        $roomType = RoomType::find($roomTypeId);
+        if ($roomType == null)
+            return $this->respondErrorWithStatus('Không tồn tại loại phòng');
+        $roomType->name = $request->name;
+        $roomType->description = $request->description;
+        $roomType->save();
+
+        return $this->respondSuccess('Sửa thành công');
     }
 }
