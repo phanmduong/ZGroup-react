@@ -52,7 +52,7 @@ class ManageBaseApiController extends ManageApiController
     {
         $room->name = $request->name;
         $room->base_id = $baseId;
-        $room->type = $request->type;
+        $room->room_type_id = $request->room_type_id;
 
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;

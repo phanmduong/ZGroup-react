@@ -71,10 +71,6 @@
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
                 <div class="container">
-                    {{--<div class="col-md-12">--}}
-                        {{--<img class="img-responsive img-rounded"--}}
-                             {{--v-bind:src="userPack.avatar_url">--}}
-                    {{--</div>--}}
                     <div class="row">
                         <button class="btn" v-for="subscription in userPack.subscriptions"
                                 style="margin: 10px 10px 10px 0px !important; background-color: #c1c1c1; border-color: #c1c1c1"
