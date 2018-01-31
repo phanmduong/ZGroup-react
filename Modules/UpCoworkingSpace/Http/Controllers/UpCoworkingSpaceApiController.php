@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UpCoworkingSpaceApiController extends ApiPublicController
 {
@@ -95,5 +96,26 @@ class UpCoworkingSpaceApiController extends ApiPublicController
                 return $base->transform();
             })
         ];
+    }
+
+    public function historyRegister()
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        if ($user == null) {
+            return $this->respondErrorWithStatus("Bạn phải đăng nhập");
+        }
+
+        $registers = RoomServiceRegister::where('user_id', $user->id)->get();
+
+        $registers = $registers->map(function ($register) {
+            return $register->getData();
+        });
+
+        return $this->respondSuccessWithStatus([
+            'history_registers' => $registers
+        ]);
+
+
     }
 }

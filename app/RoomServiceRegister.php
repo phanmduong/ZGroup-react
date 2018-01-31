@@ -30,6 +30,7 @@ class RoomServiceRegister extends Model
             'code' => $this->code,
             'money' => $this->money,
             'status' => $this->status,
+            'created_at' => format_vn_short_datetime(strtotime($this->created_at))
         ];
         if ($this->user)
             $data['user'] = [
