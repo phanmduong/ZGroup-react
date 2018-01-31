@@ -19,6 +19,7 @@ class EditRoomModalContainer extends React.Component {
         this.removeImageChange = this.removeImageChange.bind(this);
         this.handleImages = this.handleImages.bind(this);
         this.storeRoom = this.storeRoom.bind(this);
+        this.onChangeTypeForm = this.onChangeTypeForm.bind(this);
     }
 
     updateFormData(event) {
@@ -53,6 +54,15 @@ class EditRoomModalContainer extends React.Component {
     }
 
     onChangeBaseForm(value) {
+        let room = {
+            ...this.props.room,
+            base_id: value.value,
+            base_name: value.label
+        };
+        this.props.roomActions.handleRoomEditModal(room);
+    }
+
+    onChangeTypeForm(value) {
         let room = {
             ...this.props.room,
             base_id: value.value,
@@ -198,11 +208,12 @@ class EditRoomModalContainer extends React.Component {
                                             {
                                                 room.images_url && JSON.parse(room.images_url).map((image, index) => {
                                                     return (
-                                                        <div key={index} className="col-md-2">
+                                                        <div key={index}
+                                                             className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                                             <div className="container-for-images">
                                                                 <img style={{
-                                                                    width: "65px",
-                                                                    height: "65px",
+                                                                    width: "100%",
+                                                                    height: "100%",
                                                                     background: "url(" + image + ") center center / cover",
                                                                     position: "absolute",
                                                                     left: "0"
@@ -224,9 +235,11 @@ class EditRoomModalContainer extends React.Component {
                                             }
                                             {
                                                 this.props.isUploadingImage ? (
-                                                    <div className="col-md-3">
-                                                        <div className="container-for-images"
-                                                             style={{textAlign: "center"}}>
+                                                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                        <div style={{
+                                                            textAlign: "center",
+                                                            marginTop: "30px"
+                                                        }}>
                                                             <div className="progress">
                                                                 <div className="progress-bar" role="progressbar"
                                                                      aria-valuenow="70"
@@ -267,13 +280,22 @@ class EditRoomModalContainer extends React.Component {
                                 updateFormData={this.updateFormData}
                                 value={room.name || ""}
                             />
-                            <FormInputText
-                                label="Loại phòng"
-                                required
-                                name="type"
-                                updateFormData={this.updateFormData}
-                                value={room.type || ""}
-                            />
+                            <div className="form-group">
+                                <label className="control-label">Chọn loại phòng</label>
+                                <Select
+                                    name="type"
+                                    value={room.type}
+                                    options={this.props.types.map((type) => {
+                                        return {
+                                            ...type,
+                                            value: type.id,
+                                            label: type.name
+                                        };
+                                    })}
+                                    onChange={this.onChangeTypeForm}
+                                    clearable={false}
+                                />
+                            </div>
                             <FormInputText
                                 label="Số chỗ ngồi"
                                 required
@@ -337,7 +359,8 @@ EditRoomModalContainer.propTypes = {
     roomActions: PropTypes.object.isRequired,
     isUploadingAvatar: PropTypes.bool.isRequired,
     percent: PropTypes.number.isRequired,
-    isUploadingImage: PropTypes.bool.isRequired
+    isUploadingImage: PropTypes.bool.isRequired,
+    types: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -349,7 +372,8 @@ function mapStateToProps(state) {
         bases: state.rooms.bases,
         isUploadingAvatar: state.rooms.isUploadingAvatar,
         percent: state.rooms.percent,
-        isUploadingImage: state.rooms.isUploadingImage
+        isUploadingImage: state.rooms.isUploadingImage,
+        types: state.rooms.types
     };
 }
 

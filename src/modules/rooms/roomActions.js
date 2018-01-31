@@ -21,6 +21,18 @@ export function loadBasesData() {
     };
 }
 
+export function getTypes() {
+    return function (dispatch) {
+        roomApi.getTypesApi()
+            .then(function () {
+                dispatch({
+                    type: types.LOAD_TYPES_ROOM_DATA_SUCCESS,
+                    types: []
+                });
+            });
+    };
+}
+
 export function changeAvatar(file) {
     return function (dispatch) {
         const error = () => {
