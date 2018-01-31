@@ -77,11 +77,11 @@ class AddChildImagesModal extends React.Component {
                                     {
                                         child && child.child_images_url && JSON.parse(child.child_images_url).map((image, index) => {
                                             return (
-                                                <div key={index} className="col-md-2">
+                                                <div key={index} className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                                     <div className="container-for-images">
                                                         <img style={{
-                                                            width: "65px",
-                                                            height: "65px",
+                                                            width: "100%",
+                                                            height: "100%",
                                                             background: "url(" + image + ") center center / cover",
                                                             position: "absolute",
                                                             left: "0"
@@ -103,9 +103,11 @@ class AddChildImagesModal extends React.Component {
                                     }
                                     {
                                         this.props.isUploadingImage ? (
-                                            <div className="col-md-3">
-                                                <div className="container-for-images"
-                                                     style={{textAlign: "center"}}>
+                                            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                <div style={{
+                                                    textAlign: "center",
+                                                    marginTop: "30px"
+                                                }}>
                                                     <div className="progress">
                                                         <div className="progress-bar" role="progressbar"
                                                              aria-valuenow="70"
