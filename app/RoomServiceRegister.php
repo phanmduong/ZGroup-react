@@ -35,10 +35,11 @@ class RoomServiceRegister extends Model
         if ($this->user)
             $data['user'] = [
                 'id' => $this->user->id,
-                'name' => $this->user->name
+                'name' => $this->user->name,
+                'phone' => $this->user->phone,
             ];
         if ($this->staff)
-            $data['user'] = [
+            $data['staff'] = [
                 'id' => $this->staff->id,
                 'name' => $this->staff->name
             ];

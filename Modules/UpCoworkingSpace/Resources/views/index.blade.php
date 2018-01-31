@@ -138,8 +138,8 @@
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
-                <h3 style="font-weight: 500">UP CO-WORKING SPACE</h3>
-                <h2 style="font-weight: bold">VÌ CỘNG ĐỒNG KHỞI NGHIỆP VIỆT NAM</h2>
+                <h2>UP CO-WORKING SPACE</h2>
+                <h3>VÌ CỘNG ĐỒNG KHỞI NGHIỆP VIỆT NAM</h3>
             </div>
         </div>
     </div>

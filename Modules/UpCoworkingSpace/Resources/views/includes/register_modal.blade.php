@@ -71,14 +71,11 @@
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
                 <div class="container">
-                    {{--<div class="col-md-12">--}}
-                        {{--<img class="img-responsive img-rounded"--}}
-                             {{--v-bind:src="userPack.avatar_url">--}}
-                    {{--</div>--}}
                     <div class="row">
                         <button class="btn" v-for="subscription in userPack.subscriptions"
-                                style="margin: 10px 10px 10px 0px !important;"
-                                v-on:click="subscriptionOnclick(event, subscription.id)">
+                                style="margin: 10px 10px 10px 0px !important; background-color: #c1c1c1; border-color: #c1c1c1"
+                                v-on:click="subscriptionOnclick(event, subscription.id)"
+                                v-bind:id="'subscription'+subscription.id">
                             @{{ subscription.subscription_kind_name }}
                         </button>
                     </div>
@@ -172,6 +169,10 @@
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
                     console.log(subscriptionId);
+                    if(this.subscriptionId !== 0)
+                        $('#subscription' + this.subscriptionId).css({'background-color': '#c1c1c1', 'border-color': '#c1c1c1'});
+                    $('#subscription' + subscriptionId).css({'background-color': '#96d21f', 'border-color': '#96d21f'});
+                    this.subscriptionId = subscriptionId;
                 }
             }
         });

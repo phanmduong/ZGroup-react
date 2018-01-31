@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RoomServiceUserPack extends Model
 {
+    protected $table = 'room_service_user_packs';
+
     public function subscriptions()
     {
         return $this->hasMany(RoomServiceSubscription::class, 'user_pack_id');
