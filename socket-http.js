@@ -45,8 +45,7 @@ var sendNotificationUser = function (notification) {
         case 'mobile_manage':
             notification.device_type = 'mobile_manage';
             notification.url = 'colormemanage://main/checkin/checkin2/checkin2dsa';
-            // addNotificationId(notification);
-            notification.receiver_id = 1966;
+            addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
         default:
             return;
