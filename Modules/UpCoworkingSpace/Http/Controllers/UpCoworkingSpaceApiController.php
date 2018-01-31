@@ -59,7 +59,6 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $user->phone = $phone;
         $user->email = $request->email;
         $user->username = $request->email;
-        $user->password = Hash::make($phone);
         $user->save();
 
         $register = new RoomServiceRegister();
