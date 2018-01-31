@@ -77,8 +77,9 @@
                     {{--</div>--}}
                     <div class="row">
                         <button class="btn" v-for="subscription in userPack.subscriptions"
-                                style="margin: 10px 10px 10px 0px !important;"
-                                v-on:click="subscriptionOnclick(event, subscription.id)">
+                                style="margin: 10px 10px 10px 0px !important; background-color: #c1c1c1; border-color: #c1c1c1"
+                                v-on:click="subscriptionOnclick(event, subscription.id)"
+                                v-bind:id="'subscription'+subscription.id">
                             @{{ subscription.subscription_kind_name }}
                         </button>
                     </div>
@@ -152,6 +153,8 @@
                         }
                         subscriptionModal.userPack = this.userPacks.filter(userPack => userPack.id === userPackId)[0];
                         subscriptionModal.base = this.bases.filter(base => base.id === this.baseId)[0];
+                        subscriptionModal.subscriptionOnclick(event, subscriptionModal.userPack.subscriptions[0].id);
+
 
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
@@ -171,7 +174,10 @@
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
-                    console.log(subscriptionId);
+                    if(this.subscriptionId !== 0)
+                        $('#subscription' + this.subscriptionId).css({'background-color': '#c1c1c1', 'border-color': '#c1c1c1'});
+                    $('#subscription' + subscriptionId).css({'background-color': '#96d21f', 'border-color': '#96d21f'});
+                    this.subscriptionId = subscriptionId;
                 }
             }
         });

@@ -23,7 +23,10 @@ class UpCoworkingSpaceApiController extends ApiPublicController
 
     public function allUserPacks()
     {
-        $user_packs = RoomServiceUserPack::all();
+        $user_packs = RoomServiceUserPack::join('room_service_subscriptions', 'room_service_subscriptions.user_pack_id', '=', 'room_service_user_packs.id')
+            ->select('room_service_user_packs.*', DB::raw('count(room_service_subscriptions.id) as subscription_count'))
+            ->groupBy('user_pack_id')->having('subscription_count', '>', 0)
+            ->orderBy('room_service_user_packs.created_at', 'desc')->get();
         $user_packs = $user_packs->map(function ($user_pack) {
             $data = $user_pack->getData();
             $data['subscriptions'] = $user_pack->subscriptions->map(function ($subscription) {
