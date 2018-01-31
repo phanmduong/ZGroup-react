@@ -20,12 +20,12 @@ export function loadBases(){
     };
 }
 
-export function loadDashBoard(){
+export function loadDashBoard(genId, baseId, startTime, endTime){
     return function (dispatch){
       dispatch({
            type: types.BEGIN_LOAD_DASHBOARDUP,
       });
-      DashBoardUpApi.loadDashBoard()
+      DashBoardUpApi.loadDashBoard(genId, baseId, startTime, endTime)
           .then((res) => {
                dispatch({
                     type: types.LOAD_DASHBOARDUP_SUCCESS,

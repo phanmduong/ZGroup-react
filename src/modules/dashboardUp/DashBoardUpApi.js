@@ -11,17 +11,17 @@ export function loadBases() {
     return axios.get(url);
 }
 
-export function loadDashBoard() {
-    let url = env.MANAGE_API_URL + '/gen/23/dashboard';
-    // if (baseId) {
-    //     url += '/' + baseId;
-    // }
+export function loadDashBoard(genId =23, baseId, startTime = '2017-10-01', endTime = '2017-10-31') {
+    let url = env.MANAGE_API_URL + `/gens/${genId}/dashboard`;
+    if (baseId) {
+        url += '/' + baseId;
+    }
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    //
-    // url += `&start_time=${startTime}&end_time=${endTime}`;
-    url += "&start_time=2017-09-01&end_time=2017-10-31";
+
+    url += `&start_time=${startTime}&end_time=${endTime}`;
+
     return axios.get(url);
 }

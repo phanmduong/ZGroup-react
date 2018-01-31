@@ -27,7 +27,7 @@ class DashBoardUpContainer extends React.Component{
     }
     componentWillMount() {
         this.props.DashboardAction.loadBases();
-        //this.props.DashboardAction.loadDashBoard();
+        this.props.DashboardAction.loadDashBoard();
     }
     onChangeMonth(value){
         this.setState({selectedMonth: value});
