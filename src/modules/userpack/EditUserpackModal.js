@@ -63,74 +63,76 @@ class EditUserpackModal extends React.Component {
                             <h4 className="card-title">Thông tin về gói khách hàng </h4>
                             {this.props.isLoadingUserpack ? <Loading/> :
                                 <div className="row">
-                                    <div className="col-md-4">
-                                        {isUpdatingImage ?
-                                            <Loading/>
-                                            :
-                                            <TooltipButton text="Chọn ảnh đại diện" placement="top">
-                                                <a type="button">
-                                                    <img
-                                                        src={helper.isEmptyInput(avatar_url) ?
-                                                            NO_IMAGE : avatar_url
-                                                        }/>
-                                                    <input type="file"
-                                                           accept=".jpg,.png,.gif"
-                                                           onChange={this.props.handleFileUpload}
-                                                           style={{
-                                                               cursor: 'pointer',
-                                                               opacity: "0.0",
-                                                               position: "absolute",
-                                                               top: 0,
-                                                               left: 0,
-                                                               bottom: 0,
-                                                               right: 0,
-                                                               width: "100%",
-                                                               height: "100%"
-                                                           }}
-                                                    />
-                                                </a>
-                                            </TooltipButton>
-                                        }
-                                        <div style={{display: "flex", flexDirection: "column-reverse", marginTop: 55}}>
-                                            <a className="btn btn-round btn-sm btn-primary"
-                                               ref="target" onClick={() => this.openModal(false, {
-                                                price: 0,
-                                                id: 0,
-                                                description: "",
-                                                subscriptionKind: "",
-                                            })}>
-                                                    <span>
-                                                        <i className="material-icons">add</i>Thêm đăng kí gói
-                                                    </span>
+                                    {isUpdatingImage ?
+                                        <Loading/>
+                                        :
+                                        <TooltipButton text="Chọn ảnh đại diện" placement="top">
+                                            <a type="button">
+                                                <img
+                                                    src={helper.isEmptyInput(avatar_url) ?
+                                                        NO_IMAGE : avatar_url
+                                                    }/>
+                                                <input type="file"
+                                                       accept=".jpg,.png,.gif"
+                                                       onChange={this.props.handleFileUpload}
+                                                       style={{
+                                                           cursor: 'pointer',
+                                                           opacity: "0.0",
+                                                           // position: "absolute",
+                                                           top: 0,
+                                                           left: 0,
+                                                           bottom: 0,
+                                                           right: 0,
+                                                           width: "100%",
+                                                           height: "100%"
+                                                       }}
+                                                />
                                             </a>
-                                        </div>
-                                    </div>
+                                        </TooltipButton>
+                                    }
 
 
-                                    <div className="col-md-8">
-                                        <FormInputText
-                                            label="Tên gói"
-                                            required
-                                            name="name"
-                                            updateFormData={this.props.updateFormUserpack}
-                                            value={name}
+                                    <FormInputText
+                                        label="Tên gói"
+                                        required
+                                        name="name"
+                                        updateFormData={this.props.updateFormUserpack}
+                                        value={name}
+                                    />
+                                    <div className="form-group">
+                                        <label className="control-label">Ghi chú</label>
+                                        <textarea
+                                            className="form-control"
+                                            name="detail"
+                                            rows="3"
+                                            value={detail && detail}
+                                            onChange={(e) => this.props.updateFormUserpack(e)}
                                         />
-                                        <div className="form-group">
-                                            <label className="control-label"/>Ghi chú
-                                            <textarea
-                                                className="form-control"
-                                                name="detail"
-                                                rows="7"
-                                                value={detail && detail}
-                                                onChange={(e) => this.props.updateFormUserpack(e)}
-                                            />
-                                        </div>
                                     </div>
                                 </div>
                             }
+                        </div>
+                    </div>
 
-
-
+                            {/*<div style={{display: "flex", flexDirection: "column-reverse", marginTop: 55}}>*/}
+                                {/*<a className="btn btn-round btn-sm btn-primary"*/}
+                                   {/*ref="target" onClick={() => this.openModal(false, {*/}
+                                    {/*price: 0,*/}
+                                    {/*id: 0,*/}
+                                    {/*description: "",*/}
+                                    {/*subscriptionKind: "",*/}
+                                {/*})}>*/}
+                                    {/*<span>*/}
+                                        {/*<i className="material-icons">add</i>Thêm đăng kí gói*/}
+                                    {/*</span>*/}
+                                {/*</a>*/}
+                            {/*</div>*/}
+                    <div className="card">
+                        <div className="card-header card-header-icon" data-background-color="rose">
+                            <i className="material-icons">announcement</i>
+                        </div>
+                        <div className="card-content">
+                            <h4 className="card-title">Thông tin về gói đăng kí </h4>
 
                             {this.props.isLoadingSubInUserpack ? <Loading/> :
                                 <table className="table table-hover">
@@ -176,39 +178,36 @@ class EditUserpackModal extends React.Component {
                     </div>
 
 
-                    <div className="row">
-                        <div className="col-md-8"/>
-                        <div className="col-md-4">
-                            {this.props.isSavingEditUserpack ?
-                                (
-                                    <button
-                                        className="btn btn-sm btn-success disabled"
-                                    >
-                                        <i className="fa fa-spinner fa-spin"/>
-                                        {'Đang sửa'}
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button className="btn btn-success btn-sm"
-                                            onClick={(e) => {
-                                                this.editUserpack(e);
-                                            }}>
-                                        <i className="material-icons">save</i>
-                                        {'Sửa'}
-                                    </button>
-                                )
-                            }
+                    <div style={{display: "flex", justifyContent: "flex-end", marginTop: 40}}>
+                        <button className="btn btn-fill btn-default"
+                                type="button" onClick={() => this.openModal(false, {
+                            price: 0,
+                            id: 0,
+                            description: "",
+                            subscriptionKind: "",
+                        })}>
+                            <i className="material-icons">add</i>Thêm đăng kí gói
+                        </button>
+                        {this.props.isSavingEditUserpack ?
+                            (
+                                <button className="btn btn-fill btn-rose" type="button">
+                                    <i className="fa fa-spinner fa-spin disabled"/>
+                                    {' Đang sửa'}
+                                </button>
+                            )
+                            :
+                            (
+                                <button className="btn btn-fill btn-rose" type="button"
+                                        onClick={(e) => {
+                                            this.editUserpack(e);
+                                        }}>
+                                    <i className="material-icons">save</i>
+                                    {' Lưu'}
+                                </button>
+                            )
+                        }
 
-                            <button className="btn btn-sm btn-danger"
-                                    onClick={(e) => {
-                                        this.props.closeModalEdit();
-                                        e.preventDefault();
-                                    }}
-                            >
-                                <i className="material-icons">cancel</i> Huỷ
-                            </button>
-                        </div>
+
                     </div>
                 </form>
 

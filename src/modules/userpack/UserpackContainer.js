@@ -222,7 +222,7 @@ class UserpackContainer extends React.Component {
 
 
 
-                    <Modal show={this.state.isOpenModalEdit} bsSize="lg" bsStyle="primary" onHide={this.closeModalEdit}>
+                    <Modal show={this.state.isOpenModalEdit}  bsStyle="primary" onHide={this.closeModalEdit}>
                         <Modal.Header closeButton>
                             <Modal.Title>
                                 <strong>Gói khách hàng</strong>
