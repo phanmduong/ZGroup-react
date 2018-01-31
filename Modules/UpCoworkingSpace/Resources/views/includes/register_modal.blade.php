@@ -70,10 +70,10 @@
                 <button type="button" data-dismiss="modal" class="close">×</button>
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
-                <div class="container">
-                    <img class="img" v-bind:src="userPack.avatar_url"
-                            style="width: 100%; height: auto; border-radius: 5px"/>
-                </div>
+                {{--<div class="container">--}}
+                <img class="img" v-bind:src="userPack.avatar_url"
+                     style="width: 100%; height: auto; border-radius: 10px"/>
+                {{--</div>--}}
                 <div class="container">
                     <div class="row">
                         <button class="btn" v-for="subscription in userPack.subscriptions"
@@ -151,8 +151,12 @@
                             this.message = 'Xin bạn vui lòng chọn cơ sở';
                             return;
                         }
-                        subscriptionModal.userPack = this.userPacks.filter(userPack => userPack.id === userPackId)[0];
-                        subscriptionModal.base = this.bases.filter(base => base.id === this.baseId)[0];
+                        subscriptionModal.userPack = this.userPacks.filter(userPack = > userPack.id === userPackId
+                    )
+                        [0];
+                        subscriptionModal.base = this.bases.filter(base = > base.id === this.baseId
+                    )
+                        [0];
 
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
@@ -172,9 +176,15 @@
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
-                    if(this.subscriptionId !== 0)
-                        $('#subscription' + this.subscriptionId + this.userPack.id).css({'background-color': '#c1c1c1', 'border-color': '#c1c1c1'});
-                    $('#subscription' + subscriptionId + this.userPack.id).css({'background-color': '#96d21f', 'border-color': '#96d21f'});
+                    if (this.subscriptionId !== 0)
+                        $('#subscription' + this.subscriptionId + this.userPack.id).css({
+                            'background-color': '#c1c1c1',
+                            'border-color': '#c1c1c1'
+                        });
+                    $('#subscription' + subscriptionId + this.userPack.id).css({
+                        'background-color': '#96d21f',
+                        'border-color': '#96d21f'
+                    });
                     this.subscriptionId = subscriptionId;
                 }
             }
