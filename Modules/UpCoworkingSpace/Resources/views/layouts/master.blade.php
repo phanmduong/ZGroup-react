@@ -47,27 +47,27 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="about-us.html" data-scroll="true">VỀ
+                    <a class="nav-link hover-change" href="about-us.html" data-scroll="true">VỀ
                         UP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="index.html" data-scroll="true">GÓI THÀNH
+                    <a class="nav-link hover-change" href="index.html" data-scroll="true">GÓI THÀNH
                         VIÊN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="blog.html" data-scroll="true">SỰ
+                    <a class="nav-link hover-change" href="blog.html" data-scroll="true">SỰ
                         KIỆN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="/blog" data-scroll="true">BLOG</a>
+                    <a class="nav-link hover-change" href="/blog" data-scroll="true">BLOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-round btn-up nav-link hover-change" href="price.html" data-scroll="true">PHÒNG
+                    <a class="nav-link hover-change" href="price.html" data-scroll="true">PHÒNG
                         HỌP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-round btn-danger nav-link"
-                       style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0); color:white!important;"
+                    <a class="btn btn-round btn-danger"
+                       style="background-color:#96d21f;border-color:#96d21f; color:white!important;"
                        href="sections.html">TRẢI NGHIỆM</a>
                 </li>
             </ul>
