@@ -18,7 +18,7 @@ class RoomServiceSubscription extends Model
 
     public function getData()
     {
-        return [
+        $data = [
             'id' => $this->id,
             'price' => $this->price,
             'description' => $this->description,
@@ -26,6 +26,9 @@ class RoomServiceSubscription extends Model
             'hours' => $this->subscription_kind->hours,
             'user_pack_name' => $this->user_pack->name,
         ];
+        if ($this->user_pack)
+            $data['user_pack'] = $this->user_pack->getData();
+        return $data;
     }
 
     public function transform()

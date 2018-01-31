@@ -1,5 +1,5 @@
 function formatPrice(price) {
-    return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ'
+    return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
 }
 
 var modalBuy = new Vue({
