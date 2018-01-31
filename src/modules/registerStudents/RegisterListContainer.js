@@ -843,6 +843,9 @@ class RegisterListContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+
+
+
                 <Modal show={this.state.showModal}>
                     <Modal.Header>
                         <Modal.Title>Thông tin học viên</Modal.Title>
