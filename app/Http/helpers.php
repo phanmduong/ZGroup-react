@@ -1105,6 +1105,21 @@ function send_push_notification($data)
     return $data;
 }
 
+function getDevicesNotification($appId, $appKey)
+{
+    $app_id = $appId;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/players?app_id=" . $app_id . '&limit=50000');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
+        'Authorization: Basic ' . $appKey));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($response)->players;
+}
+
 function random_color_part()
 {
     return str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);

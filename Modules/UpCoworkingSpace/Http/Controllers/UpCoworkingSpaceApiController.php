@@ -65,6 +65,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
+        $register->save();
 
         return $this->respondSuccessWithStatus([
             'message' => "Đăng kí thành công"

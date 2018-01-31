@@ -19,4 +19,11 @@ socketEnv.js
 /public/render-landingpage/tmp/*
 /public/landing-page/*
 /public/landingpage-libs/elements/preview_*.html
+/public/landingpage-libs/elements/images/uploads/*.*
+!/public/landingpage-libs/elements/images/uploads/bg2.jpg
+!/public/landingpage-libs/elements/images/uploads/image.jpg
+!/public/landingpage-libs/elements/images/uploads/pad.png
+!/public/landingpage-libs/elements/images/uploads/tablet-cover.png
+!/public/landingpage-libs/elements/images/uploads/tablet-new.png
+
 

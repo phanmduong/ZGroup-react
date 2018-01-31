@@ -29,6 +29,8 @@
     {{--<link href="manage/email/main.8beb53522833d876fdbefef05a414858.css" rel="stylesheet">--}}
     @yield("css")
 
+    <link rel="stylesheet" type="text/css" href="http://mineditor.com/assets/css/keetooltheme.css"/>
+
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
 <body>
