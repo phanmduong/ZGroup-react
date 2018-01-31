@@ -151,14 +151,14 @@
                     </div>
                     <div class="col-md-3 col-xs-6">
                         <div class="social-area">
-                            <a class="btn btn-just-icon btn-round btn-default" href="https://www.facebook.com/keetool">
+                            <a class="btn btn-just-icon btn-round btn-default" href="https://www.facebook.com/up.coworkingspace/">
                                 <i class="fa fa-facebook" aria-hidden="true"></i>
                             </a>
-                            <a class="btn btn-just-icon btn-round btn-default">
-                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            <a class="btn btn-just-icon btn-round btn-default" href="https://www.linkedin.com/company/up-co-working-space">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
                             </a>
-                            <a class="btn btn-just-icon btn-round btn-default">
-                                <i class="fa fa-google-plus" aria-hidden="true"></i>
+                            <a class="btn btn-just-icon btn-round btn-default" href="https://www.instagram.com/up.coworkingspace/">
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>

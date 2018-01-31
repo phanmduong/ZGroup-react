@@ -71,11 +71,15 @@
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
                 <div class="container">
+                    <img class="img" v-bind:src="userPack.avatar_url"
+                            style="width: 100%; height: auto; border-radius: 5px"/>
+                </div>
+                <div class="container">
                     <div class="row">
                         <button class="btn" v-for="subscription in userPack.subscriptions"
                                 style="margin: 10px 10px 10px 0px !important; background-color: #c1c1c1; border-color: #c1c1c1"
                                 v-on:click="subscriptionOnclick(event, subscription.id)"
-                                v-bind:id="'subscription'+subscription.id">
+                                v-bind:id="'subscription'+subscription.id + userPack.id">
                             @{{ subscription.subscription_kind_name }}
                         </button>
                     </div>
@@ -168,10 +172,9 @@
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
-                    console.log(subscriptionId);
                     if(this.subscriptionId !== 0)
-                        $('#subscription' + this.subscriptionId).css({'background-color': '#c1c1c1', 'border-color': '#c1c1c1'});
-                    $('#subscription' + subscriptionId).css({'background-color': '#96d21f', 'border-color': '#96d21f'});
+                        $('#subscription' + this.subscriptionId + this.userPack.id).css({'background-color': '#c1c1c1', 'border-color': '#c1c1c1'});
+                    $('#subscription' + subscriptionId + this.userPack.id).css({'background-color': '#96d21f', 'border-color': '#96d21f'});
                     this.subscriptionId = subscriptionId;
                 }
             }
