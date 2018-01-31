@@ -122,6 +122,35 @@ class ManageBaseApiController extends ManageApiController
         return $this->respondWithPagination($bases, $data);
     }
 
+    public function createSeats($roomId, Request $request)
+    {
+        $room = Room::find($roomId);
+        if ($room == null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+        $seats = json_decode($request->seats);
+
+        foreach ($seats as $s) {
+            $seat = new Seat();
+
+            $seat->name = $s->name;
+            $seat->type = $s->type;
+            $seat->room_id = $roomId;
+
+            $seat->color = $s->color;
+            $seat->x = $s->x;
+            $seat->y = $s->y;
+            $seat->r = $s->r;
+
+            $seat->save();
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "Lưu chỗ ngồi thành công"
+        ]);
+
+    }
+
     public function getBase($baseId)
     {
         $base = Base::find($baseId);
