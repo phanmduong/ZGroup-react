@@ -80,7 +80,7 @@ import seatReducer from "../modules/bases/seat/seatReducer";
 import exportOrderReducer from "../modules/Zgroup/exportGood/exportOrderReducer";
 import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
 import sendNotificationReducer from '../modules/sendNotification/sendNotificationReducer';
-
+import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
     login: loginReducer,
@@ -163,6 +163,7 @@ const appReducer = combineReducers({
     seat: seatReducer,
     notificationType: notificationTypeReducer,
     sendNotification: sendNotificationReducer,
+    dashboardUp: DashBoardUpReducer,
 });
 
 const rootReducer = (state, action) => {

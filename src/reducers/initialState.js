@@ -1974,5 +1974,12 @@ export default {
         isSending: false,
         errorSend: false,
     },
+    dashboardUp:{
+        isLoadingBases: true,
+        isLoadingDashBoard: false,
+        bases: [],
+        dashboard: {},
+
+    },
 
 };
