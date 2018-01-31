@@ -104,7 +104,7 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>
                     <StatusSelect options={ORDERED_STATUS}
-                                  //onChange={this.changeStatusOrder}
+                        //onChange={this.changeStatusOrder}
                                   value={order.status}/>
                 </td>
                 <td>
@@ -126,8 +126,15 @@ class ItemOrder extends React.Component {
                               style={{color: "#878787"}}
                               data-toggle="tooltip" title=""
                               type="button" rel="tooltip"
-                              data-original-title="Sửa"><i
-                            className="material-icons">edit</i>
+                              data-original-title="Sửa">
+                            <i className="material-icons">edit</i>
+                        </Link>
+                        <Link to={`/order/${order.id}/warehouse-import`}
+                              style={{color: "#878787"}}
+                              data-toggle="tooltip" title=""
+                              type="button" rel="tooltip"
+                              data-original-title="Nhập kho">
+                            <i className="material-icons">import_export</i>
                         </Link>
                     </div>
                 </td>

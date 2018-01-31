@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import RoomGrid from "./RoomGrid";
 import PropTypes from 'prop-types';
-import {loadSeats} from "../seat/seatActions";
+import {loadSeats, toggleCreateSeatModal} from "../seat/seatActions";
+import CreateSeatModalContainer from "../seat/CreateSeatModalContainer";
 
 // Import actions here!!
 
@@ -24,8 +25,9 @@ class RoomDetailContainer extends React.Component {
         this.props.actions.loadSeats(this.props.params.roomId);
     }
 
-    onClick(data) {
-        console.log("Canvas Click", data);
+    onClick(point) {
+        console.log("Canvas Click", point);
+        this.props.actions.toggleCreateSeatModal(true, point);
     }
 
     onDrag(data) {
@@ -39,15 +41,24 @@ class RoomDetailContainer extends React.Component {
     render() {
         return (
             <div>
-
-                <RoomGrid
-                    onClick={this.onClick}
-                    onDrag={this.onDrag}
-                    onPointClick={this.onPointClick}
-                    roomId={Number(this.props.params.roomId)}
-                    data={this.props.seats}
-                    domain={this.props.domain}
+                <CreateSeatModalContainer
+                    roomId={this.props.params.roomId}
                 />
+                <div style={{
+                    display: "flex"
+                }}>
+                    <div>abc</div>
+                    <div>
+                        <RoomGrid
+                            onClick={this.onClick}
+                            onDrag={this.onDrag}
+                            onPointClick={this.onPointClick}
+                            roomId={Number(this.props.params.roomId)}
+                            data={this.props.seats}
+                            domain={this.props.domain}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }
@@ -57,8 +68,7 @@ RoomDetailContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     domain: PropTypes.object.isRequired,
-    seats: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    seats: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -71,7 +81,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({loadSeats}, dispatch)
+        actions: bindActionCreators({loadSeats, toggleCreateSeatModal}, dispatch)
     };
 }
 

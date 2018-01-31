@@ -44,7 +44,6 @@ class CoursesContainer extends React.Component {
     loadCourses(page = 1) {
         this.setState({page});
         this.props.coursesActions.loadCourses(page);
-
     }
 
     deleteCourse(course) {
@@ -69,8 +68,9 @@ class CoursesContainer extends React.Component {
         }.bind(this), 500);
     }
 
-    changeStatusCourse(index,course){
+    changeStatusCourse(index,course,e){
         this.props.coursesActions.changeStatusCourse(index,course);
+        e.stopPropagation();
     }
 
     duplicateCourse(data){
@@ -167,6 +167,7 @@ CoursesContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
+    console.log(state.courses,"AAAAAAAA");
     return {
         isLoading   : state.courses.isLoading,
         error       : state.courses.error,

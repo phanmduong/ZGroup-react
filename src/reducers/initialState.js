@@ -1,4 +1,13 @@
 export default {
+    registerManage: {
+        registers: [],
+        staffs: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+    },
 
     bankAccount: {
         accounts: [1, 2, 3, 4],
@@ -92,6 +101,7 @@ export default {
         currentPageProperties: 1,
         totalCountProperties: 1,
         childImagesModal: false,
+        warehousesList: [],
         propertiesManageModal: false,
         manufacturesManageModal: false,
         isLoadingManufacture: false,
@@ -1415,13 +1425,15 @@ export default {
         isLoadingBases: false,
         errorBases: false,
         errorStoreRoom: false,
-
         room: {},
         showEditRoomModal: false,
+        indexEditModal: -1,
         isStoringRoom: false,
         isEditRoom: false,
-
         bases: [],
+        isUploadingAvatar: false,
+        percent: 0,
+        isUploadingImage: false,
     },
     excel: {
         isLoading: false,
@@ -1728,7 +1740,10 @@ export default {
     },
     seat: {
         showCreateSeatModal: false,
-        seat: {},
+        point: {},
+        seat: {
+            r: 1
+        },
         seats: [],
         domain: {x: [0, 600], y: [0, 400]}
     },
@@ -1923,7 +1938,41 @@ export default {
         currentPage: 1,
         isStoring: false,
         errorStore: false,
-    }
-
+    },
+    userpacks : {
+        ListUserpacks : [],
+        isLoadingUserpacks : false,
+        isLoadingUserpack : false,
+        isLoadingSubKind : false,
+        isSavingAdd : false,
+        isSavingUserpack : false,
+        isSavingSubKind : false,
+        userpack : {
+            id : 0,
+            avatar_url : "",
+            name :"",
+            detail :"",
+            isUpdatingImage : false,
+            subscriptions : [],
+        },
+        subscription  : {
+            price : 0,
+            id : 0,
+            description : "",
+            subscriptionKind : "",  // id
+        },
+        subscriptionKind :{
+            name : "",
+            hours : 0,
+        },
+        subscriptionKinds: [],
+        isSavingSubscription : false,
+        isSavingSubscriptionKind : false,
+        isSavingAddUserpack : false,
+    },
+    sendNotification: {
+        isSending: false,
+        errorSend: false,
+    },
 
 };

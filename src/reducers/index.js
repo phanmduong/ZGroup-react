@@ -69,15 +69,17 @@ import surveyReducer from '../modules/survey/surveyReducer';
 import CompanyReducer from '../modules/companies/CompanyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
+import userpackReducer from '../modules/userpack/userpackReducer';
 import PaymentReducer from '../modules/payment/PaymentReducer';
 import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
 import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
+import registerManageReducer from "../modules/registerManage/registerManageReducer";
 import printOrderReducer from "../modules/printOrder/printOrderReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 import exportOrderReducer from "../modules/Zgroup/exportGood/exportOrderReducer";
-
 import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
+import sendNotificationReducer from '../modules/sendNotification/sendNotificationReducer';
 
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
@@ -148,16 +150,19 @@ const appReducer = combineReducers({
     summaryStaff: summaryStaffReducer,
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
+    companies: CompanyReducer,
+    userpacks  : userpackReducer,
     orderedDetail: orderedDetailReducer,
     inventoryOrder: inventoryOrderReducer,
     bankAccount: bankAccountReducer,
+    registerManage: registerManageReducer,
     finance: financeReducer,
-    companies: CompanyReducer,
     payment: PaymentReducer,
     printOrder: printOrderReducer,
     exportOrder: exportOrderReducer,
     seat: seatReducer,
     notificationType: notificationTypeReducer,
+    sendNotification: sendNotificationReducer,
 });
 
 const rootReducer = (state, action) => {

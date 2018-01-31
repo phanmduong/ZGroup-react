@@ -1255,3 +1255,14 @@ export function shortString(str, maxLength) {
     if (arrStr.length < maxLength) return str;
     return result + " ..."
 }
+
+export function convertDotMoneyToK(data) {
+    if (data && data.length > 3) {
+        if (data[data.length - 4] === '.' || data[data.length - 4] === ',') {
+            return data.substring(0, data.length - 4) + 'K';
+        }
+        return data.substring(0, data.length - 3) + 'K';
+
+    }
+    return data;
+}

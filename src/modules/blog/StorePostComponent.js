@@ -22,12 +22,12 @@ class StorePostComponent extends React.Component {
     componentDidMount() {
         helper.setFormValidation('#form-post');
         helper.setFormValidation('#form-category');
+        // $("#mini-editor").mini_editor();
     }
 
     componentDidUpdate() {
         $("#tags").tagsinput();
     }
-
     openAddCategoryModal() {
         this.setState({isOpenModal: true});
     }
@@ -140,19 +140,20 @@ class StorePostComponent extends React.Component {
                         </div>
 
 
-                        <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose"><i
-                                className="material-icons">bookmark</i></div>
-                            <div className="card-content">
-                                <h4 className="card-title">Viết bài</h4>
+                        <div className="form-group">
+                            <label className="control-label">Nội dung</label>
+                            <star style={{color: "red"}}>*</star>
                                 {this.props.isLoadingPost ? <Loading/>
                                     :
-                                    <div>
+                                    <div >
                                         <ReactEditor
                                             urlPost={linkUploadImageEditor()}
                                             fileField="image"
                                             updateEditor={this.props.updateEditor}
-                                            value={content}/>
+                                            value={content}
+                                        />
+
+                                            {/*<div id = "mini-editor"/>*/}
                                         <div style={{display: "flex", justifyContent: "flex-end", marginTop: 40}}>
                                             {isPreSaving ?
                                                 (
@@ -185,8 +186,8 @@ class StorePostComponent extends React.Component {
                                         </div>
                                     </div>
                                 }
-                            </div>
                         </div>
+
                     </form>
                 </div>
 
