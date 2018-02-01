@@ -10,6 +10,7 @@ use App\Room;
 use App\RoomType;
 use App\Seat;
 use App\Seats;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -370,5 +371,44 @@ class ManageBaseApiController extends ManageApiController
         $roomType->save();
 
         return $this->respondSuccess('Sửa thành công');
+    }
+
+    public function availableSeats(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $seats = Seat::query();
+        $seats_count = Seat::query();
+        if ($request->room_id) {
+            $seats = $seats->where('room_id', $request->room_id);
+            $seats_count = $seats_count->where('room_id', $request->room_id);
+        }
+        $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
+        $seats = $seats->select('seats.*', 'room_service_register_seat.start_time as start_time', 'room_service_register_seat.end_time as end_time')
+            ->where('start_time', null);
+//        where(function ($query) use ($request) {
+//            $query->where('room_service_register_seat.start_time', '>', $request->to)
+//                ->orWhere('room_service_register_seat.end_time', '<', $request->from);
+//        });
+//        $seats = $seats->get();
+//        return $this->respondSuccessWithStatus($seats);
+        $seats_count = $seats_count->orderBy('created_at', 'desc')->count();
+        if ($limit == -1) {
+            $seats = $seats->get();
+            return $this->respondSuccessWithStatus([
+                'seats' => $seats->map(function ($seat) {
+                    return $seat->getData();
+                }),
+                'seats_count' => $seats_count,
+                'available_seats' => $seats->count(),
+            ]);
+        }
+        $seats = $seats->paginate($limit);
+        return $this->respondWithPagination($seats, [
+            'seats' => $seats->map(function ($seat) {
+                return $seat->getData();
+            }),
+            'seats_count' => $seats_count,
+            'available_seats' => $seats->count(),
+        ]);
     }
 }
