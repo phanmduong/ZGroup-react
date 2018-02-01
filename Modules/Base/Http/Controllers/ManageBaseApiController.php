@@ -10,6 +10,7 @@ use App\Room;
 use App\RoomType;
 use App\Seat;
 use App\Seats;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -156,7 +157,8 @@ class ManageBaseApiController extends ManageApiController
         }
 
         return $this->respondSuccessWithStatus([
-            "message" => "Lưu chỗ ngồi thành công"
+            "message" => "Lưu chỗ ngồi thành công",
+            "seats" => $room->seats
         ]);
 
     }
@@ -371,5 +373,44 @@ class ManageBaseApiController extends ManageApiController
         $roomType->save();
 
         return $this->respondSuccess('Sửa thành công');
+    }
+
+    public function availableSeats(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $request->from = str_replace('/', '-', $request->from);
+        $request->to = str_replace('/', '-', $request->to);
+
+        $seats = Seat::query();
+        $seats_count = Seat::query();
+        if ($request->room_id) {
+            $seats = $seats->where('room_id', $request->room_id);
+            $seats_count = $seats_count->where('room_id', $request->room_id);
+        }
+        $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
+        $seats = $seats->where(function ($query) use ($request) {
+            $query->where('room_service_register_seat.start_time', '=', null)
+                ->orWhere('room_service_register_seat.start_time', '>', date("Y-m-d H:i:s", strtotime($request->to)))
+                ->orWhere('room_service_register_seat.end_time', '<', date("Y-m-d H:i:s", strtotime($request->from)));
+        })->groupBy('seats.id')->select('seats.*');
+        $seats_count = $seats_count->orderBy('created_at', 'desc')->count();
+        if ($limit == -1) {
+            $seats = $seats->get();
+            return $this->respondSuccessWithStatus([
+                'seats' => $seats->map(function ($seat) {
+                    return $seat->getData();
+                }),
+                'seats_count' => $seats_count,
+                'available_seats' => $seats->count(),
+            ]);
+        }
+        $seats = $seats->paginate($limit);
+        return $this->respondWithPagination($seats, [
+            'seats' => $seats->map(function ($seat) {
+                return $seat->getData();
+            }),
+            'seats_count' => $seats_count,
+            'available_seats' => $seats->count(),
+        ]);
     }
 }

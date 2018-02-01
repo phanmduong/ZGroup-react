@@ -150,7 +150,7 @@
                     <h6>Số điện thoại</h6>
                     <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Email</h6>
-                    <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <input v-model="email" type="text" class="form-control" placeholder="Địa chỉ email"><br>
                     <h6>Địa chỉ nhận sách</h6>
                     <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;">
                         @include("graphics::loading")

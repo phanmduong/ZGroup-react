@@ -23,9 +23,12 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/{roomId}/seat', 'ManageBaseApiController@createSeat');
     Route::get('/{roomId}/seats', 'ManageBaseApiController@getSeats');
     Route::post('/{roomId}/seats', 'ManageBaseApiController@createSeats');
-
     Route::put('/seat/{seatId}', 'ManageBaseApiController@updateSeat');
     Route::put('/{roomId}/seat/{seatId}', 'ManageBaseApiController@editSeat');
+});
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/seat', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
+    Route::get('available', 'ManageBaseApiController@availableSeats');
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2', 'namespace' => 'Modules\Base\Http\Controllers'], function () {

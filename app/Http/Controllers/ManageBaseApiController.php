@@ -141,7 +141,7 @@ class ManageBaseApiController extends ManageApiController
     {
         $query = trim($request->search);
 
-        $limit = 6;
+        $limit = $request->limit ? $request->limit : 6;
 
         if ($request->base_id && $request->base_id != 0) {
             $rooms = Room::where('rooms.base_id', '=', $request->base_id);
@@ -155,13 +155,16 @@ class ManageBaseApiController extends ManageApiController
                     ->orWhere("bases.name", "like", "%$query%")
                     ->orWhere("bases.address", "like", "%$query%");
             })->select("bases.*", "rooms.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id","rooms.avatar_url as avatar_url","rooms.images_url as images_url")
-                ->orderBy('rooms.created_at')->paginate($limit);
+                ->orderBy('rooms.created_at');
         } else {
             $rooms = $rooms->join('bases', 'bases.id', '=', 'rooms.base_id')
                 ->select("rooms.*", "bases.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id","rooms.avatar_url as avatar_url","rooms.images_url as images_url")
-                ->orderBy('rooms.created_at')->paginate($limit);
+                ->orderBy('rooms.created_at');
         }
-
+        if($limit == -1)
+            $rooms = $rooms->get();
+        else
+            $rooms = $rooms->paginate($limit);
 
         $data = [
             'rooms' => $rooms->map(function ($room) {
@@ -175,12 +178,16 @@ class ManageBaseApiController extends ManageApiController
                     'images_url' => $room->images_url,
                 ];
                 if($room->room_type_id)
-                $data['room_type'] = RoomType::find($room->room_type_id)->getData();
+                    $data['room_type'] = RoomType::find($room->room_type_id)->getData();
                 return $data;
             })
         ];
-
-        return $this->respondWithPagination($rooms, $data);
+        if($limit == -1)
+            $data['rooms_count'] = $rooms->count();
+        if($limit == -1)
+            return $this->respondSuccessWithStatus($data);
+        else
+            return $this->respondWithPagination($rooms, $data);
     }
 
     public function storeRoom(Request $request)

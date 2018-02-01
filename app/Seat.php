@@ -13,4 +13,14 @@ class Seat extends Model
     {
         return $this->belongsTo(Room::class, 'room_id');
     }
+
+    public function getData()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'room' => $this->room ? $this->room->getData() : [],
+            'type' => $this->type,
+        ];
+    }
 }

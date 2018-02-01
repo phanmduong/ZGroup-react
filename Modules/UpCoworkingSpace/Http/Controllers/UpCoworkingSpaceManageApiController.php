@@ -92,20 +92,21 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
     }
     public function createSubscriptions($userPackId, Request $request)
     {
+        if($request->subscription_kind_id == null || $request->subscription_kind_id == 0)
+            return $this->respondErrorWithStatus('Thiếu subscription_kind_id');
         $subscription = new RoomServiceSubscription;
-
         $subscription->user_pack_id = $userPackId;
         $subscription->description = $request->description;
         $subscription->price = $request->price;
         $subscription->subscription_kind_id = $request->subscription_kind_id;
-
         $subscription->save();
-
         return $this->respondSuccess('Tạo gói thành viên thành công');
     }
 
     public function editSubscriptions($userPackId, $subcriptionId, Request $request)
     {
+        if($request->subscription_kind_id == null || $request->subscription_kind_id == 0)
+            return $this->respondErrorWithStatus('Thiếu subscription_kind_id');
         $subscription = RoomServiceSubscription::find($subcriptionId);
         $subscription->user_pack_id = $userPackId;
         $subscription->description = $request->description;
