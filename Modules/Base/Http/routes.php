@@ -23,7 +23,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/{roomId}/seat', 'ManageBaseApiController@createSeat');
     Route::get('/{roomId}/seats', 'ManageBaseApiController@getSeats');
     Route::post('/{roomId}/seats', 'ManageBaseApiController@createSeats');
-
     Route::put('/seat/{seatId}', 'ManageBaseApiController@updateSeat');
     Route::put('/{roomId}/seat/{seatId}', 'ManageBaseApiController@editSeat');
 });

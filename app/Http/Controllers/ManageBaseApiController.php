@@ -175,7 +175,7 @@ class ManageBaseApiController extends ManageApiController
                     'images_url' => $room->images_url,
                 ];
                 if($room->room_type_id)
-                $data['room_type'] = RoomType::find($room->room_type_id)->getData();
+                    $data['room_type'] = RoomType::find($room->room_type_id)->getData();
                 return $data;
             })
         ];

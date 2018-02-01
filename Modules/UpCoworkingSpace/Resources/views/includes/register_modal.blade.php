@@ -248,7 +248,6 @@
                         subscriptionModal.subscriptionId = subscriptionModal.userPack.subscriptions[0].id;
                         subscriptionModal.description = subscriptionModal.subscription.description;
                         subscriptionModal.vnd_price = subscriptionModal.subscription.vnd_price;
-                        console.log('asdasd');
 
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
