@@ -1875,6 +1875,39 @@ export default {
         currentPage: 1,
         isStoring: false,
         errorStore: false,
-    }
+    },
+
+    userpacks : {
+        ListUserpacks : [],
+        isLoadingUserpacks : false,
+        isLoadingUserpack : false,
+        isLoadingSubInUserpack : false,
+        isLoadingSubKind : false,
+        isSavingAdd : false,
+        isSavingUserpack : false,
+        isSavingSubKind : false,
+        userpack : {
+            id : 0,
+            avatar_url : "",
+            name :"",
+            detail :"",
+            isUpdatingImage : false,
+            subscriptions : [],
+        },
+        subscription  : {
+            price : 0,
+            id : 0,
+            description : "",
+            subscriptionKind : "",  // id
+        },
+        subscriptionKind :{
+            name : "",
+            hours : 0,
+        },
+        subscriptionKinds: [],
+        isSavingSubscription : false,
+        isSavingSubscriptionKind : false,
+        isSavingAddUserpack : false,
+    },
 
 };

@@ -1,12 +1,23 @@
-import React                            from 'react';
-import PropTypes                        from 'prop-types';
-import * as helper                      from  "../../helpers/helper";
-import ButtonGroupAction                from "../../components/common/ButtonGroupAction";
-import {connect}                        from 'react-redux';
-import  * as coursesActions   from './coursesActions';
-import {bindActionCreators}             from 'redux';
-import initialState                     from '../../reducers/initialState';
+import React from 'react';
+import PropTypes from 'prop-types';
+import * as helper from "../../helpers/helper";
+import {connect} from 'react-redux';
+import * as coursesActions from './coursesActions';
+import {bindActionCreators} from 'redux';
+import initialState from '../../reducers/initialState';
 
+import {browserHistory} from "react-router";
+
+import Avatar from '../../components/common/Avatar';
+
+import Switch from 'react-bootstrap-switch';
+
+function prefixDataPost(data) {
+    if (data.length > 40) {
+        data = [...data.slice(0, 40), ' . . .'];
+    }
+    return data;
+}
 
 class ListCourse extends React.Component {
     constructor(props, context) {
@@ -31,84 +42,148 @@ class ListCourse extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
+            <div className="row">
+                {this.props.courses.map((course, index) => {
+                    return (
+                        <div className="col-sm-6 col-md-6 col-lg-4" id="card-email-template" key={index}>
+                            <div className="card card-chart">
+                                <div className="card-header" data-background-color="white" style={{
+                                    borderRadius: '10px'
+                                }}>
 
-                <table id="datatables"
-                       className="table table-striped table-no-bordered table-hover"
-                       cellSpacing="0" width="100%" style={{width: "100%"}}>
-                    <thead className="text-rose">
-                    <tr>
-                        <th/>
-                        <th>Tên Môn</th>
-                        <th>Số lớp</th>
-                        <th>Số buổi</th>
-                        <th>Giá</th>
-                        {/*<th>Hình thức</th>*/}
-                        <th>Trạng thái</th>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.props.courses.map((course, index) => {
-                        return (
-                            <tr key={index}>
-                                <td>
-                                    <button className="btn btn-round btn-fab btn-fab-mini text-white"
-                                            data-toggle="tooltip"
-                                            title=""
-                                            type="button"
-                                            rel="tooltip"
-                                            data-placement="right"
-                                            data-original-title={course.name}>
-                                        <img src={course.icon_url} alt=""/>
-                                    </button>
-                                </td>
-                                <td>
-                                    <div style={{width: "100%", backgroundColor: course.color}}
-                                         className="btn btn-xs btn-main"
-                                         data-toggle="tooltip"
-                                         title=""
-                                         type="button"
-                                         rel="tooltip"
-                                         data-placement="top"
-                                         data-original-title={course.name}>
-                                        {course.name}
+                                    <a onClick={(e) => {
+                                        browserHistory.push("/teaching/courses/edit/" + course.id + "");
+                                        e.stopPropagation();
+                                    }}>
+                                        <div id="simpleBarChart" className="ct-chart"
+                                             style={{
+                                                 width: '100%',
+                                                 background: 'url(' + course.image_url + ')',
+                                                 backgroundSize: 'cover',
+                                                 backgroundPosition: 'center',
+                                                 height: '200px',
+                                                 borderRadius: '10px',
+                                                 position: "relative"
+                                             }}
+                                        >
+
+
+                                            {/*<div style={{position: "absolute", right : 0, margin : 10}}>*/}
+                                                {/*{post.category ?*/}
+                                                {/*<button className="tag btn btn-xs btn-danger"*/}
+                                                {/*style={{marginLeft: 15, borderRadius: 10}}*/}
+                                                {/*onClick={(e) => {*/}
+                                                {/*this.props.loadByCategories(post.category.id);*/}
+                                                {/*e.stopPropagation();*/}
+                                                {/*}}*/}
+                                                {/*>*/}
+                                                {/*{post.category ? post.category.name : 'Không có'}</button>*/}
+                                                {/*: null*/}
+                                                {/*}*/}
+
+                                            {/*</div>*/}
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                                <div className="card-content">
+                                    <div className="card-action row" style={{height: 90}}>
+                                        <div className="col-md-9">
+                                            <h4 className="card-title">
+                                                <a onClick={(e) => {
+                                                    browserHistory.push("/teaching/courses/edit/" + course.id + "");
+                                                    e.stopPropagation();
+                                                }}>
+                                                    <strong> {prefixDataPost(course.description)}</strong>
+                                                </a>
+                                            </h4>
+                                        </div>
+
+                                        <div className="col-md-3" style={{marginRight : -20, display : "flex" , flexDirection : "column" , justifyContent : "space-between" }}>
+                                            <div className="dropdown" style={{position : "relative" , left : "23"}}>
+                                                <a className="dropdown-toggle btn-more-dropdown" type="button"
+                                                   data-toggle="dropdown">
+                                                    <i className="material-icons">more_horiz</i>
+                                                </a>
+                                                <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
+                                                    <li className="more-dropdown-item">
+                                                        <a onClick={() => {
+                                                            event.stopPropagation(event);
+                                                            browserHistory.push("/teaching/courses/edit/" + course.id + "");
+                                                        }}>
+                                                            <i className="material-icons">edit</i> Sửa
+                                                        </a>
+
+                                                    </li>
+                                                    <li className="more-dropdown-item">
+                                                        <a onClick={(event) => {
+                                                            event.stopPropagation(event);
+                                                            this.deleteCourse(course.id);
+                                                        }}>
+                                                            <i className="material-icons">delete</i> Xóa
+                                                        </a>
+                                                    </li>
+                                                    {
+                                                        !this.props.isDuplicating &&
+                                                        <li className="more-dropdown-item">
+                                                            <a onClick={(e) => {
+                                                                e.stopPropagation(event);
+                                                                return this.props.duplicateCourse(course);
+                                                            }}>
+                                                                <i className="material-icons">control_point_duplicate</i>
+                                                                Nhân đôi
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                            <Switch
+                                                onChange={(e) => {
+                                                    return this.props.changeStatusCourse(index, course ,e);
+                                                }}
+                                                value={course.status}
+                                                onText="Hiện" offText="Ẩn"
+                                                bsSize="mini"
+                                            />
+
+                                        </div>
                                     </div>
-                                </td>
-                                <td>{course.num_classes}</td>
-                                <td>{course.duration}</td>
-                                <td>{helper.convertMoneyToK(course.price)}</td>
-                                <td>{this.props.type || ""}</td>
-                                {/*<td><Switch*/}
-                                    {/*onChange={() => {*/}
-                                        {/*return this.props.changeStatusCourse(index, course);*/}
-                                    {/*}}*/}
-                                    {/*value={course.status} onText="Hiện" offText="Ẩn"*/}
-                                {/*/></td>*/}
-                                <td>
-                                    <ButtonGroupAction
-                                        editUrl={"/teaching/courses/edit/" + course.id + ""}
-                                        delete={this.deleteCourse}
-                                        object={course}
-                                    >
-                                        {
-                                            !this.props.isDuplicating &&
-                                            <a data-toggle="tooltip" title="Duplicate"
-                                               type="button"
-                                               onClick={() => {return this.props.duplicateCourse(course);}}
-                                               rel="tooltip"
-                                            >
-                                                <i className="material-icons">control_point_duplicate</i>
-                                            </a>
-                                        }
 
-                                    </ButtonGroupAction>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                    </tbody>
-                </table>
+
+
+
+                                    <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
+
+
+                                        <div style={{display: "flex", alignItems: "center"}}>
+                                            {course.icon_url ?
+                                                <Avatar size={40} url={course.icon_url}
+                                                        style={{borderRadius: 6}}/> : null}
+                                            <div>
+                                                <strong>{course.name}</strong><br/>
+                                                <p className="category"
+                                                   style={{fontSize: 12}}>{course.duration + " buổi"}</p>
+                                            </div>
+                                        </div>
+
+
+                                        <div style={{display: "flex", alignItems: "center", color: "#76b031"}}>
+                                            {helper.dotNumber(course.price)}
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    );
+                })}
             </div>
         );
     }
@@ -117,11 +192,11 @@ class ListCourse extends React.Component {
 
 ListCourse.propTypes = {
     courses: PropTypes.array.isRequired,
-    coursesActions : PropTypes.object.isRequired,
-    deleteCourse : PropTypes.func,
-    changeStatusCourse : PropTypes.func,
-    duplicateCourse : PropTypes.func,
-    isDuplicating : PropTypes.bool,
+    coursesActions: PropTypes.object.isRequired,
+    deleteCourse: PropTypes.func,
+    changeStatusCourse: PropTypes.func,
+    duplicateCourse: PropTypes.func,
+    isDuplicating: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
