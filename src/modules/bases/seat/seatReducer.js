@@ -3,13 +3,19 @@
  */
 import initialState from '../../../reducers/initialState';
 import {
-    SEAT_SET_SEAT_CURRENT_ACTION, SEAT_SET_SELECTED_SEAT,
-    SEAT_CREATE_UPDATE_SEAT_SUCCESS, SEAT_LOAD_SEATS_SUCCESS, SEAT_TOGGLE_CREATE_SEAT_MODAL,
+    SEAT_SET_SEAT_CURRENT_ACTION, SEAT_SET_SELECTED_SEAT, 
+    SEAT_UPDATE_SEAT_SUCCESS, SEAT_CREATE_SEATS_SUCCESS,
+    SEAT_CREATE_SEAT_SUCCESS, SEAT_LOAD_SEATS_SUCCESS, SEAT_TOGGLE_CREATE_SEAT_MODAL,
     SEAT_UPDATE_SEAT_FORM_DATA
 } from "../../../constants/actionTypes";
 
 export default function seatReducer(state = initialState.seat, action) {
     switch (action.type) {
+        case SEAT_CREATE_SEATS_SUCCESS:
+            return {
+                ...state,
+                seats: action.seats
+            };
         case SEAT_SET_SELECTED_SEAT:
             return {
                 ...state,
@@ -18,7 +24,7 @@ export default function seatReducer(state = initialState.seat, action) {
                     ...action.seat
                 },
                 seats: state.seats.map((seat) => {
-                    if (seat.id === action.seat.id) {
+                    if (seat.index === action.seat.index) {
                         return {
                             ...seat,
                             active: 1
@@ -36,28 +42,41 @@ export default function seatReducer(state = initialState.seat, action) {
                 ...state,
                 currentAction: action.seatAction
             };
-        case SEAT_CREATE_UPDATE_SEAT_SUCCESS:
+        case SEAT_CREATE_SEAT_SUCCESS:
             // update seat if seat has id
             // otherwise create new seat
             return {
                 ...state,
-                seats: action.seat.id ? 
-                    state.seats.map((seat) => {
-                        if (seat.id === action.seat.id) {
+                seats: [
+                        ...state.seats, {
+                            ...action.seat,
+                            index: state.seats.length
+                        }
+                    ],
+                showCreateSeatModal: false
+            };
+        case SEAT_UPDATE_SEAT_SUCCESS:
+            // update seat if seat has id
+            // otherwise create new seat
+            return {
+                ...state,
+                seats: state.seats.map((seat) => {
+                        if (seat.index === action.seat.index) {
                             return action.seat;
                         }
                         return seat;
-                    }) : 
-                    [...state.seats, action.seat],
+                    }),
                 showCreateSeatModal: false
             };
+
+
         case SEAT_UPDATE_SEAT_FORM_DATA:
             return {
                 ...state,
                 seat: action.seat,
                 seats: action.seat.id ?
                     state.seats.map((seat) => {
-                        if (seat.id === action.seat.id)
+                        if (seat.index === action.seat.index)
                             return {
                                 ...action.seat,
                                 active: 1
@@ -82,3 +101,4 @@ export default function seatReducer(state = initialState.seat, action) {
     }
 
 }
+

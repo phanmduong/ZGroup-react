@@ -43,13 +43,13 @@ class CreateSeatContainer extends React.Component {
     changeSlider(value) {
         this.props.actions.updateSeatFormData({
             ...this.props.seat,
-            r: value
+            r: Number(value)
         });
     }
 
     render() {
 
-        const {seat, seats} = this.props;
+        const {seat} = this.props;
 
         const popoverColor = (
             <Popover id="popover-positioned-bottom" title="Chọn màu ghế">
@@ -69,7 +69,7 @@ class CreateSeatContainer extends React.Component {
                         <FormControl
                             type="text"
                             name="name"
-                            value={seat.name || seats.length + 1}
+                            value={seat.name}
                             placeholder="Tên chỗ ngồi"
                             onChange={this.handleChange}
                         />

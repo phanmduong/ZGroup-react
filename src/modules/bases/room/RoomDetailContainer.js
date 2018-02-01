@@ -5,7 +5,8 @@ import RoomGrid from "./RoomGrid";
 import PropTypes from 'prop-types';
 import * as seatContants from "../seat/seatConstants";
 import {
-    createUpdateSeat,
+    updateSeat,
+    createSeat,
     loadSeats,
     createSeats,
     setSelectedSeat,
@@ -46,11 +47,12 @@ class RoomDetailContainer extends React.Component {
     onClick(point) {
         const {currentAction, actions, seat} = this.props;
 
-        actions.setSelectedSeat(point);
+        // clear current selected seat
+        actions.setSelectedSeat({});
 
         switch (currentAction) {
             case seatContants.CREATE_SEAT:            
-                actions.createUpdateSeat({
+                actions.createSeat({
                     ...seat,
                     x: point.x,
                     y: point.y
@@ -60,16 +62,28 @@ class RoomDetailContainer extends React.Component {
     }
 
     onDrag(point) {
-        const {actions} = this.props;
+        const {actions, seat} = this.props;    
         if (this.props.currentAction === ""){
-            actions.setSelectedSeat(point);
-            actions.createUpdateSeat(point);    
+            const newSeat = {
+                ...seat,
+                ...point,
+                active: 1
+            };
+            // console.log("point", point);
+            // console.log("newSeat", newSeat);
+            actions.setSelectedSeat(newSeat);
+            actions.updateSeat(newSeat);    
         }
     }
 
-    onPointClick(point) {
+    onPointClick(index) {
         const {actions} = this.props;
-        actions.setSelectedSeat(point);
+        let seat = null;
+        const filterdSeats = this.props.seats.filter(seat => seat.index === index);
+        if (filterdSeats.length > 0) {
+            seat = filterdSeats[0];   
+        }        
+        actions.setSelectedSeat(seat);
     }
 
     render() {
@@ -138,7 +152,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            createUpdateSeat,
+            updateSeat,
+            createSeat,
             setSelectedSeat,
             setSeatCurrentAction,
             loadSeats,

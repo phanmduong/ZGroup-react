@@ -29,7 +29,7 @@ ns.updateData = (seats) => {
             };
         })
     };
-    ns.update(ns.el, ns.state, ns.dispatcher);
+    ns.update(ns.el, ns.state);
 };
 
 ns.create = function (el, props, state) {
@@ -58,15 +58,13 @@ ns.create = function (el, props, state) {
             const rescaledX = scale.x.invert(x);
             const rescaledY = scale.y.invert(y);
 
-            const seat = {
+            const point = {
                 x: rescaledX,
-                y: rescaledY,
-                r: 2,
-                color: "rgb(244, 67, 54)"
+                y: rescaledY
             };
 
             if (ns.onClick) {
-                ns.onClick(seat);
+                ns.onClick(point);
             }
 
             ns.update(el, state, dispatcher);
@@ -124,22 +122,23 @@ ns._drawPoints = function (el, scales, state) {
     const {data, domain} = state;
     let g = d3.select(el).selectAll('.d3-points');
 
-    // update current circles
-    const currentCircles = d3.selectAll('.d3-point');
-    currentCircles
-        .data(data)        
-        .attr("class", d => d.active ? 'd3-point active' : 'd3-point');
-        
-    currentCircles.selectAll("circle")
-        .attr('r', (d) => scales.r(d.r))
-        .style("fill", function (d) {
-            return d.color;
-        });
+    
+    // const test = d3.selectAll("circle");
 
-    currentCircles.selectAll("text")
-        .text(function (d) {
-            return d.name || "";
-        });
+    // test.data(data)
+    //     .attr('r', (d) => {
+    //         console.log("d", d);
+    //         scales.r(d.r);
+    //     })
+    //     .style("fill", function (d) {
+    //         return d.color;
+    //     });
+
+    // currentCircles.selectAll("text")
+    //     .data(data)
+    //     .text(function (d) {
+    //         return d.name || "";
+    //     });
         
         
     
@@ -168,7 +167,6 @@ ns._drawPoints = function (el, scales, state) {
                 d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
             }
             ns.onDrag({
-                ...d,
                 x,
                 y
             });
@@ -178,7 +176,6 @@ ns._drawPoints = function (el, scales, state) {
         });
     
 
-  
     let pointEnters = g.selectAll('.d3-point')
         .data(data)
         .enter()
@@ -187,8 +184,7 @@ ns._drawPoints = function (el, scales, state) {
         .call(drag)
         .on('click', function (d) {
             d3.event.stopPropagation();
-            // console.log("point", d);
-            ns.onPointClick(d);
+            ns.onPointClick(d.index);
         });
     // .attr('cx', (d) => scales.x(d.x))
     // .attr('cy', (d) => scales.y(d.y));
@@ -210,9 +206,31 @@ ns._drawPoints = function (el, scales, state) {
         .attr("fill", "white")
         .attr("font-size", d => scales.r(d.r))
         .text(function (d) {
-            return d.name || ""
+            return d.name || "";
         });
 
+    // update current circles
+    const currentCircles = d3.selectAll('.d3-point');
+    currentCircles    
+        .data(data)           
+        .attr("class", d => d.active ? 'd3-point active' : 'd3-point');
+    
+    const text = d3.selectAll("text");
+    text.data(data)
+        .attr("font-size", d => scales.r(d.r))
+        .text(function (d) {
+            return d.name || "";
+        });
+    
+    const circles = d3.selectAll("circle");
+    circles
+        .data(data)
+        .attr('r', (d) => {
+            return scales.r(d.r);
+        })
+        .style("fill", function (d) {
+            return d.color;
+        });
 
 
 };

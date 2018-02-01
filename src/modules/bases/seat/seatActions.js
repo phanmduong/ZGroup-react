@@ -1,7 +1,8 @@
 import * as seatApi from "./seatApi";
 import {
-    SEAT_SET_SEAT_CURRENT_ACTION, SEAT_SET_SELECTED_SEAT,
-    DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING, SEAT_CREATE_UPDATE_SEAT_SUCCESS, SEAT_LOAD_SEATS_SUCCESS,
+    SEAT_SET_SEAT_CURRENT_ACTION, SEAT_SET_SELECTED_SEAT, SEAT_UPDATE_SEAT_SUCCESS,
+    SEAT_CREATE_SEATS_SUCCESS,
+    DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING, SEAT_CREATE_SEAT_SUCCESS, SEAT_LOAD_SEATS_SUCCESS,
     SEAT_TOGGLE_CREATE_SEAT_MODAL, SEAT_UPDATE_SEAT_FORM_DATA
 } from "../../../constants/actionTypes";
 
@@ -37,7 +38,19 @@ export const createSeats = (roomId, seats) => {
             type: DISPLAY_GLOBAL_LOADING
         });
 
-        await seatApi.createSeats(roomId, seats);
+        const res = await seatApi.createSeats(roomId, seats);
+        
+        const resSeats = res.data.data.seats;
+    
+        dispatch({
+            type: SEAT_CREATE_SEATS_SUCCESS,
+            seats: resSeats.map((seat, index) => {
+                return {
+                    ...seat,
+                    index
+                };
+            })
+        });
 
         dispatch({
             type: HIDE_GLOBAL_LOADING
@@ -45,10 +58,24 @@ export const createSeats = (roomId, seats) => {
     };
 };
 
-export const createUpdateSeat = (seat) => {
-    return async (dispatch) => {
+export const createSeat = (seat) => {
+    return async (dispatch, getState) => {
+        if (!seat.name) {
+            seat.name =  getState().seat.seats.length + 1;
+        }
+
         dispatch({
-            type: SEAT_CREATE_UPDATE_SEAT_SUCCESS,
+            type: SEAT_CREATE_SEAT_SUCCESS,
+            seat
+        });
+    };
+};
+
+export const updateSeat = (seat) => {
+    return async (dispatch) => {
+       
+        dispatch({
+            type: SEAT_UPDATE_SEAT_SUCCESS,
             seat
         });
     };
@@ -78,7 +105,12 @@ export const loadSeats = (roomId) => {
 
         dispatch({
             type: SEAT_LOAD_SEATS_SUCCESS,
-            seats
+            seats : seats.map((seat, index) => {
+                return {
+                    ...seat,
+                    index
+                };  
+            })
         });
 
     };
