@@ -73,18 +73,20 @@
             <div id="modal-body" class="modal-body">
 
                 <div class="container">
+                    {{--<h6 style="text-align: center">Chào bạn,</h6>--}}
+                    {{--<p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>--}}
+                    {{--<p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>--}}
                     <div class="row">
                         <div class="col-md-6">
                             <img class="img" v-bind:src="userPack.avatar_url"
                                  style="width: 100%; height: auto; border-radius: 10px"/>
-                            {{--<div class="row">--}}
                             <button class="btn" v-for="subscription in userPack.subscriptions"
-                                    style="margin: 10px 10px 10px 0px !important; background-color: #c1c1c1; border-color: #c1c1c1"
+                                    style="margin: 10px 10px 10px 0px !important;"
                                     v-on:click="subscriptionOnclick(event, subscription.id)"
+                                    v-bind:style="subscription.style"
                                     v-bind:id="'subscription'+subscription.id + userPack.id">
                                 @{{ subscription.subscription_kind_name }}
                             </button>
-                            {{--</div>--}}
                         </div>
                         <div class="col-md-6">
                             <h6>Gói thành viên: </h6>
@@ -92,11 +94,74 @@
                             <br>
                             <h6>Mô tả: </h6>
                             <p>@{{ subscription.description }}</p>
-                            {{--<br>--}}
-                            {{--<b>Chi phí: </b>--}}
-                            {{--<p>@{{ formatPrice(subscription.price) }}</p>--}}
+                            <br>
+                            <h6>Chi phí: </h6>
+                            <p>@{{ subscription.vnd_price }}</p>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-purchase" class="btn btn-sm btn-main"
+                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
+                        v-on:click="submit">
+                    Đăng kí</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="submitModal" class="modal fade show">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" class="close">×</button>
+                <h3 class="medium-title">Đăng kí </h3></div>
+            <div id="modal-body" class="modal-body">
+                <div class="container">
+                    {{--<h6 style="text-align: center">Chào bạn,</h6>--}}
+                    {{--<p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>--}}
+                    {{--<p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>--}}
+                    <form class="register-form ">
+                        <h6>Họ và tên</h6>
+                        <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
+                        <h6>Số điện thoại</h6>
+                        <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                        <h6>Email</h6>
+                        <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                        <h6>Địa chỉ</h6>
+                        <input v-model="address" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    </form>
+                </div>
+                <div class="alert alert-danger" v-if="message"
+                     style="margin-top: 10px"
+                     id="purchase-error">
+                    @{{ message }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-purchase" class="btn btn-sm btn-main"
+                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
+                        v-on:click="submit">
+                    Xác nhận</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalSuccess" class="modal fade">
+    <div class="modal-dialog modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Đăng ký thành công</h2>
+            </div>
+            <div class="modal-body">
+                <div style='text-align: center'>
+                    Up đã nhận được đăng ký của bạn, bạn vui lòng kiểm tra email.<br>
+                    Up sẽ liên hệ lại với bạn trong thời gian sớm nhất.
                 </div>
             </div>
         </div>
@@ -105,10 +170,6 @@
 
 @push('scripts')
     <script>
-        function formatPrice(price) {
-            return price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
-        }
-
         var userPackModal = new Vue(
             {
                 el: "#userPackModal",
@@ -148,6 +209,20 @@
                         axios.get(window.url + '/api/user-packs')
                             .then(function (response) {
                                 this.userPacks = response.data.data.user_packs;
+                                for (i = 0; i < this.userPacks.length; i++)
+                                    for (j = 0; j < this.userPacks[i].subscriptions.length; j++) {
+                                        this.userPacks[i].subscriptions[j].vnd_price = this.userPacks[i].subscriptions[j].price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                                        if (j === 0)
+                                            this.userPacks[i].subscriptions[j].style = {
+                                                'background-color': '#96d21f',
+                                                'border-color': '#96d21f'
+                                            };
+                                        else
+                                            this.userPacks[i].subscriptions[j].style = {
+                                                'background-color': '#c1c1c1',
+                                                'border-color': '#c1c1c1'
+                                            };
+                                    }
                                 this.userPackLoading = false;
                                 if (this.provinceLoading === false)
                                     this.modalLoading = false;
@@ -170,12 +245,32 @@
                             this.message = 'Xin bạn vui lòng chọn cơ sở';
                             return;
                         }
-                        subscriptionModal.userPack = this.userPacks.filter(function (userPack) {
+                        subscriptionModal.userPack = [];
+                        userPack = this.userPacks.filter(function (userPack) {
                             return userPack.id === userPackId;
                         })[0];
+                        for (j = 0; j < userPack.subscriptions.length; j++) {
+                            if (j === 0)
+                                userPack.subscriptions[j].style = {
+                                    'background-color': '#96d21f',
+                                    'border-color': '#96d21f'
+                                };
+                            else
+                                userPack.subscriptions[j].style = {
+                                    'background-color': '#c1c1c1',
+                                    'border-color': '#c1c1c1'
+                                };
+                        }
+                        subscriptionModal.userPack = userPack;
+                        console.log(subscriptionModal.userPack);
                         subscriptionModal.base = this.bases.filter(function (base) {
                             return base.id === this.baseId;
-                        })[0];
+                        }.bind(this))[0];
+                        subscriptionModal.subscription = subscriptionModal.userPack.subscriptions[0];
+                        subscriptionModal.subscriptionId = subscriptionModal.userPack.subscriptions[0].id;
+                        subscriptionModal.description = subscriptionModal.subscription.description;
+                        subscriptionModal.vnd_price = subscriptionModal.subscription.vnd_price;
+
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
                     }
@@ -185,6 +280,7 @@
                     this.getUserPacks();
                 }
             });
+
         var subscriptionModal = new Vue({
             el: '#subscriptionModal',
             data: {
@@ -192,7 +288,8 @@
                 base: [],
                 subscriptionId: 0,
                 subscription: [],
-                // price: ''
+                description: '',
+                vnd_price: ''
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
@@ -206,12 +303,53 @@
                         'border-color': '#96d21f'
                     });
                     this.subscriptionId = subscriptionId;
-                    console.log(subscriptionId);
-                    this.subscription = this.userPacks.subscriptions.filter(function (subscription) {
+                    this.subscription = this.userPack.subscriptions.filter(function (subscription) {
                         return subscription.id === subscriptionId;
-                    });
-                    console.log(this.subscription);
-                    // this.price = this.subscription.price.toString()
+                    })[0];
+                },
+                submit: function () {
+                    submitModal.subscriptionId = this.subscriptionId;
+                    $("#subscriptionModal").modal("hide");
+                    $("#submitModal").modal("show");
+                }
+            }
+        });
+
+        var submitModal = new Vue({
+            el: '#submitModal',
+            data: {
+                name: '',
+                email: '',
+                phone: '',
+                address: '',
+                message: '',
+                subscriptionId: 0,
+            },
+            methods: {
+                submit: function () {
+                    if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
+                        this.message = 'Bạn vui lòng nhập đủ thông tin';
+                        return;
+                    }
+                    axios.post(window.url + '/api/register', {
+                        name: this.name,
+                        phone: this.phone,
+                        email: this.email,
+                        address: this.address,
+                        subscription_id: this.subscriptionId,
+                        _token: window.token
+                    })
+                        .then(function (response) {
+                            name = "";
+                            phone = "";
+                            email = "";
+                            address = "";
+                            $("#submitModal").modal("hide");
+                            $("#modalSuccess").modal("show");
+                        }.bind(this))
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 }
             }
         });
