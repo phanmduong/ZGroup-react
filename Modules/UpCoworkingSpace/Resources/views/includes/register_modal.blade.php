@@ -73,29 +73,31 @@
             <div id="modal-body" class="modal-body">
 
                 <div class="container">
-                    {{--<h6 style="text-align: center">Chào bạn,</h6>--}}
-                    {{--<p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>--}}
-                    {{--<p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>--}}
-                        <ul class="nav nav-pills nav-pills-up">
-                            <li v-for="subscription in userPack.subscriptions"
-                                class="nav-item"
-                                v-bind:class="{active: subscription.isActive }">
-                                <a class="nav-link"
-                                   data-toggle="pill" v-on:click="subscriptionOnclick(event, subscription.id)" role="tab" aria-expanded="false">                                    @{{ subscription.subscription_kind_name }}
-                                </a>
-                            </li>
-                        </ul>
+                    <h6 style="text-align: center">Chào bạn,</h6>
+                    <p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>
+                    <p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>
                     <br>
-                        {{--<div class="col-md-6">--}}
-                            {{--<h6>Gói thành viên: </h6>--}}
-                            {{--<p>@{{ userPack.name }}</p>--}}
-                            {{--<br>--}}
-                            {{--<h6>Mô tả: </h6>--}}
-                            {{--<p>@{{ subscription.description }}</p>--}}
-                            {{--<br>--}}
-                            {{--<h6>Chi phí: </h6>--}}
-                            {{--<p>@{{ subscription.vnd_price }}</p>--}}
-                        {{--</div>--}}
+                    <ul class="nav nav-pills nav-pills-up">
+                        <li v-for="subscription in userPack.subscriptions"
+                            class="nav-item"
+                            v-bind:class="{active: subscription.isActive }">
+                            <a class="nav-link"
+                               data-toggle="pill" v-on:click="subscriptionOnclick(event, subscription.id)" role="tab"
+                               aria-expanded="false"> @{{ subscription.subscription_kind_name }}
+                            </a>
+                        </li>
+                    </ul>
+                    <br>
+                    <div class="col-md-12">
+                        <h6>Gói thành viên: </h6>
+                        <p>@{{ userPack.name }}</p>
+                        <br>
+                        <h6>Mô tả: </h6>
+                        <p>@{{ subscription.description }}</p>
+                        <br>
+                        <h6>Chi phí: </h6>
+                        <p>@{{ subscription.vnd_price }}</p>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -109,44 +111,44 @@
     </div>
 </div>
 
-{{--<div id="submitModal" class="modal fade show">--}}
-    {{--<div class="modal-dialog modal-lg">--}}
-        {{--<div class="modal-content">--}}
-            {{--<div class="modal-header">--}}
-                {{--<button type="button" data-dismiss="modal" class="close">×</button>--}}
-                {{--<h3 class="medium-title">Đăng kí </h3></div>--}}
-            {{--<div id="modal-body" class="modal-body">--}}
-                {{--<div class="container">--}}
-                    {{--<h6 style="text-align: center">Chào bạn,</h6>--}}
-                    {{--<p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>--}}
-                    {{--<p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>--}}
-                    {{--<form class="register-form ">--}}
-                        {{--<h6>Họ và tên</h6>--}}
-                        {{--<input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>--}}
-                        {{--<h6>Số điện thoại</h6>--}}
-                        {{--<input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>--}}
-                        {{--<h6>Email</h6>--}}
-                        {{--<input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>--}}
-                        {{--<h6>Địa chỉ</h6>--}}
-                        {{--<input v-model="address" type="text" class="form-control" placeholder="Số điện thoại"><br>--}}
-                    {{--</form>--}}
-                {{--</div>--}}
-                {{--<div class="alert alert-danger" v-if="message"--}}
-                     {{--style="margin-top: 10px"--}}
-                     {{--id="purchase-error">--}}
-                    {{--@{{ message }}--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="modal-footer">--}}
-                {{--<button id="btn-purchase" class="btn btn-sm btn-main"--}}
-                        {{--style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"--}}
-                        {{--v-on:click="submit">--}}
-                    {{--Xác nhận</i>--}}
-                {{--</button>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</div>--}}
+<div id="submitModal" class="modal fade show">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" class="close">×</button>
+                <h3 class="medium-title">Đăng kí </h3></div>
+            <div id="modal-body" class="modal-body">
+                <div class="container">
+                    <h6 style="text-align: center">Chào bạn,</h6>
+                    <p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>
+                    <p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>
+                    <form class="register-form ">
+                        <h6>Họ và tên</h6>
+                        <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
+                        <h6>Số điện thoại</h6>
+                        <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                        <h6>Email</h6>
+                        <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                        <h6>Địa chỉ</h6>
+                        <input v-model="address" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    </form>
+                </div>
+                <div class="alert alert-danger" v-if="message"
+                     style="margin-top: 10px"
+                     id="purchase-error">
+                    @{{ message }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-purchase" class="btn btn-sm btn-main"
+                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
+                        v-on:click="submit">
+                    Xác nhận</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="modalSuccess" class="modal fade">
     <div class="modal-dialog modal-large">
@@ -246,8 +248,6 @@
                         }.bind(this))[0];
                         subscriptionModal.subscription = subscriptionModal.userPack.subscriptions[0];
                         subscriptionModal.subscriptionId = subscriptionModal.userPack.subscriptions[0].id;
-                        subscriptionModal.description = subscriptionModal.subscription.description;
-                        subscriptionModal.vnd_price = subscriptionModal.subscription.vnd_price;
 
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
@@ -267,29 +267,19 @@
                 subscriptionId: 0,
                 subscriptionIndex: 0,
                 subscription: [],
-                description: '',
-                vnd_price: ''
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
-                    // if (this.subscriptionId !== 0)
-                    //     $('#subscription' + this.subscriptionId + this.userPack.id).css({
-                    //         'background-color': '#c1c1c1',
-                    //         'border-color': '#c1c1c1'
-                    //     });
-                    // $('#subscription' + subscriptionId + this.userPack.id).css({
-                    //     'background-color': '#96d21f',
-                    //     'border-color': '#96d21f'
-                    // });
+                    console.log(subscriptionId);
                     this.subscriptionId = subscriptionId;
                     this.subscription = this.userPack.subscriptions.filter(function (subscription) {
                         return subscription.id === subscriptionId;
                     })[0];
                 },
                 submit: function () {
-                    // submitModal.subscriptionId = this.subscriptionId;
-                    // $("#subscriptionModal").modal("hide");
-                    // $("#submitModal").modal("show");
+                    submitModal.subscriptionId = this.subscriptionId;
+                    $("#subscriptionModal").modal("hide");
+                    $("#submitModal").modal("show");
                 }
             }
         });
