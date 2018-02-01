@@ -76,27 +76,14 @@
                     {{--<h6 style="text-align: center">Chào bạn,</h6>--}}
                     {{--<p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>--}}
                     {{--<p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>--}}
-                    <div class="row">
-                        {{--<div class="col-md-6">--}}
-                            {{--<img class="img" v-bind:src="userPack.avatar_url"--}}
-                                 {{--style="width: 100%; height: auto; border-radius: 10px"/>--}}
-                            {{--<button class="btn" v-for="subscription in userPack.subscriptions"--}}
-                                    {{--style="margin: 10px 10px 10px 0px !important;"--}}
-                                    {{--v-on:click="subscriptionOnclick(event, subscription.id)"--}}
-                                    {{--v-bind:style="subscription.style"--}}
-                                    {{--v-bind:id="'subscription'+subscription.id + userPack.id">--}}
-                                {{--@{{ subscription.subscription_kind_name }}--}}
-                            {{--</button>--}}
-                        {{--</div>--}}
-                        <ul class="nav nav-pills nav-pills-up">
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="pill" href="#info-pill" role="tab" aria-expanded="false">Info</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="pill" href="#menu-pill" role="tab" aria-expanded="false">Menu</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="pill" href="#messages-pill" role="tab" aria-expanded="true">Concept</a>
+                        <ul class="nav nav-pills nav-pills-up center-pills">
+                            <li v-for="subscription in userPack.subscriptions"
+                                class="nav-item"
+                                v-bind:class="{active: subscription.isActive }">
+                                <a class="nav-link"
+                                   data-toggle="pill" v-on:click="subscriptionOnclick(event, subscription.id)" role="tab" aria-expanded="false">
+                                    @{{ subscription.subscription_kind_name }}
+                                </a>
                             </li>
                         </ul>
                         {{--<div class="col-md-6">--}}
@@ -109,7 +96,6 @@
                             {{--<h6>Chi phí: </h6>--}}
                             {{--<p>@{{ subscription.vnd_price }}</p>--}}
                         {{--</div>--}}
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -123,44 +109,44 @@
     </div>
 </div>
 
-<div id="submitModal" class="modal fade show">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" class="close">×</button>
-                <h3 class="medium-title">Đăng kí </h3></div>
-            <div id="modal-body" class="modal-body">
-                <div class="container">
+{{--<div id="submitModal" class="modal fade show">--}}
+    {{--<div class="modal-dialog modal-lg">--}}
+        {{--<div class="modal-content">--}}
+            {{--<div class="modal-header">--}}
+                {{--<button type="button" data-dismiss="modal" class="close">×</button>--}}
+                {{--<h3 class="medium-title">Đăng kí </h3></div>--}}
+            {{--<div id="modal-body" class="modal-body">--}}
+                {{--<div class="container">--}}
                     {{--<h6 style="text-align: center">Chào bạn,</h6>--}}
                     {{--<p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>--}}
                     {{--<p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>--}}
-                    <form class="register-form ">
-                        <h6>Họ và tên</h6>
-                        <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
-                        <h6>Số điện thoại</h6>
-                        <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
-                        <h6>Email</h6>
-                        <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
-                        <h6>Địa chỉ</h6>
-                        <input v-model="address" type="text" class="form-control" placeholder="Số điện thoại"><br>
-                    </form>
-                </div>
-                <div class="alert alert-danger" v-if="message"
-                     style="margin-top: 10px"
-                     id="purchase-error">
-                    @{{ message }}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="btn-purchase" class="btn btn-sm btn-main"
-                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
-                        v-on:click="submit">
-                    Xác nhận</i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+                    {{--<form class="register-form ">--}}
+                        {{--<h6>Họ và tên</h6>--}}
+                        {{--<input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>--}}
+                        {{--<h6>Số điện thoại</h6>--}}
+                        {{--<input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>--}}
+                        {{--<h6>Email</h6>--}}
+                        {{--<input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>--}}
+                        {{--<h6>Địa chỉ</h6>--}}
+                        {{--<input v-model="address" type="text" class="form-control" placeholder="Số điện thoại"><br>--}}
+                    {{--</form>--}}
+                {{--</div>--}}
+                {{--<div class="alert alert-danger" v-if="message"--}}
+                     {{--style="margin-top: 10px"--}}
+                     {{--id="purchase-error">--}}
+                    {{--@{{ message }}--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="modal-footer">--}}
+                {{--<button id="btn-purchase" class="btn btn-sm btn-main"--}}
+                        {{--style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"--}}
+                        {{--v-on:click="submit">--}}
+                    {{--Xác nhận</i>--}}
+                {{--</button>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
 
 <div id="modalSuccess" class="modal fade">
     <div class="modal-dialog modal-large">
@@ -223,20 +209,12 @@
                                 for (i = 0; i < this.userPacks.length; i++)
                                     for (j = 0; j < this.userPacks[i].subscriptions.length; j++) {
                                         this.userPacks[i].subscriptions[j].vnd_price = this.userPacks[i].subscriptions[j].price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
-                                        if (j === 0)
-                                            this.userPacks[i].subscriptions[j].style = {
-                                                'background-color': '#96d21f',
-                                                'border-color': '#96d21f'
-                                            };
-                                        else
-                                            this.userPacks[i].subscriptions[j].style = {
-                                                'background-color': '#c1c1c1',
-                                                'border-color': '#c1c1c1'
-                                            };
+                                        this.userPacks[i].subscriptions[j].isActive = (j === 0);
                                     }
                                 this.userPackLoading = false;
                                 if (this.provinceLoading === false)
                                     this.modalLoading = false;
+                                console.log(this.userPacks);
                             }.bind(this))
                             .catch(function (reason) {
                             });
@@ -260,20 +238,9 @@
                         userPack = this.userPacks.filter(function (userPack) {
                             return userPack.id === userPackId;
                         })[0];
-                        for (j = 0; j < userPack.subscriptions.length; j++) {
-                            if (j === 0)
-                                userPack.subscriptions[j].style = {
-                                    'background-color': '#96d21f',
-                                    'border-color': '#96d21f'
-                                };
-                            else
-                                userPack.subscriptions[j].style = {
-                                    'background-color': '#c1c1c1',
-                                    'border-color': '#c1c1c1'
-                                };
-                        }
+                        for (j = 0; j < userPack.subscriptions.length; j++)
+                            userPack.subscriptions[j].isActive = (j === 0);
                         subscriptionModal.userPack = userPack;
-                        console.log(subscriptionModal.userPack);
                         subscriptionModal.base = this.bases.filter(function (base) {
                             return base.id === this.baseId;
                         }.bind(this))[0];
@@ -281,6 +248,7 @@
                         subscriptionModal.subscriptionId = subscriptionModal.userPack.subscriptions[0].id;
                         subscriptionModal.description = subscriptionModal.subscription.description;
                         subscriptionModal.vnd_price = subscriptionModal.subscription.vnd_price;
+                        console.log('asdasd');
 
                         $("#userPackModal").modal("hide");
                         $("#subscriptionModal").modal("show");
@@ -298,71 +266,72 @@
                 userPack: [],
                 base: [],
                 subscriptionId: 0,
+                subscriptionIndex: 0,
                 subscription: [],
                 description: '',
                 vnd_price: ''
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
-                    if (this.subscriptionId !== 0)
-                        $('#subscription' + this.subscriptionId + this.userPack.id).css({
-                            'background-color': '#c1c1c1',
-                            'border-color': '#c1c1c1'
-                        });
-                    $('#subscription' + subscriptionId + this.userPack.id).css({
-                        'background-color': '#96d21f',
-                        'border-color': '#96d21f'
-                    });
+                    // if (this.subscriptionId !== 0)
+                    //     $('#subscription' + this.subscriptionId + this.userPack.id).css({
+                    //         'background-color': '#c1c1c1',
+                    //         'border-color': '#c1c1c1'
+                    //     });
+                    // $('#subscription' + subscriptionId + this.userPack.id).css({
+                    //     'background-color': '#96d21f',
+                    //     'border-color': '#96d21f'
+                    // });
                     this.subscriptionId = subscriptionId;
                     this.subscription = this.userPack.subscriptions.filter(function (subscription) {
                         return subscription.id === subscriptionId;
                     })[0];
                 },
                 submit: function () {
-                    submitModal.subscriptionId = this.subscriptionId;
-                    $("#subscriptionModal").modal("hide");
-                    $("#submitModal").modal("show");
+                    // submitModal.subscriptionId = this.subscriptionId;
+                    // $("#subscriptionModal").modal("hide");
+                    // $("#submitModal").modal("show");
                 }
             }
         });
 
-        var submitModal = new Vue({
-            el: '#submitModal',
-            data: {
-                name: '',
-                email: '',
-                phone: '',
-                address: '',
-                message: '',
-                subscriptionId: 0,
-            },
-            methods: {
-                submit: function () {
-                    if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
-                        this.message = 'Bạn vui lòng nhập đủ thông tin';
-                        return;
-                    }
-                    axios.post(window.url + '/api/register', {
-                        name: this.name,
-                        phone: this.phone,
-                        email: this.email,
-                        address: this.address,
-                        subscription_id: this.subscriptionId,
-                        _token: window.token
-                    })
-                        .then(function (response) {
-                            name = "";
-                            phone = "";
-                            email = "";
-                            address = "";
-                            $("#submitModal").modal("hide");
-                            $("#modalSuccess").modal("show");
-                        }.bind(this))
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                }
-            }
-        });
+        // var submitModal = new Vue({
+        //     el: '#submitModal',
+        //     data: {
+        //         name: '',
+        //         email: '',
+        //         phone: '',
+        //         address: '',
+        //         message: '',
+        //         subscriptionId: 0,
+        //     },
+        //     methods: {
+        //         submit: function () {
+        //             if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
+        //                 this.message = 'Bạn vui lòng nhập đủ thông tin';
+        //                 return;
+        //             }
+        //             axios.post(window.url + '/api/register', {
+        //                 name: this.name,
+        //                 phone: this.phone,
+        //                 email: this.email,
+        //                 address: this.address,
+        //                 subscription_id: this.subscriptionId,
+        //                 _token: window.token
+        //             })
+        //                 .then(function (response) {
+        //                     name = "";
+        //                     phone = "";
+        //                     email = "";
+        //                     address = "";
+        //                     $("#submitModal").modal("hide");
+        //                     $("#modalSuccess").modal("show");
+        //                 }.bind(this))
+        //                 .catch(function (error) {
+        //                     console.log(error);
+        //                 });
+        //         }
+        //     }
+        // });
     </script>
 @endpush
