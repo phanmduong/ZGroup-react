@@ -319,7 +319,9 @@
     <div class="ctrlq fb-overlay"></div>
     <div class="fb-widget">
         <div class="ctrlq fb-close"></div>
-        <div class="fb-page" data-href="https://www.facebook.com/colorme.hanoi" data-tabs="messages"
+        <div class="fb-page"
+             data-href="{{isset($saler) && $saler->base_id == 6 ? 'https://www.facebook.com/colorme.saigon': 'https://www.facebook.com/colorme.hanoi'}}"
+             data-tabs="messages"
              data-width="360"
              data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
         <div id="fb-root"></div>
