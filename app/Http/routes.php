@@ -471,7 +471,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/notifications-list', 'ColormeNewController@social');
     Route::get('/posts/{popular}', 'ColormeNewController@social');
     Route::get('/about-us', 'ColormeNewController@social');
-    Route::get('/', 'ColormeNewController@home');
+    Route::get('/{salerId?}/{campaignId?}', 'ColormeNewController@home');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
 //    Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/post/{LinkId}', 'ColormeNewController@social');
