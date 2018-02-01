@@ -121,9 +121,9 @@
                         <h6>Số điện thoại</h6>
                         <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
                         <h6>Email</h6>
-                        <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                        <input v-model="email" type="text" class="form-control" placeholder="Địa chỉ email"><br>
                         <h6>Địa chỉ</h6>
-                        <input v-model="address" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                        <input v-model="address" type="text" class="form-control" placeholder="Địa chỉ"><br>
                     </form>
                 </div>
                 <div class="alert alert-danger" v-if="message"

@@ -161,7 +161,7 @@ class ManageBaseApiController extends ManageApiController
                 ->select("rooms.*", "bases.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id","rooms.avatar_url as avatar_url","rooms.images_url as images_url")
                 ->orderBy('rooms.created_at');
         }
-        if($limit === -1)
+        if($limit == -1)
             $rooms = $rooms->get();
         else
             $rooms = $rooms->paginate($limit);
@@ -182,8 +182,9 @@ class ManageBaseApiController extends ManageApiController
                 return $data;
             })
         ];
-
-        if($limit === -1)
+        if($limit == -1)
+            $data['rooms_count'] = $rooms->count();
+        if($limit == -1)
             return $this->respondSuccessWithStatus($data);
         else
             return $this->respondWithPagination($rooms, $data);
