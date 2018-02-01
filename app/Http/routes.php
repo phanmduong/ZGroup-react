@@ -168,8 +168,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/create-category', 'ManageBlogController@create_category');
     Route::post('/save-post', 'ManageBlogController@save_post');
     Route::get('/posts', 'ManageBlogController@get_posts');
-    Route::post('/post/{postId}/change-status','ManageBlogController@changeStatusPost');
-    Route::get('/post/categories','ManageBlogController@getAllCategory');
+    Route::post('/post/{postId}/change-status', 'ManageBlogController@changeStatusPost');
+    Route::get('/post/categories', 'ManageBlogController@getAllCategory');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
     //End blog api
@@ -471,7 +471,8 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/notifications-list', 'ColormeNewController@social');
     Route::get('/posts/{popular}', 'ColormeNewController@social');
     Route::get('/about-us', 'ColormeNewController@social');
-    Route::get('/{salerId?}/{campaignId?}', 'ColormeNewController@home');
+    Route::get('/', 'ColormeNewController@home');
+    Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
 //    Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/post/{LinkId}', 'ColormeNewController@social');
