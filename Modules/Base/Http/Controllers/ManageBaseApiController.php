@@ -155,7 +155,8 @@ class ManageBaseApiController extends ManageApiController
         }
 
         return $this->respondSuccessWithStatus([
-            "message" => "Lưu chỗ ngồi thành công"
+            "message" => "Lưu chỗ ngồi thành công",
+            "seats" => $room->seats
         ]);
 
     }
