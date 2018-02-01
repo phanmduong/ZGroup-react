@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 
-
 export function getRooms(page, search, baseId) {
     let url = env.MANAGE_API_URL + "/base/rooms?page=" + page;
     let token = localStorage.getItem('token');
@@ -31,10 +30,10 @@ export function getBases() {
 }
 
 export function getTypesApi() {
-    let url = env.MANAGE_API_URL + "fuck";
+    let url = env.MANAGE_API_URL + "/v2/base/room-type?limit=-1";
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "&token=" + token;
     }
     return axios.get(url);
 }
@@ -80,6 +79,7 @@ export function editRoom(room) {
         seats_count: room.seats_count ? room.seats_count : 0,
         name: room.name ? room.name : '',
         images_url: room.images_url ? room.images_url : '[]',
-        avatar_url: room.avatar_url ? room.avatar_url : ''
+        avatar_url: room.avatar_url ? room.avatar_url : '',
+        room_type_id: room.room_type ? room.room_type.id : ''
     });
 }
