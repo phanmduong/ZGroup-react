@@ -133,13 +133,14 @@ class ManageBaseApiController extends ManageApiController
 
         foreach ($seats as $s) {
 
-            if ($s->id) {
+            if (isset($s->id)) {
                 $seat = Seat::find($s->id);
             } else {
                 $seat = new Seat();
             }
 
-            $seat->archived = $s->archived;
+            if (isset($s->archived))
+                $seat->archived = $s->archived;
 
             $seat->name = $s->name;
 //            $seat->type = $s->type;
