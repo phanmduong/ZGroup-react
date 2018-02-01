@@ -11,17 +11,26 @@ export function loadBases() {
     return axios.get(url);
 }
 
-export function loadDashBoard(genId =23, baseId, startTime = '2017-10-01', endTime = '2017-10-31') {
-    let url = env.MANAGE_API_URL + `/gens/${genId}/dashboard`;
-    if (baseId) {
-        url += '/' + baseId;
-    }
+
+export function loadRoomBase(baseId) {
+    let url = env.MANAGE_API_URL + '/base/rooms';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "?token=" + token + "&limit=-1";
     }
+    if (baseId)
+        url += "&base_id=" + baseId;
+    return axios.get(url);
 
-    url += `&start_time=${startTime}&end_time=${endTime}`;
+}
 
+export function loadSeats(from, to,roomId) {
+    let url = env.MANAGE_API_URL + '/v2/seat/available';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&from=" + from + "&to=" + to + "&limit=-1";
+    }
+    if(roomId)
+        url += "&room_id=" +roomId;
     return axios.get(url);
 }

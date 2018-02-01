@@ -20,21 +20,45 @@ export function loadBases(){
     };
 }
 
-export function loadDashBoard(genId, baseId, startTime, endTime){
+export function loadRooms(baseId){
+    return function (dispatch){
+        dispatch({
+           type: types.BEGIN_LOAD_ROOMS_BASE_DASHBOARDUP,
+        });
+        DashBoardUpApi.loadRoomBase(baseId)
+            .then((res) => {
+                //console.log(res.data.data.rooms);
+                dispatch({
+                    type: types.LOAD_ROOMS_BASE_DASHBOARDUP_SUCCESS,
+                    data: res.data.data.rooms,
+                    count: res.data.data.rooms_count,
+                });
+            }).catch(() => {
+              dispatch({
+                 type: types.LOAD_ROOMS_BASE_DASHBOARDUP_ERROR,
+              });
+        });
+    };
+}
+export function loadSeats(from,to,roomId){
     return function (dispatch){
       dispatch({
-           type: types.BEGIN_LOAD_DASHBOARDUP,
+            type: types.BEGIN_LOAD_SEATS_BASE_DASHBOARDUP,
       });
-      DashBoardUpApi.loadDashBoard(genId, baseId, startTime, endTime)
+      DashBoardUpApi.loadSeats(from,to,roomId)
           .then((res) => {
-               dispatch({
-                    type: types.LOAD_DASHBOARDUP_SUCCESS,
-                    dashboard: res.data.data,
-               }) ;
+              console.log(res.data.seats);
+                dispatch({
+                    type: types.LOAD_SEATS_BASE_DASHBOARDUP_SUCCESS,
+                    data: res.data.data.seats,
+                    seats_count: res.data.data.seats_count,
+                    available_seats: res.data.data.available_seats,
+                });
           }).catch(() => {
-            dispatch({
-               type: types.LOAD_DASHBOARDUP_ERROR,
-            });
+               dispatch({
+                   type: types.LOAD_SEATS_BASE_DASHBOARDUP_ERROR,
+               });
       });
     };
 }
+

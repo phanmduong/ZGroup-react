@@ -8,7 +8,7 @@ import FormInputDate from "../../components/common/FormInputDate";
 import {Panel} from 'react-bootstrap';
 import DashBoardUpComponent from "./DashBoardUpComponent";
 
-class DashBoardUpContainer extends React.Component{
+class DashBoardUpContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -23,16 +23,23 @@ class DashBoardUpContainer extends React.Component{
         this.onChangeMonth = this.onChangeMonth.bind(this);
         this.getBases = this.getBases.bind(this);
         this.onchangeBase = this.onchangeBase.bind(this);
-        this.loadDashBoard = this.loadDashBoard.bind(this);
+        this.loadSeats = this.loadSeats.bind(this);
     }
+
     componentWillMount() {
         this.props.DashboardAction.loadBases();
-        this.props.DashboardAction.loadDashBoard();
+        this.props.DashboardAction.loadRooms();
     }
-    onChangeMonth(value){
+
+    loadSeats(from, to, roomId) {
+        this.props.DashboardAction.loadSeats(from, to, roomId);
+    }
+
+    onChangeMonth(value) {
         this.setState({selectedMonth: value});
     }
-    getBases(){
+
+    getBases() {
         let data = [];
         data = this.props.bases.map((base) => {
             return {
@@ -44,26 +51,28 @@ class DashBoardUpContainer extends React.Component{
         return [{
             key: 0,
             value: "Tất cả"
-        },...data];
+        }, ...data];
     }
-    loadDashBoard(){
-        this.props.DashboardAction.loadDashBoard();
-    }
-    onchangeBase(value){
+
+    onchangeBase(value) {
         this.setState({selectedBase: value});
+        if (value === 0) this.props.DashboardAction.loadRooms(); else
+            this.props.DashboardAction.loadRooms(value);
 
     }
+
     updateFormFilter(event) {
         const field = event.target.name;
         let filter = {...this.state.filter};
         filter[field] = event.target.value;
         this.setState({filter: filter});
     }
-    render(){
-        return(
+
+    render() {
+        return (
             <div>
                 {
-                    this.props.isLoadingBases ? <Loading/> : (
+                    this.props.isLoadingBases || this.props.isLoadingRooms ? <Loading/> : (
                         <div>
                             <div className="row">
                                 <div className="col-sm-3 col-xs-5">
@@ -129,7 +138,7 @@ class DashBoardUpContainer extends React.Component{
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.getBases()}
                                         value={this.state.selectedBase}
-                                        onChange={this.onChangeBase}
+                                        onChange={this.onchangeBase}
                                     />
                                 </div>
                                 <div className="col-sm-2">
@@ -181,7 +190,7 @@ class DashBoardUpContainer extends React.Component{
                             </Panel>
                             <DashBoardUpComponent
                                 {...this.props}
-                                loadDashboard={this.loadDashBoard}
+                                loadSeats={this.loadSeats}
                             />
                         </div>
                     )
@@ -191,12 +200,17 @@ class DashBoardUpContainer extends React.Component{
         );
     }
 }
+
 function mapStateToProps(state) {
     return {
         isLoadingBases: state.dashboardUp.isLoadingBases,
         bases: state.dashboardUp.bases,
-        isLoadingDashBoard: state.dashboardUp.isLoadingDashBoard,
-        dashboard: state.dashboardUp.dashboard,
+        isLoadingRooms: state.dashboardUp.isLoadingRooms,
+        rooms: state.dashboardUp.rooms,
+        rooms_count: state.dashboardUp.rooms_count,
+        isLoadingSeats: state.dashboardUp.isLoadingSeats,
+        seats_count: state.dashboardUp.seats_count,
+        available_seats: state.dashboardUp.available_seats,
     };
 }
 
@@ -205,4 +219,5 @@ function mapDispatchToProps(dispatch) {
         DashboardAction: bindActionCreators(DashBoardAction, dispatch)
     };
 }
-export default connect(mapStateToProps,mapDispatchToProps) (DashBoardUpContainer);
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoardUpContainer);

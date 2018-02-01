@@ -1722,7 +1722,7 @@ export default {
             bill_image_url: "",
             payer: {
                 id: 0,
-               account_number: "",
+                account_number: "",
             },
             receiver: {
                 id: 0,
@@ -1898,7 +1898,7 @@ export default {
             receive_date: "",
         },
     },
-    exportOrder:{
+    exportOrder: {
         isLoading: false,
         isCommitting: false,
         isLoadingGoods: false,
@@ -1910,21 +1910,21 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        listExportOrder:[
+        listExportOrder: [
             {
-                good: {id: 0, name:"noname"},
-                warehouse: {id: 0, name:"noname"},
-                company:{id:"", name:"noname"},
-                price:0,
-                quantity:0,
+                good: {id: 0, name: "noname"},
+                warehouse: {id: 0, name: "noname"},
+                company: {id: "", name: "noname"},
+                price: 0,
+                quantity: 0,
             }
         ],
-        data:{
-            good: {id: 0, name:"noname"},
-            warehouse: {id: 0, name:"noname"},
-            company:{id:"", name:"noname"},
-            price:0,
-            quantity:0,
+        data: {
+            good: {id: 0, name: "noname"},
+            warehouse: {id: 0, name: "noname"},
+            company: {id: "", name: "noname"},
+            price: 0,
+            quantity: 0,
         },
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
@@ -1939,46 +1939,51 @@ export default {
         isStoring: false,
         errorStore: false,
     },
-    userpacks : {
-        ListUserpacks : [],
-        isLoadingUserpacks : false,
-        isLoadingUserpack : false,
-        isLoadingSubKind : false,
-        isSavingAdd : false,
-        isSavingUserpack : false,
-        isSavingSubKind : false,
-        userpack : {
-            id : 0,
-            avatar_url : "",
-            name :"",
-            detail :"",
-            isUpdatingImage : false,
-            subscriptions : [],
+    userpacks: {
+        ListUserpacks: [],
+        isLoadingUserpacks: false,
+        isLoadingUserpack: false,
+        isLoadingSubKind: false,
+        isSavingAdd: false,
+        isSavingUserpack: false,
+        isSavingSubKind: false,
+        userpack: {
+            id: 0,
+            avatar_url: "",
+            name: "",
+            detail: "",
+            isUpdatingImage: false,
+            subscriptions: [],
         },
-        subscription  : {
-            price : 0,
-            id : 0,
-            description : "",
-            subscriptionKind : "",  // id
+        subscription: {
+            price: 0,
+            id: 0,
+            description: "",
+            subscriptionKind: "",  // id
         },
-        subscriptionKind :{
-            name : "",
-            hours : 0,
+        subscriptionKind: {
+            name: "",
+            hours: 0,
         },
         subscriptionKinds: [],
-        isSavingSubscription : false,
-        isSavingSubscriptionKind : false,
-        isSavingAddUserpack : false,
+        isSavingSubscription: false,
+        isSavingSubscriptionKind: false,
+        isSavingAddUserpack: false,
     },
     sendNotification: {
         isSending: false,
         errorSend: false,
     },
-    dashboardUp:{
+    dashboardUp: {
         isLoadingBases: true,
-        isLoadingDashBoard: false,
+        isLoadingRooms: false,
+        isLoadingSeats: false,
         bases: [],
-        dashboard: {},
+        rooms: [],
+        rooms_count: 0,
+        seats_count: 0,
+        seats: [],
+        available_seats: 0,
 
     },
 
