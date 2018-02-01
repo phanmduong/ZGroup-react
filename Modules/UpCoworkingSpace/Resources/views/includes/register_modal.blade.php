@@ -148,9 +148,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h2 class="medium-title">Đăng ký thành công</h2>
+                <h2 class="medium-title">Chúc mừng bạn đã đăng ký thành công</h2>
             </div>
             <div class="modal-body">
+                {{--<img class="vc_single_image-img " src="http://up-co.vn/wp-content/uploads/2016/08/384x176logo_03-120x120.png" width="120" height="120" alt="384x176logo_03-120x120" title="384x176logo_03-120x120">--}}
                 <div style='text-align: center'>
                     Up đã nhận được đăng ký của bạn, bạn vui lòng kiểm tra email.<br>
                     Up sẽ liên hệ lại với bạn trong thời gian sớm nhất.
@@ -162,95 +163,94 @@
 
 @push('scripts')
     <script>
-        var userPackModal = new Vue(
-            {
-                el: "#userPackModal",
-                data: {
-                    provinces: [],
-                    bases: [],
-                    userPacks: [],
-                    provinceId: '',
-                    baseId: '',
-                    baseLoading: false,
-                    provinceLoading: false,
-                    userPackLoading: false,
-                    modalLoading: false,
-                    message: ''
+        var userPackModal = new Vue({
+            el: "#userPackModal",
+            data: {
+                provinces: [],
+                bases: [],
+                userPacks: [],
+                provinceId: '',
+                baseId: '',
+                baseLoading: false,
+                provinceLoading: false,
+                userPackLoading: false,
+                modalLoading: false,
+                message: ''
+            },
+            methods: {
+                changeProvince: function () {
+                    this.baseId = '';
+                    this.getBases();
                 },
-                methods: {
-                    changeProvince: function () {
-                        this.baseId = '';
-                        this.getBases();
-                    },
-                    getProvinces: function () {
-                        this.provinceLoading = true;
-                        this.modalLoading = true;
-                        axios.get(window.url + '/api/province')
-                            .then(function (response) {
-                                this.provinces = response.data.provinces;
-                                this.provinceLoading = false;
-                                if (this.userPackLoading === false)
-                                    this.modalLoading = false;
-                            }.bind(this))
-                            .catch(function (reason) {
-                            });
-                    },
-                    getUserPacks: function () {
-                        this.userPackLoading = true;
-                        this.modalLoading = true;
-                        axios.get(window.url + '/api/user-packs')
-                            .then(function (response) {
-                                this.userPacks = response.data.data.user_packs;
-                                for (i = 0; i < this.userPacks.length; i++)
-                                    for (j = 0; j < this.userPacks[i].subscriptions.length; j++) {
-                                        this.userPacks[i].subscriptions[j].vnd_price = this.userPacks[i].subscriptions[j].price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
-                                        this.userPacks[i].subscriptions[j].isActive = (j === 0);
-                                    }
-                                this.userPackLoading = false;
-                                if (this.provinceLoading === false)
-                                    this.modalLoading = false;
-                                console.log(this.userPacks);
-                            }.bind(this))
-                            .catch(function (reason) {
-                            });
-                    },
-                    getBases: function () {
-                        this.baseLoading = true;
-                        axios.get(window.url + '/api/province/' + this.provinceId + '/base')
-                            .then(function (response) {
-                                this.bases = response.data.bases;
-                                this.baseLoading = false;
-                            }.bind(this))
-                            .catch(function (reason) {
-                            });
-                    },
-                    pickSubscription: function (event, userPackId) {
-                        if (this.baseId === '') {
-                            this.message = 'Xin bạn vui lòng chọn cơ sở';
-                            return;
-                        }
-                        subscriptionModal.userPack = [];
-                        userPack = this.userPacks.filter(function (userPack) {
-                            return userPack.id === userPackId;
-                        })[0];
-                        for (j = 0; j < userPack.subscriptions.length; j++)
-                            userPack.subscriptions[j].isActive = (j === 0);
-                        subscriptionModal.userPack = userPack;
-                        subscriptionModal.base = this.bases.filter(function (base) {
-                            return base.id === this.baseId;
-                        }.bind(this))[0];
-                        subscriptionModal.subscription = subscriptionModal.userPack.subscriptions[0];
-                        subscriptionModal.subscriptionId = subscriptionModal.userPack.subscriptions[0].id;
-
-                        $("#userPackModal").modal("hide");
-                        $("#subscriptionModal").modal("show");
+                getProvinces: function () {
+                    this.provinceLoading = true;
+                    this.modalLoading = true;
+                    axios.get(window.url + '/api/province')
+                        .then(function (response) {
+                            this.provinces = response.data.provinces;
+                            this.provinceLoading = false;
+                            if (this.userPackLoading === false)
+                                this.modalLoading = false;
+                        }.bind(this))
+                        .catch(function (reason) {
+                        });
+                },
+                getUserPacks: function () {
+                    this.userPackLoading = true;
+                    this.modalLoading = true;
+                    axios.get(window.url + '/api/user-packs')
+                        .then(function (response) {
+                            this.userPacks = response.data.data.user_packs;
+                            for (i = 0; i < this.userPacks.length; i++)
+                                for (j = 0; j < this.userPacks[i].subscriptions.length; j++) {
+                                    this.userPacks[i].subscriptions[j].vnd_price = this.userPacks[i].subscriptions[j].price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                                    this.userPacks[i].subscriptions[j].isActive = (j === 0);
+                                }
+                            this.userPackLoading = false;
+                            if (this.provinceLoading === false)
+                                this.modalLoading = false;
+                            console.log(this.userPacks);
+                        }.bind(this))
+                        .catch(function (reason) {
+                        });
+                },
+                getBases: function () {
+                    this.baseLoading = true;
+                    axios.get(window.url + '/api/province/' + this.provinceId + '/base')
+                        .then(function (response) {
+                            this.bases = response.data.bases;
+                            this.baseLoading = false;
+                        }.bind(this))
+                        .catch(function (reason) {
+                        });
+                },
+                pickSubscription: function (event, userPackId) {
+                    if (this.baseId === '') {
+                        this.message = 'Xin bạn vui lòng chọn cơ sở';
+                        return;
                     }
-                },
-                mounted: function () {
-                    this.getProvinces();
-                    this.getUserPacks();
+                    subscriptionModal.userPack = [];
+                    userPack = this.userPacks.filter(function (userPack) {
+                        return userPack.id === userPackId;
+                    })[0];
+                    for (j = 0; j < userPack.subscriptions.length; j++)
+                        userPack.subscriptions[j].isActive = (j === 0);
+                    subscriptionModal.userPack = userPack;
+                    subscriptionModal.base = this.bases.filter(function (base) {
+                        return base.id === this.baseId;
+                    }.bind(this))[0];
+                    subscriptionModal.subscription = subscriptionModal.userPack.subscriptions[0];
+                    subscriptionModal.subscriptionId = subscriptionModal.userPack.subscriptions[0].id;
+                    this.message = '';
+                    $("#userPackModal").modal("hide");
+                    $("#subscriptionModal").modal("show");
                 }
-            });
+            },
+            mounted: function () {
+                this.getProvinces();
+                this.getUserPacks();
+            }
+        });
 
         var subscriptionModal = new Vue({
             el: '#subscriptionModal',
