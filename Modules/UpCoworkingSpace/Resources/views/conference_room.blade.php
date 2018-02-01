@@ -10,9 +10,9 @@
                 <br><br>
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
-                        <h1 class="title"><b>UP CO-WORKING SPACE</b></h1>
-                        <h5 class=description">CẬP NHẬT TIN TỨC, KIẾN THỨC VỀ STARTUP
-                        </h5>
+                        <h4 class="description"><b>UP CO-WORKING SPACE</b></h4>
+                        <h1 class="title">PHÒNG HỌP
+                        </h1>
                         <br>
                     </div>
 
@@ -23,6 +23,11 @@
 
     <div class="blog-4" style="margin-top:20px">
         <div class="container">
+            {{--<div class="description">--}}
+            {{--<input placeholder="Tìm kiếm" id="search-blog"--}}
+            {{--style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"--}}
+            {{--type="text" v-on:keyup.enter="searchBlog" v-model="search" value="{{$search}}"/>--}}
+            {{--</div>--}}
             <br>
             <br>
             <div class="row">

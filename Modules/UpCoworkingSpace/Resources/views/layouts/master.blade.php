@@ -62,7 +62,7 @@
                     <a class="nav-link hover-change" href="/blog" data-scroll="true">BLOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="price.html" data-scroll="true">PHÒNG
+                    <a class="nav-link hover-change" href="/conference-room" data-scroll="true">PHÒNG
                         HỌP</a>
                 </li>
                 <li class="nav-item">
