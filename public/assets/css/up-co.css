@@ -185,3 +185,17 @@
     background-color: #96d21f;
     color: #FFFFFF !important;
 }
+
+.nav-link:hover {
+    cursor: pointer;
+}
+
+.nav-pills > li {
+    float:none;
+    display:inline-block!important;
+    zoom:1;
+}
+
+.nav-pills {
+    text-align:center!important;
+}

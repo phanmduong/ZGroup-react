@@ -71,18 +71,14 @@
                 <button type="button" data-dismiss="modal" class="close">×</button>
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
-
                 <div class="container">
-                    <h6 style="text-align: center">Chào bạn,</h6>
-                    <p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>
-                    <p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>
-                    <br>
                     <ul class="nav nav-pills nav-pills-up">
                         <li v-for="subscription in userPack.subscriptions"
                             class="nav-item"
                             v-bind:class="{active: subscription.isActive }">
                             <a class="nav-link"
-                               data-toggle="pill" v-on:click="subscriptionOnclick(event, subscription.id)" role="tab"
+                               data-toggle="pill" v-on:click="subscriptionOnclick(event, subscription.id)"
+                               role="tab"
                                aria-expanded="false"> @{{ subscription.subscription_kind_name }}
                             </a>
                         </li>
@@ -119,9 +115,6 @@
                 <h3 class="medium-title">Đăng kí </h3></div>
             <div id="modal-body" class="modal-body">
                 <div class="container">
-                    <h6 style="text-align: center">Chào bạn,</h6>
-                    <p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>
-                    <p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>
                     <form class="register-form ">
                         <h6>Họ và tên</h6>
                         <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
@@ -284,43 +277,43 @@
             }
         });
 
-        // var submitModal = new Vue({
-        //     el: '#submitModal',
-        //     data: {
-        //         name: '',
-        //         email: '',
-        //         phone: '',
-        //         address: '',
-        //         message: '',
-        //         subscriptionId: 0,
-        //     },
-        //     methods: {
-        //         submit: function () {
-        //             if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
-        //                 this.message = 'Bạn vui lòng nhập đủ thông tin';
-        //                 return;
-        //             }
-        //             axios.post(window.url + '/api/register', {
-        //                 name: this.name,
-        //                 phone: this.phone,
-        //                 email: this.email,
-        //                 address: this.address,
-        //                 subscription_id: this.subscriptionId,
-        //                 _token: window.token
-        //             })
-        //                 .then(function (response) {
-        //                     name = "";
-        //                     phone = "";
-        //                     email = "";
-        //                     address = "";
-        //                     $("#submitModal").modal("hide");
-        //                     $("#modalSuccess").modal("show");
-        //                 }.bind(this))
-        //                 .catch(function (error) {
-        //                     console.log(error);
-        //                 });
-        //         }
-        //     }
-        // });
+        var submitModal = new Vue({
+            el: '#submitModal',
+            data: {
+                name: '',
+                email: '',
+                phone: '',
+                address: '',
+                message: '',
+                subscriptionId: 0,
+            },
+            methods: {
+                submit: function () {
+                    if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
+                        this.message = 'Bạn vui lòng nhập đủ thông tin';
+                        return;
+                    }
+                    axios.post(window.url + '/api/register', {
+                        name: this.name,
+                        phone: this.phone,
+                        email: this.email,
+                        address: this.address,
+                        subscription_id: this.subscriptionId,
+                        _token: window.token
+                    })
+                        .then(function (response) {
+                            name = "";
+                            phone = "";
+                            email = "";
+                            address = "";
+                            $("#submitModal").modal("hide");
+                            $("#modalSuccess").modal("show");
+                        }.bind(this))
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            }
+        });
     </script>
 @endpush
