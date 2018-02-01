@@ -748,3 +748,12 @@ a.btn-seat.active {
   color: #c50000;
 }
 
+.d3-point.active {
+  stroke: #757575;
+}
+
+.d3-point, .d3-points text {
+  cursor: pointer;
+}
+
+

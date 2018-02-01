@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {CirclePicker} from "react-color";
 import Slider from "../../../components/common/Slider";
-import {createSeat, updateSeatFormData} from "./seatActions";
+import {createUpdateSeat, updateSeatFormData} from "./seatActions";
 import {
     FormGroup, FormControl, ControlLabel, Badge,
     Popover, OverlayTrigger
@@ -13,7 +13,8 @@ import {
 
 const propTypes = {
     seat: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    seats : PropTypes.array.isRequired
 };
 
 class CreateSeatContainer extends React.Component {
@@ -48,13 +49,13 @@ class CreateSeatContainer extends React.Component {
 
     render() {
 
-        const {seat} = this.props;
+        const {seat, seats} = this.props;
 
         const popoverColor = (
             <Popover id="popover-positioned-bottom" title="Chọn màu ghế">
                 <CirclePicker
                     width="100%"
-                    color={seat.color || ""}
+                    color={seat.color || "rgb(244, 67, 54)"}
                     onChangeComplete={this.changeColor}/>
             </Popover>
         );
@@ -68,7 +69,7 @@ class CreateSeatContainer extends React.Component {
                         <FormControl
                             type="text"
                             name="name"
-                            value={seat.name || name}
+                            value={seat.name || seats.length + 1}
                             placeholder="Tên chỗ ngồi"
                             onChange={this.handleChange}
                         />
@@ -118,16 +119,17 @@ class CreateSeatContainer extends React.Component {
 CreateSeatContainer.propTypes = propTypes;
 
 function mapStateToProps(state) {
-    const {seat} = state.seat;
+    const {seat, seats} = state.seat;
     return {
-        seat
+        seat,
+        seats
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            createSeat,
+            createUpdateSeat,
             updateSeatFormData
         }, dispatch),
     };

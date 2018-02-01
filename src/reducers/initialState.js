@@ -1742,7 +1742,8 @@ export default {
         showCreateSeatModal: false,
         point: {},
         seat: {
-            r: 1
+            r: 1,
+            color: "rgb(244, 67, 54)"
         },
         seats: [],
         currentAction: "",

@@ -1,19 +1,19 @@
-/* eslint-disable */
+
 import * as d3 from "d3";
 import {EventEmitter} from "events";
 
-var ns = {};
+let ns = {};
 
-let ANIMATION_DURATION = 400;
-let TOOLTIP_WIDTH = 30;
-let TOOLTIP_HEIGHT = 30;
+// const ANIMATION_DURATION = 400;
+// const TOOLTIP_WIDTH = 30;
+// const TOOLTIP_HEIGHT = 30;
 
 ns.onClick = (onClick) => {
     ns.onClick = onClick;
 };
 
 ns.onPointClick = (onPointClick) => {
-    ns.onPointClick = onPointClick
+    ns.onPointClick = onPointClick;
 };
 
 ns.onDrag = (onDrag) => {
@@ -50,8 +50,6 @@ ns.create = function (el, props, state) {
     d3.select(".svg-content-responsive")
         .on("click", function () {
 
-
-
             const mouse = d3.mouse(this);
             const x = mouse[0];
             const y = mouse[1];
@@ -64,7 +62,7 @@ ns.create = function (el, props, state) {
                 x: rescaledX,
                 y: rescaledY,
                 r: 2,
-                color: "#c50000"
+                color: "rgb(244, 67, 54)"
             };
 
             if (ns.onClick) {
@@ -82,18 +80,14 @@ ns.create = function (el, props, state) {
     svg.append('g')
         .attr('class', 'd3-points');
 
-    // svg.append('g')
-    //     .attr('class', 'd3-tooltips');
-
-
     this.update(el, state, dispatcher);
 
     return dispatcher;
 };
 
-ns.update = function (el, state, dispatcher) {
+ns.update = function (el, state) {
     let scales = this._scales(el, state.domain);
-    this._drawPoints(el, scales, state, dispatcher);
+    this._drawPoints(el, scales, state);
     // this._drawTooltips(el, scales, state.tooltips, prevScales);
 };
 
@@ -126,12 +120,31 @@ ns._scales = function (elId, domain) {
 };
 
 
-ns._drawPoints = function (el, scales, state, dispatcher) {
+ns._drawPoints = function (el, scales, state) {
     const {data, domain} = state;
     let g = d3.select(el).selectAll('.d3-points');
 
-    function subject(d) {
-        return {x: d3.event.x, y: d3.event.y}
+    // update current circles
+    const currentCircles = d3.selectAll('.d3-point');
+    currentCircles
+        .data(data)        
+        .attr("class", d => d.active ? 'd3-point active' : 'd3-point');
+        
+    currentCircles.selectAll("circle")
+        .attr('r', (d) => scales.r(d.r))
+        .style("fill", function (d) {
+            return d.color;
+        });
+
+    currentCircles.selectAll("text")
+        .text(function (d) {
+            return d.name || "";
+        });
+        
+        
+    
+    const subject = function () {
+        return {x: d3.event.x, y: d3.event.y};
     };
 
     let drag = d3.drag()
@@ -142,47 +155,54 @@ ns._drawPoints = function (el, scales, state, dispatcher) {
         .on("drag", function (d) {
             // console.log(d3.event.x + "," + d3.event.y);
 
-            d.x = d3.event.x;
-            d.y = d3.event.y;
+            const x = d3.event.x;
+            const y = d3.event.y;
 
-            const xEdgeZero = d.x - scales.x(2 * d.r);
-            const yEdgeZero = d.y - scales.y(2 * d.r);
-            const xEdgeMax = d.x + scales.x(2 * d.r);
-            const yEdgeMax = d.y + scales.y(2 * d.r);
+            const xEdgeZero = x - scales.x(2 * d.r);
+            const yEdgeZero = y - scales.y(2 * d.r);
+            const xEdgeMax = x + scales.x(2 * d.r);
+            const yEdgeMax = y + scales.y(2 * d.r);
 
             if (xEdgeZero > domain.x[0] && xEdgeMax < domain.x[1] &&
                 yEdgeZero > domain.y[0] && yEdgeMax < domain.y[1]) {
-                d3.select(this).attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+                d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
             }
-
+            ns.onDrag({
+                ...d,
+                x,
+                y
+            });
         })
-        .on("end", function (d) {
-            ns.onDrag(d);
+        .on("end", function () {
+            
         });
+    
 
-
+  
     let pointEnters = g.selectAll('.d3-point')
         .data(data)
         .enter()
         .append("g")
         .attr("transform", d => "translate(" + d.x + "," + d.y + ")")
-        .call(drag);
-    // .attr('cx', (d) => scales.x(d.x))
-    // .attr('cy', (d) => scales.y(d.y));
-
-
-    pointEnters.append("circle")
-        .attr('class', 'd3-point')
-        .attr('r', (d) => scales.r(d.r))
-        .style("fill", function (d) {
-            return d.color;
-        })
+        .call(drag)
         .on('click', function (d) {
             d3.event.stopPropagation();
             // console.log("point", d);
             ns.onPointClick(d);
         });
+    // .attr('cx', (d) => scales.x(d.x))
+    // .attr('cy', (d) => scales.y(d.y));
 
+
+    pointEnters.append("circle")
+        .attr('class', (d) => {
+            return d.active ? 'd3-point active' : 'd3-point';
+        })
+        .attr('r', (d) => scales.r(d.r))
+        .style("fill", function (d) {
+            return d.color;
+        });
+        
 
     pointEnters.append("text")
         .attr("dy", d => scales.r(d.r) / 3)
@@ -191,11 +211,13 @@ ns._drawPoints = function (el, scales, state, dispatcher) {
         .attr("font-size", d => scales.r(d.r))
         .text(function (d) {
             return d.name || ""
-        })
+        });
+
+
 
 };
 
-ns.destroy = function (el) {
+ns.destroy = function () {
 
 };
 

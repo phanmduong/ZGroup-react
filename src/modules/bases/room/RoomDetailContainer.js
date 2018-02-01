@@ -5,16 +5,16 @@ import RoomGrid from "./RoomGrid";
 import PropTypes from 'prop-types';
 import * as seatContants from "../seat/seatConstants";
 import {
-    createSeat,
+    createUpdateSeat,
     loadSeats,
     createSeats,
+    setSelectedSeat,
     setSeatCurrentAction,
     toggleCreateSeatModal
 } from "../seat/seatActions";
 import CreateSeatModalContainer from "../seat/CreateSeatModalContainer";
 import CreateSeatContainer from '../seat/CreateSeatContainer';
 import ButtonList from "./ButtonList";
-import {showErrorMessage} from "../../../helpers/helper";
 
 // Import actions here!!
 
@@ -44,33 +44,32 @@ class RoomDetailContainer extends React.Component {
     }
 
     onClick(point) {
-        console.log("Canvas Click", point);
         const {currentAction, actions, seat} = this.props;
 
-        switch (currentAction) {
-            case seatContants.CREATE_SEAT:
-                if (!seat.color || !seat.r || !seat.name) {
-                    showErrorMessage("Lưu ý", "Bạn cần nhập đủ thuộc tính của chỗ ngồi");
-                } else {
-                    actions.createSeat({
-                        ...seat,
-                        x: point.x,
-                        y: point.y
-                    });
-                }
+        actions.setSelectedSeat(point);
 
+        switch (currentAction) {
+            case seatContants.CREATE_SEAT:            
+                actions.createUpdateSeat({
+                    ...seat,
+                    x: point.x,
+                    y: point.y
+                });
                 return;
         }
     }
 
     onDrag(point) {
-        console.log("Drag", point);
         const {actions} = this.props;
-         actions.createSeat(point);
+        if (this.props.currentAction === ""){
+            actions.setSelectedSeat(point);
+            actions.createUpdateSeat(point);    
+        }
     }
 
-    onPointClick(data) {
-        console.log("Point Click", data);
+    onPointClick(point) {
+        const {actions} = this.props;
+        actions.setSelectedSeat(point);
     }
 
     render() {
@@ -139,7 +138,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            createSeat,
+            createUpdateSeat,
+            setSelectedSeat,
             setSeatCurrentAction,
             loadSeats,
             createSeats,
