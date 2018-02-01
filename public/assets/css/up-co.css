@@ -160,7 +160,7 @@
     color: #96d21f;
 }
 
-.noselect *{
+.noselect * {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -173,10 +173,15 @@
 
 .nav-pills-up .nav-item .nav-link {
     border: 1px solid #96d21f !important;
-    color: #96d21f;
+    color: #96d21f !important;
 }
 
 .nav-pills .nav-item .nav-link.active {
     background-color: #96d21f;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
+}
+
+.nav-pills .nav-item.active .nav-link, .nav-pills .nav-item.active .nav-link:hover, .nav-pills .nav-item.active .nav-link:focus {
+    background-color: #96d21f;
+    color: #FFFFFF !important;
 }

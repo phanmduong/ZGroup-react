@@ -76,16 +76,16 @@
                     {{--<h6 style="text-align: center">Chào bạn,</h6>--}}
                     {{--<p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>--}}
                     {{--<p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>--}}
-                        <ul class="nav nav-pills nav-pills-up center-pills">
+                        <ul class="nav nav-pills nav-pills-up">
                             <li v-for="subscription in userPack.subscriptions"
                                 class="nav-item"
                                 v-bind:class="{active: subscription.isActive }">
                                 <a class="nav-link"
-                                   data-toggle="pill" v-on:click="subscriptionOnclick(event, subscription.id)" role="tab" aria-expanded="false">
-                                    @{{ subscription.subscription_kind_name }}
+                                   data-toggle="pill" v-on:click="subscriptionOnclick(event, subscription.id)" role="tab" aria-expanded="false">                                    @{{ subscription.subscription_kind_name }}
                                 </a>
                             </li>
                         </ul>
+                    <br>
                         {{--<div class="col-md-6">--}}
                             {{--<h6>Gói thành viên: </h6>--}}
                             {{--<p>@{{ userPack.name }}</p>--}}
