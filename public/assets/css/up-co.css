@@ -170,3 +170,13 @@
     /* Non-prefixed version, currently
                                      supported by Chrome and Opera */
 }
+
+.nav-pills-up .nav-item .nav-link {
+    border: 1px solid #96d21f !important;
+    color: #96d21f;
+}
+
+.nav-pills .nav-item .nav-link.active {
+    background-color: #96d21f;
+    color: #FFFFFF;
+}

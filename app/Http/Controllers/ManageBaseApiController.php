@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Base;
 use App\Room;
+use App\RoomType;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -164,7 +165,7 @@ class ManageBaseApiController extends ManageApiController
 
         $data = [
             'rooms' => $rooms->map(function ($room) {
-                return [
+                $data = [
                     'id' => $room->room_id,
                     'name' => $room->room_name,
                     'base_id' => $room->base_id,
@@ -172,8 +173,10 @@ class ManageBaseApiController extends ManageApiController
                     'address' => $room->address,
                     'avatar_url' => $room->avatar_url,
                     'images_url' => $room->images_url,
-                    'type' => $room->type,
                 ];
+                if($room->room_type_id)
+                $data['room_type'] = RoomType::find($room->room_type_id)->getData();
+                return $data;
             })
         ];
 

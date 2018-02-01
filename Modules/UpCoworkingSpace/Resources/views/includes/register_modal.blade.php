@@ -77,27 +77,38 @@
                     {{--<p style="text-align: center">Bạn đang tiến hành đặt chỗ tại @{{base.name}}.</p>--}}
                     {{--<p style="text-align: center">Vui lòng chọn gói dịch vụ mà bạn muốn.</p>--}}
                     <div class="row">
-                        <div class="col-md-6">
-                            <img class="img" v-bind:src="userPack.avatar_url"
-                                 style="width: 100%; height: auto; border-radius: 10px"/>
-                            <button class="btn" v-for="subscription in userPack.subscriptions"
-                                    style="margin: 10px 10px 10px 0px !important;"
-                                    v-on:click="subscriptionOnclick(event, subscription.id)"
-                                    v-bind:style="subscription.style"
-                                    v-bind:id="'subscription'+subscription.id + userPack.id">
-                                @{{ subscription.subscription_kind_name }}
-                            </button>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Gói thành viên: </h6>
-                            <p>@{{ userPack.name }}</p>
-                            <br>
-                            <h6>Mô tả: </h6>
-                            <p>@{{ subscription.description }}</p>
-                            <br>
-                            <h6>Chi phí: </h6>
-                            <p>@{{ subscription.vnd_price }}</p>
-                        </div>
+                        {{--<div class="col-md-6">--}}
+                            {{--<img class="img" v-bind:src="userPack.avatar_url"--}}
+                                 {{--style="width: 100%; height: auto; border-radius: 10px"/>--}}
+                            {{--<button class="btn" v-for="subscription in userPack.subscriptions"--}}
+                                    {{--style="margin: 10px 10px 10px 0px !important;"--}}
+                                    {{--v-on:click="subscriptionOnclick(event, subscription.id)"--}}
+                                    {{--v-bind:style="subscription.style"--}}
+                                    {{--v-bind:id="'subscription'+subscription.id + userPack.id">--}}
+                                {{--@{{ subscription.subscription_kind_name }}--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
+                        <ul class="nav nav-pills nav-pills-up">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#info-pill" role="tab" aria-expanded="false">Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#menu-pill" role="tab" aria-expanded="false">Menu</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#messages-pill" role="tab" aria-expanded="true">Concept</a>
+                            </li>
+                        </ul>
+                        {{--<div class="col-md-6">--}}
+                            {{--<h6>Gói thành viên: </h6>--}}
+                            {{--<p>@{{ userPack.name }}</p>--}}
+                            {{--<br>--}}
+                            {{--<h6>Mô tả: </h6>--}}
+                            {{--<p>@{{ subscription.description }}</p>--}}
+                            {{--<br>--}}
+                            {{--<h6>Chi phí: </h6>--}}
+                            {{--<p>@{{ subscription.vnd_price }}</p>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
             </div>
