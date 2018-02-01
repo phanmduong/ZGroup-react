@@ -377,6 +377,9 @@ class ManageBaseApiController extends ManageApiController
     public function availableSeats(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        $request->from = str_replace('/', '-', $request->from);
+        $request->to = str_replace('/', '-', $request->to);
+
         $seats = Seat::query();
         $seats_count = Seat::query();
         if ($request->room_id) {
@@ -384,14 +387,11 @@ class ManageBaseApiController extends ManageApiController
             $seats_count = $seats_count->where('room_id', $request->room_id);
         }
         $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
-        $seats = $seats->select('seats.*', 'room_service_register_seat.start_time as start_time', 'room_service_register_seat.end_time as end_time')
-            ->where('start_time', null);
-//        where(function ($query) use ($request) {
-//            $query->where('room_service_register_seat.start_time', '>', $request->to)
-//                ->orWhere('room_service_register_seat.end_time', '<', $request->from);
-//        });
-//        $seats = $seats->get();
-//        return $this->respondSuccessWithStatus($seats);
+        $seats = $seats->where(function ($query) use ($request) {
+            $query->where('room_service_register_seat.start_time', '=', null)
+                ->orWhere('room_service_register_seat.start_time', '>', date("Y-m-d H:i:s", strtotime($request->to)))
+                ->orWhere('room_service_register_seat.end_time', '<', date("Y-m-d H:i:s", strtotime($request->from)));
+        })->groupBy('seats.id')->select('seats.*');
         $seats_count = $seats_count->orderBy('created_at', 'desc')->count();
         if ($limit == -1) {
             $seats = $seats->get();
