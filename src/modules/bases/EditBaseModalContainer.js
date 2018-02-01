@@ -2,98 +2,104 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import FormInputText from "../../../components/common/FormInputText";
 import {Modal} from "react-bootstrap";
-import * as helper from "../../../helpers/helper";
-import *as roomActions from "../../rooms/roomActions";
+import *as helper from "../../helpers/helper";
+import *as baseListActions from "./baseListActions";
 import Select from 'react-select';
-import TooltipButton from "../../../components/common/TooltipButton";
+import FormInputText from "../../components/common/FormInputText";
+import TooltipButton from "../../components/common/TooltipButton";
+import Checkbox from "../../components/common/CheckBoxMaterial";
 
-class EditRoomModalContainer extends React.Component {
+class EditBaseModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.onChangeBaseForm = this.onChangeBaseForm.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.changeAvatar = this.changeAvatar.bind(this);
-        this.removeImageChange = this.removeImageChange.bind(this);
         this.handleImages = this.handleImages.bind(this);
-        this.storeRoom = this.storeRoom.bind(this);
-        this.onChangeTypeForm = this.onChangeTypeForm.bind(this);
+        this.onChangeProvinceForm = this.onChangeProvinceForm.bind(this);
+        this.onChangeDistrictForm = this.onChangeDistrictForm.bind(this);
+        this.submit = this.submit.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.baseListActions.loadAllProvinces();
     }
 
     updateFormData(event) {
         const field = event.target.name;
-        let room = {
-            ...this.props.room,
+        let base = {
+            ...this.props.base,
             [field]: event.target.value
         };
-        this.props.roomActions.handleRoomEditModal(room);
+        this.props.baseListActions.handleBaseEditModal(base);
     }
-
 
     changeAvatar(e) {
         const file = e.target.files[0];
-        this.props.roomActions.changeAvatar(file);
-    }
-
-    removeImageChange(e) {
-        e.preventDefault();
-        let room = {
-            ...this.props.room,
-            avatar_url: ""
-        };
-        this.props.roomActions.handleRoomEditModal(room);
+        this.props.baseListActions.changeAvatar(file);
     }
 
     handleImages(e) {
         const fileList = e.target.files;
         const files = Array.from(fileList);
-        const first_length = this.props.room.images_url ? JSON.parse(this.props.room.images_url).length : 0;
-        files.map((file) => this.props.roomActions.changeImage(file, files.length, first_length));
+        const first_length = this.props.base.images_url ? JSON.parse(this.props.base.images_url).length : 0;
+        files.map((file) => this.props.baseListActions.changeImage(file, files.length, first_length));
     }
 
-    onChangeBaseForm(value) {
-        let room = {
-            ...this.props.room,
-            base_id: value.value,
-            base_name: value.label
-        };
-        this.props.roomActions.handleRoomEditModal(room);
+    onChangeProvinceForm(value) {
+        console.log("province", value.label);
+        if (value) {
+            let base = {
+                ...this.props.base,
+                province: {
+                    id: value.value,
+                    name: value.label
+                }
+            };
+            let districts = this.props.provinces.filter(province => province.id === value.value)[0].districts;
+            this.props.baseListActions.handleBaseEditModal(base);
+            this.props.baseListActions.handleDistricts(districts);
+        }
     }
 
-    onChangeTypeForm(value) {
-        let room = {
-            ...this.props.room,
-            room_type: {
-                ...this.props.room.room_type,
-                id: value.value,
-                name: value.label
-            }
-        };
-        this.props.roomActions.handleRoomEditModal(room);
+    onChangeDistrictForm(value) {
+        console.log("district", value);
+        if (value) {
+            let base = {
+                ...this.props.base,
+                district: {
+                    id: value.value,
+                    name: value.label
+                }
+            };
+            this.props.baseListActions.handleBaseEditModal(base);
+        }
     }
 
-    storeRoom() {
-        let room = this.props.room;
-        if (
-            helper.isEmptyInput(room.name)
+    submit() {
+        const base = this.props.base;
+        if (helper.isEmptyInput(base.name)
+            || helper.isEmptyInput(base.address)
+            || helper.isEmptyInput(base.latitude)
+            || helper.isEmptyInput(base.longitude)
+            || helper.isEmptyInput(base.district)
         ) {
-            helper.showErrorNotification("Bạn cần nhập Tên phòng");
+            if (helper.isEmptyInput(base.name)) helper.showErrorNotification("Bạn cần nhập Tên cơ sở");
+            if (helper.isEmptyInput(base.address)) helper.showErrorNotification("Bạn cần nhập địa chỉ cơ sở");
+            if (helper.isEmptyInput(base.latitude)) helper.showErrorNotification("Bạn cần nhập latitude");
+            if (helper.isEmptyInput(base.longitude)) helper.showErrorNotification("Bạn cần nhập longitude");
+            if (helper.isEmptyInput(base.district)) helper.showErrorNotification("Bạn cần chọn Quận/Huyện");
         } else {
-            if (room.id) {
-                this.props.roomActions.editRoom(room);
-            } else {
-                this.props.roomActions.storeRoom(room);
-            }
+            this.props.baseListActions.editBase(base);
         }
     }
 
     render() {
-        let room = this.props.room;
+        let base = this.props.base;
         return (
-            <Modal show={this.props.showEditRoomModal}
-                   onHide={() => this.props.roomActions.showRoomEditModal(-1)}>
-                <a onClick={() => this.props.roomActions.showRoomEditModal(-1)}
+            <Modal show={this.props.showEditBaseModal}
+                   onHide={() => this.props.baseListActions.showBaseEditModal()}>
+                <a onClick={() => this.props.baseListActions.showBaseEditModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title>{this.props.isEditRoom ? "Sửa phòng" : "Tạo phòng"}</Modal.Title>
@@ -125,7 +131,7 @@ class EditRoomModalContainer extends React.Component {
                                                     display: "inline-block"
                                                 }}>
                                                     <img
-                                                        src={room.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
+                                                        src={base.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
                                                         style={{
                                                             lineHeight: "164px",
                                                             height: "auto",
@@ -162,7 +168,7 @@ class EditRoomModalContainer extends React.Component {
                             <label className="label-control">Ảnh mô tả</label>
                             <div className="box">
                                 {
-                                    room.images_url && JSON.parse(room.images_url).map((image, index) => {
+                                    base.images_url && JSON.parse(base.images_url).map((image, index) => {
                                         return (
                                             <div key={index}
                                                  style={{
@@ -182,7 +188,7 @@ class EditRoomModalContainer extends React.Component {
                                                     <div className="button-for-images">
                                                         <TooltipButton text="Xóa" placement="top">
                                                             <a rel="tooltip"
-                                                               onClick={() => this.props.roomActions.deleteImage(image)}
+                                                               onClick={() => this.props.baseListActions.deleteImage(image)}
                                                                data-original-title="" title="">
                                                                 <i className="material-icons">close</i>
                                                             </a>
@@ -253,6 +259,7 @@ class EditRoomModalContainer extends React.Component {
                                                 </div>
                                             }
                                         </div>
+
                                     </div>
                                 }
                             </div>
@@ -260,74 +267,104 @@ class EditRoomModalContainer extends React.Component {
                         <form role="form"
                               id="form-add-room">
                             <FormInputText
-                                label="Tên phòng"
-                                required
+                                label="Tên cơ sở"
                                 name="name"
                                 updateFormData={this.updateFormData}
-                                value={room.name || ""}
+                                value={base.name}
+                                required
                             />
                             <FormInputText
-                                label="Số chỗ ngồi"
-                                required
-                                type="number"
-                                name="seats_count"
+                                label="Địa chỉ cơ sở"
+                                name="address"
                                 updateFormData={this.updateFormData}
-                                value={room.seats_count || ""}
+                                value={base.address}
+                                required
+                            />
+                            <FormInputText
+                                label="Latitude"
+                                name="latitude"
+                                type="number"
+                                updateFormData={this.updateFormData}
+                                value={base.latitude}
+                            />
+                            <FormInputText
+                                label="Longitude"
+                                name="longitude"
+                                type="number"
+                                updateFormData={this.updateFormData}
+                                value={base.longitude}
                             />
                             <div className="form-group">
-                                <label className="label-control">Chọn cơ sở</label>
+                                <label className="control-label">Mô tả</label>
+                                <textarea type="text" className="form-control"
+                                          value={base.description ? base.description : ''}
+                                          name="description"
+                                          onChange={this.updateFormData}/>
+                                <span className="material-input"/>
+                            </div>
+                            <Checkbox
+                                label="Trụ sở"
+                                checked={base.center ? (true) : (false)}
+                                name="center"
+                                onChange={this.updateFormData}
+                            />
+                            <Checkbox
+                                label="Hiển thị"
+                                checked={base.display_status ? (true) : (false)}
+                                name="display_status"
+                                onChange={this.updateFormData}
+                            />
+                            <div className="form-group">
+                                <label className="label-control">Tỉnh/Thành phố</label>
                                 <Select
                                     name="categories"
-                                    value={room.base_id}
-                                    options={this.props.bases.map((base) => {
+                                    value={base.province ? base.province.id : ''}
+                                    options={this.props.provinces.map(province => {
                                         return {
-                                            ...base,
-                                            value: base.id,
-                                            label: base.name
+                                            ...province,
+                                            value: province.id,
+                                            label: province.name
                                         };
                                     })}
-                                    onChange={this.onChangeBaseForm}
+                                    onChange={this.onChangeProvinceForm}
                                     clearable={false}
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="label-control">Chọn loại phòng</label>
+                                <label className="label-control">Quận/Huyện</label>
                                 <Select
                                     name="type"
-                                    value={room.room_type ? room.room_type.id : ''}
-                                    options={this.props.types.map((type) => {
+                                    value={base.district ? base.district.id : ""}
+                                    options={this.props.districts.map(district => {
                                         return {
-                                            ...type,
-                                            value: type.id,
-                                            label: type.name
+                                            ...district,
+                                            value: district.id,
+                                            label: district.name
                                         };
                                     })}
-                                    onChange={this.onChangeTypeForm}
+                                    onChange={this.onChangeDistrictForm}
                                     clearable={false}
                                 />
                             </div>
                             {
-                                this.props.isStoringRoom ?
+                                this.props.isSavingBase ?
                                     (
                                         <button
+                                            type="button"
                                             className="btn btn-rose disabled"
-                                            type="button"
                                         >
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            {room.id ? 'Đang lưu' : 'Đang tạo'}
+                                            <i className="fa fa-spinner fa-spin"/> Đang lưu
                                         </button>
-                                    )
-                                    :
+                                    ) :
                                     (
                                         <button
-                                            className="btn btn-rose"
                                             type="button"
-                                            onClick={this.storeRoom}
+                                            className="btn btn-rose"
+                                            onClick={this.submit}
                                         >
-                                            {room.id ? 'Lưu' : 'Tạo'}
+                                            Lưu
                                         </button>
-                                    )
-                            }
+                                    )}
                         </form>
                     </div>
                 </Modal.Body>
@@ -336,37 +373,43 @@ class EditRoomModalContainer extends React.Component {
     }
 }
 
-EditRoomModalContainer.propTypes = {
+EditBaseModalContainer.propTypes = {
     isEditRoom: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
     isStoringRoom: PropTypes.bool.isRequired,
-    room: PropTypes.object.isRequired,
-    showEditRoomModal: PropTypes.bool.isRequired,
-    roomActions: PropTypes.object.isRequired,
+    base: PropTypes.object.isRequired,
+    showEditBaseModal: PropTypes.bool.isRequired,
+    baseListActions: PropTypes.object.isRequired,
     isUploadingAvatar: PropTypes.bool.isRequired,
     percent: PropTypes.number.isRequired,
     isUploadingImage: PropTypes.bool.isRequired,
-    types: PropTypes.array.isRequired
+    types: PropTypes.array.isRequired,
+    provinces: PropTypes.array.isRequired,
+    isSavingBase: PropTypes.bool,
+    districts: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         isStoringRoom: state.rooms.isStoringRoom,
-        showEditRoomModal: state.rooms.showEditRoomModal,
+        showEditBaseModal: state.baseList.showEditBaseModal,
         isEditRoom: state.rooms.isEditRoom,
-        room: state.rooms.room,
+        base: state.baseList.base,
         bases: state.rooms.bases,
-        isUploadingAvatar: state.rooms.isUploadingAvatar,
-        percent: state.rooms.percent,
-        isUploadingImage: state.rooms.isUploadingImage,
-        types: state.rooms.types
+        isUploadingAvatar: state.baseList.isUploadingAvatar,
+        percent: state.baseList.percent,
+        isUploadingImage: state.baseList.isUploadingImage,
+        types: state.rooms.types,
+        provinces: state.baseList.provinces,
+        isSavingBase: state.baseList.isSavingBase,
+        districts: state.baseList.districts
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        roomActions: bindActionCreators(roomActions, dispatch)
+        baseListActions: bindActionCreators(baseListActions, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditRoomModalContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(EditBaseModalContainer);

@@ -365,7 +365,10 @@ export default {
     },
 
     baseList: {
+        showEditBaseModal: false,
+        isUploadingAvatar: false,
         bases: [],
+        isUploadingImage: false,
         isLoadingBases: false,
         currentPage: 1,
         totalPages: 1,
@@ -386,7 +389,11 @@ export default {
                         "",
                     images: []
                 }
-        }
+        },
+        base: {},
+        percent: 0,
+        isSavingBase: false,
+        districts: []
     },
 
     book: {
@@ -1877,37 +1884,37 @@ export default {
         errorStore: false,
     },
 
-    userpacks : {
-        ListUserpacks : [],
-        isLoadingUserpacks : false,
-        isLoadingUserpack : false,
-        isLoadingSubInUserpack : false,
-        isLoadingSubKind : false,
-        isSavingAdd : false,
-        isSavingUserpack : false,
-        isSavingSubKind : false,
-        userpack : {
-            id : 0,
-            avatar_url : "",
-            name :"",
-            detail :"",
-            isUpdatingImage : false,
-            subscriptions : [],
+    userpacks: {
+        ListUserpacks: [],
+        isLoadingUserpacks: false,
+        isLoadingUserpack: false,
+        isLoadingSubInUserpack: false,
+        isLoadingSubKind: false,
+        isSavingAdd: false,
+        isSavingUserpack: false,
+        isSavingSubKind: false,
+        userpack: {
+            id: 0,
+            avatar_url: "",
+            name: "",
+            detail: "",
+            isUpdatingImage: false,
+            subscriptions: [],
         },
-        subscription  : {
-            price : 0,
-            id : 0,
-            description : "",
-            subscriptionKind : "",  // id
+        subscription: {
+            price: 0,
+            id: 0,
+            description: "",
+            subscriptionKind: "",  // id
         },
-        subscriptionKind :{
-            name : "",
-            hours : 0,
+        subscriptionKind: {
+            name: "",
+            hours: 0,
         },
         subscriptionKinds: [],
-        isSavingSubscription : false,
-        isSavingSubscriptionKind : false,
-        isSavingAddUserpack : false,
+        isSavingSubscription: false,
+        isSavingSubscriptionKind: false,
+        isSavingAddUserpack: false,
     },
 
 };
