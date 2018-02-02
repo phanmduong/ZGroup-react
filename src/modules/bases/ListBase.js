@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {avatarEmpty, shortString} from "../../helpers/helper";
-import {Link} from "react-router";
+// import {Link} from "react-router";
 import Switch from 'react-bootstrap-switch';
 
 class ListBase extends React.Component {
@@ -14,7 +14,7 @@ class ListBase extends React.Component {
         return (
             <div className="row" id="list-base">
                 {this.props.bases && this.props.bases.map((base) => {
-                    var imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
+                    let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
                     return (
                         <div className="col-sm-4" key={base.id} id="card-email-template">
                             <div className="card card-chart">
