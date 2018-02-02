@@ -2,6 +2,7 @@ import React from 'react';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import Loading from "../../components/common/Loading";
 import PropTypes from "prop-types";
+import {Link} from 'react-router';
 
 class ListRoom extends React.Component {
     constructor(props, context) {
@@ -33,7 +34,8 @@ class ListRoom extends React.Component {
                                         <div className="card-header" data-background-color="white" style={{
                                             borderRadius: '10px'
                                         }}>
-                                            <a onClick={() => this.props.openModalEdit(index, room)}>
+
+                                            <Link to={`/base/room/${room.id}`}>
                                                 <div id="simpleBarChart" className="ct-chart"
                                                      style={{
                                                          width: '100%',
@@ -44,7 +46,7 @@ class ListRoom extends React.Component {
                                                          borderRadius: '10px'
                                                      }}
                                                 />
-                                            </a>
+                                            </Link>
                                         </div>
                                         <div className="card-content">
                                             <div className="card-action" style={{height: 50}}>

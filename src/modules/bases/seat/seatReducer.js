@@ -74,15 +74,14 @@ export default function seatReducer(state = initialState.seat, action) {
             return {
                 ...state,
                 seat: action.seat,
-                seats: action.seat.id ?
-                    state.seats.map((seat) => {
+                seats: state.seats.map((seat) => {
                         if (seat.index === action.seat.index)
                             return {
                                 ...action.seat,
                                 active: 1
                             };
                         return seat;             
-                    }) : state.seats
+                })
             };
         case SEAT_TOGGLE_CREATE_SEAT_MODAL:
             return {
