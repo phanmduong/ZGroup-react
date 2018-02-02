@@ -196,6 +196,35 @@
         </div>
     </div>
 </footer>
+<div id="submitModal2" class="modal fade show">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" class="close">×</button>
+                <h3 class="medium-title">Đăng kí </h3></div>
+            <div id="modal-body" class="modal-body">
+                <div class="container">
+                    <form class="register-form ">
+                        <h6>Họ và tên</h6>
+                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control" placeholder="Họ và tên"><br>
+                        <h6>Số điện thoại</h6>
+                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                        <h6>Email</h6>
+                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control" placeholder="Địa chỉ email"><br>
+                        <h6>Địa chỉ</h6>
+                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control" placeholder="Địa chỉ"><br>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-purchase" class="btn btn-sm btn-main"
+                        v-on:click="submit"
+                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f">Xác nhận
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 <!--  Plugins -->

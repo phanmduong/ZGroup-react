@@ -102,13 +102,17 @@
                             </div>
                             <div class="card-block">
                                 <h3 class="card-title">
-                                    <a href="{{'/conference-room/'.$room->id}}">{{$room->base->name}} : {{$room->name}}</a>
+                                    <a href="{{'/conference-room/'.$room->id}}">{{$room->base->name}}
+                                        : {{$room->name}}</a>
                                 </h3>
                                 <p class="card-description">
                                     {{$room->roomType->name}}
                                 </p>
                                 <br>
-                                <a href="{{'/conference-room/'.$room->id}}" style="color:#96d21f!important">
+                                <a href=""
+                                   data-target="#submitModal2"
+                                   data-toggle="modal"
+                                   style="color:#96d21f!important">
                                     <b>Đặt phòng</b>
                                 </a>
                             </div>
@@ -150,13 +154,24 @@
 
 @push('scripts')
     <script>
+        var submitModal2 = new Vue({
+            el: '#submitModal2',
+            data: {
+
+            },
+            methods: {
+                submit: function () {
+                    $("#submitModal2").modal("hide");
+                    $("#modalSuccess").modal("show");
+                }
+            }
+        });
         var pagination = new Vue({
             el: '#pagination-rooms',
             data: {
                 pages: []
             },
         });
-
         pagination.pages = paginator({{$current_page}},{{$total_pages}})
     </script>
 @endpush
