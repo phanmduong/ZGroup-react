@@ -31,16 +31,18 @@ class ListRoom extends React.Component {
                                         <div className="card-header" data-background-color="white" style={{
                                             borderRadius: '10px'
                                         }}>
-                                            <div id="simpleBarChart" className="ct-chart"
-                                                 style={{
-                                                     width: '100%',
-                                                     background: 'url(' + avatar + ')',
-                                                     backgroundSize: 'cover',
-                                                     backgroundPosition: 'center',
-                                                     height: '200px',
-                                                     borderRadius: '10px'
-                                                 }}
-                                            />
+                                            <a onClick={() => this.props.openModalEdit(index, room)}>
+                                                <div id="simpleBarChart" className="ct-chart"
+                                                     style={{
+                                                         width: '100%',
+                                                         background: 'url(' + avatar + ')',
+                                                         backgroundSize: 'cover',
+                                                         backgroundPosition: 'center',
+                                                         height: '200px',
+                                                         borderRadius: '10px'
+                                                     }}
+                                                />
+                                            </a>
                                         </div>
                                         <div className="card-content">
                                             <div className="card-action">

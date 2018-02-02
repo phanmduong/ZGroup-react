@@ -42,7 +42,7 @@ class ListBase extends React.Component {
                                         <ButtonGroupAction
                                             disabledDelete
                                             object={base}
-                                            onClick={() => this.props.openEditBaseModal(base)}
+                                            edit={() => this.props.openEditBaseModal(base)}
                                         />
                                     </div>
                                     <p className="category">{shortString(base.address, 15)}</p>
