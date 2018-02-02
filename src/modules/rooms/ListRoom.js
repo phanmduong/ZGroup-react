@@ -43,7 +43,7 @@ class ListRoom extends React.Component {
                                             />
                                         </div>
                                         <div className="card-content">
-                                            <div className="card-action">
+                                            <div className="card-action" style={{height: 50}}>
                                                 <h4 className="card-title">{room.name}</h4>
                                                 <ButtonGroupAction
                                                     disabledDelete
@@ -51,7 +51,9 @@ class ListRoom extends React.Component {
                                                     edit={() => this.props.openModalEdit(index, room)}
                                                 />
                                             </div>
-                                            <p className="category">{room.base_name + ": " + room.address}</p>
+                                            <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
+                                                <p className="category">{room.base_name + ": " + room.address}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

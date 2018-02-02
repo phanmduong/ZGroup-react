@@ -73,7 +73,9 @@ class ListPost extends React.Component {
                                                 object={post}
                                                 disabledEdit
                                             />
-                                        </div>
+
+
+
 
                                         <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
                                             <div style={{display: "flex", alignItems: "center"}}>
