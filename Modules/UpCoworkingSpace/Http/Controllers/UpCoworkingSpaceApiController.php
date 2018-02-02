@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Mail;
+
 
 class UpCoworkingSpaceApiController extends ApiPublicController
 {
@@ -71,8 +73,9 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register->save();
 //        dd(Base::find($request->base_id));
 //        $subject = "Xác nhận đăng ký thành công";
-//        $data = ["base" => Base::find($request->base_id)->transform,
-//            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
+////        $data = ["base" => Base::find($request->base_id)->transform,
+////            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
+//        $data = ["user" => $user];
 //        $emailcc = ["graphics@colorme.vn"];
 //        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
 //            $m->from('no-reply@colorme.vn', 'Graphics');

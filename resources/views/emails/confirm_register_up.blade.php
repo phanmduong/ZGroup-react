@@ -240,6 +240,12 @@
                                                     tin bên dưới. Nếu có sai sót, vui lòng liên hệ lại với chúng tôi qua
                                                     <a href="emailto:graphics@colorme.vn">graphics@colorme.vn</a></p>
                                                 <p>
+                                                    Tên: <b>{{$user->name}}</b><br/>
+                                                    Email: <b>{{$user->email}}</b><br/>
+                                                    Số điện thoại: <b>{{$user->phone}}</b><br/>
+                                                    Địa chỉ: <b>{{$user->address}}</b><br/><br/>
+                                                </p>
+                                                <p>
                                                     Cảm ơn bạn đã quan tâm đến dịch vụ của UP !
                                                     Chúng tôi sẽ liên lạc lại với bạn trong thời gian sớm nhất.
                                                 </p>
