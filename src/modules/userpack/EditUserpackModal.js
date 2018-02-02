@@ -59,7 +59,8 @@ class EditUserpackModal extends React.Component {
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12">
-                                <label className="label-control">Thông tin về gói khách hàng </label>
+                                <h4 className="card-title">Thông tin về gói khách hàng </h4>
+                                <label className="label-control">Avatar gói </label>
                                 {this.props.isLoadingUserpack ? <Loading/> :
                                     <div className="row">
                                         {isUpdatingImage ?
@@ -133,8 +134,7 @@ class EditUserpackModal extends React.Component {
 
 
                                 <div className="row">
-
-                                    <label className="label-control">Thông tin về gói đăng kí </label>
+                                    <h4 className="card-title">Thông tin về gói đăng kí </h4>
 
                                     {this.props.isLoadingSubInUserpack ? <Loading/> :
                                         <table className="table table-hover">
