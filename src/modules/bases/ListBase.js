@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {avatarEmpty, shortString} from "../../helpers/helper";
-import {Link} from "react-router";
-import Switch from 'react-bootstrap-switch';
+//import {Link} from "react-router";
 
 class ListBase extends React.Component {
     constructor(props, context) {
@@ -44,14 +43,6 @@ class ListBase extends React.Component {
                                             disabledDelete
                                             object={base}
                                             onClick={() => this.props.openEditBaseModal(base)}
-                                        />
-                                    </div>
-                                    <div style={{display: "flex", alignItems: "center"}}>
-                                        <Switch
-                                            //onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}
-                                            bsSize="mini"
-                                            onText="Hiện" offText="Ẩn"
-                                            value={(base.status === 1)}
                                         />
                                     </div>
                                     <p className="category">{shortString(base.address, 15)}</p>

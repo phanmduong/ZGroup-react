@@ -8,7 +8,7 @@ import *as baseListActions from "./baseListActions";
 import Select from 'react-select';
 import FormInputText from "../../components/common/FormInputText";
 import TooltipButton from "../../components/common/TooltipButton";
-import Switch from 'react-bootstrap-switch';
+import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 
 class EditBaseModalContainer extends React.Component {
     constructor(props, context) {
@@ -321,24 +321,20 @@ class EditBaseModalContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-6 col-sm-6 col-xs-6">
                                     <div className="form-group">
-                                        <label className="control-label">Trụ sở</label>
-                                        <Switch
+                                        <CheckBoxMaterial
+                                            name="sale_status"
+                                            checked={(base.center === 1)}
                                             onChange={this.handleSwitchCenter}
-                                            bsSize="mini"
-                                            onText="Có" offText="Không"
-                                            value={(base.center === 1)}
-                                        />
+                                            label="Trụ sở"/>
                                     </div>
                                 </div>
                                 <div className="col-md-6 col-sm-6 col-xs-6">
                                     <div className="form-group">
-                                        <label className="control-label">Hiển thị</label>
-                                        <Switch
+                                        <CheckBoxMaterial
+                                            name="sale_status"
+                                            checked={(base.display_status === 1)}
                                             onChange={this.handleSwitchDisplay}
-                                            bsSize="mini"
-                                            onText="Hiện" offText="Ẩn"
-                                            value={(base.display_status === 1)}
-                                        />
+                                            label="Hiển thị"/>
                                     </div>
                                 </div>
                             </div>
