@@ -413,4 +413,22 @@ class ManageBaseApiController extends ManageApiController
             'available_seats' => $seats->count(),
         ]);
     }
+
+    public function baseDisplay($baseId, Request $request) {
+            if ($request->display_status == null || trim($request->display_status) == '')
+                return $this->respondErrorWithStatus([
+                    'message' => 'Thiếu display_status'
+                ]);
+            $base = Base::find($baseId);
+            if ($base == null)
+                return $this->respondErrorWithStatus([
+                    'message' => 'Không tồn tại cơ sở'
+                ]);
+            $base->display_status = $request->display_status;
+            $base->save();
+
+            return $this->respondSuccessWithStatus([
+                'message' => 'SUCCESS'
+            ]);
+    }
 }
