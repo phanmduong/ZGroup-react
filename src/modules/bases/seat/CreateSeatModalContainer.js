@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
-import {toggleCreateSeatModal, updateSeatFormData} from "./seatActions";
+import {Badge, Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
+import {createSeat, toggleCreateSeatModal, updateSeatFormData} from "./seatActions";
 import {CirclePicker} from "react-color";
 import Slider from "../../../components/common/Slider";
 
@@ -16,6 +16,7 @@ class CreateSeatModalContainer extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.changeColor = this.changeColor.bind(this);
         this.changeSlider = this.changeSlider.bind(this);
+        this.saveSeat = this.saveSeat.bind(this);
     }
 
     handleClose() {
@@ -42,6 +43,15 @@ class CreateSeatModalContainer extends React.Component {
         });
     }
 
+    saveSeat() {
+        const {x, y} = this.props.point;
+        this.props.actions.createSeat(this.props.roomId, {
+            ...this.props.seat,
+            x,
+            y
+        });
+    }
+
     render() {
         const {seat} = this.props;
         return (
@@ -63,23 +73,16 @@ class CreateSeatModalContainer extends React.Component {
                     </FormGroup>
 
                     <FormGroup>
-                        <div style={{
-                            display: "flex"
-                        }}>
-                            <div style={{border: "1px solid #757575"}}>
-                                {seat.r || 1}
-                            </div>
-
-                            <div style={{flex: 1}}>
-                                <Slider
-                                    onChange={this.changeSlider}
-                                    step={1}
-                                    value={seat.r || 1}
-                                    min={1}
-                                    max={10}/>
-                            </div>
-
-                        </div>
+                        <ControlLabel>
+                            <span style={{marginRight: 5}}>Kích thước ghế</span>
+                            <Badge>{parseInt(seat.r || 1)}</Badge>
+                        </ControlLabel>
+                        <Slider
+                            onChange={this.changeSlider}
+                            step={1}
+                            value={seat.r || 1}
+                            min={1}
+                            max={10}/>
                     </FormGroup>
 
                     <FormGroup>
@@ -92,7 +95,11 @@ class CreateSeatModalContainer extends React.Component {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn btn-rose">Lưu</Button>
+                    <Button
+                        onClick={this.saveSeat}
+                        className="btn btn-rose">
+                        Lưu
+                    </Button>
                 </Modal.Footer>
             </Modal>
         );
@@ -101,20 +108,30 @@ class CreateSeatModalContainer extends React.Component {
 
 CreateSeatModalContainer.propTypes = {
     showCreateSeatModal: PropTypes.bool.isRequired,
+    roomId: PropTypes.oneOfType([
+        PropTypes.string.isRequired,
+        PropTypes.number.isRequired
+    ]),
     actions: PropTypes.object.isRequired,
+    point: PropTypes.object.isRequired,
     seat: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         showCreateSeatModal: state.seat.showCreateSeatModal,
-        seat: state.seat.seat
+        seat: state.seat.seat,
+        point: state.seat.point
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({toggleCreateSeatModal, updateSeatFormData}, dispatch)
+        actions: bindActionCreators({
+            toggleCreateSeatModal,
+            createSeat,
+            updateSeatFormData
+        }, dispatch)
     };
 }
 

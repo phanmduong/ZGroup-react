@@ -114,8 +114,8 @@ class StoreNotificationType extends React.Component {
                 </form>
                 {this.props.isStoring ?
                     (
-                        <button className="btn btn-fill btn-rose" type="button">
-                            <i className="fa fa-spinner fa-spin disabled"/> Đang lưu
+                        <button className="btn btn-fill btn-rose disabled" type="button">
+                            <i className="fa fa-spinner fa-spin"/> Đang lưu
                         </button>
                     )
                     :

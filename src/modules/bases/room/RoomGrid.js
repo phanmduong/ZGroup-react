@@ -22,8 +22,16 @@ class RoomGrid extends React.Component {
         }, this.getGridState());
     }
 
+    componentWillReceiveProps(nextProps) {
+        D3RoomGrid.updateData(nextProps.data);
+    }
+
     componentDidUpdate() {
         D3RoomGrid.update(this.el, this.getGridState(), this.dispatcher);
+    }
+
+    componentWillUnmount() {
+        D3RoomGrid.destroy(this.el);
     }
 
     getGridState() {
@@ -32,11 +40,6 @@ class RoomGrid extends React.Component {
             domain: this.props.domain
         };
     }
-
-    componentWillUnmount() {
-        D3RoomGrid.destroy(this.el);
-    }
-
 
     render() {
         return (

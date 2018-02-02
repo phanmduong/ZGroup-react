@@ -1705,6 +1705,7 @@ export default {
             user_contact_phone: "",
             type: "",
         },
+        summay_money: 0,
         fields: [],
         paginator: {
             total_count: 0,
@@ -1714,14 +1715,47 @@ export default {
         },
 
     },
+    payment: {
+        isLoadingPayments: false,
+        isLoadingPayment: false,
+        isSavingPayment: false,
+        isUploading: false,
+        isLoadingCompanies: false,
+        link: "",
+        percent: 0,
+        summary_money: 0,
+        payment: [{
+            id: 0,
+            money_value: 0,
+            bill_image_url: "",
+            payer: {
+                id: 0,
+               account_number: "",
+            },
+            receiver: {
+                id: 0,
+                account_number: "",
+            },
+            description: "",
+        }],
+        company: [],
+        paginator: {
+            total_count: 0,
+            total_pages: 0,
+            current_page: 1,
+            limit: 20,
+        },
+    },
     seat: {
         showCreateSeatModal: false,
+        point: {},
         seat: {
-            r: 1
+            r: 1,
+            color: "rgb(244, 67, 54)"
         },
         seats: [],
+        currentAction: "",
         domain: {x: [0, 600], y: [0, 400]}
-
     },
     printOrder: {
         isLoading: false,
@@ -1874,6 +1908,38 @@ export default {
             receive_date: "",
         },
     },
+    exportOrder:{
+        isLoading: false,
+        isCommitting: false,
+        isLoadingGoods: false,
+        isLoadingCompanies: false,
+        isLoadingWarehouses: false,
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        listExportOrder:[
+            {
+                good: {id: 0, name:"noname"},
+                warehouse: {id: 0, name:"noname"},
+                company:{id:"", name:"noname"},
+                price:0,
+                quantity:0,
+            }
+        ],
+        data:{
+            good: {id: 0, name:"noname"},
+            warehouse: {id: 0, name:"noname"},
+            company:{id:"", name:"noname"},
+            price:0,
+            quantity:0,
+        },
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
+    },
     notificationTypes: {
         isLoading: false,
         error: false,
@@ -1883,7 +1949,6 @@ export default {
         isStoring: false,
         errorStore: false,
     },
-
     userpacks: {
         ListUserpacks: [],
         isLoadingUserpacks: false,
@@ -1915,6 +1980,10 @@ export default {
         isSavingSubscription: false,
         isSavingSubscriptionKind: false,
         isSavingAddUserpack: false,
+    },
+    sendNotification: {
+        isSending: false,
+        errorSend: false,
     },
 
 };

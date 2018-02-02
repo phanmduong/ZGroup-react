@@ -99,7 +99,9 @@ class CreateCompanyContainer extends React.Component {
                 />
                 <div className="container-fluid">{
                     (this.props.isLoadingCompany) ? <Loading/> :
-                        <form role="form" id="form-company" onSubmit={(e) => e.preventDefault()}>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <form role="form" id="form-company" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="card">
@@ -143,7 +145,7 @@ class CreateCompanyContainer extends React.Component {
 
                                                     />
                                                 </div>
-                                                <div className="col-md-12">
+                                                <div className="col-md-6">
                                                     <FormInputText
                                                         label="Số điện thoại"
                                                         required
@@ -154,7 +156,7 @@ class CreateCompanyContainer extends React.Component {
 
                                                     />
                                                 </div>
-                                                <div className="col-md-12">
+                                                <div className="col-md-6">
                                                     <FormInputText
                                                         label="Mã số thuế"
                                                         required
@@ -312,6 +314,8 @@ class CreateCompanyContainer extends React.Component {
                             </div>
 
                         </form>
+                            </div>
+                        </div>
 
                 }
                 </div>
@@ -329,6 +333,7 @@ CreateCompanyContainer.propTypes = {
     isLoanding: PropTypes.bool.isRequired,
     isLoadingCompany: PropTypes.bool.isRequired,
     fields: PropTypes.array.isRequired,
+    params: PropTypes.object,
 };
 
 function mapStateToProps(state) {

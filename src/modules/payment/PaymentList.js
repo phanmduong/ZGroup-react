@@ -1,8 +1,7 @@
-import React from 'react';
+import React from "react";
 import {Link} from 'react-router';
-import PropTypes from 'prop-types';
-
-class CompaniesList extends React.Component {
+import PropTypes from "prop-types";
+class PaymentList extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {};
@@ -18,12 +17,10 @@ class CompaniesList extends React.Component {
                     <thead className="text-rose">
                     <tr>
                         <th/>
-                        <th>Mã đối tác</th>
-                        <th>Tên công ty</th>
-                        <th>Địa chỉ văn phòng</th>
-                        <th>Lĩnh vực</th>
-                        <th>Số điện thoại liên hệ</th>
-                        <th>Mã số thuế</th>
+                        <th>Bên gửi</th>
+                        <th>Bên nhận</th>
+                        <th>Số tiền</th>
+                        <th>Nội dung</th>
                         <th>Loại</th>
                         <th/>
                         <th/>
@@ -35,31 +32,28 @@ class CompaniesList extends React.Component {
                             return (
                                 <tr key={pp.id}>
                                     <td/>
-                                    <td>
-                                        <a onClick={() => {
-                                            return this.props.openInfoModal(pp);
-                                        }}>
-                                            {pp.partner_code}</a>
-
-                                    </td>
-                                    <td>{pp.name}</td>
-                                    <td>{pp.office_address}</td>
-                                    <td>{pp.field.name}</td>
-                                    <td>{pp.phone_company}</td>
-                                    <td>{pp.tax_code}</td>
+                                    <td>{pp.payer.name}</td>
+                                    <td>{pp.receiver.name}</td>
+                                    <td>{pp.money_value}</td>
+                                    <td> {pp.description ? pp.description : "Không có"}</td>
                                     <td>{
-                                        (pp.type === "provided") ? "Cung cấp" :
-                                            (pp.type === "share") ? "Phân phối" : "Khác"
+                                        (pp.type === "debt_print") ? "Đặt in": (pp.type=== "debt_export")?
+                                            "Xuất hàng" : "Thanh toán"
                                     }</td>
                                     <td>
                                         <div className="btn-group-action">
                                             <div style={{display: "inline-block"}}>
                                                 <Link data-toggle="tooltip" title="Sửa"
-                                                      to={"/business/company/edit/" + pp.id}
+                                                      to={"/business/company/payment/edit/" + pp.id}
                                                       type="button" rel="tooltip">
                                                     <i className="material-icons">edit</i>
                                                 </Link>
                                             </div>
+                                            <a data-toggle="tooltip" title="Thông tin"
+                                                onClick={() => this.props.openInfoModal(pp)} type="button"
+                                               rel="tooltip">
+                                                <i className="material-icons">info</i>
+                                            </a>
                                         </div>
                                     </td>
                                     <td/>
@@ -74,10 +68,8 @@ class CompaniesList extends React.Component {
         );
     }
 }
-
-CompaniesList.propTypes = {
+PaymentList.propTypes ={
     data: PropTypes.array.isRequired,
-    editCompany: PropTypes.func,
-    openInfoModal: PropTypes.func,
+    openInfoModal: PropTypes.func.isRequired,
 };
-export default CompaniesList;
+export default PaymentList;
