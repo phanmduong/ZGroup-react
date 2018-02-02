@@ -1,27 +1,42 @@
-/* eslint-disable */
+
 import * as d3 from "d3";
 import {EventEmitter} from "events";
 
-var ns = {};
+let ns = {};
 
-let ANIMATION_DURATION = 400;
-let TOOLTIP_WIDTH = 30;
-let TOOLTIP_HEIGHT = 30;
+// const ANIMATION_DURATION = 400;
+// const TOOLTIP_WIDTH = 30;
+// const TOOLTIP_HEIGHT = 30;
 
 ns.onClick = (onClick) => {
     ns.onClick = onClick;
 };
 
 ns.onPointClick = (onPointClick) => {
-    ns.onPointClick = onPointClick
+    ns.onPointClick = onPointClick;
 };
 
 ns.onDrag = (onDrag) => {
     ns.onDrag = onDrag;
 };
 
+ns.updateData = (seats) => {
+    ns.state = {
+        ...ns.state,
+        data: seats.map((seat) => {
+            return {
+                ...seat
+            };
+        })
+    };
+    ns.update(ns.el, ns.state);
+};
+
 ns.create = function (el, props, state) {
+    ns.state = {...state};
+    ns.el = el;
     const dispatcher = new EventEmitter();
+    ns.dispatcher = dispatcher;
 
     let svg = d3.select(el)
         .append("div")
@@ -43,20 +58,14 @@ ns.create = function (el, props, state) {
             const rescaledX = scale.x.invert(x);
             const rescaledY = scale.y.invert(y);
 
-            const seat = {
+            const point = {
                 x: rescaledX,
-                y: rescaledY,
-                r: 2,
-                color: "#c50000"
+                y: rescaledY
             };
 
             if (ns.onClick) {
-                ns.onClick(seat);
+                ns.onClick(point);
             }
-
-            state.data.push(seat);
-
-
 
             ns.update(el, state, dispatcher);
         });
@@ -69,18 +78,14 @@ ns.create = function (el, props, state) {
     svg.append('g')
         .attr('class', 'd3-points');
 
-    // svg.append('g')
-    //     .attr('class', 'd3-tooltips');
-
-
     this.update(el, state, dispatcher);
 
     return dispatcher;
 };
 
-ns.update = function (el, state, dispatcher) {
+ns.update = function (el, state) {
     let scales = this._scales(el, state.domain);
-    this._drawPoints(el, scales, state, dispatcher);
+    this._drawPoints(el, scales, state);
     // this._drawTooltips(el, scales, state.tooltips, prevScales);
 };
 
@@ -104,7 +109,7 @@ ns._scales = function (elId, domain) {
     //     .domain(domain.y);
     //
     const r = d3.scaleLinear()
-        .range([5, 20])
+        .range([10, 50])
         .domain([1, 10]);
 
     const x = (x) => x;
@@ -113,12 +118,32 @@ ns._scales = function (elId, domain) {
 };
 
 
-ns._drawPoints = function (el, scales, state, dispatcher) {
+ns._drawPoints = function (el, scales, state) {
     const {data, domain} = state;
     let g = d3.select(el).selectAll('.d3-points');
 
-    function subject(d) {
-        return {x: d3.event.x, y: d3.event.y}
+    
+    // const test = d3.selectAll("circle");
+
+    // test.data(data)
+    //     .attr('r', (d) => {
+    //         console.log("d", d);
+    //         scales.r(d.r);
+    //     })
+    //     .style("fill", function (d) {
+    //         return d.color;
+    //     });
+
+    // currentCircles.selectAll("text")
+    //     .data(data)
+    //     .text(function (d) {
+    //         return d.name || "";
+    //     });
+        
+        
+    
+    const subject = function () {
+        return {x: d3.event.x, y: d3.event.y};
     };
 
     let drag = d3.drag()
@@ -129,92 +154,88 @@ ns._drawPoints = function (el, scales, state, dispatcher) {
         .on("drag", function (d) {
             // console.log(d3.event.x + "," + d3.event.y);
 
-            d.x = d3.event.x;
-            d.y = d3.event.y;
+            const x = d3.event.x;
+            const y = d3.event.y;
 
-            const xEdgeZero = d.x - scales.x(2 * d.r);
-            const yEdgeZero = d.y - scales.y(2 * d.r);
-            const xEdgeMax = d.x + scales.x(2 * d.r);
-            const yEdgeMax = d.y + scales.y(2 * d.r);
+            const xEdgeZero = x - scales.x(2 * d.r);
+            const yEdgeZero = y - scales.y(2 * d.r);
+            const xEdgeMax = x + scales.x(2 * d.r);
+            const yEdgeMax = y + scales.y(2 * d.r);
 
             if (xEdgeZero > domain.x[0] && xEdgeMax < domain.x[1] &&
                 yEdgeZero > domain.y[0] && yEdgeMax < domain.y[1]) {
-                d3.select(this).attr("cx", d.x).attr("cy", d.y);
+                d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
             }
-
+            ns.onDrag({
+                x,
+                y
+            });
         })
-        .on("end", function (d) {
-            ns.onDrag(d);
+        .on("end", function () {
+            
         });
+    
 
-
-    let point = g.selectAll('.d3-point')
+    let pointEnters = g.selectAll('.d3-point')
         .data(data)
         .enter()
-        .append("circle")
-        .attr('class', 'd3-point')
-        .attr('cx', (d) => scales.x(d.x))
-        .attr('cy', (d) => scales.y(d.y))
+        .append("g")
+        .attr("transform", d => "translate(" + d.x + "," + d.y + ")")
+        .call(drag)
+        .on('click', function (d) {
+            d3.event.stopPropagation();
+            ns.onPointClick(d.index);
+        });
+    // .attr('cx', (d) => scales.x(d.x))
+    // .attr('cy', (d) => scales.y(d.y));
+
+
+    pointEnters.append("circle")
+        .attr('class', (d) => {
+            return d.active ? 'd3-point active' : 'd3-point';
+        })
         .attr('r', (d) => scales.r(d.r))
         .style("fill", function (d) {
             return d.color;
+        });
+        
+
+    pointEnters.append("text")
+        .attr("dy", d => scales.r(d.r) / 3)
+        .attr("text-anchor", "middle")
+        .attr("fill", "white")
+        .attr("font-size", d => scales.r(d.r))
+        .text(function (d) {
+            return d.name || "";
+        });
+
+    // update current circles
+    const currentCircles = d3.selectAll('.d3-point');
+    currentCircles    
+        .data(data)           
+        .attr("class", d => d.active ? 'd3-point active' : 'd3-point');
+    
+    const text = d3.selectAll("text");
+    text.data(data)
+        .attr("font-size", d => scales.r(d.r))
+        .text(function (d) {
+            return d.name || "";
+        });
+    
+    const circles = d3.selectAll("circle");
+    circles
+        .data(data)
+        .attr('r', (d) => {
+            return scales.r(d.r);
         })
-        .on('click', function (d) {
-            d3.event.stopPropagation();
-            // console.log("point", d);
-            ns.onPointClick(d);
-        })
-        .call(drag);
+        .style("fill", function (d) {
+            return d.color;
+        });
 
 
-    // point.enter().append('circle')
-    //     .attr('class', 'd3-point')
-    //     .attr('cx', function (d) {
-    //         if (prevScales) {
-    //             return prevScales.x(d.x);
-    //         }
-    //         return scales.x(d.x);
-    //     })
-    //     .transition()
-    //     .duration(ANIMATION_DURATION)
-    //     .attr('cx', function (d) {
-    //         return scales.x(d.x);
-    //     });
-    //
-    // point.attr('cy', function (d) {
-    //     return scales.y(d.y);
-    // })
-    //     .attr('r', function (d) {
-    //         return scales.z(d.z);
-    //     })
-    //     .on('mouseover', function (d) {
-    //         dispatcher.emit('point:mouseover', d);
-    //     })
-    //     .on('mouseout', function (d) {
-    //         dispatcher.emit('point:mouseout', d);
-    //     })
-    //     .transition()
-    //     .duration(ANIMATION_DURATION)
-    //     .attr('cx', function (d) {
-    //         return scales.x(d.x);
-    //     });
-    //
-    // if (prevScales) {
-    //     point.exit()
-    //         .transition()
-    //         .duration(ANIMATION_DURATION)
-    //         .attr('cx', function (d) {
-    //             return scales.x(d.x);
-    //         })
-    //         .remove();
-    // }
-    // else {
-    //     point.exit()
-    //         .remove();
-    // }
 };
 
-ns.destroy = function (el) {
+ns.destroy = function () {
 
 };
 

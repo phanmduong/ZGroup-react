@@ -2,14 +2,14 @@ import React from 'react';
 import {Link} from 'react-router';
 import PropTypes from 'prop-types';
 
-class CompaniesList extends React.Component{
+class CompaniesList extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state          = {
-        };
+        this.state = {};
     }
-    render(){
-        return(
+
+    render() {
+        return (
             <div className="table-responsive">
 
                 <table id="datatables"
@@ -32,11 +32,13 @@ class CompaniesList extends React.Component{
                     <tbody>
                     {
                         this.props.data.map((pp) => {
-                           return(
+                            return (
                                 <tr key={pp.id}>
                                     <td/>
                                     <td>
-                                        <a onClick={()=>{return this.props.openInfoModal(pp);}}>
+                                        <a onClick={() => {
+                                            return this.props.openInfoModal(pp);
+                                        }}>
                                             {pp.partner_code}</a>
 
                                     </td>
@@ -50,28 +52,29 @@ class CompaniesList extends React.Component{
                                             (pp.type === "share") ? "Phân phối" : "Khác"
                                     }</td>
                                     <td>
-                                        <div style={{display: "inline-block"}}>
-                                            <Link data-toggle="tooltip" title="Sửa"
-                                                  to={"/business/company/edit/" + pp.id}
-                                                  type="button" rel="tooltip">
-                                                <i className="material-icons">edit</i>
-                                            </Link>
+                                        <div className="btn-group-action">
+                                            <div style={{display: "inline-block"}}>
+                                                <Link data-toggle="tooltip" title="Sửa"
+                                                      to={"/business/company/edit/" + pp.id}
+                                                      type="button" rel="tooltip">
+                                                    <i className="material-icons">edit</i>
+                                                </Link>
+                                            </div>
                                         </div>
                                     </td>
                                     <td/>
                                 </tr>
-                           );
+                            );
                         })
                     }
                     </tbody>
-                    <table>
 
-                    </table>
                 </table>
             </div>
         );
     }
 }
+
 CompaniesList.propTypes = {
     data: PropTypes.array.isRequired,
     editCompany: PropTypes.func,

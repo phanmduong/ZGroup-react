@@ -41,6 +41,7 @@ class OrderContainer extends React.Component {
 
     componentWillMount() {
         this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
+        this.props.goodOrderActions.loadProvinces();
         // this.props.goodOrderActions.loadStaffs();
     }
 
@@ -397,12 +398,18 @@ class OrderContainer extends React.Component {
                                                 value={this.props.order.order.customer ? this.props.order.order.customer.phone : ''}
                                                 disabled
                                             />
-                                            <FormInputText
-                                                label="Địa chỉ"
-                                                name="address"
-                                                value={this.props.order.order.customer ? this.props.order.order.customer.address : ''}
-                                                disabled
-                                            />
+
+
+
+                                            {/*<label className="label-control">Chọn tỉnh</label>*/}
+                                            {/*<ReactSelect*/}
+                                                {/*value={subscriptionKind}*/}
+                                                {/*options={this.props.subscriptionKinds}*/}
+                                                {/*onChange={this.changeSubscriptionKind}*/}
+                                                {/*placeholder="Chọn gói đăng kí"*/}
+                                            {/*/>*/}
+
+
                                         </div>
                                     </div>
                                 }

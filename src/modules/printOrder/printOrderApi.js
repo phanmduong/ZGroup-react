@@ -63,4 +63,14 @@ export function loadPrintOrderInfo(id) {
 
     return axios.get(url);
 }
+export function confirmOrder(id) {
+    //http://manageapi.keetool.xyz/company/print-order/21?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order/" + id + "/change-status";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+
+    return axios.post(url);
+}
 
