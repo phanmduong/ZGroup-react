@@ -50,7 +50,7 @@ class CreatePrintOrderContainer extends React.Component {
                 }
             );
         } else {
-            this.state.data = defaultData;
+            this.setState({data: defaultData});
         }
     }
 

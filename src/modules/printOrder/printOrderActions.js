@@ -79,6 +79,7 @@ export function createPrintOrder(data, success) {
                     dispatch({
                         type: types.CREATE_PRINT_ORDER_SUCCESS,
                     });
+                    helper.showNotification("Thêm thành công.");
                     success();
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
@@ -96,6 +97,7 @@ export function editPrintOrder(data, success) {
                     dispatch({
                         type: types.EDIT_PRINT_ORDER_SUCCESS,
                     });
+                    helper.showNotification("Thêm thành công.");
                     success();
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
@@ -118,6 +120,24 @@ export function loadPrintOrderInfo(id, success) {
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
                     dispatch({type: types.LOAD_INFO_PRINT_ORDER_ERROR});
+                }
+            });
+    };
+}
+
+export function confirmOrder(id, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CONFIRM_PRINT_ORDER});
+        printOrderApi.confirmOrder(id)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.CONFIRM_PRINT_ORDER_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.CONFIRM_PRINT_ORDER_ERROR});
                 }
             });
     };

@@ -6,7 +6,7 @@ import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import  * as printOrderActions from "./printOrderActions";
 import ListPrintOrder from  "./ListPrintOrder";
-import Search                   from "../../components/common/Search";
+//import Search                   from "../../components/common/Search";
 import {Link} from "react-router";
 
 class PrintOrderContainer extends React.Component {
@@ -49,10 +49,10 @@ class PrintOrderContainer extends React.Component {
                                                     Đặt In
                                                 </Link>
                                             </div>
-                                            <Search className="col-sm-9" placeholder="Tìm kiếm"
-                                                value={this.state.query}
-                                                onChange={()=>{}}
-                                            />
+                                            {/*<Search className="col-sm-9" placeholder="Tìm kiếm"*/}
+                                                {/*value={this.state.query}*/}
+                                                {/*onChange={()=>{}}*/}
+                                            {/*/>*/}
                                         </div>
                                     </div>
                                     {

@@ -3,8 +3,19 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import RoomGrid from "./RoomGrid";
 import PropTypes from 'prop-types';
-import {loadSeats, toggleCreateSeatModal} from "../seat/seatActions";
+import * as seatContants from "../seat/seatConstants";
+import {
+    updateSeat,
+    createSeat,
+    loadSeats,
+    createSeats,
+    setSelectedSeat,
+    setSeatCurrentAction,
+    toggleCreateSeatModal
+} from "../seat/seatActions";
 import CreateSeatModalContainer from "../seat/CreateSeatModalContainer";
+import CreateSeatContainer from '../seat/CreateSeatContainer';
+import ButtonList from "./ButtonList";
 
 // Import actions here!!
 
@@ -19,37 +30,101 @@ class RoomDetailContainer extends React.Component {
         this.onClick = this.onClick.bind(this);
         this.onDrag = this.onDrag.bind(this);
         this.onPointClick = this.onPointClick.bind(this);
+        this.changeSeatAction = this.changeSeatAction.bind(this);
     }
 
     async componentWillMount() {
         this.props.actions.loadSeats(this.props.params.roomId);
+        this.setState({
+            roomId: this.props.params.roomId
+        });
     }
 
-    onClick(data) {
-        console.log("Canvas Click", data);
-        this.props.actions.toggleCreateSeatModal(true);
+    changeSeatAction(action) {
+        this.props.actions.setSeatCurrentAction(action);
     }
 
-    onDrag(data) {
-        console.log("Drag", data);
+    onClick(point) {
+        const {currentAction, actions, seat} = this.props;
+
+        // clear current selected seat
+        actions.setSelectedSeat({});
+
+        switch (currentAction) {
+            case seatContants.CREATE_SEAT:            
+                actions.createSeat({
+                    ...seat,
+                    x: point.x,
+                    y: point.y
+                });
+                return;
+        }
     }
 
-    onPointClick(data) {
-        console.log("Point Click", data);
+    onDrag(point) {
+        const {actions, seat} = this.props;    
+        if (this.props.currentAction === ""){
+            const newSeat = {
+                ...seat,
+                ...point,
+                active: 1
+            };
+            // console.log("point", point);
+            // console.log("newSeat", newSeat);
+            actions.setSelectedSeat(newSeat);
+            actions.updateSeat(newSeat);    
+        }
+    }
+
+    onPointClick(index) {
+        const {actions} = this.props;
+        let seat = null;
+        const filterdSeats = this.props.seats.filter(seat => seat.index === index);
+        if (filterdSeats.length > 0) {
+            seat = filterdSeats[0];   
+        }        
+        actions.setSelectedSeat(seat);
     }
 
     render() {
         return (
             <div>
-                <CreateSeatModalContainer/>
-                <RoomGrid
-                    onClick={this.onClick}
-                    onDrag={this.onDrag}
-                    onPointClick={this.onPointClick}
-                    roomId={Number(this.props.params.roomId)}
-                    data={this.props.seats}
-                    domain={this.props.domain}
+                <CreateSeatModalContainer
+                    roomId={this.props.params.roomId}
                 />
+                <table>
+                    <tbody>
+                    <tr>
+                        <td/>
+                        <td>
+                            <CreateSeatContainer/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{
+                            verticalAlign: "top"
+                        }}>
+                            <ButtonList
+                                saveSeats={() => this.props.actions.createSeats(this.state.roomId, this.props.seats)}
+                                changeAction={this.changeSeatAction}
+                                currentAction={this.props.currentAction}
+                            />
+                        </td>
+                        <td style={{
+                            width: "100%"
+                        }}>
+                            <RoomGrid
+                                onClick={this.onClick}
+                                onDrag={this.onDrag}
+                                onPointClick={this.onPointClick}
+                                roomId={Number(this.props.params.roomId)}
+                                data={this.props.seats}
+                                domain={this.props.domain}
+                            />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         );
     }
@@ -58,21 +133,33 @@ class RoomDetailContainer extends React.Component {
 RoomDetailContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    seat: PropTypes.object.isRequired,
     domain: PropTypes.object.isRequired,
-    seats: PropTypes.array.isRequired
+    seats: PropTypes.array.isRequired,
+    currentAction: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
-    const {seats, domain} = state.seat;
+    const {seats, domain, currentAction, seat} = state.seat;
     return {
         seats,
-        domain
+        domain,
+        seat,
+        currentAction
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({loadSeats, toggleCreateSeatModal}, dispatch)
+        actions: bindActionCreators({
+            updateSeat,
+            createSeat,
+            setSelectedSeat,
+            setSeatCurrentAction,
+            loadSeats,
+            createSeats,
+            toggleCreateSeatModal
+        }, dispatch)
     };
 }
 

@@ -171,7 +171,6 @@ class DashboardContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={this.state.gens}
-                                        disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
                                     />
@@ -180,13 +179,12 @@ class DashboardContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
                                 <div className="col-sm-2">
-                                    <button className="btn btn-info btn-rose"
+                                    <button className="btn btn-info btn-rose btn-round"
                                             onClick={() => this.setState({openFilter: !this.state.openFilter})}>
                                         <i className="material-icons">filter_list</i>
                                         Lọc

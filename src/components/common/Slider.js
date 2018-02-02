@@ -9,8 +9,11 @@ class Slider extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.r !== this.props.r) {
-            if (this.slider)
+
+            if (this.slider) {
+                console.log("r", nextProps.r);
                 this.slider.noUiSlider.set(nextProps.r);
+            }
         }
     }
 
@@ -27,7 +30,7 @@ class Slider extends React.Component {
             }
         });
 
-        this.slider.noUiSlider.on('change', function (values) {
+        this.slider.noUiSlider.on('update', (values) => {
             this.props.onChange(values[0]);
         });
 
@@ -45,7 +48,10 @@ class Slider extends React.Component {
 
 Slider.propTypes = {
     label: PropTypes.string,
-    value: PropTypes.number.isRequired,
+    value: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.string.isRequired
+    ]),
     min: PropTypes.number.isRequired,
     step: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,

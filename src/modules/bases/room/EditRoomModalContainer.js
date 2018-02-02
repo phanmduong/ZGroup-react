@@ -7,8 +7,7 @@ import {Modal} from "react-bootstrap";
 import * as helper from "../../../helpers/helper";
 import *as roomActions from "../../rooms/roomActions";
 import Select from 'react-select';
-import UploadButton from "../../../components/common/uploadButton/UploadButton";
-import Loading from "../../../components/common/Loading";
+import TooltipButton from "../../../components/common/TooltipButton";
 
 class EditRoomModalContainer extends React.Component {
     constructor(props, context) {
@@ -65,8 +64,11 @@ class EditRoomModalContainer extends React.Component {
     onChangeTypeForm(value) {
         let room = {
             ...this.props.room,
-            base_id: value.value,
-            base_name: value.label
+            room_type: {
+                ...this.props.room.room_type,
+                id: value.value,
+                name: value.label
+            }
         };
         this.props.roomActions.handleRoomEditModal(room);
     }
@@ -99,8 +101,8 @@ class EditRoomModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="form-group">
                         <div className="row">
-                            <div className="col-md-4 col-sm-4">
-                                <legend>Ảnh đại diện</legend>
+                            <div className="col-md-12 col-sm-12">
+                                <label className="label-control">Ảnh đại diện</label>
                                 <div className="text-center">
                                     {
                                         this.props.isUploadingAvatar ? (
@@ -112,162 +114,146 @@ class EditRoomModalContainer extends React.Component {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div style={{
-                                                maxWidth: "250px",
-                                                lineHeight: "250px",
-                                                marginBottom: "10px",
-                                                textAlign: "center",
-                                                verticalAlign: "middle",
-                                                boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
-                                                border: "0 none",
-                                                display: "inline-block"
-                                            }}>
-                                                <img
-                                                    src={room.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
-                                                    style={{
-                                                        lineHeight: "164px",
-                                                        height: "auto",
-                                                        maxWidth: "100%",
-                                                        maxHeight: "100%",
-                                                        display: "block",
-                                                        marginRight: "auto",
-                                                        marginLeft: "auto",
-                                                        backgroundSize: "cover",
-                                                        backgroundPosition: "center",
-                                                        borderRadius: "4px",
-                                                    }}/>
-                                            </div>
+                                            <TooltipButton text="Chọn ảnh đại diện" placement="top">
+                                                <a type="button" style={{
+                                                    width: "100%",
+                                                    lineHeight: "250px",
+                                                    marginBottom: "10px",
+                                                    textAlign: "center",
+                                                    verticalAlign: "middle",
+                                                    border: "0 none",
+                                                    display: "inline-block"
+                                                }}>
+                                                    <img
+                                                        src={room.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
+                                                        style={{
+                                                            lineHeight: "164px",
+                                                            height: "auto",
+                                                            width: "100%",
+                                                            display: "block",
+                                                            backgroundSize: "cover",
+                                                            backgroundPosition: "center",
+                                                            boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+                                                            borderRadius: "10px",
+                                                        }}/>
+                                                    <input type="file"
+                                                           accept=".jpg,.png,.gif"
+                                                           onChange={this.changeAvatar}
+                                                           style={{
+                                                               cursor: 'pointer',
+                                                               opacity: "0.0",
+                                                               position: "absolute",
+                                                               top: 0,
+                                                               left: 0,
+                                                               bottom: 0,
+                                                               right: 0,
+                                                               width: "100%",
+                                                               height: "100%"
+                                                           }}
+                                                    />
+                                                </a>
+                                            </TooltipButton>
                                         )
                                     }
-                                    <div>
-                                        {
-                                            room.avatar_url === "" ? (
-                                                <UploadButton
-                                                    className="btn btn-rose btn-xs btn-round text-center"
-                                                    onChange={this.changeAvatar}>
-                                                    Select image
-                                                </UploadButton>
-                                            ) : (
-                                                <div className="row">
-                                                    <label className="btn btn-rose btn-xs btn-round">
-                                                        <input
-                                                            multiple
-                                                            className="upload-button-file"
-                                                            ref={(ref) => {
-                                                                this.input = ref;
-                                                            }}
-                                                            onChange={this.changeAvatar}
-                                                            type="file"
-                                                        />Change
-                                                    </label>
-                                                    <button
-                                                        className="btn btn-xs btn-danger btn-round"
-                                                        onClick={this.removeImageChange}><i
-                                                        className="fa fa-times"/>
-                                                        Remove
-                                                    </button>
-                                                </div>
-                                            )
-                                        }
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                                <legend>Ảnh mô tả</legend>
+                        <div><br/>
+                            <label className="label-control">Ảnh mô tả</label>
+                            <div className="box">
                                 {
-                                    (!room.images_url || JSON.parse(room.images_url).length === 0) && !this.props.isUploadingImage ? (
-                                        <div style={{
-                                            maxWidth: "250px",
-                                            lineHeight: "250px",
-                                            marginBottom: "10px",
-                                            textAlign: "center",
-                                            verticalAlign: "middle",
-                                            boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
-                                            border: "0 none",
-                                            display: "inline-block"
-                                        }}>
-                                            <img
-                                                src={"http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
-                                                style={{
-                                                    lineHeight: "164px",
-                                                    height: "auto",
-                                                    maxWidth: "100%",
-                                                    maxHeight: "100%",
-                                                    display: "block",
-                                                    marginRight: "auto",
-                                                    marginLeft: "auto",
-                                                    backgroundSize: "cover",
-                                                    backgroundPosition: "center",
-                                                    borderRadius: "4px",
-                                                }}/>
-                                        </div>
-                                    ) : (
-                                        <div className="row">
-                                            {
-                                                room.images_url && JSON.parse(room.images_url).map((image, index) => {
-                                                    return (
-                                                        <div key={index}
-                                                             className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                            <div className="container-for-images">
-                                                                <img style={{
-                                                                    width: "100%",
-                                                                    height: "100%",
-                                                                    background: "url(" + image + ") center center / cover",
-                                                                    position: "absolute",
-                                                                    left: "0"
-                                                                }}
-                                                                     data-original-title=""
-                                                                     className="product-image"/>
-                                                                <div className="overlay-for-images"/>
-                                                                <div className="button-for-images">
-                                                                    <a rel="tooltip"
-                                                                       data-original-title="" title=""
-                                                                       onClick={() => this.props.roomActions.deleteImage(image)}>
-                                                                        <i className="material-icons">close</i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                })
-                                            }
-                                            {
-                                                this.props.isUploadingImage ? (
-                                                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                        <div style={{
-                                                            textAlign: "center",
-                                                            marginTop: "30px"
-                                                        }}>
-                                                            <div className="progress">
-                                                                <div className="progress-bar" role="progressbar"
-                                                                     aria-valuenow="70"
-                                                                     aria-valuemin="0" aria-valuemax="100"
-                                                                     style={{width: `${this.props.percent}%`}}>
-                                                                <span
-                                                                    className="sr-only">{this.props.percent}% Complete</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                    room.images_url && JSON.parse(room.images_url).map((image, index) => {
+                                        return (
+                                            <div key={index}
+                                                 style={{
+                                                     padding: "3px"
+                                                 }}>
+                                                <div className="container-for-images">
+                                                    <img style={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        background: "url(" + image + ") center center / cover",
+                                                        position: "absolute",
+                                                        left: "0",
+                                                        borderRadius: "5px"
+                                                    }}
+                                                         data-original-title=""/>
+                                                    <div className="overlay-for-images"/>
+                                                    <div className="button-for-images">
+                                                        <TooltipButton text="Xóa" placement="top">
+                                                            <a rel="tooltip"
+                                                               onClick={() => this.props.roomActions.deleteImage(image)}
+                                                               data-original-title="" title="">
+                                                                <i className="material-icons">close</i>
+                                                            </a>
+                                                        </TooltipButton>
                                                     </div>
-                                                ) : (
-                                                    <div/>
-                                                )
-                                            }
-                                        </div>
-                                    )
+                                                </div>
+                                            </div>
+
+                                        );
+                                    })
                                 }
                                 {
-                                    this.props.isUploadingImage ? (
-                                        <Loading/>
-                                    ) : (
-                                        <UploadButton
-                                            className="btn btn-rose btn-xs btn-round text-center"
-                                            onChange={this.handleImages}>
-                                            Thêm ảnh mô tả
-                                        </UploadButton>
-                                    )
+                                    <div style={{
+                                        padding: "3px"
+                                    }}>
+                                        <div className="flex-row-center flex-justify-content-center"
+                                             style={{
+                                                 width: '100%',
+                                                 height: '100px',
+                                                 backgroundColor: '#e8e8e8',
+                                                 position: "relative",
+                                                 borderRadius: '5px',
+                                                 cursor: "pointer"
+                                             }}>
+                                            <TooltipButton text="Tải ảnh" placement="top">
+                                                <label>
+                                                    <i className="material-icons"
+                                                       style={{
+                                                           fontSize: '40px',
+                                                           color: '#919191',
+                                                           cursor: "pointer"
+                                                       }}>add_a_photo
+                                                    </i>
+                                                    <input multiple
+                                                           onChange={this.handleImages}
+                                                           style={{
+                                                               cursor: this.props.isUploadingImage ? 'not-allowed' : 'pointer',
+                                                               position: "absolute",
+                                                               top: 0,
+                                                               left: 0,
+                                                               bottom: 0,
+                                                               right: 0,
+                                                               width: "100%",
+                                                               height: "100%",
+                                                           }}
+                                                           type={this.props.isUploadingImage ? 'text' : 'file'}/>
+                                                </label>
+
+                                            </TooltipButton>
+
+                                            {
+                                                this.props.isUploadingImage &&
+                                                <div className="progress"
+                                                     style={{
+                                                         position: "absolute",
+                                                         left: 0,
+                                                         bottom: 0,
+                                                         width: '100%',
+                                                         zIndex: '100',
+                                                         marginBottom: '0'
+                                                     }}>
+                                                    <div className="progress-bar" role="progressbar"
+                                                         aria-valuenow="70"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         style={{width: `${this.props.percent}%`}}>
+                                                        <span className="sr-only">{this.props.percent}% Complete</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -280,22 +266,6 @@ class EditRoomModalContainer extends React.Component {
                                 updateFormData={this.updateFormData}
                                 value={room.name || ""}
                             />
-                            <div className="form-group">
-                                <label className="control-label">Chọn loại phòng</label>
-                                <Select
-                                    name="type"
-                                    value={room.type}
-                                    options={this.props.types.map((type) => {
-                                        return {
-                                            ...type,
-                                            value: type.id,
-                                            label: type.name
-                                        };
-                                    })}
-                                    onChange={this.onChangeTypeForm}
-                                    clearable={false}
-                                />
-                            </div>
                             <FormInputText
                                 label="Số chỗ ngồi"
                                 required
@@ -305,7 +275,7 @@ class EditRoomModalContainer extends React.Component {
                                 value={room.seats_count || ""}
                             />
                             <div className="form-group">
-                                <label className="control-label">Chọn cơ sở</label>
+                                <label className="label-control">Chọn cơ sở</label>
                                 <Select
                                     name="categories"
                                     value={room.base_id}
@@ -317,6 +287,22 @@ class EditRoomModalContainer extends React.Component {
                                         };
                                     })}
                                     onChange={this.onChangeBaseForm}
+                                    clearable={false}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className="label-control">Chọn loại phòng</label>
+                                <Select
+                                    name="type"
+                                    value={room.room_type ? room.room_type.id : ''}
+                                    options={this.props.types.map((type) => {
+                                        return {
+                                            ...type,
+                                            value: type.id,
+                                            label: type.name
+                                        };
+                                    })}
+                                    onChange={this.onChangeTypeForm}
                                     clearable={false}
                                 />
                             </div>

@@ -51,9 +51,6 @@ OneSignal.push(["init", {
         cancelButtonText: "HỦY"
     },
 }]);
-OneSignal.sendTag("device_type", 'manage', function (tagsSent) {
-    console.log("tag ok ", tagsSent);
-});
 
 
 

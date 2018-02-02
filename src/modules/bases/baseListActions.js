@@ -5,7 +5,7 @@ import * as types from '../../constants/actionTypes';
 import * as baseListApi from './baseListApi';
 import toastr from 'toastr';
 import {browserHistory} from 'react-router';
-import {showErrorNotification, showNotification} from "../../helpers/helper";
+import * as helper from "../../helpers/helper";
 
 // import _ from 'lodash';
 /*eslint no-console: 0 */
@@ -84,13 +84,13 @@ export function createBase(base) {
         baseListApi.createBase(base)
             .then(res => {
                 const message = res.data.data.message;
-                showNotification(message);
+                helper.showNotification(message);
                 dispatch({
                     type: types.CREATE_BASE_SUCCESS
                 });
                 browserHistory.push('/base/bases');
             }).catch(() => {
-            showErrorNotification('Có lỗi xảy ra');
+            helper.showErrorNotification('Có lỗi xảy ra');
         });
     };
 }
@@ -98,18 +98,18 @@ export function createBase(base) {
 export function editBase(base) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_CREATE_BASE
+            type: types.BEGIN_CREATE_BASE_MODAL
         });
         baseListApi.editBase(base)
             .then(res => {
                 const message = res.data.data.message;
-                showNotification(message);
+                helper.showNotification(message);
                 dispatch({
-                    type: types.CREATE_BASE_SUCCESS
+                    type: types.CREATE_BASE_SUCCESS_MODAL
                 });
                 browserHistory.push('/base/bases');
             }).catch(() => {
-            showErrorNotification('Có lỗi xảy ra');
+            helper.showErrorNotification('Có lỗi xảy ra');
         });
     };
 }
@@ -148,11 +148,11 @@ export function loadAllProvinces() {
 export function uploadAvatar(file) {
     return function (dispatch) {
         const error = () => {
-            showErrorNotification("Có lỗi xảy ra");
+            helper.showErrorNotification("Có lỗi xảy ra");
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            showNotification("Tải lên ảnh đại diện thành công");
+            helper.showNotification("Tải lên ảnh đại diện thành công");
             dispatch({
                 type: types.UPLOAD_BASE_AVATAR_COMPLETE,
                 avatar_url: data.url
@@ -178,11 +178,11 @@ export function uploadAvatar(file) {
 export function uploadImage(file) {
     return function (dispatch) {
         const error = () => {
-            showErrorNotification("Có lỗi xảy ra");
+            helper.showErrorNotification("Có lỗi xảy ra");
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            showNotification("Tải lên ảnh nền thành công");
+            helper.showNotification("Tải lên ảnh nền thành công");
             dispatch({
                 type: types.UPLOAD_BASE_IMAGE_COMPLETE,
                 image_url: data.url
@@ -202,6 +202,91 @@ export function uploadImage(file) {
 
         baseListApi.uploadImage(file,
             completeHandler, progressHandler, error);
+    };
+}
+
+export function showBaseEditModal() {
+    return {
+        type: types.TOGGLE_BASE_EDIT_MODAL
+    };
+}
+
+export function handleBaseEditModal(base) {
+    return {
+        type: types.HANDLE_BASE_EDIT_MODAL,
+        base
+    };
+}
+
+export function handleDistricts(districts) {
+    return{
+      type:types.HANDLE_DISTRICTS_BASE_LIST,
+      districts
+    };
+}
+
+export function changeAvatar(file) {
+    return function (dispatch) {
+        const error = () => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const data = JSON.parse(event.currentTarget.responseText);
+            helper.showNotification("Tải lên ảnh đại diện thành công");
+            dispatch({
+                type: types.UPLOAD_BASE_AVATAR_COMPLETE_MODAL,
+                avatar_url: data.url
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_BASE_AVATAR_PROGRESS_MODAL,
+                percent: percentComplete
+            });
+        };
+        dispatch({
+            type: types.BEGIN_UPLOAD_BASE_AVATAR_MODAL
+        });
+        baseListApi.changeAvatarApi(file,
+            completeHandler, progressHandler, error);
+    };
+}
+
+export function changeImage(file, length, first_length) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_UPLOAD_IMAGE_ROOM
+        });
+        const error = () => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const data = JSON.parse(event.currentTarget.responseText);
+            helper.showNotification("Tải lên ảnh thành công");
+            dispatch({
+                type: types.UPLOAD_IMAGE_COMPLETE_BASE_MODAL,
+                image: data.url,
+                length,
+                first_length
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_BASE_AVATAR_PROGRESS_MODAL,
+                percent: percentComplete
+            });
+        };
+        baseListApi.changeAvatarApi(file,
+            completeHandler, progressHandler, error);
+    };
+}
+
+export function deleteImage(image) {
+    return {
+        type: types.DELETE_IMAGE_BASE_MODAL,
+        image
     };
 }
 

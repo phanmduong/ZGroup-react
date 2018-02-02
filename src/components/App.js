@@ -16,7 +16,7 @@ class App extends React.Component {
         let avatar = helper.avatarEmpty(this.props.user.avatar_url) ? NO_AVATAR : this.props.user.avatar_url;
         return (
             <div className="wrapper">
-                <div className="sidebar" data-active-color="rose" data-background-color="black"
+                <div className="sidebar" data-active-color="rose" data-background-color="white"
                      data-image="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/img/sidebar-1.jpg">
                     <div className="logo">
                         <Link to="/" className="simple-text">
