@@ -201,15 +201,16 @@ class EditBaseModalContainer extends React.Component {
                                                     }}
                                                          data-original-title=""/>
                                                     <div className="overlay-for-images"/>
-                                                    <div className="button-for-images">
-                                                        <TooltipButton text="Xóa" placement="top">
+                                                    <TooltipButton text="Xóa" placement="top">
+                                                        <div className="button-for-images">
                                                             <a rel="tooltip"
                                                                onClick={() => this.props.baseListActions.deleteImage(image)}
                                                                data-original-title="" title="">
                                                                 <i className="material-icons">close</i>
                                                             </a>
-                                                        </TooltipButton>
-                                                    </div>
+                                                        </div>
+                                                    </TooltipButton>
+
                                                 </div>
                                             </div>
 
@@ -227,7 +228,9 @@ class EditBaseModalContainer extends React.Component {
                                                  backgroundColor: '#e8e8e8',
                                                  position: "relative",
                                                  borderRadius: '5px',
-                                                 cursor: "pointer"
+                                                 cursor: "pointer",
+                                                 marginTop: '10px',
+                                                 marginBottom: '10px'
                                              }}>
                                             <TooltipButton text="Tải ảnh" placement="top">
                                                 <label>
