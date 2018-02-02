@@ -28,28 +28,23 @@ class CreateExportOrderContainer extends React.Component {
         this.props.exportOrderActions.loadAllCompanies();
         this.props.exportOrderActions.loadAllWarehourses();
         let id = this.props.params.exportOrderId;
-        if(id){
-            this.props.exportOrderActions.loadExportOrder(id, (data)=>{
+        if (id) {
+            this.props.exportOrderActions.loadExportOrder(id, (data) => {
                 this.setState({data});
             });
-        }else {
+        } else {
             this.setState({data: defaultData});
         }
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     console.log("next", nextProps);
-    // }
-
 
 
     updateFormData(e) {
         let name = e.target.name;
         let value = e.target.value;
         let newdata = {
-                ...this.state.data,
-                [name]: value,
-            };
+            ...this.state.data,
+            [name]: value,
+        };
         this.setState({data: newdata});
     }
 
@@ -75,22 +70,23 @@ class CreateExportOrderContainer extends React.Component {
 
     commitData() {
         let {data} = this.state;
-        if (!data.company.id ) {
+        if (!data.company.id) {
             helper.showErrorNotification("Vui lòng chọn Nhà cung cấp");
             return;
         }
-        if ( !data.good.id) {
+        if (!data.good.id) {
             helper.showErrorNotification("Vui lòng chọn Sản phẩm");
             return;
         }
-        if ( !data.warehouse.id) {
+        if (!data.warehouse.id) {
             helper.showErrorNotification("Vui lòng chọn Kho hàng");
             return;
         }
 
-        if(this.props.params.exportOrderId){
+        if (this.props.params.exportOrderId) {
             this.props.exportOrderActions.editExportOrder(
-                {...data,
+                {
+                    ...data,
                     company_id: data.company.id,
                     good_id: data.good.id,
                     warehouse_id: data.warehouse.id,
@@ -100,7 +96,8 @@ class CreateExportOrderContainer extends React.Component {
         }
         else {
             this.props.exportOrderActions.createExportOrder(
-                {...data,
+                {
+                    ...data,
                     company_id: data.company.id,
                     good_id: data.good.id,
                     warehouse_id: data.warehouse.id,
@@ -111,107 +108,112 @@ class CreateExportOrderContainer extends React.Component {
     }
 
     render() {
-        let {data} =this.state;
-        let { goods, companies, warehouses,
-            isLoading, isCommitting, isLoadingGoods, isLoadingCompanies, isLoadingWarehouses} = this.props;
+        let {data} = this.state;
+        let {
+            goods, companies, warehouses,
+            isLoading, isCommitting, isLoadingGoods, isLoadingCompanies, isLoadingWarehouses
+        } = this.props;
         return (
             <div className="content">
                 <div className="container-fluid">
                     {(isLoading) ? <Loading/> :
-                            <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">local_shipping</i>
-                                            </div>
-
-                                            <div className="card-content">
-                                                <h4 className="card-title">Xuất hàng</h4>
-                                                <div className="row">
-                                                    <div className="col-md-12">
-                                                        <label>Nhà cung cấp</label>
-                                                        <ReactSelect
-                                                            disabled={isLoadingCompanies || isCommitting}
-                                                            options={companies || []}
-                                                            onChange={this.changeCompany}
-                                                            value={data.company.id || ""}
-                                                            name="company"
-                                                            defaultMessage="Chọn nhà cung cấp"
-                                                        /></div>
-                                                    <div className="col-md-12">
-                                                        <label>Kho hàng</label>
-                                                        <ReactSelect
-                                                            disabled={isLoadingWarehouses || isCommitting}
-                                                            options={warehouses || []}
-                                                            onChange={this.changeWarehouse}
-                                                            value={data.warehouse.id || ""}
-                                                            name="warehouse"
-                                                            defaultMessage="Chọn kho hàng"
-                                                        /></div>
-                                                    <div className="col-md-12">
-                                                        <label>Sản phẩm</label>
-                                                        <ReactSelect
-                                                            disabled={isLoadingGoods || isCommitting}
-                                                            options={goods || []}
-                                                            onChange={this.changeGood}
-                                                            value={data.good.id || ""}
-                                                            name="good"
-                                                            defaultMessage="Chọn sản phẩm"
-                                                        /></div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Giá"
-                                                            type="number"
-                                                            name="price"
-                                                            updateFormData={this.updateFormData}
-                                                            value={data.price || ""}
-                                                            disabled={isCommitting || isLoadingGoods}
-                                                        /></div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Số lượng"
-                                                            type="number"
-                                                            name="quantity"
-                                                            updateFormData={this.updateFormData}
-                                                            value={data.quantity || ""}
-                                                            disabled={isCommitting || isLoadingGoods}
-                                                        /></div>
-                                                    {this.props.isCommitting ?
-                                                        <div className="col-md-12">
-                                                            <button className="btn btn-rose  disabled" type="button" disabled>
-                                                                <i className="fa fa-spinner fa-spin"/> Đang lưu...
-                                                            </button>
-                                                        </div>
-                                                        :
-                                                        <div className="col-md-12">
-                                                            <button
-                                                                className="btn btn-fill btn-rose"
-                                                                type="button"
-                                                                onClick={this.commitData}
-                                                                disabled={isCommitting}
-                                                            > Lưu
-                                                            </button>
-                                                            <button
-                                                                className="btn btn-fill btn-rose" type="button"
-                                                                onClick={() => {
-                                                                    helper.confirm("warning","Hủy bỏ","Bạn có chắc muốn hủy không?",
-                                                                        ()=>{return browserHistory.push("/business/export-order");}
-                                                                    );
-                                                                }}
-                                                            > Hủy
-                                                            </button>
-                                                        </div>
-
-                                                    }
-                                                </div>
-                                            </div>
-
+                        <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
+                            <div className="row">
+                                <div className="col-md-8">
+                                    <div className="card">
+                                        <div className="card-header card-header-icon" data-background-color="rose">
+                                            <i className="material-icons">local_shipping</i>
                                         </div>
+
+                                        <div className="card-content">
+                                            <h4 className="card-title">Xuất hàng</h4>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <label>Nhà cung cấp</label>
+                                                    <ReactSelect
+                                                        disabled={isLoadingCompanies || isCommitting}
+                                                        options={companies || []}
+                                                        onChange={this.changeCompany}
+                                                        value={data.company.id || ""}
+                                                        name="company"
+                                                        defaultMessage="Chọn nhà cung cấp"
+                                                    /></div>
+                                                <div className="col-md-12">
+                                                    <label>Kho hàng</label>
+                                                    <ReactSelect
+                                                        disabled={isLoadingWarehouses || isCommitting}
+                                                        options={warehouses || []}
+                                                        onChange={this.changeWarehouse}
+                                                        value={data.warehouse.id || ""}
+                                                        name="warehouse"
+                                                        defaultMessage="Chọn kho hàng"
+                                                    /></div>
+                                                <div className="col-md-12">
+                                                    <label>Sản phẩm</label>
+                                                    <ReactSelect
+                                                        disabled={isLoadingGoods || isCommitting}
+                                                        options={goods || []}
+                                                        onChange={this.changeGood}
+                                                        value={data.good.id || ""}
+                                                        name="good"
+                                                        defaultMessage="Chọn sản phẩm"
+                                                    /></div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Giá"
+                                                        type="number"
+                                                        name="price"
+                                                        updateFormData={this.updateFormData}
+                                                        value={data.price || ""}
+                                                        disabled={isCommitting || isLoadingGoods}
+                                                    /></div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Số lượng"
+                                                        type="number"
+                                                        name="quantity"
+                                                        updateFormData={this.updateFormData}
+                                                        value={data.quantity || ""}
+                                                        disabled={isCommitting || isLoadingGoods}
+                                                    /></div>
+                                                {this.props.isCommitting ?
+                                                    <div className="col-md-12">
+                                                        <button className="btn btn-rose  disabled" type="button"
+                                                                disabled>
+                                                            <i className="fa fa-spinner fa-spin"/> Đang lưu...
+                                                        </button>
+                                                    </div>
+                                                    :
+                                                    <div className="col-md-12">
+                                                        <button
+                                                            className="btn btn-fill btn-rose"
+                                                            type="button"
+                                                            onClick={this.commitData}
+                                                            disabled={isCommitting}
+                                                        > Lưu
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-fill btn-rose" type="button"
+                                                            onClick={() => {
+                                                                helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
+                                                                    () => {
+                                                                        return browserHistory.push("/business/export-order");
+                                                                    }
+                                                                );
+                                                            }}
+                                                        > Hủy
+                                                        </button>
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
+                            </div>
 
-                            </form>
+                        </form>
                     }
                 </div>
             </div>
@@ -221,6 +223,7 @@ class CreateExportOrderContainer extends React.Component {
 
 CreateExportOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    exportOrderActions: PropTypes.object.isRequired,
     isCommitting: PropTypes.bool,
     isLoadingGoods: PropTypes.bool,
     isLoadingCompanies: PropTypes.bool,
@@ -230,6 +233,7 @@ CreateExportOrderContainer.propTypes = {
     companies: PropTypes.array,
     goods: PropTypes.array,
     warehouses: PropTypes.array,
+    params: PropTypes.object,
 };
 
 function mapStateToProps(state) {

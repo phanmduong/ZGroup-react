@@ -177,7 +177,6 @@ function changeUserDataRegister(shiftRegistersData, shiftRegisterId, user, type)
                 let dates = week.dates.map((date) => {
                     let shifts = date.shifts.map((shift) => {
                         if (shift.id === shiftRegisterId) {
-                            console.log(type, user);
                             let users = type === 'add' ? [...shift.users, user] :
                                 shift.users.filter((userData) => user.id !== userData.id);
                             return {...shift, users: [...users]};

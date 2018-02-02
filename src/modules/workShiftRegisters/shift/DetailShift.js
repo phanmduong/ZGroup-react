@@ -103,7 +103,7 @@ class DetailShift extends React.Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                        )
+                                        );
                                     })
                                 )
                         )
@@ -120,6 +120,7 @@ class DetailShift extends React.Component {
 DetailShift.propTypes = {
     isLoadingDetailShifts: PropTypes.bool.isRequired,
     detailShifts: PropTypes.array.isRequired,
+    users: PropTypes.array.isRequired,
     end_time: PropTypes.string.isRequired,
     start_time: PropTypes.string.isRequired,
     workShiftRegisterActions: PropTypes.object.isRequired,

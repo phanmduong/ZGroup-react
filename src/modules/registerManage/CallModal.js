@@ -6,7 +6,7 @@ import * as helper from '../../helpers/helper';
 class CallModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note : ""};
+        this.state = {note: ""};
     }
 
     render() {
@@ -107,8 +107,8 @@ class CallModal extends React.Component {
                                         <i className="material-icons">card_giftcard</i>
                                     </div>
                                     {/*<div className="timeline-badge">*/}
-                                        {/*<img className="circle size-40-px"*/}
-                                        {/*src={register.subscription.user_pack.avatar_url} alt=""/>*/}
+                                    {/*<img className="circle size-40-px"*/}
+                                    {/*src={register.subscription.user_pack.avatar_url} alt=""/>*/}
                                     {/*</div>*/}
                                     <div className="timeline-panel">
                                         <div className="timeline-body">
@@ -130,8 +130,6 @@ class CallModal extends React.Component {
                             </ul>
                         </div>
                     </div>
-
-
 
 
                     <div className="form-group label-floating is-empty">
@@ -212,6 +210,8 @@ class CallModal extends React.Component {
 
 CallModal.propTypes = {
     register: PropTypes.object.isRequired,
+    isChangingStatus: PropTypes.bool.isRequired,
+    isLoadingHistoryCall: PropTypes.bool.isRequired,
 };
 export default CallModal;
 

@@ -64,7 +64,7 @@ class RoomDetailContainer extends React.Component {
     }
 
     onDrag(point) {
-        console.log("drag",point.index);
+        // console.log("drag",point.index);
         const {actions} = this.props;    
         if (this.props.currentAction === ""){
 
@@ -84,7 +84,7 @@ class RoomDetailContainer extends React.Component {
     }
 
     onPointClick(index) {
-        console.log(index);
+        // console.log(index);
         const {actions} = this.props;
         let seat = {};
         const filterdSeats = this.props.seats.filter(seat => seat.index === index);

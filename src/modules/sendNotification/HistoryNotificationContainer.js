@@ -26,10 +26,6 @@ class HistoryNotificationContainer extends React.Component {
         });
     }
 
-    componentWillMount() {
-
-    }
-
     render() {
         return (
             <div id="page-wrapper">

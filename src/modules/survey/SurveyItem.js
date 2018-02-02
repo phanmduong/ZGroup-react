@@ -77,8 +77,7 @@ class SurveyItem extends React.Component {
                                      height: '200px',
                                      borderRadius: '10px',
                                      position: "relative"
-                                 }}>
-                            </div>
+                                 }} />
                         </Link>
                     </div>
 

@@ -122,7 +122,6 @@ class PaymentContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props.summary_money);
         return (
             <div>
                 <div className="content">
@@ -174,8 +173,7 @@ class PaymentContainer extends React.Component {
                                                         Tạo hóa đơn
                                                     </Link>
                                                 </div>
-                                                <div className="col-md-7">
-                                                </div>
+                                                <div className="col-md-7" />
                                                 <div className="col-md-2">
                                                     <button className="btn btn-info btn-rose"
                                                             onClick={() => this.setState({openFilter: !this.state.openFilter})}>

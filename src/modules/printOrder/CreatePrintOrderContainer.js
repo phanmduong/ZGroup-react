@@ -94,11 +94,11 @@ class CreatePrintOrderContainer extends React.Component {
 
     commitData() {
         let {data} = this.state;
-        if(!data.company.id  || !data.good.id){
+        if (!data.company.id || !data.good.id) {
             helper.showErrorNotification("Vui lòng chọn Nhà cung cấp và Sản phẩm");
             return;
         }
-        if(!data.order_date  || !data.receive_date){
+        if (!data.order_date || !data.receive_date) {
             helper.showErrorNotification("Vui lòng chọn Ngày đặt in và Ngày nhận hàng");
             return;
         }
@@ -121,7 +121,7 @@ class CreatePrintOrderContainer extends React.Component {
             this.props.printOrderActions.editPrintOrder(commitData, () => {
                 return browserHistory.push("/business/print-order");
             });
-        }else {
+        } else {
             let commitData = {
                 ...data,
                 staff_id: this.props.user.id,
@@ -196,7 +196,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             <td><FormInputText
                                                                 minValue="0"
                                                                 label="Số trang"
-                                                                type="number" minValue="0"
+                                                                type="number"
                                                                 name="core1-number"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core1.number || ""}
@@ -534,25 +534,25 @@ class CreatePrintOrderContainer extends React.Component {
                                                             /></td>
                                                         </tr>
 
-                                                            <tr>
-                                                                <td colSpan={1}>Thời gian</td>
-                                                                <td colSpan={3}><FormInputDate
-                                                                    label="Ngày đặt in"
-                                                                    name="order_date"
-                                                                    updateFormData={this.updateFormData}
-                                                                    value={data.order_date || ""}
-                                                                    id="form-order-date"
-                                                                    disabled={isCommitting}
-                                                                /></td>
-                                                                <td colSpan={3}><FormInputDate
-                                                                    label="Ngày nhận hàng"
-                                                                    name="receive_date"
-                                                                    updateFormData={this.updateFormData}
-                                                                    value={data.receive_date || ""}
-                                                                    id="form-receive-date"
-                                                                    disabled={isCommitting}
-                                                                /></td>
-                                                            </tr>
+                                                        <tr>
+                                                            <td colSpan={1}>Thời gian</td>
+                                                            <td colSpan={3}><FormInputDate
+                                                                label="Ngày đặt in"
+                                                                name="order_date"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.order_date || ""}
+                                                                id="form-order-date"
+                                                                disabled={isCommitting}
+                                                            /></td>
+                                                            <td colSpan={3}><FormInputDate
+                                                                label="Ngày nhận hàng"
+                                                                name="receive_date"
+                                                                updateFormData={this.updateFormData}
+                                                                value={data.receive_date || ""}
+                                                                id="form-receive-date"
+                                                                disabled={isCommitting}
+                                                            /></td>
+                                                        </tr>
 
                                                         </tbody>
                                                     </table>
@@ -599,7 +599,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                                     name="note"
                                                                     onChange={this.updateFormData}
                                                                     value={data.note}
-                                                                    onKeyUp={() => {}}
+                                                                    onKeyUp={() => {
+                                                                    }}
                                                                     placeholder="Nhập ghi chú"
                                                                     className="comment-input"
                                                                     required
@@ -629,7 +630,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Tên sản phẩm"
                                                             type="text"
                                                             name="name"
-                                                            updateFormData={() => {}}
+                                                            updateFormData={() => {
+                                                            }}
                                                             value={data.good.name || ""}
                                                             disabled={true}
                                                         />
@@ -639,7 +641,8 @@ class CreatePrintOrderContainer extends React.Component {
                                                             label="Mã sản phẩm"
                                                             type="text"
                                                             name="code"
-                                                            updateFormData={() => {}}
+                                                            updateFormData={() => {
+                                                            }}
                                                             value={data.good.code || ""}
                                                             disabled={true}
                                                         />
@@ -688,8 +691,10 @@ class CreatePrintOrderContainer extends React.Component {
                                                                 className="btn btn-fill btn-rose"
                                                                 type="button"
                                                                 onClick={() => {
-                                                                    helper.confirm("warning","Hủy bỏ","Bạn có chắc muốn hủy không?",
-                                                                        ()=>{return browserHistory.push("/business/print-order");}
+                                                                    helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
+                                                                        () => {
+                                                                            return browserHistory.push("/business/print-order");
+                                                                        }
                                                                     );
                                                                 }}
                                                             > Hủy
@@ -726,6 +731,8 @@ CreatePrintOrderContainer.propTypes = {
     companies: PropTypes.array,
     goods: PropTypes.array,
     data: PropTypes.object,
+    printOrderActions: PropTypes.object.isRequired,
+    params: PropTypes.object,
 
 };
 

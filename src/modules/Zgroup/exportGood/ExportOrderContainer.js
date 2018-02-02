@@ -77,6 +77,7 @@ ExportOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     user: PropTypes.object,
     paginator: PropTypes.object,
+    exportOrderActions: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

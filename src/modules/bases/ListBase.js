@@ -16,7 +16,7 @@ class ListBase extends React.Component {
                 {this.props.bases && this.props.bases.map((base) => {
                     let address_description = base.address + base.district;
                     address_description = address_description.substring(0, 50) + "...";
-                    var imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
+                    let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
                     return (
                         <div className="col-sm-4" key={base.id} id="card-email-template">
                             <div className="card card-chart">

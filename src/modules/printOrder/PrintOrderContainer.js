@@ -4,8 +4,8 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
-import  * as printOrderActions from "./printOrderActions";
-import ListPrintOrder from  "./ListPrintOrder";
+import * as printOrderActions from "./printOrderActions";
+import ListPrintOrder from "./ListPrintOrder";
 //import Search                   from "../../components/common/Search";
 import {Link} from "react-router";
 
@@ -21,11 +21,6 @@ class PrintOrderContainer extends React.Component {
     componentWillMount() {
         this.props.printOrderActions.loadPrintOrders();
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     console.log(nextProps);
-    // }
-
 
     render() {
         let {paginator, printOrderActions} = this.props;
@@ -45,18 +40,19 @@ class PrintOrderContainer extends React.Component {
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="col-sm-3">
-                                                <Link to="/business/print-order/create" className="btn btn-rose" style={{width: "100%"}}>
+                                                <Link to="/business/print-order/create" className="btn btn-rose"
+                                                      style={{width: "100%"}}>
                                                     Đặt In
                                                 </Link>
                                             </div>
                                             {/*<Search className="col-sm-9" placeholder="Tìm kiếm"*/}
-                                                {/*value={this.state.query}*/}
-                                                {/*onChange={()=>{}}*/}
+                                            {/*value={this.state.query}*/}
+                                            {/*onChange={()=>{}}*/}
                                             {/*/>*/}
                                         </div>
                                     </div>
                                     {
-                                        this.props.isLoading ? <Loading/>:
+                                        this.props.isLoading ? <Loading/> :
                                             <ListPrintOrder/>
                                     }
                                     <Pagination
@@ -75,6 +71,7 @@ class PrintOrderContainer extends React.Component {
 
 PrintOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    printOrderActions: PropTypes.object.isRequired,
     user: PropTypes.object,
     paginator: PropTypes.object,
 };

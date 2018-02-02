@@ -32,13 +32,13 @@ class InfoStaffContainer extends React.Component {
         this.usernameEmpty = false;
     }
 
-    componentDidUpdate() {
-        this.initForm();
-    }
-
     componentWillReceiveProps(nextProps){
         if(nextProps.staffId != this.props.staffId)
             this.props.staffActions.loadStaffData(nextProps.staffId);
+    }
+
+    componentDidUpdate() {
+        this.initForm();
     }
 
     updateFormData(event) {

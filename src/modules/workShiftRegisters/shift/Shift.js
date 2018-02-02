@@ -51,18 +51,18 @@ class Shift extends React.Component {
                     <div className="avatar-work-shift text-center" style={{lineHeight: '15px', fontWeight: '400'}}>
                         +{users.length - MAX_USER_SHOW_WORK_SHIFT}</div>
                 }
-                {users && users.slice(0, maxUser).map((user) => {
+                {users && users.slice(0, maxUser).map((user, index) => {
                     let avatar = helper.avatarEmpty(user.avatar_url) ?
                         NO_AVATAR : user.avatar_url;
                     return (
-                        <TooltipButton placement="top" text={user.name}>
+                        <TooltipButton placement="top" text={user.name} key={index}>
                             <div className="avatar-work-shift"
                                  style={{
                                      background: "url('" + avatar + "') center center / cover"
                                  }}
                             />
                         </TooltipButton>
-                    )
+                    );
                 })}
                 <Modal show={this.state.showModalUser} onHide={this.closeModalUser}>
                     <Modal.Header closeButton>
@@ -104,7 +104,7 @@ class Shift extends React.Component {
                     </Modal.Body>
                 </Modal>
             </div>
-        )
+        );
     }
 
     render() {

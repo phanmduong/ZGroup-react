@@ -32,7 +32,7 @@ class AddStaffComponent extends React.Component {
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
-                            {(this.props.isLoadingStaff ) ? <Loading/> :
+                            {(this.props.isLoadingStaff) ? <Loading/> :
                                 <form id="form-add-staff" onSubmit={(e) => {
                                     e.preventDefault();
                                 }}>
@@ -148,7 +148,7 @@ class AddStaffComponent extends React.Component {
                                                     />
                                                 </div>
                                                 :
-                                                <div></div>
+                                                <div/>
                                         }
                                     </div>
                                 </form>
@@ -228,6 +228,7 @@ AddStaffComponent.propTypes = {
     bases: PropTypes.array.isRequired,
     departments: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
+    role: PropTypes.number,
 };
 
 export default AddStaffComponent;

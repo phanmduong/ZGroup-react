@@ -25,14 +25,14 @@ class UserSurveySummaryContainer extends React.Component {
         this.loadData = this.loadData.bind(this);
     }
 
-    handleClose() {
-        this.props.actions.toggleSummaryModal(false);
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.showSummaryModal || !this.props.showSummaryModal) {
             this.loadData(1, nextProps);
         }
+    }
+
+    handleClose() {
+        this.props.actions.toggleSummaryModal(false);
     }
 
     async loadData(page = 1, nextProps = null) {

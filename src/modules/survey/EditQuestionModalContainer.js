@@ -44,13 +44,13 @@ class EditQuestionModalContainer extends React.Component {
     renderAnswerEdit(question) {
         switch (question.type) {
             case 1:
-                return <OneCorrectAnswerComponent
+                return (<OneCorrectAnswerComponent
                     updateQuestionFormData={this.props.surveyActions.updateQuestionFormData}
-                    question={question}/>;
+                    question={question}/>);
             case 2:
-                return <ManyCorrectAnswerComponent
+                return (<ManyCorrectAnswerComponent
                     updateQuestionFormData={this.props.surveyActions.updateQuestionFormData}
-                    question={question}/>;
+                    question={question}/>);
         }
     }
 

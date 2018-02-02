@@ -17,14 +17,6 @@ class ArchivedWorkModal extends React.Component {
         };
     }
 
-    componentWillMount() {
-
-    }
-
-    componentWillReceiveProps() {
-
-    }
-
 
     render() {
         let {user,archivedWorks} = this.props;
@@ -77,6 +69,7 @@ ArchivedWorkModal.propTypes = {
     archivedWork: PropTypes.array,
     unArchiveWork: PropTypes.func,
     user: PropTypes.object.isRequired,
+    archivedWorks: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

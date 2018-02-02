@@ -16,7 +16,7 @@ class ItemListCampaign extends React.Component {
     }
 
     changeCourse(value) {
-        let course = value && value.id ? value.id : "";
+        let course = value && value.value ? value.value : "";
         this.setState({
             selectedCourse: course
         });
@@ -29,7 +29,12 @@ class ItemListCampaign extends React.Component {
     }
 
     render() {
-        let url = `${BASE_URL}/classes/${this.state.selectedCourse}/${this.props.user.id}/${this.props.campaign.id}`;
+        let url;
+        if (this.state.selectedCourse === -1) {
+            url = `${BASE_URL}/courses/${this.props.user.id}/${this.props.campaign.id}`;
+        } else {
+            url = `${BASE_URL}/classes/${this.state.selectedCourse}/${this.props.user.id}/${this.props.campaign.id}`;
+        }
         return (
             <tr>
                 <td>

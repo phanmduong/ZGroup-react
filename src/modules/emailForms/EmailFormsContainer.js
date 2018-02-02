@@ -135,7 +135,6 @@ EmailFormsContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-    console.log(state.emailForms,"EMAILFORM");
     return {
         forms: state.emailForms.forms,
         isLoadingForms: state.emailForms.isLoading,

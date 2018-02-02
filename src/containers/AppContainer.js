@@ -23,7 +23,8 @@ class AppContainer extends React.Component {
         };
         this.openModalRule = this.openModalRule.bind(this);
         this.closeModalRule = this.closeModalRule.bind(this);
-        if (this.props.user && this.props.user.role !== 0 && this.props.user.id > 0) {
+        /* eslint-disable */
+        if (this.props.user && this.props.user.role !== 0 && this.props.user.id > 0 && OneSignal) {
 
             helper.onesignalSetUserId(this.props.user.id);
             /* eslint-disable */
@@ -31,7 +32,9 @@ class AppContainer extends React.Component {
                 console.log("tag ok ", tagsSent);
             });
             /* eslint-enable */
+
         }
+        /* eslint-enable */
 
 
     }

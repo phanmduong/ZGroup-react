@@ -370,9 +370,7 @@ class ListOrder extends React.Component {
     }
 
     render() {
-        console.log(names, hours, btns, this.props.check);
 
-        // console.log(this.props.registers, "XXXXXXXX");
         return (
             <div className="table-responsive">
                 {
@@ -538,8 +536,7 @@ class ListOrder extends React.Component {
                 }
 
                 <Modal show={this.state.isOpenCallModal} bsStyle="primary" onHide={this.closeCallModal}>
-                    <Modal.Header closeButton>
-                    </Modal.Header>
+                    <Modal.Header closeButton />
                     <Modal.Body>
                         <CallModal
                             register={this.state.register}

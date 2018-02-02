@@ -147,8 +147,8 @@ class OrderContainer extends React.Component {
                                                 <label className="control-label"/>Ghi chú
                                             <textarea
                                                 className="form-control"
-                                                name='note'
-                                                rows = '5'
+                                                name="note"
+                                                rows = "5"
                                                 value={this.props.order.order.note}
                                                 onChange={(e) => this.updateOrderFormData(e)}
                                             />

@@ -31,11 +31,20 @@ class TabContainer extends React.Component {
             // tạo cây
             let tabs = helper.transformToTree(nextProps.tabsListData, "id", "parent_id");
 
-            // console.log(this.convertDataTabs({children: tabs}, nextProps.pathname));
-            // console.log(this.currentTab);
-            // console.log(this.parentCurrentTab);
             this.setState({tabs: this.convertDataTabs({children: tabs}, nextProps.pathname)});
         }
+    }
+
+
+    componentDidUpdate() {
+        if (this.currentTab.parent) {
+            this.currentTab.parent.forEach((tabParent) => {
+                if (!$("#tab" + tabParent.id).hasClass('collapse in')) {
+                    $("#tab" + tabParent.id).collapse('toggle');
+                }
+            });
+        }
+
     }
 
     convertDataTabs(tabs, pathname) {
@@ -54,17 +63,6 @@ class TabContainer extends React.Component {
         });
 
         return tabs;
-    }
-
-    componentDidUpdate() {
-        if (this.currentTab.parent) {
-            this.currentTab.parent.forEach((tabParent) => {
-                if (!$("#tab" + tabParent.id).hasClass('collapse in')) {
-                    $("#tab" + tabParent.id).collapse('toggle');
-                }
-            });
-        }
-
     }
 
     renderTabChildren(tabChildren) {
@@ -141,8 +139,7 @@ class TabContainer extends React.Component {
                                        }}
                                     >
                                         {//eslint-disable-next-line
-                                        }
-                                        <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                        }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                         <p>{tab.name}</p>
                                     </a>
                                 </li>
@@ -153,8 +150,7 @@ class TabContainer extends React.Component {
                                     <a data-toggle="collapse"
                                        href={'#tab' + tab.id}>
                                         {//eslint-disable-next-line
-                                        }
-                                        <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                        }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                         <p>{tab.name}
                                             <b className="caret"/>
                                         </p>

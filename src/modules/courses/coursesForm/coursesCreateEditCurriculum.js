@@ -63,7 +63,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                               <td>{lesson.description}</td>
                                               <td>{lesson['updated_at']}</td>
                                               <td><ButtonGroupAction
-                                                  editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id +"/" + lesson.id }
+                                                  editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id +"/" + lesson.id}
                                                   delete={()=>{return this.deleteLesson(lesson.id);}}
                                                   object={lesson}
                                               >

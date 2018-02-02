@@ -10,7 +10,7 @@ import CreateJobAssignmentContainer from "../modules/jobAssignment/CreateJobAssi
 import InfoStaffContainer from "../modules/manageStaff/InfoStaffContainer";
 import ProfileContainer from "../modules/profile/ProfileContainer";
 import HistoryExtensionWorkContainer from "../modules/historyExtensionWork/HistoryExtensionWorkContainer";
-import summaryStaffContainer from "../modules/summaryStaff/summaryStaffContainer";
+import summaryStaffContainer from "../modules/summaryStaff/SummaryStaffContainer";
 /**
  * Tab Nhân sự
  */
