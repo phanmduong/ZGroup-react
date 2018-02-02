@@ -108,6 +108,7 @@ class ManageBaseApiController extends ManageApiController
                     'updated_at' => format_time_main($base->updated_at),
                     'center' => $base->center,
                     'images_url' => $base->images_url,
+                    'description' => $base->description,
                     'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
                 ];
 
