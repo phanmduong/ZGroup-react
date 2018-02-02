@@ -133,9 +133,6 @@ class EditUserpackModal extends React.Component {
 
 
                                 <div className="row">
-
-                                    <label className="label-control">Thông tin về gói đăng kí </label>
-
                                     {this.props.isLoadingSubInUserpack ? <Loading/> :
                                         <table className="table table-hover">
                                             {subscriptions.length === 0 ?
@@ -188,7 +185,7 @@ class EditUserpackModal extends React.Component {
                                             description: "",
                                             subscriptionKind: "",
                                         })}>
-                                            <i className="material-icons">add</i>Thêm đăng kí gói
+                                            <i className="material-icons">add</i>Thêm gói đăng kí
                                         </button>
                                         {this.props.isSavingEditUserpack ?
                                             (
