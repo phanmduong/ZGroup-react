@@ -380,6 +380,8 @@ class ManageBaseApiController extends ManageApiController
         $request->from = str_replace('/', '-', $request->from);
         $request->to = str_replace('/', '-', $request->to);
 
+
+
         $seats = Seat::query();
         $booked_seats = Seat::query();
         $seats_count = Seat::query();
@@ -390,7 +392,7 @@ class ManageBaseApiController extends ManageApiController
         }
         $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
         $seats = $seats->where(function ($query) use ($request) {
-            $query->where('room_service_register_seat.starttime', '=', null)
+            $query->where('room_service_register_seat.start_time', '=', null)
                 ->orWhere('room_service_register_seat.start_time', '>', date("Y-m-d H:i:s", strtotime($request->to)))
                 ->orWhere('room_service_register_seat.end_time', '<', date("Y-m-d H:i:s", strtotime($request->from)));
         })->groupBy('seats.id')->select('seats.*');
