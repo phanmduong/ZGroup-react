@@ -738,11 +738,10 @@ export function closeSidebar() {
     /* eslint-enable */
 }
 
-export function onesignalSetUserId(userId, loginSuccess) {
+export function onesignalSetUserId(userId) {
     /* eslint-disable */
     OneSignal.sendTag("user_id", userId, function (tagsSent) {
         console.log("tag ok ", tagsSent);
-        loginSuccess();
     });
     /* eslint-enable */
 }
@@ -1255,4 +1254,15 @@ export function shortString(str, maxLength) {
     const result = arrStr.join(" ");
     if (arrStr.length < maxLength) return str;
     return result + " ..."
+}
+
+export function convertDotMoneyToK(data) {
+    if (data && data.length > 3) {
+        if (data[data.length - 4] === '.' || data[data.length - 4] === ',') {
+            return data.substring(0, data.length - 4) + 'K';
+        }
+        return data.substring(0, data.length - 3) + 'K';
+
+    }
+    return data;
 }

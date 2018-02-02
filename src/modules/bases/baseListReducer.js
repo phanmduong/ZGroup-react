@@ -1,6 +1,9 @@
 /**
  * Created by phanmduong on 4/6/17.
  */
+/**
+ * Edited by TienTaiNguyen on 2/1/18.
+ */
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
@@ -42,24 +45,18 @@ export default function baseListReducer(state = initialState.baseList, action) {
             })
                 ;
 
-        case
-        types.BEGIN_LOAD_BASES
-        :
+        case types.BEGIN_LOAD_BASES:
             return Object.assign({}, state, {
                 isLoadingBases: true
             });
-        case
-        types.LOAD_BASES_SUCCESS
-        :
+        case types.LOAD_BASES_SUCCESS:
             return Object.assign({}, state, {
                 isLoadingBases: false,
                 bases: action.bases,
                 currentPage: action.currentPage,
                 totalPages: action.totalPages
             });
-        case
-        types.SET_DEFAULT_BASE
-        :
+        case types.SET_DEFAULT_BASE:
             return Object.assign({}, state, {
                 bases: state.bases.map(base => {
                     if (base.id === action.baseId) {
@@ -69,23 +66,28 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     }
                 })
             });
-        case
-        types.UPDATE_BASE_FORM_DATA
-        :
+        case types.UPDATE_BASE_FORM_DATA:
             return {
                 ...state,
                 createBase: {...state.createBase, base: action.base}
             };
-        case
-        types.BEGIN_CREATE_BASE
-        :
+        case types.BEGIN_CREATE_BASE:
             return {
                 ...state,
                 createBase: {...state.createBase, isSavingBase: true}
             };
-        case
-        types.CREATE_BASE_SUCCESS
-        :
+        case types.BEGIN_CREATE_BASE_MODAL:
+            return {
+                ...state,
+                isSavingBase: true
+            };
+        case types.CREATE_BASE_SUCCESS_MODAL:
+            return {
+                ...state,
+                isSavingBase: false,
+                showEditBaseModal: false
+            };
+        case types.CREATE_BASE_SUCCESS:
             return {
                 ...state,
                 createBase: {
@@ -96,24 +98,18 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     }
                 }
             };
-        case
-        types.BEGIN_LOAD_ALL_PROVINCES_BASE
-        :
+        case types.BEGIN_LOAD_ALL_PROVINCES_BASE:
             return {
                 ...state,
                 isLoadingProvinces: true,
             };
-        case
-        types.LOAD_ALL_PROVINCES_SUCCESS
-        :
+        case types.LOAD_ALL_PROVINCES_SUCCESS:
             return {
                 ...state,
                 isLoadingProvinces: false,
                 provinces: action.provinces
             };
-        case
-        types.UPDATE_BASE_AVATAR_PROGRESS
-        :
+        case types.UPDATE_BASE_AVATAR_PROGRESS:
             return {
                 ...state,
                 createBase: {
@@ -121,9 +117,7 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     percent: action.percent
                 }
             };
-        case
-        types.UPLOAD_BASE_AVATAR_COMPLETE
-        :
+        case types.UPLOAD_BASE_AVATAR_COMPLETE:
             return {
                 ...state,
                 createBase: {
@@ -135,9 +129,7 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     }
                 }
             };
-        case
-        types.BEGIN_UPLOAD_BASE_AVATAR
-        :
+        case types.BEGIN_UPLOAD_BASE_AVATAR:
             return {
                 ...state,
                 createBase: {
@@ -145,9 +137,7 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     isUploadingAvatar: true
                 }
             };
-        case
-        types.UPDATE_BASE_IMAGE_PROGRESS
-        :
+        case types.UPDATE_BASE_IMAGE_PROGRESS:
             return {
                 ...state,
                 createBase: {
@@ -155,9 +145,7 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     percentImage: action.percent
                 }
             };
-        case
-        types.UPLOAD_BASE_IMAGE_COMPLETE
-        :
+        case types.UPLOAD_BASE_IMAGE_COMPLETE:
             return {
                 ...state,
                 createBase: {
@@ -169,15 +157,80 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     }
                 }
             };
-        case
-        types.BEGIN_UPLOAD_BASE_IMAGE
-        :
+        case types.BEGIN_UPLOAD_BASE_IMAGE:
             return {
                 ...state,
                 createBase: {
                     ...state.createBase,
                     isUploadingImage: true
                 }
+            };
+        case types.TOGGLE_BASE_EDIT_MODAL:
+            return {
+                ...state,
+                showEditBaseModal: !state.showEditBaseModal
+            };
+        case types.HANDLE_BASE_EDIT_MODAL:
+            return {
+                ...state,
+                base: action.base
+            };
+        case types.UPLOAD_BASE_AVATAR_COMPLETE_MODAL:
+            return {
+                ...state,
+                isUploadingAvatar: false,
+                base: {
+                    ...state.base,
+                    avatar_url: action.avatar_url
+                }
+            };
+        case types.UPDATE_BASE_AVATAR_PROGRESS_MODAL:
+            return {
+                ...state,
+                percent: action.percent
+            };
+        case types.BEGIN_UPLOAD_BASE_AVATAR_MODAL:
+            return {
+                ...state,
+                isUploadingAvatar: true
+            };
+        case types.UPLOAD_IMAGE_COMPLETE_BASE_MODAL: {
+            let images_url = [];
+            if (state.base.images_url) images_url = JSON.parse(state.base.images_url);
+            if (action.length + action.first_length === images_url.length + 1) {
+                return {
+                    ...state,
+                    isUploadingImage: false,
+                    base: {
+                        ...state.base,
+                        images_url: JSON.stringify([...images_url, action.image])
+                    },
+                };
+            } else {
+                return {
+                    ...state,
+                    base: {
+                        ...state.base,
+                        images_url: JSON.stringify([...images_url, action.image])
+                    },
+                    isUploadingImage: true
+                };
+            }
+        }
+        case types.DELETE_IMAGE_BASE_MODAL: {
+            let images_url = JSON.parse(state.base.images_url);
+            return {
+                ...state,
+                base: {
+                    ...state.base,
+                    images_url: JSON.stringify(images_url.filter(image => image !== action.image))
+                }
+            };
+        }
+        case types.HANDLE_DISTRICTS_BASE_LIST:
+            return {
+                ...state,
+                districts: action.districts
             };
         default:
             return state;

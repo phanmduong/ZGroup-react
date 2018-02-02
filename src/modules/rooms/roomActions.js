@@ -24,10 +24,10 @@ export function loadBasesData() {
 export function getTypes() {
     return function (dispatch) {
         roomApi.getTypesApi()
-            .then(function () {
+            .then(function (res) {
                 dispatch({
                     type: types.LOAD_TYPES_ROOM_DATA_SUCCESS,
-                    types: []
+                    types: res.data.data.room_types
                 });
             });
     };
