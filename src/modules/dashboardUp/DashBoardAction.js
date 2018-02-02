@@ -47,10 +47,9 @@ export function loadSeats(from,to,roomId){
       });
       DashBoardUpApi.loadSeats(from,to,roomId)
           .then((res) => {
-              console.log(res.data.seats);
                 dispatch({
                     type: types.LOAD_SEATS_BASE_DASHBOARDUP_SUCCESS,
-                    data: res.data.data.seats,
+                    seats: res.data.data.seats,
                     seats_count: res.data.data.seats_count,
                     available_seats: res.data.data.available_seats,
                 });

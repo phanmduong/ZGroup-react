@@ -3,6 +3,8 @@ import * as helper from "../../helpers/helper";
 import Barchart from './Barchart';
 import TooltipButton from '../../components/common/TooltipButton';
 import RoomModal from './RoomModal';
+import PropTypes from 'prop-types';
+
 class DashBoardUpComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -183,6 +185,8 @@ class DashBoardUpComponent extends React.Component {
                         <RoomModal
                             show={this.state.openModal}
                             onHide={this.closeRoomModal}
+                            domain={this.props.domain}
+                            seats={this.props.seats}
                             rooms={this.props.rooms}
                             loadSeats={this.props.loadSeats}
                             seats_count={this.props.seats_count}
@@ -383,5 +387,14 @@ class DashBoardUpComponent extends React.Component {
         }
     }
 }
+
+DashBoardUpComponent.propTypes = {
+    loadSeats: PropTypes.object.isRequired,
+    domain: PropTypes.object.isRequired,
+    seats : PropTypes.array.isRequired,
+    seats_count: PropTypes.number.isRequired,
+    available_seats: PropTypes.number.isRequired,
+    isLoadingSeats: PropTypes.func.isRequired
+};
 
 export default DashBoardUpComponent;

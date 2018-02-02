@@ -45,7 +45,7 @@ export default function DashBoardUpReducer(state = initialState.dashboardUp, act
             return {
                 ...state,
                 isLoadingSeats: false,
-                seats: action.data,
+                seats: action.seats,
                 seats_count: action.seats_count,
                 available_seats: action.available_seats,
             };

@@ -117,7 +117,6 @@ class RoomDetailContainer extends React.Component {
                                 onClick={this.onClick}
                                 onDrag={this.onDrag}
                                 onPointClick={this.onPointClick}
-                                roomId={Number(this.props.params.roomId)}
                                 data={this.props.seats}
                                 domain={this.props.domain}
                             />

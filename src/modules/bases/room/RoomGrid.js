@@ -53,7 +53,6 @@ RoomGrid.propTypes = {
     domain: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
-    roomId: PropTypes.number.isRequired,
     onPointClick: PropTypes.func.isRequired
 };
 

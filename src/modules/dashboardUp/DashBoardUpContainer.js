@@ -2,10 +2,11 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Select from '../../components/common/Select';
-import * as DashBoardAction from "../dashboardUp/DashBoardAction";
+import * as dashBoardAction from "./dashBoardAction";
 import Loading from '../../components/common/Loading';
 import FormInputDate from "../../components/common/FormInputDate";
 import {Panel} from 'react-bootstrap';
+import PropTypes from "prop-types";
 import DashBoardUpComponent from "./DashBoardUpComponent";
 
 class DashBoardUpContainer extends React.Component {
@@ -27,12 +28,12 @@ class DashBoardUpContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.DashboardAction.loadBases();
-        this.props.DashboardAction.loadRooms();
+        this.props.dashBoardAction.loadBases();
+        this.props.dashBoardAction.loadRooms();
     }
 
     loadSeats(from, to, roomId) {
-        this.props.DashboardAction.loadSeats(from, to, roomId);
+        this.props.dashBoardAction.loadSeats(from, to, roomId);
     }
 
     onChangeMonth(value) {
@@ -56,8 +57,8 @@ class DashBoardUpContainer extends React.Component {
 
     onchangeBase(value) {
         this.setState({selectedBase: value});
-        if (value === 0) this.props.DashboardAction.loadRooms(); else
-            this.props.DashboardAction.loadRooms(value);
+        if (value === 0) this.props.dashBoardAction.loadRooms(); else
+            this.props.dashBoardAction.loadRooms(value);
 
     }
 
@@ -201,22 +202,33 @@ class DashBoardUpContainer extends React.Component {
     }
 }
 
+DashBoardUpContainer.propTypes = {
+    isLoadingBases: PropTypes.bool.isRequired,
+    bases: PropTypes.array.isRequired,
+    seats: PropTypes.array.isRequired,
+    domain: PropTypes.object.isRequired,
+    dashBoardAction: PropTypes.object.isRequired,
+    isLoadingRooms: PropTypes.bool.isRequired,
+};
+
 function mapStateToProps(state) {
     return {
         isLoadingBases: state.dashboardUp.isLoadingBases,
         bases: state.dashboardUp.bases,
         isLoadingRooms: state.dashboardUp.isLoadingRooms,
         rooms: state.dashboardUp.rooms,
+        seats: state.dashboardUp.seats,
         rooms_count: state.dashboardUp.rooms_count,
         isLoadingSeats: state.dashboardUp.isLoadingSeats,
         seats_count: state.dashboardUp.seats_count,
+        domain: state.seat.domain,
         available_seats: state.dashboardUp.available_seats,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        DashboardAction: bindActionCreators(DashBoardAction, dispatch)
+        dashBoardAction: bindActionCreators(dashBoardAction, dispatch)
     };
 }
 
