@@ -102,10 +102,10 @@
                             </div>
                             <div class="card-block">
                                 <h3 class="card-title">
-                                    <a href="{{'/conference-room/'.$room->id}}">{{$room->name}}</a>
+                                    <a href="{{'/conference-room/'.$room->id}}">{{$room->base->name}} : {{$room->name}}</a>
                                 </h3>
                                 <p class="card-description">
-                                    {{$room->base->name}}
+                                    {{$room->roomType->name}}
                                 </p>
                                 <br>
                                 <a href="{{'/conference-room/'.$room->id}}" style="color:#96d21f!important">
