@@ -377,14 +377,15 @@ class ManageBaseApiController extends ManageApiController
 
     public function availableSeats(Request $request)
     {
-        $limit = $request->limit ? $request->limit : 20;
         $request->from = str_replace('/', '-', $request->from);
         $request->to = str_replace('/', '-', $request->to);
 
         $seats = Seat::query();
+        $booked_seats = Seat::query();
         $seats_count = Seat::query();
         if ($request->room_id) {
             $seats = $seats->where('room_id', $request->room_id);
+            $booked_seats = $seats->where('room_id', $request->room_id);
             $seats_count = $seats_count->where('room_id', $request->room_id);
         }
         $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
@@ -393,42 +394,50 @@ class ManageBaseApiController extends ManageApiController
                 ->orWhere('room_service_register_seat.start_time', '>', date("Y-m-d H:i:s", strtotime($request->to)))
                 ->orWhere('room_service_register_seat.end_time', '<', date("Y-m-d H:i:s", strtotime($request->from)));
         })->groupBy('seats.id')->select('seats.*');
+
+        $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
+        $booked_seats = $booked_seats->where(function ($query) use ($request) {
+                $query
+                    ->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
+                    ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->to)));
+            })->orWhere(function ($query) use ($request) {
+                $query
+                    ->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
+                    ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
+            })
+            ->groupBy('seats.id')->select('seats.*');
+
         $seats_count = $seats_count->orderBy('created_at', 'desc')->count();
-        if ($limit == -1) {
-            $seats = $seats->get();
-            return $this->respondSuccessWithStatus([
-                'seats' => $seats->map(function ($seat) {
-                    return $seat->getData();
-                }),
-                'seats_count' => $seats_count,
-                'available_seats' => $seats->count(),
-            ]);
-        }
-        $seats = $seats->paginate($limit);
-        return $this->respondWithPagination($seats, [
+        $seats = $seats->get();
+        $booked_seats = $booked_seats->get();
+        return $this->respondSuccessWithStatus([
             'seats' => $seats->map(function ($seat) {
                 return $seat->getData();
+            }),
+            'booked_seats' => $booked_seats->map(function ($booked_seat) {
+                return $booked_seat->getData();
             }),
             'seats_count' => $seats_count,
             'available_seats' => $seats->count(),
         ]);
     }
 
-    public function baseDisplay($baseId, Request $request) {
-            if ($request->display_status == null || trim($request->display_status) == '')
-                return $this->respondErrorWithStatus([
-                    'message' => 'Thiếu display_status'
-                ]);
-            $base = Base::find($baseId);
-            if ($base == null)
-                return $this->respondErrorWithStatus([
-                    'message' => 'Không tồn tại cơ sở'
-                ]);
-            $base->display_status = $request->display_status;
-            $base->save();
-
-            return $this->respondSuccessWithStatus([
-                'message' => 'SUCCESS'
+    public function baseDisplay($baseId, Request $request)
+    {
+        if ($request->display_status == null || trim($request->display_status) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu display_status'
             ]);
+        $base = Base::find($baseId);
+        if ($base == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại cơ sở'
+            ]);
+        $base->display_status = $request->display_status;
+        $base->save();
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
     }
 }
