@@ -54,7 +54,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         if ($request->subscription_id == null) {
             return $this->respondErrorWithStatus("Thiếu subscription");
         }
-        $user = User::where('email', '=', $request->email)->first();
+        $user = User::where('username', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
