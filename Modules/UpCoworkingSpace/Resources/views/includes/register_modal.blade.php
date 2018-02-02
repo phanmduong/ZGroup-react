@@ -209,7 +209,6 @@
                             this.userPackLoading = false;
                             if (this.provinceLoading === false)
                                 this.modalLoading = false;
-                            console.log(this.userPacks);
                         }.bind(this))
                         .catch(function (reason) {
                         });
@@ -263,7 +262,7 @@
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
-                    console.log(subscriptionId);
+                    console.log(this.base);
                     this.subscriptionId = subscriptionId;
                     this.subscription = this.userPack.subscriptions.filter(function (subscription) {
                         return subscription.id === subscriptionId;
@@ -271,6 +270,7 @@
                 },
                 submit: function () {
                     submitModal.subscriptionId = this.subscriptionId;
+                    submitModal.baseId = this.base.id;
                     $("#subscriptionModal").modal("hide");
                     $("#submitModal").modal("show");
                 }
@@ -286,9 +286,11 @@
                 address: '',
                 message: '',
                 subscriptionId: 0,
+                baseId: 0,
             },
             methods: {
                 submit: function () {
+                    console.log('asdasd');
                     if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
                         this.message = 'Bạn vui lòng nhập đủ thông tin';
                         return;
@@ -299,6 +301,7 @@
                         email: this.email,
                         address: this.address,
                         subscription_id: this.subscriptionId,
+                        base_id: this.baseId,
                         _token: window.token
                     })
                         .then(function (response) {
