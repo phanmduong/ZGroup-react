@@ -199,3 +199,8 @@
 .nav-pills {
     text-align:center!important;
 }
+
+.dropdown-menu > .dropdown-item:hover {
+    background-color: #96d21f;
+    color: #FFFFFF !important;
+}
