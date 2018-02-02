@@ -739,7 +739,7 @@ export function closeSidebar() {
 
 export function onesignalSetUserId(userId) {
     /* eslint-disable */
-    OneSignal.sendTag("user_id", userId, function (tagsSent) {
+    window.OneSignal.sendTag("user_id", userId, function (tagsSent) {
         console.log("tag ok ", tagsSent);
     });
     /* eslint-enable */
