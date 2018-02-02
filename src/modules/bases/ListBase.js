@@ -21,7 +21,7 @@ class ListBase extends React.Component {
                                 <div className="card-header" data-background-color="white" style={{
                                     borderRadius: '10px'
                                 }}>
-                                    <a onClick={()=>this.props.openEditBaseModal(base)}>
+                                    <a onClick={() => this.props.openEditBaseModal(base)}>
                                         <div id="simpleBarChart" className="ct-chart"
                                              style={{
                                                  width: '100%',
@@ -38,12 +38,12 @@ class ListBase extends React.Component {
                                 <div className="card-content" style={{minHeight: '140px'}}>
                                     <div className="card-action">
                                         <h4 className="card-title">
-                                            <a onClick={()=>this.props.openEditBaseModal(base)}>{shortString(base.name, 6)}</a>
+                                            <a onClick={() => this.props.openEditBaseModal(base)}>{shortString(base.name, 6)}</a>
                                         </h4>
                                         <ButtonGroupAction
                                             disabledDelete
                                             object={base}
-                                            onClick={()=>this.props.openEditBaseModal(base)}
+                                            onClick={() => this.props.openEditBaseModal(base)}
                                         />
                                     </div>
                                     <div style={{display: "flex", alignItems: "center"}}>

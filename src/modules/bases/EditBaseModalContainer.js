@@ -8,7 +8,7 @@ import *as baseListActions from "./baseListActions";
 import Select from 'react-select';
 import FormInputText from "../../components/common/FormInputText";
 import TooltipButton from "../../components/common/TooltipButton";
-import Checkbox from "../../components/common/CheckBoxMaterial";
+import Switch from 'react-bootstrap-switch';
 
 class EditBaseModalContainer extends React.Component {
     constructor(props, context) {
@@ -19,6 +19,8 @@ class EditBaseModalContainer extends React.Component {
         this.onChangeProvinceForm = this.onChangeProvinceForm.bind(this);
         this.onChangeDistrictForm = this.onChangeDistrictForm.bind(this);
         this.submit = this.submit.bind(this);
+        this.handleSwitchCenter = this.handleSwitchCenter.bind(this);
+        this.handleSwitchDisplay = this.handleSwitchDisplay.bind(this);
     }
 
     componentWillMount() {
@@ -47,7 +49,6 @@ class EditBaseModalContainer extends React.Component {
     }
 
     onChangeProvinceForm(value) {
-        console.log("province", value.label);
         if (value) {
             let base = {
                 ...this.props.base,
@@ -63,7 +64,6 @@ class EditBaseModalContainer extends React.Component {
     }
 
     onChangeDistrictForm(value) {
-        console.log("district", value);
         if (value) {
             let base = {
                 ...this.props.base,
@@ -92,6 +92,22 @@ class EditBaseModalContainer extends React.Component {
         } else {
             this.props.baseListActions.editBase(base);
         }
+    }
+
+    handleSwitchCenter() {
+        let base = {
+            ...this.props.base,
+            center: !this.props.base.center ? 1 : 0
+        };
+        this.props.baseListActions.handleBaseEditModal(base);
+    }
+
+    handleSwitchDisplay() {
+        let base = {
+            ...this.props.base,
+            display_status: !this.props.base.display_status ? 1 : 0
+        };
+        this.props.baseListActions.handleBaseEditModal(base);
     }
 
     render() {
@@ -295,25 +311,37 @@ class EditBaseModalContainer extends React.Component {
                                 value={base.longitude}
                             />
                             <div className="form-group">
-                                <label className="control-label">Mô tả</label>
+                                <label className="label-control">Mô tả</label>
                                 <textarea type="text" className="form-control"
                                           value={base.description ? base.description : ''}
                                           name="description"
                                           onChange={this.updateFormData}/>
                                 <span className="material-input"/>
                             </div>
-                            <Checkbox
-                                label="Trụ sở"
-                                checked={base.center ? (true) : (false)}
-                                name="center"
-                                onChange={this.updateFormData}
-                            />
-                            <Checkbox
-                                label="Hiển thị"
-                                checked={base.display_status ? (true) : (false)}
-                                name="display_status"
-                                onChange={this.updateFormData}
-                            />
+                            <div className="row">
+                                <div className="col-md-6 col-sm-6 col-xs-6">
+                                    <div className="form-group">
+                                        <label className="control-label">Trụ sở</label>
+                                        <Switch
+                                            onChange={this.handleSwitchCenter}
+                                            bsSize="mini"
+                                            onText="Có" offText="Không"
+                                            value={(base.center === 1)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 col-sm-6 col-xs-6">
+                                    <div className="form-group">
+                                        <label className="control-label">Hiển thị</label>
+                                        <Switch
+                                            onChange={this.handleSwitchDisplay}
+                                            bsSize="mini"
+                                            onText="Hiện" offText="Ẩn"
+                                            value={(base.display_status === 1)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                             <div className="form-group">
                                 <label className="label-control">Tỉnh/Thành phố</label>
                                 <Select
