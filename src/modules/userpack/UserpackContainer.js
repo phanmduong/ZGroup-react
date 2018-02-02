@@ -27,7 +27,7 @@ class UserpackContainer extends React.Component {
             page: 1,
             limit: 9,
             query: "",
-            id : 0,
+            id: 0,
         };
         this.timeOut = null;
         this.openModalAdd = this.openModalAdd.bind(this);
@@ -69,6 +69,7 @@ class UserpackContainer extends React.Component {
         let file = event.target.files[0];
         this.props.userpacksActions.uploadImage(file);
     }
+
     handleSwitch(id, status, name) {
         this.props.userpacksActions.changeStatus(id, status, name);
     }
@@ -79,28 +80,34 @@ class UserpackContainer extends React.Component {
         // if (event.target.type === "checkbox") {
         //     data[field] = event.target.checked;
         // } else {
-            data[field] = event.target.value;
+        data[field] = event.target.value;
         // }
         this.props.userpacksActions.updateFormUserpack(data);
     }
 
     addUserpack(e) {
-        e.preventDefault();
-        this.props.userpacksActions.addUserpack(this.props.userpack);
-        this.closeModalAdd();
+        if ($('#form-add-userpack').valid()) {
+            e.preventDefault();
+            this.props.userpacksActions.addUserpack(this.props.userpack);
+            this.closeModalAdd();
+        }
     }
+
     closeModalEdit() {
         this.setState({isOpenModalEdit: false});
     }
+
     openModalEdit(id) {
         let data = {...this.props.userpack};
         data['id'] = id;
         this.props.userpacksActions.updateFormUserpack(data);
         this.setState({isOpenModalEdit: true});
     }
+
     closeModalAdd() {
         this.setState({isOpenModalAdd: false});
     }
+
     openModalAdd() {
         this.props.userpacksActions.updateFormUserpack({});
         this.setState({isOpenModalAdd: true});
@@ -108,136 +115,113 @@ class UserpackContainer extends React.Component {
 
     render() {
         return (
-                <div className="container-fluid">
-                    <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
+            <div className="container-fluid">
+                <div className="card">
+                    <div className="card-header card-header-icon" data-background-color="rose">
+                        <i className="material-icons">assignment</i>
+                    </div>
 
-                        <div className="card-content">
-                            <h4 className="card-title">Danh sách gói người dùng</h4>
-                            <div className="row" style={{marginBottom : 12}}>
-                                <div className="col-md-3">
-                                    <a onClick={() => this.openModalAdd()}
-                                       className="btn btn-rose">Tạo gói
-                                    </a>
-                                </div>
-                                <div className="col-md-9">
-                                    <Search
-                                        onChange={this.postsSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm tiêu đề"
-                                    />
-                                </div>
+                    <div className="card-content">
+                        <h4 className="card-title">Danh sách gói người dùng</h4>
+                        <div className="row" style={{marginBottom: 12}}>
+                            <div className="col-md-3">
+                                <a onClick={() => this.openModalAdd()}
+                                   className="btn btn-rose">Tạo gói
+                                </a>
                             </div>
-
-
-
-                            {this.props.isLoadingUserpacks || this.props.isLoadingUserpacks ?
-                                <Loading/>
-                                :
-                                <ListUserpacks
-                                    handleSwitch = {this.handleSwitch}
-                                    openModalEdit={this.openModalEdit}
-                                    ListUserpacks={this.props.ListUserpacks}
-                                    // openModal={this.openModal}
+                            <div className="col-md-9">
+                                <Search
+                                    onChange={this.postsSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm tiêu đề"
                                 />
-                            }
+                            </div>
                         </div>
 
 
-
-                        <div className="card-content">
-                            <Pagination
-                                totalPages={this.props.totalPagesPacks}
-                                currentPage={this.state.page}
-                                loadDataPage={this.loadUserpacks}
+                        {this.props.isLoadingUserpacks || this.props.isLoadingUserpacks ?
+                            <Loading/>
+                            :
+                            <ListUserpacks
+                                handleSwitch={this.handleSwitch}
+                                openModalEdit={this.openModalEdit}
+                                ListUserpacks={this.props.ListUserpacks}
+                                // openModal={this.openModal}
                             />
-                        </div>
+                        }
                     </div>
 
 
-
-
-
-
-
-
-
-
-
-                    <Modal show={this.state.isOpenModalAdd} bsSize="lg" bsStyle="primary" onHide={this.closeModalAdd}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>
-                                <strong>Gói khách hàng</strong>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <AddUserpackModal
-                                userpack={this.props.userpack}
-                                updateFormUserpack={this.updateFormUserpack}
-                                handleFileUpload={this.handleFileUpload}
-                            />
-
-                            <div className="row">
-                                <div className="col-md-8"/>
-                                <div className="col-md-4">
-                                    {this.props.isSavingAddUserpack ?
-                                        (
-                                            <button
-                                                className="btn btn-sm btn-success disabled"
-                                            >
-                                                <i className="fa fa-spinner fa-spin"/>
-                                                {'Đang thêm'}
-                                            </button>
-                                        )
-                                        :
-                                        (
-                                            <button className="btn btn-success btn-sm"
-                                                    onClick={(e) => {
-                                                        this.addUserpack(e);
-                                                    }}>
-                                                <i className="material-icons">save</i>
-                                                {'Thêm'}
-                                            </button>
-                                        )
-                                    }
-
-                                    <button className="btn btn-sm btn-danger"
-                                            onClick={() => this.closeModalAdd()}
-                                    >
-                                        <i className="material-icons">cancel</i> Huỷ
-                                    </button>
-                                </div>
-                            </div>
-                        </Modal.Body>
-                    </Modal>
-
-
-
-
-
-
-
-
-
-
-                    <Modal show={this.state.isOpenModalEdit}  bsStyle="primary" onHide={this.closeModalEdit}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>
-                                <strong>Gói khách hàng</strong>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <EditUserpackModal
-                                updateFormUserpack={this.updateFormUserpack}
-                                handleFileUpload={this.handleFileUpload}
-                                closeModalEdit = {this.closeModalEdit}
-                            />
-                        </Modal.Body>
-                    </Modal>
-
+                    <div className="card-content">
+                        <Pagination
+                            totalPages={this.props.totalPagesPacks}
+                            currentPage={this.state.page}
+                            loadDataPage={this.loadUserpacks}
+                        />
+                    </div>
                 </div>
+
+
+                <Modal show={this.state.isOpenModalAdd}  bsStyle="primary" onHide={this.closeModalAdd}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <strong>Gói khách hàng</strong>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form  id="form-add-userpack">
+
+                        <AddUserpackModal
+                            userpack={this.props.userpack}
+                            updateFormUserpack={this.updateFormUserpack}
+                            handleFileUpload={this.handleFileUpload}
+                        />
+
+                        </form>
+                        <div className="row">
+                            <div className="col-md-8"/>
+                            <div className="col-md-4">
+                                {this.props.isSavingAddUserpack ?
+                                    (
+                                        <button className="btn btn-fill btn-rose disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/>
+                                            {'Đang thêm'}
+                                        </button>
+                                    )
+                                    :
+                                    (
+                                        <button className="btn btn-fill btn-rose" type="button"
+                                                onClick={(e) => {
+                                                    this.addUserpack(e);
+                                                }}>
+                                            <i className="material-icons">save</i>
+                                            {'Thêm'}
+                                        </button>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+
+
+                <Modal show={this.state.isOpenModalEdit} bsStyle="primary" onHide={this.closeModalEdit}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <strong>Gói khách hàng</strong>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <EditUserpackModal
+                            updateFormUserpack={this.updateFormUserpack}
+                            handleFileUpload={this.handleFileUpload}
+                            closeModalEdit={this.closeModalEdit}
+                        />
+                    </Modal.Body>
+                </Modal>
+
+            </div>
         );
     }
 

@@ -1131,6 +1131,7 @@ class RegisterListContainer extends React.Component {
                     info={this.state.selectedStudent}
                     isCommitting={this.props.isCommittingInfoStudent}
                 />
+
             </div>
         );
     }

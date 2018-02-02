@@ -13,7 +13,7 @@ class AddSubcriptionKindModal extends React.Component {
         return (
             <div>
                 <FormInputText
-                    label="Tên loại subscription"
+                    label="Tên"
                     required
                     name="name"
                     updateFormData={this.props.updateFormSubscriptionKind}

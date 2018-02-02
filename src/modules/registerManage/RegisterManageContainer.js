@@ -16,6 +16,9 @@ import Pagination from "../../components/common/Pagination";
 import {REGISTER_STATUS} from "../../constants/constants";
 
 
+import {Modal} from 'react-bootstrap';
+import CallModal from "./CallModal";
+
 class RegisterManageContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -23,19 +26,29 @@ class RegisterManageContainer extends React.Component {
             page: 1,
             query: '',
             staff_id: null,
-            status: null
+            status: null,
+
+
+
+
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
+
+
+
     }
 
     componentWillMount() {
+
         this.props.registerManageAction.loadAllRegisters();
         this.props.registerManageAction.getAllStaffs();
     }
+
+
 
     registersSearchChange(value) {
         this.setState({
@@ -219,6 +232,7 @@ class RegisterManageContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+
 
 
             </div>
