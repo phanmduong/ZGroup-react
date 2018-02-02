@@ -49,7 +49,15 @@ export function loadSeats(from,to,roomId){
           .then((res) => {
                 dispatch({
                     type: types.LOAD_SEATS_BASE_DASHBOARDUP_SUCCESS,
-                    seats: res.data.data.seats,
+                    seats: [
+                      ...res.data.data.seats,
+                      ...res.data.data.booked_seats.map((seat) => {
+                        return {
+                          ...seat,
+                          booked: true
+                        };
+                      })
+                    ],
                     seats_count: res.data.data.seats_count,
                     available_seats: res.data.data.available_seats,
                 });

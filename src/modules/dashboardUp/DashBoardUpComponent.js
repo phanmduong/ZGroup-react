@@ -183,6 +183,7 @@ class DashBoardUpComponent extends React.Component {
                 return (
                     <div>
                         <RoomModal
+                            isLoadingSeats={this.props.isLoadingSeats}
                             show={this.state.openModal}
                             onHide={this.closeRoomModal}
                             domain={this.props.domain}

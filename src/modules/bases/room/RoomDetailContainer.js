@@ -45,40 +45,48 @@ class RoomDetailContainer extends React.Component {
     }
 
     onClick(point) {
-        const {currentAction, actions, seat} = this.props;
-
-        // clear current selected seat
-        actions.setSelectedSeat({});
-
+        const {currentAction, seats, actions, seat} = this.props;
         switch (currentAction) {
             case seatContants.CREATE_SEAT:            
                 actions.createSeat({
                     ...seat,
                     x: point.x,
-                    y: point.y
+                    y: point.y,
+                    color: "#c50000",
+                    index: seats.length
                 });
+                return;
+            default:
+                // clear current selected seat
+                actions.setSelectedSeat({});
                 return;
         }
     }
 
     onDrag(point) {
-        const {actions, seat} = this.props;    
+        console.log("drag",point.index);
+        const {actions} = this.props;    
         if (this.props.currentAction === ""){
-            const newSeat = {
+
+            let seat = {};
+            const filterdSeats = this.props.seats.filter(seat => seat.index === point.index);
+            if (filterdSeats.length > 0) {
+                seat = filterdSeats[0];   
+            }        
+            actions.setSelectedSeat(seat);
+            actions.updateSeat({
                 ...seat,
-                ...point,
+                x: point.x,
+                y: point.y,
                 active: 1
-            };
-            // console.log("point", point);
-            // console.log("newSeat", newSeat);
-            actions.setSelectedSeat(newSeat);
-            actions.updateSeat(newSeat);    
+            });    
         }
     }
 
     onPointClick(index) {
+        console.log(index);
         const {actions} = this.props;
-        let seat = null;
+        let seat = {};
         const filterdSeats = this.props.seats.filter(seat => seat.index === index);
         if (filterdSeats.length > 0) {
             seat = filterdSeats[0];   
@@ -117,6 +125,7 @@ class RoomDetailContainer extends React.Component {
                                 onClick={this.onClick}
                                 onDrag={this.onDrag}
                                 onPointClick={this.onPointClick}
+                                roomId={Number(this.props.params.roomId)}
                                 data={this.props.seats}
                                 domain={this.props.domain}
                             />

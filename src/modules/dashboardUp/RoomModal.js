@@ -1,5 +1,6 @@
 import React from "react";
 import {Modal} from "react-bootstrap";
+import TooltipButton from '../../components/common/TooltipButton';
 import Loading from '../../components/common/Loading';
 import FormInputDateTime from "../../components/common/FormInputDateTime";
 import {DATETIME_VN_FORMAT} from "../../constants/constants";
@@ -58,9 +59,9 @@ class RoomModal extends React.Component {
     }
 
     render() {
-        console.log(this.props.seats);
+        console.log(this.props.isLoadingSeats);
+        const percent = (count, total) =>  total === 0 ? 0 : count * 100 / total;
         return (
-
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
@@ -121,16 +122,27 @@ class RoomModal extends React.Component {
                             </ul>
                             <br/>
                             {this.props.isLoadingSeats ? <Loading/> :
-                                <div className="tab-content">                                  
-                                    Tổng số chỗ: {this.props.seats_count}<br/>
-                                    Số chỗ còn trống: {this.props.available_seats}  
-                                    <RoomGrid
-                                        onClick={this.onClick}
-                                        onDrag={this.onDrag}
-                                        onPointClick={this.onPointClick}
-                                        data={this.props.seats}
-                                        domain={this.props.domain} 
-                                    />                                    
+                                <div className="tab-content">          
+                                    <TooltipButton placement="top"
+                                               text={Math.round(percent(this.props.available_seats, this.props.seats_count)) + '%'}>
+                                        <div className="progress progress-line-rose">
+                                            <div className="progress-bar" role="progressbar"
+                                                 style={{width: percent(this.props.available_seats, this.props.seats_count) + '%'}}/>
+                                        </div>
+                                    </TooltipButton>                        
+                                    {
+                                        this.props.isLoadingSeats ? <Loading/>
+                                        : (
+                                            <RoomGrid
+                                                onClick={this.onClick}
+                                                onDrag={this.onDrag}
+                                                onPointClick={this.onPointClick}
+                                                data={this.props.seats}
+                                                domain={this.props.domain} 
+                                            />                                            
+                                        )
+                                    }
+                                    
                                 </div>
                             }</div>
                     }</Modal.Body>
@@ -145,7 +157,7 @@ RoomModal.propTypes = {
     loadSeats: PropTypes.object.isRequired,
     seats_count: PropTypes.number.isRequired,
     available_seats: PropTypes.number.isRequired,
-    isLoadingSeats: PropTypes.func.isRequired,
+    isLoadingSeats: PropTypes.bool.isRequired,
     rooms: PropTypes.array.isRequired,
     seats: PropTypes.array.isRequired,
     show: PropTypes.bool.isRequired,

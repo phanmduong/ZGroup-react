@@ -209,6 +209,7 @@ DashBoardUpContainer.propTypes = {
     domain: PropTypes.object.isRequired,
     dashBoardAction: PropTypes.object.isRequired,
     isLoadingRooms: PropTypes.bool.isRequired,
+    isLoadingSeats: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {

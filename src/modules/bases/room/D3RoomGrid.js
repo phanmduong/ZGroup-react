@@ -167,6 +167,7 @@ ns._drawPoints = function (el, scales, state) {
                 d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
             }
             ns.onDrag({
+                index: d.index,
                 x,
                 y
             });
@@ -196,6 +197,9 @@ ns._drawPoints = function (el, scales, state) {
         })
         .attr('r', (d) => scales.r(d.r))
         .style("fill", function (d) {
+            if (d.booked) {
+                return "#bbb";
+            }
             return d.color;
         });
         
@@ -229,6 +233,9 @@ ns._drawPoints = function (el, scales, state) {
             return scales.r(d.r);
         })
         .style("fill", function (d) {
+            if (d.booked) {
+                return "#bbb";
+            }
             return d.color;
         });
 
