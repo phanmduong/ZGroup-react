@@ -48,7 +48,7 @@
                                     @{{ userPack.name }}
                                 </h6>
                                 <p>
-                                    @{{ userPack.detail }}
+                                    {{--@{{ userPack.detail }}--}}
                                 </p>
                             </a>
                         </div>

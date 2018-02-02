@@ -47,15 +47,15 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="about-us.html" data-scroll="true">VỀ
+                    <a class="nav-link hover-change" href="/blog" data-scroll="true">VỀ
                         UP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="index.html" data-scroll="true">GÓI THÀNH
+                    <a class="nav-link hover-change" href="/blog" data-scroll="true">GÓI THÀNH
                         VIÊN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="blog.html" data-scroll="true">SỰ
+                    <a class="nav-link hover-change" href="/blog" data-scroll="true">SỰ
                         KIỆN</a>
                 </li>
                 <li class="nav-item">
@@ -90,17 +90,17 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="index.html">
+                                    <a href="/blog">
                                         Trang chủ
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="price.html">
+                                    <a href="/blog">
                                         Báo giá
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#paper-kit">
+                                    <a href="/blog">
                                         Bảo hành
                                     </a>
                                 </li>
@@ -111,17 +111,17 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="contact-us.html">
+                                    <a href="/blog">
                                         Liên hệ
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#paper-kit">
+                                    <a href="/blog">
                                         Tuyển dụng
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="about-us.html">
+                                    <a href="/blog">
                                         Về chúng tôi
                                     </a>
                                 </li>
@@ -132,17 +132,17 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="#paper-kit">
+                                    <a href="/blog">
                                         Tin tức
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#paper-kit">
+                                    <a href="/blog">
                                         Dùng thử
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#paper-kit">
+                                    <a href="/blog">
                                         Phản hồi
                                     </a>
                                 </li>
@@ -173,19 +173,19 @@
                     <div class="links pull-right">
                         <ul>
                             <li>
-                                <a href="#paper-kit">
+                                <a href="/blog">
                                     Company Policy
                                 </a>
                             </li>
                             |
                             <li>
-                                <a href="#paper-kit">
+                                <a href="/blog">
                                     Terms
                                 </a>
                             </li>
                             |
                             <li>
-                                <a href="#paper-kit">
+                                <a href="/blog">
                                     Privacy
                                 </a>
                             </li>
