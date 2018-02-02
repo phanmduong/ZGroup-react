@@ -365,7 +365,10 @@ export default {
     },
 
     baseList: {
+        showEditBaseModal: false,
+        isUploadingAvatar: false,
         bases: [],
+        isUploadingImage: false,
         isLoadingBases: false,
         currentPage: 1,
         totalPages: 1,
@@ -386,7 +389,11 @@ export default {
                         "",
                     images: []
                 }
-        }
+        },
+        base: {},
+        percent: 0,
+        isSavingBase: false,
+        districts: []
     },
 
     book: {
@@ -1017,6 +1024,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            provinces : [],
             isOpenReturnOrder: false,
             isSaving: false,
             isSavingReturnOrders: false,
@@ -1434,6 +1442,7 @@ export default {
         isUploadingAvatar: false,
         percent: 0,
         isUploadingImage: false,
+        types: []
     },
     excel: {
         isLoading: false,
@@ -1742,9 +1751,11 @@ export default {
         showCreateSeatModal: false,
         point: {},
         seat: {
-            r: 1
+            r: 1,
+            color: "rgb(244, 67, 54)"
         },
         seats: [],
+        currentAction: "",
         domain: {x: [0, 600], y: [0, 400]}
     },
     printOrder: {
@@ -1943,6 +1954,7 @@ export default {
         ListUserpacks: [],
         isLoadingUserpacks: false,
         isLoadingUserpack: false,
+        isLoadingSubInUserpack: false,
         isLoadingSubKind: false,
         isSavingAdd: false,
         isSavingUserpack: false,

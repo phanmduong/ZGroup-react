@@ -13,6 +13,17 @@ export const getSeats = (roomId) => {
     return axios.get(url);
 };
 
+export const createSeats = (roomId, seats) => {
+    let url = env.MANAGE_API_URL + `/v2/room/${roomId}/seats`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        seats: JSON.stringify(seats)
+    });
+};
+
 export const createSeat = (roomId, seat) => {
     let url = env.MANAGE_API_URL + `/v2/room/${roomId}/seat`;
     let token = localStorage.getItem('token');

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {avatarEmpty, shortString} from "../../helpers/helper";
 import {Link} from "react-router";
+import Switch from 'react-bootstrap-switch';
 
 class ListBase extends React.Component {
     constructor(props, context) {
@@ -20,7 +21,7 @@ class ListBase extends React.Component {
                                 <div className="card-header" data-background-color="white" style={{
                                     borderRadius: '10px'
                                 }}>
-                                    <Link to={'/base/' + base.id + '/edit'}>
+                                    <a onClick={() => this.props.openEditBaseModal(base)}>
                                         <div id="simpleBarChart" className="ct-chart"
                                              style={{
                                                  width: '100%',
@@ -31,18 +32,26 @@ class ListBase extends React.Component {
                                                  borderRadius: '10px'
                                              }}
                                         />
-                                    </Link>
+                                    </a>
 
                                 </div>
                                 <div className="card-content" style={{minHeight: '140px'}}>
                                     <div className="card-action">
                                         <h4 className="card-title">
-                                            <Link to={'/base/' + base.id + '/edit'}>{shortString(base.name, 6)}</Link>
+                                            <a onClick={() => this.props.openEditBaseModal(base)}>{shortString(base.name, 6)}</a>
                                         </h4>
                                         <ButtonGroupAction
                                             disabledDelete
                                             object={base}
-                                            editUrl={'/base/' + base.id + '/edit'}
+                                            onClick={() => this.props.openEditBaseModal(base)}
+                                        />
+                                    </div>
+                                    <div style={{display: "flex", alignItems: "center"}}>
+                                        <Switch
+                                            //onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}
+                                            bsSize="mini"
+                                            onText="Hiện" offText="Ẩn"
+                                            value={(base.status === 1)}
                                         />
                                     </div>
                                     <p className="category">{shortString(base.address, 15)}</p>
@@ -51,21 +60,21 @@ class ListBase extends React.Component {
                                         {`${base.district.type} ${base.district.name}, ${base.province.type} ${base.province.name}`}
                                     </p>
                                     }
-
                                 </div>
                             </div>
                         </div>
                     );
                 })}
             </div>
-        )
+        );
     }
 }
 
 ListBase.propTypes = {
     handleSwitch: PropTypes.func.isRequired,
     deleteBase: PropTypes.func.isRequired,
-    bases: PropTypes.array.isRequired
+    bases: PropTypes.array.isRequired,
+    openEditBaseModal: PropTypes.func.isRequired
 };
 
 export default ListBase;

@@ -93,7 +93,7 @@ export function addUserpack(userpack) {
                 if (res.data.status) {
                     dispatch(loadUserpacks(1, 9, ""));
                     dispatch({type: types.ADDED_USERPACK_SUCCESS});
-                    helper.showNotification("Đã thêm gói " + userpack.name, "success");
+                    helper.showNotification("Đã thêm gói " + userpack.name);
                 }
                 else {
                     helper.showErrorNotification("Lỗi");
@@ -142,11 +142,27 @@ export function loadDetailUserpack(id) {
                 dispatch({
                     type: types.LOADED_DETAIL_USERPACK_SUCCCESS,
                     userpack: res.data.data.userPack,
-                    subscriptions: res.data.data.subscriptions,
                 });
             })
             .catch(() => {
                 dispatch({type: types.LOADED_DETAIL_USERPACK_ERROR});
+            });
+    };
+
+}
+
+export function loadSubscriptionsInUserpack(id) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_SUBSCRIPTIONS_IN_USERPACK});
+        userpacksApis.loadSubInUserpackApi(id)
+            .then((res) => {
+                dispatch({
+                    type: types.LOADED_SUBSCRIPTIONS_IN_USERPACK_SUCCCESS,
+                    subscriptions: res.data.data.subscriptions,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOADED_SUBSCRIPTIONS_IN_USERPACK_ERROR});
             });
     };
 
@@ -163,7 +179,7 @@ export function editUserpack(userpack, closeModal) {
                     dispatch(loadUserpacks(1, 9, ""));
                     dispatch({type: types.EDITED_USERPACK_SUCCESS});
                     closeModal();
-                    helper.showNotification("Đã sửa gói " + userpack.name, "success");
+                    helper.showNotification("Đã sửa gói " + userpack.name);
                 }
                 else {
                     helper.showErrorNotification("Lỗi");
@@ -192,7 +208,7 @@ export function addSubscription(id, subscription, closeModal) {
                         subscription,
                     });
                     closeModal();
-                    helper.showNotification("Đã thêm ", "success");
+                    helper.showNotification("Đã thêm ");
                 }
                 else {
                     helper.showErrorNotification("Lỗi");
@@ -217,12 +233,13 @@ export function editSubscription(id, subscription, closeModal) {
         userpacksApis.editSubscriptionApi(id, subscription)
             .then((res) => {
                 if (res.data.status) {
-                    helper.showNotification("Đã sửa ", "success");
+                    helper.showNotification("Đã sửa ");
                     dispatch({
                         type: types.EDITED_SUBSCRIPTION_SUCCESS,
                         subscription,
                     });
                     closeModal();
+                    dispatch(loadSubscriptionsInUserpack(id));
                 }
                 else {
                     helper.showErrorNotification("Lỗi");
@@ -247,7 +264,7 @@ export function addSubscriptionKind(subscriptionKind, closeModal,loadSubscriptio
         userpacksApis.addSubscriptionKindApi(subscriptionKind)
             .then((res) => {
                 if (res.data.status) {
-                    helper.showNotification("Đã thêm " + subscriptionKind.name, "success");
+                    helper.showNotification("Đã thêm " + subscriptionKind.name);
                     dispatch({
                         type: types.ADDED_SUBSCRIPTION_KIND_SUCCESS,
                         subscriptionKind,

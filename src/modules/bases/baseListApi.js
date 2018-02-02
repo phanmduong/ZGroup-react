@@ -74,11 +74,11 @@ export function editBase(base) {
     return axios.put(url, {
         name: base.name,
         address: base.address,
-        district_id: base.district_id,
+        district_id: base.district.id,
         latitude: base.latitude,
-        images_url: base.images.join(','),
+        images_url: base.images_url,
         avatar_url: base.avatar_url,
-        description: base.description,
+        description: base.description ? base.description : "",
         center: base.center,
         longtitude: base.longitude,
         display_status: base.display_status,
@@ -97,6 +97,22 @@ export function getAllProvinces() {
 export function uploadImage(file, completeHandler, progressHandler, error) {
     let url = env.MANAGE_API_URL + "/file/upload-image";
     const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formData = new FormData();
+    formData.append('file', file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.upload.onprogress = progressHandler;
+    ajax.addEventListener("error", error, false);
+    ajax.open("POST", url);
+    ajax.send(formData);
+}
+
+export function changeAvatarApi(file, completeHandler, progressHandler, error) {
+    let url = env.MANAGE_API_URL + '/file/upload';
+    let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }

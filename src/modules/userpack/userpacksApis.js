@@ -59,6 +59,15 @@ export function loadSubscriptionsKindApi() {
 }
 
 export function loadDetailUserpackApi(id) {
+    let url = env.MANAGE_API_URL + "/coworking-space/user-pack/"+id+"?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadSubInUserpackApi(id) {
     let url = env.MANAGE_API_URL + "/coworking-space/user-pack/"+id+"/subscription?";
     let token = localStorage.getItem('token');
     if (token) {

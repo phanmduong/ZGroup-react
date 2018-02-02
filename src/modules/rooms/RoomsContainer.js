@@ -40,6 +40,7 @@ class RoomsContainer extends React.Component {
     componentWillMount() {
         this.props.roomActions.loadRoomsData();
         this.props.roomActions.loadBasesData();
+        this.props.roomActions.getTypes();
     }
 
     componentWillReceiveProps(nextProps) {

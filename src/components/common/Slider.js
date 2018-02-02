@@ -9,8 +9,11 @@ class Slider extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.r !== this.props.r) {
-            if (this.slider)
+
+            if (this.slider) {
+                console.log("r", nextProps.r);
                 this.slider.noUiSlider.set(nextProps.r);
+            }
         }
     }
 

@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as userpacksActions from './userpacksActions';
 // import * as userpacksApis from "./userpacksApis";
-// import ReactSelect from 'react-select';
 import {Modal} from 'react-bootstrap';
 
 import TooltipButton from '../../components/common/TooltipButton';
 import FormInputText from '../../components/common/FormInputText';
 import AddSubcriptionKindModal from "./AddSubcriptionKindModal";
+
+import ReactSelect from "react-select";
 
 
 class SubscriptionModal extends React.Component {
@@ -19,7 +20,7 @@ class SubscriptionModal extends React.Component {
             isOpenModal: false,
         };
         // this.loadSubscriptionsKind = this.loadSubscriptionsKind.bind(this);
-        // this.changeSubscriptionKind = this.changeSubscriptionKind.bind(this);
+        this.changeSubscriptionKind = this.changeSubscriptionKind.bind(this);
         this.updateFormSubscription = this.updateFormSubscription.bind(this);
         this.updateFormSubscriptionKind = this.updateFormSubscriptionKind.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -33,10 +34,12 @@ class SubscriptionModal extends React.Component {
         this.loadSubscriptionKinds();
     }
 
-    loadSubscriptionKinds(){
+
+    loadSubscriptionKinds() {
         this.props.userpacksActions.loadSubscriptionKinds();
 
     }
+
     openModal(data) {
         this.setState({isOpenModal: true});
         this.props.userpacksActions.updateFormSubscriptionKind(data);
@@ -81,23 +84,30 @@ class SubscriptionModal extends React.Component {
         this.props.userpacksActions.updateFormSubscriptionKind(data);
     }
 
-    // changeSubscriptionKind(value) {
-    //     this.props.userpacksActions.changeSubscriptionKind(value.value);
-    // }
+    changeSubscriptionKind(event) {
+        const field = "subscriptionKind";
+        let data = {...this.props.subscription};
+        data[field] = event.value;
+        this.props.userpacksActions.updateFormSubscription(data);
+    }
 
     addSubscription(e) {
-        if (this.props.isEdit) {
-            this.props.userpacksActions.editSubscription(this.props.userpack.id, this.props.subscription, this.props.closeModal);
+        if ($('#form-subscription').valid()) {
+            if (this.props.isEdit) {
+                this.props.userpacksActions.editSubscription(this.props.userpack.id, this.props.subscription, this.props.closeModal);
+            }
+            else {
+                this.props.userpacksActions.addSubscription(this.props.userpack.id, this.props.subscription, this.props.closeModal);
+            }
+            e.preventDefault();
         }
-        else {
-            this.props.userpacksActions.addSubscription(this.props.userpack.id, this.props.subscription, this.props.closeModal);
-        }
-        e.preventDefault();
     }
 
     addSubscriptionKind(e) {
-        this.props.userpacksActions.addSubscriptionKind(this.props.subscriptionKind, this.closeModal, this.loadSubscriptionKinds);
-        e.preventDefault();
+        if ($('#form-subscription-kind').valid()) {
+            this.props.userpacksActions.addSubscriptionKind(this.props.subscriptionKind, this.closeModal, this.loadSubscriptionKinds);
+            e.preventDefault();
+        }
     }
 
 
@@ -107,15 +117,13 @@ class SubscriptionModal extends React.Component {
         return (
             <div>
                 <form id="form-subscription">
-
-                    <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">announcement</i>
-                        </div>
-                        <div className="card-content"><h4
-                            className="card-title">{this.props.isEdit ? "Chỉnh sửa đăng kí gói thành viên " : "Thêm đăng kí gói thành viên "}</h4>
-                            <div className="row">
-                                <div className="col-md-7">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <label className="label-control">
+                                    {this.props.isEdit ? "Chỉnh sửa gói đăng kí  " : "Thêm gói đăng kí  "}
+                                </label>
+                                <div className="row">
                                     <FormInputText
                                         type="number"
                                         label="Giá cả"
@@ -123,97 +131,74 @@ class SubscriptionModal extends React.Component {
                                         name="price"
                                         updateFormData={this.updateFormSubscription}
                                         value={price}
+                                        minValue="0"
                                     />
-                                    <label className="label-control">Chọn loại subscription</label>
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            {/*<ReactSelect.Async*/}
-                                            {/*loadOptions={this.loadSubscriptionsKind}*/}
-                                            {/*loadingPlaceholder="Đang tải..."*/}
-                                            {/*placeholder="Chọn loại subscription"*/}
-                                            {/*searchPromptText="Không có dữ liệu "*/}
-                                            {/*onChange={this.changeSubscriptionKind}*/}
-                                            {/*value={subscriptionKind}*/}
-                                            {/*/>*/}
-                                            <select
-                                                className="form-control"
-                                                value={subscriptionKind}
-                                                onChange={this.updateFormSubscription}
-                                                name="subscriptionKind">
-                                                {this.props.subscriptionKinds !== null && this.props.subscriptionKinds !== undefined &&
-                                                this.props.subscriptionKinds.map((item, key) => {
-                                                    return (
-                                                        <option key={key}
-                                                                value={item.id}>
-                                                            {item.name}
-                                                        </option>);
-                                                })}
-                                            </select>
-                                        </div>
-                                        <TooltipButton placement="top" text="Thêm loại đăng kí">
-                                            <div className="col-md-2" style={{marginTop: -6}}>
-                                                <a className="btn btn-rose btn-sm"
-                                                   onClick={() => {
-                                                       this.openModal({});
-                                                   }}>
-                                                    <i className="material-icons">control_point</i>
-                                                </a>
+
+                                    <label className="label-control">Chọn gói đăng kí</label>
+                                    <div style={{marginTop: 40}}>
+                                        <div className="row">
+                                            <div className="col-md-12" style={{display : "flex"}}>
+                                            <div style={{width:"-webkit-fill-available", marginRight : 10}}>
+                                                <ReactSelect
+                                                    value={subscriptionKind}
+                                                    options={this.props.subscriptionKinds}
+                                                    onChange={this.changeSubscriptionKind}
+                                                    placeholder="Chọn gói đăng kí"
+
+                                                />
                                             </div>
-                                        </TooltipButton>
+                                            <div style={{marginTop: -6}}>
+                                                <TooltipButton placement="top" text="Thêm loại gói đăng kí">
+                                                    <a className="btn btn-rose btn-sm"
+                                                       onClick={() => {
+                                                           this.openModal({});
+                                                       }}>
+                                                        <i className="material-icons">control_point</i>
+                                                    </a>
+                                                </TooltipButton>
+                                            </div>
+                                            </div>
+                                        </div>
                                     </div>
 
 
-                                </div>
-                                <div className="col-md-5">
                                     <div className="form-group">
-                                        <label className="control-label"/>Mô tả
+                                        <label className="control-label">Mô tả</label>
                                         <textarea
                                             className="form-control"
                                             name="description"
-                                            rows="7"
+                                            rows="4"
                                             value={description && description}
                                             onChange={(e) => this.updateFormSubscription(e)}
                                         />
                                     </div>
                                 </div>
+
+
+                                <div style={{display: "flex", justifyContent: "flex-end", marginTop: 40}}>
+
+
+                                    {this.props.isSavingSubscription ?
+                                        (
+                                            <button className="btn btn-fill btn-rose" type="button">
+
+                                                <i className="fa fa-spinner fa-spin"/>
+                                                {this.props.isEdit ? " Đang sửa" : " Đang thêm"}
+                                            </button>
+                                        )
+                                        :
+                                        (
+                                            <button className="btn btn-fill btn-rose" type="button"
+                                                    onClick={(e) => {
+                                                        this.addSubscription(e);
+                                                    }}>
+                                                <i className="material-icons">save</i>
+                                                {this.props.isEdit ? " Sửa" : " Thêm"}
+                                            </button>
+                                        )
+                                    }
+                                </div>
                             </div>
-
-                        </div>
-                    </div>
-
-
-                    <div className="row">
-                        <div className="col-md-8"/>
-                        <div className="col-md-4">
-                            {this.props.isSavingSubscription ?
-                                (
-                                    <button
-                                        className="btn btn-sm btn-success disabled"
-                                    >
-                                        <i className="fa fa-spinner fa-spin"/>
-                                        {this.props.isEdit ? "Đang sửa" : "Đang thêm"}
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button className="btn btn-success btn-sm"
-                                            onClick={(e) => {
-                                                this.addSubscription(e);
-                                            }}>
-                                        <i className="material-icons">save</i>
-                                        {this.props.isEdit ? "Sửa" : "Thêm"}
-                                    </button>
-                                )
-                            }
-
-                            <button className="btn btn-sm btn-danger"
-                                    onClick={(e) => {
-                                        this.props.closeModal();
-                                        e.preventDefault();
-                                    }}
-                            >
-                                <i className="material-icons">cancel</i> Huỷ
-                            </button>
                         </div>
                     </div>
                 </form>
@@ -222,7 +207,7 @@ class SubscriptionModal extends React.Component {
                 <Modal show={this.state.isOpenModal} bsSize="sm" bsStyle="primary" onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            <strong>Gói khách hàng</strong>
+                            <strong>Loại gói đăng kí</strong>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -234,31 +219,23 @@ class SubscriptionModal extends React.Component {
                             />
 
                             <div style={{display: "flex", flexDirection: "row-reverse"}}>
-                                <button className="btn btn-sm btn-danger"
-                                        onClick={(e) => {
-                                            this.closeModal();
-                                            e.preventDefault();
-                                        }}
-                                >
-                                    <i className="material-icons">cancel</i> Huỷ
-                                </button>
                                 {this.props.isSavingSubscriptionKind ?
                                     (
-                                        <button
-                                            className="btn btn-sm btn-success disabled"
+                                        <button className="btn btn-fill btn-rose btn-sm disabled" type="button"
                                         >
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            {'Đang lưu'}
+                                            <i className="fa fa-spinner fa-spin disabled"/>
+                                            {' Đang lưu'}
                                         </button>
                                     )
                                     :
                                     (
-                                        <button className="btn btn-success btn-sm"
+
+                                        <button className="btn btn-fill btn-rose btn-sm" type="button"
                                                 onClick={(e) => {
                                                     this.addSubscriptionKind(e);
                                                 }}>
                                             <i className="material-icons">save</i>
-                                            {'Lưu'}
+                                            {' Lưu'}
                                         </button>
                                     )
                                 }

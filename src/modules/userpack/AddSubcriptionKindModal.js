@@ -13,7 +13,7 @@ class AddSubcriptionKindModal extends React.Component {
         return (
             <div>
                 <FormInputText
-                    label="Tên loại subscription"
+                    label="Tên"
                     required
                     name="name"
                     updateFormData={this.props.updateFormSubscriptionKind}
@@ -26,6 +26,7 @@ class AddSubcriptionKindModal extends React.Component {
                     name="hours"
                     updateFormData={this.props.updateFormSubscriptionKind}
                     value={hours}
+                    minValue = "0"
                 />
             </div>
         );

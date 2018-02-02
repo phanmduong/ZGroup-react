@@ -11,6 +11,7 @@ import * as baseListActions from './baseListActions';
 import toastr from 'toastr';
 import {confirm} from "../../helpers/helper";
 import Pagination from "../../components/common/Pagination";
+import EditBaseModalContainer from "./EditBaseModalContainer";
 
 
 class BasesContainer extends React.Component {
@@ -20,6 +21,7 @@ class BasesContainer extends React.Component {
         this.basesSearchChange = this.basesSearchChange.bind(this);
         this.deleteBase = this.deleteBase.bind(this);
         this.loadBases = this.loadBases.bind(this);
+        this.openModal = this.openModal.bind(this);
         this.state = {
             page: 1,
             query: ""
@@ -29,6 +31,12 @@ class BasesContainer extends React.Component {
 
     componentWillMount() {
         this.loadBases();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSavingBase !== this.props.isSavingBase && !nextProps.isSavingBase) {
+            this.loadBases();
+        }
     }
 
     deleteBase(base) {
@@ -58,13 +66,22 @@ class BasesContainer extends React.Component {
         this.props.baseListActions.loadBases(page, this.state.query);
     }
 
-    
+
     handleSwitch(state, baseId) {
         if (!state) {
             toastr.error("Phải luôn có 1 trụ sở");
         } else {
             this.props.baseListActions.setDefaultBase(baseId);
         }
+    }
+
+    openModal(base) {
+        if (base.province) {
+            let districts = this.props.provinces.filter(province => province.id === base.province.id)[0].districts;
+            this.props.baseListActions.handleDistricts(districts);
+        }
+        this.props.baseListActions.showBaseEditModal();
+        this.props.baseListActions.handleBaseEditModal(base);
     }
 
 
@@ -101,7 +118,8 @@ class BasesContainer extends React.Component {
                                 <ListBase
                                     deleteBase={this.deleteBase}
                                     handleSwitch={this.handleSwitch}
-                                    bases={this.props.bases}/>}
+                                    bases={this.props.bases}
+                                    openEditBaseModal={this.openModal}/>}
                         </div>
 
                         <div className="card-content">
@@ -115,6 +133,7 @@ class BasesContainer extends React.Component {
 
 
                 </div>
+                <EditBaseModalContainer/>
             </div>
         );
     }
@@ -126,7 +145,9 @@ BasesContainer.propTypes = {
     location: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    baseListActions: PropTypes.object.isRequired
+    baseListActions: PropTypes.object.isRequired,
+    provinces: PropTypes.array.isRequired,
+    isSavingBase: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -134,7 +155,9 @@ function mapStateToProps(state) {
         bases: state.baseList.bases,
         isLoadingBases: state.baseList.isLoadingBases,
         totalPages: state.baseList.totalPages,
-        currentPage: state.baseList.currentPage
+        currentPage: state.baseList.currentPage,
+        provinces: state.baseList.provinces,
+        isSavingBase: state.baseList.isSavingBase,
     };
 }
 

@@ -26,6 +26,7 @@ class EditUserpackModal extends React.Component {
 
     componentWillMount() {
         this.props.userpacksActions.loadDetailUserpack(this.props.userpack.id);
+        this.props.userpacksActions.loadSubscriptionsInUserpack(this.props.userpack.id);
     }
 
     openModal(isEdit, subscription) {
@@ -42,8 +43,10 @@ class EditUserpackModal extends React.Component {
     }
 
     editUserpack(e) {
-        this.props.userpacksActions.editUserpack(this.props.userpack, this.props.closeModalEdit);
-        e.preventDefault();
+        if ($('#form-edit-userpack').valid()) {
+            this.props.userpacksActions.editUserpack(this.props.userpack, this.props.closeModalEdit);
+            e.preventDefault();
+        }
     }
 
 
@@ -52,163 +55,168 @@ class EditUserpackModal extends React.Component {
 
         return (
             <div>
-                <form role="form" id="form-userpack">
-                    {
-                        this.props.isLoadingUserpack ? <Loading/> :
-                            <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">announcement</i>
-                                </div>
-                                <div className="card-content">
-                                    <h4 className="card-title">Thông tin về bài viết </h4>
+                <form id="form-edit-userpack">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <label className="label-control">Thông tin về gói khách hàng </label>
+                                {this.props.isLoadingUserpack ? <Loading/> :
                                     <div className="row">
-                                        <div className="col-md-4">
-                                            {isUpdatingImage ?
-                                                <Loading/>
-                                                :
-                                                <TooltipButton text="Chọn ảnh đại diện" placement="top">
-                                                    <a type="button">
-                                                        <img
-                                                            src={helper.isEmptyInput(avatar_url) ?
-                                                                NO_IMAGE : avatar_url
-                                                            }/>
-                                                        <input type="file"
-                                                               accept=".jpg,.png,.gif"
-                                                               onChange={this.props.handleFileUpload}
-                                                               style={{
-                                                                   cursor: 'pointer',
-                                                                   opacity: "0.0",
-                                                                   position: "absolute",
-                                                                   top: 0,
-                                                                   left: 0,
-                                                                   bottom: 0,
-                                                                   right: 0,
-                                                                   width: "100%",
-                                                                   height: "100%"
-                                                               }}
-                                                        />
-                                                    </a>
-                                                </TooltipButton>
-                                            }
-                                            <div style={{display : "flex", flexDirection : "column-reverse", marginTop : 55}}>
-                                                <a className="btn btn-round btn-sm btn-primary"
-                                                   ref="target" onClick={() => this.openModal(false, {
-                                                    price: 0,
-                                                    id: 0,
-                                                    description: "",
-                                                    subscriptionKind: "",
-                                                })}>
-                                                    <span>
-                                                        <i className="material-icons">add</i>Thêm đăng kí gói
-                                                    </span>
+                                        {isUpdatingImage ?
+                                            <Loading/>
+                                            :
+
+                                            <TooltipButton text="Chọn ảnh đại diện" placement="top">
+                                                <a type="button" style={{
+                                                    width: "100%",
+                                                    marginBottom: "10px",
+                                                    textAlign: "center",
+                                                    verticalAlign: "middle",
+                                                    border: "0 none",
+                                                    display: "inline-block"
+                                                }}>
+                                                    <img
+                                                        src={helper.isEmptyInput(avatar_url) ?
+                                                            NO_IMAGE : avatar_url
+                                                        }
+                                                        style={{
+                                                            lineHeight: "164px",
+                                                            height: "auto",
+                                                            width: "100%",
+                                                            display: "block",
+                                                            backgroundSize: "cover",
+                                                            backgroundPosition: "center",
+                                                            boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+                                                            borderRadius: "10px",
+                                                        }}
+                                                    />
+                                                    <input type="file"
+                                                           accept=".jpg,.png,.gif"
+                                                           onChange={this.props.handleFileUpload}
+                                                           style={{
+                                                               cursor: 'pointer',
+                                                               opacity: "0.0",
+                                                               position: "absolute",
+                                                               top: 0,
+                                                               left: 0,
+                                                               bottom: 0,
+                                                               right: 0,
+                                                               width: "100%",
+                                                               height: "50%"
+                                                           }}
+                                                    />
                                                 </a>
-                                            </div>
-                                        </div>
+                                            </TooltipButton>
 
-
-                                        <div className="col-md-8">
-                                            <FormInputText
-                                                label="Tên bài viết"
-                                                required
-                                                name="name"
-                                                updateFormData={this.props.updateFormUserpack}
-                                                value={name}
-                                            />
-                                            <div className="form-group">
-                                                <label className="control-label"/>Ghi chú
-                                                <textarea
-                                                    className="form-control"
-                                                    name="detail"
-                                                    rows="7"
-                                                    value={detail && detail}
-                                                    onChange={(e) => this.props.updateFormUserpack(e)}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <table className="table table-hover">
-                                        {subscriptions.length === 0 ?
-                                            null :
-                                            <thead>
-                                            <tr className="text-rose" role="row">
-                                                <th>Mô tả</th>
-                                                <th>Giá</th>
-                                                <th/>
-                                            </tr>
-                                            </thead>
                                         }
 
-                                        <tbody>
 
-                                        {subscriptions && subscriptions.map((subscription, key) => {
-                                            return (
-                                                <tr role="row" className="even" key={key}>
-                                                    <td>{subscription.description || "Chưa có mô tả"}</td>
-                                                    <td>{subscription.price}</td>
-                                                    <td>
-                                                        <div className="btn-group-action">
-                                                            <div style={{display: 'inline-block'}}>
-                                                                <a data-toggle="tooltip" title type="button"
-                                                                   rel="tooltip"
-                                                                   data-original-title="Sửa"
-                                                                   onClick={() => this.openModal(true, subscription)}
-                                                                >
-                                                                    <i className="material-icons">edit</i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                        <FormInputText
+                                            label="Tên gói"
+                                            required
+                                            name="name"
+                                            updateFormData={this.props.updateFormUserpack}
+                                            value={name}
+                                        />
+                                        <div className="form-group">
+                                            <label className="control-label">Ghi chú</label>
+                                            <textarea
+                                                className="form-control"
+                                                name="detail"
+                                                rows="3"
+                                                value={detail && detail}
+                                                onChange={(e) => this.props.updateFormUserpack(e)}
+                                            />
+                                        </div>
+                                    </div>
+                                }
+
+
+                                <div className="row">
+
+                                    <label className="label-control">Thông tin về gói đăng kí </label>
+
+                                    {this.props.isLoadingSubInUserpack ? <Loading/> :
+                                        <table className="table table-hover">
+                                            {subscriptions.length === 0 ?
+                                                null :
+                                                <thead>
+                                                <tr className="text-rose" role="row">
+                                                    <th>Loại gói đăng kí</th>
+                                                    <th>Mô tả</th>
+                                                    <th>Giá</th>
+
+                                                    <th/>
                                                 </tr>
-                                            );
-                                        })}
-                                        </tbody>
-                                    </table>
+                                                </thead>
+                                            }
 
+                                            <tbody>
+
+                                            {subscriptions && subscriptions.map((subscription, key) => {
+                                                return (
+                                                    <tr role="row" className="even" key={key}>
+                                                        <td style={{width: 77}}>{subscription.subcription_kind.name}</td>
+                                                        <td>{subscription.description || "Chưa có mô tả"}</td>
+                                                        <td>{subscription.price}</td>
+                                                        <td>
+                                                            <div className="btn-group-action">
+                                                                <div style={{display: 'inline-block'}}>
+                                                                    <a data-toggle="tooltip" title type="button"
+                                                                       rel="tooltip"
+                                                                       data-original-title="Sửa"
+                                                                       onClick={() => this.openModal(true, subscription)}
+                                                                    >
+                                                                        <i className="material-icons">edit</i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                            </tbody>
+                                        </table>
+                                    }
+
+
+                                    <div style={{display: "flex", justifyContent: "flex-end", marginTop: 40}}>
+                                        <button className="btn btn-fill btn-default"
+                                                type="button" onClick={() => this.openModal(false, {
+                                            price: 0,
+                                            id: 0,
+                                            description: "",
+                                            subscriptionKind: "",
+                                        })}>
+                                            <i className="material-icons">add</i>Thêm đăng kí gói
+                                        </button>
+                                        {this.props.isSavingEditUserpack ?
+                                            (
+                                                <button className="btn btn-fill btn-rose disabled">
+                                                    <i className="fa fa-spinner fa-spin disabled"/>
+                                                    {' Đang sửa'}
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button className="btn btn-fill btn-rose" type="button"
+                                                        onClick={(e) => {
+                                                            this.editUserpack(e);
+                                                        }}>
+                                                    <i className="material-icons">save</i>
+                                                    {' Lưu'}
+                                                </button>
+                                            )
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                    }
-
-
-                    <div className="row">
-                        <div className="col-md-8"/>
-                        <div className="col-md-4">
-                            {this.props.isSavingEditUserpack ?
-                                (
-                                    <button
-                                        className="btn btn-sm btn-success disabled"
-                                    >
-                                        <i className="fa fa-spinner fa-spin"/>
-                                        {'Đang sửa'}
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button className="btn btn-success btn-sm"
-                                            onClick={(e) => {
-                                                this.editUserpack(e);
-                                            }}>
-                                        <i className="material-icons">save</i>
-                                        {'Sửa'}
-                                    </button>
-                                )
-                            }
-
-                            <button className="btn btn-sm btn-danger"
-                                    onClick={(e) => {
-                                        this.props.closeModalEdit();
-                                        e.preventDefault();
-                                    }}
-                            >
-                                <i className="material-icons">cancel</i> Huỷ
-                            </button>
                         </div>
                     </div>
                 </form>
 
 
-                <Modal show={this.state.isOpenModal} bsSize="lg" bsStyle="primary" onHide={this.closeModal}>
+                <Modal show={this.state.isOpenModal} bsStyle="primary" onHide={this.closeModal}>
                     <Modal.Header closeButton>
                     </Modal.Header>
                     <Modal.Body>
@@ -229,6 +237,7 @@ class EditUserpackModal extends React.Component {
 EditUserpackModal.propTypes = {
     isSavingEditUserpack: PropTypes.bool,
     isLoadingUserpack: PropTypes.bool,
+    isLoadingSubInUserpack: PropTypes.bool,
     userpack: PropTypes.object,
     userpacksActions: PropTypes.object.isRequired,
     subscription: PropTypes.object,
@@ -242,6 +251,7 @@ function mapStateToProps(state) {
         isLoadingPost: state.userpacks.isLoadingPost,
         subscription: state.userpacks.subscription,
         isLoadingUserpack: state.userpacks.isLoadingUserpack,
+        isLoadingSubInUserpack: state.userpacks.isLoadingSubInUserpack,
         userpack: state.userpacks.userpack,
         isSavingEditUserpack: state.userpacks.isSavingEditUserpack,
     };
