@@ -381,13 +381,12 @@ class ManageBaseApiController extends ManageApiController
         $request->to = str_replace('/', '-', $request->to);
 
 
-
         $seats = Seat::query();
         $booked_seats = Seat::query();
         $seats_count = Seat::query();
         if ($request->room_id) {
             $seats = $seats->where('room_id', $request->room_id);
-            $booked_seats = $seats->where('room_id', $request->room_id);
+            $booked_seats = $booked_seats->where('room_id', $request->room_id);
             $seats_count = $seats_count->where('room_id', $request->room_id);
         }
         $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
