@@ -23,6 +23,8 @@ class ListRoom extends React.Component {
 
                     {
                         this.props.rooms && this.props.rooms.map((room, index) => {
+                            let address_description = room.base_name + ": " + room.address;
+                            address_description = address_description.substring(0, 50) + "...";
                             let avatar = room.avatar_url || 'http://s3images.coroflot.com/user_files/individual_files/large_188723_s6nH2GYL11SSVLIkNiUbpdFqh.jpg';
                             return (
                                 <div className="col-sm-4" id="card-email-template" key={index}>
@@ -53,8 +55,8 @@ class ListRoom extends React.Component {
                                                     edit={() => this.props.openModalEdit(index, room)}
                                                 />
                                             </div>
-                                            <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
-                                                <p className="category">{room.base_name + ": " + room.address}</p>
+                                            <div style={{display: "flex", justifyContent: "space-between", height: 60}}>
+                                                <p className="category">{address_description}</p>
                                             </div>
                                         </div>
                                     </div>
