@@ -21,6 +21,10 @@ class Seat extends Model
             'name' => $this->name,
             'room' => $this->room ? $this->room->getData() : [],
             'type' => $this->type,
+            "x" => $this->x,
+            "y" => $this->y,
+            "r" => $this->r,
+            "color" => $this->color
         ];
     }
 }
