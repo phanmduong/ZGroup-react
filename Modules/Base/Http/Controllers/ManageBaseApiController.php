@@ -379,7 +379,7 @@ class ManageBaseApiController extends ManageApiController
     {
         $request->from = str_replace('/', '-', $request->from);
         $request->to = str_replace('/', '-', $request->to);
-
+//        dd($request->from . '   ' . $request->to);
 
         $seats = Seat::query();
         $booked_seats = Seat::query();

@@ -70,14 +70,14 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register->subscription_id = $request->subscription_id;
         $register->save();
 //        dd(Base::find($request->base_id));
-//        $subject = "Xác nhận đăng ký thành công";
-//        $data = ["base" => Base::find($request->base_id)->transform,
-//            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
-//        $emailcc = ["graphics@colorme.vn"];
-//        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
-//            $m->from('no-reply@colorme.vn', 'Graphics');
-//            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
-//        });
+        $subject = "Xác nhận đăng ký thành công";
+        $data = ["base" => Base::find($request->base_id)->transform,
+            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
+        $emailcc = ["graphics@colorme.vn"];
+        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+        });
 
         return $this->respondSuccessWithStatus([
             'message' => "Đăng kí thành công"
