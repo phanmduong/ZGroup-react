@@ -198,11 +198,3 @@ export function editReturnOrdersApi(order,orderId) {
         }
     );
 }
-export function loadProvincesApi() {
-    let url = env.MANAGE_API_URL + "/province/all";
-    const token = localStorage.getItem('token');
-    if (token) {
-        url += "?token=" + token;
-    }
-    return axios.get(url);
-}

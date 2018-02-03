@@ -49,16 +49,7 @@ class StorePostContainer extends React.Component {
         this.props.blogActions.loadCategories();
     }
 
-    updateFormPostData(event) {
-        const field = event.target.name;
-        let data = {...this.props.post};
-        if (event.target.type === "checkbox") {
-            data[field] = event.target.checked;
-        } else {
-            data[field] = event.target.value;
-        }
-        this.props.blogActions.updateFormPost(data);
-    }
+
 
     updateFormCategory(event) {
         const field = event.target.name;

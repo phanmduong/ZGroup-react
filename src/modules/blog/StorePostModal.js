@@ -18,6 +18,7 @@ class StorePostModal extends React.Component {
         this.savePost = this.savePost.bind(this);
         this.createCategory = this.createCategory.bind(this);
         this.updateFormCategory = this.updateFormCategory.bind(this);
+        this.updateFormSelect = this.updateFormSelect.bind(this);
         this.openModal = this.openModal.bind(this);
         this.preSavePost = this.preSavePost.bind(this);
     }
@@ -34,6 +35,12 @@ class StorePostModal extends React.Component {
         this.props.blogActions.loadCategories();
     }
 
+    updateFormSelect(e){
+        const field = "category";
+        let data = {...this.props.post};
+        data[field] = e.value;
+        this.props.blogActions.updateFormPost(data);
+    }
     updateFormPostData(event) {
         const field = event.target.name;
         let data = {...this.props.post};
@@ -120,6 +127,7 @@ class StorePostModal extends React.Component {
                 preSavePost={this.preSavePost}
                 categories={[{value: 0, text: 'Chọn nhóm bài viết'}, ...categories]}
                 closeModal = {this.props.closeModal}
+                updateFormSelect = {this.updateFormSelect}
             />
         );
     }
