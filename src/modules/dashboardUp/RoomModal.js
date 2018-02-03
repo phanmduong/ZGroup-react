@@ -59,7 +59,7 @@ class RoomModal extends React.Component {
     }
 
     render() {
-        console.log(this.props.isLoadingSeats);
+        // console.log(this.props.isLoadingSeats);
         const percent = (count, total) =>  total === 0 ? 0 : count * 100 / total;
         return (
             <Modal

@@ -19,6 +19,8 @@ class ListCampaign extends React.Component {
             };
         }) : [];
 
+        courses = [{value: -1, label: 'Link chung'}, ...courses];
+
         return (
             <div>
                 <table className="table" width="100%">

@@ -48,7 +48,7 @@ class SummaryStaffbyDepartment extends React.Component{
         );
     }
 }
-SummaryStaffbyDepartment.PropTypes = {
+SummaryStaffbyDepartment.propTypes = {
   staff_department: PropTypes.array,
 };
 export default SummaryStaffbyDepartment;

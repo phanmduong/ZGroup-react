@@ -273,6 +273,7 @@ CreateBaseContainer.propTypes = {
     percent: PropTypes.number.isRequired,
     isUploadingImage: PropTypes.bool.isRequired,
     percentImage: PropTypes.number.isRequired,
+    provinces: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -103,9 +103,11 @@ class BaseForm extends React.Component {
 BaseForm.propTypes = {
     base: PropTypes.object.isRequired,
     provinces: PropTypes.array.isRequired,
+    districts: PropTypes.array.isRequired,
     error: PropTypes.object.isRequired,
     submit: PropTypes.func.isRequired,
     changeProvince: PropTypes.func.isRequired,
+    changeDistrict: PropTypes.func.isRequired,
     isSavingBase: PropTypes.bool.isRequired,
     updateFormData: PropTypes.func.isRequired
 };

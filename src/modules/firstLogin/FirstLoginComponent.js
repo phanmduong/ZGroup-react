@@ -260,6 +260,8 @@ FirstLoginComponent.propTypes = {
     isLoadingProfile: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isChangingAvatar: PropTypes.bool.isRequired,
+    first_login: PropTypes.bool.isRequired,
+    updateSuccess: PropTypes.bool.isRequired,
     updateFormData: PropTypes.func.isRequired,
     changeColor: PropTypes.func.isRequired,
     handleFileUpload: PropTypes.func.isRequired,

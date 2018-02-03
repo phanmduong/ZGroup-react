@@ -393,6 +393,8 @@ DashBoardUpComponent.propTypes = {
     loadSeats: PropTypes.object.isRequired,
     domain: PropTypes.object.isRequired,
     seats : PropTypes.array.isRequired,
+    rooms : PropTypes.array.isRequired,
+    rooms_count : PropTypes.number.isRequired,
     seats_count: PropTypes.number.isRequired,
     available_seats: PropTypes.number.isRequired,
     isLoadingSeats: PropTypes.func.isRequired

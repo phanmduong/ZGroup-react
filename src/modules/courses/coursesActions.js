@@ -3,6 +3,7 @@ import * as courseApi   from './courseApi';
 import * as helper      from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
+/*eslint no-console: 0 */
 export function createLink(link, func) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LINK});

@@ -565,7 +565,7 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.LOAD_ALL_TYPES_SUCCESS: {
-            let data = action.types.map((obj)=>{return {...obj, value: obj.id, label: obj.name,}});
+            let data = action.types.map((obj)=>{return {...obj, value: obj.id, label: obj.name,};});
             return {
                 ...state,
                 // isLoading: false,

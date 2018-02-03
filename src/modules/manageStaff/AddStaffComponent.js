@@ -152,7 +152,7 @@ class AddStaffComponent extends React.Component {
                                                     />
                                                 </div>
                                                 :
-                                                <div></div>
+                                                <div />
                                         }
 
                                         {this.props.isLoadingAddStaff ?
@@ -300,6 +300,7 @@ AddStaffComponent.propTypes = {
     bases: PropTypes.array.isRequired,
     departments: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
+    role: PropTypes.number,
 };
 
 export default AddStaffComponent;

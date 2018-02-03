@@ -10,7 +10,7 @@ const FieldGroup = ({id, label, help, ...props}) => {
             {help && <HelpBlock>{help}</HelpBlock>}
         </FormGroup>
     );
-}
+};
 
 FieldGroup.propTypes = {
     label: PropTypes.string.isRequired,

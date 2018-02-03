@@ -28,26 +28,6 @@ class ListNotificationTypeContainer extends React.Component {
         this.openModal = this.openModal.bind(this);
     }
 
-    closeModal() {
-        this.setState({showModal: false});
-    }
-
-    openModal(notificationType) {
-        if (notificationType) {
-            this.setState({
-                edit: true,
-                showModal: true,
-                notificationType: notificationType
-            });
-        } else {
-            this.setState({
-                edit: false,
-                showModal: true,
-                notificationType: {}
-            });
-        }
-    }
-
     componentWillMount() {
         this.loadNotificationTypes();
     }
@@ -75,6 +55,26 @@ class ListNotificationTypeContainer extends React.Component {
     loadNotificationTypes(page = 1) {
         this.setState({page: page});
         this.props.notificationTypeActions.loadNotificationTypes(page, this.state.query);
+    }
+
+    closeModal() {
+        this.setState({showModal: false});
+    }
+
+    openModal(notificationType) {
+        if (notificationType) {
+            this.setState({
+                edit: true,
+                showModal: true,
+                notificationType: notificationType
+            });
+        } else {
+            this.setState({
+                edit: false,
+                showModal: true,
+                notificationType: {}
+            });
+        }
     }
 
     render() {

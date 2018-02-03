@@ -8,7 +8,6 @@ import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDateTime from "../../components/common/FormInputDateTime";
 import ReactSelect from 'react-select';
-import Select from 'react-select';
 import ListStaffs from './ListStaffs';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import * as helper from '../../helpers/helper';
@@ -253,7 +252,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         <label>
                                                             Chọn nhân viên
                                                         </label>
-                                                        <Select
+                                                        <ReactSelect
                                                             placeholder="Nhập tên để tìm kiếm"
                                                             style={{width: "100%"}}
                                                             value={payer}
@@ -309,7 +308,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                             <label className="label-control">Nhập tên để tìm kiếm nhân
                                                                 viên</label>
 
-                                                            <Select
+                                                            <ReactSelect
                                                                 name="form-field-name"
                                                                 value={"Chọn nhân viên"}
                                                                 options={this.props.staffs}

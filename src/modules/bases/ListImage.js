@@ -81,7 +81,10 @@ class ListBase extends React.Component {
 }
 
 ListBase.propTypes = {
-    images: PropTypes.array.isRequired
+    images: PropTypes.array.isRequired,
+    percentImage: PropTypes.number.isRequired,
+    handleImageUpload: PropTypes.func.isRequired,
+    isUploadingImage: PropTypes.bool.isRequired
 };
 
 export default ListBase;

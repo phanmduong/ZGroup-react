@@ -6,6 +6,8 @@ import {bindActionCreators} from "redux";
 import * as PaymentActions from "./PaymentActions";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import Loading from "../../components/common/Loading";
+
 class InfoPaymentModal extends React.Component{
     constructor(props, context) {
         super(props, context);
