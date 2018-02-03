@@ -1731,7 +1731,7 @@ export default {
             bill_image_url: "",
             payer: {
                 id: 0,
-               account_number: "",
+                account_number: "",
             },
             receiver: {
                 id: 0,
@@ -1750,10 +1750,7 @@ export default {
     seat: {
         showCreateSeatModal: false,
         point: {},
-        seat: {
-            r: 1,
-            color: "rgb(244, 67, 54)"
-        },
+        seat: {},
         seats: [],
         currentAction: "",
         domain: {x: [0, 600], y: [0, 400]}
@@ -1909,7 +1906,7 @@ export default {
             receive_date: "",
         },
     },
-    exportOrder:{
+    exportOrder: {
         isLoading: false,
         isCommitting: false,
         isLoadingGoods: false,
@@ -1921,21 +1918,21 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        listExportOrder:[
+        listExportOrder: [
             {
-                good: {id: 0, name:"noname"},
-                warehouse: {id: 0, name:"noname"},
-                company:{id:"", name:"noname"},
-                price:0,
-                quantity:0,
+                good: {id: 0, name: "noname"},
+                warehouse: {id: 0, name: "noname"},
+                company: {id: "", name: "noname"},
+                price: 0,
+                quantity: 0,
             }
         ],
-        data:{
-            good: {id: 0, name:"noname"},
-            warehouse: {id: 0, name:"noname"},
-            company:{id:"", name:"noname"},
-            price:0,
-            quantity:0,
+        data: {
+            good: {id: 0, name: "noname"},
+            warehouse: {id: 0, name: "noname"},
+            company: {id: "", name: "noname"},
+            price: 0,
+            quantity: 0,
         },
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
@@ -1985,6 +1982,18 @@ export default {
     sendNotification: {
         isSending: false,
         errorSend: false,
+    },
+    dashboardUp: {
+        isLoadingBases: true,
+        isLoadingRooms: false,
+        isLoadingSeats: false,
+        bases: [],
+        rooms: [],
+        rooms_count: 0,
+        seats_count: 0,
+        seats: [],
+        available_seats: 0,
+
     },
 
 };

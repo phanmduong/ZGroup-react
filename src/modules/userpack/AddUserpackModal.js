@@ -21,7 +21,6 @@ class AddUserpackModal extends React.Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
-                        <label className="label-control">Thông tin về gói khách hàng </label>
                         <h4 className="card-title">Thêm gói khách hàng</h4>
                         {isUpdatingImage ?
                             <Loading/>

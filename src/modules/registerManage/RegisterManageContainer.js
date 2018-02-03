@@ -16,8 +16,8 @@ import Pagination from "../../components/common/Pagination";
 import {REGISTER_STATUS} from "../../constants/constants";
 
 
-import {Modal} from 'react-bootstrap';
-import CallModal from "./CallModal";
+// import {Modal} from 'react-bootstrap';
+// import CallModal from "./CallModal";
 
 class RegisterManageContainer extends React.Component {
     constructor(props, context) {

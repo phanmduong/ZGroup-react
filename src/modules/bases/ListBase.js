@@ -4,6 +4,7 @@ import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {avatarEmpty, shortString} from "../../helpers/helper";
 //import {Link} from "react-router";
 
+
 class ListBase extends React.Component {
     constructor(props, context) {
         super(props, context);
