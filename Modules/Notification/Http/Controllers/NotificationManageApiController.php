@@ -6,6 +6,7 @@ use App\Http\Controllers\ManageApiController;
 use App\Notification;
 use App\NotificationType;
 use App\Repositories\NotificationRepository;
+use App\SendNotification;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -28,7 +29,7 @@ class NotificationManageApiController extends ManageApiController
         $notificationTypes = NotificationType::where('status', 1);
         if ($request->search) {
             $notificationTypes = $notificationTypes->where(function ($q) use ($request) {
-                $q->orWhere('name', 'like', '%' . $request->search . '%')
+                $q->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('template', 'like', '%' . $request->search . '%')
                     ->orWhere('content_template', 'like', '%' . $request->search . '%');
             });
@@ -150,7 +151,14 @@ class NotificationManageApiController extends ManageApiController
 
         $users = User::whereIn('id', $users)->pluck('id');
 
-        $users->map(function ($user) use ($notificationType) {
+        $sendNotification = new SendNotification();
+
+        $sendNotification->name = $request->name;
+        $sendNotification->notification_type_id = $request->notification_type_id;
+        $sendNotification->creator_id = $this->user->id;
+        $sendNotification->save();
+
+        $users->map(function ($user) use ($sendNotification, $notificationType) {
             $notification = new Notification();
             $notification->actor_id = 0;
             $notification->receiver_id = $user;
@@ -160,11 +168,34 @@ class NotificationManageApiController extends ManageApiController
             $notification->content = $notificationType->content_template;
             $notification->image_url = defaultAvatarUrl();
             $notification->url = "/";
+            $notification->send_notification_id = $sendNotification->id;
             $notification->save();
 
             $this->notificationRepository->sendNotification($notification);
         });
 
         return $this->respondSuccess("Gửi thành công");
+    }
+
+    public function historySendNotifications(Request $request)
+    {
+        $sendNotifications = SendNotification::query();
+
+        $limit = 20;
+        if ($request->search) {
+            $sendNotifications = $sendNotifications->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $sendNotifications = $sendNotifications->orderBy('created_at', 'desc')->paginate($limit);
+
+        $data = [
+            'history_notifications' => $sendNotifications->map(function ($sendNotification) {
+                return $sendNotification->transform();
+            })
+        ];
+
+        return $this->respondWithPagination($sendNotifications, $data);
     }
 }

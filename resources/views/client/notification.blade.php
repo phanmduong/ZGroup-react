@@ -1,9 +1,9 @@
 @extends("client.layout.master")
 
 @section("css")
-    <link href="manage/notification/main.56a25b40e845b388c78c95f95a170203.css" rel="stylesheet">
+    <link href="manage/notification/main.e72627b26e8b25818a34b388ec91b12e.css" rel="stylesheet">
 @endsection
 
 @section("js")
-    <script type="text/javascript" src="manage/notification/main.4f71ff87220f61090446.js"></script>
+    <script type="text/javascript" src="manage/notification/main.a5b8cbbeef72927b46c7.js"></script>
 @endsection
