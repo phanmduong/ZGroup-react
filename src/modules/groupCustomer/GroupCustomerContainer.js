@@ -173,9 +173,10 @@ class GroupCustomerContainer extends React.Component {
 
                         {this.props.isLoading ? <Loading/> :
                             <div className="row">
-                                {this.props.groupCustomersList.map((groupCustomer) => {
+                                {this.props.groupCustomersList.map((groupCustomer, index) => {
                                     return (
                                         <GroupCustomerItem
+                                            key={index}
                                             openEditModal={this.openEditModal}
                                             groupCustomerItem={groupCustomer}
                                             deleteGroupCustomer={this.deleteGroupCustomer}

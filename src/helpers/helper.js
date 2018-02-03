@@ -5,7 +5,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
 import * as FILE_SAVER from 'file-saver';
-import {NO_IMAGE} from "../constants/env";
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -740,7 +739,7 @@ export function closeSidebar() {
 
 export function onesignalSetUserId(userId) {
     /* eslint-disable */
-    OneSignal.sendTag("user_id", userId, function (tagsSent) {
+    window.OneSignal.sendTag("user_id", userId, function (tagsSent) {
         console.log("tag ok ", tagsSent);
     });
     /* eslint-enable */
@@ -1253,7 +1252,7 @@ export function shortString(str, maxLength) {
     arrStr = arrStr.slice(0, Math.min(arrStr.length, maxLength));
     const result = arrStr.join(" ");
     if (arrStr.length < maxLength) return str;
-    return result + " ..."
+    return result + " ...";
 }
 
 export function convertDotMoneyToK(data) {

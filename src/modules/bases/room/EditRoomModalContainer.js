@@ -205,7 +205,9 @@ class EditRoomModalContainer extends React.Component {
                                                  backgroundColor: '#e8e8e8',
                                                  position: "relative",
                                                  borderRadius: '5px',
-                                                 cursor: "pointer"
+                                                 cursor: "pointer",
+                                                 marginTop: '10px',
+                                                 marginBottom: '10px'
                                              }}>
                                             <TooltipButton text="Tải ảnh" placement="top">
                                                 <label>
@@ -253,6 +255,7 @@ class EditRoomModalContainer extends React.Component {
                                                 </div>
                                             }
                                         </div>
+
                                     </div>
                                 }
                             </div>

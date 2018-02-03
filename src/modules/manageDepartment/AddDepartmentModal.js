@@ -18,13 +18,6 @@ class LessonDetailModal extends React.Component {
         this.onHide = this.onHide.bind(this);
     }
 
-    updateFormData(e){
-        const name = e.target.name;
-        const value = e.target.value;
-        let newdata = {...this.state.data};
-        newdata[name] = value;
-        this.setState({data: newdata});
-    }
     componentWillMount(){
         helper.setFormValidation('#form-department-add');
     }
@@ -33,6 +26,14 @@ class LessonDetailModal extends React.Component {
     }
     componentDidUpdate(){
         helper.setFormValidation('#form-department-add');
+    }
+
+    updateFormData(e){
+        const name = e.target.name;
+        const value = e.target.value;
+        let newdata = {...this.state.data};
+        newdata[name] = value;
+        this.setState({data: newdata});
     }
 
     changeColor(color){

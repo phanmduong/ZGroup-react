@@ -4,7 +4,7 @@ import NotFoundPage from "../../components/NotFoundPage";
 import {IndexRoute, Route} from "react-router";
 import LoginContainer from "../../modules/login/LoginContainer";
 
-export default (InputRoutes) => (
+const RootRoute = (InputRoutes) => (
     <Route>
         <Route path="/login" component={LoginContainer}/>
         <Route path="/" component={AppContainer}>
@@ -13,7 +13,7 @@ export default (InputRoutes) => (
                         if (route.path === "/") {
                             return <IndexRoute key={index} component={route.component}/>;
                         } else {
-                            return <Route {...route} key={index}>
+                            return (<Route {...route} key={index}>
                                 {
                                     route.children && route.children.map((routeChild, index1) => {
                                         if (routeChild.path === "/")
@@ -23,7 +23,7 @@ export default (InputRoutes) => (
                                         );
                                     })
                                 }
-                            </Route>;
+                            </Route>);
                         }
                     }
                 )
@@ -32,3 +32,5 @@ export default (InputRoutes) => (
         </Route>
     </Route>
 );
+
+export default RootRoute;

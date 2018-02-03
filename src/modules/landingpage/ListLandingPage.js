@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {BASE_URL} from '../../constants/env';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 
@@ -37,7 +38,7 @@ class ListLandingPage extends React.Component {
                                         object={landingPage}
                                         delete={this.props.deleteLandingPage}
                                         edit={() => {
-                                            window.open("/build-landing-page/" + landingPage.id)
+                                            window.open("/build-landing-page/" + landingPage.id);
                                         }}
                                     >
                                         {
@@ -59,6 +60,9 @@ class ListLandingPage extends React.Component {
     }
 }
 
-ListLandingPage.propTypes = {};
+ListLandingPage.propTypes = {
+    landingPages: PropTypes.array.isRequired,
+    deleteLandingPage: PropTypes.func.isRequired
+};
 
 export default ListLandingPage;

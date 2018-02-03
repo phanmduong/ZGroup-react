@@ -8,15 +8,15 @@ class ButtonList extends React.Component {
         this.setActive = this.setActive.bind(this);
     }
 
-    setActive(buttonAction) {
-        return this.props.currentAction === buttonAction ? "btn-seat active" : "btn-seat";
-    }
-
     componentDidMount() {
         // $(window).click(() => {
         //     this.props.changeAction("");
         // });
 
+    }
+
+    setActive(buttonAction) {
+        return this.props.currentAction === buttonAction ? "btn-seat active" : "btn-seat";
     }
 
     render() {

@@ -9,7 +9,7 @@ import SummaryStaffbyDepartment from "./summaryStaffbyDepartment";
 import PropTypes from 'prop-types';
 import Select from './Select';
 
-class summaryStaffContainer extends React.Component {
+class SummaryStaffContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -121,7 +121,7 @@ class summaryStaffContainer extends React.Component {
     }
 }
 
-summaryStaffContainer.PropTypes = {
+SummaryStaffContainer.propTypes = {
     isLoadingWork: PropTypes.bool.isRequired,
     isLoadingDepartment: PropTypes.bool.isRequired,
     staff_work: PropTypes.array.isRequired,
@@ -144,4 +144,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(summaryStaffContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SummaryStaffContainer);

@@ -38,11 +38,6 @@ class AttendanceStaffsContainer extends React.Component {
         this.setData = this.setData.bind(this);
     }
 
-    setData(salesMakerings, teachers) {
-        this.salesMaketings = salesMakerings;
-        this.teachers = teachers;
-    }
-
     componentWillMount() {
         this.props.attendanceStaffsActions.loadGensData();
         this.props.attendanceStaffsActions.loadBasesData();
@@ -60,6 +55,11 @@ class AttendanceStaffsContainer extends React.Component {
                 bases: this.getBases(nextProps.bases),
             });
         }
+    }
+
+    setData(salesMakerings, teachers) {
+        this.salesMaketings = salesMakerings;
+        this.teachers = teachers;
     }
 
     loadStatistic() {

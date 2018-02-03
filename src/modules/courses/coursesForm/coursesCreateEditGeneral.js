@@ -7,7 +7,6 @@ import FormInputText                    from '../../../components/common/FormInp
 import * as helper                      from '../../../helpers/helper';
 import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
 import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
-import Select from 'react-select';
 import ReactSelect from 'react-select';
 
 class coursesCreateEditGeneral extends React.Component {
@@ -70,7 +69,6 @@ class coursesCreateEditGeneral extends React.Component {
     }
 
     onCategoryChange(obj){
-        console.log(obj);
         this.props.coursesActions.onCategoryChange(obj);
     }
 
@@ -151,7 +149,7 @@ class coursesCreateEditGeneral extends React.Component {
                                     <label>
                                         Nhãn
                                     </label>
-                                    <Select
+                                    <ReactSelect
                                         placeholder="Nhập nhãn"
                                         style={{width: "100%"}}
                                         value={this.props.data.categories}

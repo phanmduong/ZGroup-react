@@ -8,7 +8,7 @@ import *as baseListActions from "./baseListActions";
 import Select from 'react-select';
 import FormInputText from "../../components/common/FormInputText";
 import TooltipButton from "../../components/common/TooltipButton";
-import Switch from 'react-bootstrap-switch';
+import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 
 class EditBaseModalContainer extends React.Component {
     constructor(props, context) {
@@ -201,15 +201,16 @@ class EditBaseModalContainer extends React.Component {
                                                     }}
                                                          data-original-title=""/>
                                                     <div className="overlay-for-images"/>
-                                                    <div className="button-for-images">
-                                                        <TooltipButton text="Xóa" placement="top">
+                                                    <TooltipButton text="Xóa" placement="top">
+                                                        <div className="button-for-images">
                                                             <a rel="tooltip"
                                                                onClick={() => this.props.baseListActions.deleteImage(image)}
                                                                data-original-title="" title="">
                                                                 <i className="material-icons">close</i>
                                                             </a>
-                                                        </TooltipButton>
-                                                    </div>
+                                                        </div>
+                                                    </TooltipButton>
+
                                                 </div>
                                             </div>
 
@@ -227,7 +228,9 @@ class EditBaseModalContainer extends React.Component {
                                                  backgroundColor: '#e8e8e8',
                                                  position: "relative",
                                                  borderRadius: '5px',
-                                                 cursor: "pointer"
+                                                 cursor: "pointer",
+                                                 marginTop: '10px',
+                                                 marginBottom: '10px'
                                              }}>
                                             <TooltipButton text="Tải ảnh" placement="top">
                                                 <label>
@@ -321,24 +324,20 @@ class EditBaseModalContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-6 col-sm-6 col-xs-6">
                                     <div className="form-group">
-                                        <label className="control-label">Trụ sở</label>
-                                        <Switch
+                                        <CheckBoxMaterial
+                                            name="sale_status"
+                                            checked={(base.center === 1)}
                                             onChange={this.handleSwitchCenter}
-                                            bsSize="mini"
-                                            onText="Có" offText="Không"
-                                            value={(base.center === 1)}
-                                        />
+                                            label="Trụ sở"/>
                                     </div>
                                 </div>
                                 <div className="col-md-6 col-sm-6 col-xs-6">
                                     <div className="form-group">
-                                        <label className="control-label">Hiển thị</label>
-                                        <Switch
+                                        <CheckBoxMaterial
+                                            name="sale_status"
+                                            checked={(base.display_status === 1)}
                                             onChange={this.handleSwitchDisplay}
-                                            bsSize="mini"
-                                            onText="Hiện" offText="Ẩn"
-                                            value={(base.display_status === 1)}
-                                        />
+                                            label="Hiển thị"/>
                                     </div>
                                 </div>
                             </div>

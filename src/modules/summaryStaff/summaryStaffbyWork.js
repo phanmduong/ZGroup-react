@@ -1,6 +1,7 @@
 import React from "react";
 import BarChart from './BarChart';
 import PropTypes from 'prop-types';
+
 class SummaryStaffbyWork extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -48,7 +49,7 @@ class SummaryStaffbyWork extends React.Component {
         );
     }
 }
-SummaryStaffbyWork.PropTypes={
+SummaryStaffbyWork.propTypes={
   staff_work: PropTypes.array,
 };
 export default SummaryStaffbyWork;

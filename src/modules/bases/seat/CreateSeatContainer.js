@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {CirclePicker} from "react-color";
 import Slider from "../../../components/common/Slider";
-import {createUpdateSeat, updateSeatFormData} from "./seatActions";
+import {updateSeatFormData} from "./seatActions";
 import {
     FormGroup, FormControl, ControlLabel, Badge,
     Popover, OverlayTrigger
@@ -129,7 +129,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            createUpdateSeat,
             updateSeatFormData
         }, dispatch),
     };

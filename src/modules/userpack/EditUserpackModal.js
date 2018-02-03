@@ -134,8 +134,6 @@ class EditUserpackModal extends React.Component {
 
 
                                 <div className="row">
-                                    {/*<h4 className="card-title">Thông tin về gói đăng kí </h4>*/}
-
                                     {this.props.isLoadingSubInUserpack ? <Loading/> :
                                         <table className="table table-hover">
                                             {subscriptions.length === 0 ?
@@ -188,7 +186,7 @@ class EditUserpackModal extends React.Component {
                                             description: "",
                                             subscriptionKind: "",
                                         })}>
-                                            <i className="material-icons">add</i>Thêm đăng kí gói
+                                            <i className="material-icons">add</i>Thêm gói đăng kí
                                         </button>
                                         {this.props.isSavingEditUserpack ?
                                             (
@@ -217,8 +215,7 @@ class EditUserpackModal extends React.Component {
 
 
                 <Modal show={this.state.isOpenModal} bsStyle="primary" onHide={this.closeModal}>
-                    <Modal.Header closeButton>
-                    </Modal.Header>
+                    <Modal.Header closeButton />
                     <Modal.Body>
                         <SubscriptionModal
                             closeModal={this.closeModal}

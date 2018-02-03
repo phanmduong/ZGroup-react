@@ -199,6 +199,7 @@ StatisticAttendanceStaffs.propTypes = {
     teachers: PropTypes.array.isRequired,
     salesMarketings: PropTypes.array.isRequired,
     loadStatistic: PropTypes.func.isRequired,
+    setData: PropTypes.func.isRequired,
 };
 
 export default (StatisticAttendanceStaffs);

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {avatarEmpty, shortString} from "../../helpers/helper";
-import {Link} from "react-router";
-import Switch from 'react-bootstrap-switch';
+//import {Link} from "react-router";
+
 
 class ListBase extends React.Component {
     constructor(props, context) {
@@ -14,7 +14,9 @@ class ListBase extends React.Component {
         return (
             <div className="row" id="list-base">
                 {this.props.bases && this.props.bases.map((base) => {
-                    var imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
+                    let address_description = base.address + base.district;
+                    address_description = address_description.substring(0, 50) + "...";
+                    let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
                     return (
                         <div className="col-sm-4" key={base.id} id="card-email-template">
                             <div className="card card-chart">
@@ -36,30 +38,20 @@ class ListBase extends React.Component {
 
                                 </div>
                                 <div className="card-content" style={{minHeight: '140px'}}>
-                                    <div className="card-action">
+                                    <div className="card-action" style={{height: 50}}>
                                         <h4 className="card-title">
                                             <a onClick={() => this.props.openEditBaseModal(base)}>{shortString(base.name, 6)}</a>
                                         </h4>
                                         <ButtonGroupAction
                                             disabledDelete
                                             object={base}
-                                            onClick={() => this.props.openEditBaseModal(base)}
+                                            edit={() => this.props.openEditBaseModal(base)}
                                         />
                                     </div>
-                                    <div style={{display: "flex", alignItems: "center"}}>
-                                        <Switch
-                                            //onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}
-                                            bsSize="mini"
-                                            onText="Hiện" offText="Ẩn"
-                                            value={(base.status === 1)}
-                                        />
+                                    <div style={{display: "flex", justifyContent: "space-between", height: 60}}>
+                                        <p className="category">{address_description}</p>
+
                                     </div>
-                                    <p className="category">{shortString(base.address, 15)}</p>
-                                    {base.district &&
-                                    <p className="category">
-                                        {`${base.district.type} ${base.district.name}, ${base.province.type} ${base.province.name}`}
-                                    </p>
-                                    }
                                 </div>
                             </div>
                         </div>

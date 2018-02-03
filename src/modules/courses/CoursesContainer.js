@@ -167,7 +167,6 @@ CoursesContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-    console.log(state.courses,"AAAAAAAA");
     return {
         isLoading   : state.courses.isLoading,
         error       : state.courses.error,

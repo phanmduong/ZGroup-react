@@ -262,6 +262,7 @@ SummaryMarketingCampaignContainer.propTypes = {
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     currentGen: PropTypes.object.isRequired,
+    summary: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

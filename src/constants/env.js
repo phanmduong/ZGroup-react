@@ -34,23 +34,28 @@ export const CHANNEL = env.CHANNEL;
 export const SOCKET_HOST = env.SOCKET_HOST;
 export const SOCKET_PORT = env.SOCKET_PORT;
 
+$(document).ready(function () {
+    // var OneSignal = window.OneSignal || [];
+    window.OneSignal.push(["init", {
+        appId: "ceea18e8-322a-4748-b18b-fdf066d9a5ff",
+        autoRegister: true, /* Set to true to automatically prompt visitors */
+        persistNotification: false,
+        subdomainName: 'colorme',
+        promptOptions: {
+            /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+            /* actionMessage limited to 90 characters */
+            actionMessage: "Bạn có muốn nhận thông báo từ trang này ?",
+            /* acceptButtonText limited to 15 characters */
+            acceptButtonText: "ĐỒNG Ý",
+            /* cancelButtonText limited to 15 characters */
+            cancelButtonText: "HỦY"
+        },
+    }]);
+    window.OneSignal.sendTag("device_type", 'manage', function (tagsSent) {
+        console.log("tag ok ", tagsSent);
+    });
+})
 
-var OneSignal = window.OneSignal || [];
-OneSignal.push(["init", {
-    appId: "ceea18e8-322a-4748-b18b-fdf066d9a5ff",
-    autoRegister: true, /* Set to true to automatically prompt visitors */
-    persistNotification: false,
-    subdomainName: 'colorme',
-    promptOptions: {
-        /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
-        /* actionMessage limited to 90 characters */
-        actionMessage: "Bạn có muốn nhận thông báo từ trang này ?",
-        /* acceptButtonText limited to 15 characters */
-        acceptButtonText: "ĐỒNG Ý",
-        /* cancelButtonText limited to 15 characters */
-        cancelButtonText: "HỦY"
-    },
-}]);
 
 
 
