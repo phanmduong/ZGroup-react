@@ -388,30 +388,30 @@ class ManageBaseApiController extends ManageApiController
         if ($request->room_id) {
             $seats = $seats->where('room_id', $request->room_id);
             $booked_seats = $booked_seats->where('room_id', $request->room_id);
-            $seats_count = $seats_count->where('room_id', $request->room_id);
+            $seats_count = $seats_count->where('room_id', $request->room_id)
+                ->orderBy('created_at', 'desc')->count();
         }
         $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
         $seats = $seats->where(function ($query) use ($request) {
             $query->where('room_service_register_seat.start_time', '=', null)
                 ->orWhere('room_service_register_seat.start_time', '>', date("Y-m-d H:i:s", strtotime($request->to)))
                 ->orWhere('room_service_register_seat.end_time', '<', date("Y-m-d H:i:s", strtotime($request->from)));
-        })->groupBy('seats.id')->select('seats.*');
+        })->groupBy('seats.id')->select('seats.*')->get();
 
         $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
-        $booked_seats = $booked_seats->where(function ($query) use ($request) {
+        $booked_seats = $booked_seats
+            ->where(function ($query) use ($request) {
                 $query
                     ->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
                     ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->to)));
-            })->orWhere(function ($query) use ($request) {
+            })
+            ->orWhere(function ($query) use ($request) {
                 $query
                     ->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
                     ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
             })
-            ->groupBy('seats.id')->select('seats.*');
-
-        $seats_count = $seats_count->orderBy('created_at', 'desc')->count();
-        $seats = $seats->get();
-        $booked_seats = $booked_seats->get();
+            ->groupBy('seats.id')->select('seats.*')
+            ->get();
         return $this->respondSuccessWithStatus([
             'seats' => $seats->map(function ($seat) {
                 return $seat->getData();
