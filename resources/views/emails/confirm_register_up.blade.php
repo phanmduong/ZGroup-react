@@ -179,8 +179,8 @@
                                         <tr>
                                             <td>
                                                 <img class="header-image"
-                                                     src="http://up-co.vn/wp-content/uploads/2016/08/2.1.a-1-800x450-600x338.jpg"
-                                                     border="0" alt="" title="logo" width="350" height="350"
+                                                     src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517714968JCOXQaE3UZULLtU.jpg"
+                                                     border="0" alt="" title="logo" width="350" height="auto"
                                                      style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                                             </td>
                                         </tr>
@@ -197,7 +197,7 @@
                                                     <tbody>
                                                     <tr style="text-align: center;vertical-align: middle;">
                                                         <td style="text-align: center">
-                                                            <img src="http://up-co.vn/wp-content/uploads/2016/08/384x176logo_03-120x120.png"
+                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517714967qr1eZGe1lv8G7Jm.png"
                                                                  alt="Logo" style="margin:30px" height="30px"/>
                                                         </td>
                                                     </tr>
