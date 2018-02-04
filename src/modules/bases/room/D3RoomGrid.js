@@ -20,25 +20,22 @@ ns.onDrag = (onDrag) => {
     ns.onDrag = onDrag;
 };
 
-ns.updateData = (seats) => {
-    ns.state = {
-        ...ns.state,
-        data: seats.map((seat) => {
-            return {
-                ...seat
-            };
-        })
-    };
-    ns.update(ns.el, ns.state);
-};
+// ns.updateData = (state) => {
+//     const newState = {
+//         ...state,
+//         data: state.seats.map((seat) => {
+//             return {
+//                 ...seat
+//             };
+//         })
+//     };
+//     ns.update(ns.el, newState);
+// };
 
 ns.create = function (el, props, state) {
-    ns.state = {...state};
     ns.el = el;
-    const dispatcher = new EventEmitter();
-    ns.dispatcher = dispatcher;
 
-    let svg = d3.select(el)
+    d3.select(el)
         .append("div")
         .classed("svg-container", true) //container class to make it responsive
         .append("svg")
@@ -67,7 +64,7 @@ ns.create = function (el, props, state) {
                 ns.onClick(point);
             }
 
-            ns.update(el, state, dispatcher);
+            ns.update(el, state);
         });
 
 // .append('svg')
@@ -75,15 +72,14 @@ ns.create = function (el, props, state) {
     // .attr('width', props.width)
     // .attr('height', props.height);
 
-    svg.append('g')
-        .attr('class', 'd3-points');
+    // svg.append('g')
+    //     .attr('class', 'd3-points');
 
-    this.update(el, state, dispatcher);
-
-    return dispatcher;
+    this.update(el, state);
 };
 
 ns.update = function (el, state) {
+
     let scales = this._scales(el, state.domain);
     this._drawPoints(el, scales, state);
     // this._drawTooltips(el, scales, state.tooltips, prevScales);
@@ -120,27 +116,6 @@ ns._scales = function (elId, domain) {
 
 ns._drawPoints = function (el, scales, state) {
     const {data, domain} = state;
-    let g = d3.select(el).selectAll('.d3-points');
-
-    
-    // const test = d3.selectAll("circle");
-
-    // test.data(data)
-    //     .attr('r', (d) => {
-    //         console.log("d", d);
-    //         scales.r(d.r);
-    //     })
-    //     .style("fill", function (d) {
-    //         return d.color;
-    //     });
-
-    // currentCircles.selectAll("text")
-    //     .data(data)
-    //     .text(function (d) {
-    //         return d.name || "";
-    //     });
-        
-        
     
     const subject = function () {
         return {x: d3.event.x, y: d3.event.y};
@@ -164,41 +139,64 @@ ns._drawPoints = function (el, scales, state) {
 
             if (xEdgeZero > domain.x[0] && xEdgeMax < domain.x[1] &&
                 yEdgeZero > domain.y[0] && yEdgeMax < domain.y[1]) {
-                d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
+                
+                 ns.onDrag({
+                    index: d.index,
+                    x,
+                    y
+                });
+                // if (currentAction === MOVE_SEAT) {
+                    // d3.select(this).attr("transform", "translate(" + x + "," + y + ")");    
+                // }                
             }
-            ns.onDrag({
-                index: d.index,
-                x,
-                y
-            });
+           
         })
         .on("end", function () {
             
         });
     
-
-    let pointEnters = g.selectAll('.d3-point')
+    const svg = d3.select("svg");
+    let g = svg.selectAll("g")
         .data(data)
         .enter()
         .append("g")
-        .attr("transform", d => "translate(" + d.x + "," + d.y + ")")
-        .on('click', function (d) {
-            d3.event.stopPropagation();
-            ns.onPointClick(d.index);
-        });
-    if (ns.state.currentAction === MOVE_SEAT){
-        pointEnters.call(drag);
-    }
-        
-        
-    // .attr('cx', (d) => scales.x(d.x))
-    // .attr('cy', (d) => scales.y(d.y));
+        .attr("class", "seat-wrapper")
+        .call(drag);
 
-
-    pointEnters.append("circle")
+    g.append("circle")
         .attr('class', (d) => {
             return d.active ? 'd3-point active' : 'd3-point';
-        })
+        });
+    g.append("text")
+        .attr('class', (d) => {
+            return d.active ? 'd3-text active' : 'd3-text';
+        });
+        // .attr("dy", d => scales.r(d.r) / 3)
+        // .attr("text-anchor", "middle")
+        // .attr("fill", "white")
+        // .attr("font-size", d => scales.r(d.r))
+        // .text(function (d) {
+        //     return d.name || "";
+        // });
+    
+    
+    // let pointEnters = g.selectAll('.d3-point')
+    //     .data(data)
+    //     .enter()
+    //     .append("g")
+    //     .attr("class");
+        
+    g = d3.selectAll("g");
+
+    g.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+
+    const transformTrasition = d3.transition()
+        .duration(200)
+        .ease(d3.easeLinear);
+
+    svg.selectAll(".d3-point")
+        .data(data)
+        .transition(transformTrasition)
         .attr('r', (d) => scales.r(d.r))
         .style("fill", function (d) {
             if (d.booked) {
@@ -206,9 +204,9 @@ ns._drawPoints = function (el, scales, state) {
             }
             return d.color;
         });
-        
 
-    pointEnters.append("text")
+    svg.selectAll(".d3-text")
+        .data(data)    
         .attr("dy", d => scales.r(d.r) / 3)
         .attr("text-anchor", "middle")
         .attr("fill", "white")
@@ -217,31 +215,68 @@ ns._drawPoints = function (el, scales, state) {
             return d.name || "";
         });
 
-    // update current circles
-    const currentCircles = d3.selectAll('.d3-point');
-    currentCircles    
-        .data(data)           
-        .attr("class", d => d.active ? 'd3-point active' : 'd3-point');
+        
+        
+    // .attr('cx', (d) => scales.x(d.x))
+    // .attr('cy', (d) => scales.y(d.y));
+
+
+    // pointEnters.append("circle")
+    //     .attr('class', (d) => {
+    //         return d.active ? 'd3-point active' : 'd3-point';
+    //     })
+    //     .attr('r', (d) => scales.r(d.r))
+    //     .style("fill", function (d) {
+    //         if (d.booked) {
+    //             return "#bbb";
+    //         }
+    //         return d.color;
+    //     });
+        
+
+    // pointEnters.append("text")
+    //     .attr("dy", d => scales.r(d.r) / 3)
+    //     .attr("text-anchor", "middle")
+    //     .attr("fill", "white")
+    //     .attr("font-size", d => scales.r(d.r))
+    //     .text(function (d) {
+    //         return d.name || "";
+    //     });
+
+    // // update current seats
+    // d3.selectAll("g.d3-point")
+    //     .data(data)
+    //     .attr("transform", d => "translate(" + d.x + "," + d.y + ")")
+    //     .on('click', function (d) {
+    //         d3.event.stopPropagation();
+    //         ns.onPointClick(d.index);
+    //     }).call(drag);
+
+    // const currentCircles = d3.selectAll('.d3-point');
+    // currentCircles    
+    //     .data(data)           
+    //     .attr("class", d => d.active ? 'd3-point active' : 'd3-point');
     
-    const text = d3.selectAll("text");
-    text.data(data)
-        .attr("font-size", d => scales.r(d.r))
-        .text(function (d) {
-            return d.name || "";
-        });
+    // const text = d3.selectAll("text");
+
+    // text.data(data)
+    //     .attr("font-size", d => scales.r(d.r))
+    //     .text(function (d) {
+    //         return d.name || "";
+    //     });
     
-    const circles = d3.selectAll("circle");
-    circles
-        .data(data)
-        .attr('r', (d) => {
-            return scales.r(d.r);
-        })
-        .style("fill", function (d) {
-            if (d.booked) {
-                return "#bbb";
-            }
-            return d.color;
-        });
+    // const circles = d3.selectAll("circle");
+    // circles
+    //     .data(data)
+    //     .attr('r', (d) => {
+    //         return scales.r(d.r);
+    //     })
+    //     .style("fill", function (d) {
+    //         if (d.booked) {
+    //             return "#bbb";
+    //         }
+    //         return d.color;
+    //     });
 
 
 };

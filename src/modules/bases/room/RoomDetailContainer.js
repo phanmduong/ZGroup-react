@@ -45,6 +45,7 @@ class RoomDetailContainer extends React.Component {
     }
 
     onClick(point) {
+        console.log("click", point);
         const {currentAction, seats, actions, seat} = this.props;
         switch (currentAction) {
             case seatContants.CREATE_SEAT:            
@@ -58,15 +59,15 @@ class RoomDetailContainer extends React.Component {
                 return;
             default:
                 // clear current selected seat
-                actions.setSelectedSeat({});
+                // actions.setSelectedSeat({});
                 return;
         }
     }
 
     onDrag(point) {
-        // console.log("drag",point.index);
+        console.log("drag",point);
         const {actions} = this.props;    
-        if (this.props.currentAction === ""){
+        if (this.props.currentAction === "") {
 
             let seat = {};
             const filterdSeats = this.props.seats.filter(seat => seat.index === point.index);
@@ -84,7 +85,7 @@ class RoomDetailContainer extends React.Component {
     }
 
     onPointClick(index) {
-        // console.log(index);
+        console.log("Point click",index);
         const {actions} = this.props;
         let seat = {};
         const filterdSeats = this.props.seats.filter(seat => seat.index === index);
