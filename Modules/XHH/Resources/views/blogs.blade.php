@@ -53,7 +53,7 @@
                             <a class="dropdown-item"
                                v-bind:href="'/blog?page=1&search='+search+'&type={{$category->id}}'"
                                style="padding: 10px 15px!important; border-radius: 0px!important;">
-                                {{$type_book}}
+                                {{$category->name}}
                             </a>
                         @endforeach
                     </ul>
