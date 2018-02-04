@@ -1,6 +1,6 @@
-
 import * as d3 from "d3";
 import {EventEmitter} from "events";
+import {MOVE_SEAT} from '../seat/seatConstants';
 
 let ns = {};
 
@@ -182,11 +182,15 @@ ns._drawPoints = function (el, scales, state) {
         .enter()
         .append("g")
         .attr("transform", d => "translate(" + d.x + "," + d.y + ")")
-        .call(drag)
         .on('click', function (d) {
             d3.event.stopPropagation();
             ns.onPointClick(d.index);
         });
+    if (ns.state.currentAction === MOVE_SEAT){
+        pointEnters.call(drag);
+    }
+        
+        
     // .attr('cx', (d) => scales.x(d.x))
     // .attr('cy', (d) => scales.y(d.y));
 

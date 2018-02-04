@@ -1,44 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {CREATE_SEAT, REMOVE_SEAT} from "../seat/seatConstants";
+import TooltipButton from '../../../components/common/TooltipButton';
+import {CREATE_SEAT, REMOVE_SEAT, EDIT_SEAT, MOVE_SEAT} from "../seat/seatConstants";
 
 class ButtonList extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.setActive = this.setActive.bind(this);
+        this.changeAction = this.changeAction.bind(this);
     }
-
+    
     componentDidMount() {
         // $(window).click(() => {
         //     this.props.changeAction("");
         // });
-
     }
 
     setActive(buttonAction) {
         return this.props.currentAction === buttonAction ? "btn-seat active" : "btn-seat";
     }
 
+    changeAction(action) {
+      return (event) => {
+        event.stopPropagation();
+        this.props.changeAction(action);  
+      };
+    }
+
     render() {
         return (
             <div style={{margin: "10px 3px 10px"}}>
+              <TooltipButton text="Lưu" placement="top">
                 <a className="btn-seat" onClick={this.props.saveSeats}>
-                    <i className="material-icons">save</i>
+                  <i className="material-icons">save</i>
                 </a>
+              </TooltipButton>
+                    
+              <TooltipButton text="Di chuyển" placement="top">
+                <a className={this.setActive(MOVE_SEAT)}
+                   onClick={this.changeAction(MOVE_SEAT)}>
+                    <i className="material-icons">trending_up</i>
+                </a>
+              </TooltipButton>
+
+              <TooltipButton text="Thêm ghế" placement="top">
                 <a className={this.setActive(CREATE_SEAT)}
-                   onClick={(event) => {
-                       event.stopPropagation();
-                       this.props.changeAction(CREATE_SEAT);
-                   }}>
+                   onClick={this.changeAction(CREATE_SEAT)}>
                     <i className="material-icons">add_circle</i>
                 </a>
+              </TooltipButton>
+
+              <TooltipButton text="Sửa ghế" placement="top">
+                <a className={this.setActive(EDIT_SEAT)}
+                   onClick={this.changeAction(EDIT_SEAT)}>
+                    <i className="material-icons">mode_edit</i>
+                </a>
+              </TooltipButton>
+
+              <TooltipButton text="Xoá ghế" placement="top">
                 <a className={this.setActive(REMOVE_SEAT)}
-                   onClick={(event) => {
-                       event.stopPropagation();
-                       this.props.changeAction(REMOVE_SEAT);
-                   }}>
+                   onClick={this.changeAction(REMOVE_SEAT)}>
                     <i className="material-icons">delete</i>
                 </a>
+              </TooltipButton>
             </div>
         );
     }

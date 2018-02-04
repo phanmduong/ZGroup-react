@@ -118,12 +118,14 @@ class RoomDetailContainer extends React.Component {
                                 currentAction={this.props.currentAction}
                             />
                         </td>
+                        
                         <td style={{
                             width: "100%"
                         }}>
                             <RoomGrid
                                 onClick={this.onClick}
                                 onDrag={this.onDrag}
+                                currentAction={this.props.currentAction}
                                 onPointClick={this.onPointClick}
                                 roomId={Number(this.props.params.roomId)}
                                 data={this.props.seats}

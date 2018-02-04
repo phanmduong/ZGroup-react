@@ -35,10 +35,8 @@ class RoomGrid extends React.Component {
     }
 
     getGridState() {
-        return {
-            data: this.props.data,
-            domain: this.props.domain
-        };
+        const {data, domain, currentAction} = this.props;
+        return {data, domain, currentAction};
     }
 
     render() {
@@ -54,6 +52,7 @@ RoomGrid.propTypes = {
     domain: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
+    currentAction : PropTypes.string.isRequired,
     onPointClick: PropTypes.func.isRequired
 };
 
