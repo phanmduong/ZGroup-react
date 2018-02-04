@@ -3,9 +3,8 @@ import {Modal} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
-import Loading from "../../components/common/Loading";
-import UploadButton from "../../components/common/uploadButton/UploadButton";
 import * as createProductAction from './createProductAction';
+import TooltipButton from "../../components/common/TooltipButton";
 
 class AddChildImagesModal extends React.Component {
     constructor(props, context) {
@@ -44,99 +43,103 @@ class AddChildImagesModal extends React.Component {
                     <Modal.Title id="contained-modal-title">Thêm ảnh mô tả</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="card-content">
-                        {
-                            (!child || !child.child_images_url || JSON.parse(child.child_images_url).length === 0) && !this.props.isUploadingImage ? (
+                    <div className="form-group">
+                        <div className="box">
+                            {
+                                child && child.child_images_url && JSON.parse(child.child_images_url).map((image, index) => {
+                                    return (
+                                        <div key={index}
+                                             style={{
+                                                 padding: "3px"
+                                             }}>
+                                            <div className="container-for-images">
+                                                <img style={{
+                                                    width: "100%",
+                                                    height: "100%",
+                                                    background: "url(" + image + ") center center / cover",
+                                                    position: "absolute",
+                                                    left: "0",
+                                                    borderRadius: "5px"
+                                                }}
+                                                     data-original-title=""/>
+                                                <div className="overlay-for-images"/>
+                                                <TooltipButton text="Xóa" placement="top">
+                                                    <div className="button-for-images">
+                                                        <a rel="tooltip"
+                                                           onClick={() => this.deleteImage(image)}
+                                                           data-original-title="" title="">
+                                                            <i className="material-icons">close</i>
+                                                        </a>
+                                                    </div>
+                                                </TooltipButton>
+
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                            {
                                 <div style={{
-                                    maxWidth: "250px",
-                                    lineHeight: "250px",
-                                    marginBottom: "10px",
-                                    textAlign: "center",
-                                    verticalAlign: "middle",
-                                    boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
-                                    border: "0 none",
-                                    display: "inline-block"
+                                    padding: "3px"
                                 }}>
-                                    <img
-                                        src={"http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
-                                        style={{
-                                            lineHeight: "164px",
-                                            height: "auto",
-                                            maxWidth: "100%",
-                                            maxHeight: "100%",
-                                            display: "block",
-                                            marginRight: "auto",
-                                            marginLeft: "auto",
-                                            backgroundSize: "cover",
-                                            backgroundPosition: "center",
-                                            borderRadius: "4px",
-                                        }}/>
-                                </div>
-                            ) : (
-                                <div className="row">
-                                    {
-                                        child && child.child_images_url && JSON.parse(child.child_images_url).map((image, index) => {
-                                            return (
-                                                <div key={index} className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                    <div className="container-for-images">
-                                                        <img style={{
-                                                            width: "100%",
-                                                            height: "100%",
-                                                            background: "url(" + image + ") center center / cover",
-                                                            position: "absolute",
-                                                            left: "0"
-                                                        }}
-                                                             data-original-title=""
-                                                             className="product-image"/>
-                                                        <div className="overlay-for-images"/>
-                                                        <div className="button-for-images">
-                                                            <a rel="tooltip"
-                                                               data-original-title="" title=""
-                                                               onClick={() => this.deleteImage(image)}>
-                                                                <i className="material-icons">close</i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })
-                                    }
-                                    {
-                                        this.props.isUploadingImage ? (
-                                            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                <div style={{
-                                                    textAlign: "center",
-                                                    marginTop: "30px"
-                                                }}>
-                                                    <div className="progress">
-                                                        <div className="progress-bar" role="progressbar"
-                                                             aria-valuenow="70"
-                                                             aria-valuemin="0" aria-valuemax="100"
-                                                             style={{width: `${this.props.percent}%`}}>
-                                                                <span
-                                                                    className="sr-only">{this.props.percent}% Complete</span>
-                                                        </div>
-                                                    </div>
+                                    <div className="flex-row-center flex-justify-content-center"
+                                         style={{
+                                             width: '100%',
+                                             height: '100px',
+                                             backgroundColor: '#e8e8e8',
+                                             position: "relative",
+                                             borderRadius: '5px',
+                                             cursor: "pointer",
+                                             marginTop: '10px',
+                                             marginBottom: '10px'
+                                         }}>
+                                        <TooltipButton text="Tải ảnh" placement="top">
+                                            <label>
+                                                <i className="material-icons"
+                                                   style={{
+                                                       fontSize: '40px',
+                                                       color: '#919191',
+                                                       cursor: "pointer"
+                                                   }}>add_a_photo
+                                                </i>
+                                                <input multiple
+                                                       onChange={this.handleImages}
+                                                       style={{
+                                                           cursor: this.props.isUploadingImage ? 'not-allowed' : 'pointer',
+                                                           position: "absolute",
+                                                           top: 0,
+                                                           left: 0,
+                                                           bottom: 0,
+                                                           right: 0,
+                                                           width: "100%",
+                                                           height: "100%",
+                                                       }}
+                                                       type={this.props.isUploadingImage ? 'text' : 'file'}/>
+                                            </label>
+                                        </TooltipButton>
+                                        {
+                                            this.props.isUploadingImage &&
+                                            <div className="progress"
+                                                 style={{
+                                                     position: "absolute",
+                                                     left: 0,
+                                                     bottom: 0,
+                                                     width: '100%',
+                                                     zIndex: '100',
+                                                     marginBottom: '0'
+                                                 }}>
+                                                <div className="progress-bar" role="progressbar"
+                                                     aria-valuenow="70"
+                                                     aria-valuemin="0" aria-valuemax="100"
+                                                     style={{width: `${this.props.percent}%`}}>
+                                                    <span className="sr-only">{this.props.percent}% Complete</span>
                                                 </div>
                                             </div>
-                                        ) : (
-                                            <div/>
-                                        )
-                                    }
+                                        }
+                                    </div>
                                 </div>
-                            )
-                        }
-                        {
-                            this.props.isUploadingImage ? (
-                                <Loading/>
-                            ) : (
-                                <UploadButton
-                                    className="btn btn-rose btn-xs btn-round text-center"
-                                    onChange={this.handleImages}>
-                                    Thêm ảnh mô tả
-                                </UploadButton>
-                            )
-                        }
+                            }
+                        </div>
                     </div>
                 </Modal.Body>
             </Modal>

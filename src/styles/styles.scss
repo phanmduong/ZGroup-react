@@ -738,6 +738,16 @@ img .product-image {
   flex: 0 0 20%;
 }
 
+.box-images-website-create {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box-images-website-create > * {
+  flex: 0 0 33.33%;
+}
+
 .container-for-avatar {
   width: 250px;
   height: 250px;
