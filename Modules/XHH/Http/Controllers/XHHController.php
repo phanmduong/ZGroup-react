@@ -39,7 +39,9 @@ class XHHController extends Controller
             $newestTop3 = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         }
         $blogSection1 = Product::where('type', 2)->where('status', 1)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
-        $blogSection2 = Product::where('type', 2)->where('status', 1)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
+        $blogSection2 = Product::where('type', 2)->where('status', 1)->where(function ($q) {
+            $q->where('category_id', 3)->orWhere('category_id', 13);
+        })->orderBy('created_at', 'desc')->limit(3)->get();
         $newestBlog2 = Product::where('type', 2)->where('status', 1)->where('category_id', 7)->orderBy('created_at', 'desc')->first();
         if ($newestBlog2) {
             $blogSection4 = Product::where('type', 2)->where('status', 1)->where('id', '<>', $newestBlog2->id)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
