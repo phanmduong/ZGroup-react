@@ -2,6 +2,7 @@
 
 namespace Modules\XHH\Http\Controllers;
 
+use App\CategoryProduct;
 use App\Good;
 use App\Product;
 use Faker\Provider\DateTime;
@@ -66,21 +67,24 @@ class XHHController extends Controller
         $blogs = Product::where('type', 2)->where('status', 1);
 
         $search = $request->search;
+        $type = $request->type;
 
         if ($search) {
             $blogs = $blogs->where('title', 'like', '%' . $search . '%');
         }
 
+        if ($type) {
+            $blogs = $blogs->where('category_id', $type);
+        }
+
         $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
 
-        $display = "";
-        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
+        $categories = CategoryProduct::orderBy('name')->get();
 
         $this->data['blogs'] = $blogs;
-        $this->data['page_id'] = $page_id;
         $this->data['display'] = $blogs;
         $this->data['search'] = $search;
+        $this->data['categories'] = $categories;
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
