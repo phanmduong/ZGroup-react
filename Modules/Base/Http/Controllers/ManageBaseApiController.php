@@ -399,28 +399,25 @@ class ManageBaseApiController extends ManageApiController
         })->groupBy('seats.id')->select('seats.*')->get();
 
         $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
-        $booked_seats = $booked_seats
-            ->where(function ($query) use ($request) {
-                $query
-                    ->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
+        $booked_seats = $booked_seats->where(function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
                     ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->to)));
             })
-            ->orWhere(function ($query) use ($request) {
-                $query
-                    ->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
-                    ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
-            })
-            ->groupBy('seats.id')->select('seats.*')
-            ->get();
+                ->orWhere(function ($query) use ($request) {
+                    $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
+                        ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
+                });
+        })->groupBy('seats.id')->select('seats.*')->get();
         return $this->respondSuccessWithStatus([
-            'seats' => $seats->map(function ($seat) {
-                return $seat->getData();
-            }),
+//            'seats' => $seats->map(function ($seat) {
+//                return $seat->getData();
+//            }),
             'booked_seats' => $booked_seats->map(function ($booked_seat) {
                 return $booked_seat->getData();
             }),
-            'seats_count' => $seats_count,
-            'available_seats' => $seats->count(),
+//            'seats_count' => $seats_count,
+//            'available_seats' => $seats->count(),
         ]);
     }
 

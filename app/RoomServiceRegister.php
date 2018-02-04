@@ -41,7 +41,8 @@ class RoomServiceRegister extends Model
         if ($this->staff)
             $data['staff'] = [
                 'id' => $this->staff->id,
-                'name' => $this->staff->name
+                'name' => $this->staff->name,
+                'color' => $this->staff->color,
             ];
         if ($this->subscription)
             $data['subscription'] = $this->subscription->getData();
