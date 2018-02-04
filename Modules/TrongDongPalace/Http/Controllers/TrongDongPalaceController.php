@@ -2,71 +2,44 @@
 
 namespace Modules\TrongDongPalace\Http\Controllers;
 
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 class TrongDongPalaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
     public function index()
     {
-        return view('trongdongpalace::index');
+        $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        $this->data['newestBlogs'] = $newestBlogs;
+        return view('trongdongpalace::index', $this->data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function blog(Request $request)
     {
-        return view('trongdongpalace::create');
-    }
+        $blogs = Product::where('type', 2)->where('status', 1);
 
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-    }
+        $search = $request->search;
 
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('trongdongpalace::show');
-    }
+        if ($search) {
+            $blogs = $blogs->where('title', 'like', '%' . $search . '%');
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('trongdongpalace::edit');
-    }
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
 
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
+        $display = "";
+        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
+        if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
 
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+        $this->data['blogs'] = $blogs;
+        $this->data['page_id'] = $page_id;
+        $this->data['display'] = $blogs;
+        $this->data['search'] = $search;
+
+        $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
+        $this->data['current_page'] = $blogs->currentPage();
+
+        return view('trongdongpalace::blog', $this->data);
     }
 }

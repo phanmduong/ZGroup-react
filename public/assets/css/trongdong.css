@@ -1,9 +1,9 @@
 .icon-main-color {
-    color: #96d21f;
+    color: #BA8A45;
 }
 
 .text-main-color {
-    color: #96d21f !important;
+    color: #BA8A45 !important;
 }
 
 .card-body {
@@ -110,9 +110,9 @@
 }
 
 .hover-change:hover {
-    color: white !important;
-    background-color: #96d21f;
-    border-color: #96d21f;
+    color: #ffffff !important;
+    background-color: #BA8A45;
+    border-color: #BA8A45;
     border-radius: 50px;
 }
 
@@ -128,8 +128,8 @@
 .pagination-primary > li:first-child > span,
 .pagination-primary > li:last-child > a,
 .pagination-primary > li:last-child > span {
-    border: 2px solid #96d21f;
-    color: #96d21f;
+    border: 2px solid #BA8A45;
+    color: #BA8A45;
 }
 
 .nav-pills-primary > li.active > a,
@@ -144,8 +144,8 @@
 .pagination-primary > li.active > span:hover,
 .pagination-primary > li.active > a:focus,
 .pagination-primary > li.active > span:focus {
-    background-color: #96d21f !important;
-    border-color: #96d21f !important;
+    background-color: #BA8A45 !important;
+    border-color: #BA8A45 !important;
     color: #FFFFFF;
 }
 
@@ -156,8 +156,8 @@
 .pagination-info > li:first-child > span,
 .pagination-info > li:last-child > a,
 .pagination-info > li:last-child > span {
-    border: 2px solid #96d21f;
-    color: #96d21f;
+    border: 2px solid #BA8A45;
+    color: #BA8A45;
 }
 
 .noselect * {
@@ -171,19 +171,23 @@
                                      supported by Chrome and Opera */
 }
 
+.nav-link {
+    color: white !important;
+}
+
 .nav-pills-up .nav-item .nav-link {
-    border: 1px solid #96d21f !important;
-    color: #96d21f !important;
+    border: 1px solid #BA8A45 !important;
+    color: #BA8A45 !important;
 }
 
 .nav-pills .nav-item .nav-link.active {
-    background-color: #96d21f;
-    color: #FFFFFF !important;
+    background-color: #BA8A45;
+    color: white !important;
 }
 
 .nav-pills .nav-item.active .nav-link, .nav-pills .nav-item.active .nav-link:hover, .nav-pills .nav-item.active .nav-link:focus {
-    background-color: #96d21f;
-    color: #FFFFFF !important;
+    background-color: #BA8A45;
+    color: white !important;
 }
 
 .nav-link:hover {
@@ -201,6 +205,14 @@
 }
 
 .dropdown-menu > .dropdown-item:hover {
-    background-color: #96d21f;
-    color: #FFFFFF !important;
+    background-color: #BA8A45;
+    color: white !important;
+}
+
+.uppercase-links > li > a {
+    color: white!important;
+}
+
+.copyright {
+    color: white!important;
 }

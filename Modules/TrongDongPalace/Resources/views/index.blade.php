@@ -2,16 +2,17 @@
 
 @section('content')
 
-    <div class="page-header page-header-small"
-         style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
+    <div class="page-header page-header-xs"
+         style="background-image: url('http://trongdongpalace.com/ckfinder/userfiles/images/a%CC%89nh-pho%CC%81ng-su%CC%9B%CC%A3-cu%CC%9Bo%CC%9B%CC%81i-tro%CC%82%CC%81ng-%C4%91o%CC%82%CC%80ng-ca%CC%89nh-ho%CC%82%CC%80-Thoa-Nguye%CC%82%CC%83n-Linus-Olson-7-800x600(1).jpg');
+                height: 450px">
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
-                <h1>KHÔNG GIAN LÀM VIỆC</h1>
-                <h3>Sáng tạo, năng động, hiện đại</h3><br>
+                <h5 style="font-weight: 550">TRỐNG ĐỒNG PALACE</h5>
+                <h2>TƯNG BỪNG MÙA CƯỚI 2018</h2><br>
                 <a class="btn btn-round btn-danger"
-                   style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)" data-target="#userPackModal"
-                   data-toggle="modal">Đăng kí trải nghiệm</a>
+                   style="background-color:#BA8A45; border-color:#BA8A45" data-target="#userPackModal"
+                   data-toggle="modal">LIÊN HỆ</a>
             </div>
         </div>
     </div>
@@ -21,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card-body">
-                            <h6 class="card-category" style="color:rgb(139, 209, 0)">
+                            <h6 class="card-category" style="color:black">
                                 LÀM VIỆC HIỆU QUẢ VÀ SÁNG TẠO
                             </h6>
                             <h3 class="card-title">
@@ -36,7 +37,7 @@
                             <br>
                             <p class="author">
                                 <a class="btn btn-round btn-danger"
-                                   style="background-color:rgb(139, 209, 0);border-color:rgb(139, 209, 0)"
+                                   style="background-color:#BA8A45; border-color: #BA8A45"
                                    href="sections.html"
                                    data-target="#userPackModal"
                                    data-toggle="modal">Đăng kí </a>
@@ -62,93 +63,86 @@
                             }</style>
                         <div class="embed-container">
                             <!-- Copy & Pasted from YouTube -->
-                            <iframe src="https://www.youtube.com/embed/IA5ozLBHHYg" frameborder="0"
-                                    allowfullscreen></iframe>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/0Vf_ZpN6CZo"
+                                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
             </div>
-
+        </div>
+    </div>
+    <div class="wrapper"  style="background-color: #efefef">
+        <div class="container-fluid">
             <div class="features-1">
-                <div class="row">
+                <div class="row" style="margin-bottom:50px">
                     <div class="col-md-8 ml-auto mr-auto text-center">
-                        <h3 class="title" style="font-weight: bold">NHỮNG LỢI ÍCH CHÚNG TÔI MANG ĐẾN CHO BẠN</h3>
-                        <h5 class="description" style="font-weight: bold">Thành viên của UP có những lợi ích gì?</h5>
+                        <h6 style="font-weight: 600; color:black">KHÔNG GIAN</h6>
+                        <h3 style="font-weight: 200;color:black">TRỐNG ĐỒNG PALACE</h3>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="info">
-                            <div class="icon icon-main-color">
-                                <i class="nc-icon nc-palette"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">KHÔNG GIAN MỞ
-                                    SÁNG TẠO</h4>
-                                <p class="description">Spend your time generating new ideas. You don't have to think of
-                                    implementing.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="info">
-                            <div class="icon icon-main-color">
-                                <i class="nc-icon nc-bulb-63"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">PHÒNG HỌP
-                                    HIỆN ĐẠI</h4>
-                                <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="info">
-                            <div class="icon icon-main-color">
-                                <i class="nc-icon nc-chart-bar-32"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">BẾP
-                                    TIỆN NGHI</h4>
-                                <p>Choose from a veriety of many colors resembling sugar paper pastels.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="info">
-                            <div class="icon icon-main-color">
-                                <i class="nc-icon nc-sun-fog-29"></i>
-                            </div>
-                            <div class="description">
-                                <h4 class="info-title">INTERNET
-                                    TỐC ĐỘ CAO</h4>
-                                <p>Find unique and handmade delightful designs related items directly from our
-                                    sellers.</p>
+                    @foreach($newestBlogs as $newestBlog)
+                        <div class="col-md-4">
+                            <div class="card card-blog">
+                                <div class="card-image">
+                                    <a href="{{'/blog/post/'.$newestBlog->id}}">
+                                        <img class="img img-raised"
+                                             src="{{generate_protocol_url($newestBlog->url)}}">
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-category text-main-color">{{$newestBlog->category->name}}</h6>
+                                    <h5 class="card-title">
+                                        <a href="{{'/blog/post/'.$newestBlog->id}}">{{$newestBlog->title}}</a>
+                                    </h5>
+                                    <p class="card-description">
+                                        LinkedIn is today launching its official desktop application for Windows 10,
+                                        allowing the professional social networking service to... <br>
+                                    </p>
+                                    <hr>
+                                    <div class="card-footer">
+                                        <div class="author">
+                                            <a href="{{'/blog/post/'.$newestBlog->id}}">
+                                                <img src="{{generate_protocol_url($newestBlog->author->avatar_url)}}"
+                                                     alt="..."
+                                                     class="avatar img-raised">
+                                                <span>{{$newestBlog->author->name}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="stats">
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 5 min read
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 
     <div class="page-header page-header-xs"
-         style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">
+         style="background-image: url('http://trongdongpalace.com/ckfinder/userfiles/images/13592203_1026244814127610_8871206294593640030_n(4).jpg');
+                height: 450px">
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
-                <h2>UP CO-WORKING SPACE</h2>
-                <h3>VÌ CỘNG ĐỒNG KHỞI NGHIỆP VIỆT NAM</h3>
+                <h5 style="font-weight: 550">TRỐNG ĐỒNG PALACE</h5>
+                <h2>TƯNG BỪNG MÙA CƯỚI 2018</h2><br>
+                <a class="btn btn-round btn-danger"
+                   style="background-color:#BA8A45; border-color:#BA8A45" data-target="#userPackModal"
+                   data-toggle="modal">LIÊN HỆ</a>
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="features-1">
             <div class="row" style="margin-bottom:50px">
                 <div class="col-md-8 ml-auto mr-auto text-center">
-                    <h2 class="title">Bài viết mới nhất</h2>
-                    <h5 class="description">Cập nhật các thông tin cùng Up Coworking Space</h5>
+                    <h6 style="font-weight: 550">BÀI VIẾT MỚI NHẤT</h6>
+                    <h3>CHIA SẺ TỪ TRỐNG ĐỒNG PALACE</h3>
                 </div>
             </div>
             <div class="row">
@@ -191,6 +185,7 @@
             </div>
         </div>
     </div>
+
     <div class="features-1 ">
         <div class="testimonials-2 section section-testimonials">
             <div class="container">
