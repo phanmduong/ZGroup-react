@@ -90,6 +90,7 @@ ListExportOrder.propTypes = {
     isLoading : PropTypes.bool,
     listExportOrder : PropTypes.array,
     paginator: PropTypes.object,
+    exportOrderActions: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

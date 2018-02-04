@@ -507,6 +507,14 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     }
                 };
             }
+        case types.LOAD_PROVINCES_IN_ORDER:
+            return{
+                ...state,
+                order:{
+                    ...state.order,
+                    provinces : action.provinces,
+                },
+            };
 
         default:
             return state;

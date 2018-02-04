@@ -286,8 +286,8 @@ class DashboardItContainer extends React.Component {
                                                                     </thead>
                                                                     <tbody>
                                                                     {
-                                                                        staffs && staffs.map((staff) => (
-                                                                            <tr>
+                                                                        staffs && staffs.map((staff, index) => (
+                                                                            <tr key={index}>
                                                                                 <td>
                                                                                     <Avatar
                                                                                         style={{display: "inline-block"}}

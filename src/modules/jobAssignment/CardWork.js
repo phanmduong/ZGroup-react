@@ -125,19 +125,8 @@ class CardWork extends React.Component {
                                                 Đánh giá công việc
                                             </a>
                                         </li>
-                                        {/*<li className="more-dropdown-item"*/}
-                                            {/*// hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}*/}
-                                        {/*>*/}
-                                            {/*<a onClick={(e) => {*/}
-                                                {/*e.stopPropagation();*/}
-                                                {/*return this.props.archiveWork(work, STATUS_WORK[5].value);*/}
-                                            {/*}}>*/}
-                                                {/*<i style={{fontSize: "16px"}}*/}
-                                                   {/*className="material-icons keetool-card">archive</i>*/}
-                                                {/*Lưu trữ công việc*/}
-                                            {/*</a>*/}
-                                        {/*</li>*/}
-                                        <li className="more-dropdown-item" hidden={(status == STATUS_WORK[5].value) ? (user.role != 2) : true}>
+                                        <li className="more-dropdown-item"
+                                            hidden={(status == STATUS_WORK[5].value) ? (user.role != 2) : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.unArchiveWork(work, STATUS_WORK[2].value);
@@ -153,7 +142,8 @@ class CardWork extends React.Component {
                             </div>
                         </div>
 
-                        <div className="card-title keetool-card" style={{paddingRight: "25px", lineHeight: "18px", fontWeight: 600}}>
+                        <div className="card-title keetool-card"
+                             style={{paddingRight: "25px", lineHeight: "18px", fontWeight: 600}}>
                             {work.name}
                         </div>
 
@@ -166,12 +156,13 @@ class CardWork extends React.Component {
 
                         <div className="keetool-card">
                             {this.type[work.type]} / {work.bonus_value + " " + (work.currency.name || "")}
-                            </div>
+                        </div>
 
                         <div className="keetool-card" style={{marginTop: "5px"}}>
                             {
                                 work.staffs && work.staffs.length > 0 && (
-                                    <div className="keetool-card" style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
+                                    <div className="keetool-card"
+                                         style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
                                         {
                                             (work.staffs && work.staffs.length > 5) &&
                                             <div key={-1} className="keetool-card" style={{padding: "2px 0"}}>
@@ -242,6 +233,7 @@ CardWork.propTypes = {
     user: PropTypes.object,
     key: PropTypes.number,
     status: PropTypes.string,
+    unArchiveWork: PropTypes.func.isRequired,
 };
 
 export default CardWork;

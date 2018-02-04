@@ -35,7 +35,7 @@ export function loadPayments(page,company_id,start_time,end_time,type){
     let url = env.MANAGE_API_URL + '/company/payment/all';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page;
+        url += "?token=" + token + "&page=" + page + "&limit=15";
     }
     if(company_id){
         url += "&company_id=" + company_id;

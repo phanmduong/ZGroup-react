@@ -5,6 +5,7 @@ import React from 'react';
 import DashboardContainer from "./DashboardContainer";
 import OrdersContainer from "../eCommerceDashboard/OrdersContainer";
 import DashboardXHHContainer from "../dashboardXHH/DashboardXHHContainer";
+import DashBoardUpContainer from "../dashboardUp/DashBoardUpContainer";
 
 /*eslint-disable */
 class TypeDashboard extends React.Component {
@@ -19,6 +20,8 @@ class TypeDashboard extends React.Component {
                 return <OrdersContainer/>;
             case 'xhh':
                 return <DashboardXHHContainer/>;
+            case 'UpCowoking-space':
+                return <DashBoardUpContainer/>;
             default:
                 return <DashboardContainer/>
         }

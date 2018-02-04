@@ -39,7 +39,7 @@ class ProductWebsiteContainer extends React.Component {
         return (
             <form role="form">
                 <div className="row">
-                    <div className="col-md-8">
+                    <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                         <h4 className="card-title"> Mô tả sản phẩm</h4>
                         <ReactEditor
                             urlPost={linkUploadImageEditor()}
@@ -48,7 +48,7 @@ class ProductWebsiteContainer extends React.Component {
                             value={product.description || ''}
                         />
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                         <div className="card-content">
                             <h4 className="card-title">Ảnh đại diện</h4>
                             {
@@ -64,14 +64,12 @@ class ProductWebsiteContainer extends React.Component {
                                 ) : (
                                     <div>
                                         <div style={{
-                                            maxWidth: "250px",
                                             lineHeight: "250px",
                                             marginBottom: "10px",
                                             textAlign: "center",
                                             verticalAlign: "middle",
                                             boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
                                             border: "0 none",
-                                            display: "inline-block"
                                         }}>
                                             <img
                                                 src={product.avatar_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
@@ -106,14 +104,12 @@ class ProductWebsiteContainer extends React.Component {
                             {
                                 (!product.images_url || product.images_url.length === 0) && !this.props.isUploadingImage ? (
                                     <div style={{
-                                        maxWidth: "250px",
                                         lineHeight: "250px",
                                         marginBottom: "10px",
                                         textAlign: "center",
                                         verticalAlign: "middle",
                                         boxShadow: " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
                                         border: "0 none",
-                                        display: "inline-block"
                                     }}>
                                         <img
                                             src={"http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
@@ -135,11 +131,11 @@ class ProductWebsiteContainer extends React.Component {
                                         {
                                             product.images_url && product.images_url.map((image, index) => {
                                                 return (
-                                                    <div key={index} className="col-md-4">
+                                                    <div key={index} className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                         <div className="container-for-images">
                                                             <img style={{
-                                                                width: "65px",
-                                                                height: "65px",
+                                                                width: "100%",
+                                                                height: "100%",
                                                                 background: "url(" + image + ") center center / cover",
                                                                 position: "absolute",
                                                                 left: "0"
@@ -161,9 +157,11 @@ class ProductWebsiteContainer extends React.Component {
                                         }
                                         {
                                             this.props.isUploadingImage ? (
-                                                <div className="col-md-4">
-                                                    <div className="container-for-images"
-                                                         style={{textAlign: "center"}}>
+                                                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div style={{
+                                                        textAlign: "center",
+                                                        marginTop: "30px"
+                                                    }}>
                                                         <div className="progress">
                                                             <div className="progress-bar" role="progressbar"
                                                                  aria-valuenow="70"

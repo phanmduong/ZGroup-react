@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as helper from "../../helpers/helper";
 import {NO_AVATAR} from "../../constants/env";
 import {Pie} from "react-chartjs-2";
 import Barchart from "./Barchart";
-import {randomMonoChromeHEX} from "../../helpers/helper";
+import {randomMonoChromeHEX, isEmptyInput,avatarEmpty} from "../../helpers/helper";
 
 const legendOpts = {
     display: false,
@@ -24,7 +23,7 @@ class DashboardXHHComponent extends React.Component {
         analyticsBlogs.map((analyticsBlog) => {
             labels.push(analyticsBlog.name);
             data.push(analyticsBlog.total_blogs);
-            if (!helper.isEmptyInput(analyticsBlog.color)) {
+            if (!isEmptyInput(analyticsBlog.color)) {
                 colors.push("#" + analyticsBlog.color);
             } else {
                 colors.push("#c50000");
@@ -75,7 +74,7 @@ class DashboardXHHComponent extends React.Component {
 
     render() {
         let {user, dashboard} = this.props;
-        let avatar = user && !helper.avatarEmpty(user.avatar_url) ? user.avatar_url : NO_AVATAR;
+        let avatar = user && !avatarEmpty(user.avatar_url) ? user.avatar_url : NO_AVATAR;
         return (
             <div>
                 <div className="row">

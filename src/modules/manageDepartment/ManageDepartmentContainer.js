@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as departmentActions from './departmentActions';
-import HRTab  from './HRTab';
+import HRTab from './HRTab';
 
 import Search from '../../components/common/Search';
 //import Loading from '../../components/common/Loading';
@@ -11,7 +11,7 @@ import ListDepartments from '../../modules/manageDepartment/ListDepartments';
 import AddDepartmentModal from '../../modules/manageDepartment/AddDepartmentModal';
 import EditDepartmentModal from '../../modules/manageDepartment/EditDepartmentModal';
 import _ from 'lodash';
-import * as helper      from '../../helpers/helper';
+import * as helper from '../../helpers/helper';
 
 class ManageDepartmentContainer extends React.Component {
     constructor(props, context) {
@@ -29,53 +29,57 @@ class ManageDepartmentContainer extends React.Component {
             departments: [],
             openModalAddDepartment: false,
             openModalEditDepartment: false,
-            editdata:{},
+            editdata: {},
         };
     }
 
     componentWillMount() {
-        //console.log(this.props);
         this.props.departmentActions.loadDepartment();
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log('nextProps',nextProps);
-        if(this.props.isLoading && !nextProps.isLoading){
+    componentWillReceiveProps(nextProps) {
+        if (this.props.isLoading && !nextProps.isLoading) {
             this.setState({departments: nextProps.data.departments});
         }
     }
+
     //add
-    openModalAddDepartment(){
-        this.setState({openModalAddDepartment : true});
+    openModalAddDepartment() {
+        this.setState({openModalAddDepartment: true});
     }
-    closeModalAddDepartment(){
-        this.setState({openModalAddDepartment : false});
+
+    closeModalAddDepartment() {
+        this.setState({openModalAddDepartment: false});
     }
+
     //edit
-    openModalEditDepartment(obj){
-        this.setState({openModalEditDepartment : true, editdata:obj});
+    openModalEditDepartment(obj) {
+        this.setState({openModalEditDepartment: true, editdata: obj});
     }
-    closeModalEditDepartment(){
-        this.setState({openModalEditDepartment : false});
+
+    closeModalEditDepartment() {
+        this.setState({openModalEditDepartment: false});
     }
+
     //actions
-    addDepartment(data){
-        this.props.departmentActions.addDepartment(data, ()=>{
+    addDepartment(data) {
+        this.props.departmentActions.addDepartment(data, () => {
             this.closeModalAddDepartment();
             this.props.departmentActions.loadDepartment();
         });
     }
 
-    editDepartment(data){
-        this.props.departmentActions.editDepartment(data, ()=>{
+    editDepartment(data) {
+        this.props.departmentActions.editDepartment(data, () => {
             this.closeModalEditDepartment();
             this.props.departmentActions.loadDepartment();
         });
     }
+
     //delete
-    deleteDepartment(obj){
+    deleteDepartment(obj) {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa bộ phận này không?", () => {
-            this.props.departmentActions.deleteDepartment(obj,this.props.departmentActions.loadDepartment);
+            this.props.departmentActions.deleteDepartment(obj, this.props.departmentActions.loadDepartment);
         });
     }
 
@@ -90,9 +94,11 @@ class ManageDepartmentContainer extends React.Component {
                                 <div className="col-md-12">
                                     <button className="col-md-3 btn-rose btn"
                                             onClick={this.openModalAddDepartment}
-                                    >Thêm bộ phận</button>
+                                    >Thêm bộ phận
+                                    </button>
                                     <Search
-                                        onChange={()=>{}}
+                                        onChange={() => {
+                                        }}
                                         value={''}
                                         placeholder="Tìm kiếm bộ phận"
                                         className="col-md-8"
@@ -112,13 +118,15 @@ class ManageDepartmentContainer extends React.Component {
                                     if (Number(this.props.data.paginator.page) === page) {
                                         return (
                                             <li key={page} className="active">
-                                                <a onClick={() => {}}>{page}</a>
+                                                <a onClick={() => {
+                                                }}>{page}</a>
                                             </li>
                                         );
                                     } else {
                                         return (
                                             <li key={page}>
-                                                <a onClick={() => {}}>{page}</a>
+                                                <a onClick={() => {
+                                                }}>{page}</a>
                                             </li>
                                         );
                                     }
@@ -149,6 +157,7 @@ class ManageDepartmentContainer extends React.Component {
 ManageDepartmentContainer.propTypes = {
     isLoading: PropTypes.bool,
     data: PropTypes.object,
+    departmentActions: PropTypes.object.isRequired,
 
 };
 

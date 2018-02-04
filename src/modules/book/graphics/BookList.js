@@ -85,7 +85,7 @@ class GoodList extends React.Component {
                                     <td>
                                         <ButtonGroupAction
                                             edit={() => {
-                                                window.open(`/manufacture/good/${good.id}/edit`, '_self')
+                                                window.open(`/manufacture/good/${good.id}/edit`, '_self');
                                             }}
                                             delete={this.props.deleteBook}
                                             object={good}

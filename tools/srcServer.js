@@ -17,9 +17,9 @@ const module = process.env.MODULE;
 const config = createConfig(module);
 
 const bundler = webpack(config);
-
+/* eslint-disable */
 console.log(chalkProcessing("Start module: " + module));
-
+/* eslint-enable */
 // Run Browsersync and use middleware for Hot Module Replacement
 browserSync({
     port: 3000,

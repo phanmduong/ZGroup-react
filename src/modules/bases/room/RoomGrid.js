@@ -11,10 +11,6 @@ class RoomGrid extends React.Component {
         this.el = "#room-canvas";
     }
 
-    componentWillReceiveProps(nextProps) {
-        D3RoomGrid.updateData(nextProps.data);
-    }
-
     componentDidMount() {
         D3RoomGrid.onClick(this.props.onClick);
         D3RoomGrid.onDrag(this.props.onDrag);
@@ -26,8 +22,16 @@ class RoomGrid extends React.Component {
         }, this.getGridState());
     }
 
+    componentWillReceiveProps(nextProps) {
+        D3RoomGrid.updateData(nextProps.data);
+    }
+
     componentDidUpdate() {
         D3RoomGrid.update(this.el, this.getGridState(), this.dispatcher);
+    }
+
+    componentWillUnmount() {
+        D3RoomGrid.destroy(this.el);
     }
 
     getGridState() {
@@ -37,12 +41,8 @@ class RoomGrid extends React.Component {
         };
     }
 
-    componentWillUnmount() {
-        D3RoomGrid.destroy(this.el);
-    }
-
-
     render() {
+        // console.log(this.props.data);
         return (
             <div id="room-canvas"/>
         );
@@ -54,7 +54,6 @@ RoomGrid.propTypes = {
     domain: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
-    roomId: PropTypes.number.isRequired,
     onPointClick: PropTypes.func.isRequired
 };
 

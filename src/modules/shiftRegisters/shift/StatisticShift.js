@@ -1,7 +1,7 @@
 import React from 'react';
-import * as helper from '../../../helpers/helper';
-import {NO_AVATAR} from '../../../constants/env';
 import PropTypes from 'prop-types';
+import {avatarEmpty} from '../../../helpers/helper';
+import {NO_AVATAR} from '../../../constants/env';
 
 class StatisticShift extends React.Component {
     constructor(props, context) {
@@ -14,14 +14,14 @@ class StatisticShift extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th />
+                        <th/>
                         <th>Họ và tên</th>
                         <th>Số ca trực</th>
                     </tr>
                     </thead>
                     <tbody>
                     {this.props.statisticShift.map((user, index) => {
-                        let avatar = helper.avatarEmpty(user.avatar_url) ?
+                        let avatar = avatarEmpty(user.avatar_url) ?
                             NO_AVATAR : user.avatar_url;
                         return (
                             <tr key={index}>

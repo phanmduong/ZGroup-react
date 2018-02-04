@@ -84,6 +84,7 @@
     "jsonwebtoken": "^7.4.2",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "nouislider": "^11.0.3",
     "object-assign": "4.1.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.2",

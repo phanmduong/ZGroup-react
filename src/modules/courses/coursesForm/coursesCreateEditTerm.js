@@ -46,7 +46,7 @@ class coursesCreateEditTerm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.isUploadingTermIcon && !nextProps.isUploadingTermIcon){
+        if (this.props.isUploadingTermIcon && !nextProps.isUploadingTermIcon) {
             let term = this.state.term;
             term.image_url = nextProps.term.image_url;
             this.setState({term: term});
@@ -78,7 +78,7 @@ class coursesCreateEditTerm extends React.Component {
     uploadTermIcon(event) {
         let file = event.target.files[0];
         if (helper.checkFileSize(file, 2))
-            this.props.coursesActions.uploadTermIcon({...this.state.term,course_id:this.props.data.id}, file);
+            this.props.coursesActions.uploadTermIcon({...this.state.term, course_id: this.props.data.id}, file);
     }
 
     openModalEditTerm(term) {
@@ -128,9 +128,9 @@ class coursesCreateEditTerm extends React.Component {
         return false;
     }
 
-    duplicateTerm(term){
+    duplicateTerm(term) {
         helper.confirm('warning', 'Duplicate', "Bạn có muốn duplicate học phần này không?", () => {
-            this.props.coursesActions.duplicateTerm( term , ()=>{
+            this.props.coursesActions.duplicateTerm(term, () => {
                 return this.props.coursesActions.loadOneCourse(this.props.params.courseId);
             });
         });
@@ -161,18 +161,18 @@ class coursesCreateEditTerm extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {(this.props.data.terms && this.props.data.terms.length > 0 ) &&
+                            {(this.props.data.terms && this.props.data.terms.length > 0) &&
                             this.props.data.terms.map((term) => {
                                 return (
                                     <tr key={term.id}>
                                         <td>
-                                            <button className   ="btn btn-round btn-fab btn-fab-mini text-white"
-                                                    data-toggle ="tooltip"
-                                                    title       =""
-                                                    type        ="button"
-                                                    rel         ="tooltip"
-                                                    data-placement      ="right"
-                                                    data-original-title ={term.name}>
+                                            <button className="btn btn-round btn-fab btn-fab-mini text-white"
+                                                    data-toggle="tooltip"
+                                                    title=""
+                                                    type="button"
+                                                    rel="tooltip"
+                                                    data-placement="right"
+                                                    data-original-title={term.name}>
                                                 <img src={helper.validateLinkImage(term.image_url)} alt=""/>
                                             </button>
                                         </td>
@@ -192,7 +192,9 @@ class coursesCreateEditTerm extends React.Component {
                                                     !this.props.isDuplicating &&
                                                     <a data-toggle="tooltip" title="Duplicate"
                                                        type="button"
-                                                       onClick={() => {return this.duplicateTerm(term);}}
+                                                       onClick={() => {
+                                                           return this.duplicateTerm(term);
+                                                       }}
                                                        rel="tooltip"
                                                     >
                                                         <i className="material-icons">control_point_duplicate</i>
@@ -221,7 +223,7 @@ class coursesCreateEditTerm extends React.Component {
                                 <div className="col-md-12">
                                     <img
                                         width={"100%"}
-                                        src = {
+                                        src={
                                             helper.isEmptyInput(this.state.term.image_url)
                                                 ?
                                                 NO_IMAGE
@@ -230,7 +232,7 @@ class coursesCreateEditTerm extends React.Component {
                                     />
                                 </div>
                                 <div className="col-md-12">
-                                    { this.props.isUploadingTermIcon ?
+                                    {this.props.isUploadingTermIcon ?
                                         (
                                             <button className="btn btn-rose btn-round disabled" type="button">
                                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
@@ -355,6 +357,7 @@ coursesCreateEditTerm.propTypes = {
     data: PropTypes.object,
     term: PropTypes.object,
     coursesActions: PropTypes.object.isRequired,
+    params: PropTypes.object,
     loadOneCourse: PropTypes.func,
     createTerm: PropTypes.func,
     commitEditTerm: PropTypes.func,

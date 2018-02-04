@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {avatarEmpty, shortString} from "../../helpers/helper";
-import {Link} from "react-router";
+//import {Link} from "react-router";
+
 
 class ListBase extends React.Component {
     constructor(props, context) {
@@ -13,14 +14,16 @@ class ListBase extends React.Component {
         return (
             <div className="row" id="list-base">
                 {this.props.bases && this.props.bases.map((base) => {
-                    var imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
+                    let address_description = base.address + base.district;
+                    address_description = address_description.substring(0, 50) + "...";
+                    let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
                     return (
                         <div className="col-sm-4" key={base.id} id="card-email-template">
                             <div className="card card-chart">
                                 <div className="card-header" data-background-color="white" style={{
                                     borderRadius: '10px'
                                 }}>
-                                    <Link to={'/base/' + base.id + '/edit'}>
+                                    <a onClick={() => this.props.openEditBaseModal(base)}>
                                         <div id="simpleBarChart" className="ct-chart"
                                              style={{
                                                  width: '100%',
@@ -31,41 +34,39 @@ class ListBase extends React.Component {
                                                  borderRadius: '10px'
                                              }}
                                         />
-                                    </Link>
+                                    </a>
 
                                 </div>
                                 <div className="card-content" style={{minHeight: '140px'}}>
-                                    <div className="card-action">
+                                    <div className="card-action" style={{height: 50}}>
                                         <h4 className="card-title">
-                                            <Link to={'/base/' + base.id + '/edit'}>{shortString(base.name, 6)}</Link>
+                                            <a onClick={() => this.props.openEditBaseModal(base)}>{shortString(base.name, 6)}</a>
                                         </h4>
                                         <ButtonGroupAction
                                             disabledDelete
                                             object={base}
-                                            editUrl={'/base/' + base.id + '/edit'}
+                                            edit={() => this.props.openEditBaseModal(base)}
                                         />
                                     </div>
-                                    <p className="category">{shortString(base.address, 15)}</p>
-                                    {base.district &&
-                                    <p className="category">
-                                        {`${base.district.type} ${base.district.name}, ${base.province.type} ${base.province.name}`}
-                                    </p>
-                                    }
+                                    <div style={{display: "flex", justifyContent: "space-between", height: 60}}>
+                                        <p className="category">{address_description}</p>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     );
                 })}
             </div>
-        )
+        );
     }
 }
 
 ListBase.propTypes = {
     handleSwitch: PropTypes.func.isRequired,
     deleteBase: PropTypes.func.isRequired,
-    bases: PropTypes.array.isRequired
+    bases: PropTypes.array.isRequired,
+    openEditBaseModal: PropTypes.func.isRequired
 };
 
 export default ListBase;

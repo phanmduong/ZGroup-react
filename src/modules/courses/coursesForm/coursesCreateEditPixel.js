@@ -238,6 +238,8 @@ coursesCreateEditPixel.propTypes = {
     createLink: PropTypes.func,
     commitEditLink: PropTypes.func,
     editLink: PropTypes.func,
+    link: PropTypes.string,
+    isUploadingPixelIcon: PropTypes.string,
 };
 
 function mapStateToProps(state) {

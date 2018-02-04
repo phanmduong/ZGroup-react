@@ -93,7 +93,7 @@ export function storeNotificationType(notificationType, closeModal) {
                     }
                 })
                 .catch(() => {
-                    showErrorNotification("Có lỗi xảy ra. Thử lại")
+                    showErrorNotification("Có lỗi xảy ra. Thử lại");
                     dispatch({
                         type: types.STORE_NOTIFICATION_TYPE_ERROR,
                     });

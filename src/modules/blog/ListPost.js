@@ -30,7 +30,9 @@ class ListPost extends React.Component {
                                         borderRadius: '10px'
                                     }}>
 
-                                        <a onClick={()=>{this.props.openModal(true, post.id);}}>
+                                        <a onClick={() => {
+                                            this.props.openModal(true, post.id);
+                                        }}>
                                             <div id="simpleBarChart" className="ct-chart"
                                                  style={{
                                                      width: '100%',
@@ -61,11 +63,12 @@ class ListPost extends React.Component {
                                     </div>
 
 
-
                                     <div className="card-content">
-                                        <div className="card-action" style={{height:73}}>
+                                        <div className="card-action" style={{height: 73}}>
                                             <h4 className="card-title">
-                                                <a onClick={()=>{this.props.openModal(true, post.id);}}>{post.title ? post.title : "Chưa có tên"}</a>
+                                                <a onClick={() => {
+                                                    this.props.openModal(true, post.id);
+                                                }}>{post.title ? post.title : "Chưa có tên"}</a>
                                             </h4>
                                             <ButtonGroupAction
                                                 editUrl={"blog/post/" + post.id + "/edit"}
@@ -73,29 +76,31 @@ class ListPost extends React.Component {
                                                 object={post}
                                                 disabledEdit
                                             />
-                                        </div>
 
-                                        <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
-                                            <div style={{display: "flex", alignItems: "center"}}>
-                                                {post.author.avatar_url ?
-                                                    <Avatar size={40} url={post.author.avatar_url}
-                                                            style={{borderRadius: 6}}/> : null}
-                                                <div>
-                                                    <strong>{post.author.name}</strong><br/>
-                                                    <p className="category" style={{fontSize: 12}}>{post.created_at}</p>
+
+                                            <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
+                                                <div style={{display: "flex", alignItems: "center"}}>
+                                                    {post.author.avatar_url ?
+                                                        <Avatar size={40} url={post.author.avatar_url}
+                                                                style={{borderRadius: 6}}/> : null}
+                                                    <div>
+                                                        <strong>{post.author.name}</strong><br/>
+                                                        <p className="category"
+                                                           style={{fontSize: 12}}>{post.created_at}</p>
+                                                    </div>
+                                                </div>
+
+                                                <div style={{display: "flex", alignItems: "center"}}>
+                                                    <Switch
+                                                        onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}
+                                                        bsSize="mini"
+                                                        onText="Hiện" offText="Ẩn"
+                                                        value={(post.status === 1)}
+                                                    />
                                                 </div>
                                             </div>
 
-                                            <div style={{display: "flex", alignItems: "center"}}>
-                                                <Switch
-                                                    onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}
-                                                    bsSize="mini"
-                                                    onText="Hiện" offText="Ẩn"
-                                                    value={(post.status === 1)}
-                                                />
-                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -103,10 +108,6 @@ class ListPost extends React.Component {
                     })}
 
                 </div>
-
-
-
-
 
             </div>
         );

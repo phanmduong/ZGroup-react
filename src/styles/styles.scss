@@ -602,19 +602,20 @@ div#datatables-goodorders_length label {
 
 .container-for-images {
   position: relative;
-  margin-top: 10px;
-  width: 65px;
-  height: 65px;
+  width: 100%;
+  height: 100px;
+  border-radius: 5px
 }
 
 .overlay-for-images {
   position: absolute;
   top: 0;
   left: 0;
-  width: 65px;
-  height: 65px;
+  width: 100%;
+  height: 100px;
   background: rgba(0, 0, 0, 0);
   transition: background 0.5s ease;
+  border-radius: 5px
 }
 
 .container-for-images:hover .overlay-for-images {
@@ -628,8 +629,8 @@ div#datatables-goodorders_length label {
 
 .button-for-images {
   position: absolute;
-  top: -3px;
-  left: 42px;
+  top: 5%;
+  left: 72%;
   opacity: 0;
   transition: opacity .35s ease;
 }
@@ -685,7 +686,6 @@ img .product-image {
 
 .d3 {
   font: 10px sans-serif;
-  border: 1px solid #858585;
   background: white;
 }
 
@@ -708,7 +708,7 @@ img .product-image {
   display: inline-block;
   position: relative;
   width: 100%;
-  padding-bottom: 100%; /* aspect ratio */
+  padding-bottom: 67%; /* aspect ratio */
   vertical-align: top;
   overflow: hidden;
 }
@@ -728,14 +728,59 @@ img .product-image {
   transform: scale3d(1, 1, 1) !important;
 }
 
-.stats>i{
+.box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box > * {
+  flex: 0 0 20%;
+}
+
+.container-for-avatar {
+  width: 250px;
+  height: 250px;
+  margin-bottom: 10px;
+  text-align: center;
+  vertical-align: middle;
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  border: 0 none;
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.stats > i {
   margin-right: 5px;
 }
 
-.none-margin-left{
+.none-margin-left {
   margin-left: 0px;
 }
-.none-margin-right{
+
+.none-margin-right {
   margin-right: 0px;
 }
+
+a.btn-seat {
+  color: #696969;
+  margin-bottom: 10px;
+}
+
+a.btn-seat.active {
+  color: #c50000;
+}
+
+.d3-point.active {
+  stroke: #757575;
+}
+
+.d3-point, .d3-points text {
+  cursor: pointer;
+}
+
+
 

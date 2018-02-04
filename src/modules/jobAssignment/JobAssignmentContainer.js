@@ -13,7 +13,6 @@ import FinishWorkModal from './FinishWorkModal';
 import ArchivedWorkModal from './ArchivedWorkModal';
 import RateWorkModal from './RateWorkModal';
 import {Link} from "react-router";
-import Select from 'react-select';
 import ReactSelect from 'react-select';
 import {STATUS_WORK} from "../../constants/constants";
 import MemberReactSelectOption from "../tasks/board/filter/MemberReactSelectOption";
@@ -270,7 +269,7 @@ class JobAssignmentContainer extends React.Component {
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "5px",}}>
                     <div className="filter-container" style={{alignItems:"center"}}>
                         <div className="select-container">
-                            <Select
+                            <ReactSelect
                                 placeholder="Chọn nhân viên"
                                 style={{minWidth: 200, maxWidth: 400}}
                                 value={this.state.selectedStaffs}

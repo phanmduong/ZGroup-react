@@ -18,7 +18,7 @@ class LoginComponent extends React.Component {
 
     render() {
         if ((!this.props.isLoading && this.props.token !== null && this.props.token !== '')) {
-            window.open(DOMAIN, "_self")
+            window.open(DOMAIN, "_self");
         }
         return (
             <div>

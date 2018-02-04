@@ -236,23 +236,28 @@ export const ORDERED_STATUS = [
     },
     {
         order: 2,
+        label: "Xác nhận",
+        value: "confirm_order"
+    },
+    {
+        order: 3,
         label: "Đặt hàng",
         value: "ordered"
     },
     {
-        order: 3,
-        label: "Hết hàng",
-        value: "unavailable"
-    },
-    {
         order: 4,
-        label: "Hủy",
-        value: "cancel"
+        label: "Đã về VN",
+        value: "arrived"
     },
     {
         order: 5,
-        label: "Về VN",
-        value: "came_to_VN"
+        label: "Giao hàng",
+        value: "ship"
+    },
+    {
+        order: 6,
+        label: "Hoàn thành",
+        value: "completed"
     }
 ];
 
