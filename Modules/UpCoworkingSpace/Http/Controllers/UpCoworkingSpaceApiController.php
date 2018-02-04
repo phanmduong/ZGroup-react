@@ -71,7 +71,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->save();
-        dd(Base::find($request->base_id));
+//        dd(Base::find($request->base_id));
         $subject = "Xác nhận đăng ký thành công";
 //        $data = ["base" => Base::find($request->base_id)->transform,
 //            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
