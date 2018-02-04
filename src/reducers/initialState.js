@@ -1984,6 +1984,9 @@ export default {
     sendNotification: {
         isSending: false,
         errorSend: false,
+        historyNotifications: [],
+        totalPages: 1,
+        currentPage: 1,
     },
     dashboardUp: {
         isLoadingBases: true,

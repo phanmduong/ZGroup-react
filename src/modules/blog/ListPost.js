@@ -24,11 +24,10 @@ class ListPost extends React.Component {
                 <div className="row">
                     {this.props.posts && this.props.posts.map((post) => {
                         return (
-                            <div className="col-sm-6 col-md-6 col-lg-4" id="card-email-template" key={post.id}>
+                            <div className="col-sm-6 col-md-6 col-lg-4" key={post.id}>
                                 <div className="card card-chart">
-                                    <div className="card-header" data-background-color="white" style={{
-                                        borderRadius: '10px'
-                                    }}>
+                                    <div className="card-header" data-background-color="white"
+                                         style={{borderRadius: '10px'}}>
 
                                         <a onClick={() => {
                                             this.props.openModal(true, post.id);
@@ -97,6 +96,7 @@ class ListPost extends React.Component {
                                                         onText="Hiện" offText="Ẩn"
                                                         value={(post.status === 1)}
                                                     />
+
                                                 </div>
                                             </div>
 

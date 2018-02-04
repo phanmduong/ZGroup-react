@@ -164,7 +164,7 @@ class BlogsContainer extends React.Component {
                     }
 
 
-                    <Modal show={this.state.isOpenModal} bsSize="lg" bsStyle="primary" onHide={this.closeModal}>
+                    <Modal show={this.state.isOpenModal}  bsStyle="primary" onHide={this.closeModal}>
                         <Modal.Header closeButton>
                             <Modal.Title>
                                 <strong>Bài viết</strong>
