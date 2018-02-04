@@ -355,6 +355,25 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 isLoadingRateData: false,
             };
         }
+        case types.BEGIN_RATE_WORK: {
+            return {
+                ...state,
+                isSaving: true,
+            };
+        }
+        case types.RATE_WORK_SUCCESS: {
+            return {
+                ...state,
+                isSaving: false,
+
+            };
+        }
+        case types.RATE_WORK_ERROR: {
+            return {
+                ...state,
+                isSaving: false,
+            };
+        }
 
         default:
             return state;

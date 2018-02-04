@@ -19,8 +19,13 @@ class RateWorkModal extends React.Component {
             staffId: null,
             rateData:{
                 staffs:[],
-            }
+            },
+            bonus: 0,
+            currency: "",
         };
+        this.updateSlider = this.updateSlider.bind(this);
+        this.commit = this.commit.bind(this);
+        this.onHide = this.onHide.bind(this);
     }
 
     // componentWillMount() {
@@ -28,23 +33,56 @@ class RateWorkModal extends React.Component {
     // }
     //
     componentWillReceiveProps(nextProps) {
-        if(this.props.workId != nextProps.workId){
+        if(this.props.workId != nextProps.workId || (!this.props.show && nextProps.show)){
             this.props.jobAssignmentAction.loadRateData(nextProps.workId);
         }
         if(this.props.isLoadingRateData && !nextProps.isLoadingRateData){
-            this.setState({rateData: nextProps.rateData});
+            this.setState({
+                rateData: nextProps.rateData,
+                bonus: nextProps.rateData.bonus_value,
+                currency: nextProps.rateData.currency.name,
+            });
         }
     }
 
+    updateSlider(e, index){
+        let newState = [...this.state.rateData.staffs];
+        let newItem = {...newState[index], penalty:  e};
+        newState = [...newState.slice(0, index), newItem,...newState.slice(index+1, newState.length)];
+        this.setState({
+            rateData: {...this.state.rateData, staffs: newState},
+        });
+    }
 
+    commit(){
+        this.props.jobAssignmentAction.rateWork(
+            this.props.workId,
+            this.state.rateData.staffs.map((itm)=>{
+                return {
+                    id: itm.id,
+                    value: itm.penalty*this.state.bonus,
+                };
+            }),
+            ()=>{
+                this.props.onHide();
+                this.props.jobAssignmentAction.loadWorks();
+                helper.showNotification("Lưu thành công");
+            }
+        );
+    }
 
+    onHide(){
+        helper.confirm("warning", "Thoát", "Bạn có chắc muốn hủy?", ()=>{
+            return this.props.onHide();
+        });
+    }
 
     render() {
-        let {rateData } = this.state;
+        let {rateData, bonus , currency} = this.state;
         return (
             <Modal
                 show={this.props.show}
-                onHide={this.props.onHide}
+                onHide={this.onHide}
                 bsSize="large"
             >
                 <Modal.Header closeButton>
@@ -65,7 +103,7 @@ class RateWorkModal extends React.Component {
                                             <th>Chi phí</th>
                                             <th>Đánh giá</th>
                                             <th>Báo cáo</th>
-                                            <th style={{width: "20%"}}>Đánh giá</th>
+                                            <th style={{width: "250px"}}>Đánh giá</th>
 
                                         </tr>
                                         </thead>
@@ -101,11 +139,12 @@ class RateWorkModal extends React.Component {
                                                             <td>{item.rate_star || "0"}/5</td>
                                                             <td>{item.rate_description || ""}</td>
                                                             <td><Slider
-                                                                min={-100} step={5} max={100}
+                                                                min={-200} step={5} max={100}
                                                                 value={item.penalty}
-                                                                onChange={()=>{}}
+                                                                onChange={(e)=>{return this.updateSlider(e, index)}}
                                                                 name={"slider-"+ index}
-                                                                label={true}
+                                                                label={`${Math.round(item.penalty*bonus/100) + bonus} ${currency}`}
+                                                                disabled={this.props.isSaving}
                                                             /></td>
 
                                                         </tr>
@@ -133,7 +172,7 @@ class RateWorkModal extends React.Component {
                                                 style={{float: 'right', width: "20%"}}
                                                 className="btn btn-fill btn-rose "
                                                 type="button"
-                                                onClick={() => {}}
+                                                onClick={this.commit}
                                             > Lưu </button>
 
                                         }</div>
@@ -148,7 +187,7 @@ class RateWorkModal extends React.Component {
                 >
                     <Modal.Header closeButton/>
                     <Modal.Body>
-                        <InfoStaffContainer staffId={this.state.staffId} />
+                        <InfoStaffContainer staffId={this.state.staffId} type=""/>
                     </Modal.Body>
                 </Modal>
             </Modal>

@@ -20,7 +20,7 @@ class CardWork extends React.Component {
     }
 
     render() {
-        const {work, key, status, user} = this.props;
+        const {work,  status, user} = this.props;
         let time = moment(work.deadline || "", [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
         let checkId = !checkUser(user.id, work.staffs);//user not belong to work
         return (
@@ -29,7 +29,8 @@ class CardWork extends React.Component {
                     e.stopPropagation();
                     return this.props.openInfoModal(work);
                 }}
-                key={key} id={key} data-order={key} className="card-content keetool-idcard">
+                // key={key} id={key} data-order={key}
+                className="card-content keetool-idcard">
                 <div className="card keetool-card keetool-card-wrapper">
                     <div className="card-content keetool-card" style={{position: "relative"}}>
                         <div style={{position: "absolute", top: 10, right: 10}} hidden={(user.role != 2) && checkId}>
@@ -231,9 +232,8 @@ CardWork.propTypes = {
     openModalRateWork: PropTypes.func,
     work: PropTypes.object,
     user: PropTypes.object,
-    key: PropTypes.number,
     status: PropTypes.string,
-    unArchiveWork: PropTypes.func.isRequired,
+    unArchiveWork: PropTypes.func,
 };
 
 export default CardWork;

@@ -336,3 +336,24 @@ export function loadRateData(id) {
             });
     };
 }
+export function rateWork(id, data, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_RATE_WORK});
+        jobAssignmentApi.rateWork(id, data)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.RATE_WORK_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.RATE_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.RATE_WORK_ERROR});
+            });
+    };
+}

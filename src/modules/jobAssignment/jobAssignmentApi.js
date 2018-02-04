@@ -161,3 +161,12 @@ export function loadRateData(id) {
     }
     return axios.get(url);
 }
+export function rateWork(id, data) {
+    //http://manageapi.keetool.xyz/work/4/rated?token=
+    let url     = env.MANAGE_API_URL +"/work/" +id +"/rated";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.post(url, {staffs: JSON.stringify(data)});
+}
