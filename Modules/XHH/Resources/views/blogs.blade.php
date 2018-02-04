@@ -24,41 +24,41 @@
         <div class="container">
             <div class="description">
                 <div style="display: flex; flex-direction: row; align-items: center" id="search-blog">
-                <input placeholder="Tìm kiếm" id="search-blog"
-                       style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
-                       type="text" v-on:keyup.enter="searchBlog" v-model="search" value="{{$search}}"/>
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
-                            style="height: 62px;
+                    <input placeholder="Tìm kiếm" id="search-blog"
+                           style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                           type="text" v-on:keyup.enter="searchBlog" v-model="search" value="{{$search}}"/>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                style="height: 62px;
                                 background-color: #C50000;
                                 color: white;
                                 border-color: #C50000;
                                 text-align: right;
                                 border-radius: 0px;
                         ">@if($type)
-                            {!! $type !!}
-                        @else
-                            Thể loại
-                        @endif
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right"
-                        style="background: white; overflow: scroll; height: 300px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);border-radius: 0px!important;">
-                        <a class="dropdown-item"
-                           v-bind:href="'/blog?page=1&search='+search"
-                           style="padding: 10px 15px!important; border-radius: 0px!important;">
-                            Tất cả
-                        </a>
-                        @foreach($categories as $category)
+                                {!! $type_name !!}
+                            @else
+                                Thể loại
+                            @endif
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right"
+                            style="background: white; overflow: scroll; height: 300px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);border-radius: 0px!important;">
                             <a class="dropdown-item"
-                               v-bind:href="'/blog?page=1&search='+search+'&type={{$category->id}}'"
+                               v-bind:href="'/blog?page=1&search='+search"
                                style="padding: 10px 15px!important; border-radius: 0px!important;">
-                                {{$category->name}}
+                                Tất cả
                             </a>
-                        @endforeach
-                    </ul>
+                            @foreach($categories as $category)
+                                <a class="dropdown-item"
+                                   v-bind:href="'/blog?page=1&search='+search+'&type={{$category->id}}'"
+                                   style="padding: 10px 15px!important; border-radius: 0px!important;">
+                                    {{$category->name}}
+                                </a>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
-            </div>
             </div>
             <div class="row">
                 @foreach($blogs as $blog)

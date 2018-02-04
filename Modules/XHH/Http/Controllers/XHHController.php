@@ -68,6 +68,8 @@ class XHHController extends Controller
 
         $search = $request->search;
         $type = $request->type;
+        $type_name = CategoryProduct::find($type);
+        $type_name = $type_name ? $type_name->name : '';
 
         if ($search) {
             $blogs = $blogs->where('title', 'like', '%' . $search . '%');
@@ -81,7 +83,9 @@ class XHHController extends Controller
 
         $categories = CategoryProduct::orderBy('name')->get();
 
+
         $this->data['type'] = $type;
+        $this->data['type_name'] = $type_name;
         $this->data['blogs'] = $blogs;
         $this->data['display'] = $blogs;
         $this->data['search'] = $search;
