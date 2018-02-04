@@ -49,7 +49,6 @@ class ListNotificationTypeContainer extends React.Component {
         confirm('error', 'Xóa', "Bạn có muốn xóa loại thông báo này không?", () => {
             this.props.notificationTypeActions.deleteNotificationType(notificationType.id, this.state.page, this.state.query);
         });
-
     }
 
     loadNotificationTypes(page = 1) {
