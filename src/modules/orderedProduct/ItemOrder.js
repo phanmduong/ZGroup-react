@@ -9,7 +9,7 @@ import StatusSelect from "../goodOrders/status/StatusSelect";
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
-        //this.changeStatusOrder = this.changeStatusOrder.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
     }
 
     statusOrder(status) {
@@ -43,56 +43,60 @@ class ItemOrder extends React.Component {
         }
     }
 
-    /*changeStatusOrder(value) {
+    changeStatus(value) {
         const user = this.props.user;
-        let currentStatus = ORDER_STATUS.filter(status => this.props.order.status === status.value)[0];
-        let nextStatus = ORDER_STATUS.filter(status => status.value === value)[0];
+        let currentStatus = ORDERED_STATUS.filter(status => this.props.delivery.status === status.value)[0];
+        let nextStatus = ORDERED_STATUS.filter(status => status.value === value)[0];
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                this.props.changeStatusOrder(value, this.props.order.id);
-            });
+            if (nextStatus.order === 7) {
+                this.props.showAddCancelNoteModal(this.props.delivery);
+            } else {
+                helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
+                    this.props.changeStatus(value, this.props.delivery.id);
+                });
+            }
         }
-    }*/
+    }
 
     render() {
-        const order = this.props.order;
-        let order_note;
-        if (order.note) {
-            order_note = order.note.length < 16 ? order.note : order.note.substring(0, 15) + "...";
-        } else order_note = "";
+        const delivery = this.props.delivery;
+        let delivery_note;
+        if (delivery.note) {
+            delivery_note = delivery.note.length < 16 ? delivery.note : delivery.note.substring(0, 15) + "...";
+        } else delivery_note = "";
         return (
             <tr>
                 <td>
                     <Link
                         style={{
-                            backgroundColor: ORDER_STATUS_COLORS[order.status]
+                            backgroundColor: ORDER_STATUS_COLORS[delivery.status]
                         }}
                         className="btn text-name-student-register"
-                        to={`/good/goods/order/${order.id}`}>
-                        {order.code ? order.code : 'Không có mã'}
+                        to={`/good/goods/order/${delivery.id}`}>
+                        {delivery.code ? delivery.code : 'Không có mã'}
                     </Link>
                 </td>
-                <td>{order.created_at}</td>
+                <td>{delivery.created_at}</td>
                 <td>
                     {
-                        order.customer ? (
-                            <span>{order.customer.name}<br/>
-                        ({order.customer.phone})
+                        delivery.customer ? (
+                            <span>{delivery.customer.name}<br/>
+                        ({delivery.customer.phone})
                     </span>
                         ) : "Không nhập"
                     }
                 </td>
                 <td>
                     {
-                        order.staff ?
+                        delivery.staff ?
 
                             (
-                                <TooltipButton text={order.staff.name} placement="top">
+                                <TooltipButton text={delivery.staff.name} placement="top">
                                     <button className="btn btn-xs btn-main"
-                                            style={{backgroundColor: order.staff.color ? order.staff.color : ''}}>
-                                        {helper.getShortName(order.staff.name)}
+                                            style={{backgroundColor: delivery.staff.color ? delivery.staff.color : ''}}>
+                                        {helper.getShortName(delivery.staff.name)}
                                     </button>
                                 </TooltipButton>
                             )
@@ -104,32 +108,32 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>
                     <StatusSelect options={ORDERED_STATUS}
-                        //onChange={this.changeStatusOrder}
-                                  value={order.status}/>
+                                  onChange={this.changeStatus}
+                                  value={delivery.status}/>
                 </td>
                 <td>
                     <a data-toggle="tooltip" title="Ghi chú" type="button"
-                       rel="tooltip" onClick={() => this.props.showAddNoteModal(order)}>
+                       rel="tooltip" onClick={() => this.props.showAddNoteModal(delivery)}>
                         {
-                            order_note === "" ? (
+                            delivery_note === "" ? (
                                 <i className="material-icons">edit</i>
                             ) : (
-                                <p>{order_note}</p>
+                                <p>{delivery_note}</p>
                             )
                         }
                     </a>
                 </td>
-                <td>{helper.dotNumber(order.total)}đ</td>
+                <td>{helper.dotNumber(delivery.total)}đ</td>
                 <td>
                     <div className="btn-group-action">
-                        <Link to={`/order/${order.id}/edit`}
+                        <Link to={`/order/${delivery.id}/edit`}
                               style={{color: "#878787"}}
                               data-toggle="tooltip" title=""
                               type="button" rel="tooltip"
                               data-original-title="Sửa">
                             <i className="material-icons">edit</i>
                         </Link>
-                        <Link to={`/order/${order.id}/warehouse-import`}
+                        <Link to={`/order/${delivery.id}/warehouse-import`}
                               style={{color: "#878787"}}
                               data-toggle="tooltip" title=""
                               type="button" rel="tooltip"
@@ -144,10 +148,11 @@ class ItemOrder extends React.Component {
 }
 
 ItemOrder.propTypes = {
-    order: PropTypes.object.isRequired,
-    //changeStatusOrder: PropTypes.func.isRequired,
+    delivery: PropTypes.object.isRequired,
+    changeStatus: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    showAddNoteModal: PropTypes.func.isRequired
+    showAddNoteModal: PropTypes.func.isRequired,
+    showAddCancelNoteModal:PropTypes.func.isRequired
 };
 
 export default ItemOrder;

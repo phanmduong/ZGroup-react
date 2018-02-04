@@ -17,6 +17,7 @@ import * as orderedProductAction from "./orderedProductAction";
 import {bindActionCreators} from "redux";
 import {Link} from "react-router";
 import AddNoteModal from "./AddNoteModal";
+import AddCancelNoteModal from "./AddCancelNoteModal";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -39,6 +40,7 @@ class OrderedContainer extends React.Component {
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.showAddNoteModal = this.showAddNoteModal.bind(this);
+        this.showAddCancelNoteModal = this.showAddCancelNoteModal.bind(this);
     }
 
     componentWillMount() {
@@ -167,6 +169,11 @@ class OrderedContainer extends React.Component {
     showAddNoteModal(order) {
         this.props.orderedProductAction.showAddNoteModal();
         this.props.orderedProductAction.handleAddNoteModal(order);
+    }
+
+    showAddCancelNoteModal(order) {
+        this.props.orderedProductAction.showAddCancelNoteModal();
+        this.props.orderedProductAction.handleAddCancelNoteModal(order);
     }
 
     render() {
@@ -332,11 +339,12 @@ class OrderedContainer extends React.Component {
                                 </div>
                                 <br/>
                                 <ListOrder
-                                    //changeStatusOrder={this.changeStatusOrder}
+                                    changeStatus={this.props.orderedProductAction.changeStatus}
                                     deliveryOrders={this.props.deliveryOrders}
                                     isLoading={this.props.isLoading}
                                     user={this.props.user}
                                     showAddNoteModal={this.showAddNoteModal}
+                                    showAddCancelNoteModal={this.showAddCancelNoteModal}
                                 />
                             </div>
                             <div className="row float-right">
@@ -354,6 +362,7 @@ class OrderedContainer extends React.Component {
                     </div>
                 </div>
                 <AddNoteModal/>
+                <AddCancelNoteModal/>
             </div>
         );
     }
