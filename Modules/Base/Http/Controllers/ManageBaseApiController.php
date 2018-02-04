@@ -410,14 +410,14 @@ class ManageBaseApiController extends ManageApiController
                 });
         })->groupBy('seats.id')->select('seats.*')->get();
         return $this->respondSuccessWithStatus([
-//            'seats' => $seats->map(function ($seat) {
-//                return $seat->getData();
-//            }),
+            'seats' => $seats->map(function ($seat) {
+                return $seat->getData();
+            }),
             'booked_seats' => $booked_seats->map(function ($booked_seat) {
                 return $booked_seat->getData();
             }),
-//            'seats_count' => $seats_count,
-//            'available_seats' => $seats->count(),
+            'seats_count' => $seats_count,
+            'available_seats' => $seats->count(),
         ]);
     }
 
