@@ -39,6 +39,8 @@ class OrderedContainer extends React.Component {
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.showAddNoteModal = this.showAddNoteModal.bind(this);
+        this.showAddCancelNoteModal = this.showAddCancelNoteModal.bind(this);
+        this.showSendPriceModal = this.showSendPriceModal.bind(this);
     }
 
     componentWillMount() {
@@ -167,6 +169,16 @@ class OrderedContainer extends React.Component {
     showAddNoteModal(order) {
         this.props.orderedProductAction.showAddNoteModal();
         this.props.orderedProductAction.handleAddNoteModal(order);
+    }
+
+    showAddCancelNoteModal(order) {
+        this.props.orderedProductAction.showAddCancelNoteModal();
+        this.props.orderedProductAction.handleAddCancelNoteModal(order);
+    }
+
+    showSendPriceModal(order) {
+        this.props.orderedProductAction.showSendPriceModal();
+        this.props.orderedProductAction.handleSendPriceModal(order);
     }
 
     render() {
@@ -332,11 +344,13 @@ class OrderedContainer extends React.Component {
                                 </div>
                                 <br/>
                                 <ListOrder
-                                    //changeStatusOrder={this.changeStatusOrder}
+                                    changeStatus={this.props.orderedProductAction.changeStatus}
                                     deliveryOrders={this.props.deliveryOrders}
                                     isLoading={this.props.isLoading}
                                     user={this.props.user}
                                     showAddNoteModal={this.showAddNoteModal}
+                                    showAddCancelNoteModal={this.showAddCancelNoteModal}
+                                    showSendPriceModal={this.showSendPriceModal}
                                 />
                             </div>
                             <div className="row float-right">
