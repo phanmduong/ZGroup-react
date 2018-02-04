@@ -274,9 +274,8 @@ class OrderService
                 'status' => 0,
                 'message' => 'Không được phép sửa đơn hoàn thành'
             ];
-        if($this->deliveryStatusToNum($request->status) == 7)
-        {
-            if($request->note == null || trim($request->note) == '')
+        if ($this->deliveryStatusToNum($request->status) == 7) {
+            if ($request->note == null || trim($request->note) == '')
                 return [
                     'status' => 0,
                     'message' => 'Vui lòng nhập lý do hủy đơn'
@@ -290,14 +289,18 @@ class OrderService
                 'message' => 'Chuyển trạng thái thành công'
             ];
         }
-        if ($this->deliveryStatusToNum($request->status)-$this->deliveryStatusToNum($order->status) != 1)
+        if ($this->deliveryStatusToNum($request->status) - $this->deliveryStatusToNum($order->status) != 1)
             return [
                 'status' => 0,
                 'message' => 'Vui lòng chỉ chuyển trạng thái kế tiếp'
             ];
-        if($this->deliveryStatusToNum($request->status) == 'arrived')
+        if ($this->deliveryStatusToNum($request->status) == 1) {
+            $order->attach_info = $request->attach_info;
+            //tinh gia viet nam o day
+        }
+        if ($this->deliveryStatusToNum($request->status) == 'arrived')
             $order->delivery_warehouse_status = 'arrived';
-        if($this->deliveryStatusToNum($request->status) == 'ship')
+        if ($this->deliveryStatusToNum($request->status) == 'ship')
             $order->delivery_warehouse_status = 'exported';
         $order->status = $request->status;
         $order->staff_id = $staffId;
