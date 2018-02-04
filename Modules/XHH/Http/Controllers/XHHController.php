@@ -81,6 +81,7 @@ class XHHController extends Controller
 
         $categories = CategoryProduct::orderBy('name')->get();
 
+        $this->data['type'] = $type;
         $this->data['blogs'] = $blogs;
         $this->data['display'] = $blogs;
         $this->data['search'] = $search;
