@@ -20,7 +20,7 @@ class PermissionTabReact
     {
         $tab = Tab::where('url', 'like', '%' . $path . '%')->first();
         $user = Auth::user() ? User::find(Auth::user()->id) : null;
-        if ($tab == null || $user->havePermissionTab($tab) || Auth::user()->isAdmin()) {
+        if ($user != null && ($tab == null || $user->havePermissionTab($tab) || Auth::user()->isAdmin())) {
             return $next($request);
         } else {
             $tabAccept = $this->get_tabs_first($user);
