@@ -7,6 +7,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::put('/{baseId}/display', 'ManageBaseApiController@createBase');
 
     Route::post('/{baseId}/room', 'ManageBaseApiController@createRoom');
+
     Route::put('/{baseId}/room/{roomId}', 'ManageBaseApiController@editRoom');
     Route::get('/room-type', 'ManageBaseApiController@getRoomTypes');
     Route::put('/room-type/{roomTypeId}', 'ManageBaseApiController@editRoomType');

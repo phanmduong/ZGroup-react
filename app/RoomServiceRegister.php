@@ -8,6 +8,10 @@ class RoomServiceRegister extends Model
 {
     protected $table = 'room_service_registers';
 
+    public function campaign()
+    {
+        return $this->belongsTo(MarketingCampaign::class, 'campaign_id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -46,6 +50,14 @@ class RoomServiceRegister extends Model
             ];
         if ($this->subscription)
             $data['subscription'] = $this->subscription->getData();
+
+        if ($this->campaign)
+            $data['campaign'] = [
+                'id' => $this->campaign->id,
+                'name' => $this->campaign->name,
+                'color' => $this->campaign->color,
+                ];
         return $data;
     }
+
 }

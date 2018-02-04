@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UpCoworkingSpaceManageApiController extends ManageApiController
 {
+
     public function __construct()
     {
         parent::__construct();
     }
+
 
     public function getRegisters(Request $request)
     {
@@ -31,6 +33,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
                     $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
                 });
         else $registers = RoomServiceRegister::query();
+
 
 
 //        if ($request->user_id)
