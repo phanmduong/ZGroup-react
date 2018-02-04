@@ -198,7 +198,7 @@
                                                     <tr style="text-align: center;vertical-align: middle;">
                                                         <td style="text-align: center">
                                                             <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517715216jMh4peZvzbmErYp.png"
-                                                                 alt="Logo" style="margin:30px" height="60"/>
+                                                                 alt="Logo" style="margin:30px" height="50px"/>
                                                         </td>
                                                     </tr>
                                                     <tr>
