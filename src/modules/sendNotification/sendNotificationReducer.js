@@ -27,6 +27,33 @@ export default function sendNotificationReducer(state = initialState.sendNotific
                     errorSend: true
                 }
             };
+        case types.BEGIN_LOAD_HISTORY_NOTIFICATION:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    error: false,
+                }
+            };
+        case types.LOAD_HISTORY_NOTIFICATION_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    error: false,
+                    historyNotifications: action.historyNotifications,
+                    currentPage: action.currentPage,
+                    totalPages: action.totalPages
+                }
+            };
+        case types.LOAD_HISTORY_NOTIFICATION_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    error: true
+                }
+            };
         default:
             return state;
     }
