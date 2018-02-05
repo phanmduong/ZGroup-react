@@ -73,17 +73,17 @@
 
 .bs-five-area .bs-five:hover {
 
-    background: #7bc043;
+    background: #BA8A45;
     transition: all 0.4s;
 
 }
 
 .bs-five-area .bs-five.active {
-    background: #7bc043;
-    background: -webkit-linear-gradient(left, #7bc043, #7bc043);
-    background: -o-linear-gradient(right, #7bc043, #7bc043);
-    background: -moz-linear-gradient(right, #7bc043, #7bc043);
-    background: linear-gradient(to right, #7bc043, #7bc043);
+    background: #BA8A45;
+    background: -webkit-linear-gradient(left, #BA8A45, #BA8A45);
+    background: -o-linear-gradient(right, #BA8A45, #BA8A45);
+    background: -moz-linear-gradient(right, #BA8A45, #BA8A45);
+    background: linear-gradient(to right, #BA8A45, #BA8A45);
 }
 
 .bs-five-area .bs-five .btn-success {
@@ -91,8 +91,8 @@
     display: inline-block;
     border-radius: 30px;
     color: white;
-    background-color: #7bc043;
-    border-color: #7bc043;
+    background-color: #BA8A45;
+    border-color: #BA8A45;
 }
 
 .bs-five-area .bs-five.active .btn.btn-success,

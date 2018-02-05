@@ -58,7 +58,8 @@ class ManageRegisterStudentApiController extends ManageApiController
                     'color' => $item->caller ? $item->caller->color : ''
                 ],
                 'call_status' => call_status_text($item->call_status),
-                'note' => $item->note
+                'note' => $item->note,
+                'appointment_payment' => $item->appointment_payment ? date_shift(strtotime($item->appointment_payment)) : '',
             ];
         });
 
@@ -104,6 +105,7 @@ class ManageRegisterStudentApiController extends ManageApiController
         $telecall->note = $request->note;
         $telecall->gen_id = Gen::getCurrentGen()->id;
         $telecall->call_status = $status;
+        $telecall->appointment_payment = $request->appointment_payment ? $request->appointment_payment : null;
         $telecall->save();
 
         return $this->respondSuccessWithStatus([
