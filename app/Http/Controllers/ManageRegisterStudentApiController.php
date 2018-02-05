@@ -105,7 +105,7 @@ class ManageRegisterStudentApiController extends ManageApiController
         $telecall->note = $request->note;
         $telecall->gen_id = Gen::getCurrentGen()->id;
         $telecall->call_status = $status;
-        $telecall->appointment_payment = $request->appointment_payment;
+        $telecall->appointment_payment = $request->appointment_payment ? $request->appointment_payment : null;
         $telecall->save();
 
         return $this->respondSuccessWithStatus([
