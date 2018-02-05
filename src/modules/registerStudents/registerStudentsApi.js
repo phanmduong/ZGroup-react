@@ -23,16 +23,16 @@ export function getAllRegisterStudent(page = 1, genId, search = '', salerId = ''
 
 export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
     let urlType = env.API_URL;
-    switch (env.TYPE_API){
+    switch (env.TYPE_API) {
         case "alibaba":
             urlType = (env.MANAGE_API_URL + "/alibaba");
             break;
         default:
-            urlType= env.API_URL;
+            urlType = env.API_URL;
     }
     let token = localStorage.getItem('token');
     let url =
-        urlType+
+        urlType +
         "/register-list?" +
         "page=" + page +
         "&gen_id=" + genId +
@@ -83,7 +83,7 @@ export function historyCallStudent(studentId, registerId) {
     return axios.get(url);
 }
 
-export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '') {
+export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '', appointmentPayment = '') {
 
     let url = env.MANAGE_API_URL;
 
@@ -106,7 +106,8 @@ export function changeCallStatusStudent(callStatus, studentId, telecallId, genId
             gen_id: genId,
             caller_id: callerId,
             note: note,
-            status: callStatus
+            status: callStatus,
+            appointment_payment: appointmentPayment,
         }
     );
 }
@@ -155,14 +156,14 @@ export function loadRegisterByStudent(studentId) {
 export function changeInfoStudent(info) {
     //manageapi.domain/alibaba/register/{register_id}?token=
     let urlType = "";
-    switch (env.TYPE_API){
+    switch (env.TYPE_API) {
         case "alibaba":
-                urlType = "/alibaba";
-                break;
+            urlType = "/alibaba";
+            break;
         default:
-            urlType= "";
+            urlType = "";
     }
-    let url = env.MANAGE_API_URL + urlType  +"/register/" + info.id ;
+    let url = env.MANAGE_API_URL + urlType + "/register/" + info.id;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
