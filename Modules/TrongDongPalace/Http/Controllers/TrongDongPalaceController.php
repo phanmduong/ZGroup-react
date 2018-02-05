@@ -68,4 +68,8 @@ class TrongDongPalaceController extends Controller
         $this->data['posts_related'] = $posts_related;
         return view('trongdongpalace::post', $this->data);
     }
+
+    public function test() {
+        return view('trongdongpalace::test');
+    }
 }

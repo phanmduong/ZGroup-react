@@ -67,9 +67,15 @@
                 <span class="navbar-toggler-bar"></span>
                 <span class="navbar-toggler-bar"></span>
             </button>
+            {{--<div class="navbar-header">--}}
+                {{--<a class="navbar-brand" href="/" style="padding:0!important">--}}
+                    {{--<img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"--}}
+                         {{--style="margin:10px 0"/>--}}
+                {{--</a>--}}
+            {{--</div>--}}
             <div class="navbar-header">
                 <a class="navbar-brand" href="/" style="padding:0!important">
-                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"
+                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15177972716sZ6vEtAOkhIv0z.png" height="40px"
                          style="margin:10px 0"/>
                 </a>
             </div>
@@ -100,7 +106,7 @@
     </div>
 </nav>
 
-@include('upcoworkingspace::includes.register_modal')
+{{--@include('upcoworkingspace::includes.register_modal')--}}
 
 @yield('content')
 
@@ -108,7 +114,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-6">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"/>
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15177972716sZ6vEtAOkhIv0z.png" height="40px"/>
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
                 <div class="row">
@@ -280,7 +286,19 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-
+<script src="https://rawgit.com/Wlada/vue-carousel-3d/master/dist/vue-carousel-3d.min.js"></script>
+<script type="text/javascript">
+    var el = new Vue({
+        el: '#carousel',
+        data: {
+            slides: 7
+        },
+        components: {
+            'carousel-3d': Carousel3d.Carousel3d,
+            'slide': Carousel3d.Slide
+        }
+    })
+</script>
 <script type="text/javascript">
     (function () {
         function getRandomInt(min, max) {
