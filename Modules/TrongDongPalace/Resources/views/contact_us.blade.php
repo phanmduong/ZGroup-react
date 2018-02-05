@@ -112,7 +112,7 @@
 
 
                     $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
-                    var url = "{{config('app.protocol').config('app.domain')}}/contact_information?email=" + email;
+                    var url = "{{config('app.protocol').config('app.domain')}}/api/contact_information?email=" + email;
                     $('#e-name').val("");
                     $('#e-email').val("");
                     $('#e-phone').val("");
