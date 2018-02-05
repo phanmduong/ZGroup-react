@@ -8,6 +8,7 @@ use App\RoomServiceRegister;
 use App\RoomServiceSubscription;
 use App\RoomServiceSubscriptionKind;
 use App\RoomServiceUserPack;
+use App\TeleCall;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,10 +16,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UpCoworkingSpaceManageApiController extends ManageApiController
 {
+
     public function __construct()
     {
         parent::__construct();
     }
+
 
     public function getRegisters(Request $request)
     {
@@ -77,31 +80,38 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $subscriptions = RoomServiceSubscription::where('user_pack_id', $userPackId);
 
         $subscriptions = $subscriptions->orderBy('created_at', 'desc')->get();
-        $userPack = RoomServiceUserPack::find($userPackId);
         return $this->respondSuccessWithStatus([
-            'userPack' => $userPack->getData(),
             'subscriptions' => $subscriptions->map(function ($subscription) {
                 return $subscription->transform();
             })
         ]);
     }
 
+    public function getUserPack($userPackId, Request $request)
+    {
+        $userPack = RoomServiceUserPack::find($userPackId);
+        return $this->respondSuccessWithStatus([
+            "userPack" => $userPack->getData()
+        ]);
+    }
+
     public function createSubscriptions($userPackId, Request $request)
     {
+        if ($request->subscription_kind_id == null || $request->subscription_kind_id == 0)
+            return $this->respondErrorWithStatus('Thiếu subscription_kind_id');
         $subscription = new RoomServiceSubscription;
-
         $subscription->user_pack_id = $userPackId;
         $subscription->description = $request->description;
         $subscription->price = $request->price;
         $subscription->subscription_kind_id = $request->subscription_kind_id;
-
         $subscription->save();
-
         return $this->respondSuccess('Tạo gói thành viên thành công');
     }
 
     public function editSubscriptions($userPackId, $subcriptionId, Request $request)
     {
+        if ($request->subscription_kind_id == null || $request->subscription_kind_id == 0)
+            return $this->respondErrorWithStatus('Thiếu subscription_kind_id');
         $subscription = RoomServiceSubscription::find($subcriptionId);
         $subscription->user_pack_id = $userPackId;
         $subscription->description = $request->description;
@@ -181,6 +191,21 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $userPack->save();
         return $this->respondSuccessWithStatus([
             "message" => "Đổi thành công"
+        ]);
+    }
+
+    public function saveCall(Request $request)
+    {
+        $teleCall = new TeleCall;
+        $teleCall->caller_id = $request->caller_id;
+        $teleCall->gen_id = 0;
+        $teleCall->call_status = $request->call_status;
+        $teleCall->student_id = $request->listener_id;
+        $teleCall->note = $request->note;
+        $teleCall->register_id = $request->register_id;
+        $teleCall->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Lưu thành công"
         ]);
     }
 }

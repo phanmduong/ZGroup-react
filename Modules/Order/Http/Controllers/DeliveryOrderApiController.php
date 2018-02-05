@@ -202,7 +202,7 @@ class DeliveryOrderApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyWord = $request->search;
 
-        $deliveryOrders = Order::where('type', 'delivery')->where('delivery_warehouse_status', 'imported');
+        $deliveryOrders = Order::where('type', 'delivery')->where('delivery_warehouse_status', 'arrived');
         if ($keyWord) {
             $userIds = User::where(function ($query) use ($keyWord) {
                 $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
@@ -357,5 +357,27 @@ class DeliveryOrderApiController extends ManageApiController
         $historyGood->save();
         $deliveryOrder->delivery_warehouse_status = 'transfered';
         return $this->respondSuccess('Nhập kho hàng sẵn thành công');
+    }
+
+    public function sendPrice(Request $request)
+    {
+        $deliveryOrders = json_decode($request->delivery_orders);
+        foreach ($deliveryOrders as $deliveryOrder) {
+            $order = Order::find($deliveryOrder->id);
+            if($order == null)
+                return $this->respondErrorWithStatus('Không tồn tại đơn có id ' . $deliveryOrder->id);
+            if($order->status != 'place_order')
+                return $this->respondErrorWithStatus('Không thể báo giá đơn có trạng thái ' . $order->status);
+        }
+
+        foreach ($deliveryOrders as $deliveryOrder) {
+            $order = Order::find($deliveryOrder->id);
+            $order->attach_info = $deliveryOrder->attach_info;
+            $order->status = 'sent_price';
+            //calculate vietnamese dong price
+            $order->save();
+        }
+        //mail and text customer
+        return $this->respondSuccess('Báo giá thành công');
     }
 }

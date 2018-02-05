@@ -128,6 +128,7 @@ class CheckInCheckOutRepository
         // teacher
         $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
             ->where("teacher_id", $checkInCheckOut->user_id)->get();
+
         foreach ($teachingLessons as $teachingLesson) {
             $classLesson = $teachingLesson->classLesson;
             $start_time = $classLesson->start_time;
@@ -174,6 +175,7 @@ class CheckInCheckOutRepository
         // teaching assistant
         $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
             ->where("teaching_assistant_id", $checkInCheckOut->user_id)->get();
+
         foreach ($teachingLessons as $teachingLesson) {
             $classLesson = $teachingLesson->classLesson;
             $start_time = $today . " " . $classLesson->start_time;

@@ -7,6 +7,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'work
     Route::get('/summary-staffs','WorkApiController@summaryStaff');
     Route::get('/archive','WorkApiController@getAllWorkArchive');
     Route::get('/{workId}','WorkApiController@getDetailWork');
+    Route::get('/{workId}/detail','WorkApiController@getMoreDetailWork');
+    Route::post('/{workId}/rated','WorkApiController@rateWork');
     Route::get('/','WorkApiController@getAll');
     Route::put('/{workId}','WorkApiController@editWork');
     Route::delete('/{workId}','WorkApiController@deleteWork');

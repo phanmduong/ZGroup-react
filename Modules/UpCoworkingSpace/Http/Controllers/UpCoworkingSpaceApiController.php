@@ -7,11 +7,15 @@ use App\District;
 use App\Http\Controllers\ApiPublicController;
 use App\Province;
 use App\RoomServiceRegister;
+use App\RoomServiceSubscription;
 use App\RoomServiceUserPack;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Mail;
+
 
 class UpCoworkingSpaceApiController extends ApiPublicController
 {
@@ -22,7 +26,10 @@ class UpCoworkingSpaceApiController extends ApiPublicController
 
     public function allUserPacks()
     {
-        $user_packs = RoomServiceUserPack::all();
+        $user_packs = RoomServiceUserPack::join('room_service_subscriptions', 'room_service_subscriptions.user_pack_id', '=', 'room_service_user_packs.id')
+            ->select('room_service_user_packs.*', DB::raw('count(room_service_subscriptions.id) as subscription_count'))
+            ->groupBy('user_pack_id')->having('subscription_count', '>', 0)
+            ->orderBy('room_service_user_packs.created_at', 'desc')->get();
         $user_packs = $user_packs->map(function ($user_pack) {
             $data = $user_pack->getData();
             $data['subscriptions'] = $user_pack->subscriptions->map(function ($subscription) {
@@ -58,13 +65,22 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $user->phone = $phone;
         $user->email = $request->email;
         $user->username = $request->email;
-        $user->password = Hash::make($phone);
         $user->save();
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->save();
+//        dd(Base::find($request->base_id));
+        $subject = "Xác nhận đăng ký thành công";
+//        $data = ["base" => Base::find($request->base_id)->transform,
+//            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
+        $data = ["user" => $user];
+        $emailcc = ["graphics@colorme.vn"];
+        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+        });
 
         return $this->respondSuccessWithStatus([
             'message' => "Đăng kí thành công"
@@ -96,5 +112,26 @@ class UpCoworkingSpaceApiController extends ApiPublicController
                 return $base->transform();
             })
         ];
+    }
+
+    public function historyRegister()
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        if ($user == null) {
+            return $this->respondErrorWithStatus("Bạn phải đăng nhập");
+        }
+
+        $registers = RoomServiceRegister::where('user_id', $user->id)->get();
+
+        $registers = $registers->map(function ($register) {
+            return $register->getData();
+        });
+
+        return $this->respondSuccessWithStatus([
+            'history_registers' => $registers
+        ]);
+
+
     }
 }

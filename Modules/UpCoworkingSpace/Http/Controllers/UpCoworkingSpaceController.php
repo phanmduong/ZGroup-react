@@ -2,19 +2,20 @@
 
 namespace Modules\UpCoworkingSpace\Http\Controllers;
 
-use App\District;
 use App\Product;
-use App\Province;
+use App\Room;
+use App\RoomType;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
-use phpseclib\Crypt\Base;
+use App\Base;
 
 class UpCoworkingSpaceController extends Controller
 {
     public function index()
     {
-        return view('upcoworkingspace::index');
+        $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        $this->data['newestBlogs'] = $newestBlogs;
+        return view('upcoworkingspace::index', $this->data);
     }
 
     public function blog(Request $request)
@@ -70,4 +71,34 @@ class UpCoworkingSpaceController extends Controller
         return view('upcoworkingspace::post', $this->data);
     }
 
+    public function conferenceRoom(Request $request)
+    {
+        $rooms = Room::query();
+        $room_type_id = $request->room_type_id;
+        $base_id = $request->base_id;
+
+        if($request->base_id)
+            $rooms->where('base_id', $request->base_id);
+        if($request->room_type_id)
+            $rooms->where('room_type_id', $request->room_type_id);
+
+        $rooms = $rooms->orderBy('created_at', 'desc')->paginate(6);
+
+
+        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
+        if ($rooms->lastPage() == $page_id - 1) $display = "display:none";
+
+        $this->data['rooms'] = $rooms;
+        $this->data['page_id'] = $page_id;
+        $this->data['display'] = $rooms;
+        $this->data['bases'] = Base::orderBy('created_at', 'asc')->get();
+        $this->data['room_types'] = RoomType::orderBy('created_at', 'asc')->get();
+        $this->data['base_id'] = $base_id;
+        $this->data['room_type_id'] = $room_type_id;
+
+        $this->data['total_pages'] = ceil($rooms->total() / $rooms->perPage());
+        $this->data['current_page'] = $rooms->currentPage();
+
+        return view('upcoworkingspace::conference_room', $this->data);
+    }
 }

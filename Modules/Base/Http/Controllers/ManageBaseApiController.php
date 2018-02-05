@@ -7,10 +7,13 @@ use App\District;
 use App\Http\Controllers\ManageApiController;
 use App\Province;
 use App\Room;
+use App\RoomType;
 use App\Seat;
 use App\Seats;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class ManageBaseApiController extends ManageApiController
 {
@@ -51,7 +54,7 @@ class ManageBaseApiController extends ManageApiController
     {
         $room->name = $request->name;
         $room->base_id = $baseId;
-        $room->type = $request->type;
+        $room->room_type_id = $request->room_type_id;
 
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
@@ -106,6 +109,7 @@ class ManageBaseApiController extends ManageApiController
                     'updated_at' => format_time_main($base->updated_at),
                     'center' => $base->center,
                     'images_url' => $base->images_url,
+                    'description' => $base->description,
                     'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
                 ];
 
@@ -120,6 +124,44 @@ class ManageBaseApiController extends ManageApiController
 
         ];
         return $this->respondWithPagination($bases, $data);
+    }
+
+    public function createSeats($roomId, Request $request)
+    {
+        $room = Room::find($roomId);
+        if ($room == null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+        $seats = json_decode($request->seats);
+
+        foreach ($seats as $s) {
+
+            if (isset($s->id)) {
+                $seat = Seat::find($s->id);
+            } else {
+                $seat = new Seat();
+            }
+
+            if (isset($s->archived))
+                $seat->archived = $s->archived;
+
+            $seat->name = $s->name;
+//            $seat->type = $s->type;
+            $seat->room_id = $roomId;
+
+            $seat->color = $s->color;
+            $seat->x = $s->x;
+            $seat->y = $s->y;
+            $seat->r = $s->r;
+
+            $seat->save();
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "Lưu chỗ ngồi thành công",
+            "seats" => $room->seats
+        ]);
+
     }
 
     public function getBase($baseId)
@@ -228,7 +270,7 @@ class ManageBaseApiController extends ManageApiController
         $seat = new Seat();
 
         $seat->name = $request->name;
-        $seat->type = $request->type;
+//        $seat->type = $request->type;
         $seat->room_id = $roomId;
 
         $seat->color = $request->color;
@@ -282,6 +324,118 @@ class ManageBaseApiController extends ManageApiController
         $seat->room_id = $roomId;
         $seat->save();
         $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function getRoomTypes(Request $request)
+    {
+        $search = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $roomTypes = RoomType::query();
+        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%');
+        if ($limit == -1) {
+            $roomTypes = $roomTypes->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'room_types' => $roomTypes->map(function ($roomType) {
+                    return $roomType->getData();
+                })
+            ]);
+        }
+        $roomTypes = $roomTypes->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($roomTypes, [
+            'room_types' => $roomTypes->map(function ($roomType) {
+                return $roomType->getData();
+            })
+        ]);
+    }
+
+    public function createRoomType(Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus('Thiếu tên');
+        $roomType = new RoomType;
+        $roomType->name = $request->name;
+        $roomType->description = $request->description;
+        $roomType->save();
+
+        return $this->respondSuccess('Tạo thành công');
+    }
+
+    public function editRoomType($roomTypeId, Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus('Thiếu tên');
+        $roomType = RoomType::find($roomTypeId);
+        if ($roomType == null)
+            return $this->respondErrorWithStatus('Không tồn tại loại phòng');
+        $roomType->name = $request->name;
+        $roomType->description = $request->description;
+        $roomType->save();
+
+        return $this->respondSuccess('Sửa thành công');
+    }
+
+    public function availableSeats(Request $request)
+    {
+        $request->from = str_replace('/', '-', $request->from);
+        $request->to = str_replace('/', '-', $request->to);
+//        dd($request->from . '   ' . $request->to);
+
+        $seats = Seat::query();
+        $booked_seats = Seat::query();
+        $seats_count = Seat::query();
+        if ($request->room_id) {
+            $seats = $seats->where('room_id', $request->room_id);
+            $booked_seats = $booked_seats->where('room_id', $request->room_id);
+            $seats_count = $seats_count->where('room_id', $request->room_id)
+                ->orderBy('created_at', 'desc')->count();
+        }
+        $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
+        $seats = $seats->where(function ($query) use ($request) {
+            $query->where('room_service_register_seat.start_time', '=', null)
+                ->orWhere('room_service_register_seat.start_time', '>', date("Y-m-d H:i:s", strtotime($request->to)))
+                ->orWhere('room_service_register_seat.end_time', '<', date("Y-m-d H:i:s", strtotime($request->from)));
+        })->groupBy('seats.id')->select('seats.*')->get();
+
+        $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
+        $booked_seats = $booked_seats->where(function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
+                    ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->to)));
+            })
+                ->orWhere(function ($query) use ($request) {
+                    $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
+                        ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
+                });
+        })->groupBy('seats.id')->select('seats.*')->get();
+        return $this->respondSuccessWithStatus([
+            'seats' => $seats->map(function ($seat) {
+                return $seat->getData();
+            }),
+            'booked_seats' => $booked_seats->map(function ($booked_seat) {
+                return $booked_seat->getData();
+            }),
+            'seats_count' => $seats_count,
+            'available_seats' => $seats->count(),
+        ]);
+    }
+
+    public function baseDisplay($baseId, Request $request)
+    {
+        if ($request->display_status == null || trim($request->display_status) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu display_status'
+            ]);
+        $base = Base::find($baseId);
+        if ($base == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại cơ sở'
+            ]);
+        $base->display_status = $request->display_status;
+        $base->save();
+
+        return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
     }

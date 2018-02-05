@@ -215,4 +215,21 @@ class WorkApiController extends ManageApiController
             "data" => $data,
         ]);
     }
+    public function getMoreDetailWork($workId,Request $request){
+        $work = Work::find($workId);
+        return $this->respondSuccessWithStatus([
+            "work" => $work->DetailTransform()
+        ]);
+    }
+    public function rateWork($workId,Request $request){
+        $staffs = json_decode($request->staffs);
+        foreach($staffs as $staff){
+            $work_staff = WorkStaff::where('work_id',$workId)->where('staff_id',$staff->id)->first();
+            $work_staff->money_bonus = $staff->value;
+            $work_staff->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Đánh giá thành công"
+        ]);
+    }
 }

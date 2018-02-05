@@ -28,6 +28,7 @@ class Payment extends Model
             "description" => $this->description,
             "bill_image_url" => $this->bill_image_url,
             "money_value" => $this->money_value,
+            "type" => $this->type,
         ];
     }
 }
