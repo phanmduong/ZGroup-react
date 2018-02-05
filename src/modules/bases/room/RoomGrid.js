@@ -16,18 +16,19 @@ class RoomGrid extends React.Component {
         D3RoomGrid.onDrag(this.props.onDrag);
         D3RoomGrid.onPointClick(this.props.onPointClick);
 
-        this.dispatcher = D3RoomGrid.create(this.el, {
+        D3RoomGrid.create(this.el, {
             width: '600',
             height: '400'
         }, this.getGridState());
     }
 
-    componentWillReceiveProps(nextProps) {
-        D3RoomGrid.updateData(nextProps.data);
-    }
+    // componentWillReceiveProps(nextProps) {
+        // D3RoomGrid.updateData(nextProps.data);
+    // }
 
     componentDidUpdate() {
-        D3RoomGrid.update(this.el, this.getGridState(), this.dispatcher);
+        // console.log(this.getGridState());
+        D3RoomGrid.update(this.el, this.getGridState());
     }
 
     componentWillUnmount() {
@@ -35,10 +36,8 @@ class RoomGrid extends React.Component {
     }
 
     getGridState() {
-        return {
-            data: this.props.data,
-            domain: this.props.domain
-        };
+        const {data, domain} = this.props;
+        return {data, domain};
     }
 
     render() {
@@ -54,6 +53,7 @@ RoomGrid.propTypes = {
     domain: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
+    currentAction : PropTypes.string.isRequired,
     onPointClick: PropTypes.func.isRequired
 };
 

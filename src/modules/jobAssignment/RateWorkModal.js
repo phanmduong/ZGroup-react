@@ -33,7 +33,7 @@ class RateWorkModal extends React.Component {
     // }
     //
     componentWillReceiveProps(nextProps) {
-        if(this.props.workId != nextProps.workId || (!this.props.show && nextProps.show)){
+        if(this.props.workId !== nextProps.workId || (!this.props.show && nextProps.show)){
             this.props.jobAssignmentAction.loadRateData(nextProps.workId);
         }
         if(this.props.isLoadingRateData && !nextProps.isLoadingRateData){
@@ -141,7 +141,7 @@ class RateWorkModal extends React.Component {
                                                             <td><Slider
                                                                 min={-200} step={5} max={100}
                                                                 value={item.penalty}
-                                                                onChange={(e)=>{return this.updateSlider(e, index)}}
+                                                                onChange={(e)=>{return this.updateSlider(e, index);}}
                                                                 name={"slider-"+ index}
                                                                 label={`${Math.round(item.penalty*bonus/100) + bonus} ${currency}`}
                                                                 disabled={this.props.isSaving}
@@ -206,6 +206,7 @@ RateWorkModal.propTypes = {
     onHide: PropTypes.func,
     submit: PropTypes.func,
     workId: PropTypes.number,
+    jobAssignmentAction: PropTypes.object,
 };
 
 function mapStateToProps(state) {

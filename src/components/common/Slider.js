@@ -26,13 +26,10 @@ class Slider extends React.Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.r !== this.props.r) {
-
-            if (this.slider) {
-                this.slider.noUiSlider.set(nextProps.r);
-            }
-        }
+    componentWillReceiveProps(nextProps) {    
+        if (this.slider && this.props.value !== nextProps.value) {
+            this.slider.noUiSlider.set(nextProps.value);
+        }            
     }
 
 
@@ -47,7 +44,6 @@ class Slider extends React.Component {
 
 Slider.propTypes = {
     label: PropTypes.string,
-    r: PropTypes.object,
     value: PropTypes.oneOfType([
         PropTypes.number.isRequired,
         PropTypes.string.isRequired

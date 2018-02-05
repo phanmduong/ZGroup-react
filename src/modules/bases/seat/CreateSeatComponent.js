@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 import {CirclePicker} from "react-color";
 import Slider from "../../../components/common/Slider";
-import {updateSeatFormData} from "./seatActions";
 import {
     FormGroup, FormControl, ControlLabel, Badge,
     Popover, OverlayTrigger
@@ -13,11 +10,10 @@ import {
 
 const propTypes = {
     seat: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    seats : PropTypes.array.isRequired
+    updateSeatFormData: PropTypes.func.isRequired
 };
 
-class CreateSeatContainer extends React.Component {
+class CreateSeatComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -30,18 +26,18 @@ class CreateSeatContainer extends React.Component {
         const seat = {...this.props.seat};
         const field = event.target.name;
         seat[field] = event.target.value;
-        this.props.actions.updateSeatFormData(seat);
+        this.props.updateSeatFormData(seat);
     }
 
     changeColor(color) {
-        this.props.actions.updateSeatFormData({
+        this.props.updateSeatFormData({
             ...this.props.seat,
             color: color.hex
         });
     }
 
     changeSlider(value) {
-        this.props.actions.updateSeatFormData({
+        this.props.updateSeatFormData({
             ...this.props.seat,
             r: Number(value)
         });
@@ -116,22 +112,6 @@ class CreateSeatContainer extends React.Component {
     }
 }
 
-CreateSeatContainer.propTypes = propTypes;
+CreateSeatComponent.propTypes = propTypes;
 
-function mapStateToProps(state) {
-    const {seat, seats} = state.seat;
-    return {
-        seat,
-        seats
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            updateSeatFormData
-        }, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateSeatContainer);
+export default CreateSeatComponent;
