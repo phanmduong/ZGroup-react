@@ -230,12 +230,11 @@
                         return;
                     }
                     this.isLoading = true;
-                    axios.post(window.url + '/api/booking', {
+                    axios.post(window.url + '/api/contact', {
                         name: this.name,
                         phone: this.phone,
                         email: this.email,
                         message: this.message,
-                        base_id: this.baseId,
                         _token: window.token
                     })
                         .then(function (response) {
