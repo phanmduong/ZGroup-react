@@ -46,7 +46,8 @@ class ManageHistoryCallApiController extends ManageApiController
                         'color' => $teleCall->caller->color,
                     ],
                     'note'=> $teleCall->note,
-                    'call_time' =>format_date_full_option($teleCall->created_at)
+                    'call_time' =>format_date_full_option($teleCall->created_at),
+                    'appointment_payment' => $teleCall->appointment_payment ? format_vn_date(strtotime($teleCall->appointment_payment)) : '',
                 ];
             })
         ];
