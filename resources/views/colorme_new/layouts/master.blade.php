@@ -319,16 +319,21 @@
     <div class="ctrlq fb-overlay"></div>
     <div class="fb-widget">
         <div class="ctrlq fb-close"></div>
-        <div class="fb-page" data-href="https://www.facebook.com/colorme.hanoi" data-tabs="messages"
+        <div class="fb-page"
+             data-href="{{isset($saler) && $saler->base_id == 6 ? 'https://www.facebook.com/colorme.saigon': 'https://www.facebook.com/colorme.hanoi'}}"
+             data-tabs="messages"
              data-width="360"
              data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"></div>
         <div id="fb-root"></div>
     </div>
     <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
-       href="tel:0982351051" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+       href="tel:{{isset($saler) && $saler->base_id == 6 ? '0932274877‬' : '0982351051'}}"
+       title="Gửi tin nhắn cho chúng tôi qua Facebook"
+       class="ctrlq fb-button">
         <div class="bubble-msg">Gọi colorME</div>
     </a>
-    <a href="https://m.me/colorme.hanoi" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
+    <a href="{{isset($saler) && $saler->base_id == 6 ? 'https://www.facebook.com/colorme.saigon':'https://m.me/colorme.hanoi'}}"
+       title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button">
         <div class="bubble">1</div>
         <div class="bubble-msg">Bạn cần hỗ trợ?</div>
     </a></div>

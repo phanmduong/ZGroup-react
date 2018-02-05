@@ -54,7 +54,7 @@ class User extends Authenticatable
         return !is_null($tab) && $this->checkPermissionTab($tab);
     }
 
-    protected function checkPermissionTab($tab)
+    public function checkPermissionTab($tab)
     {
         $tabs = $this->roles->tabs->pluck('id')->toArray();
 

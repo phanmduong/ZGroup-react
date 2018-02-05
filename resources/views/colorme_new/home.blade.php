@@ -24,7 +24,7 @@
                     </div>
                     @foreach($courses as $course)
                         <div class="product-wrapper">
-                            <a href="/course/{{convert_vi_to_en($course->name)}}">
+                            <a href="/course/{{convert_vi_to_en($course->name)}}{{isset($saler_id) && isset($campaign_id) ? '/'.$saler_id.'/'.$campaign_id : ''}}">
                                 <div class="product-item">
                                     <div style="background-image: url({{$course->image_url}}); background-size: cover; background-position: center center; padding-bottom: 70%">
                                     </div>

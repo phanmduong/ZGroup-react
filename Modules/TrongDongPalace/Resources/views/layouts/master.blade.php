@@ -67,9 +67,15 @@
                 <span class="navbar-toggler-bar"></span>
                 <span class="navbar-toggler-bar"></span>
             </button>
+            {{--<div class="navbar-header">--}}
+                {{--<a class="navbar-brand" href="/" style="padding:0!important">--}}
+                    {{--<img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"--}}
+                         {{--style="margin:10px 0"/>--}}
+                {{--</a>--}}
+            {{--</div>--}}
             <div class="navbar-header">
                 <a class="navbar-brand" href="/" style="padding:0!important">
-                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"
+                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15178194240r275OBuC88NDYV.png" height="40px"
                          style="margin:10px 0"/>
                 </a>
             </div>
@@ -93,14 +99,14 @@
                 <li class="nav-item">
                     <a class="btn btn-round btn-danger"
                        style="background-color:#BA8A45; border-color:#BA8A45; color:white!important;"
-                       href="sections.html">LIÊN HỆ</a>
+                       href="/contact-us">LIÊN HỆ</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-@include('upcoworkingspace::includes.register_modal')
+{{--@include('upcoworkingspace::includes.register_modal')--}}
 
 @yield('content')
 
@@ -108,7 +114,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-6">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"/>
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15178194240r275OBuC88NDYV.png" height="40px"/>
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
                 <div class="row">
@@ -225,7 +231,8 @@
         </div>
     </div>
 </footer>
-<div id="submitModal2" class="modal fade show">
+
+<div id="submitModal" class="modal fade show">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -235,27 +242,28 @@
                 <div class="container">
                     <form class="register-form ">
                         <h6>Họ và tên</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Họ và tên"><br>
+                        <input style="border: 1px solid #d0d0d0 !important" v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
                         <h6>Số điện thoại</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Số điện thoại"><br>
+                        <input style="border: 1px solid #d0d0d0 !important" v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
                         <h6>Email</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Địa chỉ email"><br>
+                        <input style="border: 1px solid #d0d0d0 !important" v-model="email" type="text" class="form-control" placeholder="Địa chỉ email"><br>
                         <h6>Địa chỉ</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Địa chỉ"><br>
+                        <input style="border: 1px solid #d0d0d0 !important" v-model="address" type="text" class="form-control" placeholder="Địa chỉ"><br>
                     </form>
                 </div>
+                <div class="alert alert-danger" v-if="message"
+                     style="margin-top: 10px"
+                     id="purchase-error">
+                    @{{ message }}
+                </div>
             </div>
-            {{--<div class="modal-footer">--}}
-                {{--<button id="btn-purchase" class="btn btn-sm btn-main"--}}
-                        {{--v-on:click="submit"--}}
-                        {{--style="margin: 10px 10px 10px 0px !important; background-color: #07090D; border-color: #07090D">--}}
-                    {{--Xác nhận--}}
-                {{--</button>--}}
-            {{--</div>--}}
+            <div class="modal-footer">
+                <button id="btn-purchase" class="btn btn-sm btn-main"
+                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
+                        v-on:click="submit">
+                    Xác nhận</i>
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -280,7 +288,19 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-
+<script src="https://rawgit.com/Wlada/vue-carousel-3d/master/dist/vue-carousel-3d.min.js"></script>
+<script type="text/javascript">
+    var el = new Vue({
+        el: '#carousel',
+        data: {
+            slides: 6
+        },
+        components: {
+            'carousel-3d': Carousel3d.Carousel3d,
+            'slide': Carousel3d.Slide
+        }
+    })
+</script>
 <script type="text/javascript">
     (function () {
         function getRandomInt(min, max) {

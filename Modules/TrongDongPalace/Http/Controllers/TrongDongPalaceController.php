@@ -6,6 +6,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class TrongDongPalaceController extends Controller
 {
@@ -67,5 +68,32 @@ class TrongDongPalaceController extends Controller
         $this->data['post'] = $post;
         $this->data['posts_related'] = $posts_related;
         return view('trongdongpalace::post', $this->data);
+    }
+
+    public function test()
+    {
+        return view('trongdongpalace::test');
+    }
+
+    public function contactUs()
+    {
+        return view('trongdongpalace::contact_us');
+    }
+
+    public function contactInfo(Request $request)
+    {
+        $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message_str];
+
+        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
+        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
+        return "OK";
     }
 }
