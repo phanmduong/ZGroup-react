@@ -94,6 +94,9 @@
                     <a class="nav-link hover-change" href="/blog" data-scroll="true">WEDDING PLANNER</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link hover-change" href="/booking" data-scroll="true">ĐẶT CHỖ</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link hover-change" href="/blog" data-scroll="true">TIN TỨC</a>
                 </li>
                 <li class="nav-item">

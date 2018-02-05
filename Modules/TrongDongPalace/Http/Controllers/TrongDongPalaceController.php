@@ -2,7 +2,10 @@
 
 namespace Modules\TrongDongPalace\Http\Controllers;
 
+use App\Base;
 use App\Product;
+use App\Room;
+use App\RoomType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -89,11 +92,59 @@ class TrongDongPalaceController extends Controller
             $subject = "Xác nhận thông tin";
             $m->to($request->email, $request->name)->subject($subject);
         });
-        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+        Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Graphics');
             $subject = "Xác nhận thông tin";
             $m->to($request->email, $request->name)->subject($subject);
         });
+        return "OK";
+    }
+
+    public function booking(Request $request)
+    {
+        $rooms = Room::query();
+        $room_type_id = $request->room_type_id;
+        $base_id = $request->base_id;
+
+        if ($request->base_id)
+            $rooms->where('base_id', $request->base_id);
+        if ($request->room_type_id)
+            $rooms->where('room_type_id', $request->room_type_id);
+
+        $rooms = $rooms->orderBy('created_at', 'desc')->paginate(6);
+
+
+        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
+        if ($rooms->lastPage() == $page_id - 1) $display = "display:none";
+
+        $this->data['rooms'] = $rooms;
+        $this->data['page_id'] = $page_id;
+        $this->data['display'] = $rooms;
+        $this->data['bases'] = Base::orderBy('created_at', 'asc')->get();
+        $this->data['room_types'] = RoomType::orderBy('created_at', 'asc')->get();
+        $this->data['base_id'] = $base_id;
+        $this->data['room_type_id'] = $room_type_id;
+
+        $this->data['total_pages'] = ceil($rooms->total() / $rooms->perPage());
+        $this->data['current_page'] = $rooms->currentPage();
+
+        return view('trongdongpalace::booking', $this->data);
+    }
+
+    public function bookingApi(Request $request)
+    {
+        $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
+
+//        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+//            $m->from('no-reply@colorme.vn', 'Graphics');
+//            $subject = "Xác nhận thông tin";
+//            $m->to($request->email, $request->name)->subject($subject);
+//        });
+//        Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
+//            $m->from('no-reply@colorme.vn', 'Graphics');
+//            $subject = "Xác nhận thông tin";
+//            $m->to($request->email, $request->name)->subject($subject);
+//        });
         return "OK";
     }
 }
