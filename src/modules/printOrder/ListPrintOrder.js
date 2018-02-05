@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import * as printOrderActions from "./printOrderActions";
 import {bindActionCreators} from 'redux';
 import * as helper from "../../helpers/helper";
+import {PRINT_ORDER_STATUS} from "../../constants/constants";
 
 class ListPrintOrder extends React.Component {
     constructor(props, context) {
@@ -38,11 +39,9 @@ class ListPrintOrder extends React.Component {
                     <tr>
                         <th>STT</th>
                         <th>Mã giao dịch</th>
-                        <th>Đối tác</th>
                         <th>Tên sách</th>
                         <th>Số lượng</th>
                         <th>Ngày đặt</th>
-                        <th>Ngày nhận</th>
                         <th>Trạng thái</th>
                         <th style={{width: "10%"}}>Ghi chú</th>
                         <th/>
@@ -58,12 +57,10 @@ class ListPrintOrder extends React.Component {
                                     :
                                     "Chưa có"
                                 }</td>
-                                <td>{order.company.name}</td>
                                 <td>{order.good.name}</td>
                                 <td>{order.quantity}</td>
                                 <td>{order.order_date}</td>
-                                <td>{order.receive_date}</td>
-                                <td>{order.status ? "Đã duyệt" : "Chưa duyệt"}</td>
+                                <td>{PRINT_ORDER_STATUS[order.status || 0]}</td>
                                 <td style={{wordBreak: "break-word"}}>{
                                     order.note.length > 60 ?
                                         (order.note.substring(0, 60) + "...")
@@ -74,13 +71,12 @@ class ListPrintOrder extends React.Component {
                                     editUrl={"/business/print-order/edit/" + order.id}
                                     disabledDelete={true}
                                     children={
-                                        !order.status &&
+                                        (!order.status  || order.status == 0) &&
                                         <a data-toggle="tooltip" title="Duyệt"
-                                           type="button"
+                                           type="button" rel="tooltip"
                                            onClick={() => {
                                                return this.confirm(order.id);
                                            }}
-                                           rel="tooltip"
                                         >
                                             <i className="material-icons">done</i>
                                         </a>
