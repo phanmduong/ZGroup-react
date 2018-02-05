@@ -231,7 +231,8 @@
         </div>
     </div>
 </footer>
-<div id="submitModal2" class="modal fade show">
+
+<div id="submitModal" class="modal fade show">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -241,27 +242,28 @@
                 <div class="container">
                     <form class="register-form ">
                         <h6>Họ và tên</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Họ và tên"><br>
+                        <input style="border: 1px solid #d0d0d0 !important" v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
                         <h6>Số điện thoại</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Số điện thoại"><br>
+                        <input style="border: 1px solid #d0d0d0 !important" v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
                         <h6>Email</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Địa chỉ email"><br>
+                        <input style="border: 1px solid #d0d0d0 !important" v-model="email" type="text" class="form-control" placeholder="Địa chỉ email"><br>
                         <h6>Địa chỉ</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
-                               placeholder="Địa chỉ"><br>
+                        <input style="border: 1px solid #d0d0d0 !important" v-model="address" type="text" class="form-control" placeholder="Địa chỉ"><br>
                     </form>
                 </div>
+                <div class="alert alert-danger" v-if="message"
+                     style="margin-top: 10px"
+                     id="purchase-error">
+                    @{{ message }}
+                </div>
             </div>
-            {{--<div class="modal-footer">--}}
-                {{--<button id="btn-purchase" class="btn btn-sm btn-main"--}}
-                        {{--v-on:click="submit"--}}
-                        {{--style="margin: 10px 10px 10px 0px !important; background-color: #07090D; border-color: #07090D">--}}
-                    {{--Xác nhận--}}
-                {{--</button>--}}
-            {{--</div>--}}
+            <div class="modal-footer">
+                <button id="btn-purchase" class="btn btn-sm btn-main"
+                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
+                        v-on:click="submit">
+                    Xác nhận</i>
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -291,7 +293,7 @@
     var el = new Vue({
         el: '#carousel',
         data: {
-            slides: 7
+            slides: 6
         },
         components: {
             'carousel-3d': Carousel3d.Carousel3d,
