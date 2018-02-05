@@ -117,19 +117,4 @@ class CreateSeatComponent extends React.Component {
 
 CreateSeatComponent.propTypes = propTypes;
 
-function mapStateToProps(state) {
-    const {seats} = state.seat;
-    return {
-        seats
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            updateSeatFormData
-        }, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateSeatComponent);
+export default CreateSeatComponent;

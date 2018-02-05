@@ -38,9 +38,14 @@ class RoomDetailContainer extends React.Component {
         this.archiveSeat = this.archiveSeat.bind(this);
         this.updateSeatFormData = this.updateSeatFormData.bind(this);
         this.saveSeats = this.saveSeats.bind(this);
+        this.loadSeats = this.loadSeats.bind(this);
     }
 
-    async componentWillMount() {
+    componentWillMount() {
+        this.loadSeats();
+    }
+
+    async loadSeats() {
         this.props.actions.displayGlobalLoading();
 
         const res = await seatApi.getSeats(this.props.params.roomId);
@@ -110,7 +115,8 @@ class RoomDetailContainer extends React.Component {
 
     onClick(point) {
         // console.log("click", point);
-        const {currentAction, seat} = this.props;
+        const {currentAction} = this.props;
+        const {seat} = this.state;
         switch (currentAction) {
             case seatContants.CREATE_SEAT:   
                 this.createSeat({
@@ -138,8 +144,19 @@ class RoomDetailContainer extends React.Component {
         }
     }
 
-    saveSeats() {
-        this.props.actions.createSeats(this.state.roomId, this.state.seats);
+    async saveSeats() {
+        this.props.actions.displayGlobalLoading();
+        const res = await seatApi.createSeats(this.state.roomId, this.state.seats);
+        const {seats} = res.data.data;
+        this.setState({
+            seats : seats.map((seat, index) => {
+                return {
+                    ...seat,
+                    index
+                };  
+            })
+        });
+        this.props.actions.hideGlobalLoading();
     }
 
 
