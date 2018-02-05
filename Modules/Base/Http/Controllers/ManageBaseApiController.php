@@ -28,7 +28,7 @@ class ManageBaseApiController extends ManageApiController
         if ($room === null) {
             return $this->respondErrorWithStatus("Phòng không tồn tại");
         }
-        $seats = $room->seats;
+        $seats = $room->seats()->where("archived", 0)->get();
         return $this->respondSuccessWithStatus([
             "seats" => $seats
         ]);
