@@ -169,6 +169,10 @@ class OrderContainer extends React.Component {
                 value: "cancel"
             }
         ];
+
+
+
+
         const user = JSON.parse(localStorage.getItem("user"));
         return (
             <div>
@@ -401,13 +405,6 @@ class OrderContainer extends React.Component {
 
 
 
-                                            {/*<label className="label-control">Chọn tỉnh</label>*/}
-                                            {/*<ReactSelect*/}
-                                                {/*value={subscriptionKind}*/}
-                                                {/*options={this.props.subscriptionKinds}*/}
-                                                {/*onChange={this.changeSubscriptionKind}*/}
-                                                {/*placeholder="Chọn gói đăng kí"*/}
-                                            {/*/>*/}
 
 
                                         </div>

@@ -59,8 +59,8 @@ class EditUserpackModal extends React.Component {
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12">
-                                <h4 className="card-title">Thông tin về gói khách hàng </h4>
-                                <label className="label-control">Avatar gói </label>
+                                {/*<h4 className="card-title">Thông tin về gói khách hàng </h4>*/}
+                                <label className="label-control">Ảnh đại diện </label>
                                 {this.props.isLoadingUserpack ? <Loading/> :
                                     <div className="row">
                                         {isUpdatingImage ?

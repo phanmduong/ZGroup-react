@@ -371,16 +371,5 @@ export function assignGoodFormData(good) {
     };
 }
 
-export function loadProvinces() {
-    return function (dispatch) {
-        goodOrdersApi.loadProvincesApi()
-            .then((res) => {
-            dispatch({
-                type: types.LOAD_PROVINCES_IN_ORDER,
-                provinces : res.data.data.provinces,
-            });
-        });
 
-    };
-}
 
