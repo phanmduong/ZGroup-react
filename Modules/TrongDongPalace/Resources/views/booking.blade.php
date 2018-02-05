@@ -154,7 +154,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" data-dismiss="modal" class="close">×</button>
-                    <h3 class="medium-title">Đăng kí </h3></div>
+                    <h3 class="medium-title">Đăng kí đặt chỗ </h3></div>
                 <div id="modal-body" class="modal-body">
                     <div class="container">
                         <form class="register-form ">
@@ -202,8 +202,8 @@
                 <div class="modal-body">
                     {{--<img class="vc_single_image-img " src="http://up-co.vn/wp-content/uploads/2016/08/384x176logo_03-120x120.png" width="120" height="120" alt="384x176logo_03-120x120" title="384x176logo_03-120x120">--}}
                     <div style='text-align: center'>
-                        Up đã nhận được đăng ký của bạn, bạn vui lòng kiểm tra email.<br>
-                        Up sẽ liên hệ lại với bạn trong thời gian sớm nhất.
+                        Trống Đồng Palace đã nhận được đăng ký của bạn, bạn vui lòng kiểm tra email.<br>
+                        Trống Đồng Palace sẽ liên hệ lại với bạn trong thời gian sớm nhất.
                     </div>
                 </div>
             </div>

@@ -92,11 +92,6 @@ class TrongDongPalaceController extends Controller
             $subject = "Xác nhận thông tin";
             $m->to($request->email, $request->name)->subject($subject);
         });
-        Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
-            $subject = "Xác nhận thông tin";
-            $m->to($request->email, $request->name)->subject($subject);
-        });
         return "OK";
     }
 
