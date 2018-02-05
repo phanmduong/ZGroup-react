@@ -59,7 +59,7 @@ class ManageRegisterStudentApiController extends ManageApiController
                 ],
                 'call_status' => call_status_text($item->call_status),
                 'note' => $item->note,
-                'appointment_payment' => $item->appointment_payment ? format_vn_date(strtotime($item->appointment_payment)) : '',
+                'appointment_payment' => $item->appointment_payment ? date_shift(strtotime($item->appointment_payment)) : '',
             ];
         });
 
