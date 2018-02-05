@@ -774,12 +774,15 @@ a.btn-seat.active {
 }
 
 .d3-point.active {
-  stroke: #757575;
+  stroke: #000;
 }
 
-.d3-point, .d3-points text {
+.d3-point, .d3-text {
   cursor: pointer;
 }
 
+.d3-point.archived {
+  fill: #dedede!important;
+}
 
 

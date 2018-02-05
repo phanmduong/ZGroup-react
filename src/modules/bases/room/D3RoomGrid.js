@@ -1,12 +1,6 @@
 import * as d3 from "d3";
-import {EventEmitter} from "events";
-import {MOVE_SEAT} from '../seat/seatConstants';
 
 let ns = {};
-
-// const ANIMATION_DURATION = 400;
-// const TOOLTIP_WIDTH = 30;
-// const TOOLTIP_HEIGHT = 30;
 
 ns.onClick = (onClick) => {
     ns.onClick = onClick;
@@ -19,18 +13,6 @@ ns.onPointClick = (onPointClick) => {
 ns.onDrag = (onDrag) => {
     ns.onDrag = onDrag;
 };
-
-// ns.updateData = (state) => {
-//     const newState = {
-//         ...state,
-//         data: state.seats.map((seat) => {
-//             return {
-//                 ...seat
-//             };
-//         })
-//     };
-//     ns.update(ns.el, newState);
-// };
 
 ns.create = function (el, props, state) {
     ns.el = el;
@@ -66,14 +48,6 @@ ns.create = function (el, props, state) {
 
             ns.update(el, state);
         });
-
-// .append('svg')
-    // .attr('class', 'd3')
-    // .attr('width', props.width)
-    // .attr('height', props.height);
-
-    // svg.append('g')
-    //     .attr('class', 'd3-points');
 
     this.update(el, state);
 };
@@ -145,9 +119,6 @@ ns._drawPoints = function (el, scales, state) {
                     x,
                     y
                 });
-                // if (currentAction === MOVE_SEAT) {
-                    // d3.select(this).attr("transform", "translate(" + x + "," + y + ")");    
-                // }                
             }
            
         })
@@ -164,29 +135,16 @@ ns._drawPoints = function (el, scales, state) {
         .call(drag);
 
     g.append("circle")
-        .attr('class', (d) => {
-            return d.active ? 'd3-point active' : 'd3-point';
-        });
+        .attr('class', 'd3-point');
+
     g.append("text")
-        .attr('class', (d) => {
-            return d.active ? 'd3-text active' : 'd3-text';
-        });
-        // .attr("dy", d => scales.r(d.r) / 3)
-        // .attr("text-anchor", "middle")
-        // .attr("fill", "white")
-        // .attr("font-size", d => scales.r(d.r))
-        // .text(function (d) {
-        //     return d.name || "";
-        // });
+        .attr('class', 'd3-text');
     
-    
-    // let pointEnters = g.selectAll('.d3-point')
-    //     .data(data)
-    //     .enter()
-    //     .append("g")
-    //     .attr("class");
-        
-    g = d3.selectAll("g");
+    g = d3.selectAll("g")
+            .on('click', function (d) {
+                d3.event.stopPropagation();
+                ns.onPointClick(d.index);
+            });
 
     g.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
 
@@ -198,6 +156,15 @@ ns._drawPoints = function (el, scales, state) {
         .data(data)
         .transition(transformTrasition)
         .attr('r', (d) => scales.r(d.r))
+        .attr('class', (d) => {
+            if (d.archived) {
+                return 'd3-point archived';
+            }
+            if (d.active) {
+                return 'd3-point active';
+            }
+            return'd3-point';
+        })
         .style("fill", function (d) {
             if (d.booked) {
                 return "#bbb";
@@ -207,77 +174,17 @@ ns._drawPoints = function (el, scales, state) {
 
     svg.selectAll(".d3-text")
         .data(data)    
+        .transition(transformTrasition)
         .attr("dy", d => scales.r(d.r) / 3)
         .attr("text-anchor", "middle")
         .attr("fill", "white")
         .attr("font-size", d => scales.r(d.r))
+        .attr('class', (d) => {
+            return d.active ? 'd3-text active' : 'd3-text';
+        })
         .text(function (d) {
             return d.name || "";
         });
-
-        
-        
-    // .attr('cx', (d) => scales.x(d.x))
-    // .attr('cy', (d) => scales.y(d.y));
-
-
-    // pointEnters.append("circle")
-    //     .attr('class', (d) => {
-    //         return d.active ? 'd3-point active' : 'd3-point';
-    //     })
-    //     .attr('r', (d) => scales.r(d.r))
-    //     .style("fill", function (d) {
-    //         if (d.booked) {
-    //             return "#bbb";
-    //         }
-    //         return d.color;
-    //     });
-        
-
-    // pointEnters.append("text")
-    //     .attr("dy", d => scales.r(d.r) / 3)
-    //     .attr("text-anchor", "middle")
-    //     .attr("fill", "white")
-    //     .attr("font-size", d => scales.r(d.r))
-    //     .text(function (d) {
-    //         return d.name || "";
-    //     });
-
-    // // update current seats
-    // d3.selectAll("g.d3-point")
-    //     .data(data)
-    //     .attr("transform", d => "translate(" + d.x + "," + d.y + ")")
-    //     .on('click', function (d) {
-    //         d3.event.stopPropagation();
-    //         ns.onPointClick(d.index);
-    //     }).call(drag);
-
-    // const currentCircles = d3.selectAll('.d3-point');
-    // currentCircles    
-    //     .data(data)           
-    //     .attr("class", d => d.active ? 'd3-point active' : 'd3-point');
-    
-    // const text = d3.selectAll("text");
-
-    // text.data(data)
-    //     .attr("font-size", d => scales.r(d.r))
-    //     .text(function (d) {
-    //         return d.name || "";
-    //     });
-    
-    // const circles = d3.selectAll("circle");
-    // circles
-    //     .data(data)
-    //     .attr('r', (d) => {
-    //         return scales.r(d.r);
-    //     })
-    //     .style("fill", function (d) {
-    //         if (d.booked) {
-    //             return "#bbb";
-    //         }
-    //         return d.color;
-    //     });
-
 
 };
 

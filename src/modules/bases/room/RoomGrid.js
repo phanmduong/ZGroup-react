@@ -27,7 +27,7 @@ class RoomGrid extends React.Component {
     // }
 
     componentDidUpdate() {
-        console.log(this.getGridState());
+        // console.log(this.getGridState());
         D3RoomGrid.update(this.el, this.getGridState());
     }
 
