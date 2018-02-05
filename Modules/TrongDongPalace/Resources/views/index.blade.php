@@ -36,7 +36,7 @@
                             <p class="author">
                                 <a class="btn btn-round btn-danger"
                                    style="background-color:#BA8A45; border-color: #BA8A45"
-                                   href="/contact-us">Đăng kí </a>
+                                   href="/contact-us">Liên hệ </a>
                                 <br><br>
                             </p></div>
                     </div>
