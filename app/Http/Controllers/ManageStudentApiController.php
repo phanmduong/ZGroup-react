@@ -111,7 +111,8 @@ class ManageStudentApiController extends ManageApiController
                     'color' => $item->caller ? $item->caller->color : ''
                 ],
                 'call_status' => call_status_text($item->call_status),
-                'note' => $item->note
+                'note' => $item->note,
+                'appointment_payment' => $item->appointment_payment ? date_shift(strtotime($item->appointment_payment)) : '',
             ];
         });
 
