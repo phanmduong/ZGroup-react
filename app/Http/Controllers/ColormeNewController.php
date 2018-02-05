@@ -34,10 +34,13 @@ class ColormeNewController extends CrawlController
         $this->data['bases'] = $bases;
     }
 
-    public function home()
+    public function home($saler_id = null, $campaign_id = null)
     {
         $current_gen = Gen::getCurrentGen();
+        $this->data['saler_id'] = $saler_id;
+        $this->data['campaign_id'] = $campaign_id;
         $this->data['gen_cover'] = $current_gen->cover_url;
+        $this->data['saler'] = User::find($saler_id);
         return view('colorme_new.home', $this->data);
     }
 
@@ -63,6 +66,7 @@ class ColormeNewController extends CrawlController
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
         $this->data['pixels'] = $course->coursePixels;
+        $this->data['saler'] = User::find($saler_id);
         return view('colorme_new.course', $this->data);
     }
 

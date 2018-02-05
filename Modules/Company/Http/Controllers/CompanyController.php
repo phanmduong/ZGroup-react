@@ -46,6 +46,12 @@ class CompanyController extends ManageApiController
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
+        $company->discount_comic = $request->discount_comic;
+        $company->discount_text = $request->discount_text;
+        $company->user_contact1 = $request->user_contact1;
+        $company->user_contact_phone1 = $request->user_contact_phone1;
+        $company->user_contact2 = $request->user_contact2;
+        $company->user_contact_phone2 = $request->user_contact_phone2;
         $company->save();
         $field = Field::find($company->field_id);
         $str = convert_vi_to_en_not_url($field->name);
@@ -90,6 +96,12 @@ class CompanyController extends ManageApiController
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
+        $company->discount_comic = $request->discount_comic;
+        $company->discount_text = $request->discount_text;
+        $company->user_contact1 = $request->user_contact1;
+        $company->user_contact_phone1 = $request->user_contact_phone1;
+        $company->user_contact2 = $request->user_contact2;
+        $company->user_contact_phone2 = $request->user_contact_phone2;
         $company->save();
         $field = Field::find($company->field_id);
         $str = convert_vi_to_en_not_url($field->name);
