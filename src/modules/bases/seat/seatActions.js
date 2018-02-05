@@ -6,6 +6,22 @@ import {
     SEAT_TOGGLE_CREATE_SEAT_MODAL, SEAT_UPDATE_SEAT_FORM_DATA
 } from "../../../constants/actionTypes";
 
+export const displayGlobalLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: DISPLAY_GLOBAL_LOADING
+        });
+    };
+};
+
+export const hideGlobalLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: HIDE_GLOBAL_LOADING
+        });
+    };
+};
+
 export const setSeatCurrentAction = (seatAction) => {
     return (dispatch, getState) => {
         const state = getState();
@@ -32,7 +48,7 @@ export const setSelectedSeat = (seat) => {
     };
 };
 
-export const createSeats = (roomId, seats) => {
+export const createSeats = (roomId, seats, cb = null) => {
     return async (dispatch) => {
         dispatch({
             type: DISPLAY_GLOBAL_LOADING
@@ -55,6 +71,10 @@ export const createSeats = (roomId, seats) => {
         dispatch({
             type: HIDE_GLOBAL_LOADING
         });
+
+        if (cb) {
+            cb();
+        }
     };
 };
 

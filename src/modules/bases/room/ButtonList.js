@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TooltipButton from '../../../components/common/TooltipButton';
-import {CREATE_SEAT, REMOVE_SEAT, EDIT_SEAT, MOVE_SEAT} from "../seat/seatConstants";
+import {CREATE_SEAT, ARCHIVE_SEAT, EDIT_SEAT, MOVE_SEAT} from "../seat/seatConstants";
 
 class ButtonList extends React.Component {
     constructor(props, context) {
@@ -58,8 +58,8 @@ class ButtonList extends React.Component {
               </TooltipButton>
 
               <TooltipButton text="Xoá ghế" placement="top">
-                <a className={this.setActive(REMOVE_SEAT)}
-                   onClick={this.changeAction(REMOVE_SEAT)}>
+                <a className={this.setActive(ARCHIVE_SEAT)}
+                   onClick={this.changeAction(ARCHIVE_SEAT)}>
                     <i className="material-icons">delete</i>
                 </a>
               </TooltipButton>
