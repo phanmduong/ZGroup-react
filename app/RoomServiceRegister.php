@@ -26,7 +26,9 @@ class RoomServiceRegister extends Model
     {
         return $this->belongsTo(User::class, 'staff_id');
     }
-
+    public function teleCalls(){
+        return $this->hasMany(TeleCall::class,'register_id');
+    }
     public function getData()
     {
         $data = [
@@ -57,6 +59,25 @@ class RoomServiceRegister extends Model
                 'name' => $this->campaign->name,
                 'color' => $this->campaign->color,
                 ];
+        if($this->teleCalls)
+            $data['teleCall'] = [
+                "id" => $this->teleCalls,
+                "caller" => [
+                    "id" => $this->teleCalls->caller->id,
+                    "name" => $this->teleCalls->caller->name,
+                    "color" => $this->teleCalls->caller->color,
+                    "avatar_url" => $this->teleCalls->caller->avatar_url,
+                ],
+                "listener" => [
+                    "id" => $this->teleCalls->student->id,
+                    "name" => $this->teleCalls->student->name,
+                    "color" => $this->teleCalls->student->color,
+                    "avatar_url" => $this->teleCalls->student->avatar_url,
+                ],
+                "call_status" => $this->teleCalls->call_status,
+                "note" => $this->teleCalls->note,
+                "created_at" => $this->teleCalls->created_at,
+            ];
         return $data;
     }
 
