@@ -99,7 +99,7 @@
                 <li class="nav-item">
                     <a class="btn btn-round btn-danger"
                        style="background-color:#BA8A45; border-color:#BA8A45; color:white!important;"
-                       href="sections.html">LIÊN HỆ</a>
+                       href="/contact-us">LIÊN HỆ</a>
                 </li>
             </ul>
         </div>

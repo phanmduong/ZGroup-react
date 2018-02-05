@@ -10,8 +10,7 @@
                 <h5 style="font-weight: 550">TRỐNG ĐỒNG PALACE</h5>
                 <h2>TƯNG BỪNG MÙA CƯỚI 2018</h2><br>
                 <a class="btn btn-round btn-danger"
-                   style="background-color:#BA8A45; border-color:#BA8A45" data-target="#userPackModal"
-                   data-toggle="modal">LIÊN HỆ</a>
+                   style="background-color:#BA8A45; border-color:#BA8A45" href="/contact-us">LIÊN HỆ</a>
             </div>
         </div>
     </div>
@@ -37,9 +36,7 @@
                             <p class="author">
                                 <a class="btn btn-round btn-danger"
                                    style="background-color:#BA8A45; border-color: #BA8A45"
-                                   href="sections.html"
-                                   data-target="#userPackModal"
-                                   data-toggle="modal">Đăng kí </a>
+                                   href="/contact-us">Đăng kí </a>
                                 <br><br>
                             </p></div>
                     </div>
@@ -120,8 +117,7 @@
                 <h5 style="font-weight: 550">TRỐNG ĐỒNG PALACE</h5>
                 <h2>TƯNG BỪNG MÙA CƯỚI 2018</h2><br>
                 <a class="btn btn-round btn-danger"
-                   style="background-color:#BA8A45; border-color:#BA8A45" data-target="#userPackModal"
-                   data-toggle="modal">LIÊN HỆ</a>
+                   style="background-color:#BA8A45; border-color:#BA8A45" href="/contact-us">LIÊN HỆ</a>
             </div>
         </div>
     </div>
