@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 import {CirclePicker} from "react-color";
 import Slider from "../../../components/common/Slider";
-import {updateSeatFormData} from "./seatActions";
 import {
     FormGroup, FormControl, ControlLabel, Badge,
     Popover, OverlayTrigger
