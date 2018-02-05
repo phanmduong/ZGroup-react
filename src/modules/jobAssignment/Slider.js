@@ -10,13 +10,6 @@ class Slider extends React.Component {
         this.updateBonus = this.updateBonus.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.r !== this.props.r) {
-            if (this.slider)
-                this.slider.noUiSlider.set(nextProps.r);
-        }
-    }
-
     componentDidMount() {
         this.slider = document.getElementById(this.props.name || 'sliderRegular');
 
@@ -36,6 +29,13 @@ class Slider extends React.Component {
         });
 
 
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.r !== this.props.r) {
+            if (this.slider)
+                this.slider.noUiSlider.set(nextProps.r);
+        }
     }
 
     updateBonus(e){
@@ -87,6 +87,7 @@ Slider.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
+    r: PropTypes.object,
 
 };
 
