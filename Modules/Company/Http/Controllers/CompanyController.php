@@ -459,14 +459,8 @@ class CompanyController extends ManageApiController
     {
         $printOrder = PrintOrder::find($printOrderId);
         if (!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
-        $printOrder->status = 1;
+        $printOrder->status = $request->status;
         $printOrder->save();
-        $payment = new Payment;
-        $payment->type = "debt_print";
-        $payment->payer_id = 1;
-        $payment->receiver_id = $printOrder->company_id;
-        $payment->money_value = $printOrder->quantity * $printOrder->price * 1.1;
-        $payment->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi thành công"
         ]);
@@ -476,14 +470,8 @@ class CompanyController extends ManageApiController
     {
         $exportorder = ExportOrder::find($exportOrderId);
         if (!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
-        $exportorder->status = 1;
+        $exportorder->status = $request->status;
         $exportorder->save();
-        $payment = new Payment;
-        $payment->type = "debt_export";
-        $payment->payer_id = 1;
-        $payment->receiver_id = $exportorder->company_id;
-        $payment->money_value = $exportorder->total_price;
-        $payment->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi thành công"
         ]);
