@@ -135,16 +135,16 @@ class TrongDongPalaceController extends Controller
     {
         $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
 
-//        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
-//            $m->from('no-reply@colorme.vn', 'Graphics');
-//            $subject = "Xác nhận thông tin";
-//            $m->to($request->email, $request->name)->subject($subject);
-//        });
-//        Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
-//            $m->from('no-reply@colorme.vn', 'Graphics');
-//            $subject = "Xác nhận thông tin";
-//            $m->to($request->email, $request->name)->subject($subject);
-//        });
+        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
+        Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
         return "OK";
     }
 }
