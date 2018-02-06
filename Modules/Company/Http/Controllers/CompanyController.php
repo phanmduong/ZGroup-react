@@ -371,4 +371,14 @@ class CompanyController extends ManageApiController
         ]);
     }
 
+    public function getAllCodePrintOrder()
+    {
+        $printorders =  PrintOrder::all();
+        return $this->respondSuccessWithStatus([
+            "codes" => $printorders->map(function ($printorder) {
+                return $printorder->command_code;
+            })
+        ]);
+    }
+
 }
