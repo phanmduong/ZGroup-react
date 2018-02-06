@@ -35,7 +35,8 @@ class ListOrder extends React.Component {
                                                        changeStatus={this.props.changeStatus}
                                                        user={this.props.user}
                                                        showAddNoteModal={this.props.showAddNoteModal}
-                                                       showAddCancelNoteModal={this.props.showAddCancelNoteModal}/>
+                                                       showAddCancelNoteModal={this.props.showAddCancelNoteModal}
+                                                       showSendPriceModal={this.props.showSendPriceModal}/>
                                         );
                                     })
                                 }
@@ -54,7 +55,8 @@ ListOrder.propTypes = {
     deliveryOrders: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
-    showAddCancelNoteModal:PropTypes.func.isRequired
+    showAddCancelNoteModal: PropTypes.func.isRequired,
+    showSendPriceModal: PropTypes.func.isRequired
 };
 
 

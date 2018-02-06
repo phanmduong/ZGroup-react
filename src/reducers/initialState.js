@@ -74,6 +74,8 @@ export default {
     orderedProduct: {
         addNoteModal: false,
         addCancelNoteModal: false,
+        sendPriceModal: false,
+        orderSendPriceModal: {},
         orderNote: {},
         cancelNote: {},
         isSendingNote: false,

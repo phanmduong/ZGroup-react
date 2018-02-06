@@ -52,9 +52,11 @@ class ItemOrder extends React.Component {
         } else {
             if (nextStatus.order === 7) {
                 this.props.showAddCancelNoteModal(this.props.delivery);
+            } else if (nextStatus.order === 1) {
+                this.props.showSendPriceModal(this.props.delivery);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                    this.props.changeStatus(value, this.props.delivery.id);
+                    this.props.changeStatus(value, this.props.delivery.id, null, null);
                 });
             }
         }
@@ -152,7 +154,8 @@ ItemOrder.propTypes = {
     changeStatus: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
-    showAddCancelNoteModal:PropTypes.func.isRequired
+    showAddCancelNoteModal: PropTypes.func.isRequired,
+    showSendPriceModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

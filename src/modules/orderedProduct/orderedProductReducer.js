@@ -80,7 +80,8 @@ export default function orderedProductReducer(state = initialState.orderedProduc
             return {
                 ...state,
                 deliveryOrders: changeStatusDelivery(state.deliveryOrders, action.delivery_id, action.status),
-                addCancelNoteModal: false
+                addCancelNoteModal: false,
+                sendPriceModal: false
             };
         case types.TOGGLE_ADD_CANCEL_NOTE_MODAL:
             return {
@@ -91,6 +92,16 @@ export default function orderedProductReducer(state = initialState.orderedProduc
             return {
                 ...state,
                 cancelNote: action.cancelNote
+            };
+        case types.TOGGLE_SEND_PRICE_MODAL:
+            return {
+                ...state,
+                sendPriceModal: !state.sendPriceModal
+            };
+        case types.HANDLE_SEND_PRICE_MODAL:
+            return {
+                ...state,
+                orderSendPriceModal: action.order
             };
         default:
             return state;

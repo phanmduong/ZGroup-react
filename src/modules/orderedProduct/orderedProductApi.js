@@ -66,7 +66,7 @@ export function editNote(order) {
     });
 }
 
-export function changeStatusApi(status, deliveryOrderId, note) {
+export function changeStatusApi(status, deliveryOrderId, note, attach) {
     let url = env.MANAGE_API_URL + "/order/delivery/" + deliveryOrderId + "/change-status";
     let token = localStorage.getItem('token');
     if (token) {
@@ -76,6 +76,12 @@ export function changeStatusApi(status, deliveryOrderId, note) {
         return axios.put(url, {
             status: status,
             note: note
+        });
+    }
+    if (attach) {
+        return axios.put(url, {
+            status: status,
+            attach_info: attach
         });
     }
     return axios.put(url, {
