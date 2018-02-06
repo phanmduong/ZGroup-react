@@ -487,8 +487,8 @@ class CompanyController extends ManageApiController
         return $this->respondSuccessWithStatus([
             "codes" => $printorders->map(function ($printorder) {
                 return [
-                    $printorder->id,
-                    $printorder->command_code,
+                    "id" => $printorder->id,
+                    "code" => $printorder->command_code,
                 ];
             })
         ]);
