@@ -15,7 +15,7 @@ class ClientController extends Controller
             $path = "dashboard";
         }
 
-        $this->middleware('permission_tab_react:' . $path);
+//        $this->middleware('permission_tab_react:' . $path);
     }
 
     public function email()
