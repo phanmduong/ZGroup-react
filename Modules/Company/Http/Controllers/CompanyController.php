@@ -486,7 +486,10 @@ class CompanyController extends ManageApiController
         $printorders = $printorders->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             "codes" => $printorders->map(function ($printorder) {
-                return $printorder->command_code;
+                return [
+                    $printorder->id,
+                    $printorder->command_code,
+                ];
             })
         ]);
     }
