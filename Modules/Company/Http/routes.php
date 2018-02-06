@@ -1,5 +1,4 @@
 <?php
-
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'company', 'namespace' => 'Modules\Company\Http\Controllers'], function()
 {
     Route::post('/create','CompanyController@createCompany');
@@ -24,4 +23,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::put('export-order/{exportOrderId}','CompanyController@editExportOrder');
     Route::post('/print-order/{printOrderId}/change-status','CompanyController@changeStatusPrintOrder');
     Route::post('/export-order/{exportOrderId}/change-status','CompanyController@changeStatusExportOrder');
+    Route::get('/print-order/all-command-code','CompanyController@getAllCodePrintOrder');
 });
