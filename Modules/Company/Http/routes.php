@@ -16,6 +16,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::get('/payment/{paymentId}','CompanyController@getPayment');
     Route::post('/print-order','CompanyController@createPrintOrder');
     Route::get('/print-order/all','CompanyController@getAllPrintOrder');
+    Route::get('/print-order/all-command-code','CompanyController@getAllCodePrintOrder');
     Route::get('/print-order/{printOrderId}','CompanyController@getPrintOrder');
     Route::put('/print-order/{printOrderId}','CompanyController@editPrintOrder');
     Route::get('export-order/all','CompanyController@getAllExportOrder');

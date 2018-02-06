@@ -476,4 +476,13 @@ class CompanyController extends ManageApiController
             "message" => "Thay đổi thành công"
         ]);
     }
+    public function getAllCodePrintOrder()
+    {
+        $printorders =  PrintOrder::all();
+        return $this->respondSuccessWithStatus([
+            "codes" => $printorders->map(function ($printorder) {
+                return $printorder->command_code;
+            })
+        ]);
+    }
 }
