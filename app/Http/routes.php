@@ -316,6 +316,8 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
     Route::post('/upload-image', 'UserApiController@upload_image');
     Route::post('/upload-image-froala', 'PublicApiController@upload_image_froala');
+    Route::post('/upload-video-public', 'PublicApiController@upload_video_public');
+    Route::post('/upload-image-public', 'PublicApiController@upload_image_public');
     Route::post('/upload-file-froala', 'PublicApiController@upload_file_froala');
     Route::post('/delete-image-froala', 'PublicApiController@delete_image_froala');
     Route::post('/upload-video', 'UserApiController@upload_video');
