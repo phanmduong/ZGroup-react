@@ -3,10 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as createProductAction from './createProductAction';
 import ReactEditor from "../../components/common/ReactEditor";
-import UploadButton from "../../components/common/uploadButton/UploadButton";
 import PropTypes from 'prop-types';
 import {linkUploadImageEditor} from "../../constants/constants";
-import Loading from "../../components/common/Loading";
 import TooltipButton from "../../components/common/TooltipButton";
 
 class ProductWebsiteContainer extends React.Component {

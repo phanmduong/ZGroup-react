@@ -5,42 +5,12 @@ import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import {ORDERED_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
 import StatusSelect from "../goodOrders/status/StatusSelect";
+import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeStatus = this.changeStatus.bind(this);
-    }
-
-    statusOrder(status) {
-        switch (status) {
-            case "ship_uncall":
-                return (
-                    <TooltipButton text="Chưa gọi ship" placement="top">
-                        <button className="btn btn-xs btn-main btn-info">
-                            Chưa gọi ship
-                        </button>
-                    </TooltipButton>
-                );
-            case "success":
-                return (
-                    <TooltipButton text="Chưa gọi ship" placement="top">
-                        <button className="btn btn-xs btn-main btn-success">
-                            Hoàn thành
-                        </button>
-                    </TooltipButton>
-                );
-            case "pending":
-                return (
-                    <TooltipButton text="Đang chờ" placement="top">
-                        <button className="btn btn-xs btn-main">
-                            Đang chờ
-                        </button>
-                    </TooltipButton>
-                );
-            default:
-                return null;
-        }
     }
 
     changeStatus(value) {
@@ -70,6 +40,17 @@ class ItemOrder extends React.Component {
         } else delivery_note = "";
         return (
             <tr>
+                {
+                    this.props.isSendingPrice && (
+                        <td>
+                            <CheckBoxMaterial
+                                name="sale_status"
+                                checked={this.props.check}
+                                onChange={()=>this.props.chooseItem(delivery.id)}
+                            />
+                        </td>
+                    )
+                }
                 <td>
                     <Link
                         style={{
@@ -155,7 +136,10 @@ ItemOrder.propTypes = {
     user: PropTypes.object.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
     showAddCancelNoteModal: PropTypes.func.isRequired,
-    showSendPriceModal: PropTypes.func.isRequired
+    showSendPriceModal: PropTypes.func.isRequired,
+    check: PropTypes.bool.isRequired,
+    isSendingPrice: PropTypes.bool.isRequired,
+    chooseItem: PropTypes.func.isRequired
 };
 
 export default ItemOrder;
