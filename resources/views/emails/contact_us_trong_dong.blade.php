@@ -159,7 +159,7 @@
     <tbody>
     <tr>
         <td>
-            <div style="max-height:0; width:0; overflow:hidden; float:left; display:none;">Thư gửi từ colorME</div>
+            <div style="max-height:0; width:0; overflow:hidden; float:left; display:none;">Thư gửi từ Trống đồng palace</div>
             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#e8e8e8">
                 <tbody>
                 <tr>

@@ -370,6 +370,10 @@ class CompanyController extends ManageApiController
 
         if ($request->good_id)
             $printorders = $printorders->where('good_id', $request->good_id);
+
+        if ($request->status)
+            $printorders = $printorders->where('status', $request->status);
+
         $printorders = $printorders->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($printorders, [
@@ -474,6 +478,15 @@ class CompanyController extends ManageApiController
         $exportorder->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi thành công"
+        ]);
+    }
+    public function getAllCodePrintOrder()
+    {
+        $printorders =  PrintOrder::all();
+        return $this->respondSuccessWithStatus([
+            "codes" => $printorders->map(function ($printorder) {
+                return $printorder->command_code;
+            })
         ]);
     }
 }
