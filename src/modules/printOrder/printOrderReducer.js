@@ -96,6 +96,13 @@ export default function printOrderReducer(state = initialState.printOrder, actio
                 ...state,
                 isCommitting: false,
             };
+        case types.LOAD_CODES_PRINT_ORDER_SUCCESS:{
+
+            return {
+                ...state,
+                codes: getSelectArrCode(action.codes),
+            };
+        }
 
         default:
             return state;
@@ -110,4 +117,11 @@ function getSelectArray(arr){
             label: obj.name,
         };
     });
+}
+
+function getSelectArrCode(arr) {
+    let res =  arr.filter(obj => (obj && obj.id && obj.code)).map(obj => {
+        return ({...obj, value: obj.id, label: obj.code});
+    });
+    return [{id: '', code: 'Tất cả',value: '', label: 'Tất cả'},...res];
 }

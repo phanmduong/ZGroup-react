@@ -71,7 +71,7 @@ class ListPrintOrder extends React.Component {
                                     editUrl={"/business/print-order/edit/" + order.id}
                                     disabledDelete={true}
                                     children={
-                                        (!order.status  || order.status == 0) &&
+                                        (!order.status  || order.status == 0) ?
                                         <a data-toggle="tooltip" title="Duyệt"
                                            type="button" rel="tooltip"
                                            onClick={() => {
@@ -80,6 +80,7 @@ class ListPrintOrder extends React.Component {
                                         >
                                             <i className="material-icons">done</i>
                                         </a>
+                                            :<div/>
                                     }
                                 /></td>
                             </tr>
