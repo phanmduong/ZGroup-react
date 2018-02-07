@@ -541,6 +541,37 @@ function uploadFileToS3(\Illuminate\Http\Request $request, $fileField, $size, $o
     return null;
 }
 
+function uploadImageToS3(\Illuminate\Http\Request $request, $fileField, $size, $oldfile = null)
+{
+    $image = $request->file($fileField);
+
+    if ($image != null) {
+        $mimeType = $image->guessClientExtension();
+        $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
+
+
+        if ($mimeType != 'image/gif') {
+            $imageFileName = time() . random(15, true) . '.jpg';
+            $img = Image::make($image->getRealPath())->encode('jpg', 90)->interlace();
+//            if ($img->width() > $size) {
+//                $img->resize($size, null, function ($constraint) {
+//                    $constraint->aspectRatio();
+//                });
+//            }
+            $img->save($image->getRealPath());
+        } else {
+            $imageFileName = time() . random(15, true) . '.' . $image->getClientOriginalExtension();
+        }
+        $filePath = '/images/' . $imageFileName;
+        $s3->getDriver()->put($filePath, fopen($image, 'r+'), ['ContentType' => $mimeType, 'visibility' => 'public']);
+//        if ($oldfile != null) {
+//            $s3->delete($oldfile);
+//        }
+        return $filePath;
+    }
+    return null;
+}
+
 function uploadThunbImageToS3(\Illuminate\Http\Request $request, $fileField, $size, $oldfile = null)
 {
     $image = $request->file($fileField);

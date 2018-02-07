@@ -1,4 +1,5 @@
 <?php
+
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'company', 'namespace' => 'Modules\Company\Http\Controllers'], function()
 {
     Route::post('/create','CompanyController@createCompany');
@@ -15,6 +16,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::get('/payment/{paymentId}','CompanyController@getPayment');
     Route::post('/print-order','CompanyController@createPrintOrder');
     Route::get('/print-order/all','CompanyController@getAllPrintOrder');
+    Route::get('/print-order/all-command-code','CompanyController@getAllCodePrintOrder');
+    Route::get('/print-order/properties','CompanyController@getAllProperties');
+    Route::put('/print-order/property/{propId}','CompanyController@editProperty');
     Route::get('/print-order/{printOrderId}','CompanyController@getPrintOrder');
     Route::put('/print-order/{printOrderId}','CompanyController@editPrintOrder');
     Route::get('export-order/all','CompanyController@getAllExportOrder');
@@ -23,5 +27,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::put('export-order/{exportOrderId}','CompanyController@editExportOrder');
     Route::post('/print-order/{printOrderId}/change-status','CompanyController@changeStatusPrintOrder');
     Route::post('/export-order/{exportOrderId}/change-status','CompanyController@changeStatusExportOrder');
-    Route::get('/print-order/all-command-code','CompanyController@getAllCodePrintOrder');
+
 });
