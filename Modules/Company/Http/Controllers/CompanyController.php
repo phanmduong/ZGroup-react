@@ -520,12 +520,9 @@ class CompanyController extends ManageApiController
     }
     public function editProperty($propId,Request $request){
         $prop = GoodPropertyItem::find($propId);
-        if($request->name === null ||
-            $request->value === null)
+        if($request->value === null)
             return $this->respondErrorWithStatus("Thiếu trường");
-        $prop->name = $request->name;
         $prop->prevalue = $request->value;
-        $prop->type = "print_order";
 
         $prop->save();
         return $this->respondSuccessWithStatus([
