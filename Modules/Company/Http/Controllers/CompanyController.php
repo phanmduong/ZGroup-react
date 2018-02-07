@@ -534,6 +534,7 @@ class CompanyController extends ManageApiController
         $prop = new GoodPropertyItem();
         $prop->name = $request->name;
         $prop->prevalue = $request->value;
+        $prop->type = "print_order";
         $prop->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thêm thành công"
