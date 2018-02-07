@@ -199,7 +199,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
     public function saveCall(Request $request)
     {
         $teleCall = new TeleCall;
-        $teleCall->caller_id = $request->caller_id;
+        $teleCall->caller_id = $this->user->id;
         $teleCall->gen_id = 0;
         $teleCall->call_status = $request->call_status;
         $teleCall->student_id = $request->listener_id;
