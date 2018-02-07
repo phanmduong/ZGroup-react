@@ -54,6 +54,14 @@ class CreatePrintOrderContainer extends React.Component {
         }
     }
 
+
+    componentDidMount(){
+        this.props.router.setRouteLeaveHook(this.props.route, () => {
+                return "Bạn có chắc muốn hủy không?";
+        });
+    }
+
+
     // componentWillReceiveProps(nextProps) {
     //     console.log("next", nextProps);
     // }
@@ -733,6 +741,8 @@ CreatePrintOrderContainer.propTypes = {
     data: PropTypes.object,
     printOrderActions: PropTypes.object.isRequired,
     params: PropTypes.object,
+    router: PropTypes.object,
+    route: PropTypes.object,
 
 };
 
