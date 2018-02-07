@@ -1,4 +1,5 @@
 <?php
+
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'company', 'namespace' => 'Modules\Company\Http\Controllers'], function()
 {
     Route::post('/create','CompanyController@createCompany');
