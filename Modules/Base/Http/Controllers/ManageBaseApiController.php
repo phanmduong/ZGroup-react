@@ -47,6 +47,9 @@ class ManageBaseApiController extends ManageApiController
         $room->room_layout_url = $this->s3_url . $imageName;
         $room->save();
 
+        return [
+            "room" => $room->getRoomDetail()
+        ];
     }
 
     public function assignBaseInfo(&$base, $request)

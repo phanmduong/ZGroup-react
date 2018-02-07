@@ -28,6 +28,15 @@ class Room extends Model
         return $this->belongsTo(RoomType::class, 'room_type_id');
     }
 
+    public function getRoomDetail(){
+        $data = $this->getData();
+        $data["room_layout_url"] = $this->room_layout_url;
+        $data["height"] = $this->height;
+        $data["width"] = $this->width;
+        $data["seats"] = $this->seats;
+        return $data;
+    }
+
     public function getData()
     {
         $data = [
