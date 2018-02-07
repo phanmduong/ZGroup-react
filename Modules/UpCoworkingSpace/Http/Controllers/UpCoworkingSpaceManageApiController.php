@@ -41,6 +41,8 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
 
         if ($request->staff_id)
             $registers = $registers->where('staff_id', $request->staff_id);
+        if($request->campaign_id)
+            $registers = $registers->where('campaign_id', $request->campaign_id);
         if ($request->status)
             $registers = $registers->where('status', $request->status);
 

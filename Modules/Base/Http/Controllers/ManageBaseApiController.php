@@ -30,9 +30,26 @@ class ManageBaseApiController extends ManageApiController
         }
         $seats = $room->seats()->where("archived", 0)->get();
         return $this->respondSuccessWithStatus([
-            "seats" => $seats
+            "seats" => $seats,
+            "width" => $room->width,
+            "height" => $room->height,
+            "room_layout_url" => $room->room_layout_url
         ]);
+    }
 
+    public function roomLayout($roomId, Request $request) {
+        $room = Room::find($roomId);
+        if ($room === null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+        $imageName = uploadFileToS3($request, "image", 1000, $room->room_layout_name);
+        $room->room_layout_name = $imageName;
+        $room->room_layout_url = $this->s3_url . $imageName;
+        $room->save();
+
+        return [
+            "room" => $room->getRoomDetail()
+        ];
     }
 
     public function assignBaseInfo(&$base, $request)
