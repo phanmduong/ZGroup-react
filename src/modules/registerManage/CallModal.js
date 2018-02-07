@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as registerManageAction from './registerManageAction';
 
 
 class CallModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {note: ""};
+        this.changeCallStatus = this.changeCallStatus.bind(this);
+    }
+    changeCallStatus(status,note,register_id,user_id,staff_id){
+        this.props.registerManageAction.changeCallStatus(status,note,register_id,user_id,staff_id,this.props.closeCallModal);
     }
 
     render() {
@@ -25,6 +32,8 @@ class CallModal extends React.Component {
                                 </h4>
                             </a>
                         </div>
+
+
                         <div id="collapseOne" className="panel-collapse collapse" role="tabpanel"
                              aria-labelledby="headingOne" aria-expanded="false" style={{height: '0px', marginTop: 15}}>
                             <div className="timeline-panel">
@@ -33,11 +42,13 @@ class CallModal extends React.Component {
                                         className="material-icons">account_circle</i>
                                         <b>&nbsp; &nbsp; {register.user.name} </b>
                                     </div>
-                                    <div className="flex-row-center"><i
-                                        className="material-icons">phone</i><b>&nbsp; &nbsp;{helper.formatPhone(register.user.phone)} </b>
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">phone</i>
+                                        <b>&nbsp; &nbsp;{helper.formatPhone(register.user.phone)} </b>
                                     </div>
-                                    <div className="flex-row-center"><i
-                                        className="material-icons">email</i>&nbsp; &nbsp; {"thanghungkhi@gmail.com"}
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">email</i>
+                                        &nbsp; &nbsp; {"thanghungkhi@gmail.com"}
                                     </div>
                                     {/*{this.state.register.university &&*/}
                                     {/*<div className="flex-row-center"><i*/}
@@ -129,6 +140,62 @@ class CallModal extends React.Component {
                                 </li>
                             </ul>
                         </div>
+
+
+                        <div className="panel panel-default">
+                            <div className="panel-heading" role="tab" id="headingFour">
+                                <a className="collapsed" role="button" data-toggle="collapse"
+                                   data-parent="#accordion" href="#collapseFour" aria-expanded="false"
+                                   aria-controls="collapseFour">
+                                    <h4 className="panel-title">
+                                        Lịch sử gọi điện
+                                        <i className="material-icons">keyboard_arrow_down</i>
+                                    </h4>
+                                </a>
+                            </div>
+                            <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingFour" aria-expanded="false" style={{height: '0px'}}>
+                                <ul className="timeline timeline-simple">
+                                    {
+                                        register.teleCalls && register.teleCalls.map((history, index) => {
+                                            let btn = '';
+                                            if (history.call_status === 1) {
+                                                btn = ' success';
+                                            }
+                                            else if (history.call_status === 0) {
+                                                btn = ' danger';
+                                            } else if (history.call_status === 2) {
+                                                btn = ' info';
+                                            }
+
+                                            return (
+                                                <li className="timeline-inverted" key={index}>
+                                                    <div className={"timeline-badge " + btn}>
+                                                        <i className="material-icons">phone</i>
+                                                    </div>
+                                                    <div className="timeline-panel">
+                                                        <div className="timeline-heading">
+                                                                <span className="label label-default"
+                                                                      style={{backgroundColor: '#' + history.caller.color}}>
+                                                                            {history.caller.name}
+                                                                </span>
+                                                            <span
+                                                                className="label label-default">{history.created_at.date}
+                                                                </span>
+                                                        </div>
+                                                        <div className="timeline-body">
+                                                            {history.note}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            );
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+
                     </div>
 
 
@@ -161,45 +228,24 @@ class CallModal extends React.Component {
                     )
                     :
                     (
-                        this.props.isLoadingHistoryCall ?
-                            (
-                                <div>
-                                    <button type="button" className="btn btn-success btn-round disabled"
-                                            data-dismiss="modal"
-                                    ><i className="material-icons">phone</i>
-                                        Gọi thành công
-                                    </button>
-                                    <button type="button" className="btn btn-danger btn-round disabled"
-                                            data-dismiss="modal"
-                                    >
-                                        <i className="material-icons">phone</i>
-                                        Không gọi được
-                                    </button>
-                                </div>
-                            )
-                            :
-                            (
-                                <div>
-                                    <button type="button" className="btn btn-success btn-round"
-                                            data-dismiss="modal"
-                                            onClick={() => {
-                                                this.changeCallStatusStudent(1, this.state.register.student_id);
-                                            }}>
-                                        <i className="material-icons">phone</i>
-                                        Gọi thành công
-                                    </button>
-                                    <button type="button" className="btn btn-danger btn-round"
-                                            data-dismiss="modal"
-                                            onClick={() => {
-                                                this.changeCallStatusStudent(0, this.state.register.student_id);
-                                            }}>
-                                        <i className="material-icons">phone</i>
-                                        Không gọi được
-                                    </button>
-                                </div>
-                            )
-
-
+                        <div>
+                            <button type="button" className="btn btn-success btn-round"
+                                    data-dismiss="modal"
+                                    onClick={() => {
+                                        this.changeCallStatus(1,this.state.note, register.id,register.user.id,register.staff.id,);
+                                    }}>
+                                <i className="material-icons">phone</i>
+                                Gọi thành công
+                            </button>
+                            <button type="button" className="btn btn-danger btn-round"
+                                    data-dismiss="modal"
+                                    onClick={() => {
+                                        this.changeCallStatus(0,this.state.note, register.id,register.user.id,register.staff.id,);
+                                    }}>
+                                <i className="material-icons">phone</i>
+                                Không gọi được
+                            </button>
+                        </div>
                     )
                 }
             </div>
@@ -211,7 +257,24 @@ class CallModal extends React.Component {
 CallModal.propTypes = {
     register: PropTypes.object.isRequired,
     isChangingStatus: PropTypes.bool.isRequired,
-    isLoadingHistoryCall: PropTypes.bool.isRequired,
+    registerManageAction: PropTypes.object.isRequired,
+    closeCallModal: PropTypes.func.isRequired,
+    // isLoadingHistoryCall: PropTypes.bool.isRequired,
+
 };
-export default CallModal;
+
+function mapStateToProps(state) {
+    return {
+        isChangingStatus: state.registerManage.isChangingStatus,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        registerManageAction: bindActionCreators(registerManageAction, dispatch)
+
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CallModal);
 

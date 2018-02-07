@@ -27,8 +27,7 @@ class RegisterManageContainer extends React.Component {
             query: '',
             staff_id: null,
             status: null,
-
-
+            campaign_id: null,
 
 
         };
@@ -36,10 +35,9 @@ class RegisterManageContainer extends React.Component {
         this.loadOrders = this.loadOrders.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.filterByCampaign = this.filterByCampaign.bind(this);
+        this.filterByStaff = this.filterByStaff.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
-
-
-
     }
 
     componentWillMount() {
@@ -47,7 +45,6 @@ class RegisterManageContainer extends React.Component {
         this.props.registerManageAction.loadAllRegisters();
         this.props.registerManageAction.getAllStaffs();
     }
-
 
 
     registersSearchChange(value) {
@@ -63,7 +60,8 @@ class RegisterManageContainer extends React.Component {
                 1,
                 value,
                 this.state.staff_id,
-                this.state.status
+                this.state.status,
+                this.state.campaign_id,
             );
         }.bind(this), 500);
     }
@@ -78,7 +76,8 @@ class RegisterManageContainer extends React.Component {
                 1,
                 this.state.query,
                 value.value,
-                this.state.status
+                this.state.status,
+                this.state.campaign_id,
             );
         } else {
             this.setState({
@@ -89,7 +88,8 @@ class RegisterManageContainer extends React.Component {
                 1,
                 this.state.query,
                 null,
-                this.state.status
+                this.state.status,
+                this.state.campaign_id,
             );
         }
     }
@@ -120,13 +120,37 @@ class RegisterManageContainer extends React.Component {
         }
     }
 
+    filterByCampaign(campaign_id) {
+        this.setState({campaign_id: campaign_id});
+        this.props.registerManageAction.loadAllRegisters(
+            this.state.page,
+            this.state.query,
+            this.state.staff_id,
+            this.state.status,
+            campaign_id
+        );
+    }
+
+    filterByStaff(staff_id) {
+        this.setState({staff_id: staff_id});
+        this.props.registerManageAction.loadAllRegisters(
+            this.state.page,
+            this.state.query,
+            staff_id,
+            this.state.status,
+            this.state.campaign_id,
+        );
+    }
+
+
     loadOrders(page = 1) {
         this.setState({page: page});
         this.props.registerManageAction.loadAllRegisters(
             page,
             this.state.query,
             this.state.staff_id,
-            this.state.status
+            this.state.status,
+            this.state.campaign_id,
         );
     }
 
@@ -154,11 +178,11 @@ class RegisterManageContainer extends React.Component {
                             <div>
 
                                 {/*<Select*/}
-                                    {/*options={this.state.gens}*/}
-                                    {/*onChange={this.changeGens}*/}
-                                    {/*value={this.state.selectGenId}*/}
-                                    {/*defaultMessage="Chọn khóa học"*/}
-                                    {/*name="gens"*/}
+                                {/*options={this.state.gens}*/}
+                                {/*onChange={this.changeGens}*/}
+                                {/*value={this.state.selectGenId}*/}
+                                {/*defaultMessage="Chọn khóa học"*/}
+                                {/*name="gens"*/}
                                 {/*/>*/}
 
 
@@ -213,6 +237,8 @@ class RegisterManageContainer extends React.Component {
                                 <ListOrder
                                     registers={this.props.registers}
                                     isLoading={this.props.isLoading}
+                                    filterByStaff = {this.filterByStaff}
+                                    filterByCampaign = {this.filterByCampaign}
                                 />
 
 
@@ -232,7 +258,6 @@ class RegisterManageContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-
 
 
             </div>

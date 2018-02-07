@@ -11,317 +11,7 @@ import CallModal from "./CallModal";
 import {REGISTER_STATUS} from "../../constants/constants";
 
 
-let hours = [1, 2, 3, 4, 5, 6, 7, 8];
-let names = ["Như Quỳnh", "Văn Long", "Quỳnh Anh", "Thảo Nguyên", "Việt Hùng", "Anh Quân", "Gia Khánh"];
-let btns = ["btn-success", "btn-danger", "btn-info", "btn-default", "btn-warning", "btn-primary", "btn-rose"];
-let campaigns = ["Email", "Telesale", "DS chờ", "Event","Inbox"];
 
-const room_service_registers = [
-    {
-        id: 8,
-        code: null,
-        money: 0,
-        status: "",
-
-        name: names[1],
-        hour: hours[Math.floor(Math.random() * 8)],
-        btnSaler: btns[1],
-        btnStatus: btns[Math.floor(Math.random() * 7)],
-        btnPrice: btns[Math.floor(Math.random() * 3)],
-        btnCall: btns[Math.floor(Math.random() * 2)],
-        btnCampaign: btns[Math.floor(Math.random() * 5)],
-        campaign: campaigns[Math.floor(Math.random() * 5)],
-
-        created_at: "17:38 01-02-2018",
-        user: {
-            id: 5549,
-            name: "Trương Hoàng Anh",
-            phone: "0992301921"
-        },
-        subscription: {
-            id: 1,
-            price: 200000,
-            description: " Bao gồm 3 ngày làm việc 24/7, gói 200,000 VNĐ cực kỳ linh hoạt và tiết kiệm chi phí cho bạn.",
-            subscription_kind_name: "1 ngày",
-            hours: 24,
-            user_pack_name: "THÀNH VIÊN LINH HOẠT",
-            user_pack: {
-                id: 1,
-                name: "THÀNH VIÊN LINH HOẠT",
-                avatar_url: "http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg",
-                detail: "",
-                status: 1
-            }
-        }
-    },
-    {
-        id: 7,
-        code: null,
-        money: 0,
-        status: "",
-
-
-        x: Math.floor(Math.random() * 7),
-        name: names[2],
-        hour: hours[Math.floor(Math.random() * 8)],
-        btnSaler: btns[2],
-        btnStatus: btns[Math.floor(Math.random() * 7)],
-        btnPrice: btns[Math.floor(Math.random() * 3)],
-        btnCall: btns[Math.floor(Math.random() * 2)],
-        btnCampaign: btns[Math.floor(Math.random() * 5)],
-        campaign: campaigns[Math.floor(Math.random() * 5)],
-
-        created_at: "15:34 01-02-2018",
-        user: {
-            id: 5580,
-            name: "Nguyễn Văn Lâm",
-            phone: "01212121311"
-        },
-        subscription: {
-            id: 3,
-            price: 300000,
-            description: "Bạn luôn di chuyển & không dành quá nhiều thời gian trong văn phòng? Hay một không gian làm việc yên tĩnh và sáng tạo cho những ngày cuối tuần? Bao gồm 3 ngày làm việc 24/7, gói 200,000 VNĐ cực kỳ linh hoạt và tiết kiệm chi phí cho bạn.",
-            subscription_kind_name: "30 ngày",
-            hours: 720,
-            user_pack_name: "THÀNH VIÊN LINH HOẠT",
-            user_pack: {
-                id: 1,
-                name: "THÀNH VIÊN LINH HOẠT",
-                avatar_url: "http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg",
-                detail: "",
-                status: 1
-            }
-        }
-    },
-    {
-        id: 6,
-        code: null,
-        money: 0,
-        status: "",
-
-
-        name: names[2],
-        hour: hours[Math.floor(Math.random() * 8)],
-        btnSaler: btns[2],
-        btnStatus: btns[Math.floor(Math.random() * 7)],
-        btnPrice: btns[Math.floor(Math.random() * 3)],
-        btnCall: btns[Math.floor(Math.random() * 2)],
-        btnCampaign: btns[Math.floor(Math.random() * 5)],
-        campaign: campaigns[Math.floor(Math.random() * 5)],
-
-        created_at: "15:26 01-02-2018",
-        user: {
-            id: 5580,
-            name: "Trần  Mạnh  Hùng",
-            phone: "01212121311"
-        },
-        subscription: {
-            id: 2,
-            price: 150000,
-            description: "Bạn luôn di chuyển & không dành quá nhiều thời gian trong văn phòng? Hay một không gian làm việc yên tĩnh và sáng tạo cho những ngày cuối tuần? Bao gồm 3 ngày làm việc 24/7, gói 200,000 VNĐ cực kỳ linh hoạt và tiết kiệm chi phí cho bạn.",
-            subscription_kind_name: "7 ngày",
-            hours: 168,
-            user_pack_name: "THÀNH VIÊN LINH HOẠT",
-            user_pack: {
-                id: 1,
-                name: "THÀNH VIÊN LINH HOẠT",
-                avatar_url: "http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg",
-                detail: "",
-                status: 1
-            }
-        }
-    },
-    {
-        id: 5,
-        code: null,
-        money: 0,
-        status: "",
-
-
-        name: names[4],
-        hour: hours[Math.floor(Math.random() * 8)],
-        btnSaler: btns[4],
-        btnStatus: btns[Math.floor(Math.random() * 7)],
-        btnPrice: btns[Math.floor(Math.random() * 3)],
-        btnCall: btns[Math.floor(Math.random() * 2)],
-        btnCampaign: btns[Math.floor(Math.random() * 5)],
-        campaign: campaigns[Math.floor(Math.random() * 5)],
-
-        created_at: "15:23 01-02-2018",
-        user: {
-            id: 5580,
-            name: "Châu Ngọc Thanh",
-            phone: "01212121311"
-        },
-        subscription: {
-            id: 2,
-            price: 150000,
-            description: "Bạn luôn di chuyển & không dành quá nhiều thời gian trong văn phòng? Hay một không gian làm việc yên tĩnh và sáng tạo cho những ngày cuối tuần? Bao gồm 3 ngày làm việc 24/7, gói 200,000 VNĐ cực kỳ linh hoạt và tiết kiệm chi phí cho bạn.",
-            subscription_kind_name: "7 ngày",
-            hours: 168,
-            user_pack_name: "THÀNH VIÊN LINH HOẠT",
-            user_pack: {
-                id: 1,
-                name: "THÀNH VIÊN LINH HOẠT",
-                avatar_url: "http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg",
-                detail: "",
-                status: 1
-            }
-        }
-    },
-    {
-        id: 4,
-        code: null,
-        money: 0,
-        status: "",
-
-        name: names[1],
-        hour: hours[Math.floor(Math.random() * 8)],
-        btnSaler: btns[1],
-        btnStatus: btns[Math.floor(Math.random() * 7)],
-        btnPrice: btns[Math.floor(Math.random() * 3)],
-        btnCall: btns[Math.floor(Math.random() * 2)],
-        btnCampaign: btns[Math.floor(Math.random() * 5)],
-        campaign: campaigns[Math.floor(Math.random() * 5)],
-
-        created_at: "15:08 01-02-2018",
-        user: {
-            id: 5549,
-            name: "Trần Anh",
-            phone: "0992301921"
-        },
-        subscription: {
-            id: 2,
-            price: 150000,
-            description: "Bạn luôn di chuyển & không dành quá nhiều thời gian trong văn phòng? Hay một không gian làm việc yên tĩnh và sáng tạo cho những ngày cuối tuần? Bao gồm 3 ngày làm việc 24/7, gói 200,000 VNĐ cực kỳ linh hoạt và tiết kiệm chi phí cho bạn.",
-            subscription_kind_name: "7 ngày",
-            hours: 168,
-            user_pack_name: "THÀNH VIÊN LINH HOẠT",
-            user_pack: {
-                id: 1,
-                name: "THÀNH VIÊN LINH HOẠT",
-                avatar_url: "http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg",
-                detail: "",
-                status: 1
-            }
-        }
-    },
-    {
-        id: 3,
-        code: null,
-        money: 0,
-        status: "",
-
-        name: names[1],
-        hour: hours[Math.floor(Math.random() * 8)],
-        btnSaler: btns[1],
-        btnStatus: btns[Math.floor(Math.random() * 7)],
-        btnPrice: btns[Math.floor(Math.random() * 3)],
-        btnCall: btns[Math.floor(Math.random() * 2)],
-        btnCampaign: btns[Math.floor(Math.random() * 5)],
-        campaign: campaigns[Math.floor(Math.random() * 5)],
-
-        created_at: "18:12 31-01-2018",
-        user: {
-            id: 5549,
-            name: "Noname",
-            phone: "0992301921"
-        },
-        subscription: {
-            id: 3,
-            price: 300000,
-            description: "Bạn luôn di chuyển & không dành quá nhiều thời gian trong văn phòng? Hay một không gian làm việc yên tĩnh và sáng tạo cho những ngày cuối tuần? Bao gồm 3 ngày làm việc 24/7, gói 200,000 VNĐ cực kỳ linh hoạt và tiết kiệm chi phí cho bạn.",
-            subscription_kind_name: "30 ngày",
-            hours: 720,
-            user_pack_name: "THÀNH VIÊN LINH HOẠT",
-            user_pack: {
-                id: 1,
-                name: "THÀNH VIÊN LINH HOẠT",
-                avatar_url: "http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg",
-                detail: "",
-                status: 1
-            }
-        }
-    },
-    {
-        id: 2,
-        code: null,
-        money: 0,
-        status: "",
-
-        name: names[6],
-        hour: hours[Math.floor(Math.random() * 8)],
-        btnSaler: btns[6],
-        btnStatus: btns[Math.floor(Math.random() * 7)],
-        btnPrice: btns[Math.floor(Math.random() * 3)],
-        btnCall: btns[Math.floor(Math.random() * 2)],
-        btnCampaign: btns[Math.floor(Math.random() * 5)],
-        campaign: campaigns[Math.floor(Math.random() * 5)],
-
-        created_at: "12:49 31-01-2018",
-        user: {
-            id: 5549,
-            name: "Hoàng Anh Minh",
-            phone: "0992301921"
-        },
-        subscription: {
-            id: 3,
-            price: 300000,
-            description: "Bạn luôn di chuyển & không dành quá nhiều thời gian trong văn phòng? Hay một không gian làm việc yên tĩnh và sáng tạo cho những ngày cuối tuần? Bao gồm 3 ngày làm việc 24/7, gói 200,000 VNĐ cực kỳ linh hoạt và tiết kiệm chi phí cho bạn.",
-            subscription_kind_name: "30 ngày",
-            hours: 720,
-            user_pack_name: "THÀNH VIÊN LINH HOẠT",
-            user_pack: {
-                id: 1,
-                name: "THÀNH VIÊN LINH HOẠT",
-                avatar_url: "http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg",
-                detail: "",
-                status: 1
-            }
-        }
-    },
-    {
-        id: 1,
-        code: null,
-        money: 100000,
-        status: "new-register",
-
-        name: names[6],
-        hour: hours[Math.floor(Math.random() * 8)],
-        btnSaler: btns[6],
-        btnStatus: btns[Math.floor(Math.random() * 7)],
-        btnPrice: btns[Math.floor(Math.random() * 3)],
-        btnCall: btns[Math.floor(Math.random() * 2)],
-        btnCampaign: btns[Math.floor(Math.random() * 5)],
-        campaign: campaigns[Math.floor(Math.random() * 5)],
-
-        created_at: "07:18 26-01-2018",
-        user: {
-            id: 2,
-            name: "Nguyễn Việt Hùng",
-            phone: "01684026343"
-        },
-        staff: {
-            id: 2,
-            name: "Nguyễn Việt Hùng"
-        },
-        subscription: {
-            id: 1,
-            price: 200000,
-            description: " Bao gồm 3 ngày làm việc 24/7, gói 200,000 VNĐ cực kỳ linh hoạt và tiết kiệm chi phí cho bạn.",
-            subscription_kind_name: "1 ngày",
-            hours: 24,
-            user_pack_name: "THÀNH VIÊN LINH HOẠT",
-            user_pack: {
-                id: 1,
-                name: "THÀNH VIÊN LINH HOẠT",
-                avatar_url: "http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg",
-                detail: "",
-                status: 1
-            }
-        }
-    }
-];
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -332,18 +22,6 @@ class ListOrder extends React.Component {
             register: {},
 
             isOpenCallModal: false,
-
-            // hours: [1, 2, 3, 4, 5, 6, 7, 8],
-            // names: ["Như Quỳnh", "Văn Long", "Quỳnh Anh", "Thảo Nguyên", "Việt Hùng", "Anh Quân", "Gia Khánh"],
-            // btns: ["btn-success", "btn-danger", "btn-info", "btn-default", "btn-warning", "btn-primary", "btn-rose"],
-
-
-            // name: names[x],
-            // hour: hours[Math.floor(Math.random() * 8)],
-            // btnSaler: btns[x],
-            // btnStatus: btns[Math.floor(Math.random() * 7)],
-            // btnPrice: btns[Math.floor(Math.random() * 3)],
-            // btnCall: btns[Math.floor(Math.random() * 2)],
 
 
         };
@@ -370,6 +48,7 @@ class ListOrder extends React.Component {
     }
 
     render() {
+        console.log(this.props.registers,"QQQQQQQQ");
 
         return (
             <div className="table-responsive">
@@ -394,17 +73,30 @@ class ListOrder extends React.Component {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {room_service_registers.map((register) => {
-                                    // let hours = [1, 2, 3, 4, 5, 6, 7, 8];
-                                    // let names = ["Như Quỳnh", "Văn Long", "Quỳnh Anh", "Thảo Nguyên", "Việt Hùng", "Anh Quân", "Gia Khánh"];
-                                    // let btns = ["btn-success", "btn-danger", "btn-info", "btn-default", "btn-warning", "btn-primary", "btn-rose"];
-                                    // let x = Math.floor(Math.random() * 7);
-                                    // let name = names[x];
-                                    // let hour = hours[Math.floor(Math.random() * 8)];
-                                    // let btnSaler = btns[x];
-                                    // let btnStatus = btns[Math.floor(Math.random() * 7)];
-                                    // let btnPrice = btns[Math.floor(Math.random() * 3)];
-                                    // let btnCall = btns[Math.floor(Math.random() * 2)];
+
+                                {this.props.registers.map((register) => {
+
+
+                                    let btn = '';
+                                    // let titleCall = 'Chưa gọi - Còn ' + register.time_to_reach + 'h';
+                                    if (register.teleCalls.length > 0) {
+                                        let call = register.teleCalls && register.teleCalls[register.teleCalls.length - 1];
+
+                                        if (call.call_status === 1) {
+                                            btn = ' btn-success';
+                                            // titleCall = 'Gọi thành công trong vòng ' + register.time_to_reach + 'h';
+                                        }
+                                        else if (call.call_status === 0) {
+                                            btn = ' btn-danger';
+                                            // titleCall = 'Gọi thất bại - Còn ' + register.time_to_reach + 'h';
+                                        } else if (call.call_status === 2) {
+                                            btn = ' btn-info';
+                                            // titleCall = 'Đang gọi';
+                                        }
+                                    }
+                                    else{
+                                        btn = "";
+                                    }
                                     return (
                                         <tr key={register.id}>
                                             {/*<td>*/}
@@ -434,13 +126,13 @@ class ListOrder extends React.Component {
 
                                                 <div className="container-call-status">
                                                     <button
-                                                        className={"btn btn-round " + register.btnCall + " full-width padding-left-right-10"}
+                                                        className={"btn btn-round "  + btn+" full-width padding-left-right-10"}
                                                         data-toggle="tooltip" title="" type="button" rel="tooltip"
                                                         onClick={() => this.openCallModal(register)}
                                                     >
                                                         <i className="material-icons">
                                                             phone
-                                                        </i> {register.hour + " h"}
+                                                        </i> {register.hour ? (register.hour + " h") : null}
                                                         {/*{register.call_status !== 'calling' && (register.time_to_reach + 'h')}*/}
                                                     </button>
                                                 </div>
@@ -459,16 +151,26 @@ class ListOrder extends React.Component {
                                                 {register.code || "Chưa có"}
                                             </td>
                                             <td>
-                                                <a className={"btn btn-xs btn-main " + register.btnSaler}>{register.name} {/*  deleete*/}
-                                                </a>
+                                                {/*<a className={"btn btn-xs btn-main " + register.btnSaler}>{register.name} /!*  deleete*!/*/}
+                                                {register.staff ?
+                                                    <a className="btn btn-xs btn-main"
+                                                       onClick={(e)=>{this.props.filterByStaff(register.staff.id); e.preventDefault();}}
+                                                       style={{backgroundColor: register.staff.color && register.staff.color}}
+                                                    >{register.staff.name}
+                                                    </a>
+                                                    :
+                                                    <a className="btn btn-xs btn-main disabled">Chưa có
+                                                    </a>
+                                                }
                                             </td>
 
                                             <td>
                                                 {
                                                     register.status !== "" ?
                                                         (
-                                                            <button className={"btn btn-xs btn-main " + register.btnStatus}
-                                                                    style={{backgroundColor: '#' + "5BBD2B"}}
+                                                            <button
+                                                                className={"btn btn-xs btn-main " + register.btnStatus}
+                                                                style={{backgroundColor: '#' + "5BBD2B"}}
                                                             >
                                                                 {REGISTER_STATUS.filter(status => status.value === register.status)[0].label}
                                                                 <div className="ripple-container"/>
@@ -484,14 +186,20 @@ class ListOrder extends React.Component {
                                             </td>
 
                                             <td>
-                                                <a className={"btn btn-xs btn-main " + register.btnCampaign}>{register.campaign} {/*  deleete*/}
-                                                </a>
+                                                {register.campaign ?
+                                                    <a className="btn btn-xs btn-main"
+                                                       style={{backgroundColor: '#' + register.campaign.color}}
+                                                       onClick={(e)=>{this.props.filterByCampaign(register.campaign.id);e.preventDefault();}}
+                                                    >{register.campaign.name} {/*  deleete*/}
+                                                    </a>
+                                                    :
+                                                    <a className="btn btn-xs btn-main disabled">Chưa có
+                                                    </a>
+                                                }
                                             </td>
 
                                             <td>
-                                                <button className={"btn btn-xs btn-main " + register.btnPrice}>
-                                                    {helper.dotNumber(register.subscription.price)}đ
-                                                </button>
+                                                {helper.dotNumber(register.subscription.price)}đ
                                             </td>
                                             <td>{helper.dotNumber(register.money)}đ</td>
                                             <td>{register.created_at}</td>
@@ -536,10 +244,11 @@ class ListOrder extends React.Component {
                 }
 
                 <Modal show={this.state.isOpenCallModal} bsStyle="primary" onHide={this.closeCallModal}>
-                    <Modal.Header closeButton />
+                    <Modal.Header closeButton/>
                     <Modal.Body>
                         <CallModal
                             register={this.state.register}
+                            closeCallModal = {this.closeCallModal}
                         />
                     </Modal.Body>
                 </Modal>
@@ -551,6 +260,8 @@ class ListOrder extends React.Component {
 ListOrder.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     registers: PropTypes.array.isRequired,
+    filterByCampaign: PropTypes.func.isRequired,
+    filterByStaff: PropTypes.func.isRequired,
 };
 
 

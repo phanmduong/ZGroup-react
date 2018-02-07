@@ -7,6 +7,7 @@ export default {
         currentPage: 1,
         totalCount: 1,
         limit: 20,
+        isChangingStatus : false,
     },
 
     bankAccount: {

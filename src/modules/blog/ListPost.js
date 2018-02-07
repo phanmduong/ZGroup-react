@@ -75,32 +75,32 @@ class ListPost extends React.Component {
                                                 object={post}
                                                 disabledEdit
                                             />
+                                        </div>
 
 
-                                            <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
-                                                <div style={{display: "flex", alignItems: "center"}}>
-                                                    {post.author.avatar_url ?
-                                                        <Avatar size={40} url={post.author.avatar_url}
-                                                                style={{borderRadius: 6}}/> : null}
-                                                    <div>
-                                                        <strong>{post.author.name}</strong><br/>
-                                                        <p className="category"
-                                                           style={{fontSize: 12}}>{post.created_at}</p>
-                                                    </div>
-                                                </div>
-
-                                                <div style={{display: "flex", alignItems: "center"}}>
-                                                    <Switch
-                                                        onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}
-                                                        bsSize="mini"
-                                                        onText="Hiện" offText="Ẩn"
-                                                        value={(post.status === 1)}
-                                                    />
-
+                                        <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
+                                            <div style={{display: "flex", alignItems: "center"}}>
+                                                {post.author.avatar_url ?
+                                                    <Avatar size={40} url={post.author.avatar_url}
+                                                            style={{borderRadius: 6}}/> : null}
+                                                <div>
+                                                    <strong>{post.author.name}</strong><br/>
+                                                    <p className="category"
+                                                       style={{fontSize: 12}}>{post.created_at}</p>
                                                 </div>
                                             </div>
 
+                                            <div style={{display: "flex", alignItems: "center"}}>
+                                                <Switch
+                                                    onChange={() => this.props.handleSwitch(post.id, post.status, post.title)}
+                                                    bsSize="mini"
+                                                    onText="Hiện" offText="Ẩn"
+                                                    value={(post.status === 1)}
+                                                />
+
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>

@@ -25,6 +25,23 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                 ...state,
                 staffs: action.staffs
             };
+
+        case types.BEGIN_CHANGE_CALL_STATUS:
+            return {
+                ...state,
+                isChangingStatus: true,
+            };
+        case types.LOADED_CHANGE_CALL_STATUS_SUCCESS:
+            return {
+                ...state,
+                isChangingStatus: false,
+            };
+        case types.LOADED_CHANGE_CALL_STATUS_ERROR:
+            return {
+                ...state,
+                isChangingStatus: false,
+            };
+
         default:
             return state;
     }
