@@ -82,7 +82,7 @@ class RoomServiceRegister extends Model
                     ],
                     "call_status" => $teleCall->call_status,
                     "note" => $teleCall->note,
-                    "created_at" => $teleCall->created_at,
+                    "created_at" => format_vn_short_datetime(strtotime($teleCall->created_at)),
                 ];
             });
         }
