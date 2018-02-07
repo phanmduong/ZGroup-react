@@ -13,6 +13,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Controllers\ManageApiController;
 use App\Company;
 use Illuminate\Support\Facades\DB;
+use Modules\Good\Entities\GoodPropertyItem;
 
 class CompanyController extends ManageApiController
 {
@@ -130,15 +131,27 @@ class CompanyController extends ManageApiController
 
     public function getAllCompany(Request $request)
     {
-        $search = $request->search;
+        $name = $request->name;
+        $partner_code = $request->partner_code;
+        $address = $request->address;
+        $phone = $request->phone;
+        $field_id = $request->field_id;
         $type = $request->type;
         $limit = $request->limit ? $request->limit : 20;
         if ($limit != -1) {
             $company = Company::query();
-            if ($search)
-                $company->where('name', 'like', '%' . $search . '%');
+            if ($name)
+                $company->where('name', 'like', '%' . $name . '%');
+            if ($partner_code)
+                $company->where('partner_code', 'like', '%' . $partner_code . '%');
+            if ($address)
+                $company->where('office_address', 'like', '%' . $address . '%');
+            if ($phone)
+                $company->where('phone', 'like', '%' . $phone . '%');
             if ($type)
                 $company->where('type', $type);
+            if ($field_id)
+                $company->where('field_id', $field_id);
             $company = $company->orderBy('created_at', 'desc')->paginate($limit);
             return $this->respondWithPagination($company, [
                 "company" => $company->map(function ($data) {
@@ -241,8 +254,8 @@ class CompanyController extends ManageApiController
             $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
             $payments = $payments->whereBetween('created_at', array($start_time, $end_time));
         }
-        if($type) {
-            $payments = $payments->where('type',$type);
+        if ($type) {
+            $payments = $payments->where('type', $type);
         }
         $pre_payments = $payments->get();
         $summary_money = $pre_payments->reduce(function ($total, $payment) {
@@ -371,7 +384,7 @@ class CompanyController extends ManageApiController
         if ($request->good_id)
             $printorders = $printorders->where('good_id', $request->good_id);
 
-        if ($request->status)
+        if ($request->status != null)
             $printorders = $printorders->where('status', $request->status);
 
         $printorders = $printorders->orderBy('created_at', 'desc')->paginate($limit);
@@ -483,15 +496,37 @@ class CompanyController extends ManageApiController
 
     public function getAllCodePrintOrder()
     {
-        $printorders =  PrintOrder::all();
-
+        $printorders = PrintOrder::query();
+        $printorders = $printorders->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
-
-                "codes" => $printorders->map(function ($printorder) {
-                    return $printorder->command_code;
-                })
-
+            "codes" => $printorders->map(function ($printorder) {
+                return [
+                    "id" => $printorder->id,
+                    "code" => $printorder->command_code,
+                ];
+            })
         ]);
+    }
 
+    public function getAllProperties()
+    {
+        $props = GoodPropertyItem::where('type','print_order')->get();
+        return $this->respondSuccessWithStatus([
+            "props" => $props->map(function($prop){
+                  return[
+                      "id" => $prop->id,
+                      "name" => $prop->name,
+                      "value" => $prop->prevalue,
+                  ];
+            })
+        ]);
+    }
+    public function editProperty($propId,Request $request){
+        $prop = GoodPropertyItem::find($propId);
+        $prop->prevalue = $request->value;
+        $prop->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi thành công"
+        ]);
     }
 }

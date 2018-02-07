@@ -87,13 +87,8 @@ class TrongDongPalaceController extends Controller
     {
         $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message_str];
 
-        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
-            $subject = "Xác nhận thông tin";
-            $m->to($request->email, $request->name)->subject($subject);
-        });
         Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->from('no-reply@colorme.vn', 'Trống Đồng Palace');
             $subject = "Xác nhận thông tin";
             $m->to($request->email, $request->name)->subject($subject);
         });
@@ -116,7 +111,7 @@ class TrongDongPalaceController extends Controller
 
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($rooms->lastPage() == $page_id - 1) $display = "display:none";
-
+        //
         $this->data['rooms'] = $rooms;
         $this->data['page_id'] = $page_id;
         $this->data['display'] = $rooms;
