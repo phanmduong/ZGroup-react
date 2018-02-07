@@ -135,7 +135,6 @@ class CompanyController extends ManageApiController
         $partner_code = $request->partner_code;
         $address = $request->address;
         $phone = $request->phone;
-        $field_id = $request->field_id;
         $type = $request->type;
         $limit = $request->limit ? $request->limit : 20;
         if ($limit != -1) {
