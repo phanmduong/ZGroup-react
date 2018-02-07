@@ -64,17 +64,18 @@ class ListPost extends React.Component {
 
                                     <div className="card-content">
                                         <div className="card-action" style={{height: 73}}>
-                                            <h4 className="card-title">
+                                            <h4 className="card-title" style={{display : "flex", justifyContent : "space-between"}}>
                                                 <a onClick={() => {
                                                     this.props.openModal(true, post.id);
                                                 }}>{post.title ? post.title : "Chưa có tên"}</a>
+
+                                                <ButtonGroupAction
+                                                    editUrl={"blog/post/" + post.id + "/edit"}
+                                                    delete={this.props.deletePost}
+                                                    object={post}
+                                                    disabledEdit
+                                                />
                                             </h4>
-                                            <ButtonGroupAction
-                                                editUrl={"blog/post/" + post.id + "/edit"}
-                                                delete={this.props.deletePost}
-                                                object={post}
-                                                disabledEdit
-                                            />
                                         </div>
 
 
