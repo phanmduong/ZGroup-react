@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import *as orderedProductAction from "./orderedProductAction";
 import PropTypes from "prop-types";
-import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 
 class AddCancelNoteModal extends React.Component {
     constructor(props, context) {

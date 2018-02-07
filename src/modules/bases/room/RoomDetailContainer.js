@@ -25,9 +25,12 @@ class RoomDetailContainer extends React.Component {
             color: "rgb(244, 67, 54)"
         };
         this.state = {
+            room_layout_url: "",
+            width: 0,
+            height: 0,
             seat: this.initSeat,
             seats:[],
-            domain: {x: [0, 600], y: [0, 400]}
+            domain: {x: [0, 0], y: [0, 0]}
         };
         this.onClick = this.onClick.bind(this);
         this.onDrag = this.onDrag.bind(this);
@@ -49,11 +52,19 @@ class RoomDetailContainer extends React.Component {
         this.props.actions.displayGlobalLoading();
 
         const res = await seatApi.getSeats(this.props.params.roomId);
-        const {seats} = res.data.data;
+        const {seats, width, height, room_layout_url} = res.data.data;
 
         this.props.actions.hideGlobalLoading();
         
         this.setState({
+            width,
+            height,
+            room_layout_url,
+            domain: {
+                ...this.state.domain,
+                x: [0, width],
+                y: [0, height]
+            },
             roomId: this.props.params.roomId,
             seats : seats.map((seat, index) => {
                 return {
@@ -65,6 +76,9 @@ class RoomDetailContainer extends React.Component {
     }
 
     changeSeatAction(action) {
+        this.setState({
+            seat: {}
+        });
         this.props.actions.setSeatCurrentAction(action);
     }
 
@@ -225,11 +239,13 @@ class RoomDetailContainer extends React.Component {
                     <RoomGrid
                         onClick={this.onClick}
                         onDrag={this.onDrag}
+                        width={this.state.width}
+                        height={this.state.height}
                         currentAction={this.props.currentAction}
                         onPointClick={this.onPointClick}
                         roomId={Number(this.props.params.roomId)}
-                        data={this.state.seats}
-                        domain={this.props.domain}
+                        seats={this.state.seats}
+                        domain={this.state.domain}
                     />
                 </div>
                         
@@ -242,16 +258,14 @@ RoomDetailContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     seat: PropTypes.object.isRequired,
-    domain: PropTypes.object.isRequired,
     seats: PropTypes.array.isRequired,
     currentAction: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
-    const {seats, domain, currentAction, seat} = state.seat;
+    const {seats, currentAction, seat} = state.seat;
     return {
         seats,
-        domain,
         seat,
         currentAction
     };
