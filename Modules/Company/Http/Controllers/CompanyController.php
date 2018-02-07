@@ -150,8 +150,6 @@ class CompanyController extends ManageApiController
                 $company->where('phone', 'like', '%' . $phone . '%');
             if ($type)
                 $company->where('type', $type);
-            if ($field_id)
-                $company->where('field_id', $field_id);
             $company = $company->orderBy('created_at', 'desc')->paginate($limit);
             return $this->respondWithPagination($company, [
                 "company" => $company->map(function ($data) {
