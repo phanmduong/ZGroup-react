@@ -74,7 +74,9 @@ export default {
 
     orderedProduct: {
         addNoteModal: false,
+        addCancelNoteModal: false,
         orderNote: {},
+        cancelNote: {},
         isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
@@ -1025,7 +1027,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
-            provinces : [],
+            provinces: [],
             isOpenReturnOrder: false,
             isSaving: false,
             isSavingReturnOrders: false,
@@ -1983,6 +1985,9 @@ export default {
     sendNotification: {
         isSending: false,
         errorSend: false,
+        historyNotifications: [],
+        totalPages: 1,
+        currentPage: 1,
     },
     dashboardUp: {
         isLoadingBases: true,

@@ -73,3 +73,37 @@ export function editNote(order) {
     };
 }
 
+export function changeStatus(status, deliveryOrderId, note) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang thay đổi trạng thái", "info");
+        orderedProductApi.changeStatusApi(status, deliveryOrderId, note)
+            .then((res) => {
+                if (res.data.status === 0) {
+                    helper.showErrorNotification(res.data.message.message);
+                } else {
+                    helper.showNotification("Thay đổi trạng thái thành công");
+                    dispatch({
+                        type: types.CHANGE_STATUS_ORDERED_SUCCESS,
+                        status,
+                        delivery_id: deliveryOrderId
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+            });
+    };
+}
+
+export function showAddCancelNoteModal() {
+    return ({
+        type: types.TOGGLE_ADD_CANCEL_NOTE_MODAL
+    });
+}
+
+export function handleAddCancelNoteModal(cancelNote) {
+    return ({
+        type: types.HANDLE_ADD_CANCEL_NOTE_MODAL,
+        cancelNote
+    });
+}

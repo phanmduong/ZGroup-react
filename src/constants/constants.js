@@ -258,6 +258,11 @@ export const ORDERED_STATUS = [
         order: 6,
         label: "Hoàn thành",
         value: "completed"
+    },
+    {
+        order: 7,
+        label: "Hủy",
+        value: "cancel"
     }
 ];
 
