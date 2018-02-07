@@ -74,6 +74,8 @@ export default {
     orderedProduct: {
         addNoteModal: false,
         addCancelNoteModal: false,
+        sendPriceModal: false,
+        orderSendPriceModal: {},
         orderNote: {},
         cancelNote: {},
         isSendingNote: false,
@@ -1503,6 +1505,9 @@ export default {
             },
         ],
         archivedWorks: [],
+        rateData:{
+            staffs:[],
+        },
     },
 
     groupCustomers: {
@@ -1758,7 +1763,10 @@ export default {
     seat: {
         showCreateSeatModal: false,
         point: {},
-        seat: {},
+        seat: {
+            r: 1,
+            color: "rgb(244, 67, 54)"
+        },
         seats: [],
         currentAction: "",
         domain: {x: [0, 600], y: [0, 400]}

@@ -20,7 +20,7 @@ class CardWork extends React.Component {
     }
 
     render() {
-        const {work, key, status, user} = this.props;
+        const {work,  status, user} = this.props;
         let time = moment(work.deadline || "", [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
         let checkId = !checkUser(user.id, work.staffs);//user not belong to work
         return (
@@ -29,14 +29,14 @@ class CardWork extends React.Component {
                     e.stopPropagation();
                     return this.props.openInfoModal(work);
                 }}
-                key={key} id={key} data-order={key} className="card-content keetool-idcard">
+                // key={key} id={key} data-order={key}
+                className="card-content keetool-idcard">
                 <div className="card keetool-card keetool-card-wrapper">
                     <div className="card-content keetool-card" style={{position: "relative"}}>
-                        <div style={{position: "absolute", top: 10, right: 10}} hidden={(user.role != 2) && checkId}>
+                        <div style={{position: "absolute", top: 10, right: 10}} hidden={(user.role !== 2) && checkId}>
                             <div className="board-action keetool-card">
                                 <div className="dropdown">
-                                    <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                       data-toggle="dropdown"><i className="material-icons">more_horiz</i></a>
+                                    <a className="dropdown-toggle btn-more-dropdown" type="button" data-toggle="dropdown"><i className="material-icons">more_horiz</i></a>
                                     <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
                                         {/*<li className="more-dropdown-item" hidden={(status == STATUS_WORK[3].value) ? true : user.role != 2}>*/}
                                         {/*<Link*/}
@@ -55,7 +55,7 @@ class CardWork extends React.Component {
                                         {/*</a>*/}
                                         {/*</li>*/}
                                         <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
+                                            hidden={(status === STATUS_WORK[0].value) ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.acceptWork(work.id, user.id);
@@ -66,7 +66,7 @@ class CardWork extends React.Component {
                                             </a>
                                         </li>
 
-                                        <li className="more-dropdown-item" hidden={(status != STATUS_WORK[4].value)}>
+                                        <li className="more-dropdown-item" hidden={(status !== STATUS_WORK[4].value)}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.acceptPay(work.id);
@@ -76,8 +76,7 @@ class CardWork extends React.Component {
                                                 Chấp nhận chi tiền
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[0].value) ? checkId : true}>
+                                        <li className="more-dropdown-item" hidden={(status === STATUS_WORK[0].value) ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.change(work, STATUS_WORK[3].value);
@@ -87,8 +86,7 @@ class CardWork extends React.Component {
                                                 Hủy
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == "doing") ? checkId : true}>
+                                        <li className="more-dropdown-item" hidden={(status === "doing") ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.openExtendModal(work);
@@ -98,8 +96,7 @@ class CardWork extends React.Component {
                                                 Xin gia hạn
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[1].value) ? checkId : true}>
+                                        <li className="more-dropdown-item" hidden={(status === STATUS_WORK[1].value) ? checkId : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.openFinishModal(work);
@@ -109,8 +106,7 @@ class CardWork extends React.Component {
                                                 Hoàn thành
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}>
+                                        <li className="more-dropdown-item" hidden={(status === STATUS_WORK[2].value) ? (user.role !== 2) : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.revertWork(work);
@@ -120,19 +116,18 @@ class CardWork extends React.Component {
                                                 Yêu cầu làm lại
                                             </a>
                                         </li>
-                                        <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[2].value) ? (user.role != 2) : true}>
+                                        <li className="more-dropdown-item" hidden={(status === STATUS_WORK[2].value) ? (user.role !== 2) : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
-                                                return this.props.archiveWork(work, STATUS_WORK[5].value);
+                                                return this.props.openModalRateWork(work.id);
                                             }}>
                                                 <i style={{fontSize: "16px"}}
-                                                   className="material-icons keetool-card">archive</i>
-                                                Lưu trữ công việc
+                                                   className="material-icons keetool-card">done</i>
+                                                Đánh giá công việc
                                             </a>
                                         </li>
                                         <li className="more-dropdown-item"
-                                            hidden={(status == STATUS_WORK[5].value) ? (user.role != 2) : true}>
+                                            hidden={(status === STATUS_WORK[5].value) ? (user.role !== 2) : true}>
                                             <a onClick={(e) => {
                                                 e.stopPropagation();
                                                 return this.props.unArchiveWork(work, STATUS_WORK[2].value);
@@ -216,7 +211,7 @@ class CardWork extends React.Component {
 function checkUser(id, arr) {
     let check = false;
     arr.forEach((obj) => {
-        if (obj.id == id) {
+        if (obj.id === id) {
             check = true;
         }
     });
@@ -234,11 +229,11 @@ CardWork.propTypes = {
     openInfoModal: PropTypes.func,
     openExtendModal: PropTypes.func,
     openFinishModal: PropTypes.func,
+    openModalRateWork: PropTypes.func,
     work: PropTypes.object,
     user: PropTypes.object,
-    key: PropTypes.number,
     status: PropTypes.string,
-    unArchiveWork: PropTypes.func.isRequired,
+    unArchiveWork: PropTypes.func,
 };
 
 export default CardWork;

@@ -71,6 +71,6 @@ export function confirmOrder(id) {
         url +=  "?token=" + token;
     }
 
-    return axios.post(url);
+    return axios.post(url, {status : 1});
 }
 

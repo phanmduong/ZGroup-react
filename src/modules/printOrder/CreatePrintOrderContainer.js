@@ -467,7 +467,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             /></td>
                                                         </tr>
                                                         <tr>
-                                                            <td colSpan={1}>Đóng gói-
+                                                            <td colSpan={1}>{"Đóng gói - "}
                                                                 <wbr/>
                                                                 Gia công
                                                                 <wbr/>
@@ -491,7 +491,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                             /></td>
                                                         </tr>
                                                         <tr>
-                                                            <td colSpan={1}>Đóng gói-
+                                                            <td colSpan={1}>{"Đóng gói - "}
                                                                 <wbr/>
                                                                 Gia công
                                                                 <wbr/>

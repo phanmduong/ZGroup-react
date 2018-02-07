@@ -18,6 +18,7 @@ import {bindActionCreators} from "redux";
 import {Link} from "react-router";
 import AddNoteModal from "./AddNoteModal";
 import AddCancelNoteModal from "./AddCancelNoteModal";
+import SendPriceModal from "./SendPriceModal";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -41,6 +42,7 @@ class OrderedContainer extends React.Component {
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.showAddNoteModal = this.showAddNoteModal.bind(this);
         this.showAddCancelNoteModal = this.showAddCancelNoteModal.bind(this);
+        this.showSendPriceModal = this.showSendPriceModal.bind(this);
     }
 
     componentWillMount() {
@@ -174,6 +176,11 @@ class OrderedContainer extends React.Component {
     showAddCancelNoteModal(order) {
         this.props.orderedProductAction.showAddCancelNoteModal();
         this.props.orderedProductAction.handleAddCancelNoteModal(order);
+    }
+
+    showSendPriceModal(order) {
+        this.props.orderedProductAction.showSendPriceModal();
+        this.props.orderedProductAction.handleSendPriceModal(order);
     }
 
     render() {
@@ -345,6 +352,7 @@ class OrderedContainer extends React.Component {
                                     user={this.props.user}
                                     showAddNoteModal={this.showAddNoteModal}
                                     showAddCancelNoteModal={this.showAddCancelNoteModal}
+                                    showSendPriceModal={this.showSendPriceModal}
                                 />
                             </div>
                             <div className="row float-right">
@@ -363,6 +371,7 @@ class OrderedContainer extends React.Component {
                 </div>
                 <AddNoteModal/>
                 <AddCancelNoteModal/>
+                <SendPriceModal/>
             </div>
         );
     }
