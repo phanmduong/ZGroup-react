@@ -111,7 +111,7 @@ class TrongDongPalaceController extends Controller
 
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($rooms->lastPage() == $page_id - 1) $display = "display:none";
-
+        //
         $this->data['rooms'] = $rooms;
         $this->data['page_id'] = $page_id;
         $this->data['display'] = $rooms;
