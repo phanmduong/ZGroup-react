@@ -89,11 +89,18 @@ ns._scales = function (elId, domain) {
 
 
 ns._drawPoints = function (el, scales, state) {
-    const {data, domain} = state;
-    
+    const {seats, domain, width, height} = state;
+
     const subject = function () {
         return {x: d3.event.x, y: d3.event.y};
     };
+    
+    if (ns.width !== width || ns.height !== height) {
+        ns.width = width;
+        ns.height = height;
+        d3.select("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`);
+    }    
 
     let drag = d3.drag()
         .subject(subject)
@@ -128,7 +135,7 @@ ns._drawPoints = function (el, scales, state) {
     
     const svg = d3.select("svg");
     let g = svg.selectAll("g")
-        .data(data)
+        .data(seats)
         .enter()
         .append("g")
         .attr("class", "seat-wrapper")
@@ -153,7 +160,7 @@ ns._drawPoints = function (el, scales, state) {
         .ease(d3.easeLinear);
 
     svg.selectAll(".d3-point")
-        .data(data)
+        .data(seats)
         .transition(transformTrasition)
         .attr('r', (d) => scales.r(d.r))
         .attr('class', (d) => {
@@ -173,7 +180,7 @@ ns._drawPoints = function (el, scales, state) {
         });
 
     svg.selectAll(".d3-text")
-        .data(data)    
+        .data(seats)    
         .transition(transformTrasition)
         .attr("dy", d => scales.r(d.r) / 3)
         .attr("text-anchor", "middle")
