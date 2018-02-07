@@ -526,4 +526,14 @@ class CompanyController extends ManageApiController
             "message" => "Thay đổi thành công"
         ]);
     }
+    public function createProperty(Request $request){
+        $prop = new GoodPropertyItem();
+        $prop->name = $request->name;
+        $prop->prevalue = $request->value;
+        $prop->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thêm thành công"
+        ]);
+    }
+
 }
