@@ -1690,7 +1690,7 @@ export default {
         isSavingCompany: false,
         isSavingField: false,
         isLoading: false,
-        company: {
+        company: [{
             name: "",
             registered_business_address: "",
             office_address: "",
@@ -1706,8 +1706,14 @@ export default {
             },
             user_contact: "",
             user_contact_phone: "",
+            user_contact1: "",
+            user_contact_phone1: "",
+            user_contact2: "",
+            user_contact_phone2: "",
             type: "",
-        },
+            discount_comic: 0,
+            discount_text: 0,
+        }],
         summay_money: 0,
         fields: [],
         paginator: {
