@@ -14,6 +14,8 @@ import {
 } from "../seat/seatActions";
 import CreateSeatComponent from '../seat/CreateSeatComponent';
 import ButtonList from "./ButtonList";
+import {uploadRoomLayout} from '../../rooms/roomApi';
+
 
 // Import actions here!!
 
@@ -30,6 +32,8 @@ class RoomDetailContainer extends React.Component {
             height: 0,
             seat: this.initSeat,
             seats:[],
+            uploading: false,
+            percentComplete: 0,
             domain: {x: [0, 0], y: [0, 0]}
         };
         this.onClick = this.onClick.bind(this);
@@ -42,10 +46,27 @@ class RoomDetailContainer extends React.Component {
         this.updateSeatFormData = this.updateSeatFormData.bind(this);
         this.saveSeats = this.saveSeats.bind(this);
         this.loadSeats = this.loadSeats.bind(this);
+        this.handleChangeFile = this.handleChangeFile.bind(this);
     }
 
     componentWillMount() {
         this.loadSeats();
+    }
+
+    handleChangeFile(event) {
+        const file = event.target.files[0];
+        uploadRoomLayout({
+            roomId: this.state.roomId, 
+            file,
+            completeHandler: () => {
+                const room = JSON.parse(event.currentTarget.responseText);                
+                console.log(room);
+            },
+            progressHandler: () => {
+                const percentComplete = Math.round((100 * event.loaded) / event.total);
+                this.setState({percentComplete});
+            }
+        });   
     }
 
     async loadSeats() {
@@ -229,13 +250,22 @@ class RoomDetailContainer extends React.Component {
                 
                 <div>
                     <ButtonList
+                        handleChange={this.handleChangeFile}
                         saveSeats={this.saveSeats}
                         changeAction={this.changeSeatAction}
                         currentAction={this.props.currentAction}
                     />   
+                   
                 </div>                     
                 
-                <div>
+                <div style={{position: 'relative'}}>
+                    <div style={{
+                        position: "absolute", 
+                        top: 0, left: 0, 
+                        
+                        width: "100%", height: "100%"}}>
+                                        
+                    </div>
                     <RoomGrid
                         onClick={this.onClick}
                         onDrag={this.onDrag}

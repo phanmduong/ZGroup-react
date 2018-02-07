@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TooltipButton from '../../../components/common/TooltipButton';
 import {CREATE_SEAT, ARCHIVE_SEAT, EDIT_SEAT, MOVE_SEAT} from "../seat/seatConstants";
+import UploadButton from '../../../components/common/uploadButton/UploadButton';
 
 class ButtonList extends React.Component {
     constructor(props, context) {
@@ -63,6 +64,13 @@ class ButtonList extends React.Component {
                     <i className="material-icons">delete</i>
                 </a>
               </TooltipButton>
+              <TooltipButton text="Thay đổi sơ đồ phòng" placement="top">
+                <UploadButton
+                  onChange={this.props.handleChange}>
+                  <i className="material-icons">file_upload</i>
+                </UploadButton>
+              </TooltipButton>
+               
             </div>
         );
     }
@@ -71,6 +79,7 @@ class ButtonList extends React.Component {
 ButtonList.propTypes = {
     currentAction: PropTypes.string.isRequired,
     changeAction: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
     saveSeats: PropTypes.func.isRequired
 };
 
