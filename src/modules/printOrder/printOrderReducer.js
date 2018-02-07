@@ -103,6 +103,28 @@ export default function printOrderReducer(state = initialState.printOrder, actio
                 codes: getSelectArrCode(action.codes),
             };
         }
+        case types.BEGIN_LOAD_PROPERTIES_PRINT_ORDER:{
+
+            return {
+                ...state,
+                isLoadingPropers: true,
+            };
+        }
+        case types.LOAD_PROPERTIES_PRINT_ORDER_SUCCESS:{
+
+            return {
+                ...state,
+                isLoadingPropers: false,
+                properties: action.properties,
+            };
+        }
+        case types.LOAD_PROPERTIES_PRINT_ORDER_ERROR:{
+
+            return {
+                ...state,
+                isLoadingPropers: false,
+            };
+        }
 
         default:
             return state;

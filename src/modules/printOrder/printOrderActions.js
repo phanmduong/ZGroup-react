@@ -97,7 +97,7 @@ export function editPrintOrder(data, success) {
                     dispatch({
                         type: types.EDIT_PRINT_ORDER_SUCCESS,
                     });
-                    helper.showNotification("Thêm thành công.");
+                    helper.showNotification("Lưu thành công.");
                     success();
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
@@ -155,6 +155,25 @@ export function getAllCodes() {
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
                     dispatch({type: types.LOAD_CODES_PRINT_ORDER_ERROR});
+                }
+            });
+    };
+}
+
+
+export function getAllproperties() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_PROPERTIES_PRINT_ORDER});
+        printOrderApi.getAllproperties()
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.LOAD_PROPERTIES_PRINT_ORDER_SUCCESS,
+                        properties: res.data.data.props ,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.LOAD_PROPERTIES_PRINT_ORDER_ERROR});
                 }
             });
     };

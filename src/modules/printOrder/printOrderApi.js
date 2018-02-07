@@ -83,4 +83,14 @@ export function getAllCodes() {
 
     return axios.get(url);
 }
+export function getAllproperties() {
+    //http://manageapi.keetool.xyz/company/print-order/all-command-code?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order/properties";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+
+    return axios.get(url);
+}
 

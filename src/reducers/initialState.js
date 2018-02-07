@@ -1771,6 +1771,7 @@ export default {
         isLoadingInfoPrintOrder: false,
         isLoadingGoods: false,
         isLoadingCompanies: false,
+        isLoadingPropers: false,
         listPrintOrder: [],
         paginator: {
             current_page: 1,
@@ -1781,6 +1782,7 @@ export default {
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
         codes: [{value: '', label: ''}],
+        properties: [],
         data: {
             company: {id: 0, name: ""},
             staff: {id: 0, name: ""},

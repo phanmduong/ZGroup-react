@@ -10,12 +10,19 @@ import FormInputText from "../../components/common/FormInputText";
 import FormInputDate from "../../components/common/FormInputDate";
 import {browserHistory} from 'react-router';
 import * as helper from "../../helpers/helper";
+import FormInputSelect from "../../components/common/FormInputSelect";
+
+const nonSelectStyle = {marginTop: 44};
 
 class CreatePrintOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             data: defaultData,
+            materials: [],
+            colors: [],
+            sizes: [],
+            packings: [],
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGood = this.changeGood.bind(this);
@@ -24,12 +31,9 @@ class CreatePrintOrderContainer extends React.Component {
     }
 
     componentWillMount() {
-
-        //this.props.printOrderActions.resetData();
         this.props.printOrderActions.loadAllGoods();
+        this.props.printOrderActions.getAllproperties();
         this.props.printOrderActions.loadAllCompanies();
-
-        //this.state.data = defaultData;
         if (this.props.params.printOrderId) {
             this.props.printOrderActions.loadPrintOrderInfo(this.props.params.printOrderId,
                 (data) => {
@@ -54,17 +58,17 @@ class CreatePrintOrderContainer extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.isLoadingPropers && !nextProps.isLoadingPropers) {
+            let {properties} = nextProps;
+            let materials = getProperty(properties, "material");
+            let colors = getProperty(properties, "color");
+            let sizes = getProperty(properties, "size");
+            let packings = getProperty(properties, "packing");
 
-    componentDidMount(){
-        this.props.router.setRouteLeaveHook(this.props.route, () => {
-                return "Bạn có chắc muốn hủy không?";
-        });
+            this.setState({materials, colors, sizes, packings});
+        }
     }
-
-
-    // componentWillReceiveProps(nextProps) {
-    //     console.log("next", nextProps);
-    // }
 
     updateFormData(e) {
         let name = e.target.name;
@@ -84,19 +88,16 @@ class CreatePrintOrderContainer extends React.Component {
                 [attribute[0]]: value,
             };
         }
-        //this.props.printOrderActions.updateFormData(newdata);
         this.setState({data: newdata});
     }
 
     changeGood(e) {
         let newdata = {...this.state.data, good: e};
-        //this.props.printOrderActions.updateFormData(newdata);
         this.setState({data: newdata});
     }
 
     changeCompany(e) {
         let newdata = {...this.state.data, company: e};
-        //this.props.printOrderActions.updateFormData(newdata);
         this.setState({data: newdata});
     }
 
@@ -152,8 +153,8 @@ class CreatePrintOrderContainer extends React.Component {
     }
 
     render() {
-        let {companies, goods, isLoading, isCommitting} = this.props;
-        let {data} = this.state;
+        let {companies, goods, isLoading, isCommitting, isLoadingPropers} = this.props;
+        let {data, materials, sizes, packings, colors} = this.state;
         let total_price =
             data.core1.number * data.core1.price
             +
@@ -167,441 +168,466 @@ class CreatePrintOrderContainer extends React.Component {
             +
             data.spare_part2.number * data.spare_part2.price
             +
-            data.packing1.price * 1 + data.packing2.price * 1
+            data.packing1.price  + data.packing2.price
             +
-            data.other.price * 1
+            data.other.price
         ;
         let VAT_price = Math.round(1.1 * total_price).toFixed(2);
-//        console.log(total_price,VAT_price,data.core1.number,data.core1.price,data.core2.number,data.core2.price,data.cover1.number,data.cover1.price,data.cover2.number,data.cover2.price,data.spare_part1.number,data.spare_part1.price,data.spare_part2.number,data.spare_part2.price,data.packing1.price ,data.packing2.price,data.other.price)
 
 
         return (
             <div className="content">
                 <div className="container-fluid">
-                    {
+                    {(isLoading) ? <Loading/> :
+                        <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
+                            <div className="row">
+                                <div className="col-md-8">
+                                    <div className="card">
+                                        <div className="card-header card-header-icon" data-background-color="rose">
+                                            <i className="material-icons">assignment</i>
+                                        </div>
 
-                        (isLoading)
-
-                            ?
-                            <Loading/> :
-
-                            <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">assignment</i>
+                                        <div className="card-content">
+                                            <h4 className="card-title">Chất liệu</h4>
+                                            <div style={{display: "flex", flexDirection: "row-reverse"}}>
+                                                <button className="btn btn-fill btn-rose" type="button"
+                                                        onClick={() => {
+                                                        }}
+                                                        disabled={isCommitting || isLoading || isLoadingPropers}
+                                                >
+                                                    <i className="material-icons">add</i>Thêm thuộc tính
+                                                </button>
                                             </div>
-
-                                            <div className="card-content">
-                                                <h4 className="card-title">Chất liệu</h4>
-                                                <div className="table-responsive">
-                                                    <table id="datatables" className="table table-no-bordered"
-                                                           cellSpacing="0" width="100%" style={{width: "100%"}}>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td width="15%">Ruột 1</td>
-                                                            <td><FormInputText
-                                                                minValue="0"
-                                                                label="Số trang"
-                                                                type="number"
-                                                                name="core1-number"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.core1.number || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td colSpan={2}><FormInputText
+                                            <div className="table-responsive">
+                                                <table id="datatables" className="table table-no-bordered"
+                                                       cellSpacing="0" width="100%" style={{width: "100%"}}>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td width="15%">Ruột 1</td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            minValue="0"
+                                                            label="Số trang"
+                                                            type="number"
+                                                            name="core1-number"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.core1.number || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                        <td colSpan={2}>
+                                                            <FormInputSelect
+                                                                data={materials}
                                                                 label="Chất liệu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="core1-material"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.core1.material || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "15%"}}>
+                                                            <FormInputSelect
+                                                                data={colors}
                                                                 label="Màu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="core1-color"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.core1.color || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "15%"}}>
+                                                                <FormInputSelect
+                                                                data={sizes}
                                                                 label="Khổ in"
-                                                                type="number" minValue="0"
-                                                                name="core1-size"
                                                                 updateFormData={this.updateFormData}
+                                                                name="core1-size"
                                                                 value={data.core1.size || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                                />
+
+                                                        </td>
+
+                                                                <td><div style={nonSelectStyle}><FormInputText
                                                                 label="Giá"
                                                                 type="number" minValue="0"
                                                                 name="core1-price"
                                                                 updateFormData={this.updateFormData}
                                                                 value={data.core1.price || ""}
                                                                 disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Ruột 2</td>
-                                                            <td><FormInputText
-                                                                label="Số trang"
-                                                                type="number" minValue="0"
-                                                                name="core2-number"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.core2.number || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td colSpan={2}><FormInputText
+                                                                /></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Ruột 2</td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Số trang"
+                                                            type="number" minValue="0"
+                                                            name="core2-number"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.core2.number || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                        <td colSpan={2}>
+                                                            <FormInputSelect
+                                                                data={materials}
                                                                 label="Chất liệu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="core2-material"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.core2.material || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "15%"}}>
+                                                            <FormInputSelect
+                                                                data={colors}
                                                                 label="Màu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="core2-color"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.core2.color || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "15%"}}>
+                                                            <FormInputSelect
+                                                                data={sizes}
                                                                 label="Khổ in"
-                                                                type="number" minValue="0"
+                                                                updateFormData={this.updateFormData}
                                                                 name="core2-size"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.core2.size || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
-                                                                label="Giá"
-                                                                type="number" minValue="0"
-                                                                name="core2-price"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.core2.price || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Bìa 1</td>
-                                                            <td><FormInputText
-                                                                label="Số trang"
-                                                                type="number" minValue="0"
-                                                                name="cover1-number"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.cover1.number || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td colSpan={2}><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Giá"
+                                                            type="number" minValue="0"
+                                                            name="core2-price"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.core2.price || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Bìa 1</td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Số trang"
+                                                            type="number" minValue="0"
+                                                            name="cover1-number"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.cover1.number || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                        <td colSpan={2}>
+                                                            <FormInputSelect
+                                                                data={materials}
                                                                 label="Chất liệu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="cover1-material"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover1.material || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "15%"}}>
+                                                            <FormInputSelect
+                                                                data={colors}
                                                                 label="Màu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="cover1-color"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover1.color || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "15%"}}>
+                                                            <FormInputSelect
+                                                                data={sizes}
                                                                 label="Khổ in"
-                                                                type="number" minValue="0"
+                                                                updateFormData={this.updateFormData}
                                                                 name="cover1-size"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover1.size || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
-                                                                label="Giá"
-                                                                type="number" minValue="0"
-                                                                name="cover1-price"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.cover1.price || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Bìa 2</td>
-                                                            <td><FormInputText
-                                                                label="Số trang"
-                                                                type="number" minValue="0"
-                                                                name="cover2-number"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.cover2.number || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td colSpan={2}><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Giá"
+                                                            type="number" minValue="0"
+                                                            name="cover1-price"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.cover1.price || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Bìa 2</td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Số trang"
+                                                            type="number" minValue="0"
+                                                            name="cover2-number"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.cover2.number || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                        <td colSpan={2}>
+                                                            <FormInputSelect
+                                                                data={materials}
                                                                 label="Chất liệu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="cover2-material"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover2.material || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "15%"}}>
+                                                            <FormInputSelect
+                                                                data={colors}
                                                                 label="Màu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="cover2-color"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover2.color || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "15%"}}>
+                                                            <FormInputSelect
+                                                                data={sizes}
                                                                 label="Khổ in"
-                                                                type="number" minValue="0"
+                                                                updateFormData={this.updateFormData}
                                                                 name="cover2-size"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.cover2.size || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
-                                                                label="Giá"
-                                                                type="number" minValue="0"
-                                                                name="cover2-price"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.cover2.price || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Phụ kiện 1</td>
-                                                            <td><FormInputText
-                                                                label="Tên"
-                                                                type="text"
-                                                                name="spare_part1-name"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.spare_part1.name || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
-                                                                label="Số lượng"
-                                                                type="number" minValue="0"
-                                                                name="spare_part1-number"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.spare_part1.number || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Giá"
+                                                            type="number" minValue="0"
+                                                            name="cover2-price"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.cover2.price || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phụ kiện 1</td>
+                                                        <td style={{width: "15%"}}>
+                                                            <div style={nonSelectStyle}><FormInputText
+                                                            label="Tên"
+                                                            type="text"
+                                                            name="spare_part1-name"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.spare_part1.name || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                        <td style={{width: "10%"}}>
+                                                            <div style={nonSelectStyle}><FormInputText
+                                                            label="Số lượng"
+                                                            type="number" minValue="0"
+                                                            name="spare_part1-number"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.spare_part1.number || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                        <td style={{width: "15%"}}>
+                                                            <FormInputSelect
+                                                                data={materials}
                                                                 label="Chất liệu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="spare_part1-material"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.material || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "10%"}}>
+                                                            <FormInputSelect
+                                                                data={packings}
                                                                 label="Gia công"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="spare_part1-made_by"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.made_by || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "10%"}}>
+                                                            <FormInputSelect
+                                                                data={sizes}
                                                                 label="Khổ in"
-                                                                type="number" minValue="0"
+                                                                updateFormData={this.updateFormData}
                                                                 name="spare_part1-size"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part1.size || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
-                                                                label="Giá"
-                                                                type="number" minValue="0"
-                                                                name="spare_part1-price"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.spare_part1.price || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Phụ kiện 2</td>
-                                                            <td><FormInputText
-                                                                label="Tên"
-                                                                type="text"
-                                                                name="spare_part2-name"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.spare_part2.name || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
-                                                                label="Số lượng"
-                                                                type="number" minValue="0"
-                                                                name="spare_part2-number"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.spare_part2.number || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td style={{width: "10%"}}>
+                                                            <div style={nonSelectStyle}><FormInputText
+                                                            label="Giá"
+                                                            type="number" minValue="0"
+                                                            name="spare_part1-price"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.spare_part1.price || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phụ kiện 2</td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Tên"
+                                                            type="text"
+                                                            name="spare_part2-name"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.spare_part2.name || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Số lượng"
+                                                            type="number" minValue="0"
+                                                            name="spare_part2-number"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.spare_part2.number || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                        <td>
+                                                            <FormInputSelect
+                                                                data={materials}
                                                                 label="Chất liệu"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="spare_part2-material"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.material || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <FormInputSelect
+                                                                data={packings}
                                                                 label="Gia công"
-                                                                type="text"
+                                                                updateFormData={this.updateFormData}
                                                                 name="spare_part2-made_by"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.made_by || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <FormInputSelect
+                                                                data={sizes}
                                                                 label="Khổ in"
-                                                                type="number" minValue="0"
+                                                                updateFormData={this.updateFormData}
                                                                 name="spare_part2-size"
-                                                                updateFormData={this.updateFormData}
                                                                 value={data.spare_part2.size || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td><FormInputText
-                                                                label="Giá"
-                                                                type="number" minValue="0"
-                                                                name="spare_part2-price"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.spare_part2.price || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colSpan={1}>{"Đóng gói - "}
-                                                                <wbr/>
-                                                                Gia công
-                                                                <wbr/>
-                                                                1
-                                                            </td>
-                                                            <td colSpan={3}><FormInputText
-                                                                label="Tên"
-                                                                type="text"
-                                                                name="packing1-name"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.packing1.name || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td colSpan={3}><FormInputText
-                                                                label="Giá"
-                                                                type="number" minValue="0"
-                                                                name="packing1-price"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.packing1.price || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colSpan={1}>{"Đóng gói - "}
-                                                                <wbr/>
-                                                                Gia công
-                                                                <wbr/>
-                                                                2
-                                                            </td>
-                                                            <td colSpan={3}><FormInputText
-                                                                label="Tên"
-                                                                type="text"
-                                                                name="packing2-name"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.packing2.name || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td colSpan={3}><FormInputText
-                                                                label="Giá"
-                                                                type="number" minValue="0"
-                                                                name="packing2-price"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.packing2.price || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colSpan={1}>Khác</td>
-                                                            <td colSpan={3}><FormInputText
-                                                                label="Tên"
-                                                                type="text"
-                                                                name="other-name"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.other.name || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td colSpan={3}><FormInputText
-                                                                label="Giá"
-                                                                type="number" minValue="0"
-                                                                name="other-price"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.other.price || ""}
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
+                                                            />
+                                                        </td>
+                                                        <td><div style={nonSelectStyle}><FormInputText
+                                                            label="Giá"
+                                                            type="number" minValue="0"
+                                                            name="spare_part2-price"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.spare_part2.price || ""}
+                                                            disabled={isCommitting}
+                                                        /></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={1}>{"Đóng gói - "}
+                                                            <wbr/>
+                                                            Gia công
+                                                            <wbr/>
+                                                            1
+                                                        </td>
+                                                        <td colSpan={3}><FormInputText
+                                                            label="Tên"
+                                                            type="text"
+                                                            name="packing1-name"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.packing1.name || ""}
+                                                            disabled={isCommitting}
+                                                        /></td>
+                                                        <td colSpan={3}><FormInputText
+                                                            label="Giá"
+                                                            type="number" minValue="0"
+                                                            name="packing1-price"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.packing1.price || ""}
+                                                            disabled={isCommitting}
+                                                        /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={1}>{"Đóng gói - "}
+                                                            <wbr/>
+                                                            Gia công
+                                                            <wbr/>
+                                                            2
+                                                        </td>
+                                                        <td colSpan={3}><FormInputText
+                                                            label="Tên"
+                                                            type="text"
+                                                            name="packing2-name"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.packing2.name || ""}
+                                                            disabled={isCommitting}
+                                                        /></td>
+                                                        <td colSpan={3}><FormInputText
+                                                            label="Giá"
+                                                            type="number" minValue="0"
+                                                            name="packing2-price"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.packing2.price || ""}
+                                                            disabled={isCommitting}
+                                                        /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={1}>Khác</td>
+                                                        <td colSpan={3}><FormInputText
+                                                            label="Tên"
+                                                            type="text"
+                                                            name="other-name"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.other.name || ""}
+                                                            disabled={isCommitting}
+                                                        /></td>
+                                                        <td colSpan={3}><FormInputText
+                                                            label="Giá"
+                                                            type="number" minValue="0"
+                                                            name="other-price"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.other.price || ""}
+                                                            disabled={isCommitting}
+                                                        /></td>
+                                                    </tr>
 
-                                                        <tr>
-                                                            <td colSpan={1}>Thời gian</td>
-                                                            <td colSpan={3}><FormInputDate
-                                                                label="Ngày đặt in"
-                                                                name="order_date"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.order_date || ""}
-                                                                id="form-order-date"
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                            <td colSpan={3}><FormInputDate
-                                                                label="Ngày nhận hàng"
-                                                                name="receive_date"
-                                                                updateFormData={this.updateFormData}
-                                                                value={data.receive_date || ""}
-                                                                id="form-receive-date"
-                                                                disabled={isCommitting}
-                                                            /></td>
-                                                        </tr>
+                                                    <tr>
+                                                        <td colSpan={1}>Thời gian</td>
+                                                        <td colSpan={3}><FormInputDate
+                                                            label="Ngày đặt in"
+                                                            name="order_date"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.order_date || ""}
+                                                            id="form-order-date"
+                                                            disabled={isCommitting}
+                                                        /></td>
+                                                        <td colSpan={3}><FormInputDate
+                                                            label="Ngày nhận hàng"
+                                                            name="receive_date"
+                                                            updateFormData={this.updateFormData}
+                                                            value={data.receive_date || ""}
+                                                            id="form-receive-date"
+                                                            disabled={isCommitting}
+                                                        /></td>
+                                                    </tr>
 
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                    </tbody>
+                                                </table>
                                             </div>
-
                                         </div>
+
                                     </div>
+                                </div>
 
-                                    <div className="col-md-4">
-                                        <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">contacts</i>
-                                            </div>
+                                <div className="col-md-4">
+                                    <div className="card">
+                                        <div className="card-header card-header-icon" data-background-color="rose">
+                                            <i className="material-icons">contacts</i>
+                                        </div>
 
-                                            <div className="card-content">
-                                                <h4 className="card-title">Thông tin </h4>
-                                                <div className="row">
-                                                    <div className="col-md-12">
-                                                        <label>Nhà cung cấp</label>
-                                                        <ReactSelect
-                                                            disabled={this.props.isLoadingCompanies || isCommitting}
-                                                            options={companies || []}
-                                                            onChange={this.changeCompany}
-                                                            value={data.company.id || ""}
-                                                            name="company"
-                                                            defaultMessage="Chọn nhà cung cấp"
-                                                        /></div>
-                                                    <div className="col-md-12">
-                                                        <label>Sản phẩm</label>
-                                                        <ReactSelect
-                                                            disabled={this.props.isLoadingGoods || isCommitting}
-                                                            options={goods || []}
-                                                            onChange={this.changeGood}
-                                                            value={data.good.id || ""}
-                                                            name="good"
-                                                            defaultMessage="Chọn sản phẩm"
-                                                        /></div>
-                                                    <div className="col-md-12">
-                                                        <label className="control-label">Ghi chú</label>
-                                                        <div className="comment-input-wrapper">
+                                        <div className="card-content">
+                                            <h4 className="card-title">Thông tin </h4>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <label>Nhà cung cấp</label>
+                                                    <ReactSelect
+                                                        disabled={this.props.isLoadingCompanies || isCommitting}
+                                                        options={companies || []}
+                                                        onChange={this.changeCompany}
+                                                        value={data.company.id || ""}
+                                                        name="company"
+                                                        defaultMessage="Chọn nhà cung cấp"
+                                                    /></div>
+                                                <div className="col-md-12">
+                                                    <label>Sản phẩm</label>
+                                                    <ReactSelect
+                                                        disabled={this.props.isLoadingGoods || isCommitting}
+                                                        options={goods || []}
+                                                        onChange={this.changeGood}
+                                                        value={data.good.id || ""}
+                                                        name="good"
+                                                        defaultMessage="Chọn sản phẩm"
+                                                    /></div>
+                                                <div className="col-md-12">
+                                                    <label className="control-label">Ghi chú</label>
+                                                    <div className="comment-input-wrapper">
                                                                 <textarea
                                                                     id="textarea-card-comment"
                                                                     name="note"
@@ -619,108 +645,95 @@ class CreatePrintOrderContainer extends React.Component {
                                                                     }}
                                                                     disabled={isCommitting}
                                                                 />
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
-                                        <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">contacts</i>
-                                            </div>
-
-                                            <div className="card-content">
-                                                <h4 className="card-title">Kết quả</h4>
-                                                <div className="row">
-                                                    <div className="col-md-12">
-                                                        <FormInputText
-                                                            label="Tên sản phẩm"
-                                                            type="text"
-                                                            name="name"
-                                                            updateFormData={() => {
-                                                            }}
-                                                            value={data.good.name || ""}
-                                                            disabled={true}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-12">
-                                                        <FormInputText
-                                                            label="Mã sản phẩm"
-                                                            type="text"
-                                                            name="code"
-                                                            updateFormData={() => {
-                                                            }}
-                                                            value={data.good.code || ""}
-                                                            disabled={true}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-12">
-                                                        <FormInputText
-                                                            label="Giá thành"
-                                                            type="number" minValue="0"
-                                                            name="totalprice"
-                                                            updateFormData={() => {
-                                                            }}
-                                                            value={total_price || ""}
-                                                            disabled={true}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-12">
-                                                        <FormInputText
-                                                            label="Giá sau VAT(10%)"
-                                                            type="number" minValue="0"
-                                                            name="vatprice"
-                                                            updateFormData={() => {
-                                                            }}
-                                                            value={VAT_price || ""}
-                                                            disabled={true}
-                                                        />
-                                                    </div>
-
-                                                    {this.props.isCommitting ?
-                                                        <div className="col-md-12">
-                                                            <button className="btn btn-rose  disabled" type="button"
-                                                                    disabled>
-                                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                            </button>
-                                                        </div>
-
-                                                        :
-                                                        <div className="col-md-12">
-                                                            <button
-                                                                className="btn btn-fill btn-rose"
-                                                                type="button"
-                                                                onClick={this.commitData}
-                                                                disabled={isCommitting}
-                                                            > Lưu
-                                                            </button>
-                                                            <button
-                                                                className="btn btn-fill btn-rose"
-                                                                type="button"
-                                                                onClick={() => {
-                                                                    helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
-                                                                        () => {
-                                                                            return browserHistory.push("/business/print-order");
-                                                                        }
-                                                                    );
-                                                                }}
-                                                            > Hủy
-                                                            </button>
-                                                        </div>
-
-                                                    }
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-
 
                                     </div>
-                                </div>
+                                    <div className="card">
+                                        <div className="card-header card-header-icon" data-background-color="rose">
+                                            <i className="material-icons">contacts</i>
+                                        </div>
 
-                            </form>
+                                        <div className="card-content">
+                                            <h4 className="card-title">Kết quả</h4>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <FormInputText
+                                                        label="Tên sản phẩm"
+                                                        type="text"
+                                                        name="name"
+                                                        updateFormData={() => {
+                                                        }}
+                                                        value={data.good.name || ""}
+                                                        disabled={true}
+                                                    />
+                                                </div>
+                                                <div className="col-md-12">
+                                                    <FormInputText
+                                                        label="Giá thành"
+                                                        type="number" minValue="0"
+                                                        name="totalprice"
+                                                        updateFormData={() => {
+                                                        }}
+                                                        value={total_price || ""}
+                                                        disabled={true}
+                                                    />
+                                                </div>
+                                                <div className="col-md-12">
+                                                    <FormInputText
+                                                        label="Giá sau VAT(10%)"
+                                                        type="number" minValue="0"
+                                                        name="vatprice"
+                                                        updateFormData={() => {
+                                                        }}
+                                                        value={VAT_price || ""}
+                                                        disabled={true}
+                                                    />
+                                                </div>
+
+                                                {this.props.isCommitting ?
+                                                    <div className="col-md-12">
+                                                        <button className="btn btn-rose  disabled" type="button"
+                                                                disabled>
+                                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                        </button>
+                                                    </div>
+
+                                                    :
+                                                    <div className="col-md-12">
+                                                        <button
+                                                            className="btn btn-fill btn-rose"
+                                                            type="button"
+                                                            onClick={this.commitData}
+                                                            disabled={isCommitting}
+                                                        > Lưu
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-fill btn-rose"
+                                                            type="button"
+                                                            onClick={() => {
+                                                                helper.confirm("warning", "Thoát", "Bạn có chắc muốn hủy không?", ()=>{
+                                                                    return browserHistory.push("/business/print-order");
+                                                                });
+                                                            }}
+                                                        > Hủy
+                                                        </button>
+                                                    </div>
+
+                                                }
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </form>
 
                     }
                 </div>
@@ -729,12 +742,31 @@ class CreatePrintOrderContainer extends React.Component {
     }
 }
 
+function getProperty(arr, name) {
+    let res = [];
+    for (let i = 0; i < arr.length; i++) {
+        let obj = arr[i];
+        if (obj.name == name) {
+            res = helper.isEmptyInput(obj.value) ? [] : JSON.parse(obj.value);
+        }
+    }
+    res = res.map((itm) => {return {id: itm, name: itm};});
+    // res = [
+    //     {id: "t1", name: "t1"},
+    //     {id: "t2", name: "t2"},
+    //     {id: "t3", name: "t3"},
+    //     ...res,
+    // ];
+    return res;
+}
+
 CreatePrintOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isCommitting: PropTypes.bool,
     isLoadingInfoPrintOrder: PropTypes.bool,
     isLoadingGoods: PropTypes.bool,
     isLoadingCompanies: PropTypes.bool,
+    isLoadingPropers: PropTypes.bool,
     user: PropTypes.object,
     companies: PropTypes.array,
     goods: PropTypes.array,
@@ -743,6 +775,7 @@ CreatePrintOrderContainer.propTypes = {
     params: PropTypes.object,
     router: PropTypes.object,
     route: PropTypes.object,
+    properties: PropTypes.array,
 
 };
 
@@ -750,13 +783,15 @@ function mapStateToProps(state) {
     return {
         isLoading: state.printOrder.isLoading,
         isCommitting: state.printOrder.isCommitting,
-        isLoadingInfoPrintOrder: state.printOrder.isCommitting,
-        isLoadingGoods: state.printOrder.isCommitting,
-        isLoadingCompanies: state.printOrder.isCommitting,
+        isLoadingInfoPrintOrder: state.printOrder.isLoadingInfoPrintOrder,
+        isLoadingGoods: state.printOrder.isLoadingGoods,
+        isLoadingCompanies: state.printOrder.isLoadingCompanies,
+        isLoadingPropers: state.printOrder.isLoadingPropers,
         user: state.login.user,
         companies: state.printOrder.companies,
         goods: state.printOrder.goods,
         data: state.printOrder.data,
+        properties: state.printOrder.properties,
     };
 }
 
@@ -773,65 +808,65 @@ let defaultData = {
     company: {id: null, name: ""},
     staff: {id: null, name: ""},
     good: {id: null, name: ""},
-    quantity: 1,
+    quantity: 0,
     command_code: "",
     core1: {
-        number: 1,
+        number: 0,
         material: "",
         color: "",
-        size: 1,
-        price: 1,
+        size: 0,
+        price: 0,
     },
     core2: {
-        number: 1,
+        number: 0,
         material: "",
         color: "",
-        size: 1,
-        price: 1,
+        size: 0,
+        price: 0,
     },
     cover1: {
-        number: 1,
+        number: 0,
         material: "",
         color: "",
-        size: 1,
-        price: 1,
+        size: 0,
+        price: 0,
     },
     cover2: {
-        number: 1,
+        number: 0,
         material: "",
         color: "",
-        size: 1,
-        price: 1,
+        size: 0,
+        price: 0,
     },
     spare_part1: {
         name: "",
-        number: 1,
+        number: 0,
         material: "",
-        size: 1,
-        price: 1,
+        size: 0,
+        price: 0,
         made_by: "",
     },
     spare_part2: {
         name: "",
-        number: 1,
+        number: 0,
         material: "",
-        size: 1,
-        price: 1,
+        size: 0,
+        price: 0,
         made_by: "",
     },
     packing1: {
         name: "",
-        price: 1,
+        price: 0,
     },
     packing2: {
         name: "",
-        price: 1,
+        price: 0,
     },
     other: {
         name: "",
-        price: 1,
+        price: 0,
     },
-    price: 1,
+    price: 0,
     note: "",
     order_date: null,
     receive_date: null,
