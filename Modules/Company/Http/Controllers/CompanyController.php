@@ -146,7 +146,7 @@ class CompanyController extends ManageApiController
             if ($address)
                 $company->where('office_address', 'like', '%' . $address . '%');
             if ($phone)
-                $company->where('phone', 'like', '%' . $phone . '%');
+                $company->where('phone_company', 'like', '%' . $phone . '%');
             if ($type)
                 $company->where('type', $type);
             $company = $company->orderBy('created_at', 'desc')->paginate($limit);
