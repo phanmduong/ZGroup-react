@@ -7,6 +7,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::put('/{baseId}/display', 'ManageBaseApiController@createBase');
 
     Route::post('/{baseId}/room', 'ManageBaseApiController@createRoom');
+
     Route::put('/{baseId}/room/{roomId}', 'ManageBaseApiController@editRoom');
     Route::get('/room-type', 'ManageBaseApiController@getRoomTypes');
     Route::put('/room-type/{roomTypeId}', 'ManageBaseApiController@editRoomType');
@@ -26,6 +27,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/{roomId}/seats', 'ManageBaseApiController@createSeats');
     Route::put('/seat/{seatId}', 'ManageBaseApiController@updateSeat');
     Route::put('/{roomId}/seat/{seatId}', 'ManageBaseApiController@editSeat');
+    Route::put('/{roomId}/layout', 'ManageBaseApiController@roomLayout');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/seat', 'namespace' => 'Modules\Base\Http\Controllers'], function () {

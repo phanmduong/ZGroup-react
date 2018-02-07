@@ -44,7 +44,8 @@ Route::get('/send-noti-test', 'PublicController@send_noti_test');
 
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
-Route::group(['domain' => 'manage.' . config('app.domain')], function () {
+Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain')], function () {
+    Route::post('/login', 'AuthenticateController@login');
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('/email/{path}', 'ClientController@email')
@@ -168,8 +169,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/create-category', 'ManageBlogController@create_category');
     Route::post('/save-post', 'ManageBlogController@save_post');
     Route::get('/posts', 'ManageBlogController@get_posts');
-    Route::post('/post/{postId}/change-status','ManageBlogController@changeStatusPost');
-    Route::get('/post/categories','ManageBlogController@getAllCategory');
+    Route::post('/post/{postId}/change-status', 'ManageBlogController@changeStatusPost');
+    Route::get('/post/categories', 'ManageBlogController@getAllCategory');
     Route::get('/post/{postId}', 'ManageBlogController@get_post');
     Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
     //End blog api
@@ -315,6 +316,8 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
     Route::post('/upload-image', 'UserApiController@upload_image');
     Route::post('/upload-image-froala', 'PublicApiController@upload_image_froala');
+    Route::post('/upload-video-public', 'PublicApiController@upload_video_public');
+    Route::post('/upload-image-public', 'PublicApiController@upload_image_public');
     Route::post('/upload-file-froala', 'PublicApiController@upload_file_froala');
     Route::post('/delete-image-froala', 'PublicApiController@delete_image_froala');
     Route::post('/upload-video', 'UserApiController@upload_video');
@@ -472,6 +475,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('/posts/{popular}', 'ColormeNewController@social');
     Route::get('/about-us', 'ColormeNewController@social');
     Route::get('/', 'ColormeNewController@home');
+    Route::get('/courses/{salerId?}/{campaignId?}', 'ColormeNewController@home');
     Route::get('/elearning/{courseId}/{lessonId?}', 'ColormeNewController@courseOnline');
 //    Route::get('/post/{LinkId}', 'PublicCrawlController@post');
     Route::get('/post/{LinkId}', 'ColormeNewController@social');

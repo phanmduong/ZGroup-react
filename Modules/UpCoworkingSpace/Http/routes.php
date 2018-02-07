@@ -32,6 +32,7 @@ $manageapiRoutes = function () {
     Route::post('/user-pack', 'UpCoworkingSpaceManageApiController@createUserPack');
     Route::post('/user-pack/{userPackId}/change-status', 'UpCoworkingSpaceManageApiController@changeStatusUserPack');
     Route::put('/user-pack/{userPackId}', 'UpCoworkingSpaceManageApiController@editUserPack');
+    Route::post('/save-call','UpCoworkingSpaceManageApiController@saveCall');
 };
 
 

@@ -8,6 +8,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'noti
     Route::put('/notification-type/{notificationTypeId}', 'NotificationManageApiController@editNotificationType');
     Route::delete('/notification-type/{notificationTypeId}', 'NotificationManageApiController@deleteNotificationType');
     Route::post('/notification-type/send', 'NotificationManageApiController@sendNotification');
+    Route::get('/history-send', 'NotificationManageApiController@historySendNotifications');
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'notification', 'namespace' => 'Modules\Notification\Http\Controllers'], function () {

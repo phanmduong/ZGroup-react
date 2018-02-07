@@ -13,6 +13,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Controllers\ManageApiController;
 use App\Company;
 use Illuminate\Support\Facades\DB;
+use Modules\Good\Entities\GoodPropertyItem;
 
 class CompanyController extends ManageApiController
 {
@@ -46,6 +47,12 @@ class CompanyController extends ManageApiController
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
+        $company->discount_comic = $request->discount_comic;
+        $company->discount_text = $request->discount_text;
+        $company->user_contact1 = $request->user_contact1;
+        $company->user_contact_phone1 = $request->user_contact_phone1;
+        $company->user_contact2 = $request->user_contact2;
+        $company->user_contact_phone2 = $request->user_contact_phone2;
         $company->save();
         $field = Field::find($company->field_id);
         $str = convert_vi_to_en_not_url($field->name);
@@ -90,6 +97,12 @@ class CompanyController extends ManageApiController
         $company->user_contact = $request->user_contact;
         $company->user_contact_phone = $request->user_contact_phone;
         $company->type = $request->type;
+        $company->discount_comic = $request->discount_comic;
+        $company->discount_text = $request->discount_text;
+        $company->user_contact1 = $request->user_contact1;
+        $company->user_contact_phone1 = $request->user_contact_phone1;
+        $company->user_contact2 = $request->user_contact2;
+        $company->user_contact_phone2 = $request->user_contact_phone2;
         $company->save();
         $field = Field::find($company->field_id);
         $str = convert_vi_to_en_not_url($field->name);
@@ -118,13 +131,22 @@ class CompanyController extends ManageApiController
 
     public function getAllCompany(Request $request)
     {
-        $search = $request->search;
+        $name = $request->name;
+        $partner_code = $request->partner_code;
+        $address = $request->address;
+        $phone = $request->phone;
         $type = $request->type;
         $limit = $request->limit ? $request->limit : 20;
         if ($limit != -1) {
             $company = Company::query();
-            if ($search)
-                $company->where('name', 'like', '%' . $search . '%');
+            if ($name)
+                $company->where('name', 'like', '%' . $name . '%');
+            if ($partner_code)
+                $company->where('partner_code', 'like', '%' . $partner_code . '%');
+            if ($address)
+                $company->where('office_address', 'like', '%' . $address . '%');
+            if ($phone)
+                $company->where('phone_company', 'like', '%' . $phone . '%');
             if ($type)
                 $company->where('type', $type);
             $company = $company->orderBy('created_at', 'desc')->paginate($limit);
@@ -229,8 +251,8 @@ class CompanyController extends ManageApiController
             $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
             $payments = $payments->whereBetween('created_at', array($start_time, $end_time));
         }
-        if($type) {
-            $payments = $payments->where('type',$type);
+        if ($type) {
+            $payments = $payments->where('type', $type);
         }
         $pre_payments = $payments->get();
         $summary_money = $pre_payments->reduce(function ($total, $payment) {
@@ -358,6 +380,10 @@ class CompanyController extends ManageApiController
 
         if ($request->good_id)
             $printorders = $printorders->where('good_id', $request->good_id);
+
+        if ($request->status != null)
+            $printorders = $printorders->where('status', $request->status);
+
         $printorders = $printorders->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($printorders, [
@@ -447,14 +473,8 @@ class CompanyController extends ManageApiController
     {
         $printOrder = PrintOrder::find($printOrderId);
         if (!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
-        $printOrder->status = 1;
+        $printOrder->status = $request->status;
         $printOrder->save();
-        $payment = new Payment;
-        $payment->type = "debt_print";
-        $payment->payer_id = 1;
-        $payment->receiver_id = $printOrder->company_id;
-        $payment->money_value = $printOrder->quantity * $printOrder->price * 1.1;
-        $payment->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi thành công"
         ]);
@@ -464,16 +484,60 @@ class CompanyController extends ManageApiController
     {
         $exportorder = ExportOrder::find($exportOrderId);
         if (!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
-        $exportorder->status = 1;
+        $exportorder->status = $request->status;
         $exportorder->save();
-        $payment = new Payment;
-        $payment->type = "debt_export";
-        $payment->payer_id = 1;
-        $payment->receiver_id = $exportorder->company_id;
-        $payment->money_value = $exportorder->total_price;
-        $payment->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi thành công"
         ]);
     }
+
+    public function getAllCodePrintOrder()
+    {
+        $printorders = PrintOrder::query();
+        $printorders = $printorders->orderBy('created_at', 'desc')->get();
+        return $this->respondSuccessWithStatus([
+            "codes" => $printorders->map(function ($printorder) {
+                return [
+                    "id" => $printorder->id,
+                    "code" => $printorder->command_code,
+                ];
+            })
+        ]);
+    }
+
+    public function getAllProperties()
+    {
+        $props = GoodPropertyItem::where('type','print_order')->get();
+        return $this->respondSuccessWithStatus([
+            "props" => $props->map(function($prop){
+                  return[
+                      "id" => $prop->id,
+                      "name" => $prop->name,
+                      "value" => $prop->prevalue,
+                  ];
+            })
+        ]);
+    }
+    public function editProperty($propId,Request $request){
+        $prop = GoodPropertyItem::find($propId);
+        if($request->value === null)
+            return $this->respondErrorWithStatus("Thiếu trường");
+        $prop->prevalue = $request->value;
+
+        $prop->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi thành công"
+        ]);
+    }
+    public function createProperty(Request $request){
+        $prop = new GoodPropertyItem();
+        $prop->name = $request->name;
+        $prop->prevalue = $request->value;
+        $prop->type = "print_order";
+        $prop->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thêm thành công"
+        ]);
+    }
+
 }

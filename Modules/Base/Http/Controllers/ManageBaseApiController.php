@@ -28,10 +28,24 @@ class ManageBaseApiController extends ManageApiController
         if ($room === null) {
             return $this->respondErrorWithStatus("Phòng không tồn tại");
         }
-        $seats = $room->seats;
+        $seats = $room->seats()->where("archived", 0)->get();
         return $this->respondSuccessWithStatus([
-            "seats" => $seats
+            "seats" => $seats,
+            "width" => $room->width,
+            "height" => $room->height,
+            "room_layout_url" => $room->room_layout_url
         ]);
+    }
+
+    public function roomLayout($roomId, Request $request) {
+        $room = Room::find($roomId);
+        if ($room === null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+        $imageName = uploadFileToS3($request, "image", 1000, $room->room_layout_name);
+        $room->room_layout_name = $imageName;
+        $room->room_layout_url = $this->s3_url . $imageName;
+        $room->save();
 
     }
 
@@ -159,7 +173,7 @@ class ManageBaseApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             "message" => "Lưu chỗ ngồi thành công",
-            "seats" => $room->seats
+            "seats" => $room->seats()->where("archived", 0)->get()
         ]);
 
     }
@@ -399,19 +413,16 @@ class ManageBaseApiController extends ManageApiController
         })->groupBy('seats.id')->select('seats.*')->get();
 
         $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
-        $booked_seats = $booked_seats
-            ->where(function ($query) use ($request) {
-                $query
-                    ->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
+        $booked_seats = $booked_seats->where(function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
                     ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->to)));
             })
-            ->orWhere(function ($query) use ($request) {
-                $query
-                    ->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
-                    ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
-            })
-            ->groupBy('seats.id')->select('seats.*')
-            ->get();
+                ->orWhere(function ($query) use ($request) {
+                    $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
+                        ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
+                });
+        })->groupBy('seats.id')->select('seats.*')->get();
         return $this->respondSuccessWithStatus([
             'seats' => $seats->map(function ($seat) {
                 return $seat->getData();

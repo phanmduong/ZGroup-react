@@ -43,9 +43,7 @@ class AuthenticateController extends Controller
         $user = User::where('email', $credentials['email'])->first();
         $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
 
-        if ($request->token_browser) {
-            add_browser_notification($user->id, $request->token_browser);
-        }
+        Auth::attempt($credentials);
 
         if ($user->phone != null && $user->phone != "" && $user->homeland != null && $user->homeland != "" &&
             $user->age != null && $user->age != "" && $user->name != null && $user->name != "" &&

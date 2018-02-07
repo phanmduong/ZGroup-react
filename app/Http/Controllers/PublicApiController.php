@@ -79,6 +79,22 @@ class PublicApiController extends ApiController
         return $this->respond(['link' => $data['file_url']]);
     }
 
+    public function upload_image_public(Request $request)
+    {
+        $image_name = uploadImageToS3($request, 'image', 800, null);
+        if ($image_name != null) {
+            $data["image_url"] = config('app.protocol') . trim_url($this->s3_url . $image_name);
+            $data["image_name"] = $image_name;
+        }
+        return $this->respond(['link' => $data['image_url']]);
+    }
+
+    public function upload_video_public(Request $request)
+    {
+        $video_name = uploadAndTranscodeVideoToS3($request, 'video', null);
+        return $this->respond(['link' => $this->s3_url . $video_name]);
+    }
+
     public function delete_image_froala(Request $request)
     {
 //        $file_name = explode(".net", $request->src)[1];
