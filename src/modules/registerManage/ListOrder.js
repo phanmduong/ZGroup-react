@@ -1,16 +1,15 @@
 import React from 'react';
-// import ItemOrder from './ItemOrder';
 import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import * as helper from '../../helpers/helper';
 
 // import {Link} from "react-router";
 import {Modal} from 'react-bootstrap';
 import CallModal from "./CallModal";
 import {REGISTER_STATUS} from "../../constants/constants";
+import TooltipButton from "../../components/common/TooltipButton";
 
-
+import moment from "moment/moment";
 
 
 class ListOrder extends React.Component {
@@ -20,16 +19,12 @@ class ListOrder extends React.Component {
         this.state = {
             isOpenModal: false,
             register: {},
-
             isOpenCallModal: false,
-
-
         };
 
 
         this.openCallModal = this.openCallModal.bind(this);
         this.closeCallModal = this.closeCallModal.bind(this);
-        this.deletePost = this.deletePost.bind(this);
     }
 
     openCallModal(register) {
@@ -40,15 +35,9 @@ class ListOrder extends React.Component {
         this.setState({isOpenCallModal: false});
     }
 
-    deletePost() {
-        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá ",
-            function () {
-                // this.props.blogActions.deletePost(post.id);
-            }.bind(this));
-    }
 
     render() {
-        console.log(this.props.registers,"QQQQQQQQ");
+        // console.log(this.props.registers,"QQQQQQQQ");
 
         return (
             <div className="table-responsive">
@@ -58,7 +47,6 @@ class ListOrder extends React.Component {
                             <table className="table table-hover">
                                 <thead className="text-rose">
                                 <tr>
-                                    {/*<th/>*/}
                                     <th>Gọi</th>
                                     <th>Khách hàng</th>
                                     <th>Số điện thoại</th>
@@ -69,34 +57,48 @@ class ListOrder extends React.Component {
                                     <th>Giá tiền</th>
                                     <th>Tiền đã trả</th>
                                     <th>Đăng ký</th>
-                                    <th/>
                                 </tr>
                                 </thead>
                                 <tbody>
 
                                 {this.props.registers.map((register) => {
 
-
                                     let btn = '';
-                                    // let titleCall = 'Chưa gọi - Còn ' + register.time_to_reach + 'h';
-                                    if (register.teleCalls.length > 0) {
-                                        let call = register.teleCalls && register.teleCalls[register.teleCalls.length - 1];
+                                    let titleCall = '';
+                                    let expiredTime = Date.parse(moment(register.created_at, "HH:mm DD-MM-YYYY").add(1, 'days').format("HH:mm MM-DD-YYYY"));
+                                    let firstCall = Date.parse(moment(register.teleCalls[0] && register.teleCalls[0].created_at, "HH:mm DD-MM-YYYY").format("HH:mm MM-DD-YYYY"));
+                                    let presentTime = new Date();
 
+                                    presentTime = Date.parse(presentTime);
+
+
+                                    let call = register.teleCalls && register.teleCalls[register.teleCalls.length - 1];
+
+                                    // console.log(expiredTime, Date.parse(register.teleCalls[0] && register.teleCalls[0].created_at),"sadasd");
+
+                                    if (register.teleCalls.length > 0 && expiredTime > firstCall) {
                                         if (call.call_status === 1) {
                                             btn = ' btn-success';
-                                            // titleCall = 'Gọi thành công trong vòng ' + register.time_to_reach + 'h';
+                                            titleCall = 'Gọi thành công lúc ' + call.created_at;
                                         }
                                         else if (call.call_status === 0) {
                                             btn = ' btn-danger';
-                                            // titleCall = 'Gọi thất bại - Còn ' + register.time_to_reach + 'h';
-                                        } else if (call.call_status === 2) {
-                                            btn = ' btn-info';
-                                            // titleCall = 'Đang gọi';
+                                            titleCall = 'Gọi thất bại lúc ' + call.created_at;
                                         }
                                     }
-                                    else{
-                                        btn = "";
+
+                                    else {
+                                        if (expiredTime >= presentTime) {
+                                            btn = ' btn-default ';
+                                            titleCall = ' Còn ' + Math.floor((expiredTime - presentTime) / 3600000) + ' h';
+                                        }
+                                        else {
+                                            btn = ' btn-warning ';
+                                            titleCall = ' Đã quá hạn ' + Math.floor((presentTime - expiredTime) / 3600000) + ' h';
+                                        }
                                     }
+
+
                                     return (
                                         <tr key={register.id}>
                                             {/*<td>*/}
@@ -125,16 +127,17 @@ class ListOrder extends React.Component {
                                             <td>
 
                                                 <div className="container-call-status">
-                                                    <button
-                                                        className={"btn btn-round "  + btn+" full-width padding-left-right-10"}
-                                                        data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                                        onClick={() => this.openCallModal(register)}
-                                                    >
-                                                        <i className="material-icons">
-                                                            phone
-                                                        </i> {register.hour ? (register.hour + " h") : null}
-                                                        {/*{register.call_status !== 'calling' && (register.time_to_reach + 'h')}*/}
-                                                    </button>
+                                                    <TooltipButton text={titleCall} placement="top">
+
+                                                        <button
+                                                            className={"btn btn-round " + btn + " full-width padding-left-right-10"}
+                                                            onClick={() => this.openCallModal(register)}
+                                                        >
+                                                            <i className="material-icons">
+                                                                phone
+                                                            </i> {register.hour ? (register.hour + " h") : null}
+                                                        </button>
+                                                    </TooltipButton>
                                                 </div>
                                             </td>
                                             <td>
@@ -151,10 +154,12 @@ class ListOrder extends React.Component {
                                                 {register.code || "Chưa có"}
                                             </td>
                                             <td>
-                                                {/*<a className={"btn btn-xs btn-main " + register.btnSaler}>{register.name} /!*  deleete*!/*/}
                                                 {register.staff ?
                                                     <a className="btn btn-xs btn-main"
-                                                       onClick={(e)=>{this.props.filterByStaff(register.staff.id); e.preventDefault();}}
+                                                       onClick={(e) => {
+                                                           this.props.filterByStaff(register.staff.id);
+                                                           e.preventDefault();
+                                                       }}
                                                        style={{backgroundColor: register.staff.color && register.staff.color}}
                                                     >{register.staff.name}
                                                     </a>
@@ -189,7 +194,10 @@ class ListOrder extends React.Component {
                                                 {register.campaign ?
                                                     <a className="btn btn-xs btn-main"
                                                        style={{backgroundColor: '#' + register.campaign.color}}
-                                                       onClick={(e)=>{this.props.filterByCampaign(register.campaign.id);e.preventDefault();}}
+                                                       onClick={(e) => {
+                                                           this.props.filterByCampaign(register.campaign.id);
+                                                           e.preventDefault();
+                                                       }}
                                                     >{register.campaign.name} {/*  deleete*/}
                                                     </a>
                                                     :
@@ -203,39 +211,12 @@ class ListOrder extends React.Component {
                                             </td>
                                             <td>{helper.dotNumber(register.money)}đ</td>
                                             <td>{register.created_at}</td>
-                                            <td>
-                                                <ButtonGroupAction
-                                                    disabledEdit={!(register.editable && register.paid_status)}
-                                                    // edit={(obj)=>{return this.props.openModalChangeInfoStudent(obj); }}
-                                                    delete={this.deletePost}
-                                                    object={register}
-                                                    // disabledDelete={!register.is_delete}>
-                                                >
-                                                    {/*<a data-toggle="tooltip" title="Đổi lớp"*/}
-                                                    {/*onClick={() => this.props.openModalChangeClass(register.id)}*/}
-                                                    {/*type="button"*/}
-                                                    {/*rel="tooltip">*/}
-                                                    {/*<i className="material-icons">swap_vertical_circle</i>*/}
-                                                    {/*</a>*/}
-                                                </ButtonGroupAction>
-                                            </td>
+
                                         </tr>
                                     );
                                 })}
 
                                 </tbody>
-
-
-                                {/*<tbody>*/}
-                                {/*{*/}
-                                {/*this.props.registers.map((register, index) => {*/}
-                                {/*return (*/}
-                                {/*<ItemOrder register={register} key={index}*/}
-                                {/*/>*/}
-                                {/*);*/}
-                                {/*})*/}
-                                {/*}*/}
-                                {/*</tbody>*/}
 
 
                             </table>
@@ -248,7 +229,7 @@ class ListOrder extends React.Component {
                     <Modal.Body>
                         <CallModal
                             register={this.state.register}
-                            closeCallModal = {this.closeCallModal}
+                            closeCallModal={this.closeCallModal}
                         />
                     </Modal.Body>
                 </Modal>

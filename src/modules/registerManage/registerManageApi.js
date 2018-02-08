@@ -30,7 +30,7 @@ export function getAllStaffApi() {
     }
     return axios.get(url);
 }
-export function changeCallStatusApi(status, note, register_id, user_id, staff_id) {
+export function changeCallStatusApi(status, note, register_id, user_id) {
     let url = env.MANAGE_API_URL + '/coworking-space/save-call?';
     let token = localStorage.getItem('token');
     if (token) {
@@ -38,7 +38,6 @@ export function changeCallStatusApi(status, note, register_id, user_id, staff_id
     }
     return axios.post(url,{
         "register_id" : register_id,
-        "caller_id" : staff_id,
         "listener_id" : user_id,
         "note" : note,
         "call_status" : status,

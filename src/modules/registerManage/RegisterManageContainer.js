@@ -14,6 +14,9 @@ import Pagination from "../../components/common/Pagination";
 //import Loading from "../../components/common/Loading";
 // import {Link} from "react-router";
 import {REGISTER_STATUS} from "../../constants/constants";
+import {loadAllRegistersApi} from "./registerManageApi";
+import XLSX from 'xlsx';
+import {saveWorkBookToExcel} from "../../helpers/helper";
 
 
 // import {Modal} from 'react-bootstrap';
@@ -37,6 +40,7 @@ class RegisterManageContainer extends React.Component {
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.filterByCampaign = this.filterByCampaign.bind(this);
         this.filterByStaff = this.filterByStaff.bind(this);
+        this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
     }
 
@@ -154,6 +158,48 @@ class RegisterManageContainer extends React.Component {
         );
     }
 
+
+     exportRegistersResultExcel() {
+        this.props.registerManageAction.showGlobalLoading();
+        const wsData = this.props.registers;
+        const field = [];
+        field[0] = "Tên";
+        field[1] = "Email";
+        field[2] = "Số điện thoại";
+        field[3] = "Ngày đăng kí";
+        field[4] = "Saler";
+        field[5] = "Chiến dịch";
+        field[6] = "Gói thành viên";
+        const datas = wsData.map((data) => {
+            let tmp = [];
+            tmp[0] = data.user.name;
+            tmp[1] = data.user.email || "Chưa có";
+            tmp[2] = data.user.phone || "Chưa có";
+            tmp[3] = data.created_at || "Chưa có";
+            tmp[4] = data.saler && data.saler.name || "Không có";
+            tmp[5] = data.campaign && data.campaign.name || "Không có";
+            tmp[6] = data.subscription && data.subscription.user_pack_name;
+            return tmp;
+        });
+        const tmpWsData = [field, ...datas];
+        const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
+        const sheetName = "Danh sách đăng kí";
+        let workbook = {
+            SheetNames: [],
+            Sheets: {},
+        };
+        workbook.SheetNames.push(sheetName);
+        workbook.Sheets[sheetName] = ws;
+        saveWorkBookToExcel(workbook, "Danh sách đăng kí");
+         this.props.registerManageAction.hideGlobalLoading();
+     }
+
+    closeModal() {
+        this.setState({
+            showModal: false
+        });
+    }
+
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
@@ -162,7 +208,7 @@ class RegisterManageContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <button
-                        onClick={this.showLoadingModal}
+                        onClick={this.exportRegistersResultExcel}
                         className="btn btn-info btn-rose"
                         style={{float: "right"}}
                     >
@@ -237,8 +283,8 @@ class RegisterManageContainer extends React.Component {
                                 <ListOrder
                                     registers={this.props.registers}
                                     isLoading={this.props.isLoading}
-                                    filterByStaff = {this.filterByStaff}
-                                    filterByCampaign = {this.filterByCampaign}
+                                    filterByStaff={this.filterByStaff}
+                                    filterByCampaign={this.filterByCampaign}
                                 />
 
 

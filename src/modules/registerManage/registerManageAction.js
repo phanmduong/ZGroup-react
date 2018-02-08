@@ -32,12 +32,12 @@ export function getAllStaffs() {
     };
 }
 
-export function changeCallStatus(status, note, register_id, user_id, staff_id,closeCallModal) {
+export function changeCallStatus(status, note, register_id, user_id,closeCallModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS,
         });
-        registerManageApi.changeCallStatusApi(status, note, register_id, user_id, staff_id)
+        registerManageApi.changeCallStatusApi(status, note, register_id, user_id)
             .then((res) => {
                 if (res.data.status) {
                     dispatch({type: types.LOADED_CHANGE_CALL_STATUS_SUCCESS});
@@ -60,4 +60,19 @@ export function changeCallStatus(status, note, register_id, user_id, staff_id,cl
 
     };
 }
+
+export const showGlobalLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+    };
+};
+export const hideGlobalLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: types.HIDE_GLOBAL_LOADING
+        });
+    };
+};
 

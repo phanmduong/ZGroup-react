@@ -4,16 +4,25 @@ import * as helper from '../../helpers/helper';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as registerManageAction from './registerManageAction';
+import moment from "moment/moment";
 
+function parseTime(x) {
+    let hour = moment(x, "HH:mm DD-MM-YYYY").format("HH:mm");
+    let date = moment( x, "HH:mm DD-MM-YYYY").format("DD");
+    let mouth = moment(x, "HH:mm DD-MM-YYYY").format("MM");
+    let year = moment(x, "HH:mm DD-MM-YYYY").format("YYYY");
+    return "Ngày "+ date + " tháng " + mouth + " năm " + year + " , " + hour;
+}
 
 class CallModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {note: ""};
         this.changeCallStatus = this.changeCallStatus.bind(this);
+        // console.log(parseTime("00:57 06-02-2018"),moment("00:57 06-02-2018", "HH:mm DD-MM-YYYY").add(2,"days").format("DD"),"sad");
     }
-    changeCallStatus(status,note,register_id,user_id,staff_id){
-        this.props.registerManageAction.changeCallStatus(status,note,register_id,user_id,staff_id,this.props.closeCallModal);
+    changeCallStatus(status,note,register_id,user_id){
+        this.props.registerManageAction.changeCallStatus(status,note,register_id,user_id,this.props.closeCallModal);
     }
 
     render() {
@@ -162,12 +171,10 @@ class CallModal extends React.Component {
                                             if (history.call_status === 1) {
                                                 btn = ' success';
                                             }
+
                                             else if (history.call_status === 0) {
                                                 btn = ' danger';
-                                            } else if (history.call_status === 2) {
-                                                btn = ' info';
                                             }
-
                                             return (
                                                 <li className="timeline-inverted" key={index}>
                                                     <div className={"timeline-badge " + btn}>
@@ -180,7 +187,7 @@ class CallModal extends React.Component {
                                                                             {history.caller.name}
                                                                 </span>
                                                             <span
-                                                                className="label label-default">{history.created_at.date}
+                                                                className="label label-default">{parseTime(history.created_at)}
                                                                 </span>
                                                         </div>
                                                         <div className="timeline-body">
@@ -232,7 +239,7 @@ class CallModal extends React.Component {
                             <button type="button" className="btn btn-success btn-round"
                                     data-dismiss="modal"
                                     onClick={() => {
-                                        this.changeCallStatus(1,this.state.note, register.id,register.user.id,register.staff.id,);
+                                        this.changeCallStatus(1,this.state.note, register.id,register.user.id);
                                     }}>
                                 <i className="material-icons">phone</i>
                                 Gọi thành công
@@ -240,7 +247,7 @@ class CallModal extends React.Component {
                             <button type="button" className="btn btn-danger btn-round"
                                     data-dismiss="modal"
                                     onClick={() => {
-                                        this.changeCallStatus(0,this.state.note, register.id,register.user.id,register.staff.id,);
+                                        this.changeCallStatus(0,this.state.note, register.id,register.user.id);
                                     }}>
                                 <i className="material-icons">phone</i>
                                 Không gọi được
@@ -259,8 +266,6 @@ CallModal.propTypes = {
     isChangingStatus: PropTypes.bool.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     closeCallModal: PropTypes.func.isRequired,
-    // isLoadingHistoryCall: PropTypes.bool.isRequired,
-
 };
 
 function mapStateToProps(state) {
