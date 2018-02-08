@@ -72,10 +72,11 @@ export default {
     },
 
     orderedProduct: {
+        isSendingPrice: false,
         addNoteModal: false,
         addCancelNoteModal: false,
         sendPriceModal: false,
-        orderSendPriceModal: {},
+        orderSendPriceModal: [],
         orderNote: {},
         cancelNote: {},
         isSendingNote: false,

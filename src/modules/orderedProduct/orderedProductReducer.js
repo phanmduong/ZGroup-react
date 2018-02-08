@@ -101,7 +101,18 @@ export default function orderedProductReducer(state = initialState.orderedProduc
         case types.HANDLE_SEND_PRICE_MODAL:
             return {
                 ...state,
-                orderSendPriceModal: action.order
+                orderSendPriceModal: action.orders
+            };
+        case types.BEGIN_SEND_PRICE_ORDERED_PRODUCT:
+            return {
+                ...state,
+                isSendingPrice: true
+            };
+        case types.SEND_PRICE_SUCCESS_ORDERED_PRODUCT:
+            return {
+                ...state,
+                isSendingPrice: false,
+                sendPriceModal: false,
             };
         default:
             return state;

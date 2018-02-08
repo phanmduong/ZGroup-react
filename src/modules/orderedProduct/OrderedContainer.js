@@ -56,6 +56,23 @@ class OrderedContainer extends React.Component {
         this.props.orderedProductAction.getAllStaffs();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSendingPrice !== this.props.isSendingPrice && !nextProps.isSendingPrice) {
+            this.props.orderedProductAction.loadAllOrders();
+            this.setState({
+                page: 1,
+                query: '',
+                time: {
+                    startTime: '',
+                    endTime: ''
+                },
+                status: '',
+                staff_id: null,
+                user_id: null
+            });
+        }
+    }
+
     orderedSearchChange(value) {
         this.setState({
             page: 1,
@@ -113,6 +130,8 @@ class OrderedContainer extends React.Component {
         if (value) {
             this.setState({
                 status: value.value,
+                isSendingPrice: (value.value === "place_order" && this.state.isSendingPrice),
+                checkedPrice: {},
                 page: 1
             });
             this.props.orderedProductAction.loadAllOrders(
@@ -127,6 +146,8 @@ class OrderedContainer extends React.Component {
         } else {
             this.setState({
                 status: null,
+                isSendingPrice: false,
+                checkedPrice: {},
                 page: 1
             });
             this.props.orderedProductAction.loadAllOrders(
@@ -184,15 +205,31 @@ class OrderedContainer extends React.Component {
         this.props.orderedProductAction.handleAddCancelNoteModal(order);
     }
 
-    showSendPriceModal(order) {
-        this.props.orderedProductAction.showSendPriceModal();
-        this.props.orderedProductAction.handleSendPriceModal(order);
+    showSendPriceModal(orders) {
+        if (orders.length) {
+            this.props.orderedProductAction.showSendPriceModal();
+            this.props.orderedProductAction.handleSendPriceModal(orders);
+        } else {
+            helper.showErrorMessage("Xin lỗi", "Chưa có đơn hàng nào được chọn");
+        }
     }
 
     checkSendPrice() {
+        if (this.state.isSendingPrice) {
+            this.props.orderedProductAction.loadAllOrders();
+        } else this.props.orderedProductAction.loadAllOrders(
+            1,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            "place_order",
+            this.state.staff_id,
+            this.state.user_id
+        );
         this.setState({
             isSendingPrice: !this.state.isSendingPrice,
-            checkedPrice: {}
+            checkedPrice: {},
+            status: "place_order"
         });
     }
 
@@ -260,6 +297,19 @@ class OrderedContainer extends React.Component {
                                     className="btn btn-rose">
                                     Báo giá
                                 </button>
+                                {
+                                    this.state.isSendingPrice && (
+                                        <button
+                                            onClick={() => this.showSendPriceModal(
+                                                this.props.deliveryOrders.filter(order => this.state.checkedPrice[order.id])
+                                            )}
+                                            rel="tooltip" data-placement="top" title=""
+                                            data-original-title="Gửi báo giá" type="button"
+                                            className="btn btn-rose">
+                                            Gửi báo giá
+                                        </button>
+                                    )
+                                }
                             </div>
                             {/*<div>*/}
                             {/*<TooltipButton text="In dưới dạng pdf" placement="top">*/}
@@ -456,6 +506,7 @@ OrderedContainer.propTypes = {
     staffs: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     orderedProductAction: PropTypes.object.isRequired,
+    isSendingPrice: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
@@ -470,6 +521,7 @@ function mapStateToProps(state) {
         totalPages: state.orderedProduct.totalPages,
         totalCount: state.orderedProduct.totalCount,
         staffs: state.orderedProduct.staffs,
+        isSendingPrice: state.orderedProduct.isSendingPrice,
         user: state.login.user
     };
 }

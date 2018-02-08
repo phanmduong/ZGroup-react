@@ -23,7 +23,7 @@ class ItemOrder extends React.Component {
             if (nextStatus.order === 7) {
                 this.props.showAddCancelNoteModal(this.props.delivery);
             } else if (nextStatus.order === 1) {
-                this.props.showSendPriceModal(this.props.delivery);
+                this.props.showSendPriceModal([this.props.delivery]);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
                     this.props.changeStatus(value, this.props.delivery.id, null, null);
@@ -46,7 +46,7 @@ class ItemOrder extends React.Component {
                             <CheckBoxMaterial
                                 name="sale_status"
                                 checked={this.props.check}
-                                onChange={()=>this.props.chooseItem(delivery.id)}
+                                onChange={() => this.props.chooseItem(delivery.id)}
                             />
                         </td>
                     )
