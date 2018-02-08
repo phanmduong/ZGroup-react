@@ -23,7 +23,8 @@ class RoomGrid extends React.Component {
 
     componentDidUpdate() {
         // console.log(this.getGridState());
-        D3RoomGrid.update(this.el, this.getGridState());
+        const state = this.getGridState();
+        D3RoomGrid.update(this.el, state);
     }
 
     componentWillUnmount() {
@@ -31,8 +32,8 @@ class RoomGrid extends React.Component {
     }
 
     getGridState() {
-        const {seats, domain, width, height} = this.props;
-        return {seats, domain, width, height};
+        const {seats, width, height, roomLayoutUrl} = this.props;
+        return {seats, width, height, roomLayoutUrl};
     }
 
     render() {
@@ -45,9 +46,9 @@ class RoomGrid extends React.Component {
 
 RoomGrid.propTypes = {
     seats: PropTypes.array.isRequired,
-    domain: PropTypes.object.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    roomLayoutUrl: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
     currentAction : PropTypes.string.isRequired,

@@ -14,6 +14,7 @@ import {
 } from "../seat/seatActions";
 import CreateSeatComponent from '../seat/CreateSeatComponent';
 import ButtonList from "./ButtonList";
+import {ProgressBar} from 'react-bootstrap';
 import {uploadRoomLayout} from '../../rooms/roomApi';
 
 
@@ -27,14 +28,13 @@ class RoomDetailContainer extends React.Component {
             color: "rgb(244, 67, 54)"
         };
         this.state = {
-            room_layout_url: "",
+            roomLayoutUrl: "",
             width: 0,
             height: 0,
             seat: this.initSeat,
             seats:[],
             uploading: false,
-            percentComplete: 0,
-            domain: {x: [0, 0], y: [0, 0]}
+            percentComplete: 0
         };
         this.onClick = this.onClick.bind(this);
         this.onDrag = this.onDrag.bind(this);
@@ -46,23 +46,32 @@ class RoomDetailContainer extends React.Component {
         this.updateSeatFormData = this.updateSeatFormData.bind(this);
         this.saveSeats = this.saveSeats.bind(this);
         this.loadSeats = this.loadSeats.bind(this);
-        this.handleChangeFile = this.handleChangeFile.bind(this);
+        this.handleUploadLayoutImage = this.handleUploadLayoutImage.bind(this);
     }
 
     componentWillMount() {
         this.loadSeats();
     }
 
-    handleChangeFile(event) {
+    handleUploadLayoutImage(event) {
         const file = event.target.files[0];
+        this.setState({
+            uploading: true
+        });
         uploadRoomLayout({
             roomId: this.state.roomId, 
             file,
-            completeHandler: () => {
-                const room = JSON.parse(event.currentTarget.responseText);                
-                console.log(room);
+            completeHandler: (event) => {
+                const data = JSON.parse(event.currentTarget.responseText);                
+                const {width, height, room_layout_url} = data.room;
+                this.setState({
+                    roomLayoutUrl: room_layout_url,
+                    width,
+                    height,
+                    uploading: false                    
+                });
             },
-            progressHandler: () => {
+            progressHandler: (event) => {
                 const percentComplete = Math.round((100 * event.loaded) / event.total);
                 this.setState({percentComplete});
             }
@@ -80,12 +89,7 @@ class RoomDetailContainer extends React.Component {
         this.setState({
             width,
             height,
-            room_layout_url,
-            domain: {
-                ...this.state.domain,
-                x: [0, width],
-                y: [0, height]
-            },
+            roomLayoutUrl: room_layout_url,
             roomId: this.props.params.roomId,
             seats : seats.map((seat, index) => {
                 return {
@@ -183,6 +187,7 @@ class RoomDetailContainer extends React.Component {
         this.props.actions.displayGlobalLoading();
         const res = await seatApi.createSeats(this.state.roomId, this.state.seats);
         const {seats} = res.data.data;
+        console.log(res);
         this.setState({
             seats : seats.map((seat, index) => {
                 return {
@@ -196,7 +201,7 @@ class RoomDetailContainer extends React.Component {
 
 
     onPointClick(index) {
-        // console.log("Point click",index);
+        console.log("Point click",index);
         let currentSeat = {};
         switch (this.props.currentAction) {
             case seatContants.EDIT_SEAT:               
@@ -250,7 +255,7 @@ class RoomDetailContainer extends React.Component {
                 
                 <div>
                     <ButtonList
-                        handleChange={this.handleChangeFile}
+                        handleUploadLayoutImage={this.handleUploadLayoutImage}
                         saveSeats={this.saveSeats}
                         changeAction={this.changeSeatAction}
                         currentAction={this.props.currentAction}
@@ -259,23 +264,35 @@ class RoomDetailContainer extends React.Component {
                 </div>                     
                 
                 <div style={{position: 'relative'}}>
-                    <div style={{
-                        position: "absolute", 
-                        top: 0, left: 0, 
-                        
-                        width: "100%", height: "100%"}}>
-                                        
-                    </div>
+                    {
+                        this.state.uploading && (
+                            <div style={{
+                                position: "absolute", 
+                                top: 0, left: 0,     
+                                zIndex: 99,
+                                justifyContent: "space-around",
+                                display: "flex",
+                                alignItems: "center",
+                                background: "rgba(0,0,0,0.6)",                    
+                                width: "100%", height: "100%"}}>
+                                <ProgressBar
+                                    bsStyle="success"
+                                    style={{width: "80%"}}
+                                    now={this.state.percentComplete} 
+                                    label={`${this.state.percentComplete}%`} />
+                            </div>
+                        )
+                    }
                     <RoomGrid
                         onClick={this.onClick}
                         onDrag={this.onDrag}
+                        roomLayoutUrl={this.state.roomLayoutUrl}                                                                                                    
                         width={this.state.width}
                         height={this.state.height}
                         currentAction={this.props.currentAction}
                         onPointClick={this.onPointClick}
                         roomId={Number(this.props.params.roomId)}
                         seats={this.state.seats}
-                        domain={this.state.domain}
                     />
                 </div>
                         

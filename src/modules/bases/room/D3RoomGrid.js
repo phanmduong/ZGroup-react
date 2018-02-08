@@ -45,24 +45,19 @@ ns.create = function (el, props, state) {
             if (ns.onClick) {
                 ns.onClick(point);
             }
-
-            ns.update(el, state);
         });
 
     this.update(el, state);
 };
 
 ns.update = function (el, state) {
-
-    let scales = this._scales(el, state.domain);
+    
+    let scales = this._scales(state);
     this._drawPoints(el, scales, state);
     // this._drawTooltips(el, scales, state.tooltips, prevScales);
 };
 
-ns._scales = function (elId, domain) {
-    if (!domain) {
-        return null;
-    }
+ns._scales = function ({width}) {
 
     // const el = $(".d3");
     // let width = el.width();
@@ -72,14 +67,14 @@ ns._scales = function (elId, domain) {
 
     // let x = d3.scaleLinear()
     //     .range([0, width])
-    //     .domain(domain.x);
+    //     .domain([0, state.width]);
     //
     // let y = d3.scaleLinear()
     //     .range([0, height])
-    //     .domain(domain.y);
+    //     .domain([0, state.height]);
     //
     const r = d3.scaleLinear()
-        .range([10, 50])
+        .range([10, width / 18])
         .domain([1, 10]);
 
     const x = (x) => x;
@@ -89,12 +84,23 @@ ns._scales = function (elId, domain) {
 
 
 ns._drawPoints = function (el, scales, state) {
-    const {seats, domain, width, height} = state;
+
+    const {seats, width, height, roomLayoutUrl} = state;
+
+    console.log(seats);
 
     const subject = function () {
         return {x: d3.event.x, y: d3.event.y};
     };
-    
+
+    if (ns.roomLayoutUrl !== roomLayoutUrl) {
+        ns.roomLayoutUrl = roomLayoutUrl;
+        d3.select("svg")
+            .style("background-image", `url("${roomLayoutUrl}")`)
+            .style("background-size", "cover")
+            .style("background-position", "center");
+    }
+        
     if (ns.width !== width || ns.height !== height) {
         ns.width = width;
         ns.height = height;
@@ -113,14 +119,7 @@ ns._drawPoints = function (el, scales, state) {
             const x = d3.event.x;
             const y = d3.event.y;
 
-            const xEdgeZero = x - scales.x(2 * d.r);
-            const yEdgeZero = y - scales.y(2 * d.r);
-            const xEdgeMax = x + scales.x(2 * d.r);
-            const yEdgeMax = y + scales.y(2 * d.r);
-
-            if (xEdgeZero > domain.x[0] && xEdgeMax < domain.x[1] &&
-                yEdgeZero > domain.y[0] && yEdgeMax < domain.y[1]) {
-                
+            if (Math.sqrt(Math.pow(x - d.x, 2) +  Math.pow(y - d.y, 2)) > 1) {
                  ns.onDrag({
                     index: d.index,
                     x,
@@ -149,7 +148,7 @@ ns._drawPoints = function (el, scales, state) {
     
     g = d3.selectAll("g")
             .on('click', function (d) {
-                d3.event.stopPropagation();
+                // d3.event.stopPropagation();
                 ns.onPointClick(d.index);
             });
 
