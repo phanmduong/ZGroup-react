@@ -17,11 +17,13 @@ class ClassApiController extends ApiController
 
     public function genClasses($genId, Request $request)
     {
-        if (Gen::find($genId) == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Khong ton tai khoa hoc'
-            ]);
-        $classes = Gen::find($genId)->studyclasses()->orderBy('name', 'asc')->get();
+        if (Gen::find($genId) != null) {
+            $classes = Gen::find($genId)->studyclasses();
+        } else {
+            $classes = StudyClass::query();
+        }
+
+        $classes = $classes->orderBy('name', 'asc')->get();
         return $this->respondSuccessWithStatus([
             'classes' => $classes->map(function ($class) {
                 $data = [
@@ -30,6 +32,7 @@ class ClassApiController extends ApiController
                     'activated' => $class->activated,
                     'study_time' => $class->study_time,
                     'type' => $class->type,
+                    'base_id' => $class->base_id,
                 ];
                 if ($class->course)
                     $data['course'] = [
@@ -107,7 +110,7 @@ class ClassApiController extends ApiController
                         "id" => $class->id,
                         "name" => $class->name,
                         "description" => $class->description,
-                        "lesson" => $classLessons->map(function($classLesson){
+                        "lesson" => $classLessons->map(function ($classLesson) {
                             $attended_students = $classLesson->attendances()->where('status', 1)->count();
                             $total_students = $classLesson->attendances()->count();
                             return [
