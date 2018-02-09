@@ -60,6 +60,8 @@ class OrderedContainer extends React.Component {
         if (nextProps.isSendingPrice !== this.props.isSendingPrice && !nextProps.isSendingPrice) {
             this.props.orderedProductAction.loadAllOrders();
             this.setState({
+                isSendingPrice: false,
+                checkedPrice: {},
                 page: 1,
                 query: '',
                 time: {
@@ -216,21 +218,28 @@ class OrderedContainer extends React.Component {
 
     checkSendPrice() {
         if (this.state.isSendingPrice) {
+            this.setState({
+                isSendingPrice: false,
+                checkedPrice: {},
+                status: ""
+            });
             this.props.orderedProductAction.loadAllOrders();
-        } else this.props.orderedProductAction.loadAllOrders(
-            1,
-            this.state.query,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            "place_order",
-            this.state.staff_id,
-            this.state.user_id
-        );
-        this.setState({
-            isSendingPrice: !this.state.isSendingPrice,
-            checkedPrice: {},
-            status: "place_order"
-        });
+        } else {
+            this.setState({
+                isSendingPrice: true,
+                checkedPrice: {},
+                status: "place_order"
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                "place_order",
+                this.state.staff_id,
+                this.state.user_id
+            );
+        }
     }
 
     chooseAll() {
@@ -280,7 +289,7 @@ class OrderedContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-12 col-sm-12 col-xs-12">
                         <div className="flex flex-row flex-space-between">
                             <div>
                                 <Link
@@ -297,19 +306,17 @@ class OrderedContainer extends React.Component {
                                     className="btn btn-rose">
                                     Báo giá
                                 </button>
-                                {
-                                    this.state.isSendingPrice && (
-                                        <button
-                                            onClick={() => this.showSendPriceModal(
-                                                this.props.deliveryOrders.filter(order => this.state.checkedPrice[order.id])
-                                            )}
-                                            rel="tooltip" data-placement="top" title=""
-                                            data-original-title="Gửi báo giá" type="button"
-                                            className="btn btn-rose">
-                                            Gửi báo giá
-                                        </button>
-                                    )
-                                }
+                                <button
+                                    onClick={() => this.showSendPriceModal(
+                                        this.props.deliveryOrders.filter(order => this.state.checkedPrice[order.id])
+                                    )}
+                                    rel="tooltip" data-placement="top" title=""
+                                    data-original-title={this.state.isSendingPrice ? ("Gửi báo giá") : ("Chưa chọn đơn")}
+                                    type="button"
+                                    className="btn btn-rose"
+                                    disabled={!this.state.isSendingPrice}>
+                                    Gửi báo giá
+                                </button>
                             </div>
                             {/*<div>*/}
                             {/*<TooltipButton text="In dưới dạng pdf" placement="top">*/}
@@ -331,7 +338,7 @@ class OrderedContainer extends React.Component {
                                 <Loading/>
                             ) : (
                                 <div>
-                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="orange">
                                                 <i className="material-icons">weekend</i>
@@ -342,7 +349,7 @@ class OrderedContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="green">
                                                 <i className="material-icons">store</i>
@@ -353,7 +360,7 @@ class OrderedContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="rose">
                                                 <i className="material-icons">equalizer</i>
@@ -364,7 +371,7 @@ class OrderedContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="blue">
                                                 <i className="fa fa-twitter"/>
@@ -379,7 +386,7 @@ class OrderedContainer extends React.Component {
                             )
                         }
                     </div>
-                    <div className="col-md-12">
+                    <div className="col-md-12 col-sm-12 col-xs-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">assignment</i>
@@ -394,7 +401,7 @@ class OrderedContainer extends React.Component {
                                             placeholder="Nhập tên hoặc số điện thoại khách hàng"
                                         />
                                     </div>
-                                    <div className="col-md-2">
+                                    <div className="col-md-2 col-sm-2 col-xs-2">
                                         <button type="button" data-toggle="collapse" data-target="#demo"
                                                 className="btn btn-rose">
                                             <i className="material-icons">filter_list</i> Lọc

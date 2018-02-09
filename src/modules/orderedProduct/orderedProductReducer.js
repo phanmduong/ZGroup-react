@@ -96,7 +96,8 @@ export default function orderedProductReducer(state = initialState.orderedProduc
         case types.TOGGLE_SEND_PRICE_MODAL:
             return {
                 ...state,
-                sendPriceModal: !state.sendPriceModal
+                sendPriceModal: !state.sendPriceModal,
+                isSendingPrice: false
             };
         case types.HANDLE_SEND_PRICE_MODAL:
             return {

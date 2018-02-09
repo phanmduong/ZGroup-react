@@ -95,7 +95,7 @@ export function sendPriceApi(orders) {
     if (token) {
         url += "?token=" + token;
     }
-    return axios.put(url, {
+    return axios.post(url, {
         delivery_orders: JSON.stringify(orders)
     });
 }

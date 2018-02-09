@@ -146,6 +146,12 @@ export function sendPrice(delivery_orders) {
                     });
                     helper.showErrorNotification(res.data.message.message);
                 }
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.TOGGLE_SEND_PRICE_MODAL
+                });
+                helper.showErrorNotification("Có lỗi xảy ra");
             });
     };
 }
