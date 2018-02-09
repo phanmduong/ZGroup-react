@@ -28,31 +28,40 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
 
-        if ($search)
-            $registers = RoomServiceRegister::join('users', 'users.id', '=', 'room_service_registers.user_id')
-                ->select('room_service_registers.*')->where(function ($query) use ($search) {
-                    $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
-                });
-        else $registers = RoomServiceRegister::query();
+        if ($limit != -1) {
+            if ($search)
+                $registers = RoomServiceRegister::join('users', 'users.id', '=', 'room_service_registers.user_id')
+                    ->select('room_service_registers.*')->where(function ($query) use ($search) {
+                        $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
+                    });
+            else $registers = RoomServiceRegister::query();
 
 
 //        if ($request->user_id)
 //            $registers = $registers->where('user_id', $request->user_id);
 
-        if ($request->staff_id)
-            $registers = $registers->where('staff_id', $request->staff_id);
-        if($request->campaign_id)
-            $registers = $registers->where('campaign_id', $request->campaign_id);
-        if ($request->status)
-            $registers = $registers->where('status', $request->status);
+            if ($request->staff_id)
+                $registers = $registers->where('staff_id', $request->staff_id);
+            if ($request->campaign_id)
+                $registers = $registers->where('campaign_id', $request->campaign_id);
+            if ($request->status)
+                $registers = $registers->where('status', $request->status);
 
-        $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
+            $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
-        return $this->respondWithPagination($registers, [
-            'room_service_registers' => $registers->map(function ($register) {
-                return $register->getData();
-            })
-        ]);
+            return $this->respondWithPagination($registers, [
+                'room_service_registers' => $registers->map(function ($register) {
+                    return $register->getData();
+                })
+            ]);
+        } else {
+            $registers = RoomServiceRegister::all();
+            return $this->respondSuccessWithStatus([
+                'room_service_registers' => $registers->map(function ($register) {
+                    return $register->getData();
+                })
+            ]);
+        }
     }
 
     public function getUserPacks(Request $request)
