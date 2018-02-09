@@ -18,7 +18,9 @@ $nhatquangShopRoute = function () {
     Route::post('/save-order', "NhatQuangShopController@saveOrder");
     Route::get('/product/new', "NhatQuangShopController@productNew");
     Route::get('/product/feature', "NhatQuangShopController@productFeature");
-    Route::get('/product/detail', "NhatQuangShopController@productDetail");
+
+    Route::get('/product/detail/{good_id}', "NhatQuangShopController@productDetail");
+
     Route::get('/test', 'NhatQuangShopController@test');
 
     //modals

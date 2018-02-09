@@ -21,14 +21,14 @@ class TopicPublicApiController extends PublicApiController
         $topics = $topics->where('title', 'like', '%' . $request->search . '%');
 
         if ($limit == -1) {
-            $topics->orderBy('created_at', 'desc')->get();
+            $topics = $topics->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 'topics' => $topics->map(function ($topic) {
                     return $topic->getData();
                 })
             ]);
         }
-        $topics->orderBy('created_at', 'desc')->paginate($limit);
+        $topics = $topics->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($topics, [
             'topics' => $topics->map(function ($topic) {
