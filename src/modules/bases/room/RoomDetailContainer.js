@@ -14,7 +14,7 @@ import {
 } from "../seat/seatActions";
 import CreateSeatComponent from '../seat/CreateSeatComponent';
 import ButtonList from "./ButtonList";
-import {ProgressBar} from 'react-bootstrap';
+import {ProgressBar, ControlLabel, FormGroup, FormControl, Badge} from 'react-bootstrap';
 import {uploadRoomLayout} from '../../rooms/roomApi';
 
 
@@ -33,9 +33,13 @@ class RoomDetailContainer extends React.Component {
             height: 0,
             seat: this.initSeat,
             seats:[],
+            gridSize: 50,
+            gridOn: false,
             uploading: false,
             percentComplete: 0
         };
+
+        this.changeGridSize = this.changeGridSize.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onDrag = this.onDrag.bind(this);
         this.onPointClick = this.onPointClick.bind(this);
@@ -46,11 +50,25 @@ class RoomDetailContainer extends React.Component {
         this.updateSeatFormData = this.updateSeatFormData.bind(this);
         this.saveSeats = this.saveSeats.bind(this);
         this.loadSeats = this.loadSeats.bind(this);
+        this.toggleGrid = this.toggleGrid.bind(this);
         this.handleUploadLayoutImage = this.handleUploadLayoutImage.bind(this);
     }
 
     componentWillMount() {
         this.loadSeats();
+    }
+
+    changeGridSize(event) {
+        this.setState({
+            gridSize: Number(event.target.value)
+        });
+    }
+
+    toggleGrid() {
+        const {gridOn} = this.state;
+        this.setState({
+            gridOn: !gridOn
+        });
     }
 
     handleUploadLayoutImage(event) {
@@ -241,8 +259,44 @@ class RoomDetailContainer extends React.Component {
 
 
     render() {
+
         return (
             <div>                    
+                
+                <div>
+                    <ButtonList
+                        toggleGrid={this.toggleGrid}
+                        gridOn={this.state.gridOn}
+                        handleUploadLayoutImage={this.handleUploadLayoutImage}
+                        saveSeats={this.saveSeats}
+                        changeAction={this.changeSeatAction}
+                        currentAction={this.props.currentAction}
+                    />   
+                   
+                </div>    
+
+                <div>
+                    {
+                        this.state.gridOn && 
+                            (
+                                <div>       
+                                    <ControlLabel>
+                                        <span style={{marginRight: 5}}>Kích thước lưới</span>
+                                        <Badge>{parseInt(this.state.gridSize || 10)}</Badge>
+                                    </ControlLabel>
+                                    <FormControl
+                                        type="number"
+                                        min={10}
+                                        max={500}
+                                        value={this.state.value}
+                                        placeholder="Enter text"
+                                        onChange={this.changeGridSize}
+                                    />
+                                </div>
+                            )                          
+                    }            
+                </div>
+
                 <div>
                     {
                         (this.props.currentAction === seatContants.CREATE_SEAT ||
@@ -252,18 +306,11 @@ class RoomDetailContainer extends React.Component {
                                 updateSeatFormData={this.updateSeatFormData}
                             />
                         )
-                    }                            
+                    } 
+
+                                   
                 </div>
-                
-                <div>
-                    <ButtonList
-                        handleUploadLayoutImage={this.handleUploadLayoutImage}
-                        saveSeats={this.saveSeats}
-                        changeAction={this.changeSeatAction}
-                        currentAction={this.props.currentAction}
-                    />   
-                   
-                </div>                     
+                                 
                 
                 <div style={{position: 'relative'}}>
                     {
@@ -286,6 +333,8 @@ class RoomDetailContainer extends React.Component {
                         )
                     }
                     <RoomGrid
+                        gridSize={this.state.gridSize}
+                        gridOn={this.state.gridOn}
                         onClick={this.onClick}
                         onDrag={this.onDrag}
                         roomLayoutUrl={this.state.roomLayoutUrl}                                                                                                    

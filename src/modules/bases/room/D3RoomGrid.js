@@ -53,8 +53,80 @@ ns.create = function (el, props, state) {
 ns.update = function (el, state) {
     
     let scales = this._scales(state);
+    ns.drawGrid(state);
     this._drawPoints(el, scales, state);
     // this._drawTooltips(el, scales, state.tooltips, prevScales);
+};
+
+ns.drawGrid = ({width, height, gridSize, gridOn}) => {
+    
+    
+    if (gridOn) {
+        const widthArray = generateArray(width, gridSize);
+        const heightArray = generateArray(height, gridSize);
+
+        const topPoints = widthArray.map(w => {
+            return {
+                x: w, y : 0    
+            };        
+        });
+        const bottomPoints = widthArray.map(w => {
+            return {
+                x: w, 
+                y : height    
+            };        
+        });
+
+        const verticalLines = topPoints.map((point, index) => {
+            return [
+                point,
+                bottomPoints[index]
+            ];
+        });
+
+        const leftPoints = heightArray.map(h => {
+            return {
+                x: 0, 
+                y : h    
+            };        
+        });
+        const rightPoints = heightArray.map(h => {
+            return {
+                x: width, 
+                y : h    
+            };        
+        });
+
+        const horizontalLines = leftPoints.map((point, index) => {
+            return [
+                point,
+                rightPoints[index]
+            ];
+        });
+        
+        const lineFunction = d3.line()
+                            .x(function(d) { 
+                                return d.x; 
+                            })
+                            .y(function(d) { 
+                                return d.y; 
+                            });
+
+        d3.select("svg")
+            .selectAll("path")
+            .data([...horizontalLines, ...verticalLines])
+            .enter()
+            .append("path")
+                .attr("d", lineFunction)
+                .attr("stroke", "rgba(0, 0, 0, 0.25)")
+                .attr("stroke-width", 1)
+                .attr("fill", "none");       
+    } else {
+        d3.select("svg")
+            .selectAll("path")
+            .remove();
+    }
+    
 };
 
 ns._scales = function ({width}) {
@@ -94,75 +166,6 @@ ns._drawPoints = function (el, scales, state) {
 
     const {seats, width, height, roomLayoutUrl} = state;
 
-    const gridSize = 50;
-    
-    const widthArray = generateArray(width, gridSize);
-    const heightArray = generateArray(height, gridSize);
-
-    const topPoints = widthArray.map(w => {
-        return {
-            x: w, y : 0    
-        };        
-    });
-    const bottomPoints = widthArray.map(w => {
-        return {
-            x: w, 
-            y : height    
-        };        
-    });
-
-    const verticalLines = topPoints.map((point, index) => {
-        return {
-            from : point,
-            to: bottomPoints[index]
-        };
-    });
-
-    const leftPoints = heightArray.map(h => {
-        return {
-            x: 0, 
-            y : h    
-        };        
-    });
-    const rightPoints = heightArray.map(h => {
-        return {
-            x: width, 
-            y : h    
-        };        
-    });
-
-    const horizontalLines = leftPoints.map((point, index) => {
-        return {
-            from : point,
-            to: rightPoints[index]
-        };
-    }).reduce((array, d) => {
-        return [
-            ...array,
-            d.from,
-            d.to
-        ];
-    }, []);
-
-    console.log(horizontalLines);
-    
-    const lineFunction = d3.line()
-                        .x(function(d) { 
-                            console.log("x", d.x);
-                            return d.x; 
-                        })
-                        .y(function(d) { 
-                            console.log("y", d.y);
-                            return d.y; 
-                        });
-
-    d3.select("svg")
-        .append("path")
-        .data([horizontalLines])
-            .attr("d", lineFunction)
-            .attr("stroke", "black")
-            .attr("stroke-width", 2)
-            .attr("fill", "none");    
 
     const subject = function () {
         return {x: d3.event.x, y: d3.event.y};

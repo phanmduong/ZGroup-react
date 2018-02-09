@@ -32,8 +32,8 @@ class RoomGrid extends React.Component {
     }
 
     getGridState() {
-        const {seats, width, height, roomLayoutUrl} = this.props;
-        return {seats, width, height, roomLayoutUrl};
+        const {seats, width, height, roomLayoutUrl, gridSize, gridOn} = this.props;
+        return {seats, width, height, roomLayoutUrl, gridSize, gridOn};
     }
 
     render() {
@@ -45,6 +45,8 @@ class RoomGrid extends React.Component {
 }
 
 RoomGrid.propTypes = {
+    gridOn: PropTypes.bool.isRequired,
+    gridSize: PropTypes.number.isRequired,
     seats: PropTypes.array.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
