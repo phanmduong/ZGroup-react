@@ -216,7 +216,8 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         $teleCall->register_id = $request->register_id;
         $teleCall->save();
         return $this->respondSuccessWithStatus([
-            "message" => "Lưu thành công"
+            "message" => "Lưu thành công",
+            "teleCall" => $teleCall->transform(),
         ]);
     }
 }
