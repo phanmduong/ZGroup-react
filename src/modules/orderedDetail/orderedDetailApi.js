@@ -33,3 +33,12 @@ export function loadOrderApi(order_id) {
     let url = env.MANAGE_API_URL + "/order/delivery/" + order_id + "?token=" + token;
     return axios.get(url);
 }
+
+export function loadAllCurrenciesApi() {
+    let url = env.MANAGE_API_URL + '/v2/currency';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

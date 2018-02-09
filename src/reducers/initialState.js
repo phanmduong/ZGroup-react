@@ -27,6 +27,7 @@ export default {
     },
 
     orderedDetail: {
+        currencies: [],
         isLoading: false,
         order: {
             size: '',
@@ -35,7 +36,7 @@ export default {
             description: '',
             sale_off: 0,
             weight: 0,
-            tax: true,
+            tax: "true",
             unit: '',
             ratio: 1,
             money: 0,

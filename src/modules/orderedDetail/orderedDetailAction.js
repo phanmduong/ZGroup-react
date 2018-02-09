@@ -102,4 +102,17 @@ export function handleDate(endTime) {
     });
 }
 
+export function loadAllCurrencies() {
+    return function (dispatch) {
+        orderedDetailApi.loadAllCurrenciesApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CURRENCIES_SUCCESS_ORDERED_DETAIL,
+                    currencies: res.data.data.currencies
+                });
+            });
+    };
+}
+
+
 
