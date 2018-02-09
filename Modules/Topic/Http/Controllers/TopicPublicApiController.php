@@ -46,9 +46,4 @@ class TopicPublicApiController extends PublicApiController
             'topic' => $topic->getData(),
         ]);
     }
-
-    public function getTopicProducts()
-    {
-
-    }
 }
