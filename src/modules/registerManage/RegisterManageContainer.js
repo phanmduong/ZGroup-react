@@ -14,9 +14,9 @@ import Pagination from "../../components/common/Pagination";
 //import Loading from "../../components/common/Loading";
 // import {Link} from "react-router";
 import {REGISTER_STATUS} from "../../constants/constants";
-import {loadAllRegistersApi} from "./registerManageApi";
 import XLSX from 'xlsx';
 import {saveWorkBookToExcel} from "../../helpers/helper";
+import {loadAllRegistersApi} from "./registerManageApi";
 
 
 // import {Modal} from 'react-bootstrap';
@@ -31,8 +31,7 @@ class RegisterManageContainer extends React.Component {
             staff_id: null,
             status: null,
             campaign_id: null,
-
-
+            limit : 10,
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
@@ -61,6 +60,7 @@ class RegisterManageContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit ,
                 1,
                 value,
                 this.state.staff_id,
@@ -77,6 +77,7 @@ class RegisterManageContainer extends React.Component {
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
                 1,
                 this.state.query,
                 value.value,
@@ -89,6 +90,7 @@ class RegisterManageContainer extends React.Component {
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
                 1,
                 this.state.query,
                 null,
@@ -105,6 +107,7 @@ class RegisterManageContainer extends React.Component {
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
                 1,
                 this.state.query,
                 this.state.staff_id,
@@ -116,6 +119,7 @@ class RegisterManageContainer extends React.Component {
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
                 1,
                 this.state.query,
                 this.state.staff_id,
@@ -127,6 +131,7 @@ class RegisterManageContainer extends React.Component {
     filterByCampaign(campaign_id) {
         this.setState({campaign_id: campaign_id});
         this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
             this.state.page,
             this.state.query,
             this.state.staff_id,
@@ -138,6 +143,7 @@ class RegisterManageContainer extends React.Component {
     filterByStaff(staff_id) {
         this.setState({staff_id: staff_id});
         this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
             this.state.page,
             this.state.query,
             staff_id,
@@ -150,6 +156,7 @@ class RegisterManageContainer extends React.Component {
     loadOrders(page = 1) {
         this.setState({page: page});
         this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
             page,
             this.state.query,
             this.state.staff_id,
@@ -159,9 +166,18 @@ class RegisterManageContainer extends React.Component {
     }
 
 
-     exportRegistersResultExcel() {
+     async exportRegistersResultExcel() {
         this.props.registerManageAction.showGlobalLoading();
-        const wsData = this.props.registers;
+         const res = await loadAllRegistersApi(
+             -1,
+             this.state.page,
+             this.state.query,
+             this.state.staff_id,
+             this.state.status,
+             this.state.campaign_id,
+         );
+         this.props.registerManageAction.hideGlobalLoading();
+        const wsData = res.data.data.room_service_registers;
         const field = [];
         field[0] = "Tên";
         field[1] = "Email";
@@ -191,7 +207,6 @@ class RegisterManageContainer extends React.Component {
         workbook.SheetNames.push(sheetName);
         workbook.Sheets[sheetName] = ws;
         saveWorkBookToExcel(workbook, "Danh sách đăng kí");
-         this.props.registerManageAction.hideGlobalLoading();
      }
 
     closeModal() {

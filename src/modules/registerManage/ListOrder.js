@@ -65,18 +65,19 @@ class ListOrder extends React.Component {
 
                                     let btn = '';
                                     let titleCall = '';
+                                    let showCall;
+                                    let created_time = Date.parse(moment(register.created_at, "HH:mm DD-MM-YYYY").format("HH:mm MM-DD-YYYY")); // Phai chuyen sang dinh dang moi parsr duoc
                                     let expiredTime = Date.parse(moment(register.created_at, "HH:mm DD-MM-YYYY").add(1, 'days').format("HH:mm MM-DD-YYYY"));
                                     let firstCall = Date.parse(moment(register.teleCalls[0] && register.teleCalls[0].created_at, "HH:mm DD-MM-YYYY").format("HH:mm MM-DD-YYYY"));
                                     let presentTime = new Date();
-
                                     presentTime = Date.parse(presentTime);
-
-
                                     let call = register.teleCalls && register.teleCalls[register.teleCalls.length - 1];
+                                    // let lastCall = Date.parse(moment(call.created_at));
 
                                     // console.log(expiredTime, Date.parse(register.teleCalls[0] && register.teleCalls[0].created_at),"sadasd");
 
-                                    if (register.teleCalls.length > 0 && expiredTime > firstCall) {
+                                    if (register.teleCalls.length > 0) {
+                                        showCall = Math.floor((firstCall - created_time) / 3600000);
                                         if (call.call_status === 1) {
                                             btn = ' btn-success';
                                             titleCall = 'Gọi thành công lúc ' + call.created_at;
@@ -88,11 +89,14 @@ class ListOrder extends React.Component {
                                     }
 
                                     else {
+                                        showCall = Math.floor((presentTime - created_time) / 3600000);
+
                                         if (expiredTime >= presentTime) {
                                             btn = ' btn-default ';
                                             titleCall = ' Còn ' + Math.floor((expiredTime - presentTime) / 3600000) + ' h';
                                         }
                                         else {
+                                            // showCall = (lastCall - created_time)/3600000;
                                             btn = ' btn-warning ';
                                             titleCall = ' Đã quá hạn ' + Math.floor((presentTime - expiredTime) / 3600000) + ' h';
                                         }
@@ -135,7 +139,7 @@ class ListOrder extends React.Component {
                                                         >
                                                             <i className="material-icons">
                                                                 phone
-                                                            </i> {register.hour ? (register.hour + " h") : null}
+                                                            </i> {showCall ? (showCall + " h") : null}
                                                         </button>
                                                     </TooltipButton>
                                                 </div>
