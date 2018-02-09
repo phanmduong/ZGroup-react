@@ -32,4 +32,23 @@ class Topic extends Model
     {
         return $this->hasMany('App\TopicAction', 'topic_id');
     }
+
+    public function getData()
+    {
+        $data = [
+            'id' => $this->id,
+            'title' => $this->title,
+            'avatar_url' => $this->avatar_url,
+            'description' => $this->description,
+            'content' => $this->content,
+            'thumb_url' => $this->thumb_url
+        ];
+        if ($this->creator)
+            $data['creator'] = [
+                'id' => $this->creator->id,
+                'name' => $this->creator->name,
+                'avatar_url' => $this->creator->avatar_url
+            ];
+        return $data;
+    }
 }
