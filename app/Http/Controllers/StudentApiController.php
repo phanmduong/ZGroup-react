@@ -143,16 +143,19 @@ class StudentApiController extends ApiController
 
     public function registerlist(Request $request)
     {
-        if ($request->gen_id) {
-            $gen = Gen::find($request->gen_id);
-        } else {
-            $gen = Gen::getCurrentGen();
-        }
+        $gen = Gen::find($request->gen_id);
 
         if ($request->limit) {
             $limit = $request->limit;
         } else {
             $limit = 20;
+        }
+
+        if ($gen != null) {
+            $gen = Gen::getCurrentGen();
+            $registers = $gen->registers();
+        } else {
+            $registers = Register::query();
         }
 
 
@@ -162,9 +165,23 @@ class StudentApiController extends ApiController
             $users_id = User::where('email', 'like', '%' . $search . '%')
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('name', 'like', '%' . $search . '%')->get()->pluck('id')->toArray();
-            $registers = $gen->registers()->whereIn('user_id', $users_id);
-        } else {
-            $registers = $gen->registers();
+            $registers = $registers->whereIn('user_id', $users_id);
+        }
+
+        if ($request->base_id != null) {
+            if ($gen != null) {
+                $classes = StudyClass::where('gen_id', $gen->id);
+            } else {
+                $classes = StudyClass::query();
+            }
+            $classeIds = $classes->where('base_id', $request->base_id)->pluck('id')->toArray();
+            $registers = $registers->whereIn('class_id', $classeIds);
+        }
+
+        if ($request->appointment_payment != null) {
+            $tele_call_user_ids = TeleCall::whereRaw('appointment_payment = \'' . $request->appointment_payment . '\'')
+                ->pluck('student_id')->toArray();
+            $registers = $registers->whereIn('user_id', $tele_call_user_ids);
         }
 
         if ($request->class_id != null) {
@@ -234,14 +251,14 @@ class StudentApiController extends ApiController
             return $this->respondSuccessWithStatus([
                 'registers' => $this->registerTransformer->transformCollection($registers),
                 'gen' => [
-                    'id' => $gen->id
+                    'id' => $gen ? $gen->id : 0
                 ]
             ]);
         }
         return $this->respondWithPagination($registers, [
             'registers' => $this->registerTransformer->transformCollection($registers),
             'gen' => [
-                'id' => $gen->id
+                'id' => $gen ? $gen->id : 0
             ]
         ]);
     }

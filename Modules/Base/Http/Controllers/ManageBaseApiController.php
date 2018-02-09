@@ -13,6 +13,7 @@ use App\Seats;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\ImageManagerStatic as Image;
 
 
 class ManageBaseApiController extends ManageApiController
@@ -42,11 +43,36 @@ class ManageBaseApiController extends ManageApiController
         if ($room === null) {
             return $this->respondErrorWithStatus("Phòng không tồn tại");
         }
-        $imageName = uploadFileToS3($request, "image", 1000, $room->room_layout_name);
-        $room->room_layout_name = $imageName;
-        $room->room_layout_url = $this->s3_url . $imageName;
+
+        $image = $request->file("image");
+        if ($image === null) {
+            return $this->respondErrorWithStatus("Bạn cần thêm ảnh");
+        }
+
+        $maxWidth = 1200;
+
+        $mimeType = $image->guessClientExtension();
+        $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
+        $imageFileName = time() . random(15, true) . '.jpg';
+        $img = Image::make($image->getRealPath())->encode('jpg', 100)->interlace();
+        if ($img->width() > $maxWidth) {
+            $img->resize($maxWidth, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        }
+        $img->save($image->getRealPath());
+        $filePath = '/images/' . $imageFileName;
+        $s3->getDriver()->put($filePath, fopen($image, 'r+'), ['ContentType' => $mimeType, 'visibility' => 'public']);
+
+        $room->room_layout_name = $filePath;
+        $room->width = $img->width();
+        $room->height = $img->height();
+        $room->room_layout_url = $this->s3_url . $filePath;
         $room->save();
 
+        return [
+            "room" => $room->getRoomDetail()
+        ];
     }
 
     public function assignBaseInfo(&$base, $request)
