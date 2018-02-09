@@ -68,6 +68,7 @@ class RoomDetailContainer extends React.Component {
                     roomLayoutUrl: room_layout_url,
                     width,
                     height,
+                    percentComplete: 0,
                     uploading: false                    
                 });
             },
@@ -160,6 +161,7 @@ class RoomDetailContainer extends React.Component {
             case seatContants.CREATE_SEAT:   
                 this.createSeat({
                     ...seat,
+                    color: seat.color ? seat.color : "#c50000",
                     x: point.x,
                     y: point.y
                 });
@@ -187,7 +189,7 @@ class RoomDetailContainer extends React.Component {
         this.props.actions.displayGlobalLoading();
         const res = await seatApi.createSeats(this.state.roomId, this.state.seats);
         const {seats} = res.data.data;
-        console.log(res);
+        // console.log(res);
         this.setState({
             seats : seats.map((seat, index) => {
                 return {

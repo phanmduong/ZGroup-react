@@ -82,16 +82,95 @@ ns._scales = function ({width}) {
     return {x, y: x, r};
 };
 
+const generateArray = (size, gridSize) => {
+    let arr = [];
+    for (let i = 0; i < size; i += gridSize) {
+        arr.push(i);
+    }
+    return arr;
+};
 
 ns._drawPoints = function (el, scales, state) {
 
     const {seats, width, height, roomLayoutUrl} = state;
 
-    console.log(seats);
+    const gridSize = 50;
+    
+    const widthArray = generateArray(width, gridSize);
+    const heightArray = generateArray(height, gridSize);
+
+    const topPoints = widthArray.map(w => {
+        return {
+            x: w, y : 0    
+        };        
+    });
+    const bottomPoints = widthArray.map(w => {
+        return {
+            x: w, 
+            y : height    
+        };        
+    });
+
+    const verticalLines = topPoints.map((point, index) => {
+        return {
+            from : point,
+            to: bottomPoints[index]
+        };
+    });
+
+    const leftPoints = heightArray.map(h => {
+        return {
+            x: 0, 
+            y : h    
+        };        
+    });
+    const rightPoints = heightArray.map(h => {
+        return {
+            x: width, 
+            y : h    
+        };        
+    });
+
+    const horizontalLines = leftPoints.map((point, index) => {
+        return {
+            from : point,
+            to: rightPoints[index]
+        };
+    }).reduce((array, d) => {
+        return [
+            ...array,
+            d.from,
+            d.to
+        ];
+    }, []);
+
+    console.log(horizontalLines);
+    
+    const lineFunction = d3.line()
+                        .x(function(d) { 
+                            console.log("x", d.x);
+                            return d.x; 
+                        })
+                        .y(function(d) { 
+                            console.log("y", d.y);
+                            return d.y; 
+                        });
+
+    d3.select("svg")
+        .append("path")
+        .data([horizontalLines])
+            .attr("d", lineFunction)
+            .attr("stroke", "black")
+            .attr("stroke-width", 2)
+            .attr("fill", "none");    
 
     const subject = function () {
         return {x: d3.event.x, y: d3.event.y};
     };
+
+    d3.select(".svg-container")
+        .style("padding-bottom", height * 100 / width + "%");
+
 
     if (ns.roomLayoutUrl !== roomLayoutUrl) {
         ns.roomLayoutUrl = roomLayoutUrl;
@@ -146,9 +225,15 @@ ns._drawPoints = function (el, scales, state) {
     g.append("text")
         .attr('class', 'd3-text');
     
+    svg.selectAll("g")
+        .data(seats)
+        .exit().remove();
+    
     g = d3.selectAll("g")
+            .data(seats)
             .on('click', function (d) {
                 // d3.event.stopPropagation();
+                // console.log(d);
                 ns.onPointClick(d.index);
             });
 
