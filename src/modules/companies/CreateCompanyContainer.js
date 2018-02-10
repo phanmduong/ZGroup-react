@@ -64,7 +64,7 @@ class CreateCompanyContainer extends React.Component {
     }
 
     cancel(){
-        helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này không?", () => {
+        helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này?", () => {
             browserHistory.push("business/companies");
 
         });

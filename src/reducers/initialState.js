@@ -1737,7 +1737,6 @@ export default {
         isLoadingCompanies: false,
         link: "",
         percent: 0,
-        summary_money: 0,
         payment: [{
             id: 0,
             money_value: 0,

@@ -13,7 +13,6 @@ export default function companyReducer(state = initialState.payment, action) {
                 ...state,
                 isLoadingPayments: false,
                 payment: action.data,
-                summary_money: action.summary_money,
                 paginator: action.paginator,
             };
         case types.LOAD_PAYMENTS_ERROR:
