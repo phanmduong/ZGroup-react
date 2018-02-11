@@ -115,6 +115,11 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 isSendingPrice: false,
                 sendPriceModal: false,
             };
+        case types.LOAD_CURRENCIES_SUCCESS_ORDERED_PRODUCT:
+            return {
+                ...state,
+                currencies: action.currencies
+            };
         default:
             return state;
     }

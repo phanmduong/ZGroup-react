@@ -5,11 +5,17 @@ import {bindActionCreators} from "redux";
 import *as orderedProductAction from "./orderedProductAction";
 import PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
+import Select from 'react-select';
 
 class SendPriceModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
+        this.changeUnitRatio = this.changeUnitRatio.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.orderedProductAction.loadAllCurrencies();
     }
 
     updateFormData(index) {
@@ -20,6 +26,46 @@ class SendPriceModal extends React.Component {
                 ...JSON.parse(orders[index].attach_info),
                 [field]: e.target.value
             };
+            if (attach.price && attach.sale_off && attach.quantity && attach.currency_id) {
+                const ratio = this.props.currencies.filter(currency => currency.id === attach.currency_id)[0].ratio;
+                let tax = attach.tax === "true" ? 1.08 : 1;
+                attach = {
+                    ...attach,
+                    money: attach.price * (100 - attach.sale_off) / 100 * attach.quantity * ratio * tax
+                };
+            } else {
+                attach = {
+                    ...attach,
+                    money: 0
+                };
+            }
+            orders[index] = {
+                ...orders[index],
+                attach_info: JSON.stringify(attach)
+            };
+            this.props.orderedProductAction.handleSendPriceModal(orders);
+        };
+    }
+
+    changeUnitRatio(index) {
+        return (value) => {
+            let orders = [...this.props.orderSendPriceModal];
+            let attach = {
+                ...JSON.parse(orders[index].attach_info),
+                currency_id: value ? value.value : ''
+            };
+            if (attach.price && attach.sale_off && attach.quantity && attach.currency_id) {
+                let tax = attach.tax === "true" ? 1.08 : 1;
+                attach = {
+                    ...attach,
+                    money: attach.price * (100 - attach.sale_off) / 100 * attach.quantity * value.ratio * tax
+                };
+            } else {
+                attach = {
+                    ...attach,
+                    money: 0
+                };
+            }
             orders[index] = {
                 ...orders[index],
                 attach_info: JSON.stringify(attach)
@@ -48,7 +94,7 @@ class SendPriceModal extends React.Component {
                                         <span className="label label-success">Đơn hàng {order.code}</span>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md-3 col-sm-3 col-xs-3">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Kích thước</label>
                                                 <input type="text"
@@ -60,7 +106,7 @@ class SendPriceModal extends React.Component {
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-md-3 col-sm-3 col-xs-3">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Link sản phẩm</label>
                                                 <input type="text"
@@ -72,7 +118,7 @@ class SendPriceModal extends React.Component {
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-md-3 col-sm-3 col-xs-3">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Màu</label>
                                                 <input type="text"
@@ -84,7 +130,7 @@ class SendPriceModal extends React.Component {
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-md-3 col-sm-3 col-xs-3">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Thuế</label>
                                                 <select
@@ -97,7 +143,7 @@ class SendPriceModal extends React.Component {
                                                 </select>
                                             </div>
                                         </div>
-                                        <div className="col-md-4 col-sm-4 col-xs-4">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Số lượng</label>
                                                 <input type="number"
@@ -109,7 +155,7 @@ class SendPriceModal extends React.Component {
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-md-4 col-sm-4 col-xs-4">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Giá sản phẩm</label>
                                                 <input type="number"
@@ -121,15 +167,42 @@ class SendPriceModal extends React.Component {
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-md-4 col-sm-4 col-xs-4">
+                                        <div className="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <label className="label-control">Đơn vị</label>
+                                            <Select
+                                                value={attach.currency_id || ''}
+                                                options={this.props.currencies.map((currency) => {
+                                                    return {
+                                                        ...currency,
+                                                        value: currency.id,
+                                                        label: currency.name
+                                                    };
+                                                })}
+                                                onChange={this.changeUnitRatio(index)}
+                                            />
+                                        </div>
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
-                                                <label className="label-control">Đơn vị</label>
-                                                <input type="text"
-                                                       name="unit"
-                                                       placeholder="Nhập đơn vị"
+                                                <label className="label-control">Phần trăm giảm giá</label>
+                                                <input type="number"
+                                                       name="sale_off"
+                                                       max="100"
+                                                       min="0"
+                                                       placeholder="Nhập phần trăm giảm giá"
                                                        className="form-control"
-                                                       value={attach.unit || ''}
-                                                       onChange={this.updateFormData(index)}/>
+                                                       value={attach.sale_off || 0}
+                                                       onChange={this.updateFormData}/>
+                                                <span className="material-input"/>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div className="form-group">
+                                                <label className="label-control">Đổi ra tiền Việt</label>
+                                                <input type="number"
+                                                       name="money"
+                                                       className="form-control"
+                                                       value={attach.money || 0}
+                                                       disabled={true}/>
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
@@ -181,13 +254,15 @@ SendPriceModal.propTypes = {
     sendPriceModal: PropTypes.bool,
     isSendingPrice: PropTypes.bool,
     orderSendPriceModal: PropTypes.array.isRequired,
+    currencies: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         sendPriceModal: state.orderedProduct.sendPriceModal,
         orderSendPriceModal: state.orderedProduct.orderSendPriceModal,
-        isSendingPrice: state.orderedProduct.isSendingPrice
+        isSendingPrice: state.orderedProduct.isSendingPrice,
+        currencies: state.orderedProduct.currencies
     };
 }
 

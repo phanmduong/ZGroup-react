@@ -73,6 +73,7 @@ export default {
     },
 
     orderedProduct: {
+        currencies: [],
         isSendingPrice: false,
         addNoteModal: false,
         addCancelNoteModal: false,

@@ -155,3 +155,15 @@ export function sendPrice(delivery_orders) {
             });
     };
 }
+
+export function loadAllCurrencies() {
+    return function (dispatch) {
+        orderedProductApi.loadAllCurrenciesApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CURRENCIES_SUCCESS_ORDERED_PRODUCT,
+                    currencies: res.data.data.currencies
+                });
+            });
+    };
+}

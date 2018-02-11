@@ -99,3 +99,12 @@ export function sendPriceApi(orders) {
         delivery_orders: JSON.stringify(orders)
     });
 }
+
+export function loadAllCurrenciesApi() {
+    let url = env.MANAGE_API_URL + '/v2/currency';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
