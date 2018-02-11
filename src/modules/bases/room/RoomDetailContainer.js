@@ -14,7 +14,7 @@ import {
 } from "../seat/seatActions";
 import CreateSeatComponent from '../seat/CreateSeatComponent';
 import ButtonList from "./ButtonList";
-import {ProgressBar, ControlLabel, FormGroup, FormControl, Badge} from 'react-bootstrap';
+import {ProgressBar, ControlLabel, FormControl, Badge} from 'react-bootstrap';
 import {uploadRoomLayout} from '../../rooms/roomApi';
 
 
@@ -221,7 +221,7 @@ class RoomDetailContainer extends React.Component {
 
 
     onPointClick(index) {
-        console.log("Point click",index);
+        // console.log("Point click",index);
         let currentSeat = {};
         switch (this.props.currentAction) {
             case seatContants.EDIT_SEAT:               
