@@ -45,24 +45,91 @@ ns.create = function (el, props, state) {
             if (ns.onClick) {
                 ns.onClick(point);
             }
-
-            ns.update(el, state);
         });
 
     this.update(el, state);
 };
 
 ns.update = function (el, state) {
-
-    let scales = this._scales(el, state.domain);
+    
+    let scales = this._scales(state);
+    ns.drawGrid(state);
     this._drawPoints(el, scales, state);
     // this._drawTooltips(el, scales, state.tooltips, prevScales);
 };
 
-ns._scales = function (elId, domain) {
-    if (!domain) {
-        return null;
+ns.drawGrid = ({width, height, gridSize, gridOn}) => {
+    
+    
+    if (gridOn) {
+        const widthArray = generateArray(width, gridSize);
+        const heightArray = generateArray(height, gridSize);
+
+        const topPoints = widthArray.map(w => {
+            return {
+                x: w, y : 0    
+            };        
+        });
+        const bottomPoints = widthArray.map(w => {
+            return {
+                x: w, 
+                y : height    
+            };        
+        });
+
+        const verticalLines = topPoints.map((point, index) => {
+            return [
+                point,
+                bottomPoints[index]
+            ];
+        });
+
+        const leftPoints = heightArray.map(h => {
+            return {
+                x: 0, 
+                y : h    
+            };        
+        });
+        const rightPoints = heightArray.map(h => {
+            return {
+                x: width, 
+                y : h    
+            };        
+        });
+
+        const horizontalLines = leftPoints.map((point, index) => {
+            return [
+                point,
+                rightPoints[index]
+            ];
+        });
+        
+        const lineFunction = d3.line()
+                            .x(function(d) { 
+                                return d.x; 
+                            })
+                            .y(function(d) { 
+                                return d.y; 
+                            });
+
+        d3.select("svg")
+            .selectAll("path")
+            .data([...horizontalLines, ...verticalLines])
+            .enter()
+            .append("path")
+                .attr("d", lineFunction)
+                .attr("stroke", "rgba(0, 0, 0, 0.25)")
+                .attr("stroke-width", 1)
+                .attr("fill", "none");       
+    } else {
+        d3.select("svg")
+            .selectAll("path")
+            .remove();
     }
+    
+};
+
+ns._scales = function ({width}) {
 
     // const el = $(".d3");
     // let width = el.width();
@@ -72,14 +139,14 @@ ns._scales = function (elId, domain) {
 
     // let x = d3.scaleLinear()
     //     .range([0, width])
-    //     .domain(domain.x);
+    //     .domain([0, state.width]);
     //
     // let y = d3.scaleLinear()
     //     .range([0, height])
-    //     .domain(domain.y);
+    //     .domain([0, state.height]);
     //
     const r = d3.scaleLinear()
-        .range([10, 50])
+        .range([10, width / 18])
         .domain([1, 10]);
 
     const x = (x) => x;
@@ -87,14 +154,35 @@ ns._scales = function (elId, domain) {
     return {x, y: x, r};
 };
 
+const generateArray = (size, gridSize) => {
+    let arr = [];
+    for (let i = 0; i < size; i += gridSize) {
+        arr.push(i);
+    }
+    return arr;
+};
 
 ns._drawPoints = function (el, scales, state) {
-    const {seats, domain, width, height} = state;
+
+    const {seats, width, height, roomLayoutUrl} = state;
+
 
     const subject = function () {
         return {x: d3.event.x, y: d3.event.y};
     };
-    
+
+    d3.select(".svg-container")
+        .style("padding-bottom", height * 100 / width + "%");
+
+
+    if (ns.roomLayoutUrl !== roomLayoutUrl) {
+        ns.roomLayoutUrl = roomLayoutUrl;
+        d3.select("svg")
+            .style("background-image", `url("${roomLayoutUrl}")`)
+            .style("background-size", "cover")
+            .style("background-position", "center");
+    }
+        
     if (ns.width !== width || ns.height !== height) {
         ns.width = width;
         ns.height = height;
@@ -113,14 +201,7 @@ ns._drawPoints = function (el, scales, state) {
             const x = d3.event.x;
             const y = d3.event.y;
 
-            const xEdgeZero = x - scales.x(2 * d.r);
-            const yEdgeZero = y - scales.y(2 * d.r);
-            const xEdgeMax = x + scales.x(2 * d.r);
-            const yEdgeMax = y + scales.y(2 * d.r);
-
-            if (xEdgeZero > domain.x[0] && xEdgeMax < domain.x[1] &&
-                yEdgeZero > domain.y[0] && yEdgeMax < domain.y[1]) {
-                
+            if (Math.sqrt(Math.pow(x - d.x, 2) +  Math.pow(y - d.y, 2)) > 1) {
                  ns.onDrag({
                     index: d.index,
                     x,
@@ -147,9 +228,15 @@ ns._drawPoints = function (el, scales, state) {
     g.append("text")
         .attr('class', 'd3-text');
     
+    svg.selectAll("g")
+        .data(seats)
+        .exit().remove();
+    
     g = d3.selectAll("g")
+            .data(seats)
             .on('click', function (d) {
-                d3.event.stopPropagation();
+                // d3.event.stopPropagation();
+                // console.log(d);
                 ns.onPointClick(d.index);
             });
 

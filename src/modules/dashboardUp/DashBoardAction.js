@@ -1,12 +1,12 @@
 import * as types from '../../constants/actionTypes';
-import * as DashBoardUpApi from './DashBoardUpApi';
+import * as dashBoardUpApi from './dashBoardUpApi';
 
 export function loadBases(){
     return function (dispatch){
         dispatch({
             type: types.BEGIN_LOAD_BASES_DASHBOARDUP,
         });
-        DashBoardUpApi.loadBases()
+        dashBoardUpApi.loadBases()
             .then((res) => {
                 dispatch({
                     type: types.LOAD_BASES_DASHBOARDUP_SUCCESS,
@@ -25,7 +25,7 @@ export function loadRooms(baseId){
         dispatch({
            type: types.BEGIN_LOAD_ROOMS_BASE_DASHBOARDUP,
         });
-        DashBoardUpApi.loadRoomBase(baseId)
+        dashBoardUpApi.loadRoomBase(baseId)
             .then((res) => {
                 //console.log(res.data.data.rooms);
                 dispatch({
@@ -45,7 +45,7 @@ export function loadSeats(from,to,roomId){
       dispatch({
             type: types.BEGIN_LOAD_SEATS_BASE_DASHBOARDUP,
       });
-      DashBoardUpApi.loadSeats(from,to,roomId)
+      dashBoardUpApi.loadSeats(from,to,roomId)
           .then((res) => {
                 dispatch({
                     type: types.LOAD_SEATS_BASE_DASHBOARDUP_SUCCESS,

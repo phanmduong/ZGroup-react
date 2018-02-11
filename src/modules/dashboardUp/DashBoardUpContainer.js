@@ -1,8 +1,8 @@
 import React from "react";
 import {connect} from 'react-redux';
-// import {bindActionCreators} from 'redux';
+import {bindActionCreators} from 'redux';
 import Select from '../../components/common/Select';
-// import * as dashBoardAction from "./dashBoardAction";
+import * as dashBoardAction from "./dashBoardAction";
 import Loading from '../../components/common/Loading';
 import FormInputDate from "../../components/common/FormInputDate";
 import {Panel} from 'react-bootstrap';
@@ -227,11 +227,11 @@ function mapStateToProps(state) {
     };
 }
 
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         // dashBoardAction: bindActionCreators(dashBoardAction, dispatch)
-//     };
-// }
+function mapDispatchToProps(dispatch) {
+    return {
+        dashBoardAction: bindActionCreators(dashBoardAction, dispatch)
+    };
+}
 
 // export default connect(mapStateToProps, mapDispatchToProps)(DashBoardUpContainer);
-export default connect(mapStateToProps)(DashBoardUpContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoardUpContainer);

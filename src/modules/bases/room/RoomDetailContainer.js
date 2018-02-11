@@ -14,6 +14,9 @@ import {
 } from "../seat/seatActions";
 import CreateSeatComponent from '../seat/CreateSeatComponent';
 import ButtonList from "./ButtonList";
+import {ProgressBar, ControlLabel, FormControl, Badge} from 'react-bootstrap';
+import {uploadRoomLayout} from '../../rooms/roomApi';
+
 
 // Import actions here!!
 
@@ -25,13 +28,18 @@ class RoomDetailContainer extends React.Component {
             color: "rgb(244, 67, 54)"
         };
         this.state = {
-            room_layout_url: "",
+            roomLayoutUrl: "",
             width: 0,
             height: 0,
             seat: this.initSeat,
             seats:[],
-            domain: {x: [0, 0], y: [0, 0]}
+            gridSize: 50,
+            gridOn: false,
+            uploading: false,
+            percentComplete: 0
         };
+
+        this.changeGridSize = this.changeGridSize.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onDrag = this.onDrag.bind(this);
         this.onPointClick = this.onPointClick.bind(this);
@@ -42,10 +50,51 @@ class RoomDetailContainer extends React.Component {
         this.updateSeatFormData = this.updateSeatFormData.bind(this);
         this.saveSeats = this.saveSeats.bind(this);
         this.loadSeats = this.loadSeats.bind(this);
+        this.toggleGrid = this.toggleGrid.bind(this);
+        this.handleUploadLayoutImage = this.handleUploadLayoutImage.bind(this);
     }
 
     componentWillMount() {
         this.loadSeats();
+    }
+
+    changeGridSize(event) {
+        this.setState({
+            gridSize: Number(event.target.value)
+        });
+    }
+
+    toggleGrid() {
+        const {gridOn} = this.state;
+        this.setState({
+            gridOn: !gridOn
+        });
+    }
+
+    handleUploadLayoutImage(event) {
+        const file = event.target.files[0];
+        this.setState({
+            uploading: true
+        });
+        uploadRoomLayout({
+            roomId: this.state.roomId, 
+            file,
+            completeHandler: (event) => {
+                const data = JSON.parse(event.currentTarget.responseText);                
+                const {width, height, room_layout_url} = data.room;
+                this.setState({
+                    roomLayoutUrl: room_layout_url,
+                    width,
+                    height,
+                    percentComplete: 0,
+                    uploading: false                    
+                });
+            },
+            progressHandler: (event) => {
+                const percentComplete = Math.round((100 * event.loaded) / event.total);
+                this.setState({percentComplete});
+            }
+        });   
     }
 
     async loadSeats() {
@@ -59,12 +108,7 @@ class RoomDetailContainer extends React.Component {
         this.setState({
             width,
             height,
-            room_layout_url,
-            domain: {
-                ...this.state.domain,
-                x: [0, width],
-                y: [0, height]
-            },
+            roomLayoutUrl: room_layout_url,
             roomId: this.props.params.roomId,
             seats : seats.map((seat, index) => {
                 return {
@@ -135,6 +179,7 @@ class RoomDetailContainer extends React.Component {
             case seatContants.CREATE_SEAT:   
                 this.createSeat({
                     ...seat,
+                    color: seat.color ? seat.color : "#c50000",
                     x: point.x,
                     y: point.y
                 });
@@ -162,6 +207,7 @@ class RoomDetailContainer extends React.Component {
         this.props.actions.displayGlobalLoading();
         const res = await seatApi.createSeats(this.state.roomId, this.state.seats);
         const {seats} = res.data.data;
+        // console.log(res);
         this.setState({
             seats : seats.map((seat, index) => {
                 return {
@@ -213,8 +259,44 @@ class RoomDetailContainer extends React.Component {
 
 
     render() {
+
         return (
             <div>                    
+                
+                <div>
+                    <ButtonList
+                        toggleGrid={this.toggleGrid}
+                        gridOn={this.state.gridOn}
+                        handleUploadLayoutImage={this.handleUploadLayoutImage}
+                        saveSeats={this.saveSeats}
+                        changeAction={this.changeSeatAction}
+                        currentAction={this.props.currentAction}
+                    />   
+                   
+                </div>    
+
+                <div>
+                    {
+                        this.state.gridOn && 
+                            (
+                                <div>       
+                                    <ControlLabel>
+                                        <span style={{marginRight: 5}}>Kích thước lưới</span>
+                                        <Badge>{parseInt(this.state.gridSize || 10)}</Badge>
+                                    </ControlLabel>
+                                    <FormControl
+                                        type="number"
+                                        min={10}
+                                        max={500}
+                                        value={this.state.value}
+                                        placeholder="Enter text"
+                                        onChange={this.changeGridSize}
+                                    />
+                                </div>
+                            )                          
+                    }            
+                </div>
+
                 <div>
                     {
                         (this.props.currentAction === seatContants.CREATE_SEAT ||
@@ -224,28 +306,44 @@ class RoomDetailContainer extends React.Component {
                                 updateSeatFormData={this.updateSeatFormData}
                             />
                         )
-                    }                            
+                    } 
+
+                                   
                 </div>
+                                 
                 
-                <div>
-                    <ButtonList
-                        saveSeats={this.saveSeats}
-                        changeAction={this.changeSeatAction}
-                        currentAction={this.props.currentAction}
-                    />   
-                </div>                     
-                
-                <div>
+                <div style={{position: 'relative'}}>
+                    {
+                        this.state.uploading && (
+                            <div style={{
+                                position: "absolute", 
+                                top: 0, left: 0,     
+                                zIndex: 99,
+                                justifyContent: "space-around",
+                                display: "flex",
+                                alignItems: "center",
+                                background: "rgba(0,0,0,0.6)",                    
+                                width: "100%", height: "100%"}}>
+                                <ProgressBar
+                                    bsStyle="success"
+                                    style={{width: "80%"}}
+                                    now={this.state.percentComplete} 
+                                    label={`${this.state.percentComplete}%`} />
+                            </div>
+                        )
+                    }
                     <RoomGrid
+                        gridSize={this.state.gridSize}
+                        gridOn={this.state.gridOn}
                         onClick={this.onClick}
                         onDrag={this.onDrag}
+                        roomLayoutUrl={this.state.roomLayoutUrl}                                                                                                    
                         width={this.state.width}
                         height={this.state.height}
                         currentAction={this.props.currentAction}
                         onPointClick={this.onPointClick}
                         roomId={Number(this.props.params.roomId)}
                         seats={this.state.seats}
-                        domain={this.state.domain}
                     />
                 </div>
                         

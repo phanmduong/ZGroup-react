@@ -36,7 +36,8 @@ export const SOCKET_PORT = env.SOCKET_PORT;
 
 $(document).ready(function () {
     // var OneSignal = window.OneSignal || [];
-    window.OneSignal.push(["init", {
+    if (window.OneSignal) {
+        window.OneSignal.push(["init", {
         appId: "ceea18e8-322a-4748-b18b-fdf066d9a5ff",
         autoRegister: true, /* Set to true to automatically prompt visitors */
         persistNotification: false,
@@ -54,6 +55,7 @@ $(document).ready(function () {
     window.OneSignal.sendTag("device_type", 'manage', function (tagsSent) {
         console.log("tag ok ", tagsSent);
     });
+    }
 })
 
 

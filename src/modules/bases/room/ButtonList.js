@@ -63,15 +63,50 @@ class ButtonList extends React.Component {
                     <i className="material-icons">delete</i>
                 </a>
               </TooltipButton>
+
+              <TooltipButton text="Thay đổi sơ đồ phòng" placement="top">
+                <a className="upload-button btn-seat">
+                  <label 
+                    style={{color: "#696969", cursor: "pointer"}}>
+                      <input
+                          className="upload-button-file"
+                          onChange={this.props.handleUploadLayoutImage}
+                          type="file"
+                      />
+                      <i className="material-icons">image</i>
+                  </label>
+                </a>  
+              </TooltipButton>
+
+              {
+                this.props.gridOn ? (
+                  <TooltipButton text="Tắt lưới" placement="top">
+                    <a className="btn-seat"  
+                      onClick={this.props.toggleGrid}>
+                        <i className="material-icons">grid_off</i>
+                    </a>
+                  </TooltipButton>
+                ) : (
+                  <TooltipButton text="Bật lưới" placement="top">
+                    <a className="btn-seat" 
+                      onClick={this.props.toggleGrid}>
+                        <i className="material-icons">grid_on</i>
+                    </a>
+                  </TooltipButton>                  
+                )
+              }                             
             </div>
         );
     }
 }
 
 ButtonList.propTypes = {
-    currentAction: PropTypes.string.isRequired,
-    changeAction: PropTypes.func.isRequired,
-    saveSeats: PropTypes.func.isRequired
+  handleUploadLayoutImage: PropTypes.func.isRequired,
+  currentAction: PropTypes.string.isRequired,
+  changeAction: PropTypes.func.isRequired,
+  saveSeats: PropTypes.func.isRequired,
+  gridOn: PropTypes.bool.isRequired,
+  toggleGrid: PropTypes.func.isRequired
 };
 
 export default ButtonList;
