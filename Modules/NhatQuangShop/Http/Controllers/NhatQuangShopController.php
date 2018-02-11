@@ -80,9 +80,26 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::product_feature', $this->data);
     }
 
-    public function productDetail()
+    public function productDetail($good_id)
     {
-        return view('nhatquangshop::product_detail');
+
+        $good = Good::find($good_id);
+        $relateGoods = Good::where("good_category_id", "=", $good->good_category_id )->get();
+        $images_good = GoodProperty::where([["good_id", "=", $good_id], ["name", "=", "images_url"]])->first();
+        $images_good = json_decode($images_good['value']);
+        $this->data['images_good'] = $images_good;
+        $color = GoodProperty:: where('good_id', '=', $good_id)
+            ->Where(function ($query) {
+                $query->where('name', '=', "màu")
+                    ->orwhere('name', '=', 'color');
+            })
+            ->first();
+        $size = GoodProperty::where([["good_id", "=", $good_id], ["name", "=", "size"]])->first();
+        $this->data['size'] = $size['value'];
+        $this->data['good']= $good;
+        $this->data['color'] = $color['value'];
+        $this->data['relateGoods'] = $relateGoods;
+        return view('nhatquangshop::product_detail', $this->data);
     }
 
     public function about_us()

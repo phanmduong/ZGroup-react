@@ -57,7 +57,7 @@
                         </div>
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                             <div style="text-align:right">
-                                <a href="http://graphics.vn/book/{{$good['id']}}" class="btn btn-link btn-success"
+                                <a href="/product/detail/{{$good['id']}}" class="btn btn-link btn-success"
                                    style="padding:3px;margin:3px;font-size:10px;">
                                     Xem thêm
                                 </a>
@@ -125,7 +125,7 @@
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                             <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                                 <div>
-                                    <a href="http://graphics.vn/book/{{$good['id']}}" class="btn btn-link btn-success">
+                                    <a href="product/detail/{{$good['id']}}" class="btn btn-link btn-success">
                                         Xem thêm</a>
                                     <button v-on:click="openModalBuy({{$good['id']}})"
                                             class="btn btn-sm btn-success">
