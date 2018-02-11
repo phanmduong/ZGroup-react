@@ -161,6 +161,7 @@ class CreatePrintOrderContainer extends React.Component {
     }
 
     closeAddPropertyModal(){
+        this.props.printOrderActions.getAllproperties();
         this.setState({showPropsModal: false});
     }
 
@@ -194,6 +195,7 @@ class CreatePrintOrderContainer extends React.Component {
                     show={this.state.showPropsModal}
                     onHide={this.closeAddPropertyModal}
                     data={{materials, sizes, packings, colors}}
+                    editProperty={this.props.printOrderActions.editProperty}
                 />
                 <div className="container-fluid">
                     {(isLoading) ? <Loading/> :
@@ -518,12 +520,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                         /></div></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colSpan={1}>{"Đóng gói - "}
-                                                            <wbr/>
-                                                            Gia công
-                                                            <wbr/>
-                                                            1
-                                                        </td>
+                                                        <td colSpan={1}>{"Đóng gói - Gia công 1"}</td>
                                                         <td colSpan={3}><FormInputText
                                                             label="Tên"
                                                             type="text"
@@ -542,12 +539,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                         /></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colSpan={1}>{"Đóng gói - "}
-                                                            <wbr/>
-                                                            Gia công
-                                                            <wbr/>
-                                                            2
-                                                        </td>
+                                                        <td colSpan={1}>{"Đóng gói - Gia công 2"}</td>
                                                         <td colSpan={3}><FormInputText
                                                             label="Tên"
                                                             type="text"
@@ -768,12 +760,12 @@ function getProperty(arr, name) {
         }
     }
     res = res.map((itm) => {return {id: itm, name: itm};});
-    res = [
-        {id: "t1", name: "t1"},
-        {id: "t2", name: "t2"},
-        {id: "t3", name: "t3"},
-        ...res,
-    ];
+    // res = [
+    //     {id: "t1", name: "t1"},
+    //     {id: "t2", name: "t2"},
+    //     {id: "t3", name: "t3"},
+    //     ...res,
+    // ];
     return res;
 }
 
