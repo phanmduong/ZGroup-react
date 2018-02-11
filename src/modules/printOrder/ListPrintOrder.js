@@ -6,6 +6,8 @@ import * as printOrderActions from "./printOrderActions";
 import {bindActionCreators} from 'redux';
 import * as helper from "../../helpers/helper";
 import {PRINT_ORDER_STATUS} from "../../constants/constants";
+import {Link} from "react-router";
+
 
 class ListPrintOrder extends React.Component {
     constructor(props, context) {
@@ -53,7 +55,7 @@ class ListPrintOrder extends React.Component {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{order.command_code ?
-                                    <a className="text-name-student-register"> {order.command_code}</a>
+                                    <Link to={"/business/print-order/edit/" + order.id} className="text-name-student-register"> {order.command_code}</Link>
                                     :
                                     "Chưa có"
                                 }</td>
@@ -71,7 +73,7 @@ class ListPrintOrder extends React.Component {
                                     editUrl={"/business/print-order/edit/" + order.id}
                                     disabledDelete={true}
                                     children={
-                                        (!order.status  || order.status == 0) &&
+                                        (!order.status  || order.status == 0) ?
                                         <a data-toggle="tooltip" title="Duyệt"
                                            type="button" rel="tooltip"
                                            onClick={() => {
@@ -80,6 +82,7 @@ class ListPrintOrder extends React.Component {
                                         >
                                             <i className="material-icons">done</i>
                                         </a>
+                                            :<div/>
                                     }
                                 /></td>
                             </tr>
