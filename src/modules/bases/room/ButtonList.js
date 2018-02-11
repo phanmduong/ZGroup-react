@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TooltipButton from '../../../components/common/TooltipButton';
 import {CREATE_SEAT, ARCHIVE_SEAT, EDIT_SEAT, MOVE_SEAT} from "../seat/seatConstants";
-import UploadButton from '../../../components/common/uploadButton/UploadButton';
 
 class ButtonList extends React.Component {
     constructor(props, context) {
@@ -64,23 +63,50 @@ class ButtonList extends React.Component {
                     <i className="material-icons">delete</i>
                 </a>
               </TooltipButton>
+
               <TooltipButton text="Thay đổi sơ đồ phòng" placement="top">
-                <UploadButton
-                  onChange={this.props.handleChange}>
-                  <i className="material-icons">file_upload</i>
-                </UploadButton>
+                <a className="upload-button btn-seat">
+                  <label 
+                    style={{color: "#696969", cursor: "pointer"}}>
+                      <input
+                          className="upload-button-file"
+                          onChange={this.props.handleUploadLayoutImage}
+                          type="file"
+                      />
+                      <i className="material-icons">image</i>
+                  </label>
+                </a>  
               </TooltipButton>
-               
+
+              {
+                this.props.gridOn ? (
+                  <TooltipButton text="Tắt lưới" placement="top">
+                    <a className="btn-seat"  
+                      onClick={this.props.toggleGrid}>
+                        <i className="material-icons">grid_off</i>
+                    </a>
+                  </TooltipButton>
+                ) : (
+                  <TooltipButton text="Bật lưới" placement="top">
+                    <a className="btn-seat" 
+                      onClick={this.props.toggleGrid}>
+                        <i className="material-icons">grid_on</i>
+                    </a>
+                  </TooltipButton>                  
+                )
+              }                             
             </div>
         );
     }
 }
 
 ButtonList.propTypes = {
-    currentAction: PropTypes.string.isRequired,
-    changeAction: PropTypes.func.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    saveSeats: PropTypes.func.isRequired
+  handleUploadLayoutImage: PropTypes.func.isRequired,
+  currentAction: PropTypes.string.isRequired,
+  changeAction: PropTypes.func.isRequired,
+  saveSeats: PropTypes.func.isRequired,
+  gridOn: PropTypes.bool.isRequired,
+  toggleGrid: PropTypes.func.isRequired
 };
 
 export default ButtonList;

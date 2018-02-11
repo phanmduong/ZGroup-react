@@ -28,9 +28,12 @@ class AppContainer extends React.Component {
 
             helper.onesignalSetUserId(this.props.user.id);
             /* eslint-disable */
-            window.OneSignal.sendTag("device_type", 'manage', function (tagsSent) {
-                console.log("tag ok ", tagsSent);
-            });
+            if (window.OneSignal) {
+                window.OneSignal.sendTag("device_type", 'manage', function (tagsSent) {
+                    console.log("tag ok ", tagsSent);
+                });    
+            }
+            
             /* eslint-enable */
 
         }
