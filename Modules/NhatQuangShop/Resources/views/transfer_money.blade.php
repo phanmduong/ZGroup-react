@@ -118,7 +118,7 @@
                     <th>Ngân hàng</th>
                     <th>Nội dung</th>
                     <th>Trạng thái</th>
-                    <th>Bằng chứng</th>
+                    <th>Ảnh</th>
                 </tr>
                 <tbody>
                 @foreach($transfers as $transfer)
@@ -146,7 +146,7 @@
                                 {{$transfer->bankAccount->bank_name}}
                             </div>
                         </td>
-                        <td class="text-right">{{$transfer->note}}</td>
+                        <td style="max-width:120px">{{$transfer->note}}</td>
                         <td style="min-width: 120px;">
                             <div class="label"
                                  style="background-color: {{$transfer->status()["color"]}}">
@@ -156,7 +156,7 @@
                        <td class="text-center">
                            @if($transfer->img_proof)
                                <a download="custom-filename.jpg" href="{{$transfer->img_proof}}" title="ImageName">
-                                   <img src="{{$transfer->img_proof}}" class="img-responsive" style="width : 30px; height:30px" />
+                                   <img src="{{$transfer->img_proof}}" class="img-responsive" style="width : 30px" />
 
                                </a>
                              @else
