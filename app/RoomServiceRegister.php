@@ -28,6 +28,11 @@ class RoomServiceRegister extends Model
         return $this->belongsTo(User::class, 'staff_id');
     }
 
+    public function saler()
+    {
+        return $this->belongsTo(User::class, 'saler_id');
+    }
+
     public function teleCalls()
     {
         return $this->hasMany(TeleCall::class, 'register_id');
@@ -53,6 +58,12 @@ class RoomServiceRegister extends Model
                 'id' => $this->staff->id,
                 'name' => $this->staff->name,
                 'color' => $this->staff->color,
+            ];
+        if ($this->saler)
+            $data['saler'] = [
+                'id' => $this->saler->id,
+                'name' => $this->saler->name,
+                'color' => $this->saler->color,
             ];
         if ($this->subscription)
             $data['subscription'] = $this->subscription->getData();
