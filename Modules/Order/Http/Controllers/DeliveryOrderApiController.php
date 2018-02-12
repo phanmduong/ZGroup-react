@@ -37,7 +37,7 @@ class DeliveryOrderApiController extends ManageApiController
         $order->quantity = $request->quantity;
         $order->price = $request->price;
         $order->email = $request->email;
-        $order->status = $request->status;
+        $order->status = $request->status ? $request->status : 'place_order';
 
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
