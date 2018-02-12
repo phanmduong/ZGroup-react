@@ -237,36 +237,21 @@ class CompanyController extends ManageApiController
     {
         $limit = $request->limit ? $request->limit : 20;
         $payments = Payment::query();
-        $company_id = $request->company_id;
-        $start_time = $request->start_time;
-        $end_time = $request->end_time;
-        $type = $request->type;
-        if ($company_id) {
-            $payments = $payments->where(function ($query) use ($company_id) {
-                $query->where('payer_id', $company_id)->orWhere('receiver_id', $company_id);
-            });
-        }
+        $receiver_id = $request->receiver_id;
+        $payer_id = $request->payer_id;
 
-        if ($start_time) {
-            $end_time = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
-            $payments = $payments->whereBetween('created_at', array($start_time, $end_time));
+        if ($receiver_id) {
+            $payments = $payments->where('receiver_id',$receiver_id);
         }
-        if ($type) {
-            $payments = $payments->where('type', $type);
+        if ($payer_id) {
+            $payments = $payments->where('payer_id',$payer_id);
         }
-        $pre_payments = $payments->get();
-        $summary_money = $pre_payments->reduce(function ($total, $payment) {
-            if ($payment->payer_id == 1 || $payment->receiver_id == 1) {
-                if ($payment->type != "done") return $total - $payment->money_value;
-                else return $total + $payment->money_value;
-            }
-        }, 0);
         $payments = $payments->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($payments, [
             "payment" => $payments->map(function ($payment) {
                 return $payment->transform();
             }),
-            "summary_money" => $summary_money,
+
         ]);
     }
 
