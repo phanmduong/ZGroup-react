@@ -60,17 +60,16 @@ class OrderedDetailContainer extends React.Component {
 
     updateFormData(e) {
         const field = e.target.name;
-        const customer = this.props.customer;
         let order = {
             ...this.props.order,
             [field]: e.target.value
         };
-        if (customer.price && order.sale_off && customer.quantity && order.currency_id) {
+        if (order.price && order.sale_off && order.quantity && order.currency_id) {
             const ratio = this.props.currencies.filter(currency => currency.id === order.currency_id)[0].ratio;
             let tax = order.tax === "true" ? 1.08 : 1;
             order = {
                 ...order,
-                money: customer.price * (100 - order.sale_off) / 100 * customer.quantity * ratio * tax
+                money: order.price * (100 - order.sale_off) / 100 * order.quantity * ratio * tax
             };
         } else {
             order = {
@@ -83,25 +82,10 @@ class OrderedDetailContainer extends React.Component {
 
     handleCustomer(e) {
         const field = e.target.name;
-        let order = {...this.props.order};
         let customer = {
             ...this.props.customer,
             [field]: e.target.value
         };
-        if (customer.price && order.sale_off && customer.quantity && order.currency_id) {
-            const ratio = this.props.currencies.filter(currency => currency.id === order.currency_id)[0].ratio;
-            let tax = order.tax === "true" ? 1.08 : 1;
-            order = {
-                ...order,
-                money: customer.price * (100 - order.sale_off) / 100 * customer.quantity * ratio * tax
-            };
-        } else {
-            order = {
-                ...order,
-                money: 0
-            };
-        }
-        this.props.orderedDetailAction.handleOrder(order);
         this.props.orderedDetailAction.handleCustomer(customer);
     }
 
@@ -112,11 +96,11 @@ class OrderedDetailContainer extends React.Component {
             helper.isEmptyInput(customer.phone)
             || helper.isEmptyInput(customer.email)
             || helper.isEmptyInput(order.link)
-            || helper.isEmptyInput(customer.quantity)
+            || helper.isEmptyInput(order.quantity)
             || helper.isEmptyInput(customer.name)
         ) {
             if (helper.isEmptyInput(order.link)) helper.showErrorNotification("Bạn cần nhập Link sản phẩm");
-            if (helper.isEmptyInput(customer.quantity)) helper.showErrorNotification("Bạn cần nhập Số lượng sản phẩm");
+            if (helper.isEmptyInput(order.quantity)) helper.showErrorNotification("Bạn cần nhập Số lượng sản phẩm");
             if (helper.isEmptyInput(customer.name)) helper.showErrorNotification("Bạn cần nhập Tên khách hàng");
             if (helper.isEmptyInput(customer.phone)) helper.showErrorNotification("Bạn cần nhập Số điện thoại khách hàng");
             if (helper.isEmptyInput(customer.email)) helper.showErrorNotification("Bạn cần nhập Email khách hàng");
@@ -127,16 +111,15 @@ class OrderedDetailContainer extends React.Component {
     }
 
     changeUnitRatio(value) {
-        const customer = this.props.customer;
         let order = {
             ...this.props.order,
             currency_id: value ? value.value : ''
         };
-        if (customer.price && order.sale_off && customer.quantity && order.currency_id) {
+        if (order.price && order.sale_off && order.quantity && order.currency_id) {
             let tax = order.tax === "true" ? 1.08 : 1;
             order = {
                 ...order,
-                money: customer.price * (100 - order.sale_off) / 100 * customer.quantity * value.ratio * tax
+                money: order.price * (100 - order.sale_off) / 100 * order.quantity * value.ratio * tax
             };
         } else {
             order = {
@@ -220,8 +203,8 @@ class OrderedDetailContainer extends React.Component {
                                                        name="quantity"
                                                        placeholder="Nhập số lượng"
                                                        className="form-control"
-                                                       value={customer.quantity || 0}
-                                                       onChange={this.handleCustomer}/>
+                                                       value={order.quantity || 0}
+                                                       onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
@@ -271,8 +254,8 @@ class OrderedDetailContainer extends React.Component {
                                                        name="price"
                                                        placeholder="Nhập giá sản phẩm"
                                                        className="form-control"
-                                                       value={customer.price || 0}
-                                                       onChange={this.handleCustomer}/>
+                                                       value={order.price || 0}
+                                                       onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
@@ -307,10 +290,10 @@ class OrderedDetailContainer extends React.Component {
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div className="form-group">
                                                 <label className="label-control">Đổi ra tiền Việt</label>
-                                                <input type="number"
+                                                <input type="text"
                                                        name="money"
                                                        className="form-control"
-                                                       value={order.money || 0}
+                                                       value={helper.dotNumber(order.money) || 0}
                                                        disabled={true}/>
                                                 <span className="material-input"/>
                                             </div>

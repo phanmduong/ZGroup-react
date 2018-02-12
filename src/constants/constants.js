@@ -317,6 +317,16 @@ export const ORDER_STATUS_COLORS = {
     cancel: "#fcb7ab"
 };
 
+export const ORDERED_STATUS_COLORS = {
+    place_order: "#dddddd",
+    sent_price: "#b5d0fc",
+    confirm_order: "#b8ffad",
+    ordered: "#e2e2e2",
+    arrived: "#fcb7ab",
+    ship: "#00ff00",
+    completed: "#ccff66",
+    cancel: "#ffcc33",
+};
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const MAX_TIME_WORK_SHIFT_REIGSTER = '20:00:00';

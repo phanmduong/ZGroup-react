@@ -11,21 +11,17 @@ export function saveOrderApi(order, customer) {
         name: customer.name,
         phone: customer.phone,
         email: customer.email,
-        price: customer.price,
-        quantity: customer.quantity
     });
 }
 
 export function editOrderApi(order, customer) {
-    let url = env.MANAGE_API_URL + "/order/delivery/" + order.id + "?token=" + token;
+    let url = env.MANAGE_API_URL + "/order/delivery/" + customer.id + "?token=" + token;
     return axios.put(url, {
         attach_info: JSON.stringify(order),
         note: customer.note,
         name: customer.name,
         phone: customer.phone,
         email: customer.email,
-        price: customer.price,
-        quantity: customer.quantity
     });
 }
 

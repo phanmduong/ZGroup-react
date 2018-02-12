@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import TooltipButton from '../../components/common/TooltipButton';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
-import {ORDERED_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
+import {ORDERED_STATUS, ORDERED_STATUS_COLORS} from "../../constants/constants";
 import StatusSelect from "../goodOrders/status/StatusSelect";
 import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 
@@ -54,7 +54,7 @@ class ItemOrder extends React.Component {
                 <td>
                     <Link
                         style={{
-                            backgroundColor: ORDER_STATUS_COLORS[delivery.status]
+                            backgroundColor: ORDERED_STATUS_COLORS[delivery.status]
                         }}
                         className="btn text-name-student-register"
                         to={`/good/goods/order/${delivery.id}`}>

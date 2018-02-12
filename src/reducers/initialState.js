@@ -42,15 +42,15 @@ export default {
             money: 0,
             fee: 0,
             code: '',
-            endTime: ''
+            endTime: '',
+            quantity: 0,
+            price: 0
         },
         customer: {
             name: '',
             phone: '',
             email: '',
             note: '',
-            quantity: 0,
-            price: 0
         }
     },
 
