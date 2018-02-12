@@ -172,12 +172,15 @@
     </div>
     <script type="text/javascript">
         var oldId = 0;
-        $("#bank-account").change(function () {
-            var bankId = $(this).val();
-            $("#bank" + oldId).css("display", "none");
-            $("#bank" + bankId).css("display", "block");
-            oldId = bankId;
-        })
+        $(document).ready(function() {
+            $("#bank-account").change(function () {
+                var bankId = $(this).val();
+                $("#bank" + oldId).css("display", "none");
+                $("#bank" + bankId).css("display", "block");
+                oldId = bankId;
+            })
+        });
+        
         
         function readURL(input) {
 
@@ -198,6 +201,7 @@
         $("#proof").change(function() {
             readURL(this);
         });
+        
 
     </script>
 @endsection
