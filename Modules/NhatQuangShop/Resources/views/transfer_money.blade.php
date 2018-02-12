@@ -155,7 +155,10 @@
                         </td>
                        <td class="text-center">
                            @if($transfer->img_proof)
-                               <img src="{{$transfer->img_proof}}" class="img-responsive" style="width : 24px; height:24px" />
+                               <a download="custom-filename.jpg" href="{{$transfer->img_proof}}" title="ImageName">
+                                   <img src="{{$transfer->img_proof}}" class="img-responsive" style="width : 30px; height:30px" />
+
+                               </a>
                              @else
                                <text>Chưa có ảnh</text>
                                @endif
