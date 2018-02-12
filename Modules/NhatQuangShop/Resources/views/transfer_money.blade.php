@@ -90,11 +90,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 upload-btn-wrapper">
-                        <button type="button" class="btn btn-google" data-target="#form">Bằng chứng chuyển khoản
-                        </button>
-                        <input type="file" id="proof" name="image" />
-                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input type="file" name="image">
+                        </div>
+                    </div>                   
                 </div>
                 <div style="margin-top: 20px; display: none" class="proof" id = "show_proof" >
                     <img  id="blah" src="#" alt="gửi bằng chứng của bạn" class="img_proof"   />
