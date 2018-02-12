@@ -1,7 +1,7 @@
 @extends('nhatquangshop::layouts.manage')
 @section('data')
     <div class="card-block" style="background-color:#FFF; margin-bottom: 20px">
-        <form action="/manage/transfermoney" method="post">
+        <form action="/manage/transfermoney" method="post" enctype="multipart/form-data">
             @if(count($errors) > 0)
                 @include("errors.validate")
                 <script>
@@ -89,7 +89,20 @@
                         </div>
                     </div>
                 </div>
-                <textarea class="form-control border-input" placeholder="Nội dung..." name="note"
+                <div class="row">
+                    <div class="col-md-3 upload-btn-wrapper">
+                        <button type="button" class="btn btn-google" data-target="#form">Bằng chứng chuyển khoản
+                        </button>
+                        <input type="file" id="proof" name="image" />
+                    </div>
+                </div>
+                <div style="margin-top: 20px; display: none" class="proof" id = "show_proof" >
+                    <img  id="blah" src="#" alt="gửi bằng chứng của bạn" class="img_proof"   />
+                    <div class="top_right">
+                        <i id = "remove" class="fa fa-times" style="font-size: 2em;"></i>
+                    </div>
+                </div>
+                <textarea style = "margin-top: 20px"class="form-control border-input" placeholder="Nội dung..." name="note"
                           rows="6">{{old("note")}}</textarea>
                 <button type="submit" style="margin-top: 20px" class="btn">Gửi thông tin chuyển tiền</button>
             </div>
@@ -105,6 +118,7 @@
                     <th>Ngân hàng</th>
                     <th>Nội dung</th>
                     <th>Trạng thái</th>
+                    <th>Bằng chứng</th>
                 </tr>
                 <tbody>
                 @foreach($transfers as $transfer)
@@ -139,6 +153,13 @@
                                 {{$transfer->status()["text"]}}
                             </div>
                         </td>
+                       <td class="text-center">
+                           @if($transfer->img_proof)
+                               <img src="{{$transfer->img_proof}}" class="img-responsive" style="width : 24px; height:24px" />
+                             @else
+                               <text>Chưa có ảnh</text>
+                               @endif
+                       </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -154,5 +175,49 @@
             $("#bank" + bankId).css("display", "block");
             oldId = bankId;
         })
+        // $(document).ready(function() {
+        //     if (window.File && window.FileList && window.FileReader) {
+        //         $("#files").on("change", function(e) {
+        //             var files = e.target.files,
+        //                 filesLength = files.length;
+        //             for (var i = 0; i < filesLength; i++) {
+        //                 var f = files[i]
+        //                 var fileReader = new FileReader();
+        //                 fileReader.onload = (function(e) {
+        //                     var file = e.target;
+        //                     $("<span class=\"pip\">" +
+        //                         "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+        //                         "<br/><span class=\"remove\">Remove image</span>" +
+        //                         "</span>").insertAfter("#files");
+        //
+        //
+        //                 });
+        //                 fileReader.readAsDataURL(f);
+        //             }
+        //         });
+        //     } else {
+        //         alert("Your browser doesn't support to File API")
+        //     }
+        // });
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#blah').attr('src', e.target.result);
+                    $('#show_proof').css("display", "block");
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#remove").click(function(){
+                                    $("#show_proof").css("display", "none");
+                                 });
+        $("#proof").change(function() {
+            readURL(this);
+        });
+
     </script>
 @endsection
