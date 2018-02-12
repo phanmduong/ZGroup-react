@@ -1,8 +1,8 @@
 <?php
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'v2/topic', 'namespace' => 'Modules\Topic\Http\Controllers'], function () {
-    Route::get('/', 'TopicApiController@getTopics');
-    Route::post('/topic', 'TopicApiController@createTopic');
-    Route::get('/{topicId}/product', 'TopicApiController@getTopicProducts');
+    Route::get('/', 'TopicPublicApiController@getTopics');
+    Route::get('/{topicId}', 'TopicPublicApiController@getTopic');
+    Route::post('/', 'TopicApiController@createTopic');
     Route::post('/{topicId}/product', 'TopicApiController@createProduct');
 });

@@ -34,8 +34,8 @@ var sendNotificationUser = function (notification) {
             return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
         case 'mobile_social':
             notification.device_type = 'mobile_social';
-            notification.url = env.PROTOCOL + env.DOMAIN + notification.link;
-            addNotificationId(notification);
+            notification.url ='colorme://main/home/notifications/product/6695';
+            // addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
         case 'manage':
             notification.device_type = 'manage';
