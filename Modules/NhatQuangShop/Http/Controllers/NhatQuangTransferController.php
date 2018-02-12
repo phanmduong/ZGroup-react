@@ -45,7 +45,7 @@ class NhatQuangTransferController extends Controller
                 'bank_account_id' => 'required',
                 'transfer_purpose' => 'required',
                 'transfer_day' => 'required',
-                'image' => 'required|max:2048'
+                'image' => 'required|max:2048|mimes:jpeg,png'
             ],
             [
                 'money.required' => 'Bạn chưa nhập số tiền cần chuyển',
@@ -54,7 +54,8 @@ class NhatQuangTransferController extends Controller
                 'money.min' => 'Bạn không thể báo chuyển khoản số tiền âm ',
                 'bank_account_id.required' => 'Bạn chưa chọn phương thức chuyển khoản',
                 'image.required' => 'Bạn chưa gửi ảnh chuyển khoản',
-                'image.max' => 'Kích thước ảnh không được vượt quá 2Mb'
+                'image.max' => 'Kích thước ảnh không được vượt quá 2Mb',
+                'image.mimes' => 'Bạn cần tải lên ảnh có định dạng jpg hoặc png'
             ]
         );
 
