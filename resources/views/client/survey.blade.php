@@ -1,9 +1,9 @@
 @extends("client.layout.master")
 
 @section("css")
-    <link href="manage/surveyv2/main.c83ece5cde9e25340923fc03d2f130e1.css" rel="stylesheet">
+    <link href="manage/surveyv2/main.e72627b26e8b25818a34b388ec91b12e.css" rel="stylesheet">
 @endsection
 
 @section("js")
-    <script type="text/javascript" src="manage/surveyv2/main.b8b4894ac545fad7207a.js"></script>
+    <script type="text/javascript" src="manage/surveyv2/main.d5e9c561b4895a04d688.js"></script>
 @endsection

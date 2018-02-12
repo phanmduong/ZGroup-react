@@ -281,14 +281,15 @@ class PublicController extends Controller
         //send mail here
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
-        if ($user == null)
+        if ($user == null) {
             $user = new User;
+            $user->password = Hash::make($phone);
+        }
 
         $user->name = $request->name;
         $user->phone = $phone;
         $user->email = $request->email;
         $user->username = $request->email;
-        $user->password = Hash::make($phone);
         $user->save();
 
         $register = new Register;

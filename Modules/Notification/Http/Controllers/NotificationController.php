@@ -3,6 +3,8 @@
 namespace Modules\Notification\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
+use App\Notification;
+use App\NotificationType;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -38,49 +40,5 @@ class NotificationController extends ManageApiController
         return $this->respondSuccessWithStatus([
             "message" => "success"
         ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('notification::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('notification::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
     }
 }

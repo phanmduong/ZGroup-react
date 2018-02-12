@@ -54,7 +54,7 @@ class User extends Authenticatable
         return !is_null($tab) && $this->checkPermissionTab($tab);
     }
 
-    protected function checkPermissionTab($tab)
+    public function checkPermissionTab($tab)
     {
         $tabs = $this->roles->tabs->pluck('id')->toArray();
 
@@ -328,7 +328,7 @@ class User extends Authenticatable
         return [
             'id' => $this->id,
             'name' => $this->name,
-            "avatar_url" => $this->avatar_url ? $this->avatar_url : defaultAvatarUrl(),
+            "avatar_url" => $this->avatar_url ? generate_protocol_url($this->avatar_url) : defaultAvatarUrl(),
             'role' => $this->current_role ? $this->current_role->getData() : null,
         ];
     }

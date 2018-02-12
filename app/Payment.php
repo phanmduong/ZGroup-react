@@ -23,11 +23,12 @@ class Payment extends Model
     {
         return [
             "id" => $this->id,
-            "payer" => $this->payer->transform(),
-            "receiver" => $this->receiver->transform(),
+            "payer" => $this->payer ? $this->payer->transform() : [],
+            "receiver" => $this->receiver ? $this->receiver->transform() : [],
             "description" => $this->description,
             "bill_image_url" => $this->bill_image_url,
             "money_value" => $this->money_value,
+            "type" => $this->type,
         ];
     }
 }

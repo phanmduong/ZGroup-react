@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
+
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ApiPublicController extends Controller
 {

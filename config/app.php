@@ -35,6 +35,10 @@ return [
     'prefix_code_wait' => env('PREFIX_CODE_WAIT', ''),
     'brand_sms' => env('BRAND_SMS', ''),
     'sound_cloud_client_id' => env('SOUND_COULD_CLIENT_ID', ''),
+    'noti_app_manage_id' => env('NOTI_APP_MANAGE_ID', ''),
+    'noti_app_id' => env('NOTI_APP_ID', ''),
+    'noti_app_key' => env('NOTI_APP_KEY', ''),
+    'noti_app_manage_key' => env('NOTI_APP_MANAGE_KEY', ''),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

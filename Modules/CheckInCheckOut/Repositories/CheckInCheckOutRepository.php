@@ -128,6 +128,7 @@ class CheckInCheckOutRepository
         // teacher
         $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
             ->where("teacher_id", $checkInCheckOut->user_id)->get();
+
         foreach ($teachingLessons as $teachingLesson) {
             $classLesson = $teachingLesson->classLesson;
             $start_time = $classLesson->start_time;
@@ -174,6 +175,7 @@ class CheckInCheckOutRepository
         // teaching assistant
         $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
             ->where("teaching_assistant_id", $checkInCheckOut->user_id)->get();
+
         foreach ($teachingLessons as $teachingLesson) {
             $classLesson = $teachingLesson->classLesson;
             $start_time = $today . " " . $classLesson->start_time;
@@ -314,9 +316,9 @@ class CheckInCheckOutRepository
 
         $workTimeSpan = 28;
         foreach ($workShiftUsers as $workShiftUser) {
-            $workShiftUserSession = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=", "work_shift_sessions.id")
+            $workShiftUserSession = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=",
+                "work_shift_sessions.id")
                 ->where("work_shifts.id", $workShiftUser->work_shift_id)->first();
-
             if ($workShiftUserSession) {
                 // lay ra start_time va end_time cua ca trực đó
                 $start_time = $today . " " . $workShiftUserSession->start_time;

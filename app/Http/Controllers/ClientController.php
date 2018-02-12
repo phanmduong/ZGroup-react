@@ -8,6 +8,14 @@ class ClientController extends Controller
 
     public function __construct()
     {
+
+        if (url('/') != url()->current()) {
+            $path = explode(url('/') . '/', url()->current())[1];
+        } else {
+            $path = "dashboard";
+        }
+
+//        $this->middleware('permission_tab_react:' . $path);
     }
 
     public function email()
@@ -98,6 +106,11 @@ class ClientController extends Controller
     public function order()
     {
         return view("client.order");
+    }
+
+    public function notification()
+    {
+        return view("client.notification");
     }
 
 }

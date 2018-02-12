@@ -541,6 +541,37 @@ function uploadFileToS3(\Illuminate\Http\Request $request, $fileField, $size, $o
     return null;
 }
 
+function uploadImageToS3(\Illuminate\Http\Request $request, $fileField, $size, $oldfile = null)
+{
+    $image = $request->file($fileField);
+
+    if ($image != null) {
+        $mimeType = $image->guessClientExtension();
+        $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
+
+
+        if ($mimeType != 'image/gif') {
+            $imageFileName = time() . random(15, true) . '.jpg';
+            $img = Image::make($image->getRealPath())->encode('jpg', 90)->interlace();
+//            if ($img->width() > $size) {
+//                $img->resize($size, null, function ($constraint) {
+//                    $constraint->aspectRatio();
+//                });
+//            }
+            $img->save($image->getRealPath());
+        } else {
+            $imageFileName = time() . random(15, true) . '.' . $image->getClientOriginalExtension();
+        }
+        $filePath = '/images/' . $imageFileName;
+        $s3->getDriver()->put($filePath, fopen($image, 'r+'), ['ContentType' => $mimeType, 'visibility' => 'public']);
+//        if ($oldfile != null) {
+//            $s3->delete($oldfile);
+//        }
+        return $filePath;
+    }
+    return null;
+}
+
 function uploadThunbImageToS3(\Illuminate\Http\Request $request, $fileField, $size, $oldfile = null)
 {
     $image = $request->file($fileField);
@@ -1103,6 +1134,21 @@ function send_push_notification($data)
     $data = curl_exec($r);
     curl_close($r);
     return $data;
+}
+
+function getDevicesNotification($appId, $appKey)
+{
+    $app_id = $appId;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/players?app_id=" . $app_id . '&limit=50000');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
+        'Authorization: Basic ' . $appKey));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($response)->players;
 }
 
 function random_color_part()

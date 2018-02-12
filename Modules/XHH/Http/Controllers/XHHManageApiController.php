@@ -29,6 +29,7 @@ class XHHManageApiController extends ManageApiController
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
 
         $analyticsBlogs = Product::select(DB::raw('author_id, count(1) as total'))->where('type', 2)->groupBy(DB::raw('author_id'))->get();
+        $analyticsBlogTypes = Product::select(DB::raw('category_id, count(1) as total'))->where('type', 2)->groupBy(DB::raw('category_id'))->get();
 
         $totalBooks = Good::where('type', 'book')->count();
 
@@ -36,7 +37,14 @@ class XHHManageApiController extends ManageApiController
             return [
                 'name' => $blog->author->name,
                 'color' => $blog->author->color,
-                'total_blogs' => $blog->total
+                'total' => $blog->total
+            ];
+        });
+
+        $analyticsBlogTypes = $analyticsBlogTypes->map(function ($blog) {
+            return [
+                'name' => $blog->category->name,
+                'total' => $blog->total
             ];
         });
 
@@ -62,6 +70,7 @@ class XHHManageApiController extends ManageApiController
             'total_blogs' => $totalBlogs,
             'total_blogs_30' => $countNewBlogs,
             'analytics_blogs' => $analyticsBlogs,
+            'analytics_blog_types' => $analyticsBlogTypes,
             'total_books' => $totalBooks,
             'type_books' => $arrTypeBooks,
         ];

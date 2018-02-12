@@ -26,8 +26,9 @@ class NotificationRepository
             "actor_id" => $notification->actor_id,
             "icon" => $notification->icon,
             "color" => $notification->color,
-            "id" => $notification->id
-        );
+            "id" => $notification->id,
+            'type' => $notification->notificationType ? $notification->notificationType->type : ''
+    );
 
         $publish_data = array(
             "event" => "notification",
@@ -36,15 +37,17 @@ class NotificationRepository
 
         $jsonData = json_encode($publish_data);
 
-        switch ($notification->notificationType->type) {
-            case "manage":
-                Redis::publish(config("app.channel"), $jsonData);
-                break;
-            case "social":
-                Redis::publish(config("app.social_channel"), $jsonData);
-                break;
-        }
-        send_push_notification($jsonData);
+//        switch ($notification->notificationType->type) {
+//        case "manage":
+//            Redis::publish(config("app.channel"), $jsonData);
+//            break;
+//        case "social":
+//            Redis::publish(config("app.social_channel"), $jsonData);
+//            break;
+
+//    }
+//        send_push_notification($jsonData);
+        Redis::publish(config("app.channel"), $jsonData);
     }
 
     public function sendLikeNotification($actor, $product)
@@ -54,7 +57,7 @@ class NotificationRepository
         $notification->product_id = $product->id;
         $notification->actor_id = $actor->id;
         $notification->receiver_id = $product->author->id;
-        $notification->type = 0;
+        $notification->type = 35;
 
         $message = $notification->notificationType->template;
 
@@ -110,7 +113,7 @@ class NotificationRepository
         $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
         $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
 
-        $notification->save();
+//        $notification->save();
         $this->sendNotification($notification);
     }
 

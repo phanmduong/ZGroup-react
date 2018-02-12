@@ -149,8 +149,8 @@
                         <td style="max-width:120px">{{$transfer->note}}</td>
                         <td style="min-width: 120px;">
                             <div class="label"
-                                 style="background-color: {{$transfer->status()["color"]}}">
-                                {{$transfer->status()["text"]}}
+                                 style="background-color: {{\App\TransferMoney::$STATUS_COLOR[$transfer->status]}}">
+                                {{\App\TransferMoney::$STATUS[$transfer->status]}}
                             </div>
                         </td>
                        <td class="text-center">

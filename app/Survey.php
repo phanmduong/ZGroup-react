@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Survey extends Model
 {
@@ -30,35 +31,40 @@ class Survey extends Model
             ->withTimestamps();
     }
 
+    public function userLessonSurveys()
+    {
+        return $this->hasMany(UserLessonSurvey::class, "survey_id");
+    }
+
     public function shortData()
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'staff' => $this->user ? $this->user->getData() : null,
-            "created_at" => format_time_to_mysql(strtotime($this->created_at))
-        ];
-    }
-
-    public function getData()
-    {
-        return [
-            'id' => $this->id,
+            "active" => $this->active,
             "image_url" => $this->image_url ? $this->image_url : emptyImageUrl(),
             "description" => $this->description ? $this->description : "",
             'name' => $this->name,
             "created_at" => format_time_to_mysql(strtotime($this->created_at)),
             'staff' => $this->user ? $this->user->getData() : null,
             "questions_count" => $this->questions()->count(),
-            "survey_lessons" => $this->lessons->map(function ($lesson) {
+            "target" => $this->target,
+            "take" => $this->userLessonSurveys()->count()
+        ];
+    }
+
+    public function getData()
+    {
+        $data = $this->shortData();
+        $data["survey_lessons"] = $this->lessons()->orderBy("created_at", "desc")
+            ->get()->map(function ($lesson) {
                 $course = $lesson->course;
                 return [
                     "lesson_id" => $lesson->id,
                     "course" => $course->shortTransform(),
                     "lesson" => $lesson->shortTransform()
                 ];
-            })
-        ];
+            });
+        return $data;
     }
 
     public function getDetailedData()

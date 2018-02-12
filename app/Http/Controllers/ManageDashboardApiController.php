@@ -199,14 +199,15 @@ class ManageDashboardApiController extends ManageApiController
 
         $target_revenue = 0;
         foreach ($classes->get() as $class) {
-            $target_revenue += $class->target * $class->course->price * 0.55;
+
+            $target_revenue += $class->target * $class->course()->withTrashed()->first()->price * 0.55;
         }
 
         $target_revenue = round($target_revenue);
         $courses = $classes->select('course_id', DB::raw('count(*) as total_classes'))->groupBy('course_id')->get();
 
         $courses = $courses->map(function ($c) {
-            $course = Course::find($c->course_id);
+            $course = Course::where('id', $c->course_id)->withTrashed()->first();
             return [
                 'total_classes' => $c->total_classes,
                 'id' => $course->id,
@@ -302,6 +303,7 @@ class ManageDashboardApiController extends ManageApiController
 
         $data['time'] = strtotime(date("Y-m-d H:i:s"));
         $data['current_date'] = format_vn_date(strtotime(date("Y-m-d H:i:s")));
+        $data['end_time_gen'] = format_vn_date(strtotime($gen->end_time));
 
         return $this->respondSuccessWithStatus($data);
     }

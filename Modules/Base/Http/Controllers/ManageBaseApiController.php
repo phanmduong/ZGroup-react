@@ -7,16 +7,72 @@ use App\District;
 use App\Http\Controllers\ManageApiController;
 use App\Province;
 use App\Room;
+use App\RoomType;
 use App\Seat;
 use App\Seats;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 class ManageBaseApiController extends ManageApiController
 {
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getSeats($roomId)
+    {
+        $room = Room::find($roomId);
+        if ($room === null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+        $seats = $room->seats()->where("archived", 0)->get();
+        return $this->respondSuccessWithStatus([
+            "seats" => $seats,
+            "width" => $room->width,
+            "height" => $room->height,
+            "room_layout_url" => $room->room_layout_url
+        ]);
+    }
+
+    public function roomLayout($roomId, Request $request) {
+        $room = Room::find($roomId);
+        if ($room === null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+
+        $image = $request->file("image");
+        if ($image === null) {
+            return $this->respondErrorWithStatus("Bạn cần thêm ảnh");
+        }
+
+        $maxWidth = 1200;
+
+        $mimeType = $image->guessClientExtension();
+        $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
+        $imageFileName = time() . random(15, true) . '.jpg';
+        $img = Image::make($image->getRealPath())->encode('jpg', 100)->interlace();
+        if ($img->width() > $maxWidth) {
+            $img->resize($maxWidth, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        }
+        $img->save($image->getRealPath());
+        $filePath = '/images/' . $imageFileName;
+        $s3->getDriver()->put($filePath, fopen($image, 'r+'), ['ContentType' => $mimeType, 'visibility' => 'public']);
+
+        $room->room_layout_name = $filePath;
+        $room->width = $img->width();
+        $room->height = $img->height();
+        $room->room_layout_url = $this->s3_url . $filePath;
+        $room->save();
+
+        return [
+            "room" => $room->getRoomDetail()
+        ];
     }
 
     public function assignBaseInfo(&$base, $request)
@@ -38,24 +94,16 @@ class ManageBaseApiController extends ManageApiController
     {
         $room->name = $request->name;
         $room->base_id = $baseId;
-        $room->type = $request->type;
+        $room->room_type_id = $request->room_type_id;
+
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
+        $room->avatar_url = $request->avatar_url;
         $room->save();
+
+        return $room;
     }
 
-    public function provinces()
-    {
-        $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))
-            ->select("district.provinceid as province_id")->pluck("province_id")->toArray();
-        $provinceIds = collect(array_unique($provinceIds));
-        return $this->respondSuccessWithStatus([
-            "provinces" => $provinceIds->map(function ($provinceId) {
-                $province = Province::find($provinceId);
-                return $province->transform();
-            })->values()
-        ]);
-    }
 
     public function getAllProvinces()
     {
@@ -73,19 +121,6 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function basesInProvince($provinceId, Request $request)
-    {
-        $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
-            ->where("province.provinceid", $provinceId)->select("district.*")->pluck("districtid");
-        $bases = Base::whereIn("district_id", $districtIds);
-        $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
-        $bases = $bases->get();
-        return $this->respondSuccessWithStatus([
-            "bases" => $bases->map(function ($base) {
-                return $base->transform();
-            })
-        ]);
-    }
 
     public function getBases(Request $request)
     {
@@ -114,6 +149,7 @@ class ManageBaseApiController extends ManageApiController
                     'updated_at' => format_time_main($base->updated_at),
                     'center' => $base->center,
                     'images_url' => $base->images_url,
+                    'description' => $base->description,
                     'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
                 ];
 
@@ -128,6 +164,44 @@ class ManageBaseApiController extends ManageApiController
 
         ];
         return $this->respondWithPagination($bases, $data);
+    }
+
+    public function createSeats($roomId, Request $request)
+    {
+        $room = Room::find($roomId);
+        if ($room == null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+        $seats = json_decode($request->seats);
+
+        foreach ($seats as $s) {
+
+            if (isset($s->id)) {
+                $seat = Seat::find($s->id);
+            } else {
+                $seat = new Seat();
+            }
+
+            if (isset($s->archived))
+                $seat->archived = $s->archived;
+
+            $seat->name = $s->name;
+//            $seat->type = $s->type;
+            $seat->room_id = $roomId;
+
+            $seat->color = $s->color;
+            $seat->x = $s->x;
+            $seat->y = $s->y;
+            $seat->r = $s->r;
+
+            $seat->save();
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "Lưu chỗ ngồi thành công",
+            "seats" => $room->seats()->where("archived", 0)->get()
+        ]);
+
     }
 
     public function getBase($baseId)
@@ -203,9 +277,9 @@ class ManageBaseApiController extends ManageApiController
                 'message' => 'Thiếu tên phòng'
             ]);
         $room = new Room;
-        $this->assignRoomInfo($room, $baseId, $request);
+        $room = $this->assignRoomInfo($room, $baseId, $request);
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'room' => $room->getData()
         ]);
     }
 
@@ -228,17 +302,49 @@ class ManageBaseApiController extends ManageApiController
 
     public function createSeat($roomId, Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu tên'
-            ]);
-        $seat = new Seat;
+        $room = Room::find($roomId);
+        if ($room == null) {
+            return $this->respondErrorWithStatus("Phòng không tồn tại");
+        }
+
+        $seat = new Seat();
+
+        $seat->name = $request->name;
+//        $seat->type = $request->type;
+        $seat->room_id = $roomId;
+
+        $seat->color = $request->color;
+        $seat->x = $request->x;
+        $seat->y = $request->y;
+        $seat->r = $request->r;
+
+        $seat->save();
+
+        return $this->respondSuccessWithStatus([
+            'seat' => $seat
+        ]);
+    }
+
+    public function updateSeat($seatId, Request $request)
+    {
+        $seat = Seat::find($seatId);
+        if ($seat == null) {
+            return $this->respondErrorWithStatus("Chỗ ngồi không tồn tại");
+        }
+
         $seat->name = $request->name;
         $seat->type = $request->type;
-        $seat->room_id = $roomId;
+        $seat->room_id = $request->room_id;
+
+        $seat->color = $request->color;
+        $seat->x = $request->x;
+        $seat->y = $request->y;
+        $seat->r = $request->r;
+
         $seat->save();
-        $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+
+        return $this->respondSuccessWithStatus([
+            'seat' => $seat
         ]);
     }
 
@@ -258,6 +364,118 @@ class ManageBaseApiController extends ManageApiController
         $seat->room_id = $roomId;
         $seat->save();
         $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function getRoomTypes(Request $request)
+    {
+        $search = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $roomTypes = RoomType::query();
+        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%');
+        if ($limit == -1) {
+            $roomTypes = $roomTypes->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'room_types' => $roomTypes->map(function ($roomType) {
+                    return $roomType->getData();
+                })
+            ]);
+        }
+        $roomTypes = $roomTypes->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($roomTypes, [
+            'room_types' => $roomTypes->map(function ($roomType) {
+                return $roomType->getData();
+            })
+        ]);
+    }
+
+    public function createRoomType(Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus('Thiếu tên');
+        $roomType = new RoomType;
+        $roomType->name = $request->name;
+        $roomType->description = $request->description;
+        $roomType->save();
+
+        return $this->respondSuccess('Tạo thành công');
+    }
+
+    public function editRoomType($roomTypeId, Request $request)
+    {
+        if ($request->name == null || trim($request->name) == '')
+            return $this->respondErrorWithStatus('Thiếu tên');
+        $roomType = RoomType::find($roomTypeId);
+        if ($roomType == null)
+            return $this->respondErrorWithStatus('Không tồn tại loại phòng');
+        $roomType->name = $request->name;
+        $roomType->description = $request->description;
+        $roomType->save();
+
+        return $this->respondSuccess('Sửa thành công');
+    }
+
+    public function availableSeats(Request $request)
+    {
+        $request->from = str_replace('/', '-', $request->from);
+        $request->to = str_replace('/', '-', $request->to);
+//        dd($request->from . '   ' . $request->to);
+
+        $seats = Seat::query();
+        $booked_seats = Seat::query();
+        $seats_count = Seat::query();
+        if ($request->room_id) {
+            $seats = $seats->where('room_id', $request->room_id);
+            $booked_seats = $booked_seats->where('room_id', $request->room_id);
+            $seats_count = $seats_count->where('room_id', $request->room_id)
+                ->orderBy('created_at', 'desc')->count();
+        }
+        $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
+        $seats = $seats->where(function ($query) use ($request) {
+            $query->where('room_service_register_seat.start_time', '=', null)
+                ->orWhere('room_service_register_seat.start_time', '>', date("Y-m-d H:i:s", strtotime($request->to)))
+                ->orWhere('room_service_register_seat.end_time', '<', date("Y-m-d H:i:s", strtotime($request->from)));
+        })->groupBy('seats.id')->select('seats.*')->get();
+
+        $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
+        $booked_seats = $booked_seats->where(function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
+                    ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->to)));
+            })
+                ->orWhere(function ($query) use ($request) {
+                    $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
+                        ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
+                });
+        })->groupBy('seats.id')->select('seats.*')->get();
+        return $this->respondSuccessWithStatus([
+            'seats' => $seats->map(function ($seat) {
+                return $seat->getData();
+            }),
+            'booked_seats' => $booked_seats->map(function ($booked_seat) {
+                return $booked_seat->getData();
+            }),
+            'seats_count' => $seats_count,
+            'available_seats' => $seats->count(),
+        ]);
+    }
+
+    public function baseDisplay($baseId, Request $request)
+    {
+        if ($request->display_status == null || trim($request->display_status) == '')
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu display_status'
+            ]);
+        $base = Base::find($baseId);
+        if ($base == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại cơ sở'
+            ]);
+        $base->display_status = $request->display_status;
+        $base->save();
+
+        return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
     }

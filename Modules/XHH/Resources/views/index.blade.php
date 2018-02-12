@@ -86,7 +86,7 @@
                 <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>HOẠT ĐỘNG</b>
                 </h3>
-                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <a href="/blog?page=1&search=&type=2" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
             </div>
             <div class="container">
@@ -136,7 +136,7 @@
                 <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>NGHIÊN CỨU</b>
                 </h3>
-                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <a href="/blog?page=1&search=&type=3" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
             </div>
             <div class="container">
@@ -145,7 +145,7 @@
                         <div class="col-md-4">
                             <div class="card card-plain card-blog text-center">
                                 <div class="card-image">
-                                    <a href="/blog/post/14676">
+                                    <a href="/blog/post/{{$blog->id}}">
                                         <div style="width: 100%;
                                                 border-radius: 2px;
                                                 background: url('{{generate_protocol_url($blog->url)}}');
@@ -176,7 +176,7 @@
                 <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>CƠ HỘI</b>
                 </h3>
-                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <a href="/blog?page=1&search=&type=7" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
             </div>
             @if($newestBlog2)
@@ -237,7 +237,7 @@
                 <h3 class="font-bebas" style="color:black;font-size:40px; font-weight:600">
                     <b>THƯ VIỆN</b>
                 </h3>
-                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <a href="/all-books" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
             </div>
             <div class="container">
