@@ -182,20 +182,19 @@ class AddPropertyModal extends React.Component {
                             <i className="fa fa-spinner fa-spin"/> Đang tải lên
                         </button>
                         :
-                        <div style={{display: "flex", justifyContent: "flex-end", marginRight: 15}}>
-                            <button
+                        <div style={{display: "flex", justifyContent: "flex-end"}}>
+                            <div className="col-md-3"><button style={{width: "100%"}}
                                 disabled={isCommitting}
                                 className="btn btn-fill btn-rose" type="button"
                                 onClick={this.save}
                             ><i className="material-icons">check</i> Lưu
-                            </button>
-                            <button
-                                style={{marginLeft: 10}}
+                            </button></div>
+                            <div className="col-md-3"><button style={{width: "100%"}}
                                 disabled={isCommitting}
                                 className="btn btn-fill" type="button"
                                 onClick={this.close}
                             ><i className="material-icons">cancel</i> Hủy
-                            </button>
+                            </button></div>
                         </div>
                     }
                 </Modal.Footer>
