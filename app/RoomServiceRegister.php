@@ -66,24 +66,7 @@ class RoomServiceRegister extends Model
         if ($this->teleCalls) {
             $teleCalls = $this->teleCalls;
             $data["teleCalls"] = $teleCalls->map(function ($teleCall) {
-                return [
-                    "id" => $teleCall,
-                    "caller" => [
-                        "id" => $teleCall->caller->id,
-                        "name" => $teleCall->caller->name,
-                        "color" => $teleCall->caller->color,
-                        "avatar_url" => $teleCall->caller->avatar_url,
-                    ],
-                    "listener" => [
-                        "id" => $teleCall->student->id,
-                        "name" => $teleCall->student->name,
-                        "color" => $teleCall->student->color,
-                        "avatar_url" => $teleCall->student->avatar_url,
-                    ],
-                    "call_status" => $teleCall->call_status,
-                    "note" => $teleCall->note,
-                    "created_at" => format_vn_short_datetime(strtotime($teleCall->created_at)),
-                ];
+                return $teleCall->transform();
             });
         }
 
