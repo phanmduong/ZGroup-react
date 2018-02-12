@@ -1,6 +1,3 @@
-/**
- * Created by TienTaiNguyen on 01/27/18.
- */
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 

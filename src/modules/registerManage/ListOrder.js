@@ -15,7 +15,7 @@ import moment from "moment/moment";
 class ListOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
-
+        
         this.state = {
             isOpenModal: false,
             register: {},

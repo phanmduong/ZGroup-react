@@ -1,4 +1,18 @@
 export default {
+
+    marketingCampaignUp: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        marketingCampaigns: [],
+        // courses: [],
+        // isLoadingCourses: false,
+        // errorCourses: false,
+        isStoringCampaign: false,
+        errorStoreCampaign: false,
+    },
+
     registerManage: {
         registers: [],
         staffs: [],

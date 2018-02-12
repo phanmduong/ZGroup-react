@@ -81,6 +81,8 @@ import exportOrderReducer from "../modules/Zgroup/exportGood/exportOrderReducer"
 import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
 import sendNotificationReducer from '../modules/sendNotification/sendNotificationReducer';
 import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
+import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
+
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
     login: loginReducer,
@@ -164,6 +166,7 @@ const appReducer = combineReducers({
     notificationType: notificationTypeReducer,
     sendNotification: sendNotificationReducer,
     dashboardUp: DashBoardUpReducer,
+    marketingCampaignUp: marketingCampaignsUpReducer,
 });
 
 const rootReducer = (state, action) => {
