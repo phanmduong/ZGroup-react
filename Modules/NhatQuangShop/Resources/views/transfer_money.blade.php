@@ -155,8 +155,8 @@
                         </td>
                        <td class="text-center">
                            @if($transfer->img_proof)
-                               <a download="custom-filename.jpg" href="{{$transfer->img_proof}}" title="ImageName">
-                                   <img src="{{$transfer->img_proof}}" class="img-responsive" style="width : 30px" />
+                               <a download="custom-filename.jpg" href="{{generate_protocol_url($transfer->img_proof)}}" title="ImageName">
+                                   <img src="{{generate_protocol_url($transfer->img_proof)}}" class="img-responsive" style="width : 30px" />
 
                                </a>
                              @else
