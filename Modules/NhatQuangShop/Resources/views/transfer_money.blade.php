@@ -92,7 +92,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <input type="file" name="image">
+                            <input type="file" name="image" id = "proof">
                         </div>
                     </div>                   
                 </div>
@@ -188,8 +188,9 @@
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
-                    $('#blah').attr('src', e.target.result);
                     $('#show_proof').css("display", "block");
+                    $('#blah').attr('src', e.target.result);
+
                 }
 
                 reader.readAsDataURL(input.files[0]);

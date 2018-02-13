@@ -16,11 +16,13 @@
                 <select class="form-control"
                          name="status"
                         style="display: block !important;">
-                   <option  selected="" value = "Đơn mới"> Đơn mới </option>
-                    <option  selected="" value = "Chờ xử lí  "> Chờ xử lí   </option>
-                    <option selected="" value = "Đã đăt hàng  "> Đã đăt hàng </option>
-                    <option  selected="" value = "Đã giao hàng "> Đã giao hàng </option>
-                    <option  selected="" value = "Huỷ đơn "> Huỷ đơn </option>
+                   <option  selected="" value = "place_order"> Đơn mới </option>
+                    <option  selected="" value = "confirm_order"> Xác nhận   </option>
+                    <option selected="" value = "ordered "> Đã đăt hàng </option>
+                    <option  selected="" value = "arrived"> Đã về Việt Nam </option>
+                    <option  selected="" value = "ship"> giao hàng </option>
+                    <option  selected="" value = "completed"> Hoàn thành </option>
+                    <option  selected="" value = "cancel "> Huỷ đơn </option>
                     <option  selected="">Trạng thái</option>
                 </select>
         </div>
