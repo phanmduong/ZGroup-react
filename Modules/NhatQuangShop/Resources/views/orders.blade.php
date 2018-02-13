@@ -59,7 +59,7 @@
                 <th class="text-left">Số lượng</th>
                 <th class="text-left">Ngày tạo</th>
                 <th class="text-left">Tổng tiền(đ)</th>
-                <th class="text-center">Tình trạng</th>
+                <th class="text-left">Tình trạng</th>
             </tr>
             <tbody>
             @if (count($orders) > 0)
@@ -79,27 +79,17 @@
                         <td class="text-center">{{$orders[$i]->quantity}}</td>
                         <td class="text-left">{{format_date($orders[$i]->created_at)}}</td>
                         @if($orders[$i]->price!=null)
-                            <td class="text-left">{{formatPrice($orders[$i]->price)}} đ</td>
+                            <th class="text-left">{{formatPrice($orders[$i]->price)}} đ</th>
                         @else
-                            <td class="text-left">Chưa tính</td>
+                            <th class="text-left">Chưa tính</th>
                         @endif
-                        @if($orders[$i]->status == 'place_order')
-                            <td class="text-center">Đơn mới</td>
-                            @elseif($orders[$i]->status == 'sent_price')
-                            <td class="text-center">Đã báo giá</td>
-                        @elseif($orders[$i]->status == 'confirm_order')
-                            <td class="text-center">Xác nhận</td>
-                        @elseif($orders[$i]->status == 'orders')
-                            <td class="text-center">Đặt hàng</td>
-                        @elseif($orders[$i]->status == 'arrived')
-                            <td class="text-center">Đã về VN</td>
-                        @elseif($orders[$i]->status == 'ship')
-                            <td class="text-center">Giao hàng</td>
-                        @elseif($orders[$i]->status == 'completed')
-                            <td class="text-center">Hoàn thành</td>
-                            @else
-                            <td class ="text-center">Huỷ</td>
-                            @endif
+                        <td style="min-width: 120px;">
+                            <div class="label"
+                                 style="background-color: {{\App\Order::$STATUS_COLOR[$orders[$i]->status]}}">
+                                {{\App\Order::$STATUS[$orders[$i]->status]}}
+                            </div>
+                        </td>
+
                     </tr>
                 @endfor
                 @else
