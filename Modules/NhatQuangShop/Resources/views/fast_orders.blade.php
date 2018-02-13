@@ -17,6 +17,7 @@
                             name="status"
                             style="display: block !important;">
                         <option  selected="" value = "place_order"> Đơn mới </option>
+                        <option  selected="" value = "sent_price"> Đã báo giá </option>
                         <option  selected="" value = "confirm_order"> Xác nhận   </option>
                         <option selected="" value = "ordered "> Đã đăt hàng </option>
                         <option  selected="" value = "arrived"> Đã về Việt Nam </option>
