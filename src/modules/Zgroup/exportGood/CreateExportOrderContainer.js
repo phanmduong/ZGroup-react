@@ -71,7 +71,7 @@ class CreateExportOrderContainer extends React.Component {
     commitData() {
         let {data} = this.state;
         if (!data.company.id) {
-            helper.showErrorNotification("Vui lòng chọn Nhà cung cấp");
+            helper.showErrorNotification("Vui lòng chọn Nhà phân phối ");
             return;
         }
         if (!data.good.id) {
@@ -129,16 +129,26 @@ class CreateExportOrderContainer extends React.Component {
                                             <h4 className="card-title">Xuất hàng</h4>
                                             <div className="row">
                                                 <div className="col-md-12">
-                                                    <label>Nhà cung cấp</label>
+                                                    <label>Mã đơn hàng</label>
+                                                    <ReactSelect
+                                                        disabled={true}
+                                                        options={companies || []}
+                                                        onChange={()=>{}}
+                                                        value={""}
+                                                        name="order_code"
+                                                        defaultMessage="Chọn mã đơn hàng"
+                                                    /></div>
+                                                <div className="col-md-6">
+                                                    <label>Nhà phân phối </label>
                                                     <ReactSelect
                                                         disabled={isLoadingCompanies || isCommitting}
                                                         options={companies || []}
                                                         onChange={this.changeCompany}
                                                         value={data.company.id || ""}
                                                         name="company"
-                                                        defaultMessage="Chọn nhà cung cấp"
+                                                        defaultMessage="Chọn nhà phân phối "
                                                     /></div>
-                                                <div className="col-md-12">
+                                                <div className="col-md-6">
                                                     <label>Kho hàng</label>
                                                     <ReactSelect
                                                         disabled={isLoadingWarehouses || isCommitting}
@@ -148,7 +158,7 @@ class CreateExportOrderContainer extends React.Component {
                                                         name="warehouse"
                                                         defaultMessage="Chọn kho hàng"
                                                     /></div>
-                                                <div className="col-md-12">
+                                                <div className="col-md-6">
                                                     <label>Sản phẩm</label>
                                                     <ReactSelect
                                                         disabled={isLoadingGoods || isCommitting}
@@ -169,7 +179,16 @@ class CreateExportOrderContainer extends React.Component {
                                                     /></div>
                                                 <div className="col-md-6">
                                                     <FormInputText
-                                                        label="Số lượng"
+                                                        label="Số lượng đặt"
+                                                        type="number"
+                                                        name="quantity"
+                                                        updateFormData={this.updateFormData}
+                                                        value={data.quantity || ""}
+                                                        disabled
+                                                    /></div>
+                                                <div className="col-md-6">
+                                                    <FormInputText
+                                                        label="Số lượng xuất"
                                                         type="number"
                                                         name="quantity"
                                                         updateFormData={this.updateFormData}

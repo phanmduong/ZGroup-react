@@ -760,12 +760,6 @@ function getProperty(arr, name) {
         }
     }
     res = res.map((itm) => {return {id: itm, name: itm};});
-    // res = [
-    //     {id: "t1", name: "t1"},
-    //     {id: "t2", name: "t2"},
-    //     {id: "t3", name: "t3"},
-    //     ...res,
-    // ];
     return res;
 }
 

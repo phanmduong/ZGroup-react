@@ -32,10 +32,6 @@ class AddPropertyModal extends React.Component {
         this.onChangeTab = this.onChangeTab.bind(this);
     }
 
-    componentDidMount() {
-        $('li.active').css("background-color", "red");
-    }
-
     componentWillReceiveProps(nextProps) {
         this.setState({data: nextProps.data});
     }
