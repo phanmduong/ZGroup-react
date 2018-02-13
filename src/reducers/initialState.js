@@ -1943,5 +1943,7 @@ export default {
         available_seats: 0,
 
     },
-
+    orderedGood:{
+      isLoading: false,
+    },
 };
