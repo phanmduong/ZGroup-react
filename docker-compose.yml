@@ -1,5 +1,10 @@
 version: '3'
 services:
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
   app:
     container_name: app
     build: 
@@ -24,6 +29,7 @@ services:
     depends_on: 
       - app
       - database
+      - redis
   database:
     image: mysql:5.7.21
     volumes:
