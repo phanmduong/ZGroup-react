@@ -40,7 +40,7 @@
                                 <p class="card-description">
                                     {{shortString($blog->description, 15)}}                                </p>
                                 <br>
-                                <a href="{{'/blog/post/'.$blog->id}}" style="color:#7bc043!important"><b>Xem
+                                <a href="{{'/blog/post/'.$blog->id}}"><b>Xem
                                         thêm</b></a>
                             </div>
                         </div>
@@ -98,6 +98,11 @@
             data: {
                 pages: []
             },
+            methods: {
+                memee: function () {
+                    console.log(this.pages);
+                }
+            }
         });
 
         pagination.pages = paginator({{$current_page}},{{$total_pages}})
