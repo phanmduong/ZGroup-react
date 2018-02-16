@@ -460,13 +460,11 @@ class ConfirmOrderModal extends React.Component {
                         :
                         <div style={{display: "flex", justifyContent: "flex-end"}}>
                             <div className="col-md-3"><button style={{width: "100%"}}
-                                                              // disabled={isCommitting}
                                                               className="btn btn-fill btn-rose" type="button"
                                                               onClick={()=>{return this.props.confirmOrder(data.id);}}
                             ><i className="material-icons">check</i> Duyệt
                             </button></div>
                             <div className="col-md-3"><button style={{width: "100%"}}
-                                                              // disabled={isCommitting}
                                                               className="btn btn-fill" type="button"
                                                               onClick={this.props.onHide}
                             ><i className="material-icons">cancel</i> Đóng
