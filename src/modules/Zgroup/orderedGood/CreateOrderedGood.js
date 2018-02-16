@@ -38,7 +38,6 @@ class CreateOrderedGood extends React.Component {
     }
 
     openAddModal(index){
-        console.log(index);
         if(!index){
             this.isEditModal = false;
             this.setState({showAddModal: true, addModalData: defaultAddModalData});
