@@ -127,7 +127,7 @@ class EmailService
             '[[USER_ADDRESS]]' => $user->address,
             '[[USER_UNIVERSITY]]' => $user->university,
             '[[USER_WORK]]' => $user->work,
-            '[[CLASS_STUDY_TIME]]' => $user->phone
+            '[[CLASS_STUDY_TIME]]' => $class->study_time
 
         );
         $data = str_replace(
