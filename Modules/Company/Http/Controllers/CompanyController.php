@@ -4,9 +4,11 @@ namespace Modules\Company\Http\Controllers;
 
 use App\ExportOrder;
 use App\Field;
+use App\ItemOrder;
 use App\Payment;
 use App\PrintOrder;
 use DateTime;
+use Google\Auth\Cache\Item;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -522,6 +524,90 @@ class CompanyController extends ManageApiController
         $prop->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thêm thành công"
+        ]);
+    }
+    public function creatOrder(Request $request){
+        if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
+        $order = new ItemOrder;
+        $order->company_id = $request->company_id;
+        $order->type = "order";
+        $order->save();
+        $ppp = $order->created_at;
+        $day = date_format($ppp, 'd');
+        $month = date_format($ppp, 'm');
+        $year = date_format($ppp, 'y');
+        $id = (string)$order->id;
+        while (strlen($id) < 4) $id = '0' . $id;
+        $order->command_code = "DATHANG" . $day .$month .$year . $id;
+        $order->save();
+        $goods = json_decode($request->goods);
+        foreach ($goods as $good){
+            $exportOrder = new ExportOrder;
+            $exportOrder->warehouse_id = 0;
+            $exportOrder->company_id = $order->company_id;
+            $exportOrder->price = $good->price;
+            $exportOrder->quantity = $good->quantity;
+            $exportOrder->good_id = $good->id;
+            $exportOrder->total_quantity = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->item_order_id = $order->id;
+            $exportOrder->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Tạo đơn hàng thành công"
+        ]);
+    }
+
+    public function eidtOrder($orderId,Request $request){
+        $order = ItemOrder::find($orderId);
+        if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
+        $order->company_id = $request->company_id;
+        $goods = $order->exportOrder;
+        foreach($goods as $good){
+            $good->delete();
+        }
+        $goods = json_decode($request->goods);
+        foreach ($goods as $good){
+            $exportOrder = new ExportOrder;
+            $exportOrder->warehouse_id = 0;
+            $exportOrder->company_id = $order->company_id;
+            $exportOrder->price = $good->price;
+            $exportOrder->quantity = $good->quantity;
+            $exportOrder->good_id = $good->id;
+            $exportOrder->total_quantity = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->item_order_id = $order->id;
+            $exportOrder->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Sửa đơn hàng thành công"
+        ]);
+
+
+    }
+
+    public function getAllOrder(Request $request){
+        $limit = $request->limit ? $request->limit : 20;
+        if($request->limit == -1){
+            $orders = ItemOrder::where('type','order')->get();
+            return $this->respondSuccessWithStatus([
+                "orders" => $orders->map(function($order){
+                       return $order->transform();
+                })
+            ]);
+        } else{
+            $orders = ItemOrder::where('type','order')->orderBy('created_at','desc')->paginate($limit);
+            return $this->respondWithPagination($orders,[
+                "orders" => $orders->map(function($order){
+                    return $order->transform();
+                })
+            ]);
+
+        }
+    }
+
+    public function getOrder($orderId,Request $request){
+        $order = ItemOrder::find($orderId);
+        return $this->respondSuccessWithStatus([
+            "order" => $order->transform()
         ]);
     }
 
