@@ -58,6 +58,7 @@ class RoomDetailContainer extends React.Component {
 
     componentWillMount() {
         this.loadSeats();
+        this.props.actions.setSeatCurrentAction("");
     }
 
     changeGridSize(value) {

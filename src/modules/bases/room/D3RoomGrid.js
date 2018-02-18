@@ -2,15 +2,15 @@ import * as d3 from "d3";
 
 let ns = {};
 
-ns.onClick = onClick => {
+ns.setOnClick = onClick => {
     ns.onClick = onClick;
 };
 
-ns.onPointClick = onPointClick => {
+ns.setOnPointClick = onPointClick => {
     ns.onPointClick = onPointClick;
 };
 
-ns.onDrag = onDrag => {
+ns.setOnDrag = onDrag => {
     ns.onDrag = onDrag;
 };
 
