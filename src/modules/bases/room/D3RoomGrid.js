@@ -51,8 +51,8 @@ ns.create = function(el, props, state) {
 
 ns.update = function(el, state) {
     let scales = this._scales(state);
-    ns.drawGrid(state);
     this._drawPoints(el, scales, state);
+    ns.drawGrid(state);
     // this._drawTooltips(el, scales, state.tooltips, prevScales);
 };
 

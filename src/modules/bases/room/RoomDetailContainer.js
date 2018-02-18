@@ -24,6 +24,7 @@ class RoomDetailContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.initSeat = {
+            name: "",
             r: 1,
             color: "rgb(244, 67, 54)",
         };
@@ -126,7 +127,7 @@ class RoomDetailContainer extends React.Component {
 
     changeSeatAction(action) {
         this.setState({
-            seat: {},
+            seat: this.initSeat,
         });
         this.props.actions.setSeatCurrentAction(action);
     }
