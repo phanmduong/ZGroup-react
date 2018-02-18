@@ -179,3 +179,20 @@ export function getAllproperties() {
     };
 }
 
+
+export function editProperty(propId, data) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_PROPERTIES_PRINT_ORDER});
+        printOrderApi.editProperty(propId, data)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.EDIT_PROPERTIES_PRINT_ORDER_SUCCESS,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.EDIT_PROPERTIES_PRINT_ORDER_ERROR});
+                }
+            });
+    };
+}

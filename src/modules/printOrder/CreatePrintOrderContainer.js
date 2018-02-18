@@ -11,6 +11,7 @@ import FormInputDate from "../../components/common/FormInputDate";
 import {browserHistory} from 'react-router';
 import * as helper from "../../helpers/helper";
 import FormInputSelect from "../../components/common/FormInputSelect";
+import AddPropertyModal from "./AddPropertyModal";
 
 const nonSelectStyle = {marginTop: 44};
 
@@ -23,11 +24,14 @@ class CreatePrintOrderContainer extends React.Component {
             colors: [],
             sizes: [],
             packings: [],
+            showPropsModal: false,
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGood = this.changeGood.bind(this);
         this.changeCompany = this.changeCompany.bind(this);
         this.commitData = this.commitData.bind(this);
+        this.openAddPropertyModal = this.openAddPropertyModal.bind(this);
+        this.closeAddPropertyModal = this.closeAddPropertyModal.bind(this);
     }
 
     componentWillMount() {
@@ -152,6 +156,16 @@ class CreatePrintOrderContainer extends React.Component {
         }
     }
 
+    openAddPropertyModal(){
+        this.setState({showPropsModal: true});
+    }
+
+    closeAddPropertyModal(){
+        this.props.printOrderActions.getAllproperties();
+        this.setState({showPropsModal: false});
+    }
+
+
     render() {
         let {companies, goods, isLoading, isCommitting, isLoadingPropers} = this.props;
         let {data, materials, sizes, packings, colors} = this.state;
@@ -177,6 +191,12 @@ class CreatePrintOrderContainer extends React.Component {
 
         return (
             <div className="content">
+                <AddPropertyModal
+                    show={this.state.showPropsModal}
+                    onHide={this.closeAddPropertyModal}
+                    data={{materials, sizes, packings, colors}}
+                    editProperty={this.props.printOrderActions.editProperty}
+                />
                 <div className="container-fluid">
                     {(isLoading) ? <Loading/> :
                         <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
@@ -191,8 +211,7 @@ class CreatePrintOrderContainer extends React.Component {
                                             <h4 className="card-title">Chất liệu</h4>
                                             <div style={{display: "flex", flexDirection: "row-reverse"}}>
                                                 <button className="btn btn-fill btn-rose" type="button"
-                                                        onClick={() => {
-                                                        }}
+                                                        onClick={this.openAddPropertyModal}
                                                         disabled={isCommitting || isLoading || isLoadingPropers}
                                                 >
                                                     <i className="material-icons">add</i>Thêm thuộc tính
@@ -501,12 +520,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                         /></div></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colSpan={1}>{"Đóng gói - "}
-                                                            <wbr/>
-                                                            Gia công
-                                                            <wbr/>
-                                                            1
-                                                        </td>
+                                                        <td colSpan={1}>{"Đóng gói - Gia công 1"}</td>
                                                         <td colSpan={3}><FormInputText
                                                             label="Tên"
                                                             type="text"
@@ -525,12 +539,7 @@ class CreatePrintOrderContainer extends React.Component {
                                                         /></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colSpan={1}>{"Đóng gói - "}
-                                                            <wbr/>
-                                                            Gia công
-                                                            <wbr/>
-                                                            2
-                                                        </td>
+                                                        <td colSpan={1}>{"Đóng gói - Gia công 2"}</td>
                                                         <td colSpan={3}><FormInputText
                                                             label="Tên"
                                                             type="text"
@@ -751,12 +760,6 @@ function getProperty(arr, name) {
         }
     }
     res = res.map((itm) => {return {id: itm, name: itm};});
-    // res = [
-    //     {id: "t1", name: "t1"},
-    //     {id: "t2", name: "t2"},
-    //     {id: "t3", name: "t3"},
-    //     ...res,
-    // ];
     return res;
 }
 

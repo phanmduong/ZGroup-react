@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import {connect} from 'react-redux';
 import * as printOrderActions from "./printOrderActions";
+import ConfirmOrderModal from "./ConfirmOrderModal";
 import {bindActionCreators} from 'redux';
 import * as helper from "../../helpers/helper";
 import {PRINT_ORDER_STATUS} from "../../constants/constants";
@@ -12,8 +13,13 @@ import {Link} from "react-router";
 class ListPrintOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {};
+        this.state = {
+            openInfoModal: false,
+            data: defaultData,
+        };
         this.confirm = this.confirm.bind(this);
+        this.closeConfirmModal = this.closeConfirmModal.bind(this);
+        this.openConfirmModal = this.openConfirmModal.bind(this);
     }
 
     confirm(id) {
@@ -29,11 +35,25 @@ class ListPrintOrder extends React.Component {
         );
     }
 
+
+
+    openConfirmModal(obj){
+        this.setState({openInfoModal:true, data: obj});
+    }
+    closeConfirmModal(){
+        this.setState({openInfoModal:false});
+    }
+
     render() {
         let {listPrintOrder} = this.props;
         return (
             <div className="table-responsive">
-
+                    <ConfirmOrderModal
+                        data={this.state.data}
+                        show={this.state.openInfoModal}
+                        onHide={this.closeConfirmModal}
+                        confirmOrder={this.confirm}
+                    />
                 <table id="datatables"
                        className="table table-striped table-no-bordered table-hover"
                        cellSpacing="0" width="100%" style={{width: "100%"}}>
@@ -77,7 +97,8 @@ class ListPrintOrder extends React.Component {
                                         <a data-toggle="tooltip" title="Duyệt"
                                            type="button" rel="tooltip"
                                            onClick={() => {
-                                               return this.confirm(order.id);
+                                               // return this.confirm(order.id);
+                                               return this.openConfirmModal(order);
                                            }}
                                         >
                                             <i className="material-icons">done</i>
@@ -120,3 +141,71 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListPrintOrder);
 
+
+let defaultData = {
+    company: {id: null, name: ""},
+    staff: {id: null, name: ""},
+    good: {id: null, name: ""},
+    quantity: 0,
+    command_code: "",
+    core1: {
+        number: 0,
+        material: "",
+        color: "",
+        size: 0,
+        price: 0,
+    },
+    core2: {
+        number: 0,
+        material: "",
+        color: "",
+        size: 0,
+        price: 0,
+    },
+    cover1: {
+        number: 0,
+        material: "",
+        color: "",
+        size: 0,
+        price: 0,
+    },
+    cover2: {
+        number: 0,
+        material: "",
+        color: "",
+        size: 0,
+        price: 0,
+    },
+    spare_part1: {
+        name: "",
+        number: 0,
+        material: "",
+        size: 0,
+        price: 0,
+        made_by: "",
+    },
+    spare_part2: {
+        name: "",
+        number: 0,
+        material: "",
+        size: 0,
+        price: 0,
+        made_by: "",
+    },
+    packing1: {
+        name: "",
+        price: 0,
+    },
+    packing2: {
+        name: "",
+        price: 0,
+    },
+    other: {
+        name: "",
+        price: 0,
+    },
+    price: 0,
+    note: "",
+    order_date: null,
+    receive_date: null,
+};

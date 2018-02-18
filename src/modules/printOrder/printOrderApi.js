@@ -93,4 +93,14 @@ export function getAllproperties() {
 
     return axios.get(url);
 }
+export function editProperty(propId, data) {
+    //http://manageapi.keetool.xyz/company/print-order/property/{propId}?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order/property/" + propId;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    let res = data.map((obj)=>{return obj.name;});
+    return axios.put(url, {value: JSON.stringify(res)});
+}
 
