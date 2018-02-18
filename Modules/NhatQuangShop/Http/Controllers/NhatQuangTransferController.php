@@ -3,20 +3,13 @@
 namespace Modules\NhatQuangShop\Http\Controllers;
 
 use App\BankAccount;
-use App\Good;
-use App\Order;
-use App\Product;
 use App\TransferMoney;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Modules\Good\Entities\GoodProperty;
 use Modules\Graphics\Repositories\BookRepository;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class NhatQuangTransferController extends Controller
 {
@@ -25,7 +18,8 @@ class NhatQuangTransferController extends Controller
     {
         $this->middleware('auth');
         $this->bookRepository = $bookRepository;
-        $this->data = array();
+        $this->data = [];
+        $this->s3_url = config('app.s3_url');
 
         if (!empty(Auth::user())) {
             $this->user = Auth::user();
@@ -44,17 +38,24 @@ class NhatQuangTransferController extends Controller
 
     public function createTransfer(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'money' => 'required|numeric|min:0',
-            'bank_account_id' => 'required',
-            "transfer_purpose" => 'required',
-            'transfer_day' => 'required'
-        ], [
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'money' => 'required|numeric|min:0',
+                'bank_account_id' => 'required',
+                'transfer_purpose' => 'required',
+                'transfer_day' => 'required',
+                'image' => 'required|max:2048|mimes:jpeg,png'
+            ],
+            [
                 'money.required' => 'Bạn chưa nhập số tiền cần chuyển',
-                "transfer_purpose.required" => 'Bạn cần nhập mục đích chuyển tiền',
+                'transfer_purpose.required' => 'Bạn cần nhập mục đích chuyển tiền',
                 'transfer_day.required' => 'Bạn chưa nhập ngày chuyển tiền',
-                'money.min' => "Bạn không thể báo chuyển khoản số tiền âm ",
+                'money.min' => 'Bạn không thể báo chuyển khoản số tiền âm ',
                 'bank_account_id.required' => 'Bạn chưa chọn phương thức chuyển khoản',
+                'image.required' => 'Bạn chưa gửi ảnh chuyển khoản',
+                'image.max' => 'Kích thước ảnh không được vượt quá 2Mb',
+                'image.mimes' => 'Bạn cần tải lên ảnh có định dạng jpg hoặc png'
             ]
         );
 
@@ -63,15 +64,23 @@ class NhatQuangTransferController extends Controller
                 ->withInput()
                 ->withErrors($validator);
         }
+
         $transfer = new TransferMoney;
+
         $transfer->user_id = $this->user->id;
         $transfer->money = $request->money;
         $transfer->note = $request->note;
         $transfer->transfer_day = $request->transfer_day;
         $transfer->bank_account_id = $request->bank_account_id;
-        $transfer->status = "pending";
+        $transfer->status = 'pending';
+
+        $fileName = uploadFileToS3($request, 'image', 1000);
+
+        $transfer->img_proof = $this->s3_url . $fileName;
+
+        $transfer->purpose = $request->transfer_purpose;
         $transfer->save();
 
-        return redirect("manage/transfermoney")->with('message', 'Thêm lượt chuyển khoản thành công');;
+        return redirect('manage/transfermoney')->with('message', 'Thêm lượt chuyển khoản thành công');
     }
 }
