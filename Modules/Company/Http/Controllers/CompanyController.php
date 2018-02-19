@@ -526,7 +526,7 @@ class CompanyController extends ManageApiController
             "message" => "Thêm thành công"
         ]);
     }
-    public function creatOrder(Request $request){
+    public function createOrder(Request $request){
         //đơn hàng từ nhà phân phối đặt
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order = new ItemOrder;
