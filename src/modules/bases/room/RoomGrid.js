@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import D3RoomGrid from './D3RoomGrid';
+import React from "react";
+import PropTypes from "prop-types";
+import D3RoomGrid from "./D3RoomGrid";
 
 // Import actions here!!
 
@@ -12,11 +12,11 @@ class RoomGrid extends React.Component {
     }
 
     componentDidMount() {
-        D3RoomGrid.onClick(this.props.onClick);
-        D3RoomGrid.onDrag(this.props.onDrag);
-        D3RoomGrid.onPointClick(this.props.onPointClick);
+        D3RoomGrid.setOnClick(this.props.onClick);
+        D3RoomGrid.setOnDrag(this.props.onDrag);
+        D3RoomGrid.setOnPointClick(this.props.onPointClick);
 
-        const {width, height} = this.props;
+        const { width, height } = this.props;
 
         D3RoomGrid.create(this.el, { width, height }, this.getGridState());
     }
@@ -32,15 +32,20 @@ class RoomGrid extends React.Component {
     }
 
     getGridState() {
-        const {seats, width, height, roomLayoutUrl, gridSize, gridOn} = this.props;
-        return {seats, width, height, roomLayoutUrl, gridSize, gridOn};
+        const {
+            seats,
+            width,
+            height,
+            roomLayoutUrl,
+            gridSize,
+            gridOn,
+        } = this.props;
+        return { seats, width, height, roomLayoutUrl, gridSize, gridOn };
     }
 
     render() {
         // console.log(this.props.data);
-        return (
-            <div id="room-canvas"/>
-        );
+        return <div id="room-canvas" />;
     }
 }
 
@@ -50,12 +55,11 @@ RoomGrid.propTypes = {
     seats: PropTypes.array.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    roomLayoutUrl: PropTypes.string.isRequired,
+    roomLayoutUrl: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
-    currentAction : PropTypes.string.isRequired,
-    onPointClick: PropTypes.func.isRequired
+    currentAction: PropTypes.string.isRequired,
+    onPointClick: PropTypes.func.isRequired,
 };
-
 
 export default RoomGrid;

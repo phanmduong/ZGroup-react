@@ -560,6 +560,7 @@ class RegisterListContainer extends React.Component {
             this.state.selectedMoneyFilter,
             this.state.selectedClassStatus,
             this.state.time.startTime,
+            
             this.state.time.endTime,
             this.closeLoadingModal
         );
