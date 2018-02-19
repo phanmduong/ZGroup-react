@@ -30,7 +30,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::post('/export-order/{exportOrderId}/change-status','CompanyController@changeStatusExportOrder');
 
     Route::get('/order','CompanyController@getAllOrder');
-    Route::post('/order','CompanyController@createOrder');
+    Route::post('/order/create','CompanyController@createOrder');
     Route::get('/order/{orderId}','CompanyController@getOrder');
     Route::put('/order/{orderId}','CompanyController@editOrder');
 

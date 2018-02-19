@@ -531,7 +531,7 @@ class CompanyController extends ManageApiController
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order = new ItemOrder;
         $order->company_id = $request->company_id;
-        $order->type = "order";
+        $order->type = "be-ordered";
         $order->save();
         $ppp = $order->created_at;
         $day = date_format($ppp, 'd');
