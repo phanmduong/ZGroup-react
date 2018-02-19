@@ -1960,5 +1960,8 @@ export default {
     },
     orderedGood:{
       isLoading: false,
+      isCommitting: false,
+      companies: [],
+      goods: [],
     },
 };

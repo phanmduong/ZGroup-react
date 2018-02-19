@@ -11,7 +11,7 @@ import {Modal} from 'react-bootstrap';
 import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
 
-const textAlignCenter = {textAlign: "right"};
+const textAlign = {textAlign: "right"};
 
 class CreateOrderedGood extends React.Component {
     constructor(props, context) {
@@ -28,10 +28,19 @@ class CreateOrderedGood extends React.Component {
         this.updateFormAdd = this.updateFormAdd.bind(this);
         this.addGood = this.addGood.bind(this);
         this.remove  = this.remove.bind(this);
+        this.onChangeCompany  = this.onChangeCompany.bind(this);
+        this.commitData  = this.commitData.bind(this);
     }
 
     componentWillMount() {
+        this.props.orderedGoodActions.loadAllGoods();
+        this.props.orderedGoodActions.loadAllCompanies();
+        
     }
+
+    // componentWillReceiveProps(next){
+    //     console.log(next);
+    // }
 
     componentDidUpdate(){
         helper.setFormValidation('#form-ordered-good');
@@ -55,12 +64,27 @@ class CreateOrderedGood extends React.Component {
         let name = e.target.name;
         let value = e.target.value;
         let {addModalData} = this.state;
+        if(!value) return;
         if(name==="id"){
-            let good = allGood.filter((obj) => obj.id === value)[0];
-            addModalData = {...addModalData, [name]: value, ...good};
+            let good = this.props.goods.filter((obj) => obj.id*1 === value*1)[0];
+            if(good) addModalData = {
+                ...addModalData, 
+                [name]: value,
+                id: good.id, 
+                price: good.price, 
+                quantity: good.quantity,
+            };
         }else
         addModalData = {...addModalData, [name]: value};
         this.setState({addModalData});
+    }
+
+    onChangeCompany(e){
+        let value = e.target.value;
+        if(value){
+            let company = this.props.companies.filter((obj) => obj.id*1 === value*1)[0];
+            if(company) this.setState({data: {...this.state.data, company}});
+        }
     }
 
     addGood(){
@@ -71,7 +95,8 @@ class CreateOrderedGood extends React.Component {
             }
         }else {return;}
         let {goods} = this.state.data;
-        let good = allGood.filter((obj) => obj.id === this.state.addModalData.id)[0];
+        let good = this.props.goods.filter((obj) => obj.id === this.state.addModalData.id)[0];
+        if(!good) return;
         if(this.isEditModal){
             goods = [...goods.slice(0, this.state.editIndex),
                 {...this.state.addModalData, name: good.name},
@@ -96,8 +121,35 @@ class CreateOrderedGood extends React.Component {
         });
     }
 
+    commitData(){
+        let {data} = this.state;
+        if(!data.company || helper.isEmptyInput(data.company.id)){
+            helper.showErrorNotification("Vui lòng chọn nhà phân phối!");
+            return;
+        }else 
+        if(!data.goods || data.goods.length == 0){
+            helper.showErrorNotification("Vui lòng thêm sản phẩm!");
+            return;
+        }
+        let res = {
+            ...data,
+            company_id: data.company.id,
+            goods: JSON.stringify(data.goods.map(
+                (obj)=>{
+                    return ({
+                        id: obj.id,
+                        price: obj.price,
+                        quantity: obj.quantity,
+                    });
+                })
+            ) ,
+
+        };
+        this.props.orderedGoodActions.createOrderedGood(res);
+    }
+
     render() {
-        let {isLoading} = this.props;
+        let {isLoading, goods, companies, isCommitting} = this.props;
         let {data, showAddModal, addModalData} = this.state;
         let sumQuantity=0, sumPrice=0;
         return (
@@ -120,9 +172,9 @@ class CreateOrderedGood extends React.Component {
                                                             <tr>
                                                                 <th style={{width: "10%"}}>STT</th>
                                                                 <th style={{width: "40%"}}>Tên</th>
-                                                                <th style={textAlignCenter}>Số lượng</th>
-                                                                <th style={textAlignCenter}>Đơn giá</th>
-                                                                <th style={textAlignCenter}>Thành tiền</th>
+                                                                <th style={textAlign}>Số lượng</th>
+                                                                <th style={textAlign}>Đơn giá</th>
+                                                                <th style={textAlign}>Thành tiền</th>
                                                                 <th>
                                                                     <TooltipButton text="Thêm sản phẩm" placement="top">
                                                                         <button style={{ float: "right"}}
@@ -135,41 +187,48 @@ class CreateOrderedGood extends React.Component {
                                                                 </th>
                                                             </tr>
                                                             </thead>
-                                                            <tbody>
-                                                            {data.goods.map(
-                                                                (obj, index) => {
-                                                                    sumPrice += obj.price * obj.quantity ;
-                                                                    sumQuantity += obj.quantity *1;
-                                                                    return (
-                                                                        <tr key={index}>
-                                                                            <td>{index + 1}</td>
-                                                                            <td>{obj.name}</td>
-                                                                            <td style={textAlignCenter}>{obj.quantity}</td>
-                                                                            <td style={textAlignCenter}>{helper.convertMoneyToK(obj.price)}</td>
-                                                                            <td style={textAlignCenter}>{helper.convertMoneyToK(obj.price * obj.quantity)}</td>
-                                                                            <td><div className="btn-group-action" style={{display:"flex", justifyContent: "center"}}>
-                                                                                <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
-                                                                                   onClick={() => {
-                                                                                    return this.openAddModal(index);
-                                                                                   }}><i className="material-icons">edit</i>
-                                                                                </a>
-                                                                                <a data-toggle="tooltip" title="Xoá" type="button" rel="tooltip"
-                                                                                   onClick={() => {
-                                                                                    return this.remove(index);
-                                                                                   }}><i className="material-icons">delete</i>
-                                                                                </a>
-                                                                            </div></td>
-                                                                        </tr>
-                                                                    );
-                                                                })}
-                                                            </tbody>
+                                                            {(data && data.goods && data.goods.length >0) ?
+                                                                <tbody>
+                                                                {data.goods.map(
+                                                                    (obj, index) => {
+                                                                        sumPrice += obj.price * obj.quantity ;
+                                                                        sumQuantity += obj.quantity *1;
+                                                                        return (
+                                                                            <tr key={index}>
+                                                                                <td>{index + 1}</td>
+                                                                                <td>{obj.name}</td>
+                                                                                <td style={textAlign}>{obj.quantity}</td>
+                                                                                <td style={textAlign}>{helper.convertMoneyToK(obj.price)}</td>
+                                                                                <td style={textAlign}>{helper.convertMoneyToK(obj.price * obj.quantity)}</td>
+                                                                                <td><div className="btn-group-action" style={{display:"flex", justifyContent: "center"}}>
+                                                                                    <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
+                                                                                        onClick={() => {
+                                                                                        return this.openAddModal(index);
+                                                                                        }}><i className="material-icons">edit</i>
+                                                                                    </a>
+                                                                                    <a data-toggle="tooltip" title="Xoá" type="button" rel="tooltip"
+                                                                                        onClick={() => {
+                                                                                        return this.remove(index);
+                                                                                        }}><i className="material-icons">delete</i>
+                                                                                    </a>
+                                                                                </div></td>
+                                                                            </tr>
+                                                                        );
+                                                                    })}
+                                                                </tbody>
+                                                                : 
+                                                                <tbody>
+                                                                    <tr><td/><td colSpan={5}>Chưa có sản phẩm</td></tr>
+                                                                </tbody>
+
+                                                            }
                                                             <tfoot style={{fontWeight: "bolder"}}>
                                                                 <tr>
                                                                     <td/>
                                                                     <td>Tổng</td>
-                                                                    <td style={textAlignCenter}>{sumQuantity}</td>
+                                                                    <td style={textAlign}>{sumQuantity}</td>
                                                                     <td/>
-                                                                    <td style={textAlignCenter}>{helper.convertMoneyToK(sumPrice)}</td>
+                                                                    <td style={textAlign}>{helper.convertMoneyToK(sumPrice)}</td>
                                                                     <td/>
                                                                 </tr>
                                                             </tfoot>
@@ -188,20 +247,19 @@ class CreateOrderedGood extends React.Component {
                                                 <div className="card-content">
                                                     <h4 className="card-title">Nhà phân phối</h4>
                                                     <FormInputSelect
-                                                        name=""
-                                                        updateFormData={()=>{}}
+                                                        name="company"
+                                                        updateFormData={this.onChangeCompany}
                                                         label="Chọn nhà phân phối"
-                                                        data={[
-                                                            {id: "1", name: "Nhà Phân Phối 1"},
-                                                            {id: "2", name: "Nhà Phân Phối 2"},
-                                                            {id: "3", name: "Nhà Phân Phối 3"},
-                                                            ]}
+                                                        data={companies}
                                                         placeholder="Chọn nhà phân phối"
                                                         value={data.company.id}
                                                     />
                                                     <div>
-                                                        <label>Thông tin</label>
-                                                        <div>Nội dung</div>
+                                                        {/* <FormInputText label="Tên" value={data.company.name} disabled/> */}
+                                                        <FormInputText label="Địa chỉ" value={data.company.office_address} disabled/>
+                                                        <FormInputText label="SĐT Công ty" value={data.company.phone_company} disabled/>
+                                                        <FormInputText label="Liên hệ" value={data.company.user_contact} disabled/>
+                                                        <FormInputText label="SĐT Liên hệ" value={data.company.user_contact_phone} disabled/>
                                                     </div>
                                                     <div>
                                                         <label className="control-label">Ghi chú</label>
@@ -224,6 +282,34 @@ class CreateOrderedGood extends React.Component {
                                                                 />
                                                         </div>
                                                     </div>
+
+                                                     {isCommitting ?
+                                                            <div className="col-md-12">
+                                                                <button className="btn btn-rose disabled" type="button" disabled>
+                                                                    <i className="fa fa-spinner fa-spin"/> Đang lưu...
+                                                                </button>
+                                                            </div>
+                                                            :
+                                                            <div className="col-md-12">
+                                                                <button
+                                                                    className="btn btn-fill btn-rose"
+                                                                    type="button"
+                                                                    onClick={this.commitData}
+                                                                    disabled={isCommitting}
+                                                                ><i className="material-icons">add</i>  Lưu</button>
+                                                                <button
+                                                                    className="btn btn-fill" type="button"
+                                                                    onClick={() => {
+                                                                        helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
+                                                                            () => {
+                                                                                //return browserHistory.push("/business/export-order");
+                                                                            }
+                                                                        );
+                                                                    }}
+                                                                ><i className="material-icons">cancel</i> Hủy</button>
+                                                            </div>
+
+                                                        }
                                                 </div>
 
                                             </div>
@@ -246,7 +332,7 @@ class CreateOrderedGood extends React.Component {
                                     <FormInputSelect
                                         name="id"
                                         updateFormData={this.updateFormAdd}
-                                        data={allGood}
+                                        data={goods}
                                         label="Chọn sản phẩm"
                                         value={addModalData.id}
                                         placeholder="Chọn sản phẩm"
@@ -302,11 +388,18 @@ class CreateOrderedGood extends React.Component {
 
 CreateOrderedGood.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isCommitting: PropTypes.bool.isRequired,
+    goods: PropTypes.array,
+    companies: PropTypes.array,
+    orderedGoodActions: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.orderedGood.isLoading,
+        goods: state.orderedGood.goods,
+        companies: state.orderedGood.companies,
+        isCommitting: state.orderedGood.isCommitting,
     };
 }
 
@@ -321,9 +414,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateOrderedGood);
 const defaultData = {
     company: {id: "", name: ""},
     goods: [
-        {id: "1", name: "Sản phẩm 1", quantity: 1, price: 3},
-        {id: "2", name: "Sản phẩm 2", quantity: 2, price: 4},
-        {id: "3", name: "Sản phẩm 3", quantity: 3, price: 5},
+        // {id: "1", name: "Sản phẩm 1", quantity: 1, price: 3},
+        // {id: "2", name: "Sản phẩm 2", quantity: 2, price: 4},
+        // {id: "3", name: "Sản phẩm 3", quantity: 3, price: 5},
     ],
     note: "",
 };
@@ -332,10 +425,3 @@ const defaultAddModalData= {
     quantity: 0,
     price: 0,
 };
-
-const allGood = [
-    {id: "", name: "Chọn sản phẩm", quantity: 0, price: 0},
-    {id: "1", name: "Sản phẩm 1", quantity: 1, price: 3},
-    {id: "2", name: "Sản phẩm 2", quantity: 2, price: 4},
-    {id: "3", name: "Sản phẩm 3", quantity: 3, price: 5},
-];

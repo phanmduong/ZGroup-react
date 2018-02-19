@@ -212,7 +212,7 @@ class CreateExportOrderContainer extends React.Component {
                                                         > Lưu
                                                         </button>
                                                         <button
-                                                            className="btn btn-fill btn-rose" type="button"
+                                                            className="btn btn-fill" type="button"
                                                             onClick={() => {
                                                                 helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
                                                                     () => {
