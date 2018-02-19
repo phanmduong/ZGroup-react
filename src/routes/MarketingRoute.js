@@ -5,16 +5,11 @@ import SummaryMarketingCampaignContainer from "../modules/summaryMarketingCampai
 import SummarySalesContainer from "../modules/summarySales/SummarySalesContainer";
 import OverviewSales from "../modules/summarySales/OverviewSales";
 import StatisticSales from "../modules/summarySales/StatisticSales";
-import teleSaleHistoryContainer from "../modules/teleSaleHistory/teleSaleHistoryContainer";
 
 /**
  * Tab Quản lý marketing
  */
 export default [
-    {
-        path: "/marketing/telesale-history",
-        component: teleSaleHistoryContainer,
-    },
     {
         path: "/marketing/telesalehistory(/:callerId)",
         component: HistoryCallsContainer

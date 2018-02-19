@@ -9,7 +9,7 @@ import {Modal} from "react-bootstrap";
 import StoreCampaign from "./StoreCampaign";
 import PropTypes from 'prop-types';
 
-class MarketingCampaignContainer extends React.Component {
+class MarketingCampaignContainerUp extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -111,7 +111,7 @@ class MarketingCampaignContainer extends React.Component {
     }
 }
 
-MarketingCampaignContainer.propTypes = {
+MarketingCampaignContainerUp.propTypes = {
     marketingCampaignActions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isStoringCampaign: PropTypes.bool.isRequired,
@@ -136,4 +136,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarketingCampaignContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MarketingCampaignContainerUp);
