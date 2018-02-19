@@ -56,9 +56,9 @@ class ListCampaign extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.campaigns && this.props.campaigns.map(campaign => {
+                    {this.props.campaigns && this.props.campaigns.map((campaign,index) => {
                         return (
-                            <tr>
+                            <tr key={index}>
                                 <td>
                                     <div className="max-width-130-px">
                                         <button className="btn btn-sm btn-main"

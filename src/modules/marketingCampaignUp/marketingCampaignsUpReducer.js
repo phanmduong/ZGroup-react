@@ -4,7 +4,7 @@ import initialState from '../../reducers/initialState';
 let marketingCampaigns;
 export default function importGoodsReducer(state = initialState.marketingCampaignUp, action) {
     switch (action.type) {
-        case types.BEGIN_LOAD_MARKETING_CAMPAIGNS:
+        case types.BEGIN_LOAD_MARKETING_CAMPAIGNS_UP:
             return {
                 ...state,
                 ...{
@@ -12,7 +12,7 @@ export default function importGoodsReducer(state = initialState.marketingCampaig
                     error: false,
                 }
             };
-        case types.LOAD_MARKETING_CAMPAIGNS_SUCCESS:
+        case types.LOAD_MARKETING_CAMPAIGNS_SUCCESS_UP:
             return {
                 ...state,
                 ...{
@@ -23,7 +23,7 @@ export default function importGoodsReducer(state = initialState.marketingCampaig
                     totalPages: action.totalPages
                 }
             };
-        case types.LOAD_MARKETING_CAMPAIGNS_ERROR:
+        case types.LOAD_MARKETING_CAMPAIGNS_ERROR_UP:
             return {
                 ...state,
                 ...{
@@ -31,7 +31,7 @@ export default function importGoodsReducer(state = initialState.marketingCampaig
                     error: true
                 }
             };
-        case types.BEGIN_STORE_MARKETING_CAMPAIGN:
+        case types.BEGIN_STORE_MARKETING_CAMPAIGN_UP:
             return {
                 ...state,
                 ...{
@@ -39,7 +39,7 @@ export default function importGoodsReducer(state = initialState.marketingCampaig
                     errorStoreCampaign: false,
                 }
             };
-        case types.STORE_MARKETING_CAMPAIGN_SUCCESS:
+        case types.STORE_MARKETING_CAMPAIGN_SUCCESS_UP:
 
             if (action.isEdit) {
                 marketingCampaigns = state.marketingCampaigns.map((marketingCampaign) => {
@@ -63,7 +63,7 @@ export default function importGoodsReducer(state = initialState.marketingCampaig
                     marketingCampaigns: marketingCampaigns
                 }
             };
-        case types.STORE_MARKETING_CAMPAIGN_ERROR:
+        case types.STORE_MARKETING_CAMPAIGN_ERROR_UP:
             return {
                 ...state,
                 ...{

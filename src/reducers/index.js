@@ -110,7 +110,7 @@ const appReducer = combineReducers({
     cardFilter: cardFilterReducer,
     rule: ruleReducer,
     emailSubscribersList: emailSubscribersListReducer,
-    book: bookReducer,
+    book: bookReducer,call
     emailCampaigns: emailCampainsReducer,
     good: goodReducer,
     shiftRegisters: shiftRegistersReducer,

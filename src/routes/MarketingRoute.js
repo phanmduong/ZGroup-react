@@ -11,10 +11,10 @@ import teleSaleHistoryContainer from "../modules/teleSaleHistory/teleSaleHistory
  * Tab Quản lý marketing
  */
 export default [
-    {
-        path: "/marketing/telesale-history",
-        component: teleSaleHistoryContainer,
-    },
+    // {
+    //     path: "/marketing/telesale-history",
+    //     component: teleSaleHistoryContainer,
+    // },
     {
         path: "/marketing/telesalehistory(/:callerId)",
         component: HistoryCallsContainer
