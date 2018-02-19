@@ -50,6 +50,12 @@ class HistoryCallContainer extends React.Component {
                                                 <div className="timeline-body">
                                                     {history.note}
                                                 </div>
+                                                {
+                                                    history.appointment_payment &&
+                                                    <div className="timeline-body">
+                                                        Hẹn nộp tiền: {history.appointment_payment}
+                                                    </div>
+                                                }
                                             </div>
                                         </li>
                                     );

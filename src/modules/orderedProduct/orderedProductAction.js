@@ -73,10 +73,10 @@ export function editNote(order) {
     };
 }
 
-export function changeStatus(status, deliveryOrderId, note) {
+export function changeStatus(status, deliveryOrderId, note, attach) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
-        orderedProductApi.changeStatusApi(status, deliveryOrderId, note)
+        orderedProductApi.changeStatusApi(status, deliveryOrderId, note, attach)
             .then((res) => {
                 if (res.data.status === 0) {
                     helper.showErrorNotification(res.data.message.message);
@@ -105,5 +105,18 @@ export function handleAddCancelNoteModal(cancelNote) {
     return ({
         type: types.HANDLE_ADD_CANCEL_NOTE_MODAL,
         cancelNote
+    });
+}
+
+export function showSendPriceModal() {
+    return ({
+        type: types.TOGGLE_SEND_PRICE_MODAL
+    });
+}
+
+export function handleSendPriceModal(order) {
+    return ({
+        type: types.HANDLE_SEND_PRICE_MODAL,
+        order
     });
 }

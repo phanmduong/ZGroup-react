@@ -21,6 +21,7 @@ class ListCall extends React.Component {
                         <th>Số điện thoại</th>
                         <th>Trạng thái</th>
                         <th>Ghi chú</th>
+                        <th>Hẹn nộp</th>
                         <th>Thời gian gọi</th>
                     </tr>
                     </thead>
@@ -82,6 +83,7 @@ class ListCall extends React.Component {
                                         <div id="register-email">{call.note}</div>
                                     </TooltipButton>
                                 </td>
+                                <td>{call.appointment_payment}</td>
                                 <td>{call.call_time}</td>
                             </tr>
                         );

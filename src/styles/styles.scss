@@ -716,7 +716,7 @@ img .product-image {
 .svg-content-responsive {
   display: inline-block;
   position: absolute;
-  top: 10px;
+  top: 0;
   left: 0;
 }
 
@@ -736,6 +736,16 @@ img .product-image {
 
 .box > * {
   flex: 0 0 20%;
+}
+
+.box-images-website-create {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box-images-website-create > * {
+  flex: 0 0 33.33%;
 }
 
 .container-for-avatar {
@@ -767,7 +777,7 @@ img .product-image {
 
 a.btn-seat {
   color: #696969;
-  margin-bottom: 10px;
+  display: inline-block;
 }
 
 a.btn-seat.active {
@@ -775,12 +785,15 @@ a.btn-seat.active {
 }
 
 .d3-point.active {
-  stroke: #757575;
+  stroke: #000;
 }
 
-.d3-point, .d3-points text {
+.d3-point, .d3-text {
   cursor: pointer;
 }
 
+.d3-point.archived {
+  fill: #dedede!important;
+}
 
 

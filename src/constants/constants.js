@@ -336,3 +336,9 @@ export const FULLTIME_FORMAT = "HH:mm:ss";
 export const TIME_FORMAT_H_M = "HH:mm";
 
 export const MAX_USER_SHOW_WORK_SHIFT = 5;
+
+export const PRINT_ORDER_STATUS = [
+    "Chưa duyệt",
+    "Đã duyệt",
+    "Đã nhận",
+];

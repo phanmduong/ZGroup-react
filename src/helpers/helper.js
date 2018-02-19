@@ -739,9 +739,11 @@ export function closeSidebar() {
 
 export function onesignalSetUserId(userId) {
     /* eslint-disable */
-    window.OneSignal.sendTag("user_id", userId, function (tagsSent) {
-        console.log("tag ok ", tagsSent);
-    });
+    if (window.OneSignal) {
+        window.OneSignal.sendTag("user_id", userId, function (tagsSent) {
+            console.log("tag ok ", tagsSent);
+        });    
+    }    
     /* eslint-enable */
 }
 
@@ -1205,7 +1207,7 @@ export function convertDataGeneral(data) {
 
 
 export function validateLinkImage(link) {
-    if (isEmptyInput(link) || avatarEmpty(link) || link == '""') return NO_IMAGE;
+    if (isEmptyInput(link) || avatarEmpty(link) || link == '""') return env.NO_IMAGE;
     if (link.substring(0, 4) === 'http') {
         return link;
     }

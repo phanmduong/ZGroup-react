@@ -2,12 +2,12 @@ import axios    from 'axios';
 import * as env from '../../constants/env';
 
 
-export function loadPrintOrders(page,search) {
+export function loadPrintOrders(page=1,command_code='', good_id='', status='') {
     //http://manageapi.keetool.xyz/company/print-order/all?token=
     let url     = env.MANAGE_API_URL +"/company/print-order/all?";
     let token   = localStorage.getItem('token');
     if (token) {
-        url +=  "page=" + page + "&search=" + search + "&token=" + token;
+        url +=  "page=" + page + "&search=" + command_code + "&good_id=" + good_id + "&status=" + status + "&token=" + token;
     }
     return axios.get(url);
 }
@@ -71,6 +71,36 @@ export function confirmOrder(id) {
         url +=  "?token=" + token;
     }
 
-    return axios.post(url);
+    return axios.post(url, {status : 1});
+}
+export function getAllCodes() {
+    //http://manageapi.keetool.xyz/company/print-order/all-command-code?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order/all-command-code";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+export function getAllproperties() {
+    //http://manageapi.keetool.xyz/company/print-order/all-command-code?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order/properties";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+export function editProperty(propId, data) {
+    //http://manageapi.keetool.xyz/company/print-order/property/{propId}?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order/property/" + propId;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    let res = data.map((obj)=>{return obj.name;});
+    return axios.put(url, {value: JSON.stringify(res)});
 }
 

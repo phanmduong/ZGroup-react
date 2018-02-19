@@ -15,13 +15,13 @@ export function changeInfoStudent(info, success) {
         });
         registerStudentsApi.changeInfoStudent(info).then((res) => {
             let status = res.data.status;
-            if(status==1) {
+            if (status == 1) {
                 showNotification("Lưu thành công!");
                 dispatch({
                     type: types.CHANGE_INFO_STUDENT_SUCCESS,
                 });
                 success();
-            }else {
+            } else {
                 showErrorNotification(res.data.message.message);
                 dispatch({
                     type: types.CHANGE_INFO_STUDENT_ERROR
@@ -73,6 +73,7 @@ export function loadSalerFilter() {
         });
     };
 }
+
 export function loadCampaignFilter() {
     return function (dispatch) {
         dispatch({
@@ -98,10 +99,10 @@ export function loadRegisterStudent(page, genId, search, salerId, campaignId, cl
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
-        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime )
+        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime)
             .then(function (res) {
-            dispatch(loadDataSuccessful(res));
-        }).catch(error => {
+                dispatch(loadDataSuccessful(res));
+            }).catch(error => {
             console.log(error);
             dispatch({
                 type: types.LOAD_DATA_REGISTER_LIST_ERROR
@@ -111,20 +112,19 @@ export function loadRegisterStudent(page, genId, search, salerId, campaignId, cl
 }
 
 
-
-export function loadAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime,exportExcel) {
+export function loadAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime, exportExcel) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST,
         });
-        registerStudentsApi.getAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime )
+        registerStudentsApi.getAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime)
             .then(function (res) {
                 dispatch({
                     type: types.LOAD_DATA_EXCEL_REGISTER_LIST_SUCCESS,
                     excel: res.data.data
                 });
                 exportExcel();
-        }).catch(error => {
+            }).catch(error => {
             console.log(error);
             showErrorNotification("Lỗi kết nối mạng!");
             dispatch({
@@ -188,12 +188,12 @@ export function loadHistoryCallStudent(studentId, registerId) {
 
 }
 
-export function changeCallStatusStudent(callStatus, studentId, telecallId, genId, note, closeModal, callerId) {
+export function changeCallStatusStudent(callStatus, studentId, telecallId, genId, note, closeModal, callerId, appointmentPayment) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_STUDENT
         });
-        registerStudentsApi.changeCallStatusStudent(callStatus, studentId, telecallId, genId, note, callerId)
+        registerStudentsApi.changeCallStatusStudent(callStatus, studentId, telecallId, genId, note, callerId, appointmentPayment)
             .then((res) => {
                 closeModal();
                 dispatch({
@@ -221,7 +221,7 @@ export function deleteRegisterStudent(registerId) {
         });
         registerStudentsApi.deleteRegisterStudent(registerId)
             .then((res) => {
-                if (res.data.status === 1){
+                if (res.data.status === 1) {
                     showNotification(res.data.data.message);
                     dispatch({
                         type: types.DELETE_REGISTER_STUDENT_SUCCESS,
