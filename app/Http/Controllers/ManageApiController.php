@@ -15,12 +15,12 @@ class ManageApiController extends Controller
     protected $user;
     protected $s3_url;
 
-//    public function __construct()
-//    {
-//        $this->middleware('is_staff');
-//        $this->user = JWTAuth::parseToken()->authenticate();
-//        $this->s3_url = config('app.s3_url');
-//    }
+    public function __construct()
+    {
+        $this->middleware('is_staff');
+        $this->user = JWTAuth::parseToken()->authenticate();
+        $this->s3_url = config('app.s3_url');
+    }
 
     public function respondErrorWithStatus($message)
     {
