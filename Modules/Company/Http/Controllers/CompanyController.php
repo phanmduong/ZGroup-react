@@ -527,6 +527,7 @@ class CompanyController extends ManageApiController
         ]);
     }
     public function creatOrder(Request $request){
+        //đơn hàng từ nhà phân phối đặt
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order = new ItemOrder;
         $order->company_id = $request->company_id;
@@ -558,6 +559,7 @@ class CompanyController extends ManageApiController
     }
 
     public function eidtOrder($orderId,Request $request){
+        //đơn hàng từ nhà phân phối đặt
         $order = ItemOrder::find($orderId);
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order->company_id = $request->company_id;
@@ -585,6 +587,7 @@ class CompanyController extends ManageApiController
     }
 
     public function getAllOrder(Request $request){
+        //đơn hàng từ nhà phân phối đặt
         $limit = $request->limit ? $request->limit : 20;
         if($request->limit == -1){
             $orders = ItemOrder::where('type','order')->get();
@@ -605,6 +608,7 @@ class CompanyController extends ManageApiController
     }
 
     public function getOrder($orderId,Request $request){
+        //đơn hàng từ nhà phân phối đặt
         $order = ItemOrder::find($orderId);
         return $this->respondSuccessWithStatus([
             "order" => $order->transform()
