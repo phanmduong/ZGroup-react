@@ -46,4 +46,32 @@ class TransferMoneyApiController extends ManageApiController
                 })
             ]);
     }
+
+    public function editTransfer($transferId, Request $request)
+    {
+        $transfer = TransferMoney::find($transferId);
+        if ($transfer == null)
+            return $this->respondErrorWithStatus('Không tồn tại chuyển khoản');
+        $transfer->money = $request->money;
+        $transfer->note = $request->note;
+        $transfer->purpose = $request->purpose;
+        $transfer->save();
+        return $this->respondSuccess('Sửa thành công');
+    }
+
+    public function changeTransferStatus($transferId, Request $request)
+    {
+        $transfer = TransferMoney::find($transferId);
+        if ($transfer == null)
+            return $this->respondErrorWithStatus('Không tồn tại chuyển khoản');
+        if($transfer->status == 'accept' || $transfer->status == 'cancel')
+            return $this->respondErrorWithStatus('Không cho phép chuyển trạng thái chấp nhận hoặc hủy');
+        if($request->status == 'accept')
+        {
+            //cong tien vao vi user o day
+        }
+        $transfer->status = $request->status;
+        $transfer->save();
+        return $this->respondSuccess('Đổi trạng thái thành công');
+    }
 }

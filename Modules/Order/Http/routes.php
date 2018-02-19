@@ -71,5 +71,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'v2/transfer-money', 'namespace' => 'Modules\Order\Http\Controllers'], function () {
     Route::get('/', 'TransferMoneyApiController@getTransfers');
+    Route::put('/{transferId}', 'TransferMoneyApiController@editTransfer');
+    Route::put('/{transferId}/status', 'TransferMoneyApiController@changeTransferStatus');
 });
 
