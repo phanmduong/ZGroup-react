@@ -1,6 +1,3 @@
-/**
- * Created by TienTaiNguyen on 01/26/18.
- */
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -14,6 +11,9 @@ import Pagination from "../../components/common/Pagination";
 //import Loading from "../../components/common/Loading";
 // import {Link} from "react-router";
 import {REGISTER_STATUS} from "../../constants/constants";
+import XLSX from 'xlsx';
+import {saveWorkBookToExcel} from "../../helpers/helper";
+import {loadAllRegistersApi} from "./registerManageApi";
 
 
 // import {Modal} from 'react-bootstrap';
@@ -27,19 +27,17 @@ class RegisterManageContainer extends React.Component {
             query: '',
             staff_id: null,
             status: null,
-
-
-
-
+            campaign_id: null,
+            limit : 10,
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.filterByCampaign = this.filterByCampaign.bind(this);
+        this.filterByStaff = this.filterByStaff.bind(this);
+        this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
-
-
-
     }
 
     componentWillMount() {
@@ -47,7 +45,6 @@ class RegisterManageContainer extends React.Component {
         this.props.registerManageAction.loadAllRegisters();
         this.props.registerManageAction.getAllStaffs();
     }
-
 
 
     registersSearchChange(value) {
@@ -60,10 +57,12 @@ class RegisterManageContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit ,
                 1,
                 value,
                 this.state.staff_id,
-                this.state.status
+                this.state.status,
+                this.state.campaign_id,
             );
         }.bind(this), 500);
     }
@@ -75,10 +74,12 @@ class RegisterManageContainer extends React.Component {
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
                 1,
                 this.state.query,
                 value.value,
-                this.state.status
+                this.state.status,
+                this.state.campaign_id,
             );
         } else {
             this.setState({
@@ -86,10 +87,12 @@ class RegisterManageContainer extends React.Component {
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
                 1,
                 this.state.query,
                 null,
-                this.state.status
+                this.state.status,
+                this.state.campaign_id,
             );
         }
     }
@@ -101,6 +104,7 @@ class RegisterManageContainer extends React.Component {
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
                 1,
                 this.state.query,
                 this.state.staff_id,
@@ -112,6 +116,7 @@ class RegisterManageContainer extends React.Component {
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
                 1,
                 this.state.query,
                 this.state.staff_id,
@@ -120,14 +125,91 @@ class RegisterManageContainer extends React.Component {
         }
     }
 
+    filterByCampaign(campaign_id) {
+        this.setState({campaign_id: campaign_id});
+        this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
+            this.state.page,
+            this.state.query,
+            this.state.staff_id,
+            this.state.status,
+            campaign_id
+        );
+    }
+
+    filterByStaff(staff_id) {
+        this.setState({staff_id: staff_id});
+        this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
+            this.state.page,
+            this.state.query,
+            staff_id,
+            this.state.status,
+            this.state.campaign_id,
+        );
+    }
+
+
     loadOrders(page = 1) {
         this.setState({page: page});
         this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
             page,
             this.state.query,
             this.state.staff_id,
-            this.state.status
+            this.state.status,
+            this.state.campaign_id,
         );
+    }
+
+
+     async exportRegistersResultExcel() {
+        this.props.registerManageAction.showGlobalLoading();
+         const res = await loadAllRegistersApi(
+             -1,
+             this.state.page,
+             this.state.query,
+             this.state.staff_id,
+             this.state.status,
+             this.state.campaign_id,
+         );
+         this.props.registerManageAction.hideGlobalLoading();
+        const wsData = res.data.data.room_service_registers;
+        const field = [];
+        field[0] = "Tên";
+        field[1] = "Email";
+        field[2] = "Số điện thoại";
+        field[3] = "Ngày đăng kí";
+        field[4] = "Saler";
+        field[5] = "Chiến dịch";
+        field[6] = "Gói thành viên";
+        const datas = wsData.map((data) => {
+            let tmp = [];
+            tmp[0] = data.user.name;
+            tmp[1] = data.user.email || "Chưa có";
+            tmp[2] = data.user.phone || "Chưa có";
+            tmp[3] = data.created_at || "Chưa có";
+            tmp[4] = data.saler && data.saler.name || "Không có";
+            tmp[5] = data.campaign && data.campaign.name || "Không có";
+            tmp[6] = data.subscription && data.subscription.user_pack_name;
+            return tmp;
+        });
+        const tmpWsData = [field, ...datas];
+        const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
+        const sheetName = "Danh sách đăng kí";
+        let workbook = {
+            SheetNames: [],
+            Sheets: {},
+        };
+        workbook.SheetNames.push(sheetName);
+        workbook.Sheets[sheetName] = ws;
+        saveWorkBookToExcel(workbook, "Danh sách đăng kí");
+     }
+
+    closeModal() {
+        this.setState({
+            showModal: false
+        });
     }
 
     render() {
@@ -138,7 +220,7 @@ class RegisterManageContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <button
-                        onClick={this.showLoadingModal}
+                        onClick={this.exportRegistersResultExcel}
                         className="btn btn-info btn-rose"
                         style={{float: "right"}}
                     >
@@ -154,11 +236,11 @@ class RegisterManageContainer extends React.Component {
                             <div>
 
                                 {/*<Select*/}
-                                    {/*options={this.state.gens}*/}
-                                    {/*onChange={this.changeGens}*/}
-                                    {/*value={this.state.selectGenId}*/}
-                                    {/*defaultMessage="Chọn khóa học"*/}
-                                    {/*name="gens"*/}
+                                {/*options={this.state.gens}*/}
+                                {/*onChange={this.changeGens}*/}
+                                {/*value={this.state.selectGenId}*/}
+                                {/*defaultMessage="Chọn khóa học"*/}
+                                {/*name="gens"*/}
                                 {/*/>*/}
 
 
@@ -213,6 +295,8 @@ class RegisterManageContainer extends React.Component {
                                 <ListOrder
                                     registers={this.props.registers}
                                     isLoading={this.props.isLoading}
+                                    filterByStaff={this.filterByStaff}
+                                    filterByCampaign={this.filterByCampaign}
                                 />
 
 
@@ -232,7 +316,6 @@ class RegisterManageContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-
 
 
             </div>

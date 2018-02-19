@@ -12,6 +12,7 @@ class  ListRegister extends React.Component {
 
 
     render() {
+
         return (
             <div className="table-responsive">
                 <table id="datatables"

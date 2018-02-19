@@ -9,10 +9,13 @@ export function uploadImage(file) {
         dispatch({
             type: types.BEGIN_UPLOAD_IMAGE_BLOG
         });
-        blogApi.uploadImage(file, function (event) {
-            let data = JSON.parse(event.currentTarget.response);
-            dispatch(uploadImageBlogSuccess(data.link));
-        }, () => {
+        blogApi.uploadImage(file,
+            function (event)
+            {
+                let data = JSON.parse(event.currentTarget.response);
+                dispatch(uploadImageBlogSuccess(data.link));
+            },
+            () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
             dispatch(uploadImageBlogFailed());
         });

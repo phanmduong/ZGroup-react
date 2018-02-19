@@ -1,8 +1,9 @@
-/**
- * Created by TienTaiNguyen on 01/27/18.
- */
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
+
+let tmp;
+let tmpRegs = [];
+let tmpReg = {};
 
 export default function goodOrdersReducer(state = initialState.registerManage, action) {
     switch (action.type) {
@@ -25,7 +26,37 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                 ...state,
                 staffs: action.staffs
             };
+
+        case types.BEGIN_CHANGE_CALL_STATUS:
+            return {
+                ...state,
+                isChangingStatus: true,
+            };
+        case types.LOADED_CHANGE_CALL_STATUS_SUCCESS:
+            tmp = addCall(action.register_id, state.registers, action.teleCall);
+            return {
+                ...state,
+                isChangingStatus: false,
+                registers: tmp,
+            };
+        case types.LOADED_CHANGE_CALL_STATUS_ERROR:
+            return {
+                ...state,
+                isChangingStatus: false,
+            };
+
         default:
             return state;
     }
+}
+
+function addCall(register_id, registers, teleCall) {
+    tmpRegs = registers.map((register) => {
+        if (register.id === register_id) {
+            tmpReg = {...register, teleCalls: [...register.teleCalls, teleCall]};
+            return tmpReg;
+        }
+        else return register;
+    });
+    return tmpRegs;
 }
