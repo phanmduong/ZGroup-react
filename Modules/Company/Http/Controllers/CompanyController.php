@@ -549,7 +549,7 @@ class CompanyController extends ManageApiController
             $exportOrder->price = $good->price;
             $exportOrder->quantity = $good->quantity;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_quantity = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->total_price = $exportOrder->quantity * $exportOrder->price;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -575,7 +575,7 @@ class CompanyController extends ManageApiController
             $exportOrder->price = $good->price;
             $exportOrder->quantity = $good->quantity;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_quantity = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->total_price = $exportOrder->quantity * $exportOrder->price;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
