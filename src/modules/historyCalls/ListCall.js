@@ -16,7 +16,7 @@ class ListCall extends React.Component {
                     <thead className="text-rose">
                     <tr>
                         <th>Người gọi</th>
-                        <th>Học viên</th>
+                        <th>Khách hàng</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Trạng thái</th>
