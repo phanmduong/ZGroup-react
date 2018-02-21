@@ -354,7 +354,7 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/jquery.animateNumber.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 
-<script src="/colorme/js/vue.js"></script>
+<script src="/colorme/js/vue.js?1234"></script>
 
 <div id="fb-root"></div>
 <script>
