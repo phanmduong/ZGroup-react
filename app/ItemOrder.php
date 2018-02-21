@@ -22,6 +22,7 @@ class ItemOrder extends Model
                 "name" => $this->company->name,
             ],
             "command_code" => $this->command_code,
+            "status" => $this->status,
             "goods" => $this->good->map(function($good){
                 return $good->transform();
             })

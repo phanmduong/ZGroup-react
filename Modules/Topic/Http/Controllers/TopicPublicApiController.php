@@ -37,7 +37,7 @@ class TopicPublicApiController extends PublicApiController
         ]);
     }
 
-    public function detailedTopic($topicId, Request $request)
+    public function getTopic($topicId, Request $request)
     {
         $topic = Topic::find($topicId);
         if($topic == null)

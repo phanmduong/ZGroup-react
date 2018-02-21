@@ -390,55 +390,35 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function createExportOrder(Request $request)
+    public function createOrEditExportOrder($exportOrderId,Request $request)
     {
-        if ($request->good_id === null ||
-            $request->company_id === null ||
-            $request->warehouse_id === null ||
-            $request->price === null || trim($request->price) === "" ||
-            $request->quantity === null || trim($request->quantity) === ""
-        ) return $this->respondErrorWithStatus("Thiếu trường");
-        $exportOrder = new ExportOrder;
-        $exportOrder->good_id = $request->good_id;
-        $exportOrder->company_id = $request->company_id;
-        $exportOrder->warehouse_id = $request->warehouse_id;
-        $exportOrder->price = $request->price;
-        $exportOrder->quantity = $request->quantity;
-        $exportOrder->total_price = $request->total_price;
+        //export order chính là đơn hàng nhưng có status = 2
+        //status<2 thuộc về đơn hàng
+        $exportOrder = ItemOrder::find($exportOrderId);
+        $exportOrder->status = 2;
+        $exportOrder->date = $request->date; // là ngày xuất hàng
         $exportOrder->save();
+        $goods = json_decode($request->goods);
+        foreach ($goods as $good){
+            $good_new = ExportOrder::find($good->id);
+            $good_new->export_quantity = $good->export_quantity;
+            $good_new->warehouse_id = $good->warehouse_id;
+            $good_new->save();
+        }
         return $this->respondSuccessWithStatus([
-            "message" => "Tạo thành công"
+            "message" => "Thành công"
         ]);
     }
 
-    public function editExportOrder($exportOrderId, Request $request)
-    {
-        $exportOrder = ExportOrder::find($exportOrderId);
-        if (!$exportOrder) return $this->respondErrorWithStatus("Không tồn tại");
-        if ($request->good_id === null ||
-            $request->company_id === null ||
-            $request->warehouse_id === null ||
-            $request->price === null || trim($request->price) === "" ||
-            $request->quantity === null || trim($request->quantity) === ""
-        ) return $this->respondErrorWithStatus("Thiếu trường");
-        $exportOrder->good_id = $request->good_id;
-        $exportOrder->company_id = $request->company_id;
-        $exportOrder->warehouse_id = $request->warehouse_id;
-        $exportOrder->price = $request->price;
-        $exportOrder->quantity = $request->quantity;
-        $exportOrder->total_price = $request->total_price;
-        $exportOrder->save();
-        return $this->respondSuccessWithStatus([
-            "message" => "Sửa thành công"
-        ]);
-    }
 
     public function getAllExportOrder(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
-        $exportorders = ExportOrder::query();
+        $exportorders = ItemOrder::query();
 
-        $exportorders = $exportorders->orderBy('created_at', 'desc')->paginate($limit);
+        $exportorders = $exportorders->where('type','=','be-ordered')
+            ->where('status','>',1)
+            ->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($exportorders, [
             "exportorders" => $exportorders->map(function ($exportorder) {
@@ -449,7 +429,7 @@ class CompanyController extends ManageApiController
 
     public function getExportOrder($exportOrderId, Request $request)
     {
-        $exportorder = ExportOrder::find($exportOrderId);
+        $exportorder = ItemOrder::find($exportOrderId);
         if (!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
         return $this->respondSuccessWithStatus([
             "exportOrder" => $exportorder->transform()
@@ -526,11 +506,12 @@ class CompanyController extends ManageApiController
             "message" => "Thêm thành công"
         ]);
     }
-    public function creatOrder(Request $request){
+    public function createOrder(Request $request){
+        //đơn hàng từ nhà phân phối đặt
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order = new ItemOrder;
         $order->company_id = $request->company_id;
-        $order->type = "order";
+        $order->type = "be-ordered";
         $order->save();
         $ppp = $order->created_at;
         $day = date_format($ppp, 'd');
@@ -548,7 +529,7 @@ class CompanyController extends ManageApiController
             $exportOrder->price = $good->price;
             $exportOrder->quantity = $good->quantity;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_quantity = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->total_price = $exportOrder->quantity * $exportOrder->price;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -558,6 +539,7 @@ class CompanyController extends ManageApiController
     }
 
     public function eidtOrder($orderId,Request $request){
+        //đơn hàng từ nhà phân phối đặt
         $order = ItemOrder::find($orderId);
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order->company_id = $request->company_id;
@@ -573,7 +555,7 @@ class CompanyController extends ManageApiController
             $exportOrder->price = $good->price;
             $exportOrder->quantity = $good->quantity;
             $exportOrder->good_id = $good->id;
-            $exportOrder->total_quantity = $exportOrder->quantity * $exportOrder->price;
+            $exportOrder->total_price = $exportOrder->quantity * $exportOrder->price;
             $exportOrder->item_order_id = $order->id;
             $exportOrder->save();
         }
@@ -585,16 +567,17 @@ class CompanyController extends ManageApiController
     }
 
     public function getAllOrder(Request $request){
+        //đơn hàng từ nhà phân phối đặt
         $limit = $request->limit ? $request->limit : 20;
         if($request->limit == -1){
-            $orders = ItemOrder::where('type','order')->get();
+            $orders = ItemOrder::where('type','be-ordered')->get();
             return $this->respondSuccessWithStatus([
                 "orders" => $orders->map(function($order){
                        return $order->transform();
                 })
             ]);
         } else{
-            $orders = ItemOrder::where('type','order')->orderBy('created_at','desc')->paginate($limit);
+            $orders = ItemOrder::where('type','be-ordered')->orderBy('created_at','desc')->paginate($limit);
             return $this->respondWithPagination($orders,[
                 "orders" => $orders->map(function($order){
                     return $order->transform();
@@ -605,6 +588,7 @@ class CompanyController extends ManageApiController
     }
 
     public function getOrder($orderId,Request $request){
+        //đơn hàng từ nhà phân phối đặt
         $order = ItemOrder::find($orderId);
         return $this->respondSuccessWithStatus([
             "order" => $order->transform()

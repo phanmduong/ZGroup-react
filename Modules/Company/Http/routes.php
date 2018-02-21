@@ -22,15 +22,14 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::put('/print-order/property/{propId}','CompanyController@editProperty');
     Route::get('/print-order/{printOrderId}','CompanyController@getPrintOrder');
     Route::put('/print-order/{printOrderId}','CompanyController@editPrintOrder');
+    Route::post('/print-order/{printOrderId}/change-status','CompanyController@changeStatusPrintOrder');
+
     Route::get('export-order/all','CompanyController@getAllExportOrder');
     Route::get('/export-order/{exportOrderId}','CompanyController@getExportOrder');
-    Route::post('export-order','CompanyController@createExportOrder');
-    Route::put('export-order/{exportOrderId}','CompanyController@editExportOrder');
-    Route::post('/print-order/{printOrderId}/change-status','CompanyController@changeStatusPrintOrder');
-    Route::post('/export-order/{exportOrderId}/change-status','CompanyController@changeStatusExportOrder');
+    Route::post('export-order/{exportOrderId}','CompanyController@createOrEditExportOrder');
 
     Route::get('/order','CompanyController@getAllOrder');
-    Route::post('/order','CompanyController@createOrder');
+    Route::post('/order/create','CompanyController@createOrder');
     Route::get('/order/{orderId}','CompanyController@getOrder');
     Route::put('/order/{orderId}','CompanyController@editOrder');
 
