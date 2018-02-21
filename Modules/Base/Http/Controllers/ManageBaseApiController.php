@@ -10,11 +10,8 @@ use App\Room;
 use App\RoomType;
 use App\Seat;
 use App\Seats;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
-
 
 class ManageBaseApiController extends ManageApiController
 {
@@ -27,26 +24,27 @@ class ManageBaseApiController extends ManageApiController
     {
         $room = Room::find($roomId);
         if ($room === null) {
-            return $this->respondErrorWithStatus("Phòng không tồn tại");
+            return $this->respondErrorWithStatus('Phòng không tồn tại');
         }
-        $seats = $room->seats()->where("archived", 0)->get();
+        $seats = $room->seats()->where('archived', 0)->get();
         return $this->respondSuccessWithStatus([
-            "seats" => $seats,
-            "width" => $room->width,
-            "height" => $room->height,
-            "room_layout_url" => $room->room_layout_url
+            'seats' => $seats,
+            'width' => $room->width,
+            'height' => $room->height,
+            'room_layout_url' => $room->room_layout_url
         ]);
     }
 
-    public function roomLayout($roomId, Request $request) {
+    public function roomLayout($roomId, Request $request)
+    {
         $room = Room::find($roomId);
         if ($room === null) {
-            return $this->respondErrorWithStatus("Phòng không tồn tại");
+            return $this->respondErrorWithStatus('Phòng không tồn tại');
         }
 
-        $image = $request->file("image");
+        $image = $request->file('image');
         if ($image === null) {
-            return $this->respondErrorWithStatus("Bạn cần thêm ảnh");
+            return $this->respondErrorWithStatus('Bạn cần thêm ảnh');
         }
 
         $maxWidth = 1200;
@@ -67,11 +65,11 @@ class ManageBaseApiController extends ManageApiController
         $room->room_layout_name = $filePath;
         $room->width = $img->width();
         $room->height = $img->height();
-        $room->room_layout_url = $this->s3_url . $filePath;
+        $room->room_layout_url = generate_protocol_url($this->s3_url . $filePath);
         $room->save();
 
         return [
-            "room" => $room->getRoomDetail()
+            'room' => $room->getRoomDetail()
         ];
     }
 
@@ -104,7 +102,6 @@ class ManageBaseApiController extends ManageApiController
         return $room;
     }
 
-
     public function getAllProvinces()
     {
         $provinces = Province::all();
@@ -121,7 +118,6 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-
     public function getBases(Request $request)
     {
         $query = trim($request->q);
@@ -129,15 +125,15 @@ class ManageBaseApiController extends ManageApiController
         $limit = 6;
 
         if ($query) {
-            $bases = Base::where("name", "like", "%$query%")
-                ->orWhere("address", "like", "%$query%")
+            $bases = Base::where('name', 'like', "%$query%")
+                ->orWhere('address', 'like', "%$query%")
                 ->orderBy('created_at')->paginate($limit);
         } else {
             $bases = Base::orderBy('created_at')->paginate($limit);
         }
 
         $data = [
-            "bases" => $bases->map(function ($base) {
+            'bases' => $bases->map(function ($base) {
                 $data = [
                     'id' => $base->id,
                     'name' => $base->name,
@@ -153,7 +149,6 @@ class ManageBaseApiController extends ManageApiController
                     'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
                 ];
 
-
                 if ($base->district) {
                     $data['district'] = $base->district->transform();
                     $data['province'] = $base->district->province->transform();
@@ -161,7 +156,6 @@ class ManageBaseApiController extends ManageApiController
 
                 return $data;
             }),
-
         ];
         return $this->respondWithPagination($bases, $data);
     }
@@ -170,20 +164,20 @@ class ManageBaseApiController extends ManageApiController
     {
         $room = Room::find($roomId);
         if ($room == null) {
-            return $this->respondErrorWithStatus("Phòng không tồn tại");
+            return $this->respondErrorWithStatus('Phòng không tồn tại');
         }
         $seats = json_decode($request->seats);
 
         foreach ($seats as $s) {
-
             if (isset($s->id)) {
                 $seat = Seat::find($s->id);
             } else {
                 $seat = new Seat();
             }
 
-            if (isset($s->archived))
+            if (isset($s->archived)) {
                 $seat->archived = $s->archived;
+            }
 
             $seat->name = $s->name;
 //            $seat->type = $s->type;
@@ -198,17 +192,16 @@ class ManageBaseApiController extends ManageApiController
         }
 
         return $this->respondSuccessWithStatus([
-            "message" => "Lưu chỗ ngồi thành công",
-            "seats" => $room->seats()->where("archived", 0)->get()
+            'message' => 'Lưu chỗ ngồi thành công',
+            'seats' => $room->seats()->where('archived', 0)->get()
         ]);
-
     }
 
     public function getBase($baseId)
     {
         $base = Base::find($baseId);
         if ($base == null) {
-            return $this->respondErrorWithStatus("Không tồn tại");
+            return $this->respondErrorWithStatus('Không tồn tại');
         }
 
         $data = [
@@ -225,7 +218,6 @@ class ManageBaseApiController extends ManageApiController
             'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
         ];
 
-
         if ($base->district) {
             $data['district'] = $base->district->transform();
             $data['province'] = $base->district->province->transform();
@@ -240,10 +232,11 @@ class ManageBaseApiController extends ManageApiController
 
     public function createBase(Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
+        if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu tên cơ sở'
             ]);
+        }
         $base = new Base;
         $this->assignBaseInfo($base, $request);
 
@@ -254,15 +247,17 @@ class ManageBaseApiController extends ManageApiController
 
     public function editBase($baseId, Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
+        if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu tên cơ sở'
             ]);
+        }
         $base = Base::find($baseId);
-        if ($base == null)
+        if ($base == null) {
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại cơ sở'
             ]);
+        }
         $this->assignBaseInfo($base, $request);
 
         return $this->respondSuccessWithStatus([
@@ -272,10 +267,11 @@ class ManageBaseApiController extends ManageApiController
 
     public function createRoom($baseId, Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
+        if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu tên phòng'
             ]);
+        }
         $room = new Room;
         $room = $this->assignRoomInfo($room, $baseId, $request);
         return $this->respondSuccessWithStatus([
@@ -285,15 +281,17 @@ class ManageBaseApiController extends ManageApiController
 
     public function editRoom($baseId, $roomId, Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
+        if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu tên phòng'
             ]);
+        }
         $room = Room::find($roomId);
-        if ($room == null)
+        if ($room == null) {
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại phòng'
             ]);
+        }
         $this->assignRoomInfo($room, $baseId, $request);
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
@@ -304,7 +302,7 @@ class ManageBaseApiController extends ManageApiController
     {
         $room = Room::find($roomId);
         if ($room == null) {
-            return $this->respondErrorWithStatus("Phòng không tồn tại");
+            return $this->respondErrorWithStatus('Phòng không tồn tại');
         }
 
         $seat = new Seat();
@@ -329,7 +327,7 @@ class ManageBaseApiController extends ManageApiController
     {
         $seat = Seat::find($seatId);
         if ($seat == null) {
-            return $this->respondErrorWithStatus("Chỗ ngồi không tồn tại");
+            return $this->respondErrorWithStatus('Chỗ ngồi không tồn tại');
         }
 
         $seat->name = $request->name;
@@ -350,15 +348,17 @@ class ManageBaseApiController extends ManageApiController
 
     public function editSeat($roomId, $seatId, Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
+        if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu tên'
             ]);
+        }
         $seat = Seat::find($seatId);
-        if ($seat == null)
+        if ($seat == null) {
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại chỗ ngồi'
             ]);
+        }
         $seat->name = $request->name;
         $seat->type = $request->type;
         $seat->room_id = $roomId;
@@ -392,8 +392,9 @@ class ManageBaseApiController extends ManageApiController
 
     public function createRoomType(Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
+        if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus('Thiếu tên');
+        }
         $roomType = new RoomType;
         $roomType->name = $request->name;
         $roomType->description = $request->description;
@@ -404,11 +405,13 @@ class ManageBaseApiController extends ManageApiController
 
     public function editRoomType($roomTypeId, Request $request)
     {
-        if ($request->name == null || trim($request->name) == '')
+        if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus('Thiếu tên');
+        }
         $roomType = RoomType::find($roomTypeId);
-        if ($roomType == null)
+        if ($roomType == null) {
             return $this->respondErrorWithStatus('Không tồn tại loại phòng');
+        }
         $roomType->name = $request->name;
         $roomType->description = $request->description;
         $roomType->save();
@@ -434,19 +437,19 @@ class ManageBaseApiController extends ManageApiController
         $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
         $seats = $seats->where(function ($query) use ($request) {
             $query->where('room_service_register_seat.start_time', '=', null)
-                ->orWhere('room_service_register_seat.start_time', '>', date("Y-m-d H:i:s", strtotime($request->to)))
-                ->orWhere('room_service_register_seat.end_time', '<', date("Y-m-d H:i:s", strtotime($request->from)));
+                ->orWhere('room_service_register_seat.start_time', '>', date('Y-m-d H:i:s', strtotime($request->to)))
+                ->orWhere('room_service_register_seat.end_time', '<', date('Y-m-d H:i:s', strtotime($request->from)));
         })->groupBy('seats.id')->select('seats.*')->get();
 
         $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
         $booked_seats = $booked_seats->where(function ($query) use ($request) {
             $query->where(function ($query) use ($request) {
-                $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->to)))
-                    ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->to)));
+                $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', strtotime($request->to)))
+                    ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', strtotime($request->to)));
             })
                 ->orWhere(function ($query) use ($request) {
-                    $query->where('room_service_register_seat.start_time', '<', date("Y-m-d H:i:s", strtotime($request->from)))
-                        ->where('room_service_register_seat.end_time', '>', date("Y-m-d H:i:s", strtotime($request->from)));
+                    $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', strtotime($request->from)))
+                        ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', strtotime($request->from)));
                 });
         })->groupBy('seats.id')->select('seats.*')->get();
         return $this->respondSuccessWithStatus([
@@ -463,15 +466,17 @@ class ManageBaseApiController extends ManageApiController
 
     public function baseDisplay($baseId, Request $request)
     {
-        if ($request->display_status == null || trim($request->display_status) == '')
+        if ($request->display_status == null || trim($request->display_status) == '') {
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu display_status'
             ]);
+        }
         $base = Base::find($baseId);
-        if ($base == null)
+        if ($base == null) {
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại cơ sở'
             ]);
+        }
         $base->display_status = $request->display_status;
         $base->save();
 

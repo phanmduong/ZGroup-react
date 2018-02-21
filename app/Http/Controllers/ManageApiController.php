@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -46,7 +44,6 @@ class ManageApiController extends Controller
         ]);
     }
 
-
     public function respondSuccess($message)
     {
         return $this->respond([
@@ -54,7 +51,6 @@ class ManageApiController extends Controller
             'status' => 1
         ]);
     }
-
 
     public function getStatusCode()
     {
@@ -88,7 +84,7 @@ class ManageApiController extends Controller
     public function responseWithError($message)
     {
         return response()->json([
-            "error" => $message
+            'error' => $message
         ], $this->getStatusCode());
     }
 
