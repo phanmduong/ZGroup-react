@@ -197,7 +197,7 @@
                                                     <tbody>
                                                     <tr style="text-align: center;vertical-align: middle;">
                                                         <td style="text-align: center">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1508151517tPwvu2VZMUOiBhd.jpg"
+                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
                                                                  alt="Logo" style="margin:30px" height="30px"/>
                                                         </td>
                                                     </tr>
