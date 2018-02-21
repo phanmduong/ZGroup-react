@@ -197,32 +197,16 @@
                                                     <tbody>
                                                     <tr style="text-align: center;vertical-align: middle;">
                                                         <td style="text-align: center">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1508151517tPwvu2VZMUOiBhd.jpg"
+                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"
                                                                  alt="Logo" style="margin:30px" height="30px"/>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td style="padding-top: 0px; color:#001131; font-weight: 100; text-decoration:none; font-size:36px; font-family: 'nokia-pure-headline-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; line-height:42px; text-align: center;">
-                                                            Xác nhận đặt hàng thành công
+                                                            Xác nhận Email
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td style="padding-top: 30px;">
-                                                            <table width="170" border="0" cellpadding="0"
-                                                                   cellspacing="0" style="margin: auto;" align="center">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td style="text-align: center; border-radius:30px; background-color: #124191; color: #ffffff; border-style:solid; border-color: #124191; border-width: 2px">
-                                                                        <a href="{{url("/")}}" target="_blank"
-                                                                           style="display:block; width:100%; font-size:14px; min-height:40px; line-height:40px; font-weight: 200; text-decoration:none; color: #ffffff; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; cursor:pointer;">Xem
-                                                                            tình trạng đơn
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
+                                                   
                                                     </tbody>
                                                 </table>
                                             </td>
@@ -233,70 +217,14 @@
                                     <!-- BLOCK - block 2 columns / phone -->
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                                         <tbody>
-                                        <tr>
-                                            <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                <p>Chào {{$user->name}},</p>
-                                                <p>Chúng tôi đã nhận được đơn đặt hàng của bạn, vui lòng kiểm tra thông
-                                                    tin bên dưới. Nếu có sai sót, vui lòng liên hệ lại với chúng tôi qua
-                                                    <a href="emailto:graphics@colorme.vn">graphics@colorme.vn</a></p>
-                                                <p>
-                                                    Tên: <b>{{$user->name}}</b><br/>
-                                                    Email: <b>{{$user->email}}</b><br/>
-                                                    Số điện thoại: <b>{{$user->phone}}</b><br/>
-                                                    Địa chỉ: <b>{{$user->address}}</b><br/>
-                                                    Phương thức thanh toán: <b>{{$order->payment}}</b><br/>
-                                                <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:
-                                                </div>
-                                                <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
-                                                <div>Ship đến tỉnh thành khác: 30k</div>
-                                                </p>
-                                                <p>
-                                                <table id="goods-table" style="width: 100%">
-                                                    <tr>
-                                                        <th style="text-align: left">Tên hàng</th>
-                                                        <th style="text-align: left">Đơn giá</th>
-                                                        <th style="text-align: left">Số lượng</th>
-                                                        <th style="text-align: left">Tổng tiền</th>
-                                                    </tr>
-                                                    @foreach($goods as $good)
-                                                        <tr>
-                                                            <td><b>{{$good->name}}</b>
-                                                                <br>{{$good->properties()->where("name","short_description")->first() ? $good->properties()->where("name","short_description")->first()->value : ""}}
-                                                            </td>
-                                                            <td>
-                                                                {{currency_vnd_format((1 - $good->coupon_value) * $good->price)}}
-                                                                <br/>
-                                                                {{$good->coupon_value ? "-".($good->coupon_value * 100)."%" :"" }}
-                                                            </td>
-                                                            <td>{{$good->pivot->quantity}}</td>
-                                                            <td>{{currency_vnd_format($good->pivot->quantity * (1 - $good->coupon_value) * $good->pivot->price)}}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                    <tr>
-                                                        <td><b>Tổng</b></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><b>{{currency_vnd_format($total_price)}}</b></td>
-                                                    </tr>
-                                                </table>
-
-                                                </p>
-                                                <p style="font-weight: 600">
-                                                    <br>
-                                                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển
-                                                        khoản</b> dưới đây là thông tin chuyển
-                                                    khoản:</p>
-                                                <p>
-                                                    Tên tài khoản: VU CHI CONG<br/>
-                                                    Số tài khoản: 04 51 00 04 27 664 <br/>
-                                                    Ngân hàng: Vietcombank Thành Công.
-                                                </p>
-                                                <p>
-                                                    Rất cám ơn sự ủng hộ của bạn đối với Graphics. Chúc bạn một ngày tốt
-                                                    lành!
-                                                </p>
-                                            </td>
-                                        </tr>
+                                                <tr>
+                                                        <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
+                                                            <p>Bạn vui lòng bấm vào link dưới đây để hoàn tất việc đăng kí:</p>
+                                                            <p>
+                                                                <a href="{{$url}}">Link xác thực</a>
+                                                            </p>
+                                                        </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                                     <!-- end BLOCK - block 2 columns / phone -->
@@ -317,7 +245,6 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
-                                                <p>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất</p>
 
                                             </td>
                                         </tr>

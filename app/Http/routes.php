@@ -384,6 +384,8 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
 
     Route::post('/login-social', 'AuthenticateController@loginSocial');
     Route::post('/register-social', 'AuthenticateController@registerSocial');
+    Route::post('/register-confirm-email', 'AuthenticateController@confirmEmail');
+    Route::get('/confirm-email-success', 'ColormeNewController@confirmEmailSuccess');
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');
