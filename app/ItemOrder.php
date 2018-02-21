@@ -11,6 +11,7 @@ class ItemOrder extends Model
     public function exportOrder(){
         return $this->hasMany(ExportOrder::class,'item_order_id');
     }
+
     public function company(){
         return $this->belongsTo(Company::class,'company_id');
     }
