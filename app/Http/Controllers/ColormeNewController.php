@@ -9,11 +9,10 @@ use App\Course;
 use App\Gen;
 use App\Lesson;
 use App\Order;
-use App\Product;
 use App\Repositories\CourseRepository;
 use App\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ColormeNewController extends CrawlController
 {
@@ -50,8 +49,9 @@ class ColormeNewController extends CrawlController
         if ($course == null) {
             $courses = Course::all();
             foreach ($courses as $key) {
-                if (convert_vi_to_en($key->name) === $course_id)
+                if (convert_vi_to_en($key->name) === $course_id) {
                     $course = $key;
+                }
             }
         }
         $course_id = $course->id;
@@ -68,6 +68,38 @@ class ColormeNewController extends CrawlController
         $this->data['pixels'] = $course->coursePixels;
         $this->data['saler'] = User::find($saler_id);
         return view('colorme_new.course', $this->data);
+    }
+
+    public function confirmEmailSuccess(Request $request)
+    {
+        $token = $request->token;
+        $name = $request->name;
+        $hash = $request->hash;
+        $email = $request->email;
+        $phone = $request->phone;
+
+        if ($this->user) {
+            return redirect('/');
+        }
+
+        if (Hash::check($name . $email . $phone . $hash, $token)) {
+            $user = User::where('email', $email)->first();
+
+            if ($user == null) {
+                $user = new User();
+            }
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->username = $request->email;
+            $user->phone = $phone;
+            $user->password = $hash;
+
+            $user->save();
+            return view('colorme_new.email_verified', $this->data);
+        } else {
+            return 'Đường link không chính xác';
+        }
     }
 
     public function courseOnline($courseId, $lessonId = null)
@@ -128,17 +160,17 @@ class ColormeNewController extends CrawlController
             $this->data['user_profile'] = $user;
             $courses = $user->registers()->get()->map(function ($register) {
                 $data = [
-                    "id" => $register->studyClass->course->id,
-                    "type_id" => $register->studyClass->course->type_id,
-                    "name" => $register->studyClass->course->name,
-                    "linkId" => convert_vi_to_en($register->studyClass->course->name),
-                    "icon_url" => $register->studyClass->course->icon_url,
-                    "duration" => $register->studyClass->course->duration,
-                    "description" => $register->studyClass->course->description,
-                    "image_url" => $register->studyClass->course->image_url,
-                    "first_lesson" => $register->studyClass->course->lessons()->orderBy('order')->first(),
-                    "total_lesson" => $register->studyClass->course->lessons()->count(),
-                    "total_passed" => $register->studyClass->course->lessons()
+                    'id' => $register->studyClass->course->id,
+                    'type_id' => $register->studyClass->course->type_id,
+                    'name' => $register->studyClass->course->name,
+                    'linkId' => convert_vi_to_en($register->studyClass->course->name),
+                    'icon_url' => $register->studyClass->course->icon_url,
+                    'duration' => $register->studyClass->course->duration,
+                    'description' => $register->studyClass->course->description,
+                    'image_url' => $register->studyClass->course->image_url,
+                    'first_lesson' => $register->studyClass->course->lessons()->orderBy('order')->first(),
+                    'total_lesson' => $register->studyClass->course->lessons()->count(),
+                    'total_passed' => $register->studyClass->course->lessons()
                         ->join('class_lesson', 'class_lesson.lesson_id', '=', 'lessons.id')
                         ->where('class_lesson.class_id', $register->studyClass->id)
                         ->whereRaw('date(now()) >= date(class_lesson.time)')->count()
@@ -149,7 +181,7 @@ class ColormeNewController extends CrawlController
 //            dd($this->data['paid_courses_user']);
             return view('colorme_new.profile.process', $this->data);
         }
-        return redirect("/");
+        return redirect('/');
     }
 
     public function profile($username)
@@ -160,12 +192,11 @@ class ColormeNewController extends CrawlController
         if ($user) {
             return view('colorme_new.profile.profile_react', $this->data);
         }
-        return redirect("/");
+        return redirect('/');
     }
 
     public function social()
     {
         return view('colorme_new.colorme_react', $this->data);
     }
-
 }

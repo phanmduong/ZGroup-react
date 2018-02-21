@@ -256,7 +256,7 @@
                     <h2 style="font-weight: 600">Tạo tài khoản</h2>
                     <p>Chào mừng bạn đến với colorME.</p>
                     <br>
-                    <form style="width: 100%">
+                    <form v-if="showRegisterForm" style="width: 100%">
                         <div class="form-group" style="width: 100%;">
                             <input class="form-control" style="height: 50px" width="100%"
                                    v-model="user.name"
@@ -295,6 +295,11 @@
                                    placeholder="Số điện thoại" required/>
                         </div>
                     </form>
+
+                    <div v-if="!!message" style="width:100%" class="alert alert-success">
+                        @{{message}}
+                    </div>
+
                     <button class="btn btn-success" style="width: 100%; margin: 10px; padding: 15px;"
                             :disabled="isLoading"
                             v-if="!isLoading"
@@ -350,6 +355,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 
 <script src="/colorme/js/vue.js"></script>
+
 <div id="fb-root"></div>
 <script>
     var socket = io('http://colorme.vn:3000/');
