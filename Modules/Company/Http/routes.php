@@ -24,6 +24,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::put('/print-order/{printOrderId}','CompanyController@editPrintOrder');
     Route::post('/print-order/{printOrderId}/change-status','CompanyController@changeStatusPrintOrder');
 
+    Route::post('/item-order/{itemOrderId}/change-status','CompanyController@changeStatusItemOrder');
+
     Route::get('/export-order/all','CompanyController@getAllExportOrder');
     Route::get('/export-order/{exportOrderId}','CompanyController@getExportOrder');
     Route::post('/export-order/{exportOrderId}','CompanyController@createOrEditExportOrder');

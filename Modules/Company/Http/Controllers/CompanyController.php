@@ -720,4 +720,13 @@ class CompanyController extends ManageApiController
             })
         ]);
     }
+
+    public function changeStatusItemOrder($itemOrderId,Request $request){
+        $order = ItemOrder::find($itemOrderId);
+        $order->status = $request->status;
+        $order->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi trạng thái thành công"
+        ]);
+    }
 }
