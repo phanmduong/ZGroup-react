@@ -12,6 +12,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
 
 const textAlign = {textAlign: "right"};
+const btnStyle = {width: 90, marginRight: 10};
 
 class CreateOrderedGood extends React.Component {
     constructor(props, context) {
@@ -228,12 +229,41 @@ class CreateOrderedGood extends React.Component {
                                                                     <td>Tổng</td>
                                                                     <td style={textAlign}>{sumQuantity}</td>
                                                                     <td/>
-                                                                    <td style={textAlign}>{helper.convertMoneyToK(sumPrice)}</td>
+                                                                    <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                                     <td/>
                                                                 </tr>
                                                             </tfoot>
                                                         </table>
                                                     </div>
+                                                    {isCommitting ?
+                                                            <div className="" style={{display: "flex", flexDirection:"row-reverse"}}>
+                                                                <button style={btnStyle} className="btn btn-rose disabled btn-xs" type="button" disabled>
+                                                                    <i className="fa fa-spinner fa-spin"/> Đang lưu...
+                                                                </button>
+                                                            </div>
+                                                            :
+                                                            <div className="" style={{display: "flex", flexDirection:"row-reverse"}}>
+                                                                <button
+                                                                    className="btn btn-fill btn-xs" type="button"
+                                                                    style={btnStyle}
+                                                                    onClick={() => {
+                                                                        helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
+                                                                            () => {
+                                                                                //return browserHistory.push("/business/export-order");
+                                                                            }
+                                                                        );
+                                                                    }}
+                                                                ><i className="material-icons">cancel</i> Hủy</button>
+                                                                <button
+                                                                    className="btn btn-fill btn-rose btn-xs"
+                                                                    style={btnStyle}
+                                                                    type="button"
+                                                                    onClick={this.commitData}
+                                                                    disabled={isCommitting}
+                                                                ><i className="material-icons">add</i>  Lưu</button>
+                                                            </div>
+
+                                                        }
                                                 </div>
 
                                             </div>
@@ -283,33 +313,7 @@ class CreateOrderedGood extends React.Component {
                                                         </div>
                                                     </div>
 
-                                                     {isCommitting ?
-                                                            <div className="col-md-12">
-                                                                <button className="btn btn-rose disabled" type="button" disabled>
-                                                                    <i className="fa fa-spinner fa-spin"/> Đang lưu...
-                                                                </button>
-                                                            </div>
-                                                            :
-                                                            <div className="col-md-12">
-                                                                <button
-                                                                    className="btn btn-fill btn-rose"
-                                                                    type="button"
-                                                                    onClick={this.commitData}
-                                                                    disabled={isCommitting}
-                                                                ><i className="material-icons">add</i>  Lưu</button>
-                                                                <button
-                                                                    className="btn btn-fill" type="button"
-                                                                    onClick={() => {
-                                                                        helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
-                                                                            () => {
-                                                                                //return browserHistory.push("/business/export-order");
-                                                                            }
-                                                                        );
-                                                                    }}
-                                                                ><i className="material-icons">cancel</i> Hủy</button>
-                                                            </div>
-
-                                                        }
+                                                    
                                                 </div>
 
                                             </div>

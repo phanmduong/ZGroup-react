@@ -132,6 +132,24 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
                 ...state,
                 isCommitting: false,
             };
+            
+        case types.BEGIN_LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER:
+            return {
+                ...state,
+                
+            };
+        case types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_SUCCESS:{
+            console.log("action",action.orderedGoods);
+            return {
+                ...state,
+                orderedGoods: actions.orderedGoods,
+            };
+        }
+        case types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_ERROR:
+            return {
+                ...state,
+                
+            };
 
         default:
             return state;

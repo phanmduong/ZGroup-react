@@ -62,16 +62,16 @@ export function createOrderedGood(data) {
                     dispatch({
                         type: types.CREATE_ORDERED_GOOD_SUCCESS,
                     });
+                    helper.showNotification("Thêm thành công!");
+                    browserHistory.push("/business/ordered-good");
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.CREATE_ORDERED_GOOD_ERROR});
-                    //browserHistory.push("/business/ordered-good");
                 }
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
                 dispatch({type: types.CREATE_ORDERED_GOOD_ERROR});
-                //browserHistory.push("/business/ordered-good");
             });
     };
 }

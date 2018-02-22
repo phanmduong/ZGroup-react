@@ -84,3 +84,14 @@ export function confirmOrder(id) {
 
     return axios.post(url);
 }
+
+export function loadAllOrderedGood() {
+    //http://manageapi.keetool.xyz/company/order/all?limit=-1&token=
+    let url     = env.MANAGE_API_URL +"/company/order/all?limit=-1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+
+    return axios.get(url);
+}

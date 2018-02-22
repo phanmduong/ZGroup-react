@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -9,24 +9,39 @@ import FormInputText from "../../../components/common/FormInputText";
 import ReactSelect from 'react-select';
 import {browserHistory} from "react-router";
 import * as helper from "../../../helpers/helper";
+import TooltipButton from '../../../components/common/TooltipButton';
+import {Modal} from 'react-bootstrap';
+import FormInputSelect from "../../../components/common/FormInputSelect";
+
+const textAlign = {textAlign: "right"};
+const btnStyle = {width: 90, marginRight: 10};
 
 class CreateExportOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             data: defaultData,
+            showAddModal: false,
+            addModalData: {},
+            editIndex:-1,
+            
         };
+        this.isEditModal = false;
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGood = this.changeGood.bind(this);
         this.changeCompany = this.changeCompany.bind(this);
         this.changeWarehouse = this.changeWarehouse.bind(this);
         this.commitData = this.commitData.bind(this);
+        this.openAddModal = this.openAddModal.bind(this);
+        this.closeAddModal = this.closeAddModal.bind(this);
+        this.updateFormAdd = this.updateFormAdd.bind(this);
     }
 
     componentWillMount() {
         this.props.exportOrderActions.loadAllGoods();
         this.props.exportOrderActions.loadAllCompanies();
         this.props.exportOrderActions.loadAllWarehourses();
+        this.props.exportOrderActions.loadAllOrderedGood();
         let id = this.props.params.exportOrderId;
         if (id) {
             this.props.exportOrderActions.loadExportOrder(id, (data) => {
@@ -48,6 +63,22 @@ class CreateExportOrderContainer extends React.Component {
         this.setState({data: newdata});
     }
 
+    updateFormAdd(e){
+        let name = e.target.name;
+        let value = e.target.value;
+        let {addModalData} = this.state;
+        if(!value) return;
+        if(name==="id"){
+            let good = this.props.goods.filter((obj) => obj.id*1 === value*1)[0];
+            if(good) addModalData = {
+                ...addModalData, 
+                [name]: value,
+            };
+        }else
+        addModalData = {...addModalData, [name]: value};
+        this.setState({addModalData});
+    }
+
     changeGood(e) {
         let newdata = {
             ...this.state.data,
@@ -67,6 +98,19 @@ class CreateExportOrderContainer extends React.Component {
         this.setState({data: newdata});
     }
 
+    openAddModal(index){
+        if(!index){
+            this.isEditModal = false;
+            this.setState({showAddModal: true, addModalData: defaultAddModalData});
+        }else {
+            this.isEditModal = true;
+            this.setState({showAddModal: true, addModalData: this.state.data.goods[index], editIndex: index});
+        }
+    }
+
+    closeAddModal(){
+        this.setState({showAddModal: false});
+    }
 
     commitData() {
         let {data} = this.state;
@@ -108,134 +152,191 @@ class CreateExportOrderContainer extends React.Component {
     }
 
     render() {
-        let {data} = this.state;
+        let {data, addModalData, showAddModal} = this.state;
         let {
             goods, companies, warehouses,
             isLoading, isCommitting, isLoadingGoods, isLoadingCompanies, isLoadingWarehouses
         } = this.props;
         return (
             <div className="content">
-                <div className="container-fluid">
-                    {(isLoading) ? <Loading/> :
-                        <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
-                            <div className="row">
-                                <div className="col-md-8">
-                                    <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">local_shipping</i>
-                                        </div>
+                        <div className="container-fluid">
+                            {(isLoading) ? <Loading/> :
+                                <form role="form" id="form-id" onSubmit={(e) => e.preventDefault()}>
+                                    <div className="row">
+                                        <div className="col-md-8">
+                                            <div className="card">
+                                                <div className="card-header card-header-icon" data-background-color="rose">
+                                                    <i className="material-icons">event_available</i>
+                                                </div>
 
-                                        <div className="card-content">
-                                            <h4 className="card-title">Xuất hàng</h4>
-                                            <div className="row">
-                                                <div className="col-md-12">
-                                                    <label>Mã đơn hàng</label>
-                                                    <ReactSelect
-                                                        disabled={true}
-                                                        options={companies || []}
-                                                        onChange={()=>{}}
-                                                        value={""}
-                                                        name="order_code"
-                                                        defaultMessage="Chọn mã đơn hàng"
-                                                    /></div>
-                                                <div className="col-md-6">
-                                                    <label>Nhà phân phối </label>
-                                                    <ReactSelect
-                                                        disabled={isLoadingCompanies || isCommitting}
-                                                        options={companies || []}
-                                                        onChange={this.changeCompany}
-                                                        value={data.company.id || ""}
-                                                        name="company"
-                                                        defaultMessage="Chọn nhà phân phối "
-                                                    /></div>
-                                                <div className="col-md-6">
-                                                    <label>Kho hàng</label>
-                                                    <ReactSelect
-                                                        disabled={isLoadingWarehouses || isCommitting}
-                                                        options={warehouses || []}
-                                                        onChange={this.changeWarehouse}
-                                                        value={data.warehouse.id || ""}
-                                                        name="warehouse"
-                                                        defaultMessage="Chọn kho hàng"
-                                                    /></div>
-                                                <div className="col-md-6">
-                                                    <label>Sản phẩm</label>
-                                                    <ReactSelect
-                                                        disabled={isLoadingGoods || isCommitting}
-                                                        options={goods || []}
-                                                        onChange={this.changeGood}
-                                                        value={data.good.id || ""}
-                                                        name="good"
-                                                        defaultMessage="Chọn sản phẩm"
-                                                    /></div>
-                                                <div className="col-md-6">
-                                                    <FormInputText
-                                                        label="Giá"
-                                                        type="number"
-                                                        name="price"
-                                                        updateFormData={this.updateFormData}
-                                                        value={data.price || ""}
-                                                        disabled={isCommitting || isLoadingGoods}
-                                                    /></div>
-                                                <div className="col-md-6">
-                                                    <FormInputText
-                                                        label="Số lượng đặt"
-                                                        type="number"
-                                                        name="quantity"
-                                                        updateFormData={this.updateFormData}
-                                                        value={data.quantity || ""}
-                                                        disabled
-                                                    /></div>
-                                                <div className="col-md-6">
-                                                    <FormInputText
-                                                        label="Số lượng xuất"
-                                                        type="number"
-                                                        name="quantity"
-                                                        updateFormData={this.updateFormData}
-                                                        value={data.quantity || ""}
-                                                        disabled={isCommitting || isLoadingGoods}
-                                                    /></div>
-                                                {this.props.isCommitting ?
-                                                    <div className="col-md-12">
-                                                        <button className="btn btn-rose  disabled" type="button"
-                                                                disabled>
-                                                            <i className="fa fa-spinner fa-spin"/> Đang lưu...
-                                                        </button>
+                                                <div className="card-content">
+                                                    <h4 className="card-title">Sản phẩm</h4>
+                                                    <div className="table-responsive">
+                                                        <table className="table">
+                                                            <thead className="text-rose">
+                                                            <tr>
+                                                                <th style={{width: "10%"}}>STT</th>
+                                                                <th style={{width: "40%"}}>Tên</th>
+                                                                <th style={textAlign}>Số lượng</th>
+                                                                <th style={textAlign}>Đơn giá</th>
+                                                                <th style={textAlign}>Thành tiền</th>
+                                                                <th>
+                                                                    <TooltipButton text="Thêm sản phẩm" placement="top">
+                                                                        <button style={{ float: "right"}}
+                                                                                className="btn btn-fill btn-rose btn-sm"
+                                                                                type="button"
+                                                                                onClick={()=> this.openAddModal(null)}
+                                                                        ><i className="material-icons">add</i> Thêm
+                                                                        </button>
+                                                                    </TooltipButton>
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                           
+                                                            <tfoot style={{fontWeight: "bolder"}}>
+                                                                <tr>
+                                                                    <td/>
+                                                                    <td>Tổng</td>
+                                                                    <td style={textAlign}></td>
+                                                                    <td/>
+                                                                    <td style={textAlign}></td>
+                                                                    <td/>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
                                                     </div>
-                                                    :
-                                                    <div className="col-md-12">
-                                                        <button
-                                                            className="btn btn-fill btn-rose"
-                                                            type="button"
-                                                            onClick={this.commitData}
-                                                            disabled={isCommitting}
-                                                        > Lưu
-                                                        </button>
-                                                        <button
-                                                            className="btn btn-fill" type="button"
-                                                            onClick={() => {
-                                                                helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
-                                                                    () => {
-                                                                        return browserHistory.push("/business/export-order");
-                                                                    }
-                                                                );
-                                                            }}
-                                                        > Hủy
-                                                        </button>
-                                                    </div>
+                                                    {isCommitting ?
+                                                            <div className="" style={{display: "flex", flexDirection:"row-reverse"}}>
+                                                                <button style={btnStyle} className="btn btn-rose disabled btn-xs" type="button" disabled>
+                                                                    <i className="fa fa-spinner fa-spin"/> Đang lưu...
+                                                                </button>
+                                                            </div>
+                                                            :
+                                                            <div className="" style={{display: "flex", flexDirection:"row-reverse"}}>
+                                                                <button
+                                                                    className="btn btn-fill btn-xs" type="button"
+                                                                    style={btnStyle}
+                                                                    onClick={() => {
+                                                                        helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
+                                                                            () => {
+                                                                                //return browserHistory.push("/business/export-order");
+                                                                            }
+                                                                        );
+                                                                    }}
+                                                                ><i className="material-icons">cancel</i> Hủy</button>
+                                                                <button
+                                                                    className="btn btn-fill btn-rose btn-xs"
+                                                                    style={btnStyle}
+                                                                    type="button"
+                                                                    onClick={this.commitData}
+                                                                    disabled={isCommitting}
+                                                                ><i className="material-icons">add</i>  Lưu</button>
+                                                            </div>
 
-                                                }
+                                                        }
+                                                </div>
+
                                             </div>
                                         </div>
+                                        <div className="col-md-4">
+                                            <div className="card">
+                                                <div className="card-header card-header-icon" data-background-color="rose">
+                                                    <i className="material-icons">local_shipping</i>
+                                                </div>
 
+                                                <div className="card-content">
+                                                    <h4 className="card-title">Nhà phân phối</h4>
+                                                    
+                                                    <div>
+                                                        <label className="control-label">Ghi chú</label>
+                                                        <div className="comment-input-wrapper">
+                                                                <textarea
+                                                                    id="textarea-card-comment"
+                                                                    name="note"
+                                                                    onChange={()=>{}}
+                                                                    value={data.note}
+                                                                    onKeyUp={() => {
+                                                                    }}
+                                                                    placeholder="Nhập ghi chú"
+                                                                    className="comment-input"
+                                                                    required
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        margin: "10px",
+                                                                        height: "100px",
+                                                                    }}
+                                                                />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                </form>}
+                        </div>
+                        <Modal bsSize="small" show={showAddModal} onHide={this.closeAddModal}>
+                            <Modal.Header>
+                                <Modal.Title>Thuộc tính
+                                    <a data-toggle="tooltip" title="Đóng" type="button" rel="tooltip"
+                                       style={{float: "right", color: "gray"}}
+                                       onClick={this.closeAddModal}>
+                                        <i className="material-icons">highlight_off</i></a>
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <form role="form" id="form-export-order">
+                                    <FormInputSelect
+                                        name="id"
+                                        updateFormData={this.updateFormAdd}
+                                        data={goods}
+                                        label="Chọn sản phẩm"
+                                        value={addModalData.id}
+                                        placeholder="Chọn sản phẩm"
+                                    />
+                                    <FormInputText
+                                        name="quantity" type="number"
+                                        label="Số lượng"
+                                        value={addModalData.quantity}
+                                        minValue="0"
+                                        updateFormData={this.updateFormAdd}
+                                        placeholder="Nhập số lượng"
+                                        required
+                                    />
+                                    <FormInputText
+                                        name="price" type="number"
+                                        label="Đơn giá"
+                                        value={addModalData.price}
+                                        minValue="0"
+                                        updateFormData={this.updateFormAdd}
+                                        placeholder="Nhập giá"
+                                        required
+                                    />
+                                    <FormInputText
+                                        name="" type="number"
+                                        label="Thành tiền"
+                                        value={addModalData.price * addModalData.quantity}
+                                        updateFormData={() => {}}
+                                        placeholder="Thành tiền"
+                                        disabled
+                                    />
+                                </form>
+                            </Modal.Body>
+                            <Modal.Footer>
 
-                        </form>
-                    }
-                </div>
-            </div>
+                                    <div style={{display: "flex", justifyContent: "flex-end"}}>
+                                        <button className="btn btn-fill btn-rose" type="button"
+                                                onClick={this.addGood}
+                                        ><i className="material-icons">add</i> Thêm
+                                        </button>
+                                        <button className="btn btn-fill" type="button"
+                                                onClick={this.closeAddModal}
+                                        ><i className="material-icons">cancel</i> Hủy
+                                        </button>
+                                    </div>
+
+                            </Modal.Footer>
+                        </Modal>
+                    </div>
         );
     }
 }
@@ -252,6 +353,7 @@ CreateExportOrderContainer.propTypes = {
     companies: PropTypes.array,
     goods: PropTypes.array,
     warehouses: PropTypes.array,
+    orderedGoods: PropTypes.array,
     params: PropTypes.object,
 };
 
@@ -267,6 +369,7 @@ function mapStateToProps(state) {
         companies: state.exportOrder.companies,
         goods: state.exportOrder.goods,
         warehouses: state.exportOrder.warehouses,
+        orderedGoods: state.exportOrder.orderedGoods,
     };
 }
 
@@ -281,9 +384,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateExportOrderCon
 let defaultData = {
     company: {id: null, name: ""},
     staff: {id: null, name: ""},
-    good: {id: null, name: ""},
+    goods: [
+        {id: null, name: "", quantity: 0,},
+    ],
     warehouse: {id: null, name: ""},
-    quantity: 1,
+    quantity: 0,
     total_price: 0,
     discount: 0,
+};
+
+const defaultAddModalData = {
+
 };

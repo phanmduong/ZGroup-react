@@ -1897,6 +1897,7 @@ export default {
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
+        orderedGoods: [{id: 1, name: ""},],
     },
     notificationTypes: {
         isLoading: false,
