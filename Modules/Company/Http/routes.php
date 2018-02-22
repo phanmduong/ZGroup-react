@@ -28,7 +28,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::get('/export-order/{exportOrderId}','CompanyController@getExportOrder');
     Route::post('export-order/{exportOrderId}','CompanyController@createOrEditExportOrder');
 
-    Route::get('/order','CompanyController@getAllOrder');
+    Route::get('/order/all','CompanyController@getAllOrder');
     Route::get('/order/{orderId}','CompanyController@getOrder');
     Route::post('/order/create','CompanyController@createOrder');
     Route::put('/order/{orderId}','CompanyController@editOrder');
