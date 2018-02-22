@@ -4,6 +4,7 @@ namespace Modules\Company\Http\Controllers;
 
 use App\ExportOrder;
 use App\Field;
+use App\ImportItemOrder;
 use App\ItemOrder;
 use App\Payment;
 use App\PrintOrder;
@@ -506,7 +507,7 @@ class CompanyController extends ManageApiController
             "message" => "Thêm thành công"
         ]);
     }
-    public function createOrder(Request $request){
+    public function createOrdered(Request $request){
         //đơn hàng từ nhà phân phối đặt
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order = new ItemOrder;
@@ -519,7 +520,7 @@ class CompanyController extends ManageApiController
         $year = date_format($ppp, 'y');
         $id = (string)$order->id;
         while (strlen($id) < 4) $id = '0' . $id;
-        $order->command_code = "DATHANG" . $day .$month .$year . $id;
+        $order->command_code = "DONHANG" . $day .$month .$year . $id;
         $order->save();
         $goods = json_decode($request->goods);
         foreach ($goods as $good){
@@ -538,7 +539,7 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function eidtOrder($orderId,Request $request){
+    public function eidtOrdered($orderId,Request $request){
         //đơn hàng từ nhà phân phối đặt
         $order = ItemOrder::find($orderId);
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
@@ -566,7 +567,7 @@ class CompanyController extends ManageApiController
 
     }
 
-    public function getAllOrder(Request $request){
+    public function getAllOrdered(Request $request){
         //đơn hàng từ nhà phân phối đặt
         $limit = $request->limit ? $request->limit : 20;
         if($request->limit == -1){
@@ -587,7 +588,7 @@ class CompanyController extends ManageApiController
         }
     }
 
-    public function getOrder($orderId,Request $request){
+    public function getOrdered($orderId,Request $request){
         //đơn hàng từ nhà phân phối đặt
         $order = ItemOrder::find($orderId);
         return $this->respondSuccessWithStatus([
@@ -595,4 +596,128 @@ class CompanyController extends ManageApiController
         ]);
     }
 
+    public function createOrder(Request $request){
+        //đơn hàng từ nhà cung cấp đặt
+        if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
+        $order = new ItemOrder;
+        $order->company_id = $request->company_id;
+        $order->type = "order";
+        $order->save();
+        $ppp = $order->created_at;
+        $day = date_format($ppp, 'd');
+        $month = date_format($ppp, 'm');
+        $year = date_format($ppp, 'y');
+        $id = (string)$order->id;
+        while (strlen($id) < 4) $id = '0' . $id;
+        $order->command_code = "DATHANG" . $day .$month .$year . $id;
+        $order->save();
+        $goods = json_decode($request->goods);
+        foreach ($goods as $good){
+            $importOrder = new ImportItemOrder;
+            $importOrder->warehouse_id = 0;
+            $importOrder->company_id = $order->company_id;
+            $importOrder->price = $good->price;
+            $importOrder->quantity = $good->quantity;
+            $importOrder->good_id = $good->id;
+            $importOrder->item_order_id = $order->id;
+            $importOrder->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Tạo đơn đặt hàng thành công"
+        ]);
+    }
+
+    public function eidtOrder($orderId,Request $request){
+        //đơn hàng từ nhà cung cấp đặt
+        $order = ItemOrder::find($orderId);
+        if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
+        $order->company_id = $request->company_id;
+        $goods = $order->importOrder;
+        foreach($goods as $good){
+            $good->delete();
+        }
+        $goods = json_decode($request->goods);
+        foreach ($goods as $good){
+            $importOrder = new ImportItemOrder;
+            $importOrder->warehouse_id = 0;
+            $importOrder->company_id = $order->company_id;
+            $importOrder->price = $good->price;
+            $importOrder->quantity = $good->quantity;
+            $importOrder->good_id = $good->id;
+            $importOrder->item_order_id = $order->id;
+            $importOrder->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Sửa đơn đặt hàng thành công"
+        ]);
+
+
+    }
+
+    public function getAllOrder(Request $request){
+        //đơn hàng từ nhà cc đặt
+        $limit = $request->limit ? $request->limit : 20;
+        if($request->limit == -1){
+            $orders = ItemOrder::where('type','order')->get();
+            return $this->respondSuccessWithStatus([
+                "orders" => $orders->map(function($order){
+                    return $order->importTransform();
+                })
+            ]);
+        } else{
+            $orders = ItemOrder::where('type','order')->orderBy('created_at','desc')->paginate($limit);
+            return $this->respondWithPagination($orders,[
+                "orders" => $orders->map(function($order){
+                    return $order->importTransform();
+                })
+            ]);
+
+        }
+    }
+
+    public function getOrder($orderId,Request $request){
+        //đơn hàng từ nhà cc đặt
+        $order = ItemOrder::find($orderId);
+        return $this->respondSuccessWithStatus([
+            "order" => $order->importTransform()
+        ]);
+    }
+
+    public function createOrEditImportOrder($importOrderId,Request $request){
+        $importOrder = ItemOrder::find($importOrderId);
+        $importOrder->status = 2;
+        $importOrder->date = $request->date; // là ngày xuất hàng
+        $importOrder->save();
+        $goods = json_decode($request->goods);
+        foreach ($goods as $good){
+            $good_new = ImportItemOrder::find($good->id);
+            $good_new->imported_quantity = $good->imported_quantity;
+            $good_new->warehouse_id = $good->warehouse_id;
+            $good_new->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+    }
+    public function getImportOrder($importOrderId, Request $request){
+        $importOrder = ItemOrder::find($importOrderId);
+        return $this->respondSuccessWithStatus([
+            "import-order" => $importOrder->importTransform()
+        ]);
+    }
+
+    public function getAllImportOrder(Request $request){
+        $limit = $request->limit ? $request->limit : 20;
+        $importOrders = ItemOrder::query();
+
+        $importOrders = $importOrders->where('type','=','order')
+            ->where('status','>',1)
+            ->orderBy('created_at', 'desc')->paginate($limit);
+
+        return $this->respondWithPagination($importOrders, [
+            "import-orders" => $importOrders->map(function ($importOrder) {
+                return $importOrder->importTransform();
+            })
+        ]);
+    }
 }
