@@ -40,7 +40,7 @@ class OrderedDetailContainer extends React.Component {
                 quantity: 0,
                 sale_off: 0,
                 weight: 0,
-                tax: true,
+                tax: "true",
                 price: 0,
                 unit: '',
                 ratio: 1,
@@ -290,10 +290,10 @@ class OrderedDetailContainer extends React.Component {
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div className="form-group">
                                                 <label className="label-control">Đổi ra tiền Việt</label>
-                                                <input type="text"
+                                                <input type="number"
                                                        name="money"
                                                        className="form-control"
-                                                       value={helper.dotNumber(order.money) || 0}
+                                                       value={order.money || 0}
                                                        disabled={true}/>
                                                 <span className="material-input"/>
                                             </div>

@@ -6,7 +6,6 @@ import *as orderedProductAction from "./orderedProductAction";
 import PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import Select from 'react-select';
-import * as helper from '../../helpers/helper';
 
 class SendPriceModal extends React.Component {
     constructor(props, context) {
@@ -199,10 +198,10 @@ class SendPriceModal extends React.Component {
                                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Đổi ra tiền Việt</label>
-                                                <input type="text"
+                                                <input type="number"
                                                        name="money"
                                                        className="form-control"
-                                                       value={helper.dotNumber(attach.money) || 0}
+                                                       value={attach.money || 0}
                                                        disabled={true}/>
                                                 <span className="material-input"/>
                                             </div>

@@ -2,12 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {loadBankTransfers, updateBankTransferStatus} from "./financeActions";
+import *as financeActions from "./financeActions";
 import {numberWithCommas} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
+import CancelReasonModal from "./CancelReasonModal";
 // import Select from 'react-select';
 // import {STATUS_OPTIONS} from "./financeConstant";
-
 
 
 // Import actions here!!
@@ -17,6 +17,7 @@ class BankTransfersContainer extends React.Component {
         super(props, context);
         this.loadBankTransfers = this.loadBankTransfers.bind(this);
         this.onChangeStatus = this.onChangeStatus.bind(this);
+        this.showCancelReasonModal = this.showCancelReasonModal.bind(this);
     }
 
     componentWillMount() {
@@ -24,7 +25,7 @@ class BankTransfersContainer extends React.Component {
     }
 
     loadBankTransfers(page = 1) {
-        this.props.actions.loadBankTransfers(page);
+        this.props.financeActions.loadBankTransfers(page);
     }
 
     onChangeStatus(bankTransfer) {
@@ -33,8 +34,17 @@ class BankTransfersContainer extends React.Component {
                 ...bankTransfer,
                 status: option.value
             };
-            this.props.actions.updateBankTransferStatus(newBankTransfer);
+            this.props.financeActions.updateBankTransferStatus(newBankTransfer);
         };
+    }
+
+    showCancelReasonModal(transfer) {
+        let newTransfer = {
+            id: transfer.id,
+            note: ''
+        };
+        this.props.financeActions.showCancelReasonModal();
+        this.props.financeActions.handleCancelReasonModal(newTransfer);
     }
 
     render() {
@@ -71,12 +81,32 @@ class BankTransfersContainer extends React.Component {
                                                     <td>{bankTransfer.bank_account.bank_account_name}</td>
                                                     <td>{bankTransfer.note}</td>
                                                     <td>
-                                                        <a className="text-success">
-                                                            <i className="material-icons">done</i>
-                                                        </a>
-                                                        <a className="text-danger">
-                                                            <span className="material-icons">clear</span>
-                                                        </a>
+                                                        {
+                                                            bankTransfer.status === "pending" ? (
+                                                                <span>
+                                                                    <a className="text-success"
+                                                                       onClick={() => this.props.financeActions.updateTransferStatus(
+                                                                           bankTransfer.id, "accept", null
+                                                                       )}>
+                                                                        <i className="material-icons">done</i>
+                                                                    </a>
+                                                                    <a className="text-danger"
+                                                                       onClick={() => this.showCancelReasonModal(bankTransfer)}>
+                                                                        <span className="material-icons">clear</span>
+                                                                    </a>
+                                                                </span>
+                                                            ) : (
+                                                                <div>
+                                                                    {
+                                                                        bankTransfer.status === "accept" ? (
+                                                                            <p>Đã xác nhận</p>
+                                                                        ) : (
+                                                                            <p>Đã hủy</p>
+                                                                        )
+                                                                    }
+                                                                </div>
+                                                            )
+                                                        }
                                                     </td>
                                                 </tr>
                                             ))
@@ -86,9 +116,9 @@ class BankTransfersContainer extends React.Component {
                                 </div>
                             )
                         }
-
                     </div>
                 </div>
+                <CancelReasonModal/>
             </div>
         );
     }
@@ -96,7 +126,7 @@ class BankTransfersContainer extends React.Component {
 
 BankTransfersContainer.propTypes = {
     bankTransfers: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired,
+    financeActions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired
 };
 
@@ -109,10 +139,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            loadBankTransfers,
-            updateBankTransferStatus
-        }, dispatch)
+        financeActions: bindActionCreators(financeActions, dispatch)
     };
 }
 

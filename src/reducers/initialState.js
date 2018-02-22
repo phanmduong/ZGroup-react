@@ -57,7 +57,9 @@ export default {
 
     finance: {
         bankTransfers: [],
-        isLoading: false
+        isLoading: false,
+        cancelReasonModal: false,
+        transferCancelReason: {},
     },
 
     currency: {
