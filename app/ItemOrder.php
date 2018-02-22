@@ -24,7 +24,7 @@ class ItemOrder extends Model
             ],
             "command_code" => $this->command_code,
             "status" => $this->status,
-            "goods" => $this->good->map(function($good){
+            "goods" => $this->exportOrder->map(function($good){
                 return $good->transform();
             })
         ];
