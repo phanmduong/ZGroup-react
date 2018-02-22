@@ -9,7 +9,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::get('/provided','CompanyController@getCompanyProvide');
     Route::get('/share','CompanyController@getCompanyShare');
     Route::get('/field/all','CompanyController@getAllField');
-    Route::get('{companyId}','CompanyController@getDetailCompany');
+    Route::get('/{companyId}','CompanyController@getDetailCompany');
     Route::get('/payment/all','CompanyController@getAllPayment');
     Route::post('/payment/create','CompanyController@createPayment');
     Route::put('/payment/edit/{paymentId}','CompanyController@editPayment');
