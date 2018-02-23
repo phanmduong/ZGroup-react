@@ -2,19 +2,12 @@
 
 namespace Modules\Course\Http\Controllers;
 
-use App\Attendance;
-use App\ClassLesson;
 use App\Course;
-use App\Gen;
-use App\Http\Controllers\ManageApiController;
-use App\Lesson;
-use App\Link;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Base\Http\Controllers\PublicApiController;
 
-class CourseController extends PublicApiController
+class CoursePublicApiController extends PublicApiController
 {
     /**
      * Display a listing of the resource.
