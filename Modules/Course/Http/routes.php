@@ -16,10 +16,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'cour
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
-    Route::get('/get-all','CoursePublicApiController@getAllCourses');
+    Route::get('/get-all','CourseController@getAllCourses');
     Route::get('/all','CourseController@getAll');
     Route::delete('/delete/{course_id}','CourseController@deleteCourse');
-    Route::get('/get-detailed/{course_id}', 'CoursePublicApiController@getCourse');
+    Route::get('/get-detailed/{course_id}', 'CourseController@getCourse');
     Route::post('/create-edit', 'CourseController@createOrEdit');
     Route::get('/get-detailed-link/{link_id}', 'CourseController@detailedLink');
     Route::post('/create-link', 'CourseController@createLink');
@@ -32,6 +32,12 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::put('/{course_id}/change-status','CourseController@changeStatusCourse');
     Route::post('/{courseId}/duplicate','CourseController@duplicateCourse');
 });
+
+Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2/course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
+    Route::get('/get-all','CoursePublicApiController@getAllCourses');
+    Route::get('/get-detailed/{course_id}', 'CoursePublicApiController@getCourse');
+});
+
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
     Route::get('/gens/{genId}/classes', 'ClassApiController@genClasses');
