@@ -398,6 +398,7 @@ class CompanyController extends ManageApiController
         $exportOrder = ItemOrder::find($exportOrderId);
         $exportOrder->status = 2;
         $exportOrder->date = $request->date; // là ngày xuất hàng
+        $exportOrder->import_export_staff_id = $request->staff_id;
         $exportOrder->save();
         $goods = json_decode($request->goods);
         foreach ($goods as $good){
@@ -513,6 +514,7 @@ class CompanyController extends ManageApiController
         $order = new ItemOrder;
         $order->company_id = $request->company_id;
         $order->type = "be-ordered";
+        $order->staff_id = $request->staff_id;
         $order->save();
         $ppp = $order->created_at;
         $day = date_format($ppp, 'd');
@@ -544,6 +546,7 @@ class CompanyController extends ManageApiController
         $order = ItemOrder::find($orderId);
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order->company_id = $request->company_id;
+        $order->staff_id = $request->staff_id;
         $goods = $order->exportOrder;
         foreach($goods as $good){
             $good->delete();
@@ -602,6 +605,7 @@ class CompanyController extends ManageApiController
         $order = new ItemOrder;
         $order->company_id = $request->company_id;
         $order->type = "order";
+        $order->staff_id = $request->staff_id;
         $order->save();
         $ppp = $order->created_at;
         $day = date_format($ppp, 'd');
@@ -633,6 +637,7 @@ class CompanyController extends ManageApiController
         if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order->company_id = $request->company_id;
         $goods = $order->importOrder;
+        $order->staff_id = $request->staff_id;
         foreach($goods as $good){
             $good->delete();
         }
@@ -687,6 +692,7 @@ class CompanyController extends ManageApiController
         $importOrder = ItemOrder::find($importOrderId);
         $importOrder->status = 2;
         $importOrder->date = $request->date; // là ngày xuất hàng
+        $importOrder->import_export_staff_id = $request->staff_id;
         $importOrder->save();
         $goods = json_decode($request->goods);
         foreach ($goods as $good){
@@ -708,17 +714,28 @@ class CompanyController extends ManageApiController
 
     public function getAllImportOrder(Request $request){
         $limit = $request->limit ? $request->limit : 20;
-        $importOrders = ItemOrder::query();
+        $filter = $request->filter;
+        if($filter === "import") {
+            $importOrders = ItemOrder::query();
 
-        $importOrders = $importOrders->where('type','=','order')
-            ->where('status','>',1)
-            ->orderBy('created_at', 'desc')->paginate($limit);
-
-        return $this->respondWithPagination($importOrders, [
-            "import-orders" => $importOrders->map(function ($importOrder) {
-                return $importOrder->importTransform();
-            })
-        ]);
+            $importOrders = $importOrders->where('type', '=', 'order')
+                ->where('status', '>', 1)
+                ->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($importOrders, [
+                "import-orders" => $importOrders->map(function ($importOrder) {
+                    return $importOrder->importTransform();
+                })
+            ]);
+        } else {
+            $printOrders = PrintOrder::query();
+            $printOrders = $printOrders->where('import_staff_id','>',0)
+                ->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($printOrders,[
+                "print-orders" => $printOrders->map(function($printOrder){
+                       return $printOrder->transform();
+                })
+            ]);
+        }
     }
 
     public function changeStatusItemOrder($itemOrderId,Request $request){
