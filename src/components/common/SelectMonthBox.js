@@ -11,11 +11,14 @@ import Picker from 'react-month-picker';
 class SelectMonthBox extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {isShowMonthBox: false};
+        this.state = {isShowMonthBox: false
+
+        };
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
         this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
     }
+
     handleClickMonthBox() {
         this.setState({isShowMonthBox: true});
     }
@@ -51,7 +54,7 @@ class SelectMonthBox extends React.Component {
                 {
                     this.props.isAuto ?
                         <Picker
-                            theme ={this.props.theme || "dark"}
+                            theme={this.props.theme || "dark"}
                             ref="pickAMonth"
                             years={this.props.years || years}
                             value={this.props.value}
@@ -71,7 +74,7 @@ class SelectMonthBox extends React.Component {
                         </Picker>
                         :
                         <Picker
-                            theme ={this.props.theme || "dark"}
+                            theme={this.props.theme || "dark"}
                             ref="pickAMonth"
                             years={years}
                             value={this.props.value}
@@ -80,14 +83,24 @@ class SelectMonthBox extends React.Component {
                             onChange={(year, month) => this.handleAMonthChange(year, month)}
                             onDismiss={this.props.closeBox}
                         >
-                            <button
-                                style={{width: '100%'}}
-                                onClick={this.props.openBox}
-                                className="btn btn-info btn-rose "
-                            >
-                                {(this.props.value.year) ? makeText(this.props.value) : "Pick a month"}
+                            {this.props.isHide ?
+                                <button
+                                    style={{width: '100%'}}
+                                    className="btn btn-info btn-rose disabled"
+                                >
+                                    {"Pick a month"}
+                                </button>
+                                :
+                                <button
+                                    style={{width: '100%'}}
+                                    onClick={this.props.openBox}
+                                    className="btn btn-info btn-rose"
+                                >
+                                    {(this.props.value.year) ? makeText(this.props.value) : "Pick a month"}
 
-                            </button>
+                                </button>
+                            }
+
                         </Picker>
                 }
             </div>
@@ -103,9 +116,10 @@ SelectMonthBox.propTypes = {
     closeBox: PropTypes.func,
     openBox: PropTypes.func,
     isAuto: PropTypes.bool.isRequired,    // Hỏi quyền viết hàm mở và đóng box , nếu mở thì require closeBox, openBox và  isShowMonthBox
-    theme : PropTypes.string,
-    isShowMonthBox : PropTypes.bool,
-    years : PropTypes.array,                // Mảng chứa các năm trong Box
+    theme: PropTypes.string,
+    isShowMonthBox: PropTypes.bool,
+    years: PropTypes.array,                // Mảng chứa các năm trong Box
+    isHide: PropTypes.bool,
 };
 
 export default SelectMonthBox;

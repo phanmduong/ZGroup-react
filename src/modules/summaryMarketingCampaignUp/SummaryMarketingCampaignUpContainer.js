@@ -82,6 +82,10 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
             startTime,
             endTime,
         );
+        let time = {};
+        time["startTime"] = startTime;
+        time["endTime"] = endTime;
+        this.setState({time: time});
         this.setState({month: value});
         this.handleAMonthDissmis();
     }
@@ -110,14 +114,14 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
         time[field] = event.target.value;
 
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
-            this.setState({time: time});
+            this.setState({time: time, month : {year : 0,month : 0}});
             this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(
                 this.state.selectBaseId,
                 time.startTime,
                 time.endTime
             );
         } else {
-            this.setState({time: time});
+            this.setState({time: time, month : {year : 0,month : 0}});
         }
     }
 
@@ -167,6 +171,7 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                 <div className="col-sm-3 col-xs-5">
 
                                     <SelectMonthBox
+                                        isHide={this.state.openFilterPanel}
                                         value={this.state.month}
                                         onChange={(value)=>this.handleAMonthChange(value)}
                                         isAuto={false}
