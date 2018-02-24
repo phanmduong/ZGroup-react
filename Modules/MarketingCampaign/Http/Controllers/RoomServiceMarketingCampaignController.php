@@ -33,11 +33,12 @@ class RoomServiceMarketingCampaignController extends ManageApiController
         if ($startTime && $endTime) {
             $summary->whereBetween('created_at', array($startTime, $endTime));
         }
-//        else {
-//            if ($request->gen_id && $request->gen_id != 0) {
-//                $summary->where('gen_id', $request->gen_id);
-//            }
-//        }
+        else {
+            $summary->whereBetween('created_at', array(date('01-m-Y'), date("Y-m-d", strtotime("+1 day", date('Y-m-d')))));
+            if ($request->gen_id && $request->gen_id != 0) {
+                $summary->where('gen_id', $request->gen_id);
+            }
+        }
 
 
 //        if ($request->base_id && $request->base_id != 0) {
