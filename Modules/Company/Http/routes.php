@@ -10,10 +10,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::get('/share','CompanyController@getCompanyShare');
     Route::get('/field/all','CompanyController@getAllField');
     Route::get('/{companyId}','CompanyController@getDetailCompany');
+
     Route::get('/payment/all','CompanyController@getAllPayment');
     Route::post('/payment/create','CompanyController@createPayment');
     Route::put('/payment/edit/{paymentId}','CompanyController@editPayment');
     Route::get('/payment/{paymentId}','CompanyController@getPayment');
+    Route::post('payment/{paymentId}/change_status','ComapnyController@changeStatusPayment');
+
     Route::post('/print-order','CompanyController@createPrintOrder');
     Route::get('/print-order/all','CompanyController@getAllPrintOrder');
     Route::get('/print-order/all-command-code','CompanyController@getAllCodePrintOrder');
