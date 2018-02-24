@@ -30,9 +30,9 @@ class RoomServiceMarketingCampaignController extends ManageApiController
             ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
             ->groupBy('campaign_id', 'saler_id');
 
-        if ($startTime && $endTime) {
-            $summary->whereBetween('created_at', array($startTime, $endTime));
-        }
+//        if ($startTime && $endTime) {
+//            $summary->whereBetween('created_at', array($startTime, $endTime));
+//        }
 //        else {
 //            if ($request->gen_id && $request->gen_id != 0) {
 //                $summary->where('gen_id', $request->gen_id);
@@ -50,9 +50,9 @@ class RoomServiceMarketingCampaignController extends ManageApiController
             $data = [
                 'total_registers' => $item->total_registers,
                 'campaign' => [
-                    'id' => $item->marketing_campaign->id,
-                    'name' => $item->marketing_campaign->name,
-                    'color' => $item->marketing_campaign->color,
+                    'id' => $item->campaign->id,
+                    'name' => $item->campaign->name,
+                    'color' => $item->campaign->color,
                 ]
             ];
 
