@@ -7,6 +7,7 @@ use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\MarketingCampaign;
 use App\Register;
+use App\RoomServiceRegister;
 use App\StudyClass;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,71 +20,30 @@ class RoomServiceMarketingCampaignController extends ManageApiController
         parent::__construct();
     }
 
-    public function getAll(Request $request)
-    {
-
-        if (!$request->limit)
-            $limit = 20;
-        else
-            $limit = $request->limit;
-
-        $marketingCampaigns = MarketingCampaign::orderBy('created_at', 'desc')->paginate($limit);
-
-        $data = $marketingCampaigns->map(function ($marketingCampaign) {
-            return [
-                'id' => $marketingCampaign->id,
-                'name' => $marketingCampaign->name,
-                'color' => $marketingCampaign->color,
-            ];
-        });
-
-        return $this->respondWithPagination($marketingCampaigns, [
-            'marketing_campaigns' => $data
-        ]);
-    }
-
-    public function storeMarketingCampaign(Request $request)
-    {
-
-        if ($request->id) {
-            $marketingCampaign = MarketingCampaign::find($request->id);
-        } else {
-            $marketingCampaign = new MarketingCampaign();
-        }
-
-        $marketingCampaign->name = $request->name;
-        $marketingCampaign->color = $request->color ? $request->color : '';
-
-        $marketingCampaign->save();
-
-        return $this->respondSuccessWithStatus([
-            'marketing_campaign' => $marketingCampaign
-        ]);
-    }
-
     public function summaryMarketingCampaign(Request $request)
     {
 
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
 
-        $summary = Register::select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
-            ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('status', 1)->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
+        $summary = RoomServiceRegister::select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
+            ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
             ->groupBy('campaign_id', 'saler_id');
 
         if ($startTime && $endTime) {
             $summary->whereBetween('created_at', array($startTime, $endTime));
-        } else {
-            if ($request->gen_id && $request->gen_id != 0) {
-                $summary->where('gen_id', $request->gen_id);
-            }
         }
+//        else {
+//            if ($request->gen_id && $request->gen_id != 0) {
+//                $summary->where('gen_id', $request->gen_id);
+//            }
+//        }
 
 
-        if ($request->base_id && $request->base_id != 0) {
-            $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
-            $summary->whereIn('class_id', $class_ids);
-        }
+//        if ($request->base_id && $request->base_id != 0) {
+//            $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
+//            $summary->whereIn('class_id', $class_ids);
+//        }
 
         $summary = $summary->get()->map(function ($item) {
 
