@@ -14,5 +14,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'sale
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'room-service', 'namespace' => 'Modules\MarketingCampaign\Http\Controllers'], function () {
     Route::get('/marketing-campaign/summary', 'RoomServiceMarketingCampaignController@summaryMarketingCampaign');
     Route::get('/marketing-campaign/sumary-register', 'RoomServiceMarketingCampaignController@summaryMarketingRegister');
-    Route::get('/sales/summary', 'MarketingCampaignController@summarySales');
+    Route::get('/sales/summary', 'RoomServiceMarketingCampaignController@summarySales');
 });
