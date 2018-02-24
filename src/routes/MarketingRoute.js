@@ -2,6 +2,7 @@ import HistoryCallsContainer from "../modules/historyCalls/HistoryCallsContainer
 import MarketingCampaignContainer from "../modules/marketingCampaign/MarketingCampaignContainer";
 import MarketingCampaignUpContainer from "../modules/marketingCampaignUp/MarketingCampaignUpContainer";
 import SummaryMarketingCampaignContainer from "../modules/summaryMarketingCampaign/SummaryMarketingCampaignContainer";
+import SummaryMarketingCampaignUpContainer from "../modules/summaryMarketingCampaignUp/SummaryMarketingCampaignUpContainer";
 import SummarySalesContainer from "../modules/summarySales/SummarySalesContainer";
 import OverviewSales from "../modules/summarySales/OverviewSales";
 import StatisticSales from "../modules/summarySales/StatisticSales";
@@ -25,6 +26,10 @@ export default [
     {
         path: "/marketing/marketing-campaign/summary",
         component: SummaryMarketingCampaignContainer,
+    },
+    {
+        path: "/marketing/marketing-campaign-up/summary",
+        component: SummaryMarketingCampaignUpContainer,
     },
     {
         path: "/marketing/sales",
