@@ -87,14 +87,15 @@
                     <a class="nav-link" style="color:white" href="http://elightbook.com/" data-scroll="true">Sách tiếng
                         anh cơ bản</a>
                 </li>
+                
                 <li class="nav-item">
-                    <a class="nav-link" style="color:white" href="/about-us" data-scroll="true">Giới thiệu</a>
+                    <a class="nav-link" style="color:white" href="/all-books" data-scroll="true">Thư Viện Tự Học</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color:white" href="/all-books" data-scroll="true">Thư viện</a>
+                    <a class="nav-link" style="color:white" href="/blog" data-scroll="true">Phương Pháp Học </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color:white" href="/blog" data-scroll="true">BLOGS</a>
+                    <a class="nav-link" style="color:white" href="/about-us" data-scroll="true">Về chúng tôi</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0)" data-scroll="true"
@@ -119,8 +120,12 @@
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-12">
+            <div class="col-md-2 col-sm-3 col-xs-12" 
+            style="display: flex;
+                flex-direction: column;
+                align-items: center;">
                 <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" width="150px">
+                <div><h5 style="text-align: center">Nhà Sách Elight</h5></div>
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
                 <div class="row">
@@ -134,17 +139,17 @@
                                 </li>
                                 <li>
                                     <a href="/about-us">
-                                        Về chúng tôi
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/all-books">
-                                        Thư viện
+                                        Về Elight
                                     </a>
                                 </li>
                                 <li>
                                     <a href="/blog">
-                                        Blogs
+                                        Phương pháp học
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/all-books">
+                                        Thư viện tự học
                                     </a>
                                 </li>
                             </ul>
@@ -155,8 +160,23 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="/contact-us">
-                                        Liên hệ
+                                    <a>
+                                        <h5 style="text-align:center"><b>Sản phẩm nổi bật</b></h5>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#buyBooks">
+                                        Sách tiếng anh
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                    Khoá học Online
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                    Khoá học Trung Tâm
                                     </a>
                                 </li>
                             </ul>
@@ -164,24 +184,42 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-
+                        <ul class="uppercase-links stacked-links">
+                                <li>
+                                    <a>
+                                        <h5 style="text-align:center"><b>Liên hệ</b></h5>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="tel:0981 937 066">
+                                        Tư vấn sản phẩm<br> 0981 937 066
+                                    </a>
+                                </li>
+                                <li>
+                                <a href="tel:01628 766 444">
+                                Hợp tác<br> 01628 766 444 
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                            <ul class="stacked-links">
+                        <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <h4>13.000<br>
-                                        <small>Lượt xuất bản</small>
-                                    </h4>
+                                    <a>
+                                        <h5 style="text-align:center"><b>Địa chỉ</b></h5>
+                                    </a>
                                 </li>
                                 <li>
-                                    <h4>256<br>
-                                        <small>Nhà phân phối</small>
-                                    </h4>
+                                    <a>
+                                        <h6 style="text-align:center;font-weight: 200">
+                                        146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
+                                        </h6>
+                                    </a>
                                 </li>
-
                             </ul>
+                        </div>
                         </div>
                     </div>
                 </div>

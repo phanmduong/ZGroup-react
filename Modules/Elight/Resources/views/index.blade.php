@@ -6,15 +6,14 @@
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
-                <h2 style="font-weight: 400">Chào mừng bạn<br>
-                    đến với thế giới của Elight Book<br>
+                <h2 style="font-weight: 400">Nhà sách Elight
                 </h2>
 
                 <h4 style="color:white">
-                    Cùng học tiếng anh với Elight nhé
+                Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
                 </h4>
                 <br>
-                <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Đặt mua sách</a>
+                <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu ngay</a>
             </div>
         </div>
     </div>
@@ -25,7 +24,7 @@
             <div class="col-md-6">
                 <div class="description">
                     <h1 class="medium-title">
-                        Sản phẩm mới nhất<br>
+                        Sản phẩm nổi bật<br>
                     </h1>
                     <br>
                     {{--<a href="/all-books" class="btn btn-link btn-success"--}}
@@ -88,7 +87,7 @@
             <div class="col-md-12">
                 <div class="description">
                     <h1 class="medium-title">
-                        Bài viết mới nhất<br>
+                        Sổ tay tự học <br>
                     </h1>
                 </div>
                 {{--<a href="/blog" style="color:#138edc!important"><b>Xem thêm</b></a>--}}
@@ -148,18 +147,19 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315148lid7m57PXMpi8ig.png');background-size: cover;">
-                            <div style="padding-top:15%">
-                                <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
-                                    <h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>
-                                        đến với thế giới của Elight Book<br>
-                                    </h3>
+                        <div class="page-header page-header-small" style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315148lid7m57PXMpi8ig.png');background-size: cover; min-height: 300px!important">
+                        <div class="content-center">
+            <div class="container">
+                <h2 style="font-weight: 400">Nhà sách Elight
+                </h2>
 
-                                    <p style="color:white">
-                                        Cùng học tiếng anh với Elight nhé
-                                    </p>
-                                </div>
-                            </div>
+                <h4 style="color:white">
+                Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
+                </h4>
+                <br>
+                <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu ngay</a>
+            </div>
+        </div>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                     <div class="col-md-12">
                         <div class="description">
                             <h1 class="medium-title">
-                                Học giao tiếp<br>
+                            Tiếng Anh cho người mới bắt đầu<br>
                             </h1>
                         </div>
                         {{--<a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>--}}
@@ -178,36 +178,29 @@
                         <br><br>
                     </div>
                     @foreach($blogSection1 as $blog)
-                        <div class="col-md-12">
-                            <div class="card card-plain card-blog">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="card-image">
-                                            <a href="/blog/post/{{$blog->id}}">
-                                                <div style="width: 100%;
-                                                        border-radius: 10px;
-                                                        background: url('{{generate_protocol_url($blog->url)}}');
-                                                        background-size: cover;
-                                                        background-position: center;
-                                                        padding-bottom: 70%;"></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h6 class="card-category">{{$blog->author->name}}</h6>
-                                            <h3 class="card-title">
-                                                <a href="#pablo">{{$blog->title}}</a>
-                                            </h3>
-                                            <p class="card-description">
-                                                {{$blog->description}}
-                                            </p>
-                                            <a href="/blog/post/{{$blog->id}}"
-                                               style="color:#138edc!important"><br><b>Xem
-                                                    thêm</b></a>
-                                        </div>
-
-                                    </div>
+                        <div class="col-md-4">
+                            <div class="card card-plain card-blog text-center">
+                                <div class="card-image">
+                                    <a href="/blog/post/14676">
+                                        <div style="width: 100%;
+                                                border-radius: 10px;
+                                                background: url('{{generate_protocol_url($blog->url)}}');
+                                                background-size: cover;
+                                                background-position: center;
+                                                padding-bottom: 70%;"></div>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-category text-facebook">{{$blog->author->name}}</h6>
+                                    <h3 class="card-title">
+                                        <a href="#pablo">{{shortString($blog->title,4)}}</a>
+                                    </h3>
+                                    <p class="card-description">
+                                        {{$blog->description}}
+                                    </p>
+                                    <br>
+                                    <a href="/blog/post/{{$blog->id}}" class="btn btn-success btn-round"> Đọc
+                                        thêm</a>
                                 </div>
                             </div>
                         </div>
@@ -223,7 +216,7 @@
                     <div class="col-md-12">
                         <div class="description">
                             <h1 class="medium-title">
-                                Học từ vựng<br>
+                            Học từ vựng tiếng Anh<br>
                             </h1>
                         </div>
                         {{--<a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>--}}
