@@ -145,8 +145,8 @@ class NhatQuangShopManageController extends Controller
 
         if ($start_day)
             $orders = $orders->whereBetween('created_at', array($start_day, $end_day));
-//        if ($status)
-//            $orders = $orders->where('status', $status);
+        if ($status)
+            $orders = $orders->where('status', $status);
         if ($code)
             $orders = $orders->where('code', 'like', '%' . $code . '%');
         $orders = $orders->orderBy('created_at', 'desc')->paginate(15);
@@ -173,8 +173,8 @@ class NhatQuangShopManageController extends Controller
         $end_day = $request->end_day;
         if ($start_day)
             $fastOrders = $fastOrders->whereBetween('created_at', array($start_day, $end_day));
-//        if ($status)
-//            $orders = $orders->where('status', $status);
+        if ($status)
+            $fastOrders = $fastOrders->where('status', $status);
         if ($code)
             $fastOrders = $fastOrders->where('code', 'like', '%' . $code . '%');
         $fastOrders = $fastOrders->orderBy('created_at', 'desc')->paginate(15);

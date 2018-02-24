@@ -33,6 +33,12 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/{courseId}/duplicate','CourseController@duplicateCourse');
 });
 
+Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2/course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
+    Route::get('/get-all','CoursePublicApiController@getAllCourses');
+    Route::get('/get-detailed/{course_id}', 'CoursePublicApiController@getCourse');
+});
+
+
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
     Route::get('/gens/{genId}/classes', 'ClassApiController@genClasses');
     Route::get('/class/{classId}/attendance/lessons', 'ClassApiController@classLessons');

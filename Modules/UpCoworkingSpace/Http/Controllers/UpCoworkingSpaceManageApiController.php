@@ -22,9 +22,6 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         parent::__construct();
     }
 
-
-
-
     public function getRegisters(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
