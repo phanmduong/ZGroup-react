@@ -46,6 +46,25 @@ export default function financeReducer(state = initialState.finance, action) {
                 ...state,
                 transferCancelReason: action.transfer
             };
+        case types.EDIT_BANK_TRANSFER_SUCCESS:
+            return {
+                ...state,
+                bankTransfers: state.bankTransfers.map(b => {
+                    if (b.id === action.bankTransfer.id) return action.bankTransfer;
+                    return b;
+                }),
+                bankTransferEditModal: false
+            };
+        case types.TOGGLE_BANK_TRANSFER_EDIT_MODAL:
+            return {
+                ...state,
+                bankTransferEditModal: !state.bankTransferEditModal
+            };
+        case types.HANDLE_BANK_TRANSFER_EDIT_MODAL:
+            return {
+                ...state,
+                transferEdit: action.transfer
+            };
         default:
             return state;
     }

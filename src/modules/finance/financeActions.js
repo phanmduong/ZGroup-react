@@ -64,3 +64,40 @@ export function handleCancelReasonModal(transfer) {
         transfer
     });
 }
+
+export function editTransfer(bankTransfer) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang chỉnh sửa thông báo chuyển khoản", "info");
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        financeApi.editTransfer(bankTransfer)
+            .then((res) => {
+                if (res.data.status) {
+                    dispatch({
+                        type: types.EDIT_BANK_TRANSFER_SUCCESS,
+                        bankTransfer
+                    });
+                    helper.showNotification("Chỉnh sửa thông báo chuyển khoản thành công");
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
+    };
+}
+
+export function showBankTransferEditModal() {
+    return ({
+        type: types.TOGGLE_BANK_TRANSFER_EDIT_MODAL
+    });
+}
+
+export function handleBankTransferEditModal(transfer) {
+    return ({
+        type: types.HANDLE_BANK_TRANSFER_EDIT_MODAL,
+        transfer
+    });
+}

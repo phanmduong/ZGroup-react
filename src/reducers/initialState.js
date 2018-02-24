@@ -60,6 +60,8 @@ export default {
         isLoading: false,
         cancelReasonModal: false,
         transferCancelReason: {},
+        bankTransferEditModal: false,
+        transferEdit: {}
     },
 
     currency: {

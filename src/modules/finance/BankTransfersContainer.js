@@ -6,6 +6,9 @@ import *as financeActions from "./financeActions";
 import {numberWithCommas} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import CancelReasonModal from "./CancelReasonModal";
+import BankTransferEditModal from "./BankTransferEditModal";
+import {TRANSFER_PURPOSE} from "../../constants/constants";
+
 // import Select from 'react-select';
 // import {STATUS_OPTIONS} from "./financeConstant";
 
@@ -18,6 +21,7 @@ class BankTransfersContainer extends React.Component {
         this.loadBankTransfers = this.loadBankTransfers.bind(this);
         this.onChangeStatus = this.onChangeStatus.bind(this);
         this.showCancelReasonModal = this.showCancelReasonModal.bind(this);
+        this.showBankTransferEditModal = this.showBankTransferEditModal.bind(this);
     }
 
     componentWillMount() {
@@ -47,6 +51,11 @@ class BankTransfersContainer extends React.Component {
         this.props.financeActions.handleCancelReasonModal(newTransfer);
     }
 
+    showBankTransferEditModal(transfer) {
+        this.props.financeActions.showBankTransferEditModal();
+        this.props.financeActions.handleBankTransferEditModal(transfer);
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -68,22 +77,27 @@ class BankTransfersContainer extends React.Component {
                                             <th>Ngân hàng</th>
                                             <th>Nội dung</th>
                                             <th>Trạng thái</th>
+                                            <th/>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {
-                                            this.props.bankTransfers &&
-                                            this.props.bankTransfers.map((bankTransfer) => (
-                                                <tr key={bankTransfer.id}>
-                                                    <td>{bankTransfer.transfer_day}</td>
-                                                    <td>{bankTransfer.purpose}</td>
-                                                    <td>{numberWithCommas(bankTransfer.money)}</td>
-                                                    <td>{bankTransfer.bank_account.bank_account_name}</td>
-                                                    <td>{bankTransfer.note}</td>
-                                                    <td>
-                                                        {
-                                                            bankTransfer.status === "pending" ? (
-                                                                <span>
+                                            this.props.bankTransfers && this.props.bankTransfers.map((bankTransfer) => {
+                                                let purpose = TRANSFER_PURPOSE.filter(pur => pur.value === bankTransfer.purpose)[0] ?
+                                                    TRANSFER_PURPOSE.filter(pur => pur.value === bankTransfer.purpose)[0].label : "Chưa có mục đích";
+                                                return (
+                                                    <tr key={bankTransfer.id}>
+                                                        <td>{bankTransfer.transfer_day}</td>
+                                                        <td>
+                                                            {purpose}
+                                                        </td>
+                                                        <td>{numberWithCommas(bankTransfer.money)}</td>
+                                                        <td>{bankTransfer.bank_account.bank_account_name}</td>
+                                                        <td>{bankTransfer.note}</td>
+                                                        <td>
+                                                            {
+                                                                bankTransfer.status === "pending" ? (
+                                                                    <span>
                                                                     <a className="text-success"
                                                                        onClick={() => this.props.financeActions.updateTransferStatus(
                                                                            bankTransfer.id, "accept", null
@@ -95,21 +109,30 @@ class BankTransfersContainer extends React.Component {
                                                                         <span className="material-icons">clear</span>
                                                                     </a>
                                                                 </span>
-                                                            ) : (
-                                                                <div>
-                                                                    {
-                                                                        bankTransfer.status === "accept" ? (
-                                                                            <p>Đã xác nhận</p>
-                                                                        ) : (
-                                                                            <p>Đã hủy</p>
-                                                                        )
-                                                                    }
-                                                                </div>
-                                                            )
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            ))
+                                                                ) : (
+                                                                    <div>
+                                                                        {
+                                                                            bankTransfer.status === "accept" ? (
+                                                                                <p>Đã xác nhận</p>
+                                                                            ) : (
+                                                                                <p>Đã hủy</p>
+                                                                            )
+                                                                        }
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <a data-toggle="tooltip" title="Ghi chú" type="button"
+                                                               className="text-rose"
+                                                               rel="tooltip"
+                                                               onClick={() => this.showBankTransferEditModal(bankTransfer)}>
+                                                                <i className="material-icons">edit</i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
                                         }
                                         </tbody>
                                     </table>
@@ -119,6 +142,7 @@ class BankTransfersContainer extends React.Component {
                     </div>
                 </div>
                 <CancelReasonModal/>
+                <BankTransferEditModal/>
             </div>
         );
     }

@@ -190,6 +190,24 @@ export const ORDER_STATUS = [
     }
 ];
 
+export const TRANSFER_PURPOSE = [
+    {
+        purpose: 0,
+        label: "Đặt cọc",
+        value: "deposit"
+    },
+    {
+        purpose: 1,
+        label: "Thanh toán tiền hàng đặt",
+        value: "pay_order"
+    },
+    {
+        purpose: 2,
+        label: "Mua hàng sẵn",
+        value: "pay_good"
+    }
+];
+
 export const REGISTER_STATUS = [
     {
         register: 0,

@@ -34,3 +34,16 @@ export function updateTransferStatus(id, status, note) {
         status: status
     });
 }
+
+export function editTransfer(bankTransfer) {
+    let url = env.MANAGE_API_URL + "/v2/transfer-money/" + bankTransfer.id;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        money: bankTransfer.money,
+        note: bankTransfer.note,
+        purpose: bankTransfer.purpose
+    });
+}
