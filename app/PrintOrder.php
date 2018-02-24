@@ -24,6 +24,11 @@ class PrintOrder extends Model
         return $this->belongsTo(User::class, "staff_id");
     }
 
+    public function staffImport()
+    {
+        return $this->belongsTo(User::class, "import_staff_id");
+    }
+
     public function transform()
     {
         return [
@@ -34,6 +39,11 @@ class PrintOrder extends Model
                 "name" => $this->staff->name,
                 "avatar_url" => $this->staff->avatar_url,
             ],
+            "import_staff" => $this->staffImport ? [
+                "id" => $this->staffImport->id,
+                "name" => $this->staffImport->name,
+                "avatar_url" => $this->staffImport->avatar_url,
+            ] : [],
             "status" => $this->status,
             "company" => $this->company ? [
                 "id" => $this->company->id,

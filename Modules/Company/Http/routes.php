@@ -9,7 +9,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::get('/provided','CompanyController@getCompanyProvide');
     Route::get('/share','CompanyController@getCompanyShare');
     Route::get('/field/all','CompanyController@getAllField');
-    Route::get('{companyId}','CompanyController@getDetailCompany');
+    Route::get('/{companyId}','CompanyController@getDetailCompany');
     Route::get('/payment/all','CompanyController@getAllPayment');
     Route::post('/payment/create','CompanyController@createPayment');
     Route::put('/payment/edit/{paymentId}','CompanyController@editPayment');
@@ -24,13 +24,24 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'comp
     Route::put('/print-order/{printOrderId}','CompanyController@editPrintOrder');
     Route::post('/print-order/{printOrderId}/change-status','CompanyController@changeStatusPrintOrder');
 
-    Route::get('export-order/all','CompanyController@getAllExportOrder');
-    Route::get('/export-order/{exportOrderId}','CompanyController@getExportOrder');
-    Route::post('export-order/{exportOrderId}','CompanyController@createOrEditExportOrder');
+    Route::post('/item-order/{itemOrderId}/change-status','CompanyController@changeStatusItemOrder');
 
-    Route::get('/order','CompanyController@getAllOrder');
+    Route::get('/export-order/all','CompanyController@getAllExportOrder');
+    Route::get('/export-order/{exportOrderId}','CompanyController@getExportOrder');
+    Route::post('/export-order/{exportOrderId}','CompanyController@createOrEditExportOrder');
+
+    Route::get('/be-ordered/all','CompanyController@getAllOrdered');
+    Route::get('/be-ordered/{orderId}','CompanyController@getOrdered');
+    Route::post('/be-ordered/create','CompanyController@createOrdered');
+    Route::put('/be-ordered/{orderId}','CompanyController@editOrdered');
+
+    Route::get('/order/all','CompanyController@getAllOrder');
+    Route::get('/ordered/{orderId}','CompanyController@getOrder');
     Route::post('/order/create','CompanyController@createOrder');
-    Route::get('/order/{orderId}','CompanyController@getOrder');
     Route::put('/order/{orderId}','CompanyController@editOrder');
+
+    Route::get('/import-order/all','CompanyController@getAllImportOrder');
+    Route::get('/import-order/{importOrderId}','CompanyController@getImportOrder');
+    Route::post('/import-order/{importOrderId}','CompanyController@createOrEditImportOrder');
 
 });

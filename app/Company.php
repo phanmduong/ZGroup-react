@@ -25,6 +25,7 @@ class Company extends Model
             "tax_code" => $this->tax_code,
             "account_name" => $this->account_name,
             "account_number" => $this->account_number,
+            "account_value" => $this->account_value,
             "bank_name" => $this->bank_name,
             "bank_branch" => $this->bank_branch,
             "field" => [
