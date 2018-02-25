@@ -1,5 +1,14 @@
 export default {
 
+    summarySalesUp: {
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+
     summaryMarketingCampaignUp: {
         errorGens: false,
         bases: [],

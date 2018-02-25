@@ -19,7 +19,7 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectGenId: 0,
+            selectBaseId: 0,
             bases: [],
             isShowMonthBox: false,
             openFilterPanel: false,
@@ -27,7 +27,7 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                 startTime: '',
                 endTime: '',
             },
-            month: {year : 0, month : 0},
+            month: {year: 0, month: 0},
         };
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadSummary = this.loadSummary.bind(this);
@@ -81,15 +81,16 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
             this.state.selectBaseId,
             startTime,
             endTime,
+            () => this.setState({month: value}),
         );
-        let time = {};
+        let time = {...this.state.time};
         time["startTime"] = startTime;
         time["endTime"] = endTime;
         this.setState({time: time});
-        this.setState({month: value});
         this.handleAMonthDissmis();
     }
-    handleAMonthDissmis(){
+
+    handleAMonthDissmis() {
         this.setState({isShowMonthBox: false});
     }
 
@@ -105,7 +106,7 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
 
     openFilterPanel() {
         let newstatus = !this.state.openFilterPanel;
-        this.setState({openFilterPanel: newstatus, isShowMonthBox : false});
+        this.setState({openFilterPanel: newstatus, isShowMonthBox: false});
     }
 
     updateFormDate(event) {
@@ -114,14 +115,14 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
         time[field] = event.target.value;
 
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
-            this.setState({time: time, month : {year : 0,month : 0}});
+            this.setState({time: time, month: {year: 0, month: 0}});
             this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(
                 this.state.selectBaseId,
                 time.startTime,
                 time.endTime
             );
         } else {
-            this.setState({time: time, month : {year : 0,month : 0}});
+            this.setState({time: time, month: {year: 0, month: 0}});
         }
     }
 
@@ -171,13 +172,14 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                 <div className="col-sm-3 col-xs-5">
 
                                     <SelectMonthBox
+                                        theme="light"
                                         isHide={this.state.openFilterPanel}
                                         value={this.state.month}
-                                        onChange={(value)=>this.handleAMonthChange(value)}
+                                        onChange={this.handleAMonthChange}
                                         isAuto={false}
-                                        isShowMonthBox = {this.state.isShowMonthBox}
-                                        openBox = {() => this.handleClickMonthBox()}
-                                        closeBox={()=>this.handleAMonthDissmis()}
+                                        isShowMonthBox={this.state.isShowMonthBox}
+                                        openBox={this.handleClickMonthBox}
+                                        closeBox={this.handleAMonthDissmis}
                                     />
                                 </div>
                                 <div className="col-sm-3 col-xs-5">
@@ -189,10 +191,10 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
+                                <div className="col-sm-2 col-xs-5">
 
-                                {
-                                    this.state.isShowMonthBox ?
-                                        <div className="col-sm-2 col-xs-5">
+                                    {
+                                        this.state.isShowMonthBox ?
                                             <button
                                                 style={{width: '100%'}}
                                                 className="btn btn-info btn-rose disabled"
@@ -200,9 +202,7 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                                 <i className="material-icons disabled">filter_list</i>
                                                 Lọc
                                             </button>
-                                        </div>
-                                        :
-                                        <div className="col-sm-2 col-xs-5">
+                                            :
                                             <button
                                                 style={{width: '100%'}}
                                                 onClick={this.openFilterPanel}
@@ -211,8 +211,8 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                                 <i className="material-icons">filter_list</i>
                                                 Lọc
                                             </button>
-                                        </div>
-                                }
+                                    }
+                                </div>
 
                                 <div className="col-sm-3 col-xs-5">
                                     <button className="btn btn-fill btn-rose"

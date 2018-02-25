@@ -2,7 +2,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-export default function summaryMarketingCampaignReducer(state = initialState.summaryMarketingCampaignUp, action) {
+export default function summaryMarketingCampaignUpReducer(state = initialState.summaryMarketingCampaignUp, action) {
     switch (action.type) {
 
         case types.BEGIN_LOAD_BASES_DATA_SUMMARY_MARKETING_CAMPAIGN_UP:
