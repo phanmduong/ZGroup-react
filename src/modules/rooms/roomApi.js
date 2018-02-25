@@ -83,3 +83,19 @@ export function editRoom(room) {
         room_type_id: room.room_type ? room.room_type.id : ''
     });
 }
+
+export function uploadRoomLayout({roomId, file, completeHandler, progressHandler, error}) {
+    let url = env.MANAGE_API_URL + "/v2/room/" + roomId + "/layout";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formData = new FormData();
+    formData.append('image', file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.upload.onprogress = progressHandler;
+    ajax.addEventListener("error", error, false);
+    ajax.open("POST", url);
+    ajax.send(formData);
+}

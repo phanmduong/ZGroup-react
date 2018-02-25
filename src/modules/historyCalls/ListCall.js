@@ -16,7 +16,7 @@ class ListCall extends React.Component {
                     <thead className="text-rose">
                     <tr>
                         <th>Người gọi</th>
-                        <th>Học viên</th>
+                        <th>Khách hàng</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Trạng thái</th>
@@ -39,10 +39,10 @@ class ListCall extends React.Component {
                                     </Link>
                                 </td>
                                 <td>
-                                    <Link to={`/teaching/info-student/${call.student.id}`}
+                                    <a href={`/teaching/info-student/${call.student.id}`}
                                           className="text-name-student-register">
                                         {call.student.name}
-                                    </Link>
+                                    </a>
                                 </td>
                                 <td>
                                     <TooltipButton

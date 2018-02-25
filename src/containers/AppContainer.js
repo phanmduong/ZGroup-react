@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import App from '../components/App';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import App from "../components/App";
 // Import actions here!!
-import * as loginActions from '../modules/login/loginActions';
-import * as helper from '../helpers/helper';
-import {Modal} from 'react-bootstrap';
-import RuleContainer from '../modules/rule/RuleContainer';
+import * as loginActions from "../modules/login/loginActions";
+import * as helper from "../helpers/helper";
+import { Modal } from "react-bootstrap";
+import RuleContainer from "../modules/rule/RuleContainer";
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
-import FirstLoginContainer from '../modules/firstLogin/FirstLoginContainer';
+import FirstLoginContainer from "../modules/firstLogin/FirstLoginContainer";
 
 let self;
 
@@ -18,25 +18,32 @@ class AppContainer extends React.Component {
         super(props, context);
         this.onLogOut = this.onLogOut.bind(this);
         self = this;
+
         this.state = {
-            showModalRule: false
+            showModalRule: false,
         };
         this.openModalRule = this.openModalRule.bind(this);
         this.closeModalRule = this.closeModalRule.bind(this);
         /* eslint-disable */
-        if (this.props.user && this.props.user.role !== 0 && this.props.user.id > 0 && window.OneSignal) {
-
+        if (
+            this.props.user &&
+            this.props.user.role !== 0 &&
+            this.props.user.id > 0 &&
+            window.OneSignal
+        ) {
             helper.onesignalSetUserId(this.props.user.id);
             /* eslint-disable */
-            window.OneSignal.sendTag("device_type", 'manage', function (tagsSent) {
-                console.log("tag ok ", tagsSent);
-            });
-            /* eslint-enable */
+            if (window.OneSignal) {
+                window.OneSignal.sendTag("device_type", "manage", function(
+                    tagsSent,
+                ) {
+                    console.log("tag ok ", tagsSent);
+                });
+            }
 
+            /* eslint-enable */
         }
         /* eslint-enable */
-
-
     }
 
     componentWillMount() {
@@ -48,59 +55,54 @@ class AppContainer extends React.Component {
         helper.initMaterial();
     }
 
-
     checkToken() {
         let tokenLocal = helper.getTokenLocal();
-        tokenLocal.then(function () {
-            self.props.loginActions.getUserLocal();
-        }).catch(function () {
-            self.onLogOut();
-        });
+        tokenLocal
+            .then(function() {
+                self.props.loginActions.getUserLocal();
+            })
+            .catch(function() {
+                self.onLogOut();
+            });
 
-        let token = localStorage.getItem('token');
-        let user = JSON.parse(localStorage.getItem('user'));
+        let token = localStorage.getItem("token");
+        let user = JSON.parse(localStorage.getItem("user"));
         if (user === null || user.role === null || user.role === 0) {
             this.onLogOut();
         }
-        if (token === null || token.trim() === '') {
-
+        if (token === null || token.trim() === "") {
             this.onLogOut();
-        }
-        else {
+        } else {
             this.props.loginActions.getUserLocal();
         }
     }
-
 
     onLogOut() {
         helper.closeSidebar();
         helper.removeDataLoginLocal();
         helper.onesignalSetUserId(0);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        this.context.router.push('login');
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        this.context.router.push("login");
         this.props.loginActions.logOut();
     }
 
     closeModalRule() {
-        this.setState({showModalRule: false});
+        this.setState({ showModalRule: false });
     }
 
     openModalRule() {
-        this.setState(
-            {
-                showModalRule: true,
-            }
-        );
+        this.setState({
+            showModalRule: true,
+        });
     }
-
 
     render() {
         return (
             <div>
-                <GlobalLoadingContainer/>
+                <GlobalLoadingContainer />
 
-                <FirstLoginContainer/>
+                <FirstLoginContainer />
 
                 <App
                     pathname={this.props.location.pathname}
@@ -114,10 +116,14 @@ class AppContainer extends React.Component {
                     bsSize="large"
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title><h3><strong>NỘI QUY VÀ QUY ĐỊNH THƯỞNG PHẠT</strong></h3></Modal.Title>
+                        <Modal.Title>
+                            <h3>
+                                <strong>NỘI QUY VÀ QUY ĐỊNH THƯỞNG PHẠT</strong>
+                            </h3>
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <RuleContainer/>
+                        <RuleContainer />
                     </Modal.Body>
                 </Modal>
             </div>
@@ -125,19 +131,18 @@ class AppContainer extends React.Component {
     }
 }
 
-
 AppContainer.contextTypes = {
-    router: PropTypes.object
+    router: PropTypes.object,
 };
 
 AppContainer.propTypes = {
     loginActions: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        user: state.login.user
+        user: state.login.user,
     };
 }
 

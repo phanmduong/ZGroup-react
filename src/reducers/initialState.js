@@ -1,4 +1,28 @@
 export default {
+
+    summaryMarketingCampaignUp: {
+        errorGens: false,
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+
+    marketingCampaignUp: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        marketingCampaigns: [],
+        // courses: [],
+        // isLoadingCourses: false,
+        // errorCourses: false,
+        isStoringCampaign: false,
+        errorStoreCampaign: false,
+    },
+
     registerManage: {
         registers: [],
         staffs: [],
@@ -7,6 +31,7 @@ export default {
         currentPage: 1,
         totalCount: 1,
         limit: 20,
+        isChangingStatus : false,
     },
 
     bankAccount: {
@@ -1948,5 +1973,7 @@ export default {
         available_seats: 0,
 
     },
-
+    orderedGood:{
+      isLoading: false,
+    },
 };

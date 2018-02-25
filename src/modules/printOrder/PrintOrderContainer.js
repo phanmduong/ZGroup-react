@@ -106,14 +106,14 @@ class PrintOrderContainer extends React.Component {
                                     <h4 className="card-title">Danh sách đặt in</h4>
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <div className="col-sm-2">
+                                            <div className="col-sm-3">
                                                 <Link to="/business/print-order/create" className="btn btn-rose"
                                                       style={{width: "100%"}}>
                                                     <i className="material-icons">print</i>
                                                     Đặt In
                                                 </Link>
                                             </div>
-                                            <div className="col-sm-2">
+                                            <div className="col-sm-3">
                                                 <button className="btn btn-rose"
                                                        style={{width: "100%"}}
                                                         onClick={this.openFilterPanel}>
