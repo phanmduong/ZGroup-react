@@ -18,7 +18,7 @@ $publicRoutes = function () {
 $apiRoutes = function () {
     Route::get('/blogs', 'UpCoworkingSpaceController@blogs');
     Route::get('/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
-    Route::post('/register', 'UpCoworkingSpaceApiController@register');
+    Route::post('/register/{campaignId?}', 'UpCoworkingSpaceApiController@register');
     Route::get('/history-registers', 'UpCoworkingSpaceApiController@historyRegister');
 };
 

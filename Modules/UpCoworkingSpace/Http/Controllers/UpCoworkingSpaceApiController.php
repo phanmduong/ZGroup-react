@@ -43,7 +43,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         ]);
     }
 
-    public function register(Request $request)
+    public function register($campaignId, Request $request)
     {
         if ($request->email == null) {
             return $this->respondErrorWithStatus("Thiếu email");
@@ -71,6 +71,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
+        $register->campaign_id = $campaignId;
         $register->save();
 //        dd(Base::find($request->base_id));
         $subject = "Xác nhận đăng ký thành công";
