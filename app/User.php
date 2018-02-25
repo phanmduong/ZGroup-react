@@ -406,7 +406,7 @@ class User extends Authenticatable
             'birthday' => $this->dob,
             "first_login" => $this->first_login,
             'gender' => $this->gender,
-            'avatar_url' => $this->avatar_url ? $this->avatar_url : "http://api.colorme.vn/img/user.png",
+            'avatar_url' => $this->avatar_url ? $this->avatar_url : "http://colorme.vn/img/user.png",
             'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
             'total_money' => $totalMoney,
             'total_paid_money' => $totalPaidMoney,

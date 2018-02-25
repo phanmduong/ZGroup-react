@@ -70,7 +70,7 @@ class TransferMoneyApiController extends ManageApiController
             //cong tien vao vi user o day
         }
         if ($request->status == 'cancel')
-            $transfer->note = $request->note;
+            $transfer->staff_note = $request->note;
         $transfer->status = $request->status;
         $transfer->save();
         return $this->respondSuccess('Đổi trạng thái thành công');

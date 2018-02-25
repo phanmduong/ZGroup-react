@@ -70,6 +70,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
+        $register->base_id = $request->base_id;
         $register->save();
 //        dd(Base::find($request->base_id));
         $subject = "Xác nhận đăng ký thành công";
@@ -122,7 +123,9 @@ class UpCoworkingSpaceApiController extends ApiPublicController
             return $this->respondErrorWithStatus("Bạn phải đăng nhập");
         }
 
-        $registers = RoomServiceRegister::where('user_id', $user->id)->get();
+        $registers = RoomServiceRegister::where('user_id', $user->id)
+            ->orderBy('created_at','desc')
+            ->get();
 
         $registers = $registers->map(function ($register) {
             return $register->getData();
