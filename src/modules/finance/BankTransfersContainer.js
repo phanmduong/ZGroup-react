@@ -113,9 +113,19 @@ class BankTransfersContainer extends React.Component {
                                                                     <div>
                                                                         {
                                                                             bankTransfer.status === "accept" ? (
-                                                                                <p>Đã xác nhận</p>
+                                                                                <div
+                                                                                    style={{cursor: "default"}}
+                                                                                    className="btn btn-sm btn-success btn-main"
+                                                                                >
+                                                                                    Đã xác nhận
+                                                                                </div>
                                                                             ) : (
-                                                                                <p>Đã hủy</p>
+                                                                                <div
+                                                                                    style={{cursor: "default"}}
+                                                                                    className="btn btn-sm btn-danger btn-main"
+                                                                                >
+                                                                                    Đã hủy bỏ
+                                                                                </div>
                                                                             )
                                                                         }
                                                                     </div>
