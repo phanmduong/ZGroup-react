@@ -33,7 +33,7 @@ class RegisterTransformer extends Transformer
             "email" => $register->user->email,
             "university" => $register->user->university,
             "avatar_url" => $register->user->avatar_url ?
-                $register->user->avatar_url : "http://api.colorme.vn/img/user.png",
+                $register->user->avatar_url : "http://colorme.vn/img/user.png",
             "phone" => $register->user->phone,
             'paid_status' => $register->status == 1,
             'time_to_reach' => $register->time_to_reach,
