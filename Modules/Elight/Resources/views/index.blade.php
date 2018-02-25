@@ -10,7 +10,7 @@
                 </h2>
 
                 <h4 style="color:white">
-                Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
+                    Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
                 </h4>
                 <br>
                 <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu ngay</a>
@@ -21,66 +21,148 @@
     <div class="container">
         <br><br>
         <div class="row" id="buyBooks">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="description">
                     <h1 class="medium-title">
-                        Sản phẩm nổi bật<br>
+                        Sản phẩm nổi bật
                     </h1>
-                    <br>
                     {{--<a href="/all-books" class="btn btn-link btn-success"--}}
                     {{--style="padding:0!important; margin:0!important">Xem tất cả <i--}}
                     {{--class="fa fa-angle-right"></i></a>--}}
-                    <br><br>
+
                 </div>
                 <br>
             </div>
         </div>
-        <div class="row" id="vuejs1">
-            @foreach($goods as $good)
-                <div class="col-md-6 book-item">
-                    <div class="card card-profile" style="border-radius:0; height: 90%">
-                        <div class="flex flex-col flex-justify-content-space-between" style="height: 100%">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="card card-profile card-plain">
-                                            <img class="card-book-image" src="{{$good->avatar_url}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8 text-left">
-                                        <br>
-                                        <h5 style="font-weight:600">{{$good->name}}</h5>
-                                        <p>{{shortString($good->description,18)}}</p>
-                                        <h5>
-                                            <b style="text-decoration: line-through;">{{currency_vnd_format($good['price'])}}</b>
-                                            <i class="fa fa-angle-right"></i>{{currency_vnd_format($good['price']*(1-$good['coupon_value']))}}
-                                        </h5><br>
-                                    </div>
+        {{--<div class="row" id="vuejs1">--}}
+        {{--@foreach($goods as $good)--}}
+        {{--<div class="col-md-6 book-item">--}}
+        {{--<div class="card card-profile" style="border-radius:0; height: 90%">--}}
+        {{--<div class="flex flex-col flex-justify-content-space-between" style="height: 100%">--}}
+        {{--<div class="container">--}}
+        {{--<div class="row">--}}
+        {{--<div class="col-md-4">--}}
+        {{--<div class="card card-profile card-plain">--}}
+        {{--<img class="card-book-image" src="{{$good->avatar_url}}">--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="col-md-8 text-left">--}}
+        {{--<br>--}}
+        {{--<h5 style="font-weight:600">{{$good->name}}</h5>--}}
+        {{--<p>{{shortString($good->description,18)}}</p>--}}
+        {{--<h5>--}}
+        {{--<b style="text-decoration: line-through;">{{currency_vnd_format($good['price'])}}</b>--}}
+        {{--<i class="fa fa-angle-right"></i>{{currency_vnd_format($good['price']*(1-$good['coupon_value']))}}--}}
+        {{--</h5><br>--}}
+        {{--</div>--}}
 
+        {{--</div>--}}
+        {{--</div>--}}
+
+        {{--</div>--}}
+        {{--<div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">--}}
+        {{--<div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">--}}
+        {{--<div>--}}
+        {{--<a href="/sach/{{$good['id']}}" class="btn btn-link btn-success">--}}
+        {{--Xem thêm--}}
+        {{--</a>--}}
+        {{--<button v-on:click="openModalBuy({{$good['id']}})"--}}
+        {{--onclick="fbq('track', 'AddToCart')"--}}
+        {{--class="btn btn-success" style="padding:3px;margin:3px;font-size:10px;">--}}
+        {{--Đặt mua ngay <i class="fa fa-angle-right"></i>--}}
+        {{--</button>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--@endforeach--}}
+        {{--</div>--}}
+        {{--</div>--}}
+
+        <div class="row" id="vuejs1">
+
+            <div class="col-md-6 book-item">
+                <div class="card card-profile" style="border-radius:0; height: 100%">
+                    <div class="flex flex-col flex-justify-content-space-between" style="height: 100%">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-profile card-plain">
+                                        <img style="height: 45% ;width: 70%; margin-left: 20%"
+                                             src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195556021TjlZlGGV0YTIsA.png">
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                            <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
-                                <div>
-                                    <a href="/sach/{{$good['id']}}" class="btn btn-link btn-success">
-                                        Xem thêm
-                                    </a>
-                                    <button v-on:click="openModalBuy({{$good['id']}})"
-                                            onclick="fbq('track', 'AddToCart')"
-                                            class="btn btn-success" style="padding:3px;margin:3px;font-size:10px;">
-                                        Đặt mua ngay <i class="fa fa-angle-right"></i>
-                                    </button>
-                                </div>
+
+                    </div>
+                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
+                        <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
+                            <div class="col-md-12">
+
+                                <a href="/sach/{{$goods[0]->id}}" class="btn btn-link btn-success">
+                                    Xem thêm
+                                </a>
+
+
+                                <button v-on:click="openModalBuy({{$goods[0]}})"
+                                        onclick="fbq('track', 'AddToCart')"
+                                        class="btn btn-success" style="padding:5px;margin:5px;font-size:10px;">
+                                    Đặt mua ngay <i class="fa fa-angle-right"></i>
+                                </button>
+
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            </div>
+
+            <div class="col-md-6 book-item">
+                <div class="card" style="border-radius:0; height: 100%;margin-top: 30px;">
+                    <div style="height: 100%">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h1 style="text-align: center ;font-size:30px"> BỘ SÁCH TIẾNG ANH CƠ BẢN </h1>
+                                    <br> <br>
+                                    <strong> Tài liệu tự học tiếng Anh tin dùng của hơn 50.000 học viên và giảng viên cả nước <br> <br> </strong>
+                                    <strong> Cung cấp trọn vẹn lộ trình, kiến thức, phương pháp học tiếng Anh từ số 0. <br> <br> </strong>
+                                    <strong>Cuốn sách tự học Tiếng Anh tốt nhất 2017 do người dùng bình chọn. <br> <br> </strong>
+                                    <strong>Miễn phí sử dụng trọn đời Thư Viện Tự Học của Elight với hàng ngàn bài học hữu ích. <br> </strong>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important; text-align: center">
+                        <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
+                            {{--<div class="col-md-12">--}}
+                            <div class="col-md-4" style="justify-content: initial">
+                               <strong>Miễn phí vận chuyển Thanh toán khi nhận</strong>
+                            </div>
+
+                            <div class="col-md-4">
+                                <strong>Giá bìa trọn bộ: <br> 399.000</strong>
+                            </div>
+
+                            <div class="col-md-4">
+                                <strong>Tư vấn: <br> 0981 937 066 </strong>
+                            </div>
+
+                            {{--</div>--}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
-    <br><br>
+
+
+        <br><br>
+
     </div>
     <div class="container" id="bookinfo">
         <div class="row">
@@ -147,19 +229,21 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="page-header page-header-small" style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315148lid7m57PXMpi8ig.png');background-size: cover; min-height: 300px!important">
-                        <div class="content-center">
-            <div class="container">
-                <h2 style="font-weight: 400">Nhà sách Elight
-                </h2>
+                        <div class="page-header page-header-small"
+                             style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519564716R51CSuSckFLV3Go.JPG');background-size: cover; min-height: 300px!important">
+                            <div class="content-center">
+                                <div class="container">
+                                    <h2 style="font-weight: 400">Nhà sách Elight
+                                    </h2>
 
-                <h4 style="color:white">
-                Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
-                </h4>
-                <br>
-                <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu ngay</a>
-            </div>
-        </div>
+                                    <h4 style="color:white">
+                                        Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
+                                    </h4>
+                                    <br>
+                                    <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu
+                                        ngay</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -170,7 +254,7 @@
                     <div class="col-md-12">
                         <div class="description">
                             <h1 class="medium-title">
-                            Tiếng Anh cho người mới bắt đầu<br>
+                                Tiếng Anh cho người mới bắt đầu<br>
                             </h1>
                         </div>
                         {{--<a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>--}}
@@ -216,7 +300,7 @@
                     <div class="col-md-12">
                         <div class="description">
                             <h1 class="medium-title">
-                            Học từ vựng tiếng Anh<br>
+                                Học từ vựng tiếng Anh<br>
                             </h1>
                         </div>
                         {{--<a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>--}}
@@ -254,10 +338,35 @@
                 </div>
             </div>
             <br>
+
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315147hlROAAiDKpgLRmg.png');background-size: cover;">
+                        <div class="page-header page-header-small"
+                             style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15195647245dZuGEwksR34TE3.JPG');background-size: cover; min-height: 300px!important; " >
+                            <div class="content-center">
+                                <div class="container">
+                                    <h2 style="font-weight: 400">Thư viện tự học
+                                    </h2>
+
+                                    <h4 style="color:white">
+                                        Dành cho độc giả đã mua sách
+                                    </h4>
+                                    <br>
+                                    <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Mua sách</a>
+                                    <a href="/all-books" class="btn btn-success btn-round" style="color:white"> Đã có sách  </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315147hlROAAiDKpgLRmg.png');background-size: cover;margin-top: 25px">
                             <div style="padding-top:15%">
                                 <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
                                     <h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>

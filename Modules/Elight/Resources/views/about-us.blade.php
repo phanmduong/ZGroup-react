@@ -17,33 +17,68 @@
         </div>
     </div>
 
-    <div class="wrapper">
-        <div class="main">
-            <div class="section">
-                <div class="container">
-                    <h3 class="title-uppercase">Chúng tôi yêu công nghệ</h3>
-                    <br>
-                    <p>Mỗi ngày trôi qua, chúng tôi đều tự hỏi bản thân, rằng mình có đang giúp mọi người làm tốt hơn
-                        công việc của mình, bằng cách ứng dụng các công nghệ mới hay không. Sẽ là một ngày buồn nếu
-                        chúng tôi đang không cố gắng hết sức mình vì điều đó.</p>
+    <div class="cd-section section-white" id="blogs">
 
-                    <p>Mỗi một khách hàng, một đối tác, đều là sự ủng hộ rất lớn để chúng tôi tiếp tục công việc của
-                        mình mỗi ngày. Hãy thoải mái liên hệ với chúng tôi để chúng ta có thể cùng nhau khai phá những
-                        cơ hội mới, bạn nhé!</p>
+        <!--     *********     BLOGS 1      *********      -->
+        <div class="blog-1" id="blog-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <br />
+                        <div class="card card-plain card-blog">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="card-image">
+                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195647245dZuGEwksR34TE3.JPG" />
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-block">
+                                        <h6 class="card-category text-info">Enterprise</h6>
+                                        <h3 class="card-title">
+                                            <a href="#pablo">The four waves of augmented reality</a>
+                                        </h3>
+                                        <p class="card-description">
+                                            Sharing processing, display and sensors across smartphones and tethered smartglasses gives you two batteries, each powering fewer individual systems. If they’re connected by a cable, this could give a healthy bump to battery life — and… <a href="#pablo"> Read More </a>
+                                        </p>
+                                        <p class="author">
+                                            by <a href="#pablo"><b>Tim Merel</b></a>, 11 hours ago
+                                            </a>
+                                    </div>
 
-                    <h3 class="title-uppercase">Liên hệ với chúng tôi</h3>
-                    <br>
-                    <p>Chúng tôi hiểu rằng, một khi bạn đã đọc đến dòng này, nghĩa là chúng ta đã có một cơ hội rất lớn
-                        để hợp tác cùng nhau. Vậy thì đừng ngần ngại cho chúng tôi thông tin của bạn <a
-                                href="/contact-us">tại đây</a>, để chúng tôi có thể liên hệ lại bạn sớm nhất có thể nhé.
-                    </p>
-                    <br><br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card card-plain card-blog">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="card-block">
+                                        <h6 class="card-category text-danger">
+                                            <i class="fa fa-free-code-camp" aria-hidden="true"></i> Trending
+                                        </h6>
+                                        <h3 class="card-title">
+                                            <a href="#pablo">Okoli connects you with tour guides around the world</a>
+                                        </h3>
+                                        <p class="card-description">
+                                            Okoli is a new service by developer Jack Deneut that aims to replace those ugly little cards you find in tourist hotels. The web app, which currently works in Prague, Budapest, Berlin and Paris, lets you reserve a nearly private tour with a professional guid — and… <a href="#pablo"> Read More </a>
+                                        </p>
+                                        <p class="author">
+                                            by <a href="#pablo"><b>John Biggs</b></a>, 3 seconds ago
+                                            </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="card-image">
+                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195556021TjlZlGGV0YTIsA.png" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
         </div>
-        <hr style="margin: 0!important;">
-    </div>
+
 @endsection
 
