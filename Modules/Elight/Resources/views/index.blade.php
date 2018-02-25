@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="page-header page-header-small"
-         style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1350&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');">
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519575258y38eSQrJsskel4I.JPG');">
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
@@ -126,10 +126,14 @@
                                 <div class="col-md-12">
                                     <h1 style="text-align: center ;font-size:30px"> BỘ SÁCH TIẾNG ANH CƠ BẢN </h1>
                                     <br> <br>
-                                    <strong> Tài liệu tự học tiếng Anh tin dùng của hơn 50.000 học viên và giảng viên cả nước <br> <br> </strong>
-                                    <strong> Cung cấp trọn vẹn lộ trình, kiến thức, phương pháp học tiếng Anh từ số 0. <br> <br> </strong>
-                                    <strong>Cuốn sách tự học Tiếng Anh tốt nhất 2017 do người dùng bình chọn. <br> <br> </strong>
-                                    <strong>Miễn phí sử dụng trọn đời Thư Viện Tự Học của Elight với hàng ngàn bài học hữu ích. <br> </strong>
+                                    <strong> Tài liệu tự học tiếng Anh tin dùng của hơn 50.000 học viên và giảng viên cả
+                                        nước <br> <br> </strong>
+                                    <strong> Cung cấp trọn vẹn lộ trình, kiến thức, phương pháp học tiếng Anh từ số 0.
+                                        <br> <br> </strong>
+                                    <strong>Cuốn sách tự học Tiếng Anh tốt nhất 2017 do người dùng bình chọn. <br> <br>
+                                    </strong>
+                                    <strong>Miễn phí sử dụng trọn đời Thư Viện Tự Học của Elight với hàng ngàn bài học
+                                        hữu ích. <br> </strong>
 
                                 </div>
                             </div>
@@ -141,7 +145,7 @@
                         <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                             {{--<div class="col-md-12">--}}
                             <div class="col-md-4" style="justify-content: initial">
-                               <strong>Miễn phí vận chuyển Thanh toán khi nhận</strong>
+                                <strong>Miễn phí vận chuyển Thanh toán khi nhận</strong>
                             </div>
 
                             <div class="col-md-4">
@@ -226,27 +230,24 @@
                     </div>
                 @endforeach
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15195647245dZuGEwksR34TE3.JPG');background-size: cover;background-color: black;min-height: 300px!important;">
-                            <div class="content-center">
-                                <div class="container">
-                                    <h2 style="font-weight: 400">Nhà sách Elight
-                                    </h2>
 
-                                    <h4 style="color:white">
-                                        Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
-                                    </h4>
-                                    <br>
-                                    <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu
-                                        ngay</a>
-                                </div>
-                            </div>
-                        </div>
+            <div class="page-header page-header-small"
+                 style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519572859mnSTADMESIABzdK.JPG');background-size: cover;background-color: black;min-height: 350px">
+                <div class="content-center">
+                    <div class="container">
+                        <h2 style="font-weight: 400">Nhà sách Elight
+                        </h2>
+
+                        <h4 style="color:white">
+                            Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
+                        </h4>
+                        <br>
+                        <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu
+                            ngay</a>
                     </div>
                 </div>
             </div>
+
             <br>
             <div class="container">
                 <div class="row">
@@ -338,27 +339,26 @@
             </div>
             <br>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519564716R51CSuSckFLV3Go.JPG');background-size: cover;background-color: black;min-height: 300px!important;">
-                            <div class="content-center">
-                                <div class="container">
-                                    <h2 style="font-weight: 400">Thư viện tự học
-                                    </h2>
 
-                                    <h4 style="color:white">
-                                        Dành cho độc giả đã mua sách
-                                    </h4>
-                                    <br>
-                                    <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Mua sách</a>
-                                    <a href="/all-books" class="btn btn-success btn-round" style="color:white"> Đã có sách  </a>
-                                </div>
-                            </div>
-                        </div>
+            <div class="page-header page-header-small"
+                 style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519575420QS76o47YuXh0JVI.JPG');background-size: cover;background-color: black;min-height: 300px!important;">
+                <div class="content-center">
+                    <div class="container">
+                        <h2 style="font-weight: 400">Thư viện tự học
+                        </h2>
+
+                        <h4 style="color:white">
+                            Dành cho độc giả đã mua sách
+                        </h4>
+                        <br>
+                        <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Mua
+                            sách</a>
+                        <a href="/all-books" class="btn btn-success btn-round" style="color:white"> Đã có
+                            sách </a>
                     </div>
                 </div>
             </div>
+
             <br>
 
 
