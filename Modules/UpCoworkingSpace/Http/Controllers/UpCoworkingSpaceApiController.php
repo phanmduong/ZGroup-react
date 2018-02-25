@@ -123,7 +123,9 @@ class UpCoworkingSpaceApiController extends ApiPublicController
             return $this->respondErrorWithStatus("Bạn phải đăng nhập");
         }
 
-        $registers = RoomServiceRegister::where('user_id', $user->id)->get();
+        $registers = RoomServiceRegister::where('user_id', $user->id)
+            ->orderBy('created_at','desc')
+            ->get();
 
         $registers = $registers->map(function ($register) {
             return $register->getData();

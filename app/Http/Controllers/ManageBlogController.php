@@ -75,7 +75,6 @@ class ManageBlogController extends ManageApiController
         } else {
             return $this->respondErrorWithStatus('Bài viết không tồn tại');
         }
-
     }
 
     public function get_posts(Request $request)
@@ -84,13 +83,15 @@ class ManageBlogController extends ManageApiController
         $category_id = $request->category_id;
         $limit = 20;
         $posts = Product::query();
-        if($category_id)
+        if ($category_id) {
             $posts = $posts->where('category_id', $category_id);
-        if($q)
-            $posts = $posts->where('title','like', '%'.$q.'%');
-        $posts = $posts->orderBy('created_at', "desc")->paginate($limit);
+        }
+        if ($q) {
+            $posts = $posts->where('title', 'like', '%' . $q . '%');
+        }
+        $posts = $posts->orderBy('created_at', 'desc')->paginate($limit);
         $data = [
-            "posts" => $posts->map(function ($post) {
+            'posts' => $posts->map(function ($post) {
                 $data = [
                     'id' => $post->id,
                     'title' => $post->title,
@@ -101,7 +102,7 @@ class ManageBlogController extends ManageApiController
                     'author' => [
                        'id' => $post->author->id,
                        'name' => $post->author->name,
-                       'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : "http://api.colorme.vn/img/user.png",
+                       'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : 'http://colorme.vn/img/user.png',
                     ],
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
@@ -117,27 +118,33 @@ class ManageBlogController extends ManageApiController
         ];
         return $this->respondWithPagination($posts, $data);
     }
-    public function getAllCategory(Request $request){
+
+    public function getAllCategory(Request $request)
+    {
         $categories = CategoryProduct::all();
         return $this->respondSuccessWithStatus([
-            "categories" => $categories->map(function($category){
+            'categories' => $categories->map(function ($category) {
                 return [
-                   "id" => $category->id,
-                   "name" => $category->name,
+                   'id' => $category->id,
+                   'name' => $category->name,
                 ];
             })
         ]);
     }
-    public function changeStatusPost($postId,Request $request){
+
+    public function changeStatusPost($postId, Request $request)
+    {
         $post = Product::find($postId);
-        if(!$post) return $this->respondErrorWithStatus("Không tồn tại post");
-        $post->status = 1- $post->status;
+        if (!$post) {
+            return $this->respondErrorWithStatus('Không tồn tại post');
+        }
+        $post->status = 1 - $post->status;
         $post->save();
         return $this->respondSuccessWithStatus([
-           "message" => "Thành công"
+           'message' => 'Thành công'
         ]);
-
     }
+
     public function delete_post($postId)
     {
         $post = Product::find($postId);

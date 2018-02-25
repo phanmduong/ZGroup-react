@@ -48,10 +48,14 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::get('available', 'ManageBaseApiController@availableSeats');
 });
 
-Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
+$routes = function () {
     Route::get('/base/provinces', 'PublicApiController@provinces');
     Route::get('/base/province/{provinceId}', 'PublicApiController@basesInProvince');
     Route::get('/base/{baseId}/room', 'PublicApiController@baseRooms');
     Route::get('/blogs', 'PublicApiController@getAllBlogs');
     Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
-});
+};
+Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2', 'namespace' => 'Modules\Base\Http\Controllers'], $routes);
+
+// new routes
+Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3', 'namespace' => 'Modules\Base\Http\Controllers'], $routes);

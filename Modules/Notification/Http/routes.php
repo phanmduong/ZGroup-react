@@ -15,7 +15,6 @@ $manageNotificationRoutes = function () {
 $notificationRoutes = function () {
     Route::group(['prefix' => 'notification'], function () {
         Route::get('/{notificationId}', 'NotificationApiController@getNotification');
-
     });
 };
 
@@ -25,12 +24,16 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'namespace' => 'Modules
 
 //new api routes
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Notification\Http\Controllers'],
-    function () use($manageNotificationRoutes) {
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Notification\Http\Controllers'],
+    function () use ($manageNotificationRoutes) {
         Route::group(['prefix' => 'v3'], $manageNotificationRoutes);
-    });
+    }
+);
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'api', 'namespace' => 'Modules\Notification\Http\Controllers'],
-    function () use($notificationRoutes) {
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'api', 'namespace' => 'Modules\Notification\Http\Controllers'],
+    function () use ($notificationRoutes) {
         Route::group(['prefix' => 'v3'], $notificationRoutes);
-    });
+    }
+);

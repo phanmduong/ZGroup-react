@@ -25,6 +25,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/lesson', 'namespace' => 'Modules\Lesson\Http\Controllers'], function () {
     Route::get('{lessonId}/survey', 'LessonSurveyApiController@lessonSurveys');
+
 });
 
 Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Lesson\Http\Controllers'],

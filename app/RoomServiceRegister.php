@@ -88,7 +88,7 @@ class RoomServiceRegister extends Model
         if ($this->base) {
             $base = $this->base;
             $data['base'] = [
-              "base" => $base->tranform(),
+              "base" => $base->transform(),
               "district" => $base->district->transform(),
               "province" => $base->district->province->transform()
             ];
