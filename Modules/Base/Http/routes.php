@@ -41,4 +41,6 @@ $routes = function () {
     Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
 };
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2', 'namespace' => 'Modules\Base\Http\Controllers'], $routes);
+
+// new routes
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3', 'namespace' => 'Modules\Base\Http\Controllers'], $routes);

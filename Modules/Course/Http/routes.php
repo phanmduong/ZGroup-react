@@ -33,20 +33,12 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/{courseId}/duplicate', 'CourseController@duplicateCourse');
 });
 
-<<<<<<< HEAD
 $classRoutes = function () {
-=======
-Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/v2/course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
-    Route::get('/get-all','CoursePublicApiController@getAllCourses');
-    Route::get('/get-detailed/{course_id}', 'CoursePublicApiController@getCourse');
-});
-
-
-Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
->>>>>>> 3a04da141a6651580f385e773dd3bf068b8314ed
     Route::get('/gens/{genId}/classes', 'ClassApiController@genClasses');
     Route::get('/class/{classId}/attendance/lessons', 'ClassApiController@classLessons');
     Route::get('/gens/teachers', 'ClassApiController@getAllTeacher');
 };
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], $classRoutes);
+
+// new routes
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3', 'namespace' => 'Modules\Course\Http\Controllers'], $classRoutes);
