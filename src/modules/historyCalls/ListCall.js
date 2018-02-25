@@ -39,10 +39,10 @@ class ListCall extends React.Component {
                                     </Link>
                                 </td>
                                 <td>
-                                    <Link to={`/teaching/info-student/${call.student.id}`}
+                                    <a href={`/teaching/info-student/${call.student.id}`}
                                           className="text-name-student-register">
                                         {call.student.name}
-                                    </Link>
+                                    </a>
                                 </td>
                                 <td>
                                     <TooltipButton

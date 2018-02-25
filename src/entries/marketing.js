@@ -16,6 +16,8 @@ import '../modules/tasks/task.css';
 import '../styles/react-select.css';
 import "../styles/react-draft-wysiwyg.css";
 import '../styles/styles.scss';
+
+
 // import { syncHistoryWithStore } from 'react-router-redux';
 
 const store = configureStore();

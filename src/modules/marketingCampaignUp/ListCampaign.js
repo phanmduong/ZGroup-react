@@ -88,7 +88,7 @@ class ListCampaign extends React.Component {
                                             //         Xem link
                                             //     </a>
                                             //     :
-                                                <a href={BASE_URL + "/courses/" + campaign.id + "/" + this.props.user.id}
+                                                <a href={BASE_URL + "/member-register/" + campaign.id + "/" + this.props.user.id}
                                                    target="_blank">
                                                     Xem link
                                                 </a>

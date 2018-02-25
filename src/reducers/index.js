@@ -48,6 +48,7 @@ import attendanceReducer from "../modules/attendance/attendanceReducer";
 import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
 import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
 import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
+import summaryMarketingCampaignUpReducer from "../modules/summaryMarketingCampaignUp/summaryMarketingCampaignUpReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import discountReducer from "../modules/discount/discountReducer";
 import attendancesStaffsReducer from "../modules/attendanceStaffs/attendancesStaffsReducer";
@@ -169,6 +170,7 @@ const appReducer = combineReducers({
     dashboardUp: DashBoardUpReducer,
     orderedGood: orderedGoodReducer,
     marketingCampaignUp: marketingCampaignsUpReducer,
+    summaryMarketingCampaignUp: summaryMarketingCampaignUpReducer,
 });
 
 const rootReducer = (state, action) => {
