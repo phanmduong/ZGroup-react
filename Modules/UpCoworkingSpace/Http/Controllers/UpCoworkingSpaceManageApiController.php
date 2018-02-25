@@ -45,7 +45,8 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
                 $registers = $registers->where('campaign_id', $request->campaign_id);
             if ($request->status)
                 $registers = $registers->where('status', $request->status);
-
+            if ($request->start_time && $request->end_time)
+                $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
             $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
             return $this->respondWithPagination($registers, [

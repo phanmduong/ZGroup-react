@@ -839,7 +839,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
 
 //new api routes
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'v3/manageapi'], function () {
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
