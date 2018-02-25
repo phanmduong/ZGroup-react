@@ -36,7 +36,7 @@ class Base extends Model
 
     public function district()
     {
-        return $this->belongsTo(c::class, "district_id");
+        return $this->belongsTo(District::class, "district_id");
     }
 
     public function transform()
