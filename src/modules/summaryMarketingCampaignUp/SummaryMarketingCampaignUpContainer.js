@@ -11,7 +11,6 @@ import {Panel} from 'react-bootstrap';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment/moment";
 import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
-import "../../../node_modules/react-month-picker/css/month-picker.css";
 import SelectMonthBox from "../../components/common/SelectMonthBox";
 
 
@@ -262,8 +261,6 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-
-
                             </Panel>
                             <Chart
                                 {...this.props}

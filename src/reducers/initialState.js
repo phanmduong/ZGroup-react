@@ -41,6 +41,10 @@ export default {
         totalCount: 1,
         limit: 20,
         isChangingStatus : false,
+
+
+        isLoadingBases : false,
+        bases :[],
     },
 
     bankAccount: {

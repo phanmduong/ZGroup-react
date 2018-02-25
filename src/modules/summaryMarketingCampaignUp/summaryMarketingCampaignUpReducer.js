@@ -31,7 +31,7 @@ export default function summaryMarketingCampaignUpReducer(state = initialState.s
                     errorBases: true
                 }
             };
-            case types.BEGIN_LOAD_SUMMARY_MARKETING_CAMPAIGN_UP:
+        case types.BEGIN_LOAD_SUMMARY_MARKETING_CAMPAIGN_UP:
             return {
                 ...state,
                 ...{

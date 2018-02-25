@@ -2,12 +2,12 @@ import * as types from '../../constants/actionTypes';
 import * as helper from '../../helpers/helper';
 import * as registerManageApi from './registerManageApi';
 
-export function loadAllRegisters(limit = 10,page = 1, search, staff_id, status,campaign_id) {
+export function loadAllRegisters(limit = 10,page = 1, search, staff_id, status,campaign_id,base_id,startTime, endTime,success) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_REGISTER_MANAGE
         });
-        registerManageApi.loadAllRegistersApi(limit,page, search, staff_id, status,campaign_id)
+        registerManageApi.loadAllRegistersApi(limit,page, search, staff_id, status,campaign_id,base_id,startTime,endTime)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_REGISTER_MANAGE_SUCCESS,
@@ -16,6 +16,7 @@ export function loadAllRegisters(limit = 10,page = 1, search, staff_id, status,c
                     currentPage: res.data.paginator.current_page,
                     totalCount: res.data.paginator.total_count,
                 });
+                success();
             });
     };
 }
@@ -57,6 +58,27 @@ export function changeCallStatus(status, note, register_id, user_id,closeCallMod
             });
     };
 }
+
+
+export function loadBasesData() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_BASES_IN_REGISTER_MANAGE,
+        });
+        registerManageApi.loadBases()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_BASES_IN_REGISTER_MANAGE_SUCCESS,
+                    bases: res.data.data.bases,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_BASES_IN_REGISTER_MANAGE_ERROR,
+            });
+        });
+    };
+}
+
 
 export const showGlobalLoading = () => {
     return (dispatch) => {
