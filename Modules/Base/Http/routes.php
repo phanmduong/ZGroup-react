@@ -1,20 +1,35 @@
 <?php
+$baseRoutes = function () {
+    Route::group(['prefix' => 'v2/base'], function (){
+        Route::get('/', 'ManageBaseApiController@getBases');
+        Route::post('/', 'ManageBaseApiController@createBase');
+        Route::put('/{baseId}/display', 'ManageBaseApiController@createBase');
 
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/base', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
-    Route::get('/', 'ManageBaseApiController@getBases');
-    Route::post('/', 'ManageBaseApiController@createBase');
-    Route::put('/{baseId}/display', 'ManageBaseApiController@createBase');
+        Route::post('/{baseId}/room', 'ManageBaseApiController@createRoom');
 
-    Route::post('/{baseId}/room', 'ManageBaseApiController@createRoom');
+        Route::put('/{baseId}/room/{roomId}', 'ManageBaseApiController@editRoom');
+        Route::get('/room-type', 'ManageBaseApiController@getRoomTypes');
+        Route::put('/room-type/{roomTypeId}', 'ManageBaseApiController@editRoomType');
+        Route::post('/room-type', 'ManageBaseApiController@createRoomType');
 
-    Route::put('/{baseId}/room/{roomId}', 'ManageBaseApiController@editRoom');
-    Route::get('/room-type', 'ManageBaseApiController@getRoomTypes');
-    Route::put('/room-type/{roomTypeId}', 'ManageBaseApiController@editRoomType');
-    Route::post('/room-type', 'ManageBaseApiController@createRoomType');
+        Route::get('/{baseId}', 'ManageBaseApiController@getBase');
+        Route::put('/{baseId}', 'ManageBaseApiController@editBase');
+    });
+};
 
-    Route::get('/{baseId}', 'ManageBaseApiController@getBase');
-    Route::put('/{baseId}', 'ManageBaseApiController@editBase');
-});
+$provinceRoutes = function () {
+    Route::group(['prefix' => 'v2/province'], function () {
+
+    });
+};
+
+$provinceRoutes = function () {
+    Route::group(['prefix' => 'v2/province'], function () {
+
+    });
+};
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Base\Http\Controllers'], $baseRoutes);
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/province', 'namespace' => 'Modules\Base\Http\Controllers'], function () {
     Route::get('/all', 'ManageBaseApiController@getAllProvinces');
