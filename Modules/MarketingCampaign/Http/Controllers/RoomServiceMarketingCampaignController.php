@@ -23,7 +23,6 @@ class RoomServiceMarketingCampaignController extends ManageApiController
 
     public function summaryMarketingCampaign(Request $request)
     {
-
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
 
@@ -143,68 +142,68 @@ class RoomServiceMarketingCampaignController extends ManageApiController
             $salers = User::whereIn('id', $saler_ids)->get();
         }
 
-//        $salers = $salers->map(function ($saler) use ($date_array, $endTime, $startTime, $request, $all_registers) {
-//            $data = [
-//                'id' => $saler->id,
-//                'name' => $saler->name,
-//                'color' => $saler->color,
-//            ];
-//
-//            $registers = clone $all_registers;
-//
-//            $saler_registers = $registers->where('saler_id', $saler->id);
-//
-//            $data['total_registers'] = $saler_registers->where(function ($query) {
-//                $query->where('status', 0)
-//                    ->orWhere('money', '>', 0);
-//            })->count();
-//
-//
-//            $data['total_paid_registers'] = $saler_registers->where('status', 1)->where('money', '>', 0)->count();
-//
-//            $bonus = 0;
-//            $courses = array();
-//
-//            $di = 0;
-//
-//
-//            $paid_by_date_personal_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
-//                ->whereBetween('paid_time', array($startTime, $endTime))
-//                ->where('saler_id', $saler->id)
-//                ->where('money', '>', 0)
-//                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
-//
-//            $registers_by_date_personal_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
-//                ->whereBetween('created_at', array($startTime, $endTime))
-//                ->where('saler_id', $saler->id)
-//                ->where(function ($query) {
-//                    $query->where('status', 0)
-//                        ->orWhere('money', '>', 0);
-//                })
-//                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
-//
-//            $registers_by_date_personal = array();
-//            $paid_by_date_personal = array();
-//
-//            foreach ($date_array as $date) {
-//
-//                if (isset($registers_by_date_personal_temp[$date])) {
-//                    $registers_by_date_personal[$di] = $registers_by_date_personal_temp[$date];
-//                } else {
-//                    $registers_by_date_personal[$di] = 0;
-//                }
-//                if (isset($paid_by_date_personal_temp[$date])) {
-//                    $paid_by_date_personal[$di] = $paid_by_date_personal_temp[$date];
-//                } else {
-//                    $paid_by_date_personal[$di] = 0;
-//                }
-//
-//                $di += 1;
-//            }
-//
-//            $data['registers_by_date'] = $registers_by_date_personal;
-//            $data['paid_by_date'] = $paid_by_date_personal;
-//            $data['date_array'] = $date_array;
+        $salers = $salers->map(function ($saler) use ($date_array, $endTime, $startTime, $request, $all_registers) {
+            $data = [
+                'id' => $saler->id,
+                'name' => $saler->name,
+                'color' => $saler->color,
+            ];
+
+            $registers = clone $all_registers;
+
+            $saler_registers = $registers->where('saler_id', $saler->id);
+
+            $data['total_registers'] = $saler_registers->where(function ($query) {
+                $query->where('status', 0)
+                    ->orWhere('money', '>', 0);
+            })->count();
+
+
+            $data['total_paid_registers'] = $saler_registers->where('money', '>', 0)->count();
+
+            $bonus = 0;
+            $courses = array();
+
+            $di = 0;
+
+
+            $paid_by_date_personal_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+                ->whereBetween('paid_time', array($startTime, $endTime))
+                ->where('saler_id', $saler->id)
+                ->where('money', '>', 0)
+                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
+
+            $registers_by_date_personal_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
+                ->whereBetween('created_at', array($startTime, $endTime))
+                ->where('saler_id', $saler->id)
+                ->where(function ($query) {
+                    $query->where('status', 0)
+                        ->orWhere('money', '>', 0);
+                })
+                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
+
+            $registers_by_date_personal = array();
+            $paid_by_date_personal = array();
+
+            foreach ($date_array as $date) {
+
+                if (isset($registers_by_date_personal_temp[$date])) {
+                    $registers_by_date_personal[$di] = $registers_by_date_personal_temp[$date];
+                } else {
+                    $registers_by_date_personal[$di] = 0;
+                }
+                if (isset($paid_by_date_personal_temp[$date])) {
+                    $paid_by_date_personal[$di] = $paid_by_date_personal_temp[$date];
+                } else {
+                    $paid_by_date_personal[$di] = 0;
+                }
+
+                $di += 1;
+            }
+
+            $data['registers_by_date'] = $registers_by_date_personal;
+            $data['paid_by_date'] = $paid_by_date_personal;
+            $data['date_array'] = $date_array;
 //
 //            foreach (Course::all() as $course) {
 //                $class_ids = $course->classes()->pluck('id')->toArray();
@@ -214,12 +213,12 @@ class RoomServiceMarketingCampaignController extends ManageApiController
 //                        ->whereBetween('created_at', array($startTime, $endTime))
 //                        ->count();
 //                } else {
-////                    $count = $saler->sale_registers()->where('gen_id', $current_gen->id)->where('money', '>', '0')
+////                    $count = $saler->sale_registers()->where('money', '>', '0')
 ////                        ->whereIn('class_id', $class_ids)
 ////                        ->count();
 //                }
 //
-//                $money = $course->sale_bonus * $count;
+//                $money = $course->sale_bonus;// * $count;
 //
 //
 //                $courses[] = [
@@ -249,9 +248,9 @@ class RoomServiceMarketingCampaignController extends ManageApiController
 //            $data['bonus'] = $bonus;
 //            $data['courses'] = $courses;
 //
-//            return $data;
-//        });
-//
-//        return $this->respondSuccessWithStatus(['summary_sales' => $salers]);
+            return $data;
+        });
+
+        return $this->respondSuccessWithStatus(['summary_sales' => $salers]);
     }
 }

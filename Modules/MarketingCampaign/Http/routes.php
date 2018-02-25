@@ -16,3 +16,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'room
     Route::get('/marketing-campaign/sumary-register', 'RoomServiceMarketingCampaignController@summaryMarketingRegister');
     Route::get('/sales/summary', 'RoomServiceMarketingCampaignController@summarySales');
 });
+
+// new api routes
