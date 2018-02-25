@@ -161,7 +161,7 @@
                             <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Sản phẩm nổi bật</b></h5>
+                                        <h5 ><b>Sản phẩm nổi bật</b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -187,7 +187,7 @@
                         <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Liên hệ</b></h5>
+                                        <h5><b>Liên hệ</b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -208,12 +208,12 @@
                         <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Địa chỉ</b></h5>
+                                        <h5><b>Địa chỉ</b></h5>
                                     </a>
                                 </li>
                                 <li>
                                     <a>
-                                        <h6 style="text-align:center;font-weight: 200">
+                                        <h6 style="font-weight: 200">
                                         146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
                                         </h6>
                                     </a>
