@@ -36,11 +36,11 @@ $graphicApiRoute = function () {
     Route::get('/books', 'GraphicsAppController@index');
 };
 
-Route::group(['middleware' => 'web', 'domain' => config('app.domain_commerce'), 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicRoute);
+Route::group(['middleware' => 'web', 'domain' => 'graphics.vn', 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicRoute);
 
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3', 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicApiRoute);
 
-Route::group(['middleware' => 'web', 'domain' => config('app.domain'), 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+Route::group(['middleware' => 'web', 'domain' => 'graphics.vn', 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
     Route::get('/api/blogs', 'BlogApiController@getAllBlogs');
     Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
 });
