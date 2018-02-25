@@ -8,22 +8,79 @@ class ItemOrder extends Model
 {
     //
     protected $table = "item_orders";
-    public function exportOrder(){
-        return $this->hasMany(ExportOrder::class,'item_order_id');
+
+    public function exportOrder()
+    {
+        return $this->hasMany(ExportOrder::class, 'item_order_id');
     }
-    public function company(){
-        return $this->belongsTo(Company::class,'company_id');
+
+    public function staff()
+    {
+        return $this->belongsTo(User::class, 'staff_id');
     }
-    public function transform(){
+
+    public function staffImportOrExport()
+    {
+        return $this->belongsTo(User::class, 'import_export_staff_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function importOrder()
+    {
+        return $this->hasMany(ImportItemOrder::class, 'item_order_id');
+    }
+
+    public function transform()
+    {
         return [
             "id" => $this->id,
-            "company" =>[
+            "company" => [
                 "id" => $this->company->id,
                 "name" => $this->company->name,
             ],
+            "staff" => $this->staff ? [
+                "id" => $this->staff->id,
+                "name" => $this->staff->name,
+                "avatar_url" => $this->staff->avatar_url,
+            ] : [],
+            "staff_import_or_export" => $this->staffImportOrExport ? [
+                "id" => $this->staffImportOrExport->id,
+                "name" => $this->staffImportOrExport->name,
+                "avatar_url" => $this->staffImportOrExport->avatar_url,
+            ] : [],
             "command_code" => $this->command_code,
             "status" => $this->status,
-            "goods" => $this->good->map(function($good){
+            "goods" => $this->exportOrder->map(function ($good) {
+                return $good->transform();
+            })
+        ];
+    }
+
+    public function importTransform()
+    {
+        return [
+            "id" => $this->id,
+            "company" => [
+                "id" => $this->company->id,
+                "name" => $this->company->name,
+            ],
+            "staff" => $this->staff ? [
+                "id" => $this->staff->id,
+                "name" => $this->staff->name,
+                "avatar_url" => $this->staff->avatar_url,
+            ] : [],
+            "staff_import_or_export" => $this->staffImportOrExport ? [
+                "id" => $this->staffImportOrExport->id,
+                "name" => $this->staffImportOrExport->name,
+                "avatar_url" => $this->staffImportOrExport->avatar_url,
+            ] : [],
+            "command_code" => $this->command_code,
+            "status" => $this->status,
+            "goods" => $this->importOrder->map(function ($good) {
                 return $good->transform();
             })
         ];

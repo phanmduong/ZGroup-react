@@ -53,8 +53,9 @@ class TransferMoney extends Model
             "note" => $this->note,
             "purpose" => $this->purpose,
             "status" => $this->status,
+            "img_proof" => $this->img_proof,
             "bank_account" => $this->bankAccount,
-            "customer" => $this->user->transformAuth()
+            "customer" => $this->user->transformAuth(),
         ];
     }
 }

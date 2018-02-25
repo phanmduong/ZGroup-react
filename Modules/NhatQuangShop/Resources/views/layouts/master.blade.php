@@ -1088,5 +1088,5 @@
         page_id="537987856382181"
         ref="">
 </div>
-
+@stack('scripts')
 </html>

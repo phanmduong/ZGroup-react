@@ -284,13 +284,15 @@ class PublicController extends Controller
         if ($user == null) {
             $user = new User;
             $user->password = Hash::make($phone);
-        }
+            $user->username = $request->email;
+            $user->email = $request->email;
 
+        }
         $user->name = $request->name;
         $user->phone = $phone;
-        $user->email = $request->email;
-        $user->username = $request->email;
         $user->save();
+
+
 
         $register = new Register;
         $register->user_id = $user->id;
