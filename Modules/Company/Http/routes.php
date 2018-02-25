@@ -15,7 +15,7 @@ $companyRoutes = function () {
         Route::post('/payment/create', 'CompanyController@createPayment');
         Route::put('/payment/edit/{paymentId}', 'CompanyController@editPayment');
         Route::get('/payment/{paymentId}', 'CompanyController@getPayment');
-        Route::post('payment/{paymentId}/change-status', 'ComapnyController@changeStatusPayment');
+        Route::post('payment/{paymentId}/change-status', 'CompanyController@changeStatusPayment');
 
         Route::post('/print-order', 'CompanyController@createPrintOrder');
         Route::get('/print-order/all', 'CompanyController@getAllPrintOrder');
