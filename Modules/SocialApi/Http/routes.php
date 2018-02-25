@@ -8,4 +8,4 @@ $routes = function () {
 };
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\SocialApi\Http\Controllers'], $routes);
-Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => '/api/v3', 'namespace' => 'Modules\SocialApi\Http\Controllers'], $routes);
+Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3', 'namespace' => 'Modules\SocialApi\Http\Controllers'], $routes);
