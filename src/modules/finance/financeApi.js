@@ -19,7 +19,7 @@ export function updateBankTransfer(bankTransfer) {
     return axios.put(url, bankTransfer);
 }
 
-export function updateTransferStatus(id, status, note) {
+export function updateTransferStatus(id, status, note, user_id, money) {
     let url = env.MANAGE_API_URL + "/v2/transfer-money/" + id + "/status";
     const token = localStorage.getItem('token');
     if (token) {
@@ -31,7 +31,9 @@ export function updateTransferStatus(id, status, note) {
             note: note
         });
     return axios.put(url, {
-        status: status
+        status: status,
+        user_id: user_id,
+        money: money
     });
 }
 

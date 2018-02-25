@@ -108,7 +108,7 @@ class BankTransfersContainer extends React.Component {
                                                                     <span>
                                                                     <a className="text-success"
                                                                        onClick={() => this.props.financeActions.updateTransferStatus(
-                                                                           bankTransfer.id, "accept", null
+                                                                           bankTransfer.id, "accept", null, bankTransfer.customer.id, bankTransfer.money
                                                                        )}>
                                                                         <i className="material-icons">done</i>
                                                                     </a>
