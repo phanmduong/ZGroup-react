@@ -23,7 +23,7 @@ export function loadAllCompanies() {
 
 export function createOrderedGood(data) {
     //http://manageapi.keetool.xyz/company/provided?token=
-    let url     = env.MANAGE_API_URL +"/company/order/create?";
+    let url     = env.MANAGE_API_URL +"/company/be-ordered/create?";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "token=" + token;

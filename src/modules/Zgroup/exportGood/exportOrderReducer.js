@@ -139,10 +139,9 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
                 
             };
         case types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_SUCCESS:{
-            console.log("action",action.orderedGoods);
             return {
                 ...state,
-                orderedGoods: actions.orderedGoods,
+                orderedGoods: getSelectArray(action.orderedGoods),
             };
         }
         case types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_ERROR:
@@ -161,7 +160,7 @@ function getSelectArray(arr){
         return {
             ...obj,
             value: obj.id,
-            label: obj.name,
+            label: obj.command_code,
         };
     });
 }

@@ -48,12 +48,12 @@ class CreateOrderedGood extends React.Component {
     }
 
     openAddModal(index){
-        if(!index){
-            this.isEditModal = false;
-            this.setState({showAddModal: true, addModalData: defaultAddModalData});
-        }else {
+        if(index || index === 0){
             this.isEditModal = true;
             this.setState({showAddModal: true, addModalData: this.state.data.goods[index], editIndex: index});
+        }else {
+            this.isEditModal = false;
+            this.setState({showAddModal: true, addModalData: defaultAddModalData});
         }
     }
 
@@ -123,7 +123,9 @@ class CreateOrderedGood extends React.Component {
     }
 
     commitData(){
+        
         let {data} = this.state;
+        let {user} = this.props;
         if(!data.company || helper.isEmptyInput(data.company.id)){
             helper.showErrorNotification("Vui lòng chọn nhà phân phối!");
             return;
@@ -134,6 +136,7 @@ class CreateOrderedGood extends React.Component {
         }
         let res = {
             ...data,
+            staff_id: user.id,
             company_id: data.company.id,
             goods: JSON.stringify(data.goods.map(
                 (obj)=>{
@@ -285,11 +288,10 @@ class CreateOrderedGood extends React.Component {
                                                         value={data.company.id}
                                                     />
                                                     <div>
-                                                        {/* <FormInputText label="Tên" value={data.company.name} disabled/> */}
-                                                        <FormInputText label="Địa chỉ" value={data.company.office_address} disabled/>
-                                                        <FormInputText label="SĐT Công ty" value={data.company.phone_company} disabled/>
-                                                        <FormInputText label="Liên hệ" value={data.company.user_contact} disabled/>
-                                                        <FormInputText label="SĐT Liên hệ" value={data.company.user_contact_phone} disabled/>
+                                                        <FormInputText name="" label="Địa chỉ" value={data.company.office_address} disabled/>
+                                                        <FormInputText name="" label="SĐT Công ty" value={data.company.phone_company} disabled/>
+                                                        <FormInputText name="" label="Liên hệ" value={data.company.user_contact} disabled/>
+                                                        <FormInputText name="" label="SĐT Liên hệ" value={data.company.user_contact_phone} disabled/>
                                                     </div>
                                                     <div>
                                                         <label className="control-label">Ghi chú</label>
@@ -396,6 +398,7 @@ CreateOrderedGood.propTypes = {
     goods: PropTypes.array,
     companies: PropTypes.array,
     orderedGoodActions: PropTypes.object,
+    user: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -404,6 +407,7 @@ function mapStateToProps(state) {
         goods: state.orderedGood.goods,
         companies: state.orderedGood.companies,
         isCommitting: state.orderedGood.isCommitting,
+        user: state.login.user,
     };
 }
 

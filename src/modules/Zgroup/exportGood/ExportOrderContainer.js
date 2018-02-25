@@ -44,7 +44,7 @@ class ExportOrderContainer extends React.Component {
                                     <h4 className="card-title">Danh sách xuất hàng</h4>
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <div className="col-sm-2">
+                                            <div className="col-sm-3">
                                                 <Link to="/business/export-order/create" className="btn btn-rose" style={{width: "100%"}}>
                                                 <i className="material-icons">eject</i> Xuất hàng
                                                 </Link>
