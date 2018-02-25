@@ -15,4 +15,19 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'notificati
     Route::get('/{notificationId}', 'NotificationApiController@getNotification');
 });
 
+//new api routes
 
+Route::group(['domain' => config('app.domain'), 'prefix' => 'v3/manageapi/notification', 'namespace' => 'Modules\Notification\Http\Controllers'], function () {
+    Route::get('/list', 'NotificationController@notifications');
+    Route::get('/seen', 'NotificationController@readNotifications');
+    Route::get('/notification-types', 'NotificationManageApiController@allNotificationTypes');
+    Route::post('/notification-type', 'NotificationManageApiController@createNotificationType');
+    Route::put('/notification-type/{notificationTypeId}', 'NotificationManageApiController@editNotificationType');
+    Route::delete('/notification-type/{notificationTypeId}', 'NotificationManageApiController@deleteNotificationType');
+    Route::post('/notification-type/send', 'NotificationManageApiController@sendNotification');
+    Route::get('/history-send', 'NotificationManageApiController@historySendNotifications');
+});
+
+Route::group(['domain' => config('app.domain'), 'prefix' => 'v3/api/notification', 'namespace' => 'Modules\Notification\Http\Controllers'], function () {
+    Route::get('/{notificationId}', 'NotificationApiController@getNotification');
+});
