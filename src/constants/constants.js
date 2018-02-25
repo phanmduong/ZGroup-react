@@ -208,6 +208,12 @@ export const TRANSFER_PURPOSE = [
     }
 ];
 
+export const TRANSFER_PURPOSE_COLOR = {
+    deposit: "#a52a2a",
+    pay_order: "#8B008B",
+    pay_good: "#F08080"
+};
+
 export const REGISTER_STATUS = [
     {
         register: 0,

@@ -7,7 +7,7 @@ import {numberWithCommas} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import CancelReasonModal from "./CancelReasonModal";
 import BankTransferEditModal from "./BankTransferEditModal";
-import {TRANSFER_PURPOSE} from "../../constants/constants";
+import {TRANSFER_PURPOSE, TRANSFER_PURPOSE_COLOR} from "../../constants/constants";
 
 // import Select from 'react-select';
 // import {STATUS_OPTIONS} from "./financeConstant";
@@ -89,7 +89,15 @@ class BankTransfersContainer extends React.Component {
                                                     <tr key={bankTransfer.id}>
                                                         <td>{bankTransfer.transfer_day}</td>
                                                         <td>
-                                                            {purpose}
+                                                            <div
+                                                                style={{
+                                                                    cursor: "default",
+                                                                    backgroundColor: TRANSFER_PURPOSE_COLOR[bankTransfer.purpose]
+                                                                }}
+                                                                className="btn btn-sm btn-main"
+                                                            >
+                                                                {purpose}
+                                                            </div>
                                                         </td>
                                                         <td>{numberWithCommas(bankTransfer.money)}</td>
                                                         <td>{bankTransfer.bank_account.bank_account_name}</td>
