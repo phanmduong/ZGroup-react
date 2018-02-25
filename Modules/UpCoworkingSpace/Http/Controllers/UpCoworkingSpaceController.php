@@ -21,10 +21,12 @@ class UpCoworkingSpaceController extends Controller
 
     public function memberRegister($campaignId = null, $userId = null)
     {
-        $userPacks = RoomServiceUserPack::orderBy('name')->get();
+        $userPacks = RoomServiceUserPack::orderBy('name')->where('status', 1)->get();
+
         $this->data['userPacks'] = $userPacks;
         $this->data['campaignId'] = $campaignId;
         $this->data['userId'] = $userId;
+
         return view('upcoworkingspace::member_register', $this->data);
     }
 

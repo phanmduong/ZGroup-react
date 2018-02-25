@@ -9,7 +9,8 @@
                     <h3 class="medium-title">Đăng kí </h3></div>
                 <div id="modal-body" class="modal-body">
                     <div class="container">
-                        <form class="register-form ">
+                        <form class="register-form ">                               
+                                                        
                             <h6>Họ và tên</h6>
                             <input style="border: 1px solid #d0d0d0 !important" type="text" class="form-control"
                                    placeholder="Họ và tên"><br>
@@ -107,7 +108,8 @@
         var memberRegister = new Vue({
             el: '#memberRegister',
             data: {
-
+                campaignId: {{$campaignId}},
+                userId: {{$userId}}                
             },
             methods: {
                 submit: function () {
