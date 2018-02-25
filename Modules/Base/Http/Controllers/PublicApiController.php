@@ -60,7 +60,9 @@ class PublicApiController extends NoAuthApiController
         $blogs = $blogs->where('title', 'like', '%' . trim($request->search) . '%');
         $blogs = $blogs->paginate(6);
         return $this->respondWithPagination($blogs, ["blogs" => $blogs->map(function ($blog) {
-            return $blog->blogTransform();
+            $data = $blog->blogTransform();
+            $data['status'] = $blog->status;
+            return $data;
         })]);
     }
 
