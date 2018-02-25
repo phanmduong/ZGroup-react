@@ -16,11 +16,13 @@
             </div>
         </div>
     </div>
-
-    <div class="cd-section section-white" id="blogs">
-
-        <!--     *********     BLOGS 1      *********      -->
-        <div class="blog-1" id="blog-1">
+    <div class="container">
+        <h4 style="text-align: center ;margin-left: 200px ; margin-right: 200px; margin-bottom: 50px">
+            At Moz, we believe there is a better way to do marketing. A more valuable, less invasive way where customers are earned rather than bought. We’re obsessively passionate about it, and our mission is to help people achieve it. We focus on search engine optimization (SEO). It's one of the least understood and least transparent aspects of great marketing, and we see that as an opportunity: We're excited to simplify SEO for everyone through our software, education, and community.
+        </h4>
+    </div>
+    <div class="cd-section section-gray">
+        <div class="blog-1">
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 offset-md-1">
@@ -29,56 +31,180 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="card-image">
-                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195647245dZuGEwksR34TE3.JPG" />
+                                        <img class="img" src="https://moz.imgix.net/about/Our-Story/young-rand.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=039c8eb8981dd184a0ae0ba8eddfc081" />
                                     </div>
                                 </div>
                                 <div class="col-md-7">
                                     <div class="card-block">
-                                        <h6 class="card-category text-info">Enterprise</h6>
                                         <h3 class="card-title">
-                                            <a href="#pablo">The four waves of augmented reality</a>
+                                            Our founding
                                         </h3>
                                         <p class="card-description">
-                                            Sharing processing, display and sensors across smartphones and tethered smartglasses gives you two batteries, each powering fewer individual systems. If they’re connected by a cable, this could give a healthy bump to battery life — and… <a href="#pablo"> Read More </a>
+                                            Moz was founded by Rand Fishkin and Gillian Muessig in 2004. It was called SEOmoz, and started as a blog and an online community where some of the world's first SEO experts shared their research and ideas. We launched the Beginner's Guide to SEO and our first Search Ranking Factors study, and that hub of industry expertise transformed into a small consulting firm and led us to create some of our first SEO tools.
                                         </p>
-                                        <p class="author">
-                                            by <a href="#pablo"><b>Tim Merel</b></a>, 11 hours ago
-                                            </a>
+
                                     </div>
 
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card card-plain card-blog">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="card-block">
-                                        <h6 class="card-category text-danger">
-                                            <i class="fa fa-free-code-camp" aria-hidden="true"></i> Trending
-                                        </h6>
-                                        <h3 class="card-title">
-                                            <a href="#pablo">Okoli connects you with tour guides around the world</a>
-                                        </h3>
-                                        <p class="card-description">
-                                            Okoli is a new service by developer Jack Deneut that aims to replace those ugly little cards you find in tourist hotels. The web app, which currently works in Prague, Budapest, Berlin and Paris, lets you reserve a nearly private tour with a professional guid — and… <a href="#pablo"> Read More </a>
-                                        </p>
-                                        <p class="author">
-                                            by <a href="#pablo"><b>John Biggs</b></a>, 3 seconds ago
-                                            </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="cd-section section-white">
+            <div class="blog-1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <br />
+                            <div class="card card-plain card-blog">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="card-block">
+                                            <h3 class="card-title">
+                                                Early growth & funding
+
+
+                                            </h3>
+                                            <p class="card-description">
+                                                After a glimpse of the demand, we shifted our focus from consulting to our software, taking our first round of funding in 2007 to power the development of new tools and ideas. By 2009, we tallied our first 5,000 subscribers and codified our core values in the acronym TAGFEE, continuing to lead the industry with our educational content in an effort to demystify SEO (this is also when we started filming Whiteboard Fridays!).
+
+
+                                            </p>
+
+                                        </div>
+
                                     </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="card-image">
-                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195556021TjlZlGGV0YTIsA.png" />
+                                    <div class="col-md-5">
+                                        <div class="card-image">
+                                            <img class="img" src="https://moz.imgix.net/about/Our-Story/happy-mozzers.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=178b0770cb63498f92847f1bd67cc96f" />
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    <div class="cd-section section-gray">
+        <div class="blog-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <br />
+                        <div class="card card-plain card-blog">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="card-image">
+                                        <img class="img" src="https://moz.imgix.net/about/Our-Story/gold-roger-1.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=dbfa10cf94ca3a9973e8eb3c30b0599f" />
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-block">
+                                        <h3 class="card-title">
+                                            Series B funding
+                                        </h3>
+                                        <p class="card-description">
+                                            A series B investment from The Foundry Group propelled our efforts into the broader realm of inbound marketing, a concept that rejects pushy sales in favor of attracting customers with real value. We acquired a Twitter analytics tool called Followerwonk as well as GetListed, a local SEO tool that has evolved into today's Moz Local.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cd-section section-white">
+        <div class="blog-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <br />
+                        <div class="card card-plain card-blog">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="card-block">
+                                        <h3 class="card-title">
+                                            A new leaf
+
+
+                                        </h3>
+                                        <p class="card-description">
+                                            With our broader marketing efforts in full swing, we rebranded from SEOmoz to Moz in 2013. We released a suite of campaign-based tools called Moz Analytics that included features for content, social media, and brand management in addition to links and rankings. We also celebrated 10 years in search and welcomed long-time Mozzer Sarah Bird as our new CEO.
+
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="card-image">
+                                        <img class="img" src="https://moz.imgix.net/about/Our-Story/10-years-of-moz-1.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=67979f89c746f34a38d3b40293335135" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cd-section section-gray">
+        <div class="blog-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <br />
+                        <div class="card card-plain card-blog">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="card-image">
+                                        <img class="img" src="https://moz.imgix.net/about/Our-Story/james-mozplex.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=af3c49a545839aef8f2f95637397f2c5" />
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-block">
+                                        <h3 class="card-title">
+                                            To Infinity and Beyond!
+                                        </h3>
+                                        <p class="card-description">
+                                            With SEO more important than ever, in 2016 we made a difficult but necessary decision to reverse our expansion into inbound marketing, shifting our strategy back to what we know best: search. We're making dramatic improvements to our core products, Moz Pro and Moz Local, and continue to push for transparency and a clear understanding of an otherwise complex field. Did we mention we're also hiring?
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 @endsection
 

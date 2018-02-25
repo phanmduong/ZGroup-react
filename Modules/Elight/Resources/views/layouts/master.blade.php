@@ -124,7 +124,7 @@
             style="display: flex;
                 flex-direction: column;
                 align-items: center;">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" width="150px">
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195676838huzFKfrZGBzyEC.png" width="150px">
                 <div><h5 style="text-align: center">Nhà Sách Elight</h5></div>
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">

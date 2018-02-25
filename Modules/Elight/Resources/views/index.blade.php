@@ -229,8 +229,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="page-header page-header-small"
-                             style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519564716R51CSuSckFLV3Go.JPG');background-size: cover; min-height: 300px!important">
+                        <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15195647245dZuGEwksR34TE3.JPG');background-size: cover;background-color: black;min-height: 300px!important;">
                             <div class="content-center">
                                 <div class="container">
                                     <h2 style="font-weight: 400">Nhà sách Elight
@@ -342,8 +341,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="page-header page-header-small"
-                             style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15195647245dZuGEwksR34TE3.JPG');background-size: cover; min-height: 300px!important; " >
+                        <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519564716R51CSuSckFLV3Go.JPG');background-size: cover;background-color: black;min-height: 300px!important;">
                             <div class="content-center">
                                 <div class="container">
                                     <h2 style="font-weight: 400">Thư viện tự học
@@ -363,25 +361,7 @@
             </div>
             <br>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315147hlROAAiDKpgLRmg.png');background-size: cover;margin-top: 25px">
-                            <div style="padding-top:15%">
-                                <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
-                                    <h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>
-                                        đến với thế giới của Elight Book<br>
-                                    </h3>
 
-                                    <p style="color:white">
-                                        Cùng học tiếng anh với Elight nhé
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="container">
                 <div id="vuejs1" class="row">
                     @foreach($books as $book)
