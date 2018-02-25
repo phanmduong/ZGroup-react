@@ -11,7 +11,7 @@ $publicRoutes = function () {
 
     Route::get('/api/province', 'UpCoworkingSpaceApiController@province');
     Route::get('/api/province/{provinceId}/base', 'UpCoworkingSpaceApiController@basesInProvince');
-    Route::post('/api/register', 'UpCoworkingSpaceApiController@register');
+    Route::post('/api/register/{campaignId?}', 'UpCoworkingSpaceApiController@register');
     Route::get('/api/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
 };
 
