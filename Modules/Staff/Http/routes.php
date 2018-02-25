@@ -1,4 +1,5 @@
-<?php``
+<?php
+
 $staffRoutes = function () {
     Route::group(['prefix' => 'staff'], function () {
         Route::post('/', 'StaffApiController@createStaff');
@@ -15,5 +16,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
 Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Staff\Http\Controllers'],
     function () use($staffRoutes){
-        Route::group(['prefix' => 'v3', $staffRoutes]);
+        Route::group(['prefix' => 'v3'], $staffRoutes);
     });
