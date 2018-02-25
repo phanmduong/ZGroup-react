@@ -478,8 +478,9 @@ class CompanyController extends ManageApiController
         $printOrder = PrintOrder::find($printOrderId);
         if (!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
         $printOrder->status = $request->status;
-        $date = $request->date;
-        if ($request->status == 2) {
+        $printOrder->save();
+        $date = $printOrder->updated_at;
+        if ($request->status == 1) {
             $n = HistoryDebt::where('company_id', $printOrder->company_id)->count();
             if ($n == 0) $n = 1;
             $historyDebts = HistoryDebt::where('company_id', $printOrder->company_id)->get();
@@ -507,7 +508,7 @@ class CompanyController extends ManageApiController
             $historyDebt->save();
 
         }
-        $printOrder->save();
+
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi thành công"
         ]);
@@ -813,7 +814,8 @@ class CompanyController extends ManageApiController
     {
         $order = ItemOrder::find($itemOrderId);
         $order->status = $request->status;
-        $date = $request->date;
+        $order->save();
+        $date = $order->updated_at;
         if ($request->status == 3) {
             if ($order->type == "order") {
                 $type = "import";
@@ -856,7 +858,7 @@ class CompanyController extends ManageApiController
             $historyDebt->save();
 
         }
-        $order->save();
+
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi trạng thái thành công"
         ]);
