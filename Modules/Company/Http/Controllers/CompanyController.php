@@ -4,6 +4,7 @@ namespace Modules\Company\Http\Controllers;
 
 use App\ExportOrder;
 use App\Field;
+use App\HistoryDebt;
 use App\ImportItemOrder;
 use App\ItemOrder;
 use App\Payment;
@@ -236,6 +237,40 @@ class CompanyController extends ManageApiController
         ]);
     }
 
+    public function changeStatusPayment($paymentId, Request $request)
+    {
+        $payment = Payment::find($paymentId);
+        $payment->status = $request->status;
+        $payment->save();
+        if ($request->status == 1){
+            $n = HistoryDebt::where('company_id', $payment->receiver_id)->count();
+            if ($n == 0) $n = 1;
+            $historyDebts = HistoryDebt::where('company_id', $payment->receiver_id)->get();
+            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            $value = $payment->money_value;
+            $historyDebt = new HistoryDebt;
+            $historyDebt->value = $value;
+            $historyDebt->total_value = $pre_value + $value;
+            $historyDebt->date = $payment->updated_at;
+            $historyDebt->type = "payment";
+            $historyDebt->company_id = $payment->receiver_id;
+            $historyDebt->save();
+
+            $n = HistoryDebt::where('company_id', $payment->payer_id)->count();
+            if ($n == 0) $n = 1;
+            $historyDebts = HistoryDebt::where('company_id', $payment->payer_id)->get();
+            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            $value = $payment->money_value;
+            $historyDebt = new HistoryDebt;
+            $historyDebt->value = $value * (-1);
+            $historyDebt->total_value = $pre_value + $value * (-1);
+            $historyDebt->date = $payment->updated_at;
+            $historyDebt->type = "payment";
+            $historyDebt->company_id = $payment->payer_id;
+            $historyDebt->save();
+        }
+    }
+
     public function getAllPayment(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
@@ -244,10 +279,10 @@ class CompanyController extends ManageApiController
         $payer_id = $request->payer_id;
 
         if ($receiver_id) {
-            $payments = $payments->where('receiver_id',$receiver_id);
+            $payments = $payments->where('receiver_id', $receiver_id);
         }
         if ($payer_id) {
-            $payments = $payments->where('payer_id',$payer_id);
+            $payments = $payments->where('payer_id', $payer_id);
         }
         $payments = $payments->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($payments, [
@@ -391,7 +426,7 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function createOrEditExportOrder($exportOrderId,Request $request)
+    public function createOrEditExportOrder($exportOrderId, Request $request)
     {
         //export order chính là đơn hàng nhưng có status = 2
         //status<2 thuộc về đơn hàng
@@ -401,7 +436,7 @@ class CompanyController extends ManageApiController
         $exportOrder->import_export_staff_id = $request->staff_id;
         $exportOrder->save();
         $goods = json_decode($request->goods);
-        foreach ($goods as $good){
+        foreach ($goods as $good) {
             $good_new = ExportOrder::find($good->id);
             $good_new->export_quantity = $good->export_quantity;
             $good_new->warehouse_id = $good->warehouse_id;
@@ -418,8 +453,8 @@ class CompanyController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $exportorders = ItemOrder::query();
 
-        $exportorders = $exportorders->where('type','=','be-ordered')
-            ->where('status','>',1)
+        $exportorders = $exportorders->where('type', '=', 'be-ordered')
+            ->where('status', '>', 1)
             ->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($exportorders, [
@@ -444,21 +479,41 @@ class CompanyController extends ManageApiController
         if (!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
         $printOrder->status = $request->status;
         $printOrder->save();
+        $date = $printOrder->updated_at;
+        if ($request->status == 1) {
+            $n = HistoryDebt::where('company_id', $printOrder->company_id)->count();
+            if ($n == 0) $n = 1;
+            $historyDebts = HistoryDebt::where('company_id', $printOrder->company_id)->get();
+            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            $value = $printOrder->quantity * $printOrder->price;
+            $historyDebt = new HistoryDebt;
+            $historyDebt->value = $value;
+            $historyDebt->total_value = $pre_value + $value;
+            $historyDebt->date = $date;
+            $historyDebt->type = "print";
+            $historyDebt->company_id = $printOrder->company_id;
+            $historyDebt->save();
+
+            $n = HistoryDebt::where('company_id', 1)->count();
+            if ($n == 0) $n = 1;
+            $historyDebts = HistoryDebt::where('company_id', 1)->get();
+            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            $value = $printOrder->quantity * $printOrder->price;
+            $historyDebt = new HistoryDebt;
+            $historyDebt->value = $value * (-1);
+            $historyDebt->total_value = $pre_value + $value * (-1);
+            $historyDebt->date = $date;
+            $historyDebt->type = "print";
+            $historyDebt->company_id = 1;
+            $historyDebt->save();
+
+        }
+
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi thành công"
         ]);
     }
 
-    public function changeStatusExportOrder($exportOrderId, Request $request)
-    {
-        $exportorder = ExportOrder::find($exportOrderId);
-        if (!$exportorder) return $this->respondErrorWithStatus("Không tồn tại");
-        $exportorder->status = $request->status;
-        $exportorder->save();
-        return $this->respondSuccessWithStatus([
-            "message" => "Thay đổi thành công"
-        ]);
-    }
 
     public function getAllCodePrintOrder()
     {
@@ -476,20 +531,22 @@ class CompanyController extends ManageApiController
 
     public function getAllProperties()
     {
-        $props = GoodPropertyItem::where('type','print_order')->get();
+        $props = GoodPropertyItem::where('type', 'print_order')->get();
         return $this->respondSuccessWithStatus([
-            "props" => $props->map(function($prop){
-                  return[
-                      "id" => $prop->id,
-                      "name" => $prop->name,
-                      "value" => $prop->prevalue,
-                  ];
+            "props" => $props->map(function ($prop) {
+                return [
+                    "id" => $prop->id,
+                    "name" => $prop->name,
+                    "value" => $prop->prevalue,
+                ];
             })
         ]);
     }
-    public function editProperty($propId,Request $request){
+
+    public function editProperty($propId, Request $request)
+    {
         $prop = GoodPropertyItem::find($propId);
-        if($request->value === null)
+        if ($request->value === null)
             return $this->respondErrorWithStatus("Thiếu trường");
         $prop->prevalue = $request->value;
 
@@ -498,7 +555,9 @@ class CompanyController extends ManageApiController
             "message" => "Thay đổi thành công"
         ]);
     }
-    public function createProperty(Request $request){
+
+    public function createProperty(Request $request)
+    {
         $prop = new GoodPropertyItem();
         $prop->name = $request->name;
         $prop->prevalue = $request->value;
@@ -508,9 +567,11 @@ class CompanyController extends ManageApiController
             "message" => "Thêm thành công"
         ]);
     }
-    public function createOrdered(Request $request){
+
+    public function createOrdered(Request $request)
+    {
         //đơn hàng từ nhà phân phối đặt
-        if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
+        if ($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order = new ItemOrder;
         $order->company_id = $request->company_id;
         $order->type = "be-ordered";
@@ -522,10 +583,10 @@ class CompanyController extends ManageApiController
         $year = date_format($ppp, 'y');
         $id = (string)$order->id;
         while (strlen($id) < 4) $id = '0' . $id;
-        $order->command_code = "DONHANG" . $day .$month .$year . $id;
+        $order->command_code = "DONHANG" . $day . $month . $year . $id;
         $order->save();
         $goods = json_decode($request->goods);
-        foreach ($goods as $good){
+        foreach ($goods as $good) {
             $exportOrder = new ExportOrder;
             $exportOrder->warehouse_id = 0;
             $exportOrder->company_id = $order->company_id;
@@ -541,18 +602,19 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function eidtOrdered($orderId,Request $request){
+    public function eidtOrdered($orderId, Request $request)
+    {
         //đơn hàng từ nhà phân phối đặt
         $order = ItemOrder::find($orderId);
-        if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
+        if ($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order->company_id = $request->company_id;
         $order->staff_id = $request->staff_id;
         $goods = $order->exportOrder;
-        foreach($goods as $good){
+        foreach ($goods as $good) {
             $good->delete();
         }
         $goods = json_decode($request->goods);
-        foreach ($goods as $good){
+        foreach ($goods as $good) {
             $exportOrder = new ExportOrder;
             $exportOrder->warehouse_id = 0;
             $exportOrder->company_id = $order->company_id;
@@ -570,20 +632,21 @@ class CompanyController extends ManageApiController
 
     }
 
-    public function getAllOrdered(Request $request){
+    public function getAllOrdered(Request $request)
+    {
         //đơn hàng từ nhà phân phối đặt
         $limit = $request->limit ? $request->limit : 20;
-        if($request->limit == -1){
-            $orders = ItemOrder::where('type','be-ordered')->get();
+        if ($request->limit == -1) {
+            $orders = ItemOrder::where('type', 'be-ordered')->get();
             return $this->respondSuccessWithStatus([
-                "orders" => $orders->map(function($order){
-                       return $order->transform();
+                "orders" => $orders->map(function ($order) {
+                    return $order->transform();
                 })
             ]);
-        } else{
-            $orders = ItemOrder::where('type','be-ordered')->orderBy('created_at','desc')->paginate($limit);
-            return $this->respondWithPagination($orders,[
-                "orders" => $orders->map(function($order){
+        } else {
+            $orders = ItemOrder::where('type', 'be-ordered')->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($orders, [
+                "orders" => $orders->map(function ($order) {
                     return $order->transform();
                 })
             ]);
@@ -591,7 +654,8 @@ class CompanyController extends ManageApiController
         }
     }
 
-    public function getOrdered($orderId,Request $request){
+    public function getOrdered($orderId, Request $request)
+    {
         //đơn hàng từ nhà phân phối đặt
         $order = ItemOrder::find($orderId);
         return $this->respondSuccessWithStatus([
@@ -599,9 +663,10 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function createOrder(Request $request){
+    public function createOrder(Request $request)
+    {
         //đơn hàng từ nhà cung cấp đặt
-        if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
+        if ($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order = new ItemOrder;
         $order->company_id = $request->company_id;
         $order->type = "order";
@@ -613,10 +678,10 @@ class CompanyController extends ManageApiController
         $year = date_format($ppp, 'y');
         $id = (string)$order->id;
         while (strlen($id) < 4) $id = '0' . $id;
-        $order->command_code = "DATHANG" . $day .$month .$year . $id;
+        $order->command_code = "DATHANG" . $day . $month . $year . $id;
         $order->save();
         $goods = json_decode($request->goods);
-        foreach ($goods as $good){
+        foreach ($goods as $good) {
             $importOrder = new ImportItemOrder;
             $importOrder->warehouse_id = 0;
             $importOrder->company_id = $order->company_id;
@@ -631,18 +696,19 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function eidtOrder($orderId,Request $request){
+    public function eidtOrder($orderId, Request $request)
+    {
         //đơn hàng từ nhà cung cấp đặt
         $order = ItemOrder::find($orderId);
-        if($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
+        if ($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order->company_id = $request->company_id;
         $goods = $order->importOrder;
         $order->staff_id = $request->staff_id;
-        foreach($goods as $good){
+        foreach ($goods as $good) {
             $good->delete();
         }
         $goods = json_decode($request->goods);
-        foreach ($goods as $good){
+        foreach ($goods as $good) {
             $importOrder = new ImportItemOrder;
             $importOrder->warehouse_id = 0;
             $importOrder->company_id = $order->company_id;
@@ -659,20 +725,21 @@ class CompanyController extends ManageApiController
 
     }
 
-    public function getAllOrder(Request $request){
+    public function getAllOrder(Request $request)
+    {
         //đơn hàng từ nhà cc đặt
         $limit = $request->limit ? $request->limit : 20;
-        if($request->limit == -1){
-            $orders = ItemOrder::where('type','order')->get();
+        if ($request->limit == -1) {
+            $orders = ItemOrder::where('type', 'order')->get();
             return $this->respondSuccessWithStatus([
-                "orders" => $orders->map(function($order){
+                "orders" => $orders->map(function ($order) {
                     return $order->importTransform();
                 })
             ]);
-        } else{
-            $orders = ItemOrder::where('type','order')->orderBy('created_at','desc')->paginate($limit);
-            return $this->respondWithPagination($orders,[
-                "orders" => $orders->map(function($order){
+        } else {
+            $orders = ItemOrder::where('type', 'order')->orderBy('created_at', 'desc')->paginate($limit);
+            return $this->respondWithPagination($orders, [
+                "orders" => $orders->map(function ($order) {
                     return $order->importTransform();
                 })
             ]);
@@ -680,7 +747,8 @@ class CompanyController extends ManageApiController
         }
     }
 
-    public function getOrder($orderId,Request $request){
+    public function getOrder($orderId, Request $request)
+    {
         //đơn hàng từ nhà cc đặt
         $order = ItemOrder::find($orderId);
         return $this->respondSuccessWithStatus([
@@ -688,14 +756,15 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function createOrEditImportOrder($importOrderId,Request $request){
+    public function createOrEditImportOrder($importOrderId, Request $request)
+    {
         $importOrder = ItemOrder::find($importOrderId);
         $importOrder->status = 2;
         $importOrder->date = $request->date; // là ngày xuất hàng
         $importOrder->import_export_staff_id = $request->staff_id;
         $importOrder->save();
         $goods = json_decode($request->goods);
-        foreach ($goods as $good){
+        foreach ($goods as $good) {
             $good_new = ImportItemOrder::find($good->id);
             $good_new->imported_quantity = $good->imported_quantity;
             $good_new->warehouse_id = $good->warehouse_id;
@@ -705,17 +774,20 @@ class CompanyController extends ManageApiController
             "message" => "Thành công"
         ]);
     }
-    public function getImportOrder($importOrderId, Request $request){
+
+    public function getImportOrder($importOrderId, Request $request)
+    {
         $importOrder = ItemOrder::find($importOrderId);
         return $this->respondSuccessWithStatus([
             "import-order" => $importOrder->importTransform()
         ]);
     }
 
-    public function getAllImportOrder(Request $request){
+    public function getAllImportOrder(Request $request)
+    {
         $limit = $request->limit ? $request->limit : 20;
         $filter = $request->filter;
-        if($filter === "import") {
+        if ($filter === "import") {
             $importOrders = ItemOrder::query();
 
             $importOrders = $importOrders->where('type', '=', 'order')
@@ -728,20 +800,65 @@ class CompanyController extends ManageApiController
             ]);
         } else {
             $printOrders = PrintOrder::query();
-            $printOrders = $printOrders->where('import_staff_id','>',0)
+            $printOrders = $printOrders->where('import_staff_id', '>', 0)
                 ->orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination($printOrders,[
-                "print-orders" => $printOrders->map(function($printOrder){
-                       return $printOrder->transform();
+            return $this->respondWithPagination($printOrders, [
+                "print-orders" => $printOrders->map(function ($printOrder) {
+                    return $printOrder->transform();
                 })
             ]);
         }
     }
 
-    public function changeStatusItemOrder($itemOrderId,Request $request){
+    public function changeStatusItemOrder($itemOrderId, Request $request)
+    {
         $order = ItemOrder::find($itemOrderId);
         $order->status = $request->status;
         $order->save();
+        $date = $order->updated_at;
+        if ($request->status == 3) {
+            if ($order->type == "order") {
+                $type = "import";
+                $p = 1;
+                $goods_value = $order->importOrder->reduce(function ($total, $good) {
+                    return $total + $good->imported_quantity * $good->price;
+                }, 0);
+            } else {
+                $type = "export";
+                $p = -1;
+                $goods_value = $order->exportOrder->reduce(function ($total, $good) {
+                    return $total + $good->export_quantity * $good->price;
+                }, 0);
+            }
+            $n = HistoryDebt::where('company_id', $order->company_id)->count();
+            if ($n == 0) $n = 1;
+            $historyDebts = HistoryDebt::where('company_id', $order->company_id)->get();
+            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            $value = $goods_value;
+            $historyDebt = new HistoryDebt;
+            $historyDebt->value = $value;
+            $historyDebt->total_value = $pre_value + $value * $p;
+            $historyDebt->date = $date;
+            $historyDebt->type = $type;
+            $historyDebt->company_id = $order->company_id;
+            $historyDebt->save();
+
+            $p = $p * (-1);
+            $n = HistoryDebt::where('company_id', 1)->count();
+            if ($n == 0) $n = 1;
+            $historyDebts = HistoryDebt::where('company_id', 1)->get();
+            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            $value = $goods_value;
+            $historyDebt = new HistoryDebt;
+            $historyDebt->value = $value * $p;
+            $historyDebt->total_value = $pre_value + $value * $p;
+            $historyDebt->date = $date;
+            $historyDebt->type = $type;
+            $historyDebt->company_id = 1;
+            $historyDebt->save();
+
+        }
+
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi trạng thái thành công"
         ]);

@@ -38,6 +38,11 @@ class RoomServiceRegister extends Model
         return $this->hasMany(TeleCall::class, 'register_id');
     }
 
+    public function base()
+    {
+        return $this->belongsTo(Base::class, 'base_id');
+    }
+
     public function getData()
     {
         $data = [
@@ -79,6 +84,14 @@ class RoomServiceRegister extends Model
             $data["teleCalls"] = $teleCalls->map(function ($teleCall) {
                 return $teleCall->transform();
             });
+        }
+        if ($this->base) {
+            $base = $this->base;
+            $data['base'] = [
+              "base" => $base->tranform(),
+              "district" => $base->district->transform(),
+              "province" => $base->district->province->transform()
+            ];
         }
 
         return $data;
