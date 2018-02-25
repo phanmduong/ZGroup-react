@@ -39,6 +39,5 @@ $classRoutes = function () {
     Route::get('/gens/teachers', 'ClassApiController@getAllTeacher');
 };
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], $classRoutes);
-
 // new routes
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3', 'namespace' => 'Modules\Course\Http\Controllers'], $classRoutes);
