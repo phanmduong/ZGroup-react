@@ -1,45 +1,47 @@
+/**
+ * Created by kiyoshitaro on 02/25/18.
+ */
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Select from '../../components/common/Select';
-import * as summaryMarketingCampaignActions from './summaryMarketingCampaignActions';
+import * as summarySalesActions from './summarySalesActions';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
-import Chart from "./SummaryMaketingCampaignComponent";
+import SummarySalesComponent from "./SummarySalesComponent";
 import * as helper from '../../helpers/helper';
-import {Panel} from 'react-bootstrap';
 import FormInputDate from '../../components/common/FormInputDate';
-import moment from "moment/moment";
-import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import {Panel} from 'react-bootstrap';
+import moment from "moment";
+import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
 import SelectMonthBox from "../../components/common/SelectMonthBox";
 
-
-class SummaryMarketingCampaignUpContainer extends React.Component {
+class SummarySalesUpContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             selectBaseId: 0,
             bases: [],
-            isShowMonthBox: false,
-            openFilterPanel: false,
             time: {
                 startTime: '',
                 endTime: '',
             },
+            isShowMonthBox: false,
+            openFilterPanel: false,
             month: {year: 0, month: 0},
         };
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadSummary = this.loadSummary.bind(this);
-        this.exportExcel = this.exportExcel.bind(this);
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
+        this.exportExcel = this.exportExcel.bind(this);
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
         this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
     }
 
     componentWillMount() {
-        this.props.summaryMarketingCampaignActions.loadBasesData();
+        this.props.summarySalesActions.loadBasesData();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -76,7 +78,7 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
             endTime = value.year + "-" + (value.month + 1) + "-01";
         }
         else endTime = value.year + 1 + "-01" + "-01";
-        this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(
+        this.props.summarySalesActions.loadSummarySalesData(
             this.state.selectBaseId,
             startTime,
             endTime,
@@ -96,14 +98,14 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
 
     onChangeBase(value) {
         this.setState({selectBaseId: value});
-        this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(value);
+        this.props.summarySalesActions.loadSummarySalesData(value, this.state.time.startTime, this.state.time.endTime);
     }
 
     loadSummary() {
-        this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(this.state.selectBaseId);
+        this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId);
     }
 
-    openFilterPanel() {
+    openFilterPanel(){
         let newstatus = !this.state.openFilterPanel;
         this.setState({openFilterPanel: newstatus, isShowMonthBox: false});
     }
@@ -114,62 +116,63 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
         time[field] = event.target.value;
 
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
-            this.setState({time: time, month: {year: 0, month: 0}});
-            this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(
-                this.state.selectBaseId,
-                time.startTime,
-                time.endTime
-            );
+            this.setState({time: time, page: 1, month: {year: 0, month: 0}});
+            this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId, time.startTime, time.endTime);
         } else {
-            this.setState({time: time, month: {year: 0, month: 0}});
+            this.setState({time: time});
         }
     }
 
     exportExcel() {
         let wb = helper.newWorkBook();
-        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 10},];//độ rộng cột
-        let summary = helper.groupBy(this.props.summary, item => item.campaign.id, ["campaign_id", "registers"]);
-        summary.forEach((obj) => {
-            let sum = 0;
-            let json = obj.registers.map((item, index) => {
-                sum += item.total_registers;
-                let res = {
-                    "STT": index + 1,
-                    "Saler": item.saler.name,
-                    "Số lượng": item.total_registers,
-                };
-                return res;
-            });
-            json = [...json, {
-                "STT": "",
-                "Saler": "Tổng",
-                "Số lượng": sum,
-            }];
-            helper.appendJsonToWorkBook(json, wb, obj.registers[0].campaign.name, cols, []);
+        let general = this.props.summary.map((item, index) => {
+            /* eslint-disable */
+            return {
+                'STT': index + 1,
+                'Họ và tên': item.name,
+                'Số lượng đã nộp tiền': item.total_paid_registers,
+                'Số lượng đăng kí': item.total_registers,
+            };
+            /* eslint-enable */
         });
-        let basename = this.state.bases.filter(obj => (obj.key == this.state.selectBaseId));
+        let cols = [{"wch": 5}, {"wch": 20}, {"wch": 20}, {"wch": 20},];
+        helper.appendJsonToWorkBook(general, wb, 'Tổng quan', cols);
+
+        let detail = this.props.summary.map((item, index) => {
+            let res = {'STT': index + 1, 'Họ và tên': item.name};
+            item.campaigns.forEach(obj => (res[obj.name] = obj['total_registers']));
+            return res;
+        });
+        cols = [{"wch": 5}, {"wch": 20}];
+        helper.appendJsonToWorkBook(detail, wb, 'Chi tiết', cols);
+
+        let base = this.state.bases.filter(base => (base.key === this.state.selectBaseId));
         let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let empt1 = helper.isEmptyInput(this.state.time.startTime);
         let empt2 = helper.isEmptyInput(this.state.time.endTime);
-        helper.saveWorkBookToExcel(wb, "Tổng kết chiến dịch "
-            + (basename[0] ? (" - " + basename[0].value) : "")
-            + ((empt1 || empt2) ? '' :
-                    (' - ' + startTime + ' - ' + endTime)
+        helper.saveWorkBookToExcel(wb,
+            'Tổng kết sales' +
+            ` - ${base[0].value === 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
+            (
+                (empt1 || empt2)
+                    ? ` - ${gen[0].value}`         // *********************************** ///
+                    :
+                    (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
+                        `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)  }`)
             )
         );
-    }
 
+    }
 
     render() {
         return (
             <div>
-                {this.props.isLoadingBases ? <Loading/> :
+                {this.props.isLoadingBases || this.props.isLoading ? <Loading/> :
                     (
                         <div>
                             <div className="row">
                                 <div className="col-sm-3 col-xs-5">
-
                                     <SelectMonthBox
                                         theme="light"
                                         isHide={this.state.openFilterPanel}
@@ -191,37 +194,36 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                     />
                                 </div>
                                 <div className="col-sm-2 col-xs-5">
-
                                     {
                                         this.state.isShowMonthBox ?
-                                            <button
-                                                style={{width: '100%'}}
-                                                className="btn btn-info btn-rose disabled"
-                                            >
-                                                <i className="material-icons disabled">filter_list</i>
-                                                Lọc
-                                            </button>
+                                                <button
+                                                    style={{width: '100%'}}
+                                                    className="btn btn-info btn-rose disabled"
+                                                >
+                                                    <i className="material-icons disabled">filter_list</i>
+                                                    Lọc
+                                                </button>
                                             :
-                                            <button
-                                                style={{width: '100%'}}
-                                                onClick={this.openFilterPanel}
-                                                className="btn btn-info btn-rose "
-                                            >
-                                                <i className="material-icons">filter_list</i>
-                                                Lọc
-                                            </button>
+                                                <button
+                                                    style={{width: '100%'}}
+                                                    onClick={this.openFilterPanel}
+                                                    className="btn btn-info btn-rose "
+                                                >
+                                                    <i className="material-icons">filter_list</i>
+                                                    Lọc
+                                                </button>
                                     }
                                 </div>
-
-                                <div className="col-sm-3 col-xs-5">
-                                    <button className="btn btn-fill btn-rose"
-                                            onClick={this.exportExcel}
+                                <div className="col-sm-2 col-xs-5">
+                                    <button
+                                        onClick={this.props.isLoading ? () => {
+                                        } : this.exportExcel}
+                                        className="btn btn-info btn-rose"
+                                        disabled={this.props.isLoading}
                                     >
-                                        Xuất ra Excel
-                                        <div className="ripple-container"/>
+                                        Xuất ra excel
                                     </button>
                                 </div>
-
                             </div>
                             <Panel collapsible expanded={this.state.openFilterPanel}>
                                 <div className="row">
@@ -262,7 +264,8 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
                                     </div>
                                 </div>
                             </Panel>
-                            <Chart
+
+                            <SummarySalesComponent
                                 {...this.props}
                                 loadSummary={this.loadSummary}
                             />
@@ -274,28 +277,28 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
     }
 }
 
-SummaryMarketingCampaignUpContainer.propTypes = {
-    summaryMarketingCampaignActions: PropTypes.object.isRequired,
+SummarySalesUpContainer.propTypes = {
+    summarySalesActions: PropTypes.object.isRequired,
     bases: PropTypes.array.isRequired,
+    summary: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    summary: PropTypes.array.isRequired,
+    loadSummarySalesData: PropTypes.func,
 };
 
 function mapStateToProps(state) {
     return {
-        isLoadingGens: state.summaryMarketingCampaignUp.isLoadingGens,
-        bases: state.summaryMarketingCampaignUp.bases,
-        summary: state.summaryMarketingCampaignUp.summary,
-        isLoadingBases: state.summaryMarketingCampaignUp.isLoadingBases,
-        isLoading: state.summaryMarketingCampaignUp.isLoading,
+        bases: state.summarySales.bases,
+        summary: state.summarySales.summary,
+        isLoadingBases: state.summarySales.isLoadingBases,
+        isLoading: state.summarySales.isLoading,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        summaryMarketingCampaignActions: bindActionCreators(summaryMarketingCampaignActions, dispatch)
+        summarySalesActions: bindActionCreators(summarySalesActions, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SummaryMarketingCampaignUpContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SummarySalesUpContainer);

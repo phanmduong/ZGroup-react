@@ -18,6 +18,11 @@ import {loadAllRegistersApi} from "./registerManageApi";
 
 // import {Modal} from 'react-bootstrap';
 // import CallModal from "./CallModal";
+import SelectMonthBox from "../../components/common/SelectMonthBox";
+import Loading from "../../components/common/Loading";
+import SelectCommon from '../../components/common/Select';
+import {Panel} from 'react-bootstrap';
+
 
 class RegisterManageContainer extends React.Component {
     constructor(props, context) {
@@ -25,155 +30,139 @@ class RegisterManageContainer extends React.Component {
         this.state = {
             page: 1,
             query: '',
-            staff_id: null,
+            saler_id: null,
             status: null,
             campaign_id: null,
-            limit : 10,
+            limit: 10,
+
+            selectBaseId: 0,
+            bases: [],
+            isShowMonthBox: false,
+            openFilterPanel: false,
+            time: {
+                startTime: '',
+                endTime: '',
+            },
+            month: {year: 0, month: 0},
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.filterByCampaign = this.filterByCampaign.bind(this);
-        this.filterByStaff = this.filterByStaff.bind(this);
+        this.filterBySaler = this.filterBySaler.bind(this);
         this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(this);
-        this.statusesSearchChange = this.statusesSearchChange.bind(this);
+        this.filterByStatus = this.filterByStatus.bind(this);
+
+        this.openFilterPanel = this.openFilterPanel.bind(this);
+        this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
+        this.handleAMonthChange = this.handleAMonthChange.bind(this);
+        this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
+        this.onChangeBase = this.onChangeBase.bind(this);
     }
+
 
     componentWillMount() {
 
         this.props.registerManageAction.loadAllRegisters();
         this.props.registerManageAction.getAllStaffs();
+        this.props.registerManageAction.loadBasesData();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
+            this.setState({
+                bases: this.getBases(nextProps.bases),
+            });
+        }
     }
 
 
-    registersSearchChange(value) {
-        this.setState({
-            page: 1,
-            query: value
+    handleClickMonthBox() {
+        this.setState({isShowMonthBox: true});
+    }
+
+    handleAMonthChange(value) {
+        let startTime = value.year + "-" + value.month + "-01";
+        let endTime;
+        if (value.month !== 12) {
+            endTime = value.year + "-" + (value.month + 1) + "-01";
+        }
+        else endTime = value.year + 1 + "-01" + "-01";
+        this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
+            this.state.page,
+            this.state.query,
+            this.state.saler_id,
+            this.state.status,
+            this.state.campaign_id,
+            this.state.selectBaseId,
+            startTime,
+            endTime,
+            () => this.setState({month: value}),
+        );
+        let time = {...this.state.time};
+        time["startTime"] = startTime;
+        time["endTime"] = endTime;
+        this.setState({time: time});
+        this.handleAMonthDissmis();
+    }
+
+    handleAMonthDissmis() {
+        this.setState({isShowMonthBox: false});
+    }
+
+
+    getBases(bases) {
+        let baseData = bases.map(function (base) {
+            return {
+                key: base.id,
+                value: base.name
+            };
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.registerManageAction.loadAllRegisters(
-                this.state.limit ,
-                1,
-                value,
-                this.state.staff_id,
-                this.state.status,
-                this.state.campaign_id,
-            );
-        }.bind(this), 500);
+        this.setState({selectBaseId: 0});
+        return [{
+            key: 0,
+            value: 'Tất cả'
+        }, ...baseData];
     }
 
-    staffsSearchChange(value) {
-        if (value) {
-            this.setState({
-                staff_id: value.value,
-                page: 1
-            });
-            this.props.registerManageAction.loadAllRegisters(
-                this.state.limit,
-                1,
-                this.state.query,
-                value.value,
-                this.state.status,
-                this.state.campaign_id,
-            );
-        } else {
-            this.setState({
-                staff_id: null,
-                page: 1
-            });
-            this.props.registerManageAction.loadAllRegisters(
-                this.state.limit,
-                1,
-                this.state.query,
-                null,
-                this.state.status,
-                this.state.campaign_id,
-            );
-        }
-    }
-
-    statusesSearchChange(value) {
-        if (value) {
-            this.setState({
-                status: value.value,
-                page: 1
-            });
-            this.props.registerManageAction.loadAllRegisters(
-                this.state.limit,
-                1,
-                this.state.query,
-                this.state.staff_id,
-                value.value
-            );
-        } else {
-            this.setState({
-                status: null,
-                page: 1
-            });
-            this.props.registerManageAction.loadAllRegisters(
-                this.state.limit,
-                1,
-                this.state.query,
-                this.state.staff_id,
-                null
-            );
-        }
-    }
-
-    filterByCampaign(campaign_id) {
-        this.setState({campaign_id: campaign_id});
+    onChangeBase(value) {
+        this.setState({selectBaseId: value});
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
             this.state.query,
-            this.state.staff_id,
-            this.state.status,
-            campaign_id
-        );
-    }
-
-    filterByStaff(staff_id) {
-        this.setState({staff_id: staff_id});
-        this.props.registerManageAction.loadAllRegisters(
-            this.state.limit,
-            this.state.page,
-            this.state.query,
-            staff_id,
+            this.state.saler_id,
             this.state.status,
             this.state.campaign_id,
+            value,
+            this.state.startTime,
+            this.state.endTime,
         );
     }
 
 
-    loadOrders(page = 1) {
-        this.setState({page: page});
-        this.props.registerManageAction.loadAllRegisters(
-            this.state.limit,
-            page,
-            this.state.query,
-            this.state.staff_id,
-            this.state.status,
-            this.state.campaign_id,
-        );
+    openFilterPanel() {
+        let newstatus = !this.state.openFilterPanel;
+        this.setState({openFilterPanel: newstatus});
     }
 
 
-     async exportRegistersResultExcel() {
+    async exportRegistersResultExcel() {
         this.props.registerManageAction.showGlobalLoading();
-         const res = await loadAllRegistersApi(
-             -1,
-             this.state.page,
-             this.state.query,
-             this.state.staff_id,
-             this.state.status,
-             this.state.campaign_id,
-         );
-         this.props.registerManageAction.hideGlobalLoading();
+        const res = await loadAllRegistersApi(
+            -1,
+            this.state.page,
+            this.state.query,
+            this.state.saler_id,
+            this.state.status,
+            this.state.campaign_id,
+            this.state.selectBaseId,
+            this.state.startTime,
+            this.state.endTime,
+        );
+        this.props.registerManageAction.hideGlobalLoading();
         const wsData = res.data.data.room_service_registers;
         const field = [];
         field[0] = "Tên";
@@ -204,7 +193,142 @@ class RegisterManageContainer extends React.Component {
         workbook.SheetNames.push(sheetName);
         workbook.Sheets[sheetName] = ws;
         saveWorkBookToExcel(workbook, "Danh sách đăng kí");
-     }
+    }
+
+
+    registersSearchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
+                1,
+                value,
+                this.state.saler_id,
+                this.state.status,
+                this.state.campaign_id,
+                this.state.selectBaseId,
+                this.state.startTime,
+                this.state.endTime,
+            );
+        }.bind(this), 500);
+    }
+
+    staffsSearchChange(value) {
+        if (value) {
+            this.setState({
+                saler_id: value.value,
+                page: 1
+            });
+            this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
+                1,
+                this.state.query,
+                value.value,
+                this.state.status,
+                this.state.campaign_id,
+                this.state.selectBaseId,
+                this.state.startTime,
+                this.state.endTime,
+            );
+        } else {
+            this.setState({
+                saler_id: null,
+                page: 1
+            });
+            this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
+                1,
+                this.state.query,
+                null,
+                this.state.status,
+                this.state.campaign_id,
+                this.state.selectBaseId,
+                this.state.startTime,
+                this.state.endTime,
+            );
+        }
+    }
+
+    filterByStatus(value) {
+        if (value) {
+            this.setState({
+                status: value.value,
+                page: 1
+            });
+            this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
+                1,
+                this.state.query,
+                this.state.saler_id,
+                value.value,
+            );
+        } else {
+            this.setState({
+                status: null,
+                page: 1
+            });
+            this.props.registerManageAction.loadAllRegisters(
+                this.state.limit,
+                1,
+                this.state.query,
+                this.state.saler_id,
+                null
+            );
+        }
+    }
+
+    filterByCampaign(campaign_id) {
+        this.setState({campaign_id: campaign_id});
+        this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
+            this.state.page,
+            this.state.query,
+            this.state.saler_id,
+            this.state.status,
+            campaign_id,
+            this.state.selectBaseId,
+            this.state.startTime,
+            this.state.endTime,
+        );
+    }
+
+    filterBySaler(saler_id) {
+        this.setState({saler_id: saler_id});
+        this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
+            this.state.page,
+            this.state.query,
+            saler_id,
+            this.state.status,
+            this.state.campaign_id,
+            this.state.selectBaseId,
+            this.state.startTime,
+            this.state.endTime,
+        );
+    }
+
+
+    loadOrders(page = 1) {
+        this.setState({page: page});
+        this.props.registerManageAction.loadAllRegisters(
+            this.state.limit,
+            page,
+            this.state.query,
+            this.state.saler_id,
+            this.state.status,
+            this.state.campaign_id,
+            this.state.selectBaseId,
+            this.state.startTime,
+            this.state.endTime,
+        );
+    }
+
 
     closeModal() {
         this.setState({
@@ -212,112 +336,143 @@ class RegisterManageContainer extends React.Component {
         });
     }
 
+
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
 
             <div id="page-wrapper">
-                <div className="container-fluid">
-                    <button
-                        onClick={this.exportRegistersResultExcel}
-                        className="btn btn-info btn-rose"
-                        style={{float: "right"}}
-                    >
-                        <i className="material-icons">file_download</i>
-                        Xuất ra Excel
-                    </button>
-                    <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
+                {this.props.isLoadingBases ? <Loading/> :
+
+                    <div>
+                        <div className="row">
+                            <div className="col-sm-3 col-xs-5">
+                                <SelectMonthBox
+                                    theme="light"
+                                    isHide={false}
+                                    value={this.state.month}
+                                    onChange={this.handleAMonthChange}
+                                    isAuto={false}
+                                    isShowMonthBox={this.state.isShowMonthBox}
+                                    openBox={this.handleClickMonthBox}
+                                    closeBox={this.handleAMonthDissmis}
+                                />
+                            </div>
+                            <div className="col-sm-3 col-xs-5">
+                                <SelectCommon
+                                    defaultMessage={'Chọn cơ sở'}
+                                    options={this.state.bases}
+                                    disableRound
+                                    value={this.state.selectBaseId}
+                                    onChange={this.onChangeBase}
+                                />
+                            </div>
+                            <div className="col-sm-2 col-xs-5">
+                                <button
+                                    style={{width: '100%'}}
+                                    onClick={this.openFilterPanel}
+                                    className="btn btn-info btn-rose "
+                                >
+                                    <i className="material-icons">filter_list</i>
+                                    Lọc
+                                </button>
+                            </div>
+                            <div className="col-sm-4 col-xs-5">
+                                <button
+                                    onClick={this.exportRegistersResultExcel}
+                                    className="btn btn-info btn-rose"
+                                    style={{float: "right"}}
+                                >
+                                    <i className="material-icons">file_download</i>
+                                    Xuất ra Excel
+                                </button>
+                            </div>
                         </div>
-                        <div className="card-content">
-                            <h4 className="card-title">Danh sách đơn hàng</h4>
-                            <div>
-
-                                {/*<Select*/}
-                                {/*options={this.state.gens}*/}
-                                {/*onChange={this.changeGens}*/}
-                                {/*value={this.state.selectGenId}*/}
-                                {/*defaultMessage="Chọn khóa học"*/}
-                                {/*name="gens"*/}
-                                {/*/>*/}
 
 
-                                <div className="row">
-                                    <div className="col-md-10">
-                                        <Search
-                                            onChange={this.registersSearchChange}
-                                            value={this.state.query}
-                                            placeholder="Nhập mã đăng ký hoặc tên khách hàng"
-                                        />
-                                    </div>
-                                    <div className="col-md-2">
-                                        <button type="button" data-toggle="collapse" data-target="#demo"
-                                                className="btn btn-rose">
-                                            <i className="material-icons">filter_list</i> Lọc
-                                        </button>
-                                    </div>
-                                </div>
-
-
-                                <div id="demo" className="collapse">
-                                    <div className="row">
-                                        <div className="col-md-9">
+                        <Panel collapsible expanded={this.state.openFilterPanel}>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="card">
+                                        <div className="card-header card-header-icon" data-background-color="rose">
+                                            <i className="material-icons">filter_list</i>
+                                        </div>
+                                        <div className="card-content">
+                                            <h4 className="card-title">Bộ lọc</h4>
                                             <div className="row">
-                                                <div className="form-group col-md-4">
-                                                    <label className="label-control">Tìm theo thu ngân</label>
-                                                    <Select
-                                                        value={this.state.staff_id}
-                                                        options={this.props.staffs.map((staff) => {
-                                                            return {
-                                                                ...staff,
-                                                                value: staff.id,
-                                                                label: staff.name
-                                                            };
-                                                        })}
-                                                        onChange={this.staffsSearchChange}
-                                                    />
-                                                </div>
-                                                <div className="form-group col-md-4">
-                                                    <label className="label-control">Tìm theo trạng thái</label>
-                                                    <Select
-                                                        value={this.state.status}
-                                                        options={REGISTER_STATUS}
-                                                        onChange={this.statusesSearchChange}
-                                                    />
+                                                <div className="col-md-9">
+                                                    <div className="row">
+                                                        <div className="form-group col-md-4">
+                                                            <label className="label-control">Tìm theo saler</label>
+                                                            <Select
+                                                                value={this.state.staff_id}
+                                                                options={this.props.staffs.map((staff) => {
+                                                                    return {
+                                                                        ...staff,
+                                                                        value: staff.id,
+                                                                        label: staff.name
+                                                                    };
+                                                                })}
+                                                                onChange={this.staffsSearchChange}
+                                                            />
+                                                        </div>
+                                                        <div className="form-group col-md-4">
+                                                            <label className="label-control">Tìm theo trạng thái</label>
+                                                            <Select
+                                                                value={this.state.status}
+                                                                options={REGISTER_STATUS}
+                                                                onChange={this.filterByStatus}
+                                                            />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <ListOrder
-                                    registers={this.props.registers}
-                                    isLoading={this.props.isLoading}
-                                    filterByStaff={this.filterByStaff}
-                                    filterByCampaign={this.filterByCampaign}
-                                />
+                            </div>
+                        </Panel>
 
 
-                                <div className="row float-right">
-                                    <div className="col-md-12" style={{textAlign: 'right'}}>
-                                        <b style={{marginRight: '15px'}}>
-                                            Hiển thị kêt quả từ {first} - {end}/{this.props.totalCount}</b><br/>
-                                        <Pagination
-                                            totalPages={this.props.totalPages}
-                                            currentPage={this.props.currentPage}
-                                            loadDataPage={this.loadOrders}
-                                        />
+                        <div className="card">
+                            <div className="card-header card-header-icon" data-background-color="rose"
+                                 style={{zIndex: 0}}
+                            >
+                                <i className="material-icons">assignment</i>
+                            </div>
+                            <div className="card-content">
+                                <h4 className="card-title">Danh sách đơn hàng</h4>
+                                <div>
+                                    <Search
+                                        onChange={this.registersSearchChange}
+                                        value={this.state.query}
+                                        placeholder="Nhập mã đăng ký hoặc tên khách hàng"
+                                    />
+                                    <ListOrder
+                                        registers={this.props.registers}
+                                        isLoading={this.props.isLoading}
+                                        filterBySaler={this.filterBySaler}
+                                        filterByCampaign={this.filterByCampaign}
+                                    />
+                                    <div className="row float-right">
+                                        <div className="col-md-12" style={{textAlign: 'right'}}>
+                                            <b style={{marginRight: '15px'}}>
+                                                Hiển thị kêt quả từ {first} - {end}/{this.props.totalCount}</b><br/>
+                                            <Pagination
+                                                totalPages={this.props.totalPages}
+                                                currentPage={this.props.currentPage}
+                                                loadDataPage={this.loadOrders}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-
+                }
             </div>
 
         );
@@ -332,7 +487,10 @@ RegisterManageContainer.propTypes = {
     registers: PropTypes.array.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
-    staffs: PropTypes.array.isRequired
+    staffs: PropTypes.array.isRequired,
+
+    isLoadingBases: PropTypes.bool.isRequired,
+    bases: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -343,7 +501,10 @@ function mapStateToProps(state) {
         limit: state.registerManage.limit,
         totalCount: state.registerManage.totalCount,
         currentPage: state.registerManage.currentPage,
-        staffs: state.registerManage.staffs
+        staffs: state.registerManage.staffs,
+
+        isLoadingBases: state.registerManage.isLoadingBases,
+        bases: state.registerManage.bases,
     };
 }
 

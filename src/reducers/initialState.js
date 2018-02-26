@@ -1,5 +1,14 @@
 export default {
 
+    summarySalesUp: {
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+
     summaryMarketingCampaignUp: {
         errorGens: false,
         bases: [],
@@ -32,6 +41,10 @@ export default {
         totalCount: 1,
         limit: 20,
         isChangingStatus : false,
+
+
+        isLoadingBases : false,
+        bases :[],
     },
 
     bankAccount: {

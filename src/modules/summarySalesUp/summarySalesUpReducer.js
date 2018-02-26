@@ -2,10 +2,9 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-export default function summaryMarketingCampaignUpReducer(state = initialState.summaryMarketingCampaignUp, action) {
+export default function summarySalesUpReducer(state = initialState.summarySalesUp, action) {
     switch (action.type) {
-
-        case types.BEGIN_LOAD_BASES_DATA_SUMMARY_MARKETING_CAMPAIGN_UP:
+        case types.BEGIN_LOAD_BASES_DATA_SUMMARY_SALES_UP:
             return {
                 ...state,
                 ...{
@@ -14,7 +13,7 @@ export default function summaryMarketingCampaignUpReducer(state = initialState.s
 
                 }
             };
-        case types.LOAD_BASES_SUMMARY_MARKETING_CAMPAIGN_SUCCESS_UP:
+        case types.LOAD_BASES_SUMMARY_SALES_SUCCESS_UP:
             return {
                 ...state,
                 ...{
@@ -23,7 +22,7 @@ export default function summaryMarketingCampaignUpReducer(state = initialState.s
                     bases: action.bases,
                 }
             };
-        case types.LOAD_BASES_SUMMARY_MARKETING_CAMPAIGN_ERROR_UP:
+        case types.LOAD_BASES_SUMMARY_SALES_ERROR_UP:
             return {
                 ...state,
                 ...{
@@ -31,7 +30,7 @@ export default function summaryMarketingCampaignUpReducer(state = initialState.s
                     errorBases: true
                 }
             };
-        case types.BEGIN_LOAD_SUMMARY_MARKETING_CAMPAIGN_UP:
+        case types.BEGIN_LOAD_SUMMARY_SALES_UP:
             return {
                 ...state,
                 ...{
@@ -40,7 +39,7 @@ export default function summaryMarketingCampaignUpReducer(state = initialState.s
 
                 }
             };
-        case types.LOAD_SUMMARY_MARKETING_CAMPAIGN_SUCCESS_UP:
+        case types.LOAD_SUMMARY_SALES_SUCCESS_UP:
             return {
                 ...state,
                 ...{
@@ -49,7 +48,7 @@ export default function summaryMarketingCampaignUpReducer(state = initialState.s
                     summary: action.summary,
                 }
             };
-        case types.LOAD_SUMMARY_MARKETING_CAMPAIGN_ERROR_UP:
+        case types.LOAD_SUMMARY_SALES_ERROR_UP:
             return {
                 ...state,
                 ...{
