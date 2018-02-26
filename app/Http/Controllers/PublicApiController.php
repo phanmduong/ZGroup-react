@@ -90,7 +90,7 @@ class PublicApiController extends ApiController
 
         $request->file('image')->move($uploadPath, $fileName);
 
-        return $this->respond(['link' => $uploadPath . '/' . $fileName]);
+        return $this->respond(['link' => config('app.protocol') . config('app.domain') . '/upload' . $fileName]);
     }
 
     public function upload_video_public(Request $request)
@@ -103,7 +103,7 @@ class PublicApiController extends ApiController
 
         $request->file('video')->move($uploadPath, $fileName);
 
-        return $this->respond(['link' => $uploadPath . '/' . $fileName]);
+        return $this->respond(['link' => config('app.protocol') . config('app.domain') . '/upload' . $fileName]);
     }
 
     public function delete_image_froala(Request $request)
