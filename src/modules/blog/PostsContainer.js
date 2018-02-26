@@ -105,10 +105,7 @@ class BlogsContainer extends React.Component {
 
     render() {
         return (
-            <div id="page-wrapper">
                 <div className="container-fluid">
-
-
                     {this.props.isLoadingCategories || this.props.isLoading ?
                         <Loading/>
                         :
@@ -126,6 +123,8 @@ class BlogsContainer extends React.Component {
                                         </a>
                                     </div>
                                 </div>
+
+
                                 <div className="row">
                                     <div className="col-md-10">
                                         <Search
@@ -142,6 +141,8 @@ class BlogsContainer extends React.Component {
                                         />
                                     </div>
                                 </div>
+
+
                                 <ListPost
                                     openModal={this.openModal}
                                     handleSwitch={this.handleSwitch}
@@ -164,7 +165,7 @@ class BlogsContainer extends React.Component {
                     }
 
 
-                    <Modal show={this.state.isOpenModal} bsSize="lg" bsStyle="primary" onHide={this.closeModal}>
+                    <Modal show={this.state.isOpenModal}  bsStyle="primary" onHide={this.closeModal}>
                         <Modal.Header closeButton>
                             <Modal.Title>
                                 <strong>Bài viết</strong>
@@ -180,7 +181,6 @@ class BlogsContainer extends React.Component {
                     </Modal>
 
                 </div>
-            </div>
         );
     }
 }

@@ -11,6 +11,7 @@ import WorkInfoModal from './WorkInfoModal';
 import ExtendWorkModal from './ExtendWorkModal';
 import FinishWorkModal from './FinishWorkModal';
 import ArchivedWorkModal from './ArchivedWorkModal';
+import RateWorkModal from './RateWorkModal';
 import {Link} from "react-router";
 import ReactSelect from 'react-select';
 import {STATUS_WORK} from "../../constants/constants";
@@ -46,12 +47,15 @@ class JobAssignmentContainer extends React.Component {
         this.acceptPay =this.acceptPay.bind(this);
         this.archiveWork =this.archiveWork.bind(this);
         this.unArchiveWork =this.unArchiveWork.bind(this);
+        this.openModalRateWork =this.openModalRateWork.bind(this);
+        this.closeModalRateWork =this.closeModalRateWork.bind(this);
 
         this.state = {
             showInfoModal: false,
             showExtendModal: false,
             showFinishModal: false,
             showArchivedWorkModal: false,
+            showRateWorkModal: false,
             work: {
                 staffs:[],
                 payer: {},
@@ -60,6 +64,7 @@ class JobAssignmentContainer extends React.Component {
             typeFilter: "all",
             staffs: [],
             selectedStaffs:[],
+            workId: null,
         };
     }
 
@@ -122,6 +127,16 @@ class JobAssignmentContainer extends React.Component {
     closeArchivedWorkModal(){
         this.setState({showArchivedWorkModal: false});
         this.props.jobAssignmentAction.loadWorks();
+    }
+
+    openModalRateWork(id){
+        this.setState({showRateWorkModal: true, workId: id});
+        //this.props.jobAssignmentAction.loadRateData(id);
+    }
+
+    closeModalRateWork(){
+        this.setState({showRateWorkModal: false});
+
     }
 
     acceptWork(workId, staffId){
@@ -243,6 +258,12 @@ class JobAssignmentContainer extends React.Component {
                     onHide={this.closeArchivedWorkModal}
                     openInfoModal={this.openInfoModal}
                     unArchiveWork={this.unArchiveWork}
+                />
+                <RateWorkModal
+                    show={this.state.showRateWorkModal}
+                    onHide={this.closeModalRateWork}
+                    openInfoModal={this.openInfoModal}
+                    workId={this.state.workId}
                 />
 
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "5px",}}>
@@ -385,6 +406,7 @@ class JobAssignmentContainer extends React.Component {
                                                 user={user}
                                                 revertWork={this.revertWork}
                                                 archiveWork={this.archiveWork}
+                                                openModalRateWork={this.openModalRateWork}
                                             />
                                         );
                                     })

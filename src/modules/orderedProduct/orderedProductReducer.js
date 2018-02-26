@@ -4,6 +4,21 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+function changeStatusDelivery(deliveryOrders, delivery_id, status) {
+    if (deliveryOrders) {
+        deliveryOrders = deliveryOrders.map((delivery) => {
+            if (delivery.id === delivery_id) {
+                return {
+                    ...delivery,
+                    status: status,
+                };
+            }
+            return delivery;
+        });
+    }
+    return deliveryOrders;
+}
+
 export default function orderedProductReducer(state = initialState.orderedProduct, action) {
     switch (action.type) {
         case types.BEGIN_LOAD_ORDERED_PRODUCT:
@@ -61,6 +76,33 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 deliveryOrders: orders
             };
         }
+        case types.CHANGE_STATUS_ORDERED_SUCCESS:
+            return {
+                ...state,
+                deliveryOrders: changeStatusDelivery(state.deliveryOrders, action.delivery_id, action.status),
+                addCancelNoteModal: false,
+                sendPriceModal: false
+            };
+        case types.TOGGLE_ADD_CANCEL_NOTE_MODAL:
+            return {
+                ...state,
+                addCancelNoteModal: !state.addCancelNoteModal
+            };
+        case types.HANDLE_ADD_CANCEL_NOTE_MODAL:
+            return {
+                ...state,
+                cancelNote: action.cancelNote
+            };
+        case types.TOGGLE_SEND_PRICE_MODAL:
+            return {
+                ...state,
+                sendPriceModal: !state.sendPriceModal
+            };
+        case types.HANDLE_SEND_PRICE_MODAL:
+            return {
+                ...state,
+                orderSendPriceModal: action.order
+            };
         default:
             return state;
     }

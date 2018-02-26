@@ -1,4 +1,37 @@
 export default {
+
+    summarySalesUp: {
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+
+    summaryMarketingCampaignUp: {
+        errorGens: false,
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+
+    marketingCampaignUp: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        marketingCampaigns: [],
+        // courses: [],
+        // isLoadingCourses: false,
+        // errorCourses: false,
+        isStoringCampaign: false,
+        errorStoreCampaign: false,
+    },
+
     registerManage: {
         registers: [],
         staffs: [],
@@ -7,6 +40,11 @@ export default {
         currentPage: 1,
         totalCount: 1,
         limit: 20,
+        isChangingStatus : false,
+
+
+        isLoadingBases : false,
+        bases :[],
     },
 
     bankAccount: {
@@ -73,7 +111,11 @@ export default {
 
     orderedProduct: {
         addNoteModal: false,
+        addCancelNoteModal: false,
+        sendPriceModal: false,
+        orderSendPriceModal: {},
         orderNote: {},
+        cancelNote: {},
         isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
@@ -1024,7 +1066,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
-            provinces : [],
+            provinces: [],
             isOpenReturnOrder: false,
             isSaving: false,
             isSavingReturnOrders: false,
@@ -1501,6 +1543,9 @@ export default {
             },
         ],
         archivedWorks: [],
+        rateData:{
+            staffs:[],
+        },
     },
 
     groupCustomers: {
@@ -1750,7 +1795,10 @@ export default {
     seat: {
         showCreateSeatModal: false,
         point: {},
-        seat: {},
+        seat: {
+            r: 1,
+            color: "rgb(244, 67, 54)"
+        },
         seats: [],
         currentAction: "",
         domain: {x: [0, 600], y: [0, 400]}
@@ -1761,75 +1809,8 @@ export default {
         isLoadingInfoPrintOrder: false,
         isLoadingGoods: false,
         isLoadingCompanies: false,
-        listPrintOrder: [
-            {
-                company: {id: 0, name: "company"},
-                staff: {id: 0, name: "staff"},
-                good: {id: 0, name: "good"},
-                quantity: 1,
-                command_code: "DATIN1234556",
-                core1: {
-                    number: 1,
-                    material: "",
-                    color: "",
-                    size: 1,
-                    price: 1,
-                },
-                core2: {
-                    number: 1,
-                    material: "",
-                    color: "",
-                    size: 1,
-                    price: 1,
-                },
-                cover1: {
-                    number: 1,
-                    material: "",
-                    color: "",
-                    size: 1,
-                    price: 1,
-                },
-                cover2: {
-                    number: 1,
-                    material: "",
-                    color: "",
-                    size: 1,
-                    price: 1,
-                },
-                spare_part1: {
-                    name: "",
-                    number: 1,
-                    material: "",
-                    size: 1,
-                    price: 1,
-                    made_by: "",
-                },
-                spare_part2: {
-                    name: "",
-                    number: 1,
-                    material: "",
-                    size: 1,
-                    price: 1,
-                    made_by: "",
-                },
-                packing1: {
-                    name: "",
-                    price: 1,
-                },
-                packing2: {
-                    name: "",
-                    price: 1,
-                },
-                other: {
-                    name: "",
-                    price: 1,
-                },
-                price: 1,
-                note: "",
-                order_date: "2012-01-17",
-                receive_date: "2012-01-17",
-            }
-        ],
+        isLoadingPropers: false,
+        listPrintOrder: [],
         paginator: {
             current_page: 1,
             limit: 20,
@@ -1838,6 +1819,8 @@ export default {
         },
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
+        codes: [{value: '', label: ''}],
+        properties: [],
         data: {
             company: {id: 0, name: ""},
             staff: {id: 0, name: ""},
@@ -1982,6 +1965,9 @@ export default {
     sendNotification: {
         isSending: false,
         errorSend: false,
+        historyNotifications: [],
+        totalPages: 1,
+        currentPage: 1,
     },
     dashboardUp: {
         isLoadingBases: true,
@@ -1995,5 +1981,7 @@ export default {
         available_seats: 0,
 
     },
-
+    orderedGood:{
+      isLoading: false,
+    },
 };

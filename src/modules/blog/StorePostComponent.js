@@ -11,17 +11,17 @@ import AddCategoryModal from "./AddCategoryModal";
 import {Modal} from 'react-bootstrap';
 
 
-// import ReactSelect from "react-select";
+import ReactSelect from "react-select";
 
-// let tmpCategories;
-//
-// function addSelect(categories) {
-//     tmpCategories = categories.map((item) => {
-//         return {"value": item.value, "label": item.text};
-//         // subscriptionKinds = [...tmpSubscriptionKinds , ...{value : item.id,label : item.name}];
-//     });
-//     return tmpCategories;
-// }
+let tmpCategories;
+
+function addSelect(categories) {
+    tmpCategories = categories.map((item) => {
+        return {"value": item.value, "label": item.text};
+        // subscriptionKinds = [...tmpSubscriptionKinds , ...{value : item.id,label : item.name}];
+    });
+    return tmpCategories;
+}
 
 class StorePostComponent extends React.Component {
     constructor(props, context) {
@@ -66,7 +66,6 @@ class StorePostComponent extends React.Component {
                                         {isUpdatingImage ?
                                             <Loading/>
                                             :
-
                                             <TooltipButton text="Chọn ảnh đại diện" placement="top">
                                                 <a type="button" style={{
                                                     width: "100%",
@@ -108,7 +107,6 @@ class StorePostComponent extends React.Component {
                                                     />
                                                 </a>
                                             </TooltipButton>
-
                                         }
 
 
@@ -129,83 +127,41 @@ class StorePostComponent extends React.Component {
                                         />
 
 
+                                        <label className="label-control">Nhóm bài viết</label>
 
 
+                                        <div style={{marginTop: 40}}>
+                                            <div className="row">
+                                                <div className="col-md-12" style={{display: "flex"}}>
+                                                    <div style={{width: "-webkit-fill-available", marginRight: 10}}>
+                                                        <ReactSelect
+                                                            value={category}
+                                                            options={addSelect(this.props.categories)}
+                                                            onChange={this.props.updateFormSelect}
+                                                            placeholder="Chọn nhóm"
 
-                                        {/*<label className="label-control">Chọn gói đăng kí</label>*/}
-                                        {/*<div style={{marginTop: 40}}>*/}
-                                            {/*<div className="row">*/}
-                                                {/*<div className="col-md-12" style={{display: "flex"}}>*/}
-                                                    {/*<div style={{width: "-webkit-fill-available", marginRight: 10}}>*/}
-                                                        {/*<ReactSelect*/}
-                                                            {/*value={category}*/}
-                                                            {/*options={addSelect(this.props.categories)}*/}
-                                                            {/*onChange={this.props.updateFormPostData}*/}
-                                                            {/*placeholder="Chọn gói đăng kí"*/}
-                                                            {/**/}
-                                                        {/*/>*/}
-                                                    {/*</div>*/}
-                                                    {/*<div style={{marginTop: -6}}>*/}
-                                                        {/*<TooltipButton placement="top" text="Thêm loại gói đăng kí">*/}
-                                                            {/*<a className="btn btn-rose btn-sm"*/}
-                                                               {/*onClick={() => {*/}
-                                                                   {/*this.openModal({});*/}
-                                                               {/*}}>*/}
-                                                                {/*<i className="material-icons">control_point</i>*/}
-                                                            {/*</a>*/}
-                                                        {/*</TooltipButton>*/}
-                                                    {/*</div>*/}
-                                                {/*</div>*/}
-                                            {/*</div>*/}
-                                        {/*</div>*/}
-
-
-
-
-
-                                        <label>Nhóm bài viết</label>
-                                        <div className="row">
-                                            <div className="col-md-12" style={{display: "flex"}}>
-                                                <div style={{width: "-webkit-fill-available", marginRight: 10}}>
-                                                    <select
-                                                        className="form-control"
-                                                        value={category}
-                                                        onChange={this.props.updateFormPostData}
-                                                        name="category">
-                                                        {this.props.categories !== null && this.props.categories !== undefined &&
-                                                        this.props.categories.map((item, key) => {
-                                                            return (
-                                                                <option key={key}
-                                                                        value={item.value}>
-                                                                    {item.text}
-                                                                </option>);
-                                                        })}
-                                                    </select>
+                                                        />
+                                                    </div>
+                                                    <div style={{marginTop: -6}}>
+                                                        <TooltipButton placement="top" text="Thêm loại gói đăng kí">
+                                                            <a className="btn btn-rose btn-sm"
+                                                               onClick={() => {
+                                                                   this.openModal({});
+                                                               }}>
+                                                                <i className="material-icons">control_point</i>
+                                                            </a>
+                                                        </TooltipButton>
+                                                    </div>
                                                 </div>
-                                                <div style={{marginTop: 17}}>
-                                                    <TooltipButton placement="top" text="Thêm nhóm bài viết">
-                                                        <a className="btn btn-rose btn-sm"
-                                                           onClick={() => {
-                                                               this.props.openModal();
-                                                               this.openAddCategoryModal();
-                                                           }}>
-                                                            <i className="material-icons">control_point</i>
-                                                        </a>
-                                                    </TooltipButton>
-
-                                                </div>
-
                                             </div>
                                         </div>
+
+
                                         <input type="text" className="tagsinput" data-role="tagsinput"
                                                data-color="rose" value={tags}
                                                name="tags" placeholder="Tags" id="tags"/>
                                     </div>
                                 }
-
-
-
-
 
 
                                 <div className="row">
@@ -301,6 +257,7 @@ StorePostComponent.propTypes = {
     savePost: PropTypes.func.isRequired,
     handleFileUpload: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
+    updateFormSelect: PropTypes.func.isRequired,
     updateFormCategory: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
     category: PropTypes.object.isRequired,

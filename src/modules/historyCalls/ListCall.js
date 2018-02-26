@@ -16,11 +16,12 @@ class ListCall extends React.Component {
                     <thead className="text-rose">
                     <tr>
                         <th>Người gọi</th>
-                        <th>Học viên</th>
+                        <th>Khách hàng</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Trạng thái</th>
                         <th>Ghi chú</th>
+                        <th>Hẹn nộp</th>
                         <th>Thời gian gọi</th>
                     </tr>
                     </thead>
@@ -38,10 +39,10 @@ class ListCall extends React.Component {
                                     </Link>
                                 </td>
                                 <td>
-                                    <Link to={`/teaching/info-student/${call.student.id}`}
+                                    <a href={`/teaching/info-student/${call.student.id}`}
                                           className="text-name-student-register">
                                         {call.student.name}
-                                    </Link>
+                                    </a>
                                 </td>
                                 <td>
                                     <TooltipButton
@@ -82,6 +83,7 @@ class ListCall extends React.Component {
                                         <div id="register-email">{call.note}</div>
                                     </TooltipButton>
                                 </td>
+                                <td>{call.appointment_payment}</td>
                                 <td>{call.call_time}</td>
                             </tr>
                         );

@@ -5,12 +5,15 @@ import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
 import * as sendNotificationApi from './sendNotificationApi';
 import * as sendNotificationActions from './sendNotificationActions';
+import FormInputText from "../../components/common/FormInputText";
+import {setFormValidation} from "../../helpers/helper";
 
 class SendNotificationContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedNotificationType: null
+            selectedNotificationType: null,
+            name: ''
         };
         this.loadNotificationTypes = this.loadNotificationTypes.bind(this);
         this.selectNotificationType = this.selectNotificationType.bind(this);
@@ -45,20 +48,37 @@ class SendNotificationContainer extends React.Component {
     }
 
     sendNotification() {
-        this.props.sendNotificationActions.sendNotification(this.state.selectedNotificationType.id);
+        setFormValidation("#form-send-notification-type");
+        if ($('#form-send-notification-type').valid()) {
+            this.props.sendNotificationActions.sendNotification(this.state.selectedNotificationType.id, this.state.name, this.props.closeModal);
+        }
     }
 
     render() {
         return (
             <div>
-                <ReactSelect.Async
-                    loadOptions={this.loadNotificationTypes}
-                    loadingPlaceholder="Đang tải..."
-                    placeholder="Chọn loại thông báo"
-                    searchPromptText="Không có dữ liệu thông báo"
-                    onChange={this.selectNotificationType}
-                    value={this.state.selectedNotificationType}
-                />
+                <form id="form-send-notification-type">
+                    <FormInputText
+                        label="Tên"
+                        name="name"
+                        updateFormData={(event) => {
+                            this.setState({name: event.target.value});
+                        }}
+                        value={this.state.name}
+                        required={true}
+                    />
+                </form>
+                <div className="form-group">
+                    <label className="label-control">Mẫu thông báo</label>
+                    <ReactSelect.Async
+                        loadOptions={this.loadNotificationTypes}
+                        loadingPlaceholder="Đang tải..."
+                        placeholder="Chọn loại thông báo"
+                        searchPromptText="Không có dữ liệu thông báo"
+                        onChange={this.selectNotificationType}
+                        value={this.state.selectedNotificationType}
+                    />
+                </div>
                 {this.props.isSending ?
                     (
                         <button className="btn btn-fill btn-rose disabled" type="button">
@@ -88,6 +108,7 @@ class SendNotificationContainer extends React.Component {
 SendNotificationContainer.propTypes = {
     isSending: PropTypes.bool.isRequired,
     sendNotificationActions: PropTypes.object.isRequired,
+    closeModal: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

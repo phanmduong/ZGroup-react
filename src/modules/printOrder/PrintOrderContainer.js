@@ -8,22 +8,89 @@ import * as printOrderActions from "./printOrderActions";
 import ListPrintOrder from "./ListPrintOrder";
 //import Search                   from "../../components/common/Search";
 import {Link} from "react-router";
+import {Panel} from 'react-bootstrap';
+import ReactSelect from 'react-select';
+import {PRINT_ORDER_STATUS} from '../../constants/constants';
 
 class PrintOrderContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             query: "",
+            openFilterPanel: false,
+            statuses: getStatusArr(),
+            selectedCode: '',
+            selectedProduct: '',
+            selectedStatus: '',
         };
-
+        this.openFilterPanel = this.openFilterPanel.bind(this);
+        this.changeCodeFilter = this.changeCodeFilter.bind(this);
+        this.loadAllData = this.loadAllData.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
+        this.changeProduct = this.changeProduct.bind(this);
     }
 
     componentWillMount() {
+        this.props.printOrderActions.getAllCodes();
         this.props.printOrderActions.loadPrintOrders();
+        this.props.printOrderActions.loadAllGoods();
+    }
+
+    // componentWillReceiveProps(nextProps){
+    //     console.log(nextProps);
+    // }
+
+    loadAllData(page,command_code, good_id, status){
+        this.props.printOrderActions.loadPrintOrders(page,command_code, good_id, status);
+    }
+
+    openFilterPanel(){
+        let {openFilterPanel} = this.state;
+        this.setState({openFilterPanel: !openFilterPanel});
+    }
+
+    changeCodeFilter(e){
+        if(!e) e={id: '', value: '', code:'', label:''};
+        this.setState({selectedCode: e.value});
+        let {paginator} = this.props;
+        let {selectedProduct,selectedStatus} = this.state;
+        this.loadAllData(
+            paginator.current_page,
+            e.id == '' ? '' : e.code,
+            selectedProduct,
+            selectedStatus,
+        );
+    }
+
+    changeStatus(e){
+        if(!e) e={id: '', value: '', code:'', label:''};
+        this.setState({selectedStatus: e.value});
+        let {paginator} = this.props;
+        let {selectedProduct,selectedCode} = this.state;
+        this.loadAllData(
+            paginator.current_page,
+            selectedCode,
+            selectedProduct,
+            e.value,
+        );
+    }
+
+    changeProduct(e){
+        if(!e) e={id: '', value: '', code:'', label:''};
+        this.setState({selectedProduct: e.value});
+        let {paginator} = this.props;
+        let {selectedStatus,selectedCode} = this.state;
+        this.loadAllData(
+            paginator.current_page,
+            selectedCode,
+            e.value,
+            selectedStatus,
+        );
     }
 
     render() {
-        let {paginator, printOrderActions} = this.props;
+        let {paginator, printOrderActions, codes, isLoading, goods} = this.props;
+        let {selectedProduct,selectedStatus, selectedCode} = this.state;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -42,17 +109,68 @@ class PrintOrderContainer extends React.Component {
                                             <div className="col-sm-3">
                                                 <Link to="/business/print-order/create" className="btn btn-rose"
                                                       style={{width: "100%"}}>
+                                                    <i className="material-icons">print</i>
                                                     Đặt In
                                                 </Link>
                                             </div>
-                                            {/*<Search className="col-sm-9" placeholder="Tìm kiếm"*/}
-                                            {/*value={this.state.query}*/}
-                                            {/*onChange={()=>{}}*/}
-                                            {/*/>*/}
+                                            <div className="col-sm-3">
+                                                <button className="btn btn-rose"
+                                                       style={{width: "100%"}}
+                                                        onClick={this.openFilterPanel}>
+                                                    <i className="material-icons">filter_list</i>
+                                                    Lọc
+                                                </button>
+                                            </div>
+
                                         </div>
                                     </div>
+                                    <Panel collapsible expanded={this.state.openFilterPanel}>
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                                <label style={{color: "#4c4a46"}}>
+                                                    Mã giao dịch
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={isLoading}
+                                                    className=""
+                                                    options={codes}
+                                                    onChange={this.changeCodeFilter}
+                                                    value={selectedCode}
+                                                    name="filter_class"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <label style={{color: "#4c4a46"}}>
+                                                    Tên sách
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={isLoading}
+                                                    className=""
+                                                    options={goods}
+                                                    onChange={this.changeProduct}
+                                                    value={selectedProduct}
+                                                    name="filter_class"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <label style={{color: "#4c4a46"}}>
+                                                    Trạng thái
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={isLoading}
+                                                    className=""
+                                                    options={this.state.statuses}
+                                                    onChange={this.changeStatus}
+                                                    value={selectedStatus}
+                                                    name="filter_class"
+                                                />
+                                            </div>
+                                        </div>
+
+
+                                    </Panel>
                                     {
-                                        this.props.isLoading ? <Loading/> :
+                                        isLoading ? <Loading/> :
                                             <ListPrintOrder/>
                                     }
                                     <Pagination
@@ -69,17 +187,26 @@ class PrintOrderContainer extends React.Component {
     }
 }
 
+function getStatusArr() {
+    let res = PRINT_ORDER_STATUS.map((obj,id) => {return {value:id,label:obj};});
+    return [{value: '', label:'Tất cả'},...res];
+}
+
 PrintOrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     printOrderActions: PropTypes.object.isRequired,
     user: PropTypes.object,
     paginator: PropTypes.object,
+    codes: PropTypes.array,
+    goods: PropTypes.array,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.printOrder.isLoading,
         paginator: state.printOrder.paginator,
+        codes: state.printOrder.codes,
+        goods: state.printOrder.goods,
         user: state.login.user,
     };
 }

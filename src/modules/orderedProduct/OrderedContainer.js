@@ -17,6 +17,8 @@ import * as orderedProductAction from "./orderedProductAction";
 import {bindActionCreators} from "redux";
 import {Link} from "react-router";
 import AddNoteModal from "./AddNoteModal";
+import AddCancelNoteModal from "./AddCancelNoteModal";
+import SendPriceModal from "./SendPriceModal";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -368,6 +370,8 @@ class OrderedContainer extends React.Component {
                     </div>
                 </div>
                 <AddNoteModal/>
+                <AddCancelNoteModal/>
+                <SendPriceModal/>
             </div>
         );
     }

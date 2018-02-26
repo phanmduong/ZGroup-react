@@ -69,6 +69,7 @@ class SurveyContainer extends React.Component {
         this.props.surveyActions.updateSurveyFormData(survey);
     }
 
+
     async exportSurveyResultExcel(survey) {
         this.props.surveyActions.showGlobalLoading();
         const res = await loadSurveyResult(survey.id);

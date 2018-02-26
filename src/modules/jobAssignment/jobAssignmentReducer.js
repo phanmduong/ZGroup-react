@@ -336,6 +336,44 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 isLoadingArchivedWork: false,
             };
         }
+        case types.BEGIN_LOAD_RATE_DATA_WORK: {
+            return {
+                ...state,
+                isLoadingRateData: true,
+            };
+        }
+        case types.LOAD_RATE_DATA_WORK_SUCCESS: {
+            return {
+                ...state,
+                isLoadingRateData: false,
+                rateData : action.rateData,
+            };
+        }
+        case types.LOAD_RATE_DATA_WORK_ERROR: {
+            return {
+                ...state,
+                isLoadingRateData: false,
+            };
+        }
+        case types.BEGIN_RATE_WORK: {
+            return {
+                ...state,
+                isSaving: true,
+            };
+        }
+        case types.RATE_WORK_SUCCESS: {
+            return {
+                ...state,
+                isSaving: false,
+
+            };
+        }
+        case types.RATE_WORK_ERROR: {
+            return {
+                ...state,
+                isSaving: false,
+            };
+        }
 
         default:
             return state;
