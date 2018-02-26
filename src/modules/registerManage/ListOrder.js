@@ -158,14 +158,14 @@ class ListOrder extends React.Component {
                                                 {register.code || "Chưa có"}
                                             </td>
                                             <td>
-                                                {register.staff ?
+                                                {register.saler ?
                                                     <a className="btn btn-xs btn-main"
                                                        onClick={(e) => {
-                                                           this.props.filterByStaff(register.staff.id);
+                                                           this.props.filterBySaler(register.saler.id);
                                                            e.preventDefault();
                                                        }}
-                                                       style={{backgroundColor: register.staff.color && register.staff.color}}
-                                                    >{register.staff.name}
+                                                       style={{backgroundColor: register.saler.color && "#" + register.saler.color}}
+                                                    >{register.saler.name}
                                                     </a>
                                                     :
                                                     <a className="btn btn-xs btn-main disabled">Chưa có
@@ -246,7 +246,7 @@ ListOrder.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     registers: PropTypes.array.isRequired,
     filterByCampaign: PropTypes.func.isRequired,
-    filterByStaff: PropTypes.func.isRequired,
+    filterBySaler: PropTypes.func.isRequired,
 };
 
 

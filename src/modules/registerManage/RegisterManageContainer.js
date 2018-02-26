@@ -30,7 +30,7 @@ class RegisterManageContainer extends React.Component {
         this.state = {
             page: 1,
             query: '',
-            staff_id: null,
+            saler_id: null,
             status: null,
             campaign_id: null,
             limit: 10,
@@ -50,7 +50,7 @@ class RegisterManageContainer extends React.Component {
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.filterByCampaign = this.filterByCampaign.bind(this);
-        this.filterByStaff = this.filterByStaff.bind(this);
+        this.filterBySaler = this.filterBySaler.bind(this);
         this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(this);
         this.filterByStatus = this.filterByStatus.bind(this);
 
@@ -68,6 +68,7 @@ class RegisterManageContainer extends React.Component {
         this.props.registerManageAction.getAllStaffs();
         this.props.registerManageAction.loadBasesData();
     }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
             this.setState({
@@ -77,11 +78,10 @@ class RegisterManageContainer extends React.Component {
     }
 
 
-
-
     handleClickMonthBox() {
         this.setState({isShowMonthBox: true});
     }
+
     handleAMonthChange(value) {
         let startTime = value.year + "-" + value.month + "-01";
         let endTime;
@@ -93,7 +93,7 @@ class RegisterManageContainer extends React.Component {
             this.state.limit,
             this.state.page,
             this.state.query,
-            this.state.staff_id,
+            this.state.saler_id,
             this.state.status,
             this.state.campaign_id,
             this.state.selectBaseId,
@@ -113,9 +113,6 @@ class RegisterManageContainer extends React.Component {
     }
 
 
-
-
-
     getBases(bases) {
         let baseData = bases.map(function (base) {
             return {
@@ -129,16 +126,19 @@ class RegisterManageContainer extends React.Component {
             value: 'Tất cả'
         }, ...baseData];
     }
+
     onChangeBase(value) {
         this.setState({selectBaseId: value});
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
             this.state.query,
-            this.state.staff_id,
+            this.state.saler_id,
             this.state.status,
             this.state.campaign_id,
             value,
+            this.state.startTime,
+            this.state.endTime,
         );
     }
 
@@ -155,9 +155,12 @@ class RegisterManageContainer extends React.Component {
             -1,
             this.state.page,
             this.state.query,
-            this.state.staff_id,
+            this.state.saler_id,
             this.state.status,
             this.state.campaign_id,
+            this.state.selectBaseId,
+            this.state.startTime,
+            this.state.endTime,
         );
         this.props.registerManageAction.hideGlobalLoading();
         const wsData = res.data.data.room_service_registers;
@@ -193,7 +196,6 @@ class RegisterManageContainer extends React.Component {
     }
 
 
-
     registersSearchChange(value) {
         this.setState({
             page: 1,
@@ -207,16 +209,20 @@ class RegisterManageContainer extends React.Component {
                 this.state.limit,
                 1,
                 value,
-                this.state.staff_id,
+                this.state.saler_id,
                 this.state.status,
                 this.state.campaign_id,
+                this.state.selectBaseId,
+                this.state.startTime,
+                this.state.endTime,
             );
         }.bind(this), 500);
     }
+
     staffsSearchChange(value) {
         if (value) {
             this.setState({
-                staff_id: value.value,
+                saler_id: value.value,
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
@@ -226,10 +232,13 @@ class RegisterManageContainer extends React.Component {
                 value.value,
                 this.state.status,
                 this.state.campaign_id,
+                this.state.selectBaseId,
+                this.state.startTime,
+                this.state.endTime,
             );
         } else {
             this.setState({
-                staff_id: null,
+                saler_id: null,
                 page: 1
             });
             this.props.registerManageAction.loadAllRegisters(
@@ -239,9 +248,13 @@ class RegisterManageContainer extends React.Component {
                 null,
                 this.state.status,
                 this.state.campaign_id,
+                this.state.selectBaseId,
+                this.state.startTime,
+                this.state.endTime,
             );
         }
     }
+
     filterByStatus(value) {
         if (value) {
             this.setState({
@@ -252,8 +265,8 @@ class RegisterManageContainer extends React.Component {
                 this.state.limit,
                 1,
                 this.state.query,
-                this.state.staff_id,
-                value.value
+                this.state.saler_id,
+                value.value,
             );
         } else {
             this.setState({
@@ -264,31 +277,39 @@ class RegisterManageContainer extends React.Component {
                 this.state.limit,
                 1,
                 this.state.query,
-                this.state.staff_id,
+                this.state.saler_id,
                 null
             );
         }
     }
+
     filterByCampaign(campaign_id) {
         this.setState({campaign_id: campaign_id});
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
             this.state.query,
-            this.state.staff_id,
+            this.state.saler_id,
             this.state.status,
-            campaign_id
+            campaign_id,
+            this.state.selectBaseId,
+            this.state.startTime,
+            this.state.endTime,
         );
     }
-    filterByStaff(staff_id) {
-        this.setState({staff_id: staff_id});
+
+    filterBySaler(saler_id) {
+        this.setState({saler_id: saler_id});
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
             this.state.query,
-            staff_id,
+            saler_id,
             this.state.status,
             this.state.campaign_id,
+            this.state.selectBaseId,
+            this.state.startTime,
+            this.state.endTime,
         );
     }
 
@@ -299,13 +320,14 @@ class RegisterManageContainer extends React.Component {
             this.state.limit,
             page,
             this.state.query,
-            this.state.staff_id,
+            this.state.saler_id,
             this.state.status,
             this.state.campaign_id,
+            this.state.selectBaseId,
+            this.state.startTime,
+            this.state.endTime,
         );
     }
-
-
 
 
     closeModal() {
@@ -313,7 +335,6 @@ class RegisterManageContainer extends React.Component {
             showModal: false
         });
     }
-
 
 
     render() {
@@ -414,8 +435,10 @@ class RegisterManageContainer extends React.Component {
                         </Panel>
 
 
-                        <div className="card" style={{zIndex : -1}}>
-                            <div className="card-header card-header-icon" data-background-color="rose">
+                        <div className="card">
+                            <div className="card-header card-header-icon" data-background-color="rose"
+                                 style={{zIndex: 0}}
+                            >
                                 <i className="material-icons">assignment</i>
                             </div>
                             <div className="card-content">
@@ -429,7 +452,7 @@ class RegisterManageContainer extends React.Component {
                                     <ListOrder
                                         registers={this.props.registers}
                                         isLoading={this.props.isLoading}
-                                        filterByStaff={this.filterByStaff}
+                                        filterBySaler={this.filterBySaler}
                                         filterByCampaign={this.filterByCampaign}
                                     />
                                     <div className="row float-right">
