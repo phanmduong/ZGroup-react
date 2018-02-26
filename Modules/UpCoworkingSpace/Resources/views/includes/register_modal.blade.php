@@ -322,7 +322,7 @@
                         _token: window.token
                     })
                         .then(function (response) {
-                            this.disableSubmitButton = true;
+                            this.disableSubmitButton
                             this.isLoading = false;
                             this.name = "";
                             this.phone = "";

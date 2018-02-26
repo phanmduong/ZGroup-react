@@ -30,14 +30,12 @@
                         <div class="card card-plain card-blog">
                             <div class="card-image">
                                 <a href="{{'/conference-room/'.$userPack->id}}">
-                                    <div
-                                            style="width: 100%;
-                                                    border-radius: 15px;
-                                                    background: url({{generate_protocol_url($userPack->avatar_url)}});
-                                                    background-size: cover;
-                                                    background-position: center;
-                                                    padding-bottom: 70%;"
-
+                                    <div style="width: 100%;
+                                            border-radius: 15px;
+                                            background: url({{generate_protocol_url($userPack->avatar_url)}});
+                                            background-size: cover;
+                                            background-position: center;
+                                            padding-bottom: 70%;"
                                     ></div>
                                 </a>
                             </div>
@@ -98,9 +96,10 @@
                                 </option>
                             </select>
                         </div>
-                        <h3>Chọn thời lượng</h3>
                         <br>
                         <div class="container">
+                            <h3>Chọn thời lượng</h3>
+                            <br>
                             <ul class="nav nav-pills nav-pills-up">
                                 <li v-for="subscription in subscriptions"
                                     class="nav-item"
