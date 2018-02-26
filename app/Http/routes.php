@@ -244,6 +244,14 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
 });
 
+Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function (){
+    Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
+    Route::get('search-registers', 'MoneyManageApiController@search_registers');
+    Route::post('pay-register', 'MoneyManageApiController@pay_register');
+    Route::post('activate-class', 'ManageClassApiController@activate_class');
+    Route::post('change-class-status', 'ManageClassApiController@change_class_status');
+});
+
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
@@ -831,7 +839,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
 
 //new api routes
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'v3/manageapi'], function () {
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');

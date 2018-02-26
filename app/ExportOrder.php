@@ -39,8 +39,8 @@ class ExportOrder extends Model
             ] : [],
             "price" => $this->price,
             "quantity" => $this->quantity,
-            "status" => $this->status,
             "total_price" => $this->total_price,
+            "export_quantity" => $this->export_quantity,
 
         ];
     }

@@ -30,20 +30,13 @@ class RoomServiceMarketingCampaignController extends ManageApiController
             ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
             ->groupBy('campaign_id', 'saler_id');
 
-//        if ($startTime && $endTime) {
-//            $summary->whereBetween('created_at', array($startTime, $endTime));
-//        }
-//        else {
-//            if ($request->gen_id && $request->gen_id != 0) {
-//                $summary->where('gen_id', $request->gen_id);
-//            }
-//        }
+        if ($startTime && $endTime) {
+            $summary->whereBetween('created_at', array($startTime, $endTime));
+        } else
+            $summary->whereBetween('created_at', array(date('Y-m-01'), date("Y-m-d", strtotime("+1 day", strtotime(date('Y-m-d'))))));
 
-
-//        if ($request->base_id && $request->base_id != 0) {
-//            $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
-//            $summary->whereIn('class_id', $class_ids);
-//        }
+        if ($request->base_id && $request->base_id != 0)
+            $summary->where('base_id', $request->base_id);
 
         $summary = $summary->get()->map(function ($item) {
 
@@ -111,27 +104,17 @@ class RoomServiceMarketingCampaignController extends ManageApiController
 
     public function summarySales(Request $request)
     {
-//        $gen_id = $request->gen_id;
-//
-//        if ($gen_id && $gen_id != 0) {
-//            $current_gen = Gen::find($gen_id);
-//        } else {
-//            $current_gen = Gen::getCurrentGen();
-//        }
-
-//        $startTime = $request->start_time;
-//        $end_time = $request->end_time;
-        $startTime = "2018-01-26";
-        $end_time = "2018-02-23";
-
-        if ($startTime && $end_time) {
-            $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
-            $all_registers = RoomServiceRegister::whereBetween('created_at', array($startTime, $endTime));
+        $startTime = $request->start_time;
+        $end_time = $request->end_time;
+        if ($startTime == null) {
+            $startTime = date('Y-m-01');
+            $end_time = date("Y-m-d");
         }
-//        else {
-////            $all_registers = $current_gen->registers();
-//        }
+
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+
+        $all_registers = RoomServiceRegister::whereBetween('created_at', array($startTime, $endTime));
+
         $date_array = createDateRangeArray(strtotime($startTime), strtotime($end_time));
 
         $saler_ids = $all_registers->pluck('saler_id');
@@ -151,36 +134,28 @@ class RoomServiceMarketingCampaignController extends ManageApiController
 
             $registers = clone $all_registers;
 
+
             $saler_registers = $registers->where('saler_id', $saler->id);
 
-            $data['total_registers'] = $saler_registers->where(function ($query) {
-                $query->where('status', 0)
-                    ->orWhere('money', '>', 0);
-            })->count();
-
+            $data['total_registers'] = $saler_registers->count();
 
             $data['total_paid_registers'] = $saler_registers->where('money', '>', 0)->count();
 
-            $bonus = 0;
-            $courses = array();
+//            $bonus = 0;
+//            $courses = array();
 
             $di = 0;
 
+            $registers_by_date_personal_temp = RoomServiceRegister::select(DB::raw('DATE(created_at) as date,count(1) as num'))
+                ->whereBetween('created_at', array($startTime, $endTime))
+                ->where('saler_id', $saler->id)
+                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_personal_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+            $paid_by_date_personal_temp = RoomServiceRegister::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
                 ->whereBetween('paid_time', array($startTime, $endTime))
                 ->where('saler_id', $saler->id)
                 ->where('money', '>', 0)
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
-
-            $registers_by_date_personal_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
-                ->whereBetween('created_at', array($startTime, $endTime))
-                ->where('saler_id', $saler->id)
-                ->where(function ($query) {
-                    $query->where('status', 0)
-                        ->orWhere('money', '>', 0);
-                })
-                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $registers_by_date_personal = array();
             $paid_by_date_personal = array();
@@ -204,7 +179,6 @@ class RoomServiceMarketingCampaignController extends ManageApiController
             $data['registers_by_date'] = $registers_by_date_personal;
             $data['paid_by_date'] = $paid_by_date_personal;
             $data['date_array'] = $date_array;
-//
 //            foreach (Course::all() as $course) {
 //                $class_ids = $course->classes()->pluck('id')->toArray();
 //                if ($request->start_time && $request->end_time) {
@@ -213,9 +187,9 @@ class RoomServiceMarketingCampaignController extends ManageApiController
 //                        ->whereBetween('created_at', array($startTime, $endTime))
 //                        ->count();
 //                } else {
-////                    $count = $saler->sale_registers()->where('money', '>', '0')
-////                        ->whereIn('class_id', $class_ids)
-////                        ->count();
+//                    $count = $saler->sale_registers()->where('money', '>', '0')
+//                        ->whereIn('class_id', $class_ids)
+//                        ->count();
 //                }
 //
 //                $money = $course->sale_bonus;// * $count;
@@ -233,21 +207,19 @@ class RoomServiceMarketingCampaignController extends ManageApiController
 //
 //            };
 //
-//            $campaigns = $saler_registers->select(DB::raw('count(*) as total_registers,campaign_id'))->where('campaign_id', '<>', 0)
-//                ->whereNotNull('campaign_id')->groupBy('campaign_id')->get();
-//
-//
-//            $data['campaigns'] = $campaigns->map(function ($campaign) {
-//                return [
-//                    'id' => $campaign->campaign->id,
-//                    'name' => $campaign->campaign->name,
-//                    'color' => $campaign->campaign->color,
-//                    'total_registers' => $campaign->total_registers,
-//                ];
-//            });
+            $campaigns = $saler_registers->select(DB::raw('count(*) as total_registers,campaign_id'))->where('campaign_id', '<>', 0)
+                ->whereNotNull('campaign_id')->groupBy('campaign_id')->get();
+
+            $data['campaigns'] = $campaigns->map(function ($campaign) {
+                return [
+                    'id' => $campaign->campaign->id,
+                    'name' => $campaign->campaign->name,
+                    'color' => $campaign->campaign->color,
+                    'total_registers' => $campaign->total_registers,
+                ];
+            });
 //            $data['bonus'] = $bonus;
 //            $data['courses'] = $courses;
-//
             return $data;
         });
 

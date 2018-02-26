@@ -131,10 +131,16 @@
                      id="purchase-error">
                     @{{ message }}
                 </div>
+                <div v-if="isLoading" class="container">
+                    <div style="text-align: center;width: 100%;;padding: 15px;">
+                        @include('upcoworkingspace::includes.loading')
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button id="btn-purchase" class="btn btn-sm btn-main"
                         style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
+                        v-bind:disabled="disableSubmitButton"
                         v-on:click="submit">
                     Xác nhận</i>
                 </button>
@@ -262,7 +268,6 @@
             },
             methods: {
                 subscriptionOnclick: function (event, subscriptionId) {
-                    console.log(this.base);
                     this.subscriptionId = subscriptionId;
                     this.subscription = this.userPack.subscriptions.filter(function (subscription) {
                         return subscription.id === subscriptionId;
@@ -287,14 +292,26 @@
                 message: '',
                 subscriptionId: 0,
                 baseId: 0,
+                isLoading: false,
+                disableSubmitButton: false,
             },
             methods: {
+                validateEmail: function validateEmail(email) {
+                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email.toLowerCase());
+                },
                 submit: function () {
-                    console.log('asdasd');
                     if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
                         this.message = 'Bạn vui lòng nhập đủ thông tin';
                         return;
                     }
+                    if (this.validateEmail(this.email) === false) {
+                        this.message = 'Bạn vui lòng kiểm tra lại email';
+                        return;
+                    }
+                    this.isLoading = true;
+                    this.disableSubmitButton = true;
+                    this.message = '';
                     axios.post(window.url + '/api/register', {
                         name: this.name,
                         phone: this.phone,
@@ -305,10 +322,12 @@
                         _token: window.token
                     })
                         .then(function (response) {
-                            name = "";
-                            phone = "";
-                            email = "";
-                            address = "";
+                            this.disableSubmitButton
+                            this.isLoading = false;
+                            this.name = "";
+                            this.phone = "";
+                            this.email = "";
+                            this.address = "";
                             $("#submitModal").modal("hide");
                             $("#modalSuccess").modal("show");
                         }.bind(this))
