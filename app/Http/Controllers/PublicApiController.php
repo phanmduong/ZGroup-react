@@ -86,7 +86,7 @@ class PublicApiController extends ApiController
 
         $fileName = time() . "_" . rand(0, 9999999) . "_" . md5(rand(0, 9999999)) . "." . $fileExtension;
 
-        $uploadPath = public_path('/upload');
+        $uploadPath = public_path('upload');
 
         $request->file('image')->move($uploadPath, $fileName);
 
@@ -99,7 +99,7 @@ class PublicApiController extends ApiController
 
         $fileName = time() . "_" . rand(0, 9999999) . "_" . md5(rand(0, 9999999)) . "." . $fileExtension;
 
-        $uploadPath = public_path('/upload');
+        $uploadPath = public_path('upload');
 
         $request->file('video')->move($uploadPath, $fileName);
 
