@@ -178,6 +178,7 @@
                 <div class="modal-footer">
                     <button id="btn-purchase" class="btn btn-sm btn-main"
                             v-on:click="submit"
+                            v-bind:disabled="disableSubmitButton"
                             style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f">
                         Xác nhận
                     </button>
@@ -288,7 +289,8 @@
                 phone: '',
                 address: '',
                 message: '',
-                isLoading: false
+                isLoading: false,
+                disableSubmitButton: false,
             },
             methods: {
                 validateEmail: function validateEmail(email) {
@@ -307,6 +309,7 @@
                     }
                     this.isLoading = true;
                     this.message = '';
+                    this.disableSubmitButton = true;
                     axios.post(window.url + '/api/register', {
                         name: this.name,
                         phone: this.phone,
@@ -324,6 +327,7 @@
                             this.email = "";
                             this.address = "";
                             this.isLoading = false;
+                            this.disableSubmitButton = false;
                             $("#memberRegisterInfo").modal("hide");
                             $("#modalSuccess").modal("show");
                         }.bind(this))
