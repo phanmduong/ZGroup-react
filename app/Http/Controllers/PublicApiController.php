@@ -82,28 +82,19 @@ class PublicApiController extends ApiController
     public function upload_image_public(Request $request)
     {
 
-        $fileExtension = $request->file('image')->getClientOriginalExtension();
+        $file = $request->file('image');
+        if ($file != null) {
+            $fileExtension = $file->getClientOriginalExtension();
 
-        $fileName = time() . "_" . rand(0, 9999999) . "_" . md5(rand(0, 9999999)) . "." . $fileExtension;
+            $fileName = time() . "_" . rand(0, 9999999) . "_" . md5(rand(0, 9999999)) . "." . $fileExtension;
 
-        $uploadPath = public_path('upload');
+            $uploadPath = public_path('upload');
 
-        $request->file('image')->move($uploadPath, $fileName);
+            $request->file('image')->move($uploadPath, $fileName);
 
-        return $this->respond(['link' => config('app.protocol') . config('app.domain') . '/upload/' . $fileName]);
-    }
-
-    public function upload_video_public(Request $request)
-    {
-        $fileExtension = $request->file('video')->getClientOriginalExtension();
-
-        $fileName = time() . "_" . rand(0, 9999999) . "_" . md5(rand(0, 9999999)) . "." . $fileExtension;
-
-        $uploadPath = public_path('upload');
-
-        $request->file('video')->move($uploadPath, $fileName);
-
-        return $this->respond(['link' => config('app.protocol') . config('app.domain') . '/upload/' . $fileName]);
+            return $this->respond(['link' => config('app.protocol') . config('app.domain') . '/upload/' . $fileName]);
+        }
+        return $this->respondErrorWithStatus("error");
     }
 
     public function delete_image_froala(Request $request)
