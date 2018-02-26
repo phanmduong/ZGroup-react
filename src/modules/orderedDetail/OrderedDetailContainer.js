@@ -210,7 +210,7 @@ class OrderedDetailContainer extends React.Component {
                                         </div>
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div className="form-group">
-                                                <label className="label-control">Phần trăm giảm giá</label>
+                                                <label className="label-control">Phần trăm giảm giá(%)</label>
                                                 <input type="number"
                                                        name="sale_off"
                                                        max="100"
@@ -224,7 +224,7 @@ class OrderedDetailContainer extends React.Component {
                                         </div>
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div className="form-group">
-                                                <label className="label-control">Khối lượng</label>
+                                                <label className="label-control">Khối lượng(kg)</label>
                                                 <input type="number"
                                                        name="weight"
                                                        placeholder="Nhập khối lượng"

@@ -10,7 +10,7 @@ export default {
     },
 
     bankAccount: {
-        accounts: [1, 2, 3, 4],
+        accounts: [],
         isLoading: false
     },
 

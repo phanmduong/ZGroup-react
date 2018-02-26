@@ -304,7 +304,7 @@ class OrderedContainer extends React.Component {
                                     rel="tooltip" data-placement="top" title=""
                                     data-original-title="Báo giá" type="button"
                                     className="btn btn-rose">
-                                    Báo giá
+                                    {!this.state.isSendingPrice ? <span>Báo giá</span> : <span>Quay lại</span>}
                                 </button>
                                 <button
                                     onClick={() => this.showSendPriceModal(
