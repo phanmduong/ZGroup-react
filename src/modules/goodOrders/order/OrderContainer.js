@@ -41,7 +41,7 @@ class OrderContainer extends React.Component {
 
     componentWillMount() {
         this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
-        this.props.goodOrderActions.loadProvinces();
+        // this.props.goodOrderActions.loadProvinces();
         // this.props.goodOrderActions.loadStaffs();
     }
 
