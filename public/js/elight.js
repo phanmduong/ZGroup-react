@@ -91,7 +91,6 @@ var openModalBuy1 = new Vue({
     methods: {
         openModalBuy: function (goodId) {
             $('#modalBuy').modal('show');
-            console.log(goodId);
             modalBuy.addGoodToCart(goodId);
         },
     }
