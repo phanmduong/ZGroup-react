@@ -106,7 +106,7 @@
                                 </a>
 
 
-                                <button v-on:click="openModalBuy({{$goods[0]}})"
+                                <button v-on:click="openModalBuy({{$goods[0]->id}})"
                                         onclick="fbq('track', 'AddToCart')"
                                         class="btn btn-success" style="padding:5px;margin:5px;font-size:10px;">
                                     Đặt mua ngay <i class="fa fa-angle-right"></i>
@@ -235,11 +235,11 @@
                  style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519572859mnSTADMESIABzdK.JPG');background-size: cover;background-color: black;min-height: 350px">
                 <div class="content-center">
                     <div class="container">
-                        <h2 style="font-weight: 400">Nhà sách Elight
+                        <h2 style="font-weight: 400">Sách Tiếng Anh Cơ Bản
                         </h2>
 
                         <h4 style="color:white">
-                            Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt
+                            Cuốn sách học Tiếng Anh số 1 dành cho người mới bắt đầu
                         </h4>
                         <br>
                         <a href="#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu
@@ -362,32 +362,32 @@
             <br>
 
 
-            <div class="container">
-                <div id="vuejs1" class="row">
-                    @foreach($books as $book)
-                        <div class="col-md-3">
-                            <div class="card card-profile" style="border-radius: 0px;">
-                                <div style="padding: 3%;">
-                                    <div style="background-image: url('{{$book->icon_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>
-                                </div>
-                                <div>
-                                    <div class="container text-left" style="min-height: 130px;"><br>
-                                        <p style="font-weight: 600;">{{$book->name}}</p>
-                                        <p>{{shortString($book->description,15)}}</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
-                                    <div style="text-align: right;">
-                                        <a class="btn btn-success" href="/sach/{{$book->id}}"
-                                           style="padding: 3px; margin: 3px; font-size: 10px;">
-                                            Nghe online <i class="fa fa-headphones" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
+            {{--<div class="container">--}}
+                {{--<div id="vuejs1" class="row">--}}
+                    {{--@foreach($books as $book)--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--<div class="card card-profile" style="border-radius: 0px;">--}}
+                                {{--<div style="padding: 3%;">--}}
+                                    {{--<div style="background-image: url('{{$book->icon_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>--}}
+                                {{--</div>--}}
+                                {{--<div>--}}
+                                    {{--<div class="container text-left" style="min-height: 130px;"><br>--}}
+                                        {{--<p style="font-weight: 600;">{{$book->name}}</p>--}}
+                                        {{--<p>{{shortString($book->description,15)}}</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">--}}
+                                    {{--<div style="text-align: right;">--}}
+                                        {{--<a class="btn btn-success" href="/sach/{{$book->id}}"--}}
+                                           {{--style="padding: 3px; margin: 3px; font-size: 10px;">--}}
+                                            {{--Nghe online <i class="fa fa-headphones" aria-hidden="true"></i></a>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--@endforeach--}}
+                {{--</div>--}}
+            {{--</div>--}}
             <br><br>
         </div>
     </div>
