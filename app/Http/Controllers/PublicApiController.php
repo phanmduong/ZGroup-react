@@ -81,18 +81,29 @@ class PublicApiController extends ApiController
 
     public function upload_image_public(Request $request)
     {
-        $image_name = uploadImageToS3($request, 'image', 800, null);
-        if ($image_name != null) {
-            $data["image_url"] = config('app.protocol') . trim_url($this->s3_url . $image_name);
-            $data["image_name"] = $image_name;
-        }
-        return $this->respond(['link' => $data['image_url']]);
+
+        $fileExtension = $request->file('image')->getClientOriginalExtension();
+
+        $fileName = time() . "_" . rand(0, 9999999) . "_" . md5(rand(0, 9999999)) . "." . $fileExtension;
+
+        $uploadPath = public_path('/upload');
+
+        $request->file('image')->move($uploadPath, $fileName);
+
+        return $this->respond(['link' => $uploadPath . '/' . $fileName]);
     }
 
     public function upload_video_public(Request $request)
     {
-        $video_name = uploadAndTranscodeVideoToS3($request, 'video', null);
-        return $this->respond(['link' => $this->s3_url . $video_name]);
+        $fileExtension = $request->file('video')->getClientOriginalExtension();
+
+        $fileName = time() . "_" . rand(0, 9999999) . "_" . md5(rand(0, 9999999)) . "." . $fileExtension;
+
+        $uploadPath = public_path('/upload');
+
+        $request->file('video')->move($uploadPath, $fileName);
+
+        return $this->respond(['link' => $uploadPath . '/' . $fileName]);
     }
 
     public function delete_image_froala(Request $request)
