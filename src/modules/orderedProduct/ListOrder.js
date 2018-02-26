@@ -2,6 +2,8 @@ import React from 'react';
 import ItemOrder from './ItemOrder';
 import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
+import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -9,6 +11,7 @@ class ListOrder extends React.Component {
     }
 
     render() {
+        let checkedPrice = this.props.checkedPrice;
         return (
             <div className="table-responsive">
                 {
@@ -17,6 +20,19 @@ class ListOrder extends React.Component {
                             <table className="table">
                                 <thead className="text-rose">
                                 <tr>
+                                    {
+                                        this.props.isSendingPrice && (
+                                            <TooltipButton text="Chọn tất cả" placement="top">
+                                                <th>
+                                                    <CheckBoxMaterial
+                                                        name="sale_status"
+                                                        checked={this.props.checkAll}
+                                                        onChange={this.props.chooseAll}
+                                                    />
+                                                </th>
+                                            </TooltipButton>
+                                        )
+                                    }
                                     <th>Mã đơn hàng</th>
                                     <th>Ngày bán</th>
                                     <th>Khách hàng</th>
@@ -36,7 +52,11 @@ class ListOrder extends React.Component {
                                                        user={this.props.user}
                                                        showAddNoteModal={this.props.showAddNoteModal}
                                                        showAddCancelNoteModal={this.props.showAddCancelNoteModal}
-                                                       showSendPriceModal={this.props.showSendPriceModal}/>
+                                                       showSendPriceModal={this.props.showSendPriceModal}
+                                                       check={checkedPrice[delivery.id] ? (true) : (false)}
+                                                       isSendingPrice={this.props.isSendingPrice}
+                                                       chooseItem={this.props.chooseItem}
+                                            />
                                         );
                                     })
                                 }
@@ -56,7 +76,12 @@ ListOrder.propTypes = {
     user: PropTypes.object.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
     showAddCancelNoteModal: PropTypes.func.isRequired,
-    showSendPriceModal: PropTypes.func.isRequired
+    showSendPriceModal: PropTypes.func.isRequired,
+    checkedPrice: PropTypes.object.isRequired,
+    checkAll: PropTypes.bool.isRequired,
+    isSendingPrice: PropTypes.bool.isRequired,
+    chooseAll: PropTypes.func.isRequired,
+    chooseItem: PropTypes.func.isRequired
 };
 
 

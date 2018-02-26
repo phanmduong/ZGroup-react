@@ -35,11 +35,13 @@ class CreateProductContainer extends React.Component {
     componentWillMount() {
         if (this.props.route.type === "edit") {
             this.props.createProductAction.loadProduct(this.props.params.productId);
+            this.props.createProductAction.getPropertiesCreateProduct();
             this.setState({
                 type: this.props.params.type,
                 link: `/good/product/${this.productId}/edit`
             });
         } else if (this.props.route.type === "create") {
+            this.props.createProductAction.getPropertiesCreateProduct();
             this.props.createProductAction.handleProductCreate({
                 name: '',
                 code: '',
