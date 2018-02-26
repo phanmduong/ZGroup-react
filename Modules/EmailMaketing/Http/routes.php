@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\EmailMaketing\Http\Controllers'], function () {
+$namespaceRoutes = function () {
     Route::post('/email-form/store', 'ManageEmailMaketingController@store_email_form');
     Route::get('/email-form/{email_form_id}/delete', 'ManageEmailMaketingController@delete_email_form');
     Route::get('/email-form/{email_form_id}/get', 'ManageEmailMaketingController@get_email_form');
@@ -12,4 +12,14 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/email-templates', 'ManageEmailMaketingController@email_templates');
     Route::get('/email-template/{email_template_id}/delete', 'ManageEmailMaketingController@delete_email_template');
     Route::get('/email-template/{email_template_id}/get', 'ManageEmailMaketingController@get_email_template');
-});
+};
+
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\EmailMaketing\Http\Controllers'], $namespaceRoutes);
+
+//new api routes
+
+Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\EmailMaketing\Http\Controllers'],
+    function () use ($namespaceRoutes) {
+        Route::group(['prefix' => 'v3'], $namespaceRoutes);
+    });

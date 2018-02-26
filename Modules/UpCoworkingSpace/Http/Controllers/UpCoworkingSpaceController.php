@@ -8,6 +8,7 @@ use App\RoomType;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Base;
+use App\RoomServiceUserPack;
 
 class UpCoworkingSpaceController extends Controller
 {
@@ -16,6 +17,15 @@ class UpCoworkingSpaceController extends Controller
         $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         $this->data['newestBlogs'] = $newestBlogs;
         return view('upcoworkingspace::index', $this->data);
+    }
+
+    public function memberRegister($userId = null, $campaignId = null)
+    {
+        $userPacks = RoomServiceUserPack::orderBy('name')->where('status', 1)->get();
+        $this->data['userPacks'] = $userPacks;
+        $this->data['campaignId'] = $campaignId;
+        $this->data['userId'] = $userId;
+        return view('upcoworkingspace::member_register', $this->data);
     }
 
     public function blog(Request $request)
@@ -30,9 +40,15 @@ class UpCoworkingSpaceController extends Controller
 
         $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
 
-        $display = "";
-        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
+        $display = '';
+        if ($request->page == null) {
+            $page_id = 2;
+        } else {
+            $page_id = $request->page + 1;
+        }
+        if ($blogs->lastPage() == $page_id - 1) {
+            $display = 'display:none';
+        }
 
         $this->data['blogs'] = $blogs;
         $this->data['page_id'] = $page_id;
@@ -77,16 +93,23 @@ class UpCoworkingSpaceController extends Controller
         $room_type_id = $request->room_type_id;
         $base_id = $request->base_id;
 
-        if($request->base_id)
+        if ($request->base_id) {
             $rooms->where('base_id', $request->base_id);
-        if($request->room_type_id)
+        }
+        if ($request->room_type_id) {
             $rooms->where('room_type_id', $request->room_type_id);
+        }
 
         $rooms = $rooms->orderBy('created_at', 'desc')->paginate(6);
 
-
-        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($rooms->lastPage() == $page_id - 1) $display = "display:none";
+        if ($request->page == null) {
+            $page_id = 2;
+        } else {
+            $page_id = $request->page + 1;
+        }
+        if ($rooms->lastPage() == $page_id - 1) {
+            $display = 'display:none';
+        }
 
         $this->data['rooms'] = $rooms;
         $this->data['page_id'] = $page_id;

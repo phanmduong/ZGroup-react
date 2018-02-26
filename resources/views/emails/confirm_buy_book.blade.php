@@ -1,6 +1,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Nokia Home: Your summer getaway essential</title>
+    <title></title>
     <!--[if !mso]><!-- -->
     <link href="https://media-cdn.withings.com/email/permanent/template/font-nokia-2.css" rel="stylesheet"
           type="text/css">
