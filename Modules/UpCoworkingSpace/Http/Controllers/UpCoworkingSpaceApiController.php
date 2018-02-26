@@ -43,9 +43,24 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         ]);
     }
 
+    public function userPack($userPackId)
+    {
+        $userPack = RoomServiceUserPack::find($userPackId);
+        $data = $userPack->getData();
+        $ok = true;
+        $data['subscriptions'] = $userPack->subscriptions->map(function ($subscription) use (&$ok) {
+            $data = $subscription->getData();
+            $data['vnd_price'] = currency_vnd_format($subscription->price);
+            $data['is_active'] = $ok;
+            if ($ok === true)
+                $ok = false;
+            return $data;
+        });
+        return ["user_pack" => $data];
+    }
+
     public function register(Request $request)
     {
-//        dd($campaignId);
         if ($request->email == null) {
             return $this->respondErrorWithStatus("Thiếu email");
         }
@@ -66,22 +81,22 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $user->phone = $phone;
         $user->email = $request->email;
         $user->username = $request->email;
+        $user->address = $request->address;
         $user->save();
-
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
-//        $register->campaign_id = $campaignId;
+        $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
+        $register->saler_id = $request->saler_id ? $request->saler_id : 0;
         $register->save();
-//        dd(Base::find($request->base_id));
         $subject = "Xác nhận đăng ký thành công";
 //        $data = ["base" => Base::find($request->base_id)->transform,
 //            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
         $data = ["user" => $user];
         $emailcc = ["graphics@colorme.vn"];
         Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->from('no-reply@colorme.vn', 'Up Coworking Space');
             $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
         });
 
@@ -138,7 +153,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         ]);
     }
 
-    public function appRegister($campaignId ,Request $request)
+    public function appRegister($campaignId, Request $request)
     {
         if ($request->email == null) {
             return $this->respondErrorWithStatus("Thiếu email");
