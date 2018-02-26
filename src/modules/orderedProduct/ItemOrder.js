@@ -3,44 +3,14 @@ import {Link} from 'react-router';
 import TooltipButton from '../../components/common/TooltipButton';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
-import {ORDERED_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
+import {ORDERED_STATUS, ORDERED_STATUS_COLORS} from "../../constants/constants";
 import StatusSelect from "../goodOrders/status/StatusSelect";
+import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeStatus = this.changeStatus.bind(this);
-    }
-
-    statusOrder(status) {
-        switch (status) {
-            case "ship_uncall":
-                return (
-                    <TooltipButton text="Chưa gọi ship" placement="top">
-                        <button className="btn btn-xs btn-main btn-info">
-                            Chưa gọi ship
-                        </button>
-                    </TooltipButton>
-                );
-            case "success":
-                return (
-                    <TooltipButton text="Chưa gọi ship" placement="top">
-                        <button className="btn btn-xs btn-main btn-success">
-                            Hoàn thành
-                        </button>
-                    </TooltipButton>
-                );
-            case "pending":
-                return (
-                    <TooltipButton text="Đang chờ" placement="top">
-                        <button className="btn btn-xs btn-main">
-                            Đang chờ
-                        </button>
-                    </TooltipButton>
-                );
-            default:
-                return null;
-        }
     }
 
     changeStatus(value) {
@@ -53,7 +23,7 @@ class ItemOrder extends React.Component {
             if (nextStatus.order === 7) {
                 this.props.showAddCancelNoteModal(this.props.delivery);
             } else if (nextStatus.order === 1) {
-                this.props.showSendPriceModal(this.props.delivery);
+                this.props.showSendPriceModal([this.props.delivery]);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
                     this.props.changeStatus(value, this.props.delivery.id, null, null);
@@ -70,10 +40,21 @@ class ItemOrder extends React.Component {
         } else delivery_note = "";
         return (
             <tr>
+                {
+                    this.props.isSendingPrice && (
+                        <td>
+                            <CheckBoxMaterial
+                                name="sale_status"
+                                checked={this.props.check}
+                                onChange={() => this.props.chooseItem(delivery.id)}
+                            />
+                        </td>
+                    )
+                }
                 <td>
                     <Link
                         style={{
-                            backgroundColor: ORDER_STATUS_COLORS[delivery.status]
+                            backgroundColor: ORDERED_STATUS_COLORS[delivery.status]
                         }}
                         className="btn text-name-student-register"
                         to={`/good/goods/order/${delivery.id}`}>
@@ -155,7 +136,10 @@ ItemOrder.propTypes = {
     user: PropTypes.object.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
     showAddCancelNoteModal: PropTypes.func.isRequired,
-    showSendPriceModal: PropTypes.func.isRequired
+    showSendPriceModal: PropTypes.func.isRequired,
+    check: PropTypes.bool.isRequired,
+    isSendingPrice: PropTypes.bool.isRequired,
+    chooseItem: PropTypes.func.isRequired
 };
 
 export default ItemOrder;
