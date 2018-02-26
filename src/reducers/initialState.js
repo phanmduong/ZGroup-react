@@ -99,7 +99,11 @@ export default {
         cancelReasonModal: false,
         transferCancelReason: {},
         bankTransferEditModal: false,
-        transferEdit: {}
+        transferEdit: {},
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20
     },
 
     currency: {

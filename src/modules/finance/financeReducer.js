@@ -22,7 +22,11 @@ export default function financeReducer(state = initialState.finance, action) {
             return {
                 ...state,
                 isLoading: false,
-                bankTransfers: action.bankTransfers
+                bankTransfers: action.bankTransfers,
+                totalPages: action.totalPages,
+                currentPage: action.currentPage,
+                limit: action.limit,
+                totalCount: action.totalCount
             };
         case types.UPDATE_STATUS_BANK_TRANSFER_SUCCESS:
             return {

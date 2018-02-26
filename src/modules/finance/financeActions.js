@@ -4,15 +4,19 @@ import * as helper from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
-export const loadBankTransfers = (page = 1, search = "") => {
+export const loadBankTransfers = (page = 1, search = "", status, bank_account_id) => {
     return async (dispatch) => {
         dispatch({
             type: types.BEGIN_LOAD_BANK_TRANSFERS
         });
-        const res = await financeApi.loadBankTransfers(page, search);
+        const res = await financeApi.loadBankTransfers(page, search, status, bank_account_id);
         dispatch({
             type: types.LOAD_BANK_TRANSFERS_SUCCESS,
-            bankTransfers: res.data.transfers
+            bankTransfers: res.data.transfers,
+            totalPages: res.data.paginator.total_pages,
+            currentPage: res.data.paginator.current_page,
+            limit: res.data.paginator.limit,
+            totalCount: res.data.paginator.total_count
         });
     };
 };
