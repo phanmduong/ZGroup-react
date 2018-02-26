@@ -2,6 +2,8 @@ import "babel-polyfill";
 import React from "react";
 import renderRoutes from "../routes/renderer/RouteRenderer";
 import GoodRoute from "../routes/GoodRoute";
+import goodRootReducer from "../reducers/good";
+
 
 import "../../node_modules/toastr/build/toastr.min.css";
 import "../styles/react-bootstrap-switch.min.css";
@@ -16,8 +18,8 @@ import { browserHistory, Router } from "react-router";
 import { Provider } from "react-redux";
 import configureStore from "../store/configureStore";
 
-import rootReducer from "../reducers/index";
-const store = configureStore({}, rootReducer);
+// import rootReducer from "../reducers/index";
+const store = configureStore({}, goodRootReducer);
 
 render(
     <Provider store={store}>
