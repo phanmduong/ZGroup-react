@@ -43,8 +43,9 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         ]);
     }
 
-    public function register($campaignId, Request $request)
+    public function register(Request $request)
     {
+//        dd($campaignId);
         if ($request->email == null) {
             return $this->respondErrorWithStatus("Thiếu email");
         }
@@ -71,7 +72,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
-        $register->campaign_id = $campaignId;
+//        $register->campaign_id = $campaignId;
         $register->save();
 //        dd(Base::find($request->base_id));
         $subject = "Xác nhận đăng ký thành công";
@@ -125,7 +126,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         }
 
         $registers = RoomServiceRegister::where('user_id', $user->id)
-            ->orderBy('created_at','desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $registers = $registers->map(function ($register) {
@@ -135,7 +136,51 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         return $this->respondSuccessWithStatus([
             'history_registers' => $registers
         ]);
+    }
 
+    public function appRegister($campaignId ,Request $request)
+    {
+        if ($request->email == null) {
+            return $this->respondErrorWithStatus("Thiếu email");
+        }
+        if ($request->phone == null) {
+            return $this->respondErrorWithStatus("Thiếu phone");
+        }
+        if ($request->subscription_id == null) {
+            return $this->respondErrorWithStatus("Thiếu subscription");
+        }
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = Hash::make($phone);
+        }
 
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->email = $request->email;
+        $user->username = $request->email;
+        $user->save();
+
+        $register = new RoomServiceRegister();
+        $register->user_id = $user->id;
+        $register->subscription_id = $request->subscription_id;
+        $register->base_id = $request->base_id;
+//        $register->campaign_id = $campaignId;
+        $register->save();
+//        dd(Base::find($request->base_id));
+        $subject = "Xác nhận đăng ký thành công";
+//        $data = ["base" => Base::find($request->base_id)->transform,
+//            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
+        $data = ["user" => $user];
+        $emailcc = ["graphics@colorme.vn"];
+        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+        });
+
+        return $this->respondSuccessWithStatus([
+            'message' => "Đăng kí thành công"
+        ]);
     }
 }

@@ -11,14 +11,14 @@ $publicRoutes = function () {
 
     Route::get('/api/province', 'UpCoworkingSpaceApiController@province');
     Route::get('/api/province/{provinceId}/base', 'UpCoworkingSpaceApiController@basesInProvince');
-    Route::post('/api/register/{campaignId?}', 'UpCoworkingSpaceApiController@register');
+    Route::post('/api/register', 'UpCoworkingSpaceApiController@register');
     Route::get('/api/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
 };
 
 $apiRoutes = function () {
     Route::get('/blogs', 'UpCoworkingSpaceController@blogs');
     Route::get('/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
-    Route::post('/register/{campaignId?}', 'UpCoworkingSpaceApiController@register');
+    Route::post('/register/{campaignId?}', 'UpCoworkingSpaceApiController@appRegister');
     Route::get('/history-registers', 'UpCoworkingSpaceApiController@historyRegister');
 };
 
