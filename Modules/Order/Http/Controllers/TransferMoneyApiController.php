@@ -62,7 +62,7 @@ class TransferMoneyApiController extends ManageApiController
     public function changeTransferStatus($transferId, Request $request)
     {
         $transfer = TransferMoney::find($transferId);
-        $user = User::find($request->user_id);
+        $user = User::find($transfer->user_id);
         if ($transfer == null)
             return $this->respondErrorWithStatus('Không tồn tại chuyển khoản');
         if ($transfer->status == 'accept' || $transfer->status == 'cancel')
