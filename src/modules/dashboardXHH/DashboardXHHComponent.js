@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {NO_AVATAR} from "../../constants/env";
 import {Pie} from "react-chartjs-2";
 import Barchart from "./Barchart";
-import {randomMonoChromeHEX, isEmptyInput,avatarEmpty} from "../../helpers/helper";
+import {randomMonoChromeHEX, isEmptyInput, avatarEmpty} from "../../helpers/helper";
 
 const legendOpts = {
     display: false,
@@ -16,17 +16,22 @@ class DashboardXHHComponent extends React.Component {
         super(props, context);
     }
 
-    convertData(analyticsBlogs) {
+    convertData(analyticsBlogs, isRandomColor) {
         let labels = [];
         let data = [];
         let colors = [];
         analyticsBlogs.map((analyticsBlog) => {
             labels.push(analyticsBlog.name);
-            data.push(analyticsBlog.total_blogs);
+            data.push(analyticsBlog.total);
             if (!isEmptyInput(analyticsBlog.color)) {
                 colors.push("#" + analyticsBlog.color);
             } else {
-                colors.push("#c50000");
+                if (isRandomColor) {
+                    colors.push(randomMonoChromeHEX(210));
+                } else {
+                    colors.push('#c50000');
+                }
+
             }
         });
 
@@ -43,28 +48,28 @@ class DashboardXHHComponent extends React.Component {
         return dataChart;
     }
 
-    convertDataBook(typesBook) {
-        let labels = [];
-        let data = [];
-        let colors = [];
-        typesBook.map((typeBook) => {
-            labels.push(typeBook.name);
-            data.push(typeBook.total);
-            colors.push(randomMonoChromeHEX(210));
-        });
-
-        let dataChart;
-        dataChart = {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: colors,
-                hoverBackgroundColor: colors
-            }]
-        };
-
-        return dataChart;
-    }
+    // convertDataBook(typesBook) {
+    //     let labels = [];
+    //     let data = [];
+    //     let colors = [];
+    //     typesBook.map((typeBook) => {
+    //         labels.push(typeBook.name);
+    //         data.push(typeBook.total);
+    //         colors.push(randomMonoChromeHEX(210));
+    //     });
+    //
+    //     let dataChart;
+    //     dataChart = {
+    //         labels: labels,
+    //         datasets: [{
+    //             data: data,
+    //             backgroundColor: colors,
+    //             hoverBackgroundColor: colors
+    //         }]
+    //     };
+    //
+    //     return dataChart;
+    // }
 
     convertDataBookBarChart(typesBook, name) {
         return typesBook.map((typeBook) => {
@@ -127,7 +132,7 @@ class DashboardXHHComponent extends React.Component {
                                     <small/>
                                 </h4>
                                 <Pie
-                                    data={this.convertData(dashboard.analytics_blogs)}
+                                    data={this.convertData(dashboard.analytics_blogs, false)}
                                     legend={legendOpts}
                                 />
                             </div>
@@ -139,11 +144,11 @@ class DashboardXHHComponent extends React.Component {
                                 <i className="material-icons">insert_chart</i>
                             </div>
                             <div className="card-content">
-                                <h4 className="card-title">Tỉ lệ sách cho từng thể loại
+                                <h4 className="card-title">Tỉ lệ bài viết cho từng thể loại
                                     <small/>
                                 </h4>
                                 <Pie
-                                    data={this.convertDataBook(dashboard.type_books)}
+                                    data={this.convertData(dashboard.analytics_blog_types, true)}
                                     legend={legendOpts}
                                 />
                             </div>

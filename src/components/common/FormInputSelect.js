@@ -13,7 +13,9 @@ class FormInputSelect extends React.Component {
                     className="form-control"
                     value={this.props.value}
                     onChange={this.props.updateFormData}
-                    name={this.props.name}>
+                    name={this.props.name}
+                    disabled={this.props.disabled}
+                >
                     {this.props.data !== null && this.props.data !== undefined &&
                     this.props.data.map((item, key) => {
                         return (
@@ -31,6 +33,7 @@ class FormInputSelect extends React.Component {
                 <div className="form-group">
                     <label>{this.props.label}</label>
                     <select
+                        disabled={this.props.disabled}
                         className="form-control"
                         value={this.props.value}
                         onChange={this.props.updateFormData}
@@ -63,6 +66,7 @@ FormInputSelect.propTypes = {
     ]),
     updateFormData: PropTypes.func.isRequired,
     data: PropTypes.array,
+    disabled: PropTypes.bool,
 };
 
 export default FormInputSelect;

@@ -7,6 +7,23 @@ import initialState from '../../reducers/initialState';
 export default function printOrderReducer(state = initialState.printOrder, action) {
     // console.log(action.type, state.data);
     switch (action.type) {
+        case types.BEGIN_CONFIRM_PRINT_ORDER:
+            return {
+                ...state,
+                isCommitting: true,
+            };
+        case types.CONFIRM_PRINT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        }
+
+        case types.CONFIRM_PRINT_ORDER_ERROR:
+            return {
+                ...state,
+                isCommitting: false,
+            };
         case types.BEGIN_LOAD_PRINT_ORDERS:
             return {
                 ...state,
@@ -96,6 +113,35 @@ export default function printOrderReducer(state = initialState.printOrder, actio
                 ...state,
                 isCommitting: false,
             };
+        case types.LOAD_CODES_PRINT_ORDER_SUCCESS:{
+
+            return {
+                ...state,
+                codes: getSelectArrCode(action.codes),
+            };
+        }
+        case types.BEGIN_LOAD_PROPERTIES_PRINT_ORDER:{
+
+            return {
+                ...state,
+                isLoadingPropers: true,
+            };
+        }
+        case types.LOAD_PROPERTIES_PRINT_ORDER_SUCCESS:{
+
+            return {
+                ...state,
+                isLoadingPropers: false,
+                properties: action.properties,
+            };
+        }
+        case types.LOAD_PROPERTIES_PRINT_ORDER_ERROR:{
+
+            return {
+                ...state,
+                isLoadingPropers: false,
+            };
+        }
 
         default:
             return state;
@@ -110,4 +156,11 @@ function getSelectArray(arr){
             label: obj.name,
         };
     });
+}
+
+function getSelectArrCode(arr) {
+    let res =  arr.filter(obj => (obj && obj.id && obj.code)).map(obj => {
+        return ({...obj, value: obj.id, label: obj.code});
+    });
+    return [{id: '', code: 'Tất cả',value: '', label: 'Tất cả'},...res];
 }

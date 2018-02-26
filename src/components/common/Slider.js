@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import noUiSlider from "nouislider";
 
 class Slider extends React.Component {
@@ -9,53 +9,50 @@ class Slider extends React.Component {
     }
 
     componentDidMount() {
-        this.slider = document.getElementById('sliderRegular');
-
+        this.slider = document.getElementById(this.props.id | "sliderRegular");
         noUiSlider.create(this.slider, {
             start: this.props.value,
             connect: true,
-            step: 1,
+            step: this.props.step | 1,
             range: {
-                'min': this.props.min,
-                'max': this.props.max
-            }
+                min: this.props.min,
+                max: this.props.max,
+            },
+            behaviour: "snap",
+            tooltips: true,
         });
 
-        this.slider.noUiSlider.on('update', (values) => {
+        this.slider.noUiSlider.on("update", values => {
             this.props.onChange(values[0]);
         });
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.r !== this.props.r) {
-
-            if (this.slider) {
-                this.slider.noUiSlider.set(nextProps.r);
-            }
+        if (this.slider && this.props.value !== nextProps.value) {
+            this.slider.noUiSlider.set(nextProps.value);
         }
     }
-
 
     render() {
         return (
             <div>
-                <div id="sliderRegular" className="slider"/>
+                <div id={this.props.id | "sliderRegular"} className="slider" />
             </div>
         );
     }
 }
 
 Slider.propTypes = {
+    id: PropTypes.string,
     label: PropTypes.string,
-    r: PropTypes.object,
     value: PropTypes.oneOfType([
         PropTypes.number.isRequired,
-        PropTypes.string.isRequired
+        PropTypes.string.isRequired,
     ]),
     min: PropTypes.number.isRequired,
     step: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
 };
 
 export default Slider;

@@ -1,44 +1,24 @@
-
 import * as d3 from "d3";
-import {EventEmitter} from "events";
 
 let ns = {};
 
-// const ANIMATION_DURATION = 400;
-// const TOOLTIP_WIDTH = 30;
-// const TOOLTIP_HEIGHT = 30;
-
-ns.onClick = (onClick) => {
+ns.setOnClick = onClick => {
     ns.onClick = onClick;
 };
 
-ns.onPointClick = (onPointClick) => {
+ns.setOnPointClick = onPointClick => {
     ns.onPointClick = onPointClick;
 };
 
-ns.onDrag = (onDrag) => {
+ns.setOnDrag = onDrag => {
     ns.onDrag = onDrag;
 };
 
-ns.updateData = (seats) => {
-    ns.state = {
-        ...ns.state,
-        data: seats.map((seat) => {
-            return {
-                ...seat
-            };
-        })
-    };
-    ns.update(ns.el, ns.state);
-};
-
-ns.create = function (el, props, state) {
-    ns.state = {...state};
+ns.create = function(el, props, state) {
     ns.el = el;
-    const dispatcher = new EventEmitter();
-    ns.dispatcher = dispatcher;
 
-    let svg = d3.select(el)
+    d3
+        .select(el)
         .append("div")
         .classed("svg-container", true) //container class to make it responsive
         .append("svg")
@@ -47,53 +27,102 @@ ns.create = function (el, props, state) {
         .attr("viewBox", `0 0 ${props.width} ${props.height}`)
         //class to make it responsive
         .classed("svg-content-responsive d3", true);
-    d3.select(".svg-content-responsive")
-        .on("click", function () {
+    d3.select(".svg-content-responsive").on("click", function() {
+        const mouse = d3.mouse(this);
+        const x = mouse[0];
+        const y = mouse[1];
 
-            const mouse = d3.mouse(this);
-            const x = mouse[0];
-            const y = mouse[1];
+        const scale = ns._scales(el, state.domain);
+        const rescaledX = scale.x.invert(x);
+        const rescaledY = scale.y.invert(y);
 
-            const scale = ns._scales(el, state.domain);
-            const rescaledX = scale.x.invert(x);
-            const rescaledY = scale.y.invert(y);
+        const point = {
+            x: rescaledX,
+            y: rescaledY,
+        };
 
-            const point = {
-                x: rescaledX,
-                y: rescaledY
-            };
+        if (ns.onClick) {
+            ns.onClick(point);
+        }
+    });
 
-            if (ns.onClick) {
-                ns.onClick(point);
-            }
-
-            ns.update(el, state, dispatcher);
-        });
-
-// .append('svg')
-    // .attr('class', 'd3')
-    // .attr('width', props.width)
-    // .attr('height', props.height);
-
-    svg.append('g')
-        .attr('class', 'd3-points');
-
-    this.update(el, state, dispatcher);
-
-    return dispatcher;
+    this.update(el, state);
 };
 
-ns.update = function (el, state) {
-    let scales = this._scales(el, state.domain);
+ns.update = function(el, state) {
+    let scales = this._scales(state);
     this._drawPoints(el, scales, state);
+    ns.drawGrid(state);
     // this._drawTooltips(el, scales, state.tooltips, prevScales);
 };
 
-ns._scales = function (elId, domain) {
-    if (!domain) {
-        return null;
-    }
+ns.drawGrid = ({ width, height, gridSize, gridOn }) => {
+    d3
+        .select("svg")
+        .selectAll("path")
+        .remove();
 
+    if (gridOn) {
+        const widthArray = generateArray(width, gridSize);
+        const heightArray = generateArray(height, gridSize);
+
+        const topPoints = widthArray.map(w => {
+            return {
+                x: w,
+                y: 0,
+            };
+        });
+        const bottomPoints = widthArray.map(w => {
+            return {
+                x: w,
+                y: height,
+            };
+        });
+
+        const verticalLines = topPoints.map((point, index) => {
+            return [point, bottomPoints[index]];
+        });
+
+        const leftPoints = heightArray.map(h => {
+            return {
+                x: 0,
+                y: h,
+            };
+        });
+        const rightPoints = heightArray.map(h => {
+            return {
+                x: width,
+                y: h,
+            };
+        });
+
+        const horizontalLines = leftPoints.map((point, index) => {
+            return [point, rightPoints[index]];
+        });
+
+        const lineFunction = d3
+            .line()
+            .x(function(d) {
+                return d.x;
+            })
+            .y(function(d) {
+                return d.y;
+            });
+
+        d3
+            .select("svg")
+            .selectAll("path")
+            .data([...horizontalLines, ...verticalLines])
+            .enter()
+            .append("path")
+            .attr("d", lineFunction)
+            .attr("stroke", "rgba(0, 0, 0, 0.25)")
+            .attr("stroke-width", 1)
+            .attr("fill", "none");
+    }
+};
+
+ns._scales = function({ width }) {
     // const el = $(".d3");
     // let width = el.width();
     // let height = el.height();
@@ -102,149 +131,150 @@ ns._scales = function (elId, domain) {
 
     // let x = d3.scaleLinear()
     //     .range([0, width])
-    //     .domain(domain.x);
+    //     .domain([0, state.width]);
     //
     // let y = d3.scaleLinear()
     //     .range([0, height])
-    //     .domain(domain.y);
+    //     .domain([0, state.height]);
     //
-    const r = d3.scaleLinear()
-        .range([10, 50])
+    const r = d3
+        .scaleLinear()
+        .range([10, width / 18])
         .domain([1, 10]);
 
-    const x = (x) => x;
+    const x = x => x;
     x.invert = x;
-    return {x, y: x, r};
+    return { x, y: x, r };
 };
 
+const generateArray = (size, gridSize) => {
+    let arr = [];
+    for (let i = 0; i < size; i += gridSize) {
+        arr.push(i);
+    }
+    return arr;
+};
 
-ns._drawPoints = function (el, scales, state) {
-    const {data, domain} = state;
-    let g = d3.select(el).selectAll('.d3-points');
+ns._drawPoints = function(el, scales, state) {
+    const { seats, width, height, roomLayoutUrl } = state;
 
-    
-    // const test = d3.selectAll("circle");
-
-    // test.data(data)
-    //     .attr('r', (d) => {
-    //         console.log("d", d);
-    //         scales.r(d.r);
-    //     })
-    //     .style("fill", function (d) {
-    //         return d.color;
-    //     });
-
-    // currentCircles.selectAll("text")
-    //     .data(data)
-    //     .text(function (d) {
-    //         return d.name || "";
-    //     });
-        
-        
-    
-    const subject = function () {
-        return {x: d3.event.x, y: d3.event.y};
+    const subject = function() {
+        return { x: d3.event.x, y: d3.event.y };
     };
 
-    let drag = d3.drag()
+    d3
+        .select(".svg-container")
+        .style("padding-bottom", height * 100 / width + "%");
+
+    if (ns.roomLayoutUrl !== roomLayoutUrl) {
+        ns.roomLayoutUrl = roomLayoutUrl;
+        d3
+            .select("svg")
+            .style("background-image", `url("${roomLayoutUrl}")`)
+            .style("background-size", "cover")
+            .style("background-position", "center");
+    }
+
+    if (ns.width !== width || ns.height !== height) {
+        ns.width = width;
+        ns.height = height;
+        d3.select("svg").attr("viewBox", `0 0 ${width} ${height}`);
+    }
+
+    let drag = d3
+        .drag()
         .subject(subject)
-        .on("start", function () {
+        .on("start", function() {
             d3.event.sourceEvent.stopPropagation(); // silence other listeners
         })
-        .on("drag", function (d) {
+        .on("drag", function(d) {
             // console.log(d3.event.x + "," + d3.event.y);
 
             const x = d3.event.x;
             const y = d3.event.y;
 
-            const xEdgeZero = x - scales.x(2 * d.r);
-            const yEdgeZero = y - scales.y(2 * d.r);
-            const xEdgeMax = x + scales.x(2 * d.r);
-            const yEdgeMax = y + scales.y(2 * d.r);
-
-            if (xEdgeZero > domain.x[0] && xEdgeMax < domain.x[1] &&
-                yEdgeZero > domain.y[0] && yEdgeMax < domain.y[1]) {
-                d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
+            if (Math.sqrt(Math.pow(x - d.x, 2) + Math.pow(y - d.y, 2)) > 1) {
+                ns.onDrag({
+                    index: d.index,
+                    x,
+                    y,
+                });
             }
-            ns.onDrag({
-                index: d.index,
-                x,
-                y
-            });
         })
-        .on("end", function () {
-            
-        });
-    
+        .on("end", function() {});
 
-    let pointEnters = g.selectAll('.d3-point')
-        .data(data)
+    const svg = d3.select("svg");
+    let g = svg
+        .selectAll("g")
+        .data(seats)
         .enter()
         .append("g")
-        .attr("transform", d => "translate(" + d.x + "," + d.y + ")")
-        .call(drag)
-        .on('click', function (d) {
-            d3.event.stopPropagation();
+        .attr("class", "seat-wrapper")
+        .call(drag);
+
+    g.append("circle").attr("class", "d3-point");
+
+    g.append("text").attr("class", "d3-text");
+
+    svg
+        .selectAll("g")
+        .data(seats)
+        .exit()
+        .remove();
+
+    g = d3
+        .selectAll("g")
+        .data(seats)
+        .on("click", function(d) {
+            // d3.event.stopPropagation();
+            // console.log(d);
             ns.onPointClick(d.index);
         });
-    // .attr('cx', (d) => scales.x(d.x))
-    // .attr('cy', (d) => scales.y(d.y));
 
+    g.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
 
-    pointEnters.append("circle")
-        .attr('class', (d) => {
-            return d.active ? 'd3-point active' : 'd3-point';
+    const transformTrasition = d3
+        .transition()
+        .duration(200)
+        .ease(d3.easeLinear);
+
+    svg
+        .selectAll(".d3-point")
+        .data(seats)
+        .transition(transformTrasition)
+        .attr("r", d => scales.r(d.r))
+        .attr("class", d => {
+            if (d.archived) {
+                return "d3-point archived";
+            }
+            if (d.active) {
+                return "d3-point active";
+            }
+            return "d3-point";
         })
-        .attr('r', (d) => scales.r(d.r))
-        .style("fill", function (d) {
+        .style("fill", function(d) {
             if (d.booked) {
                 return "#bbb";
             }
             return d.color;
         });
-        
 
-    pointEnters.append("text")
+    svg
+        .selectAll(".d3-text")
+        .data(seats)
+        .transition(transformTrasition)
         .attr("dy", d => scales.r(d.r) / 3)
         .attr("text-anchor", "middle")
         .attr("fill", "white")
         .attr("font-size", d => scales.r(d.r))
-        .text(function (d) {
-            return d.name || "";
-        });
-
-    // update current circles
-    const currentCircles = d3.selectAll('.d3-point');
-    currentCircles    
-        .data(data)           
-        .attr("class", d => d.active ? 'd3-point active' : 'd3-point');
-    
-    const text = d3.selectAll("text");
-    text.data(data)
-        .attr("font-size", d => scales.r(d.r))
-        .text(function (d) {
-            return d.name || "";
-        });
-    
-    const circles = d3.selectAll("circle");
-    circles
-        .data(data)
-        .attr('r', (d) => {
-            return scales.r(d.r);
+        .attr("class", d => {
+            return d.active ? "d3-text active" : "d3-text";
         })
-        .style("fill", function (d) {
-            if (d.booked) {
-                return "#bbb";
-            }
-            return d.color;
+        .text(function(d) {
+            return d.name || "";
         });
-
-
 };
 
-ns.destroy = function () {
-
-};
-
+ns.destroy = function() {};
 
 export default ns;

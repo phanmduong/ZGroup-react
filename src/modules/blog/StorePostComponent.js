@@ -127,9 +127,9 @@ class StorePostComponent extends React.Component {
                                         />
 
 
-
-
                                         <label className="label-control">Nhóm bài viết</label>
+
+
                                         <div style={{marginTop: 40}}>
                                             <div className="row">
                                                 <div className="col-md-12" style={{display: "flex"}}>
@@ -155,6 +155,7 @@ class StorePostComponent extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
+
 
                                         <input type="text" className="tagsinput" data-role="tagsinput"
                                                data-color="rose" value={tags}
