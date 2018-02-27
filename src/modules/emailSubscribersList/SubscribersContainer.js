@@ -13,7 +13,6 @@ import * as helper from "../../helpers/helper";
 import { Modal } from "react-bootstrap";
 import * as emailSubscribersListActions from "./emailSubscribersListActions";
 import FormInputText from "../../components/common/FormInputText";
-import { saveWorkBookToExcel } from "../../helpers/helper";
 import { utils } from "xlsx";
 import * as emailSubcribersListApi from "./emailSubcribersListApi";
 
@@ -80,7 +79,6 @@ class SubscribersContainer extends React.Component {
         );
 
         this.props.emailSubscribersListActions.hideGlobalLoading();
-        console.log(res);
 
         const wsData = res.data.subscribers.map(subscriber => [
             subscriber.name ? subscriber.name : "",
@@ -98,7 +96,7 @@ class SubscribersContainer extends React.Component {
 
         workbook.Sheets[sheetName] = ws;
 
-        saveWorkBookToExcel(workbook, this.state.subscribersList.name);
+        helper.saveWorkBookToExcel(workbook, this.state.subscribersList.name);
     }
 
     updateFormData(event) {
