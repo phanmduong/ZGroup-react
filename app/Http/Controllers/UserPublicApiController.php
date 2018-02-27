@@ -139,7 +139,7 @@ class UserPublicApiController extends ApiController
                 'name' => $target_user->name,
                 'university' => $target_user->university,
                 "description" => $target_user->description,
-                "avatar_url" => $target_user->avatar_url ? $target_user->avatar_url : "http://api.colorme.vn/img/user.png",
+                "avatar_url" => $target_user->avatar_url ? $target_user->avatar_url : "http://colorme.vn/img/user.png",
                 "work" => $target_user->work,
                 "address" => $target_user->address,
                 "phone" => $target_user->phone,

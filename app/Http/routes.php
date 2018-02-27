@@ -244,6 +244,14 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
 });
 
+Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function (){
+    Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
+    Route::get('search-registers', 'MoneyManageApiController@search_registers');
+    Route::post('pay-register', 'MoneyManageApiController@pay_register');
+    Route::post('activate-class', 'ManageClassApiController@activate_class');
+    Route::post('change-class-status', 'ManageClassApiController@change_class_status');
+});
+
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
@@ -316,7 +324,6 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
     Route::post('/upload-image', 'UserApiController@upload_image');
     Route::post('/upload-image-froala', 'PublicApiController@upload_image_froala');
-    Route::post('/upload-video-public', 'PublicApiController@upload_video_public');
     Route::post('/upload-image-public', 'PublicApiController@upload_image_public');
     Route::post('/upload-file-froala', 'PublicApiController@upload_file_froala');
     Route::post('/delete-image-froala', 'PublicApiController@delete_image_froala');
@@ -829,3 +836,129 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     //Route graphics
 });
 
+//new api routes
+
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], function () {
+
+    // Begin tab api
+    Route::get('/tabs', 'ManageTabApiController@get_tabs');
+    Route::post('/login', 'AuthenticateController@login');
+    Route::get('/all-tabs', "ManageTabApiController@get_all");
+    // End tab api
+
+    // Begin role api
+    Route::get('/get-roles', 'ManageStaffApiController@get_roles');
+    Route::get('/role/{roleId}', 'ManageRoleApiController@get_role');
+    Route::post('/create-role', 'ManageRoleApiController@store_role');
+    Route::post('/edit-role', 'ManageRoleApiController@store_role');
+    Route::post('/delete-role', 'ManageRoleApiController@delete_role');
+    // End role api
+
+    // Begin staff api
+    Route::get('/staff/get-all-user', "ManageStaffApiController@get_all_user_not_staff");
+    Route::get('/staff/{staffId}', "ManageStaffApiController@get_staff");
+    Route::post('/staff/{staffId}/edit', "ManageStaffApiController@edit_staff");
+    Route::post('delete-staff', "ManageStaffApiController@delete_staff");
+    Route::post('change-role-staff', 'ManageStaffApiController@change_role');
+    Route::post('change-base-staff', 'ManageStaffApiController@change_base');
+    Route::post('add-staff', "ManageStaffApiController@add_staff");
+    Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
+    Route::post('/create-avatar', 'ManageStaffApiController@create_avatar');
+    Route::post('/reset-password', 'ManageStaffApiController@reset_password');
+    Route::get('/convert-data-user', 'ManageStaffApiController@convertDataUser');
+    // End staff api
+
+    // Begin Base api
+    Route::get('/bases', "ManageBaseApiController@bases");
+    Route::get('/base/all', "ManageBaseApiController@get_base_all");
+    Route::get('/base/center/all', "ManageBaseApiController@get_base_center_all");
+    Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
+    Route::post('/base/create', "ManageBaseApiController@createBase");
+    Route::get('/base/rooms', "ManageBaseApiController@getRooms");
+    Route::post('/base/room', "ManageBaseApiController@storeRoom");
+//    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
+    Route::get('/base/{baseId}', "ManageBaseApiController@base");
+    // End Base api
+
+    //Begin upload api
+    Route::post('/upload-image-editor', 'ManageUploadApiController@upload_image_editor');
+    //End upload api
+
+    //Begin blog api
+    Route::post('/create-category', 'ManageBlogController@create_category');
+    Route::post('/save-post', 'ManageBlogController@save_post');
+    Route::get('/posts', 'ManageBlogController@get_posts');
+    Route::post('/post/{postId}/change-status', 'ManageBlogController@changeStatusPost');
+    Route::get('/post/categories', 'ManageBlogController@getAllCategory');
+    Route::get('/post/{postId}', 'ManageBlogController@get_post');
+    Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
+    //End blog api
+
+    //Begin register students api
+    Route::get('/history-call-student', 'ManageRegisterStudentApiController@history_call_student');
+    Route::post('/change-call-status-student', 'ManageRegisterStudentApiController@change_call_status');
+    Route::post('/delete-register-student', 'ManageRegisterStudentApiController@delete_register');
+    Route::get('/register-student/{registerId}/classes', 'ManageRegisterStudentApiController@get_classes');
+    Route::post('/register-student/confirm-change-class', 'ManageRegisterStudentApiController@confirm_change_class');
+    //End register students api
+
+    //Begin user api
+    Route::get('/profile', 'ManageUserApiController@get_profile');
+    Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
+    Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
+    Route::post('/change-password', 'ManageUserApiController@change_password');
+    Route::post('/change-password-student', 'ManageUserApiController@change_password_student');
+    //End user api
+
+    //Begin study session api
+    Route::get('/study-session', 'ManageStudySessionApiController@get_study_session');
+    Route::post('/study-session/add', 'ManageStudySessionApiController@add_study_session');
+    Route::post('/delete-study-session', 'ManageStudySessionApiController@delete_study_session');
+    Route::post('/study-session/{studySessionId}/edit', 'ManageStudySessionApiController@edit_study_session');
+    //End study session api
+
+    //Begin schedule class api
+    Route::get('/schedule-classes', 'ManageScheduleClassApiController@get_schedules');
+    Route::post('/schedule-class/add', 'ManageScheduleClassApiController@add_schedule');
+    Route::post('/delete-schedule-class', 'ManageScheduleClassApiController@delete_schedule');
+    Route::post('/schedule-class/{scheduleClassId}/edit', 'ManageScheduleClassApiController@edit_schedule');
+    //End schedule class api
+
+    //Begin gens api
+    Route::get('/gens', 'ManageGenApiController@get_gens');
+    Route::get('/gen/all', 'ManageGenApiController@get_all_gens');
+    Route::post('/gen/add', 'ManageGenApiController@add_gen');
+    Route::post('/gen/{genId}/edit', 'ManageGenApiController@edit_gen');
+    Route::post('/delete-gen', 'ManageGenApiController@delete_gen');
+    Route::post('/gen/change-status', 'ManageGenApiController@change_status');
+    Route::post('/gen/change-teach-status', 'ManageGenApiController@change_teach_status');
+    //End gens api
+
+    //Begin student api
+    Route::get('/student/{studentId}', 'ManageStudentApiController@get_info_student');
+    Route::get('/student/{studentId}/registers', 'ManageStudentApiController@get_registers');
+    Route::get('/student/{studentId}/history-calls', 'ManageStudentApiController@history_calls');
+    Route::get('/student/{studentId}/progress', 'ManageStudentApiController@get_progress');
+    Route::post('/student/{studentId}/edit', 'ManageStudentApiController@edit_student');
+    //End student api
+
+    //Begin dashboard api
+    Route::get('/gens/{gen_id}/dashboard/{base_id?}', 'ManageDashboardApiController@dashboard');
+    Route::post('/gens/{gen_id}/attendance-shifts/{base_id?}', 'ManageDashboardApiController@get_attendance_shift');
+    Route::post('/gens/{gen_id}/attendance-classes/{base_id?}', 'ManageDashboardApiController@get_attendance_class');
+    Route::post('/change-class-status', 'ManageDashboardApiController@change_class_status');
+    //End dashboard api
+
+    //Begin collect money api
+    Route::get('/collect-money/search-registers', 'ManageCollectMoneyApiController@search_registers');
+    Route::post('/collect-money/pay-money', 'ManageCollectMoneyApiController@pay_money');
+    Route::get('/collect-money/history', 'ManageCollectMoneyApiController@history_collect_money');
+    //End collect money api
+
+    //Begin history call api
+    Route::get('/history-calls', 'ManageHistoryCallApiController@history_calls');
+    //End history call api
+
+    Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
+
+});

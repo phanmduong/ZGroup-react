@@ -1,11 +1,6 @@
 <?php
 
-//Route::group(['middleware' => 'web', 'prefix' => 'task', 'namespace' => 'Modules\Task\Http\Controllers'], function () {
-//    Route::get('/', 'TaskController@index');
-//});
-
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Task\Http\Controllers'], function () {
-
+$routes = function () {
     // project api
     Route::get('/project/{projectId}', "TaskController@getProject");
     Route::put('/project/{projectId}/member/{memberId}/role/{role}', "CardController@changeRoleProjectMember");
@@ -87,4 +82,12 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
 
     // End Task api
+};
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Task\Http\Controllers'], $routes);
+
+//new api routes
+
+Route::group(['domain' => config('app.domain'), 'manageapi' => 'Modules\Task\Http\Controllers'], function () use ($routes) {
+    Route::group(['prefix' => 'v3'], $routes);
 });
