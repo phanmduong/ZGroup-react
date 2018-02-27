@@ -27,7 +27,6 @@ class TransferMoneyApiController extends ManageApiController
             $transfers = $transfers->where('status', $request->status);
         if ($request->bank_account_id)
             $transfers = $transfers->where('bank_account_id', $request->bank_account_id);
-//        $request = $request->join('users', '')
 
         if ($limit == -1) {
             $transfers = $transfers->orderBy('created_at', 'desc')->get();
