@@ -22,7 +22,6 @@
     <link href="/assets/css/elight.css" rel="stylesheet">
 
 
-
     <script>
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
@@ -84,7 +83,8 @@
         <a class="navbar-brand" href="/" style="padding: 5px!important;">
             <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" height="40px">
         </a>
-        <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602" href="tel:+84981937066">
+        <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602"
+           href="tel:+84981937066">
             0981 937 066
         </a>
         <div id="openWithoutAdd" class="collapse navbar-collapse">
@@ -93,7 +93,7 @@
                     <a class="nav-link" style="color:white" href="http://elightbook.com/" data-scroll="true">Sách tiếng
                         anh cơ bản</a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" style="color:white" href="/all-books" data-scroll="true">Thư Viện Tự Học</a>
                 </li>
@@ -126,8 +126,8 @@
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-12" 
-            style="display: flex;
+            <div class="col-md-2 col-sm-3 col-xs-12"
+                 style="display: flex;
                 flex-direction: column;
                 align-items: center;">
                 <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195676838huzFKfrZGBzyEC.png" width="150px">
@@ -167,7 +167,7 @@
                             <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 ><b>Sản phẩm nổi bật</b></h5>
+                                        <h5><b>Sản phẩm nổi bật</b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -177,12 +177,12 @@
                                 </li>
                                 <li>
                                     <a>
-                                    Khoá học Online
+                                        Khoá học Online
                                     </a>
                                 </li>
                                 <li>
                                     <a>
-                                    Khoá học Trung Tâm
+                                        Khoá học Trung Tâm
                                     </a>
                                 </li>
                             </ul>
@@ -190,7 +190,7 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                        <ul class="uppercase-links stacked-links">
+                            <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
                                         <h5><b>Liên hệ</b></h5>
@@ -202,8 +202,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                <a href="tel:01628 766 444">
-                                Hợp tác<br> 01628 766 444 
+                                    <a href="tel:01628 766 444">
+                                        Hợp tác<br> 01628 766 444
                                     </a>
                                 </li>
                             </ul>
@@ -211,7 +211,7 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                        <ul class="uppercase-links stacked-links">
+                            <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
                                         <h5><b>Địa chỉ</b></h5>
@@ -220,19 +220,19 @@
                                 <li>
                                     <a>
                                         <h6 style="font-weight: 200">
-                                        146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
+                                            146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
                                         </h6>
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                        </div>
                     </div>
                 </div>
-                <hr>
-
             </div>
+            <hr>
+
         </div>
+    </div>
 
     </div>
 </footer>
@@ -373,19 +373,25 @@
                     </div>
                     <div class="row" style="padding-top:20px;">
                         <div class="col-md-12">
-                            <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:</div>
-                            <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
-                            <div>Ship vào Sài Gòn: 30k</div>
-                            <div>Ship đến tỉnh thành khác: 30k</div>
+                            <div style="font-weight: 600">
+                                Lưu ý: Elight miễn phí vận chuyển toàn quốc.
+                            </div>
+                            <div>
+
+                                - Elight hỗ trợ thanh toán trực tiếp khi nhận.
+                            </div>
+                            <div> - Bấm vào nút <strong> Đồng ý  </strong>để xác nhận sản phẩm muốn đặt, đăng ký.</div>
+                            <div> - Bấm vào nút <strong> Thêm sản phẩm </strong> để đặt thêm các sản phẩm khác vào đơn hàng.</div>
+
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
-                            style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                            style="width:auto!important">Thêm sản phẩm <i class="fa fa-angle-right"></i></button>
                     <button id="btn-purchase"
                             v-on:click="openPurchaseModal()"
-                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Đồng ý <i
                                 class="fa fa-angle-right"></i></button>
                 </div>
             </div>
