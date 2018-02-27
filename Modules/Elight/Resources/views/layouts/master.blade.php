@@ -380,8 +380,8 @@
 
                                 - Elight hỗ trợ thanh toán trực tiếp khi nhận.
                             </div>
-                            <div> - Bấm vào nút <strong> Đồng ý  </strong>để xác nhận sản phẩm muốn đặt, đăng ký.</div>
-                            <div> - Bấm vào nút <strong> Thêm sản phẩm </strong> để đặt thêm các sản phẩm khác vào đơn hàng.</div>
+                            <div> - Bấm vào nút <strong style="font-weight: 570"> Đồng ý  </strong>để xác nhận sản phẩm muốn đặt, đăng ký.</div>
+                            <div> - Bấm vào nút <strong style="font-weight: 570"> Thêm sản phẩm </strong> để đặt thêm các sản phẩm khác vào đơn hàng.</div>
 
                         </div>
                     </div>
