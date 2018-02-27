@@ -83,7 +83,8 @@
         <a class="navbar-brand" href="/" style="padding: 5px!important;">
             <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" height="40px">
         </a>
-        <a class="nav-link" href="javascript:void(0)" data-scroll="true"
+
+        <a class="nav-link nav-item" href="javascript:void(0)" data-scroll="true"
            v-on:click="openModalBuyWithoutAdd()"
            style="display: flex; align-content: center; color:white">
             <i class="fa fa-shopping-cart"></i>
@@ -141,7 +142,7 @@
                             <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a href="/">
-                                        <h5> Trang chủ </h5>
+                                        <h5> <b>Trang chủ </b> </h5>
                                     </a>
                                 </li>
                                 <li>
