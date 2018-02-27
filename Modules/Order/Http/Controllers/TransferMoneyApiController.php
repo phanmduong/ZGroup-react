@@ -68,7 +68,10 @@ class TransferMoneyApiController extends ManageApiController
         if ($transfer->status == 'accept' || $transfer->status == 'cancel')
             return $this->respondErrorWithStatus('Không cho phép chuyển trạng thái chấp nhận hoặc hủy');
         if ($request->status == 'accept') {
-            $user->deposit = $user->deposit + $request->money;
+            if ($transfer->purpose == 'deposit')
+                $user->deposit += $transfer->money;
+            else
+                $user->money += $transfer->money;
         }
         if ($request->status == 'cancel')
             $transfer->staff_note = $request->note;
