@@ -83,10 +83,18 @@
         <a class="navbar-brand" href="/" style="padding: 5px!important;">
             <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" height="40px">
         </a>
-        <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602"
-           href="tel:+84981937066">
-            0981 937 066
+        <a class="nav-link" href="javascript:void(0)" data-scroll="true"
+           v-on:click="openModalBuyWithoutAdd()"
+           style="display: flex; align-content: center; color:white">
+            <i class="fa fa-shopping-cart"></i>
+            &nbsp
+            Giỏ hàng
+            <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center; display: none!important;">
+                @{{ books_count }}
+            </div>
         </a>
+
         <div id="openWithoutAdd" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -104,16 +112,9 @@
                     <a class="nav-link" style="color:white" href="/about-us" data-scroll="true">Về chúng tôi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
-                       v-on:click="openModalBuyWithoutAdd()"
-                       style="display: flex; align-content: center; color:white">
-                        <i class="fa fa-shopping-cart"></i>
-                        &nbsp
-                        Giỏ hàng
-                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center; display: none!important;">
-                            @{{ books_count }}
-                        </div>
+                    <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602"
+                       href="tel:+84981937066">
+                        0981 937 066
                     </a>
                 </li>
             </ul>
