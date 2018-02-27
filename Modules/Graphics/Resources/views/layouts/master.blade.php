@@ -136,7 +136,7 @@
 
 @yield('content')
 
-<div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
+<div id="modalPurchase" class="modal" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
         <div class="modal-content">
             <div class="modal-header">
@@ -235,7 +235,7 @@
     </div>
 </div>
 
-<div id="modalBuy" class="modal fade">
+<div id="modalBuy" class="modal">
     <div class="modal-dialog modal-large">
         <div class="modal-content">
             <div class="modal-header">
