@@ -4,23 +4,18 @@ import { bindActionCreators } from "redux";
 import Search from "../../components/common/Search";
 import ListOrder from "./ListOrder";
 import * as registerManageAction from "./registerManageAction";
-//import * as helper from '../../helpers/helper';
 import PropTypes from "prop-types";
 import Select from "react-select";
 import Pagination from "../../components/common/Pagination";
-//import Loading from "../../components/common/Loading";
-// import {Link} from "react-router";
 import { REGISTER_STATUS } from "../../constants/constants";
 import XLSX from "xlsx";
 import { saveWorkBookToExcel } from "../../helpers/helper";
 import { loadAllRegistersApi } from "./registerManageApi";
-
-// import {Modal} from 'react-bootstrap';
-// import CallModal from "./CallModal";
 import SelectMonthBox from "../../components/common/SelectMonthBox";
 import Loading from "../../components/common/Loading";
 import SelectCommon from "../../components/common/Select";
 import { Panel } from "react-bootstrap";
+import * as chooseSeatActions from "./chooseSeat/chooseSeatActions";
 
 class RegisterManageContainer extends React.Component {
     constructor(props, context) {
@@ -59,6 +54,7 @@ class RegisterManageContainer extends React.Component {
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
         this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
+        this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
     componentWillMount() {
@@ -76,6 +72,10 @@ class RegisterManageContainer extends React.Component {
                 bases: this.getBases(nextProps.bases),
             });
         }
+    }
+
+    openChooseSeatModal(baseId) {
+        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, baseId);
     }
 
     handleClickMonthBox() {
@@ -492,6 +492,9 @@ class RegisterManageContainer extends React.Component {
                                         placeholder="Nhập mã đăng ký hoặc tên khách hàng"
                                     />
                                     <ListOrder
+                                        openChooseSeatModal={
+                                            this.openChooseSeatModal
+                                        }
                                         registers={this.props.registers}
                                         isLoading={this.props.isLoading}
                                         filterBySaler={this.filterBySaler}
@@ -539,6 +542,7 @@ RegisterManageContainer.propTypes = {
     staffs: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
+    chooseSeatActions: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -557,6 +561,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        chooseSeatActions: bindActionCreators(chooseSeatActions, dispatch),
         registerManageAction: bindActionCreators(
             registerManageAction,
             dispatch,
