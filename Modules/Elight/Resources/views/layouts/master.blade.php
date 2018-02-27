@@ -227,34 +227,7 @@
                     </div>
                 </div>
                 <hr>
-                <div class="copyright">
-                    <div class="pull-left">
-                        ©
-                        <script>document.write(new Date().getFullYear())</script>
-                        KEETOOL
-                    </div>
-                    <div class="links pull-right">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    Điều khoản
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Thanh toán
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Vận chuyển
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+
             </div>
         </div>
 

@@ -45,6 +45,7 @@
                                 </a>
                             </div>
                             <div class="card-block">
+                                <span class="label label-danger">{{$blog->category->name}}</span>
                                 <h3 class="card-title">
                                     <a href="{{'/blog/post/'.$blog->id}}">{{$blog->title}}</a>
                                 </h3>
