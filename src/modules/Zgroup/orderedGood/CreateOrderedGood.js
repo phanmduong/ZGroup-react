@@ -12,7 +12,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
 
 const textAlign = {textAlign: "right"};
-const btnStyle = {width: 90, marginRight: 10};
+const btnStyle = { marginRight: 10};
 
 class CreateOrderedGood extends React.Component {
     constructor(props, context) {
@@ -185,7 +185,7 @@ class CreateOrderedGood extends React.Component {
                                                                                 className="btn btn-fill btn-rose btn-sm"
                                                                                 type="button"
                                                                                 onClick={()=> this.openAddModal(null)}
-                                                                        ><i className="material-icons">add</i> Thêm
+                                                                        ><i className="material-icons">add</i>
                                                                         </button>
                                                                     </TooltipButton>
                                                                 </th>
@@ -226,7 +226,7 @@ class CreateOrderedGood extends React.Component {
                                                                 </tbody>
 
                                                             }
-                                                            <tfoot style={{fontWeight: "bolder"}}>
+                                                            <tfoot style={{fontWeight: "bolder", fontSize: "1.1em"}}>
                                                                 <tr>
                                                                     <td/>
                                                                     <td>Tổng</td>
@@ -239,15 +239,15 @@ class CreateOrderedGood extends React.Component {
                                                         </table>
                                                     </div>
                                                     {isCommitting ?
-                                                            <div className="" style={{display: "flex", flexDirection:"row-reverse"}}>
-                                                                <button style={btnStyle} className="btn btn-rose disabled btn-xs" type="button" disabled>
+                                                            <div className="" style={{display: "flex", flexDirection:"row-reverse",  marginTop:40 }}>
+                                                                <button style={btnStyle} className="btn btn-rose disabled" type="button" disabled>
                                                                     <i className="fa fa-spinner fa-spin"/> Đang lưu...
                                                                 </button>
                                                             </div>
                                                             :
-                                                            <div className="" style={{display: "flex", flexDirection:"row-reverse"}}>
+                                                            <div className="" style={{display: "flex", flexDirection:"row-reverse", marginTop:40 }}>
                                                                 <button
-                                                                    className="btn btn-fill btn-xs" type="button"
+                                                                    className="btn btn-fill" type="button"
                                                                     style={btnStyle}
                                                                     onClick={() => {
                                                                         helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
@@ -258,7 +258,7 @@ class CreateOrderedGood extends React.Component {
                                                                     }}
                                                                 ><i className="material-icons">cancel</i> Hủy</button>
                                                                 <button
-                                                                    className="btn btn-fill btn-rose btn-xs"
+                                                                    className="btn btn-fill btn-rose "
                                                                     style={btnStyle}
                                                                     type="button"
                                                                     onClick={this.commitData}
