@@ -109,6 +109,9 @@ export function createExportOrder(data) {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
                     dispatch({type: types.CREATE_EXPORT_ORDER_ERROR});
                 }
+            }).catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.CREATE_EXPORT_ORDER_ERROR});
             });
     };
 }

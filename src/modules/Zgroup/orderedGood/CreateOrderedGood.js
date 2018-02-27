@@ -202,8 +202,8 @@ class CreateOrderedGood extends React.Component {
                                                                                 <td>{index + 1}</td>
                                                                                 <td>{obj.name}</td>
                                                                                 <td style={textAlign}>{obj.quantity}</td>
-                                                                                <td style={textAlign}>{helper.convertMoneyToK(obj.price)}</td>
-                                                                                <td style={textAlign}>{helper.convertMoneyToK(obj.price * obj.quantity)}</td>
+                                                                                <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
+                                                                                <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
                                                                                 <td><div className="btn-group-action" style={{display:"flex", justifyContent: "center"}}>
                                                                                     <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
                                                                                         onClick={() => {

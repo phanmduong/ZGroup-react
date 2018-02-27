@@ -34,11 +34,12 @@ class CreateExportOrderContainer extends React.Component {
         this.updateFormAdd = this.updateFormAdd.bind(this);
         this.changeOrderedGood = this.changeOrderedGood.bind(this);
         this.addGood = this.addGood.bind(this);
+        this.updateWareHouseFormAdd = this.updateWareHouseFormAdd.bind(this);
     }
 
     componentWillMount() {
-        this.props.exportOrderActions.loadAllGoods();
-        this.props.exportOrderActions.loadAllCompanies();
+        //this.props.exportOrderActions.loadAllGoods();
+        //this.props.exportOrderActions.loadAllCompanies();
         this.props.exportOrderActions.loadAllWarehourses();
         this.props.exportOrderActions.loadAllOrderedGood();
         let id = this.props.params.exportOrderId;
@@ -115,15 +116,20 @@ class CreateExportOrderContainer extends React.Component {
 
     addGood() {
         if ($('#form-good').valid()) {
+            if(!this.state.addModalData.warehouse.id){
+                helper.showErrorNotification("Vui lòng chọn kho xuất!");
+                return;
+            }
+
             let { goods } = this.state.data;
             let good = goods.filter((obj) => obj.id === this.state.addModalData.id)[0];
             if (!good) return;
-            
-                goods = [...goods.slice(0, this.state.editIndex),
-                { ...this.state.addModalData, name: good.name },
-                ...goods.slice(this.state.editIndex + 1, goods.length)
-                ];
-            
+
+            goods = [...goods.slice(0, this.state.editIndex),
+            { ...this.state.addModalData, name: good.name },
+            ...goods.slice(this.state.editIndex + 1, goods.length)
+            ];
+
 
             this.setState({
                 data: { ...this.state.data, goods },
@@ -140,34 +146,39 @@ class CreateExportOrderContainer extends React.Component {
             return;
         }
 
-        if (this.props.params.exportOrderId) {
-            this.props.exportOrderActions.editExportOrder(
-                {
-                    ...data,
-                    company_id: data.company.id,
-                    good_id: data.good.id,
-                    warehouse_id: data.warehouse.id,
-                    staff_id: this.props.user.id,
-                    total_price: data.price * data.quantity,
-                });
-        }
-        else {
+
+
             this.props.exportOrderActions.createExportOrder(
                 {
                     ...data,
-                    company_id: data.company.id,
-                    good_id: data.good.id,
-                    warehouse_id: data.warehouse.id,
+                    goods: JSON.stringify(data.goods.map(
+                        (obj)=>{
+                            return ({
+                                id: obj.id,
+                                price: obj.price,
+                                quantity: obj.quantity,
+                                export_quantity: obj.quantity,
+                                warehouse_id: obj.warehouse.id,
+                            });
+                        })
+                    ) ,
                     staff_id: this.props.user.id,
                     total_price: data.price * data.quantity,
                 });
-        }
+        
+    }
+
+    updateWareHouseFormAdd(e){
+        if(!e) return;
+        let newdata = this.state.addModalData;
+        this.setState({addModalData: {...newdata, warehouse: e}});
     }
 
     render() {
         let { data, addModalData, showAddModal } = this.state;
-        let { orderedGoods,isLoading, isCommitting,} = this.props;
+        let { orderedGoods, isLoading, isCommitting, warehouses, } = this.props;
         let sumQuantity = 0, sumPrice = 0;
+        
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -214,8 +225,8 @@ class CreateExportOrderContainer extends React.Component {
                                                                             <td>{index + 1}</td>
                                                                             <td>{obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
-                                                                            <td style={textAlign}>{helper.convertMoneyToK(obj.price)}</td>
-                                                                            <td style={textAlign}>{helper.convertMoneyToK(obj.price * obj.quantity)}</td>
+                                                                            <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
+                                                                            <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
                                                                                 <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
                                                                                     onClick={() => {
@@ -286,7 +297,7 @@ class CreateExportOrderContainer extends React.Component {
                                         </div>
 
                                         <div className="card-content">
-                                            <h4 className="card-title">Nhà phân phối</h4>
+                                            <h4 className="card-title">Thông tin</h4>
 
                                             <div className="">
                                                 <label>Chọn mã đặt hàng</label>
@@ -337,7 +348,7 @@ class CreateExportOrderContainer extends React.Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form role="form" id="form-good" onSubmit={(e)=>{e.preventDefault();}}>
+                        <form role="form" id="form-good" onSubmit={(e) => { e.preventDefault(); }}>
                             <FormInputText
                                 name="" type="text"
                                 label="Sản phẩm"
@@ -345,6 +356,16 @@ class CreateExportOrderContainer extends React.Component {
                                 updateFormData={() => { }}
                                 disabled
                             />
+                            <div>
+                                <label>Chọn kho xuất</label>
+                                <ReactSelect
+                                    disabled={isLoading}
+                                    options={warehouses || []}
+                                    onChange={this.updateWareHouseFormAdd}
+                                    value={addModalData.warehouse.id}
+                                    defaultMessage="Chọn kho xuất"
+                                /></div>
+
                             <FormInputText
                                 name="quantity" type="number"
                                 label="Số lượng"
@@ -447,4 +468,5 @@ let defaultData = {
 
 const defaultAddModalData = {
     good: {},
+    warehouse: {},
 };
