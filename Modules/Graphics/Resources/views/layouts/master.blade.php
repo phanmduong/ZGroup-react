@@ -21,6 +21,7 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="/graphics-assets/css/nucleo-icons.css" rel="stylesheet">
+    <link href="/assets/css/graphics.css" rel="stylesheet">
     <script>
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
