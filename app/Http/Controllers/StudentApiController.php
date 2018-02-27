@@ -152,7 +152,6 @@ class StudentApiController extends ApiController
         }
 
         if ($gen != null) {
-            $gen = Gen::getCurrentGen();
             $registers = $gen->registers();
         } else {
             $registers = Register::query();
