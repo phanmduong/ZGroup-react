@@ -84,7 +84,7 @@
         <a class="navbar-brand" href="/" style="padding: 5px!important;">
             <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" height="40px">
         </a>
-        <a class="btn btn-danger btn-round  btn-xs" href="tel:+84981937066">
+        <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602" href="tel:+84981937066">
             0981 937 066
         </a>
         <div id="openWithoutAdd" class="collapse navbar-collapse">
