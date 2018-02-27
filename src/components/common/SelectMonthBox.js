@@ -60,7 +60,7 @@ class SelectMonthBox extends React.Component {
                             value={this.props.value}
                             lang={pickerLang.months}
                             show={this.state.isShowMonthBox}
-                            onChange={(year, month) => this.handleAMonthChange(year, month)}
+                            onChange={this.handleAMonthChange}
                             onDismiss={this.handleAMonthDissmis}
                         >
                             <button

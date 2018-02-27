@@ -1,5 +1,14 @@
 export default {
 
+    summarySalesUp: {
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+
     summaryMarketingCampaignUp: {
         errorGens: false,
         bases: [],
@@ -32,10 +41,14 @@ export default {
         totalCount: 1,
         limit: 20,
         isChangingStatus : false,
+
+
+        isLoadingBases : false,
+        bases :[],
     },
 
     bankAccount: {
-        accounts: [1, 2, 3, 4],
+        accounts: [],
         isLoading: false
     },
 
@@ -52,6 +65,7 @@ export default {
     },
 
     orderedDetail: {
+        currencies: [],
         isLoading: false,
         order: {
             size: '',
@@ -60,28 +74,36 @@ export default {
             description: '',
             sale_off: 0,
             weight: 0,
-            tax: true,
+            tax: "true",
             unit: '',
             ratio: 1,
             money: 0,
             fee: 0,
             code: '',
-            endTime: ''
+            endTime: '',
+            quantity: 0,
+            price: 0
         },
         customer: {
             name: '',
             phone: '',
             email: '',
             note: '',
-            quantity: 0,
-            price: 0
         }
     },
 
 
     finance: {
         bankTransfers: [],
-        isLoading: false
+        isLoading: false,
+        cancelReasonModal: false,
+        transferCancelReason: {},
+        bankTransferEditModal: false,
+        transferEdit: {},
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20
     },
 
     currency: {
@@ -97,10 +119,12 @@ export default {
     },
 
     orderedProduct: {
+        currencies: [],
+        isSendingPrice: false,
         addNoteModal: false,
         addCancelNoteModal: false,
         sendPriceModal: false,
-        orderSendPriceModal: {},
+        orderSendPriceModal: [],
         orderNote: {},
         cancelNote: {},
         isSendingNote: false,

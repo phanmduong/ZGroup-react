@@ -24,7 +24,6 @@ class ProductSystemContainer extends React.Component {
     componentWillMount() {
         this.props.createProductAction.getManufacturesCreateProduct();
         this.props.createProductAction.getCategoriesCreateProduct();
-        this.props.createProductAction.getPropertiesCreateProduct();
     }
 
 

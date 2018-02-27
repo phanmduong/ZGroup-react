@@ -1,9 +1,9 @@
-import axios from 'axios';
-import * as env from '../../constants/env';
+import axios from "axios";
+import * as env from "../../constants/env";
 
 export function loadSubscribersList(page = 1, query = null) {
     let url = env.MANAGE_API_URL + "/email/subscribers-list?page=" + page;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (query) {
         url += "&search=" + query;
     }
@@ -15,7 +15,7 @@ export function loadSubscribersList(page = 1, query = null) {
 
 export function loadSubscribersListItem(listId) {
     let url = env.MANAGE_API_URL + "/email/subscribers-list/" + listId;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
@@ -23,8 +23,9 @@ export function loadSubscribersListItem(listId) {
 }
 
 export function deleteSubscribersList(subscribersListId) {
-    let url = env.MANAGE_API_URL + "/email/subscribers-list/" + subscribersListId;
-    let token = localStorage.getItem('token');
+    let url =
+        env.MANAGE_API_URL + "/email/subscribers-list/" + subscribersListId;
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
@@ -33,19 +34,21 @@ export function deleteSubscribersList(subscribersListId) {
 
 export function storeSubscribersList(subscribersList) {
     let url = env.MANAGE_API_URL + "/email/subscribers-list/store";
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url, {
         id: subscribersList.id,
-        name: subscribersList.name
+        name: subscribersList.name,
     });
 }
 
-export function loadSubscribers(listId, page = 1, query = null) {
-    let url = env.MANAGE_API_URL + `/email/subscribers?list_id=${listId}&page=${page}`;
-    let token = localStorage.getItem('token');
+export function loadSubscribers(listId, page = 1, query = null, limit = 20) {
+    let url =
+        env.MANAGE_API_URL +
+        `/email/subscribers?list_id=${listId}&page=${page}&limit=${limit}`;
+    let token = localStorage.getItem("token");
     if (query) {
         url += "&search=" + query;
     }
@@ -57,39 +60,39 @@ export function loadSubscribers(listId, page = 1, query = null) {
 
 export function addSubscriber(listId, subscriber) {
     let url = env.MANAGE_API_URL + "/email/subscriber/add";
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url, {
         list_id: listId,
         name: subscriber.name,
-        email: subscriber.email
+        email: subscriber.email,
     });
 }
 
 export function editSubscriber(subscriber) {
     let url = env.MANAGE_API_URL + "/email/subscriber/edit";
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url, {
         name: subscriber.name,
         email: subscriber.email,
-        id: subscriber.id
+        id: subscriber.id,
     });
 }
 
 export function uploadFile(listId, file, completeHandler, error) {
-    let url = env.MANAGE_API_URL + '/email/subscribers/upload-file';
-    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/email/subscribers/upload-file";
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     let formdata = new FormData();
-    formdata.append('csv', file);
-    formdata.append('list_id', listId);
+    formdata.append("csv", file);
+    formdata.append("list_id", listId);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
     ajax.open("POST", url);
@@ -98,8 +101,13 @@ export function uploadFile(listId, file, completeHandler, error) {
 }
 
 export function deleteSubscriber(listId, subscriberId) {
-    let url = env.MANAGE_API_URL + "/email/subscribers/delete?list_id=" + listId + "&subscriber_id=" + subscriberId;
-    let token = localStorage.getItem('token');
+    let url =
+        env.MANAGE_API_URL +
+        "/email/subscribers/delete?list_id=" +
+        listId +
+        "&subscriber_id=" +
+        subscriberId;
+    let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
     }

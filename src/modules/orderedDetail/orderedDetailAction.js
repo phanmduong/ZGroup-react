@@ -19,14 +19,14 @@ export function saveOrder(order, customer) {
     };
 }
 
-export function editOrder(product) {
+export function editOrder(order, customer) {
     return function (dispatch) {
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-        orderedDetailApi.editOrderApi(product)
+        orderedDetailApi.editOrderApi(order, customer)
             .then(function () {
-                browserHistory.push("/good/goods/products");
+                browserHistory.push("/order/orders");
                 helper.showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
@@ -51,26 +51,26 @@ export function loadOrder(order_id) {
                     description: '',
                     sale_off: 0,
                     weight: 0,
-                    tax: true,
+                    tax: "true",
                     unit: '',
                     ratio: 1,
                     money: 0,
                     fee: 0,
                     code: '',
-                    endTime: ''
+                    endTime: '',
+                    price: 0,
+                    quantity: 0
                 });
                 let customer = res.data.data.delivery_order.customer ? ({
                     ...res.data.data.delivery_order.customer,
+                    id: res.data.data.delivery_order.id,
                     note: res.data.data.delivery_order.note || '',
-                    quantity: res.data.data.delivery_order.quantity,
-                    price: res.data.data.delivery_order.price
                 }) : ({
                     name: '',
                     phone: '',
                     email: '',
                     note: '',
-                    quantity: 0,
-                    price: 0
+                    id: res.data.data.delivery_order.id,
                 });
                 dispatch({
                     type: types.LOAD_ORDER_ORDERED_DETAIL_SUCCESS,
@@ -101,5 +101,18 @@ export function handleDate(endTime) {
         endTime
     });
 }
+
+export function loadAllCurrencies() {
+    return function (dispatch) {
+        orderedDetailApi.loadAllCurrenciesApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CURRENCIES_SUCCESS_ORDERED_DETAIL,
+                    currencies: res.data.data.currencies
+                });
+            });
+    };
+}
+
 
 

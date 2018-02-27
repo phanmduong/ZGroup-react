@@ -5,7 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Search from '../../components/common/Search';
 import FormInputDate from '../../components/common/FormInputDate';
-import TooltipButton from '../../components/common/TooltipButton';
+//import TooltipButton from '../../components/common/TooltipButton';
 import ListOrder from './ListOrder';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
@@ -24,6 +24,9 @@ class OrderedContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
+            checkedPrice: {},
+            isSendingPrice: false,
+            checkAll: false,
             page: 1,
             query: '',
             time: {
@@ -43,11 +46,33 @@ class OrderedContainer extends React.Component {
         this.showAddNoteModal = this.showAddNoteModal.bind(this);
         this.showAddCancelNoteModal = this.showAddCancelNoteModal.bind(this);
         this.showSendPriceModal = this.showSendPriceModal.bind(this);
+        this.checkSendPrice = this.checkSendPrice.bind(this);
+        this.chooseAll = this.chooseAll.bind(this);
+        this.chooseItem = this.chooseItem.bind(this);
     }
 
     componentWillMount() {
         this.props.orderedProductAction.loadAllOrders();
         this.props.orderedProductAction.getAllStaffs();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSendingPrice !== this.props.isSendingPrice && !nextProps.isSendingPrice) {
+            this.props.orderedProductAction.loadAllOrders();
+            this.setState({
+                isSendingPrice: false,
+                checkedPrice: {},
+                page: 1,
+                query: '',
+                time: {
+                    startTime: '',
+                    endTime: ''
+                },
+                status: '',
+                staff_id: null,
+                user_id: null
+            });
+        }
     }
 
     orderedSearchChange(value) {
@@ -107,6 +132,8 @@ class OrderedContainer extends React.Component {
         if (value) {
             this.setState({
                 status: value.value,
+                isSendingPrice: (value.value === "place_order" && this.state.isSendingPrice),
+                checkedPrice: {},
                 page: 1
             });
             this.props.orderedProductAction.loadAllOrders(
@@ -121,6 +148,8 @@ class OrderedContainer extends React.Component {
         } else {
             this.setState({
                 status: null,
+                isSendingPrice: false,
+                checkedPrice: {},
                 page: 1
             });
             this.props.orderedProductAction.loadAllOrders(
@@ -178,9 +207,80 @@ class OrderedContainer extends React.Component {
         this.props.orderedProductAction.handleAddCancelNoteModal(order);
     }
 
-    showSendPriceModal(order) {
-        this.props.orderedProductAction.showSendPriceModal();
-        this.props.orderedProductAction.handleSendPriceModal(order);
+    showSendPriceModal(orders) {
+        if (orders.length) {
+            this.props.orderedProductAction.showSendPriceModal();
+            this.props.orderedProductAction.handleSendPriceModal(orders);
+        } else {
+            helper.showErrorMessage("Xin lỗi", "Chưa có đơn hàng nào được chọn");
+        }
+    }
+
+    checkSendPrice() {
+        if (this.state.isSendingPrice) {
+            this.setState({
+                isSendingPrice: false,
+                checkedPrice: {},
+                status: ""
+            });
+            this.props.orderedProductAction.loadAllOrders();
+        } else {
+            this.setState({
+                isSendingPrice: true,
+                checkedPrice: {},
+                status: "place_order"
+            });
+            this.props.orderedProductAction.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                "place_order",
+                this.state.staff_id,
+                this.state.user_id
+            );
+        }
+    }
+
+    chooseAll() {
+        if (this.state.checkAll) {
+            this.setState({
+                checkAll: false,
+                checkedPrice: {}
+            });
+        } else {
+            let checkedPrice = {};
+            this.props.deliveryOrders.forEach(order => {
+                checkedPrice = {
+                    ...checkedPrice,
+                    [order.id]: true
+                };
+            });
+            this.setState({
+                checkAll: true,
+                checkedPrice: checkedPrice
+            });
+        }
+    }
+
+    chooseItem(id) {
+        let checkedPrice = {...this.state.checkedPrice};
+        if (this.state.checkedPrice[id]) {
+            this.setState({
+                checkAll: false,
+                checkedPrice: {
+                    ...checkedPrice,
+                    [id]: false
+                }
+            });
+        } else {
+            this.setState({
+                checkedPrice: {
+                    ...checkedPrice,
+                    [id]: true
+                }
+            });
+        }
     }
 
     render() {
@@ -189,7 +289,7 @@ class OrderedContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-12 col-sm-12 col-xs-12">
                         <div className="flex flex-row flex-space-between">
                             <div>
                                 <Link
@@ -199,19 +299,37 @@ class OrderedContainer extends React.Component {
                                     className="btn btn-rose">
                                     Thêm đơn hàng đặt
                                 </Link>
+                                <button
+                                    onClick={this.checkSendPrice}
+                                    rel="tooltip" data-placement="top" title=""
+                                    data-original-title="Báo giá" type="button"
+                                    className="btn btn-rose">
+                                    {!this.state.isSendingPrice ? <span>Báo giá</span> : <span>Quay lại</span>}
+                                </button>
+                                <button
+                                    onClick={() => this.showSendPriceModal(
+                                        this.props.deliveryOrders.filter(order => this.state.checkedPrice[order.id])
+                                    )}
+                                    rel="tooltip" data-placement="top" title=""
+                                    data-original-title={this.state.isSendingPrice ? ("Gửi báo giá") : ("Chưa chọn đơn")}
+                                    type="button"
+                                    className="btn btn-rose"
+                                    disabled={!this.state.isSendingPrice}>
+                                    Gửi báo giá
+                                </button>
                             </div>
-                            <div>
-                                <TooltipButton text="In dưới dạng pdf" placement="top">
-                                    <button className="btn btn-success">
-                                        <i className="material-icons">print</i> In
-                                    </button>
-                                </TooltipButton>
-                                <TooltipButton text="Lưu dưới dạng excel" placement="top">
-                                    <button className="btn btn-info">
-                                        <i className="material-icons">save</i> Lưu về máy
-                                    </button>
-                                </TooltipButton>
-                            </div>
+                            {/*<div>*/}
+                            {/*<TooltipButton text="In dưới dạng pdf" placement="top">*/}
+                            {/*<button className="btn btn-success">*/}
+                            {/*<i className="material-icons">print</i> In*/}
+                            {/*</button>*/}
+                            {/*</TooltipButton>*/}
+                            {/*<TooltipButton text="Lưu dưới dạng excel" placement="top">*/}
+                            {/*<button className="btn btn-info">*/}
+                            {/*<i className="material-icons">save</i> Lưu về máy*/}
+                            {/*</button>*/}
+                            {/*</TooltipButton>*/}
+                            {/*</div>*/}
                         </div>
                     </div>
                     <div>
@@ -220,7 +338,7 @@ class OrderedContainer extends React.Component {
                                 <Loading/>
                             ) : (
                                 <div>
-                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="orange">
                                                 <i className="material-icons">weekend</i>
@@ -231,7 +349,7 @@ class OrderedContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="green">
                                                 <i className="material-icons">store</i>
@@ -242,7 +360,7 @@ class OrderedContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="rose">
                                                 <i className="material-icons">equalizer</i>
@@ -253,7 +371,7 @@ class OrderedContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-3 col-md-3 col-sm-3">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="blue">
                                                 <i className="fa fa-twitter"/>
@@ -268,7 +386,7 @@ class OrderedContainer extends React.Component {
                             )
                         }
                     </div>
-                    <div className="col-md-12">
+                    <div className="col-md-12 col-sm-12 col-xs-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">assignment</i>
@@ -276,14 +394,14 @@ class OrderedContainer extends React.Component {
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách đơn hàng</h4>
                                 <div className="row">
-                                    <div className="col-md-10">
+                                    <div className="col-md-10 col-sm-10 col-xs-10">
                                         <Search
                                             onChange={this.orderedSearchChange}
                                             value={this.state.query}
                                             placeholder="Nhập tên hoặc số điện thoại khách hàng"
                                         />
                                     </div>
-                                    <div className="col-md-2">
+                                    <div className="col-md-2 col-sm-2 col-xs-2">
                                         <button type="button" data-toggle="collapse" data-target="#demo"
                                                 className="btn btn-rose">
                                             <i className="material-icons">filter_list</i> Lọc
@@ -292,9 +410,9 @@ class OrderedContainer extends React.Component {
                                 </div>
                                 <div id="demo" className="collapse">
                                     <div className="row">
-                                        <div className="col-md-3">
+                                        <div className="col-md-3 col-sm-3 col-xs-3">
                                             <div className="row">
-                                                <div className="col-md-6">
+                                                <div className="col-md-6 col-sm-6 col-xs-6">
                                                     <FormInputDate
                                                         label="Từ ngày"
                                                         name="startTime"
@@ -304,7 +422,7 @@ class OrderedContainer extends React.Component {
                                                         maxDate={this.state.time.endTime}
                                                     />
                                                 </div>
-                                                <div className="col-md-6">
+                                                <div className="col-md-6 col-sm-6 col-xs-6">
                                                     <FormInputDate
                                                         label="Đến ngày"
                                                         name="endTime"
@@ -316,9 +434,9 @@ class OrderedContainer extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-9">
+                                        <div className="col-md-9 col-sm-9 col-xs-9">
                                             <div className="row">
-                                                <div className="form-group col-md-4">
+                                                <div className="form-group col-md-4 col-sm-4 col-xs-4">
                                                     <label className="label-control">Tìm theo thu ngân</label>
                                                     <Select
                                                         value={this.state.staff_id}
@@ -332,7 +450,7 @@ class OrderedContainer extends React.Component {
                                                         onChange={this.staffsSearchChange}
                                                     />
                                                 </div>
-                                                <div className="form-group col-md-4">
+                                                <div className="form-group col-md-4 col-sm-4 col-xs-4">
                                                     <label className="label-control">Tìm theo trạng thái</label>
                                                     <Select
                                                         value={this.state.status}
@@ -353,10 +471,15 @@ class OrderedContainer extends React.Component {
                                     showAddNoteModal={this.showAddNoteModal}
                                     showAddCancelNoteModal={this.showAddCancelNoteModal}
                                     showSendPriceModal={this.showSendPriceModal}
+                                    checkedPrice={this.state.checkedPrice}
+                                    checkAll={this.state.checkAll}
+                                    isSendingPrice={this.state.isSendingPrice}
+                                    chooseAll={this.chooseAll}
+                                    chooseItem={this.chooseItem}
                                 />
                             </div>
                             <div className="row float-right">
-                                <div className="col-md-12" style={{textAlign: 'right'}}>
+                                <div className="col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
                                     <b style={{marginRight: '15px'}}>
                                         Hiển thị kêt quả từ {first} - {end}/{this.props.totalCount}</b><br/>
                                     <Pagination
@@ -389,7 +512,8 @@ OrderedContainer.propTypes = {
     totalCount: PropTypes.number.isRequired,
     staffs: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
-    orderedProductAction: PropTypes.object.isRequired
+    orderedProductAction: PropTypes.object.isRequired,
+    isSendingPrice: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
@@ -404,6 +528,7 @@ function mapStateToProps(state) {
         totalPages: state.orderedProduct.totalPages,
         totalCount: state.orderedProduct.totalCount,
         staffs: state.orderedProduct.staffs,
+        isSendingPrice: state.orderedProduct.isSendingPrice,
         user: state.login.user
     };
 }

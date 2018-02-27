@@ -41,7 +41,7 @@ class OrderContainer extends React.Component {
 
     componentWillMount() {
         this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
-        this.props.goodOrderActions.loadProvinces();
+        // this.props.goodOrderActions.loadProvinces();
         // this.props.goodOrderActions.loadStaffs();
     }
 
@@ -400,6 +400,12 @@ class OrderContainer extends React.Component {
                                                 label="Số điện thoại"
                                                 name="phone"
                                                 value={this.props.order.order.customer ? this.props.order.order.customer.phone : ''}
+                                                disabled
+                                            />
+                                            <FormInputText
+                                                label="Địa chỉ"
+                                                name="address"
+                                                value={this.props.order.order.customer ? this.props.order.order.customer.address : ''}
                                                 disabled
                                             />
 

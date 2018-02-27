@@ -1,20 +1,21 @@
-import * as types from '../../constants/actionTypes';
-import * as emailSubcribersListApi from './emailSubcribersListApi';
-import * as helper from '../../helpers/helper';
+import * as types from "../../constants/actionTypes";
+import * as emailSubcribersListApi from "./emailSubcribersListApi";
+import * as helper from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 export function loadSubscribersList(page, search) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_EMAIL_SUBSCRIBERS_LIST,
         });
-        emailSubcribersListApi.loadSubscribersList(page, search)
+        emailSubcribersListApi
+            .loadSubscribersList(page, search)
             .then(res => {
                 dispatch({
                     type: types.LOAD_EMAIL_SUBSCRIBERS_LIST_SUCCESS,
                     subscribersList: res.data.subscribers_list,
                     currentPage: res.data.paginator.current_page,
-                    totalPages: res.data.paginator.total_pages
+                    totalPages: res.data.paginator.total_pages,
                 });
             })
             .catch(() => {
@@ -26,21 +27,22 @@ export function loadSubscribersList(page, search) {
 }
 
 export function deleteSubscribersList(subscribersListId) {
-    return function (dispatch) {
+    return function(dispatch) {
         helper.showTypeNotification("Đang xóa subscribers list", "info");
         dispatch({
             type: types.BEGIN_DELETE_EMAIL_SUBSCRIBERS_LIST,
         });
-        emailSubcribersListApi.deleteSubscribersList(subscribersListId)
+        emailSubcribersListApi
+            .deleteSubscribersList(subscribersListId)
             .then(() => {
-                helper.showNotification('Xóa subscribers list thành công');
+                helper.showNotification("Xóa subscribers list thành công");
                 dispatch({
                     type: types.DELETE_EMAIL_SUBSCRIBERS_LIST_SUCCESS,
-                    subscribersListId
+                    subscribersListId,
                 });
             })
             .catch(() => {
-                helper.showNotification('Xóa subscribers list thất bại');
+                helper.showNotification("Xóa subscribers list thất bại");
                 dispatch({
                     type: types.DELETE_EMAIL_SUBSCRIBERS_LIST_ERROR,
                 });
@@ -50,20 +52,21 @@ export function deleteSubscribersList(subscribersListId) {
 
 export function storeSubscribersList(subscribersList) {
     if (helper.isEmptyInput(subscribersList.id)) {
-        subscribersList.id = '';
+        subscribersList.id = "";
     }
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: types.BEGIN_STORE_EMAIL_SUBSCRIBERS_LIST,
         });
-        emailSubcribersListApi.storeSubscribersList(subscribersList)
+        emailSubcribersListApi
+            .storeSubscribersList(subscribersList)
             .then(res => {
                 if (res.data.status === 1) {
                     helper.showNotification("Tải lên thành công");
                     dispatch({
                         type: types.STORE_EMAIL_SUBSCRIBERS_LIST_SUCCESS,
                         subscribersList: res.data.data.subscribers_list,
-                        edit: !helper.isEmptyInput(subscribersList.id)
+                        edit: !helper.isEmptyInput(subscribersList.id),
                     });
                 } else {
                     helper.showErrorNotification("Tải lên thất bại");
@@ -71,7 +74,6 @@ export function storeSubscribersList(subscribersList) {
                         type: types.STORE_EMAIL_SUBSCRIBERS_LIST_ERROR,
                     });
                 }
-
             })
             .catch(() => {
                 helper.showErrorNotification("Tải lên thất bại");
@@ -82,18 +84,35 @@ export function storeSubscribersList(subscribersList) {
     };
 }
 
-export function loadSubscribers(listId, page, search) {
-    return function (dispatch) {
+export function showGlobalLoading() {
+    return dispatch => {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING,
+        });
+    };
+}
+
+export function hideGlobalLoading() {
+    return dispatch => {
+        dispatch({
+            type: types.HIDE_GLOBAL_LOADING,
+        });
+    };
+}
+
+export function loadSubscribers(listId, page, search, limit = 20) {
+    return function(dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_EMAIL_SUBSCRIBERS,
         });
-        emailSubcribersListApi.loadSubscribers(listId, page, search)
+        emailSubcribersListApi
+            .loadSubscribers(listId, page, search, limit)
             .then(res => {
                 dispatch({
                     type: types.LOAD_EMAIL_SUBSCRIBERS_SUCCESS,
                     subscribers: res.data.subscribers,
                     currentPage: res.data.paginator.current_page,
-                    totalPages: res.data.paginator.total_pages
+                    totalPages: res.data.paginator.total_pages,
                 });
             })
             .catch(() => {
@@ -105,11 +124,12 @@ export function loadSubscribers(listId, page, search) {
 }
 
 export function loadSubscribersListItem(listId) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_EMAIL_SUBSCRIBERS_LIST_ITEM,
         });
-        emailSubcribersListApi.loadSubscribersListItem(listId)
+        emailSubcribersListApi
+            .loadSubscribersListItem(listId)
             .then(res => {
                 dispatch({
                     type: types.LOAD_EMAIL_SUBSCRIBERS_LIST_ITEM_SUCCESS,
@@ -125,11 +145,12 @@ export function loadSubscribersListItem(listId) {
 }
 
 export function addSubscriber(listId, subscriber, closeModal) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: types.BEGIN_ADD_EMAIL_SUBSCRIBERS,
         });
-        emailSubcribersListApi.addSubscriber(listId, subscriber)
+        emailSubcribersListApi
+            .addSubscriber(listId, subscriber)
             .then(() => {
                 closeModal();
                 dispatch(loadSubscribers(listId, 1, ""));
@@ -147,16 +168,17 @@ export function addSubscriber(listId, subscriber, closeModal) {
 }
 
 export function editSubscriber(subscriber, closeModal) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: types.BEGIN_ADD_EMAIL_SUBSCRIBERS,
         });
-        emailSubcribersListApi.editSubscriber(subscriber)
-            .then((res) => {
+        emailSubcribersListApi
+            .editSubscriber(subscriber)
+            .then(res => {
                 closeModal();
                 dispatch({
                     type: types.ADD_EMAIL_SUBSCRIBERS_SUCCESS,
-                    subscriber: res.data.data.subscriber
+                    subscriber: res.data.data.subscriber,
                 });
             })
             .catch(() => {
@@ -168,38 +190,44 @@ export function editSubscriber(subscriber, closeModal) {
 }
 
 export function uploadFileSubscribers(listId, file, closeModal) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: types.BEGIN_ADD_EMAIL_SUBSCRIBERS,
         });
-        emailSubcribersListApi.uploadFile(listId, file, function () {
-            closeModal();
-            dispatch(loadSubscribers(listId, 1, ""));
-            helper.showNotification("Thêm email thành công");
-            dispatch({
-                type: types.ADD_EMAIL_SUBSCRIBERS_SUCCESS,
-            });
-        }, function () {
-            dispatch({
-                type: types.ADD_EMAIL_SUBSCRIBERS_ERROR,
-            });
-        });
+        emailSubcribersListApi.uploadFile(
+            listId,
+            file,
+            function() {
+                closeModal();
+                dispatch(loadSubscribers(listId, 1, ""));
+                helper.showNotification("Thêm email thành công");
+                dispatch({
+                    type: types.ADD_EMAIL_SUBSCRIBERS_SUCCESS,
+                });
+            },
+            function() {
+                dispatch({
+                    type: types.ADD_EMAIL_SUBSCRIBERS_ERROR,
+                });
+            },
+        );
     };
 }
 
 export function deleteSubscriber(listId, subscriberId) {
-    return function (dispatch) {
+    return function(dispatch) {
         helper.showTypeNotification("Đang xóa email", "info");
         dispatch({
             type: types.BEGIN_DELETE_EMAIL_SUBSCRIBER,
         });
-        emailSubcribersListApi.deleteSubscriber(listId, subscriberId)
+        emailSubcribersListApi
+            .deleteSubscriber(listId, subscriberId)
             .then(res => {
                 if (res.data.status === 1) {
                     helper.showNotification("Xóa emai thành công");
                     dispatch({
                         type: types.DELETE_EMAIL_SUBSCRIBER_SUCCESS,
-                        subscriberId: subscriberId
+                        subscriberId: subscriberId,
                     });
                 } else {
                     helper.showErrorNotification(res.data.message);
@@ -218,7 +246,7 @@ export function deleteSubscriber(listId, subscriberId) {
 }
 
 export function init() {
-    return ({
+    return {
         type: types.INIT_FORM_EMAIL_SUBSCRIBERS_LIST,
-    });
+    };
 }
