@@ -88,3 +88,23 @@ export function changeStatusApi(status, deliveryOrderId, note, attach) {
         status: status
     });
 }
+
+export function sendPriceApi(orders) {
+    let url = env.MANAGE_API_URL + "/order/delivery/send-price";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        delivery_orders: JSON.stringify(orders)
+    });
+}
+
+export function loadAllCurrenciesApi() {
+    let url = env.MANAGE_API_URL + '/v2/currency';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

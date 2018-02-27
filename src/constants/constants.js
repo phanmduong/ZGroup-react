@@ -190,6 +190,30 @@ export const ORDER_STATUS = [
     }
 ];
 
+export const TRANSFER_PURPOSE = [
+    {
+        purpose: 0,
+        label: "Đặt cọc",
+        value: "deposit"
+    },
+    {
+        purpose: 1,
+        label: "Thanh toán tiền hàng đặt",
+        value: "pay_order"
+    },
+    {
+        purpose: 2,
+        label: "Mua hàng sẵn",
+        value: "pay_good"
+    }
+];
+
+export const TRANSFER_PURPOSE_COLOR = {
+    deposit: "#a52a2a",
+    pay_order: "#8B008B",
+    pay_good: "#F08080"
+};
+
 export const REGISTER_STATUS = [
     {
         register: 0,
@@ -317,6 +341,16 @@ export const ORDER_STATUS_COLORS = {
     cancel: "#fcb7ab"
 };
 
+export const ORDERED_STATUS_COLORS = {
+    place_order: "#dddddd",
+    sent_price: "#b5d0fc",
+    confirm_order: "#b8ffad",
+    ordered: "#e2e2e2",
+    arrived: "#fcb7ab",
+    ship: "#00ff00",
+    completed: "#ccff66",
+    cancel: "#ffcc33",
+};
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const MAX_TIME_WORK_SHIFT_REIGSTER = '20:00:00';
