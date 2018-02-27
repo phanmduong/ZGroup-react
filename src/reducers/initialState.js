@@ -34,7 +34,7 @@ export default {
 
     registerManage: {
         registers: [],
-        staffs: [],
+        salers: [],
         isLoading: false,
         totalPages: 1,
         currentPage: 1,

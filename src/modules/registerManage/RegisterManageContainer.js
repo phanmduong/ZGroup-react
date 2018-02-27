@@ -48,7 +48,7 @@ class RegisterManageContainer extends React.Component {
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
-        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.salersSearchChange = this.salersSearchChange.bind(this);
         this.filterByCampaign = this.filterByCampaign.bind(this);
         this.filterBySaler = this.filterBySaler.bind(this);
         this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(this);
@@ -65,7 +65,8 @@ class RegisterManageContainer extends React.Component {
     componentWillMount() {
 
         this.props.registerManageAction.loadAllRegisters();
-        this.props.registerManageAction.getAllStaffs();
+        // this.props.registerManageAction.getAllStaffs();
+        this.props.registerManageAction.getAllSalers();
         this.props.registerManageAction.loadBasesData();
     }
 
@@ -219,7 +220,7 @@ class RegisterManageContainer extends React.Component {
         }.bind(this), 500);
     }
 
-    staffsSearchChange(value) {
+    salersSearchChange(value) {
         if (value) {
             this.setState({
                 saler_id: value.value,
@@ -404,17 +405,17 @@ class RegisterManageContainer extends React.Component {
                                                 <div className="col-md-9">
                                                     <div className="row">
                                                         <div className="form-group col-md-4">
-                                                            <label className="label-control">Tìm theo saler</label>
+                                                            <label className="label-control">Tìm theo thu ngân</label>
                                                             <Select
-                                                                value={this.state.staff_id}
-                                                                options={this.props.staffs.map((staff) => {
+                                                                value={this.state.saler_id}
+                                                                options={this.props.salers.map((saler) => {
                                                                     return {
-                                                                        ...staff,
-                                                                        value: staff.id,
-                                                                        label: staff.name
+                                                                        ...saler,
+                                                                        value: saler.id,
+                                                                        label: saler.name
                                                                     };
                                                                 })}
-                                                                onChange={this.staffsSearchChange}
+                                                                onChange={this.salersSearchChange}
                                                             />
                                                         </div>
                                                         <div className="form-group col-md-4">
@@ -487,7 +488,7 @@ RegisterManageContainer.propTypes = {
     registers: PropTypes.array.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
-    staffs: PropTypes.array.isRequired,
+    salers: PropTypes.array.isRequired,
 
     isLoadingBases: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
@@ -501,7 +502,7 @@ function mapStateToProps(state) {
         limit: state.registerManage.limit,
         totalCount: state.registerManage.totalCount,
         currentPage: state.registerManage.currentPage,
-        staffs: state.registerManage.staffs,
+        salers: state.registerManage.salers,
 
         isLoadingBases: state.registerManage.isLoadingBases,
         bases: state.registerManage.bases,

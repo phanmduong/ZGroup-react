@@ -21,13 +21,13 @@ export function loadAllRegisters(limit = 10,page = 1, search, staff_id, status,c
     };
 }
 
-export function getAllStaffs() {
+export function getAllSalers() {
     return function (dispatch) {
-        registerManageApi.getAllStaffApi()
+        registerManageApi.getAllSalerApi()
             .then(res => {
                 dispatch({
-                    type: types.GET_ALL_STAFFS_REGISTER_MANAGE,
-                    staffs: res.data.staffs
+                    type: types.GET_ALL_SALER_REGISTER_MANAGE,
+                    salers: res.data.data.salers
                 });
             });
     };

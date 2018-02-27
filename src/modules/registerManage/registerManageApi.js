@@ -34,8 +34,8 @@ export function loadAllRegistersApi(limit, page = 1, search, staff_id, status, c
     return axios.get(url);
 }
 
-export function getAllStaffApi() {
-    let url = env.MANAGE_API_URL + '/staff?limit=-1';
+export function getAllSalerApi() {
+    let url = 'api.quanca.net/all-saler?limit=-1';
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

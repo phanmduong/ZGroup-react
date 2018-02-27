@@ -50,10 +50,10 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                 currentPage: action.currentPage,
                 totalCount: action.totalCount
             };
-        case types.GET_ALL_STAFFS_REGISTER_MANAGE:
+        case types.GET_ALL_SALER_REGISTER_MANAGE:
             return {
                 ...state,
-                staffs: action.staffs
+                salers: action.salers
             };
 
         case types.BEGIN_CHANGE_CALL_STATUS:

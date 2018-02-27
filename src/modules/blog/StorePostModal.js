@@ -63,6 +63,7 @@ class StorePostModal extends React.Component {
         this.props.blogActions.updateFormCategory(data);
     }
 
+
     openModal() {
         let data = {...this.props.category};
         data.name = '';
@@ -128,6 +129,7 @@ class StorePostModal extends React.Component {
                 categories={[{value: 0, text: 'Chọn nhóm bài viết'}, ...categories]}
                 closeModal = {this.props.closeModal}
                 updateFormSelect = {this.updateFormSelect}
+                resetCategory = {this.resetCategory}
             />
         );
     }
