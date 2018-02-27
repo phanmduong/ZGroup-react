@@ -19,6 +19,9 @@
     <link href="/elight-assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/elight-assets/css/paper-kit.css" rel="stylesheet"/>
     <link href="/elight-assets/css/demo.css?12321" rel="stylesheet"/>
+    <link href="/assets/css/elight.css" rel="stylesheet">
+
+
 
     <script>
         window.url = "{{url("/")}}";
