@@ -38,7 +38,7 @@ export function loadAllRegisters(
                     currentPage: res.data.paginator.current_page,
                     totalCount: res.data.paginator.total_count,
                 });
-                success();
+                if (success) success();
             });
     };
 }
