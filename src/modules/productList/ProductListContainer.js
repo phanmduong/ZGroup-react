@@ -345,7 +345,7 @@ class ProductListContainer extends React.Component {
                         <div className="container-fluid">
                             <div>
                                 <div className="row">
-                                    <div className="col-md-12">
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div style={{
                                             display: "flex",
                                             flexDirection: "row",
@@ -380,7 +380,7 @@ class ProductListContainer extends React.Component {
                                                 <Loading/>
                                             ) : (
                                                 <div>
-                                                    <div className="col-lg-6 col-md-6 col-sm-6">
+                                                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                         <div className="card card-stats">
                                                             <div className="card-header" data-background-color="green">
                                                                 <i className="material-icons">store</i>
@@ -391,7 +391,7 @@ class ProductListContainer extends React.Component {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="col-lg-6 col-md-6 col-sm-6">
+                                                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                         <div className="card card-stats">
                                                             <div className="card-header" data-background-color="rose">
                                                                 <i className="material-icons">equalizer</i>
@@ -406,7 +406,7 @@ class ProductListContainer extends React.Component {
                                             )
                                         }
                                     </div>
-                                    <div className="col-md-12">
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div className="card">
                                             <div className="card-header card-header-icon"
                                                  data-background-color="rose"><i
@@ -415,14 +415,14 @@ class ProductListContainer extends React.Component {
                                             <div className="card-content"><h4 className="card-title">Danh sách
                                                 sản phẩm</h4>
                                                 <div className="row">
-                                                    <div className="col-md-10">
+                                                    <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                                         <Search
                                                             onChange={this.productsSearchChange}
                                                             value={this.state.query}
                                                             placeholder="Nhập tên hoặc mã hàng hoá để tìm"
                                                         />
                                                     </div>
-                                                    <div className="col-md-2">
+                                                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                                         <button type="button" data-toggle="collapse" data-target="#demo"
                                                                 className="btn btn-rose">
                                                             <i className="material-icons">filter_list</i> Lọc
@@ -431,7 +431,7 @@ class ProductListContainer extends React.Component {
                                                 </div>
                                                 <div id="demo" className="collapse">
                                                     <div className="row">
-                                                        <div className="form-group col-md-4">
+                                                        <div className="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                             <label className="label-control">Tìm theo trạng thái kinh
                                                                 doanh</label>
                                                             <Select
@@ -449,7 +449,7 @@ class ProductListContainer extends React.Component {
                                                                 onChange={this.saleStatusChange}
                                                             />
                                                         </div>
-                                                        <div className="form-group col-md-4">
+                                                        <div className="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                             <label className="label-control">Tìm theo trạng thái hiển
                                                                 thị</label>
                                                             <Select
@@ -467,7 +467,7 @@ class ProductListContainer extends React.Component {
                                                                 onChange={this.displayStatusChange}
                                                             />
                                                         </div>
-                                                        <div className="form-group col-md-4">
+                                                        <div className="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                             <label className="label-control">Tìm theo trạng thái nổi
                                                                 bật</label>
                                                             <Select
@@ -485,62 +485,58 @@ class ProductListContainer extends React.Component {
                                                                 onChange={this.highlightStatusChange}
                                                             />
                                                         </div>
-
-                                                        <br/>
                                                     </div>
-                                                    <div className="row">
-                                                        <div className="form-group col-md-3">
-                                                            <label className="label-control">Tìm theo nhà sản
-                                                                xuất</label>
-                                                            <Select
-                                                                name="manufactures"
-                                                                value={this.state.manufacture}
-                                                                options={this.props.manufactures.map((manufacture) => {
-                                                                    return {
-                                                                        ...manufacture,
-                                                                        value: manufacture.id,
-                                                                        label: manufacture.name
-                                                                    };
-                                                                })}
-                                                                onChange={this.manufacturesSearchChange}
-                                                            />
-                                                        </div>
-                                                        <div className="form-group col-md-3">
-                                                            <label className="label-control">Tìm theo nhóm hàng
-                                                                hóa</label>
-                                                            <Select
-                                                                name="categories"
-                                                                value={this.state.category}
-                                                                options={this.props.categories.map((category) => {
-                                                                    return {
-                                                                        ...category,
-                                                                        value: category.id,
-                                                                        label: category.label
-                                                                    };
-                                                                })}
-                                                                onChange={this.categoriesSearchChange}
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-3">
-                                                            <FormInputDate
-                                                                label="Từ ngày"
-                                                                name="startTime"
-                                                                updateFormData={this.updateFormDate}
-                                                                id="form-start-time"
-                                                                value={this.state.time.startTime}
-                                                                maxDate={this.state.time.endTime}
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-3">
-                                                            <FormInputDate
-                                                                label="Đến ngày"
-                                                                name="endTime"
-                                                                updateFormData={this.updateFormDate}
-                                                                id="form-end-time"
-                                                                value={this.state.time.endTime}
-                                                                minDate={this.state.time.startTime}
-                                                            />
-                                                        </div>
+                                                    <div className="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                        <label className="label-control">Tìm theo nhà sản
+                                                            xuất</label>
+                                                        <Select
+                                                            name="manufactures"
+                                                            value={this.state.manufacture}
+                                                            options={this.props.manufactures.map((manufacture) => {
+                                                                return {
+                                                                    ...manufacture,
+                                                                    value: manufacture.id,
+                                                                    label: manufacture.name
+                                                                };
+                                                            })}
+                                                            onChange={this.manufacturesSearchChange}
+                                                        />
+                                                    </div>
+                                                    <div className="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                        <label className="label-control">Tìm theo nhóm hàng
+                                                            hóa</label>
+                                                        <Select
+                                                            name="categories"
+                                                            value={this.state.category}
+                                                            options={this.props.categories.map((category) => {
+                                                                return {
+                                                                    ...category,
+                                                                    value: category.id,
+                                                                    label: category.label
+                                                                };
+                                                            })}
+                                                            onChange={this.categoriesSearchChange}
+                                                        />
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                        <FormInputDate
+                                                            label="Từ ngày"
+                                                            name="startTime"
+                                                            updateFormData={this.updateFormDate}
+                                                            id="form-start-time"
+                                                            value={this.state.time.startTime}
+                                                            maxDate={this.state.time.endTime}
+                                                        />
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                        <FormInputDate
+                                                            label="Đến ngày"
+                                                            name="endTime"
+                                                            updateFormData={this.updateFormDate}
+                                                            id="form-end-time"
+                                                            value={this.state.time.endTime}
+                                                            minDate={this.state.time.startTime}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <br/>
@@ -560,7 +556,8 @@ class ProductListContainer extends React.Component {
                                                 }
                                             </div>
                                             <div className="row float-right">
-                                                <div className="col-md-12" style={{textAlign: 'right'}}>
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                                     style={{textAlign: 'right'}}>
                                                     <b style={{marginRight: '15px'}}>
                                                         Hiển thị kêt quả từ {first}
                                                         - {end}/{this.props.totalCount}</b><br/>
