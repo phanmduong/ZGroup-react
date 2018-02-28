@@ -22,7 +22,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
     <style>
-        p:not(#bookinfo2) {
+        p:not(.course) {
             font-weight: bold
         }
     </style>

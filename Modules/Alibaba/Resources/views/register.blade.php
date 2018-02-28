@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="container" id="bookinfo2">
+    <div class="container course" id="bookinfo2">
         <br><br>
         <div class="row">
             <div class="col-md-9"
