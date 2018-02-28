@@ -86,43 +86,43 @@ export default function companyReducer(state = initialState.payment, action) {
         case types.LOAD_COMPANIES_ERROR_PAYMENT:
             return {
                 ...state,
-                isLoadingCompanies:false,
+                isLoadingCompanies: false,
             };
         case types.BEGIN_UPLOAD_IMAGE_PAYMENT:
-            return{
+            return {
                 ...state,
                 percent: 0,
                 isUploading: true,
             };
         case types.UPLOAD_IMAGE_PAYMENT_SUCCESS:
-            return{
+            return {
                 ...state,
                 isUploading: false,
                 link: action.data,
-                payment: {...action.pp,bill_image_url: action.data}
+                payment: {...action.pp, bill_image_url: action.data}
             };
         case types.UPDATE_IMAGE_PROGRESS_PAYMENT:
-            return{
+            return {
                 ...state,
                 percent: action.percent,
             };
         case types.UPDATE_DATA_CREATE_PAYMENT:
-            return{
+            return {
                 ...state,
                 isLoadingPayment: true,
                 payment: action.data,
             };
         case types.RESET_DATA_PAYMENT: {
-            let defaultdata={
+            let defaultdata = {
                 money_value: 0,
                 bill_image_url: "",
                 payer: {
                     id: 0,
-                    account_number:"",
+                    account_number: "",
                 },
                 receiver: {
                     id: 0,
-                    account_number:"",
+                    account_number: "",
                 },
                 description: "",
                 link: ""
@@ -130,8 +130,32 @@ export default function companyReducer(state = initialState.payment, action) {
             return {
                 ...state,
                 isLoadingPayment: false,
-                payment : defaultdata,
+                payment: defaultdata,
                 link: "",
+            };
+        }
+        case types.BEGIN_CHANGE_STATUS_PAYMENT: {
+            return {
+                ...state,
+                isLoadingPayment: true,
+            };
+        }
+        case types.CHANGE_STATUS_PAYMENT_SUCCESS: {
+            let data = state.payment.map((pp) => {
+                return (pp.id === action.id) ? {...pp, status: 1} : pp
+                ;
+            });
+
+            return {
+                ...state,
+                isLoadingPayment: false,
+                payment: data,
+            };
+        }
+        case types.CHANGE_STATUS_PAYMENT_ERROR: {
+            return {
+                ...state,
+                isLoadingPayment: true,
             };
         }
         default:

@@ -138,6 +138,27 @@ export function uploadImage(file,pp){
     };
 }
 
+export function changeStatus(id,status){
+    return function (dispatch){
+        dispatch({
+           type: types.BEGIN_CHANGE_STATUS_PAYMENT,
+        });
+        PaymentApi.changeStatus(id,status)
+            .then(() => {
+                helper.showNotification('Duyệt thành công');
+                dispatch({
+                    type: types.CHANGE_STATUS_PAYMENT_SUCCESS,
+                    id: id,
+                });
+            }).catch(() => {
+              dispatch({
+                 type: types.CHANGE_STATUS_PAYMENT_ERROR
+              });
+        });
+
+    };
+}
+
 export function updateFormData(data) {
     return function (dispatch) {
         dispatch({

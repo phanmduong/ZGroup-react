@@ -76,3 +76,13 @@ export function uploadImage(file,completeHandler, progressHandler, error){
     ajax.open("POST", url);
     ajax.send(formdata);
 }
+
+export function changeStatus(id,status){
+    let url = env.MANAGE_API_URL + '/company/payment/' + id + '/change-status';
+    let token = localStorage.getItem('token');
+    url += "?token=" + token;
+    return axios.post(url, {
+        'status': status
+    });
+
+}

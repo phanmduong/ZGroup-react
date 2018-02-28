@@ -165,6 +165,7 @@ class PaymentContainer extends React.Component {
                                                 <PaymentList
                                                     data={this.props.data || []}
                                                     openInfoModal={this.openInfoModal}
+                                                    changeStatus={this.props.PaymentActions.changeStatus}
                                                 />
                                         }
                                         <ul className="pagination pagination-primary">

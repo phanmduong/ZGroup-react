@@ -1775,6 +1775,7 @@ export default {
                 account_number: "",
             },
             description: "",
+            status: 0,
         }],
         company: [],
         paginator: {
