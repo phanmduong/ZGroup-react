@@ -38,6 +38,8 @@ $graphicApiRoute = function () {
 
 Route::group(['middleware' => 'web', 'domain' => 'graphics.vn', 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicRoute);
 
+Route::group(['middleware' => 'web', 'domain' => 'graphics.test', 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicRoute);
+
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3', 'namespace' => 'Modules\Graphics\Http\Controllers'], $graphicApiRoute);
 
 Route::group(['middleware' => 'web', 'domain' => 'graphics.vn', 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
