@@ -267,6 +267,9 @@ class CompanyController extends ManageApiController
             $historyDebt->company_id = $payment->payer_id;
             $historyDebt->save();
         }
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
     }
 
     public function getAllPayment(Request $request)
