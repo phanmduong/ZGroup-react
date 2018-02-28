@@ -13,7 +13,7 @@ $workShiftRoutes = function () {
         Route::delete('/work-shift-session/{shiftSessionId}/delete', 'ManageWorkShiftApiController@deleteWorkSession');
     });
 };
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'work-shift', 'namespace' => 'Modules\WorkShift\Http\Controllers'], $workShiftRoutes);
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\WorkShift\Http\Controllers'], $workShiftRoutes);
 
 //new api routes
 
