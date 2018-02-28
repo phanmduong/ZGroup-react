@@ -96,6 +96,7 @@
             <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" height="40px">
         </a>
         <a id="openWithoutAdd" href="javascript:void(0)" data-scroll="true"
+           v-on:click="openModalBuyWithoutAdd()"
                                                             class="navbar-brand"
                                                             style="display:inline-flex; align-content: center; color: white !important; font-weight: 570; font-size: 14px; text-transform: uppercase; padding: 5px; line-height: 1.7em;max-width:140px"><i
                         class="fa fa-shopping-cart" style="font-size: 16px; padding: 2px 0px 0px;"></i>
@@ -103,7 +104,7 @@
                 Giỏ hàng
                 <div id="booksCount"
                      style="margin-left: 10px; height: 20px; width: 20px; border-radius: 50%; background-color: rgb(197, 0, 0); color: white; display: flex; align-items: center; justify-content: center;">
-                    1
+                    @{{ books_count }}
                 </div>
             </a>
 
