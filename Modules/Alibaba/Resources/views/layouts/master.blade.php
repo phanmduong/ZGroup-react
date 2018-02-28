@@ -28,6 +28,9 @@
         .course p{
             font-weight: 300;
         }
+        b, strong {
+            font-weight: bold;
+        }
     </style>
 
 </head>
