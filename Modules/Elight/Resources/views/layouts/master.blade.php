@@ -22,7 +22,6 @@
     <link href="/assets/css/elight.css" rel="stylesheet">
 
 
-
     <script>
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
@@ -81,16 +80,29 @@
             <span class="navbar-toggler-bar"></span>
             <span class="navbar-toggler-bar"></span>
         </button>
+
         <a class="navbar-brand" href="/" style="padding: 5px!important;">
-            <img src="http://elightbook.com/assets/img/Elight%20Logo%20Black%20copy.png" height="40px">
+            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" height="40px">
         </a>
+        <a id="openWithoutAdd" href="javascript:void(0)" data-scroll="true"
+                                                            class="navbar-brand"
+                                                            style="display:inline-flex; align-content: center; color: white !important; font-weight: 570; font-size: 14px; text-transform: uppercase; padding: 5px; line-height: 1.7em;max-width:140px"><i
+                        class="fa fa-shopping-cart" style="font-size: 16px; padding: 2px 0px 0px;"></i>
+                &nbsp;
+                Giỏ hàng
+                <div id="booksCount"
+                     style="margin-left: 10px; height: 20px; width: 20px; border-radius: 50%; background-color: rgb(197, 0, 0); color: white; display: flex; align-items: center; justify-content: center;">
+                    1
+                </div>
+            </a>
+
         <div id="openWithoutAdd" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" style="color:white" href="http://elightbook.com/" data-scroll="true">Sách tiếng
                         anh cơ bản</a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" style="color:white" href="/all-books" data-scroll="true">Thư Viện Tự Học</a>
                 </li>
@@ -101,16 +113,9 @@
                     <a class="nav-link" style="color:white" href="/about-us" data-scroll="true">Về chúng tôi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
-                       v-on:click="openModalBuyWithoutAdd()"
-                       style="display: flex; align-content: center; color:white">
-                        <i class="fa fa-shopping-cart"></i>
-                        &nbsp
-                        Giỏ hàng
-                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center; display: none!important;">
-                            @{{ books_count }}
-                        </div>
+                    <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602"
+                       href="tel:+84981937066">
+                        0981 937 066
                     </a>
                 </li>
             </ul>
@@ -123,11 +128,11 @@
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-12" 
-            style="display: flex;
+            <div class="col-md-2 col-sm-3 col-xs-12"
+                 style="display: flex;
                 flex-direction: column;
                 align-items: center;">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" width="150px">
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195676838huzFKfrZGBzyEC.png" width="150px">
                 <div><h5 style="text-align: center">Nhà Sách Elight</h5></div>
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
@@ -137,7 +142,7 @@
                             <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a href="/">
-                                        Trang chủ
+                                        <h5><b> Trang chủ </b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -164,7 +169,7 @@
                             <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Sản phẩm nổi bật</b></h5>
+                                        <h5><b>Sản phẩm</b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -174,12 +179,12 @@
                                 </li>
                                 <li>
                                     <a>
-                                    Khoá học Online
+                                        Khoá học Online
                                     </a>
                                 </li>
                                 <li>
                                     <a>
-                                    Khoá học Trung Tâm
+                                        Khoá học Trung Tâm
                                     </a>
                                 </li>
                             </ul>
@@ -187,10 +192,10 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                        <ul class="uppercase-links stacked-links">
+                            <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Liên hệ</b></h5>
+                                        <h5><b>Liên hệ</b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -199,8 +204,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                <a href="tel:01628 766 444">
-                                Hợp tác<br> 01628 766 444 
+                                    <a href="tel:01628 766 444">
+                                        Hợp tác<br> 01628 766 444
                                     </a>
                                 </li>
                             </ul>
@@ -208,55 +213,28 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                        <ul class="uppercase-links stacked-links">
+                            <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Địa chỉ</b></h5>
+                                        <h5><b>Địa chỉ</b></h5>
                                     </a>
                                 </li>
                                 <li>
                                     <a>
-                                        <h6 style="text-align:center;font-weight: 200">
-                                        146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
+                                        <h6 style="font-weight: 200">
+                                            146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
                                         </h6>
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="copyright">
-                    <div class="pull-left">
-                        ©
-                        <script>document.write(new Date().getFullYear())</script>
-                        KEETOOL
-                    </div>
-                    <div class="links pull-right">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    Điều khoản
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Thanh toán
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Vận chuyển
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
+            <hr>
+
         </div>
+    </div>
 
 
 </footer>
@@ -450,27 +428,32 @@
                             <div class="col-md-6">
                                 <div class="form-group label-floating">
                                     <label class="control-label">Họ</label>
-                                    <input id="lastname" type="text" name="name" class="form-control" placeholder="Ví dụ: Nguyễn">
+                                    <input id="lastname" type="text" name="name" class="form-control"
+                                           placeholder="Ví dụ: Nguyễn">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group label-floating">
                                     <label class="control-label">Tên</label>
-                                    <input id="firstname" type="text" name="name" class="form-control" placeholder="Ví dụ: Lan Anh">
+                                    <input id="firstname" type="text" name="name" class="form-control"
+                                           placeholder="Ví dụ: Lan Anh">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group label-floating">
                             <label class="control-label">Số điện thoại</label>
-                            <input id="phone" type="text" name="phone" class="form-control" placeholder="Ví dụ: 0166799xxxx">
+                            <input id="phone" type="text" name="phone" class="form-control"
+                                   placeholder="Ví dụ: 0166799xxxx">
                         </div>
                         <div class="form-group label-floating">
                             <label class="control-label">Email</label>
-                            <input id="e-email" type="email" name="email" class="form-control" placeholder="Ví dụ: android@colorme.vn">
+                            <input id="e-email" type="email" name="email" class="form-control"
+                                   placeholder="Ví dụ: android@colorme.vn">
                         </div>
                         <div class="form-group label-floating">
                             <label class="control-label">Lời nhắn</label>
-                            <textarea id="e-message" name="question" class="form-control" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
+                            <textarea id="e-message" name="question" class="form-control" rows="6"
+                                      placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
                         </div>
                         <div class="pull-right">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -539,10 +522,10 @@
 
 </script>
 <script>
-    window.onload = function(e){
-        setTimeout(function(){
+    window.onload = function (e) {
+        setTimeout(function () {
             $('#modalInfo').modal('show');
-        },30000);
+        }, 30000);
     };
 </script>
 

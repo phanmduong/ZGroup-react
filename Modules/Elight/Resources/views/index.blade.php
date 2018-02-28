@@ -368,7 +368,7 @@
 
 
             <div class="page-header page-header-small"
-                 style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519575420QS76o47YuXh0JVI.JPG');background-size: cover;background-color: black;min-height: 300px!important;margin-bottom: 30px">
+                 style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519817144ZS7Ub5VFjAwHNEC.png');background-size: cover;background-color: black;min-height: 300px!important;margin-bottom: 30px">
                 <div class="content-center">
                     <div class="container">
                         <h2 style="font-weight: 400">Thư viện tự học
