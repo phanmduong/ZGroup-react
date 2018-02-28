@@ -10,6 +10,7 @@ import TooltipButton from '../../../components/common/TooltipButton';
 import {Modal} from 'react-bootstrap';
 import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
+import {browserHistory} from 'react-router';
 
 const textAlign = {textAlign: "right"};
 const btnStyle = { marginRight: 10};
@@ -252,7 +253,7 @@ class CreateOrderedGood extends React.Component {
                                                                     onClick={() => {
                                                                         helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
                                                                             () => {
-                                                                                //return browserHistory.push("/business/export-order");
+                                                                                return browserHistory.push("/business/ordered-good");
                                                                             }
                                                                         );
                                                                     }}

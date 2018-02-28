@@ -7,6 +7,7 @@ import CreatePrintOrderContainer from "../modules/printOrder/CreatePrintOrderCon
 import ExportOrderContainer from "../modules/Zgroup/exportGood/ExportOrderContainer";
 import CreateExportOrderContainer from "../modules/Zgroup/exportGood/CreateExportOrderContainer";
 import CreateOrderedGood from "../modules/Zgroup/orderedGood/CreateOrderedGood";
+import OrderedGoodContainer from "../modules/Zgroup/orderedGood/OrderedGoodContainer";
 /**
  * Tab Kinh Doanh
  */
@@ -61,6 +62,10 @@ export default [
     {
         path: "/business/export-order/edit/:exportOrderId",
         component: CreateExportOrderContainer,
+    },
+    {
+        path: "/business/ordered-good",
+        component: OrderedGoodContainer,
     },
     {
         path: "/business/ordered-good/create",
