@@ -114,9 +114,56 @@ export function showSendPriceModal() {
     });
 }
 
-export function handleSendPriceModal(order) {
+export function handleSendPriceModal(orders) {
     return ({
         type: types.HANDLE_SEND_PRICE_MODAL,
-        order
+        orders
     });
+}
+
+export function sendPrice(delivery_orders) {
+    return function (dispatch) {
+        let orders = delivery_orders.map(order => {
+            return {
+                id: order.id,
+                attach_info: order.attach_info
+            };
+        });
+        helper.showTypeNotification("Đang báo giá", "info");
+        dispatch({
+            type: types.BEGIN_SEND_PRICE_ORDERED_PRODUCT
+        });
+        orderedProductApi.sendPriceApi(orders)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showNotification("Báo giá thành công");
+                    dispatch({
+                        type: types.SEND_PRICE_SUCCESS_ORDERED_PRODUCT
+                    });
+                } else {
+                    dispatch({
+                        type: types.TOGGLE_SEND_PRICE_MODAL
+                    });
+                    helper.showErrorNotification(res.data.message.message);
+                }
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.TOGGLE_SEND_PRICE_MODAL
+                });
+                helper.showErrorNotification("Có lỗi xảy ra");
+            });
+    };
+}
+
+export function loadAllCurrencies() {
+    return function (dispatch) {
+        orderedProductApi.loadAllCurrenciesApi()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CURRENCIES_SUCCESS_ORDERED_PRODUCT,
+                    currencies: res.data.data.currencies
+                });
+            });
+    };
 }

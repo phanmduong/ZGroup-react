@@ -33,6 +33,11 @@ export default function orderedDetailReducer(state = initialState.orderedDetail,
                     endTime: action.endTime
                 }
             };
+        case types.LOAD_CURRENCIES_SUCCESS_ORDERED_DETAIL:
+            return {
+                ...state,
+                currencies: action.currencies
+            };
         default:
             return state;
     }

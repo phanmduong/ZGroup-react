@@ -24,8 +24,8 @@ export function loadBasesData() {
     };
 }
 
-export function loadSummaryMarketingCampaignData( baseId, startTime,endTime) {
-    console.log(startTime,endTime,"xxxxxxxxxxx");
+export function loadSummaryMarketingCampaignData( baseId, startTime,endTime,success) {
+    // console.log(startTime,endTime,"xxxxxxxxxxx");
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_SUMMARY_MARKETING_CAMPAIGN_UP
@@ -36,6 +36,7 @@ export function loadSummaryMarketingCampaignData( baseId, startTime,endTime) {
                     type: types.LOAD_SUMMARY_MARKETING_CAMPAIGN_SUCCESS_UP,
                     summary: res.data.data.summary_marketing_campaign,
                 });
+                success();
             }).catch(() => {
             dispatch({
                 type: types.LOAD_SUMMARY_MARKETING_CAMPAIGN_ERROR_UP

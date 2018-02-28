@@ -42,10 +42,9 @@ class ListExportOrder extends React.Component {
                     <tr>
                         <th>STT</th>
                         <th>Nhà phân phối</th>
-                        <th>Tên sản phầm</th>
-                        <th>Tên kho</th>
-                        <th>Đơn giá</th>
-                        <th>Số lượng</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Số sản phẩm</th>
+
                         <th>Tổng tiền</th>
                         <th/>
                     </tr>
@@ -55,12 +54,11 @@ class ListExportOrder extends React.Component {
                         return(
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>{order.company.name}</td>
-                                <td>{order.good.name}</td>
-                                <td>{order.warehouse.name}</td>
-                                <td>{order.price}</td>
-                                <td>{order.quantity}</td>
-                                <td>{order.total_price}</td>
+                                <td>{order.company.name}</td>                                
+                                <td>{order.command_code}</td>                                
+                                <td>{order.goods.length}</td>
+                                
+                                <td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
                                 <td><ButtonGroupAction
                                     editUrl={"/business/export-order/edit/" + order.id}
                                     disabledDelete={true}
@@ -110,3 +108,10 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListExportOrder);
 
+function getTotalPrice(arr){
+    let sum = 0;
+    arr.forEach(e => {
+        sum += e.price;
+    });
+    return sum;
+}

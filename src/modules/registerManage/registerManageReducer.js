@@ -7,6 +7,35 @@ let tmpReg = {};
 
 export default function goodOrdersReducer(state = initialState.registerManage, action) {
     switch (action.type) {
+
+
+
+        case types.BEGIN_LOAD_BASES_IN_REGISTER_MANAGE:
+            return {
+                ...state,
+                ...{
+                    isLoadingBases: true,
+
+                }
+            };
+        case types.LOAD_BASES_IN_REGISTER_MANAGE_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingBases: false,
+                    bases: action.bases,
+                }
+            };
+        case types.LOAD_BASES_IN_REGISTER_MANAGE_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingBases: false,
+                }
+            };
+
+
+
         case types.BEGIN_LOAD_REGISTER_MANAGE:
             return {
                 ...state,

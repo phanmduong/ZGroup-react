@@ -71,7 +71,7 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
             return {
                 ...state,
                 isLoadingWarehouses: false,
-                warehouses: getSelectArray(action.warehouses),
+                warehouses: getSelectArrayWareHouse(action.warehouses),
             };
         }
 
@@ -132,6 +132,23 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
                 ...state,
                 isCommitting: false,
             };
+            
+        case types.BEGIN_LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER:
+            return {
+                ...state,
+                
+            };
+        case types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_SUCCESS:{
+            return {
+                ...state,
+                orderedGoods: getSelectArray(action.orderedGoods),
+            };
+        }
+        case types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_ERROR:
+            return {
+                ...state,
+                
+            };
 
         default:
             return state;
@@ -139,6 +156,16 @@ export default function exportOrderReducer(state = initialState.exportOrder, act
 }
 
 function getSelectArray(arr){
+    return arr.map(obj => {
+        return {
+            ...obj,
+            value: obj.id,
+            label: obj.command_code,
+        };
+    });
+}
+
+function getSelectArrayWareHouse(arr){
     return arr.map(obj => {
         return {
             ...obj,
