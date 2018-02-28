@@ -401,7 +401,7 @@ class DeliveryOrderApiController extends ManageApiController
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $deliveryOrder->id;
         $orderPaidMoney->money = $money;
-        $orderPaidMoney->note = $request->note;
+        $orderPaidMoney->note = "ok";
         $orderPaidMoney->payment = $request->payment;
         $orderPaidMoney->staff_id = $this->user->id;
         $orderPaidMoney->save();
