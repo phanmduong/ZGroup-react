@@ -78,7 +78,6 @@ export function setRuleShowCall(register){
                 ) +
                 " h";
         } else {
-            // showCall = (lastCall - created_time)/3600000;
             btn = " btn-warning ";
             titleCall =
                 " Đã quá hạn " +
@@ -99,14 +98,15 @@ class ListOrder extends React.Component {
             isOpenModal: false,
             register: {},
             isOpenCallModal: false,
+            isCallModal : false,
         };
 
         this.openCallModal = this.openCallModal.bind(this);
         this.closeCallModal = this.closeCallModal.bind(this);
     }
 
-    openCallModal(register) {
-        this.setState({ isOpenCallModal: true, register: register });
+    openCallModal(register,isCallModal) {
+        this.setState({ isOpenCallModal: true, register: register,isCallModal : isCallModal });
     }
 
     closeCallModal() {
@@ -136,6 +136,7 @@ class ListOrder extends React.Component {
                             <th>Tiền đã trả</th>
                             <th>Đăng ký</th>
                             <th />
+                            <th />
                         </tr>
                         </thead>
                         <tbody>
@@ -157,7 +158,7 @@ class ListOrder extends React.Component {
                                                     }
                                                     onClick={() =>
                                                         this.openCallModal(
-                                                            register,
+                                                            register,true
                                                         )
                                                     }
                                                 >
@@ -296,6 +297,20 @@ class ListOrder extends React.Component {
                                             </i>
                                         </a>
                                     </td>
+                                    <td>
+                                        <a
+                                            onClick={() =>
+                                                this.openCallModal(
+                                                    register,false
+                                                )
+                                            }
+                                            style={{ color: "#888" }}
+                                        >
+                                            <i className="material-icons">
+                                                add_circle
+                                            </i>
+                                        </a>
+                                    </td>
                                 </tr>
                             );
                         })}
@@ -308,11 +323,12 @@ class ListOrder extends React.Component {
                     bsStyle="primary"
                     onHide={this.closeCallModal}
                 >
-                    <Modal.Header closeButton />
+                    <Modal.Header/>
                     <Modal.Body>
                         <CallModal
                             register={this.state.register}
                             closeCallModal={this.closeCallModal}
+                            isCallModal =  {this.state.isCallModal}
                         />
                     </Modal.Body>
                 </Modal>

@@ -9,6 +9,11 @@ import {Pie} from "react-chartjs-2";
 
 import PropTypes                    from 'prop-types';
 
+
+import {bindActionCreators} from 'redux';
+import * as summarySalesActions from './summarySalesActions';
+
+
 const legendOpts = {
     display: false,
     position: 'top',
@@ -18,6 +23,9 @@ const legendOpts = {
 class OverviewSales extends React.Component {
     constructor(props, context) {
         super(props, context);
+    }
+    componentWillMount() {
+        this.props.summarySalesActions.loadSummarySalesData();
     }
 
     convertData(campaigns) {
@@ -45,6 +53,9 @@ class OverviewSales extends React.Component {
         };
 
         return dataChart;
+    }
+    loadSummary() {
+        this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId);
     }
 
     render() {
@@ -129,6 +140,7 @@ class OverviewSales extends React.Component {
 }
 OverviewSales.propTypes={
     summary: PropTypes.array,
+    summarySalesActions: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -136,6 +148,10 @@ function mapStateToProps(state) {
         summary: state.summarySales.summary
     };
 }
+function mapDispatchToProps(dispatch) {
+    return {
+        summarySalesActions: bindActionCreators(summarySalesActions, dispatch)
+    };}
 
 
-export default connect(mapStateToProps)(OverviewSales);
+export default connect(mapStateToProps,mapDispatchToProps)(OverviewSales);

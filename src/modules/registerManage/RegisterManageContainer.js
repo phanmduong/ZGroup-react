@@ -52,7 +52,7 @@ class RegisterManageContainer extends React.Component {
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
-        this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
+        this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
@@ -105,10 +105,10 @@ class RegisterManageContainer extends React.Component {
         time["startTime"] = startTime;
         time["endTime"] = endTime;
         this.setState({time: time});
-        this.handleAMonthDissmis();
+        this.handleAMonthDismiss();
     }
 
-    handleAMonthDissmis() {
+    handleAMonthDismiss() {
         this.setState({isShowMonthBox: false});
     }
 
@@ -360,7 +360,7 @@ class RegisterManageContainer extends React.Component {
                                     isAuto={false}
                                     isShowMonthBox={this.state.isShowMonthBox}
                                     openBox={this.handleClickMonthBox}
-                                    closeBox={this.handleAMonthDissmis}
+                                    closeBox={this.handleAMonthDismiss}
                                 />
                             </div>
                             <div className="col-sm-3 col-xs-5">

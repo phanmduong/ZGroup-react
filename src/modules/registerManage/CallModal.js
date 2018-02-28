@@ -17,13 +17,14 @@ function parseTime(x) {
 class CallModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note: ""};
+        this.state = {note: "",money: 0};
         this.changeCallStatus = this.changeCallStatus.bind(this);
         // console.log(parseTime("00:57 06-02-2018"),moment("00:57 06-02-2018", "HH:mm DD-MM-YYYY").add(2,"days").format("DD"),"sad");
     }
     changeCallStatus(status,note,register_id,user_id){
         this.props.registerManageAction.changeCallStatus(status,note,register_id,user_id,this.props.closeCallModal);
     }
+
 
     render() {
         let register = this.props.register;
@@ -205,15 +206,22 @@ class CallModal extends React.Component {
 
                     </div>
 
+                    {this.props.isCallModal ?
+                        <div className="form-group label-floating is-empty">
+                            <label className="control-label">Ghi chú</label>
+                            <input type="text" className="form-control"
+                                   value={this.state.note}
+                                   onChange={(event) => this.setState({note: event.target.value})}/>
+                        </div>
+                        :
+                        <div className="form-group label-floating is-empty">
+                            <label className="control-label">Số tiền</label>
+                            <input type="number" className="form-control"
+                                   value={this.state.money}
+                                   onChange={(event) => this.setState({money: event.target.value})}/>
+                        </div>
+                    }
 
-                    <div className="form-group label-floating is-empty">
-                        <label className="control-label">Ghi chú</label>
-                        <input type="text" className="form-control"
-                               value={this.state.note}
-                               onChange={(event) => this.setState({note: event.target.value})}/>
-                        <span className="material-input"/>
-                        <span className="material-input"/>
-                    </div>
 
                 </div>
 
@@ -264,6 +272,7 @@ class CallModal extends React.Component {
 CallModal.propTypes = {
     register: PropTypes.object.isRequired,
     isChangingStatus: PropTypes.bool.isRequired,
+    isCallModal: PropTypes.bool.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     closeCallModal: PropTypes.func.isRequired,
 };
