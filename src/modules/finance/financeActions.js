@@ -31,13 +31,13 @@ export const updateBankTransferStatus = (bankTransfer) => {
     };
 };
 
-export function updateTransferStatus(id, status, note, user_id, money) {
+export function updateTransferStatus(id, status, note, money) {
     return function (dispatch) {
         helper.showTypeNotification("Đang cập nhật trạng thái", "info");
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-        financeApi.updateTransferStatus(id, status, note, user_id, money)
+        financeApi.updateTransferStatus(id, status, note, money)
             .then((res) => {
                 if (res.data.status) {
                     dispatch({

@@ -39,7 +39,7 @@ class OrdersContainer extends React.Component {
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
-        this.showShipGoodModal = this.showShipGoodModal.bind(this);
+        //this.showShipGoodModal = this.showShipGoodModal.bind(this);
         this.showAddNoteModal = this.showAddNoteModal.bind(this);
     }
 
@@ -147,10 +147,10 @@ class OrdersContainer extends React.Component {
         this.props.goodOrderActions.changeStatusOrder(status, orderId);
     }
 
-    showShipGoodModal(order) {
-        this.props.goodOrderActions.showShipGoodModal(true);
-        this.props.goodOrderActions.handleShipOrderBegin(order);
-    }
+    // showShipGoodModal(order) {
+    //     this.props.goodOrderActions.showShipGoodModal(true);
+    //     this.props.goodOrderActions.handleShipOrderBegin(order);
+    // }
 
     showAddNoteModal(order) {
         this.props.goodOrderActions.showAddNoteModal();
@@ -337,7 +337,7 @@ class OrdersContainer extends React.Component {
                                     changeStatusOrder={this.changeStatusOrder}
                                     orders={this.props.orders}
                                     isLoading={this.props.isLoading}
-                                    showShipGoodModal={this.showShipGoodModal}
+                                    //showShipGoodModal={this.showShipGoodModal}
                                     showAddNoteModal={this.showAddNoteModal}
                                     user={this.props.user}
                                     showSelectWarehouseModal={this.props.goodOrderActions.showSelectWarehouseModal}
