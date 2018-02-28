@@ -21,6 +21,17 @@
     <link href="/elight-assets/css/demo.css?12321" rel="stylesheet"/>
     <link href="/assets/css/elight.css" rel="stylesheet">
 
+    <style>
+        .nav-pills-primary > li > a, .pagination-primary > li > a, .pagination-primary > li > span, .pagination-primary > li:first-child > a, .pagination-primary > li:first-child > span, .pagination-primary > li:last-child > a, .pagination-primary > li:last-child > span {
+            border: 2px solid #138edc;
+            color: #138edc;
+        }
+        .nav-pills-primary > li.active > a, .nav-pills-primary > li.active > a:hover, .nav-pills-primary > li.active > a:focus, .pagination-primary > li > a:hover, .pagination-primary > li > a:focus, .pagination-primary > li > a:active, .pagination-primary > li.active > a, .pagination-primary > li.active > span, .pagination-primary > li.active > a:hover, .pagination-primary > li.active > span:hover, .pagination-primary > li.active > a:focus, .pagination-primary > li.active > span:focus {
+            background-color: #138edc !important;
+            border-color: #138edc !important;
+            color: #FFFFFF;
+        }
+    </style>
 
     <script>
         window.url = "{{url("/")}}";
@@ -527,6 +538,33 @@
             $('#modalInfo').modal('show');
         }, 30000);
     };
+
+    function paginator(currentPageData, totalPagesData) {
+        var page = [];
+        var currentPage = currentPageData;
+        var totalPages = totalPagesData;
+
+        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
+        for (var i = startPage; i <= currentPage; i++) {
+            page.push(i);
+        }
+
+        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+
+        for (var i = currentPage + 1; i <= endPage; i++) {
+            page.push(i);
+        }
+
+        if (page && page.length < 5) {
+            var pageData = Object.assign(page);
+            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
+                pageData.unshift(i);
+            }
+            page = pageData;
+        }
+
+        return page;
+    }
 </script>
 
 @stack("scripts")
