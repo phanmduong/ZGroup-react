@@ -12,7 +12,9 @@ class ChooseSeatModalContainer extends React.Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
-    componentWillMount() {}
+    componentWillMount() {
+        console.log(this.props.baseId);
+    }
 
     handleClose() {
         this.props.chooseSeatActions.toggleShowChooseSeatModal(false);
@@ -64,6 +66,7 @@ class ChooseSeatModalContainer extends React.Component {
 ChooseSeatModalContainer.propTypes = {
     chooseSeatActions: PropTypes.object.isRequired,
     showModal: PropTypes.bool.isRequired,
+    baseId: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -71,6 +74,7 @@ function mapStateToProps(state) {
         from: state.chooseSeat.from,
         to: state.chooseSeat.to,
         showModal: state.chooseSeat.showModal,
+        baseId: state.chooseSeat.baseId,
     };
 }
 
