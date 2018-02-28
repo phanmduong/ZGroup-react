@@ -31,6 +31,9 @@
         b, strong {
             font-weight: bold;
         }
+        .page-header.page-header-xs {
+            min-height: 60vh !important;
+        }
     </style>
 
 </head>

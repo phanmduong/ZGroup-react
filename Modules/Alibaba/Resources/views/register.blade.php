@@ -52,7 +52,7 @@
             <h3>{{$base->name}} : {{$base->address}}</h3><br>
             <div class="row">
                 @foreach($base->classes()->where('status',1)->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('name','desc')->get() as $class)
-                    <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
+                    <div class="col-md-6" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
                         <div>
                             <div style="display:flex;flex-direction:row">
                                 <div style="margin-right:20px; border-radius:25px">
@@ -60,8 +60,7 @@
                                          style="border-radius:50%; height:100px;width:100px"/>
                                 </div>
                                 <div>
-                                    <h4 style="font-weight:600; margin-top:10px">Lớp {{$class->name}}</h4>
-                                    <br><br>
+                                    <h5 style="font-weight:600; margin-top:10px">Lớp {{$class->name}}</h5>
                                     <p>
                                         <i class="fa fa-clock-o"></i> <b>Khai giảng
                                             ngày:</b> {{date("d-m-Y", strtotime($class->datestart))}}
