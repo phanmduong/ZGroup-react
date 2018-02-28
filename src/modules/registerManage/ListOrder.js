@@ -11,6 +11,44 @@ import TooltipButton from "../../components/common/TooltipButton";
 
 import moment from "moment/moment";
 
+export function setRuleShowCall(register){
+    let btn = '';
+    let titleCall = '';
+    let showCall;
+    let created_time = Date.parse(moment(register.created_at, "HH:mm DD-MM-YYYY").format("HH:mm MM-DD-YYYY")); // Phai chuyen sang dinh dang moi parsr duoc
+    let expiredTime = Date.parse(moment(register.created_at, "HH:mm DD-MM-YYYY").add(1, 'days').format("HH:mm MM-DD-YYYY"));
+    let firstCall = Date.parse(moment(register.teleCalls[0] && register.teleCalls[0].created_at, "HH:mm DD-MM-YYYY").format("HH:mm MM-DD-YYYY"));
+    let presentTime = new Date();
+    presentTime = Date.parse(presentTime);
+    let call = register.teleCalls && register.teleCalls[register.teleCalls.length - 1];
+    if (register.teleCalls.length > 0) {
+        showCall = Math.floor((firstCall - created_time) / 3600000);
+        if (call.call_status === 1) {
+            btn = ' btn-success';
+            titleCall = 'Gọi thành công lúc ' + call.created_at;
+        }
+        else if (call.call_status === 0) {
+            btn = ' btn-danger';
+            titleCall = 'Gọi thất bại lúc ' + call.created_at;
+        }
+    }
+
+    else {
+        showCall = Math.floor((presentTime - created_time) / 3600000);
+
+        if (expiredTime >= presentTime) {
+            btn = ' btn-default ';
+            titleCall = ' Còn ' + Math.floor((expiredTime - presentTime) / 3600000) + ' h';
+        }
+        else {
+            // showCall = (lastCall - created_time)/3600000;
+            btn = ' btn-warning ';
+            titleCall = ' Đã quá hạn ' + Math.floor((presentTime - expiredTime) / 3600000) + ' h';
+        }
+    }
+    return[btn,titleCall,showCall];
+}
+
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -37,8 +75,6 @@ class ListOrder extends React.Component {
 
 
     render() {
-        // console.log(this.props.registers,"QQQQQQQQ");
-
         return (
             <div className="table-responsive">
                 {
@@ -63,46 +99,8 @@ class ListOrder extends React.Component {
 
                                 {this.props.registers.map((register) => {
 
-                                    let btn = '';
-                                    let titleCall = '';
-                                    let showCall;
-                                    let created_time = Date.parse(moment(register.created_at, "HH:mm DD-MM-YYYY").format("HH:mm MM-DD-YYYY")); // Phai chuyen sang dinh dang moi parsr duoc
-                                    let expiredTime = Date.parse(moment(register.created_at, "HH:mm DD-MM-YYYY").add(1, 'days').format("HH:mm MM-DD-YYYY"));
-                                    let firstCall = Date.parse(moment(register.teleCalls[0] && register.teleCalls[0].created_at, "HH:mm DD-MM-YYYY").format("HH:mm MM-DD-YYYY"));
-                                    let presentTime = new Date();
-                                    presentTime = Date.parse(presentTime);
-                                    let call = register.teleCalls && register.teleCalls[register.teleCalls.length - 1];
-                                    // let lastCall = Date.parse(moment(call.created_at));
-
-                                    // console.log(expiredTime, Date.parse(register.teleCalls[0] && register.teleCalls[0].created_at),"sadasd");
-
-                                    if (register.teleCalls.length > 0) {
-                                        showCall = Math.floor((firstCall - created_time) / 3600000);
-                                        if (call.call_status === 1) {
-                                            btn = ' btn-success';
-                                            titleCall = 'Gọi thành công lúc ' + call.created_at;
-                                        }
-                                        else if (call.call_status === 0) {
-                                            btn = ' btn-danger';
-                                            titleCall = 'Gọi thất bại lúc ' + call.created_at;
-                                        }
-                                    }
-
-                                    else {
-                                        showCall = Math.floor((presentTime - created_time) / 3600000);
-
-                                        if (expiredTime >= presentTime) {
-                                            btn = ' btn-default ';
-                                            titleCall = ' Còn ' + Math.floor((expiredTime - presentTime) / 3600000) + ' h';
-                                        }
-                                        else {
-                                            // showCall = (lastCall - created_time)/3600000;
-                                            btn = ' btn-warning ';
-                                            titleCall = ' Đã quá hạn ' + Math.floor((presentTime - expiredTime) / 3600000) + ' h';
-                                        }
-                                    }
-
-
+                                    // console.log(setRuleShowCall(register),"qqqqqqqqqqqqq");
+                                    let [btn,titleCall,showCall] = setRuleShowCall(register);
                                     return (
                                         <tr key={register.id}>
                                             {/*<td>*/}

@@ -125,7 +125,6 @@ export function createCategory(category) {
                     type: types.CREATE_CATEGORY_SUCCESS,
                 });
                 dispatch(loadCategories());
-                // reset();
             })
             .catch(() => {
                 helper.showNotification('Tạo nhóm bài viết thất bại');
