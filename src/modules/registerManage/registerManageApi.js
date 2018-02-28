@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadAllRegistersApi(limit, page = 1, search, staff_id, status, campaign_id,base_id,startTime,endTime) {
+export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, campaign_id,base_id,startTime,endTime) {
     let url = env.MANAGE_API_URL + '/coworking-space/register?page=' + page;
     if (search) {
         url += "&search=" + search;
@@ -10,8 +10,8 @@ export function loadAllRegistersApi(limit, page = 1, search, staff_id, status, c
     if (token) {
         url += "&token=" + token;
     }
-    if (staff_id) {
-        url += "&staff_id=" + staff_id;
+    if (saler_id) {
+        url += "&saler_id=" + saler_id;
     }
     if (limit) {
         url += "&limit=" + limit;
@@ -35,7 +35,7 @@ export function loadAllRegistersApi(limit, page = 1, search, staff_id, status, c
 }
 
 export function getAllSalerApi() {
-    let url = 'api.quanca.net/all-saler?limit=-1';
+    let url = env.API_URL + '/all-saler?limit=-1';
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

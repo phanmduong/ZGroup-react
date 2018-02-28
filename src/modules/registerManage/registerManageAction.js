@@ -6,7 +6,7 @@ export function loadAllRegisters(
     limit = 10,
     page = 1,
     search,
-    staff_id,
+    saler_id,
     status,
     campaign_id,
     base_id,
@@ -23,7 +23,7 @@ export function loadAllRegisters(
                 limit,
                 page,
                 search,
-                staff_id,
+                saler_id,
                 status,
                 campaign_id,
                 base_id,
@@ -43,23 +43,13 @@ export function loadAllRegisters(
     };
 }
 
-<<<<<<< HEAD
+
 export function getAllSalers() {
-    return function (dispatch) {
-        registerManageApi.getAllSalerApi()
-            .then(res => {
-                dispatch({
-                    type: types.GET_ALL_SALER_REGISTER_MANAGE,
-                    salers: res.data.data.salers
-                });
-=======
-export function getAllStaffs() {
     return function(dispatch) {
-        registerManageApi.getAllStaffApi().then(res => {
+        registerManageApi.getAllSalerApi().then(res => {
             dispatch({
-                type: types.GET_ALL_STAFFS_REGISTER_MANAGE,
-                staffs: res.data.staffs,
->>>>>>> eb10f136a58bb5b565106691584e4af4554bca2e
+                type: types.GET_ALL_SALER_REGISTER_MANAGE,
+                salers: res.data.data.salers,
             });
         });
     };
