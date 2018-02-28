@@ -126,39 +126,66 @@
                                 <div class="col-md-12">
                                     <h1 style="text-align: center ;font-size:30px"> BỘ SÁCH TIẾNG ANH CƠ BẢN </h1>
                                     <br> <br>
-                                    <strong> Tài liệu tự học tiếng Anh tin dùng của hơn 50.000 học viên và giảng viên cả
-                                        nước <br> <br> </strong>
-                                    <strong> Cung cấp trọn vẹn lộ trình, kiến thức, phương pháp học tiếng Anh từ số 0.
-                                        <br> <br> </strong>
-                                    <strong>Cuốn sách tự học Tiếng Anh tốt nhất 2017 do người dùng bình chọn. <br> <br>
-                                    </strong>
-                                    <strong>Miễn phí sử dụng trọn đời Thư Viện Tự Học của Elight với hàng ngàn bài học
-                                        hữu ích. <br> </strong>
+
+                                    <div class="media"
+                                         style="border-bottom: 0px;     margin-top:10px; padding-bottom:0px ">
+                                        <div class="media-left">
+                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1519797922vKCTruOpCr00h61.png"
+                                                 class="media-object" style="width:50px">
+                                        </div>
+                                        <div class="media-body" style="margin-left: 8px">
+                                            <strong>Tài liệu tự học tiếng Anh tin dùng của hơn
+                                                50.000 học viên và giảng viên cả.</strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="media"
+                                         style="border-bottom: 0px;     margin-top:10px; padding-bottom:0px ">
+                                        <div class="media-left">
+                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1519797927JcihqIpU4VE6NZi.png"
+                                                 class="media-object" style="width:50px">
+                                        </div>
+                                        <div class="media-body" style="margin-left: 8px">
+                                            <strong>Cung cấp trọn vẹn lộ trình, kiến thức, phương pháp học tiếng Anh từ
+                                                số 0.</strong>
+                                        </div>
+                                    </div>
+                                    <div class="media"
+                                         style="border-bottom: 0px;     margin-top:10px; padding-bottom:0px ">
+                                        <div class="media-left">
+                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15197979187Bj4Qkg2F9Sk8jP.png"
+                                                 class="media-object" style="width:50px">
+                                        </div>
+                                        <div class="media-body" style="margin-left: 8px">
+                                            <strong>Cuốn sách tự học Tiếng Anh tốt nhất 2017 do người dùng bình
+                                                chọn.</strong>
+                                        </div>
+                                    </div>
+                                    <div class="media"
+                                         style="border-bottom: 0px;     margin-top:10px; padding-bottom:0px ">
+                                        <div class="media-left">
+                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1519797931UfRV2IRLWvrrj9f.png"
+                                                 class="media-object" style="width:50px">
+                                        </div>
+                                        <div class="media-body" style="margin-left: 8px">
+                                            <strong>Miễn phí sử dụng trọn đời Thư Viện Tự Học của Elight với hàng ngàn
+                                                bài học
+                                                hữu ích.</strong>
+                                        </div>
+                                    </div>
+
 
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important; text-align: center">
-                        <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
-                            {{--<div class="col-md-12">--}}
-                            <div class="col-md-4" style="justify-content: initial">
-                                <strong>Miễn phí vận chuyển Thanh toán khi nhận</strong>
-                            </div>
-
-                            <div class="col-md-4">
-                                <strong>Giá bìa trọn bộ: <br> 399.000</strong>
-                            </div>
-
-                            <div class="col-md-4">
-                                <strong>Tư vấn: <br> 0981 937 066 </strong>
-                            </div>
-
-                            {{--</div>--}}
+                        <div style="margin-left: 73px;margin-top:15px">
+                            <strong> Giá trọn bộ: <b style="color: #2C8DFF;margin-left:3px;font-size:16px">
+                                    399.000đ </b> </strong> <br>
+                            <strong>  Miễn phí vận chuyển Thanh toán khi nhận</strong>
                         </div>
                     </div>
+
+
                 </div>
             </div>
 
@@ -363,30 +390,30 @@
 
 
             {{--<div class="container">--}}
-                {{--<div id="vuejs1" class="row">--}}
-                    {{--@foreach($books as $book)--}}
-                        {{--<div class="col-md-3">--}}
-                            {{--<div class="card card-profile" style="border-radius: 0px;">--}}
-                                {{--<div style="padding: 3%;">--}}
-                                    {{--<div style="background-image: url('{{$book->icon_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>--}}
-                                {{--</div>--}}
-                                {{--<div>--}}
-                                    {{--<div class="container text-left" style="min-height: 130px;"><br>--}}
-                                        {{--<p style="font-weight: 600;">{{$book->name}}</p>--}}
-                                        {{--<p>{{shortString($book->description,15)}}</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">--}}
-                                    {{--<div style="text-align: right;">--}}
-                                        {{--<a class="btn btn-success" href="/sach/{{$book->id}}"--}}
-                                           {{--style="padding: 3px; margin: 3px; font-size: 10px;">--}}
-                                            {{--Nghe online <i class="fa fa-headphones" aria-hidden="true"></i></a>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--@endforeach--}}
-                {{--</div>--}}
+            {{--<div id="vuejs1" class="row">--}}
+            {{--@foreach($books as $book)--}}
+            {{--<div class="col-md-3">--}}
+            {{--<div class="card card-profile" style="border-radius: 0px;">--}}
+            {{--<div style="padding: 3%;">--}}
+            {{--<div style="background-image: url('{{$book->icon_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>--}}
+            {{--</div>--}}
+            {{--<div>--}}
+            {{--<div class="container text-left" style="min-height: 130px;"><br>--}}
+            {{--<p style="font-weight: 600;">{{$book->name}}</p>--}}
+            {{--<p>{{shortString($book->description,15)}}</p>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">--}}
+            {{--<div style="text-align: right;">--}}
+            {{--<a class="btn btn-success" href="/sach/{{$book->id}}"--}}
+            {{--style="padding: 3px; margin: 3px; font-size: 10px;">--}}
+            {{--Nghe online <i class="fa fa-headphones" aria-hidden="true"></i></a>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--@endforeach--}}
+            {{--</div>--}}
             {{--</div>--}}
             <br><br>
         </div>

@@ -82,12 +82,24 @@
         </button>
         <a class="navbar-brand" href="/" style="padding: 5px!important;">
             <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" height="40px">
-        </a>
 
-        <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602"
-           href="tel:+84981937066">
-            0981 937 066
         </a>
+        <div id="openWithoutAdd">
+            <a class="navbar-brand" href="javascript:void(0)" data-scroll="true"
+               v-on:click="openModalBuyWithoutAdd()"
+               style="display: flex; align-content: center; color:white!important; font-weight: 570 ;
+               font-size: 14px;text-transform: uppercase;padding: 5px; line-height: 1.7em"
+            >
+                <i class="fa fa-shopping-cart" style="font-size: 16px; padding:2px 0px 0px 0px"></i>
+                &nbsp
+                Giỏ hàng
+                <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center; display: none!important;">
+                    @{{ books_count }}
+                </div>
+            </a>
+        </div>
+
 
 
         <div id="openWithoutAdd" class="collapse navbar-collapse">
@@ -107,18 +119,25 @@
                     <a class="nav-link" style="color:white" href="/about-us" data-scroll="true">Về chúng tôi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
-                       v-on:click="openModalBuyWithoutAdd()"
-                       style="display: flex; align-content: center; color:white">
-                        <i class="fa fa-shopping-cart"></i>
-                        &nbsp
-                        Giỏ hàng
-                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center; display: none!important;">
-                            @{{ books_count }}
-                        </div>
+                    <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602"
+                       href="tel:+84981937066">
+                        0981 937 066
                     </a>
                 </li>
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" href="javascript:void(0)" data-scroll="true"--}}
+                       {{--v-on:click="openModalBuyWithoutAdd()"--}}
+                       {{--style="display: flex; align-content: center; color:white!important;"--}}
+                    {{-->--}}
+                        {{--<i class="fa fa-shopping-cart"></i>--}}
+                        {{--&nbsp--}}
+                        {{--Giỏ hàng--}}
+                        {{--<div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;--}}
+                        {{--background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center; display: none!important;">--}}
+                            {{--@{{ books_count }}--}}
+                        {{--</div>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
             </ul>
         </div>
     </div>
