@@ -242,11 +242,10 @@ class CompanyController extends ManageApiController
         $payment = Payment::find($paymentId);
         $payment->status = $request->status;
         $payment->save();
-        if ($request->status == 1){
+        if ($request->status == 1) {
             $n = HistoryDebt::where('company_id', $payment->receiver_id)->count();
-            if ($n == 0) $n = 1;
             $historyDebts = HistoryDebt::where('company_id', $payment->receiver_id)->get();
-            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
             $value = $payment->money_value;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value;
@@ -257,9 +256,8 @@ class CompanyController extends ManageApiController
             $historyDebt->save();
 
             $n = HistoryDebt::where('company_id', $payment->payer_id)->count();
-            if ($n == 0) $n = 1;
             $historyDebts = HistoryDebt::where('company_id', $payment->payer_id)->get();
-            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
             $value = $payment->money_value;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value * (-1);
@@ -482,9 +480,8 @@ class CompanyController extends ManageApiController
         $date = $printOrder->updated_at;
         if ($request->status == 1) {
             $n = HistoryDebt::where('company_id', $printOrder->company_id)->count();
-            if ($n == 0) $n = 1;
             $historyDebts = HistoryDebt::where('company_id', $printOrder->company_id)->get();
-            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
             $value = $printOrder->quantity * $printOrder->price;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value;
@@ -495,9 +492,8 @@ class CompanyController extends ManageApiController
             $historyDebt->save();
 
             $n = HistoryDebt::where('company_id', 1)->count();
-            if ($n == 0) $n = 1;
             $historyDebts = HistoryDebt::where('company_id', 1)->get();
-            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
             $value = $printOrder->quantity * $printOrder->price;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value * (-1);
@@ -831,9 +827,8 @@ class CompanyController extends ManageApiController
                 }, 0);
             }
             $n = HistoryDebt::where('company_id', $order->company_id)->count();
-            if ($n == 0) $n = 1;
             $historyDebts = HistoryDebt::where('company_id', $order->company_id)->get();
-            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
             $value = $goods_value;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value;
@@ -845,9 +840,8 @@ class CompanyController extends ManageApiController
 
             $p = $p * (-1);
             $n = HistoryDebt::where('company_id', 1)->count();
-            if ($n == 0) $n = 1;
             $historyDebts = HistoryDebt::where('company_id', 1)->get();
-            $pre_value = $historyDebts[$n - 1]->total_value ? $historyDebts[$n - 1]->total_value : 0;
+            if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
             $value = $goods_value;
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value * $p;
