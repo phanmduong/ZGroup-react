@@ -364,9 +364,9 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrders = json_decode($request->delivery_orders);
         foreach ($deliveryOrders as $deliveryOrder) {
             $order = Order::find($deliveryOrder->id);
-            if($order == null)
+            if ($order == null)
                 return $this->respondErrorWithStatus('Không tồn tại đơn có id ' . $deliveryOrder->id);
-            if($order->status != 'place_order')
+            if ($order->status != 'place_order')
                 return $this->respondErrorWithStatus('Không thể báo giá đơn có trạng thái ' . $order->status);
         }
 
@@ -379,5 +379,12 @@ class DeliveryOrderApiController extends ManageApiController
         }
         //mail and text customer
         return $this->respondSuccess('Báo giá thành công');
+    }
+
+    public function payDeliveryOrder($deliveryOrderId, Request $request)
+    {
+        $deliveryOrder = Order::find($deliveryOrderId);
+        if ($deliveryOrder == null)
+            return $this->respondErrorWithStatus('Không tìm thấy đơn nhập');
     }
 }

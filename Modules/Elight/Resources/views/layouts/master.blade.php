@@ -438,6 +438,57 @@
         </div>
     </div>
 </div>
+
+<div id="modalInfo" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Who are you?</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" method="GET">
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Họ</label>
+                                    <input id="lastname" type="text" name="name" class="form-control" placeholder="Ví dụ: Nguyễn">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Tên</label>
+                                    <input id="firstname" type="text" name="name" class="form-control" placeholder="Ví dụ: Lan Anh">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Số điện thoại</label>
+                            <input id="phone" type="text" name="phone" class="form-control" placeholder="Ví dụ: 0166799xxxx">
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Email</label>
+                            <input id="e-email" type="email" name="email" class="form-control" placeholder="Ví dụ: android@colorme.vn">
+                        </div>
+                        <div class="form-group label-floating">
+                            <label class="control-label">Lời nhắn</label>
+                            <textarea id="e-message" name="question" class="form-control" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
+                        </div>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Send</button>
+                        </div>
+                        <div class="clearfix"></div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/tether.min.js" type="text/javascript"></script>
@@ -489,6 +540,14 @@
             }
         });
     })();
+
+</script>
+<script>
+    window.onload = function(e){
+        setTimeout(function(){
+            $('#modalInfo').modal('show');
+        },30000);
+    };
 </script>
 
 @stack("scripts")

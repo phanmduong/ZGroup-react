@@ -170,9 +170,9 @@ class BookRepository
         $total_price = $shipPrice;
         $goods = $order->goods;
         foreach ($goods as &$good) {
-//            $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
-//            $good->coupon_value = $coupon;
-            $coupon = 0;
+            $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
+            $good->coupon_value = $coupon;
+//            $coupon = 0;
             $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
         }
         $subject = "Xác nhận đặt hàng thành công";
