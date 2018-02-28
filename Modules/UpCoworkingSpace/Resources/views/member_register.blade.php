@@ -30,14 +30,12 @@
                         <div class="card card-plain card-blog">
                             <div class="card-image">
                                 <a href="{{'/conference-room/'.$userPack->id}}">
-                                    <div
-                                            style="width: 100%;
-                                                    border-radius: 15px;
-                                                    background: url({{generate_protocol_url($userPack->avatar_url)}});
-                                                    background-size: cover;
-                                                    background-position: center;
-                                                    padding-bottom: 70%;"
-
+                                    <div style="width: 100%;
+                                            border-radius: 15px;
+                                            background: url({{generate_protocol_url($userPack->avatar_url)}});
+                                            background-size: cover;
+                                            background-position: center;
+                                            padding-bottom: 70%;"
                                     ></div>
                                 </a>
                             </div>
@@ -98,9 +96,10 @@
                                 </option>
                             </select>
                         </div>
-                        <h3>Chọn thời lượng</h3>
                         <br>
                         <div class="container">
+                            <h3>Chọn thời lượng</h3>
+                            <br>
                             <ul class="nav nav-pills nav-pills-up">
                                 <li v-for="subscription in subscriptions"
                                     class="nav-item"
@@ -178,6 +177,7 @@
                 <div class="modal-footer">
                     <button id="btn-purchase" class="btn btn-sm btn-main"
                             v-on:click="submit"
+                            v-bind:disabled="disableSubmitButton"
                             style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f">
                         Xác nhận
                     </button>
@@ -288,7 +288,8 @@
                 phone: '',
                 address: '',
                 message: '',
-                isLoading: false
+                isLoading: false,
+                disableSubmitButton: false,
             },
             methods: {
                 validateEmail: function validateEmail(email) {
@@ -307,6 +308,7 @@
                     }
                     this.isLoading = true;
                     this.message = '';
+                    this.disableSubmitButton = true;
                     axios.post(window.url + '/api/register', {
                         name: this.name,
                         phone: this.phone,
@@ -324,6 +326,7 @@
                             this.email = "";
                             this.address = "";
                             this.isLoading = false;
+                            this.disableSubmitButton = false;
                             $("#memberRegisterInfo").modal("hide");
                             $("#modalSuccess").modal("show");
                         }.bind(this))

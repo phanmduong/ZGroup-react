@@ -140,6 +140,7 @@
             <div class="modal-footer">
                 <button id="btn-purchase" class="btn btn-sm btn-main"
                         style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
+                        v-bind:disabled="disableSubmitButton"
                         v-on:click="submit">
                     Xác nhận</i>
                 </button>
@@ -291,7 +292,8 @@
                 message: '',
                 subscriptionId: 0,
                 baseId: 0,
-                isLoading: false
+                isLoading: false,
+                disableSubmitButton: false,
             },
             methods: {
                 validateEmail: function validateEmail(email) {
@@ -308,6 +310,7 @@
                         return;
                     }
                     this.isLoading = true;
+                    this.disableSubmitButton = true;
                     this.message = '';
                     axios.post(window.url + '/api/register', {
                         name: this.name,
@@ -319,6 +322,7 @@
                         _token: window.token
                     })
                         .then(function (response) {
+                            this.disableSubmitButton
                             this.isLoading = false;
                             this.name = "";
                             this.phone = "";

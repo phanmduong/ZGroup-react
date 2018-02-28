@@ -264,7 +264,7 @@
                                                                 <br>{{$good->properties()->where("name","short_description")->first() ? $good->properties()->where("name","short_description")->first()->value : ""}}
                                                             </td>
                                                             <td>
-                                                                {{currency_vnd_format((1 - $good->coupon_value) * $good->price)}}
+                                                                {{currency_vnd_format($good->price)}}
                                                                 <br/>
                                                                 {{$good->coupon_value ? "-".($good->coupon_value * 100)."%" :"" }}
                                                             </td>
