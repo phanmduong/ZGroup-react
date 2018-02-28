@@ -99,7 +99,11 @@ export default {
         cancelReasonModal: false,
         transferCancelReason: {},
         bankTransferEditModal: false,
-        transferEdit: {}
+        transferEdit: {},
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20
     },
 
     currency: {
@@ -1908,15 +1912,7 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        listExportOrder: [
-            {
-                good: {id: 0, name: "noname"},
-                warehouse: {id: 0, name: "noname"},
-                company: {id: "", name: "noname"},
-                price: 0,
-                quantity: 0,
-            }
-        ],
+        listExportOrder: [],
         data: {
             good: {id: 0, name: "noname"},
             warehouse: {id: 0, name: "noname"},
@@ -1927,6 +1923,7 @@ export default {
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
+        orderedGoods: [{id: 1, name: ""},],
     },
     notificationTypes: {
         isLoading: false,
@@ -1990,5 +1987,8 @@ export default {
     },
     orderedGood:{
       isLoading: false,
+      isCommitting: false,
+      companies: [],
+      goods: [],
     },
 };

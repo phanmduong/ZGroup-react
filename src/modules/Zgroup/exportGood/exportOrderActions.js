@@ -109,6 +109,9 @@ export function createExportOrder(data) {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
                     dispatch({type: types.CREATE_EXPORT_ORDER_ERROR});
                 }
+            }).catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.CREATE_EXPORT_ORDER_ERROR});
             });
     };
 }
@@ -165,6 +168,31 @@ export function confirmOrder(id, success) {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
                     dispatch({type: types.CONFIRM_EXPORT_ORDER_ERROR});
                 }
+            });
+    };
+}
+
+
+export function loadAllOrderedGood() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER});
+        exportOrderApi.loadAllOrderedGood()
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_SUCCESS,
+                        orderedGoods : res.data.data.orders,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_ERROR});
+                    browserHistory.push("/business/export-order");
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_ALL_ORDERED_GOOD_EXPORT_ORDER_ERROR});
+                browserHistory.push("/business/export-order");
             });
     };
 }

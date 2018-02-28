@@ -6,6 +6,7 @@ import userpackReducer from "../modules/userpack/userpackReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 import commonReducer from "./commonReducer";
 import registerManageReducer from "../modules/registerManage/registerManageReducer";
+import chooseSeatReducer from "../modules/registerManage/chooseSeat/chooseSeatReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
     userpacks: userpackReducer,
     seat: seatReducer,
     registerManage: registerManageReducer,
+    chooseSeat: chooseSeatReducer,
 });
 
 const rootReducer = (state, action) => {
