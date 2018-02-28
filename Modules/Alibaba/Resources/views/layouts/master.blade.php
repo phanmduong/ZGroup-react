@@ -22,8 +22,11 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
     <style>
-        p:not(.course) {
+        p{
             font-weight: bold
+        }
+        .course p{
+            font-weight: 300;
         }
     </style>
 
