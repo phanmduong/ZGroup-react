@@ -22,15 +22,23 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
     <style>
-        p{
+        p {
             font-weight: bold
         }
-        .course p{
+
+        .course p {
             font-weight: 300;
         }
+
         b, strong {
             font-weight: bold;
         }
+
+        .course iframe {
+            width: 100% !important;
+            height: auto !important;
+        }
+
         .page-header.page-header-xs {
             min-height: 60vh !important;
         }
