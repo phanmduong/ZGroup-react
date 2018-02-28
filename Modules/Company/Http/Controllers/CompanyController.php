@@ -250,7 +250,7 @@ class CompanyController extends ManageApiController
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value;
             $historyDebt->total_value = $pre_value + $value;
-            $historyDebt->date = $payment->updated_at;
+            $historyDebt->date = $payment->created_at;
             $historyDebt->type = "payment";
             $historyDebt->company_id = $payment->receiver_id;
             $historyDebt->save();
@@ -262,7 +262,7 @@ class CompanyController extends ManageApiController
             $historyDebt = new HistoryDebt;
             $historyDebt->value = $value * (-1);
             $historyDebt->total_value = $pre_value + $value * (-1);
-            $historyDebt->date = $payment->updated_at;
+            $historyDebt->date = $payment->created_at;
             $historyDebt->type = "payment";
             $historyDebt->company_id = $payment->payer_id;
             $historyDebt->save();
@@ -477,7 +477,7 @@ class CompanyController extends ManageApiController
         if (!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
         $printOrder->status = $request->status;
         $printOrder->save();
-        $date = $printOrder->updated_at;
+        $date = $printOrder->created_at;
         if ($request->status == 1) {
             $n = HistoryDebt::where('company_id', $printOrder->company_id)->count();
             $historyDebts = HistoryDebt::where('company_id', $printOrder->company_id)->get();
@@ -811,7 +811,7 @@ class CompanyController extends ManageApiController
         $order = ItemOrder::find($itemOrderId);
         $order->status = $request->status;
         $order->save();
-        $date = $order->updated_at;
+        $date = $order->created_at;
         if ($request->status == 3) {
             if ($order->type == "order") {
                 $type = "import";
