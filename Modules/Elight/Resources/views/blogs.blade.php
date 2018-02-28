@@ -29,9 +29,9 @@
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
                                 style="height: 62px;
-                                background-color: #C50000;
+                                background-color: #138edc!important;
                                 color: white;
-                                border-color: #C50000;
+                                border-color: #138edc!important;
                                 text-align: right;
                                 border-radius: 0px;
                         ">@if($type)

@@ -21,7 +21,17 @@
     <link href="/elight-assets/css/demo.css?12321" rel="stylesheet"/>
     <link href="/assets/css/elight.css" rel="stylesheet">
 
-
+    <style>
+        .nav-pills-primary > li > a, .pagination-primary > li > a, .pagination-primary > li > span, .pagination-primary > li:first-child > a, .pagination-primary > li:first-child > span, .pagination-primary > li:last-child > a, .pagination-primary > li:last-child > span {
+            border: 2px solid #138edc;
+            color: #138edc;
+        }
+        .nav-pills-primary > li.active > a, .nav-pills-primary > li.active > a:hover, .nav-pills-primary > li.active > a:focus, .pagination-primary > li > a:hover, .pagination-primary > li > a:focus, .pagination-primary > li > a:active, .pagination-primary > li.active > a, .pagination-primary > li.active > span, .pagination-primary > li.active > a:hover, .pagination-primary > li.active > span:hover, .pagination-primary > li.active > a:focus, .pagination-primary > li.active > span:focus {
+            background-color: #138edc !important;
+            border-color: #138edc !important;
+            color: #FFFFFF;
+        }
+    </style>
 
     <script>
         window.url = "{{url("/")}}";
@@ -90,7 +100,7 @@
                     <a class="nav-link" style="color:white" href="http://elightbook.com/" data-scroll="true">Sách tiếng
                         anh cơ bản</a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" style="color:white" href="/all-books" data-scroll="true">Thư Viện Tự Học</a>
                 </li>
@@ -123,8 +133,8 @@
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-12" 
-            style="display: flex;
+            <div class="col-md-2 col-sm-3 col-xs-12"
+                 style="display: flex;
                 flex-direction: column;
                 align-items: center;">
                 <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" width="150px">
@@ -174,12 +184,12 @@
                                 </li>
                                 <li>
                                     <a>
-                                    Khoá học Online
+                                        Khoá học Online
                                     </a>
                                 </li>
                                 <li>
                                     <a>
-                                    Khoá học Trung Tâm
+                                        Khoá học Trung Tâm
                                     </a>
                                 </li>
                             </ul>
@@ -187,7 +197,7 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                        <ul class="uppercase-links stacked-links">
+                            <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
                                         <h5 style="text-align:center"><b>Liên hệ</b></h5>
@@ -199,8 +209,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                <a href="tel:01628 766 444">
-                                Hợp tác<br> 01628 766 444 
+                                    <a href="tel:01628 766 444">
+                                        Hợp tác<br> 01628 766 444
                                     </a>
                                 </li>
                             </ul>
@@ -208,7 +218,7 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                        <ul class="uppercase-links stacked-links">
+                            <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
                                         <h5 style="text-align:center"><b>Địa chỉ</b></h5>
@@ -217,46 +227,46 @@
                                 <li>
                                     <a>
                                         <h6 style="text-align:center;font-weight: 200">
-                                        146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
+                                            146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
                                         </h6>
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="copyright">
-                    <div class="pull-left">
-                        ©
-                        <script>document.write(new Date().getFullYear())</script>
-                        KEETOOL
-                    </div>
-                    <div class="links pull-right">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    Điều khoản
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Thanh toán
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Vận chuyển
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
+            <hr>
+            <div class="copyright">
+                <div class="pull-left">
+                    ©
+                    <script>document.write(new Date().getFullYear())</script>
+                    KEETOOL
+                </div>
+                <div class="links pull-right">
+                    <ul>
+                        <li>
+                            <a href="#">
+                                Điều khoản
+                            </a>
+                        </li>
+                        |
+                        <li>
+                            <a href="#">
+                                Thanh toán
+                            </a>
+                        </li>
+                        |
+                        <li>
+                            <a href="#">
+                                Vận chuyển
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
+    </div>
 
     </div>
 </footer>
@@ -485,6 +495,33 @@
             }
         });
     })();
+
+    function paginator(currentPageData, totalPagesData) {
+        var page = [];
+        var currentPage = currentPageData;
+        var totalPages = totalPagesData;
+
+        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
+        for (var i = startPage; i <= currentPage; i++) {
+            page.push(i);
+        }
+
+        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+
+        for (var i = currentPage + 1; i <= endPage; i++) {
+            page.push(i);
+        }
+
+        if (page && page.length < 5) {
+            var pageData = Object.assign(page);
+            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
+                pageData.unshift(i);
+            }
+            page = pageData;
+        }
+
+        return page;
+    }
 </script>
 
 @stack("scripts")

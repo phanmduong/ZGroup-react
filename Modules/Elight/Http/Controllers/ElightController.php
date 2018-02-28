@@ -2,6 +2,7 @@
 
 namespace Modules\Elight\Http\Controllers;
 
+use App\CategoryProduct;
 use App\District;
 use App\Course;
 use App\Good;
