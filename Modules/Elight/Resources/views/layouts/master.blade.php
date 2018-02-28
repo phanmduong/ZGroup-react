@@ -476,6 +476,7 @@
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Send</button>
                     </div>
                     <div class="clearfix"></div>
+                    
                 </div>
             </div>
         </div>
