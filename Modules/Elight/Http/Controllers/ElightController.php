@@ -26,7 +26,7 @@ class ElightController extends Controller
     {
         $newestBlog = Product::where('type', 2)->where('category_id', 1)->orderBy('created_at', 'desc')->first();
         $newestTop3 = Product::where('type', 2)->where('category_id', 1)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
-        $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
+        $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
         $goods = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
         $books = Course::orderBy('created_at', 'desc')->limit(8)->get();
