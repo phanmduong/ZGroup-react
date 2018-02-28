@@ -1,27 +1,30 @@
 <!doctype html>
 <html lang="en" class="no-js">
 <head>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" type="image/png" href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1511179246c69k0Hp02GbKewW.png" cph-ssorder="0">
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" type="image/png"
+          href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1511179246c69k0Hp02GbKewW.png" cph-ssorder="0">
     <link rel="icon" type="image/png" href="assets/img/favicon.ico">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
     <title>Alibaba</title>
     @yield('meta')
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
+    <meta name="viewport" content="width=device-width"/>
 
 
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/assets/css/paper-kit.css" rel="stylesheet"/>
-    <link href="/assets/css/demo.css" rel="stylesheet" />
+    <link href="/assets/css/demo.css" rel="stylesheet"/>
 
     <!--     Fonts and icons     -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
     <style>
-        p{font-weight: bold}
+        p:not(#bookinfo2) {
+            font-weight: bold
+        }
     </style>
 
 </head>
@@ -29,7 +32,9 @@
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
     <div class="container">
         <div class="navbar-translate">
-            <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse"
+                    data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar"></span>
                 <span class="navbar-toggler-bar"></span>
                 <span class="navbar-toggler-bar"></span>
@@ -53,7 +58,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00" href="/courses"><i class="fa fa-shopping-cart"></i> Đăng kí </a>
+                    <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
+                       href="/courses"><i class="fa fa-shopping-cart"></i> Đăng kí </a>
                 </li>
             </ul>
         </div>
@@ -135,7 +141,8 @@
                     </div>
                     <div class="col-md-3 col-xs-6">
                         <div class="social-area">
-                            <a class="btn btn-just-icon btn-round btn-default" href="https://www.facebook.com/AlibabaEnglishClub/">
+                            <a class="btn btn-just-icon btn-round btn-default"
+                               href="https://www.facebook.com/AlibabaEnglishClub/">
                                 <i class="fa fa-facebook" aria-hidden="true"></i>
                             </a>
                             <a class="btn btn-just-icon btn-round btn-default">
@@ -154,7 +161,9 @@
                     </div>
                     <br>
                     <div class="pull-left">
-                        © <script>document.write(new Date().getFullYear())</script> Alibaba
+                        ©
+                        <script>document.write(new Date().getFullYear())</script>
+                        Alibaba
                     </div>
                     <div class="links pull-right">
                         <ul>
@@ -186,10 +195,13 @@
 
 <!--  Plugins -->
 <!-- Core JS Files -->
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
+<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"
+        type="text/javascript"></script>
+<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
+        type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/tether.min.js" type="text/javascript"></script>
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/bootstrap.min.js"
+        type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/demo.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
@@ -201,26 +213,30 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <script type="text/javascript">
-    (function() {
+    (function () {
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
         new IsoGrid(document.querySelector('.isolayer--deco1'), {
-            transform : 'translateX(33vw) translateY(-340px) rotateX(45deg) rotateZ(45deg)',
-            stackItemsAnimation : {
-                properties : function(pos) {
+            transform: 'translateX(33vw) translateY(-340px) rotateX(45deg) rotateZ(45deg)',
+            stackItemsAnimation: {
+                properties: function (pos) {
                     return {
-                        translateZ: (pos+1) * 30,
+                        translateZ: (pos + 1) * 30,
                         rotateZ: getRandomInt(-4, 4)
                     };
                 },
-                options : function(pos, itemstotal) {
+                options: function (pos, itemstotal) {
                     return {
                         type: dynamics.bezier,
                         duration: 500,
-                        points: [{"x":0,"y":0,"cp":[{"x":0.2,"y":1}]},{"x":1,"y":1,"cp":[{"x":0.3,"y":1}]}],
-                        delay: (itemstotal-pos-1)*40
+                        points: [{"x": 0, "y": 0, "cp": [{"x": 0.2, "y": 1}]}, {
+                            "x": 1,
+                            "y": 1,
+                            "cp": [{"x": 0.3, "y": 1}]
+                        }],
+                        delay: (itemstotal - pos - 1) * 40
                     };
                 }
             }
