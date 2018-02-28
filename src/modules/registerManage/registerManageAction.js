@@ -6,7 +6,7 @@ export function loadAllRegisters(
     limit = 10,
     page = 1,
     search,
-    staff_id,
+    saler_id,
     status,
     campaign_id,
     base_id,
@@ -23,7 +23,7 @@ export function loadAllRegisters(
                 limit,
                 page,
                 search,
-                staff_id,
+                saler_id,
                 status,
                 campaign_id,
                 base_id,
@@ -42,6 +42,7 @@ export function loadAllRegisters(
             });
     };
 }
+
 
 export function getAllSalers() {
     return function(dispatch) {
