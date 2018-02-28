@@ -75,8 +75,8 @@ class RegisterManageContainer extends React.Component {
         }
     }
 
-    openChooseSeatModal(baseId) {
-        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, baseId);
+    openChooseSeatModal(base) {
+        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, base);
     }
 
     handleClickMonthBox() {
@@ -421,17 +421,29 @@ class RegisterManageContainer extends React.Component {
                                                 <div className="col-md-9">
                                                     <div className="row">
                                                         <div className="form-group col-md-4">
-                                                            <label className="label-control">Tìm theo saler</label>
+                                                            <label className="label-control">
+                                                                Tìm theo saler
+                                                            </label>
                                                             <Select
-                                                                value={this.state.saler_id}
-                                                                options={this.props.salers.map((saler) => {
-                                                                    return {
-                                                                        ...saler,
-                                                                        value: saler.id,
-                                                                        label: saler.name
-                                                                    };
-                                                                })}
-                                                                onChange={this.salersSearchChange}
+                                                                value={
+                                                                    this.state
+                                                                        .saler_id
+                                                                }
+                                                                options={this.props.salers.map(
+                                                                    saler => {
+                                                                        return {
+                                                                            ...saler,
+                                                                            value:
+                                                                                saler.id,
+                                                                            label:
+                                                                                saler.name,
+                                                                        };
+                                                                    },
+                                                                )}
+                                                                onChange={
+                                                                    this
+                                                                        .salersSearchChange
+                                                                }
                                                             />
                                                         </div>
                                                         <div className="form-group col-md-4">
