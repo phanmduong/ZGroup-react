@@ -42,15 +42,36 @@ class ElightController extends Controller
 
     public function blog($subfix, Request $request)
     {
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
-        $display = "";
-        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
-        return view('elight::blogs', [
-            'blogs' => $blogs,
-            'page_id' => $page_id,
-            'display' => $display,
-        ]);
+        $blogs = Product::where('type', 2)->where('status', 1);
+
+        $search = $request->search;
+        $type = $request->type;
+        $type_name = CategoryProduct::find($type);
+        $type_name = $type_name ? $type_name->name : '';
+
+        if ($search) {
+            $blogs = $blogs->where('title', 'like', '%' . $search . '%');
+        }
+
+        if ($type) {
+            $blogs = $blogs->where('category_id', $type);
+        }
+
+        $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
+
+        $categories = CategoryProduct::orderBy('name')->get();
+
+
+        $this->data['type'] = $type;
+        $this->data['type_name'] = $type_name;
+        $this->data['blogs'] = $blogs;
+        $this->data['display'] = $blogs;
+        $this->data['search'] = $search;
+        $this->data['categories'] = $categories;
+
+        $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
+        $this->data['current_page'] = $blogs->currentPage();
+        return view('elight::blogs', $this->data);
     }
 
     public function post($subfix, $post_id)
