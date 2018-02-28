@@ -139,7 +139,7 @@ class UserPublicApiController extends ApiController
                 'name' => $target_user->name,
                 'university' => $target_user->university,
                 "description" => $target_user->description,
-                "avatar_url" => $target_user->avatar_url ? $target_user->avatar_url : "http://api.colorme.vn/img/user.png",
+                "avatar_url" => $target_user->avatar_url ? $target_user->avatar_url : "http://colorme.vn/img/user.png",
                 "work" => $target_user->work,
                 "address" => $target_user->address,
                 "phone" => $target_user->phone,
@@ -305,7 +305,7 @@ class UserPublicApiController extends ApiController
         }
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $user = new User;
-        $user->name = $request->name;
+        $user->name = $request->name ? $request->name : $request->email;
         $user->phone = $phone;
         $user->email = $request->email;
         $user->university = $request->school;

@@ -22,9 +22,6 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         parent::__construct();
     }
 
-
-
-
     public function getRegisters(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
@@ -37,18 +34,20 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
                         $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
                     });
             else $registers = RoomServiceRegister::query();
-
-
 //        if ($request->user_id)
 //            $registers = $registers->where('user_id', $request->user_id);
-
+            if ($request->base_id)
+                $registers = $registers->where('base_id', $request->base_id);
             if ($request->staff_id)
                 $registers = $registers->where('staff_id', $request->staff_id);
+            if($request->saler_id)
+                $registers = $registers->where('saler_id', $request->saler_id);
             if ($request->campaign_id)
                 $registers = $registers->where('campaign_id', $request->campaign_id);
             if ($request->status)
                 $registers = $registers->where('status', $request->status);
-
+            if ($request->start_time && $request->end_time)
+                $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
             $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
             return $this->respondWithPagination($registers, [
