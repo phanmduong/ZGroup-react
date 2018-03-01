@@ -388,6 +388,8 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrder = Order::find($deliveryOrderId);
         if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tìm thấy đơn hàng đặt');
+        if($deliveryOrder->status == 'place_order')
+            return $this->respondErrorWithStatus('Báo giá đơn hàng trước khi thanh toán');
         $user = User::find($deliveryOrder->user_id);
         $debt = $deliveryOrder->price - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
