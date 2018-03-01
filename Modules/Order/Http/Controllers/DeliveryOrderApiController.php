@@ -171,7 +171,7 @@ class DeliveryOrderApiController extends ManageApiController
         if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
         return $this->respondSuccessWithStatus([
-            'delivery_order' => $this->deliveryOrderTransformer->transformCollection($deliveryOrder)
+            'delivery_order' => $this->deliveryOrderTransformer->transform($deliveryOrder)
         ]);
     }
 
