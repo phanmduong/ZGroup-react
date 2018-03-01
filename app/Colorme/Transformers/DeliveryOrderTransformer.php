@@ -26,7 +26,7 @@ class DeliveryOrderTransformer extends Transformer
             'payment' => $deliveryOrder->payment,
             'created_at' => format_vn_short_datetime(strtotime($deliveryOrder->created_at)),
             'status' => $deliveryOrder->status,
-            'total' => $deliveryOrder->status == 'place_order' ? ($deliveryOrder->price ? $deliveryOrder->price :0) : 0,
+            'total' => $deliveryOrder->status == 'place_order' ? 0 : ($deliveryOrder->price ? $deliveryOrder->price :0),
             'paid' => $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0),
