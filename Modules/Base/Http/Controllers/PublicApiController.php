@@ -14,11 +14,11 @@ class PublicApiController extends NoAuthApiController
 {
     public function provinces()
     {
-        $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))
-            ->select("district.provinceid as province_id")->pluck("province_id")->toArray();
+        $provinceIds = Base::join('district', DB::raw('CONVERT(district.districtid USING utf32)'), '=', DB::raw('CONVERT(bases.district_id USING utf32)'))
+            ->select('district.provinceid as province_id')->pluck('province_id')->toArray();
         $provinceIds = collect(array_unique($provinceIds));
         return $this->respondSuccessWithStatus([
-            "provinces" => $provinceIds->map(function ($provinceId) {
+            'provinces' => $provinceIds->map(function ($provinceId) {
                 $province = Province::find($provinceId);
                 return $province->transform();
             })->values()
@@ -27,13 +27,13 @@ class PublicApiController extends NoAuthApiController
 
     public function basesInProvince($provinceId, Request $request)
     {
-        $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
-            ->where("province.provinceid", $provinceId)->select("district.*")->pluck("districtid");
-        $bases = Base::whereIn("district_id", $districtIds);
+        $districtIds = District::join('province', 'province.provinceid', '=', 'district.provinceid')
+            ->where('province.provinceid', $provinceId)->select('district.*')->pluck('districtid');
+        $bases = Base::whereIn('district_id', $districtIds);
         $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
         $bases = $bases->get();
         return $this->respondSuccessWithStatus([
-            "bases" => $bases->map(function ($base) {
+            'bases' => $bases->map(function ($base) {
                 return $base->transform();
             })
         ]);
@@ -46,7 +46,6 @@ class PublicApiController extends NoAuthApiController
         return $this->respondSuccessWithStatus([
             'rooms' => $rooms->map(function ($room) {
                 $data = $room->getData();
-                $data['available_seats'] = $room->seats;
                 return $data;
             })
         ]);
@@ -58,7 +57,7 @@ class PublicApiController extends NoAuthApiController
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc');
         $blogs = $blogs->where('title', 'like', '%' . trim($request->search) . '%');
         $blogs = $blogs->paginate(6);
-        return $this->respondWithPagination($blogs, ["blogs" => $blogs->map(function ($blog) {
+        return $this->respondWithPagination($blogs, ['blogs' => $blogs->map(function ($blog) {
             $data = $blog->blogTransform();
             $data['status'] = $blog->status;
             return $data;
@@ -69,10 +68,10 @@ class PublicApiController extends NoAuthApiController
     {
         $product = Product::find($id);
         if ($product == null) {
-            return $this->respondErrorWithStatus("Bài viết không tồn tại");
+            return $this->respondErrorWithStatus('Bài viết không tồn tại');
         }
         return $this->respondSuccessWithStatus([
-            "product" => $product->blogDetailTransform()
+            'product' => $product->blogDetailTransform()
         ]);
     }
 }
