@@ -397,7 +397,16 @@ class DeliveryOrderApiController extends ManageApiController
             $money = max($debt, $user->deposit);
         else
             $money = max($debt, $user->money);
-
+        if($money == 0) {
+            if($debt == 0)
+                return $this->respondErrorWithStatus('Đơn hàng đã được thanh toán xong');
+            else{
+                if($request->deposit == 1) 
+                    return $this->respondErrorWithStatus('Tài khoản cọc của khách hàng bằng không');
+                else
+                    return $this->respondErrorWithStatus('Tài khoản lưu động của khách hàng bằng không');
+            }
+        }
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $deliveryOrder->id;
         $orderPaidMoney->money = $money;
@@ -405,6 +414,8 @@ class DeliveryOrderApiController extends ManageApiController
         $orderPaidMoney->payment = $request->payment;
         $orderPaidMoney->staff_id = $this->user->id;
         $orderPaidMoney->save();
-        return $this->respondSuccess('Thêm thanh toán thành công');
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thêm thanh toán thành công. Số tiền: ' . $money, 
+        ]);
     }
 }

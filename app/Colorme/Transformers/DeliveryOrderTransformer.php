@@ -35,7 +35,17 @@ class DeliveryOrderTransformer extends Transformer
                 }, 0)) : 0,
             'attach_info' => $deliveryOrder->attach_info,
             'price' => $deliveryOrder->price,
-            'quantity' => $deliveryOrder->quantity
+            'quantity' => $deliveryOrder->quantity,
+            'paid_history' => $this->orderPaidMoneys->map(function ($orderPaidMoney) {
+                return [
+                    "id" => $orderPaidMoney->id,
+                    "money" => $orderPaidMoney->money,
+                    "note" => $orderPaidMoney->note,
+                    "order_id" => $orderPaidMoney->order_id,
+                    "payment" => $orderPaidMoney->payment,
+                    "created_at" => $orderPaidMoney->created_at->format('Y-m-d')
+                ];
+            })
         ];
         if ($deliveryOrder->staff)
             $data['staff'] = [
