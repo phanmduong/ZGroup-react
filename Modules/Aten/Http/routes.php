@@ -13,5 +13,5 @@ $webRoutes = function () {
     Route::post('/check', 'AtenController@check');
 };
 
-Route::group(['middleware' => 'web', 'domain' => 'spready.{subfix}', 'namespace' => 'Modules\Aten\Http\Controllers'], $webRoutes);
-Route::group(['middleware' => 'web', 'domain' => 'aten.{subfix}', 'namespace' => 'Modules\Aten\Http\Controllers'], $webRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'keetool8.xyz', 'namespace' => 'Modules\Aten\Http\Controllers'], $webRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'aten.test', 'namespace' => 'Modules\Aten\Http\Controllers'], $webRoutes);

@@ -26,7 +26,7 @@ class AtenController extends Controller
         return view('aten::about_us');
     }
 
-    public function blog($subfix, Request $request)
+    public function blog(Request $request)
     {
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = '';
@@ -45,7 +45,7 @@ class AtenController extends Controller
         ]);
     }
 
-    public function register($subfix, $courseId = null, $campaignId = null, $salerId = null)
+    public function register($courseId = null, $campaignId = null, $salerId = null)
     {
         $course = Course::find($courseId);
         $courses = Course::all();
@@ -69,7 +69,7 @@ class AtenController extends Controller
         return view('aten::register', $this->data);
     }
 
-    public function post($subfix, $post_id)
+    public function post($post_id)
     {
         $post = Product::find($post_id);
         $post->author;
@@ -99,7 +99,7 @@ class AtenController extends Controller
         );
     }
 
-    public function courses($subfix)
+    public function courses()
     {
         $courses = Course::all();
         return view(
@@ -110,12 +110,12 @@ class AtenController extends Controller
         );
     }
 
-    public function codeForm($subfix)
+    public function codeForm()
     {
         return view('aten::code_form');
     }
 
-    public function check($subfix, Request $request)
+    public function check(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'code' => 'required'

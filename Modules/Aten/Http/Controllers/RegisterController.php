@@ -21,7 +21,7 @@ class RegisterController extends Controller
         $this->emailService = $emailService;
     }
 
-    public function getRegisterClass($subfix, $classId = '', $salerId = '', $campaignId = '')
+    public function getRegisterClass($classId = '', $salerId = '', $campaignId = '')
     {
         $class = StudyClass::find($classId);
         return view('aten::register_class', [
@@ -31,7 +31,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function storeRegisterClass($subfix, Request $request)
+    public function storeRegisterClass(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
