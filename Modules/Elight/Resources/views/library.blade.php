@@ -13,6 +13,10 @@
                         <h1 class="title"><b>Thư viện điện tử</b></h1>
                         <h5 class=description">Sách là tài nguyên quý giá nhất của loài người</h5>
                         <br>
+                        <a href="/#buyBooks" class="btn btn-success btn-round" style="color:white">Mua
+                            sách</a>
+                        <a href="#books" class="btn btn-success btn-round" style="color:white"> Đã có
+                            sách </a>
                     </div>
 
                 </div>
@@ -20,7 +24,7 @@
         </div>
     </div>
 
-    <div class="blog-4" style="margin-top:150px">
+    <div class="blog-4" style="margin-top:150px" id="books">
         <div class="container">
             <div class="description">
                 <h1 class="medium-title">
