@@ -110,8 +110,7 @@ class ItemOrder extends React.Component {
                     <TooltipButton text="Thanh toán" placement="top">
                         <button
                             onClick={() => this.props.showChooseWalletModal(delivery)}
-                            className="btn btn-sm btn-success btn-main"
-                            disabled={!(delivery.debt)}>
+                            className="btn btn-sm btn-success btn-main">
                             {helper.dotNumber(delivery.total)}đ
                         </button>
                     </TooltipButton>
