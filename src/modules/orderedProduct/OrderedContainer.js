@@ -19,6 +19,7 @@ import {Link} from "react-router";
 import AddNoteModal from "./AddNoteModal";
 import AddCancelNoteModal from "./AddCancelNoteModal";
 import SendPriceModal from "./SendPriceModal";
+import ChooseWalletModal from "./ChooseWalletModal";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -49,6 +50,7 @@ class OrderedContainer extends React.Component {
         this.checkSendPrice = this.checkSendPrice.bind(this);
         this.chooseAll = this.chooseAll.bind(this);
         this.chooseItem = this.chooseItem.bind(this);
+        this.showChooseWalletModal = this.showChooseWalletModal.bind(this);
     }
 
     componentWillMount() {
@@ -72,6 +74,9 @@ class OrderedContainer extends React.Component {
                 staff_id: null,
                 user_id: null
             });
+        }
+        if (nextProps.isChoosingWallet !== this.props.isChoosingWallet && !nextProps.isChoosingWallet) {
+            this.props.orderedProductAction.loadAllOrders();
         }
     }
 
@@ -216,6 +221,11 @@ class OrderedContainer extends React.Component {
         }
     }
 
+    showChooseWalletModal(order) {
+        this.props.orderedProductAction.showChooseWalletModal();
+        this.props.orderedProductAction.handleChooseWalletModal(order);
+    }
+
     checkSendPrice() {
         if (this.state.isSendingPrice) {
             this.setState({
@@ -289,7 +299,7 @@ class OrderedContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-12 col-sm-12 col-xs-12">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="flex flex-row flex-space-between">
                             <div>
                                 <Link
@@ -476,6 +486,7 @@ class OrderedContainer extends React.Component {
                                     isSendingPrice={this.state.isSendingPrice}
                                     chooseAll={this.chooseAll}
                                     chooseItem={this.chooseItem}
+                                    showChooseWalletModal={this.showChooseWalletModal}
                                 />
                             </div>
                             <div className="row float-right">
@@ -495,6 +506,7 @@ class OrderedContainer extends React.Component {
                 <AddNoteModal/>
                 <AddCancelNoteModal/>
                 <SendPriceModal/>
+                <ChooseWalletModal/>
             </div>
         );
     }
@@ -513,7 +525,8 @@ OrderedContainer.propTypes = {
     staffs: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     orderedProductAction: PropTypes.object.isRequired,
-    isSendingPrice: PropTypes.bool.isRequired
+    isSendingPrice: PropTypes.bool.isRequired,
+    isChoosingWallet: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -529,6 +542,7 @@ function mapStateToProps(state) {
         totalCount: state.orderedProduct.totalCount,
         staffs: state.orderedProduct.staffs,
         isSendingPrice: state.orderedProduct.isSendingPrice,
+        isChoosingWallet: state.orderedProduct.isChoosingWallet,
         user: state.login.user
     };
 }

@@ -167,3 +167,37 @@ export function loadAllCurrencies() {
             });
     };
 }
+
+export function showChooseWalletModal() {
+    return ({
+        type: types.TOGGLE_CHOOSE_WALLET_MODAL
+    });
+}
+
+export function handleChooseWalletModal(order) {
+    return ({
+        type: types.HANDLE_CHOOSE_WALLET_MODAL,
+        order
+    });
+}
+
+export function chooseWallet(order, wallet) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHOOSE_WALLET_ORDERED_PRODUCT
+        });
+        helper.showTypeNotification("Đang chọn ví", "info");
+        orderedProductApi.chooseWalletApi(order, wallet)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showNotification(res.data.data.message);
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+                dispatch({
+                    type: types.CHOOSE_WALLET_ORDERED_PRODUCT_SUCCESS,
+
+                });
+            });
+    };
+}
