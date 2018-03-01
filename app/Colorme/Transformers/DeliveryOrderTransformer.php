@@ -34,7 +34,6 @@ class DeliveryOrderTransformer extends Transformer
             'paid' => $paid,
             'debt' => $total - $paid,
             'attach_info' => $deliveryOrder->attach_info,
-            'price' => $deliveryOrder->price,
             'quantity' => $deliveryOrder->quantity,
             'paid_history' => $deliveryOrder->orderPaidMoneys->map(function ($orderPaidMoney) {
                 return [
