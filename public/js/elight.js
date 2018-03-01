@@ -19,6 +19,7 @@ var modalBuy = new Vue({
         getGoodsFromSesson: function () {
             axios.get(window.url + '/load-books-from-session')
                 .then(function (response) {
+                    console.log(response.data.goods);
                     this.goods = response.data.goods;
                     this.total_price = response.data.total_price;
                     this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';

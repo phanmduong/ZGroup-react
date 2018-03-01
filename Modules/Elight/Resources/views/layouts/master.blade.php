@@ -371,7 +371,7 @@
                                 <b style="font-weight:600;"> @{{ good.number }} </b>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p>@{{  ( good.price * (1 - good.coupon_value))}}</p>
+                                <p>@{{ formatPrice( good.price * (1 - good.coupon_value))}}</p>
                             </div>
                             <div class="col-md-2 h-center">
                                 <p><b style="font-weight:600;">@{{(good.price * (1 - good.coupon_value) *
@@ -465,7 +465,6 @@
                 </form>
             </div>
         </div>
-
     </div>
 </div>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
@@ -476,7 +475,6 @@
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/paper-kit.js?v=2.0.0"></script>
 
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/demo.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <!--  Plugins for presentation page -->
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/main.js"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/jquery.sharrre.js"></script>
