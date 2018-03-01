@@ -1,3 +1,12 @@
+function formatPrice(price) {
+    return (
+        price
+            .toString()
+            .replace(/\./g, "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ"
+    );
+}c
+
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {

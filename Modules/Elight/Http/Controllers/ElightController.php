@@ -12,7 +12,7 @@ use App\Province;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\Elight\Repositories\BookRepository;
 
 class ElightController extends Controller
 {

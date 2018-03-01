@@ -334,7 +334,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h2 class="medium-title">Giỏ hàng</h2>
+                <h2 class="medium-title">Đăng ký mua sách</h2>
+            </div>
+
+            <div class="modal-header" id="modal-buy-body">
+                <a style="text-align: center">Cảm ơn bạn! dưới đây là sản phẩm bạn muốn đặt mua</a>
             </div>
 
             <div class="modal-body" id="modal-buy-body">
@@ -367,11 +371,11 @@
                                 <b style="font-weight:600;"> @{{ good.number }} </b>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p>@{{ good.price * (1 - good.coupon_value)}}</p>
+                                <p>@{{  ( good.price * (1 - good.coupon_value))}}</p>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) *
-                                        good.number}}</b>
+                                <p><b style="font-weight:600;">@{{(good.price * (1 - good.coupon_value) *
+                                        good.number)}}</b>
                                 </p>
                             </div>
                         </div>
@@ -382,15 +386,15 @@
                             <h4 class="text-left"><b>Tổng</b></h4>
                         </div>
                         <div class="col-md-8">
-                            <h4 class="text-right"><b>@{{ price_vnd }}</b></h4>
+                            <h4 class="text-right"><b>@{{(price_vnd)}}</b></h4>
                         </div>
                     </div>
                     <div class="row" style="padding-top:20px;">
                         <div class="col-md-12">
-                            <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:</div>
-                            <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
-                            <div>Ship vào Sài Gòn: 30k</div>
-                            <div>Ship đến tỉnh thành khác: 30k</div>
+                            <div style="font-weight: 600">Lưu ý: Elight miễn phí vận chuyển toàn quốc.</div>
+                            <div>- Elight hỗ trợ thanh toán trực tiếp khi nhận.</div>
+                            <div>- Bấm vào nút <b>Đồng ý </b>để xác nhận sản phẩm muốn đặt, đăng ký.</div>
+                            <div>- Bấm vào nút <b>Thêm sản phẩm </b>để thêm các sản phẩm khác vào đơn hàng.</div>
                         </div>
                     </div>
                 </div>
@@ -399,7 +403,7 @@
                             style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
                     <button id="btn-purchase"
                             v-on:click="openPurchaseModal()"
-                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Đồng ý <i
                                 class="fa fa-angle-right"></i></button>
                 </div>
             </div>
