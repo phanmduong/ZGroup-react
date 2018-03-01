@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 
 class PublicApiController extends NoAuthApiController
 {
-
     public function provinces()
     {
         $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))
