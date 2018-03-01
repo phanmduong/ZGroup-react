@@ -19,8 +19,6 @@ $baseRoutes = function () {
     });
 };
 
-Route::group(['prefix' => 'v2'], $baseRoutes);
-
 $provinceRoutes = function () {
     Route::group(['prefix' => 'province'], function () {
         Route::get('/all', 'ManageBaseApiController@getAllProvinces');
@@ -54,7 +52,9 @@ $routes = function () {
 
 Route::group(['prefix' => 'v2'], $routes);
 
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Base\Http\Controllers'], $baseRoutes);
+// Route::group(['prefix' => 'v2'], $baseRoutes);
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'v2', 'namespace' => 'Modules\Base\Http\Controllers'], $baseRoutes);
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Base\Http\Controllers'], $provinceRoutes);
 
