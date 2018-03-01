@@ -128,12 +128,13 @@
                                     <br> <br>
 
                                     <div class="media"
-                                         style="border-bottom: 0px;     margin-top:10px; padding-bottom:0px ">
+                                         style="border-bottom: 0px;     margin-top:0px; padding-bottom:0px ">
                                         <div class="media-left">
                                             <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1519797922vKCTruOpCr00h61.png"
                                                  class="media-object" style="width:50px">
                                         </div>
                                         <div class="media-body" style="margin-left: 8px">
+                                            <p style="font-size: 20px;font-weight: 600;">GIÁO TRÌNH UY TÍN NHẤT</p>
                                             <strong>Tài liệu tự học tiếng Anh tin dùng của hơn
                                                 50.000 học viên và giảng viên cả.</strong>
                                         </div>
@@ -146,6 +147,7 @@
                                                  class="media-object" style="width:50px">
                                         </div>
                                         <div class="media-body" style="margin-left: 8px">
+                                            <p style="font-size: 20px;font-weight: 600;">TỰ HỌC TOÀN DIỆN TỪ SỐ 0</p>
                                             <strong>Cung cấp trọn vẹn lộ trình, kiến thức, phương pháp học tiếng Anh từ
                                                 số 0.</strong>
                                         </div>
@@ -157,6 +159,7 @@
                                                  class="media-object" style="width:50px">
                                         </div>
                                         <div class="media-body" style="margin-left: 8px">
+                                            <p style="font-size: 20px;font-weight: 600;">HỖ TRỢ TRỌN ĐỜI</p>
                                             <strong>Cuốn sách tự học Tiếng Anh tốt nhất 2017 do người dùng bình
                                                 chọn.</strong>
                                         </div>
@@ -168,6 +171,7 @@
                                                  class="media-object" style="width:50px">
                                         </div>
                                         <div class="media-body" style="margin-left: 8px">
+                                            <p style="font-size: 20px;font-weight: 600;">TỐI ƯU CHO NGƯỜI VIỆT</p>
                                             <strong>Miễn phí sử dụng trọn đời Thư Viện Tự Học của Elight với hàng ngàn
                                                 bài học
                                                 hữu ích.</strong>
