@@ -14,7 +14,7 @@ class ChooseWalletModal extends React.Component {
 
     render() {
         let delivery = this.props.orderWalletChosen;
-        let sum = delivery.paid_history.reduce((sum, history) => sum + history.money, 0);
+        let sum = delivery.paid_history ? delivery.paid_history.reduce((sum, history) => sum + history.money, 0) : 0;
         return (
             <Modal show={this.props.chooseWalletModal}
                    onHide={() => this.props.orderedProductAction.showChooseWalletModal()}>
@@ -64,15 +64,13 @@ class ChooseWalletModal extends React.Component {
                                         data-original-title="Remove item" type="button"
                                         className="btn btn-success btn-round" data-dismiss="modal"
                                         onClick={() => this.props.orderedProductAction.chooseWallet(delivery, 0)}
-                                        disabled={!(delivery.debt)}>
-                                    <i className="material-icons">check</i> Ví lưu động
+                                        disabled={!(delivery.debt)}>Ví lưu động
                                 </button>
                                 <button rel="tooltip" data-placement="top" title=""
                                         data-original-title="Remove item" type="button"
                                         className="btn btn-danger btn-round" data-dismiss="modal"
                                         onClick={() => this.props.orderedProductAction.chooseWallet(delivery, 1)}
-                                        disabled={!(delivery.debt)}>
-                                    <i className="material-icons">close</i> Ví cọc
+                                        disabled={!(delivery.debt)}>Ví cọc
                                 </button>
                             </div>
                         )
