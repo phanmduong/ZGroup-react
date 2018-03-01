@@ -371,7 +371,7 @@
                                 <b style="font-weight:600;"> @{{ good.number }} </b>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p>@{{ formatPrice( good.price * (1 - good.coupon_value))}}</p>
+                                <p>@{{ ( good.price * (1 - good.coupon_value))}}</p>
                             </div>
                             <div class="col-md-2 h-center">
                                 <p><b style="font-weight:600;">@{{(good.price * (1 - good.coupon_value) *
