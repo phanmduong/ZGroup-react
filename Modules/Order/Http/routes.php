@@ -25,6 +25,7 @@ $orderRoutes = function () {
         Route::put('/delivery/{deliveryOrderId}/change-status', 'DeliveryOrderApiController@changeStatus');
         Route::get('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@getDetailedDeliveryOrder');
         Route::post('/delivery/{deliveryOrderId}/import', 'DeliveryOrderApiController@importDeliveryOrder');
+        Route::post('/delivery/{deliveryOrderId}/pay', 'DeliveryOrderApiController@payDeliveryOrder');
 
         Route::get('/all-customers', 'CustomerController@allCustomers');
         Route::get('/total-and-debt-money', 'CustomerController@countMoney');
@@ -71,7 +72,7 @@ $orderRoutes = function () {
 };
 
 $transferMoneyRoutes = function () {
-    Route::group(['v2/transfer-money'], function () {
+    Route::group(['prefix' => 'v2/transfer-money'], function () {
         Route::get('/', 'TransferMoneyApiController@getTransfers');
         Route::put('/{transferId}', 'TransferMoneyApiController@editTransfer');
         Route::put('/{transferId}/status', 'TransferMoneyApiController@changeTransferStatus');

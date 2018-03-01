@@ -27,7 +27,6 @@ class TransferMoneyApiController extends ManageApiController
             $transfers = $transfers->where('status', $request->status);
         if ($request->bank_account_id)
             $transfers = $transfers->where('bank_account_id', $request->bank_account_id);
-//        $request = $request->join('users', '')
 
         if ($limit == -1) {
             $transfers = $transfers->orderBy('created_at', 'desc')->get();
@@ -62,17 +61,22 @@ class TransferMoneyApiController extends ManageApiController
     public function changeTransferStatus($transferId, Request $request)
     {
         $transfer = TransferMoney::find($transferId);
+        $user = User::find($transfer->user_id);
         if ($transfer == null)
             return $this->respondErrorWithStatus('Không tồn tại chuyển khoản');
         if ($transfer->status == 'accept' || $transfer->status == 'cancel')
             return $this->respondErrorWithStatus('Không cho phép chuyển trạng thái chấp nhận hoặc hủy');
         if ($request->status == 'accept') {
-            //cong tien vao vi user o day
+            if ($transfer->purpose == 'deposit')
+                $user->deposit += $transfer->money;
+            else
+                $user->money += $transfer->money;
         }
         if ($request->status == 'cancel')
             $transfer->staff_note = $request->note;
         $transfer->status = $request->status;
         $transfer->save();
+        $user->save();
         return $this->respondSuccess('Đổi trạng thái thành công');
     }
 }

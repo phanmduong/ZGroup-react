@@ -294,7 +294,7 @@ class UserPublicApiController extends ApiController
         if ($user) {
             $errors['email'] = "Email đã có người sử dụng";
         }
-        $username = trim($request->username);
+        $username = ($request->username && trim($request->username)!=='') ? trim($request->username) : $request->email ;
         $user = User::where('username', '=', $username)->first();
         if ($user) {
             $errors['username'] = "Username đã có người sử dụng";
@@ -305,7 +305,7 @@ class UserPublicApiController extends ApiController
         }
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         $user = new User;
-        $user->name = $request->name;
+        $user->name = $request->name ? $request->name : $request->email;
         $user->phone = $phone;
         $user->email = $request->email;
         $user->university = $request->school;

@@ -7,18 +7,19 @@ $publicRoutes = function () {
     Route::get('/conference-room', 'UpCoworkingSpaceController@conferenceRoom');
     Route::get('/conference-room/{conferenceRoomId}', 'UpCoworkingSpaceController@conferenceRoom');
 
-    Route::get('/member-register/{campaignId?}/{userId?}', 'UpCoworkingSpaceController@memberRegister');
+    Route::get('/member-register/{userId?}/{campaignId?}', 'UpCoworkingSpaceController@memberRegister');
 
     Route::get('/api/province', 'UpCoworkingSpaceApiController@province');
     Route::get('/api/province/{provinceId}/base', 'UpCoworkingSpaceApiController@basesInProvince');
     Route::post('/api/register', 'UpCoworkingSpaceApiController@register');
     Route::get('/api/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
+    Route::get('/api/user-pack/{userPackId}', 'UpCoworkingSpaceApiController@userPack');
 };
 
 $apiRoutes = function () {
     Route::get('/blogs', 'UpCoworkingSpaceController@blogs');
     Route::get('/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
-    Route::post('/register', 'UpCoworkingSpaceApiController@register');
+    Route::post('/register/{campaignId?}', 'UpCoworkingSpaceApiController@appRegister');
     Route::get('/history-registers', 'UpCoworkingSpaceApiController@historyRegister');
 };
 

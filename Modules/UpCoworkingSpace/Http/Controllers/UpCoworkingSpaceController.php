@@ -19,9 +19,9 @@ class UpCoworkingSpaceController extends Controller
         return view('upcoworkingspace::index', $this->data);
     }
 
-    public function memberRegister($campaignId = null, $userId = null)
+    public function memberRegister($userId = null, $campaignId = null)
     {
-        $userPacks = RoomServiceUserPack::orderBy('name')->get();
+        $userPacks = RoomServiceUserPack::orderBy('name')->where('status', 1)->get();
         $this->data['userPacks'] = $userPacks;
         $this->data['campaignId'] = $campaignId;
         $this->data['userId'] = $userId;
