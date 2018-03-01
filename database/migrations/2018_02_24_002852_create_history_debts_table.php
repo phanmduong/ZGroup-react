@@ -22,8 +22,6 @@ class CreateHistoryDebtsTable extends Migration
             $table->string('type');
 
 
-
-
         });
     }
 
