@@ -185,14 +185,15 @@
                         <div style="margin-left: 73px;margin-top:15px">
                             <strong> Giá trọn bộ: <b style="color: #2C8DFF;margin-left:3px;font-size:16px">
                                     399.000đ </b> </strong> <br>
-                            <strong>  Miễn phí vận chuyển Thanh toán khi nhận</strong>
+                            <strong> Miễn phí vận chuyển Thanh toán khi nhận</strong>
                         </div>
-
-                        <button v-on:click="openModalBuy({{$goods[0]->id}})"
-                                onclick="fbq('track', 'AddToCart')"
-                                class="btn btn-success" style="font-size:10px;justify-content:space-between">
-                            Đặt mua ngay <i class="fa fa-angle-right"></i>
-                        </button>
+                        <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;margin-top:10px">
+                            <button v-on:click="openModalBuy({{$goods[0]->id}})"
+                                    onclick="fbq('track', 'AddToCart')"
+                                    class="btn btn-success" style="font-size:10px;justify-content:space-between">
+                                Đặt mua ngay <i class="fa fa-angle-right"></i>
+                            </button>
+                        </div>
                     </div>
 
 
