@@ -43,16 +43,14 @@ $seatRoutes = function () {
 Route::group(['prefix' => 'v2/seat', 'namespace' => 'Modules\Base\Http\Controllers'], $seatRoutes);
 
 $routes = function () {
-    Route::get('/base/provinces', 'PublicApiController@provinces');
-    Route::get('/base/province/{provinceId}', 'PublicApiController@basesInProvince');
-    Route::get('/base/{baseId}/rooms', 'PublicApiController@baseRooms');
-    Route::get('/blogs', 'PublicApiController@getAllBlogs');
-    Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
+    Route::group(['prefix' => 'v2'], function(){
+        Route::get('/base/provinces', 'PublicApiController@provinces');
+        Route::get('/base/province/{provinceId}', 'PublicApiController@basesInProvince');
+        Route::get('/base/{baseId}/rooms', 'PublicApiController@baseRooms');
+        Route::get('/blogs', 'PublicApiController@getAllBlogs');
+        Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
+    });
 };
-
-Route::group(['prefix' => 'v2'], $routes);
-
-// Route::group(['prefix' => 'v2'], $baseRoutes);
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'v2', 'namespace' => 'Modules\Base\Http\Controllers'], $baseRoutes);
 
