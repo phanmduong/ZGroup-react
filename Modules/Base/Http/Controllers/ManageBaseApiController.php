@@ -438,7 +438,6 @@ class ManageBaseApiController extends ManageApiController
 //        dd($request->from . '   ' . $request->to);
         $to = (int)$request->to;
         $from = (int)$request->from;
-        dd(date('Y-m-d H:i:s', $to));
 
         $seats = Seat::query();
         $booked_seats = Seat::query();
