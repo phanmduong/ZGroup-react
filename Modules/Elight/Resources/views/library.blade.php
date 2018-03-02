@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
                         <h1 class="title"><b>Thư viện điện tử</b></h1>
-                        <h5 class=description">Sách là tài nguyên quý giá nhất của loài người</h5>
+                        <h5 class=description">Dành cho độc giả đã mua sách</h5>
                         <br>
                         <a href="/#buyBooks" class="btn btn-success btn-round" style="color:white">Mua
                             sách</a>
