@@ -414,6 +414,10 @@ class DeliveryOrderApiController extends ManageApiController
         $orderPaidMoney->payment = $request->payment;
         $orderPaidMoney->staff_id = $this->user->id;
         $orderPaidMoney->save();
+        if($request->deposit == 1)
+            $user->deposit -= $money;
+        else
+            $user->money -= $money;
         return $this->respondSuccessWithStatus([
             'message' => 'Thêm thanh toán thành công. Số tiền: ' . $money, 
         ]);
