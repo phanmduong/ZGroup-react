@@ -76,7 +76,7 @@ class ListOrder extends React.Component {
             isOpenModal: false,
             register: {},
             isOpenCallModal: false,
-            isCallModal : false,
+            isCallModal: false,
         };
 
         this.openCallModal = this.openCallModal.bind(this);
@@ -84,15 +84,19 @@ class ListOrder extends React.Component {
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
-    openCallModal(register,isCallModal) {
-        this.setState({ isOpenCallModal: true, register: register,isCallModal : isCallModal });
+    openCallModal(register, isCallModal) {
+        this.setState({
+            isOpenCallModal: true,
+            register: register,
+            isCallModal: isCallModal,
+        });
     }
 
     closeCallModal() {
         this.setState({ isOpenCallModal: false });
     }
-    
-    openChooseSeatModal(base){
+
+    openChooseSeatModal(base) {
         this.props.openChooseSeatModal(base);
     }
 
@@ -107,20 +111,20 @@ class ListOrder extends React.Component {
                     <table className="table table-hover">
                         <ChooseSeatModalContainer />
                         <thead className="text-rose">
-                        <tr>
-                            <th>Gọi</th>
-                            <th>Khách hàng</th>
-                            <th>Số điện thoại</th>
-                            <th>Mã đăng ký</th>
-                            <th>Saler</th>
-                            <th>Trạng thái</th>
-                            <th>Chiến dịch</th>
-                            <th>Giá tiền</th>
-                            <th>Tiền đã trả</th>
-                            <th>Đăng ký</th>
-                            <th />
-                            <th />
-                        </tr>
+                            <tr>
+                                <th>Gọi</th>
+                                <th>Khách hàng</th>
+                                <th>Số điện thoại</th>
+                                <th>Mã đăng ký</th>
+                                <th>Saler</th>
+                                <th>Trạng thái</th>
+                                <th>Chiến dịch</th>
+                                <th>Giá tiền</th>
+                                <th>Tiền đã trả</th>
+                                <th>Đăng ký</th>
+                                <th />
+                                <th />
+                            </tr>
                         </thead>
                         <tbody>
                             {this.props.registers.map(register => {
@@ -215,7 +219,8 @@ class ListOrder extends React.Component {
                                                     }
                                                     onClick={() =>
                                                         this.openCallModal(
-                                                            register,true
+                                                            register,
+                                                            true,
                                                         )
                                                     }
                                                     style={{
@@ -275,11 +280,14 @@ class ListOrder extends React.Component {
                                         <td>
                                             {helper.dotNumber(register.money)}đ
                                         </td>
+
                                         <td>{register.created_at}</td>
                                         <td>
                                             <a
-                                                onClick={
-                                                    () => this.openChooseSeatModal(register.base.base)
+                                                onClick={() =>
+                                                    this.props.openChooseSeatModal(
+                                                        register.base.base.id,
+                                                    )
                                                 }
                                                 style={{ color: "#888" }}
                                             >
@@ -287,49 +295,25 @@ class ListOrder extends React.Component {
                                                     add_circle
                                                 </i>
                                             </a>
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        {helper.dotNumber(
-                                            register.subscription.price,
-                                        )}đ
-                                    </td>
-                                    <td>
-                                        {helper.dotNumber(register.money)}đ
-                                    </td>
-                                    <td>{register.created_at}</td>
-                                    <td>
-                                        <a
-                                            onClick={() =>
-                                                this.props.openChooseSeatModal(
-                                                    register.base.base.id,
-                                                )
-                                            }
-                                            style={{ color: "#888" }}
-                                        >
-                                            <i className="material-icons">
-                                                add_circle
-                                            </i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            onClick={() =>
-                                                this.openCallModal(
-                                                    register,false
-                                                )
-                                            }
-                                            style={{ color: "#888" }}
-                                        >
-                                            <i className="material-icons">
-                                                add_circle
-                                            </i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                                        </td>
+                                        <td>
+                                            <a
+                                                onClick={() =>
+                                                    this.openCallModal(
+                                                        register,
+                                                        false,
+                                                    )
+                                                }
+                                                style={{ color: "#888" }}
+                                            >
+                                                <i className="material-icons">
+                                                    attach_money
+                                                </i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 )}
@@ -339,12 +323,12 @@ class ListOrder extends React.Component {
                     bsStyle="primary"
                     onHide={this.closeCallModal}
                 >
-                    <Modal.Header/>
+                    <Modal.Header />
                     <Modal.Body>
                         <CallModal
                             register={this.state.register}
                             closeCallModal={this.closeCallModal}
-                            isCallModal =  {this.state.isCallModal}
+                            isCallModal={this.state.isCallModal}
                         />
                     </Modal.Body>
                 </Modal>

@@ -121,23 +121,24 @@ class ChooseSeatModalContainer extends React.Component {
                     ) : (
                         <div className="card-content">
                             <ul className="nav nav-pills nav-pills-rose">
-                                {rooms.map(room => (
-                                    <li
-                                        key={room.id}
-                                        className={
-                                            room.isActive ? "active" : ""
-                                        }
-                                    >
-                                        <a
-                                            onClick={() =>
-                                                this.setActiveRoom(room.id)
+                                {rooms &&
+                                    rooms.map(room => (
+                                        <li
+                                            key={room.id}
+                                            className={
+                                                room.isActive ? "active" : ""
                                             }
-                                            aria-expanded="true"
                                         >
-                                            {room.name}
-                                        </a>
-                                    </li>
-                                ))}
+                                            <a
+                                                onClick={() =>
+                                                    this.setActiveRoom(room.id)
+                                                }
+                                                aria-expanded="true"
+                                            >
+                                                {room.name}
+                                            </a>
+                                        </li>
+                                    ))}
                             </ul>
                             <div
                                 className="tab-content"
@@ -146,6 +147,7 @@ class ChooseSeatModalContainer extends React.Component {
                                 {this.props.isLoadingSeats ? (
                                     <Loading />
                                 ) : (
+                                    rooms &&
                                     rooms.filter(r => r.isActive).map(room => {
                                         return (
                                             <div
