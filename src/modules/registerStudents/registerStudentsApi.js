@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
 
-export function getAllRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
+export function getAllRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '') {
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
         "page=" + page +
@@ -13,6 +13,8 @@ export function getAllRegisterStudent(page = 1, genId, search = '', salerId = ''
         "&class_id=" + classId +
         "&status=" + paid_status +
         "&limit=-1" +
+        "&base_id=" + base_id +
+        "&appointment_payment=" + appointment_payment +
         "&type=" + class_status;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
@@ -21,7 +23,8 @@ export function getAllRegisterStudent(page = 1, genId, search = '', salerId = ''
     return axios.get(url);
 }
 
-export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
+export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '',
+                                   class_status = '', startTime = '', endTime = '', base_id = '', appointment_payment = '') {
     let urlType = env.API_URL;
     switch (env.TYPE_API) {
         case "alibaba":
@@ -41,6 +44,8 @@ export function getRegisterStudent(page = 1, genId, search = '', salerId = '', c
         '&campaign_id=' + campaignId +
         "&class_id=" + classId +
         "&status=" + paid_status +
+        "&base_id=" + base_id +
+        "&appointment_payment=" + appointment_payment +
         "&type=" + class_status;
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
@@ -55,7 +60,7 @@ export function loadGens() {
     return axios.get(url);
 }
 
-export function loadClassFilter(genid) {
+export function loadClassFilter(genid = '') {
     //http://manageapi.keetool.xyz/class/all?token=
     //http://api.keetool.xyz/apiv2/gens/22/classes?token=
     let token = localStorage.getItem('token');
@@ -170,4 +175,14 @@ export function changeInfoStudent(info) {
     }
 
     return axios.put(url, {money: info.money, code: info.code});
+}
+
+export function loadBases() {
+    let url = env.MANAGE_API_URL + "/base/all";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
 }

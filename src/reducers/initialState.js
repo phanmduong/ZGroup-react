@@ -763,6 +763,8 @@ export default {
         excel: {},
         isLoadingExcel: false,
         isCommittingInfoStudent: false,
+        isLoadingBaseFilter: false,
+        baseFilter: []
     },
 
     profile: {
