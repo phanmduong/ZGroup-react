@@ -396,7 +396,7 @@ class DeliveryOrderApiController extends ManageApiController
             }, 0);
         $money = 0;
         if($request->deposit == 1)
-            $money = max($debt, $user->deposit);
+            $money = min($debt, $user->deposit);
         else
             $money = min($debt, $user->money);
         if($money == 0) {
