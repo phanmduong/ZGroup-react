@@ -4,6 +4,7 @@ import {
     CHOOSE_SEAT_BEGIN_LOAD_ROOMS,
     CHOOSE_SEAT_SET_ACTIVE_ROOM,
     CHOOSE_SEAT_LOAD_SEATS_SUCCESS,
+    CHOOSE_SEAT_BEGIN_LOAD_SEATS,
 } from "./chooseSeatActionType";
 
 const initialState = {
@@ -27,6 +28,7 @@ export default function chooseSeatReducer(state = initialState, action) {
                 ...state,
                 showModal: action.showModal,
                 base: action.base,
+                registerId: action.registerId,
             };
         case CHOOSE_SEAT_BEGIN_LOAD_ROOMS:
             return {
@@ -48,10 +50,15 @@ export default function chooseSeatReducer(state = initialState, action) {
                 availableSeats: action.availableSeats,
                 bookedSeats: action.bookedSeats,
             };
-        case CHOOSE_SEAT_SET_ACTIVE_ROOM:
+        case CHOOSE_SEAT_BEGIN_LOAD_SEATS:
             return {
                 ...state,
                 isLoadingSeats: true,
+            };
+
+        case CHOOSE_SEAT_SET_ACTIVE_ROOM:
+            return {
+                ...state,
                 rooms: state.rooms.map(room => {
                     if (room.id === action.roomId) {
                         return {

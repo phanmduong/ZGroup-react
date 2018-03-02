@@ -1,20 +1,20 @@
 import React from "react";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Search from "../../components/common/Search";
 import ListOrder from "./ListOrder";
 import * as registerManageAction from "./registerManageAction";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import Pagination from "../../components/common/Pagination";
-import {REGISTER_STATUS} from "../../constants/constants";
+import { REGISTER_STATUS } from "../../constants/constants";
 import XLSX from "xlsx";
-import {saveWorkBookToExcel} from "../../helpers/helper";
-import {loadAllRegistersApi} from "./registerManageApi";
+import { saveWorkBookToExcel } from "../../helpers/helper";
+import { loadAllRegistersApi } from "./registerManageApi";
 import SelectMonthBox from "../../components/common/SelectMonthBox";
 import Loading from "../../components/common/Loading";
 import SelectCommon from "../../components/common/Select";
-import {Panel} from "react-bootstrap";
+import { Panel } from "react-bootstrap";
 import * as chooseSeatActions from "./chooseSeat/chooseSeatActions";
 
 class RegisterManageContainer extends React.Component {
@@ -36,7 +36,7 @@ class RegisterManageContainer extends React.Component {
                 startTime: "",
                 endTime: "",
             },
-            month: {year: 0, month: 0},
+            month: { year: 0, month: 0 },
         };
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
@@ -75,8 +75,8 @@ class RegisterManageContainer extends React.Component {
         }
     }
 
-    openChooseSeatModal(base) {
-        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, base);
+    openChooseSeatModal(base, registerId) {
+        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, base, registerId);
     }
 
     handleClickMonthBox() {
@@ -101,7 +101,7 @@ class RegisterManageContainer extends React.Component {
             endTime,
             () => this.setState({ month: value }),
         );
-        let time = {...this.state.time};
+        let time = { ...this.state.time };
         time["startTime"] = startTime;
         time["endTime"] = endTime;
         this.setState({time: time});
@@ -119,7 +119,7 @@ class RegisterManageContainer extends React.Component {
                 value: base.name,
             };
         });
-        this.setState({selectBaseId: 0});
+        this.setState({ selectBaseId: 0 });
         return [
             {
                 key: 0,
@@ -130,7 +130,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     onChangeBase(value) {
-        this.setState({selectBaseId: value});
+        this.setState({ selectBaseId: value });
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
@@ -146,7 +146,7 @@ class RegisterManageContainer extends React.Component {
 
     openFilterPanel() {
         let newstatus = !this.state.openFilterPanel;
-        this.setState({openFilterPanel: newstatus});
+        this.setState({ openFilterPanel: newstatus });
     }
 
     async exportRegistersResultExcel() {
@@ -204,7 +204,7 @@ class RegisterManageContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(
-            function () {
+            function() {
                 this.props.registerManageAction.loadAllRegisters(
                     this.state.limit,
                     1,
@@ -286,7 +286,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     filterByCampaign(campaign_id) {
-        this.setState({campaign_id: campaign_id});
+        this.setState({ campaign_id: campaign_id });
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
@@ -301,7 +301,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     filterBySaler(saler_id) {
-        this.setState({saler_id: saler_id});
+        this.setState({ saler_id: saler_id });
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
@@ -316,7 +316,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     loadOrders(page = 1) {
-        this.setState({page: page});
+        this.setState({ page: page });
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
             page,
@@ -347,7 +347,7 @@ class RegisterManageContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 {this.props.isLoadingBases ? (
-                    <Loading/>
+                    <Loading />
                 ) : (
                     <div>
                         <div className="row">
@@ -374,7 +374,7 @@ class RegisterManageContainer extends React.Component {
                             </div>
                             <div className="col-sm-2 col-xs-5">
                                 <button
-                                    style={{width: "100%"}}
+                                    style={{ width: "100%" }}
                                     onClick={this.openFilterPanel}
                                     className="btn btn-info btn-rose "
                                 >
@@ -388,7 +388,7 @@ class RegisterManageContainer extends React.Component {
                                 <button
                                     onClick={this.exportRegistersResultExcel}
                                     className="btn btn-info btn-rose"
-                                    style={{float: "right"}}
+                                    style={{ float: "right" }}
                                 >
                                     <i className="material-icons">
                                         file_download
@@ -453,13 +453,15 @@ class RegisterManageContainer extends React.Component {
                                                             </label>
                                                             <Select
                                                                 value={
-                                                                    this.state.status
+                                                                    this.state
+                                                                        .status
                                                                 }
                                                                 options={
                                                                     REGISTER_STATUS
                                                                 }
                                                                 onChange={
-                                                                    this.filterByStatus
+                                                                    this
+                                                                        .filterByStatus
                                                                 }
                                                             />
                                                         </div>
@@ -476,7 +478,7 @@ class RegisterManageContainer extends React.Component {
                             <div
                                 className="card-header card-header-icon"
                                 data-background-color="rose"
-                                style={{zIndex: 0}}
+                                style={{ zIndex: 0 }}
                             >
                                 <i className="material-icons">assignment</i>
                             </div>
@@ -502,13 +504,13 @@ class RegisterManageContainer extends React.Component {
                                     <div className="row float-right">
                                         <div
                                             className="col-md-12"
-                                            style={{textAlign: "right"}}
+                                            style={{ textAlign: "right" }}
                                         >
-                                            <b style={{marginRight: "15px"}}>
+                                            <b style={{ marginRight: "15px" }}>
                                                 Hiển thị kêt quả từ {first} -{" "}
                                                 {end}/{this.props.totalCount}
                                             </b>
-                                            <br/>
+                                            <br />
                                             <Pagination
                                                 totalPages={
                                                     this.props.totalPages
