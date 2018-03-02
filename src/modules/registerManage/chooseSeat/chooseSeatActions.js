@@ -4,6 +4,7 @@ import {
     CHOOSE_SEAT_LOAD_ROOMS_SUCCESS,
     CHOOSE_SEAT_SET_ACTIVE_ROOM,
     CHOOSE_SEAT_LOAD_SEATS_SUCCESS,
+    CHOOSE_SEAT_BEGIN_LOAD_SEATS,
 } from "./chooseSeatActionType";
 import { getRooms, getSeats } from "./chooseSeatApi";
 
@@ -21,17 +22,16 @@ export const loadRooms = baseId => {
     };
 };
 
-export const setActiveRoom = roomId => {
+export const loadSeats = (roomId, from, to) => {
     return async dispatch => {
+        dispatch({
+            type: CHOOSE_SEAT_BEGIN_LOAD_SEATS,
+        });
         const res = await getSeats(
             roomId,
-            "28/02/2018 2017:23:34",
-            "28/02/2018 2017:23:34",
+            from,
+            to,
         );
-        dispatch({
-            type: CHOOSE_SEAT_SET_ACTIVE_ROOM,
-            roomId,
-        });
         const {
             available_seats,
             booked_seats,
@@ -48,12 +48,22 @@ export const setActiveRoom = roomId => {
     };
 };
 
-export const toggleShowChooseSeatModal = (showModal, base = {}) => {
+export const setActiveRoom = roomId => {
+    return async dispatch => {
+        dispatch({
+            type: CHOOSE_SEAT_SET_ACTIVE_ROOM,
+            roomId,
+        });
+    };
+};
+
+export const toggleShowChooseSeatModal = (showModal, base = {}, registerId) => {
     return dispatch => {
         dispatch({
             type: TOGGLE_CHOOSE_SEAT_MODAL,
             showModal,
             base,
+            registerId,
         });
     };
 };

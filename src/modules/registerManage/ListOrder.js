@@ -12,84 +12,62 @@ import ChooseSeatModalContainer from "./chooseSeat/ChooseSeatModalContainer";
 
 import moment from "moment/moment";
 
-export function setRuleShowCall(register){
+export function setRuleShowCall(register) {
     let btn = "";
     let titleCall = "";
     let showCall;
     let created_time = Date.parse(
-        moment(
-            register.created_at,
-            "HH:mm DD-MM-YYYY",
-        ).format("HH:mm MM-DD-YYYY"),
+        moment(register.created_at, "HH:mm DD-MM-YYYY").format(
+            "HH:mm MM-DD-YYYY",
+        ),
     ); // Phai chuyen sang dinh dang moi parsr duoc
     let expiredTime = Date.parse(
-        moment(
-            register.created_at,
-            "HH:mm DD-MM-YYYY",
-        )
+        moment(register.created_at, "HH:mm DD-MM-YYYY")
             .add(1, "days")
             .format("HH:mm MM-DD-YYYY"),
     );
     let firstCall = Date.parse(
         moment(
-            register.teleCalls[0] &&
-            register.teleCalls[0].created_at,
+            register.teleCalls[0] && register.teleCalls[0].created_at,
             "HH:mm DD-MM-YYYY",
         ).format("HH:mm MM-DD-YYYY"),
     );
     let presentTime = new Date();
     presentTime = Date.parse(presentTime);
     let call =
-        register.teleCalls &&
-        register.teleCalls[
-        register.teleCalls.length - 1
-            ];
+        register.teleCalls && register.teleCalls[register.teleCalls.length - 1];
     // let lastCall = Date.parse(moment(call.created_at));
 
     // console.log(expiredTime, Date.parse(register.teleCalls[0] && register.teleCalls[0].created_at),"sadasd");
 
     if (register.teleCalls.length > 0) {
-        showCall = Math.floor(
-            (firstCall - created_time) / 3600000,
-        );
+        showCall = Math.floor((firstCall - created_time) / 3600000);
         if (call.call_status === 1) {
             btn = " btn-success";
-            titleCall =
-                "Gọi thành công lúc " +
-                call.created_at;
+            titleCall = "Gọi thành công lúc " + call.created_at;
         } else if (call.call_status === 0) {
             btn = " btn-danger";
-            titleCall =
-                "Gọi thất bại lúc " +
-                call.created_at;
+            titleCall = "Gọi thất bại lúc " + call.created_at;
         }
     } else {
-        showCall = Math.floor(
-            (presentTime - created_time) / 3600000,
-        );
+        showCall = Math.floor((presentTime - created_time) / 3600000);
 
         if (expiredTime >= presentTime) {
             btn = " btn-default ";
             titleCall =
                 " Còn " +
-                Math.floor(
-                    (expiredTime - presentTime) /
-                    3600000,
-                ) +
+                Math.floor((expiredTime - presentTime) / 3600000) +
                 " h";
         } else {
             // showCall = (lastCall - created_time)/3600000;
             btn = " btn-warning ";
             titleCall =
                 " Đã quá hạn " +
-                Math.floor(
-                    (presentTime - expiredTime) /
-                    3600000,
-                ) +
+                Math.floor((presentTime - expiredTime) / 3600000) +
                 " h";
         }
     }
-    return[btn, titleCall,showCall];
+    return [btn, titleCall, showCall];
 }
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -103,6 +81,7 @@ class ListOrder extends React.Component {
 
         this.openCallModal = this.openCallModal.bind(this);
         this.closeCallModal = this.closeCallModal.bind(this);
+        this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
     openCallModal(register) {
@@ -111,6 +90,10 @@ class ListOrder extends React.Component {
 
     closeCallModal() {
         this.setState({ isOpenCallModal: false });
+    }
+    
+    openChooseSeatModal(base){
+        this.props.openChooseSeatModal(base);
     }
 
     render() {
@@ -124,181 +107,183 @@ class ListOrder extends React.Component {
                     <table className="table table-hover">
                         <ChooseSeatModalContainer />
                         <thead className="text-rose">
-                        <tr>
-                            <th>Gọi</th>
-                            <th>Khách hàng</th>
-                            <th>Số điện thoại</th>
-                            <th>Mã đăng ký</th>
-                            <th>Saler</th>
-                            <th>Trạng thái</th>
-                            <th>Chiến dịch</th>
-                            <th>Giá tiền</th>
-                            <th>Tiền đã trả</th>
-                            <th>Đăng ký</th>
-                            <th />
-                        </tr>
+                            <tr>
+                                <th>Gọi</th>
+                                <th>Khách hàng</th>
+                                <th>Số điện thoại</th>
+                                <th>Mã đăng ký</th>
+                                <th>Saler</th>
+                                <th>Trạng thái</th>
+                                <th>Chiến dịch</th>
+                                <th>Giá tiền</th>
+                                <th>Tiền đã trả</th>
+                                <th>Đăng ký</th>
+                                <th />
+                            </tr>
                         </thead>
                         <tbody>
-                        {this.props.registers.map(register => {
-                           let [btn, titleCall,showCall] = setRuleShowCall(register);
-                            return (
-                                <tr key={register.id}>
-                                    <td>
-                                        <div className="container-call-status">
-                                            <TooltipButton
-                                                text={titleCall}
-                                                placement="top"
+                            {this.props.registers.map(register => {
+                                let [
+                                    btn,
+                                    titleCall,
+                                    showCall,
+                                ] = setRuleShowCall(register);
+                                return (
+                                    <tr key={register.id}>
+                                        <td>
+                                            <div className="container-call-status">
+                                                <TooltipButton
+                                                    text={titleCall}
+                                                    placement="top"
+                                                >
+                                                    <button
+                                                        className={
+                                                            "btn btn-round " +
+                                                            btn +
+                                                            " full-width padding-left-right-10"
+                                                        }
+                                                        onClick={() =>
+                                                            this.openCallModal(
+                                                                register,
+                                                            )
+                                                        }
+                                                    >
+                                                        <i className="material-icons">
+                                                            phone
+                                                        </i>{" "}
+                                                        {showCall
+                                                            ? showCall + " h"
+                                                            : null}
+                                                    </button>
+                                                </TooltipButton>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a className="text-name-student-register">
+                                                {register.user.name}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a
+                                                href={"tel:" + register.phone}
+                                                className="text-name-student-register"
                                             >
+                                                {register.user.phone
+                                                    ? helper.formatPhone(
+                                                          register.user.phone,
+                                                      )
+                                                    : "Chưa có"}
+                                            </a>
+                                        </td>
+                                        <td>{register.code || "Chưa có"}</td>
+                                        <td>
+                                            {register.saler ? (
+                                                <a
+                                                    className="btn btn-xs btn-main"
+                                                    onClick={e => {
+                                                        this.props.filterBySaler(
+                                                            register.saler.id,
+                                                        );
+                                                        e.preventDefault();
+                                                    }}
+                                                    style={{
+                                                        backgroundColor:
+                                                            register.saler
+                                                                .color &&
+                                                            "#" +
+                                                                register.saler
+                                                                    .color,
+                                                    }}
+                                                >
+                                                    {register.saler.name}
+                                                </a>
+                                            ) : (
+                                                <a className="btn btn-xs btn-main disabled">
+                                                    Chưa có
+                                                </a>
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            {register.status !== "" ? (
                                                 <button
                                                     className={
-                                                        "btn btn-round " +
-                                                        btn +
-                                                        " full-width padding-left-right-10"
+                                                        "btn btn-xs btn-main " +
+                                                        register.btnStatus
                                                     }
-                                                    onClick={() =>
-                                                        this.openCallModal(
-                                                            register,
-                                                        )
-                                                    }
+                                                    style={{
+                                                        backgroundColor:
+                                                            "#" + "5BBD2B",
+                                                    }}
                                                 >
-                                                    <i className="material-icons">
-                                                        phone
-                                                    </i>{" "}
-                                                    {showCall
-                                                        ? showCall + " h"
-                                                        : null}
+                                                    {
+                                                        REGISTER_STATUS.filter(
+                                                            status =>
+                                                                status.value ===
+                                                                register.status,
+                                                        )[0].label
+                                                    }
+                                                    <div className="ripple-container" />
                                                 </button>
-                                            </TooltipButton>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a className="text-name-student-register">
-                                            {register.user.name}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href={"tel:" + register.phone}
-                                            className="text-name-student-register"
-                                        >
-                                            {register.user.phone
-                                                ? helper.formatPhone(
-                                                    register.user.phone,
-                                                )
-                                                : "Chưa có"}
-                                        </a>
-                                    </td>
-                                    <td>{register.code || "Chưa có"}</td>
-                                    <td>
-                                        {register.saler ? (
+                                            ) : (
+                                                <button className="btn btn-xs btn-main">
+                                                    Chưa có
+                                                </button>
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            {register.campaign ? (
+                                                <a
+                                                    className="btn btn-xs btn-main"
+                                                    style={{
+                                                        backgroundColor:
+                                                            "#" +
+                                                            register.campaign
+                                                                .color,
+                                                    }}
+                                                    onClick={e => {
+                                                        this.props.filterByCampaign(
+                                                            register.campaign
+                                                                .id,
+                                                        );
+                                                        e.preventDefault();
+                                                    }}
+                                                >
+                                                    {register.campaign.name}{" "}
+                                                    {/*  deleete*/}
+                                                </a>
+                                            ) : (
+                                                <a className="btn btn-xs btn-main disabled">
+                                                    Chưa có
+                                                </a>
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            {helper.dotNumber(
+                                                register.subscription.price,
+                                            )}đ
+                                        </td>
+                                        <td>
+                                            {helper.dotNumber(register.money)}đ
+                                        </td>
+                                        <td>{register.created_at}</td>
+                                        <td>
                                             <a
-                                                className="btn btn-xs btn-main"
-                                                onClick={e => {
-                                                    this.props.filterBySaler(
-                                                        register.saler.id,
-                                                    );
-                                                    e.preventDefault();
-                                                }}
-                                                style={{
-                                                    backgroundColor:
-                                                    register.saler
-                                                        .color &&
-                                                    "#" +
-                                                    register.saler
-                                                        .color,
-                                                }}
-                                            >
-                                                {register.saler.name}
-                                            </a>
-                                        ) : (
-                                            <a className="btn btn-xs btn-main disabled">
-                                                Chưa có
-                                            </a>
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        {register.status !== "" ? (
-                                            <button
-                                                className={
-                                                    "btn btn-xs btn-main " +
-                                                    register.btnStatus
+                                                onClick={
+                                                    () => this.openChooseSeatModal(register.base.base)
                                                 }
-                                                style={{
-                                                    backgroundColor:
-                                                    "#" + "5BBD2B",
-                                                }}
+                                                style={{ color: "#888" }}
                                             >
-                                                {
-                                                    REGISTER_STATUS.filter(
-                                                        status =>
-                                                            status.value ===
-                                                            register.status,
-                                                    )[0].label
-                                                }
-                                                <div className="ripple-container" />
-                                            </button>
-                                        ) : (
-                                            <button className="btn btn-xs btn-main">
-                                                Chưa có
-                                            </button>
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        {register.campaign ? (
-                                            <a
-                                                className="btn btn-xs btn-main"
-                                                style={{
-                                                    backgroundColor:
-                                                    "#" +
-                                                    register.campaign
-                                                        .color,
-                                                }}
-                                                onClick={e => {
-                                                    this.props.filterByCampaign(
-                                                        register.campaign
-                                                            .id,
-                                                    );
-                                                    e.preventDefault();
-                                                }}
-                                            >
-                                                {register.campaign.name}{" "}
-                                                {/*  deleete*/}
+                                                <i className="material-icons">
+                                                    add_circle
+                                                </i>
                                             </a>
-                                        ) : (
-                                            <a className="btn btn-xs btn-main disabled">
-                                                Chưa có
-                                            </a>
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        {helper.dotNumber(
-                                            register.subscription.price,
-                                        )}đ
-                                    </td>
-                                    <td>
-                                        {helper.dotNumber(register.money)}đ
-                                    </td>
-                                    <td>{register.created_at}</td>
-                                    <td>
-                                        <a
-                                            onClick={() =>
-                                                this.props.openChooseSeatModal(
-                                                    register.base.base.id,
-                                                )
-                                            }
-                                            style={{ color: "#888" }}
-                                        >
-                                            <i className="material-icons">
-                                                add_circle
-                                            </i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 )}

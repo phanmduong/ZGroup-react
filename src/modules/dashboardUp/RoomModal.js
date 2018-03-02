@@ -1,13 +1,12 @@
 import React from "react";
-import {Modal} from "react-bootstrap";
-import TooltipButton from '../../components/common/TooltipButton';
-import Loading from '../../components/common/Loading';
+import { Modal } from "react-bootstrap";
+import TooltipButton from "../../components/common/TooltipButton";
+import Loading from "../../components/common/Loading";
 import FormInputDateTime from "../../components/common/FormInputDateTime";
-import {DATETIME_VN_FORMAT} from "../../constants/constants";
+import { DATETIME_VN_FORMAT } from "../../constants/constants";
 import moment from "moment";
-import PropTypes from 'prop-types';
-import RoomGrid from '../bases/room/RoomGrid';
-
+import PropTypes from "prop-types";
+import RoomGrid from "../bases/room/RoomGrid";
 
 class RoomModal extends React.Component {
     constructor(props, context) {
@@ -31,45 +30,46 @@ class RoomModal extends React.Component {
 
     onFromDateInputChange(event) {
         this.setState({
-            from: event.target.value
+            from: event.target.value,
         });
-        this.props.loadSeats(event.target.value, this.state.to, this.state.roomId);
+        this.props.loadSeats(
+            event.target.value,
+            this.state.to,
+            this.state.roomId,
+        );
     }
-    changeRoom(value){
-        this.setState({roomId: value});
+    changeRoom(value) {
+        this.setState({ roomId: value });
         this.props.loadSeats(this.state.from, this.state.to, value);
     }
     onToDateInputChange(event) {
         this.setState({
-            to: event.target.value
+            to: event.target.value,
         });
-        this.props.loadSeats(this.state.from, event.target.value, this.state.roomId);
+        this.props.loadSeats(
+            this.state.from,
+            event.target.value,
+            this.state.roomId,
+        );
     }
 
-    onClick() {
+    onClick() {}
 
-    }
+    onDrag() {}
 
-    onDrag() {
-
-    }
-
-    onPointClick() {
-
-    }
+    onPointClick() {}
 
     render() {
         // console.log(this.props.isLoadingSeats);
-        const percent = (count, total) =>  total === 0 ? 0 : count * 100 / total;
+        const percent = (count, total) =>
+            total === 0 ? 0 : count * 100 / total;
         return (
             <Modal
                 show={this.props.show}
                 onHide={this.props.onHide}
                 bsSize="large"
             >
-                <Modal.Header closeButton>
-                    Sơ đồ chỗ ngồi
-                </Modal.Header>
+                <Modal.Header closeButton>Sơ đồ chỗ ngồi</Modal.Header>
 
                 <Modal.Body>
                     {
@@ -82,7 +82,10 @@ class RoomModal extends React.Component {
                                         id="from"
                                         label="Từ ngày"
                                         value={this.state.from}
-                                        updateFormData={this.onFromDateInputChange}/>
+                                        updateFormData={
+                                            this.onFromDateInputChange
+                                        }
+                                    />
                                 </div>
                                 <div className="col-md-6 col-lg-4">
                                     <FormInputDateTime
@@ -91,64 +94,98 @@ class RoomModal extends React.Component {
                                         id="to"
                                         label="Tới ngày"
                                         value={this.state.to}
-                                        updateFormData={this.onToDateInputChange}/>
+                                        updateFormData={
+                                            this.onToDateInputChange
+                                        }
+                                    />
                                 </div>
                             </div>
                             <ul className="nav nav-pills nav-pills-rose">
-
-                                {
-                                    this.props.rooms.map((room, index) => {
-                                        if (this.state.roomId === room.id) {
-                                            return (
-                                                <li className="active">
-                                                    <a href={'#' + index} data-toggle="tab"
-                                                       aria-expanded="true"
-                                                       onClick={() => this.changeRoom(room.id)}
-                                                    > {room.name} </a>
-                                                </li>
-                                            );
-                                        } else {
-                                            return (
-                                                <li className="">
-                                                    <a href={'#' + index} data-toggle="tab"
-                                                       aria-expanded="true"
-                                                       onClick={() => this.changeRoom(room.id)}
-                                                    > {room.name} </a>
-                                                </li>
-                                            );
-                                        }                                
-                                    })
-                                }
-                            </ul>
-                            <br/>
-                            {this.props.isLoadingSeats ? <Loading/> :
-                                <div className="tab-content">          
-                                    <TooltipButton placement="top"
-                                               text={Math.round(percent(this.props.available_seats, this.props.seats_count)) + '%'}>
-                                        <div className="progress progress-line-rose">
-                                            <div className="progress-bar" role="progressbar"
-                                                 style={{width: percent(this.props.available_seats, this.props.seats_count) + '%'}}/>
-                                        </div>
-                                    </TooltipButton>                        
-                                    {
-                                        this.props.isLoadingSeats ? <Loading/>
-                                        : (
-                                            <RoomGrid
-                                                onClick={this.onClick}
-                                                onDrag={this.onDrag}
-                                                onPointClick={this.onPointClick}
-                                                data={this.props.seats}
-                                                domain={this.props.domain} 
-                                            />                                            
-                                        )
+                                {this.props.rooms.map((room, index) => {
+                                    if (this.state.roomId === room.id) {
+                                        return (
+                                            <li className="active">
+                                                <a
+                                                    href={"#" + index}
+                                                    data-toggle="tab"
+                                                    aria-expanded="true"
+                                                    onClick={() =>
+                                                        this.changeRoom(room.id)
+                                                    }
+                                                >
+                                                    {" "}
+                                                    {room.name}{" "}
+                                                </a>
+                                            </li>
+                                        );
+                                    } else {
+                                        return (
+                                            <li className="">
+                                                <a
+                                                    href={"#" + index}
+                                                    data-toggle="tab"
+                                                    aria-expanded="true"
+                                                    onClick={() =>
+                                                        this.changeRoom(room.id)
+                                                    }
+                                                >
+                                                    {" "}
+                                                    {room.name}{" "}
+                                                </a>
+                                            </li>
+                                        );
                                     }
-                                    
+                                })}
+                            </ul>
+                            <br />
+                            {this.props.isLoadingSeats ? (
+                                <Loading />
+                            ) : (
+                                <div className="tab-content">
+                                    <TooltipButton
+                                        placement="top"
+                                        text={
+                                            Math.round(
+                                                percent(
+                                                    this.props.available_seats,
+                                                    this.props.seats_count,
+                                                ),
+                                            ) + "%"
+                                        }
+                                    >
+                                        <div className="progress progress-line-rose">
+                                            <div
+                                                className="progress-bar"
+                                                role="progressbar"
+                                                style={{
+                                                    width:
+                                                        percent(
+                                                            this.props
+                                                                .available_seats,
+                                                            this.props
+                                                                .seats_count,
+                                                        ) + "%",
+                                                }}
+                                            />
+                                        </div>
+                                    </TooltipButton>
+                                    {this.props.isLoadingSeats ? (
+                                        <Loading />
+                                    ) : (
+                                        <RoomGrid
+                                            onClick={this.onClick}
+                                            onDrag={this.onDrag}
+                                            onPointClick={this.onPointClick}
+                                            data={this.props.seats}
+                                            domain={this.props.domain}
+                                        />
+                                    )}
                                 </div>
-                            }</div>
-                    }</Modal.Body>
+                            )}
+                        </div>
+                    }
+                </Modal.Body>
             </Modal>
-
-
         );
     }
 }
@@ -162,7 +199,7 @@ RoomModal.propTypes = {
     seats: PropTypes.array.isRequired,
     show: PropTypes.bool.isRequired,
     domain: PropTypes.object.isRequired,
-    onHide: PropTypes.func.isRequired 
+    onHide: PropTypes.func.isRequired,
 };
 
 export default RoomModal;
