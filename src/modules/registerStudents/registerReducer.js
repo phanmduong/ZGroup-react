@@ -118,6 +118,28 @@ export default function registerReducer(state = initialState.registerStudents, a
                     isLoadingCampaignFilter: false,
                 }
             };
+        case types.BEGIN_LOAD_BASE_FILTER:
+            return {
+                ...state,
+                ...{
+                    isLoadingBaseFilter: true,
+                }
+            };
+        case types.LOAD_BASE_FILTER_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingBaseFilter: false,
+                    baseFilter: action.filter
+                }
+            };
+        case types.LOAD_BASE_FILTER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingBaseFilter: false,
+                }
+            };
         case types.BEGIN_DATA_REGISTER_LIST_LOAD:
             return {
                 ...state,

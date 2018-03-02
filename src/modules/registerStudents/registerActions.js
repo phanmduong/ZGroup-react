@@ -36,6 +36,25 @@ export function changeInfoStudent(info, success) {
     };
 }
 
+export function loadBaseFilter() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_BASE_FILTER,
+        });
+        registerStudentsApi.loadBases().then((res) => {
+            dispatch({
+                type: types.LOAD_BASE_FILTER_SUCCESS,
+                filter: res.data.data.bases
+            });
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.LOAD_BASE_FILTER_ERROR
+            });
+        });
+    };
+}
+
 export function loadClassFilter(genid) {
     return function (dispatch) {
         dispatch({
@@ -94,12 +113,12 @@ export function loadCampaignFilter() {
 }
 
 
-export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime) {
+export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime, baseId, appointment_payment) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
-        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime)
+        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime, baseId, appointment_payment)
             .then(function (res) {
                 dispatch(loadDataSuccessful(res));
             }).catch(error => {
@@ -112,12 +131,12 @@ export function loadRegisterStudent(page, genId, search, salerId, campaignId, cl
 }
 
 
-export function loadAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime, exportExcel) {
+export function loadAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime, baseId, appointment_payment, exportExcel) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST,
         });
-        registerStudentsApi.getAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime)
+        registerStudentsApi.getAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime, baseId, appointment_payment)
             .then(function (res) {
                 dispatch({
                     type: types.LOAD_DATA_EXCEL_REGISTER_LIST_SUCCESS,

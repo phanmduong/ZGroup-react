@@ -761,6 +761,8 @@ export default {
         excel: {},
         isLoadingExcel: false,
         isCommittingInfoStudent: false,
+        isLoadingBaseFilter: false,
+        baseFilter: []
     },
 
     profile: {
@@ -1554,8 +1556,8 @@ export default {
             },
         ],
         archivedWorks: [],
-        rateData:{
-            staffs:[],
+        rateData: {
+            staffs: [],
         },
     },
 
