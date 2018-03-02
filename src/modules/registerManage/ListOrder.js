@@ -59,7 +59,6 @@ export function setRuleShowCall(register) {
                 Math.floor((expiredTime - presentTime) / 3600000) +
                 " h";
         } else {
-            // showCall = (lastCall - created_time)/3600000;
             btn = " btn-warning ";
             titleCall =
                 " Đã quá hạn " +
@@ -77,6 +76,7 @@ class ListOrder extends React.Component {
             isOpenModal: false,
             register: {},
             isOpenCallModal: false,
+            isCallModal : false,
         };
 
         this.openCallModal = this.openCallModal.bind(this);
@@ -84,8 +84,8 @@ class ListOrder extends React.Component {
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
-    openCallModal(register) {
-        this.setState({ isOpenCallModal: true, register: register });
+    openCallModal(register,isCallModal) {
+        this.setState({ isOpenCallModal: true, register: register,isCallModal : isCallModal });
     }
 
     closeCallModal() {
@@ -107,19 +107,20 @@ class ListOrder extends React.Component {
                     <table className="table table-hover">
                         <ChooseSeatModalContainer />
                         <thead className="text-rose">
-                            <tr>
-                                <th>Gọi</th>
-                                <th>Khách hàng</th>
-                                <th>Số điện thoại</th>
-                                <th>Mã đăng ký</th>
-                                <th>Saler</th>
-                                <th>Trạng thái</th>
-                                <th>Chiến dịch</th>
-                                <th>Giá tiền</th>
-                                <th>Tiền đã trả</th>
-                                <th>Đăng ký</th>
-                                <th />
-                            </tr>
+                        <tr>
+                            <th>Gọi</th>
+                            <th>Khách hàng</th>
+                            <th>Số điện thoại</th>
+                            <th>Mã đăng ký</th>
+                            <th>Saler</th>
+                            <th>Trạng thái</th>
+                            <th>Chiến dịch</th>
+                            <th>Giá tiền</th>
+                            <th>Tiền đã trả</th>
+                            <th>Đăng ký</th>
+                            <th />
+                            <th />
+                        </tr>
                         </thead>
                         <tbody>
                             {this.props.registers.map(register => {
@@ -208,8 +209,14 @@ class ListOrder extends React.Component {
                                             {register.status !== "" ? (
                                                 <button
                                                     className={
-                                                        "btn btn-xs btn-main " +
-                                                        register.btnStatus
+                                                        "btn btn-round " +
+                                                        btn +
+                                                        " full-width padding-left-right-10"
+                                                    }
+                                                    onClick={() =>
+                                                        this.openCallModal(
+                                                            register,true
+                                                        )
                                                     }
                                                     style={{
                                                         backgroundColor:
@@ -280,10 +287,49 @@ class ListOrder extends React.Component {
                                                     add_circle
                                                 </i>
                                             </a>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        {helper.dotNumber(
+                                            register.subscription.price,
+                                        )}đ
+                                    </td>
+                                    <td>
+                                        {helper.dotNumber(register.money)}đ
+                                    </td>
+                                    <td>{register.created_at}</td>
+                                    <td>
+                                        <a
+                                            onClick={() =>
+                                                this.props.openChooseSeatModal(
+                                                    register.base.base.id,
+                                                )
+                                            }
+                                            style={{ color: "#888" }}
+                                        >
+                                            <i className="material-icons">
+                                                add_circle
+                                            </i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a
+                                            onClick={() =>
+                                                this.openCallModal(
+                                                    register,false
+                                                )
+                                            }
+                                            style={{ color: "#888" }}
+                                        >
+                                            <i className="material-icons">
+                                                add_circle
+                                            </i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                         </tbody>
                     </table>
                 )}
@@ -293,11 +339,12 @@ class ListOrder extends React.Component {
                     bsStyle="primary"
                     onHide={this.closeCallModal}
                 >
-                    <Modal.Header closeButton />
+                    <Modal.Header/>
                     <Modal.Body>
                         <CallModal
                             register={this.state.register}
                             closeCallModal={this.closeCallModal}
+                            isCallModal =  {this.state.isCallModal}
                         />
                     </Modal.Body>
                 </Modal>

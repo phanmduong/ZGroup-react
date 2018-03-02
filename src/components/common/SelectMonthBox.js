@@ -16,14 +16,14 @@ class SelectMonthBox extends React.Component {
         };
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
-        this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
+        this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
     }
 
     handleClickMonthBox() {
         this.setState({isShowMonthBox: true});
     }
 
-    handleAMonthDissmis() {
+    handleAMonthDismiss() {
         this.setState({isShowMonthBox: false});
     }
 
@@ -61,7 +61,7 @@ class SelectMonthBox extends React.Component {
                             lang={pickerLang.months}
                             show={this.state.isShowMonthBox}
                             onChange={this.handleAMonthChange}
-                            onDismiss={this.handleAMonthDissmis}
+                            onDismiss={this.handleAMonthDismiss}
                         >
                             <button
                                 style={{width: '100%'}}

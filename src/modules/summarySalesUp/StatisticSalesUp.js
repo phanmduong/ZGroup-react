@@ -1,6 +1,3 @@
-/**
- * Created by phanmduong on 11/25/17.
- */
 import React from 'react';
 import {connect} from 'react-redux';
 import * as helper from '../../helpers/helper';
@@ -78,7 +75,7 @@ StatisticSalesUp.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        summary: state.summarySales.summary
+        summary: state.summarySalesUp.summary
     };
 }
 

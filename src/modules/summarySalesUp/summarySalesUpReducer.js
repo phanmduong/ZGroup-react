@@ -35,7 +35,7 @@ export default function summarySalesUpReducer(state = initialState.summarySalesU
                 ...state,
                 ...{
                     isLoading: true,
-                    error: false
+                    // error: false
 
                 }
             };
@@ -44,7 +44,7 @@ export default function summarySalesUpReducer(state = initialState.summarySalesU
                 ...state,
                 ...{
                     isLoading: false,
-                    error: false,
+                    // error: false,
                     summary: action.summary,
                 }
             };
@@ -53,7 +53,7 @@ export default function summarySalesUpReducer(state = initialState.summarySalesU
                 ...state,
                 ...{
                     isLoading: false,
-                    error: true
+                    // error: true
                 }
             };
         default:
