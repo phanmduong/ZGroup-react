@@ -40,6 +40,7 @@ class ListOrder extends React.Component {
                                     <th>Trạng thái</th>
                                     <th>Ghi chú</th>
                                     <th>Tổng tiền</th>
+                                    <th>Còn thiếu</th>
                                     <th/>
                                 </tr>
                                 </thead>
@@ -56,6 +57,7 @@ class ListOrder extends React.Component {
                                                        check={checkedPrice[delivery.id] ? (true) : (false)}
                                                        isSendingPrice={this.props.isSendingPrice}
                                                        chooseItem={this.props.chooseItem}
+                                                       showChooseWalletModal={this.props.showChooseWalletModal}
                                             />
                                         );
                                     })
@@ -81,7 +83,8 @@ ListOrder.propTypes = {
     checkAll: PropTypes.bool.isRequired,
     isSendingPrice: PropTypes.bool.isRequired,
     chooseAll: PropTypes.func.isRequired,
-    chooseItem: PropTypes.func.isRequired
+    chooseItem: PropTypes.func.isRequired,
+    showChooseWalletModal: PropTypes.func.isRequired
 };
 
 

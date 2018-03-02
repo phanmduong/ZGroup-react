@@ -120,6 +120,27 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 ...state,
                 currencies: action.currencies
             };
+        case types.TOGGLE_CHOOSE_WALLET_MODAL:
+            return {
+                ...state,
+                chooseWalletModal: !state.chooseWalletModal
+            };
+        case types.HANDLE_CHOOSE_WALLET_MODAL:
+            return {
+                ...state,
+                orderWalletChosen: action.order
+            };
+        case types.BEGIN_CHOOSE_WALLET_ORDERED_PRODUCT:
+            return {
+                ...state,
+                isChoosingWallet: true
+            };
+        case types.CHOOSE_WALLET_ORDERED_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                isChoosingWallet: false,
+                chooseWalletModal: false
+            };
         default:
             return state;
     }

@@ -1,5 +1,4 @@
 export default {
-
     summarySalesUp: {
         bases: [],
         isLoadingBases: false,
@@ -40,11 +39,11 @@ export default {
         currentPage: 1,
         totalCount: 1,
         limit: 20,
-        isChangingStatus : false,
+        isChangingStatus: false,
 
 
-        isLoadingBases : false,
-        bases :[],
+        isLoadingBases: false,
+        bases: [],
     },
 
     bankAccount: {
@@ -120,6 +119,9 @@ export default {
 
     orderedProduct: {
         currencies: [],
+        chooseWalletModal: false,
+        isChoosingWallet: false,
+        orderWalletChosen: {},
         isSendingPrice: false,
         addNoteModal: false,
         addCancelNoteModal: false,
@@ -761,6 +763,8 @@ export default {
         excel: {},
         isLoadingExcel: false,
         isCommittingInfoStudent: false,
+        isLoadingBaseFilter: false,
+        baseFilter: []
     },
 
     profile: {
@@ -1554,8 +1558,8 @@ export default {
             },
         ],
         archivedWorks: [],
-        rateData:{
-            staffs:[],
+        rateData: {
+            staffs: [],
         },
     },
 
@@ -1991,10 +1995,10 @@ export default {
         available_seats: 0,
 
     },
-    orderedGood:{
-      isLoading: false,
-      isCommitting: false,
-      companies: [],
-      goods: [],
-    },
+    orderedGood: {
+        isLoading: false,
+        isCommitting: false,
+        companies: [],
+        goods: [],
+    }
 };
