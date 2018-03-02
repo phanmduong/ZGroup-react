@@ -286,7 +286,8 @@ class ListOrder extends React.Component {
                                             <a
                                                 onClick={() =>
                                                     this.props.openChooseSeatModal(
-                                                        register.base.base.id,
+                                                        register.base.base,
+                                                        register.id                                                        
                                                     )
                                                 }
                                                 style={{ color: "#888" }}

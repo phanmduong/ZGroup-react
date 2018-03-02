@@ -9,6 +9,7 @@ import {
 import { getRooms, getSeats } from "./chooseSeatApi";
 
 export const loadRooms = baseId => {
+    console.log(baseId);
     return async dispatch => {
         dispatch({
             type: CHOOSE_SEAT_BEGIN_LOAD_ROOMS,
