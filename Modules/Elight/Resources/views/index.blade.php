@@ -187,21 +187,12 @@
                                     399.000đ </b> </strong> <br>
                             <strong> Miễn phí vận chuyển Thanh toán khi nhận</strong>
                         </div>
-                        <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                            <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
-                                <div class="col-md-12">
-
-
-
-
-                                    <button v-on:click="openModalBuy({{$goods[0]->id}})"
-                                            onclick="fbq('track', 'AddToCart')"
-                                            class="btn btn-success" style="padding:5px;margin:5px;font-size:10px;">
-                                        Đăng kí ngay <i class="fa fa-angle-right"></i>
-                                    </button>
-
-                                </div>
-                            </div>
+                        <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;margin-top:10px;text-align:center">
+                            <button v-on:click="openModalBuy({{$goods[0]->id}})"
+                                    onclick="fbq('track', 'AddToCart')"
+                                    class="btn btn-success" style="font-size:10px;justify-content:space-between">
+                                Đăng kí ngay <i class="fa fa-angle-right"></i>
+                            </button>
                         </div>
                     </div>
 
