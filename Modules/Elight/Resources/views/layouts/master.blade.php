@@ -258,6 +258,9 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h2 class="medium-title">Thanh toán</h2>
             </div>
+            <div class="modal-header" id="modal-buy-body">
+                <a style="text-align: center">Điền đầy đủ thông tin để hoàn tất đăng ký nhé!</a>
+            </div>
             <div class="modal-body">
                 <form class="register-form ">
                     <h6>Họ và tên</h6>
@@ -299,10 +302,11 @@
                            style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
                     <select v-model="payment" class="form-control" id="sel1">
-                        <option value="Chuyển khoản">Chuyển khoản</option>
-                        <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
-                            Thanh toán trực tiếp khi nhận hàng(COD)
+                        <option value="" selected disabled hidden>Thanh toán trực tiếp khi nhận hàng</option>  
+                        <option value="Thanh toán trực tiếp khi nhận hàng(COD)" selected>
+                            Thanh toán trực tiếp khi nhận hàng
                         </option>
+                        <option value="Chuyển khoản">Chuyển khoản cho Elight</option>                        
                     </select>
                 </form>
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">

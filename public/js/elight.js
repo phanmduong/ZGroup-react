@@ -78,7 +78,9 @@ var modalBuy = new Vue({
         openPurchaseModal: function () {
             $('#modalBuy').modal('hide');
             $('#modalPurchase').modal("show");
-            $("body").css("overflow", "hidden");
+            setTimeout(function() {
+                $("body").attr("class", "profile modal-open");
+            }, 200);          
             modalPurchase.loadingProvince = true;
             modalPurchase.showProvince = false;
             modalPurchase.openModal();
@@ -154,7 +156,7 @@ var modalPurchase = new Vue({
         phone: '',
         email: '',
         address: '',
-        payment: '',
+        payment: 'Thanh toán trực tiếp khi nhận hàng(COD)',
         provinceid: '',
         districtid: '',
         wardid: '',
