@@ -26,7 +26,7 @@ class OrderContainer extends React.Component {
             infoOrder: {},
             optionsSelectStaff: [],
 
-            provinces : [],
+            provinces: [],
             districts: [],
 
         };
@@ -68,8 +68,6 @@ class OrderContainer extends React.Component {
         //         optionsSelectStaff: dataStaffs,
         //     });
         // }
-
-
 
 
         // console.log("NEXTPROPS",nextProps);
@@ -225,7 +223,6 @@ class OrderContainer extends React.Component {
                 value: "cancel"
             }
         ];
-
 
 
         // console.log(this.props.order ,"RENDER");
@@ -472,32 +469,24 @@ class OrderContainer extends React.Component {
                                                 <label className="label-control">Tỉnh/Thành phố</label>
                                                 <ReactSelect
                                                     name="form-field-name"
-                                                    value={this.props.order.order.ship_infor ? this.props.order.order.ship_infor.province: ""}
+                                                    value={this.props.order.order.ship_infor ? this.props.order.order.ship_infor.province : ""}
                                                     options={this.state.provinces}
                                                     // onChange={this.changeProvince}
                                                     placeholder="Chọn tỉnh/thành phố"
-                                                    disabled = {true}
+                                                    disabled={true}
                                                 />
                                             </div>
-                                            {/*{*/}
-                                                {/*this.props.order.order.ship_infor && this.props.order.order.ship_infor.province &&*/}
-                                                <div className="form-group">
-                                                    <label className="label-control">Huyện/Quận</label>
-                                                    <ReactSelect
-                                                        name="form-field-name"
-                                                        value={this.props.order.order.ship_infor ? this.props.order.order.ship_infor.district : ""}
-                                                        options={this.state.districts}
-                                                        // onChange={this.changeDistrict}
-                                                        placeholder="Chọn huyện/quận"
-                                                        disabled = {true}
-                                                    />
-                                                </div>
-                                            // }
-
-
-
-
-
+                                            <div className="form-group">
+                                                <label className="label-control">Huyện/Quận</label>
+                                                <ReactSelect
+                                                    name="form-field-name"
+                                                    value={this.props.order.order.ship_infor ? this.props.order.order.ship_infor.district : ""}
+                                                    options={this.state.districts}
+                                                    // onChange={this.changeDistrict}
+                                                    placeholder="Chọn huyện/quận"
+                                                    disabled={true}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 }
