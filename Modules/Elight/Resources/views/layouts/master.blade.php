@@ -104,7 +104,7 @@
                 Giỏ hàng
                 <div id="booksCount"
                      style="margin-left: 10px; height: 20px; width: 20px; border-radius: 50%; background-color: rgb(197, 0, 0); color: white; display: flex; align-items: center; justify-content: center;">
-                    @{{ books_count }}
+                    @{{books_count}}
                 </div>
             </a>
 

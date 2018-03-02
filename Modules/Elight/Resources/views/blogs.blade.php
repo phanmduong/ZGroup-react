@@ -10,8 +10,7 @@
                 <br><br>
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
-                        <h1 class="title"><b>Blogs</b></h1>
-                        <h3 class=description">Sổ tay tự học</h3>
+                        <h1 class="title"><b>Sổ tay tự học</b></h1>
                         <h5 class="description"> Học Tiếng Anh và chia sẻ kiến thức cùng Elight nhé </h5>
                         <br>
                     </div>
