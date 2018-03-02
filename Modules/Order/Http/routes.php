@@ -73,7 +73,7 @@ $orderRoutes = function () {
 
 $transferMoneyRoutes = function () {
     Route::group(['prefix' => 'v2/transfer-money'], function () {
-        Route::get('/', 'TransferMoneyApiControllwer@getTransfers');
+        Route::get('/', 'TransferMoneyApiController@getTransfers');
         Route::put('/{transferId}', 'TransferMoneyApiController@editTransfer');
         Route::put('/{transferId}/status', 'TransferMoneyApiController@changeTransferStatus');
     });
