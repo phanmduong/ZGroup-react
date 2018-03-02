@@ -398,7 +398,7 @@ class DeliveryOrderApiController extends ManageApiController
         if($request->deposit == 1)
             $money = max($debt, $user->deposit);
         else
-            $money = max($debt, $user->money);
+            $money = min($debt, $user->money);
         if($money == 0) {
             if($debt == 0)
                 return $this->respondErrorWithStatus('Đơn hàng đã được thanh toán xong trước đó');
