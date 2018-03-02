@@ -24,7 +24,11 @@ class OrderContainer extends React.Component {
         super(props, context);
         this.state = {
             infoOrder: {},
-            optionsSelectStaff: []
+            optionsSelectStaff: [],
+
+            provinces : [],
+            districts: [],
+
         };
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
         this.updateOrderFormData = this.updateOrderFormData.bind(this);
@@ -35,30 +39,63 @@ class OrderContainer extends React.Component {
         this.openReturnOrder = this.openReturnOrder.bind(this);
         this.loadWarehouses = this.loadWarehouses.bind(this);
         this.changeWarehouse = this.changeWarehouse.bind(this);
+        // this.changeDistrict = this.changeDistrict.bind(this);
+        // this.changeProvince = this.changeProvince.bind(this);
         this.resetReturnOrders = this.resetReturnOrders.bind(this);
         this.editReturnOrders = this.editReturnOrders.bind(this);
+        // console.log(this.props.order , "qqqqqqqqqqqqqq");
     }
 
     componentWillMount() {
+        this.props.goodOrderActions.loadAllProvinces();
         this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
-        // this.props.goodOrderActions.loadProvinces();
         // this.props.goodOrderActions.loadStaffs();
+        // console.log(this.props.order ,"WILLMOUNT");
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
-            let dataStaffs = [];
-            nextProps.staffs.forEach(staff => {
-                dataStaffs.push({
-                    ...staff, ...{
-                        value: staff.id,
-                        label: staff.name
-                    }
-                });
+        // if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
+        //     let dataStaffs = [];
+        //     nextProps.staffs.forEach(staff => {
+        //         dataStaffs.push({
+        //             ...staff, ...{
+        //                 value: staff.id,
+        //                 label: staff.name
+        //             }
+        //         });
+        //     });
+        //     this.setState({
+        //         optionsSelectStaff: dataStaffs,
+        //     });
+        // }
+
+
+
+
+        // console.log("NEXTPROPS",nextProps);
+        if (nextProps.isLoadingProvinces !== this.props.isLoadingProvinces && !nextProps.isLoadingProvinces) {
+            const provinces = nextProps.provinces.map((province) => {
+                return {
+                    ...province,
+                    value: province.name,
+                    label: province.name
+                };
             });
-            this.setState({
-                optionsSelectStaff: dataStaffs,
-            });
+            this.setState({provinces});
+        }
+
+
+        if (!nextProps.isLoadingProvinces && nextProps.provinces
+            && nextProps.provinces.length > 0 && nextProps.order.order.ship_infor.province && this.state.districts.length <= 0) {
+            const province = nextProps.provinces.filter(province => province.name === nextProps.order.order.ship_infor.province)[0];
+            const districts = province ? province.districts.map((district) => {
+                return {
+                    ...district,
+                    value: district.name,
+                    label: district.name
+                };
+            }) : [];
+            this.setState({districts});
         }
     }
 
@@ -144,6 +181,25 @@ class OrderContainer extends React.Component {
         e.preventDefault();
     }
 
+    // changeDistrict(district) {
+    //     let customer = {...this.props.order.order.customer};
+    //     customer['district_id'] = district ? district.id : '';
+    //     this.props.goodOrderActions.updateCustomerFormData(base);
+    // }
+    // changeProvince(province) {
+    //     let customer = {...this.props.order.order.customer};
+    //     customer['province_id'] = province ? province.id : '';
+    //     const districts = province ? province.districts.map((district) => {
+    //         return {
+    //             ...district,
+    //             value: district.id,
+    //             label: district.name
+    //
+    //         };
+    //     }) : [];
+    //     this.setState({districts});
+    //     this.props.baseListActions.updateCustomerFormData(base);
+    // }
 
     render() {
 
@@ -171,6 +227,8 @@ class OrderContainer extends React.Component {
         ];
 
 
+
+        // console.log(this.props.order ,"RENDER");
 
 
         const user = JSON.parse(localStorage.getItem("user"));
@@ -410,6 +468,33 @@ class OrderContainer extends React.Component {
                                             />
 
 
+                                            <div className="form-group">
+                                                <label className="label-control">Tỉnh/Thành phố</label>
+                                                <ReactSelect
+                                                    name="form-field-name"
+                                                    value={this.props.order.order.ship_infor ? this.props.order.order.ship_infor.province: ""}
+                                                    options={this.state.provinces}
+                                                    // onChange={this.changeProvince}
+                                                    placeholder="Chọn tỉnh/thành phố"
+                                                    disabled = {true}
+                                                />
+                                            </div>
+                                            {/*{*/}
+                                                {/*this.props.order.order.ship_infor && this.props.order.order.ship_infor.province &&*/}
+                                                <div className="form-group">
+                                                    <label className="label-control">Huyện/Quận</label>
+                                                    <ReactSelect
+                                                        name="form-field-name"
+                                                        value={this.props.order.order.ship_infor ? this.props.order.order.ship_infor.district : ""}
+                                                        options={this.state.districts}
+                                                        // onChange={this.changeDistrict}
+                                                        placeholder="Chọn huyện/quận"
+                                                        disabled = {true}
+                                                    />
+                                                </div>
+                                            // }
+
+
 
 
 
@@ -460,7 +545,9 @@ class OrderContainer extends React.Component {
 OrderContainer.propTypes = {
     isLoading: PropTypes.bool,
     isLoadingStaffs: PropTypes.bool.isRequired,
+    isLoadingProvinces: PropTypes.bool.isRequired,
     staffs: PropTypes.array.isRequired,
+    provinces: PropTypes.array.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     order: PropTypes.object,
@@ -473,6 +560,8 @@ OrderContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading: state.goodOrders.order.isLoading,
+        isLoadingProvinces: state.goodOrders.order.isLoadingProvinces,
+        provinces: state.goodOrders.order.provinces,
         isOpenReturnOrder: state.goodOrders.order.isOpenReturnOrder,
         isSaving: state.goodOrders.order.isSaving,
         isLoadingStaffs: state.goodOrders.isLoadingStaffs,

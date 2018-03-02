@@ -1028,6 +1028,8 @@ export default {
     },
 
     goodOrders: {
+        // provinces :[],
+        // isLoadingProvinces : false,
         warehousesList: [],
         selectWarehouseModal: false,
         isLoadingWarehouse: false,
@@ -1077,6 +1079,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isLoadingProvinces : false,
             provinces: [],
             isOpenReturnOrder: false,
             isSaving: false,
@@ -1105,8 +1108,9 @@ export default {
                     name: "test",
                     address: "HN",
                     phone: "test",
-                    email: "po01636863831@gmail.com"
+                    email: "po01636863831@gmail.com",
                 },
+
 
 
                 return_orders: [],

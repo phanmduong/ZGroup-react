@@ -267,6 +267,7 @@ class SummarySalesUpContainer extends React.Component {
 
                             <SummarySalesComponent
                                 {...this.props}
+                                summary = {this.props.summary}
                                 loadSummary={this.loadSummary}
                             />
                         </div>
