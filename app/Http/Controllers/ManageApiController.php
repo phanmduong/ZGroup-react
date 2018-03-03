@@ -63,6 +63,12 @@ class ManageApiController extends Controller
         return $this;
     }
 
+    public function respondSuccessV2($data)
+    {
+        $data['status'] = 1;
+        return $data;
+    }
+
     public function respond($data, $headers = [])
     {
         return response()->json($data, $this->getStatusCode(), $headers);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tt
@@ -92,6 +93,29 @@ class CustomerController extends ManageApiController
                 }),
             ]
         );
+    }
+
+    public function getCustomers(Request $request)
+    {
+        $keyword = $request->search;
+        
+        $customers = User::where(function($query) use ($keyword){
+            $query->where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('email', 'like', '%' . $keyword . '%')
+                ->orWhere('phone', 'like', '%' . $keyword . '%');
+        }); 
+        $customers = $customers->limit(20)->get();
+
+        return $this->respondSuccessWithStatus([
+            'customers' => $customers->map(function($customer){
+                return [
+                    'id' => $customer->id,
+                    'name' => $customer->name,
+                    'phone' => $customer->phone,
+                    'email' => $customer->email,
+                ];
+            })
+        ]);
     }
 
     public function countMoney()
