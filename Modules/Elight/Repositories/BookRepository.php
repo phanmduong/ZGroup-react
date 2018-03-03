@@ -168,11 +168,11 @@ class BookRepository
 //            $coupon = 0;
             $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
         }
-        $subject = "Xác nhận đặt hàng thành công";
+        $subject = "Xác nhận đặt sách thành công";
         $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
         $emailcc = ["graphics@colorme.vn"];
-        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
+        Mail::send('emails.confirm_buy_book_elight', $data, function ($m) use ($order, $subject, $emailcc) {
+            $m->from('no-reply@colorme.vn', 'Elight');
             $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
         });
         if ($payment === "Thanh toán online") {
