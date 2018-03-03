@@ -21,7 +21,17 @@
     <link href="/elight-assets/css/demo.css?12321" rel="stylesheet"/>
     <link href="/assets/css/elight.css" rel="stylesheet">
 
-
+    <style>
+        .nav-pills-primary > li > a, .pagination-primary > li > a, .pagination-primary > li > span, .pagination-primary > li:first-child > a, .pagination-primary > li:first-child > span, .pagination-primary > li:last-child > a, .pagination-primary > li:last-child > span {
+            border: 2px solid #138edc;
+            color: #138edc;
+        }
+        .nav-pills-primary > li.active > a, .nav-pills-primary > li.active > a:hover, .nav-pills-primary > li.active > a:focus, .pagination-primary > li > a:hover, .pagination-primary > li > a:focus, .pagination-primary > li > a:active, .pagination-primary > li.active > a, .pagination-primary > li.active > span, .pagination-primary > li.active > a:hover, .pagination-primary > li.active > span:hover, .pagination-primary > li.active > a:focus, .pagination-primary > li.active > span:focus {
+            background-color: #138edc !important;
+            border-color: #138edc !important;
+            color: #FFFFFF;
+        }
+    </style>
 
     <script>
         window.url = "{{url("/")}}";
@@ -81,16 +91,30 @@
             <span class="navbar-toggler-bar"></span>
             <span class="navbar-toggler-bar"></span>
         </button>
+
         <a class="navbar-brand" href="/" style="padding: 5px!important;">
-            <img src="http://elightbook.com/assets/img/Elight%20Logo%20Black%20copy.png" height="40px">
+            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" height="40px">
         </a>
+        <a id="openWithoutAdd" href="javascript:void(0)" data-scroll="true"
+           v-on:click="openModalBuyWithoutAdd()"
+                                                            class="navbar-brand"
+                                                            style="display:inline-flex; align-content: center; color: white !important; font-weight: 570; font-size: 14px; text-transform: uppercase; padding: 5px; line-height: 1.7em;max-width:140px"><i
+                        class="fa fa-shopping-cart" style="font-size: 16px; padding: 2px 0px 0px;"></i>
+                &nbsp;
+                Giỏ hàng
+                <div id="booksCount"
+                     style="margin-left: 10px; height: 20px; width: 20px; border-radius: 50%; background-color: rgb(197, 0, 0); color: white; display: flex; align-items: center; justify-content: center;">
+                    @{{books_count}}
+                </div>
+            </a>
+
         <div id="openWithoutAdd" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" style="color:white" href="http://elightbook.com/" data-scroll="true">Sách tiếng
                         anh cơ bản</a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" style="color:white" href="/all-books" data-scroll="true">Thư Viện Tự Học</a>
                 </li>
@@ -101,16 +125,9 @@
                     <a class="nav-link" style="color:white" href="/about-us" data-scroll="true">Về chúng tôi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" data-scroll="true"
-                       v-on:click="openModalBuyWithoutAdd()"
-                       style="display: flex; align-content: center; color:white">
-                        <i class="fa fa-shopping-cart"></i>
-                        &nbsp
-                        Giỏ hàng
-                        <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
-                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center; display: none!important;">
-                            @{{ books_count }}
-                        </div>
+                    <a class="btn btn-round  btn-xs" style="background-color: #F9A602; border-color:#F9A602"
+                       href="tel:+84981937066">
+                        0981 937 066
                     </a>
                 </li>
             </ul>
@@ -123,11 +140,11 @@
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-12" 
-            style="display: flex;
+            <div class="col-md-2 col-sm-3 col-xs-12"
+                 style="display: flex;
                 flex-direction: column;
                 align-items: center;">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" width="150px">
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195676838huzFKfrZGBzyEC.png" width="150px">
                 <div><h5 style="text-align: center">Nhà Sách Elight</h5></div>
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
@@ -137,7 +154,7 @@
                             <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a href="/">
-                                        Trang chủ
+                                        <h5><b> Trang chủ </b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -164,7 +181,7 @@
                             <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Sản phẩm nổi bật</b></h5>
+                                        <h5><b>Sản phẩm</b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -174,12 +191,12 @@
                                 </li>
                                 <li>
                                     <a>
-                                    Khoá học Online
+                                        Khoá học Online
                                     </a>
                                 </li>
                                 <li>
                                     <a>
-                                    Khoá học Trung Tâm
+                                        Khoá học Trung Tâm
                                     </a>
                                 </li>
                             </ul>
@@ -187,10 +204,10 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                        <ul class="uppercase-links stacked-links">
+                            <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Liên hệ</b></h5>
+                                        <h5><b>Liên hệ</b></h5>
                                     </a>
                                 </li>
                                 <li>
@@ -199,8 +216,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                <a href="tel:01628 766 444">
-                                Hợp tác<br> 01628 766 444 
+                                    <a href="tel:01628 766 444">
+                                        Hợp tác<br> 01628 766 444
                                     </a>
                                 </li>
                             </ul>
@@ -208,57 +225,30 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6">
                         <div class="links">
-                        <ul class="uppercase-links stacked-links">
+                            <ul class="uppercase-links stacked-links">
                                 <li>
                                     <a>
-                                        <h5 style="text-align:center"><b>Địa chỉ</b></h5>
+                                        <h5><b>Địa chỉ</b></h5>
                                     </a>
                                 </li>
                                 <li>
                                     <a>
-                                        <h6 style="text-align:center;font-weight: 200">
-                                        146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
+                                        <h6 style="font-weight: 200">
+                                            146 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
                                         </h6>
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="copyright">
-                    <div class="pull-left">
-                        ©
-                        <script>document.write(new Date().getFullYear())</script>
-                        KEETOOL
-                    </div>
-                    <div class="links pull-right">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    Điều khoản
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Thanh toán
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Vận chuyển
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
-        </div>
+            <hr>
 
+        </div>
     </div>
+
+
 </footer>
 
 <div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
@@ -267,6 +257,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h2 class="medium-title">Thanh toán</h2>
+            </div>
+            <div class="modal-header" id="modal-buy-body">
+                <a style="text-align: center">Điền đầy đủ thông tin để hoàn tất đăng ký nhé!</a>
             </div>
             <div class="modal-body">
                 <form class="register-form ">
@@ -277,43 +270,22 @@
                     <h6>Email</h6>
                     <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
-                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>
-                    </div>
-                    <select v-if="showProvince"
-                            v-model="provinceid"
-                            v-on:change="changeProvince"
-                            class="form-control" placeholder="Tỉnh/Thành phố">
-                        <option value="">Tỉnh, Thành phố</option>
-                        <option v-for="province in provinces" v-bind:value="province.provinceid">
-                            @{{province.name}}
-                        </option>
-                    </select>
-                    <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>
-                    </div>
-                    <select v-if="showDistrict"
-                            v-model="districtid"
-                            class="form-control"
-                            style="margin-top: 5px"
-                            id="">
-                        <option value="">Quận, Huyện</option>
-                        <option v-for="district in districts" v-bind:value="district.districtid">
-                            @{{district.name}}
-                        </option>
-                    </select>
-
-
                     <input v-model="address" type="text" class="form-control"
-                           placeholder="Đường, số nhà"
+                           placeholder="Địa chỉ của bạn"
                            style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
-                    <select v-model="payment" class="form-control" id="sel1">
-                        <option value="Chuyển khoản">Chuyển khoản</option>
-                        <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
-                            Thanh toán trực tiếp khi nhận hàng(COD)
-                        </option>
-                    </select>
+                    <div class="radio">
+                        <input type="radio" id="cod" v-model="payment" value="Thanh toán trực tiếp khi nhận hàng(COD)" checked>
+                        <label for="cod">
+                            Thanh toán trực tiếp khi nhận hàng
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="transfer" v-model="payment" value="Chuyển khoản">
+                        <label for="transfer">
+                            Chuyển khoản cho Elight
+                        </label> 
+                    </div>
                 </form>
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     Bạn vui lòng nhập đầy đủ thông tin
@@ -344,7 +316,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h2 class="medium-title">Giỏ hàng</h2>
+                <h2 class="medium-title">Đăng ký mua sách</h2>
+            </div>
+
+            <div class="modal-header" id="modal-buy-body">
+                <a style="text-align: center">Cảm ơn bạn! dưới đây là sản phẩm bạn muốn đặt mua</a>
             </div>
 
             <div class="modal-body" id="modal-buy-body">
@@ -377,11 +353,11 @@
                                 <b style="font-weight:600;"> @{{ good.number }} </b>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p>@{{ good.price * (1 - good.coupon_value)}}</p>
+                                <p>@{{ ( good.price * (1 - good.coupon_value))}}</p>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) *
-                                        good.number}}</b>
+                                <p><b style="font-weight:600;">@{{(good.price * (1 - good.coupon_value) *
+                                        good.number)}}</b>
                                 </p>
                             </div>
                         </div>
@@ -392,15 +368,15 @@
                             <h4 class="text-left"><b>Tổng</b></h4>
                         </div>
                         <div class="col-md-8">
-                            <h4 class="text-right"><b>@{{ price_vnd }}</b></h4>
+                            <h4 class="text-right"><b>@{{(price_vnd)}}</b></h4>
                         </div>
                     </div>
                     <div class="row" style="padding-top:20px;">
                         <div class="col-md-12">
-                            <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:</div>
-                            <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
-                            <div>Ship vào Sài Gòn: 30k</div>
-                            <div>Ship đến tỉnh thành khác: 30k</div>
+                            <div style="font-weight: 600">Lưu ý: Elight miễn phí vận chuyển toàn quốc.</div>
+                            <div>- Elight hỗ trợ thanh toán trực tiếp khi nhận.</div>
+                            <div>- Bấm vào nút <b>Đồng ý </b>để xác nhận sản phẩm muốn đặt, đăng ký.</div>
+                            <div>- Bấm vào nút <b>Thêm sản phẩm </b>để thêm các sản phẩm khác vào đơn hàng.</div>
                         </div>
                     </div>
                 </div>
@@ -409,7 +385,7 @@
                             style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
                     <button id="btn-purchase"
                             v-on:click="openPurchaseModal()"
-                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Đồng ý <i
                                 class="fa fa-angle-right"></i></button>
                 </div>
             </div>
@@ -435,56 +411,7 @@
     </div>
 </div>
 
-<div id="modalInfo" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Who are you?</h4>
-            </div>
-            <div class="modal-body">
-                <form action="" method="GET">
-                    <div class="card-block">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Họ</label>
-                                    <input id="lastname" type="text" name="name" class="form-control" placeholder="Ví dụ: Nguyễn">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Tên</label>
-                                    <input id="firstname" type="text" name="name" class="form-control" placeholder="Ví dụ: Lan Anh">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Số điện thoại</label>
-                            <input id="phone" type="text" name="phone" class="form-control" placeholder="Ví dụ: 0166799xxxx">
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Email</label>
-                            <input id="e-email" type="email" name="email" class="form-control" placeholder="Ví dụ: android@colorme.vn">
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Lời nhắn</label>
-                            <textarea id="e-message" name="question" class="form-control" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
-                        </div>
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Send</button>
-                        </div>
-                        <div class="clearfix"></div>
 
-                    </div>
-                </form>
-            </div>
-        </div>
-
-    </div>
-</div>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/tether.min.js" type="text/javascript"></script>
@@ -493,7 +420,6 @@
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/paper-kit.js?v=2.0.0"></script>
 
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/demo.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <!--  Plugins for presentation page -->
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/main.js"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/jquery.sharrre.js"></script>
@@ -539,15 +465,35 @@
 
 </script>
 <script>
-    window.onload = function(e){
-        setTimeout(function(){
-            $('#modalInfo').modal('show');
-        },30000);
-    };
+    function paginator(currentPageData, totalPagesData) {
+        var page = [];
+        var currentPage = currentPageData;
+        var totalPages = totalPagesData;
+
+        var startPage = (currentPage - 2 > 0 ? currentPage - 2 : 1);
+        for (var i = startPage; i <= currentPage; i++) {
+            page.push(i);
+        }
+
+        var endPage = (5 - page.length + currentPage >= totalPages ? totalPages : 5 - page.length + currentPage);
+
+        for (var i = currentPage + 1; i <= endPage; i++) {
+            page.push(i);
+        }
+
+        if (page && page.length < 5) {
+            var pageData = Object.assign(page);
+            for (var i = page[0] - 1; i >= (page[0] - (5 - page.length) > 0 ? page[0] - (5 - page.length) : 1); i--) {
+                pageData.unshift(i);
+            }
+            page = pageData;
+        }
+
+        return page;
+    }
 </script>
 
 @stack("scripts")
 
 </body>
-
 </html>

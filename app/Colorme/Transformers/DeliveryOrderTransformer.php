@@ -18,6 +18,10 @@ class DeliveryOrderTransformer extends Transformer
 
     public function transform($deliveryOrder)
     {
+        $total = $deliveryOrder->status == 'place_order' ? 0 : ($deliveryOrder->price ? $deliveryOrder->price :0);
+        $paid = $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+            return $paid + $orderPaidMoney->money;
+        }, 0);
         $data = [
             'id' => $deliveryOrder->id,
             'note' => $deliveryOrder->note,
@@ -26,17 +30,12 @@ class DeliveryOrderTransformer extends Transformer
             'payment' => $deliveryOrder->payment,
             'created_at' => format_vn_short_datetime(strtotime($deliveryOrder->created_at)),
             'status' => $deliveryOrder->status,
-            'total' => $deliveryOrder->status == 'place_order' ? $deliveryOrder->price : 0,
-            'paid' => $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-                return $paid + $orderPaidMoney->money;
-            }, 0),
-            'debt' => $deliveryOrder->status == 'place_order' ? ($deliveryOrder->price - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-                    return $paid + $orderPaidMoney->money;
-                }, 0)) : 0,
+            'total' => $total,
+            'paid' => $paid,
+            'debt' => $total - $paid,
             'attach_info' => $deliveryOrder->attach_info,
-            'price' => $deliveryOrder->price,
             'quantity' => $deliveryOrder->quantity,
-            'paid_history' => $this->orderPaidMoneys->map(function ($orderPaidMoney) {
+            'paid_history' => $deliveryOrder->orderPaidMoneys->map(function ($orderPaidMoney) {
                 return [
                     "id" => $orderPaidMoney->id,
                     "money" => $orderPaidMoney->money,
@@ -59,6 +58,8 @@ class DeliveryOrderTransformer extends Transformer
                 'address' => $deliveryOrder->user->address,
                 'phone' => $deliveryOrder->user->phone,
                 'email' => $deliveryOrder->user->email,
+                'money' => $deliveryOrder->user->money,
+                'deposit' => $deliveryOrder->user->deposit
             ];
         }
         if ($deliveryOrder->ship_infor) {

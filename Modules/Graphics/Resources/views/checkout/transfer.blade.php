@@ -7,8 +7,8 @@
         khoản:
     </p>
     <p>
-        Tên tài khoản: VU CHI CONG<br/>
-        Số tài khoản: 04 51 00 04 27 664 <br/>
-        Ngân hàng: Vietcombank Thành Công.
+        Tên tài khoản: NGUYEN QUANG HUNG<br/>
+        Số tài khoản: 09 91 00 00 39 263 <br/>
+        Ngân hàng: Vietcombank Tây Hồ.
     </p>
 </div>
