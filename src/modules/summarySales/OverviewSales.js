@@ -26,14 +26,14 @@ class OverviewSales extends React.Component {
         this.loadSummary = this.loadSummary.bind(this);
     }
     componentWillMount() {
-        // this.props.summarySalesActions.loadSummarySalesData();
+        this.props.summarySalesActions.loadSummarySalesData();
         this.loadSummary();
-         console.log("aaaaaaa");
+         // console.log("aaaaaaa");
     }
     componentDidMount() {
         // this.props.summarySalesActions.loadSummarySalesData();
         this.loadSummary();
-         console.log("aaaaaaa");
+         // console.log("aaaaaaa");
     }
 
     convertData(campaigns) {

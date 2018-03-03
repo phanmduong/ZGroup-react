@@ -57,6 +57,19 @@ export function changeCallStatusApi(status, note, register_id, user_id) {
     });
 }
 
+export function savePaymentApi(money, register_id, user_id) {
+    let url = env.MANAGE_API_URL + '/company/payment/create?';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.post(url, {
+        "register_id": register_id,
+        "user_id": user_id,
+        "money_value": money,
+    });
+}
+
 export function loadBases() {
     let url = env.MANAGE_API_URL + "/base/all";
     let token = localStorage.getItem('token');

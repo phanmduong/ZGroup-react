@@ -5,24 +5,44 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as registerManageAction from './registerManageAction';
 import moment from "moment/moment";
+import TooltipButton from "../../components/common/TooltipButton";
 
 function parseTime(x) {
     let hour = moment(x, "HH:mm DD-MM-YYYY").format("HH:mm");
-    let date = moment( x, "HH:mm DD-MM-YYYY").format("DD");
+    let date = moment(x, "HH:mm DD-MM-YYYY").format("DD");
     let mouth = moment(x, "HH:mm DD-MM-YYYY").format("MM");
     let year = moment(x, "HH:mm DD-MM-YYYY").format("YYYY");
-    return "Ngày "+ date + " tháng " + mouth + " năm " + year + " , " + hour;
+    return "Ngày " + date + " tháng " + mouth + " năm " + year + " , " + hour;
+}
+
+function parseTimePayment(x) {
+    let hour = moment(x, "YYYY-MM-DD HH:mm").format("HH:mm");
+    let date = moment(x, "YYYY-MM-DD HH:mm").format("DD");
+    let mouth = moment(x, "YYYY-MM-DD HH:mm").format("MM");
+    let year = moment(x, "YYYY-MM-DD HH:mm").format("YYYY");
+    return "Ngày " + date + " tháng " + mouth + " năm " + year + " , " + hour;
 }
 
 class CallModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note: "",money: 0};
+        this.state = {note: "", money: null};
         this.changeCallStatus = this.changeCallStatus.bind(this);
+        this.savePayment = this.savePayment.bind(this);
         // console.log(parseTime("00:57 06-02-2018"),moment("00:57 06-02-2018", "HH:mm DD-MM-YYYY").add(2,"days").format("DD"),"sad");
     }
-    changeCallStatus(status,note,register_id,user_id){
-        this.props.registerManageAction.changeCallStatus(status,note,register_id,user_id,this.props.closeCallModal);
+
+    changeCallStatus(status, note, register_id, user_id) {
+        this.props.registerManageAction.changeCallStatus(status, note, register_id, user_id, this.props.closeCallModal);
+    }
+    savePayment(money, register_id , user_id){
+
+        if (this.state.money === null || this.state.money === undefined || this.state.money === '') {
+            helper.showTypeNotification("Vui lòng điền số tiền", 'warning');
+        }
+        else {
+            this.props.registerManageAction.savePayment(money,register_id,user_id,this.props.closeCallModal);
+        }
     }
 
 
@@ -158,7 +178,7 @@ class CallModal extends React.Component {
                                    data-parent="#accordion" href="#collapseFour" aria-expanded="false"
                                    aria-controls="collapseFour">
                                     <h4 className="panel-title">
-                                        Lịch sử gọi điện
+                                        {this.props.isCallModal ? "Lịch sử gọi điện" : "Lịch sử trả tiền"}
                                         <i className="material-icons">keyboard_arrow_down</i>
                                     </h4>
                                 </a>
@@ -167,37 +187,75 @@ class CallModal extends React.Component {
                                  aria-labelledby="headingFour" aria-expanded="false" style={{height: '0px'}}>
                                 <ul className="timeline timeline-simple">
                                     {
-                                        register.teleCalls && register.teleCalls.map((history, index) => {
-                                            let btn = '';
-                                            if (history.call_status === 1) {
-                                                btn = ' success';
-                                            }
+                                        this.props.isCallModal ?
+                                            (
+                                                register.teleCalls && register.teleCalls.map((history, index) => {
+                                                    let btn = '';
+                                                    if (history.call_status === 1) {
+                                                        btn = ' success';
+                                                    }
 
-                                            else if (history.call_status === 0) {
-                                                btn = ' danger';
-                                            }
-                                            return (
-                                                <li className="timeline-inverted" key={index}>
-                                                    <div className={"timeline-badge " + btn}>
-                                                        <i className="material-icons">phone</i>
-                                                    </div>
-                                                    <div className="timeline-panel">
-                                                        <div className="timeline-heading">
+                                                    else if (history.call_status === 0) {
+                                                        btn = ' danger';
+                                                    }
+                                                    return (
+                                                        <li className="timeline-inverted" key={index}>
+                                                            <div className={"timeline-badge " + btn}>
+                                                                <i className="material-icons">phone</i>
+                                                            </div>
+                                                            <div className="timeline-panel">
+                                                                <div className="timeline-heading">
                                                                 <span className="label label-default"
                                                                       style={{backgroundColor: '#' + history.caller.color}}>
                                                                             {history.caller.name}
                                                                 </span>
-                                                            <span
-                                                                className="label label-default">{parseTime(history.created_at)}
+                                                                    <span
+                                                                        className="label label-default">{parseTime(history.created_at)}
                                                                 </span>
+                                                                </div>
+                                                                <div className="timeline-body">
+                                                                    {history.note}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    );
+                                                })) : (
+                                            register.historyPayments && register.historyPayments.map((payment, index) => {
+                                                // let btn = '';
+                                                // if (history.call_status === 1) {
+                                                //     btn = ' success';
+                                                // }
+                                                //
+                                                // else if (history.call_status === 0) {
+                                                //     btn = ' danger';
+                                                // }
+                                                return (
+                                                    <li className="timeline-inverted" key={index}>
+                                                        <TooltipButton text={payment.staff.phone} placement="top">
+                                                            <a className={"timeline-badge success"}
+                                                               href={"tel:" + payment.staff.phone}
+                                                            >
+                                                                <i className="material-icons">phone</i>
+                                                            </a>
+                                                        </TooltipButton>
+
+                                                        <div className="timeline-panel">
+                                                            <div className="timeline-heading">
+                                                                <span className="label label-default"
+                                                                      style={{backgroundColor: '#' + payment.staff.color}}>
+                                                                            {payment.staff.name}
+                                                                </span>
+                                                                <span
+                                                                    className="label label-default">{parseTimePayment(payment.created_at.date)}
+                                                                </span>
+                                                            </div>
+                                                            <div className="timeline-body">
+                                                                {payment.money_value+ " đ"}
+                                                            </div>
                                                         </div>
-                                                        <div className="timeline-body">
-                                                            {history.note}
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            );
-                                        })
+                                                    </li>
+                                                );
+                                            }))
                                     }
                                 </ul>
                             </div>
@@ -243,24 +301,46 @@ class CallModal extends React.Component {
                     )
                     :
                     (
-                        <div>
-                            <button type="button" className="btn btn-success btn-round"
-                                    data-dismiss="modal"
-                                    onClick={() => {
-                                        this.changeCallStatus(1,this.state.note, register.id,register.user.id);
-                                    }}>
-                                <i className="material-icons">phone</i>
-                                Gọi thành công
-                            </button>
-                            <button type="button" className="btn btn-danger btn-round"
-                                    data-dismiss="modal"
-                                    onClick={() => {
-                                        this.changeCallStatus(0,this.state.note, register.id,register.user.id);
-                                    }}>
-                                <i className="material-icons">phone</i>
-                                Không gọi được
-                            </button>
-                        </div>
+                        this.props.isCallModal ?
+                            (
+                                <div>
+                                    <button type="button" className="btn btn-success btn-round"
+                                            data-dismiss="modal"
+                                            onClick={() => {
+                                                this.changeCallStatus(1, this.state.note, register.id, register.user.id);
+                                            }}>
+                                        <i className="material-icons">phone</i>
+                                        Gọi thành công
+                                    </button>
+                                    <button type="button" className="btn btn-danger btn-round"
+                                            data-dismiss="modal"
+                                            onClick={() => {
+                                                this.changeCallStatus(0, this.state.note, register.id, register.user.id);
+                                            }}>
+                                        <i className="material-icons">phone</i>
+                                        Không gọi được
+                                    </button>
+                                </div>
+                            ) : (
+                                <div>
+                                    <button type="button" className="btn btn-success btn-round"
+                                            data-dismiss="modal"
+                                            onClick={() => {
+                                                this.savePayment(this.state.money, register.id, register.user.id);
+                                            }}>
+                                        <i className="material-icons">save</i>
+                                        Lưu
+                                    </button>
+                                    <button type="button" className="btn btn-danger btn-round"
+                                            data-dismiss="modal"
+                                            onClick={() => {
+                                                this.props.closeCallModal();
+                                            }}>
+                                        <i className="material-icons">close</i>
+                                        Hủy
+                                    </button>
+                                </div>
+                            )
                     )
                 }
             </div>
