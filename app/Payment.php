@@ -20,7 +20,7 @@ class Payment extends Model
     }
     public function staff()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 
     public function transform()
@@ -41,7 +41,13 @@ class Payment extends Model
     {
         return [
             "id" => $this->id,
-            "staff" => $this->staff ? $this->staff->transform() : [],
+            "staff" => $this->staff ? [
+                "id" => $this->staff->id,
+                "username" => $this->staff->username,
+                "phone" => $this->staff->phone,
+                "avatar_url" => $this->staff->avatar_url,
+                "name" => $this->staff->name,
+             ]:[],
             "description" => $this->description,
             "money_value" => $this->money_value,
             "status" => $this->status,
