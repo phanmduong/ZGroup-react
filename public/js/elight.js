@@ -157,46 +157,8 @@ var modalPurchase = new Vue({
         email: '',
         address: '',
         payment: 'Thanh toán trực tiếp khi nhận hàng(COD)',
-        provinceid: '',
-        districtid: '',
-        wardid: '',
-        loadingProvince: false,
-        showProvince: false,
-        loadingDistrict: false,
-        showDistrict: false,
-        provinces: [],
-        districts: [],
     },
     methods: {
-        getProvinces: function () {
-            axios.get(window.url + '/province')
-                .then(function (response) {
-                    this.provinces = response.data.provinces;
-                    this.loadingProvince = false;
-                    this.showProvince = true;
-                }.bind(this))
-                .catch(function (error) {
-
-                });
-        },
-        getDistricts: function () {
-            axios.get(window.url + '/district/' + this.provinceid)
-                .then(function (response) {
-                    this.districts = response.data.districts;
-                    this.loadingDistrict = false;
-                    this.showDistrict = true;
-                }.bind(this))
-                .catch(function (error) {
-
-                });
-        },
-        openModal: function () {
-            this.getProvinces();
-        },
-        changeProvince: function () {
-            this.loadingDistrict = true;
-            this.getDistricts();
-        },
         submitOrder: function () {
             $("#purchase-error").css("display", "none");
             $("#btn-purchase-group").css("display", "none");
@@ -212,8 +174,6 @@ var modalPurchase = new Vue({
                 name: this.name,
                 phone: this.phone,
                 email: this.email,
-                provinceid: this.provinceid ? this.provinceid : '01',
-                districtid: this.districtid ? this.districtid : '001',
                 address: this.address,
                 payment: this.payment,
                 _token: window.token,
