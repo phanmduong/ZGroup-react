@@ -116,6 +116,7 @@ export function chooseWalletApi(order, wallet) {
         url += "?token=" + token;
     }
     return axios.post(url, {
-        deposit: wallet
+        deposit: wallet,
+        money: order.money
     });
 }
