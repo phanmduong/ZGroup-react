@@ -214,8 +214,8 @@
                 </div>
                 <div class="modal-header" id="modal-buy-body">
                     <a style="text-align: center">
-                    Muốn sử dụng những sản phẩm tuyện vời của Elight, hay quan tâm đến cơ hội hợp tác, tuyển dụng của<br>
-                    chúng tôi ? Hãy để lại lời nhắn nhé !
+                        Muốn sử dụng những sản phẩm tuyện vời của Elight, hay quan tâm đến cơ hội hợp tác, tuyển dụng của<br>
+                        chúng tôi ? Hãy để lại lời nhắn nhé !
                     </a>
                 </div>
                 <div class="modal-body">
@@ -223,14 +223,14 @@
                         <div class="card-block">
                             <div class="form-group label-floating">
                                 <input id="message" type="text" name="message" class="form-control"
-                                    placeholder="Lời nhắn của bạn" style="line-height:30px">
+                                    placeholder="Lời nhắn của bạn" style="height:60px">
                             </div>
                             <div class="form-group label-floating">
                                 <label class="control-label">Liên hệ</label>
-                                <input id="name" type="text" name="name" class="form-control"
-                                    placeholder="Họ và tên">
-                                <input id="phone" type="text" name="phone" class="form-control"
-                                    placeholder="Số điện thoại">
+                                    <input id="name" type="text" name="name" class="form-control"
+                                        placeholder="Họ và tên">
+                                    <input id="phone" type="text" name="phone" class="form-control"
+                                        placeholder="Số điện thoại">
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
