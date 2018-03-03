@@ -325,7 +325,7 @@
                     Bạn vui lòng nhập đầy đủ thông tin
                 </div>
             </div>
-            <div class="modal-footer" style="display: block">
+            <div class="modalin-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
@@ -445,44 +445,7 @@
     </div>
 </div>
 
-<div id="modalInfo" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Nhận thêm thông tin từ Elight</h4>
-            </div>
-            <div class="modal-body">
-                <form action="" method="GET">
-                    <div class="card-block">
-                        <div class="form-group label-floating">
-                            <label class="control-label">Họ và tên</label>
-                            <input id="name" type="text" name="name" class="form-control"
-                                   placeholder="Ví dụ: Bùi Ngọc Minh">
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Số điện thoại</label>
-                            <input id="phone" type="text" name="phone" class="form-control"
-                                   placeholder="Ví dụ: 0166799xxxx">
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Email</label>
-                            <input id="e-email" type="email" name="email" class="form-control"
-                                   placeholder="Ví dụ: android@colorme.vn">
-                        </div>
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Gửi</button>
-                        </div>
-                        <div class="clearfix"></div>
 
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/tether.min.js" type="text/javascript"></script>
@@ -536,12 +499,6 @@
 
 </script>
 <script>
-    window.onload = function (e) {
-        setTimeout(function () {
-            $('#modalInfo').modal('show');
-        }, 30000);
-    };
-
     function paginator(currentPageData, totalPagesData) {
         var page = [];
         var currentPage = currentPageData;
@@ -573,5 +530,4 @@
 @stack("scripts")
 
 </body>
-
 </html>
