@@ -7,6 +7,7 @@ import CreatePrintOrderContainer from "../modules/printOrder/CreatePrintOrderCon
 import ExportOrderContainer from "../modules/Zgroup/exportGood/ExportOrderContainer";
 import CreateExportOrderContainer from "../modules/Zgroup/exportGood/CreateExportOrderContainer";
 import CreateOrderedGood from "../modules/Zgroup/orderedGood/CreateOrderedGood";
+import HistoryDebtContainer from "../modules/historyDebt/HistoryDebtContainer";
 /**
  * Tab Kinh Doanh
  */
@@ -65,5 +66,9 @@ export default [
     {
         path: "/business/ordered-good/create",
         component: CreateOrderedGood,
+    },
+    {
+        path: "/business/history-debt",
+        component: HistoryDebtContainer,
     },
 ];

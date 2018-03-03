@@ -2000,5 +2000,13 @@ export default {
         isCommitting: false,
         companies: [],
         goods: [],
-    }
+    },
+    historyDebt:{
+        isLoadingComapnies: false,
+        isLoadingistoryDebt: false,
+        companies: [],
+        historyDebt: [],
+        paginatorCompanies: [],
+        paginatorHistoryDebt: [],
+    },
 };
