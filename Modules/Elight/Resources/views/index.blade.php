@@ -400,17 +400,17 @@
                             <div class="form-group label-floating">
                                 <label class="control-label">Họ và tên</label>
                                 <input id="name" type="text" name="name" class="form-control"
-                                    placeholder="Ví dụ: Bùi Ngọc Minh">
+                                    placeholder="Họ tên người nhận">
                             </div>
                             <div class="form-group label-floating">
                                 <label class="control-label">Số điện thoại</label>
                                 <input id="phone" type="text" name="phone" class="form-control"
-                                    placeholder="Ví dụ: 0166799xxxx">
+                                    placeholder="Số điện thoại người nhận">
                             </div>
                             <div class="form-group label-floating">
                                 <label class="control-label">Email</label>
                                 <input id="e-email" type="email" name="email" class="form-control"
-                                    placeholder="Ví dụ: android@colorme.vn">
+                                    placeholder="Điền chính xác email nếu có">
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>

@@ -134,30 +134,6 @@
                 @endforeach
             </div>
             <br><br>
-            {{--<div id="vuejs1" class="row">--}}
-            {{--@foreach($newestBooks as $book)--}}
-            {{--<div class="col-md-3">--}}
-            {{--<div class="card card-profile" style="border-radius: 0px;">--}}
-            {{--<div style="padding: 3%;">--}}
-            {{--<div style="background-image: url('{{$book->avatar_url}}'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;"></div>--}}
-            {{--</div>--}}
-            {{--<div>--}}
-            {{--<div class="container text-left" style="min-height: 130px;"><br>--}}
-            {{--<p style="font-weight: 600;">{{$book->name}}</p> <br>--}}
-            {{--<p>{{$book->description}}</p></div>--}}
-
-            {{--</div>--}}
-            {{--<div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">--}}
-            {{--<div style="text-align: right;">--}}
-            {{--<a class="btn btn-google" href="/sach/{{$book->id}}"--}}
-            {{--style="padding: 3px; margin: 3px; font-size: 10px;">--}}
-            {{--Tải sách <i class="fa fa-download"></i></a>--}}
-            {{--</div>--}}
-            {{--</div>--}}
-            {{--</div>--}}
-            {{--</div>--}}
-            {{--@endforeach--}}
-            {{--</div>--}}
         </div>
         <br><br><br>
     </div>
@@ -168,28 +144,55 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Quan tâm đến sản phẩm của Elight?</h4>
+                    <h4 class="modal-title">Đánh giá chất lượng</h4>
                 </div>
                 <div class="modal-header" id="modal-buy-body">
-                    <a style="text-align: center">Điền thông tin để Elight tư vấn sản phẩm học tiếng anh hiệu quả nhất với bạn !</a>
+                    <a style="text-align: center">Bạn có cảm thấy các nội dung trên thư viện có hữu ích với bạn?</a>
                 </div>
                 <div class="modal-body">
                     <form action="" method="GET">
                         <div class="card-block">
                             <div class="form-group label-floating">
-                                <label class="control-label">Họ và tên</label>
-                                <input id="name" type="text" name="name" class="form-control"
-                                    placeholder="Ví dụ: Bùi Ngọc Minh">
+                                <label class="control-label">Đánh giá</label>
+                                <!-- <div class="radio-inline">
+                                    <input type="radio" id="cod" v-model="payment" value="Thanh toán trực tiếp khi nhận hàng(COD)" checked>
+                                    <label for="cod">
+                                        Rất tốt
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <input type="radio" id="transfer" v-model="payment" value="Chuyển khoản">
+                                    <label for="transfer">
+                                        OK
+                                    </label> 
+                                </div> -->
+                                <br>
+
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio"> Option 1
+                                </label>
+                                &nbsp
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio"> Option 2
+                                </label>
+                                &nbsp
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio"> Option 3
+                                </label>
+                                &nbsp
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio"> Option 3
+                                </label>
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Góp ý cho elight</label>
+                                <input id="message" type="text" name="message" class="form-control"
+                                    placeholder="Góp ý để elight cải thiện chất lượng nhé">
                             </div>
                             <div class="form-group label-floating">
                                 <label class="control-label">Số điện thoại</label>
                                 <input id="phone" type="text" name="phone" class="form-control"
-                                    placeholder="Ví dụ: 0166799xxxx">
-                            </div>
-                            <div class="form-group label-floating">
-                                <label class="control-label">Email</label>
-                                <input id="e-email" type="email" name="email" class="form-control"
-                                    placeholder="Ví dụ: android@colorme.vn">
+                                    placeholder="Để lại nếu bạn cần Elight hỗ trợ thêm">
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>

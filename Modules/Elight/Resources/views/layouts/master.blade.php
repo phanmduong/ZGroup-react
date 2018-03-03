@@ -325,7 +325,7 @@
                     Bạn vui lòng nhập đầy đủ thông tin
                 </div>
             </div>
-            <div class="modalin-footer" style="display: block">
+            <div class="modal-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
