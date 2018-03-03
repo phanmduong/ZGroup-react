@@ -258,14 +258,12 @@ class ElightController extends Controller
         $email = $request->email;
         $name = $request->name;
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
-        $province = Province::find($request->provinceid)->name;
-        $district = District::find($request->districtid)->name;
         $address = $request->address;
         $payment = $request->payment;
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
         if (count($goods_arr) > 0) {
-            $this->bookRepository->saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr);
+            $this->bookRepository->saveOrder($email, $phone, $name, "", "", $address, $payment, $goods_arr);
             $request->session()->flush();
             return [
                 "status" => 1

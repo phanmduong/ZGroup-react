@@ -270,44 +270,10 @@
                     <h6>Email</h6>
                     <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
-                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>
-                    </div>
-                    <select v-if="showProvince"
-                            v-model="provinceid"
-                            v-on:change="changeProvince"
-                            class="form-control" placeholder="Tỉnh/Thành phố">
-                        <option value="">Tỉnh, Thành phố</option>
-                        <option v-for="province in provinces" v-bind:value="province.provinceid">
-                            @{{province.name}}
-                        </option>
-                    </select>
-                    <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;"><i
-                                class='fa fa-spin fa-spinner'></i>
-                    </div>
-                    <select v-if="showDistrict"
-                            v-model="districtid"
-                            class="form-control"
-                            style="margin-top: 5px"
-                            id="">
-                        <option value="">Quận, Huyện</option>
-                        <option v-for="district in districts" v-bind:value="district.districtid">
-                            @{{district.name}}
-                        </option>
-                    </select>
-
-
                     <input v-model="address" type="text" class="form-control"
-                           placeholder="Đường, số nhà"
+                           placeholder="Địa chỉ của bạn"
                            style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
-                    <!-- <select v-model="payment" class="form-control" id="sel1">
-                        <option value="" selected disabled hidden>Thanh toán trực tiếp khi nhận hàng</option>  
-                        <option value="Thanh toán trực tiếp khi nhận hàng(COD)" selected>
-                            Thanh toán trực tiếp khi nhận hàng
-                        </option>
-                        <option value="Chuyển khoản">Chuyển khoản cho Elight</option>                        
-                    </select> -->
                     <div class="radio">
                         <input type="radio" id="cod" v-model="payment" value="Thanh toán trực tiếp khi nhận hàng(COD)" checked>
                         <label for="cod">
