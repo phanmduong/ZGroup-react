@@ -18,6 +18,10 @@ class Payment extends Model
     {
         return $this->belongsTo(Company::class, 'receiver_id');
     }
+    public function staff()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function transform()
     {
@@ -29,6 +33,17 @@ class Payment extends Model
             "bill_image_url" => $this->bill_image_url,
             "money_value" => $this->money_value,
             "type" => $this->type,
+            "status" => $this->status,
+        ];
+    }
+
+    public function transform_for_up()
+    {
+        return [
+            "id" => $this->id,
+            "staff" => $this->staff ? $this->staff->transform() : [],
+            "description" => $this->description,
+            "money_value" => $this->money_value,
             "status" => $this->status,
         ];
     }
