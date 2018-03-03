@@ -414,7 +414,7 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Gửi</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#138edc; border-color:#138edc ">Gửi</button>
                             </div>
                             <div class="clearfix"></div>
 
