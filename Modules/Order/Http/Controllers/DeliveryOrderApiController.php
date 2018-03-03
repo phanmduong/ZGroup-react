@@ -402,7 +402,7 @@ class DeliveryOrderApiController extends ManageApiController
         if ($request->deposit == 1) {
             if ($request->money > $user->deposit)
                 return $this->respondErrorWithStatus('Tài khoản cọc của khách hàng nhỏ hơn số tiền đã nhập');
-            $money = min($debt, $request->deposit);
+            $money = min($debt, $request->money);
         } else {
             if ($request->money > $user->money)
                 return $this->respondErrorWithStatus('Tài khoản của khách hàng nhỏ hơn số tiền đã nhập');
