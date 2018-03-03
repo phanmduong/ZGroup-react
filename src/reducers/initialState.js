@@ -93,6 +93,11 @@ export default {
 
 
     finance: {
+        loadMoneyToWalletModal: false,
+        isLoadingCustomer: false,
+        isLoadingMoneyToWallet: false,
+        customers: [],
+        transferMoneyToWallet: {},
         bankTransfers: [],
         isLoading: false,
         cancelReasonModal: false,
@@ -119,6 +124,8 @@ export default {
 
     orderedProduct: {
         currencies: [],
+        cameToVNModal: false,
+        orderCameToVN: {},
         chooseWalletModal: false,
         isChoosingWallet: false,
         orderWalletChosen: {},

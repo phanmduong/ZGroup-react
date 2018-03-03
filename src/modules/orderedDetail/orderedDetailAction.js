@@ -27,7 +27,7 @@ export function editOrder(order, customer) {
         orderedDetailApi.editOrderApi(order, customer)
             .then(function () {
                 browserHistory.push("/order/orders");
-                helper.showNotification("Thêm sản phẩm thành công");
+                helper.showNotification("Sửa đơn hàng đặt thành công");
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
                 });

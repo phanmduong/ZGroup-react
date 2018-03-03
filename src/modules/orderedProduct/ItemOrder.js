@@ -89,7 +89,7 @@ class ItemOrder extends React.Component {
                             )
                     }
                 </td>
-                <td>
+                <td style={{width:"120px"}}>
                     <StatusSelect options={ORDERED_STATUS}
                                   onChange={this.changeStatus}
                                   value={delivery.status}/>
