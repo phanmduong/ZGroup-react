@@ -40,7 +40,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
                 $registers = $registers->where('base_id', $request->base_id);
             if ($request->staff_id)
                 $registers = $registers->where('staff_id', $request->staff_id);
-            if($request->saler_id)
+            if ($request->saler_id)
                 $registers = $registers->where('saler_id', $request->saler_id);
             if ($request->campaign_id)
                 $registers = $registers->where('campaign_id', $request->campaign_id);

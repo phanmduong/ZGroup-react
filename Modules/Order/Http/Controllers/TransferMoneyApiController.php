@@ -1,34 +1,29 @@
 <?php
-
 namespace Modules\Order\Http\Controllers;
-
 use App\Register;
 use App\TransferMoney;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Support\Facades\DB;
-
 class TransferMoneyApiController extends ManageApiController
 {
     public function __construct()
     {
         parent::__construct();
     }
-
     public function getTransfers(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
-
         $transfers = TransferMoney::query();
-
         if ($request->user_id)
             $transfers = $transfers->where('user_id', $request->user_id);
         if ($request->status)
             $transfers = $transfers->where('status', $request->status);
         if ($request->bank_account_id)
             $transfers = $transfers->where('bank_account_id', $request->bank_account_id);
-        //$transfer = $transfers->join('users', )
+        $transfers = $transfers->join('users', 'users.id', '=', 'transfer_money.user_id');
+        $transfers = $transfers->select('transfer_money.*')->where('users.name', 'like', '%' . $request->search . '%')->groupBy('transfer_money.id');
         if ($limit == -1) {
             $transfers = $transfers->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
@@ -37,7 +32,6 @@ class TransferMoneyApiController extends ManageApiController
                 })
             ]);
         }
-
         $transfers = $transfers->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($transfers,
             [
@@ -46,7 +40,6 @@ class TransferMoneyApiController extends ManageApiController
                 })
             ]);
     }
-
     public function editTransfer($transferId, Request $request)
     {
         $transfer = TransferMoney::find($transferId);
@@ -58,7 +51,6 @@ class TransferMoneyApiController extends ManageApiController
         $transfer->save();
         return $this->respondSuccess('Sửa thành công');
     }
-
     public function changeTransferStatus($transferId, Request $request)
     {
         $transfer = TransferMoney::find($transferId);

@@ -88,11 +88,11 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination(
-            $deliveryOrders
-            ,
+            $deliveryOrders,
             [
                 'delivery_orders' => $this->deliveryOrderTransformer->transformCollection($deliveryOrders)
-            ]);
+            ]
+        );
     }
 
     public function infoDeliveryOrders(Request $request)
@@ -135,8 +135,8 @@ class DeliveryOrderApiController extends ManageApiController
             'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('delivery') + 1, 4, '0', STR_PAD_LEFT);
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu thông tin người dùng'
-            ]);
+            'message' => 'Thiếu thông tin người dùng'
+        ]);
 
         $order = new Order;
         $this->assignDeliveryOrderInfo($order, $request);
@@ -150,15 +150,15 @@ class DeliveryOrderApiController extends ManageApiController
     {
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu thông tin người dùng'
-            ]);
+            'message' => 'Thiếu thông tin người dùng'
+        ]);
 
         $order = Order::find($orderId);
         $request->code = $order->code;
         if ($order == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại đơn hàng'
-            ]);
+            'message' => 'Không tồn tại đơn hàng'
+        ]);
         $this->assignDeliveryOrderInfo($order, $request);
         $order->save();
 
@@ -171,7 +171,7 @@ class DeliveryOrderApiController extends ManageApiController
         if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
         return $this->respondSuccessWithStatus([
-            'delivery_order' => $deliveryOrder->getDeliveryData(),
+            'delivery_order' => $this->deliveryOrderTransformer->transform($deliveryOrder)
         ]);
     }
 
@@ -229,11 +229,11 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination(
-            $deliveryOrders
-            ,
+            $deliveryOrders,
             [
                 'delivery_orders' => $this->deliveryOrderTransformer->transformCollection($deliveryOrders)
-            ]);
+            ]
+        );
     }
 
     public function deliveryInventoriesInfo(Request $request)
@@ -283,8 +283,8 @@ class DeliveryOrderApiController extends ManageApiController
         $response = $this->orderService->changeDeliveryOrderStatus($deliveryOrderId, $request, $this->user->id);
         if ($response['status'] == 0)
             return $this->respondErrorWithStatus([
-                'message' => $response['message']
-            ]);
+            'message' => $response['message']
+        ]);
         return $this->respondSuccessWithStatus([
             'message' => $response['message']
         ]);
@@ -388,25 +388,27 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrder = Order::find($deliveryOrderId);
         if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tìm thấy đơn hàng đặt');
+        if ($deliveryOrder->status == 'place_order')
+            return $this->respondErrorWithStatus('Báo giá đơn hàng trước khi thanh toán');
+        if ($request->money == 0)
+            return $this->respondErrorWithStatus('Vui lòng nhập số tiền lớn hơn 0');
         $user = User::find($deliveryOrder->user_id);
         $debt = $deliveryOrder->price - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-                return $paid + $orderPaidMoney->money;
-            }, 0);
+            return $paid + $orderPaidMoney->money;
+        }, 0);
+        if ($debt == 0)
+            return $this->respondErrorWithStatus('Đơn hàng đã được thanh toán xong trước đó');
         $money = 0;
-        if($request->deposit == 1)
-            $money = max($debt, $user->deposit);
-        else
-            $money = max($debt, $user->money);
-        if($money == 0) {
-            if($debt == 0)
-                return $this->respondErrorWithStatus('Đơn hàng đã được thanh toán xong');
-            else{
-                if($request->deposit == 1) 
-                    return $this->respondErrorWithStatus('Tài khoản cọc của khách hàng bằng không');
-                else
-                    return $this->respondErrorWithStatus('Tài khoản lưu động của khách hàng bằng không');
-            }
+        if ($request->deposit == 1) {
+            if ($request->money > $user->deposit)
+                return $this->respondErrorWithStatus('Tài khoản cọc của khách hàng nhỏ hơn số tiền đã nhập');
+            $money = min($debt, $request->money);
+        } else {
+            if ($request->money > $user->money)
+                return $this->respondErrorWithStatus('Tài khoản của khách hàng nhỏ hơn số tiền đã nhập');
+            $money = min($debt, $request->money);
         }
+
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $deliveryOrder->id;
         $orderPaidMoney->money = $money;
@@ -414,12 +416,12 @@ class DeliveryOrderApiController extends ManageApiController
         $orderPaidMoney->payment = $request->payment;
         $orderPaidMoney->staff_id = $this->user->id;
         $orderPaidMoney->save();
-        if($request->deposit == 1)
+        if ($request->deposit == 1)
             $user->deposit -= $money;
         else
             $user->money -= $money;
         return $this->respondSuccessWithStatus([
-            'message' => 'Thêm thanh toán thành công. Số tiền: ' . $money, 
+            'message' => 'Thêm thanh toán thành công. Số tiền: ' . $money,
         ]);
     }
 }

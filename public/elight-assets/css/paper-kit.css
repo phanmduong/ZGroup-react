@@ -2562,7 +2562,7 @@ textarea.form-control {
     max-height: 700px;
   }
   .card-book-image {
-    width:40%!important;
+    width:50%!important;
     margin-top:-20%!important;
     margin-left:0!important;
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
@@ -8838,7 +8838,7 @@ a.pswp__share--download:hover {
 
 .card-book-image {
   width:80%;
-  margin-top:-40%;
+  margin-top:5%;
   margin-left:10%;
   /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
   -webkit-filter: drop-shadow(5px 5px 5px #AAA );

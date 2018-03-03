@@ -200,22 +200,43 @@ class CompanyController extends ManageApiController
 
     public function createPayment(Request $request)
     {
-        if ($request->payer_id === null || $request->receiver_id === null ||
-            $request->money_value === null || trim($request->money_value) == '' ||
-            $request->bill_image_url === null || trim($request->bill_image_url) == '')
-            return $this->respondErrorWithStatus("Thiếu trường");
-        $payment = new Payment;
-        $payment->bill_image_url = $request->bill_image_url;
-        $payment->description = $request->description;
-        $payment->money_value = $request->money_value;
-        $payment->payer_id = $request->payer_id;
-        $payment->receiver_id = $request->receiver_id;
-        $payment->type = "done";
-        $payment->save();
-        return $this->respondSuccessWithStatus([
-            "message" => "Thành công"
-        ]);
+        if ($request->register_id) {
+            if ($request->user_id === null || $request->staff_id === null ||
+                $request->money_value === null || trim($request->money_value) == ''
+//                $request->register_id === null
+            )
+                return $this->respondErrorWithStatus("Thiếu trường");
+            $payment = new Payment;
+            $payment->bill_image_url = 'a';
+            $payment->description = $request->description;
+            $payment->money_value = $request->money_value;
+            $payment->payer_id = $request->user_id;
+            $payment->receiver_id = $request->staff_id;
+            $payment->register_id = $request->register_id;
+            $payment->type = "done";
+            $payment->save();
+            return $this->respondSuccessWithStatus([
+                "message" => "Thành công"
+            ]);
+        } else {
+            if ($request->payer_id === null || $request->receiver_id === null ||
+                $request->money_value === null || trim($request->money_value) == '' ||
+                $request->bill_image_url === null || trim($request->bill_image_url) == '')
+                return $this->respondErrorWithStatus("Thiếu trường");
+            $payment = new Payment;
+            $payment->bill_image_url = $request->bill_image_url;
+            $payment->description = $request->description;
+            $payment->money_value = $request->money_value;
+            $payment->payer_id = $request->payer_id;
+            $payment->receiver_id = $request->receiver_id;
+            $payment->type = "done";
+            $payment->save();
+            return $this->respondSuccessWithStatus([
+                "message" => "Thành công"
+            ]);
+        }
     }
+
 
     public function editPayment($paymentId, Request $request)
     {
