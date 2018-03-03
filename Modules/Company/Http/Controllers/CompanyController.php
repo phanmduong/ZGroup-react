@@ -481,7 +481,7 @@ class CompanyController extends ManageApiController
         $printOrder->status = $request->status;
         $printOrder->save();
         $date = $printOrder->created_at;
-        if ($request->status == 1) {
+        if ($request->status == 2) {
             $n = HistoryDebt::where('company_id', $printOrder->company_id)->count();
             $historyDebts = HistoryDebt::where('company_id', $printOrder->company_id)->get();
             if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
@@ -490,7 +490,7 @@ class CompanyController extends ManageApiController
             $historyDebt->value = $value;
             $historyDebt->total_value = $pre_value + $value;
             $historyDebt->date = $date;
-            $historyDebt->type = "print";
+            $historyDebt->type = "import";
             $historyDebt->company_id = $printOrder->company_id;
             $company = Company::find($historyDebt->company_id);
             $company->account_value = $historyDebt->value;
@@ -504,7 +504,7 @@ class CompanyController extends ManageApiController
             $historyDebt->value = $value * (-1);
             $historyDebt->total_value = $pre_value + $value * (-1);
             $historyDebt->date = $date;
-            $historyDebt->type = "print";
+            $historyDebt->type = "import";
             $historyDebt->company_id = 1;
             $company = Company::find($historyDebt->company_id);
             $company->account_value = $historyDebt->value;
