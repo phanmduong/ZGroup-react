@@ -201,7 +201,7 @@ class CompanyController extends ManageApiController
     public function createPayment(Request $request)
     {
         if ($request->register_id) {
-            if ($request->user_id === null || $request->staff_id === null ||
+            if ($request->user_id === null  ||
                 $request->money_value === null || trim($request->money_value) == ''
 //                $request->register_id === null
             )
@@ -216,7 +216,9 @@ class CompanyController extends ManageApiController
             $payment->type = "done";
             $payment->save();
             return $this->respondSuccessWithStatus([
-                "message" => "Thành công"
+                "message" => "Thành công",
+                "payment" => $payment->transform_for_up(),
+
             ]);
         } else {
             if ($request->payer_id === null || $request->receiver_id === null ||
