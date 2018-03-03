@@ -258,6 +258,9 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h2 class="medium-title">Thanh toán</h2>
             </div>
+            <div class="modal-header" id="modal-buy-body">
+                <a style="text-align: center">Điền đầy đủ thông tin để hoàn tất đăng ký nhé!</a>
+            </div>
             <div class="modal-body">
                 <form class="register-form ">
                     <h6>Họ và tên</h6>
@@ -298,18 +301,31 @@
                            placeholder="Đường, số nhà"
                            style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
-                    <select v-model="payment" class="form-control" id="sel1">
-                        <option value="Chuyển khoản">Chuyển khoản</option>
-                        <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
-                            Thanh toán trực tiếp khi nhận hàng(COD)
+                    <!-- <select v-model="payment" class="form-control" id="sel1">
+                        <option value="" selected disabled hidden>Thanh toán trực tiếp khi nhận hàng</option>  
+                        <option value="Thanh toán trực tiếp khi nhận hàng(COD)" selected>
+                            Thanh toán trực tiếp khi nhận hàng
                         </option>
-                    </select>
+                        <option value="Chuyển khoản">Chuyển khoản cho Elight</option>                        
+                    </select> -->
+                    <div class="radio">
+                        <input type="radio" id="cod" v-model="payment" value="Thanh toán trực tiếp khi nhận hàng(COD)" checked>
+                        <label for="cod">
+                            Thanh toán trực tiếp khi nhận hàng
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="transfer" v-model="payment" value="Chuyển khoản">
+                        <label for="transfer">
+                            Chuyển khoản cho Elight
+                        </label> 
+                    </div>
                 </form>
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     Bạn vui lòng nhập đầy đủ thông tin
                 </div>
             </div>
-            <div class="modal-footer" style="display: block">
+            <div class="modalin-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
@@ -429,44 +445,7 @@
     </div>
 </div>
 
-<div id="modalInfo" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Nhận thêm thông tin từ Elight</h4>
-            </div>
-            <div class="modal-body">
-                <form action="" method="GET">
-                    <div class="card-block">
-                        <div class="form-group label-floating">
-                            <label class="control-label">Họ và tên</label>
-                            <input id="name" type="text" name="name" class="form-control"
-                                   placeholder="Ví dụ: Bùi Ngọc Minh">
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Số điện thoại</label>
-                            <input id="phone" type="text" name="phone" class="form-control"
-                                   placeholder="Ví dụ: 0166799xxxx">
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Email</label>
-                            <input id="e-email" type="email" name="email" class="form-control"
-                                   placeholder="Ví dụ: android@colorme.vn">
-                        </div>
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Gửi</button>
-                        </div>
-                        <div class="clearfix"></div>
 
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/tether.min.js" type="text/javascript"></script>
@@ -520,12 +499,6 @@
 
 </script>
 <script>
-    window.onload = function (e) {
-        setTimeout(function () {
-            $('#modalInfo').modal('show');
-        }, 30000);
-    };
-
     function paginator(currentPageData, totalPagesData) {
         var page = [];
         var currentPage = currentPageData;
@@ -557,5 +530,4 @@
 @stack("scripts")
 
 </body>
-
 </html>

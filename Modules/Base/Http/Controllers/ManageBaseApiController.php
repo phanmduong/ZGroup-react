@@ -20,6 +20,20 @@ class ManageBaseApiController extends ManageApiController
         parent::__construct();
     }
 
+    public function getRoom($baseId)
+    {
+        $base = Base::find($baseId);
+        if ($base == null) {
+            return $this->respondErrorWithStatus('Cơ sở không tồn tại');
+        }
+        $rooms = $base->rooms;
+        return $this->respondSuccessV2([
+            'rooms' => $rooms->map(function ($room) {
+                return $room->getData();
+            })
+        ]);
+    }
+
     public function getSeats($roomId)
     {
         $room = Room::find($roomId);

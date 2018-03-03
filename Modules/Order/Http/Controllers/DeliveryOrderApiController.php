@@ -171,7 +171,7 @@ class DeliveryOrderApiController extends ManageApiController
         if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tồn tại đơn đặt hàng');
         return $this->respondSuccessWithStatus([
-            'delivery_order' => $deliveryOrder->getDeliveryData(),
+            'delivery_order' => $this->deliveryOrderTransformer->transform($deliveryOrder)
         ]);
     }
 
@@ -388,15 +388,17 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrder = Order::find($deliveryOrderId);
         if ($deliveryOrder == null)
             return $this->respondErrorWithStatus('Không tìm thấy đơn hàng đặt');
+        if($deliveryOrder->status == 'place_order')
+            return $this->respondErrorWithStatus('Báo giá đơn hàng trước khi thanh toán');
         $user = User::find($deliveryOrder->user_id);
         $debt = $deliveryOrder->price - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0);
         $money = 0;
         if($request->deposit == 1)
-            $money = max($debt, $user->deposit);
+            $money = min($debt, $user->deposit);
         else
-            $money = max($debt, $user->money);
+            $money = min($debt, $user->money);
         if($money == 0) {
             if($debt == 0)
                 return $this->respondErrorWithStatus('Đơn hàng đã được thanh toán xong trước đó');
@@ -414,6 +416,10 @@ class DeliveryOrderApiController extends ManageApiController
         $orderPaidMoney->payment = $request->payment;
         $orderPaidMoney->staff_id = $this->user->id;
         $orderPaidMoney->save();
+        if($request->deposit == 1)
+            $user->deposit -= $money;
+        else
+            $user->money -= $money;
         return $this->respondSuccessWithStatus([
             'message' => 'Thêm thanh toán thành công. Số tiền: ' . $money, 
         ]);

@@ -3,6 +3,7 @@
 Route::group(['middleware' => 'web', 'domain' => 'keetool3.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], function () {
     Route::get('/', 'ElightController@index');
     Route::get('/blog', 'ElightController@blog');
+    Route::get('/flush', 'ElightController@flush');
     Route::get('/about-us', 'ElightController@aboutUs');
     Route::get('/contact-us', 'ElightController@contactUs');
     Route::get('/all-books', 'ElightController@allBooks');

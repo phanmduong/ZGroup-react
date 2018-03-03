@@ -34,52 +34,6 @@
                 <br>
             </div>
         </div>
-        {{--<div class="row" id="vuejs1">--}}
-        {{--@foreach($goods as $good)--}}
-        {{--<div class="col-md-6 book-item">--}}
-        {{--<div class="card card-profile" style="border-radius:0; height: 90%">--}}
-        {{--<div class="flex flex-col flex-justify-content-space-between" style="height: 100%">--}}
-        {{--<div class="container">--}}
-        {{--<div class="row">--}}
-        {{--<div class="col-md-4">--}}
-        {{--<div class="card card-profile card-plain">--}}
-        {{--<img class="card-book-image" src="{{$good->avatar_url}}">--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--<div class="col-md-8 text-left">--}}
-        {{--<br>--}}
-        {{--<h5 style="font-weight:600">{{$good->name}}</h5>--}}
-        {{--<p>{{shortString($good->description,18)}}</p>--}}
-        {{--<h5>--}}
-        {{--<b style="text-decoration: line-through;">{{currency_vnd_format($good['price'])}}</b>--}}
-        {{--<i class="fa fa-angle-right"></i>{{currency_vnd_format($good['price']*(1-$good['coupon_value']))}}--}}
-        {{--</h5><br>--}}
-        {{--</div>--}}
-
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--</div>--}}
-        {{--<div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">--}}
-        {{--<div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">--}}
-        {{--<div>--}}
-        {{--<a href="/sach/{{$good['id']}}" class="btn btn-link btn-success">--}}
-        {{--Xem thêm--}}
-        {{--</a>--}}
-        {{--<button v-on:click="openModalBuy({{$good['id']}})"--}}
-        {{--onclick="fbq('track', 'AddToCart')"--}}
-        {{--class="btn btn-success" style="padding:3px;margin:3px;font-size:10px;">--}}
-        {{--Đặt mua ngay <i class="fa fa-angle-right"></i>--}}
-        {{--</button>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--@endforeach--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
         <div class="row" id="vuejs1">
 
             <div class="col-md-6 book-item">
@@ -429,4 +383,55 @@
             <br><br>
         </div>
     </div>
+    <div id="modalInfo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Bạn cần tư vấn thêm từ Elight?</h4>
+                </div>
+                <div class="modal-header" id="modal-buy-body">
+                    <a style="text-align: center">Điền thêm thông tin để Elight hỗ trợ cho bạn về ưu đãi, sản phẩm mới nhất nhé !</a>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="GET">
+                        <div class="card-block">
+                            <div class="form-group label-floating">
+                                <label class="control-label">Họ và tên</label>
+                                <input id="name" type="text" name="name" class="form-control"
+                                    placeholder="Ví dụ: Bùi Ngọc Minh">
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Số điện thoại</label>
+                                <input id="phone" type="text" name="phone" class="form-control"
+                                    placeholder="Ví dụ: 0166799xxxx">
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Email</label>
+                                <input id="e-email" type="email" name="email" class="form-control"
+                                    placeholder="Ví dụ: android@colorme.vn">
+                            </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Gửi</button>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('scripts')
+    <script>            
+        window.onload = function (e) {
+            setTimeout(function () {
+                $('#modalInfo').modal('show');
+            }, 60000);
+        };
+    </script>
+@endpush
