@@ -301,13 +301,25 @@
                            placeholder="Đường, số nhà"
                            style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
-                    <select v-model="payment" class="form-control" id="sel1">
+                    <!-- <select v-model="payment" class="form-control" id="sel1">
                         <option value="" selected disabled hidden>Thanh toán trực tiếp khi nhận hàng</option>  
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)" selected>
                             Thanh toán trực tiếp khi nhận hàng
                         </option>
                         <option value="Chuyển khoản">Chuyển khoản cho Elight</option>                        
-                    </select>
+                    </select> -->
+                    <div class="radio">
+                        <input type="radio" id="cod" v-model="payment" value="Thanh toán trực tiếp khi nhận hàng(COD)" checked>
+                        <label for="cod">
+                            Thanh toán trực tiếp khi nhận hàng
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="transfer" v-model="payment" value="Chuyển khoản">
+                        <label for="transfer">
+                            Chuyển khoản cho Elight
+                        </label> 
+                    </div>
                 </form>
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     Bạn vui lòng nhập đầy đủ thông tin
