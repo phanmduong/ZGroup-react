@@ -868,4 +868,13 @@ class CompanyController extends ManageApiController
             "message" => "Thay đổi trạng thái thành công"
         ]);
     }
+
+    public function getHistoryDebt($companyId,Request $request){
+        $historyDebt = HistoryDebt::where('company_id',$companyId)->get();
+        return $this->respondSuccessWithStatus([
+            "history-debt" => $historyDebt->map(function($pp){
+                return $pp->transform();
+            })
+        ]);
+    }
 }

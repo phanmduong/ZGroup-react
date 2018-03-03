@@ -46,6 +46,8 @@ $companyRoutes = function () {
         Route::get('/import-order/all', 'CompanyController@getAllImportOrder');
         Route::get('/import-order/{importOrderId}', 'CompanyController@getImportOrder');
         Route::post('/import-order/{importOrderId}', 'CompanyController@createOrEditImportOrder');
+
+        Route::get('/history-debt/{comapny_id}','CompanyController@getHistoryDebt');
     });
 };
 
