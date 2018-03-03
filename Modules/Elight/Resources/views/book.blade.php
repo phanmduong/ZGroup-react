@@ -86,6 +86,41 @@
                     <div>
                         {!! $lesson_selected->detail !!}
                     </div>
+                    <hr>
+                    <h3 class="card-title text-center">Liên hệ với Elight</h3>
+
+                        <div>
+                                        <div role="form" id="contact-form" method="post" action="#">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <div class="card-block">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Họ và tên</label>
+                                                    <input id="e-name" type="text" name="name" class="form-control" placeholder="Họ và tên người nhận">
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Email</label>
+                                                    <input id ="e-email" type="email" name="email" class="form-control" placeholder="Email người nhận">
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Lời nhắn</label>
+                                                    <textarea id="e-message" name="question" class="form-control" id="message" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div id="alert"> </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-primary pull-right" id="submit-1">Gửi tin nhắn
+                                                        </button></div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
                     <div class="comments media-area">
                         <div class="fb-comments"
                              data-href="{{config('app.protocol').config('app.domain').'/sach/'.$course->id.'/'.$lesson_selected->id}}"
@@ -167,21 +202,20 @@
                                     </label> 
                                 </div> -->
                                 <br>
-
                                 <label class="radio-inline">
-                                    <input type="radio" name="optradio"> Option 1
+                                    <input type="radio" name="optradio"> Rất tốt
                                 </label>
                                 &nbsp
                                 <label class="radio-inline">
-                                    <input type="radio" name="optradio"> Option 2
+                                    <input type="radio" name="optradio"> OK
                                 </label>
                                 &nbsp
                                 <label class="radio-inline">
-                                    <input type="radio" name="optradio"> Option 3
+                                    <input type="radio" name="optradio"> Trung bình
                                 </label>
                                 &nbsp
                                 <label class="radio-inline">
-                                    <input type="radio" name="optradio"> Option 3
+                                    <input type="radio" name="optradio"> Kém
                                 </label>
                             </div>
                             <div class="form-group label-floating">
