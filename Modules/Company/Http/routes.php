@@ -39,7 +39,7 @@ $companyRoutes = function () {
         Route::put('/be-ordered/{orderId}', 'CompanyController@editOrdered');
 
         Route::get('/order/all', 'CompanyController@getAllOrder');
-        Route::get('/ordered/{orderId}', 'CompanyController@getOrder');
+        Route::get('/order/{orderId}', 'CompanyController@getOrder');
         Route::post('/order/create', 'CompanyController@createOrder');
         Route::put('/order/{orderId}', 'CompanyController@editOrder');
 
