@@ -96,7 +96,8 @@ class ElightController extends Controller
 
             return $comment;
         });
-        return view('elight::post',
+        return view(
+            'elight::post',
             [
                 'post' => $post,
                 'posts_related' => $posts_related
@@ -257,14 +258,12 @@ class ElightController extends Controller
         $email = $request->email;
         $name = $request->name;
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
-        $province = Province::find($request->provinceid)->name;
-        $district = District::find($request->districtid)->name;
         $address = $request->address;
         $payment = $request->payment;
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
         if (count($goods_arr) > 0) {
-            $this->bookRepository->saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr);
+            $this->bookRepository->saveOrder($email, $phone, $name, "", "", $address, $payment, $goods_arr);
             $request->session()->flush();
             return [
                 "status" => 1
@@ -298,5 +297,25 @@ class ElightController extends Controller
         $request->session()->flush();
     }
 
+    public function contact_info( Request $request)
+    {
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email, 
+            'name' => $request->name, 
+            'message_str' => $request->message_str
+        ];
 
+        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
+        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
+        return "OK";
+    }
 }
