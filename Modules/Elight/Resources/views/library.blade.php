@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="page-header page-header-xs"
-         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315147hlROAAiDKpgLRmg.png');">
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519817144ZS7Ub5VFjAwHNEC.png');">
         <div class="filter"></div>
         <div class="content-center">
             <div class="container">
@@ -11,8 +11,12 @@
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
                         <h1 class="title"><b>Thư viện điện tử</b></h1>
-                        <h5 class=description">Sách là tài nguyên quý giá nhất của loài người</h5>
+                        <h5 class=description">Dành cho độc giả đã mua sách</h5>
                         <br>
+                        <a href="/#buyBooks" class="btn btn-success btn-round" style="color:white">Mua
+                            sách</a>
+                        <a href="#books" class="btn btn-success btn-round" style="color:white"> Đã có
+                            sách </a>
                     </div>
 
                 </div>
@@ -20,7 +24,7 @@
         </div>
     </div>
 
-    <div class="blog-4" style="margin-top:150px">
+    <div class="blog-4" style="margin-top:150px" id="books">
         <div class="container">
             <div class="description">
                 <h1 class="medium-title">
