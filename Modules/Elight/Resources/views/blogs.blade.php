@@ -80,7 +80,7 @@
 
                             <div class="card-block">
                                 @if($blog->category)
-                                    <span class="label label-danger">{{$blog->category->name}}</span>
+                                    <span class="label label-danger" style="background-color: #138edc">{{$blog->category->name}}</span>
                                 @endif
                                 <h3 class="card-title">
                                     <a href="{{'/blog/post/'.$blog->id}}">{{$blog->title}}</a>
