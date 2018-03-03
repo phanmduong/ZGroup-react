@@ -43,7 +43,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card card-profile card-plain">
-                                        <img style="height: 45% ;width: 70%; margin-left: 20%"
+                                        <img style="height: 45% ;width: 100%;"
                                              src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195556021TjlZlGGV0YTIsA.png">
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h1 style="text-align: center ;font-size:30px"> BỘ SÁCH TIẾNG ANH CƠ BẢN </h1>
+                                    <h1 style="text-align: center ;font-size:27px"> BỘ SÁCH TIẾNG ANH CƠ BẢN </h1>
                                     <br> <br>
 
                                     <div class="media"
@@ -88,9 +88,8 @@
                                                  class="media-object" style="width:50px">
                                         </div>
                                         <div class="media-body" style="margin-left: 8px">
-                                            <p style="font-size: 20px;font-weight: 600;">GIÁO TRÌNH UY TÍN NHẤT</p>
-                                            <strong>Tài liệu tự học tiếng Anh tin dùng của hơn
-                                                50.000 học viên và giảng viên cả.</strong>
+                                            <p style="font-size: 18px;font-weight: 600;">GIÁO TRÌNH UY TÍN NHẤT</p>
+                                            <strong>Sách Tiếng Anh Cơ Bản đã được hơn 50.000 người học và giáo viên cả nước tin dùng.</strong>
                                         </div>
                                     </div>
 
@@ -101,9 +100,8 @@
                                                  class="media-object" style="width:50px">
                                         </div>
                                         <div class="media-body" style="margin-left: 8px">
-                                            <p style="font-size: 20px;font-weight: 600;">TỰ HỌC TOÀN DIỆN TỪ SỐ 0</p>
-                                            <strong>Cung cấp trọn vẹn lộ trình, kiến thức, phương pháp học tiếng Anh từ
-                                                số 0.</strong>
+                                            <p style="font-size: 18px;font-weight: 600;">TỰ HỌC TOÀN DIỆN TỪ SỐ 0</p>
+                                            <strong>Cung cấp 100% kiến thức, lộ trình, phương pháp học hiệu quả cho người mới bắt đầu.</strong>
                                         </div>
                                     </div>
                                     <div class="media"
@@ -113,9 +111,8 @@
                                                  class="media-object" style="width:50px">
                                         </div>
                                         <div class="media-body" style="margin-left: 8px">
-                                            <p style="font-size: 20px;font-weight: 600;">HỖ TRỢ TRỌN ĐỜI</p>
-                                            <strong>Cuốn sách tự học Tiếng Anh tốt nhất 2017 do người dùng bình
-                                                chọn.</strong>
+                                            <p style="font-size: 18px;font-weight: 600;">HỖ TRỢ TRỌN ĐỜI</p>
+                                            <strong>Người mua sách được hỗ trợ kiến thức và hướng dẫn học trọn đời từ các thầy cô biên soạn.</strong>
                                         </div>
                                     </div>
                                     <div class="media"
@@ -125,10 +122,8 @@
                                                  class="media-object" style="width:50px">
                                         </div>
                                         <div class="media-body" style="margin-left: 8px">
-                                            <p style="font-size: 20px;font-weight: 600;">TỐI ƯU CHO NGƯỜI VIỆT</p>
-                                            <strong>Miễn phí sử dụng trọn đời Thư Viện Tự Học của Elight với hàng ngàn
-                                                bài học
-                                                hữu ích.</strong>
+                                            <p style="font-size: 18px;font-weight: 600;">TỐI ƯU CHO NGƯỜI VIỆT</p>
+                                            <strong>Sách được viết song ngữ Anh - Việt dễ hiểu, thiết kế hiện đại, khác biệt với sách truyền thống.</strong>
                                         </div>
                                     </div>
 
