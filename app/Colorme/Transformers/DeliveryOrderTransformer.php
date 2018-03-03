@@ -26,20 +26,26 @@ class DeliveryOrderTransformer extends Transformer
             'payment' => $deliveryOrder->payment,
             'created_at' => format_vn_short_datetime(strtotime($deliveryOrder->created_at)),
             'status' => $deliveryOrder->status,
-            'total' => $deliveryOrder->goodOrders->reduce(function ($total, $goodOrder) {
-                return $total + $goodOrder->price * $goodOrder->quantity;
-            }, 0),
+            'total' => $deliveryOrder->status == 'place_order' ? $deliveryOrder->price : 0,
             'paid' => $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0),
-            'debt' => $deliveryOrder->goodOrders->reduce(function ($total, $goodOrder) {
-                    return $total + $goodOrder->price * $goodOrder->quantity;
-                }, 0) - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+            'debt' => $deliveryOrder->status == 'place_order' ? ($deliveryOrder->price - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                     return $paid + $orderPaidMoney->money;
-                }, 0),
+                }, 0)) : 0,
             'attach_info' => $deliveryOrder->attach_info,
             'price' => $deliveryOrder->price,
-            'quantity' => $deliveryOrder->quantity
+            'quantity' => $deliveryOrder->quantity,
+            'paid_history' => $this->orderPaidMoneys->map(function ($orderPaidMoney) {
+                return [
+                    "id" => $orderPaidMoney->id,
+                    "money" => $orderPaidMoney->money,
+                    "note" => $orderPaidMoney->note,
+                    "order_id" => $orderPaidMoney->order_id,
+                    "payment" => $orderPaidMoney->payment,
+                    "created_at" => $orderPaidMoney->created_at->format('Y-m-d')
+                ];
+            })
         ];
         if ($deliveryOrder->staff)
             $data['staff'] = [

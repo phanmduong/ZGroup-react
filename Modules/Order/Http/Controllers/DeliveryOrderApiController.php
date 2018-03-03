@@ -7,6 +7,7 @@ use App\Good;
 use App\HistoryGood;
 use App\ImportedGoods;
 use App\Order;
+use App\OrderPaidMoney;
 use App\Register;
 use App\User;
 use Carbon\Carbon;
@@ -374,7 +375,8 @@ class DeliveryOrderApiController extends ManageApiController
             $order = Order::find($deliveryOrder->id);
             $order->attach_info = $deliveryOrder->attach_info;
             $order->status = 'sent_price';
-            //calculate vietnamese dong price
+            $order->price = json_decode($deliveryOrder->attach_info)->money;
+            $order->quantity = json_decode($deliveryOrder->attach_info)->quantity;
             $order->save();
         }
         //mail and text customer
@@ -385,6 +387,39 @@ class DeliveryOrderApiController extends ManageApiController
     {
         $deliveryOrder = Order::find($deliveryOrderId);
         if ($deliveryOrder == null)
-            return $this->respondErrorWithStatus('Không tìm thấy đơn nhập');
+            return $this->respondErrorWithStatus('Không tìm thấy đơn hàng đặt');
+        $user = User::find($deliveryOrder->user_id);
+        $debt = $deliveryOrder->price - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+        $money = 0;
+        if($request->deposit == 1)
+            $money = max($debt, $user->deposit);
+        else
+            $money = max($debt, $user->money);
+        if($money == 0) {
+            if($debt == 0)
+                return $this->respondErrorWithStatus('Đơn hàng đã được thanh toán xong');
+            else{
+                if($request->deposit == 1) 
+                    return $this->respondErrorWithStatus('Tài khoản cọc của khách hàng bằng không');
+                else
+                    return $this->respondErrorWithStatus('Tài khoản lưu động của khách hàng bằng không');
+            }
+        }
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $deliveryOrder->id;
+        $orderPaidMoney->money = $money;
+        $orderPaidMoney->note = "ok";
+        $orderPaidMoney->payment = $request->payment;
+        $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
+        if($request->deposit == 1)
+            $user->deposit -= $money;
+        else
+            $user->money -= $money;
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thêm thanh toán thành công. Số tiền: ' . $money, 
+        ]);
     }
 }
