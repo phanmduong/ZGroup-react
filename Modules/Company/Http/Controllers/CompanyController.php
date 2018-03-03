@@ -870,8 +870,9 @@ class CompanyController extends ManageApiController
     }
 
     public function getHistoryDebt($companyId,Request $request){
-        $historyDebt = HistoryDebt::where('company_id',$companyId)->get();
-        return $this->respondSuccessWithStatus([
+        $limit = $request->limit ? $request->limit : 20;
+        $historyDebt = HistoryDebt::where('company_id',$companyId)->get()->paginate($limit);
+        return $this->respondWithPagination($historyDebt,[
             "history-debt" => $historyDebt->map(function($pp){
                 return $pp->transform();
             })
