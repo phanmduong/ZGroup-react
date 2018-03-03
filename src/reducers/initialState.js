@@ -1991,4 +1991,10 @@ export default {
       companies: [],
       goods: [],
     },
+    orderGood:{
+      isLoading: false,
+      isCommitting: false,
+      companies: [],
+      goods: [],
+    },
 };

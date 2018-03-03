@@ -5,12 +5,12 @@ import {bindActionCreators} from 'redux';
 import * as orderedGoodActions from "./orderedGoodAction";
 import * as PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
-import FormInputSelect from "../../../components/common/FormInputSelect";
 import TooltipButton from '../../../components/common/TooltipButton';
 import {Modal} from 'react-bootstrap';
 import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
 import {browserHistory} from 'react-router';
+import ReactSelect from 'react-select';
 
 const textAlign = {textAlign: "right"};
 const btnStyle = { marginRight: 10};
@@ -32,6 +32,7 @@ class CreateOrderedGood extends React.Component {
         this.remove  = this.remove.bind(this);
         this.onChangeCompany  = this.onChangeCompany.bind(this);
         this.commitData  = this.commitData.bind(this);
+        this.onChangeNote  = this.onChangeNote.bind(this);
     }
 
     componentWillMount() {
@@ -62,30 +63,22 @@ class CreateOrderedGood extends React.Component {
         this.setState({showAddModal: false});
     }
 
-    updateFormAdd(e){
-        let name = e.target.name;
-        let value = e.target.value;
-        let {addModalData} = this.state;
-        if(!value) return;
-        if(name==="id"){
-            let good = this.props.goods.filter((obj) => obj.id*1 === value*1)[0];
-            if(good) addModalData = {
-                ...addModalData, 
-                [name]: value,
-                id: good.id, 
-                price: good.price, 
-                quantity: good.quantity,
-            };
-        }else
-        addModalData = {...addModalData, [name]: value};
-        this.setState({addModalData});
+    updateFormAdd(e) {
+        if (!e) return;
+        let { addModalData } = this.state;
+        if (!e.target) {
+            addModalData = {...e};
+        } else{
+            let name = e.target.name;
+            let value = e.target.value;
+            addModalData = { ...addModalData, [name]: value };
+        }
+        this.setState({ addModalData });
     }
 
     onChangeCompany(e){
-        let value = e.target.value;
-        if(value){
-            let company = this.props.companies.filter((obj) => obj.id*1 === value*1)[0];
-            if(company) this.setState({data: {...this.state.data, company}});
+        if (e) {
+            this.setState({ data: { ...this.state.data, company: e } });
         }
     }
 
@@ -113,6 +106,7 @@ class CreateOrderedGood extends React.Component {
             showAddModal: false,
             addModalData: defaultAddModalData
         });
+        helper.showNotification("Đã thêm sản phẩm");
     }
 
     remove(index){
@@ -121,6 +115,11 @@ class CreateOrderedGood extends React.Component {
             goods = [...goods.slice(0, index),...goods.slice(index+1, goods.length)];
             this.setState({data: {...this.state.data, goods}});
         });
+    }
+
+    onChangeNote(e){
+        let note = e.target.value;
+        this.setState({data: {...this.state.data,note}});
     }
 
     commitData(){
@@ -154,6 +153,7 @@ class CreateOrderedGood extends React.Component {
     }
 
     render() {
+        console.log(this.props);
         let {isLoading, goods, companies, isCommitting} = this.props;
         let {data, showAddModal, addModalData} = this.state;
         let sumQuantity=0, sumPrice=0;
@@ -178,6 +178,7 @@ class CreateOrderedGood extends React.Component {
                                                                 <th style={{width: "10%"}}>STT</th>
                                                                 <th style={{width: "40%"}}>Tên</th>
                                                                 <th style={textAlign}>Số lượng</th>
+                                                                <th style={textAlign}>Phân loại</th>
                                                                 <th style={textAlign}>Đơn giá</th>
                                                                 <th style={textAlign}>Thành tiền</th>
                                                                 <th>
@@ -196,13 +197,31 @@ class CreateOrderedGood extends React.Component {
                                                                 <tbody>
                                                                 {data.goods.map(
                                                                     (obj, index) => {
+                                                                        let pr = obj.price * obj.quantity * 1, typeGood = "Khác";
                                                                         sumPrice += obj.price * obj.quantity ;
                                                                         sumQuantity += obj.quantity *1;
+
+                                                                        switch(obj.type){
+                                                                            case "book_comic":{
+                                                                                if(data.company.discount_comic)
+                                                                                sumPrice -= pr*data.company.discount_comic/100;
+                                                                                typeGood = "Truyện tranh";
+                                                                                break;
+                                                                            }
+                                                                            case "book_text":{
+                                                                                if(data.company.discount_text)
+                                                                                sumPrice -= pr*data.company.discount_text/100;
+                                                                                typeGood = "Truyện chữ";
+                                                                                break;
+                                                                            }
+                                                                        }
+
                                                                         return (
                                                                             <tr key={index}>
                                                                                 <td>{index + 1}</td>
                                                                                 <td>{obj.name}</td>
                                                                                 <td style={textAlign}>{obj.quantity}</td>
+                                                                                <td style={textAlign}>{typeGood}</td>
                                                                                 <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                                 <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
                                                                                 <td><div className="btn-group-action" style={{display:"flex", justifyContent: "center"}}>
@@ -233,8 +252,8 @@ class CreateOrderedGood extends React.Component {
                                                                     <td>Tổng</td>
                                                                     <td style={textAlign}>{sumQuantity}</td>
                                                                     <td/>
-                                                                    <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                                     <td/>
+                                                                    <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                                 </tr>
                                                             </tfoot>
                                                         </table>
@@ -280,27 +299,29 @@ class CreateOrderedGood extends React.Component {
 
                                                 <div className="card-content">
                                                     <h4 className="card-title">Nhà phân phối</h4>
-                                                    <FormInputSelect
-                                                        name="company"
-                                                        updateFormData={this.onChangeCompany}
-                                                        label="Chọn nhà phân phối"
-                                                        data={companies}
-                                                        placeholder="Chọn nhà phân phối"
-                                                        value={data.company.id}
-                                                    />
-                                                    <div>
-                                                        <FormInputText name="" label="Địa chỉ" value={data.company.office_address} disabled/>
-                                                        <FormInputText name="" label="SĐT Công ty" value={data.company.phone_company} disabled/>
-                                                        <FormInputText name="" label="Liên hệ" value={data.company.user_contact} disabled/>
-                                                        <FormInputText name="" label="SĐT Liên hệ" value={data.company.user_contact_phone} disabled/>
+                                                     <div>
+                                                        <label>Chọn nhà phân phối</label>
+                                                        <ReactSelect
+                                                            disabled={isLoading}
+                                                            options={companies || []}
+                                                            onChange={this.onChangeCompany}
+                                                            value={data.company.id}
+                                                            name="company"
+                                                            defaultMessage="Chọn nhà phân phối"
+                                                        />
+                                                    </div>
+                                                    <div><br/>
+                                                        <div><label>Địa chỉ</label><br/>{data.company.office_address}</div><br/>
+                                                        <div><label>Chiết khấu truyện tranh</label><br/>{data.company.discount_comic||0}%</div><br/>
+                                                        <div><label>Chiết khấu truyện chữ</label><br/>{data.company.discount_text||0}%</div><br/>
                                                     </div>
                                                     <div>
-                                                        <label className="control-label">Ghi chú</label>
+                                                        <label>Ghi chú</label>
                                                         <div className="comment-input-wrapper">
                                                                 <textarea
                                                                     id="textarea-card-comment"
                                                                     name="note"
-                                                                    onChange={()=>{}}
+                                                                    onChange={this.onChangeNote}
                                                                     value={data.note}
                                                                     onKeyUp={() => {
                                                                     }}
@@ -336,14 +357,15 @@ class CreateOrderedGood extends React.Component {
                             </Modal.Header>
                             <Modal.Body>
                                 <form role="form" id="form-ordered-good">
-                                    <FormInputSelect
-                                        name="id"
-                                        updateFormData={this.updateFormAdd}
-                                        data={goods}
-                                        label="Chọn sản phẩm"
-                                        value={addModalData.id}
-                                        placeholder="Chọn sản phẩm"
-                                    />
+                                    <div>
+                                        <label>Chọn sản phẩm</label>
+                                        <ReactSelect
+                                            options={goods || []}
+                                            onChange={this.updateFormAdd}
+                                            value={addModalData.id}
+                                            defaultMessage="Chọn nhà sản phẩm"
+                                        />
+                                    </div>
                                     <FormInputText
                                         name="quantity" type="number"
                                         label="Số lượng"

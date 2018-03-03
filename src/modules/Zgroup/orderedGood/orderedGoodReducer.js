@@ -64,7 +64,6 @@ export default function orderedGoodReducer(state = initialState.orderedGood, act
             return state;
     }
 }
-
 function getSelectArray(arr) {
     let res = arr.map(obj => {
         return {
@@ -73,5 +72,5 @@ function getSelectArray(arr) {
             label: obj.name,
         };
     });
-    return [{id :null, name:"Chưa Chọn"},...res];
+    return res;
 }

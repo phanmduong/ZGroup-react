@@ -8,6 +8,8 @@ import ExportOrderContainer from "../modules/Zgroup/exportGood/ExportOrderContai
 import CreateExportOrderContainer from "../modules/Zgroup/exportGood/CreateExportOrderContainer";
 import CreateOrderedGood from "../modules/Zgroup/orderedGood/CreateOrderedGood";
 import OrderedGoodContainer from "../modules/Zgroup/orderedGood/OrderedGoodContainer";
+import CreateOrderGoodContainer from "../modules/Zgroup/orderGood/CreateOrderGoodContainer";
+import OrderGoodContainer from "../modules/Zgroup/orderGood/OrderGoodContainer";
 /**
  * Tab Kinh Doanh
  */
@@ -70,5 +72,13 @@ export default [
     {
         path: "/business/ordered-good/create",
         component: CreateOrderedGood,
+    },
+    {
+        path: "/business/order-good",
+        component: OrderGoodContainer,
+    },
+    {
+        path: "/business/order-good/create",
+        component: CreateOrderGoodContainer,
     },
 ];

@@ -1,20 +1,21 @@
-
+/* eslint-disable no-undef */
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as exportOrderActions from "./exportOrderActions";
+import * as orderGoodActions from "./orderGoodAction";
 import * as PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
+import TooltipButton from '../../../components/common/TooltipButton';
+import { Modal } from 'react-bootstrap';
 import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
-import { Modal } from 'react-bootstrap';
+import { browserHistory } from 'react-router';
 import ReactSelect from 'react-select';
-import {browserHistory} from 'react-router';
 
 const textAlign = { textAlign: "right" };
 const btnStyle = { marginRight: 10 };
 
-class CreateExportOrderContainer extends React.Component {
+class CreateOrderGood extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -22,181 +23,143 @@ class CreateExportOrderContainer extends React.Component {
             showAddModal: false,
             addModalData: defaultAddModalData,
             editIndex: -1,
-
         };
         this.isEditModal = false;
-        this.updateFormData = this.updateFormData.bind(this);
-        this.changeGood = this.changeGood.bind(this);
-        this.changeCompany = this.changeCompany.bind(this);
-        this.changeWarehouse = this.changeWarehouse.bind(this);
-        this.commitData = this.commitData.bind(this);
-        this.openAddModal = this.openAddModal.bind(this);
         this.closeAddModal = this.closeAddModal.bind(this);
+        this.openAddModal = this.openAddModal.bind(this);
         this.updateFormAdd = this.updateFormAdd.bind(this);
-        this.changeOrderedGood = this.changeOrderedGood.bind(this);
         this.addGood = this.addGood.bind(this);
-        this.updateWareHouseFormAdd = this.updateWareHouseFormAdd.bind(this);
+        this.remove = this.remove.bind(this);
+        this.onChangeCompany = this.onChangeCompany.bind(this);
+        this.commitData = this.commitData.bind(this);
+        this.onChangeNote = this.onChangeNote.bind(this);
     }
 
     componentWillMount() {
-        //this.props.exportOrderActions.loadAllGoods();
-        //this.props.exportOrderActions.loadAllCompanies();
-        this.props.exportOrderActions.loadAllWarehourses();
-        this.props.exportOrderActions.loadAllOrderedGood();
-        let id = this.props.params.exportOrderId;
-        if (id) {
-            this.props.exportOrderActions.loadExportOrder(id, (data) => {
-                this.setState({ data });
-            });
-        } else {
-            this.setState({ data: defaultData });
-        }
+        this.props.orderGoodActions.loadAllGoods();
+        this.props.orderGoodActions.loadAllCompanies();
+
     }
 
+    // componentWillReceiveProps(next){
+    //     console.log(next);
+    // }
 
-    updateFormData(e) {
-        let name = e.target.name;
-        let value = e.target.value;
-        let newdata = {
-            ...this.state.data,
-            [name]: value,
-        };
-        this.setState({ data: newdata });
-    }
-
-    updateFormAdd(e) {
-        let name = e.target.name;
-        let value = e.target.value;
-        let { addModalData } = this.state;
-        if (!value) return;
-        if (name === "id") {
-            let good = this.props.goods.filter((obj) => obj.id * 1 === value * 1)[0];
-            if (good) addModalData = {
-                ...addModalData,
-                [name]: value,
-            };
-        } else
-            addModalData = { ...addModalData, [name]: value };
-        this.setState({ addModalData });
-    }
-
-    changeGood(e) {
-        let newdata = {
-            ...this.state.data,
-            good: e,
-            price: e.price
-        };
-        this.setState({ data: newdata });
-    }
-
-    changeCompany(e) {
-        let newdata = { ...this.state.data, company: e };
-        this.setState({ data: newdata });
-    }
-
-    changeWarehouse(e) {
-        let newdata = { ...this.state.data, warehouse: e };
-        this.setState({ data: newdata });
+    componentDidUpdate() {
+        helper.setFormValidation('#form-order-good');
     }
 
     openAddModal(index) {
         if (index || index === 0) {
             this.isEditModal = true;
             this.setState({ showAddModal: true, addModalData: this.state.data.goods[index], editIndex: index });
+        } else {
+            this.isEditModal = false;
+            this.setState({ showAddModal: true, addModalData: defaultAddModalData });
         }
-    }
-
-    changeOrderedGood(e) {
-        if (!e) return;
-        this.setState({ data: e });
     }
 
     closeAddModal() {
         this.setState({ showAddModal: false });
     }
 
+    updateFormAdd(e) {
+        if (!e) return;
+        let { addModalData } = this.state;
+        if (!e.target) {
+            addModalData = {...e};
+        } else{
+            let name = e.target.name;
+            let value = e.target.value;
+            addModalData = { ...addModalData, [name]: value };
+        }
+        this.setState({ addModalData });
+    }
+
+    onChangeCompany(e) {
+        if (e) {
+            this.setState({ data: { ...this.state.data, company: e } });
+        }
+    }
+
     addGood() {
-        if ($('#form-good').valid()) {
-            if(!this.state.addModalData.warehouse.id){
-                helper.showErrorNotification("Vui lòng chọn kho xuất!");
+        if ($('#form-order-good').valid()) {
+            if (helper.isEmptyInput(this.state.addModalData.id)) {
+                helper.showErrorNotification("Vui lòng chọn sản phẩm");
                 return;
             }
-
-            let { goods } = this.state.data;
-            let good = goods.filter((obj) => obj.id === this.state.addModalData.id)[0];
-            if (!good) return;
-
+        } else { return; }
+        let { goods } = this.state.data;
+        let good = this.props.goods.filter((obj) => obj.id === this.state.addModalData.id)[0];
+        if (!good) return;
+        if (this.isEditModal) {
             goods = [...goods.slice(0, this.state.editIndex),
             { ...this.state.addModalData, name: good.name },
             ...goods.slice(this.state.editIndex + 1, goods.length)
             ];
-
-
-            this.setState({
-                data: { ...this.state.data, goods },
-                showAddModal: false,
-                addModalData: defaultAddModalData
-            });
+        } else {
+            goods = [...goods, { ...this.state.addModalData, name: good.name }];
         }
+
+        this.setState({
+            data: { ...this.state.data, goods },
+            showAddModal: false,
+            addModalData: defaultAddModalData
+        });
+        helper.showNotification("Đã thêm sản phẩm");
+    }
+
+    remove(index) {
+        helper.confirm("warning", "Xóa", "Bạn có chắc muốn xóa?", () => {
+            let { goods } = this.state.data;
+            goods = [...goods.slice(0, index), ...goods.slice(index + 1, goods.length)];
+            this.setState({ data: { ...this.state.data, goods } });
+        });
     }
 
     commitData() {
         let { data } = this.state;
-        if (!data.id) {
-            helper.showErrorNotification("Vui lòng chọn mã đặt hàng");
+        let { user } = this.props;
+        if (!data.company || helper.isEmptyInput(data.company.id)) {
+            helper.showErrorNotification("Vui lòng chọn nhà cung cấp!");
             return;
-        }
-
-        let selectedAllWareHouse = true;
-        data.goods.forEach(obj => {
-            if(!obj.warehouse || !obj.warehouse.id) {
-                
-                selectedAllWareHouse = false;
+        } else
+            if (!data.goods || data.goods.length == 0) {
+                helper.showErrorNotification("Vui lòng thêm sản phẩm!");
                 return;
             }
-        });
-        
-        if(!selectedAllWareHouse){
-            helper.showErrorMessage("Vui lòng chọn kho xuất cho tất cả sản phẩm");
-            return;
-        }
-            this.props.exportOrderActions.createExportOrder(
-                {
-                    ...data,
-                    goods: JSON.stringify(data.goods.map(
-                        (obj)=>{
-                            if(!obj.warehouse || !obj.warehouse.id) return;
-                            return ({
-                                id: obj.id,
-                                price: obj.price,
-                                quantity: obj.quantity,
-                                export_quantity: obj.quantity,
-                                warehouse_id: obj.warehouse.id,
-                            });
-                        })
-                    ) ,
-                    staff_id: this.props.user.id,
-                    total_price: data.price * data.quantity,
-                });
-        
+        let res = {
+            ...data,
+            staff_id: user.id,
+            company_id: data.company.id,
+            goods: JSON.stringify(data.goods.map(
+                (obj) => {
+                    return ({
+                        id: obj.id,
+                        price: obj.price,
+                        quantity: obj.quantity,
+                    });
+                })
+            ),
+
+        };
+        this.props.orderGoodActions.CreateOrderGood(res);
     }
 
-    updateWareHouseFormAdd(e){
-        if(!e) return;
-        let newdata = this.state.addModalData;
-        this.setState({addModalData: {...newdata, warehouse: e}});
+    onChangeNote(e){
+        let note = e.target.value;
+        this.setState({data: {...this.state.data,note}});
     }
 
     render() {
-        let { data, addModalData, showAddModal } = this.state;
-        let { orderedGoods, isLoading, isCommitting, warehouses, params,} = this.props;
+        let { isLoading, goods, companies, isCommitting } = this.props;
+        let { data, showAddModal, addModalData } = this.state;
         let sumQuantity = 0, sumPrice = 0;
-        let isEdit = params.exportOrderId;
         return (
             <div className="content">
                 <div className="container-fluid">
                     {(isLoading) ? <Loading /> :
-                        <form role="form" id="form-id" onSubmit={(e) => e.preventDefault()}>
+                        <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-8">
                                     <div className="card">
@@ -213,22 +176,34 @@ class CreateExportOrderContainer extends React.Component {
                                                             <th style={{ width: "10%" }}>STT</th>
                                                             <th style={{ width: "40%" }}>Tên</th>
                                                             <th style={textAlign}>Số lượng</th>
+                                                            <th style={textAlign}>Phân loại</th>
                                                             <th style={textAlign}>Đơn giá</th>
                                                             <th style={textAlign}>Thành tiền</th>
-                                                            
+                                                            <th>
+                                                                <TooltipButton text="Thêm sản phẩm" placement="top">
+                                                                    <button style={{ float: "right" }}
+                                                                        className="btn btn-fill btn-rose btn-sm"
+                                                                        type="button"
+                                                                        onClick={() => this.openAddModal(null)}
+                                                                    ><i className="material-icons">add</i>
+                                                                    </button>
+                                                                </TooltipButton>
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     {(data && data.goods && data.goods.length > 0) ?
                                                         <tbody>
                                                             {data.goods.map(
                                                                 (obj, index) => {
-                                                                    sumPrice += obj.price * obj.quantity;
+                                                                    let pr = obj.price * obj.quantity * 1, typeGood = "Khác";
+                                                                    sumPrice += pr;
                                                                     sumQuantity += obj.quantity * 1;
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
-                                                                            <td>{obj.good.name}</td>
+                                                                            <td>{obj.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
+                                                                            <td style={textAlign}>{typeGood}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
@@ -236,6 +211,11 @@ class CreateExportOrderContainer extends React.Component {
                                                                                     onClick={() => {
                                                                                         return this.openAddModal(index);
                                                                                     }}><i className="material-icons">edit</i>
+                                                                                </a>
+                                                                                <a data-toggle="tooltip" title="Xoá" type="button" rel="tooltip"
+                                                                                    onClick={() => {
+                                                                                        return this.remove(index);
+                                                                                    }}><i className="material-icons">delete</i>
                                                                                 </a>
                                                                             </div></td>
                                                                         </tr>
@@ -248,8 +228,7 @@ class CreateExportOrderContainer extends React.Component {
                                                         </tbody>
 
                                                     }
-
-                                                    <tfoot style={{ fontWeight: "bolder" , fontSize: "1.1em"}}>
+                                                    <tfoot style={{ fontWeight: "bolder", fontSize: "1.1em" }}>
                                                         <tr>
                                                             <td />
                                                             <td>Tổng</td>
@@ -262,26 +241,26 @@ class CreateExportOrderContainer extends React.Component {
                                                 </table>
                                             </div>
                                             {isCommitting ?
-                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse", marginRight: 30, marginTop:40 }}>
+                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse", marginTop: 40 }}>
                                                     <button style={btnStyle} className="btn btn-rose disabled" type="button" disabled>
                                                         <i className="fa fa-spinner fa-spin" /> Đang lưu...
                                                                 </button>
                                                 </div>
                                                 :
-                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse" , marginRight: 10, marginTop:40}}>
+                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse", marginTop: 40 }}>
                                                     <button
                                                         className="btn btn-fill" type="button"
                                                         style={btnStyle}
                                                         onClick={() => {
                                                             helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
                                                                 () => {
-                                                                    return browserHistory.push("/business/export-order");
+                                                                    return browserHistory.push("/business/order-good");
                                                                 }
                                                             );
                                                         }}
                                                     ><i className="material-icons">cancel</i> Hủy</button>
                                                     <button
-                                                        className="btn btn-fill btn-rose"
+                                                        className="btn btn-fill btn-rose "
                                                         style={btnStyle}
                                                         type="button"
                                                         onClick={this.commitData}
@@ -301,33 +280,36 @@ class CreateExportOrderContainer extends React.Component {
                                         </div>
 
                                         <div className="card-content">
-                                            <h4 className="card-title">Thông tin</h4>
+                                            <h4 className="card-title">Nhà cung cấp</h4>
 
                                             <div>
-                                                <label>Chọn mã đặt hàng</label>
+                                                <label>Chọn nhà cung cấp</label>
                                                 <ReactSelect
-                                                    disabled={isLoading || isEdit}
-                                                    options={orderedGoods || []}
-                                                    onChange={this.changeOrderedGood}
-                                                    value={data.id}
-                                                    name="order"
-                                                    defaultMessage="Chọn mã"
-                                                /></div>
+                                                    disabled={isLoading}
+                                                    options={companies || []}
+                                                    onChange={this.onChangeCompany}
+                                                    value={data.company.id}
+                                                    name="company"
+                                                    defaultMessage="Chọn nhà cung cấp"
+                                                />
+                                            </div>
                                             <div>
-                                                <div>
-                                                    <FormInputText name="" label="Nhà phân phối" value={data.company.name} disabled />
-                                                </div>
+                                                <FormInputText name="" label="Địa chỉ" value={data.company.office_address} disabled />
+                                                <FormInputText name="" label="SĐT Công ty" value={data.company.phone_company} disabled />
+                                            </div>
+                                            <div>
                                                 <label className="control-label">Ghi chú</label>
                                                 <div className="comment-input-wrapper">
                                                     <textarea
                                                         id="textarea-card-comment"
                                                         name="note"
-                                                        onChange={this.updateFormData}
+                                                        onChange={this.onChangeNote}
                                                         value={data.note}
                                                         onKeyUp={() => {
                                                         }}
                                                         placeholder="Nhập ghi chú"
                                                         className="comment-input"
+                                                        required
                                                         style={{
                                                             width: "100%",
                                                             margin: "10px",
@@ -336,10 +318,14 @@ class CreateExportOrderContainer extends React.Component {
                                                     />
                                                 </div>
                                             </div>
+
+
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
+
                         </form>}
                 </div>
                 <Modal bsSize="small" show={showAddModal} onHide={this.closeAddModal}>
@@ -352,24 +338,16 @@ class CreateExportOrderContainer extends React.Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form role="form" id="form-good" onSubmit={(e) => { e.preventDefault(); }}>
-                            <FormInputText
-                                name="" type="text"
-                                label="Sản phẩm"
-                                value={addModalData.good.name}
-                                updateFormData={() => { }}
-                                disabled
-                            />
+                        <form role="form" id="form-order-good">
                             <div>
-                                <label>Chọn kho xuất</label>
+                                <label>Chọn sản phẩm</label>
                                 <ReactSelect
-                                    disabled={isLoading}
-                                    options={warehouses || []}
-                                    onChange={this.updateWareHouseFormAdd}
-                                    value={addModalData.warehouse.id}
-                                    defaultMessage="Chọn kho xuất"
-                                /></div>
-
+                                    options={goods || []}
+                                    onChange={this.updateFormAdd}
+                                    value={addModalData.id}
+                                    defaultMessage="Chọn nhà sản phẩm"
+                                />
+                            </div>
                             <FormInputText
                                 name="quantity" type="number"
                                 label="Số lượng"
@@ -386,7 +364,7 @@ class CreateExportOrderContainer extends React.Component {
                                 minValue="0"
                                 updateFormData={this.updateFormAdd}
                                 placeholder="Nhập giá"
-                                disabled
+                                required
                             />
                             <FormInputText
                                 name="" type="number"
@@ -403,7 +381,7 @@ class CreateExportOrderContainer extends React.Component {
                         <div style={{ display: "flex", justifyContent: "flex-end" }}>
                             <button className="btn btn-fill btn-rose" type="button"
                                 onClick={this.addGood}
-                            ><i className="material-icons">done</i> Lưu
+                            ><i className="material-icons">add</i> Thêm
                                         </button>
                             <button className="btn btn-fill" type="button"
                                 onClick={this.closeAddModal}
@@ -414,63 +392,49 @@ class CreateExportOrderContainer extends React.Component {
                     </Modal.Footer>
                 </Modal>
             </div>
+
         );
     }
 }
 
-CreateExportOrderContainer.propTypes = {
+CreateOrderGood.propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    exportOrderActions: PropTypes.object.isRequired,
-    isCommitting: PropTypes.bool,
-    isLoadingGoods: PropTypes.bool,
-    isLoadingCompanies: PropTypes.bool,
-    isLoadingWarehouses: PropTypes.bool,
-    user: PropTypes.object,
-    data: PropTypes.object,
-    companies: PropTypes.array,
+    isCommitting: PropTypes.bool.isRequired,
     goods: PropTypes.array,
-    warehouses: PropTypes.array,
-    orderedGoods: PropTypes.array,
-    params: PropTypes.object,
+    companies: PropTypes.array,
+    orderGoodActions: PropTypes.object,
+    user: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.exportOrder.isLoading,
-        isCommitting: state.exportOrder.isCommitting,
-        isLoadingGoods: state.exportOrder.isLoadingGoods,
-        isLoadingCompanies: state.exportOrder.isLoadingCompanies,
-        isLoadingWarehouses: state.exportOrder.isLoadingWarehouses,
+        isLoading: state.orderGood.isLoading,
+        goods: state.orderGood.goods,
+        companies: state.orderGood.companies,
+        isCommitting: state.orderGood.isCommitting,
         user: state.login.user,
-        data: state.exportOrder.data,
-        companies: state.exportOrder.companies,
-        goods: state.exportOrder.goods,
-        warehouses: state.exportOrder.warehouses,
-        orderedGoods: state.exportOrder.orderedGoods,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        exportOrderActions: bindActionCreators(exportOrderActions, dispatch),
+        orderGoodActions: bindActionCreators(orderGoodActions, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateExportOrderContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateOrderGood);
 
-let defaultData = {
-    company: { id: null, name: "" },
-    staff: { id: null, name: "" },
-    good: [
-        // {id: null, name: "", quantity: 0,},
+const defaultData = {
+    company: { id: "", name: "" },
+    goods: [
+        // {id: "1", name: "Sản phẩm 1", quantity: 1, price: 3},
+        // {id: "2", name: "Sản phẩm 2", quantity: 2, price: 4},
+        // {id: "3", name: "Sản phẩm 3", quantity: 3, price: 5},
     ],
-    warehouse: { id: null, name: "" },
-    quantity: 0,
-    total_price: 0,
-    discount: 0,
+    note: "",
 };
-
 const defaultAddModalData = {
-    good: {},
-    warehouse: {},
+    id: "",
+    quantity: 0,
+    price: 0,
 };
