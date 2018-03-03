@@ -29,6 +29,7 @@ $orderRoutes = function () {
 
         Route::get('/all-customers', 'CustomerController@allCustomers');
         Route::get('/customer', 'CustomerController@getCustomers');
+        Route::post('/customer/{customerId}/top-up', 'CustomerController@topUpUserWallet');
         Route::get('/total-and-debt-money', 'CustomerController@countMoney');
         Route::post('/add-customer', 'CustomerController@addCustomer');
         Route::put('/edit-customer/{customerId}', 'CustomerController@editCustomer');
