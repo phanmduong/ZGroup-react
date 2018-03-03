@@ -162,7 +162,54 @@
         <br><br><br>
     </div>
 
-    
+    <div id="modalInfo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Quan tâm đến sản phẩm của Elight?</h4>
+                </div>
+                <div class="modal-header" id="modal-buy-body">
+                    <a style="text-align: center">Điền thông tin để Elight tư vấn sản phẩm học tiếng anh hiệu quả nhất với bạn !</a>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="GET">
+                        <div class="card-block">
+                            <div class="form-group label-floating">
+                                <label class="control-label">Họ và tên</label>
+                                <input id="name" type="text" name="name" class="form-control"
+                                    placeholder="Ví dụ: Bùi Ngọc Minh">
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Số điện thoại</label>
+                                <input id="phone" type="text" name="phone" class="form-control"
+                                    placeholder="Ví dụ: 0166799xxxx">
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Email</label>
+                                <input id="e-email" type="email" name="email" class="form-control"
+                                    placeholder="Ví dụ: android@colorme.vn">
+                            </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Gửi</button>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function (e) {
+            setTimeout(function () {
+                $('#modalinfo').modal('show');
+            }, 60000);
+        };
+    </script>
 @endsection
 
 @push('scripts')

@@ -121,8 +121,7 @@
             <br>
         </div>
     </div>
-
-
+    
     <div id="modalInfo" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
