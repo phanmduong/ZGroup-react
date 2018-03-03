@@ -492,6 +492,8 @@ class CompanyController extends ManageApiController
             $historyDebt->date = $date;
             $historyDebt->type = "print";
             $historyDebt->company_id = $printOrder->company_id;
+            $company = Company::find($historyDebt->company_id);
+            $company->account_value = $historyDebt->value;
             $historyDebt->save();
 
             $n = HistoryDebt::where('company_id', 1)->count();
@@ -504,6 +506,8 @@ class CompanyController extends ManageApiController
             $historyDebt->date = $date;
             $historyDebt->type = "print";
             $historyDebt->company_id = 1;
+            $company = Company::find($historyDebt->company_id);
+            $company->account_value = $historyDebt->value;
             $historyDebt->save();
 
         }
@@ -839,6 +843,8 @@ class CompanyController extends ManageApiController
             $historyDebt->date = $date;
             $historyDebt->type = $type;
             $historyDebt->company_id = $order->company_id;
+            $company = Company::find($historyDebt->company_id);
+            $company->account_value = $historyDebt->value;
             $historyDebt->save();
 
             $p = $p * (-1);
@@ -852,6 +858,8 @@ class CompanyController extends ManageApiController
             $historyDebt->date = $date;
             $historyDebt->type = $type;
             $historyDebt->company_id = 1;
+            $company = Company::find($historyDebt->company_id);
+            $company->account_value = $historyDebt->value;
             $historyDebt->save();
 
         }
