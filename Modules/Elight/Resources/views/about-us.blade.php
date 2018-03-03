@@ -245,12 +245,15 @@
             </div>
         </div>
     </div>
-    <script>
+@endsection
+
+@push('scripts')
+    <script>            
         window.onload = function (e) {
             setTimeout(function () {
-                $('#modalinfo').modal('show');
+                $('#modalInfo').modal('show');
             }, 60000);
         };
     </script>
-@endsection
+@endpush
 

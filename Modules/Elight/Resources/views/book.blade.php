@@ -203,17 +203,16 @@
             </div>
         </div>
     </div>
-    <script>
-        window.onload = function (e) {
-            setTimeout(function () {
-                $('#modalinfo').modal('show');
-            }, 60000);
-        };
-    </script>
 @endsection
 
 @push('scripts')
-
+    <script>            
+        window.onload = function (e) {
+            setTimeout(function () {
+                $('#modalInfo').modal('show');
+            }, 60000);
+        };
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             // Defining the local dataset

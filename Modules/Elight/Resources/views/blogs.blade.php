@@ -163,16 +163,18 @@
             </div>
         </div>
     </div>
-    <script>
-        window.onload = function (e) {
-            setTimeout(function () {
-                $('#modalinfo').modal('show');
-            }, 60000);
-        };
-    </script>
+    
 @endsection
 
 @push('scripts')
+    <script>            
+        window.onload = function (e) {
+            setTimeout(function () {
+                $('#modalInfo').modal('show');
+            }, 60000);
+        };
+    </script>
+
     <script>
         var search = new Vue({
             el: '#search-blog',
