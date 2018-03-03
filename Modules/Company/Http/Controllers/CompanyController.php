@@ -211,7 +211,7 @@ class CompanyController extends ManageApiController
             $payment->description = $request->description;
             $payment->money_value = $request->money_value;
             $payment->payer_id = $request->user_id;
-            $payment->receiver_id = $request->staff_id;
+            $payment->receiver_id = $this->user->id;
             $payment->register_id = $request->register_id;
             $payment->type = "done";
             $payment->save();
