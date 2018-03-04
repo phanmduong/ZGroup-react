@@ -86,4 +86,19 @@ class StudyClass extends Model
     {
         return $this->hasOne('App\Group', 'class_id');
     }
+
+    public function teachers()
+    {
+        return $this->hasMany(ClassPosition::class, "class_id")->where("position_id", "1");
+    }
+
+    public function teaching_assistants()
+    {
+        return $this->hasMany(ClassPosition::class, "class_id")->where("position_id", "2");
+    }
+
+    public function class_position()
+    {
+        return $this->hasMany(ClassPosition::class, "class_id");
+    }
 }

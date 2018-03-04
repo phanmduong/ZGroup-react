@@ -14,27 +14,43 @@ class TeachingLesson extends Model
         return $this->belongsTo(ClassLesson::class, "class_lesson_id");
     }
 
-    public function teacher_check_in(){
+    public function teacher_check_in()
+    {
         return $this->belongsTo(CheckInCheckOut::class, "teacher_checkin_id");
     }
 
-    public function teacher_check_out(){
+    public function teacher_check_out()
+    {
         return $this->belongsTo(CheckInCheckOut::class, "teacher_checkout_id");
     }
 
-    public function ta_check_in(){
+    public function ta_check_in()
+    {
         return $this->belongsTo(CheckInCheckOut::class, "ta_checkin_id");
     }
 
-    public function ta_check_out(){
+    public function ta_check_out()
+    {
         return $this->belongsTo(CheckInCheckOut::class, "ta_checkout_id");
     }
 
-    public function teacher(){
+    public function teacher()
+    {
         return $this->belongsTo(User::class, 'teacher_id');
     }
 
-    public function teaching_assistant(){
+    public function teaching_assistant()
+    {
         return $this->belongsTo(User::class, 'teaching_assistant_id');
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo(User::class, 'teaching_id');
+    }
+
+    public function class_position()
+    {
+        return $this->belongsTo(ClassPosition::class, 'class_position_id');
     }
 }
