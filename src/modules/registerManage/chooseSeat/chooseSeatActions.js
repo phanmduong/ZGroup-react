@@ -28,11 +28,7 @@ export const loadSeats = (roomId, from, to) => {
         dispatch({
             type: CHOOSE_SEAT_BEGIN_LOAD_SEATS,
         });
-        const res = await getSeats(
-            roomId,
-            from,
-            to,
-        );
+        const res = await getSeats(roomId, from, to);
         const {
             available_seats,
             booked_seats,
@@ -58,13 +54,13 @@ export const setActiveRoom = roomId => {
     };
 };
 
-export const toggleShowChooseSeatModal = (showModal, base = {}, registerId) => {
+export const toggleShowChooseSeatModal = (showModal, base = {}, register) => {
     return dispatch => {
         dispatch({
             type: TOGGLE_CHOOSE_SEAT_MODAL,
             showModal,
             base,
-            registerId,
+            register,
         });
     };
 };
