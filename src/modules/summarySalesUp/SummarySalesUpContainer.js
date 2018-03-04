@@ -31,7 +31,6 @@ class SummarySalesUpContainer extends React.Component {
             month: {year: 0, month: 0},
         };
         this.onChangeBase = this.onChangeBase.bind(this);
-        this.loadSummary = this.loadSummary.bind(this);
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.exportExcel = this.exportExcel.bind(this);
@@ -42,6 +41,7 @@ class SummarySalesUpContainer extends React.Component {
 
     componentWillMount() {
         this.props.summarySalesActions.loadBasesData();
+        this.props.summarySalesActions.loadSummarySalesData();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -101,9 +101,6 @@ class SummarySalesUpContainer extends React.Component {
         this.props.summarySalesActions.loadSummarySalesData(value, this.state.time.startTime, this.state.time.endTime);
     }
 
-    loadSummary() {
-        this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId);
-    }
 
     openFilterPanel(){
         let newstatus = !this.state.openFilterPanel;
@@ -267,8 +264,6 @@ class SummarySalesUpContainer extends React.Component {
 
                             <SummarySalesComponent
                                 {...this.props}
-                                summary = {this.props.summary}
-                                loadSummary={this.loadSummary}
                             />
                         </div>
                     )
