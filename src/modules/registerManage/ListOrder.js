@@ -68,32 +68,42 @@ export function setRuleShowCall(register) {
     }
     return [btn, titleCall, showCall];
 }
+
+export  function sumMoney(register) {
+    let sumMoney = 0;
+    register.historyPayments && register.historyPayments.map((payment) => {
+        sumMoney += payment.money_value;
+    });
+    return sumMoney;
+}
 class ListOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {
-            isOpenModal: false,
             register: {},
-            isOpenCallModal: false,
+            isOpenModal: false,
             isCallModal: false,
+            sumMoney: 0,
         };
 
-        this.openCallModal = this.openCallModal.bind(this);
+        this.openModal = this.openModal.bind(this);
         this.closeCallModal = this.closeCallModal.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
-    openCallModal(register, isCallModal) {
+
+
+    openModal(register, isCallModal) {
         this.setState({
-            isOpenCallModal: true,
+            isOpenModal: true,
             register: register,
             isCallModal: isCallModal,
         });
     }
 
     closeCallModal() {
-        this.setState({ isOpenCallModal: false });
+        this.setState({ isOpenModal: false });
     }
 
     openChooseSeatModal(base) {
@@ -101,7 +111,6 @@ class ListOrder extends React.Component {
     }
 
     render() {
-        // console.log(this.props.registers,"QQQQQQQQ");
 
         return (
             <div className="table-responsive">
@@ -148,8 +157,8 @@ class ListOrder extends React.Component {
                                                             " full-width padding-left-right-10"
                                                         }
                                                         onClick={() =>
-                                                            this.openCallModal(
-                                                                register,
+                                                            this.openModal(
+                                                                register,true
                                                             )
                                                         }
                                                     >
@@ -218,7 +227,7 @@ class ListOrder extends React.Component {
                                                         " full-width padding-left-right-10"
                                                     }
                                                     onClick={() =>
-                                                        this.openCallModal(
+                                                        this.openModal(
                                                             register,
                                                             true,
                                                         )
@@ -300,7 +309,7 @@ class ListOrder extends React.Component {
                                         <td>
                                             <a
                                                 onClick={() =>
-                                                    this.openCallModal(
+                                                    this.openModal(
                                                         register,
                                                         false,
                                                     )
@@ -314,13 +323,13 @@ class ListOrder extends React.Component {
                                         </td>
                                     </tr>
                                 );
+
                             })}
                         </tbody>
                     </table>
                 )}
-
                 <Modal
-                    show={this.state.isOpenCallModal}
+                    show={this.state.isOpenModal}
                     bsStyle="primary"
                     onHide={this.closeCallModal}
                 >
@@ -330,9 +339,11 @@ class ListOrder extends React.Component {
                             register={this.state.register}
                             closeCallModal={this.closeCallModal}
                             isCallModal={this.state.isCallModal}
+                            sumMoney = {sumMoney(this.state.register)}
                         />
                     </Modal.Body>
                 </Modal>
+
             </div>
         );
     }

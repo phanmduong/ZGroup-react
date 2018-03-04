@@ -23,11 +23,8 @@ const legendOpts = {
 class OverviewSales extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.loadSummary = this.loadSummary.bind(this);
     }
-    componentWillMount() {
-        this.props.summarySalesActions.loadSummarySalesData();
-    }
-
     convertData(campaigns) {
         let labels = [];
         let data = [];
@@ -55,7 +52,7 @@ class OverviewSales extends React.Component {
         return dataChart;
     }
     loadSummary() {
-        this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId);
+        this.props.summarySalesActions.loadSummarySalesData();
     }
 
     render() {

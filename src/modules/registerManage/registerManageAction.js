@@ -86,6 +86,34 @@ export function changeCallStatus(
             });
     };
 }
+export function savePayment(money, register_id, user_id, closeModal) {
+    return function (dispatch) {
+      dispatch({
+          type : types.BEGIN_SAVE_PAYMENT,
+      });
+      registerManageApi.savePaymentApi(money,register_id,user_id)
+          .then(res => {
+             if (res.data.status){
+                 closeModal();
+                 dispatch({
+                     type  : types.SAVED_PAYMENT_SUCCESS,
+                     register_id : register_id,
+                     payment : res.data.data.payment,
+                 });
+                 helper.showNotification("Lưu thành công");
+             }
+             else {
+                 dispatch({type : types.SAVED_PAYMENT_ERROR});
+                 helper.showNotification("Lưu thất bại");
+             }
+          })
+          .catch(()=>{
+          dispatch({type : types.SAVED_PAYMENT_ERROR});
+              helper.showNotification("Lưu thất bại");
+          });
+    };
+
+}
 
 export function loadBasesData() {
     return function(dispatch) {

@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Select from '../../components/common/Select';
+// import Select from '../../components/common/Select';
 import * as summarySalesActions from './summarySalesActions';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
@@ -267,6 +267,7 @@ class SummarySalesUpContainer extends React.Component {
 
                             <SummarySalesComponent
                                 {...this.props}
+                                summary = {this.props.summary}
                                 loadSummary={this.loadSummary}
                             />
                         </div>

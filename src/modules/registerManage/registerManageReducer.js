@@ -74,6 +74,24 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                 isChangingStatus: false,
             };
 
+        case types.BEGIN_SAVE_PAYMENT:
+            return{
+                ...state,
+                isSavingPayment : true,
+            };
+        case types.SAVED_PAYMENT_SUCCESS:
+            tmp = addPayment(action.register_id,state.registers,action.payment);
+            return{
+                ...state,
+                isSavingPayment: false,
+                registers : tmp,
+            };
+        case types.SAVED_PAYMENT_ERROR:
+            return{
+                ...state,
+                isSavingPayment : false,
+            };
+
         default:
             return state;
     }
@@ -83,6 +101,16 @@ function addCall(register_id, registers, teleCall) {
     tmpRegs = registers.map((register) => {
         if (register.id === register_id) {
             tmpReg = {...register, teleCalls: [...register.teleCalls, teleCall]};
+            return tmpReg;
+        }
+        else return register;
+    });
+    return tmpRegs;
+}
+function addPayment(register_id, registers, payment) {
+    tmpRegs = registers.map((register) => {
+        if (register.id === register_id) {
+            tmpReg = {...register, historyPayments: [...register.historyPayments, payment]};
             return tmpReg;
         }
         else return register;

@@ -24,13 +24,14 @@ class BasesContainer extends React.Component {
         this.openModal = this.openModal.bind(this);
         this.state = {
             page: 1,
-            query: ""
+            query: "",
         };
         this.timeOut = null;
     }
 
     componentWillMount() {
         this.loadBases();
+
     }
 
     componentWillReceiveProps(nextProps) {

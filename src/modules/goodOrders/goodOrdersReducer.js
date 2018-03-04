@@ -32,6 +32,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 }
             };
         case types.LOAD_GOOD_ORDERS_SUCCESS:
+
             return {
                 ...state,
                 ...{
@@ -85,6 +86,37 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 totalPagesWarehouse: action.totalPagesWarehouse,
                 currentPageWarehouse: action.currentPageWarehouse
             };
+
+
+        case types.BEGIN_LOAD_ALL_PROVINCES_ORDER:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isLoadingProvinces: true,
+                }
+
+            };
+        case types.LOAD_ALL_PROVINCES_SUCCESS_ORDER :
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isLoadingProvinces: false,
+                    provinces: action.provinces,
+                }
+            };
+
+        case types.LOAD_ALL_PROVINCES_ERROR_ORDER :
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isLoadingProvinces: false,
+                }
+            };
+
+
         case types.LOAD_DETAIL_ORDER_SUCCESS:
             return {
                 ...state,
@@ -274,18 +306,18 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     }
                 };
             }
-            else{
+            else {
                 return {
                     ...state,
-                    order : {
+                    order: {
                         ...state.order,
-                        isSaving : true,
+                        isSaving: true,
                     }
                 };
             }
 
         case types.EDIT_ORDER_ERROR:
-            if(action.isQuantity) {
+            if (action.isQuantity) {
                 return {
                     ...state,
                     order: {
@@ -298,12 +330,12 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     }
                 };
             }
-            else{
+            else {
                 return {
                     ...state,
-                    order : {
+                    order: {
                         ...state.order,
-                        isSaving : false,
+                        isSaving: false,
                     }
                 };
             }
@@ -324,16 +356,15 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     }
                 };
             }
-            else{
+            else {
                 return {
                     ...state,
-                    order : {
+                    order: {
                         ...state.order,
-                        isSaving : false,
+                        isSaving: false,
                     }
                 };
             }
-
 
 
         case  types.OPEN_RETURN_ORDER_IN_ORDER:
@@ -395,7 +426,9 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             };
         case  types.LOADED_GOODS_SUCCESS_IN_OVERLAY_IN_ORDER:
             goodsList = action.goods;
-            state.order.order.good_orders && state.order.order.good_orders.map((good)=>{goodsList = assignGood(good.good_id,goodsList);});
+            state.order.order.good_orders && state.order.order.good_orders.map((good) => {
+                goodsList = assignGood(good.good_id, goodsList);
+            });
             return {
                 ...state,
                 order: {
@@ -437,8 +470,6 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             };
 
 
-
-
         case types.BEGIN_EDIT_RETURN_ORDER:
             if (action.isQuantity)
                 return {
@@ -457,33 +488,33 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     ...state,
                     order: {
                         ...state.order,
-                            isSavingReturnOrders: true,
+                        isSavingReturnOrders: true,
                     }
                 };
             }
 
-            case types.EDIT_RETURN_ORDER_SUCCESS:
-                if (action.isQuantity)
-                    return {
-                        ...state,
-                        order: {
-                            ...state.order,
-                            isSavingQuantityInReturnOrders: {
-                                ...state.order.isSavingQuantityInReturnOrders,
-                                id: action.index,
-                                status: false,
-                            },
-                        }
-                    };
-                else {
-                    return {
-                        ...state,
-                        order: {
-                            ...state.order,
-                            isSavingReturnOrders: false,
-                        }
-                    };
-                }
+        case types.EDIT_RETURN_ORDER_SUCCESS:
+            if (action.isQuantity)
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingQuantityInReturnOrders: {
+                            ...state.order.isSavingQuantityInReturnOrders,
+                            id: action.index,
+                            status: false,
+                        },
+                    }
+                };
+            else {
+                return {
+                    ...state,
+                    order: {
+                        ...state.order,
+                        isSavingReturnOrders: false,
+                    }
+                };
+            }
 
         case types.EDIT_RETURN_ORDER_ERROR:
             if (action.isQuantity)
