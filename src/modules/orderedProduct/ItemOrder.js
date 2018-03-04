@@ -57,7 +57,7 @@ class ItemOrder extends React.Component {
                             backgroundColor: ORDERED_STATUS_COLORS[delivery.status]
                         }}
                         className="btn text-name-student-register"
-                        to={`/good/goods/order/${delivery.id}`}>
+                        to={`/order/${delivery.id}/edit`}>
                         {delivery.code ? delivery.code : 'Không có mã'}
                     </Link>
                 </td>
@@ -89,7 +89,7 @@ class ItemOrder extends React.Component {
                             )
                     }
                 </td>
-                <td style={{width:"120px"}}>
+                <td style={{width: "120px"}}>
                     <StatusSelect options={ORDERED_STATUS}
                                   onChange={this.changeStatus}
                                   value={delivery.status}/>
@@ -120,15 +120,12 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>
                     <div className="btn-group-action">
-                        <Link to={`/order/${delivery.id}/edit`}
-                              style={{color: "#878787"}}
-                              data-toggle="tooltip" title=""
-                              type="button" rel="tooltip"
-                              data-original-title="Sửa">
-                            <i className="material-icons">edit</i>
-                        </Link>
                         <Link to={`/order/${delivery.id}/warehouse-import`}
-                              style={{color: "#878787"}}
+                              style={{
+                                  color: "#878787",
+                                  // cursor: ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order < 6
+                                  // && "not-allowed"
+                              }}
                               data-toggle="tooltip" title=""
                               type="button" rel="tooltip"
                               data-original-title="Nhập kho">

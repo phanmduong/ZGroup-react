@@ -135,7 +135,7 @@ class OrderedDetailContainer extends React.Component {
         let customer = this.props.customer;
         return (
             <div className="row">
-                <div className="col-md-12">
+                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                     <div className="card">
                         <div className="card-header card-header-icon"
                              data-background-color="rose">
@@ -210,7 +210,7 @@ class OrderedDetailContainer extends React.Component {
                                         </div>
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div className="form-group">
-                                                <label className="label-control">Phần trăm giảm giá(%)</label>
+                                                <label className="label-control">% giảm giá</label>
                                                 <input type="number"
                                                        name="sale_off"
                                                        max="100"
@@ -342,7 +342,7 @@ class OrderedDetailContainer extends React.Component {
                         }
                     </div>
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div className="card">
                         <div className="card-header card-header-icon"
                              data-background-color="rose">
@@ -355,7 +355,7 @@ class OrderedDetailContainer extends React.Component {
                                 <div className="card-content">
                                     <h4 className="card-title">Thông tin khách hàng</h4>
                                     <div className="row">
-                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div className="form-group">
                                                 <label className="label-control">Tên khách hàng</label>
                                                 <input type="text"
@@ -367,7 +367,7 @@ class OrderedDetailContainer extends React.Component {
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div className="form-group">
                                                 <label className="label-control">Email khách hàng</label>
                                                 <input type="text"
@@ -379,7 +379,7 @@ class OrderedDetailContainer extends React.Component {
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div className="form-group">
                                                 <label className="label-control">Số điện thoại khách hàng</label>
                                                 <input type="text"
@@ -408,6 +408,66 @@ class OrderedDetailContainer extends React.Component {
                             )
                         }
                     </div>
+                    {
+                        this.props.route.type === "edit" &&
+                        <div className="card">
+                            <div className="card-header card-header-icon" data-background-color="rose"><i
+                                className="material-icons">announcement</i></div>
+                            <div className="card-content">
+                                <h4 className="card-title">Thông tin đơn hàng</h4>
+                                {this.props.isLoading ? <Loading/> :
+                                    <div>
+                                        <div>
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div className="form-group">
+                                                    <label className="label-control">Mã đơn hàng</label>
+                                                    <input type="text"
+                                                           name="code"
+                                                           className="form-control"
+                                                           value={this.props.delivery.code}
+                                                           disabled/>
+                                                    <span className="material-input"/>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div className="form-group">
+                                                    <label className="label-control">Ngày tạo đơn hàng</label>
+                                                    <input type="text"
+                                                           name="created_at"
+                                                           className="form-control"
+                                                           value={this.props.delivery.created_at}
+                                                           disabled/>
+                                                    <span className="material-input"/>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div className="form-group">
+                                                    <label className="label-control">Người bán</label>
+                                                    <input type="text"
+                                                           name="staff"
+                                                           className="form-control"
+                                                           value={this.props.delivery.staff ? this.props.delivery.staff.name : 'Không có'}
+                                                           disabled/>
+                                                    <span className="material-input"/>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div className="form-group">
+                                                    <label className="label-control">Phương thức</label>
+                                                    <input type="text"
+                                                           name="payment"
+                                                           className="form-control"
+                                                           value={this.props.delivery.payment ? this.props.delivery.payment : ''}
+                                                           disabled/>
+                                                    <span className="material-input"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
                     <button
                         onClick={this.saveOrder}
                         className="btn btn-rose">Lưu đơn hàng
@@ -432,7 +492,8 @@ OrderedDetailContainer.propTypes = {
     customer: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     orderedDetailAction: PropTypes.object.isRequired,
-    currencies: PropTypes.array.isRequired
+    currencies: PropTypes.array.isRequired,
+    delivery: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -440,7 +501,8 @@ function mapStateToProps(state) {
         order: state.orderedDetail.order,
         customer: state.orderedDetail.customer,
         isLoading: state.orderedDetail.isLoading,
-        currencies: state.orderedDetail.currencies
+        currencies: state.orderedDetail.currencies,
+        delivery: state.orderedDetail.delivery
     };
 }
 

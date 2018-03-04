@@ -88,7 +88,8 @@ export default {
             phone: '',
             email: '',
             note: '',
-        }
+        },
+        delivery: {}
     },
 
 

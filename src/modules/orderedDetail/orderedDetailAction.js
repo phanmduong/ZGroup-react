@@ -75,7 +75,8 @@ export function loadOrder(order_id) {
                 dispatch({
                     type: types.LOAD_ORDER_ORDERED_DETAIL_SUCCESS,
                     order: order,
-                    customer: customer
+                    customer: customer,
+                    delivery: res.data.data.delivery_order
                 });
             });
     };
