@@ -68,6 +68,14 @@ export function setRuleShowCall(register) {
     }
     return [btn, titleCall, showCall];
 }
+
+export  function sumMoney(register) {
+    let sumMoney = 0;
+    register.historyPayments && register.historyPayments.map((payment) => {
+        sumMoney += payment.money_value;
+    });
+    return sumMoney;
+}
 class ListOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -76,12 +84,16 @@ class ListOrder extends React.Component {
             register: {},
             isOpenModal: false,
             isCallModal: false,
+            sumMoney: 0,
         };
 
         this.openModal = this.openModal.bind(this);
         this.closeCallModal = this.closeCallModal.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
+        // this.sumMoney = this.sumMoney.bind(this);
     }
+
+
 
     openModal(register, isCallModal) {
         this.setState({
@@ -100,7 +112,6 @@ class ListOrder extends React.Component {
     }
 
     render() {
-        // console.log(this.props.registers,"QQQQQQQQ");
 
         return (
             <div className="table-responsive">
@@ -313,11 +324,11 @@ class ListOrder extends React.Component {
                                         </td>
                                     </tr>
                                 );
+
                             })}
                         </tbody>
                     </table>
                 )}
-
                 <Modal
                     show={this.state.isOpenModal}
                     bsStyle="primary"
@@ -329,9 +340,11 @@ class ListOrder extends React.Component {
                             register={this.state.register}
                             closeCallModal={this.closeCallModal}
                             isCallModal={this.state.isCallModal}
+                            sumMoney = {sumMoney(this.state.register)}
                         />
                     </Modal.Body>
                 </Modal>
+
             </div>
         );
     }

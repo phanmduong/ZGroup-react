@@ -41,8 +41,7 @@ export default {
         totalCount: 1,
         limit: 20,
         isChangingStatus : false,
-
-
+        isSavingPayment : false,
         isLoadingBases : false,
         bases :[],
     },

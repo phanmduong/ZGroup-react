@@ -6,6 +6,8 @@ import {bindActionCreators} from 'redux';
 import * as registerManageAction from './registerManageAction';
 import moment from "moment/moment";
 import TooltipButton from "../../components/common/TooltipButton";
+import Avatar from '../../components/common/Avatar';
+
 
 function parseTime(x) {
     let hour = moment(x, "HH:mm DD-MM-YYYY").format("HH:mm");
@@ -26,24 +28,36 @@ function parseTimePayment(x) {
 class CallModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note: "", money: null};
+        this.state = {note: "", money: null, sumMoney : this.props.sumMoney};
         this.changeCallStatus = this.changeCallStatus.bind(this);
         this.savePayment = this.savePayment.bind(this);
-        // console.log(parseTime("00:57 06-02-2018"),moment("00:57 06-02-2018", "HH:mm DD-MM-YYYY").add(2,"days").format("DD"),"sad");
+        this.changeMoney = this.changeMoney.bind(this);
     }
+
 
     changeCallStatus(status, note, register_id, user_id) {
         this.props.registerManageAction.changeCallStatus(status, note, register_id, user_id, this.props.closeCallModal);
     }
-    savePayment(money, register_id , user_id){
+
+    savePayment(money, register_id, user_id) {
 
         if (this.state.money === null || this.state.money === undefined || this.state.money === '') {
             helper.showTypeNotification("Vui lòng điền số tiền", 'warning');
         }
         else {
-            this.props.registerManageAction.savePayment(money,register_id,user_id,this.props.closeCallModal);
+            this.props.registerManageAction.savePayment(money, register_id, user_id, this.props.closeCallModal);
         }
     }
+
+    changeMoney(event) {
+        let sumMoney = this.props.sumMoney;
+        sumMoney += parseInt(event.target.value || 0);
+        // if (sumMoney > this.props.register.subscription.price) {
+        //     helper.showTypeNotification("Đã thừa " + (sumMoney - this.props.register.subscription.price) + " đ", 'warning');
+        // }
+        this.setState({money: parseInt(event.target.value), sumMoney});
+    }
+
 
 
     render() {
@@ -75,6 +89,10 @@ class CallModal extends React.Component {
                                     <div className="flex-row-center">
                                         <i className="material-icons">phone</i>
                                         <b>&nbsp; &nbsp;{helper.formatPhone(register.user.phone)} </b>
+                                    </div>
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">email</i>
+                                        &nbsp; &nbsp; {register.user.email}
                                     </div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">email</i>
@@ -183,12 +201,14 @@ class CallModal extends React.Component {
                                     </h4>
                                 </a>
                             </div>
-                            <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
-                                 aria-labelledby="headingFour" aria-expanded="false" style={{height: '0px'}}>
-                                <ul className="timeline timeline-simple">
-                                    {
-                                        this.props.isCallModal ?
-                                            (
+
+                            {
+                                this.props.isCallModal ?
+                                    (
+                                        <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
+                                             aria-labelledby="headingFour" aria-expanded="false"
+                                             style={{height: '0px'}}>
+                                            <ul className="timeline timeline-simple">{
                                                 register.teleCalls && register.teleCalls.map((history, index) => {
                                                     let btn = '';
                                                     if (history.call_status === 1) {
@@ -219,71 +239,143 @@ class CallModal extends React.Component {
                                                             </div>
                                                         </li>
                                                     );
-                                                })) : (
-                                            register.historyPayments && register.historyPayments.map((payment, index) => {
-                                                // let btn = '';
-                                                // if (history.call_status === 1) {
-                                                //     btn = ' success';
-                                                // }
-                                                //
-                                                // else if (history.call_status === 0) {
-                                                //     btn = ' danger';
-                                                // }
-                                                return (
-                                                    <li className="timeline-inverted" key={index}>
-                                                        <TooltipButton text={payment.staff.phone} placement="top">
-                                                            <a className={"timeline-badge success"}
-                                                               href={"tel:" + payment.staff.phone}
-                                                            >
-                                                                <i className="material-icons">phone</i>
-                                                            </a>
-                                                        </TooltipButton>
+                                                })}
+                                            </ul>
+                                        </div>
+                                    )
+                                    :
+                                    (
+                                        <div>
+                                            <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="headingFour" aria-expanded="false"
+                                                 style={{height: '0px'}}>
+                                                <ul className="timeline timeline-simple">
+                                                    {register.historyPayments && register.historyPayments.map((payment, index) => {
+                                                        return (
+                                                            <li className="timeline-inverted" key={index}>
+                                                                <TooltipButton text={payment.staff.phone}
+                                                                               placement="top">
+                                                                    <a href={"tel:" + payment.staff.phone}>
+                                                                        {payment.staff.avatar_url ?
+                                                                            <Avatar size={40}
+                                                                                    url={helper.prefixAvatarUrl(payment.staff.avatar_url)
+                                                                                        ? "http://" + payment.staff.avatar_url :
+                                                                                        payment.staff.avatar_url}
+                                                                                    style={{borderRadius: 6}}/> : null}
+                                                                    </a>
+                                                                </TooltipButton>
 
-                                                        <div className="timeline-panel">
-                                                            <div className="timeline-heading">
+                                                                <div className="timeline-panel">
+                                                                    <div className="timeline-heading">
                                                                 <span className="label label-default"
                                                                       style={{backgroundColor: '#' + payment.staff.color}}>
                                                                             {payment.staff.name}
                                                                 </span>
-                                                                <span
-                                                                    className="label label-default">{parseTimePayment(payment.created_at.date)}
+                                                                        <span
+                                                                            className="label label-default">{parseTimePayment(payment.created_at.date)}
                                                                 </span>
+                                                                    </div>
+                                                                    <div className="timeline-body">
+                                                                        {payment.money_value + " đ"}
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        );
+                                                    })}
+                                                </ul>
+                                            </div>
+                                            {
+                                                <div style={{margin: 30}}>
+                                                    <div style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between"
+                                                    }}>
+                                                        <h4><b>Số tiền cần nộp</b></h4>
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            flexDirection: "column",
+                                                            fontSize: 20
+                                                        }}>
+                                                            {parseInt(this.props.register.subscription.price) + " đ"}
+                                                        </div>
+                                                    </div>
+                                                    <div style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between"
+                                                    }}>
+                                                        <h4><b>Tổng số tiền đã trả</b></h4>
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            flexDirection: "column",
+                                                            fontSize: 20
+                                                        }}>
+                                                            {this.state.sumMoney + " đ"}
+                                                        </div>
+                                                    </div>
+                                                    {this.props.register.subscription.price - this.state.sumMoney > 0 ?
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between"
+                                                        }}>
+                                                            <h4><b>Còn lại</b></h4>
+                                                            <div style={{
+                                                                display: "flex",
+                                                                justifyContent: "center",
+                                                                flexDirection: "column",
+                                                                fontSize: 20
+                                                            }}>
+                                                                {parseInt(this.props.register.subscription.price) - this.state.sumMoney + " đ"}
                                                             </div>
-                                                            <div className="timeline-body">
-                                                                {payment.money_value+ " đ"}
+                                                        </div> :
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between"
+                                                        }}>
+                                                            <h4><b>Đã thừa</b></h4>
+                                                            <div style={{
+                                                                display: "flex",
+                                                                justifyContent: "center",
+                                                                flexDirection: "column",
+                                                                fontSize: 20
+                                                            }}>
+                                                                {this.state.sumMoney - parseInt(this.props.register.subscription.price) + " đ"}
                                                             </div>
                                                         </div>
-                                                    </li>
-                                                );
-                                            }))
-                                    }
-                                </ul>
-                            </div>
+                                                    }
+
+                                                </div>
+                                            }
+                                        </div>
+                                    )
+                            }
                         </div>
 
 
                     </div>
 
-                    {this.props.isCallModal ?
-                        <div className="form-group label-floating is-empty">
-                            <label className="control-label">Ghi chú</label>
-                            <input type="text" className="form-control"
-                                   value={this.state.note}
-                                   onChange={(event) => this.setState({note: event.target.value})}/>
-                        </div>
-                        :
-                        <div className="form-group label-floating is-empty">
-                            <label className="control-label">Số tiền</label>
-                            <input type="number" className="form-control"
-                                   value={this.state.money}
-                                   onChange={(event) => this.setState({money: event.target.value})}/>
-                        </div>
+                    {
+                        this.props.isCallModal ?
+                            <div className="form-group label-floating is-empty">
+                                <label className="control-label">Ghi chú</label>
+                                <textarea className="form-control"
+                                          value={this.state.note}
+                                          onChange={(event) => this.setState({note: event.target.value})}/>
+                            </div>
+                            :
+                            <div className="form-group label-floating is-empty">
+                                <label className="control-label">Số tiền</label>
+                                <input type="number" className="form-control"
+                                       value={this.state.money}
+                                       onChange={(event) => this.changeMoney(event)}/>
+                            </div>
                     }
 
 
                 </div>
 
-                {this.props.isChangingStatus ?
+                {this.props.isChangingStatus || this.props.isSavingPayment ?
                     (
                         <div>
                             <button type="button" className="btn btn-success btn-round disabled"
@@ -352,14 +444,17 @@ class CallModal extends React.Component {
 CallModal.propTypes = {
     register: PropTypes.object.isRequired,
     isChangingStatus: PropTypes.bool.isRequired,
+    isSavingPayment: PropTypes.bool.isRequired,
     isCallModal: PropTypes.bool.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     closeCallModal: PropTypes.func.isRequired,
+    sumMoney: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         isChangingStatus: state.registerManage.isChangingStatus,
+        isSavingPayment: state.registerManage.isSavingPayment,
     };
 }
 

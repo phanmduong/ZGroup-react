@@ -742,8 +742,8 @@ export function onesignalSetUserId(userId) {
     if (window.OneSignal) {
         window.OneSignal.sendTag("user_id", userId, function (tagsSent) {
             console.log("tag ok ", tagsSent);
-        });    
-    }    
+        });
+    }
     /* eslint-enable */
 }
 
@@ -1266,4 +1266,13 @@ export function convertDotMoneyToK(data) {
 
     }
     return data;
+}
+
+export function prefixAvatarUrl(url,prefix = "http") {
+    let tmpAva = url;
+    if (tmpAva.slice(0, 4) !== "http") {
+        tmpAva = (prefix+"://").concat(tmpAva);
+        return tmpAva;
+    }
+    return tmpAva;
 }
