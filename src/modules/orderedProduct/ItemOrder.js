@@ -106,7 +106,18 @@ class ItemOrder extends React.Component {
                         }
                     </a>
                 </td>
-                <td>{helper.dotNumber(delivery.total)}đ</td>
+                <td>
+                    <TooltipButton text="Thanh toán" placement="top">
+                        <button
+                            onClick={() => this.props.showChooseWalletModal(delivery)}
+                            className="btn btn-sm btn-success btn-main">
+                            {helper.dotNumber(delivery.total)}đ
+                        </button>
+                    </TooltipButton>
+                </td>
+                <td>
+                    {helper.dotNumber(delivery.debt)}đ
+                </td>
                 <td>
                     <div className="btn-group-action">
                         <Link to={`/order/${delivery.id}/edit`}
@@ -139,7 +150,8 @@ ItemOrder.propTypes = {
     showSendPriceModal: PropTypes.func.isRequired,
     check: PropTypes.bool.isRequired,
     isSendingPrice: PropTypes.bool.isRequired,
-    chooseItem: PropTypes.func.isRequired
+    chooseItem: PropTypes.func.isRequired,
+    showChooseWalletModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

@@ -4,8 +4,9 @@ import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import * as helper from '../../helpers/helper';
 
 import {Link} from "react-router";
+import TooltipButton from "../../components/common/TooltipButton";
 
-class  ListRegister extends React.Component {
+class ListRegister extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
@@ -25,11 +26,13 @@ class  ListRegister extends React.Component {
                         <th>Họ tên</th>
                         <th>Email</th>
                         <th>Phone</th>
+                        {this.props.genId == 0 && <th>Khóa</th>}
                         <th>Mã thẻ</th>
                         <th>Saler</th>
                         <th>Chiến dịch</th>
                         <th>Học phí</th>
                         <th>Đăng kí</th>
+                        <th>Hẹn nộp</th>
                         <th/>
                     </tr>
                     </thead>
@@ -94,6 +97,7 @@ class  ListRegister extends React.Component {
                                     {helper.formatPhone(register.phone)}
                                 </a>
                                 </td>
+                                {this.props.genId == 0 && <th>{register.gen_name}</th>}
                                 <td>{register.code}</td>
                                 <td>
                                     {
@@ -109,12 +113,12 @@ class  ListRegister extends React.Component {
                                             )
                                             :
                                             (
-                                                   <Link className="btn btn-xs btn-main no-data"
-                                                    to={`/teaching/registerlist/-1`}
-                                                    >
-                                                        Không có
+                                                <Link className="btn btn-xs btn-main no-data"
+                                                      to={`/teaching/registerlist/-1`}
+                                                >
+                                                    Không có
                                                     <div className="ripple-container"/>
-                                                    </Link>
+                                                </Link>
                                             )
 
                                     }
@@ -135,10 +139,10 @@ class  ListRegister extends React.Component {
                                             :
                                             (
                                                 <button className="btn btn-xs btn-main no-data"
-                                                onClick={() => this.props.loadRegisterStudentByCampaign('-1')}
-                                                    >
-                                                Không có
-                                                <div className="ripple-container"/>
+                                                        onClick={() => this.props.loadRegisterStudentByCampaign('-1')}
+                                                >
+                                                    Không có
+                                                    <div className="ripple-container"/>
                                                 </button>
                                             )
                                     }
@@ -164,9 +168,18 @@ class  ListRegister extends React.Component {
                                     </div>
                                 </td>
                                 <td>
+                                    <TooltipButton text={register.appointment_payment_date} placement="top">
+                                        <div>
+                                            {register.appointment_payment}
+                                        </div>
+                                    </TooltipButton>
+                                </td>
+                                <td>
                                     <ButtonGroupAction
                                         disabledEdit={!(register.editable && register.paid_status)}
-                                        edit={(obj)=>{return this.props.openModalChangeInfoStudent(obj); }}
+                                        edit={(obj) => {
+                                            return this.props.openModalChangeInfoStudent(obj);
+                                        }}
                                         delete={this.props.deleteRegister}
                                         object={register}
                                         disabledDelete={!register.is_delete}>
