@@ -40,15 +40,18 @@ class ChooseSeatModalContainer extends React.Component {
                     booked: true,
                 };
             }),
-        ].map((seat, index) => {
+        ].map(seat => {
             return {
                 ...seat,
-                index,
+                index: seat.id,
             };
         });
     }
 
-    onChooseSeat(seat) {
+    onChooseSeat(index) {
+        const seat = this.props.seats.filter(seat => {
+            return index === seat.id;
+        })[0];
         console.log(seat);
     }
 
@@ -82,6 +85,8 @@ class ChooseSeatModalContainer extends React.Component {
     }
 
     render() {
+        console.log(this.props.register);
+
         const { rooms } = this.props;
 
         return (
@@ -197,6 +202,7 @@ ChooseSeatModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     base: PropTypes.object.isRequired,
+    register: PropTypes.object.isRequired,
     rooms: PropTypes.array.isRequired,
     isLoadingSeats: PropTypes.bool.isRequired,
     seats: PropTypes.array.isRequired,
@@ -214,6 +220,7 @@ function mapStateToProps(state) {
         from: state.chooseSeat.from,
         rooms: state.chooseSeat.rooms,
         to: state.chooseSeat.to,
+        register: state.chooseSeat.register,
         isLoading: state.chooseSeat.isLoading,
         showModal: state.chooseSeat.showModal,
         base: state.chooseSeat.base,

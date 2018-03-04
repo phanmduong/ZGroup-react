@@ -75,8 +75,8 @@ class RegisterManageContainer extends React.Component {
         }
     }
 
-    openChooseSeatModal(base, registerId) {
-        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, base, registerId);
+    openChooseSeatModal(base, register) {
+        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, base, register);
     }
 
     handleClickMonthBox() {

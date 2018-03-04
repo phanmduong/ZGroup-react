@@ -19,6 +19,7 @@ const initialState = {
     seatsCount: 0,
     availableSeats: 0,
     bookedSeats: [],
+    register: {},
 };
 
 export default function chooseSeatReducer(state = initialState, action) {
@@ -28,7 +29,7 @@ export default function chooseSeatReducer(state = initialState, action) {
                 ...state,
                 showModal: action.showModal,
                 base: action.base,
-                registerId: action.registerId,
+                register: action.register,
             };
         case CHOOSE_SEAT_BEGIN_LOAD_ROOMS:
             return {
