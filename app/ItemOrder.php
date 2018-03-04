@@ -54,6 +54,8 @@ class ItemOrder extends Model
             ] : [],
             "command_code" => $this->command_code,
             "status" => $this->status,
+            "note" => $this->note,
+            "date" => $this->date,
             "goods" => $this->exportOrder->map(function ($good) {
                 return $good->transform();
             })
@@ -80,6 +82,8 @@ class ItemOrder extends Model
             ] : [],
             "command_code" => $this->command_code,
             "status" => $this->status,
+            "note" => $this->note,
+            "date" => $this->date,
             "goods" => $this->importOrder->map(function ($good) {
                 return $good->transform();
             })
