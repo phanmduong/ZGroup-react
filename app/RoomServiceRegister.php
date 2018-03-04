@@ -92,7 +92,7 @@ class RoomServiceRegister extends Model
         if ($this->historyPayments) {
             $historyPayments = $this->historyPayments;
             $data["historyPayments"] = $historyPayments->map(function ($payment) {
-                return $payment->transform();
+                return $payment->transform_for_up();
             });
         }
 
