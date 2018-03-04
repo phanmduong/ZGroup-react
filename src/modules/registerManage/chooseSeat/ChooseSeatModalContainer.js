@@ -63,25 +63,37 @@ class ChooseSeatModalContainer extends React.Component {
         const from = moment(this.state.from, DATETIME_VN_FORMAT).unix();
         const to = moment(this.state.to, DATETIME_VN_FORMAT).unix();
         this.props.chooseSeatActions.setActiveRoom(roomId);
-        this.props.chooseSeatActions.loadSeats(
-            roomId,
-            from,
-            to,
-            // "22/02/2018 2017:23:34",
-            // "28/02/2018 2017:23:34",
-        );
+        this.props.chooseSeatActions.loadSeats(roomId, from, to);
     }
 
     onFromDateInputChange(event) {
+        const from = event.target.value;
+        const to = moment(event.target.value, DATETIME_VN_FORMAT)
+            .add(this.props.register.subscription.hours, "hours")
+            .format(DATETIME_VN_FORMAT);
+        const roomId = this.props.rooms.filter(room => room.isActive)[0].id;
+
         this.setState({
-            from: event.target.value,
+            from,
+            to,
         });
+        this.props.chooseSeatActions.loadSeats(roomId, from, to);
     }
 
     onToDateInputChange(event) {
+        const to = event.target.value;
+        const from = moment(event.target.value, DATETIME_VN_FORMAT)
+            .add(this.props.register.subscription.hours, "hours")
+            .format(DATETIME_VN_FORMAT);
+        const roomId = this.props.rooms.filter(room => room.isActive)[0].id;
+
         this.setState({
+            from: moment(event.target.value, DATETIME_VN_FORMAT)
+                .subtract(this.props.register.subscription.hours, "hours")
+                .format(DATETIME_VN_FORMAT),
             to: event.target.value,
         });
+        this.props.chooseSeatActions.loadSeats(roomId, from, to);
     }
 
     render() {
