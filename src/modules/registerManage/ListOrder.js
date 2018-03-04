@@ -90,7 +90,6 @@ class ListOrder extends React.Component {
         this.openModal = this.openModal.bind(this);
         this.closeCallModal = this.closeCallModal.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
-        // this.sumMoney = this.sumMoney.bind(this);
     }
 
 
