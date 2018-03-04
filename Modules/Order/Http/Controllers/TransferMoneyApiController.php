@@ -16,14 +16,16 @@ class TransferMoneyApiController extends ManageApiController
     {
         $limit = $request->limit ? $request->limit : 20;
         $transfers = TransferMoney::query();
+        $transfers = $transfers->join('users', 'users.id', '=', 'transfer_money.user_id');
+        $transfers = $transfers->select('transfer_money.*')->where('users.name', 'like', '%' . $request->search . '%')->groupBy('transfer_money.id');
+        
         if ($request->user_id)
             $transfers = $transfers->where('user_id', $request->user_id);
         if ($request->status)
             $transfers = $transfers->where('status', $request->status);
         if ($request->bank_account_id)
             $transfers = $transfers->where('bank_account_id', $request->bank_account_id);
-        $transfers = $transfers->join('users', 'users.id', '=', 'transfer_money.user_id');
-        $transfers = $transfers->select('transfer_money.*')->where('users.name', 'like', '%' . $request->search . '%')->groupBy('transfer_money.id');
+
         if ($limit == -1) {
             $transfers = $transfers->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
