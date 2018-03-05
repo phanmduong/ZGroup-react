@@ -154,35 +154,35 @@ class NhatQuangShopManageController extends Controller
         return view("nhatquangshop::orders", $this->data);
     }
 
-    public function userFastOrders()
+    public function userDeliveryOrders()
     {
         $user = Auth::user();
-        $fastOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc')->paginate(15);
-        $this->data['fastOrders'] = $fastOrders;
+        $deliveryOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc')->paginate(15);
+        $this->data['deliveryOrders'] = $deliveryOrders;
 //        dd($user->id);
-        return view('nhatquangshop::fast_orders', $this->data);
+        return view('nhatquangshop::delivery_orders', $this->data);
     }
 
-    public function filterFastOrders(Request $request)
+    public function filterDeliveryOrders(Request $request)
     {
         $user = Auth::user();
-        $fastOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc');
+        $deliveryOrders = Order::where([['user_id', '=', $user->id], ['type', '=', 'delivery']])->orderBy('created_at', 'desc');
         $code = $request->code;
         $status = $request->status;
         $start_day = $request->start_day;
         $end_day = $request->end_day;
         if ($start_day)
-            $fastOrders = $fastOrders->whereBetween('created_at', array($start_day, $end_day));
+            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($start_day, $end_day));
         if ($status)
-            $fastOrders = $fastOrders->where('status', $status);
+            $deliveryOrders = $deliveryOrders->where('status', $status);
         if ($code)
-            $fastOrders = $fastOrders->where('code', 'like', '%' . $code . '%');
-        $fastOrders = $fastOrders->orderBy('created_at', 'desc')->paginate(15);
-        $this->data['fastOrders'] = $fastOrders;
-        return view("nhatquangshop::fast_orders", $this->data);
+            $deliveryOrders = $deliveryOrders->where('code', 'like', '%' . $code . '%');
+        $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate(15);
+        $this->data['deliveryOrders'] = $deliveryOrders;
+        return view("nhatquangshop::delivery_orders", $this->data);
     }
 
-    public function editFastOrder($order_id, Request $request)
+    public function editDeliveryOrder($order_id, Request $request)
     {
         $user = Auth::user();
         $order = Order::find($order_id);

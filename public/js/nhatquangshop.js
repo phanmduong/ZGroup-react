@@ -277,10 +277,10 @@ var modalPurchase = new Vue({
 });
 
 
-var fastOrder = new Vue({
-    el: '#modal-fast-order',
+var deliveryOrder = new Vue({
+    el: '#modal-delivery-order',
     data: {
-        fastOrders: [
+        deliveryOrders: [
             {
                 id: 1,
                 seen: false,
@@ -323,8 +323,8 @@ var fastOrder = new Vue({
                 });
         },
         plusOrder: function () {
-            this.fastOrders.push({
-                id: this.fastOrders.length + 1,
+            this.deliveryOrders.push({
+                id: this.deliveryOrders.length + 1,
                 seen: true,
                 link: "",
                 price: "",
@@ -337,14 +337,14 @@ var fastOrder = new Vue({
             });
         },
         remove: function (index) {
-            this.fastOrders.splice(index, 1)
+            this.deliveryOrders.splice(index, 1)
         },
-        submitFastOrder: function () {
+        submitDeliveryOrder: function () {
             this.isLoading = true;
             this.showSuccessMessage = false;
             this.showFailMessage = false;
-            axios.post(window.url + '/manage/save-fast-order', {
-                fastOrders: JSON.stringify(this.fastOrders)
+            axios.post(window.url + '/manage/save-delivery-order', {
+                deliveryOrders: JSON.stringify(this.deliveryOrders)
             }).then(function (response) {
                 this.isLoading = false;
                 if (response.data.status === 1) {
@@ -366,9 +366,9 @@ var fastOrder = new Vue({
             this.isOrdering = true;
             this.showSuccessMessage = false;
             this.showFailMessage = false;
-            this.fastOrders = [];
-            this.fastOrders.push({
-                id: this.fastOrders.length + 1,
+            this.deliveryOrders = [];
+            this.deliveryOrders.push({
+                id: this.deliveryOrders.length + 1,
                 seen: false,
                 link: "",
                 price: "",

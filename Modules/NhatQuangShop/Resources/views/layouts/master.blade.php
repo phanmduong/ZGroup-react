@@ -289,7 +289,7 @@
                          alt=""> {{$user->name}}
                 </a>
                 <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
-                        data-target="#modal-fast-order" class="btn btn-primary">
+                        data-target="#modal-delivery-order" class="btn btn-primary">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
                 </button>
                 <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
@@ -307,7 +307,7 @@
                              alt=""> @{{ user.name }}
                     </a>
                     <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
-                            data-target="#modal-fast-order" class="btn btn-primary">
+                            data-target="#modal-delivery-order" class="btn btn-primary">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
                     </button>
                     <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
@@ -756,7 +756,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-fast-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal-delivery-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -775,7 +775,7 @@
                 </div>
                 <div v-else="isLoadingCurrency">
                     <div v-if="isOrdering">
-                        <div v-for="(order, index) in fastOrders">
+                        <div v-for="(order, index) in deliveryOrders">
                             <div style="margin-bottom: 10px;">
                                 <span class="label label-success">Sản phẩm @{{order.id}}</span>
                                 <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
@@ -875,7 +875,7 @@
             </div>
             <div v-if="isOrdering" class="modal-footer">
                 <div class="left-side">
-                    <button type="button" class="btn btn-default btn-link" v-on:click="submitFastOrder">Đặt hàng
+                    <button type="button" class="btn btn-default btn-link" v-on:click="submitDeliveryOrder">Đặt hàng
                     </button>
                 </div>
                 <div class="divider"></div>
