@@ -61,6 +61,8 @@ class RoomServiceRegister extends Model
                 'id' => $this->user->id,
                 'name' => $this->user->name,
                 'phone' => $this->user->phone,
+                'email' => $this->user->email,
+                'address' => $this->user->address,
             ];
         if ($this->staff)
             $data['staff'] = [
@@ -92,7 +94,7 @@ class RoomServiceRegister extends Model
         if ($this->historyPayments) {
             $historyPayments = $this->historyPayments;
             $data["historyPayments"] = $historyPayments->map(function ($payment) {
-                return $payment->transform();
+                return $payment->transform_for_up();
             });
         }
 
