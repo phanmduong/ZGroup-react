@@ -31,4 +31,37 @@ class ElightSendingMailController extends Controller
         // });
         return "OK";
     }
+
+    public function index_info(Request $request)
+    {
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone
+        ];
+        dd($data);
+        // Send mail
+    }
+
+    public function book_info(Request $request)
+    {
+        $data = [
+            'radio' => $request->radio,
+            'message_str' => $request->message_str,
+            'phone' => $request->phone
+        ];
+        dd($data);
+        // Send mail
+    }
+
+    public function aboutus_info(Request $request)
+    {
+        $data = [
+            'message_str' => $request->message_str,
+            'name' => $request->name,
+            'phone' => $request->phone
+        ];
+        dd($data);
+        // Send mail
+    }
 }

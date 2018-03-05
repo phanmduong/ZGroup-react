@@ -203,19 +203,19 @@
                                 </div> -->
                                 <br>
                                 <label class="radio-inline">
-                                    <input type="radio" name="optradio"> Rất tốt
+                                    <input type="radio" name="optradio" value="Rất tốt"> Rất tốt
                                 </label>
                                 &nbsp
                                 <label class="radio-inline">
-                                    <input type="radio" name="optradio"> OK
+                                    <input type="radio" name="optradio" value="OK"> OK
                                 </label>
                                 &nbsp
                                 <label class="radio-inline">
-                                    <input type="radio" name="optradio"> Trung bình
+                                    <input type="radio" name="optradio" value="Trung bình"> Trung bình
                                 </label>
                                 &nbsp
                                 <label class="radio-inline">
-                                    <input type="radio" name="optradio"> Kém
+                                    <input type="radio" name="optradio" value="Kém"> Kém
                                 </label>
                             </div>
                             <div class="form-group label-floating">
@@ -228,9 +228,14 @@
                                 <input id="phone" type="text" name="phone" class="form-control"
                                     placeholder="Để lại nếu bạn cần Elight hỗ trợ thêm">
                             </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="alert"> </div>
+                                </div>
+                            </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#138edc; border-color:#138edc ">Gửi</button>
+                                <button id="submit" type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#138edc; border-color:#138edc ">Gửi</button>
                             </div>
                             <div class="clearfix"></div>
 
@@ -247,8 +252,48 @@
         window.onload = function (e) {
             setTimeout(function () {
                 $('#modalInfo').modal('show');
-            }, 60000);
+            }, 60000); //60000
         };
+
+        $(document).ready(function () {
+        $("#submit").click(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            // console.log("submit");
+            var message_str = $('#message').val();
+            var phone = $('#phone').val();
+            var radio = $('input[name=optradio]:checked').val()
+            // console.log(radio);
+            // console.log(name);
+            var ok = 0;
+            if (phone.trim() == "" || message_str.trim() == "" || radio.trim() == "") ok = 1;
+
+            if (!message_str || !phone || !radio || ok == 1) {
+                alert("Bạn vui lòng nhập đủ thông tin hoặc email không hợp lệ");
+                $("#alert").html(
+                    "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>"
+                );
+            } else {
+                var message = "Chúng tôi đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
+                alert(message);
+                $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
+                var url = "{{ url('book_information') }}";
+                var data = {
+                    message_str: message_str,
+                    phone: phone,
+                    radio: radio,
+                    _token: "{{csrf_token()}}"
+                };
+                console.log(data);
+                $.post(url, data, function (data, status) {
+                        console.log("Data: " + data + "\nStatus: " + status);
+                    })
+                    .fail(function (error) {
+                        console.log(error);
+                    });
+            }
+        });
+    });
     </script>
     <script type="text/javascript">
         $(document).ready(function () {

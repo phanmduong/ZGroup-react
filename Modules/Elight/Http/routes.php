@@ -20,7 +20,11 @@ Route::group(['middleware' => 'web', 'domain' => 'keetool3.{subfix}', 'namespace
 
     Route::get('/sach/{book_id}/{lesson_id?}', 'ElightController@book');
 
+    // Sending mail route
     Route::post('/contact_information','ElightSendingMailController@contact_info');
+    Route::post('/index_information','ElightSendingMailController@index_info');
+    Route::post('/book_information','ElightSendingMailController@book_info');
+    Route::post('/aboutus_information','ElightSendingMailController@aboutus_info');
     
 });
 
