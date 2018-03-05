@@ -306,16 +306,16 @@ class ElightController extends Controller
             'message_str' => $request->message_str
         ];
 
-        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+        Mail::send('emails.elight_contact_us', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Graphics');
             $subject = "Xác nhận thông tin";
             $m->to($request->email, $request->name)->subject($subject);
         });
-        Mail::send('emails.contact_us', $data, function ($m) use ($request) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
-            $subject = "Xác nhận thông tin";
-            $m->to($request->email, $request->name)->subject($subject);
-        });
+        // Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+        //     $m->from('no-reply@colorme.vn', 'Graphics');
+        //     $subject = "Xác nhận thông tin";
+        //     $m->to($request->email, $request->name)->subject($subject);
+        // });
         return "OK";
     }
 }
