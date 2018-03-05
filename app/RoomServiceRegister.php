@@ -37,6 +37,10 @@ class RoomServiceRegister extends Model
     {
         return $this->hasMany(TeleCall::class, 'register_id');
     }
+    public function historyPayments()
+    {
+        return $this->hasMany(Payment::class, 'register_id');
+    }
 
     public function base()
     {
@@ -57,6 +61,8 @@ class RoomServiceRegister extends Model
                 'id' => $this->user->id,
                 'name' => $this->user->name,
                 'phone' => $this->user->phone,
+                'email' => $this->user->email,
+                'address' => $this->user->address,
             ];
         if ($this->staff)
             $data['staff'] = [
@@ -85,6 +91,13 @@ class RoomServiceRegister extends Model
                 return $teleCall->transform();
             });
         }
+        if ($this->historyPayments) {
+            $historyPayments = $this->historyPayments;
+            $data["historyPayments"] = $historyPayments->map(function ($payment) {
+                return $payment->transform_for_up();
+            });
+        }
+
         if ($this->base) {
             $base = $this->base;
             $data['base'] = [

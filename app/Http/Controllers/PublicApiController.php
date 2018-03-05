@@ -94,7 +94,7 @@ class PublicApiController extends ApiController
 
             return $this->respond(['link' => config('app.protocol') . config('app.domain') . '/upload/' . $fileName]);
         }
-        return $this->respondErrorWithStatus("error");
+        return $this->responseBadRequest("error");
     }
 
     public function delete_image_froala(Request $request)

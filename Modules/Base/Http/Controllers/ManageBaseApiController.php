@@ -435,9 +435,9 @@ class ManageBaseApiController extends ManageApiController
 
     public function availableSeats(Request $request)
     {
-        $request->from = str_replace('/', '-', $request->from);
-        $request->to = str_replace('/', '-', $request->to);
 //        dd($request->from . '   ' . $request->to);
+        $to = (int)$request->to;
+        $from = (int)$request->from;
 
         $seats = Seat::query();
         $booked_seats = Seat::query();
@@ -449,21 +449,21 @@ class ManageBaseApiController extends ManageApiController
                 ->orderBy('created_at', 'desc')->count();
         }
         $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
-        $seats = $seats->where(function ($query) use ($request) {
+        $seats = $seats->where(function ($query) use ($to, $from) {
             $query->where('room_service_register_seat.start_time', '=', null)
-                ->orWhere('room_service_register_seat.start_time', '>', date('Y-m-d H:i:s', strtotime($request->to)))
-                ->orWhere('room_service_register_seat.end_time', '<', date('Y-m-d H:i:s', strtotime($request->from)));
+                ->orWhere('room_service_register_seat.start_time', '>', date('Y-m-d H:i:s', $to))
+                ->orWhere('room_service_register_seat.end_time', '<', date('Y-m-d H:i:s', $from));
         })->groupBy('seats.id')->select('seats.*')->get();
 
         $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
-        $booked_seats = $booked_seats->where(function ($query) use ($request) {
-            $query->where(function ($query) use ($request) {
-                $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', strtotime($request->to)))
-                    ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', strtotime($request->to)));
+        $booked_seats = $booked_seats->where(function ($query) use ($request, $to, $from) {
+            $query->where(function ($query) use ($to) {
+                $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', $to))
+                    ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', $to));
             })
-                ->orWhere(function ($query) use ($request) {
-                    $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', strtotime($request->from)))
-                        ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', strtotime($request->from)));
+                ->orWhere(function ($query) use ($from) {
+                    $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', $from))
+                        ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', $from));
                 });
         })->groupBy('seats.id')->select('seats.*')->get();
         return $this->respondSuccessWithStatus([
