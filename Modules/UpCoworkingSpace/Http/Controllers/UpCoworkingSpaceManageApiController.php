@@ -13,6 +13,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UpCoworkingSpaceManageApiController extends ManageApiController
 {
@@ -220,5 +221,23 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
             "message" => "Lưu thành công",
             "teleCall" => $teleCall->transform(),
         ]);
+    }
+
+    public function getAllSalers(Request $request) 
+    {
+            $saler_ids = DB::table('room_service_registers')->select('saler_id')->distinct()->get();
+    
+            $saler_idss =[];
+            
+            foreach($saler_ids as $saler_id){
+                array_push($saler_idss,$saler_id->saler_id);
+            }
+    
+            $salers = User::query();
+            $salers= $salers->whereIn('id',$saler_idss)->get(   );
+    
+            return $this->respondSuccessWithStatus([
+                'salers' => $salers
+            ]);
     }
 }
