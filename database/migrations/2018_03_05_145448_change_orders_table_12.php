@@ -13,6 +13,9 @@ class ChangeOrdersTable12 extends Migration
     public function up()
     {
         //
+        Schema::table('orders', function(Blueprint $table){
+            $table->integer('price')->default(0)->change();
+        });
     }
 
     /**
