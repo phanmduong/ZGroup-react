@@ -58,6 +58,8 @@ class DeliveryOrderTransformer extends Transformer
                 'address' => $deliveryOrder->user->address,
                 'phone' => $deliveryOrder->user->phone,
                 'email' => $deliveryOrder->user->email,
+                'money' => $deliveryOrder->user->money,
+                'deposit' => $deliveryOrder->user->deposit
             ];
         }
         if ($deliveryOrder->ship_infor) {
