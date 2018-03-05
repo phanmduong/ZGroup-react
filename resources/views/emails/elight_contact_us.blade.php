@@ -137,8 +137,8 @@
                                                 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 450px; margin: auto;">
                                                     <tbody>
                                                     <tr style="text-align: center;vertical-align: middle;">
-                                                        <td style="text-align: center">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1508045693CUzWgD125Smb3ba.jpg" alt="Logo" style="margin:30px" height="30px"/>
+                                                        <td style="text-align: center background: #00396c">
+                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" alt="Logo" style="margin:30px" height="30px"/>
                                                         </td>
                                                     </tr>
                                                     <tr>

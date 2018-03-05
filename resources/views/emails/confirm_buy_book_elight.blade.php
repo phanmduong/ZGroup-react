@@ -191,13 +191,13 @@
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                         <tbody>
                                         <tr>
-                                            <td style="padding-top: 0px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px; background-color: #00396c">
+                                            <td style="padding-top: 0px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px;">
                                                 <table width="100%" border="0" cellpadding="0" cellspacing="0"
                                                        style="max-width: 450px; margin: auto;">
                                                     <tbody>
                                                     <tr style="text-align: center;vertical-align: middle;">
-                                                        <td style="text-align: center">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1508151517tPwvu2VZMUOiBhd.jpg"
+                                                        <td style="text-align: center;background-color: #00396c">
+                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png"
                                                                  alt="Logo" style="margin:30px" height="30px"/>
                                                         </td>
                                                     </tr>
@@ -206,7 +206,7 @@
                                                             Xác nhận đặt hàng thành công
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr>s
                                                         <td style="padding-top: 30px;">
                                                             <table width="170" border="0" cellpadding="0"
                                                                    cellspacing="0" style="margin: auto;" align="center">
