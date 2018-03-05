@@ -8,14 +8,15 @@ use Illuminate\Routing\Controller;
 
 class ElightSendingMailController extends Controller
 {
-    public function contact_info( Request $request)
+    public function contact_info(Request $request)
     {
+        //dd($request);
         $data = [
             'name' => $request->name,
             'email' => $request->email, 
-            'name' => $request->name, 
             'message_str' => $request->message_str
         ];
+        // dd($data);
 
         Mail::send('emails.elight_contact_us', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Graphics');
