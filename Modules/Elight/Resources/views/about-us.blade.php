@@ -229,8 +229,8 @@
                                 <label class="control-label">Liên hệ</label>
                                     <input id="name" type="text" name="name" class="form-control"
                                         placeholder="Họ và tên">
-                                    <input id="phone" type="text" name="phone" class="form-control"
-                                        placeholder="Số điện thoại">
+                                    <input id="email" type="text" name="email" class="form-control"
+                                        placeholder="Email">
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
@@ -255,7 +255,7 @@
         window.onload = function (e) {
             setTimeout(function () {
                 $('#modalInfo').modal('show');
-            }, 1000); //60000
+            }, 60000); //60000
         };
 
         $(document).ready(function () {
@@ -264,14 +264,14 @@
             event.stopPropagation();
             // console.log("submit");
             var message_str = $('#message').val();
-            var phone = $('#phone').val();
+            var email = $('#email').val();
             var name = $('#name').val();
             // console.log(radio);
             // console.log(name);
             var ok = 0;
-            if (phone.trim() == "" || message_str.trim() == "" || name.trim() == "") ok = 1;
+            if (email.trim() == "" || message_str.trim() == "" || name.trim() == "") ok = 1;
 
-            if (!message_str || !phone || !name || ok == 1) {
+            if (!message_str || !email || !name || ok == 1) {
                 alert("Bạn vui lòng nhập đủ thông tin hoặc email không hợp lệ");
                 $("#alert").html(
                     "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>"
@@ -283,7 +283,7 @@
                 var url = "{{ url('aboutus_information') }}";
                 var data = {
                     message_str: message_str,
-                    phone: phone,
+                    email: email,
                     name: name,
                     _token: "{{csrf_token()}}"
                 };

@@ -224,8 +224,8 @@
                                     placeholder="Góp ý để elight cải thiện chất lượng nhé">
                             </div>
                             <div class="form-group label-floating">
-                                <label class="control-label">Số điện thoại</label>
-                                <input id="phone" type="text" name="phone" class="form-control"
+                                <label class="control-label">Email</label>
+                                <input id="email" type="text" name="email" class="form-control"
                                     placeholder="Để lại nếu bạn cần Elight hỗ trợ thêm">
                             </div>
                             <div class="row">
@@ -261,14 +261,14 @@
             event.stopPropagation();
             // console.log("submit");
             var message_str = $('#message').val();
-            var phone = $('#phone').val();
+            var email = $('#email').val();
             var radio = $('input[name=optradio]:checked').val()
             // console.log(radio);
             // console.log(name);
             var ok = 0;
-            if (phone.trim() == "" || message_str.trim() == "" || radio.trim() == "") ok = 1;
+            if (email.trim() == "" || message_str.trim() == "" || radio.trim() == "") ok = 1;
 
-            if (!message_str || !phone || !radio || ok == 1) {
+            if (!message_str || !email || !radio || ok == 1) {
                 alert("Bạn vui lòng nhập đủ thông tin hoặc email không hợp lệ");
                 $("#alert").html(
                     "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>"
@@ -280,7 +280,7 @@
                 var url = "{{ url('book_information') }}";
                 var data = {
                     message_str: message_str,
-                    phone: phone,
+                    email: email,
                     radio: radio,
                     _token: "{{csrf_token()}}"
                 };

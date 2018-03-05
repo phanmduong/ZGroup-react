@@ -39,8 +39,13 @@ class ElightSendingMailController extends Controller
             'email' => $request->email,
             'phone' => $request->phone
         ];
-        dd($data);
+        // dd($data);
         // Send mail
+        Mail::send('emails.elight_index', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Elight');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
     }
 
     public function book_info(Request $request)
@@ -48,10 +53,15 @@ class ElightSendingMailController extends Controller
         $data = [
             'radio' => $request->radio,
             'message_str' => $request->message_str,
-            'phone' => $request->phone
+            'email' => $request->email
         ];
-        dd($data);
+        // dd($data);
         // Send mail
+        Mail::send('emails.elight_book', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Elight');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
     }
 
     public function aboutus_info(Request $request)
@@ -59,9 +69,14 @@ class ElightSendingMailController extends Controller
         $data = [
             'message_str' => $request->message_str,
             'name' => $request->name,
-            'phone' => $request->phone
+            'email' => $request->email
         ];
-        dd($data);
+        // dd($data);
         // Send mail
+        Mail::send('emails.elight_aboutus', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Elight');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
     }
 }
