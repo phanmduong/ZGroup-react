@@ -5,6 +5,7 @@ namespace Modules\Elight\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class ElightSendingMailController extends Controller
 {
