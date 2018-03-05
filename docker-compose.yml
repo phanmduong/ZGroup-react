@@ -7,7 +7,7 @@ services:
       - "6379:6379"
   app:
     container_name: app
-    build: 
+    build:
       context: ./
       dockerfile: ./docker/php/Dockerfile
     working_dir: /var/www
@@ -15,7 +15,6 @@ services:
       - ./:/var/www
     environment:
       - "DB_PORT=3306"
-      - "DB_HOST=database"
   web:    
     container_name: web
     build:
