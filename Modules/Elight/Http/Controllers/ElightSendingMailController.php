@@ -8,65 +8,25 @@ use Illuminate\Routing\Controller;
 
 class ElightSendingMailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
+    public function contact_info( Request $request)
     {
-        return view('elight::index');
-    }
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email, 
+            'name' => $request->name, 
+            'message_str' => $request->message_str
+        ];
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
-    {
-        return view('elight::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('elight::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('elight::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+        Mail::send('emails.elight_contact_us', $data, function ($m) use ($request) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $subject = "Xác nhận thông tin";
+            $m->to($request->email, $request->name)->subject($subject);
+        });
+        // Mail::send('emails.contact_us', $data, function ($m) use ($request) {
+        //     $m->from('no-reply@colorme.vn', 'Graphics');
+        //     $subject = "Xác nhận thông tin";
+        //     $m->to($request->email, $request->name)->subject($subject);
+        // });
+        return "OK";
     }
 }
