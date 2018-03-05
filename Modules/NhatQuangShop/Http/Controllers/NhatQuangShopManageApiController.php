@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\NhatQuangShop\Repositories\BookRepository;
 
 class NhatQuangShopManageApiController extends Controller
 {
@@ -109,27 +109,5 @@ class NhatQuangShopManageApiController extends Controller
             ];
 
         }
-    }
-
-    public function saveDeliveryOrder(Request $request)
-    {
-        $user = Auth::user();
-        $email = $user->email;
-        $user_id = $user->id;
-        $address = $user->address;
-
-        $delivery_orders = json_decode($request->deliveryOrders);
-        $response = $this->bookRepository->saveDeliveryOrder($email, $address, $user_id, $delivery_orders, $this->orderService->getTodayOrderId('delivery'));
-        if ($response['status'] === 1) {
-            return [
-                "delivery_order" => $delivery_orders,
-                "status" => 1,
-                "message" => $response['message'],
-            ];
-        }
-        return [
-            "status" => 0,
-            "message" => $response['message'],
-        ];
     }
 }

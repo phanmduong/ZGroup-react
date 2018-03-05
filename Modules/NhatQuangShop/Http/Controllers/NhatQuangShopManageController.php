@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Modules\Good\Entities\GoodProperty;
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\NhatQuangShop\Repositories\BookRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Modules\Order\Repositories\OrderService;
 
 class NhatQuangShopManageController extends Controller
 {
@@ -23,10 +24,11 @@ class NhatQuangShopManageController extends Controller
     protected $data;
     protected $user;
 
-    public function __construct(BookRepository $bookRepository)
+    public function __construct(BookRepository $bookRepository, OrderService $orderService)
     {
         $this->middleware('auth');
         $this->bookRepository = $bookRepository;
+        $this->orderService = $orderService;
         $this->data = array();
 
         if (!empty(Auth::user())) {
@@ -196,6 +198,29 @@ class NhatQuangShopManageController extends Controller
         $order->save();
         return [
             'message' => "Cập nhật đơn hàng thành công"
+        ];
+    }
+
+    public function saveDeliveryOrder(Request $request)
+    {
+        $user = Auth::user();
+        $email = $user->email;
+        $user_id = $user->id;
+        $address = $user->address;
+
+        $delivery_orders = json_decode($request->fastOrders);
+        // dd($delivery_orders);
+        $response = $this->bookRepository->saveDeliveryOrder($email, $address, $user_id, $delivery_orders, $this->orderService->getTodayOrderId('delivery'));
+        if ($response['status'] === 1) {
+            return [
+                "delivery_order" => $delivery_orders,
+                "status" => 1,
+                "message" => $response['message'],
+            ];
+        }
+        return [
+            "status" => 0,
+            "message" => $response['message'],
         ];
     }
 }

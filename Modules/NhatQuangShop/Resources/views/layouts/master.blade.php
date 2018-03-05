@@ -141,33 +141,6 @@
 
 </head>
 <body class="profile" style="background:#fafafa">
-<script>
-    var recaptchaCallBack = function (response) {
-        navVue.captcha = response;
-    };
-
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '{{config("app.facebook_app_id")}}',
-            autoLogAppEvents: true,
-            xfbml: true,
-            version: 'v2.11'
-        });
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
-
 <div class="modal fade" id="loginFailNoticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-sm modal-notice">
@@ -289,7 +262,7 @@
                          alt=""> {{$user->name}}
                 </a>
                 <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
-                        data-target="#modal-delivery-order" class="btn btn-primary">
+                        data-target="#modal-fast-order" class="btn btn-primary">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
                 </button>
                 <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
@@ -307,7 +280,7 @@
                              alt=""> @{{ user.name }}
                     </a>
                     <button style="padding:3px 5px;margin:3px;font-size:10px;" data-toggle="modal"
-                            data-target="#modal-delivery-order" class="btn btn-primary">
+                            data-target="#modal-fast-order" class="btn btn-primary">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt hàng theo yêu cầu
                     </button>
                     <a href="/logout" style="padding:3px 5px;margin:3px;font-size:10px;" class="btn btn-danger">
@@ -756,7 +729,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-delivery-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal-fast-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -775,7 +748,7 @@
                 </div>
                 <div v-else="isLoadingCurrency">
                     <div v-if="isOrdering">
-                        <div v-for="(order, index) in deliveryOrders">
+                        <div v-for="(order, index) in fastOrders">
                             <div style="margin-bottom: 10px;">
                                 <span class="label label-success">Sản phẩm @{{order.id}}</span>
                                 <button v-if="order.seen" v-on:click="remove(index)" type="button" data-toggle="tooltip"
@@ -875,7 +848,7 @@
             </div>
             <div v-if="isOrdering" class="modal-footer">
                 <div class="left-side">
-                    <button type="button" class="btn btn-default btn-link" v-on:click="submitDeliveryOrder">Đặt hàng
+                    <button type="button" class="btn btn-default btn-link" v-on:click="submitFastOrder">Đặt hàng
                     </button>
                 </div>
                 <div class="divider"></div>
@@ -1052,41 +1025,5 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/nhatquangshop.js?68689"></script>
 <script src="/nhatquangshop/js/nav.vue.js"></script>
-<script>
-    window.fbMessengerPlugins = window.fbMessengerPlugins || {
-        init: function () {
-            FB.init({
-                appId: '1678638095724206',
-                autoLogAppEvents: true,
-                xfbml: true,
-                version: 'v2.10'
-            });
-        }, callable: []
-    };
-    window.fbAsyncInit = window.fbAsyncInit || function () {
-        window.fbMessengerPlugins.callable.forEach(function (item) {
-            item();
-        });
-        window.fbMessengerPlugins.init();
-    };
-    setTimeout(function () {
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    }, 0);
-</script>
-
-<div
-        class="fb-customerchat"
-        page_id="537987856382181"
-        ref="">
-</div>
 @stack('scripts')
 </html>
