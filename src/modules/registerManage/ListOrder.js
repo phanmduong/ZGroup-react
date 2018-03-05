@@ -11,7 +11,6 @@ import TooltipButton from "../../components/common/TooltipButton";
 import ChooseSeatModalContainer from "./chooseSeat/ChooseSeatModalContainer";
 
 import moment from "moment/moment";
-import tabsReducer from "../tab/tabsReducer";
 
 export function setRuleShowCall(register) {
     let btn = "";
