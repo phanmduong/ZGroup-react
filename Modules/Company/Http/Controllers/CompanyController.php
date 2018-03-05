@@ -200,22 +200,45 @@ class CompanyController extends ManageApiController
 
     public function createPayment(Request $request)
     {
-        if ($request->payer_id === null || $request->receiver_id === null ||
-            $request->money_value === null || trim($request->money_value) == '' ||
-            $request->bill_image_url === null || trim($request->bill_image_url) == '')
-            return $this->respondErrorWithStatus("Thiếu trường");
-        $payment = new Payment;
-        $payment->bill_image_url = $request->bill_image_url;
-        $payment->description = $request->description;
-        $payment->money_value = $request->money_value;
-        $payment->payer_id = $request->payer_id;
-        $payment->receiver_id = $request->receiver_id;
-        $payment->type = "done";
-        $payment->save();
-        return $this->respondSuccessWithStatus([
-            "message" => "Thành công"
-        ]);
+        if ($request->register_id) {
+            if ($request->user_id === null  ||
+                $request->money_value === null || trim($request->money_value) == ''
+//                $request->register_id === null
+            )
+                return $this->respondErrorWithStatus("Thiếu trường");
+            $payment = new Payment;
+            $payment->bill_image_url = 'a';
+            $payment->description = $request->description;
+            $payment->money_value = $request->money_value;
+            $payment->payer_id = $request->user_id;
+            $payment->receiver_id = $this->user->id;
+            $payment->register_id = $request->register_id;
+            $payment->type = "done";
+            $payment->save();
+            return $this->respondSuccessWithStatus([
+                "message" => "Thành công",
+                "payment" => $payment->transform_for_up(),
+
+            ]);
+        } else {
+            if ($request->payer_id === null || $request->receiver_id === null ||
+                $request->money_value === null || trim($request->money_value) == '' ||
+                $request->bill_image_url === null || trim($request->bill_image_url) == '')
+                return $this->respondErrorWithStatus("Thiếu trường");
+            $payment = new Payment;
+            $payment->bill_image_url = $request->bill_image_url;
+            $payment->description = $request->description;
+            $payment->money_value = $request->money_value;
+            $payment->payer_id = $request->payer_id;
+            $payment->receiver_id = $request->receiver_id;
+            $payment->type = "done";
+            $payment->save();
+            return $this->respondSuccessWithStatus([
+                "message" => "Thành công"
+            ]);
+        }
     }
+
 
     public function editPayment($paymentId, Request $request)
     {
@@ -435,6 +458,7 @@ class CompanyController extends ManageApiController
         $exportOrder->status = 2;
         $exportOrder->date = $request->date; // là ngày xuất hàng
         $exportOrder->import_export_staff_id = $request->staff_id;
+        $exportOrder->note = $request->note;
         $exportOrder->save();
         $goods = json_decode($request->goods);
         foreach ($goods as $good) {
@@ -481,7 +505,7 @@ class CompanyController extends ManageApiController
         $printOrder->status = $request->status;
         $printOrder->save();
         $date = $printOrder->created_at;
-        if ($request->status == 1) {
+        if ($request->status == 3) {
             $n = HistoryDebt::where('company_id', $printOrder->company_id)->count();
             $historyDebts = HistoryDebt::where('company_id', $printOrder->company_id)->get();
             if ($n > 0) $pre_value = $historyDebts[$n - 1]->total_value; else $pre_value = 0;
@@ -490,8 +514,10 @@ class CompanyController extends ManageApiController
             $historyDebt->value = $value;
             $historyDebt->total_value = $pre_value + $value;
             $historyDebt->date = $date;
-            $historyDebt->type = "print";
+            $historyDebt->type = "import";
             $historyDebt->company_id = $printOrder->company_id;
+            $company = Company::find($historyDebt->company_id);
+            $company->account_value = $historyDebt->value;
             $historyDebt->save();
 
             $n = HistoryDebt::where('company_id', 1)->count();
@@ -502,8 +528,10 @@ class CompanyController extends ManageApiController
             $historyDebt->value = $value * (-1);
             $historyDebt->total_value = $pre_value + $value * (-1);
             $historyDebt->date = $date;
-            $historyDebt->type = "print";
+            $historyDebt->type = "import";
             $historyDebt->company_id = 1;
+            $company = Company::find($historyDebt->company_id);
+            $company->account_value = $historyDebt->value;
             $historyDebt->save();
 
         }
@@ -575,6 +603,7 @@ class CompanyController extends ManageApiController
         $order->company_id = $request->company_id;
         $order->type = "be-ordered";
         $order->staff_id = $request->staff_id;
+        $order->note = $request->note;
         $order->save();
         $ppp = $order->created_at;
         $day = date_format($ppp, 'd');
@@ -608,6 +637,8 @@ class CompanyController extends ManageApiController
         if ($request->company_id == null) return $this->respondErrorWithStatus("Thiếu nhà phân phối");
         $order->company_id = $request->company_id;
         $order->staff_id = $request->staff_id;
+        $order->note = $request->note;
+        $order->save();
         $goods = $order->exportOrder;
         foreach ($goods as $good) {
             $good->delete();
@@ -636,7 +667,7 @@ class CompanyController extends ManageApiController
         //đơn hàng từ nhà phân phối đặt
         $limit = $request->limit ? $request->limit : 20;
         if ($request->limit == -1) {
-            $orders = ItemOrder::where('type', 'be-ordered')->get();
+            $orders = ItemOrder::where('type', 'be-ordered')->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 "orders" => $orders->map(function ($order) {
                     return $order->transform();
@@ -670,6 +701,7 @@ class CompanyController extends ManageApiController
         $order->company_id = $request->company_id;
         $order->type = "order";
         $order->staff_id = $request->staff_id;
+        $order->note = $request->note;
         $order->save();
         $ppp = $order->created_at;
         $day = date_format($ppp, 'd');
@@ -703,6 +735,8 @@ class CompanyController extends ManageApiController
         $order->company_id = $request->company_id;
         $goods = $order->importOrder;
         $order->staff_id = $request->staff_id;
+        $order->note = $request->note;
+        $order->save();
         foreach ($goods as $good) {
             $good->delete();
         }
@@ -729,7 +763,7 @@ class CompanyController extends ManageApiController
         //đơn hàng từ nhà cc đặt
         $limit = $request->limit ? $request->limit : 20;
         if ($request->limit == -1) {
-            $orders = ItemOrder::where('type', 'order')->get();
+            $orders = ItemOrder::where('type', 'order')->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
                 "orders" => $orders->map(function ($order) {
                     return $order->importTransform();
@@ -759,8 +793,8 @@ class CompanyController extends ManageApiController
     {
         $importOrder = ItemOrder::find($importOrderId);
         $importOrder->status = 2;
-        $importOrder->date = $request->date; // là ngày xuất hàng
         $importOrder->import_export_staff_id = $request->staff_id;
+        $importOrder->note = $request->note;
         $importOrder->save();
         $goods = json_decode($request->goods);
         foreach ($goods as $good) {
@@ -774,6 +808,24 @@ class CompanyController extends ManageApiController
         ]);
     }
 
+    public function createOrEditImportPrintOrder($importOrderId, Request $request)
+    {
+        $importOrder = PrintOrder::find($importOrderId);
+        $importOrder->status = 2;
+        $importOrder->import_staff_id = $request->staff_id;
+        $importOrder->note = $request->note;
+        $importOrder->save();
+        $goods = json_decode($request->goods);
+        foreach ($goods as $good) {
+            $good_new = ImportItemOrder::find($good->id);
+            $good_new->imported_quantity = $good->imported_quantity;
+            $good_new->warehouse_id = $good->warehouse_id;
+            $good_new->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Thành công"
+        ]);
+    }
     public function getImportOrder($importOrderId, Request $request)
     {
         $importOrder = ItemOrder::find($importOrderId);
@@ -839,6 +891,8 @@ class CompanyController extends ManageApiController
             $historyDebt->date = $date;
             $historyDebt->type = $type;
             $historyDebt->company_id = $order->company_id;
+            $company = Company::find($historyDebt->company_id);
+            $company->account_value = $historyDebt->value;
             $historyDebt->save();
 
             $p = $p * (-1);
@@ -852,12 +906,25 @@ class CompanyController extends ManageApiController
             $historyDebt->date = $date;
             $historyDebt->type = $type;
             $historyDebt->company_id = 1;
+            $company = Company::find($historyDebt->company_id);
+            $company->account_value = $historyDebt->value;
             $historyDebt->save();
 
         }
 
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi trạng thái thành công"
+        ]);
+    }
+
+    public function getHistoryDebt($companyId, Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $historyDebt = HistoryDebt::where('company_id', $companyId)->paginate($limit);
+        return $this->respondWithPagination($historyDebt, [
+            "history-debt" => $historyDebt->map(function ($pp) {
+                return $pp->transform();
+            })
         ]);
     }
 }

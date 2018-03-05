@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tt
@@ -92,6 +93,29 @@ class CustomerController extends ManageApiController
                 }),
             ]
         );
+    }
+
+    public function getCustomers(Request $request)
+    {
+        $keyword = $request->search;
+
+        $customers = User::where(function ($query) use ($keyword) {
+            $query->where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('email', 'like', '%' . $keyword . '%')
+                ->orWhere('phone', 'like', '%' . $keyword . '%');
+        });
+        $customers = $customers->limit(20)->get();
+
+        return $this->respondSuccessWithStatus([
+            'customers' => $customers->map(function ($customer) {
+                return [
+                    'id' => $customer->id,
+                    'name' => $customer->name,
+                    'phone' => $customer->phone,
+                    'email' => $customer->email,
+                ];
+            })
+        ]);
     }
 
     public function countMoney()
@@ -331,5 +355,20 @@ class CustomerController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'user' => $data
         ]);
+    }
+
+    public function topUpUserWallet($customerId, Request $request)
+    {
+        $customer = User::find($customerId);
+        if ($customer == null)
+            return $this->respondErrorWithStatus('Không tồn tại khách hàng');
+        if ($request->money === 0 || $request->money == null)
+            return $this->respondErrorWithStatus('Bạn cần nạp số tiền lớn hơn 0');
+        if ($request->deposit)
+            $customer->deposit += $request->money;
+        else
+            $customer->money += $request->money;
+        $customer->save();
+        return $this->respondSuccess('Nạp tiền thành công');
     }
 }

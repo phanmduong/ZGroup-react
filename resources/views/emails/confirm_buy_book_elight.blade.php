@@ -179,7 +179,7 @@
                                         <tr>
                                             <td>
                                                 <img class="header-image"
-                                                     src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1508151807PTVWntrCOCdbQV9.jpg"
+                                                     src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1520048113TMFlOqYhT0mmj89.jpg"
                                                      border="0" alt="" title="logo" width="600" height="auto"
                                                      style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                                             </td>
@@ -191,7 +191,7 @@
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                         <tbody>
                                         <tr>
-                                            <td style="padding-top: 0px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px;">
+                                            <td style="padding-top: 0px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px; background-color: #00396c">
                                                 <table width="100%" border="0" cellpadding="0" cellspacing="0"
                                                        style="max-width: 450px; margin: auto;">
                                                     <tbody>
