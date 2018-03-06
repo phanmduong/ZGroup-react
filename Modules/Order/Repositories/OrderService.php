@@ -298,10 +298,13 @@ class OrderService
             $order->attach_info = $request->attach_info;
             //tinh gia viet nam o day
         }
-        if ($this->deliveryStatusToNum($request->status) == 4) 
+        if ($this->deliveryStatusToNum($request->status) == 4)
             $order->delivery_warehouse_status = 'arrived';
         if ($this->deliveryStatusToNum($request->status) == 5)
             $order->delivery_warehouse_status = 'exported';
+        if ($request->attach_info) {
+            $order->attach_info = $request->attach_info;
+        }
         $order->status = $request->status;
         $order->staff_id = $staffId;
         $order->save();
