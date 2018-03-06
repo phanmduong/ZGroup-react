@@ -19,6 +19,7 @@ const initialState = {
     seatsCount: 0,
     availableSeats: 0,
     bookedSeats: [],
+    room: {},
     register: {},
 };
 
@@ -29,7 +30,7 @@ export default function chooseSeatReducer(state = initialState, action) {
                 ...state,
                 showModal: action.showModal,
                 base: action.base,
-                register: action.register,
+                register: action.register ? action.register : {},
             };
         case CHOOSE_SEAT_BEGIN_LOAD_ROOMS:
             return {
@@ -60,6 +61,7 @@ export default function chooseSeatReducer(state = initialState, action) {
         case CHOOSE_SEAT_SET_ACTIVE_ROOM:
             return {
                 ...state,
+                room: state.rooms.find(room => room.id === action.roomId),
                 rooms: state.rooms.map(room => {
                     if (room.id === action.roomId) {
                         return {

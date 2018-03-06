@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import * as helper from "../../helpers/helper";
 
 // import {Link} from "react-router";
-import { Modal } from "react-bootstrap";
+import { Modal, Tooltip, OverlayTrigger } from "react-bootstrap";
 import CallModal from "./CallModal";
 import { REGISTER_STATUS } from "../../constants/constants";
 import TooltipButton from "../../components/common/TooltipButton";
@@ -64,11 +64,12 @@ export function setRuleShowCall(register) {
     return [btn, titleCall, showCall];
 }
 
-export  function sumMoney(register) {
+export function sumMoney(register) {
     let sumMoney = 0;
-    register.historyPayments && register.historyPayments.map((payment) => {
-        sumMoney += payment.money_value;
-    });
+    register.historyPayments &&
+        register.historyPayments.map(payment => {
+            sumMoney += payment.money_value;
+        });
     return sumMoney;
 }
 class ListOrder extends React.Component {
@@ -87,8 +88,6 @@ class ListOrder extends React.Component {
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
-
-
     openModal(register, isCallModal) {
         this.setState({
             isOpenModal: true,
@@ -106,6 +105,8 @@ class ListOrder extends React.Component {
     }
 
     render() {
+        const ChooseSeatTooltip = <Tooltip id="tooltip">Chọn chỗ ngồi</Tooltip>;
+        const TopupTooltip = <Tooltip id="tooltip">Thu tiền</Tooltip>;
 
         return (
             <div className="table-responsive">
@@ -125,6 +126,7 @@ class ListOrder extends React.Component {
                                 <th>Chiến dịch</th>
                                 <th>Giá tiền</th>
                                 <th>Tiền đã trả</th>
+                                <th>Gói thành viên</th>
                                 <th>Đăng ký</th>
                                 <th />
                                 <th />
@@ -153,7 +155,8 @@ class ListOrder extends React.Component {
                                                         }
                                                         onClick={() =>
                                                             this.openModal(
-                                                                register,true
+                                                                register,
+                                                                true,
                                                             )
                                                         }
                                                     >
@@ -284,41 +287,62 @@ class ListOrder extends React.Component {
                                         <td>
                                             {helper.dotNumber(register.money)}đ
                                         </td>
-
+                                        <td>
+                                            <b>
+                                                {
+                                                    register.subscription
+                                                        .user_pack.name
+                                                }
+                                            </b>
+                                            <br />
+                                            {
+                                                register.subscription
+                                                    .subscription_kind_name
+                                            }
+                                        </td>
                                         <td>{register.created_at}</td>
                                         <td>
-                                            <a
-                                                onClick={() =>
-                                                    this.props.openChooseSeatModal(
-                                                        register.base.base,
-                                                        register,
-                                                    )
-                                                }
-                                                style={{ color: "#888" }}
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={ChooseSeatTooltip}
                                             >
-                                                <i className="material-icons">
-                                                    add_circle
-                                                </i>
-                                            </a>
+                                                <a
+                                                    onClick={() =>
+                                                        this.props.openChooseSeatModal(
+                                                            register.base.base,
+                                                            register,
+                                                        )
+                                                    }
+                                                    style={{ color: "#888" }}
+                                                >
+                                                    <i className="material-icons">
+                                                        add_circle
+                                                    </i>
+                                                </a>
+                                            </OverlayTrigger>
                                         </td>
                                         <td>
-                                            <a
-                                                onClick={() =>
-                                                    this.openModal(
-                                                        register,
-                                                        false,
-                                                    )
-                                                }
-                                                style={{ color: "#888" }}
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={TopupTooltip}
                                             >
-                                                <i className="material-icons">
-                                                    attach_money
-                                                </i>
-                                            </a>
+                                                <a
+                                                    onClick={() =>
+                                                        this.openModal(
+                                                            register,
+                                                            false,
+                                                        )
+                                                    }
+                                                    style={{ color: "#888" }}
+                                                >
+                                                    <i className="material-icons">
+                                                        attach_money
+                                                    </i>
+                                                </a>
+                                            </OverlayTrigger>
                                         </td>
                                     </tr>
                                 );
-
                             })}
                         </tbody>
                     </table>
@@ -334,11 +358,10 @@ class ListOrder extends React.Component {
                             register={this.state.register}
                             closeCallModal={this.closeCallModal}
                             isCallModal={this.state.isCallModal}
-                            sumMoney = {sumMoney(this.state.register)}
+                            sumMoney={sumMoney(this.state.register)}
                         />
                     </Modal.Body>
                 </Modal>
-
             </div>
         );
     }
