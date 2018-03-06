@@ -28,13 +28,30 @@ class ChooseSeatModalContainer extends React.Component {
         if (!this.props.showModal && nextProps.showModal && nextProps.base) {
             this.props.chooseSeatActions.loadRooms(nextProps.base.id);
         }
+
+        // if (
+        //     !this.props.showModal &&
+        //     nextProps.showModal &&
+        //     nextProps.register.subscription
+        // ) {
+        //     const now = moment();
+        //     this.props.chooseSeatActions.setFromTime(
+        //         now.format(DATETIME_VN_FORMAT),
+        //     );
+        //     console.log(nextProps.register);
+        //     this.props.chooseSeatActions.setToTime(
+        //         now
+        //             .add(nextProps.register.subscription.hours, "hours")
+        //             .format(DATETIME_VN_FORMAT),
+        //     );
+        // }
     }
 
     timeValid(from, to) {
         const unixFrom = moment(from, DATETIME_VN_FORMAT).unix();
         const unixTo = moment(to, DATETIME_VN_FORMAT).unix();
 
-        return unixFrom < unixTo;
+        return unixFrom <= unixTo;
     }
 
     loadSeats(roomId = null) {
@@ -89,12 +106,7 @@ class ChooseSeatModalContainer extends React.Component {
     onFromDateInputChange(event) {
         const from = event.target.value;
 
-        if (!this.timeValid(from, this.props.to)) {
-            showErrorMessage(
-                "Lỗi",
-                "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
-            );
-        } else {
+        if (this.timeValid(from, this.props.to)) {
             this.loadSeats();
         }
         this.props.chooseSeatActions.setFromTime(from);
@@ -103,12 +115,7 @@ class ChooseSeatModalContainer extends React.Component {
     onToDateInputChange(event) {
         const to = event.target.value;
 
-        if (!this.timeValid(this.props.from, to)) {
-            showErrorMessage(
-                "Lỗi",
-                "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
-            );
-        } else {
+        if (this.timeValid(this.props.from, to)) {
             this.loadSeats();
         }
         this.props.chooseSeatActions.setToTime(to);
@@ -145,18 +152,27 @@ class ChooseSeatModalContainer extends React.Component {
                                 id="from"
                                 label="Bắt đầu"
                                 value={from}
+                                defaultDate={moment()}
                                 updateFormData={this.onFromDateInputChange}
                             />
                         </div>
                         <div className="col-md-6 col-lg-4">
-                            <FormInputDateTime
-                                name="to"
-                                format={DATETIME_VN_FORMAT}
-                                id="to"
-                                label="Kết thúc"
-                                value={to}
-                                updateFormData={this.onToDateInputChange}
-                            />
+                            {this.props.register.subscription && (
+                                <FormInputDateTime
+                                    name="to"
+                                    format={DATETIME_VN_FORMAT}
+                                    id="to"
+                                    label="Kết thúc"
+                                    value={to}
+                                    defaultDate={moment()
+                                        .add(
+                                            this.props.register.subscription
+                                                .hours,
+                                            "hours",
+                                        )}
+                                    updateFormData={this.onToDateInputChange}
+                                />
+                            )}
                         </div>
                     </div>
                     {this.props.isLoading ? (

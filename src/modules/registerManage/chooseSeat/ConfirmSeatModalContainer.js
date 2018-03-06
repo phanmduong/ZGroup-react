@@ -23,7 +23,7 @@ class ConfirmSeatModalContainer extends React.Component {
             top: 5,
             color: "#888",
         };
-        const { showConfirmSeatModal, register, seat } = this.props;
+        const { showConfirmSeatModal, seat, from, to } = this.props;
         return (
             <Modal show={showConfirmSeatModal} onHide={this.handleClose}>
                 <Modal.Header closeButton>
@@ -93,12 +93,12 @@ class ConfirmSeatModalContainer extends React.Component {
                                     <i style={icon} className="material-icons">
                                         play_circle_filled
                                     </i>{" "}
-                                    {register.subscription.user_pack.name}
+                                    <b>{from}</b>
                                     <br />
                                     <i style={icon} className="material-icons">
                                         pause_circle_filled
                                     </i>{" "}
-                                    {dotNumber(register.subscription.price)} đ
+                                    <b>{to}</b>
                                 </div>
                             </div>
                         </div>
@@ -111,16 +111,22 @@ class ConfirmSeatModalContainer extends React.Component {
 
 ConfirmSeatModalContainer.propTypes = {
     chooseSeatActions: PropTypes.object.isRequired,
+    seat: PropTypes.object.isRequired,
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
     register: PropTypes.object.isRequired,
+
     showConfirmSeatModal: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
-    const { showConfirmSeatModal, register, seat } = state.chooseSeat;
+    const { showConfirmSeatModal, register, seat, from, to } = state.chooseSeat;
     return {
         showConfirmSeatModal,
         register,
         seat,
+        from,
+        to,
     };
 }
 
