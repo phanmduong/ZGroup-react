@@ -4,31 +4,13 @@ import * as helper from '../../helpers/helper';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as registerManageAction from './registerManageAction';
-import moment from "moment/moment";
-import TooltipButton from "../../components/common/TooltipButton";
-import Avatar from '../../components/common/Avatar';
+// import Avatar from '../../components/common/Avatar';
 
-
-function parseTime(x) {
-    let hour = moment(x, "HH:mm DD-MM-YYYY").format("HH:mm");
-    let date = moment(x, "HH:mm DD-MM-YYYY").format("DD");
-    let mouth = moment(x, "HH:mm DD-MM-YYYY").format("MM");
-    let year = moment(x, "HH:mm DD-MM-YYYY").format("YYYY");
-    return "Ngày " + date + " tháng " + mouth + " năm " + year + " , " + hour;
-}
-
-function parseTimePayment(x) {
-    let hour = moment(x, "YYYY-MM-DD HH:mm").format("HH:mm");
-    let date = moment(x, "YYYY-MM-DD HH:mm").format("DD");
-    let mouth = moment(x, "YYYY-MM-DD HH:mm").format("MM");
-    let year = moment(x, "YYYY-MM-DD HH:mm").format("YYYY");
-    return "Ngày " + date + " tháng " + mouth + " năm " + year + " , " + hour;
-}
 
 class CallModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note: "", money: null, sumMoney : this.props.sumMoney};
+        this.state = {note: "", money: null, sumMoney: this.props.sumMoney};
         this.changeCallStatus = this.changeCallStatus.bind(this);
         this.savePayment = this.savePayment.bind(this);
         this.changeMoney = this.changeMoney.bind(this);
@@ -52,12 +34,8 @@ class CallModal extends React.Component {
     changeMoney(event) {
         let sumMoney = this.props.sumMoney;
         sumMoney += parseInt(event.target.value || 0);
-        // if (sumMoney > this.props.register.subscription.price) {
-        //     helper.showTypeNotification("Đã thừa " + (sumMoney - this.props.register.subscription.price) + " đ", 'warning');
-        // }
         this.setState({money: parseInt(event.target.value), sumMoney});
     }
-
 
 
     render() {
@@ -95,14 +73,9 @@ class CallModal extends React.Component {
                                         &nbsp; &nbsp; {register.user.email}
                                     </div>
                                     <div className="flex-row-center">
-                                        <i className="material-icons">email</i>
-                                        &nbsp; &nbsp; {"thanghungkhi@gmail.com"}
+                                        <i className="material-icons">room</i>
+                                        &nbsp; &nbsp; {register.user.address && register.user.address}
                                     </div>
-                                    {/*{this.state.register.university &&*/}
-                                    {/*<div className="flex-row-center"><i*/}
-                                    {/*className="material-icons">account_balance</i>&nbsp; &nbsp; {this.state.register.university}*/}
-                                    {/*</div>*/}
-                                    {/*}*/}
                                 </div>
                             </div>
                         </div>
@@ -126,19 +99,11 @@ class CallModal extends React.Component {
                                 <div className="timeline-body">
                                     <div className="flex-row-center">
                                         <i className="material-icons">class</i>
-                                        {/*<b>&nbsp; &nbsp;{this.state.register.class.name.trim()} </b></div>*/}
                                         <b>&nbsp; &nbsp;{register.subscription.user_pack_name} </b></div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">note</i>
                                         &nbsp; &nbsp; {"Nothing here"}
                                     </div>
-                                    {/*<div className="flex-row-center">*/}
-                                    {/*<i className="material-icons">home</i>&nbsp; &nbsp;*/}
-                                    {/*{this.state.register.class.room + ' - ' + this.state.register.class.base}*/}
-                                    {/*</div>*/}
-                                    {/*<div className="flex-row-center">*/}
-                                    {/*<i className="material-icons">date_range</i>&nbsp; &nbsp; {this.state.register.class.description}*/}
-                                    {/*</div>*/}
                                 </div>
                             </div>
                         </div>
@@ -165,10 +130,6 @@ class CallModal extends React.Component {
                                     <div className={"timeline-badge " + "success"}>
                                         <i className="material-icons">card_giftcard</i>
                                     </div>
-                                    {/*<div className="timeline-badge">*/}
-                                    {/*<img className="circle size-40-px"*/}
-                                    {/*src={register.subscription.user_pack.avatar_url} alt=""/>*/}
-                                    {/*</div>*/}
                                     <div className="timeline-panel">
                                         <div className="timeline-body">
                                             <div className="flex-row-center">
@@ -181,7 +142,6 @@ class CallModal extends React.Component {
                                             </div>
                                             <div className="flex-row-center" style={{display: "inline-block"}}>
                                                 <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.subscription.description}
-                                                {/*</div>*/}
                                             </div>
                                         </div>
                                     </div>
@@ -214,7 +174,6 @@ class CallModal extends React.Component {
                                                     if (history.call_status === 1) {
                                                         btn = ' success';
                                                     }
-
                                                     else if (history.call_status === 0) {
                                                         btn = ' danger';
                                                     }
@@ -230,7 +189,7 @@ class CallModal extends React.Component {
                                                                             {history.caller.name}
                                                                 </span>
                                                                     <span
-                                                                        className="label label-default">{parseTime(history.created_at)}
+                                                                        className="label label-default">{helper.parseTime(history.created_at)}
                                                                 </span>
                                                                 </div>
                                                                 <div className="timeline-body">
@@ -253,18 +212,16 @@ class CallModal extends React.Component {
                                                     {register.historyPayments && register.historyPayments.map((payment, index) => {
                                                         return (
                                                             <li className="timeline-inverted" key={index}>
-                                                                <TooltipButton text={payment.staff.phone}
-                                                                               placement="top">
-                                                                    <a href={"tel:" + payment.staff.phone}>
-                                                                        {payment.staff.avatar_url ?
-                                                                            <Avatar size={40}
-                                                                                    url={helper.prefixAvatarUrl(payment.staff.avatar_url)
-                                                                                        ? "http://" + payment.staff.avatar_url :
-                                                                                        payment.staff.avatar_url}
-                                                                                    style={{borderRadius: 6}}/> : null}
-                                                                    </a>
-                                                                </TooltipButton>
+                                                                <div className={"timeline-badge success"}>
+                                                                    <i className="material-icons">swap_horiz</i>
+                                                                </div>
 
+                                                                    {/*{payment.staff.avatar_url ?*/}
+                                                                            {/*<Avatar size={40}*/}
+                                                                                    {/*url={helper.prefixAvatarUrl(payment.staff.avatar_url)*/}
+                                                                                        {/*? "http://" + payment.staff.avatar_url :*/}
+                                                                                        {/*payment.staff.avatar_url}*/}
+                                                                                    {/*style={{borderRadius: 6}}/> : null}*/}
                                                                 <div className="timeline-panel">
                                                                     <div className="timeline-heading">
                                                                 <span className="label label-default"
@@ -272,7 +229,7 @@ class CallModal extends React.Component {
                                                                             {payment.staff.name}
                                                                 </span>
                                                                         <span
-                                                                            className="label label-default">{parseTimePayment(payment.created_at.date)}
+                                                                            className="label label-default">{helper.parseTime(payment.created_at.date)}
                                                                 </span>
                                                                     </div>
                                                                     <div className="timeline-body">
@@ -284,74 +241,76 @@ class CallModal extends React.Component {
                                                     })}
                                                 </ul>
                                             </div>
-                                            {
-                                                <div style={{margin: 30}}>
-                                                    <div style={{
-                                                        display: "flex",
-                                                        justifyContent: "space-between"
-                                                    }}>
-                                                        <h4><b>Số tiền cần nộp</b></h4>
-                                                        <div style={{
-                                                            display: "flex",
-                                                            justifyContent: "center",
-                                                            flexDirection: "column",
-                                                            fontSize: 20
-                                                        }}>
-                                                            {parseInt(this.props.register.subscription.price) + " đ"}
-                                                        </div>
-                                                    </div>
-                                                    <div style={{
-                                                        display: "flex",
-                                                        justifyContent: "space-between"
-                                                    }}>
-                                                        <h4><b>Tổng số tiền đã trả</b></h4>
-                                                        <div style={{
-                                                            display: "flex",
-                                                            justifyContent: "center",
-                                                            flexDirection: "column",
-                                                            fontSize: 20
-                                                        }}>
-                                                            {this.state.sumMoney + " đ"}
-                                                        </div>
-                                                    </div>
-                                                    {this.props.register.subscription.price - this.state.sumMoney > 0 ?
-                                                        <div style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-between"
-                                                        }}>
-                                                            <h4><b>Còn lại</b></h4>
-                                                            <div style={{
-                                                                display: "flex",
-                                                                justifyContent: "center",
-                                                                flexDirection: "column",
-                                                                fontSize: 20
-                                                            }}>
-                                                                {parseInt(this.props.register.subscription.price) - this.state.sumMoney + " đ"}
-                                                            </div>
-                                                        </div> :
-                                                        <div style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-between"
-                                                        }}>
-                                                            <h4><b>Đã thừa</b></h4>
-                                                            <div style={{
-                                                                display: "flex",
-                                                                justifyContent: "center",
-                                                                flexDirection: "column",
-                                                                fontSize: 20
-                                                            }}>
-                                                                {this.state.sumMoney - parseInt(this.props.register.subscription.price) + " đ"}
-                                                            </div>
-                                                        </div>
-                                                    }
 
+
+
+
+
+
+                                            <div style={{paddingTop: 30}}>
+                                                <div style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between"
+                                                }}>
+                                                    <h4><b>Số tiền cần nộp</b></h4>
+                                                    <div style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        flexDirection: "column",
+                                                        fontSize: 20
+                                                    }}>
+                                                        {parseInt(this.props.register.subscription.price) + " đ"}
+                                                    </div>
                                                 </div>
-                                            }
-                                        </div>
-                                    )
-                            }
-                        </div>
+                                                <div style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between"
+                                                }}>
+                                                    <h4><b>Tổng số tiền đã trả</b></h4>
+                                                    <div style={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        flexDirection: "column",
+                                                        fontSize: 20
+                                                    }}>
+                                                        {this.state.sumMoney + " đ"}
+                                                    </div>
+                                                </div>
+                                                {this.props.register.subscription.price - this.state.sumMoney > 0 ?
+                                                    <div style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between"
+                                                    }}>
+                                                        <h4><b>Còn lại</b></h4>
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            flexDirection: "column",
+                                                            fontSize: 20
+                                                        }}>
+                                                            {parseInt(this.props.register.subscription.price) - this.state.sumMoney + " đ"}
+                                                        </div>
+                                                    </div> :
+                                                    <div style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between"
+                                                    }}>
+                                                        <h4><b>Đã thừa</b></h4>
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            flexDirection: "column",
+                                                            fontSize: 20
+                                                        }}>
+                                                            {this.state.sumMoney - parseInt(this.props.register.subscription.price) + " đ"}
+                                                        </div>
+                                                    </div>
+                                                }
 
+                                            </div>
+                                        </div>
+                                    )}
+                        </div>
 
                     </div>
 

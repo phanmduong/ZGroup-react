@@ -23,11 +23,27 @@ class ChooseSeatModalContainer extends React.Component {
             from: "",
             to: "",
         };
+        this.loadSeats = this.loadSeats.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
         if (!this.props.showModal && nextProps.showModal && nextProps.base) {
             this.props.chooseSeatActions.loadRooms(nextProps.base.id);
+        }
+    }
+
+    loadSeats(roomId = null) {
+        let { from, to } = this.state;
+        const { room } = this.props;
+        from = moment(from, DATETIME_VN_FORMAT).unix();
+        to = moment(to, DATETIME_VN_FORMAT).unix();
+
+        if (from && to && roomId) {
+            this.props.chooseSeatActions.loadSeats(roomId, from, to);
+        }
+
+        if (from && to && room.id) {
+            this.props.chooseSeatActions.loadSeats(room.id, from, to);
         }
     }
 
@@ -40,15 +56,18 @@ class ChooseSeatModalContainer extends React.Component {
                     booked: true,
                 };
             }),
-        ].map((seat, index) => {
+        ].map(seat => {
             return {
                 ...seat,
-                index,
+                index: seat.id,
             };
         });
     }
 
-    onChooseSeat(seat) {
+    onChooseSeat(index) {
+        const seat = this.props.seats.filter(seat => {
+            return index === seat.id;
+        })[0];
         console.log(seat);
     }
 
@@ -57,28 +76,34 @@ class ChooseSeatModalContainer extends React.Component {
     }
 
     setActiveRoom(roomId) {
-        const from = moment(this.state.from, DATETIME_VN_FORMAT).unix();
-        const to = moment(this.state.to, DATETIME_VN_FORMAT).unix();
         this.props.chooseSeatActions.setActiveRoom(roomId);
-        this.props.chooseSeatActions.loadSeats(
-            roomId,
-            from,
-            to,
-            // "22/02/2018 2017:23:34",
-            // "28/02/2018 2017:23:34",
-        );
+        this.loadSeats(roomId);
     }
 
     onFromDateInputChange(event) {
+        const from = event.target.value;
+        const to = moment(event.target.value, DATETIME_VN_FORMAT)
+            .add(this.props.register.subscription.hours, "hours")
+            .format(DATETIME_VN_FORMAT);
+
         this.setState({
-            from: event.target.value,
+            from,
+            to,
         });
+        this.loadSeats();
     }
 
     onToDateInputChange(event) {
+        const to = event.target.value;
+        const from = moment(event.target.value, DATETIME_VN_FORMAT)
+            .add(this.props.register.subscription.hours, "hours")
+            .format(DATETIME_VN_FORMAT);
+
         this.setState({
-            to: event.target.value,
+            from,
+            to,
         });
+        this.loadSeats();
     }
 
     render() {
@@ -197,27 +222,46 @@ ChooseSeatModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     base: PropTypes.object.isRequired,
+    register: PropTypes.object.isRequired,
     rooms: PropTypes.array.isRequired,
     isLoadingSeats: PropTypes.bool.isRequired,
     seats: PropTypes.array.isRequired,
     seatsCount: PropTypes.number.isRequired,
     availableSeats: PropTypes.number.isRequired,
     bookedSeats: PropTypes.array.isRequired,
+    room: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
+    const {
+        seats,
+        seatsCount,
+        availableSeats,
+        bookedSeats,
+        from,
+        rooms,
+        room,
+        to,
+        register,
+        isLoading,
+        showModal,
+        base,
+        isLoadingSeats,
+    } = state.chooseSeat;
     return {
-        seats: state.chooseSeat.seats,
-        seatsCount: state.chooseSeat.seatsCount,
-        availableSeats: state.chooseSeat.availableSeats,
-        bookedSeats: state.chooseSeat.bookedSeats,
-        from: state.chooseSeat.from,
-        rooms: state.chooseSeat.rooms,
-        to: state.chooseSeat.to,
-        isLoading: state.chooseSeat.isLoading,
-        showModal: state.chooseSeat.showModal,
-        base: state.chooseSeat.base,
-        isLoadingSeats: state.chooseSeat.isLoadingSeats,
+        seats,
+        seatsCount,
+        availableSeats,
+        bookedSeats,
+        from,
+        rooms,
+        room,
+        to,
+        register,
+        isLoading,
+        showModal,
+        base,
+        isLoadingSeats,
     };
 }
 

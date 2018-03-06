@@ -35,7 +35,7 @@ export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, c
 }
 
 export function getAllSalerApi() {
-    let url = env.API_URL + '/all-saler?limit=-1';
+    let url = env.MANAGE_API_URL + '/coworking-space/saler?';
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
