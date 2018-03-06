@@ -1,7 +1,7 @@
 @extends('nhatquangshop::layouts.manage')
 @section('data')
     <h4><span style="font-weight:bold">Các đơn đặt hàng nhanh </span></h4>
-    <form action="/manage/fast_orders" method="post" style="margin-top: 20px">
+    <form action="/manage/delivery_orders" method="post" style="margin-top: 20px">
         <div class = "row">
             <div class = "col-md-4">
                 <div class="form-group">
@@ -63,13 +63,13 @@
                 <th class="text-right">Actions</th>
             </tr>
             <tbody>
-            @if (count($fastOrders) > 0)
-                @foreach($fastOrders as $order)
+            @if (count($deliveryOrders) > 0)
+                @foreach($deliveryOrders as $order)
                     <tr>
                         <td class="text-center">{{$order->id}}</td>
                         <td>
                             @if($order->code != null )
-                                <a href="fast_orders/{{$order->id}}" class="btn btn-round btn-twitter">
+                                <a href="delivery_orders/{{$order->id}}" class="btn btn-round btn-twitter">
                                     {{$order->code}}
                                 </a>
                             @endif
@@ -115,8 +115,8 @@
                 </div>
 
                 <div class="modal-body" style="height: 50%">
-                    @if(count($fastOrders) > 0)
-                    @foreach($fastOrders as $order)
+                    @if(count($deliveryOrders) > 0)
+                    @foreach($deliveryOrders as $order)
                                 <table cellpadding="10px" id ="order{{$order->id}}" style="display: none" >
                                     <tbody><tr class="border-0 ">
                                         <td class="text-left small-title">Mã đơn hàng :</td>
@@ -169,7 +169,7 @@
 
         </div>
 
-    @include('pagination.custom', ['paginator' => $fastOrders])
+    @include('pagination.custom', ['paginator' => $deliveryOrders])
     <script>
         var old = 0;
         function edit(orderId){
@@ -180,7 +180,7 @@
         }
         function updateOrder() {
             $.ajax({
-                url : window.url + "/manage/fast_orders/" + old,
+                url : window.url + "/manage/delivery_orders/" + old,
                 type : "put",
                 data : {
                     link : $("#editLink" + old).val(),
