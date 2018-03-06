@@ -9,6 +9,20 @@ export default function historyDebtReducer(state = initialState.historyDebt, act
                 isLoadingImportOrder: true,
             };
         }
+        case types.LOAD_IMPORT_ORDER_SUCCESS:{
+            return{
+                ...state,
+                isLoadingImportOrder: false,
+                importOrders: action.data,
+            };
+        }
+        case types.LOAD_IMPORT_ORDER_ERROR:{
+            return{
+                ...state,
+                isLoadingImportOrder: false,
+            };
+        }
+
         default:
             return state;
     }
