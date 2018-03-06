@@ -28,6 +28,10 @@ class PrintOrder extends Model
     {
         return $this->belongsTo(User::class, "import_staff_id");
     }
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
 
     public function transform()
     {
@@ -53,6 +57,10 @@ class PrintOrder extends Model
                 "id" => $this->good->id,
                 "name" => $this->good->name,
             ] : [],
+            "warehouse" => $this->warehouse ? [
+                "id" => $this->warehouse->id,
+                "name" => $this->warehouse->name,
+            ] : [],
             "quantity" => $this->quantity,
             "core1" => $this->core1,
             "core2" => $this->core2,
@@ -67,6 +75,7 @@ class PrintOrder extends Model
             "note" => $this->note,
             "order_date" => $this->order_date,
             "receive_date" => $this->receive_date,
+            "import_quantity" => $this->import_quantity,
         ];
     }
 }

@@ -36,6 +36,7 @@ $manageapiRoutes = function () {
     Route::post('/user-pack/{userPackId}/change-status', 'UpCoworkingSpaceManageApiController@changeStatusUserPack');
     Route::put('/user-pack/{userPackId}', 'UpCoworkingSpaceManageApiController@editUserPack');
     Route::post('/save-call', 'UpCoworkingSpaceManageApiController@saveCall');
+    Route::get('saler', 'UpCoworkingSpaceManageApiController@getAllSalers');
 };
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $apiRoutes);

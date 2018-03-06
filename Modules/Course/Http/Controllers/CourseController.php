@@ -89,6 +89,28 @@ class CourseController extends ManageApiController
         );
     }
 
+    public function getAllCourses2(Request $request)
+    {
+        if (!$request->limit)
+            $limit = 20;
+        else
+            $limit = $request->limit;
+        $keyword = $request->search;
+        $courses = Course::where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("price", "like", "%$keyword%");
+        });
+        
+        $courses = $courses->paginate($limit);
+        return $this->respondWithPagination(
+            $courses,
+            [
+                "courses" => $courses->map(function ($course) {
+                    return $course->transform();
+                })
+            ]
+        );
+    }
+
     public function changeStatusCourse($course_id, Request $request)
     {
         $course = Course::find($course_id);
