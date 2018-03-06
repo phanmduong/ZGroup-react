@@ -74,11 +74,19 @@ export default [
         component: CreateOrderedGood,
     },
     {
+        path: "/business/ordered-good/edit/:orderedGoodId",
+        component: CreateOrderedGood,
+    },
+    {
         path: "/business/order-good",
         component: OrderGoodContainer,
     },
     {
         path: "/business/order-good/create",
+        component: CreateOrderGoodContainer,
+    },
+    {
+        path: "/business/order-good/edit/:orderGoodId",
         component: CreateOrderGoodContainer,
     },
 ];

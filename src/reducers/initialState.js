@@ -1990,11 +1990,25 @@ export default {
       isCommitting: false,
       companies: [],
       goods: [],
+      orderedList: [],
+      paginator: {
+          current_page: 1,
+          limit: 20,
+          total_count: 0,
+          total_pages: 1,
+      },
     },
     orderGood:{
       isLoading: false,
       isCommitting: false,
       companies: [],
       goods: [],
+      orderList: [],
+      paginator: {
+        current_page: 1,
+        limit: 20,
+        total_count: 0,
+        total_pages: 1,
+        },
     },
 };

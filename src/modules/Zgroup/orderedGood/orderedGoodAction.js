@@ -75,3 +75,43 @@ export function createOrderedGood(data) {
             });
     };
 }
+
+export function loadAllOrderedGood(page) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ALL_ORDERED_GOOD});
+        orderedGoodApi.loadAllOrderedGood(page)
+            .then((res) => {
+               
+                    dispatch({
+                        type: types.LOAD_ALL_ORDERED_GOOD_SUCCESS,
+                        orderedList : res.data.orders,
+                        paginator: res.data.paginator,
+                    });
+               
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra. ");
+                dispatch({type: types.LOAD_ALL_ORDERED_GOOD_ERROR});
+                
+            });
+    };
+}
+
+export function loadOrderedGood(id, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ORDERED_GOOD});
+        orderedGoodApi.loadOrderedGood(id)
+            .then((res) => {
+               
+                    dispatch({
+                        type: types.LOAD_ORDERED_GOOD_SUCCESS,
+                    });
+                    success(res.data.data.order);
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra. ");
+                dispatch({type: types.LOAD_ORDERED_GOOD_ERROR});
+                
+            });
+    };
+}

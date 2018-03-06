@@ -8,40 +8,73 @@ export default function orderGoodReducer(state = initialState.orderGood, action)
     // console.log(action.type, state.data);
     switch (action.type) {
         case types.BEGIN_LOAD_ALL_GOODS_ORDER_GOOD:
-        return {
-            ...state,
-            
-        };
-    case types.LOAD_ALL_GOODS_ORDER_GOOD_SUCCESS: {
-        return {
-            ...state,
-            
-            goods: getSelectArray(action.goods),
-        };
-    }
+            return {
+                ...state,
 
-    case types.LOAD_ALL_GOODS_ORDER_GOOD_ERROR:
-        return {
-            ...state,
-            
-        };
+            };
+        case types.LOAD_ALL_GOODS_ORDER_GOOD_SUCCESS: {
+            return {
+                ...state,
 
-    case types.BEGIN_LOAD_ALL_COMPANIES_ORDER_GOOD:
-        return {
-            ...state,
-        };
-    case types.LOAD_ALL_COMPANIES_ORDER_GOOD_SUCCESS: {
-        return {
-            ...state,
-            companies: getSelectArray(action.companies),
-        };
-    }
+                goods: getSelectArray(action.goods),
+            };
+        }
 
-    case types.LOAD_ALL_COMPANIES_ORDER_GOOD_ERROR:
-        return {
-            ...state,
-            
-        };
+        case types.LOAD_ALL_GOODS_ORDER_GOOD_ERROR:
+            return {
+                ...state,
+
+            };
+
+        case types.BEGIN_LOAD_ALL_COMPANIES_ORDER_GOOD:
+            return {
+                ...state,
+            };
+        case types.LOAD_ALL_COMPANIES_ORDER_GOOD_SUCCESS: {
+            return {
+                ...state,
+                companies: getSelectArray(action.companies),
+            };
+        }
+        case types.LOAD_ALL_COMPANIES_ORDER_GOOD_ERROR:
+            return {
+                ...state,
+
+            };
+        case types.BEGIN_LOAD_ALL_ORDER_GOOD:
+            return {
+                ...state,
+            };
+        case types.LOAD_ALL_ORDER_GOOD_SUCCESS: {
+            return {
+                ...state,
+                orderList: action.orderList,
+                paginator: action.paginator,
+            };
+        }
+
+        case types.LOAD_ALL_ORDER_GOOD_ERROR:
+            return {
+                ...state,
+
+            };
+            case types.BEGIN_CREATE_ORDER_GOOD:
+            return {
+                ...state,
+                isCommitting: true,
+            };
+        case types.CREATE_ORDER_GOOD_SUCCESS: {
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        }
+
+        case types.CREATE_ORDER_GOOD_ERROR:
+            return {
+                ...state,
+                isCommitting: false,
+            };    
         default:
             return state;
     }
