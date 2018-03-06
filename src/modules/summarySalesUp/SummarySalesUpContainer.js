@@ -4,7 +4,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Select from '../../components/common/Select';
 import * as summarySalesActions from './summarySalesActions';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
@@ -37,7 +36,7 @@ class SummarySalesUpContainer extends React.Component {
         this.exportExcel = this.exportExcel.bind(this);
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
-        this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
+        this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
     }
 
     componentWillMount() {
@@ -88,10 +87,10 @@ class SummarySalesUpContainer extends React.Component {
         time["startTime"] = startTime;
         time["endTime"] = endTime;
         this.setState({time: time});
-        this.handleAMonthDissmis();
+        this.handleAMonthDismiss();
     }
 
-    handleAMonthDissmis() {
+    handleAMonthDismiss() {
         this.setState({isShowMonthBox: false});
     }
 
@@ -181,17 +180,17 @@ class SummarySalesUpContainer extends React.Component {
                                         isAuto={false}
                                         isShowMonthBox={this.state.isShowMonthBox}
                                         openBox={this.handleClickMonthBox}
-                                        closeBox={this.handleAMonthDissmis}
+                                        closeBox={this.handleAMonthDismiss}
                                     />
                                 </div>
                                 <div className="col-sm-3 col-xs-5">
-                                    <Select
-                                        defaultMessage={'Chọn cơ sở'}
-                                        options={this.state.bases}
-                                        disableRound
-                                        value={this.state.selectBaseId}
-                                        onChange={this.onChangeBase}
-                                    />
+                                    {/*<Select*/}
+                                        {/*defaultMessage={'Chọn cơ sở'}*/}
+                                        {/*options={this.state.bases}*/}
+                                        {/*disableRound*/}
+                                        {/*value={this.state.selectBaseId}*/}
+                                        {/*onChange={this.onChangeBase}*/}
+                                    {/*/>*/}
                                 </div>
                                 <div className="col-sm-2 col-xs-5">
                                     {
@@ -267,6 +266,7 @@ class SummarySalesUpContainer extends React.Component {
 
                             <SummarySalesComponent
                                 {...this.props}
+                                summary = {this.props.summary}
                                 loadSummary={this.loadSummary}
                             />
                         </div>
@@ -283,15 +283,14 @@ SummarySalesUpContainer.propTypes = {
     summary: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    loadSummarySalesData: PropTypes.func,
 };
 
 function mapStateToProps(state) {
     return {
-        bases: state.summarySales.bases,
-        summary: state.summarySales.summary,
-        isLoadingBases: state.summarySales.isLoadingBases,
-        isLoading: state.summarySales.isLoading,
+        bases: state.summarySalesUp.bases,
+        summary: state.summarySalesUp.summary,
+        isLoadingBases: state.summarySalesUp.isLoadingBases,
+        isLoading: state.summarySalesUp.isLoading,
     };
 }
 

@@ -38,7 +38,14 @@ class CreateOrderGood extends React.Component {
     componentWillMount() {
         this.props.orderGoodActions.loadAllGoods();
         this.props.orderGoodActions.loadAllCompanies();
-
+        let id = this.props.params.orderGoodId;
+        if (id) {
+            this.props.orderGoodActions.loadOrderGood(id, (data) => {
+                this.setState({ data });
+            });
+        } else {
+            this.setState({ data: defaultData });
+        }
     }
 
     // componentWillReceiveProps(next){
@@ -143,7 +150,7 @@ class CreateOrderGood extends React.Component {
             ),
 
         };
-        this.props.orderGoodActions.CreateOrderGood(res);
+        this.props.orderGoodActions.createOrderGood(res);
     }
 
     onChangeNote(e){
@@ -404,6 +411,7 @@ CreateOrderGood.propTypes = {
     companies: PropTypes.array,
     orderGoodActions: PropTypes.object,
     user: PropTypes.object,
+    params: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -426,11 +434,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateOrderGood);
 
 const defaultData = {
     company: { id: "", name: "" },
-    goods: [
-        // {id: "1", name: "Sản phẩm 1", quantity: 1, price: 3},
-        // {id: "2", name: "Sản phẩm 2", quantity: 2, price: 4},
-        // {id: "3", name: "Sản phẩm 3", quantity: 3, price: 5},
-    ],
+    goods: [],
     note: "",
 };
 const defaultAddModalData = {

@@ -38,7 +38,14 @@ class CreateOrderedGood extends React.Component {
     componentWillMount() {
         this.props.orderedGoodActions.loadAllGoods();
         this.props.orderedGoodActions.loadAllCompanies();
-        
+        let id = this.props.params.orderedGoodId;
+        if (id) {
+            this.props.orderedGoodActions.loadOrderedGood(id, (data) => {
+                this.setState({ data });
+            });
+        } else {
+            this.setState({ data: defaultData });
+        }
     }
 
     // componentWillReceiveProps(next){
@@ -153,7 +160,6 @@ class CreateOrderedGood extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         let {isLoading, goods, companies, isCommitting} = this.props;
         let {data, showAddModal, addModalData} = this.state;
         let sumQuantity=0, sumPrice=0;
@@ -422,6 +428,7 @@ CreateOrderedGood.propTypes = {
     companies: PropTypes.array,
     orderedGoodActions: PropTypes.object,
     user: PropTypes.object,
+    params: PropTypes.object,
 };
 
 function mapStateToProps(state) {

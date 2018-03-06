@@ -32,7 +32,7 @@ ns.create = function(el, props, state) {
         const x = mouse[0];
         const y = mouse[1];
 
-        const scale = ns._scales(el, state.domain);
+        const scale = ns._scales(el);
         const rescaledX = scale.x.invert(x);
         const rescaledY = scale.y.invert(y);
 

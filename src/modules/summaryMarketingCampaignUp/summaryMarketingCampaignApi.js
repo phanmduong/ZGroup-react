@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function loadSummaryMarketingCampaign( baseId = '', startTime = '',endTime = '') {
-    let url = env.MANAGE_API_URL + "/marketing-campaign/summary";
+    let url = env.MANAGE_API_URL + "/room-service/marketing-campaign/summary";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

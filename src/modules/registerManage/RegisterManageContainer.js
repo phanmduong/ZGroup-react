@@ -41,7 +41,7 @@ class RegisterManageContainer extends React.Component {
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
-        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.salersSearchChange = this.salersSearchChange.bind(this);
         this.filterByCampaign = this.filterByCampaign.bind(this);
         this.filterBySaler = this.filterBySaler.bind(this);
         this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(
@@ -52,14 +52,15 @@ class RegisterManageContainer extends React.Component {
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
-        this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
+        this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
     componentWillMount() {
         this.props.registerManageAction.loadAllRegisters();
-        this.props.registerManageAction.getAllStaffs();
+        // this.props.registerManageAction.getAllStaffs();
+        this.props.registerManageAction.getAllSalers();
         this.props.registerManageAction.loadBasesData();
     }
 
@@ -74,8 +75,8 @@ class RegisterManageContainer extends React.Component {
         }
     }
 
-    openChooseSeatModal(baseId) {
-        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, baseId);
+    openChooseSeatModal(base, registerId) {
+        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, base, registerId);
     }
 
     handleClickMonthBox() {
@@ -103,12 +104,12 @@ class RegisterManageContainer extends React.Component {
         let time = { ...this.state.time };
         time["startTime"] = startTime;
         time["endTime"] = endTime;
-        this.setState({ time: time });
-        this.handleAMonthDissmis();
+        this.setState({time: time});
+        this.handleAMonthDismiss();
     }
 
-    handleAMonthDissmis() {
-        this.setState({ isShowMonthBox: false });
+    handleAMonthDismiss() {
+        this.setState({isShowMonthBox: false});
     }
 
     getBases(bases) {
@@ -220,7 +221,7 @@ class RegisterManageContainer extends React.Component {
         );
     }
 
-    staffsSearchChange(value) {
+    salersSearchChange(value) {
         if (value) {
             this.setState({
                 saler_id: value.value,
@@ -359,7 +360,7 @@ class RegisterManageContainer extends React.Component {
                                     isAuto={false}
                                     isShowMonthBox={this.state.isShowMonthBox}
                                     openBox={this.handleClickMonthBox}
-                                    closeBox={this.handleAMonthDissmis}
+                                    closeBox={this.handleAMonthDismiss}
                                 />
                             </div>
                             <div className="col-sm-3 col-xs-5">
@@ -426,22 +427,22 @@ class RegisterManageContainer extends React.Component {
                                                             <Select
                                                                 value={
                                                                     this.state
-                                                                        .staff_id
+                                                                        .saler_id
                                                                 }
-                                                                options={this.props.staffs.map(
-                                                                    staff => {
+                                                                options={this.props.salers.map(
+                                                                    saler => {
                                                                         return {
-                                                                            ...staff,
+                                                                            ...saler,
                                                                             value:
-                                                                                staff.id,
+                                                                                saler.id,
                                                                             label:
-                                                                                staff.name,
+                                                                                saler.name,
                                                                         };
                                                                     },
                                                                 )}
                                                                 onChange={
                                                                     this
-                                                                        .staffsSearchChange
+                                                                        .salersSearchChange
                                                                 }
                                                             />
                                                         </div>
@@ -539,7 +540,7 @@ RegisterManageContainer.propTypes = {
     registers: PropTypes.array.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
-    staffs: PropTypes.array.isRequired,
+    salers: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
     chooseSeatActions: PropTypes.object.isRequired,
@@ -553,7 +554,7 @@ function mapStateToProps(state) {
         limit: state.registerManage.limit,
         totalCount: state.registerManage.totalCount,
         currentPage: state.registerManage.currentPage,
-        staffs: state.registerManage.staffs,
+        salers: state.registerManage.salers,
         isLoadingBases: state.registerManage.isLoadingBases,
         bases: state.registerManage.bases,
     };

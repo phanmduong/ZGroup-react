@@ -54,7 +54,7 @@ class HistoryDebtContainer extends React.Component {
                     show={this.state.showInfoModal}
                     onHide={this.closeInfoModal}
                     isLoading={this.props.isLoadingHistoryDebt}
-                    data={this.props.historyDebt}
+                    data={this.props.historyDebt || []}
                     loadHistoryDebt={this.loadHistoryDebt}
                     paginator={this.props.paginatorHistoryDebt}
                     id={this.state.id}
@@ -74,7 +74,7 @@ class HistoryDebtContainer extends React.Component {
                                         {
                                             this.props.isLoadingCompanies ? <Loading/> :
                                                 <CompaniesList
-                                                    data={this.props.data}
+                                                    data={this.props.data || []}
                                                     openInfoModal={this.openInfoModal}
                                                 />
                                         }

@@ -30,3 +30,22 @@ export function createOrderedGood(data) {
     }
     return axios.post(url, data);
 }
+
+export function loadAllOrderedGood(page=1) {
+    let url     = env.MANAGE_API_URL +"/company/be-ordered/all?page=" +page;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadOrderedGood(id) {
+    
+    let url     = env.MANAGE_API_URL +"/company/be-ordered/" + id;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.get(url);
+}

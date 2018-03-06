@@ -79,6 +79,11 @@ export default [
         component: CreateOrderedGood,
     },
     {
+
+        path: "/business/ordered-good/edit/:orderedGoodId",
+        component: CreateOrderedGood,
+    },
+    {
         path: "/business/history-debt",
         component: HistoryDebtContainer,
     },
@@ -99,6 +104,7 @@ export default [
     {
         path: "/business/import-order/item/create",
         component: CreateItemImportOrderContainer,
+
     },
     {
         path: "/business/order-good",
@@ -108,5 +114,9 @@ export default [
         path: "/business/order-good/create",
         component: CreateOrderGoodContainer,
 
+    },
+    {
+        path: "/business/order-good/edit/:orderGoodId",
+        component: CreateOrderGoodContainer,
     },
 ];

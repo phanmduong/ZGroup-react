@@ -33,15 +33,13 @@ export default {
 
     registerManage: {
         registers: [],
-        staffs: [],
+        salers: [],
         isLoading: false,
         totalPages: 1,
         currentPage: 1,
         totalCount: 1,
         limit: 20,
         isChangingStatus: false,
-
-
         isLoadingBases: false,
         bases: [],
     },
@@ -1032,6 +1030,8 @@ export default {
     },
 
     goodOrders: {
+        // provinces :[],
+        // isLoadingProvinces : false,
         warehousesList: [],
         selectWarehouseModal: false,
         isLoadingWarehouse: false,
@@ -1081,6 +1081,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isLoadingProvinces : false,
             provinces: [],
             isOpenReturnOrder: false,
             isSaving: false,
@@ -1109,8 +1110,9 @@ export default {
                     name: "test",
                     address: "HN",
                     phone: "test",
-                    email: "po01636863831@gmail.com"
+                    email: "po01636863831@gmail.com",
                 },
+
 
 
                 return_orders: [],
@@ -1748,7 +1750,7 @@ export default {
         isSavingCompany: false,
         isSavingField: false,
         isLoading: false,
-        company: [{
+        company: {
             name: "",
             registered_business_address: "",
             office_address: "",
@@ -1764,14 +1766,8 @@ export default {
             },
             user_contact: "",
             user_contact_phone: "",
-            user_contact1: "",
-            user_contact_phone1: "",
-            user_contact2: "",
-            user_contact_phone2: "",
             type: "",
-            discount_comic: 0,
-            discount_text: 0,
-        }],
+        },
         summay_money: 0,
         fields: [],
         paginator: {
@@ -1790,6 +1786,7 @@ export default {
         isLoadingCompanies: false,
         link: "",
         percent: 0,
+        summary_money: 0,
         payment: [{
             id: 0,
             money_value: 0,
@@ -1803,7 +1800,6 @@ export default {
                 account_number: "",
             },
             description: "",
-            status: 0,
         }],
         company: [],
         paginator: {
@@ -1995,11 +1991,32 @@ export default {
         available_seats: 0,
 
     },
-    orderedGood: {
-        isLoading: false,
-        isCommitting: false,
-        companies: [],
-        goods: [],
+
+    orderedGood:{
+      isLoading: false,
+      isCommitting: false,
+      companies: [],
+      goods: [],
+      orderedList: [],
+      paginator: {
+          current_page: 1,
+          limit: 20,
+          total_count: 0,
+          total_pages: 1,
+      },
+    },
+    orderGood:{
+      isLoading: false,
+      isCommitting: false,
+      companies: [],
+      goods: [],
+      orderList: [],
+      paginator: {
+        current_page: 1,
+        limit: 20,
+        total_count: 0,
+        total_pages: 1,
+        },
     },
     historyDebt:{
         isLoadingComapnies: false,
@@ -2009,6 +2026,7 @@ export default {
         paginatorCompanies: [],
         paginatorHistoryDebt: [],
     },
+
     importOrder:{
         isLoading: false,
         isLoadingImportOrder: false,
@@ -2030,11 +2048,4 @@ export default {
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
     },
-    orderGood:{
-      isLoading: false,
-      isCommitting: false,
-      companies: [],
-      goods: [],
-    },
-
 };

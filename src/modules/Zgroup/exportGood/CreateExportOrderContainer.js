@@ -214,6 +214,7 @@ class CreateExportOrderContainer extends React.Component {
                                                             <th style={{ width: "40%" }}>Tên</th>
                                                             <th style={textAlign}>Số lượng</th>
                                                             <th style={textAlign}>Đơn giá</th>
+                                                            <th style={textAlign}>Kho xuất</th>
                                                             <th style={textAlign}>Thành tiền</th>
                                                             
                                                         </tr>
@@ -230,6 +231,8 @@ class CreateExportOrderContainer extends React.Component {
                                                                             <td>{obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
+                                                                            <td style={{...textAlign, color: (obj.warehouse && obj.warehouse.id) ? "" : "red"}}>
+                                                                            {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
                                                                                 <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
@@ -353,13 +356,6 @@ class CreateExportOrderContainer extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <form role="form" id="form-good" onSubmit={(e) => { e.preventDefault(); }}>
-                            <FormInputText
-                                name="" type="text"
-                                label="Sản phẩm"
-                                value={addModalData.good.name}
-                                updateFormData={() => { }}
-                                disabled
-                            />
                             <div>
                                 <label>Chọn kho xuất</label>
                                 <ReactSelect
