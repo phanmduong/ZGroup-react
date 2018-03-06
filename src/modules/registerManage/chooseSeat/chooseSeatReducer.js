@@ -11,7 +11,7 @@ import {
 } from "./chooseSeatActionType";
 
 const initialState = {
-    from:"",
+    from: "",
     to: "",
     showModal: false,
     base: {},
@@ -52,6 +52,9 @@ export default function chooseSeatReducer(state = initialState, action) {
                 showModal: action.showModal,
                 base: action.base,
                 register: action.register ? action.register : {},
+                from: "",
+                room: {},
+                to: "",
             };
         case CHOOSE_SEAT_BEGIN_LOAD_ROOMS:
             return {

@@ -9,7 +9,6 @@ import RoomGrid from "../../bases/room/RoomGrid";
 import { DATETIME_VN_FORMAT } from "../../../constants/constants";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import moment from "moment";
-import { showErrorMessage } from "../../../helpers/helper";
 import ConfirmSeatModalContainer from "./ConfirmSeatModalContainer";
 
 class ChooseSeatModalContainer extends React.Component {
@@ -122,10 +121,11 @@ class ChooseSeatModalContainer extends React.Component {
     }
 
     render() {
-        const { rooms, room, from, to } = this.props;
+        const { rooms, room, from, to, register } = this.props;
 
         return (
             <Modal
+                animation={false}
                 bsSize="large"
                 show={this.props.showModal}
                 onHide={this.handleClose}
@@ -157,19 +157,17 @@ class ChooseSeatModalContainer extends React.Component {
                             />
                         </div>
                         <div className="col-md-6 col-lg-4">
-                            {this.props.register.subscription && (
+                            {register.subscription && (
                                 <FormInputDateTime
                                     name="to"
                                     format={DATETIME_VN_FORMAT}
                                     id="to"
                                     label="Kết thúc"
                                     value={to}
-                                    defaultDate={moment()
-                                        .add(
-                                            this.props.register.subscription
-                                                .hours,
-                                            "hours",
-                                        )}
+                                    defaultDate={moment().add(
+                                        register.subscription.hours,
+                                        "hours",
+                                    )}
                                     updateFormData={this.onToDateInputChange}
                                 />
                             )}
