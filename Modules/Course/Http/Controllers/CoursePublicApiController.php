@@ -34,6 +34,26 @@ class CoursePublicApiController extends PublicApiController
         else
             $limit = $request->limit;
         $keyword = $request->search;
+        $courses = Course::where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("price", "like", "%$keyword%");
+        })->paginate($limit);
+        return $this->respondWithPagination(
+            $courses,
+            [
+                "courses" => $courses->map(function ($course) {
+                    return $course->transform();
+                })
+            ]
+        );
+    }
+
+    public function getAllCoursesApp(Request $request)
+    {
+        if (!$request->limit)
+            $limit = 20;
+        else
+            $limit = $request->limit;
+        $keyword = $request->search;
         $courses = Course::leftJoin('classes', 'classes.course_id', '=', 'courses.id')
             ->leftJoin('registers', 'registers.class_id', '=', 'classes.id')
             ->groupBy('courses.id')
