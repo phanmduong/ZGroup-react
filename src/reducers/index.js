@@ -86,6 +86,7 @@ import orderedGoodReducer from '../modules/Zgroup/orderedGood/orderedGoodReducer
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
 import historyDebtReducer from "../modules/historyDebt/historyDebtReducer";
+import importOrderReducer from "../modules/importOrder/importOrderReducer";
 
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
@@ -175,6 +176,7 @@ const appReducer = combineReducers({
     summaryMarketingCampaignUp: summaryMarketingCampaignUpReducer,
     summarySalesUp : summarySalesUpReducer,
     historyDebt: historyDebtReducer,
+    importOrder: importOrderReducer,
 });
 
 const rootReducer = (state, action) => {

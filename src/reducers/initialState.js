@@ -2009,4 +2009,25 @@ export default {
         paginatorCompanies: [],
         paginatorHistoryDebt: [],
     },
+    importOrder:{
+        isLoading: false,
+        isLoadingImportOrder: false,
+        isLoadingItemOrder: false,
+        isLoadingPrintOrder: false,
+        isLoadingGoods: false,
+        isLoadingCompanies: false,
+        isLoadingWarehouses: false,
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        itemOrder: [],
+        printOrder: [],
+        importOrders: [],
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
+    }
 };
