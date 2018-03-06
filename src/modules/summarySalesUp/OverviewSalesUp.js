@@ -94,17 +94,17 @@ class OverviewSalesUp extends React.Component {
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        {
-                                                            item.courses && item.courses.map((course, index) => {
-                                                                return (
-                                                                    <tr key={index}>
-                                                                        <td>{course.name}</td>
-                                                                        <td className="text-center">{course.count}</td>
-                                                                        <td className="text-center">{helper.dotNumber(course.count * course['sale_bonus'])}đ</td>
-                                                                    </tr>
-                                                                );
-                                                            })
-                                                        }
+                                                        {/*{*/}
+                                                            {/*item.courses && item.courses.map((course, index) => {*/}
+                                                                {/*return (*/}
+                                                                    {/*<tr key={index}>*/}
+                                                                        {/*<td>{course.name}</td>*/}
+                                                                        {/*<td className="text-center">{course.count}</td>*/}
+                                                                        {/*<td className="text-center">{helper.dotNumber(course.count * course['sale_bonus'])}đ</td>*/}
+                                                                    {/*</tr>*/}
+                                                                {/*);*/}
+                                                            {/*})*/}
+                                                        {/*}*/}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -127,15 +127,14 @@ class OverviewSalesUp extends React.Component {
         );
     }
 }
+
 OverviewSalesUp.propTypes={
     summary: PropTypes.array,
 };
-
 function mapStateToProps(state) {
     return {
-        summary: state.summarySales.summary
+        summary: state.summarySalesUp.summary,
     };
 }
-
 
 export default connect(mapStateToProps)(OverviewSalesUp);

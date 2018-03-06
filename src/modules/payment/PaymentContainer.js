@@ -5,13 +5,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Loading from "../../components/common/Loading";
 import _ from 'lodash';
-import FormInputDate from "../../components/common/FormInputDate";
 import PaymentList from './PaymentList';
 import InfoPaymentModal from './InfoPaymentModal';
 import {Panel} from 'react-bootstrap';
 import Select from 'react-select';
 import PropTypes from "prop-types";
-import * as helper from "../../helpers/helper";
 
 class PaymentContainer extends React.Component {
     constructor(props, context) {
@@ -27,12 +25,9 @@ class PaymentContainer extends React.Component {
             },
             showInfoModal: false,
             openFilter: false,
-            company_id: "",
+            receiver_id: "",
+            payer_id: "",
             type: "",
-            time: {
-                startTime: '',
-                endTime: '',
-            },
             payment: {
                 payer: {
                     id: 0,
@@ -48,9 +43,8 @@ class PaymentContainer extends React.Component {
         this.openInfoModal = this.openInfoModal.bind(this);
         this.closeInfoModal = this.closeInfoModal.bind(this);
         this.changeCompanies = this.changeCompanies.bind(this);
-        this.selectedCompany = this.selectedCompany.bind(this);
-        this.updateFormDate = this.updateFormDate.bind(this);
-        this.selectedType = this.selectedType.bind(this);
+        this.selectedReceiver = this.selectedReceiver.bind(this);
+        this.selectedPayer = this.selectedPayer.bind(this);
     }
 
     componentWillMount() {
@@ -81,41 +75,20 @@ class PaymentContainer extends React.Component {
 
     }
 
-    selectedCompany(e) {
+    selectedReceiver(e) {
         let value = e ? e.value : "";
-        this.setState({company_id: value});
-        this.props.PaymentActions.loadPayments(1, value,this.state.time.startTime,this.state.time.endTime,this.state.type);
+        this.setState({receiver_id: value});
+        this.props.PaymentActions.loadPayments(1, value, this.state.payer_id);
 
     }
-    selectedType(e) {
+
+    selectedPayer(e) {
         let value = e ? e.value : "";
-        this.setState({type: value});
-        this.props.PaymentActions.loadPayments(1, this.state.company_id,this.state.time.startTime,this.state.time.endTime,value);
+        this.setState({payer_id: value});
+        this.props.PaymentActions.loadPayments(1, this.state.receiver_id, value);
 
     }
-    updateFormDate(event) {
-        const field = event.target.name;
-        let time = {...this.state.time};
-        time[field] = event.target.value;
-        if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
-            this.props.PaymentActions.loadPayments(
-                1,
-                this.state.company_id,
-                time.startTime,
-                time.endTime,
-                this.state.type,
-            );
-            this.setState({
-                time: time,
-                page: 1
-            });
-        } else {
-            this.setState({
-                time: time,
-                page: 1
-            });
-        }
-    }
+
 
     closeInfoModal() {
         this.setState({showInfoModal: false});
@@ -124,29 +97,6 @@ class PaymentContainer extends React.Component {
     render() {
         return (
             <div>
-                <div className="content">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-md-12">
-
-                                <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">equalizer</i>
-                                    </div>
-
-                                    <div className="card-content">
-                                        <h4 className="card-title">Doanh thu</h4>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <h3 className="card-title">  {this.props.summary_money} </h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className="content">
                     <InfoPaymentModal
                         show={this.state.showInfoModal}
@@ -173,7 +123,7 @@ class PaymentContainer extends React.Component {
                                                         Tạo hóa đơn
                                                     </Link>
                                                 </div>
-                                                <div className="col-md-7" />
+                                                <div className="col-md-7"/>
                                                 <div className="col-md-2">
                                                     <button className="btn btn-info btn-rose"
                                                             onClick={() => this.setState({openFilter: !this.state.openFilter})}>
@@ -187,56 +137,23 @@ class PaymentContainer extends React.Component {
                                             <div className="col-md-12">
                                                 <div className="row">
                                                     <div className="col-md-6">
-                                                        <FormInputDate
-                                                            label="Từ ngày"
-                                                            name="startTime"
-                                                            updateFormData={this.updateFormDate}
-                                                            id="form-start-time"
-                                                            value={this.state.time.startTime}
-                                                            maxDate={this.state.time.endTime}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <FormInputDate
-                                                            label="Đến ngày"
-                                                            name="endTime"
-                                                            updateFormData={this.updateFormDate}
-                                                            id="form-end-time"
-                                                            value={this.state.time.endTime}
-                                                            minDate={this.state.time.startTime}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-6">
                                                         <label>
-                                                            Tìm kiếm theo công ty
+                                                            Tìm kiếm theo công ty gửi
                                                         </label>
                                                         <Select
                                                             options={this.changeCompanies()}
-                                                            value={this.state.company_id}
-                                                            onChange={this.selectedCompany}
+                                                            value={this.state.payer_id}
+                                                            onChange={this.selectedPayer}
                                                         />
                                                     </div>
                                                     <div className="col-md-6">
                                                         <label>
-                                                            Tìm kiếm theo loại
+                                                            Tìm kiếm theo công ty nhận
                                                         </label>
                                                         <Select
-                                                            options={[
-                                                                {
-                                                                    value: "done",
-                                                                    label: "Thanh toán"
-                                                                },
-                                                                {
-                                                                    value: "debt_print",
-                                                                    label: "Đặt in"
-                                                                },
-                                                                {
-                                                                    value: "debt_export",
-                                                                    label: "Xuất hàng"
-                                                                }
-                                                            ]}
-                                                            value={this.state.type}
-                                                            onChange={this.selectedType}
+                                                            options={this.changeCompanies()}
+                                                            value={this.state.receiver_id}
+                                                            onChange={this.selectedReceiver}
                                                         />
                                                     </div>
                                                 </div>
@@ -248,6 +165,7 @@ class PaymentContainer extends React.Component {
                                                 <PaymentList
                                                     data={this.props.data || []}
                                                     openInfoModal={this.openInfoModal}
+                                                    changeStatus={this.props.PaymentActions.changeStatus}
                                                 />
                                         }
                                         <ul className="pagination pagination-primary">
@@ -297,7 +215,6 @@ function mapStateToProps(state) {
         isLoadingPayments: state.payment.isLoadingPayments,
         data: state.payment.payment,
         paginator: state.payment.paginator,
-        summary_money: state.payment.summary_money,
         company: state.payment.company,
     };
 }

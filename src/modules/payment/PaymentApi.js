@@ -31,21 +31,20 @@ export function editPayment(id,object){
     });
 
 }
-export function loadPayments(page,company_id,start_time,end_time,type){
+export function loadPayments(page,receiver_id, payer_id){
     let url = env.MANAGE_API_URL + '/company/payment/all';
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token + "&page=" + page + "&limit=15";
     }
-    if(company_id){
-        url += "&company_id=" + company_id;
+    if(receiver_id){
+        url += "&receiver_id=" + receiver_id;
     }
-    if(start_time && end_time){
-        url += "&start_time=" + start_time + "&end_time=" + end_time;
+
+    if(payer_id){
+        url += "&payer_id=" + payer_id;
     }
-    if(type){
-        url += "&type=" + type;
-    }
+
 
     return axios.get(url);
 }
@@ -76,4 +75,14 @@ export function uploadImage(file,completeHandler, progressHandler, error){
     ajax.addEventListener("error", error, false);
     ajax.open("POST", url);
     ajax.send(formdata);
+}
+
+export function changeStatus(id,status){
+    let url = env.MANAGE_API_URL + '/company/payment/' + id + '/change-status';
+    let token = localStorage.getItem('token');
+    url += "?token=" + token;
+    return axios.post(url, {
+        'status': status
+    });
+
 }

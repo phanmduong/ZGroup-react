@@ -10,12 +10,12 @@ export default function orderedGoodReducer(state = initialState.orderedGood, act
         case types.BEGIN_LOAD_ALL_GOODS_ORDERED_GOOD:
             return {
                 ...state,
-                
+
             };
         case types.LOAD_ALL_GOODS_ORDERED_GOOD_SUCCESS: {
             return {
                 ...state,
-                
+
                 goods: getSelectArray(action.goods),
             };
         }
@@ -23,7 +23,7 @@ export default function orderedGoodReducer(state = initialState.orderedGood, act
         case types.LOAD_ALL_GOODS_ORDERED_GOOD_ERROR:
             return {
                 ...state,
-                
+
             };
 
         case types.BEGIN_LOAD_ALL_COMPANIES_ORDERED_GOOD:
@@ -40,7 +40,7 @@ export default function orderedGoodReducer(state = initialState.orderedGood, act
         case types.LOAD_ALL_COMPANIES_ORDERED_GOOD_ERROR:
             return {
                 ...state,
-                
+
             };
 
         case types.BEGIN_CREATE_ORDERED_GOOD:
@@ -60,11 +60,28 @@ export default function orderedGoodReducer(state = initialState.orderedGood, act
                 ...state,
                 isCommitting: false,
             };
+
+        case types.BEGIN_LOAD_ALL_ORDERED_GOOD:
+            return {
+                ...state,
+            };
+        case types.LOAD_ALL_ORDERED_GOOD_SUCCESS: {
+            return {
+                ...state,
+                orderedList: action.orderedList,
+                paginator: action.paginator,
+            };
+        }
+
+        case types.LOAD_ALL_ORDERED_GOOD_ERROR:
+            return {
+                ...state,
+
+            };
         default:
             return state;
     }
 }
-
 function getSelectArray(arr) {
     let res = arr.map(obj => {
         return {
@@ -73,5 +90,5 @@ function getSelectArray(arr) {
             label: obj.name,
         };
     });
-    return [{id :null, name:"Chưa Chọn"},...res];
+    return res;
 }

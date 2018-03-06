@@ -9,9 +9,10 @@ import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
 import { Modal } from 'react-bootstrap';
 import ReactSelect from 'react-select';
+import {browserHistory} from 'react-router';
 
 const textAlign = { textAlign: "right" };
-const btnStyle = { width: 90, marginRight: 10 };
+const btnStyle = { marginRight: 10 };
 
 class CreateExportOrderContainer extends React.Component {
     constructor(props, context) {
@@ -146,13 +147,25 @@ class CreateExportOrderContainer extends React.Component {
             return;
         }
 
-
-
+        let selectedAllWareHouse = true;
+        data.goods.forEach(obj => {
+            if(!obj.warehouse || !obj.warehouse.id) {
+                
+                selectedAllWareHouse = false;
+                return;
+            }
+        });
+        
+        if(!selectedAllWareHouse){
+            helper.showErrorMessage("Vui lòng chọn kho xuất cho tất cả sản phẩm");
+            return;
+        }
             this.props.exportOrderActions.createExportOrder(
                 {
                     ...data,
                     goods: JSON.stringify(data.goods.map(
                         (obj)=>{
+                            if(!obj.warehouse || !obj.warehouse.id) return;
                             return ({
                                 id: obj.id,
                                 price: obj.price,
@@ -176,9 +189,9 @@ class CreateExportOrderContainer extends React.Component {
 
     render() {
         let { data, addModalData, showAddModal } = this.state;
-        let { orderedGoods, isLoading, isCommitting, warehouses, } = this.props;
+        let { orderedGoods, isLoading, isCommitting, warehouses, params,} = this.props;
         let sumQuantity = 0, sumPrice = 0;
-        
+        let isEdit = params.exportOrderId;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -201,17 +214,9 @@ class CreateExportOrderContainer extends React.Component {
                                                             <th style={{ width: "40%" }}>Tên</th>
                                                             <th style={textAlign}>Số lượng</th>
                                                             <th style={textAlign}>Đơn giá</th>
+                                                            <th style={textAlign}>Kho xuất</th>
                                                             <th style={textAlign}>Thành tiền</th>
-                                                            <th>
-                                                                {/* <TooltipButton text="Thêm sản phẩm" placement="top">
-                                                                        <button style={{ float: "right"}}
-                                                                                className="btn btn-fill btn-rose btn-sm"
-                                                                                type="button"
-                                                                                onClick={()=> this.openAddModal(null)}
-                                                                        ><i className="material-icons">add</i> Thêm
-                                                                        </button>
-                                                                    </TooltipButton> */}
-                                                            </th>
+                                                            
                                                         </tr>
                                                     </thead>
                                                     {(data && data.goods && data.goods.length > 0) ?
@@ -226,6 +231,8 @@ class CreateExportOrderContainer extends React.Component {
                                                                             <td>{obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
+                                                                            <td style={{...textAlign, color: (obj.warehouse && obj.warehouse.id) ? "" : "red"}}>
+                                                                            {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
                                                                                 <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
@@ -245,7 +252,7 @@ class CreateExportOrderContainer extends React.Component {
 
                                                     }
 
-                                                    <tfoot style={{ fontWeight: "bolder" }}>
+                                                    <tfoot style={{ fontWeight: "bolder" , fontSize: "1.1em"}}>
                                                         <tr>
                                                             <td />
                                                             <td>Tổng</td>
@@ -258,26 +265,26 @@ class CreateExportOrderContainer extends React.Component {
                                                 </table>
                                             </div>
                                             {isCommitting ?
-                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse" }}>
-                                                    <button style={btnStyle} className="btn btn-rose disabled btn-xs" type="button" disabled>
+                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse", marginRight: 30, marginTop:40 }}>
+                                                    <button style={btnStyle} className="btn btn-rose disabled" type="button" disabled>
                                                         <i className="fa fa-spinner fa-spin" /> Đang lưu...
                                                                 </button>
                                                 </div>
                                                 :
-                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse" }}>
+                                                <div className="" style={{ display: "flex", flexDirection: "row-reverse" , marginRight: 10, marginTop:40}}>
                                                     <button
-                                                        className="btn btn-fill btn-xs" type="button"
+                                                        className="btn btn-fill" type="button"
                                                         style={btnStyle}
                                                         onClick={() => {
                                                             helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
                                                                 () => {
-                                                                    //return browserHistory.push("/business/export-order");
+                                                                    return browserHistory.push("/business/export-order");
                                                                 }
                                                             );
                                                         }}
                                                     ><i className="material-icons">cancel</i> Hủy</button>
                                                     <button
-                                                        className="btn btn-fill btn-rose btn-xs"
+                                                        className="btn btn-fill btn-rose"
                                                         style={btnStyle}
                                                         type="button"
                                                         onClick={this.commitData}
@@ -299,10 +306,10 @@ class CreateExportOrderContainer extends React.Component {
                                         <div className="card-content">
                                             <h4 className="card-title">Thông tin</h4>
 
-                                            <div className="">
+                                            <div>
                                                 <label>Chọn mã đặt hàng</label>
                                                 <ReactSelect
-                                                    disabled={isLoading}
+                                                    disabled={isLoading || isEdit}
                                                     options={orderedGoods || []}
                                                     onChange={this.changeOrderedGood}
                                                     value={data.id}
@@ -318,7 +325,7 @@ class CreateExportOrderContainer extends React.Component {
                                                     <textarea
                                                         id="textarea-card-comment"
                                                         name="note"
-                                                        onChange={() => { }}
+                                                        onChange={this.updateFormData}
                                                         value={data.note}
                                                         onKeyUp={() => {
                                                         }}
@@ -349,13 +356,6 @@ class CreateExportOrderContainer extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <form role="form" id="form-good" onSubmit={(e) => { e.preventDefault(); }}>
-                            <FormInputText
-                                name="" type="text"
-                                label="Sản phẩm"
-                                value={addModalData.good.name}
-                                updateFormData={() => { }}
-                                disabled
-                            />
                             <div>
                                 <label>Chọn kho xuất</label>
                                 <ReactSelect

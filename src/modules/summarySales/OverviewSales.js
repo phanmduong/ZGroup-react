@@ -2,12 +2,15 @@
  * Created by phanmduong on 11/25/17.
  */
 import React from 'react';
-import {connect} from 'react-redux';
 import * as helper from '../../helpers/helper';
 import TooltipButton from '../../components/common/TooltipButton';
 import {Pie} from "react-chartjs-2";
 
 import PropTypes                    from 'prop-types';
+import {connect} from "react-redux";
+
+
+
 
 const legendOpts = {
     display: false,
@@ -19,7 +22,6 @@ class OverviewSales extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
-
     convertData(campaigns) {
         let labels = [];
         let data = [];
@@ -47,7 +49,9 @@ class OverviewSales extends React.Component {
         return dataChart;
     }
 
+
     render() {
+
         return (
             <div>
                 {this.props.summary.map((item, index) => {
@@ -130,12 +134,10 @@ class OverviewSales extends React.Component {
 OverviewSales.propTypes={
     summary: PropTypes.array,
 };
-
 function mapStateToProps(state) {
     return {
         summary: state.summarySales.summary
     };
 }
-
 
 export default connect(mapStateToProps)(OverviewSales);

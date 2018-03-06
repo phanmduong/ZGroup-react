@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadAllRegistersApi(limit, page = 1, search, staff_id, status, campaign_id,base_id,startTime,endTime) {
+export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, campaign_id,base_id,startTime,endTime) {
     let url = env.MANAGE_API_URL + '/coworking-space/register?page=' + page;
     if (search) {
         url += "&search=" + search;
@@ -10,8 +10,8 @@ export function loadAllRegistersApi(limit, page = 1, search, staff_id, status, c
     if (token) {
         url += "&token=" + token;
     }
-    if (staff_id) {
-        url += "&staff_id=" + staff_id;
+    if (saler_id) {
+        url += "&saler_id=" + saler_id;
     }
     if (limit) {
         url += "&limit=" + limit;
@@ -34,8 +34,8 @@ export function loadAllRegistersApi(limit, page = 1, search, staff_id, status, c
     return axios.get(url);
 }
 
-export function getAllStaffApi() {
-    let url = env.MANAGE_API_URL + '/staff?limit=-1';
+export function getAllSalerApi() {
+    let url = env.MANAGE_API_URL + '/coworking-space/saler?';
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
@@ -54,6 +54,19 @@ export function changeCallStatusApi(status, note, register_id, user_id) {
         "listener_id": user_id,
         "note": note,
         "call_status": status,
+    });
+}
+
+export function savePaymentApi(money, register_id, user_id) {
+    let url = env.MANAGE_API_URL + '/company/payment/create?';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.post(url, {
+        "register_id": register_id,
+        "user_id": user_id,
+        "money_value": money,
     });
 }
 

@@ -742,8 +742,8 @@ export function onesignalSetUserId(userId) {
     if (window.OneSignal) {
         window.OneSignal.sendTag("user_id", userId, function (tagsSent) {
             console.log("tag ok ", tagsSent);
-        });    
-    }    
+        });
+    }
     /* eslint-enable */
 }
 
@@ -1266,4 +1266,30 @@ export function convertDotMoneyToK(data) {
 
     }
     return data;
+}
+
+export function prefixAvatarUrl(url,prefix = "http") {
+    let tmpAva = url;
+    if (tmpAva.slice(0, 4) !== "http") {
+        tmpAva = (prefix+"://").concat(tmpAva);
+        return tmpAva;
+    }
+    return tmpAva;
+}
+
+export function parseTime(x) {
+    let date,month,year,hour;
+    if(moment(x, "HH:mm DD-MM-YYYY").format("HH:mm")!== "Invalid date"){
+        hour = moment(x, "HH:mm DD-MM-YYYY").format("HH:mm");
+        date = moment(x, "HH:mm DD-MM-YYYY").format("DD");
+        month = moment(x, "HH:mm DD-MM-YYYY").format("MM");
+        year = moment(x, "HH:mm DD-MM-YYYY").format("YYYY");
+    }
+    else{
+        hour = moment(x, "YYYY-MM-DD HH:mm").format("HH:mm");
+        date = moment(x, "YYYY-MM-DD HH:mm").format("DD") ;
+        month = moment(x, "YYYY-MM-DD HH:mm").format("MM");
+        year = moment(x, "YYYY-MM-DD HH:mm").format("YYYY");
+    }
+    return "Ngày " + date + " tháng " + month + " năm " + year + " , " + hour;
 }

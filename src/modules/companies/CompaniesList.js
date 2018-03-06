@@ -23,7 +23,6 @@ class CompaniesList extends React.Component {
                         <th>Địa chỉ văn phòng</th>
                         <th>Lĩnh vực</th>
                         <th>Số điện thoại liên hệ</th>
-                        <th>Mã số thuế</th>
                         <th>Loại</th>
                         <th/>
                         <th/>
@@ -46,7 +45,6 @@ class CompaniesList extends React.Component {
                                     <td>{pp.office_address}</td>
                                     <td>{pp.field.name}</td>
                                     <td>{pp.phone_company}</td>
-                                    <td>{pp.tax_code}</td>
                                     <td>{
                                         (pp.type === "provided") ? "Cung cấp" :
                                             (pp.type === "share") ? "Phân phối" : "Khác"

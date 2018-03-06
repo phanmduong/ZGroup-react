@@ -41,7 +41,7 @@ class RegisterManageContainer extends React.Component {
         this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
-        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.salersSearchChange = this.salersSearchChange.bind(this);
         this.filterByCampaign = this.filterByCampaign.bind(this);
         this.filterBySaler = this.filterBySaler.bind(this);
         this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(
@@ -52,14 +52,15 @@ class RegisterManageContainer extends React.Component {
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
-        this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this);
+        this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
     componentWillMount() {
         this.props.registerManageAction.loadAllRegisters();
-        this.props.registerManageAction.getAllStaffs();
+        // this.props.registerManageAction.getAllStaffs();
+        this.props.registerManageAction.getAllSalers();
         this.props.registerManageAction.loadBasesData();
     }
 
@@ -74,8 +75,8 @@ class RegisterManageContainer extends React.Component {
         }
     }
 
-    openChooseSeatModal(baseId) {
-        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, baseId);
+    openChooseSeatModal(base, register) {
+        this.props.chooseSeatActions.toggleShowChooseSeatModal(true, base, register);
     }
 
     handleClickMonthBox() {
@@ -103,12 +104,12 @@ class RegisterManageContainer extends React.Component {
         let time = { ...this.state.time };
         time["startTime"] = startTime;
         time["endTime"] = endTime;
-        this.setState({ time: time });
-        this.handleAMonthDissmis();
+        this.setState({time: time});
+        this.handleAMonthDismiss();
     }
 
-    handleAMonthDissmis() {
-        this.setState({ isShowMonthBox: false });
+    handleAMonthDismiss() {
+        this.setState({isShowMonthBox: false});
     }
 
     getBases(bases) {
@@ -220,7 +221,7 @@ class RegisterManageContainer extends React.Component {
         );
     }
 
-    staffsSearchChange(value) {
+    salersSearchChange(value) {
         if (value) {
             this.setState({
                 saler_id: value.value,
@@ -303,8 +304,8 @@ class RegisterManageContainer extends React.Component {
         this.setState({ saler_id: saler_id });
         this.props.registerManageAction.loadAllRegisters(
             this.state.limit,
-            this.state.page,
-            this.state.query,
+            1,
+            "",
             saler_id,
             this.state.status,
             this.state.campaign_id,
@@ -359,7 +360,7 @@ class RegisterManageContainer extends React.Component {
                                     isAuto={false}
                                     isShowMonthBox={this.state.isShowMonthBox}
                                     openBox={this.handleClickMonthBox}
-                                    closeBox={this.handleAMonthDissmis}
+                                    closeBox={this.handleAMonthDismiss}
                                 />
                             </div>
                             <div className="col-sm-3 col-xs-5">
@@ -401,6 +402,7 @@ class RegisterManageContainer extends React.Component {
                             collapsible
                             expanded={this.state.openFilterPanel}
                         >
+
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="card">
@@ -417,32 +419,20 @@ class RegisterManageContainer extends React.Component {
                                                 Bộ lọc
                                             </h4>
                                             <div className="row">
-                                                <div className="col-md-9">
-                                                    <div className="row">
                                                         <div className="form-group col-md-4">
                                                             <label className="label-control">
                                                                 Tìm theo saler
                                                             </label>
                                                             <Select
-                                                                value={
-                                                                    this.state
-                                                                        .staff_id
-                                                                }
-                                                                options={this.props.staffs.map(
-                                                                    staff => {
+                                                                value={this.state.saler_id}
+                                                                options={this.props.salers.map(
+                                                                    saler => {
                                                                         return {
-                                                                            ...staff,
-                                                                            value:
-                                                                                staff.id,
-                                                                            label:
-                                                                                staff.name,
-                                                                        };
+                                                                            ...saler, value: saler.id,
+                                                                            label: saler.name,};
                                                                     },
                                                                 )}
-                                                                onChange={
-                                                                    this
-                                                                        .staffsSearchChange
-                                                                }
+                                                                onChange={this.salersSearchChange}
                                                             />
                                                         </div>
                                                         <div className="form-group col-md-4">
@@ -451,40 +441,25 @@ class RegisterManageContainer extends React.Component {
                                                                 thái
                                                             </label>
                                                             <Select
-                                                                value={
-                                                                    this.state
-                                                                        .status
-                                                                }
-                                                                options={
-                                                                    REGISTER_STATUS
-                                                                }
-                                                                onChange={
-                                                                    this
-                                                                        .filterByStatus
-                                                                }
+                                                                value={this.state.status}
+                                                                options={REGISTER_STATUS}
+                                                                onChange={this.filterByStatus}
                                                             />
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </Panel>
 
                         <div className="card">
-                            <div
-                                className="card-header card-header-icon"
-                                data-background-color="rose"
-                                style={{ zIndex: 0 }}
-                            >
+                            <div className="card-header card-header-icon" data-background-color="rose"
+                                style={{ zIndex: 0 }}>
                                 <i className="material-icons">assignment</i>
                             </div>
                             <div className="card-content">
-                                <h4 className="card-title">
-                                    Danh sách đơn hàng
-                                </h4>
+                                <h4 className="card-title">Danh sách đơn hàng</h4>
                                 <div>
                                     <Search
                                         onChange={this.registersSearchChange}
@@ -492,31 +467,22 @@ class RegisterManageContainer extends React.Component {
                                         placeholder="Nhập mã đăng ký hoặc tên khách hàng"
                                     />
                                     <ListOrder
-                                        openChooseSeatModal={
-                                            this.openChooseSeatModal
-                                        }
+                                        openChooseSeatModal={this.openChooseSeatModal}
                                         registers={this.props.registers}
                                         isLoading={this.props.isLoading}
                                         filterBySaler={this.filterBySaler}
                                         filterByCampaign={this.filterByCampaign}
                                     />
                                     <div className="row float-right">
-                                        <div
-                                            className="col-md-12"
-                                            style={{ textAlign: "right" }}
-                                        >
+                                        <div className="col-md-12" style={{ textAlign: "right" }}>
                                             <b style={{ marginRight: "15px" }}>
                                                 Hiển thị kêt quả từ {first} -{" "}
                                                 {end}/{this.props.totalCount}
                                             </b>
                                             <br />
                                             <Pagination
-                                                totalPages={
-                                                    this.props.totalPages
-                                                }
-                                                currentPage={
-                                                    this.props.currentPage
-                                                }
+                                                totalPages={this.props.totalPages}
+                                                currentPage={this.props.currentPage}
                                                 loadDataPage={this.loadOrders}
                                             />
                                         </div>
@@ -539,7 +505,7 @@ RegisterManageContainer.propTypes = {
     registers: PropTypes.array.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
-    staffs: PropTypes.array.isRequired,
+    salers: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
     chooseSeatActions: PropTypes.object.isRequired,
@@ -553,7 +519,7 @@ function mapStateToProps(state) {
         limit: state.registerManage.limit,
         totalCount: state.registerManage.totalCount,
         currentPage: state.registerManage.currentPage,
-        staffs: state.registerManage.staffs,
+        salers: state.registerManage.salers,
         isLoadingBases: state.registerManage.isLoadingBases,
         bases: state.registerManage.bases,
     };

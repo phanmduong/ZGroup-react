@@ -9,6 +9,7 @@ import Loading from "../../components/common/Loading";
 import Search from "../../components/common/Search";
 import _ from 'lodash';
 import ReactSelect from 'react-select';
+import {Panel} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 class CompanyContainer extends React.Component {
@@ -17,8 +18,12 @@ class CompanyContainer extends React.Component {
         this.state = {
             page: 1,
             ok: 0,
-            search: '',
+            name: '',
             type: '',
+            phone: '',
+            address: '',
+            partner_code: '',
+            openFilter: false,
             company: {
                 field: {
                     id: 1,
@@ -34,10 +39,14 @@ class CompanyContainer extends React.Component {
         };
         this.editCompany = this.editCompany.bind(this);
         this.loadCompanies = this.loadCompanies.bind(this);
-        this.searchCompany = this.searchCompany.bind(this);
+        this.searchNameCompany = this.searchNameCompany.bind(this);
+        this.searchPhoneCompany = this.searchPhoneCompany.bind(this);
+        this.searchCodeCompany = this.searchCodeCompany.bind(this);
+        this.searchAddressCompany = this.searchAddressCompany.bind(this);
         this.searchCompanybyType = this.searchCompanybyType.bind(this);
         this.openInfoModal = this.openInfoModal.bind(this);
         this.closeInfoModal = this.closeInfoModal.bind(this);
+
     }
 
     componentWillMount() {
@@ -67,26 +76,62 @@ class CompanyContainer extends React.Component {
         this.setState({showInfoModal: false});
     }
 
-    searchCompany(value) {
+    searchNameCompany(value) {
         this.setState({
             page: 1,
-            search: value,
+            name: value,
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.CompanyActions.loadCompanies(1, this.state.type, value);
+            this.props.CompanyActions.loadCompanies(1, this.state.type, value,this.state.phone ,this.state.address, this.state.partner_code );
         }.bind(this), 500);
     }
 
+    searchPhoneCompany(value) {
+        this.setState({
+            page: 1,
+            phone: value,
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.CompanyActions.loadCompanies(1, this.state.type, this.state.name,value ,this.state.address, this.state.partner_code );
+        }.bind(this), 500);
+    }
+    searchAddressCompany(value) {
+        this.setState({
+            page: 1,
+            address: value,
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.CompanyActions.loadCompanies(1, this.state.type, this.state.name,this.state.phone,value , this.state.partner_code );
+        }.bind(this), 500);
+    }
+    searchCodeCompany(value) {
+        this.setState({
+            page: 1,
+            partner_code: value,
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.CompanyActions.loadCompanies(1, this.state.type, this.state.name,this.state.phone, this.state.address,value  );
+        }.bind(this), 500);
+    }
     searchCompanybyType(e) {
         let p = e.value;
         this.setState({
             page: 1,
             type: p,
         });
-        this.props.CompanyActions.loadCompanies(1, p, this.state.search);
+        this.props.CompanyActions.loadCompanies(1, p, this.state.name, this.state.phone ,this.state.address, this.state.partner_code );
     }
 
     render() {
@@ -110,39 +155,78 @@ class CompanyContainer extends React.Component {
                                     <h4 className="card-title">Quản lý công ty đối tác</h4>
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <div className="col-md-3">
-                                                <Link className="btn btn-rose" to="/business/company/create">
-                                                    <i className="material-icons keetool-card">add</i>
-                                                    Thêm Công Ty
-                                                </Link>
+                                            <div className="col-md-12">
+                                                <div className="col-md-3">
+                                                    <Link className="btn btn-rose" to="/business/company/create">
+                                                        <i className="material-icons keetool-card">add</i>
+                                                        Thêm Công Ty
+                                                    </Link>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <button className="btn btn-info btn-rose"
+                                                            onClick={() => this.setState({openFilter: !this.state.openFilter})}>
+                                                        <i className="material-icons">filter_list</i>
+                                                        Lọc
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <Search
-                                                className="col-md-5"
-                                                placeholder="Tìm kiếm công ty"
-                                                value={this.state.search}
-                                                onChange={this.searchCompany}
-                                            />
-                                            <div className="col-md-4">
-                                                <label> Loại </label>
-                                                <ReactSelect
-                                                    options={[
-                                                        {value: '', label: 'Tất cả',},
-                                                        {value: 'provided', label: 'Cung cấp',},
-                                                        {value: 'share', label: 'Phân phối',},
-                                                        {value: 'different', label: 'Khác',},
-                                                    ]}
-                                                    onChange={this.searchCompanybyType}
-                                                    value={this.state.type || ""}
-                                                    defaultMessage="Tuỳ chọn"
-                                                    name="type"
-                                                />
-                                            </div>
+
+                                            <Panel collapsible expanded={this.state.openFilter}>
+                                                <div className="row">
+                                                    <div className="col-md-12">
+                                                        <div className="col-sm-12">
+                                                            <Search
+                                                                className="col-md-9"
+                                                                placeholder="Tìm kiếm theo mã công ty"
+                                                                value={this.state.partner_code}
+                                                                onChange={this.searchCodeCompany}
+                                                            />
+                                                            <div className="col-md-3">
+                                                                <label> Loại </label>
+                                                                <ReactSelect
+                                                                    options={[
+                                                                        {value: '', label: 'Tất cả',},
+                                                                        {value: 'provided', label: 'Cung cấp',},
+                                                                        {value: 'share', label: 'Phân phối',},
+                                                                        {value: 'different', label: 'Khác',},
+                                                                    ]}
+                                                                    onChange={this.searchCompanybyType}
+                                                                    value={this.state.type || ""}
+                                                                    defaultMessage="Tuỳ chọn"
+                                                                    name="type"
+                                                                />
+                                                            </div>
+                                                            <Search
+                                                                className="col-md-4"
+                                                                placeholder="Tìm kiếm theo tên công ty"
+                                                                value={this.state.name}
+                                                                onChange={this.searchNameCompany}
+                                                            />
+                                                            <Search
+                                                                className="col-md-4"
+                                                                placeholder="Tìm kiếm theo số điện thoại công ty"
+                                                                value={this.state.phone}
+                                                                onChange={this.searchPhoneCompany}
+                                                            />
+                                                            <Search
+                                                                className="col-md-4"
+                                                                placeholder="Tìm kiếm theo địa chỉ công ty"
+                                                                value={this.state.address}
+                                                                onChange={this.searchAddressCompany}
+                                                            />
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Panel>
+
                                         </div>
                                     </div>
                                     {
                                         this.props.isLoadingCompanies ? <Loading/> :
                                             <CompaniesList
-                                                data={this.props.data}
+                                                data={this.props.data || []}
                                                 editCompany={this.editCompany}
                                                 openInfoModal={this.openInfoModal}
                                             />
@@ -178,6 +262,7 @@ class CompanyContainer extends React.Component {
         );
     }
 }
+
 CompanyContainer.propTypes = {
     CompanyActions: PropTypes.object.isRequired,
     isLoadingCompanies: PropTypes.bool.isRequired,
