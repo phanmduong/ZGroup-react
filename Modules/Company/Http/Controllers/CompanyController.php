@@ -715,7 +715,6 @@ class CompanyController extends ManageApiController
         foreach ($goods as $good) {
             $importOrder = new ImportItemOrder;
             $importOrder->warehouse_id = 0;
-            $importOrder->company_id = $order->company_id;
             $importOrder->price = $good->price;
             $importOrder->quantity = $good->quantity;
             $importOrder->good_id = $good->id;
