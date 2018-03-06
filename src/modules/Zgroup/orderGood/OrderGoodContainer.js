@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as orderedGoodActions from "./orderedGoodAction";
+import * as orderGoodActions from "./orderGoodAction";
 import * as PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
 //import * as helper from "../../../helpers/helper";
 
-class OrderedGoodContainer extends React.Component {
+class OrderGoodContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -40,23 +40,23 @@ class OrderedGoodContainer extends React.Component {
     }
 }
 
-OrderedGoodContainer.propTypes = {
+OrderGoodContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    orderedGoodActions: PropTypes.object,
+    orderGoodActions: PropTypes.object,
     
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.orderedGood.isLoading,
+        isLoading: state.orderGood.isLoading,
         
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        orderedGoodActions: bindActionCreators(orderedGoodActions, dispatch),
+        orderGoodActions: bindActionCreators(orderGoodActions, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderedGoodContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderGoodContainer);

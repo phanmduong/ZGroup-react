@@ -11,6 +11,9 @@ import HistoryDebtContainer from "../modules/historyDebt/HistoryDebtContainer";
 import ImportOrderContainer from "../modules/importOrder/ImportOrderContainer";
 import CreateItemImportOrderContainer from "../modules/importOrder/CreateItemImportOrderContainer";
 import ItemOrderContainer from "../modules/importOrder/ItemOrderContainer";
+import OrderedGoodContainer from "../modules/Zgroup/orderedGood/OrderedGoodContainer";
+import CreateOrderGoodContainer from "../modules/Zgroup/orderGood/CreateOrderGoodContainer";
+import OrderGoodContainer from "../modules/Zgroup/orderGood/OrderGoodContainer";
 
 /**
  * Tab Kinh Doanh
@@ -68,6 +71,10 @@ export default [
         component: CreateExportOrderContainer,
     },
     {
+        path: "/business/ordered-good",
+        component: OrderedGoodContainer,
+    },
+    {
         path: "/business/ordered-good/create",
         component: CreateOrderedGood,
     },
@@ -89,9 +96,17 @@ export default [
             },
         ]
     },
-
     {
         path: "/business/import-order/item/create",
         component: CreateItemImportOrderContainer,
+    },
+    {
+        path: "/business/order-good",
+        component: OrderGoodContainer,
+    },
+    {
+        path: "/business/order-good/create",
+        component: CreateOrderGoodContainer,
+
     },
 ];
