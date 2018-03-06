@@ -9,6 +9,8 @@ import RoomGrid from "../../bases/room/RoomGrid";
 import { DATETIME_VN_FORMAT } from "../../../constants/constants";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import moment from "moment";
+import { showErrorMessage } from "../../../helpers/helper";
+import ConfirmSeatModalContainer from "./ConfirmSeatModalContainer";
 
 class ChooseSeatModalContainer extends React.Component {
     constructor(props, context) {
@@ -19,10 +21,6 @@ class ChooseSeatModalContainer extends React.Component {
         this.mergeSeats = this.mergeSeats.bind(this);
         this.onFromDateInputChange = this.onFromDateInputChange.bind(this);
         this.onToDateInputChange = this.onToDateInputChange.bind(this);
-        this.state = {
-            from: "",
-            to: "",
-        };
         this.loadSeats = this.loadSeats.bind(this);
     }
 
@@ -32,18 +30,26 @@ class ChooseSeatModalContainer extends React.Component {
         }
     }
 
+    timeValid(from, to) {
+        const unixFrom = moment(from, DATETIME_VN_FORMAT).unix();
+        const unixTo = moment(to, DATETIME_VN_FORMAT).unix();
+
+        return unixFrom < unixTo;
+    }
+
     loadSeats(roomId = null) {
-        let { from, to } = this.state;
-        const { room } = this.props;
+        let { room, from, to } = this.props;
         from = moment(from, DATETIME_VN_FORMAT).unix();
         to = moment(to, DATETIME_VN_FORMAT).unix();
 
         if (from && to && roomId) {
             this.props.chooseSeatActions.loadSeats(roomId, from, to);
+            return;
         }
 
         if (from && to && room.id) {
             this.props.chooseSeatActions.loadSeats(room.id, from, to);
+            return;
         }
     }
 
@@ -68,7 +74,7 @@ class ChooseSeatModalContainer extends React.Component {
         const seat = this.props.seats.filter(seat => {
             return index === seat.id;
         })[0];
-        console.log(seat);
+        this.props.chooseSeatActions.toggleConfirmSeatModal(true, seat);
     }
 
     handleClose() {
@@ -82,32 +88,34 @@ class ChooseSeatModalContainer extends React.Component {
 
     onFromDateInputChange(event) {
         const from = event.target.value;
-        const to = moment(event.target.value, DATETIME_VN_FORMAT)
-            .add(this.props.register.subscription.hours, "hours")
-            .format(DATETIME_VN_FORMAT);
 
-        this.setState({
-            from,
-            to,
-        });
-        this.loadSeats();
+        if (!this.timeValid(from, this.props.to)) {
+            showErrorMessage(
+                "Lỗi",
+                "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
+            );
+        } else {
+            this.loadSeats();
+        }
+        this.props.chooseSeatActions.setFromTime(from);
     }
 
     onToDateInputChange(event) {
         const to = event.target.value;
-        const from = moment(event.target.value, DATETIME_VN_FORMAT)
-            .add(this.props.register.subscription.hours, "hours")
-            .format(DATETIME_VN_FORMAT);
 
-        this.setState({
-            from,
-            to,
-        });
-        this.loadSeats();
+        if (!this.timeValid(this.props.from, to)) {
+            showErrorMessage(
+                "Lỗi",
+                "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc",
+            );
+        } else {
+            this.loadSeats();
+        }
+        this.props.chooseSeatActions.setToTime(to);
     }
 
     render() {
-        const { rooms } = this.props;
+        const { rooms, room, from, to } = this.props;
 
         return (
             <Modal
@@ -120,13 +128,23 @@ class ChooseSeatModalContainer extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row">
+                        <ConfirmSeatModalContainer />
+                        {!this.timeValid(from, to) && (
+                            <div className="col-sm-12">
+                                <div className="alert alert-danger">
+                                    Thời gian bắt đầu phải nhỏ hơn thời gian kết
+                                    thúc
+                                </div>
+                            </div>
+                        )}
+
                         <div className="col-md-6 col-lg-4">
                             <FormInputDateTime
                                 format={DATETIME_VN_FORMAT}
                                 name="from"
                                 id="from"
-                                label="Từ ngày"
-                                value={this.state.from}
+                                label="Bắt đầu"
+                                value={from}
                                 updateFormData={this.onFromDateInputChange}
                             />
                         </div>
@@ -135,8 +153,8 @@ class ChooseSeatModalContainer extends React.Component {
                                 name="to"
                                 format={DATETIME_VN_FORMAT}
                                 id="to"
-                                label="Tới ngày"
-                                value={this.state.to}
+                                label="Kết thúc"
+                                value={to}
                                 updateFormData={this.onToDateInputChange}
                             />
                         </div>
@@ -172,41 +190,37 @@ class ChooseSeatModalContainer extends React.Component {
                                 {this.props.isLoadingSeats ? (
                                     <Loading />
                                 ) : (
-                                    rooms &&
-                                    rooms.filter(r => r.isActive).map(room => {
-                                        return (
-                                            <div
-                                                key={room.id}
-                                                className="tab-pane active"
-                                            >
-                                                <div>
-                                                    <RoomGrid
-                                                        canvasId={
-                                                            "room-canvas" +
-                                                            room.id
-                                                        }
-                                                        gridSize={30}
-                                                        gridOn={false}
-                                                        onClick={() => {}}
-                                                        onDrag={() => {}}
-                                                        roomLayoutUrl={
-                                                            room.room_layout_url
-                                                        }
-                                                        onPointClick={
-                                                            this.onChooseSeat
-                                                        }
-                                                        width={room.width}
-                                                        height={room.height}
-                                                        seats={this.mergeSeats(
-                                                            this.props
-                                                                .bookedSeats,
-                                                            this.props.seats,
-                                                        )}
-                                                    />
-                                                </div>
+                                    this.timeValid(from, to) &&
+                                    room.id && (
+                                        <div
+                                            key={room.id}
+                                            className="tab-pane active"
+                                        >
+                                            <div>
+                                                <RoomGrid
+                                                    canvasId={
+                                                        "room-canvas" + room.id
+                                                    }
+                                                    gridSize={30}
+                                                    gridOn={false}
+                                                    onClick={() => {}}
+                                                    onDrag={() => {}}
+                                                    roomLayoutUrl={
+                                                        room.room_layout_url
+                                                    }
+                                                    onPointClick={
+                                                        this.onChooseSeat
+                                                    }
+                                                    width={room.width}
+                                                    height={room.height}
+                                                    seats={this.mergeSeats(
+                                                        this.props.bookedSeats,
+                                                        this.props.seats,
+                                                    )}
+                                                />
                                             </div>
-                                        );
-                                    })
+                                        </div>
+                                    )
                                 )}
                             </div>
                         </div>
@@ -230,6 +244,8 @@ ChooseSeatModalContainer.propTypes = {
     availableSeats: PropTypes.number.isRequired,
     bookedSeats: PropTypes.array.isRequired,
     room: PropTypes.object.isRequired,
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {

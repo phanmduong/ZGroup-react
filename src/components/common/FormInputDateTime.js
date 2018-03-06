@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {DATETIME_FORMAT} from "../../constants/constants";
+import React from "react";
+import PropTypes from "prop-types";
+import { DATETIME_FORMAT } from "../../constants/constants";
 import moment from "moment";
 
 class FormInputDateTime extends React.Component {
@@ -10,38 +10,46 @@ class FormInputDateTime extends React.Component {
 
     componentDidMount() {
         const format = this.props.format || DATETIME_FORMAT;
-        $('#' + this.props.id).on('dp.change', this.props.updateFormData);
-        $('#' + this.props.id).datetimepicker({
+        $("#" + this.props.id).on("dp.change", this.props.updateFormData);
+        $("#" + this.props.id).datetimepicker({
             icons: {
                 time: "fa fa-clock-o",
                 date: "fa fa-calendar",
                 up: "fa fa-chevron-up",
                 down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
+                previous: "fa fa-chevron-left",
+                next: "fa fa-chevron-right",
+                today: "fa fa-screenshot",
+                clear: "fa fa-trash",
+                close: "fa fa-remove",
             },
-            defaultDate: this.props.value ? moment(this.props.value, format) :
-                this.props.defaultDate ? this.props.defaultDate : moment(),
-            format
+            defaultDate: this.props.value
+                ? moment(this.props.value, format)
+                : this.props.defaultDate ? this.props.defaultDate : moment(),
+            format,
         });
-        if (this.props.minDate && this.props.minDate !== ''){
-            $('#' + this.props.id).data("DateTimePicker").minDate(this.props.minDate);
+        if (this.props.minDate && this.props.minDate !== "") {
+            $("#" + this.props.id)
+                .data("DateTimePicker")
+                .minDate(this.props.minDate);
         }
-        if (this.props.maxDate && this.props.maxDate !== ''){
-            $('#' + this.props.id).data("DateTimePicker").maxDate(this.props.maxDate);
+        if (this.props.maxDate && this.props.maxDate !== "") {
+            $("#" + this.props.id)
+                .data("DateTimePicker")
+                .maxDate(this.props.maxDate);
         }
     }
 
-
-    componentWillReceiveProps(nextProps){
-        if (nextProps.minDate && nextProps.minDate !== ''){
-            $('#' + this.props.id).data("DateTimePicker").minDate(nextProps.minDate);
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.minDate && nextProps.minDate !== "") {
+            $("#" + this.props.id)
+                .data("DateTimePicker")
+                .minDate(nextProps.minDate);
         }
-        if (nextProps.maxDate && nextProps.maxDate !== ''){
-            $('#' + this.props.id).data("DateTimePicker").maxDate(nextProps.maxDate);
+        if (nextProps.maxDate && nextProps.maxDate !== "") {
+            $("#" + this.props.id)
+                .data("DateTimePicker")
+                .maxDate(nextProps.maxDate);
         }
     }
 

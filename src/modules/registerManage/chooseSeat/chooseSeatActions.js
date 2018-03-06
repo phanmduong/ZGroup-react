@@ -5,11 +5,31 @@ import {
     CHOOSE_SEAT_SET_ACTIVE_ROOM,
     CHOOSE_SEAT_LOAD_SEATS_SUCCESS,
     CHOOSE_SEAT_BEGIN_LOAD_SEATS,
+    TOGGLE_CONFIRM_SEAT_MODAL,
+    CHOOSE_SEAT_SET_TO_TIME,
+    CHOOSE_SEAT_SET_FROM_TIME,
 } from "./chooseSeatActionType";
 import { getRooms, getSeats } from "./chooseSeatApi";
 
+export const setFromTime = from => {
+    return dispatch => {
+        dispatch({
+            type: CHOOSE_SEAT_SET_FROM_TIME,
+            from,
+        });
+    };
+};
+
+export const setToTime = to => {
+    return dispatch => {
+        dispatch({
+            type: CHOOSE_SEAT_SET_TO_TIME,
+            to,
+        });
+    };
+};
+
 export const loadRooms = baseId => {
-    console.log(baseId);
     return async dispatch => {
         dispatch({
             type: CHOOSE_SEAT_BEGIN_LOAD_ROOMS,
@@ -50,6 +70,16 @@ export const setActiveRoom = roomId => {
         dispatch({
             type: CHOOSE_SEAT_SET_ACTIVE_ROOM,
             roomId,
+        });
+    };
+};
+
+export const toggleConfirmSeatModal = (showConfirmSeatModal, seat = {}) => {
+    return dispatch => {
+        dispatch({
+            type: TOGGLE_CONFIRM_SEAT_MODAL,
+            seat,
+            showConfirmSeatModal,
         });
     };
 };

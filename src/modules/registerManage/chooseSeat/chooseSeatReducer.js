@@ -1,3 +1,4 @@
+import { DATETIME_VN_FORMAT } from "../../../constants/constants";
 import {
     TOGGLE_CHOOSE_SEAT_MODAL,
     CHOOSE_SEAT_LOAD_ROOMS_SUCCESS,
@@ -5,11 +6,15 @@ import {
     CHOOSE_SEAT_SET_ACTIVE_ROOM,
     CHOOSE_SEAT_LOAD_SEATS_SUCCESS,
     CHOOSE_SEAT_BEGIN_LOAD_SEATS,
+    CHOOSE_SEAT_SET_FROM_TIME,
+    CHOOSE_SEAT_SET_TO_TIME,
+    TOGGLE_CONFIRM_SEAT_MODAL,
 } from "./chooseSeatActionType";
+import moment from 'moment';
 
 const initialState = {
-    from: "",
-    to: "",
+    from: moment().format(DATETIME_VN_FORMAT),
+    to: moment().add(24,"hours").format(DATETIME_VN_FORMAT),
     showModal: false,
     base: {},
     isLoading: false,
@@ -21,10 +26,28 @@ const initialState = {
     bookedSeats: [],
     room: {},
     register: {},
+    showConfirmSeatModal: false,
+    seat: {},
 };
 
 export default function chooseSeatReducer(state = initialState, action) {
     switch (action.type) {
+        case CHOOSE_SEAT_SET_FROM_TIME:
+            return {
+                ...state,
+                from: action.from,
+            };
+        case CHOOSE_SEAT_SET_TO_TIME:
+            return {
+                ...state,
+                to: action.to,
+            };
+        case TOGGLE_CONFIRM_SEAT_MODAL:
+            return {
+                ...state,
+                seat: action.seat,
+                showConfirmSeatModal: action.showConfirmSeatModal,
+            };
         case TOGGLE_CHOOSE_SEAT_MODAL:
             return {
                 ...state,
