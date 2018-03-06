@@ -9,6 +9,21 @@ class ImportItemOrder extends Model
     //
     protected $table = "import_item_orders";
 
+    public function good()
+    {
+        return $this->belongsTo(Good::class, "good_id");
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, "company_id");
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
+
     public function transform()
     {
         return [
