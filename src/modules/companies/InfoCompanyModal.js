@@ -68,7 +68,7 @@ class InfoCompanyModal extends React.Component {
 
                                                             />
                                                         </div>
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-6">
                                                             <FormInputText
                                                                 label="Địa chỉ đăng kí kinh doanh"
                                                                 type="text"
@@ -78,7 +78,7 @@ class InfoCompanyModal extends React.Component {
 
                                                             />
                                                         </div>
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-6">
                                                             <FormInputText
                                                                 label="Địa chỉ đăng kí kinh doanh"
                                                                 disabled
@@ -152,6 +152,33 @@ class InfoCompanyModal extends React.Component {
                                                             />
                                                         </div>
 
+                                                        <div className="col-md-12">
+                                                            <label>
+                                                                Chiết khấu
+                                                            </label></div>
+
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Truyện tranh (%)"
+                                                                type="text"
+                                                                name="discount_comic"
+                                                                disabled
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.discount_comic || ""}
+
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Truyện chữ (%)"
+                                                                type="text"
+                                                                disabled
+                                                                name="discount_text"
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.discount_text  || ""}
+
+                                                            />
+                                                        </div>
 
                                                         <div className="col-md-6">
                                                             <label>
@@ -186,22 +213,71 @@ class InfoCompanyModal extends React.Component {
                                                             />
                                                         </div>
 
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-6">
                                                             <FormInputText
-                                                                label="Người liên lạc"
+                                                                label="Người liên lạc 1"
+                                                                required
                                                                 type="text"
-                                                                name="user_contact"
                                                                 disabled
+                                                                name="user_contact"
+                                                                updateFormData={this.updateFormData}
                                                                 value={this.props.data.user_contact || ""}
                                                             />
                                                         </div>
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-6">
                                                             <FormInputText
-                                                                label="Số điện thoại người liên lạc"
+                                                                label="Số điện thoại người liên lạc 1"
+                                                                required
+                                                                disabled
+                                                                //disabled={true}
                                                                 type="text"
                                                                 name="user_contact_phone"
-                                                                disabled
+                                                                updateFormData={this.updateFormData}
                                                                 value={this.props.data.user_contact_phone || ""}
+
+                                                            />
+                                                        </div>
+
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Người liên lạc 2"
+                                                                type="text"
+                                                                disabled
+                                                                name="user_contact1"
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.user_contact1 || ""}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Số điện thoại người liên lạc 2"
+                                                                type="text"
+                                                                disabled
+                                                                name="user_contact_phone1"
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.user_contact_phone1 || ""}
+
+                                                            />
+                                                        </div>
+
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Người liên lạc 3"
+                                                                type="text"
+                                                                disabled
+                                                                name="user_contact2"
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.user_contact2 || ""}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <FormInputText
+                                                                label="Số điện thoại người liên lạc 3"
+                                                                type="text"
+                                                                disabled
+                                                                name="user_contact_phone2"
+                                                                updateFormData={this.updateFormData}
+                                                                value={this.props.data.user_contact_phone2 || ""}
 
                                                             />
                                                         </div>

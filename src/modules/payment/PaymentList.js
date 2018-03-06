@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from 'react-router';
 import PropTypes from "prop-types";
+
 class PaymentList extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -21,7 +22,7 @@ class PaymentList extends React.Component {
                         <th>Bên nhận</th>
                         <th>Số tiền</th>
                         <th>Nội dung</th>
-                        <th>Loại</th>
+                        <th>Trạng thái</th>
                         <th/>
                         <th/>
                     </tr>
@@ -36,12 +37,17 @@ class PaymentList extends React.Component {
                                     <td>{pp.receiver.name}</td>
                                     <td>{pp.money_value}</td>
                                     <td> {pp.description ? pp.description : "Không có"}</td>
-                                    <td>{
-                                        (pp.type === "debt_print") ? "Đặt in": (pp.type=== "debt_export")?
-                                            "Xuất hàng" : "Thanh toán"
-                                    }</td>
                                     <td>
+                                        {pp.status === 0 ? "Chưa duyệt" : "Đã duyệt"}
+                                    </td>
+                                    <td>
+                                        { (pp.status === 0) ?
                                         <div className="btn-group-action">
+                                            <a data-toggle="tooltip" title="Duyệt"
+                                               onClick={() => this.props.changeStatus(pp.id, 1)} type="button"
+                                               rel="tooltip">
+                                                <i className="material-icons">done</i>
+                                            </a>
                                             <div style={{display: "inline-block"}}>
                                                 <Link data-toggle="tooltip" title="Sửa"
                                                       to={"/business/company/payment/edit/" + pp.id}
@@ -50,11 +56,11 @@ class PaymentList extends React.Component {
                                                 </Link>
                                             </div>
                                             <a data-toggle="tooltip" title="Thông tin"
-                                                onClick={() => this.props.openInfoModal(pp)} type="button"
+                                               onClick={() => this.props.openInfoModal(pp)} type="button"
                                                rel="tooltip">
                                                 <i className="material-icons">info</i>
                                             </a>
-                                        </div>
+                                        </div> : null }
                                     </td>
                                     <td/>
                                 </tr>
@@ -68,8 +74,10 @@ class PaymentList extends React.Component {
         );
     }
 }
-PaymentList.propTypes ={
+
+PaymentList.propTypes = {
     data: PropTypes.array.isRequired,
     openInfoModal: PropTypes.func.isRequired,
+    changeStatus: PropTypes.func.isRequired,
 };
 export default PaymentList;

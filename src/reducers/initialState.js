@@ -39,18 +39,9 @@ export default {
         currentPage: 1,
         totalCount: 1,
         limit: 20,
-<<<<<<< HEAD
-        isChangingStatus : false,
-        isSavingPayment : false,
-        isLoadingBases : false,
-        bases :[],
-=======
         isChangingStatus: false,
-
-
         isLoadingBases: false,
         bases: [],
->>>>>>> 59837a1b7755725d68aa671e57836f8bd4461604
     },
 
     bankAccount: {
@@ -2000,10 +1991,61 @@ export default {
         available_seats: 0,
 
     },
-    orderedGood: {
-        isLoading: false,
-        isCommitting: false,
+
+    orderedGood:{
+      isLoading: false,
+      isCommitting: false,
+      companies: [],
+      goods: [],
+      orderedList: [],
+      paginator: {
+          current_page: 1,
+          limit: 20,
+          total_count: 0,
+          total_pages: 1,
+      },
+    },
+    orderGood:{
+      isLoading: false,
+      isCommitting: false,
+      companies: [],
+      goods: [],
+      orderList: [],
+      paginator: {
+        current_page: 1,
+        limit: 20,
+        total_count: 0,
+        total_pages: 1,
+        },
+    },
+    historyDebt:{
+        isLoadingComapnies: false,
+        isLoadingistoryDebt: false,
         companies: [],
-        goods: [],
-    }
+        historyDebt: [],
+        paginatorCompanies: [],
+        paginatorHistoryDebt: [],
+    },
+
+    importOrder:{
+        isLoading: false,
+        isLoadingImportOrder: false,
+        isLoadingItemOrder: false,
+        isLoadingPrintOrder: false,
+        isLoadingGoods: false,
+        isLoadingCompanies: false,
+        isLoadingWarehouses: false,
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        itemOrder: [],
+        printOrder: [],
+        importOrders: [],
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
+    },
 };

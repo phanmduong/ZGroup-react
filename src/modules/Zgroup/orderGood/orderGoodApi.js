@@ -13,7 +13,7 @@ export function loadAllGoods() {
 
 export function loadAllCompanies() {
     //http://manageapi.keetool.xyz/company/provided?token=
-    let url     = env.MANAGE_API_URL +"/company/share?limit=-1";
+    let url     = env.MANAGE_API_URL +"/company/provided?limit=-1";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;
@@ -21,9 +21,19 @@ export function loadAllCompanies() {
     return axios.get(url);
 }
 
-export function createOrderedGood(data) {
+export function loadAllOrderGood(page = 1) {
+    let url     = env.MANAGE_API_URL +"/company/order/all?page="+page;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+
+export function createOrderGood(data) {
     //http://manageapi.keetool.xyz/company/provided?token=
-    let url     = env.MANAGE_API_URL +"/company/be-ordered/create?";
+    let url     = env.MANAGE_API_URL +"/company/order/create?";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "token=" + token;
@@ -31,18 +41,9 @@ export function createOrderedGood(data) {
     return axios.post(url, data);
 }
 
-export function loadAllOrderedGood(page=1) {
-    let url     = env.MANAGE_API_URL +"/company/be-ordered/all?page=" +page;
-    let token   = localStorage.getItem('token');
-    if (token) {
-        url +=  "&token=" + token;
-    }
-    return axios.get(url);
-}
-
-export function loadOrderedGood(id) {
-    
-    let url     = env.MANAGE_API_URL +"/company/be-ordered/" + id;
+export function loadOrderGood(id) {
+    //http://manageapi.keetool.xyz/company/be-ordered/{orderId}
+    let url     = env.MANAGE_API_URL +"/company/order/" + id;
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "?token=" + token;

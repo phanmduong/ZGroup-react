@@ -4,17 +4,16 @@ import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 
-export function loadPayments(page = 1, company_id , start_time ,end_time ,type) {
+export function loadPayments(page = 1, receiver_id, payer_id) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PAYMENTS,
         });
-        PaymentApi.loadPayments(page, company_id , start_time, end_time, type)
+        PaymentApi.loadPayments(page, receiver_id, payer_id)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_PAYMENTS_SUCCESS,
                     data: res.data.payment,
-                    summary_money: res.data.summary_money,
                     paginator: res.data.paginator,
                 });
             }).catch(() => {
@@ -136,6 +135,27 @@ export function uploadImage(file,pp){
         });
         PaymentApi.uploadImage(file,
             completeHandler, progressHandler, error);
+    };
+}
+
+export function changeStatus(id,status){
+    return function (dispatch){
+        dispatch({
+           type: types.BEGIN_CHANGE_STATUS_PAYMENT,
+        });
+        PaymentApi.changeStatus(id,status)
+            .then(() => {
+                helper.showNotification('Duyệt thành công');
+                dispatch({
+                    type: types.CHANGE_STATUS_PAYMENT_SUCCESS,
+                    id: id,
+                });
+            }).catch(() => {
+              dispatch({
+                 type: types.CHANGE_STATUS_PAYMENT_ERROR
+              });
+        });
+
     };
 }
 

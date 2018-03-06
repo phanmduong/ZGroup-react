@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as orderedGoodActions from "./orderedGoodAction";
-import ListOrderedGood from "./ListOrderedGood";
+import * as orderGoodActions from "./orderGoodAction";
+import ListOrderGood from "./ListOrderGood";
 import * as PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
 //import * as helper from "../../../helpers/helper";
 import {Link} from "react-router";
 
-class OrderedGoodContainer extends React.Component {
+class OrderGoodContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -17,7 +17,7 @@ class OrderedGoodContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.orderedGoodActions.loadAllOrderedGood();
+        this.props.orderGoodActions.loadAllOrderGood();
     }
 
     // componentWillReceiveProps(next){
@@ -27,7 +27,7 @@ class OrderedGoodContainer extends React.Component {
 
 
     render() {
-        let { isLoading, paginator, orderedGoodActions } = this.props;
+        let { isLoading, paginator, orderGoodActions } = this.props;
         //let {data, showAddModal, addModalData} = this.state;
 
         return (
@@ -42,14 +42,14 @@ class OrderedGoodContainer extends React.Component {
                                 </div>
 
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách đơn hàng</h4>
+                                    <h4 className="card-title">Danh sách đặt hàng</h4>
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="col-sm-3">
-                                                <Link to="/business/ordered-good/create" className="btn btn-rose" style={{width: "100%"}}>
-                                                <i className="material-icons">add</i> Tạo đơn hàng
+                                                <Link to="/business/order-good/create" className="btn btn-rose" style={{width: "100%"}}>
+                                                <i className="material-icons">add</i> Đặt hàng
                                                 </Link>
-                                            </div> 
+                                            </div>
                                             {/* <Search className="col-sm-9" placeholder="Tìm kiếm"
                                                     value={this.state.query}
                                                     onChange={()=>{}}
@@ -58,12 +58,12 @@ class OrderedGoodContainer extends React.Component {
                                     </div>
                                     {
                                         isLoading ? <Loading/> :
-                                            <ListOrderedGood/>
+                                            <ListOrderGood/>
                                     }
                                     <Pagination
                                         currentPage={paginator.current_page}
                                         totalPages={paginator.total_pages}
-                                        loadDataPage={orderedGoodActions.loadAllOrderedGood}/>
+                                        loadDataPage={orderGoodActions.loadAllOrderGood}/>
                                 </div>
                             </div>
                         </div>
@@ -75,25 +75,25 @@ class OrderedGoodContainer extends React.Component {
     }
 }
 
-OrderedGoodContainer.propTypes = {
+OrderGoodContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    orderedGoodActions: PropTypes.object,
-    orderedList: PropTypes.array,
+    orderGoodActions: PropTypes.object,
+    orderList: PropTypes.array,
     paginator: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.orderedGood.isLoading,
-        orderedList: state.orderedGood.orderedList,
-        paginator: state.orderedGood.paginator,
+        isLoading: state.orderGood.isLoading,
+        orderList: state.orderGood.orderList,
+        paginator: state.orderGood.paginator,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        orderedGoodActions: bindActionCreators(orderedGoodActions, dispatch),
+        orderGoodActions: bindActionCreators(orderGoodActions, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderedGoodContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderGoodContainer);
