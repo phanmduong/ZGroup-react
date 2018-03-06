@@ -36,10 +36,6 @@ export function setRuleShowCall(register) {
     presentTime = Date.parse(presentTime);
     let call =
         register.teleCalls && register.teleCalls[register.teleCalls.length - 1];
-    // let lastCall = Date.parse(moment(call.created_at));
-
-    // console.log(expiredTime, Date.parse(register.teleCalls[0] && register.teleCalls[0].created_at),"sadasd");
-
     if (register.teleCalls.length > 0) {
         showCall = Math.floor((firstCall - created_time) / 3600000);
         if (call.call_status === 1) {
@@ -51,7 +47,6 @@ export function setRuleShowCall(register) {
         }
     } else {
         showCall = Math.floor((presentTime - created_time) / 3600000);
-
         if (expiredTime >= presentTime) {
             btn = " btn-default ";
             titleCall =
