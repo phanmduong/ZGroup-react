@@ -53,7 +53,7 @@ class orderedList extends React.Component {
                                     editUrl={"/business/ordered-good/edit/" + order.id}
                                     disabledDelete={true}
                                     children= {
-                                        !order.status &&
+                                        order.status ?
                                         <a data-toggle="tooltip" title="Duyệt"
                                            type="button"
                                            onClick={()=>{}}
@@ -61,6 +61,8 @@ class orderedList extends React.Component {
                                         >
                                             <i className="material-icons">done</i>
                                         </a>
+                                        :
+                                        <div/>
                                     }
                                 /></td>
                             </tr>
