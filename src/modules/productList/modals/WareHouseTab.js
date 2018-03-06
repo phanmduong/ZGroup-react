@@ -32,7 +32,7 @@ class WareHouseTab extends React.Component {
                                 </thead>
                                 <tbody>
                                 {
-                                    this.props.warehouses.map((warehouse, id) => {
+                                    this.props.warehouses && this.props.warehouses.map((warehouse, id) => {
                                         return (
                                             <tr key={id}>
                                                 <td>{id + 1}</td>

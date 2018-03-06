@@ -16,6 +16,7 @@ import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
 import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
 import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
+import {isEmptyInput} from "../../helpers/helper";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -35,11 +36,13 @@ class RegisterListContainer extends React.Component {
             openFilterPanel: false,
             selectedClassId: '',
             selectedSalerId: '',
+            selectedBaseId: '',
             selectedMoneyFilter: '',
             selectedClassStatus: '',
             classFilter: [],
             salerFilter: [],
             campaignFilter: [],
+            baseFilter: [],
             cardTitle: 'Danh sách đăng kí học',
             moneyFilter: [
                 {value: '', label: 'Tất cả',},
@@ -54,10 +57,11 @@ class RegisterListContainer extends React.Component {
             time: {
                 startTime: '',
                 endTime: '',
+                appointmentPayment: ''
             },
             allClassFilter: [],
             selectedStudent: {},
-            appointmentPayment: ''
+
         };
 
         this.isWaitListPage = false;
@@ -87,12 +91,14 @@ class RegisterListContainer extends React.Component {
         this.updateModalChangeInfoStudent = this.updateModalChangeInfoStudent.bind(this);
         this.commitModalChangeInfoStudent = this.commitModalChangeInfoStudent.bind(this);
         this.closeModalChangeInfoStudent = this.closeModalChangeInfoStudent.bind(this);
+        this.onBaseFilterChange = this.onBaseFilterChange.bind(this);
     }
 
     componentWillMount() {
         this.props.registerActions.loadGensData();
         this.props.registerActions.loadSalerFilter();
         this.props.registerActions.loadCampaignFilter();
+        this.props.registerActions.loadBaseFilter();
         if (this.props.route.path === '/teaching/waitlist') {
             this.isWaitListPage = true;
             this.setState({selectedClassStatus: 'waiting', cardTitle: 'Danh sách chờ', query: ''});
@@ -146,6 +152,13 @@ class RegisterListContainer extends React.Component {
                 campaignFilter: this.getSalerFilter(nextProps.campaignFilter),
             });
         }
+
+        if (!nextProps.isLoadingBaseFilter && this.props.isLoadingBaseFilter) {
+
+            this.setState({
+                baseFilter: this.getBaseFilter(nextProps.baseFilter),
+            });
+        }
         if (!nextProps.isLoadingGens && this.props.isLoadingGens) {
 
             let gens = _.sortBy(nextProps.gens, [function (o) {
@@ -154,9 +167,10 @@ class RegisterListContainer extends React.Component {
             gens = _.reverse(gens);
             const genId = nextProps.params.genId ? nextProps.params.genId : nextProps.currentGen.id;
             this.setState({
-                gens: gens,
+                gens: [{id: 0, name: ''}, ...gens],
                 selectGenId: this.props.params.genId ? this.props.params.genId : nextProps.currentGen.id
             });
+
             this.props.registerActions.loadClassFilter(genId);
         }
 
@@ -178,6 +192,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedClassStatus,
                 this.state.time.startTime,
                 this.state.time.endTime,
+                this.state.selectedBaseId,
+                this.state.time.appointmentPayment,
             );
             this.setState({
                 page: 1,
@@ -265,8 +281,38 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedClassStatus,
                 this.state.time.startTime,
                 this.state.time.endTime,
+                this.state.selectedBaseId,
+                this.state.time.appointmentPayment,
             );
         this.setState({selectedClassId: res, page: 1});
+    }
+
+    onBaseFilterChange(obj) {
+        let res = '';
+        if (obj) {
+            res = obj.value;
+        }
+        if (res != this.state.selectedBaseId)
+            this.props.registerActions.loadRegisterStudent(
+                1,//page
+                this.state.selectGenId,
+                this.state.query,
+                this.state.selectedSalerId,
+                this.state.campaignId,
+                '',
+                this.state.selectedMoneyFilter,
+                this.state.selectedClassStatus,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                obj ? obj.value : '',
+                this.state.time.appointmentPayment,
+            );
+        this.setState({
+            selectedBaseId: res,
+            page: 1,
+            selectedClassId: '',
+            classFilter: this.getFilter(this.props.classFilter, res)
+        });
     }
 
     onSalerFilterChange(obj) {
@@ -286,6 +332,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedClassStatus,
                 this.state.time.startTime,
                 this.state.time.endTime,
+                this.state.selectedBaseId,
+                this.state.time.appointmentPayment,
             );
         this.setState({selectedSalerId: res, page: 1});
     }
@@ -310,6 +358,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedClassStatus,
                 this.state.time.startTime,
                 this.state.time.endTime,
+                this.state.selectedBaseId,
+                this.state.time.appointmentPayment,
             );
         this.setState({campaignId: res, page: 1});
     }
@@ -328,6 +378,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedClassStatus,
                 this.state.time.startTime,
                 this.state.time.endTime,
+                this.state.selectedBaseId,
+                this.state.time.appointmentPayment,
             );
         this.setState({selectedMoneyFilter: res, page: 1});
     }
@@ -351,6 +403,8 @@ class RegisterListContainer extends React.Component {
             res,
             this.state.time.startTime,
             this.state.time.endTime,
+            this.state.selectedBaseId,
+            this.state.time.appointmentPayment,
         );
 
         this.setState({
@@ -379,7 +433,7 @@ class RegisterListContainer extends React.Component {
         let time = {...this.state.time};
         time[field] = event.target.value;
 
-        if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
+        if ((!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) || event.target.name == 'appointmentPayment') {
             this.setState({time: time, page: 1});
             this.props.registerActions.loadRegisterStudent(
                 1,
@@ -391,14 +445,19 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedMoneyFilter,
                 this.state.selectedClassStatus,
                 time.startTime,
-                time.endTime
+                time.endTime,
+                this.state.selectedBaseId,
+                time.appointmentPayment,
             );
         } else {
             this.setState({time: time});
         }
     }
 
-    getFilter(arr) {
+    getFilter(arr, base_id) {
+        if (!isEmptyInput(base_id)) {
+            arr = arr.filter((classItem) => classItem.base_id == base_id);
+        }
         let data = arr.map(function (obj) {
             return {
                 value: obj.id ? obj.id : obj.value,
@@ -428,6 +487,21 @@ class RegisterListContainer extends React.Component {
         }, {
             value: '-1',
             label: 'Không có'
+        }, ...data];
+    }
+
+    getBaseFilter(arr) {
+        let data = arr.map(function (obj) {
+            return {
+                ...obj,
+                value: obj.id,
+                label: obj.name
+            };
+        });
+
+        return [{
+            value: '',
+            label: 'Tất cả'
         }, ...data];
     }
 
@@ -491,6 +565,8 @@ class RegisterListContainer extends React.Component {
             this.state.selectedClassStatus,
             this.state.time.startTime,
             this.state.time.endTime,
+            this.state.selectedBaseId,
+            this.state.time.appointmentPayment,
         );
     }
 
@@ -513,6 +589,8 @@ class RegisterListContainer extends React.Component {
                 this.state.selectedClassStatus,
                 this.state.time.startTime,
                 this.state.time.endTime,
+                this.state.selectedBaseId,
+                this.state.time.appointmentPayment,
             );
         }.bind(this), 500);
     }
@@ -526,11 +604,13 @@ class RegisterListContainer extends React.Component {
             this.state.query,
             this.state.selectedSalerId,
             this.state.campaignId,
-            this.state.selectedClassId,
+            '',
             this.state.selectedMoneyFilter,
             this.state.selectedClassStatus,
             this.state.time.startTime,
             this.state.time.endTime,
+            this.state.selectedBaseId,
+            this.state.time.appointmentPayment,
         );
         this.props.registerActions.loadClassFilter(value);
     }
@@ -562,6 +642,8 @@ class RegisterListContainer extends React.Component {
             this.state.time.startTime,
             
             this.state.time.endTime,
+            this.state.selectedBaseId,
+            this.state.time.appointmentPayment,
             this.closeLoadingModal
         );
     }
@@ -649,6 +731,8 @@ class RegisterListContainer extends React.Component {
             this.state.selectedClassStatus,
             this.state.time.startTime,
             this.state.time.endTime,
+            this.state.selectedBaseId,
+            this.state.time.appointmentPayment,
         );
 
     }
@@ -666,6 +750,7 @@ class RegisterListContainer extends React.Component {
                             this.props.isLoadingClassFilter ||
                             this.props.isLoading ||
                             this.props.isLoadingRegisters ||
+                            this.props.isLoadingBaseFilter ||
                             this.props.isLoadingExcel
                         }
                     >
@@ -681,7 +766,7 @@ class RegisterListContainer extends React.Component {
                             {this.props.isLoadingGens ? <Loading/> :
                                 <div>
                                     {
-                                        (this.state.selectGenId && this.state.selectGenId > 0) &&
+                                        (this.state.selectGenId && this.state.selectGenId >= 0) &&
                                         <Select
                                             options={this.state.gens}
                                             onChange={this.changeGens}
@@ -704,6 +789,7 @@ class RegisterListContainer extends React.Component {
                                                 disabled={
                                                     this.props.isLoadingGens ||
                                                     this.props.isLoadingClassFilter ||
+                                                    this.props.isLoadingBaseFilter ||
                                                     this.props.isLoading ||
                                                     this.props.isLoadingRegisters
                                                 }
@@ -719,10 +805,24 @@ class RegisterListContainer extends React.Component {
                                         &&
                                         !(this.props.isLoadingGens ||
                                             this.props.isLoadingClassFilter ||
-                                            this.props.isLoading ||
+                                            this.props.isLoadingBaseFilter ||
                                             this.props.isLoadingRegisters)
                                     }>
                                         <div className="row">
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo cơ sở
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoadingBaseFilter || this.props.isLoading}
+                                                    className=""
+                                                    options={this.state.baseFilter}
+                                                    onChange={this.onBaseFilterChange}
+                                                    value={this.state.selectedBaseId}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_base"
+                                                />
+                                            </div>
                                             <div className="col-md-3">
                                                 <label className="">
                                                     Theo lớp học
@@ -737,6 +837,7 @@ class RegisterListContainer extends React.Component {
                                                     name="filter_class"
                                                 />
                                             </div>
+
                                             <div className="col-md-3">
                                                 <label className="">
                                                     Theo Saler
@@ -763,7 +864,7 @@ class RegisterListContainer extends React.Component {
                                                     name="filter_campaign"
                                                 />
                                             </div>
-                                            <div className="col-md-3">
+                                            <div className="col-md-3 form-group">
                                                 <label className="">
                                                     Theo học phí
                                                 </label>
@@ -776,8 +877,6 @@ class RegisterListContainer extends React.Component {
                                                     name="filter_money"
                                                 />
                                             </div>
-                                        </div>
-                                        <div className="row">
                                             <div className="col-md-3">
                                                 <FormInputDate
                                                     label="Từ ngày"
@@ -812,13 +911,24 @@ class RegisterListContainer extends React.Component {
                                                     name="filter_class_status"
                                                 />
                                             </div>
+                                            <div className="col-md-3">
+                                                <FormInputDate
+                                                    label="Hẹn ngày nộp tiền"
+                                                    name="appointmentPayment"
+                                                    updateFormData={this.updateFormDate}
+                                                    id="form-appointment-payment"
+                                                    value={this.state.time.appointmentPayment}
+                                                />
+                                            </div>
                                         </div>
 
                                     </Panel>
                                     {
-                                        this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoading ?
+                                        this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
+                                        this.props.isLoading ?
                                             <Loading/> :
                                             <ListRegister
+                                                genId={this.state.selectGenId}
                                                 registers={this.props.registers}
                                                 viewCall={this.viewCall}
                                                 deleteRegister={this.deleteRegister}
@@ -1171,6 +1281,7 @@ RegisterListContainer.propTypes = {
     classFilter: PropTypes.array.isRequired,
     salerFilter: PropTypes.array.isRequired,
     historyCall: PropTypes.array.isRequired,
+    baseFilter: PropTypes.array.isRequired,
     registersByStudent: PropTypes.array.isRequired,
     registerActions: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
@@ -1197,6 +1308,7 @@ RegisterListContainer.propTypes = {
     excel: PropTypes.object,
     isLoadingExcel: PropTypes.bool,
     isCommittingInfoStudent: PropTypes.bool,
+    isLoadingBaseFilter: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -1204,6 +1316,7 @@ function mapStateToProps(state) {
         campaignFilter: state.registerStudents.campaignFilter,
         classFilter: state.registerStudents.classFilter,
         salerFilter: state.registerStudents.salerFilter,
+        baseFilter: state.registerStudents.baseFilter,
         registers: state.registerStudents.registers,
         classes: state.registerStudents.classes,
         totalPages: state.registerStudents.totalPages,
@@ -1228,6 +1341,7 @@ function mapStateToProps(state) {
         excel: state.registerStudents.excel,
         isLoadingExcel: state.registerStudents.isLoadingExcel,
         isCommittingInfoStudent: state.registerStudents.isCommittingInfoStudent,
+        isLoadingBaseFilter: state.registerStudents.isLoadingBaseFilter,
     };
 }
 

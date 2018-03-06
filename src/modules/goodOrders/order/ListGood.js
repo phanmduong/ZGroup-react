@@ -86,7 +86,6 @@ class ListGood extends React.Component {
                                                 }
                                             </div>
 
-
                                         </td>
                                         <td className="text-align-right">{helper.dotNumber(Math.round(totalMoney))}đ</td>
                                     </tr>

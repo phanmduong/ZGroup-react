@@ -6,7 +6,7 @@ export function loadAllRegisters(
     limit = 10,
     page = 1,
     search,
-    staff_id,
+    saler_id,
     status,
     campaign_id,
     base_id,
@@ -23,7 +23,7 @@ export function loadAllRegisters(
                 limit,
                 page,
                 search,
-                staff_id,
+                saler_id,
                 status,
                 campaign_id,
                 base_id,
@@ -43,12 +43,13 @@ export function loadAllRegisters(
     };
 }
 
-export function getAllStaffs() {
+
+export function getAllSalers() {
     return function(dispatch) {
-        registerManageApi.getAllStaffApi().then(res => {
+        registerManageApi.getAllSalerApi().then(res => {
             dispatch({
-                type: types.GET_ALL_STAFFS_REGISTER_MANAGE,
-                staffs: res.data.staffs,
+                type: types.GET_ALL_SALER_REGISTER_MANAGE,
+                salers: res.data.data.salers,
             });
         });
     };
@@ -84,6 +85,34 @@ export function changeCallStatus(
                 }
             });
     };
+}
+export function savePayment(money, register_id, user_id, closeModal) {
+    return function (dispatch) {
+      dispatch({
+          type : types.BEGIN_SAVE_PAYMENT,
+      });
+      registerManageApi.savePaymentApi(money,register_id,user_id)
+          .then(res => {
+             if (res.data.status){
+                 closeModal();
+                 dispatch({
+                     type  : types.SAVED_PAYMENT_SUCCESS,
+                     register_id : register_id,
+                     payment : res.data.data.payment,
+                 });
+                 helper.showNotification("Lưu thành công");
+             }
+             else {
+                 dispatch({type : types.SAVED_PAYMENT_ERROR});
+                 helper.showNotification("Lưu thất bại");
+             }
+          })
+          .catch(()=>{
+          dispatch({type : types.SAVED_PAYMENT_ERROR});
+              helper.showNotification("Lưu thất bại");
+          });
+    };
+
 }
 
 export function loadBasesData() {

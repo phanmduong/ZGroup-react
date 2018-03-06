@@ -134,7 +134,7 @@ export function saveEmailForm(emailForm) {
         emailFormApi.saveEmailForm(emailForm, 1)
             .then((res) => {
                 helper.showNotification("Tải lên thành công");
-                browserHistory.push('/email-maketing/forms');
+                browserHistory.push('/email/email-maketing/forms');
                 dispatch({
                     type: types.SAVE_EMAIL_FORM_SUCCESS,
                     emailFormId: res.data.data.email_form.id,

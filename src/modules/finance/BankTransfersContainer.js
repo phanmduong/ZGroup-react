@@ -6,13 +6,12 @@ import *as financeActions from "./financeActions";
 import {numberWithCommas} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import CancelReasonModal from "./CancelReasonModal";
-//import BankTransferEditModal from "./BankTransferEditModal";
+import BankTransferEditModal from "./BankTransferEditModal";
 import {TRANSFER_PURPOSE, TRANSFER_PURPOSE_COLOR} from "../../constants/constants";
 import Search from "../../components/common/Search";
 import Pagination from "../../components/common/Pagination";
 import Select from 'react-select';
 
-// import Select from 'react-select';
 // import {STATUS_OPTIONS} from "./financeConstant";
 
 
@@ -33,7 +32,7 @@ class BankTransfersContainer extends React.Component {
         this.loadOrders = this.loadOrders.bind(this);
         this.transfersSearchChange = this.transfersSearchChange.bind(this);
         this.displayStatusChange = this.displayStatusChange.bind(this);
-        //this.showBankTransferEditModal = this.showBankTransferEditModal.bind(this);
+        this.showBankTransferEditModal = this.showBankTransferEditModal.bind(this);
     }
 
     componentWillMount() {
@@ -113,10 +112,10 @@ class BankTransfersContainer extends React.Component {
         }
     }
 
-    //showBankTransferEditModal(transfer) {
-    //  this.props.financeActions.showBankTransferEditModal();
-    //   this.props.financeActions.handleBankTransferEditModal(transfer);
-    //}
+    showBankTransferEditModal(transfer) {
+        this.props.financeActions.showBankTransferEditModal();
+        this.props.financeActions.handleBankTransferEditModal(transfer);
+    }
 
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
@@ -180,7 +179,7 @@ class BankTransfersContainer extends React.Component {
                                             <th>Ngân hàng</th>
                                             <th>Nội dung</th>
                                             <th>Trạng thái</th>
-                                            {/*<th/>*/}
+                                            <th/>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -211,7 +210,7 @@ class BankTransfersContainer extends React.Component {
                                                                     <span>
                                                                     <a className="text-success"
                                                                        onClick={() => this.props.financeActions.updateTransferStatus(
-                                                                           bankTransfer.id, "accept", null, bankTransfer.customer.id, bankTransfer.money
+                                                                           bankTransfer.id, "accept", null, bankTransfer.money
                                                                        )}>
                                                                         <i className="material-icons">done</i>
                                                                     </a>
@@ -243,14 +242,14 @@ class BankTransfersContainer extends React.Component {
                                                                 )
                                                             }
                                                         </td>
-                                                        {/*<td>*/}
-                                                        {/*<a data-toggle="tooltip" title="Ghi chú" type="button"*/}
-                                                        {/*className="text-rose"*/}
-                                                        {/*rel="tooltip"*/}
-                                                        {/*onClick={() => this.showBankTransferEditModal(bankTransfer)}>*/}
-                                                        {/*<i className="material-icons">edit</i>*/}
-                                                        {/*</a>*/}
-                                                        {/*</td>*/}
+                                                        <td>
+                                                            <a data-toggle="tooltip" title="Ghi chú" type="button"
+                                                               className="text-rose"
+                                                               rel="tooltip"
+                                                               onClick={() => this.showBankTransferEditModal(bankTransfer)}>
+                                                                <i className="material-icons">edit</i>
+                                                            </a>
+                                                        </td>
                                                     </tr>
                                                 );
                                             })
@@ -275,7 +274,7 @@ class BankTransfersContainer extends React.Component {
                     </div>
                 </div>
                 <CancelReasonModal/>
-                {/*<BankTransferEditModal/>*/}
+                <BankTransferEditModal/>
             </div>
         );
     }

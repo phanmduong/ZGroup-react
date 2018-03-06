@@ -1,5 +1,4 @@
 export default {
-
     summarySalesUp: {
         bases: [],
         isLoadingBases: false,
@@ -34,17 +33,15 @@ export default {
 
     registerManage: {
         registers: [],
-        staffs: [],
+        salers: [],
         isLoading: false,
         totalPages: 1,
         currentPage: 1,
         totalCount: 1,
         limit: 20,
-        isChangingStatus : false,
-
-
-        isLoadingBases : false,
-        bases :[],
+        isChangingStatus: false,
+        isLoadingBases: false,
+        bases: [],
     },
 
     bankAccount: {
@@ -120,6 +117,9 @@ export default {
 
     orderedProduct: {
         currencies: [],
+        chooseWalletModal: false,
+        isChoosingWallet: false,
+        orderWalletChosen: {},
         isSendingPrice: false,
         addNoteModal: false,
         addCancelNoteModal: false,
@@ -761,6 +761,8 @@ export default {
         excel: {},
         isLoadingExcel: false,
         isCommittingInfoStudent: false,
+        isLoadingBaseFilter: false,
+        baseFilter: []
     },
 
     profile: {
@@ -1028,6 +1030,8 @@ export default {
     },
 
     goodOrders: {
+        // provinces :[],
+        // isLoadingProvinces : false,
         warehousesList: [],
         selectWarehouseModal: false,
         isLoadingWarehouse: false,
@@ -1077,6 +1081,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isLoadingProvinces : false,
             provinces: [],
             isOpenReturnOrder: false,
             isSaving: false,
@@ -1105,8 +1110,9 @@ export default {
                     name: "test",
                     address: "HN",
                     phone: "test",
-                    email: "po01636863831@gmail.com"
+                    email: "po01636863831@gmail.com",
                 },
+
 
 
                 return_orders: [],
@@ -1554,8 +1560,8 @@ export default {
             },
         ],
         archivedWorks: [],
-        rateData:{
-            staffs:[],
+        rateData: {
+            staffs: [],
         },
     },
 

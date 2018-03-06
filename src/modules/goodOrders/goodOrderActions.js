@@ -371,5 +371,28 @@ export function assignGoodFormData(good) {
     };
 }
 
+export function loadAllProvinces() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_PROVINCES_ORDER
+        });
+        goodOrdersApi.loadProvincesApi()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_ALL_PROVINCES_SUCCESS_ORDER,
+                    provinces: res.data.data.provinces,
+                });
+            })
+            .catch(()=>{
+            dispatch({
+                type : types.LOAD_ALL_PROVINCES_ERROR_ORDER,
+            });
+            });
+    };
+}
+
+
+
+
 
 

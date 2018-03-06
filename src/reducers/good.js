@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import { LOG_OUT } from "../constants/actionTypes";
+import {combineReducers} from "redux";
+import {LOG_OUT} from "../constants/actionTypes";
 import commonReducer from "./commonReducer";
 import createProductReducer from "../modules/createProduct/createProductReducer";
 import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
@@ -10,7 +10,7 @@ import wareHouseReducer from "../modules/wareHouse/wareHouseReducer";
 import importGoodsReducer from "../modules/importGoods/importGoodsReducer";
 import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer";
 import productListReducer from "../modules/productList/productListReducer";
-import goodOrdersReducer from "../modules/eCommerceDashboard/goodOrdersReducer";
+import goodOrdersReducer from "../modules/goodOrders/goodOrdersReducer";
 import categoriesReducer from "../modules/categories/categoriesReducer";
 import supplierReducer from "../modules/supplier/supplierReducer";
 import createSaleGoodsReducer from "../modules/createEditSaleGood/createSaleGoodsReducer";

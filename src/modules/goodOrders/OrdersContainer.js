@@ -163,7 +163,7 @@ class OrdersContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="flex flex-row flex-space-between">
                             <div>
                                 <Link to="/good/goods/add-sale-good">
@@ -201,7 +201,7 @@ class OrdersContainer extends React.Component {
                                 <Loading/>
                             ) : (
                                 <div>
-                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="green">
                                                 <i className="material-icons">store</i>
@@ -212,7 +212,7 @@ class OrdersContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="rose">
                                                 <i className="material-icons">equalizer</i>
@@ -223,7 +223,7 @@ class OrdersContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         <div className="card card-stats">
                                             <div className="card-header" data-background-color="blue">
                                                 <i className="fa fa-twitter"/>
@@ -238,7 +238,7 @@ class OrdersContainer extends React.Component {
                             )
                         }
                     </div>
-                    <div className="col-md-12">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">assignment</i>
@@ -246,14 +246,14 @@ class OrdersContainer extends React.Component {
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách đơn hàng</h4>
                                 <div className="row">
-                                    <div className="col-md-10">
+                                    <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                         <Search
                                             onChange={this.ordersSearchChange}
                                             value={this.state.query}
                                             placeholder="Nhập mã đơn hoặc email khách hàng"
                                         />
                                     </div>
-                                    <div className="col-md-2">
+                                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                         <button type="button" data-toggle="collapse" data-target="#demo"
                                                 className="btn btn-rose">
                                             <i className="material-icons">filter_list</i> Lọc
@@ -262,9 +262,9 @@ class OrdersContainer extends React.Component {
                                 </div>
                                 <div id="demo" className="collapse">
                                     <div className="row">
-                                        <div className="col-md-3">
+                                        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div className="row">
-                                                <div className="col-md-6">
+                                                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                     <FormInputDate
                                                         label="Từ ngày"
                                                         name="startTime"
@@ -274,7 +274,7 @@ class OrdersContainer extends React.Component {
                                                         maxDate={this.state.time.endTime}
                                                     />
                                                 </div>
-                                                <div className="col-md-6">
+                                                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                     <FormInputDate
                                                         label="Đến ngày"
                                                         name="endTime"
@@ -287,9 +287,9 @@ class OrdersContainer extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-9">
+                                        <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                             <div className="row">
-                                                <div className="form-group col-md-4">
+                                                <div className="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                     <label className="label-control">Tìm theo thu ngân</label>
                                                     <Select
                                                         value={this.state.staff}
@@ -303,7 +303,7 @@ class OrdersContainer extends React.Component {
                                                         onChange={this.staffsSearchChange}
                                                     />
                                                 </div>
-                                                <div className="form-group col-md-4">
+                                                <div className="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                     <label className="label-control">Tìm theo cửa hàng</label>
                                                     <Select
                                                         value={this.state.base}
@@ -320,7 +320,7 @@ class OrdersContainer extends React.Component {
                                                         onChange={this.displayStatusChange}
                                                     />
                                                 </div>
-                                                <div className="form-group col-md-4">
+                                                <div className="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                     <label className="label-control">Tìm theo trạng thái</label>
                                                     <Select
                                                         value={this.state.status}
@@ -344,7 +344,7 @@ class OrdersContainer extends React.Component {
                                 />
                             </div>
                             <div className="row float-right">
-                                <div className="col-md-12" style={{textAlign: 'right'}}>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
                                     <b style={{marginRight: '15px'}}>
                                         Hiển thị kêt quả từ {first} - {end}/{this.props.totalCount}</b><br/>
                                     <Pagination

@@ -8,7 +8,7 @@ class RoomGrid extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.getGridState = this.getGridState.bind(this);
-        this.el = "#room-canvas";
+        this.el = "#" + this.props.canvasId;
     }
 
     componentDidMount() {
@@ -44,8 +44,7 @@ class RoomGrid extends React.Component {
     }
 
     render() {
-        // console.log(this.props.data);
-        return <div id="room-canvas" />;
+        return <div id={this.props.canvasId} />;
     }
 }
 
@@ -58,8 +57,13 @@ RoomGrid.propTypes = {
     roomLayoutUrl: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     onDrag: PropTypes.func.isRequired,
-    currentAction: PropTypes.string.isRequired,
+    currentAction: PropTypes.string,
+    canvasId: PropTypes.string,
     onPointClick: PropTypes.func.isRequired,
+};
+
+RoomGrid.defaultProps = {
+    canvasId: "room-canvas",
 };
 
 export default RoomGrid;

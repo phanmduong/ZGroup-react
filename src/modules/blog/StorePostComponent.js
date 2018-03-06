@@ -43,6 +43,7 @@ class StorePostComponent extends React.Component {
 
     openAddCategoryModal() {
         this.setState({isOpenModal: true});
+        this.props.openModal();
     }
 
     closeAddCategoryModal() {
@@ -143,10 +144,10 @@ class StorePostComponent extends React.Component {
                                                         />
                                                     </div>
                                                     <div style={{marginTop: -6}}>
-                                                        <TooltipButton placement="top" text="Thêm loại gói đăng kí">
+                                                        <TooltipButton placement="top" text="Thêm nhóm bài viết">
                                                             <a className="btn btn-rose btn-sm"
                                                                onClick={() => {
-                                                                   this.openModal({});
+                                                                   this.openAddCategoryModal({});
                                                                }}>
                                                                 <i className="material-icons">control_point</i>
                                                             </a>
@@ -237,6 +238,7 @@ class StorePostComponent extends React.Component {
                         <AddCategoryModal
                             category={this.props.category}
                             updateFormCategory={this.props.updateFormCategory}
+                            resetCategory={this.props.resetCategory}
                             createCategory={this.props.createCategory}
                             closeAddCategoryModal={this.closeAddCategoryModal}
                         />
@@ -259,6 +261,7 @@ StorePostComponent.propTypes = {
     openModal: PropTypes.func.isRequired,
     updateFormSelect: PropTypes.func.isRequired,
     updateFormCategory: PropTypes.func.isRequired,
+    resetCategory: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
     category: PropTypes.object.isRequired,
     createCategory: PropTypes.func.isRequired,
