@@ -125,6 +125,8 @@ export default {
 
     orderedProduct: {
         currencies: [],
+        addJavCodeModal: false,
+        orderJavCode: {},
         cameToVNModal: false,
         orderCameToVN: {},
         chooseWalletModal: false,

@@ -25,8 +25,8 @@ class ChildrenProperties extends React.Component {
                     <table className="table">
                         <thead>
                         <tr>
-                            <th className="col-md-3 label-control">Thuộc tính</th>
-                            <th className="col-md-9 label-control">Giá trị</th>
+                            <th className="col-lg-3 col-md-3 col-sm-3 col-xs-3 label-control">Thuộc tính</th>
+                            <th className="col-lg-9 col-md-9 col-sm-9 col-xs-9 label-control">Giá trị</th>
                             <th className="label-control"/>
                         </tr>
                         </thead>

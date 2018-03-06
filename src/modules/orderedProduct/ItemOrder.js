@@ -24,6 +24,8 @@ class ItemOrder extends React.Component {
                 this.props.showAddCancelNoteModal(this.props.delivery);
             } else if (nextStatus.order === 1) {
                 this.props.showSendPriceModal([this.props.delivery]);
+            } else if (nextStatus.order === 3) {
+                this.props.showAddJavCodeModal(this.props.delivery);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
                     this.props.changeStatus(value, this.props.delivery.id, null, null);
@@ -95,8 +97,7 @@ class ItemOrder extends React.Component {
                                   value={delivery.status}/>
                 </td>
                 <td>
-                    <a data-toggle="tooltip" title="Ghi chú" type="button"
-                       rel="tooltip" onClick={() => this.props.showAddNoteModal(delivery)}>
+                    <a type="button" onClick={() => this.props.showAddNoteModal(delivery)}>
                         {
                             delivery_note === "" ? (
                                 <i className="material-icons">edit</i>
@@ -148,7 +149,8 @@ ItemOrder.propTypes = {
     check: PropTypes.bool.isRequired,
     isSendingPrice: PropTypes.bool.isRequired,
     chooseItem: PropTypes.func.isRequired,
-    showChooseWalletModal: PropTypes.func.isRequired
+    showChooseWalletModal: PropTypes.func.isRequired,
+    showAddJavCodeModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

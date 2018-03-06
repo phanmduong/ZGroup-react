@@ -20,6 +20,8 @@ import AddNoteModal from "./AddNoteModal";
 import AddCancelNoteModal from "./AddCancelNoteModal";
 import SendPriceModal from "./SendPriceModal";
 import ChooseWalletModal from "./ChooseWalletModal";
+import PropertyReactSelectValue from "../createProduct/PropertyReactSelectValue";
+import AddJavCodeModal from "./AddJavCodeModal";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -36,7 +38,9 @@ class OrderedContainer extends React.Component {
             },
             status: '',
             staff_id: null,
-            user_id: null
+            user_id: null,
+            javCode: [],
+            link: []
         };
         this.timeOut = null;
         this.orderedSearchChange = this.orderedSearchChange.bind(this);
@@ -51,6 +55,9 @@ class OrderedContainer extends React.Component {
         this.chooseAll = this.chooseAll.bind(this);
         this.chooseItem = this.chooseItem.bind(this);
         this.showChooseWalletModal = this.showChooseWalletModal.bind(this);
+        this.linkSearchChange = this.linkSearchChange.bind(this);
+        this.javCodeSearchChange = this.javCodeSearchChange.bind(this);
+        this.showAddJavCodeModal = this.showAddJavCodeModal.bind(this);
     }
 
     componentWillMount() {
@@ -96,9 +103,47 @@ class OrderedContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.status,
                 this.state.staff_id,
-                this.state.user_id
+                this.state.user_id,
+                this.state.javCode,
+                this.state.link
             );
         }.bind(this), 500);
+    }
+
+    javCodeSearchChange(value) {
+        this.setState({
+            page: 1,
+            javCode: value
+        });
+        this.props.orderedProductAction.loadAllOrders(
+            1,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.status,
+            this.state.staff_id,
+            this.state.user_id,
+            value,
+            this.state.link
+        );
+    }
+
+    linkSearchChange(value) {
+        this.setState({
+            page: 1,
+            link: value
+        });
+        this.props.orderedProductAction.loadAllOrders(
+            1,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.status,
+            this.state.staff_id,
+            this.state.user_id,
+            this.state.javCode,
+            value
+        );
     }
 
     staffsSearchChange(value) {
@@ -114,7 +159,9 @@ class OrderedContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.status,
                 value.value,
-                this.state.user_id
+                this.state.user_id,
+                this.state.javCode,
+                this.state.link
             );
         } else {
             this.setState({
@@ -128,7 +175,9 @@ class OrderedContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.status,
                 null,
-                this.state.user_id
+                this.state.user_id,
+                this.state.javCode,
+                this.state.link
             );
         }
     }
@@ -148,7 +197,9 @@ class OrderedContainer extends React.Component {
                 this.state.time.endTime,
                 value.value,
                 this.state.staff_id,
-                this.state.user_id
+                this.state.user_id,
+                this.state.javCode,
+                this.state.link
             );
         } else {
             this.setState({
@@ -164,7 +215,9 @@ class OrderedContainer extends React.Component {
                 this.state.time.endTime,
                 null,
                 this.state.staff_id,
-                this.state.user_id
+                this.state.user_id,
+                this.state.javCode,
+                this.state.link
             );
         }
     }
@@ -178,7 +231,9 @@ class OrderedContainer extends React.Component {
             this.state.time.endTime,
             this.state.status,
             this.state.staff_id,
-            this.state.user_id
+            this.state.user_id,
+            this.state.javCode,
+            this.state.link
         );
     }
 
@@ -194,7 +249,9 @@ class OrderedContainer extends React.Component {
                 time.endTime,
                 this.state.status,
                 this.state.staff_id,
-                this.state.user_id
+                this.state.user_id,
+                this.state.javCode,
+                this.state.link
             );
             this.setState({time: time, page: 1});
         } else {
@@ -226,6 +283,11 @@ class OrderedContainer extends React.Component {
         this.props.orderedProductAction.handleChooseWalletModal(order);
     }
 
+    showAddJavCodeModal(order) {
+        this.props.orderedProductAction.showAddJavCodeModal();
+        this.props.orderedProductAction.handleAddJavCodeModal(order);
+    }
+
     checkSendPrice() {
         if (this.state.isSendingPrice) {
             this.setState({
@@ -247,7 +309,9 @@ class OrderedContainer extends React.Component {
                 this.state.time.endTime,
                 "place_order",
                 this.state.staff_id,
-                this.state.user_id
+                this.state.user_id,
+                this.state.javCode,
+                this.state.link
             );
         }
     }
@@ -404,7 +468,7 @@ class OrderedContainer extends React.Component {
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách đơn hàng</h4>
                                 <div className="row">
-                                    <div className="col-md-10 col-sm-10 col-xs-10">
+                                    <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                         <Search
                                             onChange={this.orderedSearchChange}
                                             value={this.state.query}
@@ -420,6 +484,28 @@ class OrderedContainer extends React.Component {
                                 </div>
                                 <div id="demo" className="collapse">
                                     <div className="row">
+                                        <div className="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <label className="label-control">Tìm theo mã hàng Nhật</label>
+                                            <Select.Creatable
+                                                multi={true}
+                                                placeholder="Nhập mã hàng Nhật"
+                                                options={[]}
+                                                onChange={this.javCodeSearchChange}
+                                                value={this.state.javCode}
+                                                valueComponent={PropertyReactSelectValue}
+                                            />
+                                        </div>
+                                        <div className="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <label className="label-control">Tìm theo link sản phẩm</label>
+                                            <Select.Creatable
+                                                multi={true}
+                                                placeholder="Nhập link sản phẩm"
+                                                options={[]}
+                                                onChange={this.linkSearchChange}
+                                                value={this.state.link}
+                                                valueComponent={PropertyReactSelectValue}
+                                            />
+                                        </div>
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div className="row">
                                                 <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -487,6 +573,7 @@ class OrderedContainer extends React.Component {
                                     chooseAll={this.chooseAll}
                                     chooseItem={this.chooseItem}
                                     showChooseWalletModal={this.showChooseWalletModal}
+                                    showAddJavCodeModal={this.showAddJavCodeModal}
                                 />
                             </div>
                             <div className="row float-right">
@@ -507,6 +594,7 @@ class OrderedContainer extends React.Component {
                 <AddCancelNoteModal/>
                 <SendPriceModal/>
                 <ChooseWalletModal/>
+                <AddJavCodeModal/>
             </div>
         );
     }
