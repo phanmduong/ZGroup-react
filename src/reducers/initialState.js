@@ -39,9 +39,18 @@ export default {
         currentPage: 1,
         totalCount: 1,
         limit: 20,
+<<<<<<< HEAD
+        isChangingStatus : false,
+        isSavingPayment : false,
+        isLoadingBases : false,
+        bases :[],
+=======
         isChangingStatus: false,
+
+
         isLoadingBases: false,
         bases: [],
+>>>>>>> 59837a1b7755725d68aa671e57836f8bd4461604
     },
 
     bankAccount: {
@@ -1991,6 +2000,7 @@ export default {
         available_seats: 0,
 
     },
+
     orderedGood:{
       isLoading: false,
       isCommitting: false,

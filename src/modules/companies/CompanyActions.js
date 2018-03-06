@@ -3,12 +3,12 @@ import * as CompanyApi from './CompanyApi';
 import * as helper from '../../helpers/helper';
 import {browserHistory} from "react-router";
 
-export function loadCompanies(page = 1, type ="", search="") {
+export function loadCompanies(page = 1, type ="", name = "", phone = "", address = "", partner_code = "") {
     return function (dispatch){
       dispatch({
          type: types.BEGIN_LOAD_COMPANIES,
       });
-      CompanyApi.loadCompanies(page , type, search)
+      CompanyApi.loadCompanies(page , type, name, phone, address, partner_code)
           .then((res) => {
               dispatch({
                 type: types.LOAD_COMPANIES_SUCCESS,

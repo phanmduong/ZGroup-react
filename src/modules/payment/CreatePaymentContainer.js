@@ -8,6 +8,8 @@ import * as helper from "../../helpers/helper";
 import FormInputText from "../../components/common/FormInputText";
 import UploadButton from "../../components/common/uploadButton/UploadButton";
 import PropTypes from 'prop-types';
+import {browserHistory} from "react-router";
+
 //import Lightbox from 'react-images';
 
 class CreatePaymentContainer extends React.Component {
@@ -42,10 +44,12 @@ class CreatePaymentContainer extends React.Component {
         return data;
 
     }
+
     handleUpload(event) {
         const file = event.target.files[0];
-        this.props.PaymentActions.uploadImage(file,this.props.data);
+        this.props.PaymentActions.uploadImage(file, this.props.data);
     }
+
     updateFormDataPayer(e) {
         if (!e) return;
         let value = e.value;
@@ -71,25 +75,33 @@ class CreatePaymentContainer extends React.Component {
         };
         this.props.PaymentActions.updateFormData(newdata);
     }
-    updateFormData(e){
-        if(!e) return;
+
+    updateFormData(e) {
+        if (!e) return;
         let field = e.target.name;
         let value = e.target.value;
-        let newdata = {...this.props.data,[field] : value};
+        let newdata = {...this.props.data, [field]: value};
         this.props.PaymentActions.updateFormData(newdata);
     }
 
-    submit(){
-        if(!this.props.link){
+    submit() {
+        if (!this.props.link) {
             helper.showErrorNotification("Vui lòng chọn ảnh hóa đơn");
             return;
         }
-        if($('#form-payment').valid()) {
+        if ($('#form-payment').valid()) {
             helper.showNotification("Đang lưu...");
-            if(!this.props.params.paymentId) this.props.PaymentActions.addPayment(this.props.data);
-            else this.props.PaymentActions.editPayment(this.props.params.paymentId,this.props.data);
+            if (!this.props.params.paymentId) this.props.PaymentActions.addPayment(this.props.data);
+            else this.props.PaymentActions.editPayment(this.props.params.paymentId, this.props.data);
         } else helper.showErrorNotification("Vui lòng nhập đủ các thông tin");
     }
+    cancel(){
+        helper.confirm('error', 'Hủy', "Bạn muốn từ chối yêu cầu này?", () => {
+            browserHistory.push("business/company/payments");
+
+        });
+    }
+
     render() {
         return (
             <div className="content">
@@ -179,14 +191,28 @@ class CreatePaymentContainer extends React.Component {
                                                 <div className="col-md-12"
                                                      style={{display: "flex", flexFlow: "row-reverse"}}>
                                                     {this.props.isSavingPayment ?
-                                                        <button disabled className="btn btn-rose  disabled"
-                                                                type="button">
-                                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                        </button>
+                                                        <div>
+                                                            <button disabled className="btn btn-rose  disabled"
+                                                                    type="button">
+                                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                            </button>
+                                                            <button className="btn btn-danger  disabled"
+                                                                    type="button">
+                                                                Hủy
+                                                            </button>
+                                                        </div>
                                                         :
-                                                        <button onClick={this.submit}
-                                                                className="btn btn-rose"
-                                                        >Lưu</button>
+                                                        <div>
+                                                            <button onClick={this.submit}
+                                                                    className="btn btn-rose"
+                                                            >Lưu
+                                                            </button>
+                                                            <button className="btn btn-danger"
+                                                                    onClick={this.cancel}
+                                                                    type="button">
+                                                                Hủy
+                                                            </button>
+                                                        </div>
                                                     }
 
                                                 </div>
@@ -224,24 +250,24 @@ class CreatePaymentContainer extends React.Component {
                                                     border: "0 none",
                                                     display: "inline-block"
                                                 }}>
-                                                   <a href={this.props.link || this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
-                                                      target="_blank"
-                                                   >
-                                                    <img
-                                                        src={this.props.link ||this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
-                                                        style={{
-                                                            lineHeight: "164px",
-                                                            height: "auto",
-                                                            maxWidth: "100%",
-                                                            maxHeight: "100%",
-                                                            display: "block",
-                                                            marginRight: "auto",
-                                                            marginLeft: "auto",
-                                                            backgroundSize: "cover",
-                                                            backgroundPosition: "center",
-                                                            borderRadius: "4px",
-                                                        }}/>
-                                                   </a>
+                                                    <a href={this.props.link || this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
+                                                       target="_blank"
+                                                    >
+                                                        <img
+                                                            src={this.props.link || this.props.data.bill_image_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
+                                                            style={{
+                                                                lineHeight: "164px",
+                                                                height: "auto",
+                                                                maxWidth: "100%",
+                                                                maxHeight: "100%",
+                                                                display: "block",
+                                                                marginRight: "auto",
+                                                                marginLeft: "auto",
+                                                                backgroundSize: "cover",
+                                                                backgroundPosition: "center",
+                                                                borderRadius: "4px",
+                                                            }}/>
+                                                    </a>
                                                 </div>
 
                                                 <UploadButton
@@ -267,6 +293,7 @@ class CreatePaymentContainer extends React.Component {
         );
     }
 }
+
 CreatePaymentContainer.propTypes = {
     isSavingPayment: PropTypes.bool.isRequired,
     isLoadingCompanies: PropTypes.bool.isRequired,
@@ -278,6 +305,7 @@ CreatePaymentContainer.propTypes = {
     params: PropTypes.object,
     PaymentActions: PropTypes.object.isRequired,
 };
+
 function mapStateToProps(state) {
     return {
         isSavingPayment: state.payment.isSavingPayment,
