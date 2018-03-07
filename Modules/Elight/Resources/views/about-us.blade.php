@@ -229,12 +229,17 @@
                                 <label class="control-label">Liên hệ</label>
                                     <input id="name" type="text" name="name" class="form-control"
                                         placeholder="Họ và tên">
-                                    <input id="phone" type="text" name="phone" class="form-control"
-                                        placeholder="Số điện thoại">
+                                    <input id="email" type="text" name="email" class="form-control"
+                                        placeholder="Email">
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="alert"> </div>
+                                </div>
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#138edc; border-color:#138edc ">Gửi</button>
+                                <button id="submit" type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#138edc; border-color:#138edc ">Gửi</button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -250,8 +255,48 @@
         window.onload = function (e) {
             setTimeout(function () {
                 $('#modalInfo').modal('show');
-            }, 60000);
+            }, 60000); //60000
         };
+
+        $(document).ready(function () {
+        $("#submit").click(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            // console.log("submit");
+            var message_str = $('#message').val();
+            var email = $('#email').val();
+            var name = $('#name').val();
+            // console.log(radio);
+            // console.log(name);
+            var ok = 0;
+            if (email.trim() == "" || message_str.trim() == "" || name.trim() == "") ok = 1;
+
+            if (!message_str || !email || !name || ok == 1) {
+                alert("Bạn vui lòng nhập đủ thông tin hoặc email không hợp lệ");
+                $("#alert").html(
+                    "<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>"
+                );
+            } else {
+                var message = "Chúng tôi đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
+                alert(message);
+                $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
+                var url = "{{ url('aboutus_information') }}";
+                var data = {
+                    message_str: message_str,
+                    email: email,
+                    name: name,
+                    _token: "{{csrf_token()}}"
+                };
+                console.log(data);
+                $.post(url, data, function (data, status) {
+                        console.log("Data: " + data + "\nStatus: " + status);
+                    })
+                    .fail(function (error) {
+                        console.log(error);
+                    });
+            }
+        });
+    });
     </script>
 @endpush
 

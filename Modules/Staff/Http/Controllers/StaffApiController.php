@@ -98,6 +98,12 @@ class StaffApiController extends ManageApiController
                 })
             ]);
         } else {
+            $base_id = $request->base_id;
+            $department_id = $request->department;
+            if($base_id)
+                 $staffs = $staffs->where('base_id',$base_id);
+            if($department_id)
+                $staffs = $staffs->where('department_id',$department_id);
             $staffs = $staffs->paginate($limit);
             return $this->respondWithPagination(
                 $staffs,

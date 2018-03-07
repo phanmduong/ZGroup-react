@@ -152,7 +152,7 @@
                                                             <br/>
                                                             Email: {{$email}}   <br/>
                                                             Tên: {{$name}}   <br/>
-                                                            Tin nhắn: {{$message_str}} <br/>
+                                                            Loi nhan: {{$message_str}} <br/>
                                                         </td>
                                                     </tr>
 

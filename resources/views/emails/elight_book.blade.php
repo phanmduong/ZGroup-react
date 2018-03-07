@@ -151,8 +151,8 @@
                                                             <b>Thông tin của bạn</b>
                                                             <br/>
                                                             Email: {{$email}}   <br/>
-                                                            Tên: {{$name}}   <br/>
-                                                            Tin nhắn: {{$message_str}} <br/>
+                                                            Đánh giá: {{$radio}}   <br/>
+                                                            Lời nhắn: {{$message_str}} <br/>
                                                         </td>
                                                     </tr>
 
