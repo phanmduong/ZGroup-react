@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RoomServiceRegisterSeat extends Model
 {
+    protected $table = "room_service_register_seat";
     public function register()
     {
         return $this->belongsTo(RoomServiceRegister::class, 'room_service_register_id');

@@ -38,12 +38,13 @@ $roomRoutes = function () {
 
 $seatRoutes = function () {
     Route::get('available', 'ManageBaseApiController@availableSeats');
+    Route::post('{seatId}/book', 'ManageBaseApiController@bookSeat');
 };
 
 Route::group(['prefix' => 'v2/seat', 'namespace' => 'Modules\Base\Http\Controllers'], $seatRoutes);
 
 $routes = function () {
-    Route::group(['prefix' => 'v2'], function(){
+    Route::group(['prefix' => 'v2'], function () {
         Route::get('/base/provinces', 'PublicApiController@provinces');
         Route::get('/base/province/{provinceId}', 'PublicApiController@basesInProvince');
         Route::get('/base/{baseId}/rooms', 'PublicApiController@baseRooms');
