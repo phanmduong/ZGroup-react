@@ -17,3 +17,13 @@ export function getSeats(roomId, from, to) {
     }/seat/available?token=${token}&from=${from}&to=${to}&limit=-1&room_id=${roomId}`;
     return axios.get(url);
 }
+
+export const postBookSeat = ({ registerId, seatId, startTime, endTime }) => {
+    const token = localStorage.getItem("token");
+    const url = `${env.MANAGE_API_URL_V3}/seat/${seatId}/book?token=${token}`;
+    return axios.post(url, {
+        start_time: startTime,
+        end_time: endTime,
+        register_id: registerId,
+    });
+};

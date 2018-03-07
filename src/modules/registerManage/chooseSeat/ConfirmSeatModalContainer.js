@@ -3,17 +3,31 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as chooseSeatActions from "./chooseSeatActions";
 import PropTypes from "prop-types";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
+import moment from "moment";
 import { dotNumber } from "../../../helpers/helper";
+import { DATETIME_SEAT_FORMAT } from "../../../constants/constants";
+import Loading from "../../../components/common/Loading";
 
 class ConfirmSeatModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.handleClose = this.handleClose.bind(this);
+        this.bookSeat = this.bookSeat.bind(this);
     }
 
     handleClose() {
         this.props.chooseSeatActions.toggleConfirmSeatModal(false);
+    }
+
+    bookSeat() {
+        const { register, seat, from, to } = this.props;
+        this.props.chooseSeatActions.bookSeat({
+            registerId: register.id,
+            seatId: seat.id,
+            startTime: moment(from, DATETIME_SEAT_FORMAT).unix(),
+            endTime: moment(to, DATETIME_SEAT_FORMAT).unix(),
+        });
     }
 
     render() {
@@ -23,7 +37,13 @@ class ConfirmSeatModalContainer extends React.Component {
             top: 5,
             color: "#888",
         };
-        const { showConfirmSeatModal, seat, from, to } = this.props;
+        const {
+            showConfirmSeatModal,
+            seat,
+            from,
+            to,
+            isBookingSeat,
+        } = this.props;
         return (
             <Modal show={showConfirmSeatModal} onHide={this.handleClose}>
                 <Modal.Header closeButton>
@@ -50,7 +70,22 @@ class ConfirmSeatModalContainer extends React.Component {
                                         >
                                             event_seat
                                         </i>{" "}
-                                        Ghế {seat.name}
+                                        Ghế{" "}
+                                        <div
+                                            style={{
+                                                borderRadius: "50%",
+                                                height: 28,
+                                                width: 28,
+                                                fontWeight: "bold",
+                                                lineHeight: "28px",
+                                                textAlign: "center",
+                                                background: seat.color,
+                                                color: "white",
+                                                display: "inline-block",
+                                            }}
+                                        >
+                                            {seat.name}
+                                        </div>
                                         <br />
                                         <i
                                             style={icon}
@@ -104,6 +139,21 @@ class ConfirmSeatModalContainer extends React.Component {
                         </div>
                     </div>
                 </Modal.Body>
+                <Modal.Footer>
+                    {isBookingSeat ? (
+                        <Loading />
+                    ) : (
+                        <div>
+                            <Button
+                                className="btn btn-rose"
+                                onClick={this.bookSeat}
+                            >
+                                Đặt chỗ
+                            </Button>
+                            <Button onClick={this.handleClose}>Đóng</Button>
+                        </div>
+                    )}
+                </Modal.Footer>
             </Modal>
         );
     }
@@ -115,16 +165,24 @@ ConfirmSeatModalContainer.propTypes = {
     from: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
     register: PropTypes.object.isRequired,
-
     showConfirmSeatModal: PropTypes.bool.isRequired,
+    isBookingSeat: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
-    const { showConfirmSeatModal, register, seat, from, to } = state.chooseSeat;
+    const {
+        showConfirmSeatModal,
+        register,
+        seat,
+        from,
+        to,
+        isBookingSeat,
+    } = state.chooseSeat;
     return {
         showConfirmSeatModal,
         register,
         seat,
+        isBookingSeat,
         from,
         to,
     };

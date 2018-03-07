@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as chooseSeatActions from "./chooseSeatActions";
 import PropTypes from "prop-types";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import Loading from "../../../components/common/Loading";
 import RoomGrid from "../../bases/room/RoomGrid";
-import { DATETIME_VN_FORMAT } from "../../../constants/constants";
+import { DATETIME_SEAT_FORMAT } from "../../../constants/constants";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import moment from "moment";
 import ConfirmSeatModalContainer from "./ConfirmSeatModalContainer";
+import { showErrorMessage } from "../../../helpers/helper";
 
 class ChooseSeatModalContainer extends React.Component {
     constructor(props, context) {
@@ -27,36 +28,19 @@ class ChooseSeatModalContainer extends React.Component {
         if (!this.props.showModal && nextProps.showModal && nextProps.base) {
             this.props.chooseSeatActions.loadRooms(nextProps.base.id);
         }
-
-        // if (
-        //     !this.props.showModal &&
-        //     nextProps.showModal &&
-        //     nextProps.register.subscription
-        // ) {
-        //     const now = moment();
-        //     this.props.chooseSeatActions.setFromTime(
-        //         now.format(DATETIME_VN_FORMAT),
-        //     );
-        //     console.log(nextProps.register);
-        //     this.props.chooseSeatActions.setToTime(
-        //         now
-        //             .add(nextProps.register.subscription.hours, "hours")
-        //             .format(DATETIME_VN_FORMAT),
-        //     );
-        // }
     }
 
     timeValid(from, to) {
-        const unixFrom = moment(from, DATETIME_VN_FORMAT).unix();
-        const unixTo = moment(to, DATETIME_VN_FORMAT).unix();
+        const unixFrom = moment(from, DATETIME_SEAT_FORMAT).unix();
+        const unixTo = moment(to, DATETIME_SEAT_FORMAT).unix();
 
         return unixFrom <= unixTo;
     }
 
     loadSeats(roomId = null) {
         let { room, from, to } = this.props;
-        from = moment(from, DATETIME_VN_FORMAT).unix();
-        to = moment(to, DATETIME_VN_FORMAT).unix();
+        from = moment(from, DATETIME_SEAT_FORMAT).unix();
+        to = moment(to, DATETIME_SEAT_FORMAT).unix();
 
         if (from && to && roomId) {
             this.props.chooseSeatActions.loadSeats(roomId, from, to);
@@ -87,10 +71,16 @@ class ChooseSeatModalContainer extends React.Component {
     }
 
     onChooseSeat(index) {
-        const seat = this.props.seats.filter(seat => {
+        const seats = this.mergeSeats(this.props.bookedSeats, this.props.seats);
+        const seat = seats.filter(seat => {
             return index === seat.id;
         })[0];
-        this.props.chooseSeatActions.toggleConfirmSeatModal(true, seat);
+
+        if (seat.booked) {
+            showErrorMessage("Lỗi", "Ghế này đã được đặt.");
+        } else {
+            this.props.chooseSeatActions.toggleConfirmSeatModal(true, seat);
+        }
     }
 
     handleClose() {
@@ -136,41 +126,50 @@ class ChooseSeatModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="row">
                         <ConfirmSeatModalContainer />
-                        {!this.timeValid(from, to) && (
-                            <div className="col-sm-12">
-                                <div className="alert alert-danger">
-                                    Thời gian bắt đầu phải nhỏ hơn thời gian kết
-                                    thúc
+                        <div className="col-sm-8">
+                            {!this.timeValid(from, to) && (
+                                <div className="col-sm-12">
+                                    <div className="alert alert-danger">
+                                        Thời gian bắt đầu phải nhỏ hơn thời gian
+                                        kết thúc
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-
-                        <div className="col-md-6 col-lg-4">
-                            <FormInputDateTime
-                                format={DATETIME_VN_FORMAT}
-                                name="from"
-                                id="from"
-                                label="Bắt đầu"
-                                value={from}
-                                defaultDate={moment()}
-                                updateFormData={this.onFromDateInputChange}
-                            />
-                        </div>
-                        <div className="col-md-6 col-lg-4">
-                            {register.subscription && (
-                                <FormInputDateTime
-                                    name="to"
-                                    format={DATETIME_VN_FORMAT}
-                                    id="to"
-                                    label="Kết thúc"
-                                    value={to}
-                                    defaultDate={moment().add(
-                                        register.subscription.hours,
-                                        "hours",
-                                    )}
-                                    updateFormData={this.onToDateInputChange}
-                                />
                             )}
+
+                            <div className="col-md-6">
+                                <FormInputDateTime
+                                    format={DATETIME_SEAT_FORMAT}
+                                    name="from"
+                                    id="from"
+                                    label="Bắt đầu"
+                                    value={from}
+                                    defaultDate={moment()}
+                                    updateFormData={this.onFromDateInputChange}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                {register.subscription && (
+                                    <FormInputDateTime
+                                        name="to"
+                                        format={DATETIME_SEAT_FORMAT}
+                                        id="to"
+                                        label="Kết thúc"
+                                        value={to}
+                                        defaultDate={moment().add(
+                                            register.subscription.hours,
+                                            "hours",
+                                        )}
+                                        updateFormData={
+                                            this.onToDateInputChange
+                                        }
+                                    />
+                                )}
+                            </div>
+                        </div>
+                        <div className="col-sm-4" style={{ paddingTop: 30 }}>
+                            <Button className="btn btn-success">
+                                Lịch sử đặt chỗ
+                            </Button>
                         </div>
                     </div>
                     {this.props.isLoading ? (

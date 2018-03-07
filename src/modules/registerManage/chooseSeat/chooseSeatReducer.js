@@ -7,6 +7,9 @@ import {
     CHOOSE_SEAT_BEGIN_LOAD_SEATS,
     CHOOSE_SEAT_SET_FROM_TIME,
     CHOOSE_SEAT_SET_TO_TIME,
+    BEGIN_BOOK_SEAT,
+    TOGGLE_CHOOSE_HISTORY_MODAL,
+    BOOK_SEAT_SUCCESS,
     TOGGLE_CONFIRM_SEAT_MODAL,
 } from "./chooseSeatActionType";
 
@@ -26,10 +29,36 @@ const initialState = {
     register: {},
     showConfirmSeatModal: false,
     seat: {},
+    showChooseSeatHistoryModal: false,
+    isBookingSeat: false,
 };
 
 export default function chooseSeatReducer(state = initialState, action) {
     switch (action.type) {
+        case TOGGLE_CHOOSE_HISTORY_MODAL:
+            return {
+                ...state
+            };
+        case BEGIN_BOOK_SEAT:
+            return {
+                ...state,
+                isBookingSeat: true,
+            };
+        case BOOK_SEAT_SUCCESS:
+            return {
+                ...state,
+                isBookingSeat: false,
+                showConfirmSeatModal: false,
+                seats: state.seats.map(seat => {
+                    if (seat.id === Number(action.registerSeat.seat_id)) {
+                        return {
+                            ...seat,
+                            booked: true,
+                        };
+                    }
+                    return seat;
+                }),
+            };
         case CHOOSE_SEAT_SET_FROM_TIME:
             return {
                 ...state,

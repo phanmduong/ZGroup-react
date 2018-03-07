@@ -7,9 +7,30 @@ import {
     CHOOSE_SEAT_BEGIN_LOAD_SEATS,
     TOGGLE_CONFIRM_SEAT_MODAL,
     CHOOSE_SEAT_SET_TO_TIME,
+    BEGIN_BOOK_SEAT,
+    BOOK_SEAT_SUCCESS,
     CHOOSE_SEAT_SET_FROM_TIME,
 } from "./chooseSeatActionType";
-import { getRooms, getSeats } from "./chooseSeatApi";
+import { getRooms, getSeats, postBookSeat } from "./chooseSeatApi";
+
+export const bookSeat = ({ registerId, seatId, startTime, endTime }) => {
+    return async dispatch => {
+        dispatch({
+            type: BEGIN_BOOK_SEAT,
+        });
+        const res = await postBookSeat({
+            registerId,
+            seatId,
+            startTime,
+            endTime,
+        });
+
+        dispatch({
+            type: BOOK_SEAT_SUCCESS,
+            registerSeat: res.data.register_seat,
+        });
+    };
+};
 
 export const setFromTime = from => {
     return dispatch => {
