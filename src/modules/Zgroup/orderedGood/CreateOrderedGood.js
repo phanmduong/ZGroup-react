@@ -41,6 +41,10 @@ class CreateOrderedGood extends React.Component {
         let id = this.props.params.orderedGoodId;
         if (id) {
             this.props.orderedGoodActions.loadOrderedGood(id, (data) => {
+                let arr = data.goods.map((obj)=>{
+                    return {...obj, id : obj.good.id};
+                });
+                data.goods = arr;
                 this.setState({ data });
             });
         } else {
@@ -132,7 +136,7 @@ class CreateOrderedGood extends React.Component {
     commitData(){
         
         let {data} = this.state;
-        let {user} = this.props;
+        let {user,params} = this.props;
         if(!data.company || helper.isEmptyInput(data.company.id)){
             helper.showErrorNotification("Vui lòng chọn nhà phân phối!");
             return;
@@ -142,6 +146,7 @@ class CreateOrderedGood extends React.Component {
             return;
         }
         let res = {
+            id: params.orderedGoodId,
             ...data,
             staff_id: user.id,
             company_id: data.company.id,
@@ -156,6 +161,9 @@ class CreateOrderedGood extends React.Component {
             ) ,
 
         };
+        if(params.orderedGoodId)
+        this.props.orderedGoodActions.editOrderedGood(res);
+        else
         this.props.orderedGoodActions.createOrderedGood(res);
     }
 
@@ -225,7 +233,7 @@ class CreateOrderedGood extends React.Component {
                                                                         return (
                                                                             <tr key={index}>
                                                                                 <td>{index + 1}</td>
-                                                                                <td>{obj.name}</td>
+                                                                                <td>{obj.name ? obj.name : obj.good.name}</td>
                                                                                 <td style={textAlign}>{obj.quantity}</td>
                                                                                 <td style={textAlign}>{typeGood}</td>
                                                                                 <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
@@ -328,7 +336,7 @@ class CreateOrderedGood extends React.Component {
                                                                     id="textarea-card-comment"
                                                                     name="note"
                                                                     onChange={this.onChangeNote}
-                                                                    value={data.note}
+                                                                    value={data.note||""}
                                                                     onKeyUp={() => {
                                                                     }}
                                                                     placeholder="Nhập ghi chú"

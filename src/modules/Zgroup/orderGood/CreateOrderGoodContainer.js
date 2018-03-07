@@ -41,6 +41,10 @@ class CreateOrderGood extends React.Component {
         let id = this.props.params.orderGoodId;
         if (id) {
             this.props.orderGoodActions.loadOrderGood(id, (data) => {
+                let arr = data.goods.map((obj)=>{
+                    return {...obj, id : obj.good.id};
+                });
+                data.goods = arr;
                 this.setState({ data });
             });
         } else {
@@ -126,7 +130,7 @@ class CreateOrderGood extends React.Component {
 
     commitData() {
         let { data } = this.state;
-        let { user } = this.props;
+        let {user,params} = this.props;
         if (!data.company || helper.isEmptyInput(data.company.id)) {
             helper.showErrorNotification("Vui lòng chọn nhà cung cấp!");
             return;
@@ -136,6 +140,7 @@ class CreateOrderGood extends React.Component {
                 return;
             }
         let res = {
+            id: params.orderGoodId,
             ...data,
             staff_id: user.id,
             company_id: data.company.id,
@@ -148,8 +153,10 @@ class CreateOrderGood extends React.Component {
                     });
                 })
             ),
-
         };
+        if(params.orderGoodId)
+        this.props.orderGoodActions.editOrderGood(res);
+        else
         this.props.orderGoodActions.createOrderGood(res);
     }
 
@@ -208,7 +215,7 @@ class CreateOrderGood extends React.Component {
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
-                                                                            <td>{obj.name}</td>
+                                                                            <td>{obj.name ? obj.name : obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{typeGood}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>

@@ -31,6 +31,16 @@ export function createOrderedGood(data) {
     return axios.post(url, data);
 }
 
+export function editOrderedGood(data) {
+    //http://manageapi.keetool.xyz/company/provided?token=
+    let url     = env.MANAGE_API_URL +"/company/be-ordered/" + data.id + "?";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "token=" + token;
+    }
+    return axios.put(url, data);
+}
+
 export function loadAllOrderedGood(page=1) {
     let url     = env.MANAGE_API_URL +"/company/be-ordered/all?page=" +page;
     let token   = localStorage.getItem('token');
