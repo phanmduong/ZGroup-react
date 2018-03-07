@@ -197,7 +197,7 @@ class CheckInCheckOutController extends ManageApiController
 
         }
         if ($checkIn->status === 5) {
-            return $this->respondSuccessWithStatus([
+            return $this->respondErrorWithData([
                 "check_in" => [
                     'time' => format_time(strtotime($checkIn->created_at)),
                     'base' => $checkIn->base ? $checkIn->base->name : ""
