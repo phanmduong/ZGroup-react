@@ -117,7 +117,7 @@
 
 
                     $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
-                    var url = "{{config('app.protocol').config('app.domain')}}/contact_information?email=" + email;
+                    var url = "{{ url('contact_information') }}";
                     $('#e-name1').val("");
                     $('#e-email').val("");
                     $('#e-name2').val("");
@@ -129,6 +129,9 @@
                             _token: "{{csrf_token()}}"
                         },function (data, status) {
                             console.log("Data: " + data + "\nStatus: " + status);
+                        })
+                        .fail(function(error){
+                            console.log(error);
                         });
                 }
 
