@@ -3,21 +3,21 @@ import * as helper from "../../helpers/helper";
 import * as types from "../../constants/actionTypes";
 import {browserHistory} from 'react-router';
 
-export function loadOrder(id) {
+export function loadAllOrder() {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_ORDER_IMPORT_ORDER,
+            type: types.BEGIN_LOAD_ALL_ORDER_IMPORT_ORDER,
         });
-        importOrderApi.loadOrder(id)
+        importOrderApi.loadAllOrder()
             .then((res) => {
                 dispatch({
-                    type: types.LOAD_ORDER_IMPORT_ORDER_SUCCESS,
-                    data: res.data.order,
+                    type: types.LOAD_ALL_ORDER_IMPORT_ORDER_SUCCESS,
+                    data: res.data.data.orders,
                 });
             }).catch(() => {
             helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
-                type: types.LOAD_ORDER_IMPORT_ORDER_ERROR,
+                type: types.LOAD_ALL_ORDER_IMPORT_ORDER_ERROR,
             });
         });
     };
@@ -108,10 +108,10 @@ export function loadAllGoods() {
         dispatch({type: types.BEGIN_LOAD_ALL_GOOD_IMPORT_ORDER});
         importOrderApi.loadAllGoods()
             .then((res) => {
-                if(res.data.status == 1){
+                if(res.data.status === 1){
                     dispatch({
                         type: types.LOAD_ALL_GOOD_IMPORT_ORDER_SUCCESS,
-                        goods : res.data.data.goods,
+                        data : res.data.data.goods,
                     });
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
@@ -131,10 +131,10 @@ export function loadAllCompanies() {
         dispatch({type: types.BEGIN_LOAD_ALL_COMPANIES_IMPORT_ORDER});
         importOrderApi.loadAllCompanies()
             .then((res) => {
-                if(res.data.status == 1){
+                if(res.data.status === 1){
                     dispatch({
                         type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_SUCCESS,
-                        companies : res.data.data.companies,
+                        data : res.data.data.companies,
                     });
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
@@ -155,10 +155,10 @@ export function loadAllWarehourses() {
         dispatch({type: types.BEGIN_LOAD_ALL_WAREHOUSE_IMPORT_ORDER});
         importOrderApi.loadAllWarehourses()
             .then((res) => {
-                if(res.data.status == 1){
+                if(res.data.status === 1){
                     dispatch({
                         type: types.LOAD_ALL_WAREHOUSE_IMPORT_ORDER_SUCCESS,
-                        warehouses : res.data.data.warehouses,
+                        data : res.data.data.warehouses,
                     });
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
