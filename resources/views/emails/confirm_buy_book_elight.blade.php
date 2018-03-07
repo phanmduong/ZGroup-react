@@ -191,18 +191,18 @@
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                         <tbody>
                                         <tr>
-                                            <td style="padding-top: 0px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px; background-color: #00396c">
+                                            <td style="padding-top: 0px; padding-bottom: 30px;">
                                                 <table width="100%" border="0" cellpadding="0" cellspacing="0"
-                                                       style="max-width: 450px; margin: auto;">
+                                                       style="margin: auto;">
                                                     <tbody>
                                                     <tr style="text-align: center;vertical-align: middle;">
-                                                        <td style="text-align: center">
-                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1508151517tPwvu2VZMUOiBhd.jpg"
-                                                                 alt="Logo" style="margin:30px" height="30px"/>
+                                                        <td style="text-align: center;background-color: #00396c;padding:0;">
+                                                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png"
+                                                                 alt="Logo" style="margin:20px" height="35px"/>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="padding-top: 0px; color:#001131; font-weight: 100; text-decoration:none; font-size:36px; font-family: 'nokia-pure-headline-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; line-height:42px; text-align: center;">
+                                                        <td style="padding-top: 35px; color:#001131; font-weight: 100; text-decoration:none; font-size:36px; font-family: 'nokia-pure-headline-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; line-height:42px; text-align: center;">
                                                             Xác nhận đặt hàng thành công
                                                         </td>
                                                     </tr>
@@ -318,7 +318,6 @@
                                         <tr>
                                             <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
                                                 <p>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất</p>
-
                                             </td>
                                         </tr>
 
