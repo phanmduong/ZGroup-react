@@ -50,3 +50,12 @@ export function loadOrderGood(id) {
     }
     return axios.get(url);
 }
+export function editOrderGood(data) {
+    //http://manageapi.keetool.xyz/company/provided?token=
+    let url     = env.MANAGE_API_URL +"/company/order/" + data.id + "?";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "token=" + token;
+    }
+    return axios.put(url, data);
+}

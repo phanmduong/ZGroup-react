@@ -100,6 +100,29 @@ export function createOrderGood(data) {
 }
 
 
+export function editOrderGood(data) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_ORDER_GOOD});
+        orderGoodApi.editOrderGood(data)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.EDIT_ORDER_GOOD_SUCCESS,
+                    });
+                    helper.showNotification("Sửa thành công!");
+                    browserHistory.push("/business/order-good");
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.EDIT_ORDER_GOOD_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.EDIT_ORDER_GOOD_ERROR});
+            });
+    };
+}
+
 export function loadOrderGood(id, success) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ORDER_GOOD});

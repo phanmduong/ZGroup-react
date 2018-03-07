@@ -76,6 +76,29 @@ export function createOrderedGood(data) {
     };
 }
 
+export function editOrderedGood(data) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_ORDERED_GOOD});
+        orderedGoodApi.editOrderedGood(data)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.EDIT_ORDERED_GOOD_SUCCESS,
+                    });
+                    helper.showNotification("Sửa thành công!");
+                    browserHistory.push("/business/ordered-good");
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.EDIT_ORDERED_GOOD_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.EDIT_ORDERED_GOOD_ERROR});
+            });
+    };
+}
+
 export function loadAllOrderedGood(page) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ALL_ORDERED_GOOD});
