@@ -726,7 +726,7 @@ class CompanyController extends ManageApiController
         ]);
     }
 
-    public function eidtOrder($orderId, Request $request)
+    public function editOrder($orderId, Request $request)
     {
         //đơn hàng từ nhà cung cấp đặt
         $order = ItemOrder::find($orderId);
