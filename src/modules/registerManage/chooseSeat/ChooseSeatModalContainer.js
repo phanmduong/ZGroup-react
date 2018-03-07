@@ -11,6 +11,7 @@ import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import moment from "moment";
 import ConfirmSeatModalContainer from "./ConfirmSeatModalContainer";
 import { showErrorMessage } from "../../../helpers/helper";
+import ChooseSeatHistoryModalContainer from "./ChooseSeatHistoryModalContainer";
 
 class ChooseSeatModalContainer extends React.Component {
     constructor(props, context) {
@@ -22,12 +23,19 @@ class ChooseSeatModalContainer extends React.Component {
         this.onFromDateInputChange = this.onFromDateInputChange.bind(this);
         this.onToDateInputChange = this.onToDateInputChange.bind(this);
         this.loadSeats = this.loadSeats.bind(this);
+        this.openChooseSeatHistoryModal = this.openChooseSeatHistoryModal.bind(
+            this,
+        );
     }
 
     componentWillReceiveProps(nextProps) {
         if (!this.props.showModal && nextProps.showModal && nextProps.base) {
             this.props.chooseSeatActions.loadRooms(nextProps.base.id);
         }
+    }
+
+    openChooseSeatHistoryModal() {
+        this.props.chooseSeatActions.toggleChooseSeatHistoryModal(true);
     }
 
     timeValid(from, to) {
@@ -125,6 +133,7 @@ class ChooseSeatModalContainer extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row">
+                        <ChooseSeatHistoryModalContainer/>
                         <ConfirmSeatModalContainer />
                         <div className="col-sm-8">
                             {!this.timeValid(from, to) && (
@@ -167,7 +176,10 @@ class ChooseSeatModalContainer extends React.Component {
                             </div>
                         </div>
                         <div className="col-sm-4" style={{ paddingTop: 30 }}>
-                            <Button className="btn btn-success">
+                            <Button
+                                onClick={this.openChooseSeatHistoryModal}
+                                className="btn btn-success"
+                            >
                                 Lịch sử đặt chỗ
                             </Button>
                         </div>

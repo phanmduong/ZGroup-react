@@ -9,9 +9,32 @@ import {
     CHOOSE_SEAT_SET_TO_TIME,
     BEGIN_BOOK_SEAT,
     BOOK_SEAT_SUCCESS,
+    TOGGLE_CHOOSE_SEAT_HISTORY_MODAL,
     CHOOSE_SEAT_SET_FROM_TIME,
+    BEGIN_LOAD_CHOOSE_SEAT_HISTORY,
+    LOAD_CHOOSE_SEAT_HISTORY_SUCCESS,
 } from "./chooseSeatActionType";
 import { getRooms, getSeats, postBookSeat } from "./chooseSeatApi";
+
+export const loadChooseSeatHistory = () => {
+    return dispatch => {
+        dispatch({
+            type: BEGIN_LOAD_CHOOSE_SEAT_HISTORY,
+        });
+        dispatch({
+            type: LOAD_CHOOSE_SEAT_HISTORY_SUCCESS,
+        });
+    };
+};
+
+export const toggleChooseSeatHistoryModal = showChooseSeatHistoryModal => {
+    return dispatch => {
+        dispatch({
+            type: TOGGLE_CHOOSE_SEAT_HISTORY_MODAL,
+            showChooseSeatHistoryModal,
+        });
+    };
+};
 
 export const bookSeat = ({ registerId, seatId, startTime, endTime }) => {
     return async dispatch => {
