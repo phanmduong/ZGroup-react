@@ -90,7 +90,9 @@ class EditBaseModalContainer extends React.Component {
             if (helper.isEmptyInput(base.longitude)) helper.showErrorNotification("Bạn cần nhập longitude");
             if (helper.isEmptyInput(base.district)) helper.showErrorNotification("Bạn cần chọn Quận/Huyện");
         } else {
-            this.props.baseListActions.editBase(base);
+            if (base.id) {
+                this.props.baseListActions.editBase(base);
+            } else this.props.baseListActions.createBase(this.props.base);
         }
     }
 
@@ -289,14 +291,14 @@ class EditBaseModalContainer extends React.Component {
                                 label="Tên cơ sở"
                                 name="name"
                                 updateFormData={this.updateFormData}
-                                value={base.name}
+                                value={base.name || ''}
                                 required
                             />
                             <FormInputText
                                 label="Địa chỉ cơ sở"
                                 name="address"
                                 updateFormData={this.updateFormData}
-                                value={base.address}
+                                value={base.address || ''}
                                 required
                             />
                             <FormInputText
@@ -304,14 +306,14 @@ class EditBaseModalContainer extends React.Component {
                                 name="latitude"
                                 type="number"
                                 updateFormData={this.updateFormData}
-                                value={base.latitude}
+                                value={base.latitude || ''}
                             />
                             <FormInputText
                                 label="Longitude"
                                 name="longitude"
                                 type="number"
                                 updateFormData={this.updateFormData}
-                                value={base.longitude}
+                                value={base.longitude || ''}
                             />
                             <div className="form-group">
                                 <label className="label-control">Mô tả</label>
