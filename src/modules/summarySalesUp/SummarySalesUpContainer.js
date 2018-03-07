@@ -4,10 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-<<<<<<< HEAD
-// import Select from '../../components/common/Select';
-=======
->>>>>>> c8fac563d3241ab8bd1ecd4d204905ea1a84bbd1
+
 import * as summarySalesActions from './summarySalesActions';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
