@@ -152,7 +152,7 @@
                                                             <br/>
                                                             Email: {{$email}}   <br/>
                                                             Tên: {{$name}}   <br/>
-                                                            Tin nhắn: {{$message_str}} <br/>
+                                                            Số điện thoại: {{$phone}} <br/>
                                                         </td>
                                                     </tr>
 
