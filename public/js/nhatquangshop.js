@@ -343,7 +343,7 @@ var fastOrder = new Vue({
             this.isLoading = true;
             this.showSuccessMessage = false;
             this.showFailMessage = false;
-            axios.post(window.url + '/manage/save-fast-order', {
+            axios.post(window.url + '/manage/save-delivery-order', {
                 fastOrders: JSON.stringify(this.fastOrders)
             }).then(function (response) {
                 this.isLoading = false;

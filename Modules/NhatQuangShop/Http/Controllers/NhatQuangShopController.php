@@ -237,27 +237,6 @@ class NhatQuangShopController extends Controller
     }
 
     //code api dat hang nhanh
-    public function saveFastOrder(Request $request)
-    {
-        $user = Auth::user();
-        $email = $user->email;
-        $user_id = $user->id;
-        $address = $user->address;
-
-        $fast_orders = json_decode($request->fastOrders);
-        $response = $this->bookRepository->saveFastOrder($email, $address, $user_id, $fast_orders, $this->orderService->getTodayOrderId('delivery'));
-        if ($response['status'] === 1) {
-            return [
-                "fast_order" => $fast_orders,
-                "status" => 1,
-                "message" => $response['message'],
-            ];
-        }
-        return [
-            "status" => 0,
-            "message" => $response['message'],
-        ];
-    }
 
     public function test(Request $request)
     {
@@ -277,6 +256,4 @@ class NhatQuangShopController extends Controller
         Auth::logout();
         return redirect()->intended("/");
     }
-    // code cua cuong
-
 }

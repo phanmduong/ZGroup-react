@@ -35,6 +35,7 @@ class DeliveryOrderTransformer extends Transformer
             'debt' => $total - $paid,
             'attach_info' => $deliveryOrder->attach_info,
             'quantity' => $deliveryOrder->quantity,
+            'delivery_warehouse_status' => $deliveryOrder->delivery_warehouse_status,
             'paid_history' => $deliveryOrder->orderPaidMoneys->map(function ($orderPaidMoney) {
                 return [
                     "id" => $orderPaidMoney->id,

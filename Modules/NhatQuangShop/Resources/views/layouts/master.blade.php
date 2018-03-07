@@ -141,33 +141,6 @@
 
 </head>
 <body class="profile" style="background:#fafafa">
-<script>
-    var recaptchaCallBack = function (response) {
-        navVue.captcha = response;
-    };
-
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '{{config("app.facebook_app_id")}}',
-            autoLogAppEvents: true,
-            xfbml: true,
-            version: 'v2.11'
-        });
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
-
 <div class="modal fade" id="loginFailNoticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-sm modal-notice">
@@ -1052,41 +1025,5 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/nhatquangshop.js?68689"></script>
 <script src="/nhatquangshop/js/nav.vue.js"></script>
-<script>
-    window.fbMessengerPlugins = window.fbMessengerPlugins || {
-        init: function () {
-            FB.init({
-                appId: '1678638095724206',
-                autoLogAppEvents: true,
-                xfbml: true,
-                version: 'v2.10'
-            });
-        }, callable: []
-    };
-    window.fbAsyncInit = window.fbAsyncInit || function () {
-        window.fbMessengerPlugins.callable.forEach(function (item) {
-            item();
-        });
-        window.fbMessengerPlugins.init();
-    };
-    setTimeout(function () {
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    }, 0);
-</script>
-
-<div
-        class="fb-customerchat"
-        page_id="537987856382181"
-        ref="">
-</div>
 @stack('scripts')
 </html>

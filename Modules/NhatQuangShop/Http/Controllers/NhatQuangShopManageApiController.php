@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use Modules\Graphics\Repositories\BookRepository;
+use Modules\NhatQuangShop\Repositories\BookRepository;
 
 class NhatQuangShopManageApiController extends Controller
 {
@@ -109,8 +109,5 @@ class NhatQuangShopManageApiController extends Controller
             ];
 
         }
-
-
     }
-
 }

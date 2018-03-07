@@ -204,7 +204,7 @@ class BookRepository
         return null;
     }
 
-    public function saveFastOrder($email, $address, $user_id, $goods_arr, $todayOrderCount)
+    public function saveDeliveryOrder($email, $address, $user_id, $goods_arr, $todayOrderCount)
     {
         if ($goods_arr) {
             foreach ($goods_arr as $good) {
