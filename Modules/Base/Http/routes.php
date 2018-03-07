@@ -39,6 +39,7 @@ $roomRoutes = function () {
 $seatRoutes = function () {
     Route::get('available', 'ManageBaseApiController@availableSeats');
     Route::post('{seatId}/book', 'ManageBaseApiController@bookSeat');
+    Route::post('/register/{registerId}', 'ManageBaseApiController@chooseSeatHistory');
 };
 
 Route::group(['prefix' => 'v2/seat', 'namespace' => 'Modules\Base\Http\Controllers'], $seatRoutes);

@@ -405,6 +405,16 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
+    public function chooseSeatHistory($registerId)
+    {
+        $registerSeats = RoomServiceRegisterSeat::where('room_service_register_id', $registerId)->orderBy('created_at', 'desc')->get();
+        return $this->respondSuccessV2([
+            'register_seats' => $registerSeats->map(function ($registerSeat) {
+                return $registerSeat->transform();
+            })
+        ]);
+    }
+
     public function getRoomTypes(Request $request)
     {
         $search = $request->search;
