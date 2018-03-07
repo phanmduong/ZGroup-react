@@ -1,8 +1,9 @@
 <?php
 
-Route::group(['middleware' => 'web', 'domain' => 'zgroup.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], function () {
+Route::group(['middleware' => 'web', 'domain' => 'keetool3.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], function () {
     Route::get('/', 'ElightController@index');
     Route::get('/blog', 'ElightController@blog');
+    Route::get('/flush', 'ElightController@flush');
     Route::get('/about-us', 'ElightController@aboutUs');
     Route::get('/contact-us', 'ElightController@contactUs');
     Route::get('/all-books', 'ElightController@allBooks');
@@ -18,6 +19,13 @@ Route::group(['middleware' => 'web', 'domain' => 'zgroup.{subfix}', 'namespace' 
     Route::get('/district/{provinceId}', 'ElightController@districts');
 
     Route::get('/sach/{book_id}/{lesson_id?}', 'ElightController@book');
+
+    // Sending mail route
+    Route::post('/contact_information','ElightSendingMailController@contact_info');
+    Route::post('/index_information','ElightSendingMailController@index_info');
+    Route::post('/book_information','ElightSendingMailController@book_info');
+    Route::post('/aboutus_information','ElightSendingMailController@aboutus_info');
+    
 });
 
 $routes = function () {
@@ -25,3 +33,4 @@ $routes = function () {
 };
 Route::group(['domain' => 'api.keetool3.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], $routes);
 Route::group(['domain' => 'keetool3.{subfix}', 'prefix' => '/api/v3', 'namespace' => 'Modules\Elight\Http\Controllers'], $routes);
+

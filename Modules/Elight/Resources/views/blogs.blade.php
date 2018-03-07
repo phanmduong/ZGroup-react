@@ -1,7 +1,8 @@
 @extends('elight::layouts.master')
 
 @section('content')
-    <div class="page-header page-header-xs" style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15132416649MjXr1VTKC53cHy.png');">
+    <div class="page-header page-header-xs"
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15132416649MjXr1VTKC53cHy.png');">
         <div class="filter"></div>
         <div class="content-center">
             <div class="container">
@@ -9,8 +10,8 @@
                 <br><br>
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
-                        <h1 class="title"><b>Blogs</b></h1>
-                        <h5 class=description">Các bài viết chia sẻ kiến thức và thông tin</h5>
+                        <h1 class="title"><b>Sổ tay tự học</b></h1>
+                        <h5 class="description"> Học Tiếng Anh và chia sẻ kiến thức cùng Elight nhé </h5>
                         <br>
                     </div>
 
@@ -79,7 +80,7 @@
 
                             <div class="card-block">
                                 @if($blog->category)
-                                    <span class="label label-danger">{{$blog->category->name}}</span>
+                                    <span class="label label-danger" style="background-color: #138edc">{{$blog->category->name}}</span>
                                 @endif
                                 <h3 class="card-title">
                                     <a href="{{'/blog/post/'.$blog->id}}">{{$blog->title}}</a>
@@ -120,9 +121,60 @@
             <br>
         </div>
     </div>
+    
+    <div id="modalInfo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Quan tâm đến sản phẩm của Elight?</h4>
+                </div>
+                <div class="modal-header" id="modal-buy-body">
+                    <a style="text-align: center">Điền thông tin để Elight tư vấn sản phẩm học tiếng anh hiệu quả nhất với bạn !</a>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="GET">
+                        <div class="card-block">
+                            <div class="form-group label-floating">
+                                <label class="control-label">Họ và tên</label>
+                                <input id="name" type="text" name="name" class="form-control"
+                                    placeholder="Họ tên người nhận">
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Số điện thoại</label>
+                                <input id="phone" type="text" name="phone" class="form-control"
+                                    placeholder="Số điện thoại người nhận">
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Email</label>
+                                <input id="e-email" type="email" name="email" class="form-control"
+                                    placeholder="Điền chính xác email nếu có">
+                            </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#138edc; border-color:#138edc ">Gửi</button>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 @endsection
 
 @push('scripts')
+    <script>            
+        window.onload = function (e) {
+            setTimeout(function () {
+                $('#modalInfo').modal('show');
+            }, 60000);
+        };
+    </script>
+
     <script>
         var search = new Vue({
             el: '#search-blog',

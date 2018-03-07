@@ -12,12 +12,49 @@ use App\Seat;
 use App\Seats;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\RoomServiceRegisterSeat;
 
 class ManageBaseApiController extends ManageApiController
 {
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function bookSeat($seatId, Request $request)
+    {
+        $registerId = $request->register_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+
+        if (!isset($registerId) || !isset($startTime) || !isset($endTime)) {
+            return $this->respondErrorWithStatus('Bạn truyền lên thiếu dữ liệu');
+        }
+
+        $registerSeat = new RoomServiceRegisterSeat();
+        $registerSeat->room_service_register_id = $registerId;
+        $registerSeat->seat_id = $seatId;
+        $registerSeat->start_time = format_time_to_mysql((int)$startTime);
+        $registerSeat->end_time = format_time_to_mysql((int)$endTime);
+        $registerSeat->save();
+
+        return $this->respondSuccessV2([
+            'register_seat' => $registerSeat
+        ]);
+    }
+
+    public function getRoom($baseId)
+    {
+        $base = Base::find($baseId);
+        if ($base == null) {
+            return $this->respondErrorWithStatus('Cơ sở không tồn tại');
+        }
+        $rooms = $base->rooms;
+        return $this->respondSuccessV2([
+            'rooms' => $rooms->map(function ($room) {
+                return $room->getData();
+            })
+        ]);
     }
 
     public function getSeats($roomId)
@@ -368,6 +405,16 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
+    public function chooseSeatHistory($registerId)
+    {
+        $registerSeats = RoomServiceRegisterSeat::where('room_service_register_id', $registerId)->orderBy('created_at', 'desc')->get();
+        return $this->respondSuccessV2([
+            'register_seats' => $registerSeats->map(function ($registerSeat) {
+                return $registerSeat->transform();
+            })
+        ]);
+    }
+
     public function getRoomTypes(Request $request)
     {
         $search = $request->search;
@@ -421,13 +468,14 @@ class ManageBaseApiController extends ManageApiController
 
     public function availableSeats(Request $request)
     {
-        $request->from = str_replace('/', '-', $request->from);
-        $request->to = str_replace('/', '-', $request->to);
 //        dd($request->from . '   ' . $request->to);
+        $to = (int)$request->to;
+        $from = (int)$request->from;
 
         $seats = Seat::query();
         $booked_seats = Seat::query();
         $seats_count = Seat::query();
+
         if ($request->room_id) {
             $seats = $seats->where('room_id', $request->room_id);
             $booked_seats = $booked_seats->where('room_id', $request->room_id);
@@ -435,22 +483,26 @@ class ManageBaseApiController extends ManageApiController
                 ->orderBy('created_at', 'desc')->count();
         }
         $seats = $seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
-        $seats = $seats->where(function ($query) use ($request) {
+        $seats = $seats->where(function ($query) use ($to, $from) {
             $query->where('room_service_register_seat.start_time', '=', null)
-                ->orWhere('room_service_register_seat.start_time', '>', date('Y-m-d H:i:s', strtotime($request->to)))
-                ->orWhere('room_service_register_seat.end_time', '<', date('Y-m-d H:i:s', strtotime($request->from)));
+                ->orWhere('room_service_register_seat.start_time', '>', date('Y-m-d H:i:s', $to))
+                ->orWhere('room_service_register_seat.end_time', '<', date('Y-m-d H:i:s', $from));
         })->groupBy('seats.id')->select('seats.*')->get();
 
-        $booked_seats = $booked_seats->leftJoin('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
-        $booked_seats = $booked_seats->where(function ($query) use ($request) {
-            $query->where(function ($query) use ($request) {
-                $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', strtotime($request->to)))
-                    ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', strtotime($request->to)));
+        $booked_seats = $booked_seats->join('room_service_register_seat', 'seats.id', '=', 'room_service_register_seat.seat_id');
+        $booked_seats = $booked_seats->where(function ($query) use ($to, $from) {
+            $query->where(function ($query) use ($to) {
+                $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', $to))
+                    ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', $to));
             })
-                ->orWhere(function ($query) use ($request) {
-                    $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', strtotime($request->from)))
-                        ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', strtotime($request->from)));
-                });
+            ->orWhere(function ($query) use ($from) {
+                $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', $from))
+                    ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', $from));
+            })
+            ->orWhere(function ($query) use ($from, $to) {
+                $query->where('room_service_register_seat.start_time', '>=', date('Y-m-d H:i:s', $from))
+                    ->where('room_service_register_seat.end_time', '<=', date('Y-m-d H:i:s', $to));
+            });
         })->groupBy('seats.id')->select('seats.*')->get();
         return $this->respondSuccessWithStatus([
             'seats' => $seats->map(function ($seat) {

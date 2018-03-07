@@ -173,7 +173,7 @@ var modalPurchase = new Vue({
         email: "",
         address: "",
         // payment: 'Thanh toán online',
-        payment: "Chuyển khoản",
+        payment: "Thanh toán trực tiếp khi nhận hàng(COD)",
         provinceid: "",
         districtid: "",
         wardid: "",
