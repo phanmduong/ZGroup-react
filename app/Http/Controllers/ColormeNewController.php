@@ -13,6 +13,7 @@ use App\Repositories\CourseRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\CourseCategory;
 
 class ColormeNewController extends CrawlController
 {
@@ -36,10 +37,20 @@ class ColormeNewController extends CrawlController
     public function home($saler_id = null, $campaign_id = null)
     {
         $current_gen = Gen::getCurrentGen();
+        $categories = CourseCategory::all();
+        $categories = $categories->filter(function($category){
+            $courses = $category->courses;
+            $courses_count = $courses->reduce(function($count, $course){
+                return $count + $course->status; 
+            }, 0);
+            return $courses_count > 0;
+        });
+        
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
         $this->data['gen_cover'] = $current_gen->cover_url;
         $this->data['saler'] = User::find($saler_id);
+        $this->data['categories'] = $categories;
         return view('colorme_new.home', $this->data);
     }
 
