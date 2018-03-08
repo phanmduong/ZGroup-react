@@ -109,7 +109,7 @@ class StaffApiController extends ManageApiController
                 $staffs,
                 [
                     "staffs" => $staffs->map(function ($staff) {
-                        return $staff->getData()
+                        return $staff->getData();
                     })
                 ]
             );
