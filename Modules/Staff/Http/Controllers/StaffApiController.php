@@ -109,11 +109,7 @@ class StaffApiController extends ManageApiController
                 $staffs,
                 [
                     "staffs" => $staffs->map(function ($staff) {
-                        return [
-                            "id" => $staff->id,
-                            "name" => $staff->name,
-                            "avatar_url" => $staff->avatar_url ? $staff->avatar_url : defaultAvatarUrl()
-                        ];
+                        return $staff->getData()
                     })
                 ]
             );
