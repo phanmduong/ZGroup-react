@@ -196,6 +196,18 @@ class CheckInCheckOutController extends ManageApiController
             ]);
 
         }
+        if ($checkIn->status === 6) {
+
+//            $this->notificationRepository->sendConfirmCheckInTeachNotification();
+            return $this->respondSuccessWithStatus([
+                "check_in" => [
+                    'time' => format_time(strtotime($checkIn->created_at)),
+                    'base' => $checkIn->base ? $checkIn->base->name : "",
+                ],
+                "message" => $checkIn->message
+            ]);
+
+        }
         if ($checkIn->status === 5) {
             return $this->respondErrorWithData([
                 "check_in" => [
