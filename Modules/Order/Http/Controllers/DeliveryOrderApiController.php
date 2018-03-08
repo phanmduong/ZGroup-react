@@ -58,6 +58,8 @@ class DeliveryOrderApiController extends ManageApiController
     {
         $limit = $request->limit ? $request->limit : 20;
         $keyWord = $request->search;
+        $javCode = $request->javCode;
+        $link = $request->link;
 
         $deliveryOrders = Order::where('type', 'delivery');
         //queries
@@ -135,8 +137,8 @@ class DeliveryOrderApiController extends ManageApiController
             'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('delivery') + 1, 4, '0', STR_PAD_LEFT);
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-            'message' => 'Thiếu thông tin người dùng'
-        ]);
+                'message' => 'Thiếu thông tin người dùng'
+            ]);
 
         $order = new Order;
         $this->assignDeliveryOrderInfo($order, $request);
@@ -150,15 +152,15 @@ class DeliveryOrderApiController extends ManageApiController
     {
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-            'message' => 'Thiếu thông tin người dùng'
-        ]);
+                'message' => 'Thiếu thông tin người dùng'
+            ]);
 
         $order = Order::find($orderId);
         $request->code = $order->code;
         if ($order == null)
             return $this->respondErrorWithStatus([
-            'message' => 'Không tồn tại đơn hàng'
-        ]);
+                'message' => 'Không tồn tại đơn hàng'
+            ]);
         $this->assignDeliveryOrderInfo($order, $request);
         $order->save();
 
@@ -283,8 +285,8 @@ class DeliveryOrderApiController extends ManageApiController
         $response = $this->orderService->changeDeliveryOrderStatus($deliveryOrderId, $request, $this->user->id);
         if ($response['status'] == 0)
             return $this->respondErrorWithStatus([
-            'message' => $response['message']
-        ]);
+                'message' => $response['message']
+            ]);
         return $this->respondSuccessWithStatus([
             'message' => $response['message']
         ]);
@@ -394,8 +396,8 @@ class DeliveryOrderApiController extends ManageApiController
             return $this->respondErrorWithStatus('Vui lòng nhập số tiền lớn hơn 0');
         $user = User::find($deliveryOrder->user_id);
         $debt = $deliveryOrder->price - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-            return $paid + $orderPaidMoney->money;
-        }, 0);
+                return $paid + $orderPaidMoney->money;
+            }, 0);
         if ($debt == 0)
             return $this->respondErrorWithStatus('Đơn hàng đã được thanh toán xong trước đó');
         $money = 0;

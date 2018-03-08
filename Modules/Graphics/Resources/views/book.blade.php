@@ -277,4 +277,9 @@
         </div>
         <hr style="margin: 0!important;">
     </div>
+    <div class="container">
+        <div class="row">
+            {!! $properties['preview'] !!}
+        </div>
+    </div>
 @endsection

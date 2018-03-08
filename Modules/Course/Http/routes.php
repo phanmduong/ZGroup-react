@@ -40,6 +40,7 @@ $v2ManageCourseRoutes = function () {
 $v2CourseRoutes = function () {
     Route::group(['prefix' => 'v2/course'], function () {
         Route::get('/get-all', 'CoursePublicApiController@getAllCourses');
+        Route::get('/get-all/app', 'CoursePublicApiController@getAllCoursesApp');
         Route::get('/get-detailed/{course_id}', 'CoursePublicApiController@getCourse');
     });
 };
