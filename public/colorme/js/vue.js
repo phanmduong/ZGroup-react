@@ -138,14 +138,14 @@ var modalLogin = new Vue({
                             //     this.hasError = true;
                             //     toastr.error(res.data.error);
                             // }
-                        }.bind(this),
+                        }.bind(this)
                     )
                     .catch(
                         function (error) {
                             this.isLoading = false;
                             this.hasError = true;
                             toastr.error(error.response.data.error);
-                        }.bind(this),
+                        }.bind(this)
                     );
             }
         },
