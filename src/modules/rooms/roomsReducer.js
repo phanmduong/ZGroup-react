@@ -85,7 +85,6 @@ export default function rolesReducer(state = initialState.rooms, action) {
             return {
                 ...state,
                 showEditRoomModal: !state.showEditRoomModal,
-                indexEditModal: action.index
             };
         case types.HANDLE_ROOM_EDIT_MODAL:
             return {

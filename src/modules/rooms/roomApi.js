@@ -55,16 +55,17 @@ export function changeAvatarApi(file, completeHandler, progressHandler, error) {
 }
 
 export function storeRoom(room) {
-    let url = env.MANAGE_API_URL + "/base/room";
+    let url = env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.post(url, {
-        id: room.id ? room.id : '',
         name: room.name ? room.name : '',
-        base_id: room.base_id ? room.base_id : '',
+        type: room.room_type.id,
+        seats_count: room.seats_count,
+        images_url: room.images_url ? room.images_url : '[]',
+        avatar_url: room.avatar_url ? room.avatar_url : ''
     });
 }
 

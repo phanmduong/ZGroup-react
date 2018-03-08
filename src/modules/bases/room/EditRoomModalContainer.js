@@ -92,8 +92,8 @@ class EditRoomModalContainer extends React.Component {
         let room = this.props.room;
         return (
             <Modal show={this.props.showEditRoomModal}
-                   onHide={() => this.props.roomActions.showRoomEditModal(-1)}>
-                <a onClick={() => this.props.roomActions.showRoomEditModal(-1)}
+                   onHide={() => this.props.roomActions.showRoomEditModal()}>
+                <a onClick={() => this.props.roomActions.showRoomEditModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title>{this.props.isEditRoom ? "Sửa phòng" : "Tạo phòng"}</Modal.Title>

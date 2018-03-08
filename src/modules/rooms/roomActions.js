@@ -162,10 +162,9 @@ export function editRoom(room) {
     };
 }
 
-export function showRoomEditModal(index) {
+export function showRoomEditModal() {
     return {
         type: types.TOGGLE_ROOM_EDIT_MODAL,
-        index
     };
 }
 

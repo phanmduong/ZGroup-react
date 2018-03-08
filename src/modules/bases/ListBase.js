@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {avatarEmpty, shortString} from "../../helpers/helper";
+
 //import {Link} from "react-router";
 
 
@@ -14,8 +15,8 @@ class ListBase extends React.Component {
         return (
             <div className="row" id="list-base">
                 {this.props.bases && this.props.bases.map((base) => {
-                    let address_description = base.address + base.district;
-                    address_description = address_description.substring(0, 50) + "...";
+                    let address_description = base.address + " " + (base.district && base.district.name) + " " + (base.province && base.province.name);
+                    address_description = address_description < 51 ? address_description : (address_description.substring(0, 50) + " ...");
                     let imageUrl = !avatarEmpty(base.avatar_url) ? base.avatar_url : 'https://d3pxppq3195xue.cloudfront.net/media/images/15/12/09/SAM_0561_966x668.jpg';
                     return (
                         <div className="col-sm-4" key={base.id} id="card-email-template">
@@ -50,7 +51,6 @@ class ListBase extends React.Component {
                                     </div>
                                     <div style={{display: "flex", justifyContent: "space-between", height: 60}}>
                                         <p className="category">{address_description}</p>
-
                                     </div>
                                 </div>
                             </div>

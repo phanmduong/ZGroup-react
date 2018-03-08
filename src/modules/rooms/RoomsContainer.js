@@ -83,10 +83,10 @@ class RoomsContainer extends React.Component {
             value: 'Tất cả'
         }, ...baseData];
     }
-    
 
-    openModal(index, room) {
-        this.props.roomActions.showRoomEditModal(index);
+
+    openModal(room) {
+        this.props.roomActions.showRoomEditModal();
         this.props.roomActions.handleRoomEditModal(room);
     }
 
@@ -123,7 +123,7 @@ class RoomsContainer extends React.Component {
                                         />
                                         <div style={{marginTop: "15px"}}>
                                             <div className="col-md-3">
-                                                <a className="btn btn-rose" onClick={this.openModal}>
+                                                <a className="btn btn-rose" onClick={() => this.openModal({})}>
                                                     Thêm phòng
                                                 </a>
                                             </div>
@@ -178,7 +178,7 @@ function mapStateToProps(state) {
         totalPages: state.rooms.totalPages,
         rooms: state.rooms.rooms,
         bases: state.rooms.bases,
-        isStoringRoom:state.rooms.isStoringRoom
+        isStoringRoom: state.rooms.isStoringRoom
     };
 }
 

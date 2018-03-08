@@ -1504,7 +1504,6 @@ export default {
         errorStoreRoom: false,
         room: {},
         showEditRoomModal: false,
-        indexEditModal: -1,
         isStoringRoom: false,
         isEditRoom: false,
         bases: [],
