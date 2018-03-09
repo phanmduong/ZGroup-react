@@ -221,10 +221,13 @@
                 phone: '',
                 message: '',
                 alert: '',
+                saler_id: {{$saler_id}},
+                campaign_id: {{$campaign_id}},
                 isLoading: false
             },
             methods: {
                 submit: function () {
+                    this.alert = "sdasdasd";
                     if (this.name === '' || this.email === '' || this.phone === '' || this.message === '') {
                         this.alert = 'Bạn vui lòng nhập đủ thông tin';
                         return;
@@ -235,9 +238,8 @@
                         phone: this.phone,
                         email: this.email,
                         message: this.message,
-                        saler_id: {{$saler_id}}, 
-                        campaign_id: {{$campaign_id}},
-                        base_id: {{$base_id}}
+                        saler_id: this.saler_id,
+                        campaign_id: this.campaign_id,
                         _token: window.token
                     })
                         .then(function (response) {

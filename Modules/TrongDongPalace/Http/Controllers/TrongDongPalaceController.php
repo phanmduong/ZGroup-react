@@ -163,7 +163,7 @@ class TrongDongPalaceController extends Controller
         return 'OK';
     }
 
-    public function booking(Request $request, $salerId = null, $campaignId = null)
+    public function booking(Request $request, $salerId = 0, $campaignId = 0)
     {
         $rooms = Room::query();
         $room_type_id = $request->room_type_id;
