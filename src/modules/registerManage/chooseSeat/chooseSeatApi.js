@@ -1,6 +1,5 @@
 import axios from "axios";
 import * as env from "../../../constants/env";
-import { register } from "../../workShiftRegisters/workShiftRegisterApi";
 
 export function getRooms(baseId) {
     let url = `${env.MANAGE_API_URL_V3}/base/${baseId}/rooms`;

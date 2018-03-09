@@ -387,7 +387,7 @@ class EditRoomModalContainer extends React.Component {
                                                 style={{
                                                     width: `${
                                                         this.props
-                                                            .colorPercentUploaded
+                                                            .coverPercentUploaded
                                                     }%`,
                                                 }}
                                             >
