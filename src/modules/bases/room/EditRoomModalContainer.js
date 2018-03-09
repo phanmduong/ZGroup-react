@@ -8,6 +8,8 @@ import * as helper from "../../../helpers/helper";
 import * as roomActions from "../../rooms/roomActions";
 import Select from "react-select";
 import TooltipButton from "../../../components/common/TooltipButton";
+import ReactEditor from "../../../components/common/ReactEditor";
+import {linkUploadImageEditor} from "../../../constants/constants";
 
 class EditRoomModalContainer extends React.Component {
     constructor(props, context) {
@@ -21,6 +23,7 @@ class EditRoomModalContainer extends React.Component {
         this.onChangeTypeForm = this.onChangeTypeForm.bind(this);
         this.changeCover = this.changeCover.bind(this);
         this.onChangeRoomCoverType = this.onChangeRoomCoverType.bind(this);
+        this.updateEditorContent = this.updateEditorContent.bind(this);
     }
 
     onChangeRoomCoverType(option) {
@@ -99,10 +102,12 @@ class EditRoomModalContainer extends React.Component {
         let room = this.props.room;
         if (
             helper.isEmptyInput(room.name)
-            || helper.isEmptyInput(room.address)
+            || helper.isEmptyInput(room.room_type)
+            || helper.isEmptyInput(room.base_id)
         ) {
             if (helper.isEmptyInput(room.name)) helper.showErrorNotification("Bạn cần nhập Tên phòng");
-            if (helper.isEmptyInput(room.address)) helper.showErrorNotification("Bạn cần nhập Địa chỉ");
+            if (helper.isEmptyInput(room.room_type)) helper.showErrorNotification("Bạn cần chọn Loại phòng");
+            if (helper.isEmptyInput(room.base_id)) helper.showErrorNotification("Bạn cần chọn Cơ sở");
         } else {
             if (room.id) {
                 this.props.roomActions.editRoom(room);
@@ -110,6 +115,14 @@ class EditRoomModalContainer extends React.Component {
                 this.props.roomActions.storeRoom(room);
             }
         }
+    }
+
+    updateEditorContent(value) {
+        let room = {
+            ...this.props.room,
+            detail: value
+        };
+        this.props.roomActions.handleRoomEditModal(room);
     }
 
     render() {
@@ -439,6 +452,23 @@ class EditRoomModalContainer extends React.Component {
                                 updateFormData={this.updateFormData}
                                 value={room.seats_count || ""}
                             />
+                            <div className="form-group">
+                                <label className="label-control">Mô tả</label>
+                                <textarea type="text" className="form-control"
+                                          value={room.description ? room.description : ''}
+                                          name="description"
+                                          onChange={this.updateFormData}/>
+                                <span className="material-input"/>
+                            </div>
+                            <div className="form-group">
+                                <h4 className="label-control">Chi tiết phòng</h4>
+                                <ReactEditor
+                                    urlPost={linkUploadImageEditor()}
+                                    fileField="image"
+                                    updateEditor={this.updateEditorContent}
+                                    value={room.detail || ''}
+                                />
+                            </div>
                             <div className="form-group">
                                 <label className="label-control">
                                     Chọn cơ sở
