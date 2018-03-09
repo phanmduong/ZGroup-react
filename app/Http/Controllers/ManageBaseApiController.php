@@ -177,6 +177,7 @@ class ManageBaseApiController extends ManageApiController
                     'cover_type' => $room->cover_type,
                     'description' => $room->description,
                     'detail' => $room->detail,
+                    'seats_count' => $room->seats_count
                 ];
                 if ($room->room_type_id) {
                     $data['room_type'] = RoomType::find($room->room_type_id)->getData();
