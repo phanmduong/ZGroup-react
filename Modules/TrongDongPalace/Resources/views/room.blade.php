@@ -6,11 +6,11 @@
         background-color:#BA8A45!important;
     }
 </style>    
-@if($room->cover_type == "360_STEREO")
+@if($room->cover_type == "360_STEREO" || $room->cover_type == "360")
     <div style="margin-top: 70px;" id='vrview'></div>
 @endif
 
-@if($room->color_type == "")
+@if($room->cover_type == "")
     <div style="margin-top: 70px;background-image:url('{{$room->cover_url}}');background-size:cover;background-position:center;height:600px">                
     </div>
 @endif
@@ -77,9 +77,9 @@
             </div>    
                
 </div>
-<script src="http://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
+<script src="https://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
 
-@if($room->cover_type == "360_STEREO")
+@if($room->cover_type == "360_STEREO" || $room->cover_type == "360")
     <script>
         window.addEventListener('load', onVrViewLoad);
 
@@ -88,7 +88,7 @@
             // console.log("test");
             var vrView = new VRView.Player('#vrview', {
                 image: '{{$room->cover_url}}',
-                is_stereo: true,
+                is_stereo: {{$room->cover_type == "360" ? "false" : "true"}},
                 width: '100%',
                 height: 600,
             });
