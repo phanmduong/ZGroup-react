@@ -53,4 +53,14 @@ class TeachingLesson extends Model
     {
         return $this->belongsTo(ClassPosition::class, 'class_position_id');
     }
+
+    public function check_in()
+    {
+        return $this->belongsTo(CheckInCheckOut::class, "checkin_id");
+    }
+
+    public function check_out()
+    {
+        return $this->belongsTo(CheckInCheckOut::class, "checkout_id");
+    }
 }
