@@ -1,15 +1,15 @@
 import React from "react";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import FormInputText from "../../../components/common/FormInputText";
-import {Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import * as helper from "../../../helpers/helper";
 import * as roomActions from "../../rooms/roomActions";
 import Select from "react-select";
 import TooltipButton from "../../../components/common/TooltipButton";
 import ReactEditor from "../../../components/common/ReactEditor";
-import {linkUploadImageEditor} from "../../../constants/constants";
+import { linkUploadImageEditor } from "../../../constants/constants";
 
 class EditRoomModalContainer extends React.Component {
     constructor(props, context) {
@@ -101,13 +101,16 @@ class EditRoomModalContainer extends React.Component {
     storeRoom() {
         let room = this.props.room;
         if (
-            helper.isEmptyInput(room.name)
-            || helper.isEmptyInput(room.room_type)
-            || helper.isEmptyInput(room.base_id)
+            helper.isEmptyInput(room.name) ||
+            helper.isEmptyInput(room.room_type) ||
+            helper.isEmptyInput(room.base_id)
         ) {
-            if (helper.isEmptyInput(room.name)) helper.showErrorNotification("Bạn cần nhập Tên phòng");
-            if (helper.isEmptyInput(room.room_type)) helper.showErrorNotification("Bạn cần chọn Loại phòng");
-            if (helper.isEmptyInput(room.base_id)) helper.showErrorNotification("Bạn cần chọn Cơ sở");
+            if (helper.isEmptyInput(room.name))
+                helper.showErrorNotification("Bạn cần nhập Tên phòng");
+            if (helper.isEmptyInput(room.room_type))
+                helper.showErrorNotification("Bạn cần chọn Loại phòng");
+            if (helper.isEmptyInput(room.base_id))
+                helper.showErrorNotification("Bạn cần chọn Cơ sở");
         } else {
             if (room.id) {
                 this.props.roomActions.editRoom(room);
@@ -120,7 +123,7 @@ class EditRoomModalContainer extends React.Component {
     updateEditorContent(value) {
         let room = {
             ...this.props.room,
-            detail: value
+            detail: value,
         };
         this.props.roomActions.handleRoomEditModal(room);
     }
@@ -128,10 +131,14 @@ class EditRoomModalContainer extends React.Component {
     render() {
         let room = this.props.room;
         return (
-            <Modal show={this.props.showEditRoomModal}
-                   onHide={() => this.props.roomActions.showRoomEditModal()}>
-                <a onClick={() => this.props.roomActions.showRoomEditModal()}
-                   id="btn-close-modal"/>
+            <Modal
+                show={this.props.showEditRoomModal}
+                onHide={() => this.props.roomActions.showRoomEditModal()}
+            >
+                <a
+                    onClick={() => this.props.roomActions.showRoomEditModal()}
+                    id="btn-close-modal"
+                />
 
                 <Modal.Header closeButton>
                     <Modal.Title>
@@ -157,7 +164,7 @@ class EditRoomModalContainer extends React.Component {
                                                 style={{
                                                     width: `${
                                                         this.props.percent
-                                                        }%`,
+                                                    }%`,
                                                 }}
                                             >
                                                 <span className="sr-only">
@@ -223,97 +230,155 @@ class EditRoomModalContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div><br/>
+                        <div>
+                            <br />
                             <label className="label-control">Ảnh mô tả</label>
                             <div className="box">
-                                {room.images_url && JSON.parse(room.images_url).map((image, index) => {
-                                        return (
-                                            <div key={index}
-                                                 style={{
-                                                     padding: "3px",
-                                                 }}>
-                                                <div className="container-for-images">
-                                                    <img style={{
-                                                        width: "100%",
-                                                        height: "100%",
-                                                        background: "url(" + image + ") center center / cover",
-                                                        position: "absolute",
-                                                        left: "0",
-                                                        borderRadius: "5px",
+                                {room.images_url &&
+                                    JSON.parse(room.images_url).map(
+                                        (image, index) => {
+                                            return (
+                                                <div
+                                                    key={index}
+                                                    style={{
+                                                        padding: "3px",
                                                     }}
-                                                         data-original-title=""/>
-                                                    <div className="overlay-for-images"/>
-                                                    <TooltipButton text="Xóa" placement="top">
-                                                        <div className="button-for-images">
-                                                            <a rel="tooltip"
-                                                               onClick={() => this.props.roomActions.deleteImage(image)}
-                                                               data-original-title="" title="">
-                                                                <i className="material-icons">close</i>
-                                                            </a>
-                                                        </div>
-                                                    </TooltipButton>
+                                                >
+                                                    <div className="container-for-images">
+                                                        <img
+                                                            style={{
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                background:
+                                                                    "url(" +
+                                                                    image +
+                                                                    ") center center / cover",
+                                                                position:
+                                                                    "absolute",
+                                                                left: "0",
+                                                                borderRadius:
+                                                                    "5px",
+                                                            }}
+                                                            data-original-title=""
+                                                        />
+                                                        <div className="overlay-for-images" />
+                                                        <TooltipButton
+                                                            text="Xóa"
+                                                            placement="top"
+                                                        >
+                                                            <div className="button-for-images">
+                                                                <a
+                                                                    rel="tooltip"
+                                                                    onClick={() =>
+                                                                        this.props.roomActions.deleteImage(
+                                                                            image,
+                                                                        )
+                                                                    }
+                                                                    data-original-title=""
+                                                                    title=""
+                                                                >
+                                                                    <i className="material-icons">
+                                                                        close
+                                                                    </i>
+                                                                </a>
+                                                            </div>
+                                                        </TooltipButton>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    },
-                                )}
+                                            );
+                                        },
+                                    )}
                                 {
-                                    <div style={{
-                                        padding: "3px",
-                                    }}>
-                                        <div className="flex-row-center flex-justify-content-center"
-                                             style={{
-                                                 width: "100%",
-                                                 height: "100px",
-                                                 backgroundColor: "#e8e8e8",
-                                                 position: "relative",
-                                                 borderRadius: "5px",
-                                                 cursor: "pointer",
-                                                 marginTop: "10px",
-                                                 marginBottom: "10px",
-                                             }}>
-                                            <TooltipButton text="Tải ảnh" placement="top">
+                                    <div
+                                        style={{
+                                            padding: "3px",
+                                        }}
+                                    >
+                                        <div
+                                            className="flex-row-center flex-justify-content-center"
+                                            style={{
+                                                width: "100%",
+                                                height: "100px",
+                                                backgroundColor: "#e8e8e8",
+                                                position: "relative",
+                                                borderRadius: "5px",
+                                                cursor: "pointer",
+                                                marginTop: "10px",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            <TooltipButton
+                                                text="Tải ảnh"
+                                                placement="top"
+                                            >
                                                 <label>
-                                                    <i className="material-icons"
-                                                       style={{
-                                                           fontSize: "40px",
-                                                           color: "#919191",
-                                                           cursor: "pointer",
-                                                       }}>add_a_photo</i>
-                                                    <input multiple
-                                                           onChange={this.handleImages}
-                                                           style={{
-                                                               cursor: this.props.isUploadingImage ? "not-allowed" : "pointer",
-                                                               position: "absolute",
-                                                               top: 0,
-                                                               left: 0,
-                                                               bottom: 0,
-                                                               right: 0,
-                                                               width: "100%",
-                                                               height: "100%",
-                                                           }}
-                                                           type={this.props.isUploadingImage ? "text" : "file"}
+                                                    <i
+                                                        className="material-icons"
+                                                        style={{
+                                                            fontSize: "40px",
+                                                            color: "#919191",
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >
+                                                        add_a_photo
+                                                    </i>
+                                                    <input
+                                                        multiple
+                                                        onChange={
+                                                            this.handleImages
+                                                        }
+                                                        style={{
+                                                            cursor: this.props
+                                                                .isUploadingImage
+                                                                ? "not-allowed"
+                                                                : "pointer",
+                                                            position:
+                                                                "absolute",
+                                                            top: 0,
+                                                            left: 0,
+                                                            bottom: 0,
+                                                            right: 0,
+                                                            width: "100%",
+                                                            height: "100%",
+                                                        }}
+                                                        type={
+                                                            this.props
+                                                                .isUploadingImage
+                                                                ? "text"
+                                                                : "file"
+                                                        }
                                                     />
                                                 </label>
                                             </TooltipButton>
 
                                             {this.props.isUploadingImage && (
-                                                <div className="progress"
-                                                     style={{
-                                                         position: "absolute",
-                                                         left: 0,
-                                                         bottom: 0,
-                                                         width: "100%",
-                                                         zIndex: "100",
-                                                         marginBottom: "0",
-                                                     }}>
-                                                    <div className="progress-bar"
-                                                         role="progressbar"
-                                                         aria-valuenow="70"
-                                                         aria-valuemin="0"
-                                                         aria-valuemax="100"
-                                                         style={{width: `${this.props.percent}%`}}>
-                                                        <span className="sr-only">{this.props.percent}Complete</span>
+                                                <div
+                                                    className="progress"
+                                                    style={{
+                                                        position: "absolute",
+                                                        left: 0,
+                                                        bottom: 0,
+                                                        width: "100%",
+                                                        zIndex: "100",
+                                                        marginBottom: "0",
+                                                    }}
+                                                >
+                                                    <div
+                                                        className="progress-bar"
+                                                        role="progressbar"
+                                                        aria-valuenow="70"
+                                                        aria-valuemin="0"
+                                                        aria-valuemax="100"
+                                                        style={{
+                                                            width: `${
+                                                                this.props
+                                                                    .percent
+                                                            }%`,
+                                                        }}
+                                                    >
+                                                        <span className="sr-only">
+                                                            {this.props.percent}Complete
+                                                        </span>
                                                     </div>
                                                 </div>
                                             )}
@@ -421,10 +486,10 @@ class EditRoomModalContainer extends React.Component {
                                         room.cover_type ? room.cover_type : ""
                                     }
                                     options={[
-                                        {label: "Ảnh thường", value: ""},
-                                        {label: "Ảnh 360", value: "360"},
+                                        { label: "Ảnh thường", value: "" },
+                                        { label: "Ảnh 360", value: "360" },
                                         {
-                                            label: "360 - stereo",
+                                            label: "Ảnh 360 - stereo",
                                             value: "360_STEREO",
                                         },
                                     ]}
@@ -434,7 +499,7 @@ class EditRoomModalContainer extends React.Component {
                             </div>
                         </div>
 
-                        <br/>
+                        <br />
 
                         <form role="form" id="form-add-room">
                             <FormInputText
@@ -454,19 +519,26 @@ class EditRoomModalContainer extends React.Component {
                             />
                             <div className="form-group">
                                 <label className="label-control">Mô tả</label>
-                                <textarea type="text" className="form-control"
-                                          value={room.description ? room.description : ''}
-                                          name="description"
-                                          onChange={this.updateFormData}/>
-                                <span className="material-input"/>
+                                <textarea
+                                    type="text"
+                                    className="form-control"
+                                    value={
+                                        room.description ? room.description : ""
+                                    }
+                                    name="description"
+                                    onChange={this.updateFormData}
+                                />
+                                <span className="material-input" />
                             </div>
                             <div className="form-group">
-                                <h4 className="label-control">Chi tiết phòng</h4>
+                                <h4 className="label-control">
+                                    Chi tiết phòng
+                                </h4>
                                 <ReactEditor
                                     urlPost={linkUploadImageEditor()}
                                     fileField="image"
                                     updateEditor={this.updateEditorContent}
-                                    value={room.detail || ''}
+                                    value={room.detail || ""}
                                 />
                             </div>
                             <div className="form-group">
@@ -475,7 +547,7 @@ class EditRoomModalContainer extends React.Component {
                                 </label>
                                 <Select
                                     name="categories"
-                                    value={room.base_id ? room.base_id : ''}
+                                    value={room.base_id ? room.base_id : ""}
                                     options={this.props.bases.map(base => {
                                         return {
                                             ...base,
@@ -493,7 +565,9 @@ class EditRoomModalContainer extends React.Component {
                                 </label>
                                 <Select
                                     name="type"
-                                    value={room.room_type ? room.room_type.id : ""}
+                                    value={
+                                        room.room_type ? room.room_type.id : ""
+                                    }
                                     options={this.props.types.map(type => {
                                         return {
                                             ...type,
@@ -510,8 +584,8 @@ class EditRoomModalContainer extends React.Component {
                                     className="btn btn-rose disabled"
                                     type="button"
                                 >
-                                    <i className="fa fa-spinner fa-spin"/>
-                                    {room.id ? "Đang lưu" : "Đang tạo"}
+                                    <i className="fa fa-spinner fa-spin" />
+                                    {room.id ? " Đang lưu" : " Đang tạo"}
                                 </button>
                             ) : (
                                 <button
@@ -567,4 +641,6 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditRoomModalContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    EditRoomModalContainer,
+);
