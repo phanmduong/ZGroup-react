@@ -39,6 +39,7 @@ $roomRoutes = function () {
 $seatRoutes = function () {
     Route::get('available', 'ManageBaseApiController@availableSeats');
     Route::post('{seatId}/book', 'ManageBaseApiController@bookSeat');
+    Route::get('/all', 'ManageBaseApiController@getHistoryBookSeat');
     Route::post('/register/{registerId}', 'ManageBaseApiController@chooseSeatHistory');
 };
 
@@ -67,7 +68,7 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'namespace' => 'Modules
 // new api routes
 
 Route::group(
-    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Base\Http\Controllers'],
+        ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Base\Http\Controllers'],
     function () use ($baseRoutes, $provinceRoutes, $roomRoutes, $seatRoutes) {
         Route::group(['prefix' => 'v3'], $baseRoutes);
         Route::group(['prefix' => 'v3'], $provinceRoutes);

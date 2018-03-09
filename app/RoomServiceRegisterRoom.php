@@ -10,7 +10,6 @@ class RoomServiceRegisterRoom extends Model
     {
         return $this->belongsTo(RoomServiceRegister::class, 'room_service_register_id');
     }
-
     public function room()
     {
         return $this->belongsTo(Room::class, 'room_id');

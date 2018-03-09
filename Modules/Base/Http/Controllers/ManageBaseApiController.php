@@ -30,7 +30,6 @@ class ManageBaseApiController extends ManageApiController
         if (!isset($registerId) || !isset($startTime) || !isset($endTime)) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu dữ liệu');
         }
-
         $registerSeat = new RoomServiceRegisterSeat();
         $registerSeat->room_service_register_id = $registerId;
         $registerSeat->seat_id = $seatId;
@@ -158,6 +157,15 @@ class ManageBaseApiController extends ManageApiController
             'provinces' => $provinces
         ]);
     }
+    public function getHistoryBookSeat(){
+        $seats = RoomServiceRegisterSeat::all();
+        $seats = $seats->map(function ($seat){
+          $data = $seat->transform();
+          return $data;
+        });
+        return $seats;
+    }
+
 
     public function getBases(Request $request)
     {
