@@ -10,7 +10,7 @@
     <div style="margin-top: 70px;" id='vrview'></div>
 @endif
 
-@if($room->color_type == "")
+@if($room->cover_type == "")
     <div style="margin-top: 70px;background-image:url('{{$room->cover_url}}');background-size:cover;background-position:center;height:600px">                
     </div>
 @endif
@@ -77,7 +77,7 @@
             </div>    
                
 </div>
-<script src="http://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
+<script src="https://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
 
 @if($room->cover_type == "360_STEREO" || $room->cover_type == "360")
     <script>
