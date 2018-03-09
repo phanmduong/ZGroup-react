@@ -115,7 +115,6 @@ class EditRoomModalContainer extends React.Component {
     render() {
         let room = this.props.room;
         return (
-
             <Modal show={this.props.showEditRoomModal}
                    onHide={() => this.props.roomActions.showRoomEditModal()}>
                 <a onClick={() => this.props.roomActions.showRoomEditModal()}
@@ -129,7 +128,7 @@ class EditRoomModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="form-group">
                         <div className="row">
-                            <div className="col-md-12 col-sm-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <label className="label-control">
                                     Ảnh đại diện
                                 </label>
@@ -211,157 +210,97 @@ class EditRoomModalContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="row">
-                            <br/>
+                        <div><br/>
                             <label className="label-control">Ảnh mô tả</label>
                             <div className="box">
-                                {room.images_url &&
-                                JSON.parse(room.images_url).map(
-                                    (image, index) => {
+                                {room.images_url && JSON.parse(room.images_url).map((image, index) => {
                                         return (
-                                            <div
-                                                key={index}
-                                                style={{
-                                                    padding: "3px",
-                                                }}
-                                            >
+                                            <div key={index}
+                                                 style={{
+                                                     padding: "3px",
+                                                 }}>
                                                 <div className="container-for-images">
-                                                    <img
-                                                        style={{
-                                                            width: "100%",
-                                                            height: "100%",
-                                                            background:
-                                                            "url(" +
-                                                            image +
-                                                            ") center center / cover",
-                                                            position:
-                                                                "absolute",
-                                                            left: "0",
-                                                            borderRadius:
-                                                                "5px",
-                                                        }}
-                                                        data-original-title=""
-                                                    />
+                                                    <img style={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        background: "url(" + image + ") center center / cover",
+                                                        position: "absolute",
+                                                        left: "0",
+                                                        borderRadius: "5px",
+                                                    }}
+                                                         data-original-title=""/>
                                                     <div className="overlay-for-images"/>
-                                                    <div className="button-for-images">
-                                                        <TooltipButton
-                                                            text="Xóa"
-                                                            placement="top"
-                                                        >
-                                                            <a
-                                                                rel="tooltip"
-                                                                onClick={() =>
-                                                                    this.props.roomActions.deleteImage(
-                                                                        image,
-                                                                    )
-                                                                }
-                                                                data-original-title=""
-                                                                title=""
-                                                            >
-                                                                <i className="material-icons">
-                                                                    close
-                                                                </i>
+                                                    <TooltipButton text="Xóa" placement="top">
+                                                        <div className="button-for-images">
+                                                            <a rel="tooltip"
+                                                               onClick={() => this.props.roomActions.deleteImage(image)}
+                                                               data-original-title="" title="">
+                                                                <i className="material-icons">close</i>
                                                             </a>
-                                                        </TooltipButton>
-                                                    </div>
+                                                        </div>
+                                                    </TooltipButton>
                                                 </div>
                                             </div>
                                         );
                                     },
                                 )}
                                 {
-                                    <div
-                                        style={{
-                                            padding: "3px",
-                                        }}
-                                    >
-                                        <div
-                                            className="flex-row-center flex-justify-content-center"
-                                            style={{
-                                                width: "100%",
-                                                height: "100px",
-                                                backgroundColor: "#e8e8e8",
-                                                position: "relative",
-                                                borderRadius: "5px",
-                                                cursor: "pointer",
-                                                marginTop: "10px",
-                                                marginBottom: "10px",
-                                            }}
-                                        >
-                                            <TooltipButton
-                                                text="Tải ảnh"
-                                                placement="top"
-                                            >
+                                    <div style={{
+                                        padding: "3px",
+                                    }}>
+                                        <div className="flex-row-center flex-justify-content-center"
+                                             style={{
+                                                 width: "100%",
+                                                 height: "100px",
+                                                 backgroundColor: "#e8e8e8",
+                                                 position: "relative",
+                                                 borderRadius: "5px",
+                                                 cursor: "pointer",
+                                                 marginTop: "10px",
+                                                 marginBottom: "10px",
+                                             }}>
+                                            <TooltipButton text="Tải ảnh" placement="top">
                                                 <label>
-                                                    <i
-                                                        className="material-icons"
-                                                        style={{
-                                                            fontSize: "40px",
-                                                            color: "#919191",
-                                                            cursor: "pointer",
-                                                        }}
-                                                    >
-                                                        add_a_photo
-                                                    </i>
-                                                    <input
-                                                        multiple
-                                                        onChange={
-                                                            this.handleImages
-                                                        }
-                                                        style={{
-                                                            cursor: this.props
-                                                                .isUploadingImage
-                                                                ? "not-allowed"
-                                                                : "pointer",
-                                                            position:
-                                                                "absolute",
-                                                            top: 0,
-                                                            left: 0,
-                                                            bottom: 0,
-                                                            right: 0,
-                                                            width: "100%",
-                                                            height: "100%",
-                                                        }}
-                                                        type={
-                                                            this.props
-                                                                .isUploadingImage
-                                                                ? "text"
-                                                                : "file"
-                                                        }
+                                                    <i className="material-icons"
+                                                       style={{
+                                                           fontSize: "40px",
+                                                           color: "#919191",
+                                                           cursor: "pointer",
+                                                       }}>add_a_photo</i>
+                                                    <input multiple
+                                                           onChange={this.handleImages}
+                                                           style={{
+                                                               cursor: this.props.isUploadingImage ? "not-allowed" : "pointer",
+                                                               position: "absolute",
+                                                               top: 0,
+                                                               left: 0,
+                                                               bottom: 0,
+                                                               right: 0,
+                                                               width: "100%",
+                                                               height: "100%",
+                                                           }}
+                                                           type={this.props.isUploadingImage ? "text" : "file"}
                                                     />
                                                 </label>
                                             </TooltipButton>
 
                                             {this.props.isUploadingImage && (
-                                                <div
-                                                    className="progress"
-                                                    style={{
-                                                        position: "absolute",
-                                                        left: 0,
-                                                        bottom: 0,
-                                                        width: "100%",
-                                                        zIndex: "100",
-                                                        marginBottom: "0",
-                                                    }}
-                                                >
-                                                    <div
-                                                        className="progress-bar"
-                                                        role="progressbar"
-                                                        aria-valuenow="70"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style={{
-                                                            width: `${
-                                                                this.props
-                                                                    .percent
-                                                                }%`,
-                                                        }}
-                                                    >
-                                                        <span className="sr-only">
-                                                            {this.props.percent}%
-                                                            Complete
-                                                        </span>
+                                                <div className="progress"
+                                                     style={{
+                                                         position: "absolute",
+                                                         left: 0,
+                                                         bottom: 0,
+                                                         width: "100%",
+                                                         zIndex: "100",
+                                                         marginBottom: "0",
+                                                     }}>
+                                                    <div className="progress-bar"
+                                                         role="progressbar"
+                                                         aria-valuenow="70"
+                                                         aria-valuemin="0"
+                                                         aria-valuemax="100"
+                                                         style={{width: `${this.props.percent}%`}}>
+                                                        <span className="sr-only">{this.props.percent}Complete</span>
                                                     </div>
                                                 </div>
                                             )}
@@ -372,7 +311,7 @@ class EditRoomModalContainer extends React.Component {
                         </div>
 
                         <div className="row">
-                            <div className="col-md-12 col-sm-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="form-group">
                                     <label className="label-control">
                                         Chọn ảnh cover
@@ -459,7 +398,7 @@ class EditRoomModalContainer extends React.Component {
                                 </div>
                             </div>
 
-                            <div className="col-sm-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <label className="label-control">
                                     Loại ảnh cover
                                 </label>
@@ -469,7 +408,7 @@ class EditRoomModalContainer extends React.Component {
                                         room.cover_type ? room.cover_type : ""
                                     }
                                     options={[
-                                        {label: "Ảnh thưởng", value: ""},
+                                        {label: "Ảnh thường", value: ""},
                                         {label: "Ảnh 360", value: "360"},
                                         {
                                             label: "360 - stereo",
@@ -506,7 +445,7 @@ class EditRoomModalContainer extends React.Component {
                                 </label>
                                 <Select
                                     name="categories"
-                                    value={room.base_id}
+                                    value={room.base_id ? room.base_id : ''}
                                     options={this.props.bases.map(base => {
                                         return {
                                             ...base,
@@ -524,9 +463,7 @@ class EditRoomModalContainer extends React.Component {
                                 </label>
                                 <Select
                                     name="type"
-                                    value={
-                                        room.room_type ? room.room_type.id : ""
-                                    }
+                                    value={room.room_type ? room.room_type.id : ""}
                                     options={this.props.types.map(type => {
                                         return {
                                             ...type,
