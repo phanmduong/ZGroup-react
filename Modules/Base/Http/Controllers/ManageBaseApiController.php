@@ -422,13 +422,10 @@ class ManageBaseApiController extends ManageApiController
         else {
             $seats = $seats->orderBy('created_at', 'desc')->paginate($limit);
         }
-        $seats = $seats->map(function ($seat){
-            $data = $seat->transform();
-            return $data;
-        });
-        return $this->respondSuccessWithStatus([
-            'historySeat' => $seats
-        ]);
+        return $this->respondWithPagination($seats, [
+            'historySeat' => $seats->map(function ($seat){
+                return $seat->transform();
+            })]);
     }
     public function getRoomTypes(Request $request)
     {
