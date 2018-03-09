@@ -87,7 +87,7 @@
                     <div class="col-md-4">
                         <div class="card card-plain card-blog">
                             <div class="card-image">
-                                <a href="{{'/room/'.$room->id}}">
+                                <a href="#">
                                     <div
                                             style="width: 100%;
                                                     border-radius: 15px;
@@ -101,14 +101,14 @@
                             </div>
                             <div class="card-block">
                                 <h3 class="card-title">
-                                    <a href="{{'/room/'.$room->id}}">{{$room->base->name}}
+                                    <a href="#">{{$room->base->name}}
                                         : {{$room->name}}</a>
                                 </h3>
                                 <p class="card-description">
                                     {{$room->roomType->name}}
                                 </p>
                                 <br>
-                                <a href=""
+                                <a href="#"
                                    data-target="#submitModal"
                                    data-toggle="modal"
                                    style="color:#BA8A45!important">
