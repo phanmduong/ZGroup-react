@@ -77,8 +77,10 @@ class EditRoomModalContainer extends React.Component {
         let room = this.props.room;
         if (
             helper.isEmptyInput(room.name)
+            || helper.isEmptyInput(room.address)
         ) {
-            helper.showErrorNotification("Bạn cần nhập Tên phòng");
+            if (helper.isEmptyInput(room.name)) helper.showErrorNotification("Bạn cần nhập Tên phòng");
+            if (helper.isEmptyInput(room.address)) helper.showErrorNotification("Bạn cần nhập Địa chỉ");
         } else {
             if (room.id) {
                 this.props.roomActions.editRoom(room);
