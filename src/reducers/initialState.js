@@ -1496,6 +1496,8 @@ export default {
         isEditRoom: false,
         bases: [],
         isUploadingAvatar: false,
+        isUploadingCover: false,
+        coverPercentUploaded: 0,
         percent: 0,
         isUploadingImage: false,
         types: []
