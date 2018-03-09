@@ -68,7 +68,7 @@ class SelectMonthBox extends React.Component {
                                 onClick={this.handleClickMonthBox}
                                 className="btn btn-info btn-rose"
                             >
-                                {(this.props.value.year) ? makeText(this.props.value) : "Pick a month"}
+                                {(this.props.value.year) ? makeText(this.props.value) : "Chọn tháng"}
 
                             </button>
                         </Picker>
@@ -88,7 +88,7 @@ class SelectMonthBox extends React.Component {
                                     style={{width: '100%'}}
                                     className="btn btn-info btn-rose disabled"
                                 >
-                                    {"Pick a month"}
+                                    {"Chọn tháng"}
                                 </button>
                                 :
                                 <button
@@ -96,7 +96,7 @@ class SelectMonthBox extends React.Component {
                                     onClick={this.props.openBox}
                                     className="btn btn-info btn-rose"
                                 >
-                                    {(this.props.value.year) ? makeText(this.props.value) : "Pick a month"}
+                                    {(this.props.value.year) ? makeText(this.props.value) : "Chọn tháng"}
 
                                 </button>
                             }

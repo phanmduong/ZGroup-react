@@ -166,14 +166,14 @@ ns._drawPoints = function(el, scales, state) {
         .select(".svg-container")
         .style("padding-bottom", height * 100 / width + "%");
 
-    if (ns.roomLayoutUrl !== roomLayoutUrl) {
-        ns.roomLayoutUrl = roomLayoutUrl;
-        d3
-            .select("svg")
-            .style("background-image", `url("${roomLayoutUrl}")`)
-            .style("background-size", "cover")
-            .style("background-position", "center");
-    }
+    // if (ns.roomLayoutUrl !== roomLayoutUrl) {
+    ns.roomLayoutUrl = roomLayoutUrl;
+    d3
+        .select("svg")
+        .style("background-image", `url("${roomLayoutUrl}")`)
+        .style("background-size", "cover")
+        .style("background-position", "center");
+    // }
 
     if (ns.width !== width || ns.height !== height) {
         ns.width = width;
