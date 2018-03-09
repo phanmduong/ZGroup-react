@@ -7,7 +7,6 @@ use App\Product;
 use App\Room;
 use App\RoomType;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,6 +17,18 @@ class TrongDongPalaceController extends Controller
         $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         $this->data['newestBlogs'] = $newestBlogs;
         return view('trongdongpalace::index', $this->data);
+    }
+
+    public function room($roomId)
+    {
+        $room = Room::find($roomId);
+        if ($room == null) {
+            return 'Phòng không tồn tại';
+        }
+        $images = json_decode($room->images_url);
+        $this->data['room'] = $room;
+        $this->data['images'] = $images;
+        return view('trongdongpalace::room', $this->data);
     }
 
     public function blog(Request $request)
@@ -32,9 +43,15 @@ class TrongDongPalaceController extends Controller
 
         $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
 
-        $display = "";
-        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
+        $display = '';
+        if ($request->page == null) {
+            $page_id = 2;
+        } else {
+            $page_id = $request->page + 1;
+        }
+        if ($blogs->lastPage() == $page_id - 1) {
+            $display = 'display:none';
+        }
 
         $this->data['blogs'] = $blogs;
         $this->data['page_id'] = $page_id;
@@ -89,10 +106,10 @@ class TrongDongPalaceController extends Controller
 
         Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Trống Đồng Palace');
-            $subject = "Xác nhận thông tin";
+            $subject = 'Xác nhận thông tin';
             $m->to($request->email, $request->name)->subject($subject);
         });
-        return "OK";
+        return 'OK';
     }
 
     public function booking(Request $request)
@@ -101,16 +118,23 @@ class TrongDongPalaceController extends Controller
         $room_type_id = $request->room_type_id;
         $base_id = $request->base_id;
 
-        if ($request->base_id)
+        if ($request->base_id) {
             $rooms->where('base_id', $request->base_id);
-        if ($request->room_type_id)
+        }
+        if ($request->room_type_id) {
             $rooms->where('room_type_id', $request->room_type_id);
+        }
 
         $rooms = $rooms->orderBy('created_at', 'desc')->paginate(6);
 
-
-        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($rooms->lastPage() == $page_id - 1) $display = "display:none";
+        if ($request->page == null) {
+            $page_id = 2;
+        } else {
+            $page_id = $request->page + 1;
+        }
+        if ($rooms->lastPage() == $page_id - 1) {
+            $display = 'display:none';
+        }
         //
         $this->data['rooms'] = $rooms;
         $this->data['page_id'] = $page_id;
