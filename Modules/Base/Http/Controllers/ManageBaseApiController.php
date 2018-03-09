@@ -178,7 +178,6 @@ class ManageBaseApiController extends ManageApiController
             $bases = $bases->where('name', 'like', "%$query%")
             ->orWhere('address', 'like', "%$query%");
         }
-        $bases = $bases->orderBy('created_at', 'desc')->paginate($limit);
 
         if ($limit == -1) {
             $bases = $bases->orderBy('created_at', 'desc')->get();
