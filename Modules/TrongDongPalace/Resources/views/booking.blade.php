@@ -87,7 +87,7 @@
                     <div class="col-md-4">
                         <div class="card card-plain card-blog">
                             <div class="card-image">
-                                <a href="#">
+                                <a href="#"></a>
                                     <div
                                             style="width: 100%;
                                                     border-radius: 15px;
