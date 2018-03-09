@@ -30,7 +30,6 @@ class ManageBaseApiController extends ManageApiController
         if (!isset($registerId) || !isset($startTime) || !isset($endTime)) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu dữ liệu');
         }
-
         $registerSeat = new RoomServiceRegisterSeat();
         $registerSeat->room_service_register_id = $registerId;
         $registerSeat->seat_id = $seatId;
@@ -43,7 +42,7 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function getRoom($baseId)
+    public function getBaseRooms($baseId)
     {
         $base = Base::find($baseId);
         if ($base == null) {
@@ -132,9 +131,15 @@ class ManageBaseApiController extends ManageApiController
         $room->room_type_id = $request->room_type_id;
         $room->detail = $request->detail;
         $room->description = $request->description;
+        $room->room_type_id = $request->room_type_id;
+
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
         $room->avatar_url = $request->avatar_url;
+
+        $room->cover_url = $request->cover_url;
+        $room->cover_type = $request->cover_type;
+
         $room->save();
 
         return $room;
@@ -155,47 +160,45 @@ class ManageBaseApiController extends ManageApiController
             'provinces' => $provinces
         ]);
     }
+    public function getHistoryBookSeat(){
+        $seats = RoomServiceRegisterSeat::all();
+        $seats = $seats->map(function ($seat){
+          $data = $seat->transform();
+          return $data;
+        });
+        return $this->respondSuccessWithStatus([
+            'historySeat' => $seats
+        ]);
+    }
+
 
     public function getBases(Request $request)
     {
         $query = trim($request->q);
 
-        $limit = 6;
+        $limit = $request->limit ? $request->limit : 6;
 
+        $bases = Base::query();
         if ($query) {
-            $bases = Base::where('name', 'like', "%$query%")
-                ->orWhere('address', 'like', "%$query%")
-                ->orderBy('created_at')->paginate($limit);
-        } else {
-            $bases = Base::orderBy('created_at')->paginate($limit);
+            $bases = $bases->where('name', 'like', "%$query%")
+            ->orWhere('address', 'like', "%$query%");
         }
 
-        $data = [
+        if ($limit == -1) {
+            $bases = $bases->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'bases' => $bases->map(function ($base) {
+                    return $base->getData();
+                })
+            ]);
+        }
+
+        $bases = $bases->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($bases, [
             'bases' => $bases->map(function ($base) {
-                $data = [
-                    'id' => $base->id,
-                    'name' => $base->name,
-                    'address' => $base->address,
-                    'display_status' => $base->display_status,
-                    'longitude' => $base->longtitude,
-                    'latitude' => $base->latitude,
-                    'created_at' => format_time_main($base->created_at),
-                    'updated_at' => format_time_main($base->updated_at),
-                    'center' => $base->center,
-                    'images_url' => $base->images_url,
-                    'description' => $base->description,
-                    'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
-                ];
-
-                if ($base->district) {
-                    $data['district'] = $base->district->transform();
-                    $data['province'] = $base->district->province->transform();
-                }
-
-                return $data;
-            }),
-        ];
-        return $this->respondWithPagination($bases, $data);
+                return $base->getData();
+            })
+        ]);
     }
 
     public function createSeats($roomId, Request $request)

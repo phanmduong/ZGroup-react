@@ -62,6 +62,7 @@ class CoursePublicApiController extends PublicApiController
         $courses = $courses->where(function ($query) use ($keyword) {
             $query->where("courses.name", "like", "%$keyword%")->orWhere("courses.price", "like", "%$keyword%");
         });
+        
         $courses = $courses->paginate($limit);
 
         return $this->respondWithPagination(

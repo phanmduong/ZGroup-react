@@ -196,8 +196,20 @@ class CheckInCheckOutController extends ManageApiController
             ]);
 
         }
-        if ($checkIn->status === 5) {
+        if ($checkIn->status === 6) {
+
+//            $this->notificationRepository->sendConfirmCheckInTeachNotification();
             return $this->respondSuccessWithStatus([
+                "check_in" => [
+                    'time' => format_time(strtotime($checkIn->created_at)),
+                    'base' => $checkIn->base ? $checkIn->base->name : "",
+                ],
+                "message" => $checkIn->message
+            ]);
+
+        }
+        if ($checkIn->status === 5) {
+            return $this->respondErrorWithData([
                 "check_in" => [
                     'time' => format_time(strtotime($checkIn->created_at)),
                     'base' => $checkIn->base ? $checkIn->base->name : ""
@@ -277,8 +289,20 @@ class CheckInCheckOutController extends ManageApiController
                 "message" => $checkOut->message
             ]);
         }
-        if ($checkOut->status === 5) {
+        if ($checkOut->status === 6) {
+
+//            $this->notificationRepository->sendConfirmCheckInTeachNotification();
             return $this->respondSuccessWithStatus([
+                "check_in" => [
+                    'time' => format_time(strtotime($checkOut->created_at)),
+                    'base' => $checkOut->base ? $checkOut->base->name : "",
+                ],
+                "message" => $checkOut->message
+            ]);
+
+        }
+        if ($checkOut->status === 5) {
+            return $this->respondErrorWithData([
                 "check_in" => [
                     'time' => format_time(strtotime($checkOut->created_at)),
                     'base' => $checkOut->base ? $checkOut->base->name : "",
