@@ -11,6 +11,7 @@ use App\RoomServiceRegister;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 
 class TrongDongPalaceController extends Controller
 {
