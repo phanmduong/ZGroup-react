@@ -129,11 +129,15 @@ class ManageBaseApiController extends ManageApiController
     {
         $room->name = $request->name;
         $room->base_id = $baseId;
-        $room->room_type_id = $request->room_type_id;
+        $room->room_type_id = $request->room_type_id; 
 
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
         $room->avatar_url = $request->avatar_url;
+
+        $room->cover_url = $request->cover_url;
+        $room->cover_type = $request->cover_type;
+
         $room->save();
 
         return $room;
@@ -162,9 +166,11 @@ class ManageBaseApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 6;
 
         $bases = Base::query();
-        if ($query)
+        if ($query) {
             $bases = $bases->where('name', 'like', "%$query%")
             ->orWhere('address', 'like', "%$query%");
+        }
+        $bases = $bases->orderBy('created_at', 'desc')->paginate($limit);
 
         if ($limit == -1) {
             $bases = $bases->orderBy('created_at', 'desc')->get();

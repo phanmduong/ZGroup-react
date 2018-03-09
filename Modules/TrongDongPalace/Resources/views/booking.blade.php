@@ -87,14 +87,15 @@
                     <div class="col-md-4">
                         <div class="card card-plain card-blog">
                             <div class="card-image">
-                                <a href="#">
+                                <a href="/room/{{$room->id}}">
                                     <div
-                                            style="width: 100%;
-                                                    border-radius: 15px;
-                                                    background: url({{generate_protocol_url($room->avatar_url)}});
-                                                    background-size: cover;
-                                                    background-position: center;
-                                                    padding-bottom: 70%;"
+                                        style="width: 100%;
+                                                border-radius: 15px;
+                                                background: url({{generate_protocol_url($room->avatar_url)}});
+                                                background-size: cover;
+                                                background-position: center;
+                                                padding-bottom: 70%;"
+
                                     ></div>
                                 </a>
                             </div>
