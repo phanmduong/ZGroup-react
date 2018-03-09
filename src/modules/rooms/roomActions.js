@@ -158,29 +158,26 @@ export function deleteImage(image) {
     };
 }
 
-export function storeRoom(room, closeModal) {
-    const isEdit = !!room.id;
+export function storeRoom(room) {
     return function(dispatch) {
         dispatch({ type: types.BEGIN_STORE_ROOM_DATA });
-        roomApi
-            .storeRoom(room)
+        helper.showTypeNotification("Đang tạo phòng học", "info");
+        roomApi.storeRoom(room)
             .then(function(res) {
-                helper.showNotification("Lưu phòng học thành công.");
-                closeModal();
-                dispatch({
-                    type: types.STORE_ROOM_DATA_SUCCESS,
-                    room: res.data.data.room,
-                    isEdit,
-                });
-            })
-            .catch(() => {
-                helper.showTypeNotification(
-                    "Lưu phòng học thất bại.",
-                    "warning",
-                );
-                dispatch({
-                    type: types.STORE_ROOM_DATA_ERROR,
-                });
+                if (res.data.status) {
+                    helper.showNotification("Tạo phòng học thành công.");
+                    dispatch({
+                        type: types.EDIT_ROOM_DATA_SUCCESS,
+                    });
+                } else {
+                    dispatch({
+                        type: types.STORE_ROOM_DATA_ERROR,
+                    });
+                    helper.showTypeNotification(
+                        res.data.message.message,
+                        "warning",
+                    );
+                }
             });
     };
 }
