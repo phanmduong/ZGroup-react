@@ -163,7 +163,9 @@ class ManageBaseApiController extends ManageApiController
           $data = $seat->transform();
           return $data;
         });
-        return $seats;
+        return $this->respondSuccessWithStatus([
+            'historySeat' => $seats
+        ]);
     }
 
 
