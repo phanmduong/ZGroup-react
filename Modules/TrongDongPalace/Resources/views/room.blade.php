@@ -10,7 +10,7 @@
     <div style="margin-top: 70px;" id='vrview'></div>
 @endif
 
-@if($room->color_type == "")
+@if($room->cover_type == "")
     <div style="margin-top: 70px;background-image:url('{{$room->cover_url}}');background-size:cover;background-position:center;height:600px">                
     </div>
 @endif
