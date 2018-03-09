@@ -77,7 +77,7 @@
             </div>    
                
 </div>
-<script src="http://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
+<script src="https://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
 
 @if($room->cover_type == "360_STEREO" || $room->cover_type == "360")
     <script>
