@@ -1,12 +1,11 @@
-import axios from 'axios';
-import * as env from '../../constants/env';
-
+import axios from "axios";
+import * as env from "../../constants/env";
 
 export function getRooms(page, search, baseId) {
     let url = env.MANAGE_API_URL + "/base/rooms?page=" + page;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (search) {
-        url += '&search=' + search;
+        url += "&search=" + search;
     }
     if (token) {
         url += "&token=" + token;
@@ -21,7 +20,7 @@ export function getRooms(page, search, baseId) {
 
 export function getBases() {
     let url = env.MANAGE_API_URL + "/base/all";
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
@@ -31,7 +30,7 @@ export function getBases() {
 
 export function getTypesApi() {
     let url = env.MANAGE_API_URL + "/v2/base/room-type?limit=-1";
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
     }
@@ -39,13 +38,13 @@ export function getTypesApi() {
 }
 
 export function changeAvatarApi(file, completeHandler, progressHandler, error) {
-    let url = env.MANAGE_API_URL + '/file/upload';
-    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/file/upload";
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     let formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
     ajax.upload.onprogress = progressHandler;
@@ -55,8 +54,10 @@ export function changeAvatarApi(file, completeHandler, progressHandler, error) {
 }
 
 export function storeRoom(room) {
+
     let url = env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room";
     let token = localStorage.getItem('token');
+
     if (token) {
         url += "?token=" + token;
     }
@@ -70,29 +71,38 @@ export function storeRoom(room) {
 }
 
 export function editRoom(room) {
-    let url = env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room/" + room.id;
-    let token = localStorage.getItem('token');
+    let url =
+        env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room/" + room.id;
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.put(url, {
-        type: room.type ? room.type : '',
+        type: room.type ? room.type : "",
         seats_count: room.seats_count ? room.seats_count : 0,
-        name: room.name ? room.name : '',
-        images_url: room.images_url ? room.images_url : '[]',
-        avatar_url: room.avatar_url ? room.avatar_url : '',
-        room_type_id: room.room_type ? room.room_type.id : ''
+        name: room.name ? room.name : "",
+        images_url: room.images_url ? room.images_url : "[]",
+        avatar_url: room.avatar_url ? room.avatar_url : "",
+        room_type_id: room.room_type ? room.room_type.id : "",
+        cover_type: room.cover_type,
+        cover_url: room.cover_url,
     });
 }
 
-export function uploadRoomLayout({roomId, file, completeHandler, progressHandler, error}) {
+export function uploadRoomLayout({
+    roomId,
+    file,
+    completeHandler,
+    progressHandler,
+    error,
+}) {
     let url = env.MANAGE_API_URL + "/v2/room/" + roomId + "/layout";
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     let formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
     ajax.upload.onprogress = progressHandler;
