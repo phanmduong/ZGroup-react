@@ -36,7 +36,7 @@
 
         .course iframe {
             width: 100% !important;
-            height: auto !important;
+            height: 400px !important;
         }
 
         .page-header.page-header-xs {
