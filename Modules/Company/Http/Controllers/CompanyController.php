@@ -712,6 +712,7 @@ class CompanyController extends ManageApiController
         $order->command_code = "DATHANG" . $day . $month . $year . $id;
         $order->save();
         $goods = json_decode($request->goods);
+        $order->good_count = count($goods);
         foreach ($goods as $good) {
             $importOrder = new ImportItemOrder;
             $importOrder->warehouse_id = 0;
@@ -762,9 +763,13 @@ class CompanyController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         if ($request->limit == -1) {
             $orders = ItemOrder::where('type', 'order')->orderBy('created_at', 'desc')->get();
+            $printOrders = PrintOrder::all();
             return $this->respondSuccessWithStatus([
                 "orders" => $orders->map(function ($order) {
                     return $order->importTransform();
+                }),
+                "printOrders" => $printOrders->map(function($printOrder){
+                    return $printOrder->transform();
                 })
             ]);
         } else {

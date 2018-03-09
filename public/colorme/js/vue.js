@@ -51,21 +51,21 @@ var modalLogin = new Vue({
                             vueData.user = res.data.user;
                             localStorage.setItem(
                                 "auth",
-                                JSON.stringify(res.data),
+                                JSON.stringify(res.data)
                             );
                             location.reload();
                         } else {
                             this.hasError = true;
                             toastr.error(res.data.error);
                         }
-                    }.bind(this),
+                    }.bind(this)
                 )
                 .catch(
                     function (error) {
                         this.isLoading = false;
                         this.hasError = true;
                         toastr.error(error.response.data.error);
-                    }.bind(this),
+                    }.bind(this)
                 );
         },
         changeModal: function () {
@@ -138,14 +138,14 @@ var modalLogin = new Vue({
                             //     this.hasError = true;
                             //     toastr.error(res.data.error);
                             // }
-                        }.bind(this),
+                        }.bind(this)
                     )
                     .catch(
                         function (error) {
                             this.isLoading = false;
                             this.hasError = true;
                             toastr.error(error.response.data.error);
-                        }.bind(this),
+                        }.bind(this)
                     );
             }
         },

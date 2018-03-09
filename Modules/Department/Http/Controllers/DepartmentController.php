@@ -14,25 +14,37 @@ class DepartmentController extends ManageApiController
 {
     public function getAllDepartment(Request $request)
     {
-        $departments = Department::paginate(10);
+        if ($request->limit != -1) {
+            $departments = Department::paginate(10);
 
-        return $this->respondWithPagination($departments, [
-            "departments" => $departments->map(function ($department) {
-                $users = $department->employees;
-                return [
-                    "id" => $department->id,
-                    "name" => $department->name,
-                    "employees" => $users->map(function($user){
-                           return [
-                             "id" => $user->id,
-                             "email" => $user->email,
-                             "name" =>$user->name,
-                           ];
-                    }),
-                    "color" => $department->color
-                ];
-            }),
-        ]);
+            return $this->respondWithPagination($departments, [
+                "departments" => $departments->map(function ($department) {
+                    $users = $department->employees;
+                    return [
+                        "id" => $department->id,
+                        "name" => $department->name,
+                        "employees" => $users->map(function ($user) {
+                            return [
+                                "id" => $user->id,
+                                "email" => $user->email,
+                                "name" => $user->name,
+                            ];
+                        }),
+                        "color" => $department->color
+                    ];
+                }),
+            ]);
+        } else {
+            $departments = Department::all();
+            return $this->respondSuccessWithStatus([
+                "departments" => $departments->map(function ($department) {
+                    return [
+                        "id" => $department->id,
+                        "name" => $department->name,
+                    ];
+                })
+            ]);
+        }
 
     }
 
@@ -74,12 +86,12 @@ class DepartmentController extends ManageApiController
     public function addEmployees($departmentId, Request $request)
     {
         $department = Department::find($departmentId);
-        if(!$department) return $this->respondErrorWithStatus("Khong ton tai bo phan");
+        if (!$department) return $this->respondErrorWithStatus("Khong ton tai bo phan");
         $user_arrs = json_decode($request->employees);
         foreach ($user_arrs as $user_arr) {
             $user = User::find($user_arr->id);
-            if(!$user) return $this->respondErrorWithStatus("Khong ton tai nhan vien");
-            $user->department_id= $departmentId;
+            if (!$user) return $this->respondErrorWithStatus("Khong ton tai nhan vien");
+            $user->department_id = $departmentId;
             $user->save();
         }
         return $this->respondSuccessWithStatus([
@@ -87,14 +99,15 @@ class DepartmentController extends ManageApiController
         ]);
     }
 
-    public function deleteEmployees($departmentId, Request $request){
+    public function deleteEmployees($departmentId, Request $request)
+    {
         $department = Department::find($departmentId);
-        if(!$department) return $this->respondErrorWithStatus("Khong ton tai bo phan");
+        if (!$department) return $this->respondErrorWithStatus("Khong ton tai bo phan");
         $user_arrs = json_decode($request->employees);
         foreach ($user_arrs as $user_arr) {
             $user = User::find($user_arr->id);
-            if(!$user) return $this->respondErrorWithStatus("Khong ton tai nhan vien");
-            $user->department_id= 0;
+            if (!$user) return $this->respondErrorWithStatus("Khong ton tai nhan vien");
+            $user->department_id = 0;
             $user->save();
         }
         return $this->respondSuccessWithStatus([
@@ -102,10 +115,12 @@ class DepartmentController extends ManageApiController
         ]);
 
     }
-    public function summaryEmployee(Request $request){
-        $pre_data = User::join('departments','departments.id','=','users.department_id')
-            ->select(DB::raw('count(users.id) as count'),DB::raw('departments.name as department_name'))
-            ->where('users.role','>',0)->where('users.department_id','>',0)
+
+    public function summaryEmployee(Request $request)
+    {
+        $pre_data = User::join('departments', 'departments.id', '=', 'users.department_id')
+            ->select(DB::raw('count(users.id) as count'), DB::raw('departments.name as department_name'))
+            ->where('users.role', '>', 0)->where('users.department_id', '>', 0)
             ->groupby('users.department_id')->get();
         return $this->respondSuccessWithStatus([
             'data' => $pre_data,
