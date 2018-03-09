@@ -95,7 +95,6 @@
                                                     background-size: cover;
                                                     background-position: center;
                                                     padding-bottom: 70%;"
-
                                     ></div>
                                 </a>
                             </div>

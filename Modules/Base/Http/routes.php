@@ -7,7 +7,7 @@ $baseRoutes = function () {
 
         Route::post('/{baseId}/room', 'ManageBaseApiController@createRoom');
 
-        Route::get('/{baseId}/rooms', 'ManageBaseApiController@getRoom');
+        Route::get('/{baseId}/rooms', 'ManageBaseApiController@getBaseRooms');
 
         Route::put('/{baseId}/room/{roomId}', 'ManageBaseApiController@editRoom');
         Route::get('/room-type', 'ManageBaseApiController@getRoomTypes');

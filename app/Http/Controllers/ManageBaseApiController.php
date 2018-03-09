@@ -151,11 +151,11 @@ class ManageBaseApiController extends ManageApiController
                     ->orWhere('bases.name', 'like', "%$query%")
                     ->orWhere('bases.address', 'like', "%$query%");
             })->select('bases.*', 'rooms.*', 'bases.name as base_name', 'rooms.name as room_name', 'rooms.id as room_id', 'rooms.avatar_url as avatar_url', 'rooms.images_url as images_url')
-                ->orderBy('rooms.created_at');
+                ->orderBy('rooms.created_at', 'desc');
         } else {
             $rooms = $rooms->join('bases', 'bases.id', '=', 'rooms.base_id')
                 ->select('rooms.*', 'bases.*', 'bases.name as base_name', 'rooms.name as room_name', 'rooms.id as room_id', 'rooms.avatar_url as avatar_url', 'rooms.images_url as images_url')
-                ->orderBy('rooms.created_at');
+                ->orderBy('rooms.created_at', 'desc');
         }
         if ($limit == -1) {
             $rooms = $rooms->get();

@@ -43,7 +43,7 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function getRoom($baseId)
+    public function getBaseRooms($baseId)
     {
         $base = Base::find($baseId);
         if ($base == null) {
