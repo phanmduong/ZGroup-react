@@ -48,10 +48,10 @@
     <br><br>
     <div class="container" id="class-list">
         @foreach($bases as $base)
-            {{$base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->sortBy('created_at','desc')->count() == 0}}
+            {{$base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->count() == 0}}
             <h3>{{$base->name}} : {{$base->address}}</h3><br>
             <div class="row">
-                @foreach($base->classes()->where('status',1)->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('name','desc')->get() as $class)
+                @foreach($base->classes()->where('status',1)->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('created_at','desc')->get() as $class)
                     <div class="col-md-6" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
                         <div>
                             <div style="display:flex;flex-direction:row">
