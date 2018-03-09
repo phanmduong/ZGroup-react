@@ -45,7 +45,6 @@ class DepartmentController extends ManageApiController
                 })
             ]);
         }
-
     }
 
     public function addDepartment(Request $request)
