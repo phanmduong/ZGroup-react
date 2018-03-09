@@ -109,9 +109,11 @@
                                 </p>
                                 <br>
                                 <a href="#"
-                                   data-target="#submitModal"
-                                   data-toggle="modal"
-                                   style="color:#BA8A45!important">
+                                    onClick="openSubmitModal({{$room->id}})"
+                                    style="color:#BA8A45!important">
+                                
+                                   <!-- data-target="#submitModal"
+                                   data-toggle="modal" -->
                                     <b>Đặt phòng</b>
                                 </a>
                             </div>
@@ -213,6 +215,12 @@
 
 @push('scripts')
     <script>
+        function openSubmitModal(room_id) {
+            console.log(room_id);
+            submitModal.room_id = room_id;
+            $('#submitModal').modal('show');
+        }
+
         var submitModal = new Vue({
             el: '#submitModal',
             data: {
@@ -223,11 +231,12 @@
                 alert: '',
                 saler_id: {{$saler_id}},
                 campaign_id: {{$campaign_id}},
+                room_id: 0,
                 isLoading: false
             },
             methods: {
                 submit: function () {
-                    this.alert = "sdasdasd";
+                    console.log(this.room_id);
                     if (this.name === '' || this.email === '' || this.phone === '' || this.message === '') {
                         this.alert = 'Bạn vui lòng nhập đủ thông tin';
                         return;
@@ -240,6 +249,7 @@
                         message: this.message,
                         saler_id: this.saler_id,
                         campaign_id: this.campaign_id,
+                        room_id: this.room_id,
                         _token: window.token
                     })
                         .then(function (response) {
@@ -257,6 +267,7 @@
                 }
             }
         });
+
         var pagination = new Vue({
             el: '#pagination-rooms',
             data: {

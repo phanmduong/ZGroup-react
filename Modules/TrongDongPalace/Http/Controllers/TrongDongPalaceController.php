@@ -129,6 +129,7 @@ class TrongDongPalaceController extends Controller
     
     public function bookingApi(Request $request)
     {
+        $room = Room::find($request->room_id);
         $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
         
         $user = User::where('email', '=', $request->email)->first();
@@ -150,7 +151,7 @@ class TrongDongPalaceController extends Controller
         // $register->base_id = $request->base_id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $request->saler_id ? $request->saler_id : 0;
-        $register->base_id = $request->base_id ? $request->base_id : 0;
+        $register->base_id = $room ? $room->base->id : 0;
         $register->type = 'room';
         $register->save();
         
