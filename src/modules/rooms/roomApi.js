@@ -81,6 +81,8 @@ export function editRoom(room) {
         images_url: room.images_url ? room.images_url : "[]",
         avatar_url: room.avatar_url ? room.avatar_url : "",
         room_type_id: room.room_type ? room.room_type.id : "",
+        cover_type: room.cover_type,
+        cover_url: room.cover_url,
     });
 }
 
