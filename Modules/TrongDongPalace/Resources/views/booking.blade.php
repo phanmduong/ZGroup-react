@@ -229,11 +229,14 @@
                         return;
                     }
                     this.isLoading = true;
-                    axios.post(window.url + '/api/contact', {
+                    axios.post(window.url + '/api/booking', {
                         name: this.name,
                         phone: this.phone,
                         email: this.email,
                         message: this.message,
+                        saler_id: {{$saler_id}}, 
+                        campaign_id: {{$campaign_id}},
+                        base_id: {{$base_id}}
                         _token: window.token
                     })
                         .then(function (response) {

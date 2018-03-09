@@ -6,9 +6,10 @@ $publicRoutes = function () {
     Route::get('/blog/post/{postId}', 'TrongDongPalaceController@post');
     Route::get('/test', 'TrongDongPalaceController@test');
     Route::get('/contact-us', 'TrongDongPalaceController@contactUs');
-    Route::get('/booking', 'TrongDongPalaceController@booking');
+    Route::get('/booking/{salerId?}/{campaignId?}', 'TrongDongPalaceController@booking');
     Route::get('/room/{roomId}', 'TrongDongPalaceController@room');
     Route::post('/api/contact', 'TrongDongPalaceController@contactInfo');
+    Route::post('/api/booking', 'TrongDongPalaceController@bookingApi');
 };
 
 Route::group(['middleware' => 'web', 'domain' => 'keetool6.xyz', 'namespace' => 'Modules\TrongDongPalace\Http\Controllers'], $publicRoutes);
