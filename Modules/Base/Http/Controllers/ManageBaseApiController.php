@@ -159,40 +159,28 @@ class ManageBaseApiController extends ManageApiController
     {
         $query = trim($request->q);
 
-        $limit = 6;
+        $limit = $request->limit ? $request->limit : 6;
 
         $bases = Base::query();
         if ($query)
             $bases = $bases->where('name', 'like', "%$query%")
             ->orWhere('address', 'like', "%$query%");
+
+        if ($limit == -1) {
+            $bases = $bases->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'bases' => $bases->map(function ($base) {
+                    return $base->getData();
+                })
+            ]);
+        }
+
         $bases = $bases->orderBy('created_at', 'desc')->paginate($limit);
-
-        $data = [
+        return $this->respondWithPagination($bases, [
             'bases' => $bases->map(function ($base) {
-                $data = [
-                    'id' => $base->id,
-                    'name' => $base->name,
-                    'address' => $base->address,
-                    'display_status' => $base->display_status,
-                    'longitude' => $base->longtitude,
-                    'latitude' => $base->latitude,
-                    'created_at' => format_time_main($base->created_at),
-                    'updated_at' => format_time_main($base->updated_at),
-                    'center' => $base->center,
-                    'images_url' => $base->images_url,
-                    'description' => $base->description,
-                    'avatar_url' => config('app.protocol') . trim_url($base->avatar_url),
-                ];
-
-                if ($base->district) {
-                    $data['district'] = $base->district->transform();
-                    $data['province'] = $base->district->province->transform();
-                }
-
-                return $data;
-            }),
-        ];
-        return $this->respondWithPagination($bases, $data);
+                return $base->getData();
+            })
+        ]);
     }
 
     public function createSeats($roomId, Request $request)
