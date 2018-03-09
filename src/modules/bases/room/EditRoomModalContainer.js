@@ -342,14 +342,14 @@ class EditRoomModalContainer extends React.Component {
                                                 style={{
                                                     width: `${
                                                         this.props
-                                                            .colorPercentUploaded
-                                                        }%`,
+                                                            .coverPercentUploaded
+                                                    }%`,
                                                 }}
                                             >
                                                 <span className="sr-only">
                                                     {
                                                         this.props
-                                                            .colorPercentUploaded
+                                                            .coverPercentUploaded
                                                     }% Complete
                                                 </span>
                                             </div>
