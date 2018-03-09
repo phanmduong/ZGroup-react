@@ -130,7 +130,8 @@ class ManageBaseApiController extends ManageApiController
         $room->name = $request->name;
         $room->base_id = $baseId;
         $room->room_type_id = $request->room_type_id;
-
+        $room->detail = $request->detail;
+        $room->description = $request->description;
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
         $room->avatar_url = $request->avatar_url;
@@ -495,14 +496,14 @@ class ManageBaseApiController extends ManageApiController
                 $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', $to))
                     ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', $to));
             })
-            ->orWhere(function ($query) use ($from) {
-                $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', $from))
-                    ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', $from));
-            })
-            ->orWhere(function ($query) use ($from, $to) {
-                $query->where('room_service_register_seat.start_time', '>=', date('Y-m-d H:i:s', $from))
-                    ->where('room_service_register_seat.end_time', '<=', date('Y-m-d H:i:s', $to));
-            });
+                ->orWhere(function ($query) use ($from) {
+                    $query->where('room_service_register_seat.start_time', '<', date('Y-m-d H:i:s', $from))
+                        ->where('room_service_register_seat.end_time', '>', date('Y-m-d H:i:s', $from));
+                })
+                ->orWhere(function ($query) use ($from, $to) {
+                    $query->where('room_service_register_seat.start_time', '>=', date('Y-m-d H:i:s', $from))
+                        ->where('room_service_register_seat.end_time', '<=', date('Y-m-d H:i:s', $to));
+                });
         })->groupBy('seats.id')->select('seats.*')->get();
         return $this->respondSuccessWithStatus([
             'seats' => $seats->map(function ($seat) {
