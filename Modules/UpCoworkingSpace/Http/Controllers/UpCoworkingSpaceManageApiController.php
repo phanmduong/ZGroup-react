@@ -240,4 +240,37 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
                 'salers' => $salers
             ]);
     }
+
+    public function booking(Request $request)
+    {
+        $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = Hash::make($phone);
+        }
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->email = $request->email;
+        $user->username = $request->email;
+        $user->address = $request->address;
+        $user->save();
+
+        $register = new RoomServiceRegister();
+        $register->user_id = $user->id;
+        $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
+        $register->saler_id = $request->saler_id ? $request->saler_id : 0;
+        $register->base_id = $request->base_id  ? $request->base_id : 0;
+        $register->type = 'room';
+        $register->save();
+        
+        // Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
+        //     $m->from('no-reply@colorme.vn', 'Up Coworking Space');
+        //     $subject = 'Xác nhận thông tin';
+        //     $m->to($request->email, $request->name)->subject($subject);
+        // });
+
+        return $this->respondSuccess(['Thêm đăng ký thành công']);
+    }
 }
