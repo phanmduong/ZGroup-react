@@ -69,7 +69,6 @@ class DeliveryOrderApiController extends ManageApiController
                     }
                 }
             })->where(function ($query) use ($queries) {
-                // dd($queries);
                 if ($queries) {
                     for ($index = 0; $index < count($queries); ++$index) {
                         if ($index == 0)
