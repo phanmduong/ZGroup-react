@@ -187,7 +187,7 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $data = ["user" => $user];
         $emailcc = ["graphics@colorme.vn"];
         Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->from('no-reply@colorme.vn', 'Up Coworking Space');
             $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
         });
 

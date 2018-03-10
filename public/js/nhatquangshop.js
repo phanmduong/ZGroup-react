@@ -289,8 +289,8 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
+                tax:false,
+                description: "",
                 currencyId: 0
             },
         ],
@@ -331,8 +331,8 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
+                tax: false,
+                description: "",
                 currencyId: 0,
             });
         },
@@ -375,8 +375,8 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
+                tax: false,
+                description: "",
                 currencyId: 0,
             });
         }
