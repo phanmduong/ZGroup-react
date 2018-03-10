@@ -8,6 +8,8 @@ import * as helper from "../../../helpers/helper";
 import * as roomActions from "../../rooms/roomActions";
 import Select from "react-select";
 import TooltipButton from "../../../components/common/TooltipButton";
+import ReactEditor from "../../../components/common/ReactEditor";
+import { linkUploadImageEditor } from "../../../constants/constants";
 
 class EditRoomModalContainer extends React.Component {
     constructor(props, context) {
@@ -21,6 +23,7 @@ class EditRoomModalContainer extends React.Component {
         this.onChangeTypeForm = this.onChangeTypeForm.bind(this);
         this.changeCover = this.changeCover.bind(this);
         this.onChangeRoomCoverType = this.onChangeRoomCoverType.bind(this);
+        this.updateEditorContent = this.updateEditorContent.bind(this);
     }
 
     onChangeRoomCoverType(option) {
@@ -96,10 +99,18 @@ class EditRoomModalContainer extends React.Component {
     }
 
     storeRoom() {
-        let { room } = this.props;
-
-        if (helper.isEmptyInput(room.name)) {
-            helper.showErrorNotification("Bạn cần nhập Tên phòng");
+        let room = this.props.room;
+        if (
+            helper.isEmptyInput(room.name) ||
+            helper.isEmptyInput(room.room_type) ||
+            helper.isEmptyInput(room.base_id)
+        ) {
+            if (helper.isEmptyInput(room.name))
+                helper.showErrorNotification("Bạn cần nhập Tên phòng");
+            if (helper.isEmptyInput(room.room_type))
+                helper.showErrorNotification("Bạn cần chọn Loại phòng");
+            if (helper.isEmptyInput(room.base_id))
+                helper.showErrorNotification("Bạn cần chọn Cơ sở");
         } else {
             if (room.id) {
                 this.props.roomActions.editRoom(room);
@@ -109,14 +120,25 @@ class EditRoomModalContainer extends React.Component {
         }
     }
 
+    updateEditorContent(value) {
+        let room = {
+            ...this.props.room,
+            detail: value,
+        };
+        this.props.roomActions.handleRoomEditModal(room);
+    }
+
     render() {
         let room = this.props.room;
         return (
-
-            <Modal show={this.props.showEditRoomModal}
-                   onHide={() => this.props.roomActions.showRoomEditModal()}>
-                <a onClick={() => this.props.roomActions.showRoomEditModal()}
-                   id="btn-close-modal"/>
+            <Modal
+                show={this.props.showEditRoomModal}
+                onHide={() => this.props.roomActions.showRoomEditModal()}
+            >
+                <a
+                    onClick={() => this.props.roomActions.showRoomEditModal()}
+                    id="btn-close-modal"
+                />
 
                 <Modal.Header closeButton>
                     <Modal.Title>
@@ -126,7 +148,7 @@ class EditRoomModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="form-group">
                         <div className="row">
-                            <div className="col-md-12 col-sm-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <label className="label-control">
                                     Ảnh đại diện
                                 </label>
@@ -208,8 +230,7 @@ class EditRoomModalContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="row">
+                        <div>
                             <br />
                             <label className="label-control">Ảnh mô tả</label>
                             <div className="box">
@@ -241,11 +262,11 @@ class EditRoomModalContainer extends React.Component {
                                                             data-original-title=""
                                                         />
                                                         <div className="overlay-for-images" />
-                                                        <div className="button-for-images">
-                                                            <TooltipButton
-                                                                text="Xóa"
-                                                                placement="top"
-                                                            >
+                                                        <TooltipButton
+                                                            text="Xóa"
+                                                            placement="top"
+                                                        >
+                                                            <div className="button-for-images">
                                                                 <a
                                                                     rel="tooltip"
                                                                     onClick={() =>
@@ -260,8 +281,8 @@ class EditRoomModalContainer extends React.Component {
                                                                         close
                                                                     </i>
                                                                 </a>
-                                                            </TooltipButton>
-                                                        </div>
+                                                            </div>
+                                                        </TooltipButton>
                                                     </div>
                                                 </div>
                                             );
@@ -356,8 +377,7 @@ class EditRoomModalContainer extends React.Component {
                                                         }}
                                                     >
                                                         <span className="sr-only">
-                                                            {this.props.percent}%
-                                                            Complete
+                                                            {this.props.percent}Complete
                                                         </span>
                                                     </div>
                                                 </div>
@@ -369,7 +389,7 @@ class EditRoomModalContainer extends React.Component {
                         </div>
 
                         <div className="row">
-                            <div className="col-md-12 col-sm-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="form-group">
                                     <label className="label-control">
                                         Chọn ảnh cover
@@ -387,14 +407,14 @@ class EditRoomModalContainer extends React.Component {
                                                 style={{
                                                     width: `${
                                                         this.props
-                                                            .colorPercentUploaded
+                                                            .coverPercentUploaded
                                                     }%`,
                                                 }}
                                             >
                                                 <span className="sr-only">
                                                     {
                                                         this.props
-                                                            .colorPercentUploaded
+                                                            .coverPercentUploaded
                                                     }% Complete
                                                 </span>
                                             </div>
@@ -456,7 +476,7 @@ class EditRoomModalContainer extends React.Component {
                                 </div>
                             </div>
 
-                            <div className="col-sm-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <label className="label-control">
                                     Loại ảnh cover
                                 </label>
@@ -466,10 +486,10 @@ class EditRoomModalContainer extends React.Component {
                                         room.cover_type ? room.cover_type : ""
                                     }
                                     options={[
-                                        { label: "Ảnh thưởng", value: "" },
+                                        { label: "Ảnh thường", value: "" },
                                         { label: "Ảnh 360", value: "360" },
                                         {
-                                            label: "360 - stereo",
+                                            label: "Ảnh 360 - stereo",
                                             value: "360_STEREO",
                                         },
                                     ]}
@@ -498,12 +518,36 @@ class EditRoomModalContainer extends React.Component {
                                 value={room.seats_count || ""}
                             />
                             <div className="form-group">
+                                <label className="label-control">Mô tả</label>
+                                <textarea
+                                    type="text"
+                                    className="form-control"
+                                    value={
+                                        room.description ? room.description : ""
+                                    }
+                                    name="description"
+                                    onChange={this.updateFormData}
+                                />
+                                <span className="material-input" />
+                            </div>
+                            <div className="form-group">
+                                <h4 className="label-control">
+                                    Chi tiết phòng
+                                </h4>
+                                <ReactEditor
+                                    urlPost={linkUploadImageEditor()}
+                                    fileField="image"
+                                    updateEditor={this.updateEditorContent}
+                                    value={room.detail || ""}
+                                />
+                            </div>
+                            <div className="form-group">
                                 <label className="label-control">
                                     Chọn cơ sở
                                 </label>
                                 <Select
                                     name="categories"
-                                    value={room.base_id}
+                                    value={room.base_id ? room.base_id : ""}
                                     options={this.props.bases.map(base => {
                                         return {
                                             ...base,
@@ -541,7 +585,7 @@ class EditRoomModalContainer extends React.Component {
                                     type="button"
                                 >
                                     <i className="fa fa-spinner fa-spin" />
-                                    {room.id ? "Đang lưu" : "Đang tạo"}
+                                    {room.id ? " Đang lưu" : " Đang tạo"}
                                 </button>
                             ) : (
                                 <button

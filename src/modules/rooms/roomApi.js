@@ -66,7 +66,9 @@ export function storeRoom(room) {
         type: room.room_type.id,
         seats_count: room.seats_count,
         images_url: room.images_url ? room.images_url : '[]',
-        avatar_url: room.avatar_url ? room.avatar_url : ''
+        avatar_url: room.avatar_url ? room.avatar_url : '',
+        cover_url: room.cover_url ? room.cover_url : '',
+        cover_type: room.cover_type ? room.cover_type : ''
     });
 }
 
@@ -84,18 +86,18 @@ export function editRoom(room) {
         images_url: room.images_url ? room.images_url : "[]",
         avatar_url: room.avatar_url ? room.avatar_url : "",
         room_type_id: room.room_type ? room.room_type.id : "",
-        cover_type: room.cover_type,
-        cover_url: room.cover_url,
+        cover_url: room.cover_url ? room.cover_url : '',
+        cover_type: room.cover_type ? room.cover_type : ''
     });
 }
 
 export function uploadRoomLayout({
-    roomId,
-    file,
-    completeHandler,
-    progressHandler,
-    error,
-}) {
+                                     roomId,
+                                     file,
+                                     completeHandler,
+                                     progressHandler,
+                                     error,
+                                 }) {
     let url = env.MANAGE_API_URL + "/v2/room/" + roomId + "/layout";
     const token = localStorage.getItem("token");
     if (token) {

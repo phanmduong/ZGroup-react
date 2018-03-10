@@ -125,7 +125,7 @@ class EditBaseModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="form-group">
                         <div className="row">
-                            <div className="col-md-12 col-sm-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <label className="label-control">Ảnh đại diện</label>
                                 <div className="text-center">
                                     {
@@ -212,10 +212,8 @@ class EditBaseModalContainer extends React.Component {
                                                             </a>
                                                         </div>
                                                     </TooltipButton>
-
                                                 </div>
                                             </div>
-
                                         );
                                     })
                                 }
@@ -257,9 +255,7 @@ class EditBaseModalContainer extends React.Component {
                                                            }}
                                                            type={this.props.isUploadingImage ? 'text' : 'file'}/>
                                                 </label>
-
                                             </TooltipButton>
-
                                             {
                                                 this.props.isUploadingImage &&
                                                 <div className="progress"
