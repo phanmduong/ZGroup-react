@@ -57,14 +57,26 @@ class DeliveryOrderApiController extends ManageApiController
     public function getDeliveryOrders(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
-        $keyWords = json_decode($request->queries);
-
+        $searchs = json_decode($request->searchs);
+        $queries = json_decode($request->queries);
         $deliveryOrders = Order::where('orders.type', 'delivery');
         $deliveryOrders = $deliveryOrders->join('users', 'users.id', '=', 'orders.user_id')
-            ->select('orders.*')->where(function ($query) use ($keyWords) {
-                foreach ($keyWords as $keyWord) {
-                    $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
-                        ->orWhere('users.email', 'like', "%$keyWord%")->orWhere('orders.attach_info', 'like', "%$keyWord%");
+            ->select('orders.*')->where(function ($query) use ($searchs) {
+                if ($searchs) {
+                    foreach ($searchs as $keyWord) {
+                        $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
+                            ->orWhere('users.email', 'like', "%$keyWord%");
+                    }
+                }
+            })->where(function ($query) use ($queries) {
+                // dd($queries);
+                if ($queries) {
+                    for ($index = 0; $index < count($queries); ++$index) {
+                        if ($index == 0)
+                            $query->where('orders.attach_info', 'like', "%" . $queries[$index] . "%");
+                        else
+                            $query->orWhere('orders.attach_info', 'like', "%" . $queries[$index] . "%");
+                    }
                 }
             });
         if ($request->staff_id)
