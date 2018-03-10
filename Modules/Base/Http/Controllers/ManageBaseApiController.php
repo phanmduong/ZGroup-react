@@ -128,7 +128,10 @@ class ManageBaseApiController extends ManageApiController
     {
         $room->name = $request->name;
         $room->base_id = $baseId;
-        $room->room_type_id = $request->room_type_id; 
+        $room->room_type_id = $request->room_type_id;
+        $room->detail = $request->detail;
+        $room->description = $request->description;
+        $room->room_type_id = $request->room_type_id;
 
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
@@ -157,16 +160,7 @@ class ManageBaseApiController extends ManageApiController
             'provinces' => $provinces
         ]);
     }
-    public function getHistoryBookSeat(){
-        $seats = RoomServiceRegisterSeat::all();
-        $seats = $seats->map(function ($seat){
-          $data = $seat->transform();
-          return $data;
-        });
-        return $this->respondSuccessWithStatus([
-            'historySeat' => $seats
-        ]);
-    }
+
 
 
     public function getBases(Request $request)
@@ -416,6 +410,23 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
+    public function getHistoryBookSeat(Request $request){
+//        $search = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $seats = RoomServiceRegisterSeat::query();
+
+//        $seats = $seats->seat()->where('name','like','%'.$search.'%');
+        if ($limit == -1){
+            $seats = $seats->orderBy('created_at','desc')->get();
+        }
+        else {
+            $seats = $seats->orderBy('created_at', 'desc')->paginate($limit);
+        }
+        return $this->respondWithPagination($seats, [
+            'historySeat' => $seats->map(function ($seat){
+                return $seat->transform();
+            })]);
+    }
     public function getRoomTypes(Request $request)
     {
         $search = $request->search;

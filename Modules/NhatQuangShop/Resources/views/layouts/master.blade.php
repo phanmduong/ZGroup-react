@@ -808,8 +808,8 @@
                                             data-style="btn btn-default"
                                             v-model="order.tax"
                                             style="display: block !important;">
-                                        <option value="Giá chưa thuế" selected="">Giá chưa thuế</option>
-                                        <option value="Giá có thuế">Giá có thuế</option>
+                                        <option value="false" selected>Giá chưa thuế</option>
+                                        <option value="true">Giá có thuế</option>
                                     </select>
                                 </div>
                             </div>
