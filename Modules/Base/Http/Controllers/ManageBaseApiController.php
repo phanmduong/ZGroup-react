@@ -160,11 +160,13 @@ class ManageBaseApiController extends ManageApiController
             'provinces' => $provinces
         ]);
     }
-    public function getHistoryBookSeat(){
+
+    public function getHistoryBookSeat()
+    {
         $seats = RoomServiceRegisterSeat::all();
-        $seats = $seats->map(function ($seat){
-          $data = $seat->transform();
-          return $data;
+        $seats = $seats->map(function ($seat) {
+            $data = $seat->transform();
+            return $data;
         });
         return $this->respondSuccessWithStatus([
             'historySeat' => $seats
@@ -181,7 +183,7 @@ class ManageBaseApiController extends ManageApiController
         $bases = Base::query();
         if ($query) {
             $bases = $bases->where('name', 'like', "%$query%")
-            ->orWhere('address', 'like', "%$query%");
+                ->orWhere('address', 'like', "%$query%");
         }
 
         if ($limit == -1) {
@@ -424,7 +426,8 @@ class ManageBaseApiController extends ManageApiController
         $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
         $roomTypes = RoomType::query();
-        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%');
+        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%');
         if ($limit == -1) {
             $roomTypes = $roomTypes->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
