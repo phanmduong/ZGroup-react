@@ -58,8 +58,6 @@ class DeliveryOrderApiController extends ManageApiController
     {
         $limit = $request->limit ? $request->limit : 20;
         $keyWord = $request->search;
-        $javCode = $request->javCode;
-        $link = $request->link;
 
         $deliveryOrders = Order::where('type', 'delivery');
         //queries
