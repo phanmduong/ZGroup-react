@@ -161,19 +161,6 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function getHistoryBookSeat()
-    {
-        $seats = RoomServiceRegisterSeat::all();
-        $seats = $seats->map(function ($seat) {
-            $data = $seat->transform();
-            return $data;
-        });
-        return $this->respondSuccessWithStatus([
-            'historySeat' => $seats
-        ]);
-    }
-
-
     public function getBases(Request $request)
     {
         $query = trim($request->q);
