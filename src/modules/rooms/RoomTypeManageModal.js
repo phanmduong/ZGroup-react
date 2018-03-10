@@ -5,11 +5,13 @@ import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import * as roomActions from './roomActions';
 import FormInputText from "../../components/common/FormInputText";
-import * as helper from "../../helpers/helper";
+//import * as helper from "../../helpers/helper";
 import Search from "../../components/common/Search";
 import Loading from "../../components/common/Loading";
 import {linkUploadImageEditor} from "../../constants/constants";
 import ReactEditor from "../../components/common/ReactEditor";
+import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
+import EditRoomTypeModal from "./EditRoomTypeModal";
 
 class RoomTypeManageModal extends React.Component {
     constructor(props, context) {
@@ -19,13 +21,14 @@ class RoomTypeManageModal extends React.Component {
             description: '',
             query: '',
             id: null,
-            isLoadingDescription: false
+            editRoomTypeModal: false
         };
         this.timeOut = null;
         this.handleName = this.handleName.bind(this);
-        this.deleteManufactureModal = this.deleteManufactureModal.bind(this);
         this.roomTypesSearchChange = this.roomTypesSearchChange.bind(this);
         this.handleDescription = this.handleDescription.bind(this);
+        this.createRoomType = this.createRoomType.bind(this);
+        //this.showEditRoomTypeModal = this.showEditRoomTypeModal.bind(this);
     }
 
     componentWillMount() {
@@ -44,10 +47,12 @@ class RoomTypeManageModal extends React.Component {
         });
     }
 
-    deleteManufactureModal(manufacture) {
-        helper.confirm("error", "Xóa nhà sản xuất", "Bạn có chắc muốn xóa nhà sản xuất này", () => {
-            this.props.roomActions.deleteManufactureModal(manufacture);
-        });
+    createRoomType() {
+        const type = this.state;
+        if (isEmptyInput(type.name) || isEmptyInput(type.description)) {
+            if (isEmptyInput(type.name)) showErrorNotification("Bạn chưa nhập tên");
+            if (isEmptyInput(type.description)) showErrorNotification("Bạn chưa nhập mô tả");
+        } else this.props.roomActions.createRoomType(type);
     }
 
     roomTypesSearchChange(value) {
@@ -62,21 +67,13 @@ class RoomTypeManageModal extends React.Component {
         }.bind(this), 500);
     }
 
-    editRoomType(type) {
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
+    showEditRoomTypeModal(type) {
         this.setState({
             name: type.name,
             description: type.description,
             id: type.id,
-            isLoadingDescription: true
+            editRoomTypeModal: true
         });
-        this.timeOut = setTimeout(function () {
-            this.setState({
-                isLoadingDescription: false
-            });
-        }.bind(this), 100);
     }
 
     render() {
@@ -89,6 +86,20 @@ class RoomTypeManageModal extends React.Component {
                     <Modal.Title id="contained-modal-title">Quản lý loại phòng</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <EditRoomTypeModal
+                        editRoomTypeModal={this.state.editRoomTypeModal}
+                        shutdownModal={() => this.setState({
+                            name: null,
+                            description: '',
+                            query: '',
+                            id: null,
+                            editRoomTypeModal: false
+                        })}
+                        type={this.state}
+                        handleName={this.handleName}
+                        handleDescription={this.handleDescription}
+                        createRoomType={this.createRoomType}
+                    />
                     <div className="row">
                         <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                             <FormInputText name="name"
@@ -99,9 +110,9 @@ class RoomTypeManageModal extends React.Component {
                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <button type="button"
                                     className="btn btn-rose btn-md"
-                                    onClick={() => this.props.roomActions.createRoomType(this.state)}>
+                                    onClick={this.createRoomType}>
                                 <i className="material-icons">save</i>
-                                {this.state.id ? "Sửa" : "Tạo"}
+                                Tạo
                             </button>
                         </div>
                     </div>
@@ -109,16 +120,12 @@ class RoomTypeManageModal extends React.Component {
                         <h4 className="label-control">
                             Mô tả loại phòng
                         </h4>
-                        {
-                            this.state.isLoadingDescription ? <Loading/> : (
-                                <ReactEditor
-                                    urlPost={linkUploadImageEditor()}
-                                    fileField="image"
-                                    updateEditor={this.handleDescription}
-                                    value={this.state.description}
-                                />
-                            )
-                        }
+                        <ReactEditor
+                            urlPost={linkUploadImageEditor()}
+                            fileField="image"
+                            updateEditor={this.handleDescription}
+                            value={this.state.description}
+                        />
                     </div>
                     <Search
                         onChange={this.roomTypesSearchChange}
@@ -157,7 +164,7 @@ class RoomTypeManageModal extends React.Component {
                                                                data-toggle="tooltip" title=""
                                                                type="button" rel="tooltip"
                                                                data-original-title="Sửa"
-                                                               onClick={() => this.editRoomType(type)}><i
+                                                               onClick={() => this.showEditRoomTypeModal(type)}><i
                                                                 className="material-icons">edit</i>
                                                             </a>
                                                         </div>
