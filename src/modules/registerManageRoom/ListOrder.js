@@ -8,10 +8,9 @@ import { Modal, Tooltip, OverlayTrigger } from "react-bootstrap";
 import CallModal from "./CallModal";
 import { REGISTER_STATUS } from "../../constants/constants";
 import TooltipButton from "../../components/common/TooltipButton";
-import ChooseSeatModalContainer from "./chooseSeat/ChooseSeatModalContainer";
+// import ChooseSeatModalContainer from "./chooseSeat/ChooseSeatModalContainer";
 
 import moment from "moment/moment";
-import ChooseSeatHistoryModalContainer from "./chooseSeat/ChooseSeatHistoryModalContainer";
 
 export function setRuleShowCall(register) {
     let btn = "";
@@ -105,11 +104,8 @@ class ListOrder extends React.Component {
         this.props.openChooseSeatModal(base);
     }
 
-
     render() {
-        const ChooseSeatTooltip = <Tooltip id="tooltip">Chọn chỗ ngồi</Tooltip>;
         const TopupTooltip = <Tooltip id="tooltip">Thu tiền</Tooltip>;
-        const HistoryTooltip = <Tooltip id="tooltip">Lịch sử đặt chỗ</Tooltip>;
 
         return (
             <div className="table-responsive">
@@ -117,7 +113,7 @@ class ListOrder extends React.Component {
                     <Loading />
                 ) : (
                     <table className="table table-hover">
-                        <ChooseSeatModalContainer />
+                        {/*<ChooseSeatModalContainer />*/}
                         <thead className="text-rose">
                             <tr>
                                 <th>Gọi</th>
@@ -127,12 +123,9 @@ class ListOrder extends React.Component {
                                 <th>Saler</th>
                                 <th>Trạng thái</th>
                                 <th>Chiến dịch</th>
-                                <th>Giá tiền</th>
+                                {/*<th>Giá tiền</th>*/}
                                 <th>Tiền đã trả</th>
-                                <th>Gói thành viên</th>
                                 <th>Đăng ký</th>
-                                <th />
-                                <th />
                                 <th />
                             </tr>
                         </thead>
@@ -283,61 +276,15 @@ class ListOrder extends React.Component {
                                             )}
                                         </td>
 
-                                        <td>
-                                            {helper.dotNumber(
-                                                register.subscription.price,
-                                            )}đ
-                                        </td>
+                                        {/*<td>*/}
+                                            {/*{helper.dotNumber(*/}
+                                                {/*register.subscription.price,*/}
+                                            {/*)}đ*/}
+                                        {/*</td>*/}
                                         <td>
                                             {helper.dotNumber(register.money)}đ
                                         </td>
-                                        <td>
-                                            <b>
-                                                {
-                                                    register.subscription
-                                                        .user_pack.name
-                                                }
-                                            </b>
-                                            <br />
-                                            {
-                                                register.subscription
-                                                    .subscription_kind_name
-                                            }
-                                        </td>
                                         <td>{register.created_at}</td>
-                                        <td>
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={ChooseSeatTooltip}
-                                            >
-                                                <a
-                                                    onClick={() =>
-                                                        this.props.openChooseSeatModal(
-                                                            register.base.base,
-                                                            register,
-                                                        )
-                                                    }
-                                                    style={{ color: "#888" }}
-                                                >
-                                                    <i className="material-icons">
-                                                        add_circle
-                                                    </i>
-                                                </a>
-                                            </OverlayTrigger>
-                                        </td>
-                                        <td>
-                                            <OverlayTrigger placement = "top"
-                                            overlay = {HistoryTooltip}
-                                            >
-                                                <a style={{ color: "#888" }}
-                                                   onClick={()=>this.props.openChooseSeatHistoryModal()}
-                                                >
-                                                    <i className="material-icons">
-                                                        attach_money
-                                                    </i>
-                                                </a>
-                                            </OverlayTrigger>
-                                        </td>
                                         <td>
                                             <OverlayTrigger
                                                 placement="top"
@@ -379,14 +326,12 @@ class ListOrder extends React.Component {
                         />
                     </Modal.Body>
                 </Modal>
-                <ChooseSeatHistoryModalContainer/>
             </div>
         );
     }
 }
 
 ListOrder.propTypes = {
-    openChooseSeatHistoryModal : PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     openChooseSeatModal: PropTypes.func.isRequired,
     registers: PropTypes.array.isRequired,
