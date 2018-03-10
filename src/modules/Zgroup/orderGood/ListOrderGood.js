@@ -12,20 +12,31 @@ class orderList extends React.Component {
         this.state = {
 
         };
-        
+        this.confirm = this.confirm.bind(this);
     }
 
     // componentWillReceiveProps(nextProps) {
     //     console.log("next list props",nextProps);
     // }
 
-    
+    confirm(id) {
+        helper.confirm("warning", "Xác Nhận Duyệt", "Sau khi duyệt sẽ không thể hoàn tác?",
+            () => {
+                return this.props.orderGoodActions.confirmOrder(id,
+                    () => {
+                        helper.showNotification("Duyệt thành công.");
+                        return this.props.orderGoodActions.loadAllOrderGood(this.props.paginator.current_page);
+                    }
+                );
+            }
+        );
+    }
 
     render() {
         let {orderList} = this.props;
+        console.log(this.props);
         return (
             <div className="table-responsive">
-
                 <table id="datatables"
                        className="table table-striped table-no-border table-hover"
                        cellSpacing="0" width="100%" style={{width: "100%"}}>
@@ -50,19 +61,22 @@ class orderList extends React.Component {
                                 
                                 <td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
                                 <td><ButtonGroupAction
-                                    editUrl={"/business/order-good/edit/" + order.id}
-                                    disabledDelete={true}
-                                    children= {
-                                        !order.status &&
-                                        <a data-toggle="tooltip" title="Duyệt"
-                                           type="button"
-                                           onClick={()=>{}}
-                                           rel="tooltip"
-                                        >
-                                            <i className="material-icons">done</i>
-                                        </a>
-                                    }
-                                /></td>
+                                        editUrl={"/business/order-good/edit/" + order.id}
+                                        disabledDelete={true}
+                                        disabledEdit={order.status > 0}
+                                        children={
+                                            (order.status == 0) ?
+                                                <a data-toggle="tooltip" title="Duyệt"
+                                                    type="button"
+                                                    onClick={() => { return this.confirm(order.id); }}
+                                                    rel="tooltip"
+                                                >
+                                                    <i className="material-icons">done</i>
+                                                </a>
+                                                : <div />
+                                        }
+                                    />
+                                    </td>
                             </tr>
                         );
                     })}

@@ -192,6 +192,7 @@ class CreateExportOrderContainer extends React.Component {
         let { orderedGoods, isLoading, isCommitting, warehouses, params,} = this.props;
         let sumQuantity = 0, sumPrice = 0;
         let isEdit = params.exportOrderId;
+        console.log(this.state);
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -212,6 +213,7 @@ class CreateExportOrderContainer extends React.Component {
                                                         <tr>
                                                             <th style={{ width: "10%" }}>STT</th>
                                                             <th style={{ width: "40%" }}>Tên</th>
+                                                            <th style={textAlign}>Mã</th>
                                                             <th style={textAlign}>Số lượng</th>
                                                             <th style={textAlign}>Đơn giá</th>
                                                             <th style={textAlign}>Kho xuất</th>
@@ -229,6 +231,7 @@ class CreateExportOrderContainer extends React.Component {
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
                                                                             <td>{obj.good.name}</td>
+                                                                            <td style={textAlign}>{obj.good.code}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                             <td style={{...textAlign, color: (obj.warehouse && obj.warehouse.id) ? "" : "red"}}>
@@ -316,9 +319,10 @@ class CreateExportOrderContainer extends React.Component {
                                                     name="order"
                                                     defaultMessage="Chọn mã"
                                                 /></div>
-                                            <div>
+                                            <div><br/>
                                                 <div>
                                                     <FormInputText name="" label="Nhà phân phối" value={data.company.name} disabled />
+                                                    <FormInputText name="" label="SĐT liên hệ" value={data.company.phone || "Không có"} disabled />
                                                 </div>
                                                 <label className="control-label">Ghi chú</label>
                                                 <div className="comment-input-wrapper">

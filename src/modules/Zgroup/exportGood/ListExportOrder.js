@@ -32,6 +32,7 @@ class ListExportOrder extends React.Component {
 
     render() {
         let {listExportOrder} = this.props;
+        console.log(this.props);
         return (
             <div className="table-responsive">
 
@@ -44,7 +45,6 @@ class ListExportOrder extends React.Component {
                         <th>Nhà phân phối</th>
                         <th>Mã đơn hàng</th>
                         <th>Số sản phẩm</th>
-
                         <th>Tổng tiền</th>
                         <th/>
                     </tr>
@@ -62,8 +62,9 @@ class ListExportOrder extends React.Component {
                                 <td><ButtonGroupAction
                                     editUrl={"/business/export-order/edit/" + order.id}
                                     disabledDelete={true}
+                                    disabledEdit={order.status > 2}
                                     children= {
-                                        !order.status &&
+                                        (order.status && (order.status == 2)) ?
                                         <a data-toggle="tooltip" title="Duyệt"
                                            type="button"
                                            onClick={()=>{return this.confirm(order.id);}}
@@ -71,6 +72,7 @@ class ListExportOrder extends React.Component {
                                         >
                                             <i className="material-icons">done</i>
                                         </a>
+                                        : <div/>
                                     }
                                 /></td>
                             </tr>

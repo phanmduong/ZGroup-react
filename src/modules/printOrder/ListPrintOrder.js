@@ -92,6 +92,7 @@ class ListPrintOrder extends React.Component {
                                 <td><ButtonGroupAction
                                     editUrl={"/business/print-order/edit/" + order.id}
                                     disabledDelete={true}
+                                    disabledEdit={order.status == 0}
                                     children={
                                         (!order.status  || order.status == 0) ?
                                         <a data-toggle="tooltip" title="Duyệt"

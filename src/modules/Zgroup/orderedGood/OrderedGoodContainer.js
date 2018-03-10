@@ -45,7 +45,7 @@ class OrderedGoodContainer extends React.Component {
                                     <h4 className="card-title">Danh sách đơn hàng</h4>
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <div className="col-sm-3">
+                                            <div className="col-sm-4">
                                                 <Link to="/business/ordered-good/create" className="btn btn-rose" style={{width: "100%"}}>
                                                 <i className="material-icons">add</i> Tạo đơn hàng
                                                 </Link>

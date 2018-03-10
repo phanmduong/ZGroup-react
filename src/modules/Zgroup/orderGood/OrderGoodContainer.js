@@ -28,8 +28,7 @@ class OrderGoodContainer extends React.Component {
 
     render() {
         let { isLoading, paginator, orderGoodActions } = this.props;
-        //let {data, showAddModal, addModalData} = this.state;
-
+        
         return (
             <div className="content">
                 <div className="container-fluid">

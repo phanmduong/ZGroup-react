@@ -188,8 +188,8 @@ class CreatePrintOrderContainer extends React.Component {
         ;
         let VAT_price = Math.round(1.1 * total_price).toFixed(2);
 
-
         return (
+            
             <div className="content">
                 <AddPropertyModal
                     show={this.state.showPropsModal}
@@ -676,6 +676,16 @@ class CreatePrintOrderContainer extends React.Component {
                                                         updateFormData={() => {
                                                         }}
                                                         value={data.good.name || ""}
+                                                        disabled={true}
+                                                    />
+                                                </div>
+                                                <div className="col-md-12">
+                                                    <FormInputText
+                                                        label="Mã sản phẩm"
+                                                        type="text"
+                                                        name="name"
+                                                        updateFormData={() => {}}
+                                                        value={data.good.code || ""}
                                                         disabled={true}
                                                     />
                                                 </div>
