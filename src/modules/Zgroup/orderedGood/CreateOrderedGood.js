@@ -157,6 +157,7 @@ class CreateOrderedGood extends React.Component {
                         id: obj.id,
                         price: obj.price,
                         quantity: obj.quantity,
+                        export_quantity: obj.export_quantity,
                     });
                 })
             ) ,
@@ -271,7 +272,7 @@ class CreateOrderedGood extends React.Component {
                                                                     <td style={textAlign}>{sumQuantity}</td>
                                                                     <td/>
                                                                     <td/>
-                                                                    <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
+                                                                    <td colSpan={2} style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                                 </tr>
                                                             </tfoot>
                                                         </table>
@@ -327,8 +328,9 @@ class CreateOrderedGood extends React.Component {
                                                             name="company"
                                                             defaultMessage="Chọn nhà phân phối"
                                                         />
-                                                    </div>
-                                                    <div><br/>
+                                                    </div><br/>
+                                                    <div>
+                                                        <div><label>Người tạo đơn hàng</label><br/>{data.staff ? data.staff.name : user.name }</div><br/>
                                                         <div><label>Địa chỉ</label><br/>{data.company.office_address}</div><br/>
                                                         <div><label>SĐT liên hệ</label><br/>{data.company.phone_company}</div><br/>
                                                         <div><label>Chiết khấu truyện tranh</label><br/>{data.company.discount_comic||0}%</div><br/>
@@ -473,15 +475,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateOrderedGood);
 
 const defaultData = {
     company: {id: "", name: ""},
-    goods: [
-        // {id: "1", name: "Sản phẩm 1", quantity: 1, price: 3},
-        // {id: "2", name: "Sản phẩm 2", quantity: 2, price: 4},
-        // {id: "3", name: "Sản phẩm 3", quantity: 3, price: 5},
-    ],
+    goods: [],
     note: "",
 };
 const defaultAddModalData= {
     id: "",
     quantity: 0,
+    export_quantity: 0,
     price: 0,
 };

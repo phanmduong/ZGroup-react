@@ -5,6 +5,7 @@ import {connect}                        from 'react-redux';
 import  * as exportOrderActions from "./exportOrderActions";
 import {bindActionCreators}             from 'redux';
 import * as helper from "../../../helpers/helper";
+import moment from "moment";
 
 class ListExportOrder extends React.Component {
     constructor(props, context) {
@@ -51,13 +52,13 @@ class ListExportOrder extends React.Component {
                     </thead>
                     <tbody>
                     {listExportOrder.map((order, index)=>{
+                        let overTime = order.created_at ? false : isOverTime(order.created_at);
                         return(
-                            <tr key={index}>
+                            <tr key={index} style={(overTime && order.status < 3) ? {backgroundColor: "lightcoral", color: "white"} : {}}>
                                 <td>{index + 1}</td>
                                 <td>{order.company.name}</td>                                
                                 <td>{order.command_code}</td>                                
                                 <td>{order.goods.length}</td>
-                                
                                 <td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
                                 <td><ButtonGroupAction
                                     editUrl={"/business/export-order/edit/" + order.id}
@@ -117,3 +118,18 @@ function getTotalPrice(arr){
     });
     return sum;
 }
+
+function isOverTime(inp){
+    let cre_date = moment(inp);
+    while(cre_date.day() == 0 || cre_date.day() == 6)
+    {
+        cre_date = cre_date.add(1, "days");
+        //console.log("loop ",cre_date.day());
+    }
+     //console.log("loop end",cre_date.date());
+    cre_date = cre_date.add(2, "days");
+    let res = moment(moment.now()).isAfter(cre_date);
+    return res;
+}
+
+

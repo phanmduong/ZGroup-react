@@ -189,7 +189,7 @@ class CreateExportOrderContainer extends React.Component {
 
     render() {
         let { data, addModalData, showAddModal } = this.state;
-        let { orderedGoods, isLoading, isCommitting, warehouses, params,} = this.props;
+        let { orderedGoods, isLoading, isCommitting, warehouses, params,user} = this.props;
         let sumQuantity = 0, sumPrice = 0;
         let isEdit = params.exportOrderId;
         console.log(this.state);
@@ -321,6 +321,8 @@ class CreateExportOrderContainer extends React.Component {
                                                 /></div>
                                             <div><br/>
                                                 <div>
+                                                    <div><label>Người tạo đơn hàng</label><br/>{data.staff ? data.staff.name : user.name }</div><br/>
+                                                    <div><label>Người xuất hàng</label><br/>{ user.name }</div><br/>
                                                     <FormInputText name="" label="Nhà phân phối" value={data.company.name} disabled />
                                                     <FormInputText name="" label="SĐT liên hệ" value={data.company.phone || "Không có"} disabled />
                                                 </div>

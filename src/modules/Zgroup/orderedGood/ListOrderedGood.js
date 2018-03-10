@@ -34,6 +34,7 @@ class orderedList extends React.Component {
 
     render() {
         let { orderedList } = this.props;
+        console.log(this.props);
         return (
             <div className="table-responsive">
 
@@ -46,7 +47,7 @@ class orderedList extends React.Component {
                             <th>Nhà phân phối</th>
                             <th>Mã đơn hàng</th>
                             <th>Số sản phẩm</th>
-                            <th>Tổng</th>
+                            <th>Tổng giá trị</th>
                             <th />
                         </tr>
                     </thead>
@@ -116,7 +117,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(orderedList);
 function getTotalPrice(arr) {
     let sum = 0;
     arr.forEach(e => {
-        sum += e.price;
+        sum += e.total_price;
     });
     return sum;
 }
