@@ -162,6 +162,10 @@ class ManageDashboardApiController extends ManageApiController
 
         $total_money_registers = 0;
 
+        $now = date('Y-m-d');
+
+        $money_today = 0;
+
         foreach ($date_array as $date) {
 
             if (isset($registers_by_date_temp[$date])) {
@@ -182,6 +186,11 @@ class ManageDashboardApiController extends ManageApiController
             } else {
                 $money_by_date[$di] = 0;
             }
+
+            if ($date == $now) {
+                $money_today = $money_by_date[$di];
+            }
+
             $di += 1;
         }
 
@@ -275,7 +284,7 @@ class ManageDashboardApiController extends ManageApiController
         $data['paid_by_date'] = $paid_by_date;
         $data['date_array'] = $date_array;
         $data['money_by_date'] = $money_by_date;
-
+        $data['money_today'] = $money_today;
 
         $rating = $this->dashboardRepository->ratingUser($this->user);
         $user = $this->user;
