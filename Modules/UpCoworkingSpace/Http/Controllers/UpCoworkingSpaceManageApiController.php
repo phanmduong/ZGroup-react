@@ -77,12 +77,12 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
             ]);
         }
 
+        $registers = RoomServiceRegister::where('type', 'room');
         if ($search)
-            $registers = RoomServiceRegister::join('users', 'users.id', '=', 'room_service_registers.user_id')
+            $registers = $registers->join('users', 'users.id', '=', 'room_service_registers.user_id')
             ->select('room_service_registers.*')->where(function ($query) use ($search) {
                 $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
             });
-        else $registers = RoomServiceRegister::where('type', 'room');
 
         if ($request->base_id)
             $registers = $registers->where('base_id', $request->base_id);
