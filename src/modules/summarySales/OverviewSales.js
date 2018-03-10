@@ -2,16 +2,14 @@
  * Created by phanmduong on 11/25/17.
  */
 import React from 'react';
-import {connect} from 'react-redux';
 import * as helper from '../../helpers/helper';
 import TooltipButton from '../../components/common/TooltipButton';
 import {Pie} from "react-chartjs-2";
 
 import PropTypes                    from 'prop-types';
+import {connect} from "react-redux";
 
 
-import {bindActionCreators} from 'redux';
-import * as summarySalesActions from './summarySalesActions';
 
 
 const legendOpts = {
@@ -23,7 +21,6 @@ const legendOpts = {
 class OverviewSales extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.loadSummary = this.loadSummary.bind(this);
     }
     convertData(campaigns) {
         let labels = [];
@@ -51,11 +48,10 @@ class OverviewSales extends React.Component {
 
         return dataChart;
     }
-    loadSummary() {
-        this.props.summarySalesActions.loadSummarySalesData();
-    }
+
 
     render() {
+
         return (
             <div>
                 {this.props.summary.map((item, index) => {
@@ -137,18 +133,11 @@ class OverviewSales extends React.Component {
 }
 OverviewSales.propTypes={
     summary: PropTypes.array,
-    summarySalesActions: PropTypes.object,
 };
-
 function mapStateToProps(state) {
     return {
         summary: state.summarySales.summary
     };
 }
-function mapDispatchToProps(dispatch) {
-    return {
-        summarySalesActions: bindActionCreators(summarySalesActions, dispatch)
-    };}
 
-
-export default connect(mapStateToProps,mapDispatchToProps)(OverviewSales);
+export default connect(mapStateToProps)(OverviewSales);

@@ -127,15 +127,14 @@ class OverviewSalesUp extends React.Component {
         );
     }
 }
+
 OverviewSalesUp.propTypes={
     summary: PropTypes.array,
 };
-
 function mapStateToProps(state) {
     return {
-        summary: state.summarySalesUp.summary
+        summary: state.summarySalesUp.summary,
     };
 }
-
 
 export default connect(mapStateToProps)(OverviewSalesUp);
