@@ -1091,7 +1091,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
-            isLoadingProvinces : false,
+            isLoadingProvinces: false,
             provinces: [],
             isOpenReturnOrder: false,
             isSaving: false,
@@ -1122,7 +1122,6 @@ export default {
                     phone: "test",
                     email: "po01636863831@gmail.com",
                 },
-
 
 
                 return_orders: [],
@@ -1494,6 +1493,8 @@ export default {
         salesMarketings: [],
     },
     rooms: {
+        roomTypeManageModal: false,
+        isLoadingRoomTypes: false,
         isLoading: false,
         error: false,
         currentPage: 1,
@@ -2003,33 +2004,33 @@ export default {
 
     },
 
-    orderedGood:{
-      isLoading: false,
-      isCommitting: false,
-      companies: [],
-      goods: [],
-      orderedList: [],
-      paginator: {
-          current_page: 1,
-          limit: 20,
-          total_count: 0,
-          total_pages: 1,
-      },
-    },
-    orderGood:{
-      isLoading: false,
-      isCommitting: false,
-      companies: [],
-      goods: [],
-      orderList: [],
-      paginator: {
-        current_page: 1,
-        limit: 20,
-        total_count: 0,
-        total_pages: 1,
+    orderedGood: {
+        isLoading: false,
+        isCommitting: false,
+        companies: [],
+        goods: [],
+        orderedList: [],
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 0,
+            total_pages: 1,
         },
     },
-    historyDebt:{
+    orderGood: {
+        isLoading: false,
+        isCommitting: false,
+        companies: [],
+        goods: [],
+        orderList: [],
+        paginator: {
+            current_page: 1,
+            limit: 20,
+            total_count: 0,
+            total_pages: 1,
+        },
+    },
+    historyDebt: {
         isLoadingComapnies: false,
         isLoadingistoryDebt: false,
         companies: [],
@@ -2038,7 +2039,7 @@ export default {
         paginatorHistoryDebt: [],
     },
 
-    importOrder:{
+    importOrder: {
         isLoading: false,
         isLoadingImportOrder: false,
         isLoadingItemOrder: false,

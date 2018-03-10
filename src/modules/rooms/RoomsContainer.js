@@ -17,6 +17,7 @@ import ListRoom from "./ListRoom";
 import PropTypes from "prop-types";
 import Select from "../../components/common/Select";
 import EditRoomModalContainer from "../bases/room/EditRoomModalContainer";
+import RoomTypeManageModal from "./RoomTypeManageModal";
 
 class RoomsContainer extends React.Component {
     constructor(props, context) {
@@ -40,7 +41,6 @@ class RoomsContainer extends React.Component {
     componentWillMount() {
         this.props.roomActions.loadRoomsData();
         this.props.roomActions.loadBasesData();
-        this.props.roomActions.getTypes();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -105,6 +105,7 @@ class RoomsContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <EditRoomModalContainer/>
+                    <RoomTypeManageModal/>
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">assignment</i>

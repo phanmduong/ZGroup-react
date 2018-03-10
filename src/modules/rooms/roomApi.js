@@ -11,7 +11,7 @@ export function getRooms(page, search, baseId) {
         url += "&token=" + token;
     }
 
-    if (baseId && baseId != 0) {
+    if (baseId && baseId !== 0) {
         url += "&base_id=" + baseId;
     }
 
@@ -28,13 +28,35 @@ export function getBases() {
     return axios.get(url);
 }
 
-export function getTypesApi() {
+export function getTypesApi(search) {
     let url = env.MANAGE_API_URL + "/v2/base/room-type?limit=-1";
     let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
     }
+    if (search) {
+        url += "&search=" + search;
+    }
     return axios.get(url);
+}
+
+export function createRoomTypeApi(roomType) {
+    const request = {
+        name: roomType.name,
+        description: roomType.description
+    };
+    let url = env.MANAGE_API_URL + "/v2/base/room-type";
+    if (roomType.id) {
+        url += "/" + roomType.id;
+    }
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    if (roomType.id) {
+        return axios.put(url, request);
+    }
+    return axios.post(url, request);
 }
 
 export function changeAvatarApi(file, completeHandler, progressHandler, error) {

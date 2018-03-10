@@ -10,11 +10,11 @@ import {
 /*eslint no-console: 0 */
 
 export function loadBasesData() {
-    return function(dispatch) {
-        dispatch({ type: types.BEGIN_LOAD_BASES_ROOM_DATA });
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_BASES_ROOM_DATA});
         roomApi
             .getBases()
-            .then(function(res) {
+            .then(function (res) {
                 dispatch({
                     type: types.LOAD_BASES_ROOM_DATA_SUCCESS,
                     bases: res.data.data.bases,
@@ -28,14 +28,37 @@ export function loadBasesData() {
     };
 }
 
-export function getTypes() {
-    return function(dispatch) {
-        roomApi.getTypesApi().then(function(res) {
+export function getTypes(search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TYPES_ROOM_DATA
+        });
+        roomApi.getTypesApi(search).then(function (res) {
             dispatch({
                 type: types.LOAD_TYPES_ROOM_DATA_SUCCESS,
                 types: res.data.data.room_types,
             });
         });
+    };
+}
+
+export function createRoomType(roomType) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        roomApi.createRoomTypeApi(roomType)
+            .then(function (res) {
+                if (res.data.status) {
+                    dispatch(getTypes());
+                    helper.showNotification("Tạo loại phòng mới thành công");
+                } else {
+                    helper.showErrorNotification("Thiếu tên");
+                }
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+            });
     };
 }
 
@@ -70,7 +93,7 @@ export const changeCover = file => {
 };
 
 export function changeAvatar(file) {
-    return function(dispatch) {
+    return function (dispatch) {
         const error = () => {
             helper.showErrorNotification("Có lỗi xảy ra");
         };
@@ -100,7 +123,7 @@ export function changeAvatar(file) {
 }
 
 export function changeImage(file, length, first_length) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_UPLOAD_IMAGE_ROOM,
         });
@@ -131,11 +154,11 @@ export function changeImage(file, length, first_length) {
 }
 
 export function loadRoomsData(page, search, baseId) {
-    return function(dispatch) {
-        dispatch({ type: types.BEGIN_LOAD_ROOMS_DATA });
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_ROOMS_DATA});
         roomApi
             .getRooms(page, search, baseId)
-            .then(function(res) {
+            .then(function (res) {
                 dispatch({
                     type: types.LOAD_ROOMS_DATA_SUCCESS,
                     rooms: res.data.rooms,
@@ -159,11 +182,11 @@ export function deleteImage(image) {
 }
 
 export function storeRoom(room) {
-    return function(dispatch) {
-        dispatch({ type: types.BEGIN_STORE_ROOM_DATA });
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_STORE_ROOM_DATA});
         helper.showTypeNotification("Đang tạo phòng học", "info");
         roomApi.storeRoom(room)
-            .then(function(res) {
+            .then(function (res) {
                 if (res.data.status) {
                     helper.showNotification("Tạo phòng học thành công.");
                     dispatch({
@@ -183,10 +206,10 @@ export function storeRoom(room) {
 }
 
 export function editRoom(room) {
-    return function(dispatch) {
-        dispatch({ type: types.BEGIN_STORE_ROOM_DATA });
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_STORE_ROOM_DATA});
         helper.showTypeNotification("Đang sửa phòng học", "info");
-        roomApi.editRoom(room).then(function(res) {
+        roomApi.editRoom(room).then(function (res) {
             if (res.data.status) {
                 helper.showNotification("Sửa phòng học thành công.");
                 dispatch({
@@ -215,5 +238,11 @@ export function handleRoomEditModal(room) {
     return {
         type: types.HANDLE_ROOM_EDIT_MODAL,
         room,
+    };
+}
+
+export function showRoomTypeManageModal() {
+    return {
+        type: types.TOGGLE_ROOM_TYPE_MANAGE_MODAL
     };
 }
