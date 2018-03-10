@@ -457,7 +457,7 @@ class ManageBaseApiController extends ManageApiController
         $roomType = new RoomType;
         if ($roomType->where('name', trim($request->name))) {
             return $this->respondSuccessWithStatus([
-                'room_types' => $roomTypes->map(function ($roomType) {
+                'room_types' => $roomType->map(function ($roomType) {
                     return $roomType->getData();
                 })
             ]);
