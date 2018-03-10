@@ -58,15 +58,18 @@ class OrderService
             case 'ordered':
                 return 3;
                 break;
-            case 'arrived':
+            case 'arrive_date':
                 return 4;
                 break;
-            case 'ship':
+            case 'arrived':
                 return 5;
-            case 'completed':
+                break;
+            case 'ship':
                 return 6;
-            case 'cancel':
+            case 'completed':
                 return 7;
+            case 'cancel':
+                return 8;
             default:
                 return 0;
                 break;
@@ -269,12 +272,12 @@ class OrderService
                 'status' => 0,
                 'message' => 'Không tồn tại đơn hàng'
             ];
-        if ($this->deliveryStatusToNum($order->status) == 6)
+        if ($this->deliveryStatusToNum($order->status) == 7)
             return [
                 'status' => 0,
                 'message' => 'Không được phép sửa đơn hoàn thành'
             ];
-        if ($this->deliveryStatusToNum($request->status) == 7) {
+        if ($this->deliveryStatusToNum($request->status) == 8) {
             if ($request->note == null || trim($request->note) == '')
                 return [
                     'status' => 0,
@@ -298,9 +301,12 @@ class OrderService
             $order->attach_info = $request->attach_info;
             //tinh gia viet nam o day
         }
-        if ($this->deliveryStatusToNum($request->status) == 4)
-            $order->delivery_warehouse_status = 'arrived';
+        if ($this->deliveryStatusToNum($request->status) == 4) {
+            
+        }
         if ($this->deliveryStatusToNum($request->status) == 5)
+            $order->delivery_warehouse_status = 'arrived';
+        if ($this->deliveryStatusToNum($request->status) == 6)
             $order->delivery_warehouse_status = 'exported';
         if ($request->attach_info) {
             $order->attach_info = $request->attach_info;
