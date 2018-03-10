@@ -30,7 +30,6 @@ class ManageBaseApiController extends ManageApiController
         if (!isset($registerId) || !isset($startTime) || !isset($endTime)) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu dữ liệu');
         }
-
         $registerSeat = new RoomServiceRegisterSeat();
         $registerSeat->room_service_register_id = $registerId;
         $registerSeat->seat_id = $seatId;
@@ -43,7 +42,7 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function getRoom($baseId)
+    public function getBaseRooms($baseId)
     {
         $base = Base::find($baseId);
         if ($base == null) {
@@ -158,6 +157,17 @@ class ManageBaseApiController extends ManageApiController
             'provinces' => $provinces
         ]);
     }
+    public function getHistoryBookSeat(){
+        $seats = RoomServiceRegisterSeat::all();
+        $seats = $seats->map(function ($seat){
+          $data = $seat->transform();
+          return $data;
+        });
+        return $this->respondSuccessWithStatus([
+            'historySeat' => $seats
+        ]);
+    }
+
 
     public function getBases(Request $request)
     {
@@ -170,7 +180,6 @@ class ManageBaseApiController extends ManageApiController
             $bases = $bases->where('name', 'like', "%$query%")
             ->orWhere('address', 'like', "%$query%");
         }
-        $bases = $bases->orderBy('created_at', 'desc')->paginate($limit);
 
         if ($limit == -1) {
             $bases = $bases->orderBy('created_at', 'desc')->get();
