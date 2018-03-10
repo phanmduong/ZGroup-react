@@ -161,8 +161,6 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-
-
     public function getBases(Request $request)
     {
         $query = trim($request->q);
@@ -172,7 +170,7 @@ class ManageBaseApiController extends ManageApiController
         $bases = Base::query();
         if ($query) {
             $bases = $bases->where('name', 'like', "%$query%")
-            ->orWhere('address', 'like', "%$query%");
+                ->orWhere('address', 'like', "%$query%");
         }
 
         if ($limit == -1) {
@@ -432,7 +430,8 @@ class ManageBaseApiController extends ManageApiController
         $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
         $roomTypes = RoomType::query();
-        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%');
+        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%');
         if ($limit == -1) {
             $roomTypes = $roomTypes->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
