@@ -419,7 +419,6 @@
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/demo.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
 <!--  Plugins for presentation page -->
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/main.js"></script>
@@ -441,35 +440,35 @@
     })
 </script>
 <script type="text/javascript">
-    (function () {
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+    // (function () {
+    //     function getRandomInt(min, max) {
+    //         return Math.floor(Math.random() * (max - min + 1)) + min;
+    //     }
 
-        new IsoGrid(document.querySelector('.isolayer--deco1'), {
-            transform: 'translateX(33vw) translateY(-340px) rotateX(45deg) rotateZ(45deg)',
-            stackItemsAnimation: {
-                properties: function (pos) {
-                    return {
-                        translateZ: (pos + 1) * 30,
-                        rotateZ: getRandomInt(-4, 4)
-                    };
-                },
-                options: function (pos, itemstotal) {
-                    return {
-                        type: dynamics.bezier,
-                        duration: 500,
-                        points: [{"x": 0, "y": 0, "cp": [{"x": 0.2, "y": 1}]}, {
-                            "x": 1,
-                            "y": 1,
-                            "cp": [{"x": 0.3, "y": 1}]
-                        }],
-                        delay: (itemstotal - pos - 1) * 40
-                    };
-                }
-            }
-        });
-    })();
+    //     new IsoGrid(document.querySelector('.isolayer--deco1'), {
+    //         transform: 'translateX(33vw) translateY(-340px) rotateX(45deg) rotateZ(45deg)',
+    //         stackItemsAnimation: {
+    //             properties: function (pos) {
+    //                 return {
+    //                     translateZ: (pos + 1) * 30,
+    //                     rotateZ: getRandomInt(-4, 4)
+    //                 };
+    //             },
+    //             options: function (pos, itemstotal) {
+    //                 return {
+    //                     type: dynamics.bezier,
+    //                     duration: 500,
+    //                     points: [{"x": 0, "y": 0, "cp": [{"x": 0.2, "y": 1}]}, {
+    //                         "x": 1,
+    //                         "y": 1,
+    //                         "cp": [{"x": 0.3, "y": 1}]
+    //                     }],
+    //                     delay: (itemstotal - pos - 1) * 40
+    //                 };
+    //             }
+    //         }
+    //     });
+    // })();
 
     function paginator(currentPageData, totalPagesData) {
         var page = [];
