@@ -22,7 +22,7 @@ class TrongDongPalaceController extends Controller
         return view('trongdongpalace::index', $this->data);
     }
 
-    public function room($roomId)
+    public function room($roomId, $salerId = 0, $campaignId = 0)
     {
         $room = Room::find($roomId);
         if ($room == null) {
@@ -31,6 +31,8 @@ class TrongDongPalaceController extends Controller
         $images = json_decode($room->images_url);
         $this->data['room'] = $room;
         $this->data['images'] = $images;
+        $this->data['saler_id'] = $salerId;
+        $this->data['campaign_id'] = $campaignId;
         return view('trongdongpalace::room', $this->data);
     }
 
@@ -106,7 +108,7 @@ class TrongDongPalaceController extends Controller
     public function contactInfo(Request $request)
     {
         $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
-        
+
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
@@ -119,7 +121,7 @@ class TrongDongPalaceController extends Controller
         $user->username = $request->email;
         $user->address = $request->address;
         $user->save();
-        
+
         Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Trống Đồng Palace');
             $subject = 'Xác nhận thông tin';
@@ -127,12 +129,12 @@ class TrongDongPalaceController extends Controller
         });
         return 'OK';
     }
-    
+
     public function bookingApi(Request $request)
     {
         $room = Room::find($request->room_id);
         $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
-        
+
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
@@ -155,7 +157,7 @@ class TrongDongPalaceController extends Controller
         $register->base_id = $room ? $room->base->id : 0;
         $register->type = 'room';
         $register->save();
-        
+
         Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Trống Đồng Palace');
             $subject = 'Xác nhận thông tin';
@@ -170,11 +172,13 @@ class TrongDongPalaceController extends Controller
         $rooms = Room::query();
         $room_type_id = $request->room_type_id;
         $base_id = $request->base_id;
-        if ($request->base_id) 
+        if ($request->base_id) {
             $rooms->where('base_id', $request->base_id);
+        }
 
-        if ($request->room_type_id) 
+        if ($request->room_type_id) {
             $rooms->where('room_type_id', $request->room_type_id);
+        }
 
         $rooms = $rooms->orderBy('created_at', 'desc')->paginate(6);
 
