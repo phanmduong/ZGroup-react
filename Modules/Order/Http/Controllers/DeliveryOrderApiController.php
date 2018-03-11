@@ -57,29 +57,35 @@ class DeliveryOrderApiController extends ManageApiController
     public function getDeliveryOrders(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
-        $keyWord = $request->search;
-        $javCode = $request->javCode;
-        $link = $request->link;
-
-        $deliveryOrders = Order::where('type', 'delivery');
-        //queries
-        if ($keyWord) {
-            $userIds = User::where(function ($query) use ($keyWord) {
-                $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
-            })->pluck('id')->toArray();
-            $deliveryOrders = $deliveryOrders->where(function ($query) use ($keyWord, $userIds) {
-                $query->whereIn('user_id', $userIds)->orWhere("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+        $searchs = json_decode($request->searchs);
+        $queries = json_decode($request->queries);
+        $deliveryOrders = Order::where('orders.type', 'delivery');
+        $deliveryOrders = $deliveryOrders->join('users', 'users.id', '=', 'orders.user_id')
+            ->select('orders.*')->where(function ($query) use ($searchs) {
+                if ($searchs) {
+                    foreach ($searchs as $keyWord) {
+                        $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
+                            ->orWhere('users.email', 'like', "%$keyWord%");
+                    }
+                }
+            })->where(function ($query) use ($queries) {
+                if ($queries) {
+                    for ($index = 0; $index < count($queries); ++$index) {
+                        if ($index == 0)
+                            $query->where('orders.attach_info', 'like', "%" . $queries[$index] . "%");
+                        else
+                            $query->orWhere('orders.attach_info', 'like', "%" . $queries[$index] . "%");
+                    }
+                }
             });
-        }
-
         if ($request->staff_id)
-            $deliveryOrders = $deliveryOrders->where('staff_id', $request->staff_id);
+            $deliveryOrders = $deliveryOrders->where('orders.staff_id', $request->staff_id);
         if ($request->start_time)
-            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($request->start_time, $request->end_time));
+            $deliveryOrders = $deliveryOrders->whereBetween('orders.created_at', array($request->start_time, $request->end_time));
         if ($request->status)
-            $deliveryOrders = $deliveryOrders->where('status', $request->status);
+            $deliveryOrders = $deliveryOrders->where('orders.status', $request->status);
         if ($request->user_id)
-            $deliveryOrders = $deliveryOrders->where('user_id', $request->user_id);
+            $deliveryOrders = $deliveryOrders->where('orders.user_id', $request->user_id);
 
         if ($limit == -1) {
             $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->get();
@@ -87,6 +93,7 @@ class DeliveryOrderApiController extends ManageApiController
                 'delivery_orders' => $this->deliveryOrderTransformer->transformCollection($deliveryOrders)
             ]);
         }
+
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination(
@@ -137,8 +144,8 @@ class DeliveryOrderApiController extends ManageApiController
             'DELIV' . rebuild_date('Ymd', strtotime(Carbon::now()->toDateTimeString())) . str_pad($this->orderService->getTodayOrderId('delivery') + 1, 4, '0', STR_PAD_LEFT);
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu thông tin người dùng'
-            ]);
+            'message' => 'Thiếu thông tin người dùng'
+        ]);
 
         $order = new Order;
         $this->assignDeliveryOrderInfo($order, $request);
@@ -152,15 +159,15 @@ class DeliveryOrderApiController extends ManageApiController
     {
         if ($request->phone == null || $request->email == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu thông tin người dùng'
-            ]);
+            'message' => 'Thiếu thông tin người dùng'
+        ]);
 
         $order = Order::find($orderId);
         $request->code = $order->code;
         if ($order == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại đơn hàng'
-            ]);
+            'message' => 'Không tồn tại đơn hàng'
+        ]);
         $this->assignDeliveryOrderInfo($order, $request);
         $order->save();
 
@@ -285,8 +292,8 @@ class DeliveryOrderApiController extends ManageApiController
         $response = $this->orderService->changeDeliveryOrderStatus($deliveryOrderId, $request, $this->user->id);
         if ($response['status'] == 0)
             return $this->respondErrorWithStatus([
-                'message' => $response['message']
-            ]);
+            'message' => $response['message']
+        ]);
         return $this->respondSuccessWithStatus([
             'message' => $response['message']
         ]);
@@ -396,8 +403,8 @@ class DeliveryOrderApiController extends ManageApiController
             return $this->respondErrorWithStatus('Vui lòng nhập số tiền lớn hơn 0');
         $user = User::find($deliveryOrder->user_id);
         $debt = $deliveryOrder->price - $deliveryOrder->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-                return $paid + $orderPaidMoney->money;
-            }, 0);
+            return $paid + $orderPaidMoney->money;
+        }, 0);
         if ($debt == 0)
             return $this->respondErrorWithStatus('Đơn hàng đã được thanh toán xong trước đó');
         $money = 0;
