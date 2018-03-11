@@ -162,8 +162,6 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-
-
     public function getBases(Request $request)
     {
         $query = trim($request->q);
@@ -173,7 +171,7 @@ class ManageBaseApiController extends ManageApiController
         $bases = Base::query();
         if ($query) {
             $bases = $bases->where('name', 'like', "%$query%")
-            ->orWhere('address', 'like', "%$query%");
+                ->orWhere('address', 'like', "%$query%");
         }
 
         if ($limit == -1) {
@@ -411,29 +409,31 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function getHistoryBookSeat(Request $request){
+    public function getHistoryBookSeat(Request $request)
+    {
 //        $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
         $seats = RoomServiceRegisterSeat::query();
 
 //        $seats = $seats->seat()->where('name','like','%'.$search.'%');
-        if ($limit == -1){
-            $seats = $seats->orderBy('created_at','desc')->get();
-        }
-        else {
+        if ($limit == -1) {
+            $seats = $seats->orderBy('created_at', 'desc')->get();
+        } else {
             $seats = $seats->orderBy('created_at', 'desc')->paginate($limit);
         }
         return $this->respondWithPagination($seats, [
-            'historySeat' => $seats->map(function ($seat){
+            'historySeat' => $seats->map(function ($seat) {
                 return $seat->transform();
             })]);
     }
+
     public function getRoomTypes(Request $request)
     {
         $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
         $roomTypes = RoomType::query();
-        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%');
+        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%');
         if ($limit == -1) {
             $roomTypes = $roomTypes->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
@@ -454,6 +454,10 @@ class ManageBaseApiController extends ManageApiController
     {
         if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus('Thiếu tên');
+        }
+        $roomType = RoomType::query();
+        if ($roomType->where('name', trim($request->name))->first()) {
+            return $this->respondErrorWithStatus('Phòng này đã được tạo');
         }
         $roomType = new RoomType;
         $roomType->name = $request->name;
