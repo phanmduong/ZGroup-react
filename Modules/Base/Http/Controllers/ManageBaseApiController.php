@@ -455,7 +455,7 @@ class ManageBaseApiController extends ManageApiController
             return $this->respondErrorWithStatus('Thiếu tên');
         }
         $roomType = RoomType::query();
-        if ($roomType->where('name', trim($request->name))->get()) {
+        if ($roomType->where('name', trim($request->name))->first()) {
             return $this->respondErrorWithStatus('Phòng này đã được tạo');
         }
         $roomType->name = $request->name;
