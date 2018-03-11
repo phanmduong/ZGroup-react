@@ -30,7 +30,6 @@ class ManageBaseApiController extends ManageApiController
         if (!isset($registerId) || !isset($startTime) || !isset($endTime)) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu dữ liệu');
         }
-
         $registerSeat = new RoomServiceRegisterSeat();
         $registerSeat->room_service_register_id = $registerId;
         $registerSeat->seat_id = $seatId;
@@ -129,7 +128,10 @@ class ManageBaseApiController extends ManageApiController
     {
         $room->name = $request->name;
         $room->base_id = $baseId;
-        $room->room_type_id = $request->room_type_id; 
+        $room->room_type_id = $request->room_type_id;
+        $room->detail = $request->detail;
+        $room->description = $request->description;
+        $room->room_type_id = $request->room_type_id;
 
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
@@ -168,9 +170,8 @@ class ManageBaseApiController extends ManageApiController
         $bases = Base::query();
         if ($query) {
             $bases = $bases->where('name', 'like', "%$query%")
-            ->orWhere('address', 'like', "%$query%");
+                ->orWhere('address', 'like', "%$query%");
         }
-        $bases = $bases->orderBy('created_at', 'desc')->paginate($limit);
 
         if ($limit == -1) {
             $bases = $bases->orderBy('created_at', 'desc')->get();
@@ -407,12 +408,31 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
+    public function getHistoryBookSeat(Request $request)
+    {
+//        $search = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $seats = RoomServiceRegisterSeat::query();
+
+//        $seats = $seats->seat()->where('name','like','%'.$search.'%');
+        if ($limit == -1) {
+            $seats = $seats->orderBy('created_at', 'desc')->get();
+        } else {
+            $seats = $seats->orderBy('created_at', 'desc')->paginate($limit);
+        }
+        return $this->respondWithPagination($seats, [
+            'historySeat' => $seats->map(function ($seat) {
+                return $seat->transform();
+            })]);
+    }
+
     public function getRoomTypes(Request $request)
     {
         $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
         $roomTypes = RoomType::query();
-        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%');
+        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%');
         if ($limit == -1) {
             $roomTypes = $roomTypes->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
@@ -434,7 +454,10 @@ class ManageBaseApiController extends ManageApiController
         if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus('Thiếu tên');
         }
-        $roomType = new RoomType;
+        $roomType = RoomType::query();
+        if ($roomType->where('name', trim($request->name))->get()) {
+            return $this->respondErrorWithStatus('Phòng này đã được tạo');
+        }
         $roomType->name = $request->name;
         $roomType->description = $request->description;
         $roomType->save();

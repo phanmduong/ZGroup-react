@@ -19,7 +19,7 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
-    <link href="assets/css/trongdong.css" rel="stylesheet">
+    <link href="/assets/css/trongdong.css" rel="stylesheet">
     <script>
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";

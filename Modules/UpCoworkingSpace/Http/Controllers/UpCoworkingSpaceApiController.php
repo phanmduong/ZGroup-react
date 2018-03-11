@@ -89,10 +89,10 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register->base_id = $request->base_id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $request->saler_id ? $request->saler_id : 0;
+        $register->type = 'seat';
         $register->save();
         $subject = "Xác nhận đăng ký thành công";
-//        $data = ["base" => Base::find($request->base_id)->transform,
-//            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
+
         $data = ["user" => $user];
         $emailcc = ["graphics@colorme.vn"];
         Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
@@ -181,16 +181,13 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
-//        $register->campaign_id = $campaignId;
+        $register->type = 'seat';
         $register->save();
-//        dd(Base::find($request->base_id));
         $subject = "Xác nhận đăng ký thành công";
-//        $data = ["base" => Base::find($request->base_id)->transform,
-//            "subscription" => RoomServiceSubscription::find($request->subscription_id), "user" => $user];
         $data = ["user" => $user];
         $emailcc = ["graphics@colorme.vn"];
         Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->from('no-reply@colorme.vn', 'Up Coworking Space');
             $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
         });
 

@@ -27,43 +27,82 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
     {
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
-
-        if ($limit != -1) {
-            if ($search)
-                $registers = RoomServiceRegister::join('users', 'users.id', '=', 'room_service_registers.user_id')
-                    ->select('room_service_registers.*')->where(function ($query) use ($search) {
-                        $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
-                    });
-            else $registers = RoomServiceRegister::query();
-//        if ($request->user_id)
-//            $registers = $registers->where('user_id', $request->user_id);
-            if ($request->base_id)
-                $registers = $registers->where('base_id', $request->base_id);
-            if ($request->staff_id)
-                $registers = $registers->where('staff_id', $request->staff_id);
-            if ($request->saler_id)
-                $registers = $registers->where('saler_id', $request->saler_id);
-            if ($request->campaign_id)
-                $registers = $registers->where('campaign_id', $request->campaign_id);
-            if ($request->status)
-                $registers = $registers->where('status', $request->status);
-            if ($request->start_time && $request->end_time)
-                $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
-            $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
-
-            return $this->respondWithPagination($registers, [
-                'room_service_registers' => $registers->map(function ($register) {
-                    return $register->getData();
-                })
-            ]);
-        } else {
-            $registers = RoomServiceRegister::all();
+        if ($limit == -1) {
+            $registers = RoomServiceRegister::where('type', 'seat')->get();
             return $this->respondSuccessWithStatus([
                 'room_service_registers' => $registers->map(function ($register) {
                     return $register->getData();
                 })
             ]);
         }
+        if ($search)
+            $registers = RoomServiceRegister::join('users', 'users.id', '=', 'room_service_registers.user_id')
+            ->select('room_service_registers.*')->where(function ($query) use ($search) {
+                $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
+            });
+        else $registers = RoomServiceRegister::where('type', 'seat');
+
+        if ($request->base_id)
+            $registers = $registers->where('base_id', $request->base_id);
+        if ($request->staff_id)
+            $registers = $registers->where('staff_id', $request->staff_id);
+        if ($request->saler_id)
+            $registers = $registers->where('saler_id', $request->saler_id);
+        if ($request->campaign_id)
+            $registers = $registers->where('campaign_id', $request->campaign_id);
+        if ($request->status)
+            $registers = $registers->where('status', $request->status);
+        if ($request->start_time && $request->end_time)
+            $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
+        $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
+
+        return $this->respondWithPagination($registers, [
+            'room_service_registers' => $registers->map(function ($register) {
+                return $register->getData();
+            })
+        ]);
+    }
+
+    public function getRoomBookings(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $search = $request->search;
+
+        if ($limit == -1) {
+            $registers = RoomServiceRegister::where('type', 'room')->get();
+            return $this->respondSuccessWithStatus([
+                'room_service_registers' => $registers->map(function ($register) {
+                    return $register->getRoomBookingData();
+                })
+            ]);
+        }
+
+        $registers = RoomServiceRegister::where('type', 'room');
+        if ($search)
+            $registers = $registers->join('users', 'users.id', '=', 'room_service_registers.user_id')
+            ->select('room_service_registers.*')->where(function ($query) use ($search) {
+                $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
+            });
+
+        if ($request->base_id)
+            $registers = $registers->where('base_id', $request->base_id);
+        if ($request->staff_id)
+            $registers = $registers->where('staff_id', $request->staff_id);
+        if ($request->saler_id)
+            $registers = $registers->where('saler_id', $request->saler_id);
+        if ($request->campaign_id)
+            $registers = $registers->where('campaign_id', $request->campaign_id);
+        if ($request->status)
+            $registers = $registers->where('status', $request->status);
+        if ($request->start_time && $request->end_time)
+            $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
+        $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
+
+        return $this->respondWithPagination($registers, [
+            'room_service_registers' => $registers->map(function ($register) {
+                return $register->getRoomBookingData();
+            })
+        ]);
     }
 
     public function getUserPacks(Request $request)
@@ -223,21 +262,54 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         ]);
     }
 
-    public function getAllSalers(Request $request) 
+    public function getAllSalers(Request $request)
     {
-            $saler_ids = DB::table('room_service_registers')->select('saler_id')->distinct()->get();
-    
-            $saler_idss =[];
-            
-            foreach($saler_ids as $saler_id){
-                array_push($saler_idss,$saler_id->saler_id);
-            }
-    
-            $salers = User::query();
-            $salers= $salers->whereIn('id',$saler_idss)->get(   );
-    
-            return $this->respondSuccessWithStatus([
-                'salers' => $salers
-            ]);
+        $saler_ids = DB::table('room_service_registers')->select('saler_id')->distinct()->get();
+
+        $saler_idss = [];
+
+        foreach ($saler_ids as $saler_id) {
+            array_push($saler_idss, $saler_id->saler_id);
+        }
+
+        $salers = User::query();
+        $salers = $salers->whereIn('id', $saler_idss)->get();
+
+        return $this->respondSuccessWithStatus([
+            'salers' => $salers
+        ]);
+    }
+
+    public function booking(Request $request)
+    {
+        $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = Hash::make($phone);
+        }
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->email = $request->email;
+        $user->username = $request->email;
+        $user->address = $request->address;
+        $user->save();
+
+        $register = new RoomServiceRegister();
+        $register->user_id = $user->id;
+        $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
+        $register->saler_id = $request->saler_id ? $request->saler_id : 0;
+        $register->base_id = $request->base_id ? $request->base_id : 0;
+        $register->type = 'room';
+        $register->save();
+        
+        // Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
+        //     $m->from('no-reply@colorme.vn', 'Up Coworking Space');
+        //     $subject = 'Xác nhận thông tin';
+        //     $m->to($request->email, $request->name)->subject($subject);
+        // });
+
+        return $this->respondSuccess(['Thêm đăng ký thành công']);
     }
 }

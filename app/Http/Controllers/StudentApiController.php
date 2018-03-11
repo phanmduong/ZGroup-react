@@ -75,11 +75,11 @@ class StudentApiController extends ApiController
         $code = $request->code;
 
         $register = Register::find($register_id);
-
+        if($register == null)
+            return $this->respondErrorWithStatus('Không tồn tại đăng ký');
         if ($register->status == 1) {
             return $this->responseBadRequest('Học viên này đã đóng tiền rồi');
         }
-
         $register->money = $money;
 
         $register->paid_time = format_time_to_mysql(time());
