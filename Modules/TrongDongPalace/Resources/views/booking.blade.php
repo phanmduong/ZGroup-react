@@ -105,7 +105,7 @@
                                         : {{$room->name}}</a>
                                 </h3>
                                 <p class="card-description">
-                                    {{$room->roomType->name}}
+                                    {{$room->roomType ? $room->roomType->name : ""}}
                                 </p>
                                 <br>
                                 <a href="#"
