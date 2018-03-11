@@ -267,8 +267,7 @@ var modalPurchase = new Vue({
                     email = "";
                     address = "";
                     payment = "";
-                })
-
+                }).bind(this)
                 .catch(function (error) {
                     console.log(error);
                 });
@@ -310,12 +309,7 @@ var fastOrder = new Vue({
             this.isLoadingCurrency = true;
             axios.get(window.url + '/currency')
                 .then(function (response) {
-                    // this.currencies.push({
-                    //     name: 'default'
-                    // });
-
                     this.currencies = response.data.currencies;
-                    // console.log(this.currencies);
                     this.isLoadingCurrency = false;
                 }.bind(this))
                 .catch(function (error) {
