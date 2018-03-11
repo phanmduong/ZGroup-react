@@ -53,7 +53,7 @@ export function createRoomType(roomType) {
                     dispatch(getTypes());
                     helper.showNotification("Tạo loại phòng mới thành công");
                 } else {
-                    helper.showErrorNotification("Thiếu tên");
+                    helper.showErrorNotification(res.data.message);
                 }
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING

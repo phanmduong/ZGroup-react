@@ -4,14 +4,12 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import * as roomActions from './roomActions';
-import FormInputText from "../../components/common/FormInputText";
 //import * as helper from "../../helpers/helper";
 import Search from "../../components/common/Search";
 import Loading from "../../components/common/Loading";
-import {linkUploadImageEditor} from "../../constants/constants";
-import ReactEditor from "../../components/common/ReactEditor";
 import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
 import EditRoomTypeModal from "./EditRoomTypeModal";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class RoomTypeManageModal extends React.Component {
     constructor(props, context) {
@@ -102,36 +100,26 @@ class RoomTypeManageModal extends React.Component {
                     />
                     <div className="row">
                         <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <FormInputText name="name"
-                                           value={this.state.name}
-                                           placeholder="Nhập tên loại phòng muốn tạo"
-                                           updateFormData={this.handleName}/>
+                            <Search
+                                onChange={this.roomTypesSearchChange}
+                                value={this.state.query}
+                                placeholder="Nhập tên loại phòng hoặc mô tả để tìm"
+                            />
                         </div>
                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <button type="button"
                                     className="btn btn-rose btn-md"
-                                    onClick={this.createRoomType}>
+                                    onClick={() => this.setState({
+                                        name: null,
+                                        description: '',
+                                        id: null,
+                                        editRoomTypeModal: true
+                                    })}>
                                 <i className="material-icons">save</i>
                                 Tạo
                             </button>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <h4 className="label-control">
-                            Mô tả loại phòng
-                        </h4>
-                        <ReactEditor
-                            urlPost={linkUploadImageEditor()}
-                            fileField="image"
-                            updateEditor={this.handleDescription}
-                            value={this.state.description}
-                        />
-                    </div>
-                    <Search
-                        onChange={this.roomTypesSearchChange}
-                        value={this.state.query}
-                        placeholder="Nhập tên loại phòng hoặc mô tả để tìm"
-                    />
                     {
                         this.props.isLoadingRoomTypes ? (
                             <Loading/>
@@ -159,15 +147,17 @@ class RoomTypeManageModal extends React.Component {
                                                         <div dangerouslySetInnerHTML={{__html: type.description}}/>
                                                     </td>
                                                     <td>
-                                                        <div className="btn-group-action">
-                                                            <a style={{color: "#878787"}}
-                                                               data-toggle="tooltip" title=""
-                                                               type="button" rel="tooltip"
-                                                               data-original-title="Sửa"
-                                                               onClick={() => this.showEditRoomTypeModal(type)}><i
-                                                                className="material-icons">edit</i>
-                                                            </a>
-                                                        </div>
+                                                        <TooltipButton text="Sửa" placement="top">
+                                                            <div className="btn-group-action">
+                                                                <a style={{color: "#878787"}}
+                                                                   data-toggle="tooltip" title=""
+                                                                   type="button" rel="tooltip"
+                                                                   data-original-title="Sửa"
+                                                                   onClick={() => this.showEditRoomTypeModal(type)}><i
+                                                                    className="material-icons">edit</i>
+                                                                </a>
+                                                            </div>
+                                                        </TooltipButton>
                                                     </td>
                                                 </tr>
                                             );
