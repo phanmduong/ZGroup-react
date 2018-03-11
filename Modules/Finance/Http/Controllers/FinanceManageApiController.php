@@ -55,7 +55,7 @@ class FinanceManageApiController extends ManageApiController
     {
         $bankAccounts = BankAccount::query();
         $bankAccounts = $bankAccounts->orderBy('created_at', 'desc')->get();
-        return $this->respondWithPagination($bankAccounts, [
+        return $this->respondSuccessWithStatus( [
             'bank_accounts' => $bankAccounts->map(function ($bankAccount) {
                 return $bankAccount->getData();
             })
