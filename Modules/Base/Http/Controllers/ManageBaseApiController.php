@@ -35,6 +35,7 @@ class ManageBaseApiController extends ManageApiController
         $registerSeat->seat_id = $seatId;
         $registerSeat->start_time = format_time_to_mysql((int)$startTime);
         $registerSeat->end_time = format_time_to_mysql((int)$endTime);
+        $registerSeat->user_id = $this->user->id;
         $registerSeat->save();
 
         return $this->respondSuccessV2([
@@ -357,7 +358,6 @@ class ManageBaseApiController extends ManageApiController
 
     public function updateSeat($seatId, Request $request)
     {
-        $seat = Seat::find($seatId);
         if ($seat == null) {
             return $this->respondErrorWithStatus('Chỗ ngồi không tồn tại');
         }
@@ -400,7 +400,8 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function chooseSeatHistory($registerId)
+    public function chooseSeat
+    ($registerId)
     {
         $registerSeats = RoomServiceRegisterSeat::where('room_service_register_id', $registerId)->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessV2([
