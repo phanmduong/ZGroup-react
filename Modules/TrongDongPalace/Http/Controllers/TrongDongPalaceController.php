@@ -33,6 +33,7 @@ class TrongDongPalaceController extends Controller
         $this->data['images'] = $images;
         $this->data['saler_id'] = $salerId;
         $this->data['campaign_id'] = $campaignId;
+
         return view('trongdongpalace::room', $this->data);
     }
 
@@ -202,6 +203,20 @@ class TrongDongPalaceController extends Controller
         $this->data['campaign_id'] = $campaignId;
         $this->data['total_pages'] = ceil($rooms->total() / $rooms->perPage());
         $this->data['current_page'] = $rooms->currentPage();
+
+        $lastPart = '';
+        if ($salerId) {
+            $lastPart .= '/' . $salerId;
+            if ($campaignId) {
+                $lastPart .= '/' . $campaignId;
+            }
+        } else {
+            if ($campaignId) {
+                $lastPart .= '/0/' . $campaignId;
+            }
+        }
+
+        $this->data['last_part'] = $lastPart;
 
         return view('trongdongpalace::booking', $this->data);
     }

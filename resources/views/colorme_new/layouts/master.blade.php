@@ -5,6 +5,10 @@
     <meta name="fragment" content="!">
     <meta name="google-site-verification" content="xtTa2p_KrROT2c7_IyShaw1KDt3iIvZ9c_bufAvYhvs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="http://d1j8r0kxyu9tj8.cloudfront.net/images/1520759546UIE1j3pqg3PzX5r.jpg"/>
+
     <title>Color ME - Trường học thiết kế Color ME</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese"
