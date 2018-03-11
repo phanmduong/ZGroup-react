@@ -458,6 +458,7 @@ class ManageBaseApiController extends ManageApiController
         if ($roomType->where('name', trim($request->name))->first()) {
             return $this->respondErrorWithStatus('Phòng này đã được tạo');
         }
+        $roomType = new RoomType;
         $roomType->name = $request->name;
         $roomType->description = $request->description;
         $roomType->save();
