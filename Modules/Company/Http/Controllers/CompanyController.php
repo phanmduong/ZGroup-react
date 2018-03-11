@@ -436,7 +436,7 @@ class CompanyController extends ManageApiController
         $order->good_count = 1;
         $order->save();
 
-        $importOrder = ImportItemOrder::where('item_order_id',$order->id)->first();
+        $importOrder = ImportItemOrder::where('item_order_id',$order->id)->get();
         $importOrder->good_id = $printorder->good_id;
         $importOrder->quantity = $printorder->quantity;
         $importOrder->item_order_id = $order->id;
