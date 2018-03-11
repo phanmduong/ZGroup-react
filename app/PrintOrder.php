@@ -75,6 +75,7 @@ class PrintOrder extends Model
             "order_date" => $this->order_date,
             "receive_date" => $this->receive_date,
             "import_quantity" => $this->import_quantity,
+            "created_at" => $this->created_at,
         ];
     }
 }
