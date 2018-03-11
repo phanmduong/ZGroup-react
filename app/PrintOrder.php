@@ -54,8 +54,7 @@ class PrintOrder extends Model
                 "name" => $this->company->name,
             ] : [],
             "good" => $this->good ? [
-                "id" => $this->good->id,
-                "name" => $this->good->name,
+                $this->good->getData()
             ] : [],
             "warehouse" => $this->warehouse ? [
                 "id" => $this->warehouse->id,
@@ -76,6 +75,7 @@ class PrintOrder extends Model
             "order_date" => $this->order_date,
             "receive_date" => $this->receive_date,
             "import_quantity" => $this->import_quantity,
+            "created_at" => $this->created_at,
         ];
     }
 }
