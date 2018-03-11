@@ -262,12 +262,12 @@ var modalPurchase = new Vue({
                     $("#btn-purchase-group").css("display", "block");
                     $("#modalPurchase").modal("hide");
                     $("#modalSuccess").modal("show");
-                    name = "";
-                    phone = "";
-                    email = "";
-                    address = "";
-                    payment = "";
-                }).bind(this)
+                    this.name = "";
+                    this.phone = "";
+                    this.email = "";
+                    this.address = "";
+                    this.payment = "";
+                }.bind(this))
                 .catch(function (error) {
                     console.log(error);
                 });
