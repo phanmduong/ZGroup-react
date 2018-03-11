@@ -191,10 +191,21 @@ export default function roomsReducer(state = initialState.rooms, action) {
                 showEditRoomModal: false,
                 errorStoreRoom: false,
             };
+        case types.BEGIN_LOAD_TYPES_ROOM_DATA:
+            return {
+                ...state,
+                isLoadingRoomTypes: true
+            };
         case types.LOAD_TYPES_ROOM_DATA_SUCCESS:
             return {
                 ...state,
                 types: action.types,
+                isLoadingRoomTypes: false
+            };
+        case types.TOGGLE_ROOM_TYPE_MANAGE_MODAL:
+            return {
+                ...state,
+                roomTypeManageModal: !state.roomTypeManageModal
             };
         default:
             return state;

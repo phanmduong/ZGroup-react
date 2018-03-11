@@ -11,7 +11,7 @@ export function getRooms(page, search, baseId) {
         url += "&token=" + token;
     }
 
-    if (baseId && baseId != 0) {
+    if (baseId && baseId !== 0) {
         url += "&base_id=" + baseId;
     }
 
@@ -28,13 +28,35 @@ export function getBases() {
     return axios.get(url);
 }
 
-export function getTypesApi() {
+export function getTypesApi(search) {
     let url = env.MANAGE_API_URL + "/v2/base/room-type?limit=-1";
     let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
     }
+    if (search) {
+        url += "&search=" + search;
+    }
     return axios.get(url);
+}
+
+export function createRoomTypeApi(roomType) {
+    const request = {
+        name: roomType.name,
+        description: roomType.description
+    };
+    let url = env.MANAGE_API_URL + "/v2/base/room-type";
+    if (roomType.id) {
+        url += "/" + roomType.id;
+    }
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    if (roomType.id) {
+        return axios.put(url, request);
+    }
+    return axios.post(url, request);
 }
 
 export function changeAvatarApi(file, completeHandler, progressHandler, error) {
@@ -54,10 +76,8 @@ export function changeAvatarApi(file, completeHandler, progressHandler, error) {
 }
 
 export function storeRoom(room) {
-
     let url = env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room";
     let token = localStorage.getItem('token');
-
     if (token) {
         url += "?token=" + token;
     }
@@ -65,10 +85,13 @@ export function storeRoom(room) {
         name: room.name ? room.name : '',
         type: room.room_type.id,
         seats_count: room.seats_count,
+        room_type_id: room.room_type ? room.room_type.id : "",
         images_url: room.images_url ? room.images_url : '[]',
         avatar_url: room.avatar_url ? room.avatar_url : '',
         cover_url: room.cover_url ? room.cover_url : '',
-        cover_type: room.cover_type ? room.cover_type : ''
+        cover_type: room.cover_type ? room.cover_type : '',
+        description: room.description ? room.description : '',
+        detail: room.detail ? room.detail : ''
     });
 }
 
@@ -87,7 +110,9 @@ export function editRoom(room) {
         avatar_url: room.avatar_url ? room.avatar_url : "",
         room_type_id: room.room_type ? room.room_type.id : "",
         cover_url: room.cover_url ? room.cover_url : '',
-        cover_type: room.cover_type ? room.cover_type : ''
+        cover_type: room.cover_type ? room.cover_type : '',
+        description: room.description ? room.description : '',
+        detail: room.detail ? room.detail : ''
     });
 }
 

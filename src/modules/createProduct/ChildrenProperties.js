@@ -101,7 +101,7 @@ class ChildrenProperties extends React.Component {
                     </div>
                     <div className="row"
                          style={{zIndex: 0}}>
-                        <div className="col-md-9"
+                        <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9"
                              style={{zIndex: 0}}>
                             <CheckBoxMaterial
                                 name="sale_status"
@@ -109,7 +109,7 @@ class ChildrenProperties extends React.Component {
                                 onChange={this.props.selectGoodCountCheck}
                                 label={"Có " + this.props.goods_count + " hàng hóa cùng loại"}/>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <button type="button"
                                     className="btn btn-rose btn-sm"
                                     onClick={() => this.props.showPropertiesManageModal()}>
@@ -125,10 +125,10 @@ class ChildrenProperties extends React.Component {
                                     <thead>
                                     <tr>
                                         <th/>
-                                        <th className="col-md-6">Tên</th>
-                                        <th className="col-md-2">Mã</th>
-                                        <th className="col-md-2">Giá bán</th>
-                                        <th className="col-md-2"/>
+                                        <th className="col-lg-6 col-md-6 col-sm-6 col-xs-6">Tên</th>
+                                        <th className="col-lg-2 col-md-2 col-sm-2 col-xs-2">Mã</th>
+                                        <th className="col-lg-2 col-md-2 col-sm-2 col-xs-2">Giá bán</th>
+                                        <th className="col-lg-2 col-md-2 col-sm-2 col-xs-2"/>
                                     </tr>
                                     </thead>
                                     <tbody>

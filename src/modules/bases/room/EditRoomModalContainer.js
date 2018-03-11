@@ -1,15 +1,15 @@
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import FormInputText from "../../../components/common/FormInputText";
-import { Modal } from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import * as helper from "../../../helpers/helper";
 import * as roomActions from "../../rooms/roomActions";
 import Select from "react-select";
 import TooltipButton from "../../../components/common/TooltipButton";
 import ReactEditor from "../../../components/common/ReactEditor";
-import { linkUploadImageEditor } from "../../../constants/constants";
+import {linkUploadImageEditor} from "../../../constants/constants";
 
 class EditRoomModalContainer extends React.Component {
     constructor(props, context) {
@@ -164,7 +164,7 @@ class EditRoomModalContainer extends React.Component {
                                                 style={{
                                                     width: `${
                                                         this.props.percent
-                                                    }%`,
+                                                        }%`,
                                                 }}
                                             >
                                                 <span className="sr-only">
@@ -231,63 +231,63 @@ class EditRoomModalContainer extends React.Component {
                             </div>
                         </div>
                         <div>
-                            <br />
+                            <br/>
                             <label className="label-control">Ảnh mô tả</label>
                             <div className="box">
                                 {room.images_url &&
-                                    JSON.parse(room.images_url).map(
-                                        (image, index) => {
-                                            return (
-                                                <div
-                                                    key={index}
-                                                    style={{
-                                                        padding: "3px",
-                                                    }}
-                                                >
-                                                    <div className="container-for-images">
-                                                        <img
-                                                            style={{
-                                                                width: "100%",
-                                                                height: "100%",
-                                                                background:
-                                                                    "url(" +
-                                                                    image +
-                                                                    ") center center / cover",
-                                                                position:
-                                                                    "absolute",
-                                                                left: "0",
-                                                                borderRadius:
-                                                                    "5px",
-                                                            }}
-                                                            data-original-title=""
-                                                        />
-                                                        <div className="overlay-for-images" />
-                                                        <TooltipButton
-                                                            text="Xóa"
-                                                            placement="top"
-                                                        >
-                                                            <div className="button-for-images">
-                                                                <a
-                                                                    rel="tooltip"
-                                                                    onClick={() =>
-                                                                        this.props.roomActions.deleteImage(
-                                                                            image,
-                                                                        )
-                                                                    }
-                                                                    data-original-title=""
-                                                                    title=""
-                                                                >
-                                                                    <i className="material-icons">
-                                                                        close
-                                                                    </i>
-                                                                </a>
-                                                            </div>
-                                                        </TooltipButton>
-                                                    </div>
+                                JSON.parse(room.images_url).map(
+                                    (image, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                style={{
+                                                    padding: "3px",
+                                                }}
+                                            >
+                                                <div className="container-for-images">
+                                                    <img
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "100%",
+                                                            background:
+                                                            "url(" +
+                                                            image +
+                                                            ") center center / cover",
+                                                            position:
+                                                                "absolute",
+                                                            left: "0",
+                                                            borderRadius:
+                                                                "5px",
+                                                        }}
+                                                        data-original-title=""
+                                                    />
+                                                    <div className="overlay-for-images"/>
+                                                    <TooltipButton
+                                                        text="Xóa"
+                                                        placement="top"
+                                                    >
+                                                        <div className="button-for-images">
+                                                            <a
+                                                                rel="tooltip"
+                                                                onClick={() =>
+                                                                    this.props.roomActions.deleteImage(
+                                                                        image,
+                                                                    )
+                                                                }
+                                                                data-original-title=""
+                                                                title=""
+                                                            >
+                                                                <i className="material-icons">
+                                                                    close
+                                                                </i>
+                                                            </a>
+                                                        </div>
+                                                    </TooltipButton>
                                                 </div>
-                                            );
-                                        },
-                                    )}
+                                            </div>
+                                        );
+                                    },
+                                )}
                                 {
                                     <div
                                         style={{
@@ -373,7 +373,7 @@ class EditRoomModalContainer extends React.Component {
                                                             width: `${
                                                                 this.props
                                                                     .percent
-                                                            }%`,
+                                                                }%`,
                                                         }}
                                                     >
                                                         <span className="sr-only">
@@ -408,7 +408,7 @@ class EditRoomModalContainer extends React.Component {
                                                     width: `${
                                                         this.props
                                                             .coverPercentUploaded
-                                                    }%`,
+                                                        }%`,
                                                 }}
                                             >
                                                 <span className="sr-only">
@@ -486,8 +486,8 @@ class EditRoomModalContainer extends React.Component {
                                         room.cover_type ? room.cover_type : ""
                                     }
                                     options={[
-                                        { label: "Ảnh thường", value: "" },
-                                        { label: "Ảnh 360", value: "360" },
+                                        {label: "Ảnh thường", value: ""},
+                                        {label: "Ảnh 360", value: "360"},
                                         {
                                             label: "Ảnh 360 - stereo",
                                             value: "360_STEREO",
@@ -499,7 +499,7 @@ class EditRoomModalContainer extends React.Component {
                             </div>
                         </div>
 
-                        <br />
+                        <br/>
 
                         <form role="form" id="form-add-room">
                             <FormInputText
@@ -517,30 +517,6 @@ class EditRoomModalContainer extends React.Component {
                                 updateFormData={this.updateFormData}
                                 value={room.seats_count || ""}
                             />
-                            <div className="form-group">
-                                <label className="label-control">Mô tả</label>
-                                <textarea
-                                    type="text"
-                                    className="form-control"
-                                    value={
-                                        room.description ? room.description : ""
-                                    }
-                                    name="description"
-                                    onChange={this.updateFormData}
-                                />
-                                <span className="material-input" />
-                            </div>
-                            <div className="form-group">
-                                <h4 className="label-control">
-                                    Chi tiết phòng
-                                </h4>
-                                <ReactEditor
-                                    urlPost={linkUploadImageEditor()}
-                                    fileField="image"
-                                    updateEditor={this.updateEditorContent}
-                                    value={room.detail || ""}
-                                />
-                            </div>
                             <div className="form-group">
                                 <label className="label-control">
                                     Chọn cơ sở
@@ -560,31 +536,64 @@ class EditRoomModalContainer extends React.Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="label-control">
-                                    Chọn loại phòng
-                                </label>
-                                <Select
-                                    name="type"
-                                    value={
-                                        room.room_type ? room.room_type.id : ""
-                                    }
-                                    options={this.props.types.map(type => {
-                                        return {
-                                            ...type,
-                                            value: type.id,
-                                            label: type.name,
-                                        };
-                                    })}
-                                    onChange={this.onChangeTypeForm}
-                                    clearable={false}
+                                <label className="label-control">Chọn loại phòng</label>
+                                <div className="input-group">
+                                    <Select
+                                        name="type"
+                                        value={
+                                            room.room_type ? room.room_type.id : ""
+                                        }
+                                        options={this.props.types.map(type => {
+                                            return {
+                                                ...type,
+                                                value: type.id,
+                                                label: type.name,
+                                            };
+                                        })}
+                                        onChange={this.onChangeTypeForm}
+                                        clearable={false}
+                                    />
+                                    <TooltipButton text="Quản lý loại phòng" placement="top">
+                                        <span className="input-group-btn">
+                                            <a className="btn btn-rose"
+                                               style={{height: "35px"}}
+                                               onClick={() => this.props.roomActions.showRoomTypeManageModal()}>
+                                                <i className="material-icons">settings</i>
+                                            </a>
+                                        </span>
+                                    </TooltipButton>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <h4 className="label-control">
+                                    Chi tiết phòng
+                                </h4>
+                                <ReactEditor
+                                    urlPost={linkUploadImageEditor()}
+                                    fileField="image"
+                                    updateEditor={this.updateEditorContent}
+                                    value={room.detail || ""}
                                 />
+                            </div>
+                            <div className="form-group">
+                                <label className="label-control">Mô tả</label>
+                                <textarea
+                                    type="text"
+                                    className="form-control"
+                                    value={
+                                        room.description ? room.description : ""
+                                    }
+                                    name="description"
+                                    onChange={this.updateFormData}
+                                />
+                                <span className="material-input"/>
                             </div>
                             {this.props.isStoringRoom ? (
                                 <button
                                     className="btn btn-rose disabled"
                                     type="button"
                                 >
-                                    <i className="fa fa-spinner fa-spin" />
+                                    <i className="fa fa-spinner fa-spin"/>
                                     {room.id ? " Đang lưu" : " Đang tạo"}
                                 </button>
                             ) : (

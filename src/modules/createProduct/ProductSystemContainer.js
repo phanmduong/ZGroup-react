@@ -5,6 +5,7 @@ import * as createProductAction from './createProductAction';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class ProductSystemContainer extends React.Component {
     constructor(props, context) {
@@ -78,21 +79,21 @@ class ProductSystemContainer extends React.Component {
         return (
             <form role="form">
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         <CheckBoxMaterial
                             name="sale_status"
                             checked={product.sale_status ? (true) : (false)}
                             onChange={this.selectStatusProduct}
                             label="Đang kinh doanh"/>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         <CheckBoxMaterial
                             name="display_status"
                             checked={product.display_status ? (true) : (false)}
                             onChange={this.selectStatusProduct}
                             label="Hiển thị ra website"/>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         <CheckBoxMaterial
                             name="highlight_status"
                             checked={product.highlight_status ? (true) : (false)}
@@ -111,7 +112,7 @@ class ProductSystemContainer extends React.Component {
                     <span className="material-input"/>
                 </div>
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <div className="form-group">
                             <label className="label-control">Mã sản phẩm</label>
                             <input type="text"
@@ -123,7 +124,7 @@ class ProductSystemContainer extends React.Component {
                             <span className="material-input"/>
                         </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <div className="form-group">
                             <label className="label-control">Giá bán</label>
                             <input type="number"
@@ -137,7 +138,7 @@ class ProductSystemContainer extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <label className="label-control">Nhà sản xuất</label>
                         <div className="input-group">
                             <Select
@@ -152,16 +153,17 @@ class ProductSystemContainer extends React.Component {
                                 })}
                                 onChange={this.changeManufactureSelect}
                             />
+                            <TooltipButton text="Quản lý nhà sản xuất" placement="top">
                             <span className="input-group-btn">
-                                <a className="btn btn-rose btn-sm"
+                                <a className="btn btn-rose" style={{height: "35px"}}
                                    onClick={() => this.props.createProductAction.showManufacturesManageModal()}>
-                                    <i className="material-icons">toc</i>
-                                    <br/>
+                                    <i className="material-icons">settings</i>
                                 </a>
                             </span>
+                            </TooltipButton>
                         </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <label className="label-control">Nhóm hàng hóa</label>
                         <Select
                             name="categories"
@@ -178,7 +180,7 @@ class ProductSystemContainer extends React.Component {
                     </div>
                     {
                         this.props.location.pathname.slice(1, 6) === "order" ? (
-                            <div className="col-md-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <label className="label-control">Chọn kho muốn nhập vào</label>
                                 <Select
                                     name="warehouse"
