@@ -37,7 +37,7 @@ class DepartmentController extends ManageApiController
         } else {
             $departments = Department::all();
             return $this->respondSuccessWithStatus([
-                "departments" => $departments->map(function($department){
+                "departments" => $departments->map(function ($department) {
                     return [
                         "id" => $department->id,
                         "name" => $department->name,
@@ -45,7 +45,6 @@ class DepartmentController extends ManageApiController
                 })
             ]);
         }
-
     }
 
     public function addDepartment(Request $request)

@@ -50,4 +50,28 @@ class Base extends Model
             'address' => $this->address ? $this->address : '',
         ];
     }
+
+    public function getData()
+    {
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'address' => $this->address,
+            'display_status' => $this->display_status,
+            'longitude' => $this->longtitude,
+            'latitude' => $this->latitude,
+            'created_at' => format_time_main($this->created_at),
+            'updated_at' => format_time_main($this->updated_at),
+            'center' => $this->center,
+            'images_url' => $this->images_url,
+            'description' => $this->description,
+            'avatar_url' => config('app.protocol') . trim_url($this->avatar_url),
+        ];
+
+        if ($this->district) {
+            $data['district'] = $this->district->transform();
+            $data['province'] = $this->district->province->transform();
+        }
+        return $data;
+    }
 }

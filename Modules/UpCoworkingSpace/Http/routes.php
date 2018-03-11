@@ -25,6 +25,7 @@ $apiRoutes = function () {
 
 $manageapiRoutes = function () {
     Route::get('/register', 'UpCoworkingSpaceManageApiController@getRegisters');
+    Route::get('/room-booking', 'UpCoworkingSpaceManageApiController@getRoomBookings');
     Route::get('/user-pack', 'UpCoworkingSpaceManageApiController@getUserPacks');
     Route::get('/user-pack/{userPackId}', 'UpCoworkingSpaceManageApiController@getUserPack');
     Route::get('/user-pack/{userPackId}/subscription', 'UpCoworkingSpaceManageApiController@getSubscriptions');
@@ -36,7 +37,8 @@ $manageapiRoutes = function () {
     Route::post('/user-pack/{userPackId}/change-status', 'UpCoworkingSpaceManageApiController@changeStatusUserPack');
     Route::put('/user-pack/{userPackId}', 'UpCoworkingSpaceManageApiController@editUserPack');
     Route::post('/save-call', 'UpCoworkingSpaceManageApiController@saveCall');
-    Route::get('saler', 'UpCoworkingSpaceManageApiController@getAllSalers');
+    Route::get('/saler', 'UpCoworkingSpaceManageApiController@getAllSalers');
+    Route::post('/booking', 'UpCoworkingSpaceManageApiController@booking');
 };
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $apiRoutes);

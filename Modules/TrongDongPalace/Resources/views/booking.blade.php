@@ -87,31 +87,33 @@
                     <div class="col-md-4">
                         <div class="card card-plain card-blog">
                             <div class="card-image">
-                                <a href="{{'/booking/'.$room->id}}">
+                                <a href="/room/{{$room->id}}">
                                     <div
-                                            style="width: 100%;
-                                                    border-radius: 15px;
-                                                    background: url({{generate_protocol_url($room->avatar_url)}});
-                                                    background-size: cover;
-                                                    background-position: center;
-                                                    padding-bottom: 70%;"
+                                        style="width: 100%;
+                                                border-radius: 15px;
+                                                background: url({{generate_protocol_url($room->avatar_url)}});
+                                                background-size: cover;
+                                                background-position: center;
+                                                padding-bottom: 70%;"
 
                                     ></div>
                                 </a>
                             </div>
                             <div class="card-block">
                                 <h3 class="card-title">
-                                    <a href="{{'/booking/'.$room->id}}">{{$room->base->name}}
+                                    <a href="#">{{$room->base->name}}
                                         : {{$room->name}}</a>
                                 </h3>
                                 <p class="card-description">
                                     {{$room->roomType->name}}
                                 </p>
                                 <br>
-                                <a href=""
-                                   data-target="#submitModal"
-                                   data-toggle="modal"
-                                   style="color:#BA8A45!important">
+                                <a href="#"
+                                    onClick="openSubmitModal({{$room->id}})"
+                                    style="color:#BA8A45!important">
+                                
+                                   <!-- data-target="#submitModal"
+                                   data-toggle="modal" -->
                                     <b>Đặt phòng</b>
                                 </a>
                             </div>
@@ -213,6 +215,12 @@
 
 @push('scripts')
     <script>
+        function openSubmitModal(room_id) {
+            console.log(room_id);
+            submitModal.room_id = room_id;
+            $('#submitModal').modal('show');
+        }
+
         var submitModal = new Vue({
             el: '#submitModal',
             data: {
@@ -221,20 +229,27 @@
                 phone: '',
                 message: '',
                 alert: '',
+                saler_id: {{$saler_id}},
+                campaign_id: {{$campaign_id}},
+                room_id: 0,
                 isLoading: false
             },
             methods: {
                 submit: function () {
+                    console.log(this.room_id);
                     if (this.name === '' || this.email === '' || this.phone === '' || this.message === '') {
                         this.alert = 'Bạn vui lòng nhập đủ thông tin';
                         return;
                     }
                     this.isLoading = true;
-                    axios.post(window.url + '/api/contact', {
+                    axios.post(window.url + '/api/booking', {
                         name: this.name,
                         phone: this.phone,
                         email: this.email,
                         message: this.message,
+                        saler_id: this.saler_id,
+                        campaign_id: this.campaign_id,
+                        room_id: this.room_id,
                         _token: window.token
                     })
                         .then(function (response) {
@@ -252,6 +267,7 @@
                 }
             }
         });
+
         var pagination = new Vue({
             el: '#pagination-rooms',
             data: {

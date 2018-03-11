@@ -12,12 +12,10 @@ class RoomServiceRegisterSeat extends Model
     {
         return $this->belongsTo(RoomServiceRegister::class, 'room_service_register_id');
     }
-
     public function seat()
     {
         return $this->belongsTo(Seat::class, 'seat_id');
     }
-
     public function transform()
     {
         $data = [
