@@ -5,7 +5,8 @@ namespace Modules\Finance\Http\Controllers;
 use App\Http\Controllers\ManageApiController;
 use App\TransferMoney;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\BankAccount;
+//use Illuminate\Http\Response;
 
 class FinanceManageApiController extends ManageApiController
 {
@@ -48,5 +49,16 @@ class FinanceManageApiController extends ManageApiController
             ]);
         }
 
+    }
+
+    public function getBankAccounts()
+    {
+        $bankAccounts = BankAccount::query();
+        $bankAccounts = $bankAccounts->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($bankAccounts, [
+            'bank_accounts' => $bankAccounts->map(function ($roomType) {
+                return $roomType->getData();
+            })
+        ]);
     }
 }
