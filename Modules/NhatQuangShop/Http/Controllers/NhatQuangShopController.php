@@ -106,36 +106,11 @@ class NhatQuangShopController extends Controller
     {
         return view('nhatquangshop::about_us');
     }
-    
-    public function book($good_id)
-    {
-        $book = Good::find($good_id);
-        if ($book == null)
-            return view('nhatquangshop::404');
-        $properties = GoodProperty::where('good_id', $good_id)->get();
-
-        $data = [
-            'id' => $book->id,
-            'cover' => $book->cover_url,
-            'avatar' => $book->avatar_url,
-            'type' => $book->type,
-            'name' => $book->name,
-            'description' => $book->description,
-            'price' => $book->price
-        ];
-        foreach ($properties as $property) {
-            $data[$property->name] = $property->value;
-        }
-        return view('nhatquangshop::book', [
-            'properties' => $data,
-        ]);
-    }
 
     public function contact_us()
     {
         return view('nhatquangshop::contact_us');
     }
-
 
     public function contact_info($subfix, Request $request)
     {
