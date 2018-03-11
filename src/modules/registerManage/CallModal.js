@@ -259,7 +259,7 @@ class CallModal extends React.Component {
                                                         flexDirection: "column",
                                                         fontSize: 20
                                                     }}>
-                                                        {parseInt(this.props.register.subscription.price) + " đ"}
+                                                        {helper.dotNumber(parseInt(this.props.register.subscription.price)) + " đ"}
                                                     </div>
                                                 </div>
                                                 <div style={{
@@ -273,7 +273,7 @@ class CallModal extends React.Component {
                                                         flexDirection: "column",
                                                         fontSize: 20
                                                     }}>
-                                                        {this.state.sumMoney + " đ"}
+                                                        {helper.dotNumber(this.state.sumMoney) + " đ"}
                                                     </div>
                                                 </div>
                                                 {this.props.register.subscription.price - this.state.sumMoney > 0 ?
@@ -288,7 +288,7 @@ class CallModal extends React.Component {
                                                             flexDirection: "column",
                                                             fontSize: 20
                                                         }}>
-                                                            {parseInt(this.props.register.subscription.price) - this.state.sumMoney + " đ"}
+                                                            {helper.dotNumber(parseInt(this.props.register.subscription.price) - this.state.sumMoney) + " đ"}
                                                         </div>
                                                     </div> :
                                                     <div style={{
@@ -302,7 +302,7 @@ class CallModal extends React.Component {
                                                             flexDirection: "column",
                                                             fontSize: 20
                                                         }}>
-                                                            {this.state.sumMoney - parseInt(this.props.register.subscription.price) + " đ"}
+                                                            {helper.dotNumber(this.state.sumMoney - parseInt(this.props.register.subscription.price)) + " đ"}
                                                         </div>
                                                     </div>
                                                 }
