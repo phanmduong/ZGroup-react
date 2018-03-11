@@ -3,9 +3,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as chooseSeatActions from "./chooseSeatActions";
 import PropTypes from "prop-types";
-import {Modal, Button, ListGroup, ListGroupItem} from "react-bootstrap";
+import {Modal, Button} from "react-bootstrap";
 import Loading from "../../../components/common/Loading";
-import {parseTime} from "../../../helpers/helper";
 import Pagination from "../../../components/common/Pagination";
 
 class ChooseSeatHistoryModalContainer extends React.Component {
