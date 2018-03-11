@@ -29,9 +29,7 @@ class ExportOrder extends Model
         return [
             "id" => $this->id,
             "good" => $this->good ? [
-                "id" => $this->good->id,
-                "name" => $this->good->name,
-                "code" => $this->good->code,
+                $this->good()->getData()
             ] : [],
             "warehouse" => $this->warehouse ? [
                 "id" => $this->warehouse->id,
