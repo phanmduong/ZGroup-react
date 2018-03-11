@@ -171,7 +171,6 @@ class RegisterManageRoomContainer extends React.Component {
         field[3] = "Ngày đăng kí";
         field[4] = "Saler";
         field[5] = "Chiến dịch";
-        field[6] = "Gói thành viên";
         const datas = wsData.map(data => {
             let tmp = [];
             tmp[0] = data.user.name;
@@ -180,19 +179,18 @@ class RegisterManageRoomContainer extends React.Component {
             tmp[3] = data.created_at || "Chưa có";
             tmp[4] = (data.saler && data.saler.name) || "Không có";
             tmp[5] = (data.campaign && data.campaign.name) || "Không có";
-            tmp[6] = data.subscription && data.subscription.user_pack_name;
             return tmp;
         });
         const tmpWsData = [field, ...datas];
         const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
-        const sheetName = "Danh sách đăng kí";
+        const sheetName = "Danh sách đăng kí đặt phòng";
         let workbook = {
             SheetNames: [],
             Sheets: {},
         };
         workbook.SheetNames.push(sheetName);
         workbook.Sheets[sheetName] = ws;
-        saveWorkBookToExcel(workbook, "Danh sách đăng kí");
+        saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt phòng");
     }
 
     registersSearchChange(value) {

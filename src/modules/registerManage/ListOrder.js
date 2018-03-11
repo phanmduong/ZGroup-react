@@ -333,7 +333,7 @@ class ListOrder extends React.Component {
                                                    onClick={()=>this.props.openChooseSeatHistoryModal()}
                                                 >
                                                     <i className="material-icons">
-                                                        attach_money
+                                                        event_seat
                                                     </i>
                                                 </a>
                                             </OverlayTrigger>

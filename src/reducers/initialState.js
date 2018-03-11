@@ -42,6 +42,7 @@ export default {
         isChangingStatus: false,
         isLoadingBases: false,
         bases: [],
+        isSavingPayment : false,
     },
 
     registerManageRoom: {
@@ -55,6 +56,7 @@ export default {
         isChangingStatus: false,
         isLoadingBases: false,
         bases: [],
+        isSavingPayment : false,
     },
 
     bankAccount: {

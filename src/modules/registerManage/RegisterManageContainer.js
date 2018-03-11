@@ -184,14 +184,14 @@ class RegisterManageContainer extends React.Component {
         });
         const tmpWsData = [field, ...datas];
         const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
-        const sheetName = "Danh sách đăng kí";
+        const sheetName = "Danh sách đăng kí đặt chỗ";
         let workbook = {
             SheetNames: [],
             Sheets: {},
         };
         workbook.SheetNames.push(sheetName);
         workbook.Sheets[sheetName] = ws;
-        saveWorkBookToExcel(workbook, "Danh sách đăng kí");
+        saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt chỗ");
     }
 
     registersSearchChange(value) {
@@ -343,6 +343,14 @@ class RegisterManageContainer extends React.Component {
 
 
     render() {
+        let SALER  = this.props.salers.map(
+            saler => {
+                return {
+                    ...saler, value: saler.id,
+                    label: saler.name,};
+            },
+        );
+        SALER = [{value : 0, label : "Tất cả"},...SALER];
         let first = this.props.totalCount
             ? (this.props.currentPage - 1) * this.props.limit + 1
             : 0;
@@ -431,20 +439,13 @@ class RegisterManageContainer extends React.Component {
                                                             </label>
                                                             <Select
                                                                 value={this.state.saler_id}
-                                                                options={this.props.salers.map(
-                                                                    saler => {
-                                                                        return {
-                                                                            ...saler, value: saler.id,
-                                                                            label: saler.name,};
-                                                                    },
-                                                                )}
+                                                                options={SALER}
                                                                 onChange={this.salersSearchChange}
                                                             />
                                                         </div>
                                                         <div className="form-group col-md-4">
                                                             <label className="label-control">
-                                                                Tìm theo trạng
-                                                                thái
+                                                                Tìm theo trạng thái
                                                             </label>
                                                             <Select
                                                                 value={this.state.status}

@@ -5,15 +5,15 @@ import * as chooseSeatActions from "./chooseSeatActions";
 import PropTypes from "prop-types";
 import {Modal, Button, ListGroup, ListGroupItem} from "react-bootstrap";
 import Loading from "../../../components/common/Loading";
-import { parseTime } from "../../../helpers/helper";
+import {parseTime} from "../../../helpers/helper";
 import Pagination from "../../../components/common/Pagination";
 
 class ChooseSeatHistoryModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            page : 1,
-            limit : 8
+            page: 1,
+            limit: 8
         };
         this.handleClose = this.handleClose.bind(this);
         this.loadChooseSeatHistory = this.loadChooseSeatHistory.bind(this);
@@ -26,9 +26,10 @@ class ChooseSeatHistoryModalContainer extends React.Component {
     handleClose() {
         this.props.chooseSeatActions.toggleChooseSeatHistoryModal(false);
     }
-    loadChooseSeatHistory(page){
+
+    loadChooseSeatHistory(page) {
         this.setState({page});
-        this.props.chooseSeatActions.loadChooseSeatHistory(page,this.state.limit);
+        this.props.chooseSeatActions.loadChooseSeatHistory(page, this.state.limit);
     }
 
 
@@ -41,28 +42,51 @@ class ChooseSeatHistoryModalContainer extends React.Component {
                     <Modal.Title>Lịch sử đặt chỗ</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div>
                     {
                         this.props.isLoadingChooseSeatHistory ? <Loading/> :
-                            <ListGroup>
-                                {this.props.historyChooseSeat && this.props.historyChooseSeat.map((seat,index) => {
-                                    return (
-                                        <ListGroupItem key = {index}>
-                                            <div className="bootstrap-tagsinput">
-                                                        <span className="tag" style={{
-                                                            backgroundColor: seat.seat && seat.seat.color,
-                                                            fontSize: 12
-                                                        }}>{seat.seat && seat.seat.name + '  '}
-                                                        </span>
-                                                <span>{parseTime(seat.start_time) + " đến " + parseTime(seat.end_time)} </span>
-                                            </div>
-                                        </ListGroupItem>
-                                    );
-                                })}
-                            </ListGroup>
+                            <div className="table-responsive">
+                                <table className="table table-hover" style={{fontSize: 14}}>
+                                    {this.props.historyChooseSeat && this.props.historyChooseSeat.length !== 0 ?
+                                        <thead>
+                                        <tr className="text-rose" role="row">
+                                            <th>Tên ghế</th>
+                                            <th>Bắt đầu</th>
+                                            <th>Kết thúc</th>
+                                            <th>Nhân viên đặt</th>
+                                        </tr>
+                                        </thead>
+                                        : null
+                                    }
+
+                                    <tbody>
+                                    {this.props.historyChooseSeat && this.props.historyChooseSeat.map((seat, index) => {
+                                        return (
+                                            <tr role="row" key={index}>
+                                                <td>
+                                                    <div style={{
+                                                         height : 30, width : 30,textAlign : 'center' ,
+                                                        lineHeight : "30px", fontWeight : "bold",
+                                                        borderRadius : 30,fontFamily : "monospace",
+                                                        color : "white",
+                                                        backgroundColor: seat.seat ? seat.seat.color : "",
+                                                        fontSize: 12,
+                                                    }}>
+                                                        {seat.seat && seat.seat.name}
+                                                    </div>
+                                                </td>
+                                                <td>{seat.start_time}</td>
+                                                <td>{seat.end_time}</td>
+                                                <td>{seat.staff && seat.staff.name}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                    </tbody>
+
+                                </table>
+                                <Pagination currentPage={currentPage} totalPages={this.props.totalHistoryPages}
+                                            loadDataPage={this.loadChooseSeatHistory}/>
+                            </div>
                     }
-                    <Pagination currentPage={currentPage} totalPages={this.props.totalHistoryPages} loadDataPage={this.loadChooseSeatHistory}/>
-                    </div>
 
                 </Modal.Body>
                 <Modal.Footer>
@@ -82,7 +106,7 @@ ChooseSeatHistoryModalContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-    const {showChooseSeatHistoryModal, historyChooseSeat, isLoadingChooseSeatHistory,totalHistoryPages} = state.chooseSeat;
+    const {showChooseSeatHistoryModal, historyChooseSeat, isLoadingChooseSeatHistory, totalHistoryPages} = state.chooseSeat;
     return {
         showChooseSeatHistoryModal,
         isLoadingChooseSeatHistory,
