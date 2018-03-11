@@ -426,7 +426,7 @@ class CompanyController extends ManageApiController
         $printorder->command_code = "DATIN" . $id . $str . $day . $month . $year;
         $printorder->save();
 
-        $order = ItemOrder::where('print_order_id',$printorder->id)->get();
+        $order = ItemOrder::where('print_order_id',$printorder->id)->first();
         $order->command_code = $printorder->command_code;
         $order->company_id = $printorder->company_id;
         $order->status = 0;
@@ -436,7 +436,7 @@ class CompanyController extends ManageApiController
         $order->good_count = 1;
         $order->save();
 
-        $importOrder = ImportItemOrder::where('item_order_id',$order->id)->get();
+        $importOrder = ImportItemOrder::where('item_order_id',$order->id)->first();
         $importOrder->good_id = $printorder->good_id;
         $importOrder->quantity = $printorder->quantity;
         $importOrder->item_order_id = $order->id;
