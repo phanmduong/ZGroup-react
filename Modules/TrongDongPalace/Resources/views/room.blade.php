@@ -69,7 +69,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-7 col-sm-8">
-                                <button class="btn btn-danger btn-block btn-round" 
+                            <button onClick="openSubmitModal({{$room->id}})" class="btn btn-danger btn-block btn-round" 
                                 style="background-color: #BA8A45;
                                 border-color: #BA8A45;">
                                 Đặt ngay &nbsp;<i class="fa fa-chevron-right"></i>
@@ -99,5 +99,7 @@
         }
     </script>
 @endif
+
+@include("trongdongpalace::includes.book_room_modal")
 
 @endsection
