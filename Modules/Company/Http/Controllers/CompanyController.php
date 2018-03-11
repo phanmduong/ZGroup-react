@@ -366,6 +366,18 @@ class CompanyController extends ManageApiController
         $printorder->command_code = "DATIN" . $id . $str . $day . $month . $year;
         $printorder->save();
 
+        $order = new ItemOrder;
+        $order->command_code = $printorder->command_code;
+        $order->company_id = $printorder->company_id;
+        $order->status = 0;
+        $order->type = "print-order";
+        $order->staff_id = $printorder->staff_id;
+        $order->print_order_id = $printorder->id;
+
+        $importOrder = new ImportItemOrder;
+        $importOrder->good_id = $printorder->good_id;
+        $importOrder->quantity = $printorder->quantity;
+        $importOrder->item_order_id = $order->id;
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
         ]);
@@ -410,6 +422,19 @@ class CompanyController extends ManageApiController
         while (strlen($id) < 4) $id = '0' . $id;
         $printorder->command_code = "DATIN" . $id . $str . $day . $month . $year;
         $printorder->save();
+
+        $order = ItemOrder::where('print_order_id',$printorder->id)->get();
+        $order->command_code = $printorder->command_code;
+        $order->company_id = $printorder->company_id;
+        $order->status = 0;
+        $order->type = "print-order";
+        $order->staff_id = $printorder->staff_id;
+        $order->print_order_id = $printorder->id;
+
+        $importOrder = ImportItemOrder::where('item_order_id',$order->id)->first();
+        $importOrder->good_id = $printorder->good_id;
+        $importOrder->quantity = $printorder->quantity;
+        $importOrder->item_order_id = $order->id;
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công"
         ]);
