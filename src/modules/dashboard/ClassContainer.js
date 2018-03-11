@@ -7,7 +7,6 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as dashboardActions from './dashboardActions';
 import Loading from '../../components/common/Loading';
-import {Link} from "react-router";
 import TooltipButton from '../../components/common/TooltipButton';
 import {NO_AVATAR} from '../../constants/env';
 import * as helper from '../../helpers/helper';
@@ -60,10 +59,10 @@ class ClassContainer extends React.Component {
                                                 }}
                                                 />
                                             </td>
-                                            <td><Link to={`/teaching/info-student/${register.student.id}`}
+                                            <td><a href={`/teaching/info-student/${register.student.id}`}
                                                       className="text-name-student-register">
                                                 {register.student.name}
-                                            </Link></td>
+                                            </a></td>
                                             <td><h6>{register.total_attendances}/{register.attendances.length}</h6>
                                                 <div
                                                     className="progress progress-line-success progress-bar-table width-100">
