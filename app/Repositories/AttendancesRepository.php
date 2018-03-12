@@ -71,7 +71,9 @@ class AttendancesRepository
 
     public function attendance_teacher_class_lesson($class_lesson)
     {
-        $attendance = $class_lesson->teachingLesson()->first();
+
+        $data_attendances = array();
+
         $data_attendance = [
             'class_lesson_id' => $class_lesson->id,
             'order' => $class_lesson->lesson ? $class_lesson->lesson->order : 0,
@@ -79,6 +81,8 @@ class AttendancesRepository
             'end_teaching_time' => $class_lesson->end_time,
             'is_change' => is_class_lesson_change($class_lesson)
         ];
+
+        $attendance = $class_lesson->teachingLesson()->whereNull('class_position_id')->first();
 
         if ($attendance) {
             $data_attendance['staff'] = $this->userRepository->staff($attendance->teacher);
@@ -92,7 +96,38 @@ class AttendancesRepository
             $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
         }
 
-        return $data_attendance;
+        $data_attendances[] = $data_attendance;
+
+        $attendances = $class_lesson->teachingLesson()->whereNotNull('class_position_id')
+            ->join('class_position', 'class_position.id', '=', 'teaching_lessons.class_position_id')
+            ->where('class_position.position_id', 1)->get();
+
+//        dd($attendances);
+        foreach ($attendances as $atten) {
+            $data = [
+                'class_lesson_id' => $class_lesson->id,
+                'order' => $class_lesson->lesson->order,
+                'start_teaching_time' => $class_lesson->start_time,
+                'end_teaching_time' => $class_lesson->end_time,
+                'is_change' => is_class_lesson_change($class_lesson)
+            ];
+
+            if ($atten->staff) {
+                $data['staff'] = $this->userRepository->staff($atten->staff);
+            }
+
+            if ($atten->check_in) {
+                $data['attendance']['check_in_time'] = format_time_shift(strtotime($atten->check_in->created_at));
+            }
+
+            if ($atten->check_out) {
+                $data['attendance']['check_out_time'] = format_time_shift(strtotime($atten->check_out->created_at));
+            }
+            $data_attendances[] = $data;
+
+        }
+
+        return $data_attendances;
     }
 
     public function attendances_ta_class_lesson($class_lessons)
@@ -107,7 +142,8 @@ class AttendancesRepository
 
     public function attendance_ta_class_lesson($class_lesson)
     {
-        $attendance = $class_lesson->teachingLesson()->first();
+        $data_attendances = array();
+
         $data_attendance = [
             'class_lesson_id' => $class_lesson->id,
             'order' => $class_lesson->lesson ? $class_lesson->lesson->order : 0,
@@ -116,17 +152,50 @@ class AttendancesRepository
             'is_change' => is_class_lesson_change($class_lesson)
         ];
 
+        $attendance = $class_lesson->teachingLesson()->whereNull('class_position_id')->first();
+
         if ($attendance) {
             $data_attendance['staff'] = $this->userRepository->staff($attendance->teaching_assistant);
         }
 
-        if ($attendance && $attendance->ta_check_in) {
-            $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->ta_check_in->created_at));
+        if ($attendance && $attendance->teacher_check_in) {
+            $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->teacher_check_in->created_at));
         }
 
-        if ($attendance && $attendance->ta_check_out) {
-            $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->ta_check_out->created_at));
+        if ($attendance && $attendance->teacher_check_out) {
+            $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
         }
-        return $data_attendance;
+
+        $data_attendances[] = $data_attendance;
+
+        $attendances = $class_lesson->teachingLesson()->whereNotNull('class_position_id')
+            ->join('class_position', 'class_position.id', '=', 'teaching_lessons.class_position_id')
+            ->where('class_position.position_id', 2)->get();
+
+        foreach ($attendances as $atten) {
+            $data = [
+                'class_lesson_id' => $class_lesson->id,
+                'order' => $class_lesson->lesson->order,
+                'start_teaching_time' => $class_lesson->start_time,
+                'end_teaching_time' => $class_lesson->end_time,
+                'is_change' => is_class_lesson_change($class_lesson)
+            ];
+
+            if ($atten->staff) {
+                $data['staff'] = $this->userRepository->staff($atten->staff);
+            }
+
+            if ($atten->check_in) {
+                $data['attendance']['check_in_time'] = format_time_shift(strtotime($atten->check_in->created_at));
+            }
+
+            if ($atten->check_out) {
+                $data['attendance']['check_out_time'] = format_time_shift(strtotime($atten->check_out->created_at));
+            }
+            $data_attendances[] = $data;
+
+        }
+
+        return $data_attendances;
     }
 }
