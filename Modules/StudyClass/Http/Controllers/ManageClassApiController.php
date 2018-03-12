@@ -275,13 +275,13 @@ class ManageClassApiController extends ManageApiController
 
         foreach ($teaching_assistants as $teaching_assistant) {
             if (!in_array($teaching_assistant, $teachingAssistantsData)) {
-                $class->teachers()->where('user_id', $teaching_assistant)->first()->delete();
+                $class->teaching_assistants()->where('user_id', $teaching_assistant)->first()->delete();
             }
         }
 
         foreach ($teachingAssistantsData as $teachingAssistant) {
             if (!in_array($teachingAssistant, $teaching_assistants)) {
-                if (!empty($teaching_assistants)) {
+                if (!empty($teachingAssistant)) {
                     $classPosition = new ClassPosition();
                     $classPosition->position_id = 2;
                     $classPosition->user_id = $teachingAssistant;
