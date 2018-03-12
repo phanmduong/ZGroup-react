@@ -912,6 +912,8 @@ export default {
         error: false
     },
     classes: {
+        isChangingTeachingLesson: false,
+        errorTeachingLesson: false,
         excel: [],
         isLoadingExcel: false,
         currentPage: 1,
@@ -938,6 +940,12 @@ export default {
         errorChangeTeachingAssis: false,
         isChangingTeacher: false,
         errorChangeTeacher: false,
+        teachingAssistants: [],
+        teachers: [],
+        teachingLessons: [],
+        isLoadingTeachingLesson: false,
+        isLoadingTeachers: false,
+        errorTeachers: false,
     },
 
     rule: {

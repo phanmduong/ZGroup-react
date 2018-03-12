@@ -63,7 +63,7 @@ export default function classesReducer(state = initialState.classes, action) {
                     gens: action.gens,
                 }
             };
-            case types.LOAD_GENS_CLASSES_STUDENT_ERROR:
+        case types.LOAD_GENS_CLASSES_STUDENT_ERROR:
             return {
                 ...state,
                 ...{
@@ -345,6 +345,81 @@ export default function classesReducer(state = initialState.classes, action) {
                 ...{
                     isLoadingStaffs: false,
                     errorStaff: true
+                }
+            };
+        case types.BEGIN_LOAD_TEACHERS_CLASS_DATA:
+            return {
+                ...state,
+                ...{
+                    isLoadingTeachers: true,
+                    errorTeachers: false
+                }
+            };
+        case types.LOAD_TEACHERS_CLASS_DATA_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingTeachers: false,
+                    errorTeachers: false,
+                    teachers: action.teachers,
+                    teachingAssistants: action.teachingAssistants,
+                }
+            };
+        case types.LOAD_TEACHERS_CLASS_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingTeachers: false,
+                    errorTeachers: true
+                }
+            };
+        case types.BEGIN_LOAD_TEACHING_LESSON_CLASS_DATA:
+            return {
+                ...state,
+                ...{
+                    isLoadingTeachingLesson: true,
+                    errorTeachingLesson: false
+                }
+            };
+        case types.LOAD_TEACHING_LESSON_CLASS_DATA_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingTeachingLesson: false,
+                    errorTeachingLesson: false,
+                    teachingLessons: action.teachingLessons,
+                }
+            };
+        case types.LOAD_TEACHING_LESSON_CLASS_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingTeachingLesson: false,
+                    errorTeachingLesson: true
+                }
+            };
+        case types.BEGIN_CHANGE_TEACHING_LESSON_CLASS_DATA:
+            return {
+                ...state,
+                ...{
+                    isChangingTeachingLesson: true,
+                    errorTeachingLesson: false,
+                }
+            };
+        case types.CHANGE_TEACHING_LESSON_CLASS_DATA_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isChangingTeachingLesson: false,
+                    errorTeachingLesson: false,
+                }
+            };
+        case types.CHANGE_TEACHING_LESSON_CLASS_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingTeachingLesson: false,
+                    errorTeachingLesson: true,
                 }
             };
         default:

@@ -12,10 +12,25 @@ import {NO_AVATAR} from '../../../../constants/env';
 import * as helper from '../../../../helpers/helper';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import {Modal} from "react-bootstrap";
 
 class InfoClassContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            openModal: false
+        };
+        this.openModalTeachers = this.openModalTeachers.bind(this);
+        this.closeModalTeachers = this.closeModalTeachers.bind(this);
+    }
+
+    openModalTeachers() {
+        this.setState({openModal: true});
+        this.props.classActions.loadTeachersClass(this.props.params.classId);
+    }
+
+    closeModalTeachers() {
+        this.setState({openModal: false});
     }
 
     render() {
@@ -58,6 +73,11 @@ class InfoClassContainer extends React.Component {
                                 </button>
                             </TooltipButton>
                         }
+                        <button
+                            onClick={this.openModalTeachers}
+                            className="btn btn-xs btn-rose btn-simple">
+                            Xem thêm
+                        </button>
                     </div>
                     <div className="col-md-12">
                         <h4><strong>Danh sách học viên </strong></h4>
@@ -151,6 +171,75 @@ class InfoClassContainer extends React.Component {
                             </table>
                         </div>
                     </div>
+                    <Modal
+                        show={this.state.openModal}
+                        onHide={this.closeModalTeachers}
+                        bsSize="large"
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Danh sách giảng viên và trợ giảng</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {
+                                this.props.isLoadingTeachers ? <Loading/> :
+                                    <div>
+                                        <div className="table-responsive">
+                                            <table className="table">
+                                                <thead className="text-rose">
+                                                <tr>
+                                                    <th/>
+                                                    <th>Tên</th>
+                                                    <th>Vị trí</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {
+                                                    this.props.teachers.map((teacher, index) => {
+                                                        let avatar = helper.avatarEmpty(teacher.avatar_url) ?
+                                                            NO_AVATAR : teacher.avatar_url;
+                                                        return (
+                                                            <tr key={index}>
+                                                                <td>
+                                                                    <div className="avatar-list-staff"
+                                                                         style={{
+                                                                             background: 'url(' + avatar + ') center center / cover',
+                                                                             display: 'inline-block'
+                                                                         }}
+                                                                    />
+                                                                </td>
+                                                                <td>{teacher.name}</td>
+                                                                <td>Giảng viên</td>
+                                                            </tr>
+                                                        );
+                                                    })
+                                                }
+                                                {
+                                                    this.props.teachingAssistants.map((teacher, index) => {
+                                                        let avatar = helper.avatarEmpty(teacher.avatar_url) ?
+                                                            NO_AVATAR : teacher.avatar_url;
+                                                        return (
+                                                            <tr key={index}>
+                                                                <td>
+                                                                    <div className="avatar-list-staff"
+                                                                         style={{
+                                                                             background: 'url(' + avatar + ') center center / cover',
+                                                                             display: 'inline-block'
+                                                                         }}
+                                                                    />
+                                                                </td>
+                                                                <td>{teacher.name}</td>
+                                                                <td>Trợ giảng</td>
+                                                            </tr>
+                                                        );
+                                                    })
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                            }
+                        </Modal.Body>
+                    </Modal>
                 </div>
             );
         }
@@ -161,12 +250,19 @@ class InfoClassContainer extends React.Component {
 InfoClassContainer.propTypes = {
     class: PropTypes.object.isRequired,
     isLoadingClass: PropTypes.bool.isRequired,
+    isLoadingTeachers: PropTypes.bool.isRequired,
+    teachers: PropTypes.array.isRequired,
+    teachingAssistants: PropTypes.array.isRequired,
+
 };
 
 function mapStateToProps(state) {
     return {
         class: state.classes.class,
         isLoadingClass: state.classes.isLoadingClass,
+        isLoadingTeachers: state.classes.isLoadingTeachers,
+        teachers: state.classes.teachers,
+        teachingAssistants: state.classes.teachingAssistants,
     };
 }
 
