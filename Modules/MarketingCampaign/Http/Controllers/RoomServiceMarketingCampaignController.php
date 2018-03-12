@@ -238,7 +238,7 @@ class RoomServiceMarketingCampaignController extends ManageApiController
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
 
         $all_registers = RoomServiceRegister::where('type', 'room')->whereBetween('created_at', array($startTime, $endTime));
-
+        // dd($all_registers);
         $date_array = createDateRangeArray(strtotime($startTime), strtotime($end_time));
 
         $saler_ids = $all_registers->pluck('saler_id');
@@ -348,5 +348,49 @@ class RoomServiceMarketingCampaignController extends ManageApiController
         });
 
         return $this->respondSuccessWithStatus(['summary_sales' => $salers]);
+    }
+
+    public function roomMarketingCampaignSummary(Request $request)
+    {
+        $startTime = $request->start_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+
+        $summary = RoomServiceRegister::select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
+            ->where('type', 'room')->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
+            ->groupBy('campaign_id', 'saler_id');
+
+        if ($startTime && $endTime) {
+            $summary->whereBetween('created_at', array($startTime, $endTime));
+        } else
+            $summary->whereBetween('created_at', array(date('Y-m-01'), date("Y-m-d", strtotime("+1 day", strtotime(date('Y-m-d'))))));
+
+        if ($request->base_id && $request->base_id != 0)
+            $summary->where('base_id', $request->base_id);
+
+        $summary = $summary->get()->map(function ($item) {
+
+            $data = [
+                'total_registers' => $item->total_registers,
+                'campaign' => [
+                    'id' => $item->campaign->id,
+                    'name' => $item->campaign->name,
+                    'color' => $item->campaign->color,
+                ]
+            ];
+
+            if ($item->saler) {
+                $data['saler'] = [
+                    'id' => $item->saler->id,
+                    'name' => $item->saler->name,
+                    'color' => $item->saler->color,
+                ];
+            }
+
+            return $data;
+        });
+
+        return $this->respondSuccessWithStatus([
+            'summary_marketing_campaign' => $summary
+        ]);
     }
 }
