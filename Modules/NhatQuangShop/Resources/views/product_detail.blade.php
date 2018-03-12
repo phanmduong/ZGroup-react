@@ -169,11 +169,11 @@
                     <table class="table">
                         <tbody>
                         <tr>
-                            <td class="text-left">Mã sản phẩm</td>
+                            <td class="text-left"><b>Mã sản phẩm</b></td>
                             <td class="text-left" colspan="2">{{$good->code}}</td>
                         </tr>
                         <tr>
-                            <td class="text-left">Kích thước</td>
+                            <td class="text-left"><b>Kích thước</b></td>
                             @if($size !=null)
                                 <td class="text-left" colspan="2">{{$size}}</td>
                             @else
@@ -181,7 +181,7 @@
                             @endif
                         </tr>
                         <tr>
-                            <td class="text-left">Màu</td>
+                            <td class="text-left"><b>Màu</b></td>
                             @if($color !=null)
                             <td class="text-left" colspan="2">{{$color}}</td>
                                 @else
@@ -189,7 +189,7 @@
                                 @endif
                         </tr>
                         <tr>
-                            <td class="text-left">Khối lượng</td>
+                            <td class="text-left"><b>Khối lượng</b></td>
                             <td class="text-left" colspan="2">Nặng lắm</td>
                         </tr>
                         </tbody>
