@@ -20,9 +20,11 @@ class PermissionTabReact
     {
         $tab = Tab::where('url', 'like', '%' . $path . '%')->first();
         $user = Auth::user() ? User::find(Auth::user()->id) : null;
+
         if ($user == null && $path != 'login') {
             return redirect('/login');
         }
+
         if ($tab == null || $user->havePermissionTab($tab) || Auth::user()->isAdmin()) {
             return $next($request);
         } else {

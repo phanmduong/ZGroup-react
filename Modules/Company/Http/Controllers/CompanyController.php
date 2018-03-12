@@ -18,6 +18,7 @@ use App\Http\Controllers\ManageApiController;
 use App\Company;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodPropertyItem;
+use App\RoomServiceRegister;
 
 class CompanyController extends ManageApiController
 {
@@ -201,11 +202,11 @@ class CompanyController extends ManageApiController
     public function createPayment(Request $request)
     {
         if ($request->register_id) {
-            if ($request->user_id === null  ||
-                $request->money_value === null || trim($request->money_value) == ''
-//                $request->register_id === null
-            )
+            if ($request->user_id === null || $request->money_value === null || trim($request->money_value) == '')
                 return $this->respondErrorWithStatus("Thiếu trường");
+            $register = RoomServiceRegister::find($request->register_id);
+            if($register == null )
+                return $this->respondErrorWithStatus(['Không tồn tại đăng kí']);
             $payment = new Payment;
             $payment->bill_image_url = 'a';
             $payment->description = $request->description;
@@ -215,6 +216,10 @@ class CompanyController extends ManageApiController
             $payment->register_id = $request->register_id;
             $payment->type = "done";
             $payment->save();
+
+            $register->money += $request->money_value;
+            $register->save();
+
             return $this->respondSuccessWithStatus([
                 "message" => "Thành công",
                 "payment" => $payment->transform_for_up(),
