@@ -267,12 +267,10 @@ class EmailService
 
     public function send_mail_confirm_change_class($register, $oldclass)
     {
-        $class = $register->studyClass;
+        $class = $register->studyClass()->first();
         $course = $class->course;
 
         $user = $register->user;
-
-        $class = $register->studyClass;
 
         $email_form = EmailForm::where('code', 'confirm_change_class')->first();
 

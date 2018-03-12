@@ -158,8 +158,10 @@ class ManageRegisterStudentApiController extends ManageApiController
         $registerId = $request->register_id;
         $classId = $request->class_id;
 
+        $newClass = StudyClass::find($classId);
+
         $register = Register::find($registerId);
-        if ($register->code) {
+        if ($register->code && $newClass->type == "active") {
             $prefix = substr($register->code, 0, strlen(config('app.prefix_code_wait')));
 
             if ($prefix == config('app.prefix_code_wait')) {
@@ -168,9 +170,7 @@ class ManageRegisterStudentApiController extends ManageApiController
             }
         }
 
-
         $oldClass = $register->studyClass;
-        $newClass = StudyClass::find($classId);
 
 
         if ($register->status == 1) {
@@ -242,7 +242,8 @@ class ManageRegisterStudentApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             'message' => 'Bạn đã đổi học viên thành công sang lớp ' . $classData['name'],
-            'class' => $classData
+            'class' => $classData,
+            'code' => $register->code
         ]);
     }
 
