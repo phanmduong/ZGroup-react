@@ -7,7 +7,7 @@ import React from "react";
 // import FormInputDate from "../../components/common/FormInputDate";
 // import { Panel } from "react-bootstrap";
 // import PropTypes from "prop-types";
-import * as d3 from "d3";
+// import * as d3 from "d3";
 
 class RoomGanttChartComponent extends React.Component {
     constructor(props, context) {
@@ -19,7 +19,7 @@ class RoomGanttChartComponent extends React.Component {
     render() {
         return (
             <div>
-                <div style={{width:"20%"}}>Phòng 101</div>
+                <div style={{ width: "20%" }}>Phòng 101</div>
                 <div className="bar" style={{ width: "20%" }} />
                 <div
                     className="bar"
