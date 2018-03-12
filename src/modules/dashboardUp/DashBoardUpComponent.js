@@ -4,6 +4,7 @@ import Barchart from "./Barchart";
 import TooltipButton from "../../components/common/TooltipButton";
 import RoomModal from "./RoomModal";
 import PropTypes from "prop-types";
+import RoomGanttChartComponent from "./RoomGanttChartComponent";
 
 class DashBoardUpComponent extends React.Component {
     constructor(props, context) {
@@ -514,6 +515,12 @@ class DashBoardUpComponent extends React.Component {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-md-12">
+                                <RoomGanttChartComponent />
                             </div>
                         </div>
 
