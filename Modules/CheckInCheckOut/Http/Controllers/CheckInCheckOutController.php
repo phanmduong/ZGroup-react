@@ -377,7 +377,8 @@ class CheckInCheckOutController extends ManageApiController
         }
 
         $teaching_lessons = $teaching_lessons->where(function ($query) {
-            $query->where('teaching_lessons.teacher_id', '>', 0)
+            $query->whereNotNull('teaching_lessons.class_position_id')
+                ->orWhere('teaching_lessons.teacher_id', '>', 0)
                 ->orWhere('teaching_lessons.teaching_assistant_id', '>', 0);
         });
 
@@ -393,22 +394,48 @@ class CheckInCheckOutController extends ManageApiController
             ];
             if ($teacher_lesson->teacher) {
                 $data['teacher'] = $this->userRepository->staff($teacher_lesson->teacher);
+                if ($teacher_lesson->teacher_check_in) {
+                    $data['teacher_check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->teacher_check_in);
+                }
+                if ($teacher_lesson->teacher_check_out) {
+                    $data['teacher_check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->teacher_check_out);
+                }
             }
             if ($teacher_lesson->teaching_assistant) {
                 $data['teaching_assistant'] = $this->userRepository->staff($teacher_lesson->teaching_assistant);
+                if ($teacher_lesson->ta_check_in) {
+                    $data['ta_check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->ta_check_in);
+                }
+                if ($teacher_lesson->ta_check_out) {
+                    $data['ta_check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->ta_check_out);
+                }
             }
-            if ($teacher_lesson->teacher_check_in) {
-                $data['teacher_check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->teacher_check_in);
+
+            if ($teacher_lesson->class_position) {
+                if ($teacher_lesson->class_position->position_id == 1) {
+                    if ($teacher_lesson->staff) {
+                        $data['teacher'] = $this->userRepository->staff($teacher_lesson->staff);
+                        if ($teacher_lesson->teacher_check_in) {
+                            $data['teacher_check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->check_in);
+                        }
+                        if ($teacher_lesson->teacher_check_out) {
+                            $data['teacher_check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->check_out);
+                        }
+                    }
+                }
+                if ($teacher_lesson->class_position->position_id == 2) {
+                    if ($teacher_lesson->staff) {
+                        $data['teaching_assistant'] = $this->userRepository->staff($teacher_lesson->staff);
+                        if ($teacher_lesson->ta_check_in) {
+                            $data['ta_check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->check_in);
+                        }
+                        if ($teacher_lesson->ta_check_out) {
+                            $data['ta_check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->check_out);
+                        }
+                    }
+                }
             }
-            if ($teacher_lesson->teacher_check_out) {
-                $data['teacher_check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->teacher_check_out);
-            }
-            if ($teacher_lesson->ta_check_in) {
-                $data['ta_check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->ta_check_in);
-            }
-            if ($teacher_lesson->ta_check_out) {
-                $data['ta_check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->ta_check_out);
-            }
+
 
             return $data;
         });

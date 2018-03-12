@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="container" id="bookinfo2">
+    <div class="container course" id="bookinfo2">
         <br><br>
         <div class="row">
             <div class="col-md-9"
@@ -51,45 +51,48 @@
             {{$base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->count() == 0}}
             <h3>{{$base->name}} : {{$base->address}}</h3><br>
             <div class="row">
-                @foreach($base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('name','desc')->get() as $class)
-                    <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
-                        <div>
-                            <div style="display:flex;flex-direction:row">
-                                <div style="margin-right:20px; border-radius:25px">
-                                    <img src="{{$course->icon_url}}"
-                                         style="border-radius:50%; height:100px;width:100px"/>
-                                </div>
-                                <div>
-                                    <h4 style="font-weight:600; margin-top:10px">Lớp {{$class->name}}</h4>
-                                    <br><br>
-                                    <p>
-                                        <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> {{date("d-m-Y", strtotime($class->datestart))}}
+                @foreach($base->classes()->where('status',1)->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('created_at','asc')->get() as $class)
+                    <div class="col-md-6">
+                        <div style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
+                            <div>
+                                <div style="display:flex;flex-direction:row">
+                                    <div style="margin-right:20px; border-radius:25px">
+                                        <img src="{{$course->icon_url}}"
+                                             style="border-radius:50%; height:100px;width:100px"/>
+                                    </div>
+                                    <div>
+                                        <h5 style="font-weight:600; margin-top:10px">Lớp {{$class->name}}</h5>
+                                        <p>
+                                            <i class="fa fa-clock-o"></i> <b>Khai giảng
+                                                ngày:</b> {{date("d-m-Y", strtotime($class->datestart))}}
 
-                                        <br>
+                                            <br>
 
-                                        <i class="fa fa-calendar"></i> <b>Lịch học:</b> {{$class->study_time}}
+                                            <i class="fa fa-calendar"></i> <b>Lịch học:</b> {{$class->study_time}}
 
-                                        <br>
+                                            <br>
 
-                                        <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> {{$class->base->name}}
-                                        : {{$class->base->address}}
-                                        <br><br>
-                                    </p>
-                                    @if($class->status == 1)
-                                        <a class="btn btn-round btn-danger"
-                                           style="background-color:#FF6D00;border-color:#FF6D00"
-                                           href="/register-class/{{$class->id}}/{{$campaign_id}}/{{$saler_id}}"><i
-                                                    class="fa fa-plus"></i> Đăng ký </a>
+                                            <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> {{$class->base->name}}
+                                            : {{$class->base->address}}
+                                            <br><br>
+                                        </p>
+                                        @if($class->status == 1)
+                                            <a class="btn btn-round btn-danger"
+                                               style="background-color:#FF6D00;border-color:#FF6D00"
+                                               href="/register-class/{{$class->id}}/{{$campaign_id}}/{{$saler_id}}"><i
+                                                        class="fa fa-plus"></i> Đăng ký </a>
                                         @else
-                                        <a class="btn btn-round"
-                                           href="#" onClick="return false;"><i
-                                                    class="fa fa-plus"></i> Hết chỗ </a>
-                                    @endif
+                                            <a class="btn btn-round"
+                                               href="#" onClick="return false;"><i
+                                                        class="fa fa-plus"></i> Hết chỗ </a>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
+
                 @endforeach
             </div>
         @endforeach

@@ -46,6 +46,7 @@ Route::get('/send-noti-test', 'PublicController@send_noti_test');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain')], function () {
     Route::post('/login', 'AuthenticateController@login');
+    Route::get('/logout', 'AuthenticateController@logout');
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('/email/{path}', 'ClientController@email')
@@ -278,8 +279,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::post('/submit-survey', 'SurveyApiController@submit_survey');
 
     Route::get('/class/{classId}/students', 'ClassApiController@students');
-    Route::get('/class/{classId}', '
-    @studyClass');
+    Route::get('/class/{classId}', 'ClassApiController@studyClass');
     Route::post('class/{classId}/form', 'ClassApiController@form');
     Route::post('/class/{classId}/enroll', 'ClassApiController@enroll');
     Route::get('/current-study-class', 'ClassApiController@currentStudyClass');
