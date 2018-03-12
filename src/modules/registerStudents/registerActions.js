@@ -314,7 +314,8 @@ export function confirmChangeClass(registerId, classId, closeModalChangeClass) {
                 dispatch({
                     type: types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_SUCCESS,
                     registerId: registerId,
-                    class: res.data.data.class
+                    class: res.data.data.class,
+                    code: res.data.data.code
 
                 });
             })
