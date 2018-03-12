@@ -107,6 +107,10 @@ class CreatePrintOrderContainer extends React.Component {
 
     commitData() {
         let {data} = this.state;
+        if (data.quantity <= 0) {
+            helper.showErrorNotification("Vui lòng thêm số lượng hợp lệ");
+            return;
+        }
         if (!data.company.id || !data.good.id) {
             helper.showErrorNotification("Vui lòng chọn Nhà cung cấp và Sản phẩm");
             return;
@@ -182,9 +186,9 @@ class CreatePrintOrderContainer extends React.Component {
             +
             data.spare_part2.number * data.spare_part2.price
             +
-            data.packing1.price  + data.packing2.price
+            data.packing1.price*1  + data.packing2.price*1
             +
-            data.other.price
+            data.other.price*1
         ;
         let VAT_price = Math.round(1.1 * total_price).toFixed(2);
 
@@ -634,6 +638,18 @@ class CreatePrintOrderContainer extends React.Component {
                                                         name="good"
                                                         defaultMessage="Chọn sản phẩm"
                                                     /></div>
+                                                <div className="col-md-12">
+                                                    <FormInputText
+                                                        name="quantity"
+                                                        updateFormData={this.updateFormData}
+                                                        value={data.quantity}
+                                                        type="number"
+                                                        minValue="0"
+                                                        label="Số lượng in"
+                                                        disabled={isLoading}
+                                                    />
+                                                    </div>
+
                                                 <div className="col-md-12">
                                                     <label className="control-label">Ghi chú</label>
                                                     <div className="comment-input-wrapper">

@@ -76,7 +76,7 @@ export function editExportOrder(data) {
 
 export function confirmOrder(id) {
     //http://manageapi.keetool.xyz/company/print-order/21?token=
-    let url     = env.MANAGE_API_URL +"/company/print-order/" + id + "/change-status?status=3";
+    let url     = env.MANAGE_API_URL +"/company/item-order/" + id + "/change-status?status=3";
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;

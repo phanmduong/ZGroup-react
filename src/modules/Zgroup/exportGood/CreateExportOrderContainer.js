@@ -170,7 +170,7 @@ class CreateExportOrderContainer extends React.Component {
                                 id: obj.id,
                                 price: obj.price,
                                 quantity: obj.quantity,
-                                export_quantity: obj.quantity,
+                                export_quantity: obj.export_quantity,
                                 warehouse_id: obj.warehouse.id,
                             });
                         })
@@ -214,29 +214,31 @@ class CreateExportOrderContainer extends React.Component {
                                                             <th style={{ width: "10%" }}>STT</th>
                                                             <th style={{ width: "40%" }}>Tên</th>
                                                             <th style={textAlign}>Mã</th>
-                                                            <th style={textAlign}>Số lượng</th>
+                                                            <th style={textAlign}>Số lượng đặt</th>
+                                                            <th style={textAlign}>Số lượng xuất</th>
                                                             <th style={textAlign}>Đơn giá</th>
                                                             <th style={textAlign}>Kho xuất</th>
                                                             <th style={textAlign}>Thành tiền</th>
-                                                            
+                                                            <th/>
                                                         </tr>
                                                     </thead>
                                                     {(data && data.goods && data.goods.length > 0) ?
                                                         <tbody>
                                                             {data.goods.map(
                                                                 (obj, index) => {
-                                                                    sumPrice += obj.price * obj.quantity;
-                                                                    sumQuantity += obj.quantity * 1;
+                                                                    sumPrice += obj.price * obj.export_quantity;
+                                                                    sumQuantity += obj.export_quantity * 1;
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
                                                                             <td>{obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.good.code}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
+                                                                            <td style={textAlign}>{obj.export_quantity}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                             <td style={{...textAlign, color: (obj.warehouse && obj.warehouse.id) ? "" : "red"}}>
                                                                             {(obj.warehouse && obj.warehouse.id) ? obj.warehouse.name : "Chưa có"}</td>
-                                                                            <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
+                                                                            <td style={textAlign}>{helper.dotNumber(obj.price * obj.export_quantity)}</td>
                                                                             <td><div className="btn-group-action" style={{ display: "flex", justifyContent: "center" }}>
                                                                                 <a data-toggle="tooltip" title="Sửa" type="button" rel="tooltip"
                                                                                     onClick={() => {
@@ -261,7 +263,7 @@ class CreateExportOrderContainer extends React.Component {
                                                             <td>Tổng</td>
                                                             <td style={textAlign}>{sumQuantity}</td>
                                                             <td />
-                                                            <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
+                                                            <td colSpan={2} style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                             <td />
                                                         </tr>
                                                     </tfoot>
@@ -374,8 +376,17 @@ class CreateExportOrderContainer extends React.Component {
 
                             <FormInputText
                                 name="quantity" type="number"
-                                label="Số lượng"
+                                label="Số lượng đặt"
                                 value={addModalData.quantity}
+                                minValue="0"
+                                updateFormData={()=>{}}
+                                placeholder="Nhập số lượng"
+                                disabled
+                            />
+                            <FormInputText
+                                name="export_quantity" type="number"
+                                label="Số lượng xuất"
+                                value={addModalData.export_quantity}
                                 minValue="0"
                                 updateFormData={this.updateFormAdd}
                                 placeholder="Nhập số lượng"

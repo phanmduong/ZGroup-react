@@ -170,7 +170,7 @@ class CreateOrderedGood extends React.Component {
     }
 
     render() {
-        let {isLoading, goods, companies, isCommitting} = this.props;
+        let {isLoading, goods, companies, isCommitting, user} = this.props;
         let {data, showAddModal, addModalData} = this.state;
         let sumQuantity=0, sumPrice=0;
         console.log(this.state);
