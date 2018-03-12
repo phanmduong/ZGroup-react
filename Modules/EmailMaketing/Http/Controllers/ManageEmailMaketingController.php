@@ -62,9 +62,12 @@ class ManageEmailMaketingController extends ManageApiController
 
         $limit = 18;
 
-        $email_forms = EmailForm::where('hide', 0)->orWhere(function ($q) {
-            $q->where('hide', 1)->where('creator', $this->user->id);
+        $email_forms = EmailForm::where(function ($que) {
+            $que->where('hide', 0)->orWhere(function ($q) {
+                $q->where('hide', 1)->where('creator', $this->user->id);
+            });
         });
+
 
         if ($query != null) {
             $email_forms = $email_forms->where(function ($q) use ($query) {
