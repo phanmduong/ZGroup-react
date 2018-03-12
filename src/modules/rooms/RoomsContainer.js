@@ -17,6 +17,7 @@ import ListRoom from "./ListRoom";
 import PropTypes from "prop-types";
 import Select from "../../components/common/Select";
 import EditRoomModalContainer from "../bases/room/EditRoomModalContainer";
+import RoomTypeManageModal from "./RoomTypeManageModal";
 
 class RoomsContainer extends React.Component {
     constructor(props, context) {
@@ -40,7 +41,6 @@ class RoomsContainer extends React.Component {
     componentWillMount() {
         this.props.roomActions.loadRoomsData();
         this.props.roomActions.loadBasesData();
-        this.props.roomActions.getTypes();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -83,10 +83,10 @@ class RoomsContainer extends React.Component {
             value: 'Tất cả'
         }, ...baseData];
     }
-    
 
-    openModal(index, room) {
-        this.props.roomActions.showRoomEditModal(index);
+
+    openModal(room) {
+        this.props.roomActions.showRoomEditModal();
         this.props.roomActions.handleRoomEditModal(room);
     }
 
@@ -105,50 +105,48 @@ class RoomsContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <EditRoomModalContainer/>
+                    <RoomTypeManageModal/>
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">assignment</i>
                         </div>
                         <div className="card-content">
                             <h4 className="card-title">Phòng</h4>
-
+                            <Select
+                                defaultMessage={'Chọn cơ sở'}
+                                options={this.state.bases}
+                                value={this.state.selectBaseId}
+                                onChange={this.onChangeBase}
+                            />
+                            <div style={{marginTop: "15px"}}>
+                                <div className="col-md-3">
+                                    <a className="btn btn-rose" onClick={() => this.openModal({})}>
+                                        Thêm phòng
+                                    </a>
+                                </div>
+                                <Search
+                                    onChange={this.roomsSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm tên phòng, cơ sở"
+                                    className="col-md-9"
+                                />
+                            </div>
                             {
                                 this.props.isLoadingBases ? <Loading/> :
-                                    <div>
-                                        <Select
-                                            defaultMessage={'Chọn cơ sở'}
-                                            options={this.state.bases}
-                                            value={this.state.selectBaseId}
-                                            onChange={this.onChangeBase}
-                                        />
-                                        <div style={{marginTop: "15px"}}>
-                                            <div className="col-md-3">
-                                                <a className="btn btn-rose" onClick={this.openModal}>
-                                                    Thêm phòng
-                                                </a>
-                                            </div>
-                                            <Search
-                                                onChange={this.roomsSearchChange}
-                                                value={this.state.query}
-                                                placeholder="Tìm kiếm tên phòng, cơ sở"
-                                                className="col-md-9"
-                                            />
-                                        </div>
-                                        <ListRoom
-                                            rooms={this.props.rooms}
-                                            isLoading={this.props.isLoading}
-                                            loadData={this.loadRooms}
-                                            openModalEdit={this.openModal}
-                                        />
-                                        <div className="card-content">
-                                            <Pagination
-                                                currentPage={this.state.page}
-                                                totalPages={this.props.totalPages}
-                                                loadDataPage={this.loadRooms}
-                                            />
-                                        </div>
-                                    </div>
+                                    <ListRoom
+                                        rooms={this.props.rooms}
+                                        isLoading={this.props.isLoading}
+                                        loadData={this.loadRooms}
+                                        openModalEdit={this.openModal}
+                                    />
                             }
+                            <div className="card-content">
+                                <Pagination
+                                    currentPage={this.state.page}
+                                    totalPages={this.props.totalPages}
+                                    loadDataPage={this.loadRooms}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -178,7 +176,7 @@ function mapStateToProps(state) {
         totalPages: state.rooms.totalPages,
         rooms: state.rooms.rooms,
         bases: state.rooms.bases,
-        isStoringRoom:state.rooms.isStoringRoom
+        isStoringRoom: state.rooms.isStoringRoom
     };
 }
 

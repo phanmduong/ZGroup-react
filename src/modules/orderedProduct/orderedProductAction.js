@@ -2,11 +2,11 @@ import * as types from '../../constants/actionTypes';
 import * as orderedProductApi from './orderedProductApi';
 import * as helper from "../../helpers/helper";
 
-export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id) {
+export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id, javCode, link) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ORDERED_PRODUCT});
         const infoPromise = new Promise((resolve) => {
-            orderedProductApi.loadOrderInfo(page, search, startTime, endTime, status, staff_id, user_id)
+            orderedProductApi.loadOrderInfo(page, search, startTime, endTime, status, staff_id, user_id, javCode, link)
                 .then(res => resolve(res));
         });
         const orderPromise = new Promise((resolve) => {
@@ -76,6 +76,9 @@ export function editNote(order) {
 export function changeStatus(status, deliveryOrderId, note, attach) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
         orderedProductApi.changeStatusApi(status, deliveryOrderId, note, attach)
             .then((res) => {
                 if (res.data.status === 0) {
@@ -88,6 +91,9 @@ export function changeStatus(status, deliveryOrderId, note, attach) {
                         delivery_id: deliveryOrderId
                     });
                 }
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
             })
             .catch(() => {
                 helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
@@ -201,3 +207,17 @@ export function chooseWallet(order, wallet) {
             });
     };
 }
+
+export function showAddJavCodeModal() {
+    return ({
+        type: types.TOGGLE_ADD_JAV_CODE_MODAL
+    });
+}
+
+export function handleAddJavCodeModal(order) {
+    return ({
+        type: types.HANDLE_ADD_JAV_CODE_MODAL,
+        order
+    });
+}
+

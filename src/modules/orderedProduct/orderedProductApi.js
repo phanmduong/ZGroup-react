@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id) {
+export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id, javCode, link) {
     let url = env.MANAGE_API_URL + '/order/delivery?limit=10&page=' + page;
     if (search) {
         url += `&search=${search}`;
@@ -21,6 +21,20 @@ export function loadAllOrders(page = 1, search, startTime, endTime, status, staf
     }
     if (status) {
         url += `&status=${status}`;
+    }
+    if (javCode) {
+        url += `&javCode=${javCode}`;
+    }
+    if (link) {
+        url += `&link=${link}`;
+    }
+    if (javCode) {
+        let j = JSON.stringify(javCode);
+        url += "&jav_code=" + j;
+    }
+    if (link) {
+        let l = JSON.stringify(link);
+        url += "&link=" + l;
     }
     return axios.get(url);
 }
@@ -116,6 +130,7 @@ export function chooseWalletApi(order, wallet) {
         url += "?token=" + token;
     }
     return axios.post(url, {
-        deposit: wallet
+        deposit: wallet,
+        money: order.money
     });
 }

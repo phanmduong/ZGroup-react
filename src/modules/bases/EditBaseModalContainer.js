@@ -90,7 +90,9 @@ class EditBaseModalContainer extends React.Component {
             if (helper.isEmptyInput(base.longitude)) helper.showErrorNotification("Bạn cần nhập longitude");
             if (helper.isEmptyInput(base.district)) helper.showErrorNotification("Bạn cần chọn Quận/Huyện");
         } else {
-            this.props.baseListActions.editBase(base);
+            if (base.id) {
+                this.props.baseListActions.editBase(base);
+            } else this.props.baseListActions.createBase(this.props.base);
         }
     }
 
@@ -123,7 +125,7 @@ class EditBaseModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="form-group">
                         <div className="row">
-                            <div className="col-md-12 col-sm-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <label className="label-control">Ảnh đại diện</label>
                                 <div className="text-center">
                                     {
@@ -210,10 +212,8 @@ class EditBaseModalContainer extends React.Component {
                                                             </a>
                                                         </div>
                                                     </TooltipButton>
-
                                                 </div>
                                             </div>
-
                                         );
                                     })
                                 }
@@ -255,9 +255,7 @@ class EditBaseModalContainer extends React.Component {
                                                            }}
                                                            type={this.props.isUploadingImage ? 'text' : 'file'}/>
                                                 </label>
-
                                             </TooltipButton>
-
                                             {
                                                 this.props.isUploadingImage &&
                                                 <div className="progress"
@@ -289,14 +287,14 @@ class EditBaseModalContainer extends React.Component {
                                 label="Tên cơ sở"
                                 name="name"
                                 updateFormData={this.updateFormData}
-                                value={base.name}
+                                value={base.name || ''}
                                 required
                             />
                             <FormInputText
                                 label="Địa chỉ cơ sở"
                                 name="address"
                                 updateFormData={this.updateFormData}
-                                value={base.address}
+                                value={base.address || ''}
                                 required
                             />
                             <FormInputText
@@ -304,14 +302,14 @@ class EditBaseModalContainer extends React.Component {
                                 name="latitude"
                                 type="number"
                                 updateFormData={this.updateFormData}
-                                value={base.latitude}
+                                value={base.latitude || ''}
                             />
                             <FormInputText
                                 label="Longitude"
                                 name="longitude"
                                 type="number"
                                 updateFormData={this.updateFormData}
-                                value={base.longitude}
+                                value={base.longitude || ''}
                             />
                             <div className="form-group">
                                 <label className="label-control">Mô tả</label>

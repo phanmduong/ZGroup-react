@@ -10,6 +10,15 @@ import * as helper from '../../helpers/helper';
 class ChooseWalletModal extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.handleWallet = this.handleWallet.bind(this);
+    }
+
+    handleWallet(e) {
+        let delivery = {
+            ...this.props.orderWalletChosen,
+            money: e.target.value
+        };
+        this.props.orderedProductAction.handleChooseWalletModal(delivery);
     }
 
     render() {
@@ -56,6 +65,16 @@ class ChooseWalletModal extends React.Component {
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div className="form-group">
+                        <label className="label-control">Số tiền thanh toán</label>
+                        <input type="number"
+                               name="money"
+                               className="form-control"
+                               placeholder="Nhập số tiền thanh toán"
+                               value={delivery.money || ''}
+                               onChange={this.handleWallet}/>
+                        <span className="material-input"/>
                     </div>
                     {
                         this.props.isChoosingWallet ? <Loading/> : (

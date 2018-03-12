@@ -116,8 +116,8 @@ class ManufacturesManageModal extends React.Component {
                                 <table className="table table-hover">
                                     <thead>
                                     <tr className="text-rose">
-                                        <th className="col-md-10">Tên nhà sản xuất</th>
-                                        <th className="col-md-2"/>
+                                        <th className="col-lg-10 col-md-10 col-sm-10 col-xs-10">Tên nhà sản xuất</th>
+                                        <th className="col-lg-2 col-md-2 col-sm-2 col-xs-2"/>
                                     </tr>
                                     </thead>
                                     <tbody>

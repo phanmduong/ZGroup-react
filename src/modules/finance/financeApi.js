@@ -16,6 +16,18 @@ export function loadBankTransfers(page = 1, search = "", status, bank_account_id
     return axios.get(url);
 }
 
+export function loadCustomers(search) {
+    let url = env.MANAGE_API_URL + "/order/customer";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    if (search) {
+        url += "&search=" + search;
+    }
+    return axios.get(url);
+}
+
 export function updateBankTransfer(bankTransfer) {
     let url = env.MANAGE_API_URL + `/finance/bank-transfer/${bankTransfer.id}`;
     const token = localStorage.getItem('token');
@@ -52,5 +64,17 @@ export function editTransfer(bankTransfer) {
         money: bankTransfer.money,
         note: bankTransfer.note,
         purpose: bankTransfer.purpose
+    });
+}
+
+export function loadMoneyToWallet(transfer) {
+    let url = env.MANAGE_API_URL + "/order/customer/" + transfer.customer.id + "/top-up";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        money: transfer.money,
+        deposit: transfer.deposit
     });
 }
