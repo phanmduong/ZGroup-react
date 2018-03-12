@@ -134,7 +134,8 @@ class TrongDongPalaceController extends Controller
     public function bookingApi(Request $request)
     {
         $room = Room::find($request->room_id);
-        $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message];
+        $data = ['email' => $request->email, 'phone' => $request->phone, 'name' => $request->name, 'message_str' => $request->message,
+                    'room_name' => $room ? $room->name : "", 'base_name' => $room ? $room->base->name : ""];
 
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
@@ -151,20 +152,17 @@ class TrongDongPalaceController extends Controller
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
-        // $register->subscription_id = $request->subscription_id;
-        // $register->base_id = $request->base_id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $request->saler_id ? $request->saler_id : 0;
         $register->base_id = $room ? $room->base->id : 0;
         $register->type = 'room';
         $register->save();
 
-        Mail::send('emails.contact_us_trong_dong', $data, function ($m) use ($request) {
+        Mail::send('emails.trong_dong_register_confirm', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Trống Đồng Palace');
             $subject = 'Xác nhận thông tin';
             $m->to($request->email, $request->name)->subject($subject);
         });
-
         return 'OK';
     }
 
