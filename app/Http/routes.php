@@ -246,9 +246,11 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
 
+    Route::put('/register/{registerId}', 'StudentApiController@editRegister');
+
 });
 
-Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function (){
+Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function () {
     Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
     Route::get('search-registers', 'MoneyManageApiController@search_registers');
     Route::post('pay-register', 'MoneyManageApiController@pay_register');
