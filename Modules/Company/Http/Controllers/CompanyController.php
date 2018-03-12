@@ -204,7 +204,7 @@ class CompanyController extends ManageApiController
         if ($request->register_id) {
             if ($request->user_id === null || $request->money_value === null || trim($request->money_value) == '')
                 return $this->respondErrorWithStatus("Thiếu trường");
-            $register = RoomServiceRegister::find($register_id);
+            $register = RoomServiceRegister::find($request->register_id);
             if($register == null )
                 return $this->respondErrorWithStatus(['Không tồn tại đăng kí']);
             $payment = new Payment;
