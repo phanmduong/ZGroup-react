@@ -47,6 +47,5 @@ class FinanceManageApiController extends ManageApiController
                 })
             ]);
         }
-
     }
 }

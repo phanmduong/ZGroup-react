@@ -106,7 +106,6 @@ class RoomServiceRegister extends Model
               "province" => $base->district->province->transform()
             ];
         }
-
         return $data;
     }
 
