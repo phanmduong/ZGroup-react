@@ -217,13 +217,15 @@ class ManageRegisterStudentApiController extends ManageApiController
         $data['user'] = $user;
         $data['register'] = $register;
 
-        $subject = "Xác nhận đã đổi thành công từ lớp $oldClass->name sang lớp $newClass->name";
-        $emailcc = ['colorme.idea@gmail.com'];
-        Mail::queue('emails.confirm_change_class', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Color Me');
+        $this->emailService->send_mail_confirm_change_class($register, $oldClass->name);
 
-            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-        });
+//        $subject = "Xác nhận đã đổi thành công từ lớp $oldClass->name sang lớp $newClass->name";
+//        $emailcc = ['colorme.idea@gmail.com'];
+//        Mail::queue('emails.confirm_change_class', $data, function ($m) use ($user, $subject, $emailcc) {
+//            $m->from('no-reply@colorme.vn', 'Color Me');
+//
+//            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
+//        });
 
         $classData = [
             'id' => $newClass->id,
