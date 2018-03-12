@@ -11,6 +11,7 @@ import TooltipButton from "../../components/common/TooltipButton";
 // import ChooseSeatModalContainer from "./chooseSeat/ChooseSeatModalContainer";
 
 import moment from "moment/moment";
+import PaymentModal from "./PaymentModal";
 
 export function setRuleShowCall(register) {
     let btn = "";
@@ -78,26 +79,37 @@ class ListOrder extends React.Component {
 
         this.state = {
             register: {},
-            isOpenModal: false,
-            isCallModal: false,
+            isOpenCallModal: false,
+            isOpenPaymentModal: false,
             sumMoney: 0,
         };
 
-        this.openModal = this.openModal.bind(this);
+
+        this.openCallModal = this.openCallModal.bind(this);
+        this.openPaymentModal = this.openPaymentModal.bind(this);
         this.closeCallModal = this.closeCallModal.bind(this);
+        this.closePaymentModal = this.closePaymentModal.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
-    openModal(register, isCallModal) {
+    openCallModal(register) {
         this.setState({
-            isOpenModal: true,
+            isOpenCallModal: true,
             register: register,
-            isCallModal: isCallModal,
+        });
+    }
+    openPaymentModal(register) {
+        this.setState({
+            isOpenPaymentModal: true,
+            register: register,
         });
     }
 
     closeCallModal() {
-        this.setState({ isOpenModal: false });
+        this.setState({ isOpenCallModal: false });
+    }
+    closePaymentModal() {
+        this.setState({ isOpenPaymentModal: false });
     }
 
     openChooseSeatModal(base) {
@@ -151,9 +163,8 @@ class ListOrder extends React.Component {
                                                             " full-width padding-left-right-10"
                                                         }
                                                         onClick={() =>
-                                                            this.openModal(
+                                                            this.openCallModal(
                                                                 register,
-                                                                true,
                                                             )
                                                         }
                                                     >
@@ -223,9 +234,8 @@ class ListOrder extends React.Component {
                                                         " full-width padding-left-right-10"
                                                     }
                                                     onClick={() =>
-                                                        this.openModal(
+                                                        this.openCallModal(
                                                             register,
-                                                            true,
                                                         )
                                                     }
                                                     style={{
@@ -292,15 +302,8 @@ class ListOrder extends React.Component {
                                                 placement="top"
                                                 overlay={TopupTooltip}
                                             >
-                                                <a
-                                                    onClick={() =>
-                                                        this.openModal(
-                                                            register,
-                                                            false,
-                                                        )
-                                                    }
-                                                    style={{ color: "#888" }}
-                                                >
+                                                <a onClick={() => this.openPaymentModal(register)}
+                                                    style={{ color: "#888" }}>
                                                     <i className="material-icons">
                                                         attach_money
                                                     </i>
@@ -314,7 +317,7 @@ class ListOrder extends React.Component {
                     </table>
                 )}
                 <Modal
-                    show={this.state.isOpenModal}
+                    show={this.state.isOpenCallModal}
                     bsStyle="primary"
                     onHide={this.closeCallModal}
                 >
@@ -323,7 +326,20 @@ class ListOrder extends React.Component {
                         <CallModal
                             register={this.state.register}
                             closeCallModal={this.closeCallModal}
-                            isCallModal={this.state.isCallModal}
+                        />
+                    </Modal.Body>
+                </Modal>
+
+                <Modal
+                    show={this.state.isOpenPaymentModal}
+                    bsStyle="primary"
+                    onHide={this.closePaymentModal}
+                >
+                    <Modal.Header />
+                    <Modal.Body>
+                        <PaymentModal
+                            register={this.state.register}
+                            closePaymentModal={this.closePaymentModal}
                             sumMoney={sumMoney(this.state.register)}
                         />
                     </Modal.Body>

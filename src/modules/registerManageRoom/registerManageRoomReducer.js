@@ -109,7 +109,12 @@ function addCall(register_id, registers, teleCall) {
 function addPayment(register_id, registers, payment) {
     tmpRegs = registers.map((register) => {
         if (register.id === register_id) {
-            tmpReg = {...register, historyPayments: [...register.historyPayments, payment]};
+            tmpReg = {
+                ...register,
+                historyPayments: [
+                    ...register.historyPayments, payment],
+                money: register.money + payment.money_value,
+            };
             return tmpReg;
         }
         else return register;
