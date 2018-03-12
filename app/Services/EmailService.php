@@ -320,6 +320,7 @@ class EmailService
 
         $searchReplaceArray = [
             '[[COURSE_DURATION]]' => $course->duration,
+            '[[COURSE_NAME]]' => $course->name,
             '[[COURSE_PRICE]]' => currency_vnd_format($course->price),
             '[[CLASS_NAME]]' => $class->name,
             '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ': ' . $class->base->address : ''),
