@@ -89,7 +89,7 @@
                 <div class="container">
                     <div id="js-gallery" class="gallery">
                         <div class="gallery__hero">
-                            <img src="{{$good->avatar_url}}">
+                            <img id="zoom" src="{{$good->avatar_url}}" data-zoom-image="{{$good->avatar_url}}">
                         </div>
                         <div class="gallery__thumbs">
                             <a href="{{$good->avatar_url}}"
@@ -132,7 +132,7 @@
                     </label>
                 </div>
                 <br>
-                <p class="description">Số lượng: Còn 4 sản phẩm:</p>
+                <p class="description">Số lượng: Còn 4 sản phẩm</p>
                 <br>
                 <div class="col-md-12 row" id = "product_info">
                     <div class="col-md-6">
@@ -227,3 +227,11 @@
         <br>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $("#zoom").elevateZoom({
+            zoomType: "inner",
+            cursor: "crosshair"
+        });
+    </script>
+@endpush

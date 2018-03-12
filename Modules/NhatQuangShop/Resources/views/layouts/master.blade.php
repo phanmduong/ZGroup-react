@@ -1025,6 +1025,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/nhatquangshop.js?68689"></script>
 <script src="/nhatquangshop/js/nav.vue.js"></script>
+<script src="/assets/js/jquery.elevateZoom-3.0.8.min.js"></script>
 <script type="text/javascript">
     function paginator(currentPageData, totalPagesData) {
         var page = [];
