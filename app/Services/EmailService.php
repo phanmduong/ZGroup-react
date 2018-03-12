@@ -262,7 +262,7 @@ class EmailService
 
         $subject = '[' . $this->emailCompanyName . '] Thông báo khai giảng khoá học ' . $course->name;
 
-        $this->send_mail_queue($user, $data, $subject);
+        $this->send_mail_queue_cc($user, $data, $subject);
     }
 
     public function send_mail_confirm_change_class($register, $oldclass)
@@ -300,7 +300,7 @@ class EmailService
 
         $subject = '[' . $this->emailCompanyName . '] Xác nhận đã đổi thành công từ lớp ' . $oldclass . ' sang lớp ' . $class->name;
 
-        $this->send_mail_queue($user, $data, $subject);
+        $this->send_mail_queue_cc($user, $data, $subject);
     }
 
     public function send_mail_confirm_change_code($register, $oldCode)
