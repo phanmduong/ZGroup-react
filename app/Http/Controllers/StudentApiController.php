@@ -288,6 +288,9 @@ class StudentApiController extends ApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Thieu money hoac code'
             ]);
+
+        $oldCode = $register->code;
+
         $register->code = $request->code;
 
         if ($register->status == 0)
@@ -296,6 +299,11 @@ class StudentApiController extends ApiController
             $register->money = $request->money;
 
         $register->save();
+
+        if ($register->code != $oldCode) {
+            $this->emailService->send_mail_confirm_change_code($register, $oldCode);
+        }
+
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);

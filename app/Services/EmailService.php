@@ -305,6 +305,46 @@ class EmailService
         $this->send_mail_queue($user, $data, $subject);
     }
 
+    public function send_mail_confirm_change_code($register, $oldCode)
+    {
+        $class = $register->studyClass;
+        $course = $class->course;
+
+        $user = $register->user;
+
+        $class = $register->studyClass;
+
+        $email_form = EmailForm::where('code', 'confirm_change_code')->first();
+
+        $data = convert_email_form($email_form);
+
+        $searchReplaceArray = [
+            '[[COURSE_DURATION]]' => $course->duration,
+            '[[COURSE_PRICE]]' => currency_vnd_format($course->price),
+            '[[CLASS_NAME]]' => $class->name,
+            '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ': ' . $class->base->address : ''),
+            '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ''),
+            '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[CLASS_DATE_START]]' => $class->datestart,
+            '[[USER_NAME]]' => $user->name,
+            '[[USER_EMAIL]]' => $user->email,
+            '[[USER_PHONE]]' => $user->phone,
+            '[[REGISTER_CODE]]' => $register->code,
+            '[[OLD_REGISTER_CODE]]' => $oldCode,
+            '[[NEW_REGISTER_CODE]]' => $register->code,
+        ];
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray),
+            $data
+        );
+
+        $subject = '[' . $this->emailCompanyName . '] Xác nhận đã đổi thành công từ mã học viên ' . $oldCode . ' sang mã ' . $register->code;
+
+        $this->send_mail_queue($user, $data, $subject);
+    }
+
     public function send_mail_lesson($user, $lesson, $class, $study_date, $emailcc)
     {
         $subject = 'Lịch trình và Giáo trình Buổi ' . $lesson->order . ' Lớp ' . $class->name;

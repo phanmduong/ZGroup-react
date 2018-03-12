@@ -68,7 +68,6 @@ class ManageEmailMaketingController extends ManageApiController
             });
         });
 
-
         if ($query != null) {
             $email_forms = $email_forms->where(function ($q) use ($query) {
                 $q->where('name', 'like', '%' . $query . '%')
