@@ -54,7 +54,7 @@ class ListRoom extends React.Component {
                                                 <ButtonGroupAction
                                                     disabledDelete
                                                     object={room}
-                                                    edit={() => this.props.openModalEdit(index, room)}
+                                                    edit={() => this.props.openModalEdit(room)}
                                                 />
                                             </div>
                                             <div style={{display: "flex", justifyContent: "space-between", height: 60}}>

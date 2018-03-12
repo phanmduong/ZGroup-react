@@ -51,15 +51,14 @@ export function createBase(base) {
         url += "?token=" + token;
     }
     return axios.post(url, {
-        id: base.id,
         name: base.name,
         address: base.address,
-        district_id: base.district_id,
+        district_id: base.district.id,
         latitude: base.latitude,
+        images_url: base.images_url,
         avatar_url: base.avatar_url,
-        description: base.description,
+        description: base.description ? base.description : "",
         center: base.center,
-        images_url: base.images.join(','),
         longtitude: base.longitude,
         display_status: base.display_status,
     });

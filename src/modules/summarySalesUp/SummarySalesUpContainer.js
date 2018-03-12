@@ -4,6 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+// import Select from '../../components/common/Select';
 import * as summarySalesActions from './summarySalesActions';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
@@ -21,50 +22,40 @@ class SummarySalesUpContainer extends React.Component {
         this.state = {
             selectBaseId: 0,
             bases: [],
-            time: {
-                startTime: '',
-                endTime: '',
-            },
+            startTime: "",
+            endTime: "",
+            isSelectDate: true,
             isShowMonthBox: false,
             openFilterPanel: false,
             month: {year: 0, month: 0},
         };
-        this.onChangeBase = this.onChangeBase.bind(this);
+
+
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.exportExcel = this.exportExcel.bind(this);
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
         this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
+        this.loadSummary = this.loadSummary.bind(this);
     }
 
     componentWillMount() {
-        this.props.summarySalesActions.loadBasesData();
-        this.props.summarySalesActions.loadSummarySalesData();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
-            this.setState({
-                bases: this.getBases(nextProps.bases),
-            });
+        let time = new Date;
+        let startTime = time.getFullYear() + "-" + time.getMonth() + "-01";
+        let endTime;
+        if (time.getMonth() !== 12) {
+            endTime = time.getFullYear() + "-" + (time.getMonth() + 1) + "-01";
         }
+        else {
+            endTime = time.getFullYear() + 1 + "-01" + "-01";
+        }
+        this.props.summarySalesActions.loadBasesData();
+        this.loadSummary(
+            null, startTime, endTime
+        );
     }
 
-
-    getBases(bases) {
-        let baseData = bases.map(function (base) {
-            return {
-                key: base.id,
-                value: base.name
-            };
-        });
-        this.setState({selectBaseId: 0});
-        return [{
-            key: 0,
-            value: 'Tất cả'
-        }, ...baseData];
-    }
 
     handleClickMonthBox() {
         this.setState({isShowMonthBox: true});
@@ -76,17 +67,16 @@ class SummarySalesUpContainer extends React.Component {
         if (value.month !== 12) {
             endTime = value.year + "-" + (value.month + 1) + "-01";
         }
-        else endTime = value.year + 1 + "-01" + "-01";
+        else {
+            endTime = value.year + 1 + "-01" + "-01";
+        }
         this.props.summarySalesActions.loadSummarySalesData(
-            this.state.selectBaseId,
+            null,
             startTime,
             endTime,
-            () => this.setState({month: value}),
+            () => this.setState({month: value, isSelectDate: true}),
         );
-        let time = {...this.state.time};
-        time["startTime"] = startTime;
-        time["endTime"] = endTime;
-        this.setState({time: time});
+        this.setState({startTime, endTime, isSelectDate: false});
         this.handleAMonthDismiss();
     }
 
@@ -95,29 +85,38 @@ class SummarySalesUpContainer extends React.Component {
     }
 
 
-    onChangeBase(value) {
-        this.setState({selectBaseId: value});
-        this.props.summarySalesActions.loadSummarySalesData(value, this.state.time.startTime, this.state.time.endTime);
-    }
-
-
-    openFilterPanel(){
+    openFilterPanel() {
         let newstatus = !this.state.openFilterPanel;
         this.setState({openFilterPanel: newstatus, isShowMonthBox: false});
     }
 
     updateFormDate(event) {
-        const field = event.target.name;
-        let time = {...this.state.time};
-        time[field] = event.target.value;
-
-        if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
-            this.setState({time: time, page: 1, month: {year: 0, month: 0}});
-            this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId, time.startTime, time.endTime);
-        } else {
-            this.setState({time: time});
+        if (this.state.isSelectDate) {
+            if (event.target.name === "startTime") {
+                let startTime = event.target.value;
+                if (!helper.isEmptyInput(this.state.startTime) && !helper.isEmptyInput(this.state.endTime)) {
+                    this.setState({startTime: startTime, page: 1, month: {year: 0, month: 0}, isSelectDate: false});
+                    this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId, startTime, this.state.endTime,
+                        () => this.setState({isSelectDate: true}),
+                    );
+                } else {
+                    this.setState({startTime: startTime, isSelectDate: false});
+                }
+            }
+            else {
+                let endTime = event.target.value;
+                if (!helper.isEmptyInput(this.state.endTime) && !helper.isEmptyInput(this.state.endTime)) {
+                    this.setState({endTime: endTime, page: 1, month: {year: 0, month: 0}, isSelectDate: false});
+                    this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId, endTime, this.state.endTime,
+                        () => this.setState({isSelectDate: true}),
+                    );
+                } else {
+                    this.setState({endTime: endTime, isSelectDate: false});
+                }
+            }
         }
     }
+
 
     exportExcel() {
         let wb = helper.newWorkBook();
@@ -143,10 +142,10 @@ class SummarySalesUpContainer extends React.Component {
         helper.appendJsonToWorkBook(detail, wb, 'Chi tiết', cols);
 
         let base = this.state.bases.filter(base => (base.key === this.state.selectBaseId));
-        let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-        let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-        let empt1 = helper.isEmptyInput(this.state.time.startTime);
-        let empt2 = helper.isEmptyInput(this.state.time.endTime);
+        let startTime = moment(this.state.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let endTime = moment(this.state.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let empt1 = helper.isEmptyInput(this.state.startTime);
+        let empt2 = helper.isEmptyInput(this.state.endTime);
         helper.saveWorkBookToExcel(wb,
             'Tổng kết sales' +
             ` - ${base[0].value === 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
@@ -154,11 +153,17 @@ class SummarySalesUpContainer extends React.Component {
                 (empt1 || empt2)
                     ? ` - ${gen[0].value}`         // *********************************** ///
                     :
-                    (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
-                        `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)  }`)
+                    (`${helper.isEmptyInput(this.state.startTime) ? '' : (' - ' + startTime)}` +
+                        `${helper.isEmptyInput(this.state.endTime) ? '' : (' - ' + endTime)  }`)
             )
         );
 
+    }
+
+    loadSummary(base_id = null, startTime = this.state.startTime, endTime = this.state.endTime) {
+        this.props.summarySalesActions.loadSummarySalesData(
+            base_id, startTime, endTime
+        );
     }
 
     render() {
@@ -180,34 +185,25 @@ class SummarySalesUpContainer extends React.Component {
                                         closeBox={this.handleAMonthDismiss}
                                     />
                                 </div>
-                                <div className="col-sm-3 col-xs-5">
-                                    {/*<Select*/}
-                                        {/*defaultMessage={'Chọn cơ sở'}*/}
-                                        {/*options={this.state.bases}*/}
-                                        {/*disableRound*/}
-                                        {/*value={this.state.selectBaseId}*/}
-                                        {/*onChange={this.onChangeBase}*/}
-                                    {/*/>*/}
-                                </div>
                                 <div className="col-sm-2 col-xs-5">
                                     {
                                         this.state.isShowMonthBox ?
-                                                <button
-                                                    style={{width: '100%'}}
-                                                    className="btn btn-info btn-rose disabled"
-                                                >
-                                                    <i className="material-icons disabled">filter_list</i>
-                                                    Lọc
-                                                </button>
+                                            <button
+                                                style={{width: '100%'}}
+                                                className="btn btn-info btn-rose disabled"
+                                            >
+                                                <i className="material-icons disabled">filter_list</i>
+                                                Lọc
+                                            </button>
                                             :
-                                                <button
-                                                    style={{width: '100%'}}
-                                                    onClick={this.openFilterPanel}
-                                                    className="btn btn-info btn-rose "
-                                                >
-                                                    <i className="material-icons">filter_list</i>
-                                                    Lọc
-                                                </button>
+                                            <button
+                                                style={{width: '100%'}}
+                                                onClick={this.openFilterPanel}
+                                                className="btn btn-info btn-rose "
+                                            >
+                                                <i className="material-icons">filter_list</i>
+                                                Lọc
+                                            </button>
                                     }
                                 </div>
                                 <div className="col-sm-2 col-xs-5">
@@ -239,8 +235,8 @@ class SummarySalesUpContainer extends React.Component {
                                                             name="startTime"
                                                             updateFormData={this.updateFormDate}
                                                             id="form-start-time"
-                                                            value={this.state.time.startTime}
-                                                            maxDate={this.state.time.endTime}
+                                                            value={this.state.startTime}
+                                                            maxDate={this.state.endTime}
                                                         />
                                                     </div>
                                                     <div className="col-md-3 col-xs-5">
@@ -249,9 +245,8 @@ class SummarySalesUpContainer extends React.Component {
                                                             name="endTime"
                                                             updateFormData={this.updateFormDate}
                                                             id="form-end-time"
-                                                            value={this.state.time.endTime}
-                                                            minDate={this.state.time.startTime}
-
+                                                            value={this.state.endTime}
+                                                            minDate={this.state.startTime}
                                                         />
                                                     </div>
                                                 </div>
@@ -263,6 +258,7 @@ class SummarySalesUpContainer extends React.Component {
 
                             <SummarySalesComponent
                                 {...this.props}
+                                loadSummary={this.loadSummary}
                             />
                         </div>
                     )

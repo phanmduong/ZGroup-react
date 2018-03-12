@@ -81,7 +81,8 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 ...state,
                 deliveryOrders: changeStatusDelivery(state.deliveryOrders, action.delivery_id, action.status),
                 addCancelNoteModal: false,
-                sendPriceModal: false
+                sendPriceModal: false,
+                addJavCodeModal: false
             };
         case types.TOGGLE_ADD_CANCEL_NOTE_MODAL:
             return {
@@ -140,6 +141,16 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 ...state,
                 isChoosingWallet: false,
                 chooseWalletModal: false
+            };
+        case types.HANDLE_ADD_JAV_CODE_MODAL:
+            return {
+                ...state,
+                orderJavCode: action.order
+            };
+        case types.TOGGLE_ADD_JAV_CODE_MODAL:
+            return {
+                ...state,
+                addJavCodeModal: !state.addJavCodeModal
             };
         default:
             return state;

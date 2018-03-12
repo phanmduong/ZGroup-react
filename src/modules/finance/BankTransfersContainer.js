@@ -11,6 +11,8 @@ import {TRANSFER_PURPOSE, TRANSFER_PURPOSE_COLOR} from "../../constants/constant
 import Search from "../../components/common/Search";
 import Pagination from "../../components/common/Pagination";
 import Select from 'react-select';
+import TooltipButton from '../../components/common/TooltipButton';
+import LoadMoneyToWalletModal from "./LoadMoneyToWalletModal";
 
 // import {STATUS_OPTIONS} from "./financeConstant";
 
@@ -33,6 +35,7 @@ class BankTransfersContainer extends React.Component {
         this.transfersSearchChange = this.transfersSearchChange.bind(this);
         this.displayStatusChange = this.displayStatusChange.bind(this);
         this.showBankTransferEditModal = this.showBankTransferEditModal.bind(this);
+        this.showLoadMoneyToWalletModal = this.showLoadMoneyToWalletModal.bind(this);
     }
 
     componentWillMount() {
@@ -117,97 +120,119 @@ class BankTransfersContainer extends React.Component {
         this.props.financeActions.handleBankTransferEditModal(transfer);
     }
 
+    showLoadMoneyToWalletModal() {
+        this.props.financeActions.showLoadMoneyToWalletModal();
+        this.props.financeActions.handleLoadMoneyToWalletModal({
+            money: '',
+            deposit: 1
+        });
+    }
+
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
 
         return (
             <div className="container-fluid">
-                <div className="card">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">assignment</i>
+                <div className="row">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div className="flex flex-row flex-space-between">
+                            <div>
+                                <TooltipButton text="Nạp tiền" placement="top">
+                                    <button className="btn btn-rose"
+                                            onClick={() => this.showLoadMoneyToWalletModal()}>
+                                        Nạp tiền vào ví cho khách
+                                    </button>
+                                </TooltipButton>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card-content">
-                        <h4 className="card-title">Báo chuyển tiền</h4>
-                        <div className="row">
-                            <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                <Search
-                                    onChange={this.transfersSearchChange}
-                                    value={this.state.query}
-                                    placeholder="Nhập tên người dùng hoặc tên ngân hàng để tìm"
-                                />
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div className="card">
+                            <div className="card-header card-header-icon" data-background-color="rose">
+                                <i className="material-icons">assignment</i>
                             </div>
-                            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <button type="button" data-toggle="collapse" data-target="#demo"
-                                        className="btn btn-rose">
-                                    <i className="material-icons">filter_list</i> Lọc
-                                </button>
-                            </div>
-                        </div>
-                        <div id="demo" className="collapse">
-                            <div className="row">
-                                <div className="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label className="label-control">Tìm theo trạng thái hiển
-                                        thị</label>
-                                    <Select
-                                        value={this.state.status}
-                                        options={[
-                                            {
-                                                value: "accept",
-                                                label: "Đã xác nhận"
-                                            },
-                                            {
-                                                value: "cancel",
-                                                label: "Đã hủy bỏ"
-                                            }
-                                        ]}
-                                        onChange={this.displayStatusChange}
-                                    />
+                            <div className="card-content">
+                                <h4 className="card-title">Báo chuyển tiền</h4>
+                                <div className="row">
+                                    <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <Search
+                                            onChange={this.transfersSearchChange}
+                                            value={this.state.query}
+                                            placeholder="Nhập tên người dùng hoặc tên ngân hàng để tìm"
+                                        />
+                                    </div>
+                                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        <button type="button" data-toggle="collapse" data-target="#demo"
+                                                className="btn btn-rose">
+                                            <i className="material-icons">filter_list</i> Lọc
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <br/>
-                        {
-                            this.props.isLoading ? <Loading/> : (
-                                <div className="card-content table-responsive table-full-width">
-                                    <table className="table">
-                                        <thead className="text-rose">
-                                        <tr>
-                                            <th>Ngày chuyển</th>
-                                            <th>Mục đích</th>
-                                            <th>Số tiền(VNĐ)</th>
-                                            <th>Ngân hàng</th>
-                                            <th>Nội dung</th>
-                                            <th>Trạng thái</th>
-                                            <th/>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {
-                                            this.props.bankTransfers && this.props.bankTransfers.map((bankTransfer) => {
-                                                let purpose = TRANSFER_PURPOSE.filter(pur => pur.value === bankTransfer.purpose)[0] ?
-                                                    TRANSFER_PURPOSE.filter(pur => pur.value === bankTransfer.purpose)[0].label : "Chưa có mục đích";
-                                                return (
-                                                    <tr key={bankTransfer.id}>
-                                                        <td>{bankTransfer.transfer_day}</td>
-                                                        <td>
-                                                            <div
-                                                                style={{
-                                                                    cursor: "default",
-                                                                    backgroundColor: TRANSFER_PURPOSE_COLOR[bankTransfer.purpose]
-                                                                }}
-                                                                className="btn btn-sm btn-main"
-                                                            >
-                                                                {purpose}
-                                                            </div>
-                                                        </td>
-                                                        <td>{numberWithCommas(bankTransfer.money)}</td>
-                                                        <td>{bankTransfer.bank_account.bank_account_name}</td>
-                                                        <td>{bankTransfer.note}</td>
-                                                        <td>
-                                                            {
-                                                                bankTransfer.status === "pending" ? (
-                                                                    <span>
+                                <div id="demo" className="collapse">
+                                    <div className="row">
+                                        <div className="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <label className="label-control">Tìm theo trạng thái hiển
+                                                thị</label>
+                                            <Select
+                                                value={this.state.status}
+                                                options={[
+                                                    {
+                                                        value: "accept",
+                                                        label: "Đã xác nhận"
+                                                    },
+                                                    {
+                                                        value: "cancel",
+                                                        label: "Đã hủy bỏ"
+                                                    }
+                                                ]}
+                                                onChange={this.displayStatusChange}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                {
+                                    this.props.isLoading ? <Loading/> : (
+                                        <div className="card-content table-responsive table-full-width">
+                                            <table className="table">
+                                                <thead className="text-rose">
+                                                <tr>
+                                                    <th>Ngày chuyển</th>
+                                                    <th>Mục đích</th>
+                                                    <th>Số tiền(VNĐ)</th>
+                                                    <th>Ngân hàng</th>
+                                                    <th>Nội dung</th>
+                                                    <th>Trạng thái</th>
+                                                    <th/>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {
+                                                    this.props.bankTransfers && this.props.bankTransfers.map((bankTransfer) => {
+                                                        let purpose = TRANSFER_PURPOSE.filter(pur => pur.value === bankTransfer.purpose)[0] ?
+                                                            TRANSFER_PURPOSE.filter(pur => pur.value === bankTransfer.purpose)[0].label : "Chưa có mục đích";
+                                                        return (
+                                                            <tr key={bankTransfer.id}>
+                                                                <td>{bankTransfer.transfer_day}</td>
+                                                                <td>
+                                                                    <div
+                                                                        style={{
+                                                                            cursor: "default",
+                                                                            backgroundColor: TRANSFER_PURPOSE_COLOR[bankTransfer.purpose]
+                                                                        }}
+                                                                        className="btn btn-sm btn-main"
+                                                                    >
+                                                                        {purpose}
+                                                                    </div>
+                                                                </td>
+                                                                <td>{numberWithCommas(bankTransfer.money)}</td>
+                                                                <td>{bankTransfer.bank_account.bank_account_name}</td>
+                                                                <td>{bankTransfer.note}</td>
+                                                                <td>
+                                                                    {
+                                                                        bankTransfer.status === "pending" ? (
+                                                                            <span>
                                                                     <a className="text-success"
                                                                        onClick={() => this.props.financeActions.updateTransferStatus(
                                                                            bankTransfer.id, "accept", null, bankTransfer.money
@@ -219,62 +244,69 @@ class BankTransfersContainer extends React.Component {
                                                                         <span className="material-icons">clear</span>
                                                                     </a>
                                                                 </span>
-                                                                ) : (
-                                                                    <div>
-                                                                        {
-                                                                            bankTransfer.status === "accept" ? (
-                                                                                <div
-                                                                                    style={{cursor: "default"}}
-                                                                                    className="btn btn-sm btn-success btn-main"
-                                                                                >
-                                                                                    Đã xác nhận
-                                                                                </div>
-                                                                            ) : (
-                                                                                <div
-                                                                                    style={{cursor: "default"}}
-                                                                                    className="btn btn-sm btn-danger btn-main"
-                                                                                >
-                                                                                    Đã hủy bỏ
-                                                                                </div>
-                                                                            )
-                                                                        }
-                                                                    </div>
-                                                                )
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            <a data-toggle="tooltip" title="Ghi chú" type="button"
-                                                               className="text-rose"
-                                                               rel="tooltip"
-                                                               onClick={() => this.showBankTransferEditModal(bankTransfer)}>
-                                                                <i className="material-icons">edit</i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })
-                                        }
-                                        </tbody>
-                                    </table>
+                                                                        ) : (
+                                                                            <div>
+                                                                                {
+                                                                                    bankTransfer.status === "accept" ? (
+                                                                                        <div
+                                                                                            style={{cursor: "default"}}
+                                                                                            className="btn btn-sm btn-success btn-main"
+                                                                                        >
+                                                                                            Đã xác nhận
+                                                                                        </div>
+                                                                                    ) : (
+                                                                                        <div
+                                                                                            style={{cursor: "default"}}
+                                                                                            className="btn btn-sm btn-danger btn-main"
+                                                                                        >
+                                                                                            Đã hủy bỏ
+                                                                                        </div>
+                                                                                    )
+                                                                                }
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    {
+                                                                        bankTransfer.status === "pending" &&
+                                                                        <a data-toggle="tooltip" title="Sửa"
+                                                                           type="button"
+                                                                           className="text-rose"
+                                                                           rel="tooltip"
+                                                                           onClick={() => this.showBankTransferEditModal(bankTransfer)}>
+                                                                            <i className="material-icons">edit</i>
+                                                                        </a>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                            <div className="row float-right">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
+                                    <b style={{marginRight: '15px'}}>
+                                        Hiển thị kêt quả từ {first}
+                                        - {end}/{this.props.totalCount}</b><br/>
+                                    <Pagination
+                                        totalPages={this.props.totalPages}
+                                        currentPage={this.props.currentPage}
+                                        loadDataPage={this.loadOrders}
+                                    />
                                 </div>
-                            )
-                        }
-                    </div>
-                    <div className="row float-right">
-                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{textAlign: 'right'}}>
-                            <b style={{marginRight: '15px'}}>
-                                Hiển thị kêt quả từ {first}
-                                - {end}/{this.props.totalCount}</b><br/>
-                            <Pagination
-                                totalPages={this.props.totalPages}
-                                currentPage={this.props.currentPage}
-                                loadDataPage={this.loadOrders}
-                            />
+                            </div>
                         </div>
                     </div>
                 </div>
                 <CancelReasonModal/>
                 <BankTransferEditModal/>
+                <LoadMoneyToWalletModal/>
             </div>
         );
     }

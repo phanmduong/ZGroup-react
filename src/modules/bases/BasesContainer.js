@@ -3,7 +3,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import Link from "react-router/es/Link";
 import Search from "../../components/common/Search";
 import ListBase from "./ListBase";
 import Loading from "../../components/common/Loading";
@@ -31,7 +30,6 @@ class BasesContainer extends React.Component {
 
     componentWillMount() {
         this.loadBases();
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -103,9 +101,10 @@ class BasesContainer extends React.Component {
                             <h4 className="card-title">Cơ sở</h4>
 
                             <div style={{marginTop: "15px"}}>
-                                <Link to="/base/create" className="btn btn-rose">
+                                <button onClick={() => this.openModal({})}
+                                        className="btn btn-rose">
                                     Thêm cơ sở
-                                </Link>
+                                </button>
                             </div>
 
 
