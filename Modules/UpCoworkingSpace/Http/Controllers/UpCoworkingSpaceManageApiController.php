@@ -63,7 +63,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         ]);
     }
 
-    public function getRoombôkingokings(Request $request)
+    public function getRoomBookings(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
