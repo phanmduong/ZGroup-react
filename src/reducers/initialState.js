@@ -761,7 +761,6 @@ export default {
         teachers: [],
         teachingLessons: [],
         isLoadingTeachingLesson: false,
-        errorTeachingLesson: false,
         isLoadingTeachers: false,
         errorTeachers: false,
     },
