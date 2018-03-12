@@ -6,7 +6,7 @@ import * as helper from "../../helpers/helper";
 // import {Link} from "react-router";
 import { Modal, Tooltip, OverlayTrigger } from "react-bootstrap";
 import CallModal from "./CallModal";
-import { REGISTER_STATUS } from "../../constants/constants";
+// import { REGISTER_STATUS } from "../../constants/constants";
 import TooltipButton from "../../components/common/TooltipButton";
 // import ChooseSeatModalContainer from "./chooseSeat/ChooseSeatModalContainer";
 
@@ -119,9 +119,9 @@ class ListOrder extends React.Component {
                                 <th>Gọi</th>
                                 <th>Khách hàng</th>
                                 <th>Số điện thoại</th>
-                                <th>Mã đăng ký</th>
+                                {/* <th>Mã đăng ký</th> */}
                                 <th>Saler</th>
-                                <th>Trạng thái</th>
+                                {/*<th>Trạng thái</th>*/}
                                 <th>Chiến dịch</th>
                                 {/*<th>Giá tiền</th>*/}
                                 <th>Tiền đã trả</th>
@@ -184,7 +184,7 @@ class ListOrder extends React.Component {
                                                     : "Chưa có"}
                                             </a>
                                         </td>
-                                        <td>{register.code || "Chưa có"}</td>
+                                        {/* <td>{register.code || "Chưa có"}</td> */}
                                         <td>
                                             {register.saler ? (
                                                 <a
@@ -213,6 +213,7 @@ class ListOrder extends React.Component {
                                             )}
                                         </td>
 
+                                        {/*
                                         <td>
                                             {register.status !== "" ? (
                                                 <button
@@ -247,6 +248,7 @@ class ListOrder extends React.Component {
                                                 </button>
                                             )}
                                         </td>
+                                        */}
 
                                         <td>
                                             {register.campaign ? (
@@ -277,9 +279,9 @@ class ListOrder extends React.Component {
                                         </td>
 
                                         {/*<td>*/}
-                                            {/*{helper.dotNumber(*/}
-                                                {/*register.subscription.price,*/}
-                                            {/*)}đ*/}
+                                        {/*{helper.dotNumber(*/}
+                                        {/*register.subscription.price,*/}
+                                        {/*)}đ*/}
                                         {/*</td>*/}
                                         <td>
                                             {helper.dotNumber(register.money)}đ
