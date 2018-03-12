@@ -1,7 +1,7 @@
 @extends("client.layout.master")
 
 @section("css")
-    <link href="manage/base/main.c5d9c5ed01e3b4c2c6c1ff54e289304f.css" rel="stylesheet">
+    <link href="manage/base/main.96d40c82fd3beecd18ca6c97b43e99d4.css" rel="stylesheet">
 @endsection
 
 @section("js")
