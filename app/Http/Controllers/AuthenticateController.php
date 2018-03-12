@@ -33,6 +33,17 @@ class AuthenticateController extends Controller
         $this->emailService = $emailService;
     }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect("/login");
+    }
+
     public function login(Request $request)
     {
         // grab credentials from the request

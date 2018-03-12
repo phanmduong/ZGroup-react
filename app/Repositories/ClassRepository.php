@@ -52,7 +52,9 @@ class ClassRepository
             'total_register' => $class->registers()->count(),
             'regis_target' => $class->regis_target,
             'type' => $class->type,
-            'created_at' => format_full_time_date($class->created_at)
+            'created_at' => format_full_time_date($class->created_at),
+            'teachers' => $class->teachers()->pluck('user_id')->toArray(),
+            'teaching_assistants' => $class->teaching_assistants()->pluck('user_id')->toArray(),
         ];
 
         $teacher = $this->userRepository->user($class->teach);
@@ -213,7 +215,7 @@ class ClassRepository
                 $classLessons[$count]->save();
 
                 $class = $classLessons[$count]->studyClass;
-                $this->renderTeachingLessons($classLessons[$count]->id, $class->teacher_id, $class->teaching_assistant_id);
+                $this->renderTeachingLessons($classLessons[$count]->id, $class->teacher_id, $class->teaching_assistant_id, $class);
 
                 $count++;
                 if ($count == $duration) {
@@ -223,9 +225,30 @@ class ClassRepository
         }
     }
 
-    public function renderTeachingLessons($classLessonId, $teacherId, $teachingAssitantId)
+    public function renderTeachingLessons($classLessonId, $teacherId, $teachingAssitantId, $class)
     {
-        $teachingLesson = TeachingLesson::where('class_lesson_id', $classLessonId)->first();
+        $teachingLessonIds = TeachingLesson::where('class_lesson_id', $classLessonId)->whereNotNull('class_position_id')->pluck('class_position_id')->toArray();
+
+        $classPositionIds = $class->class_position()->pluck('id')->toArray();
+
+        foreach ($teachingLessonIds as $id) {
+            if (!in_array($id, $classPositionIds)) {
+                TeachingLesson::where('class_lesson_id', $classLessonId)->where('class_position_id', $id)->first()->delete();
+            }
+        }
+
+        foreach ($classPositionIds as $id) {
+            if (!in_array($id, $teachingLessonIds)) {
+                $teachingLesson = new TeachingLesson();
+                $teachingLesson->class_lesson_id = $classLessonId;
+                $teachingLesson->class_position_id = $id;
+                $teachingLesson->teaching_id = $class->class_position()->where('id', $id)->first()->user_id;
+                $teachingLesson->save();
+            }
+        }
+
+
+        $teachingLesson = TeachingLesson::where('class_lesson_id', $classLessonId)->whereNull('class_position_id')->first();
         if (is_null($teachingLesson)) {
             $teachingLesson = new TeachingLesson();
             $teachingLesson->class_lesson_id = $classLessonId;
@@ -238,6 +261,21 @@ class ClassRepository
             $teachingLesson->teacher_id = $teacherId;
             $teachingLesson->save();
         }
+    }
 
+    public function get_teachers($class)
+    {
+        $teachers = $class->teachers()->get()->map(function ($teacher) {
+            return $this->userRepository->staff($teacher->user);
+        });
+        return $teachers;
+    }
+
+    public function get_teaching_assistants($class)
+    {
+        $teaching_assistants = $class->teaching_assistants()->get()->map(function ($teacher) {
+            return $this->userRepository->staff($teacher->user);
+        });
+        return $teaching_assistants;
     }
 }
