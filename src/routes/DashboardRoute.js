@@ -7,14 +7,14 @@ import TypeDashboard from "../modules/dashboard/TypeDashboard";
 export default [
     {
         path: "/",
-        component: TypeDashboard
+        component: TypeDashboard,
     },
     {
         path: "/dashboard",
-        component: TypeDashboard
+        component: TypeDashboard,
     },
     {
         path: "/dashboard/it",
-        component: DashboardItContainer
-    }
+        component: DashboardItContainer,
+    },
 ];

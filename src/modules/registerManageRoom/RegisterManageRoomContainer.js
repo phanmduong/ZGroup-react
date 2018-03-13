@@ -3,21 +3,21 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Search from "../../components/common/Search";
 import ListOrder from "./ListOrder";
-import * as registerManageAction from "./registerManageAction";
+import * as registerManageRoomAction from "./registerManageRoomAction";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import Pagination from "../../components/common/Pagination";
 import { REGISTER_STATUS } from "../../constants/constants";
 import XLSX from "xlsx";
 import { saveWorkBookToExcel } from "../../helpers/helper";
-import { loadAllRegistersApi } from "./registerManageApi";
+import { loadAllRegistersApi } from "./registerManageRoomApi";
 import SelectMonthBox from "../../components/common/SelectMonthBox";
 import Loading from "../../components/common/Loading";
 import SelectCommon from "../../components/common/Select";
 import { Panel } from "react-bootstrap";
-import * as chooseSeatActions from "./chooseSeat/chooseSeatActions";
+// import * as chooseSeatActions from "./chooseSeat/chooseSeatActions";
 
-class RegisterManageContainer extends React.Component {
+class RegisterManageRoomContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -55,16 +55,13 @@ class RegisterManageContainer extends React.Component {
         this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
-        this.openChooseSeatHistoryModal = this.openChooseSeatHistoryModal.bind(
-            this,
-        );
     }
 
     componentWillMount() {
-        this.props.registerManageAction.loadAllRegisters();
-        // this.props.registerManageAction.getAllStaffs();
-        this.props.registerManageAction.getAllSalers();
-        this.props.registerManageAction.loadBasesData();
+        this.props.registerManageRoomAction.loadAllRegisters();
+        // this.props.registerManageRoomAction.getAllStaffs();
+        this.props.registerManageRoomAction.getAllSalers();
+        this.props.registerManageRoomAction.loadBasesData();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -78,6 +75,14 @@ class RegisterManageContainer extends React.Component {
         }
     }
 
+    openChooseSeatModal(base, register) {
+        this.props.chooseSeatActions.toggleShowChooseSeatModal(
+            true,
+            base,
+            register,
+        );
+    }
+
     handleClickMonthBox() {
         this.setState({ isShowMonthBox: true });
     }
@@ -88,7 +93,7 @@ class RegisterManageContainer extends React.Component {
         if (value.month !== 12) {
             endTime = value.year + "-" + (value.month + 1) + "-01";
         } else endTime = value.year + 1 + "-01" + "-01";
-        this.props.registerManageAction.loadAllRegisters(
+        this.props.registerManageRoomAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
             this.state.query,
@@ -130,7 +135,7 @@ class RegisterManageContainer extends React.Component {
 
     onChangeBase(value) {
         this.setState({ selectBaseId: value });
-        this.props.registerManageAction.loadAllRegisters(
+        this.props.registerManageRoomAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
             this.state.query,
@@ -149,7 +154,7 @@ class RegisterManageContainer extends React.Component {
     }
 
     async exportRegistersResultExcel() {
-        this.props.registerManageAction.showGlobalLoading();
+        this.props.registerManageRoomAction.showGlobalLoading();
         const res = await loadAllRegistersApi(
             -1,
             this.state.page,
@@ -161,7 +166,7 @@ class RegisterManageContainer extends React.Component {
             this.state.startTime,
             this.state.endTime,
         );
-        this.props.registerManageAction.hideGlobalLoading();
+        this.props.registerManageRoomAction.hideGlobalLoading();
         const wsData = res.data.data.room_service_registers;
         const field = [];
         field[0] = "Tên";
@@ -170,7 +175,6 @@ class RegisterManageContainer extends React.Component {
         field[3] = "Ngày đăng kí";
         field[4] = "Saler";
         field[5] = "Chiến dịch";
-        field[6] = "Gói thành viên";
         const datas = wsData.map(data => {
             let tmp = [];
             tmp[0] = data.user.name;
@@ -179,19 +183,18 @@ class RegisterManageContainer extends React.Component {
             tmp[3] = data.created_at || "Chưa có";
             tmp[4] = (data.saler && data.saler.name) || "Không có";
             tmp[5] = (data.campaign && data.campaign.name) || "Không có";
-            tmp[6] = data.subscription && data.subscription.user_pack_name;
             return tmp;
         });
         const tmpWsData = [field, ...datas];
         const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
-        const sheetName = "Danh sách đăng kí đặt chỗ";
+        const sheetName = "Danh sách đăng kí đặt phòng";
         let workbook = {
             SheetNames: [],
             Sheets: {},
         };
         workbook.SheetNames.push(sheetName);
         workbook.Sheets[sheetName] = ws;
-        saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt chỗ");
+        saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt phòng");
     }
 
     registersSearchChange(value) {
@@ -204,7 +207,7 @@ class RegisterManageContainer extends React.Component {
         }
         this.timeOut = setTimeout(
             function() {
-                this.props.registerManageAction.loadAllRegisters(
+                this.props.registerManageRoomAction.loadAllRegisters(
                     this.state.limit,
                     1,
                     value,
@@ -226,7 +229,7 @@ class RegisterManageContainer extends React.Component {
                 saler_id: value.value,
                 page: 1,
             });
-            this.props.registerManageAction.loadAllRegisters(
+            this.props.registerManageRoomAction.loadAllRegisters(
                 this.state.limit,
                 1,
                 this.state.query,
@@ -242,7 +245,7 @@ class RegisterManageContainer extends React.Component {
                 saler_id: null,
                 page: 1,
             });
-            this.props.registerManageAction.loadAllRegisters(
+            this.props.registerManageRoomAction.loadAllRegisters(
                 this.state.limit,
                 1,
                 this.state.query,
@@ -262,7 +265,7 @@ class RegisterManageContainer extends React.Component {
                 status: value.value,
                 page: 1,
             });
-            this.props.registerManageAction.loadAllRegisters(
+            this.props.registerManageRoomAction.loadAllRegisters(
                 this.state.limit,
                 1,
                 this.state.query,
@@ -274,7 +277,7 @@ class RegisterManageContainer extends React.Component {
                 status: null,
                 page: 1,
             });
-            this.props.registerManageAction.loadAllRegisters(
+            this.props.registerManageRoomAction.loadAllRegisters(
                 this.state.limit,
                 1,
                 this.state.query,
@@ -286,7 +289,7 @@ class RegisterManageContainer extends React.Component {
 
     filterByCampaign(campaign_id) {
         this.setState({ campaign_id: campaign_id });
-        this.props.registerManageAction.loadAllRegisters(
+        this.props.registerManageRoomAction.loadAllRegisters(
             this.state.limit,
             this.state.page,
             this.state.query,
@@ -301,7 +304,7 @@ class RegisterManageContainer extends React.Component {
 
     filterBySaler(saler_id) {
         this.setState({ saler_id: saler_id });
-        this.props.registerManageAction.loadAllRegisters(
+        this.props.registerManageRoomAction.loadAllRegisters(
             this.state.limit,
             1,
             "",
@@ -316,7 +319,7 @@ class RegisterManageContainer extends React.Component {
 
     loadOrders(page = 1) {
         this.setState({ page: page });
-        this.props.registerManageAction.loadAllRegisters(
+        this.props.registerManageRoomAction.loadAllRegisters(
             this.state.limit,
             page,
             this.state.query,
@@ -333,16 +336,6 @@ class RegisterManageContainer extends React.Component {
         this.setState({
             showModal: false,
         });
-    }
-    openChooseSeatHistoryModal() {
-        this.props.chooseSeatActions.toggleChooseSeatHistoryModal(true);
-    }
-    openChooseSeatModal(base, register) {
-        this.props.chooseSeatActions.toggleShowChooseSeatModal(
-            true,
-            base,
-            register,
-        );
     }
 
     render() {
@@ -499,9 +492,6 @@ class RegisterManageContainer extends React.Component {
                                         isLoading={this.props.isLoading}
                                         filterBySaler={this.filterBySaler}
                                         filterByCampaign={this.filterByCampaign}
-                                        openChooseSeatHistoryModal={
-                                            this.openChooseSeatHistoryModal
-                                        }
                                     />
                                     <div className="row float-right">
                                         <div
@@ -534,13 +524,13 @@ class RegisterManageContainer extends React.Component {
     }
 }
 
-RegisterManageContainer.propTypes = {
+RegisterManageRoomContainer.propTypes = {
     limit: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,
     registers: PropTypes.array.isRequired,
-    registerManageAction: PropTypes.object.isRequired,
+    registerManageRoomAction: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
     salers: PropTypes.array.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
@@ -550,28 +540,28 @@ RegisterManageContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.registerManage.isLoading,
-        totalPages: state.registerManage.totalPages,
-        registers: state.registerManage.registers,
-        limit: state.registerManage.limit,
-        totalCount: state.registerManage.totalCount,
-        currentPage: state.registerManage.currentPage,
-        salers: state.registerManage.salers,
-        isLoadingBases: state.registerManage.isLoadingBases,
-        bases: state.registerManage.bases,
+        isLoading: state.registerManageRoom.isLoading,
+        totalPages: state.registerManageRoom.totalPages,
+        registers: state.registerManageRoom.registers,
+        limit: state.registerManageRoom.limit,
+        totalCount: state.registerManageRoom.totalCount,
+        currentPage: state.registerManageRoom.currentPage,
+        salers: state.registerManageRoom.salers,
+        isLoadingBases: state.registerManageRoom.isLoadingBases,
+        bases: state.registerManageRoom.bases,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        chooseSeatActions: bindActionCreators(chooseSeatActions, dispatch),
-        registerManageAction: bindActionCreators(
-            registerManageAction,
+        // chooseSeatActions: bindActionCreators(chooseSeatActions, dispatch),
+        registerManageRoomAction: bindActionCreators(
+            registerManageRoomAction,
             dispatch,
         ),
     };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    RegisterManageContainer,
+    RegisterManageRoomContainer,
 );

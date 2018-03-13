@@ -2,10 +2,10 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
 
-export function loadSummarySales( baseId = '', startTime='',endTime='') {
+export function loadSummarySales( startTime='',endTime='') {
     let url = env.MANAGE_API_URL + "/room-service/sales/summary?";
     let token = localStorage.getItem('token');
-    url += `&base_id=${baseId}`;
+    // url += `&base_id=${baseId}`;
 
     if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
         url += `&start_time=${startTime}&end_time=${endTime}`;

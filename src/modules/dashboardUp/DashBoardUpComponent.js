@@ -4,6 +4,8 @@ import Barchart from "./Barchart";
 import TooltipButton from "../../components/common/TooltipButton";
 import RoomModal from "./RoomModal";
 import PropTypes from "prop-types";
+import RoomGanttChartComponent from "./RoomGanttChartComponent";
+// import FormInputDate from "../../components/common/FormInputDate";
 
 class DashBoardUpComponent extends React.Component {
     constructor(props, context) {
@@ -512,6 +514,29 @@ class DashBoardUpComponent extends React.Component {
                                                 </div>
                                             )}
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div
+                                        className="card-header card-header-icon"
+                                        data-background-color="rose"
+                                    >
+                                        <i className="material-icons">
+                                            insert_chart
+                                        </i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">
+                                            Danh sách phòng
+                                            <small />
+                                        </h4>
+
+                                        <RoomGanttChartComponent />
                                     </div>
                                 </div>
                             </div>

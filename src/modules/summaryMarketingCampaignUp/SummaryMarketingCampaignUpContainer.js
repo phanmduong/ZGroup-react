@@ -17,16 +17,27 @@ import SelectMonthBox from "../../components/common/SelectMonthBox";
 class SummaryMarketingCampaignUpContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        let time = new Date;
+        let year = time.getFullYear();
+        let month = time.getMonth();
+        let startTime = year + "-" + month + "-01";
+        let endTime;
+        if (month !== 12) {
+            endTime = year + "-" + (month + 1) + "-01";
+        }
+        else {
+            endTime = year + 1 + "-01" + "-01";
+        }
         this.state = {
             selectBaseId: 0,
             bases: [],
             isShowMonthBox: false,
             openFilterPanel: false,
             time: {
-                startTime: '',
-                endTime: '',
+                startTime: startTime,
+                endTime: endTime,
             },
-            month: {year: 0, month: 0},
+            month: {year: year, month:  month},
         };
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadSummary = this.loadSummary.bind(this);
@@ -99,8 +110,10 @@ class SummaryMarketingCampaignUpContainer extends React.Component {
         this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(value);
     }
 
-    loadSummary() {
-        this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(this.state.selectBaseId);
+    loadSummary(
+        // startTime,endTime
+    ) {
+        this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(this.state.selectBaseId,this.state.time.startTime,this.state.time.endTime);
     }
 
     openFilterPanel() {

@@ -5,6 +5,7 @@ import roomsReducer from "../modules/rooms/roomsReducer";
 import userpackReducer from "../modules/userpack/userpackReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
 import commonReducer from "./commonReducer";
+import registerManageRoomReducer from "../modules/registerManageRoom/registerManageRoomReducer";
 import registerManageReducer from "../modules/registerManage/registerManageReducer";
 import chooseSeatReducer from "../modules/registerManage/chooseSeat/chooseSeatReducer";
 
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
     userpacks: userpackReducer,
     seat: seatReducer,
     registerManage: registerManageReducer,
+    registerManageRoom: registerManageRoomReducer,
     chooseSeat: chooseSeatReducer,
 });
 
