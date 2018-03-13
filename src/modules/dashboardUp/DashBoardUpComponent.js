@@ -5,6 +5,7 @@ import TooltipButton from "../../components/common/TooltipButton";
 import RoomModal from "./RoomModal";
 import PropTypes from "prop-types";
 import RoomGanttChartComponent from "./RoomGanttChartComponent";
+// import FormInputDate from "../../components/common/FormInputDate";
 
 class DashBoardUpComponent extends React.Component {
     constructor(props, context) {
@@ -531,9 +532,10 @@ class DashBoardUpComponent extends React.Component {
                                     </div>
                                     <div className="card-content">
                                         <h4 className="card-title">
-                                            Số lượng đăng kí theo ngày
+                                            Danh sách phòng
                                             <small />
                                         </h4>
+
                                         <RoomGanttChartComponent />
                                     </div>
                                 </div>
