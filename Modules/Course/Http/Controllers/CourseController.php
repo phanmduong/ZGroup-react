@@ -304,7 +304,11 @@ class CourseController extends ManageApiController
         if ($check < $lessonId || $lessonId == 0) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
         $classLesson_pre = $classLesson->where('class_id', $classId)->orderBy('lesson_id', 'asc')->get();
         $classLesson = $classLesson_pre[$lessonId - 1];
-        $attendance_list = $classLesson->attendances;
+        $resgister_ids = $classLesson->attendances->map(function ($data) {
+            if ($data->register->status === 1) return $data->register->id; else return 0;
+        });
+        $attendance_list = $classLesson->attendances()->whereIn('register_id', $resgister_ids)->get();
+
         $data['attendances'] = $attendance_list->map(function ($attendance) {
             return [
                 'student_id' => $attendance->register->user->id,

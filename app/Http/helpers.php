@@ -620,6 +620,7 @@ function uploadLargeFileToS3(\Illuminate\Http\Request $request, $fileField, $old
 
         $fileName = time() . random(15, true) . '.' . $file->getClientOriginalExtension();
         $filePath = '/files/' . $fileName;
+        // dd($file);
         $s3->getDriver()->put($filePath, fopen($file, 'r+'),
             ['ContentType' => $mimeType, 'visibility' => 'public']);
         if ($oldfile != null) {

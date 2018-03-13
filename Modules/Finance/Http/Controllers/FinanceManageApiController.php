@@ -48,7 +48,6 @@ class FinanceManageApiController extends ManageApiController
                 })
             ]);
         }
-
     }
 
     public function getBankAccounts()

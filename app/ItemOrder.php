@@ -56,6 +56,7 @@ class ItemOrder extends Model
             "status" => $this->status,
             "note" => $this->note,
             "date" => $this->date,
+            "created_at" => $this->created_at,
             "goods" => $this->exportOrder->map(function ($good) {
                 return $good->transform();
             })
@@ -84,7 +85,8 @@ class ItemOrder extends Model
             "status" => $this->status,
             "note" => $this->note,
             "date" => $this->date,
-            "goods" => $this->importOrder->map(function ($good) {
+            "created_at" => $this->created_at,
+            "goods" => $this->importOrder->take($this->good_count)->get()->map(function ($good) {
                 return $good->transform();
             })
         ];

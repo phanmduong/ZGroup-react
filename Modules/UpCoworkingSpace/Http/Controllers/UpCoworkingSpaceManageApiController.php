@@ -36,9 +36,9 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
             ]);
         }
         if ($search)
-            $registers = RoomServiceRegister::join('users', 'users.id', '=', 'room_service_registers.user_id')
+            $registers = RoomServiceRegister::where('type', 'seat')->join('users', 'users.id', '=', 'room_service_registers.user_id')
             ->select('room_service_registers.*')->where(function ($query) use ($search) {
-                $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
+                $query->where("users.name", "like", "%$search%")->orWhere("users.email", "like", "%$search%")->orWhere("users.phone", "like", "%$search%");
             });
         else $registers = RoomServiceRegister::where('type', 'seat');
 
@@ -77,11 +77,10 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
             ]);
         }
 
-        $registers = RoomServiceRegister::where('type', 'room');
-        if ($search)
-            $registers = $registers->join('users', 'users.id', '=', 'room_service_registers.user_id')
+        $registers = RoomServiceRegister::where('room_service_registers.type', 'room');
+        $registers = $registers->join('users', 'users.id', '=', 'room_service_registers.user_id')
             ->select('room_service_registers.*')->where(function ($query) use ($search) {
-                $query->where("users.name", "like", "%$search%")->orWhere("room_service_registers.code", "like", "%$search%");
+                $query->where("users.name", "like", "%$search%")->orWhere("users.email", "like", "%$search%")->orWhere("users.phone", "like", "%$search%");
             });
 
         if ($request->base_id)
@@ -95,7 +94,7 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         if ($request->status)
             $registers = $registers->where('status', $request->status);
         if ($request->start_time && $request->end_time)
-            $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
+            $registers = $registers->whereBetween('room_service_registers.created_at', array($request->start_time, $request->end_time));
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
         return $this->respondWithPagination($registers, [
