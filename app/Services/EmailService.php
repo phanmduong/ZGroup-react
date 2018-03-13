@@ -262,17 +262,15 @@ class EmailService
 
         $subject = '[' . $this->emailCompanyName . '] Thông báo khai giảng khoá học ' . $course->name;
 
-        $this->send_mail_queue($user, $data, $subject);
+        $this->send_mail_queue_cc($user, $data, $subject);
     }
 
     public function send_mail_confirm_change_class($register, $oldclass)
     {
-        $class = $register->studyClass;
+        $class = $register->studyClass()->first();
         $course = $class->course;
 
         $user = $register->user;
-
-        $class = $register->studyClass;
 
         $email_form = EmailForm::where('code', 'confirm_change_class')->first();
 
@@ -302,7 +300,7 @@ class EmailService
 
         $subject = '[' . $this->emailCompanyName . '] Xác nhận đã đổi thành công từ lớp ' . $oldclass . ' sang lớp ' . $class->name;
 
-        $this->send_mail_queue($user, $data, $subject);
+        $this->send_mail_queue_cc($user, $data, $subject);
     }
 
     public function send_mail_confirm_change_code($register, $oldCode)
