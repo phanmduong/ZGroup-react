@@ -88,7 +88,7 @@ $transferMoneyRoutes = function () {
     });
 };
 
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Order\Http\Controllers'], [$customerRoutes, $orderRoutes]);
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Order\Http\Controllers'], $customerRoutes, $orderRoutes);
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Order\Http\Controllers'], $transferMoneyRoutes);
 
