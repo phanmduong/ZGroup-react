@@ -19,15 +19,26 @@ import SelectMonthBox from "../../components/common/SelectMonthBox";
 class SummarySalesUpContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        let time = new Date;
+        let year = time.getFullYear();
+        let month = time.getMonth();
+        let startTime = year + "-" + month + "-01";
+        let endTime;
+        if (month !== 12) {
+            endTime = year + "-" + (month + 1) + "-01";
+        }
+        else {
+            endTime = year + 1 + "-01" + "-01";
+        }
         this.state = {
-            selectBaseId: 0,
-            bases: [],
-            startTime: "",
-            endTime: "",
+            // selectBaseId: 0,
+            // bases: [],
+            startTime: startTime,
+            endTime: endTime,
             isSelectDate: true,
             isShowMonthBox: false,
             openFilterPanel: false,
-            month: {year: 0, month: 0},
+            month: {year: year, month:  month},
         };
 
 
@@ -50,9 +61,8 @@ class SummarySalesUpContainer extends React.Component {
         else {
             endTime = time.getFullYear() + 1 + "-01" + "-01";
         }
-        this.props.summarySalesActions.loadBasesData();
         this.loadSummary(
-            null, startTime, endTime
+             startTime, endTime
         );
     }
 
@@ -71,7 +81,6 @@ class SummarySalesUpContainer extends React.Component {
             endTime = value.year + 1 + "-01" + "-01";
         }
         this.props.summarySalesActions.loadSummarySalesData(
-            null,
             startTime,
             endTime,
             () => this.setState({month: value, isSelectDate: true}),
@@ -96,7 +105,7 @@ class SummarySalesUpContainer extends React.Component {
                 let startTime = event.target.value;
                 if (!helper.isEmptyInput(this.state.startTime) && !helper.isEmptyInput(this.state.endTime)) {
                     this.setState({startTime: startTime, page: 1, month: {year: 0, month: 0}, isSelectDate: false});
-                    this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId, startTime, this.state.endTime,
+                    this.props.summarySalesActions.loadSummarySalesData( startTime, this.state.endTime,
                         () => this.setState({isSelectDate: true}),
                     );
                 } else {
@@ -107,7 +116,7 @@ class SummarySalesUpContainer extends React.Component {
                 let endTime = event.target.value;
                 if (!helper.isEmptyInput(this.state.endTime) && !helper.isEmptyInput(this.state.endTime)) {
                     this.setState({endTime: endTime, page: 1, month: {year: 0, month: 0}, isSelectDate: false});
-                    this.props.summarySalesActions.loadSummarySalesData(this.state.selectBaseId, endTime, this.state.endTime,
+                    this.props.summarySalesActions.loadSummarySalesData( this.state.startTime, endTime,
                         () => this.setState({isSelectDate: true}),
                     );
                 } else {
@@ -141,18 +150,17 @@ class SummarySalesUpContainer extends React.Component {
         cols = [{"wch": 5}, {"wch": 20}];
         helper.appendJsonToWorkBook(detail, wb, 'Chi tiết', cols);
 
-        let base = this.state.bases.filter(base => (base.key === this.state.selectBaseId));
+        // let base = this.state.bases.filter(base => (base.key === this.state.selectBaseId));
         let startTime = moment(this.state.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let endTime = moment(this.state.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-        let empt1 = helper.isEmptyInput(this.state.startTime);
-        let empt2 = helper.isEmptyInput(this.state.endTime);
+
         helper.saveWorkBookToExcel(wb,
             'Tổng kết sales' +
-            ` - ${base[0].value === 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
+            // ` - ${base[0].value === 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
             (
-                (empt1 || empt2)
-                    ? ` - ${gen[0].value}`         // *********************************** ///
-                    :
+                // (empt1 || empt2)
+                //     ?null         // *********************************** ///
+                //     :
                     (`${helper.isEmptyInput(this.state.startTime) ? '' : (' - ' + startTime)}` +
                         `${helper.isEmptyInput(this.state.endTime) ? '' : (' - ' + endTime)  }`)
             )
@@ -160,16 +168,17 @@ class SummarySalesUpContainer extends React.Component {
 
     }
 
-    loadSummary(base_id = null, startTime = this.state.startTime, endTime = this.state.endTime) {
+    loadSummary( startTime = this.state.startTime, endTime = this.state.endTime) {
         this.props.summarySalesActions.loadSummarySalesData(
-            base_id, startTime, endTime
+             startTime, endTime
         );
     }
 
     render() {
         return (
             <div>
-                {this.props.isLoadingBases || this.props.isLoading ? <Loading/> :
+                {
+                    this.props.isLoading ? <Loading/> :
                     (
                         <div>
                             <div className="row">
@@ -270,17 +279,13 @@ class SummarySalesUpContainer extends React.Component {
 
 SummarySalesUpContainer.propTypes = {
     summarySalesActions: PropTypes.object.isRequired,
-    bases: PropTypes.array.isRequired,
     summary: PropTypes.array.isRequired,
-    isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        bases: state.summarySalesUp.bases,
         summary: state.summarySalesUp.summary,
-        isLoadingBases: state.summarySalesUp.isLoadingBases,
         isLoading: state.summarySalesUp.isLoading,
     };
 }

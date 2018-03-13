@@ -4,13 +4,15 @@ import * as helper from '../../helpers/helper';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as registerManageAction from './registerManageAction';
+import {Button} from "react-bootstrap";
+
 // import Avatar from '../../components/common/Avatar';
 
 
 class CallModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note: "", money: null, sumMoney: this.props.sumMoney};
+        this.state = {note: "", money: "", sumMoney: this.props.sumMoney};
         this.changeCallStatus = this.changeCallStatus.bind(this);
         this.savePayment = this.savePayment.bind(this);
         this.changeMoney = this.changeMoney.bind(this);
@@ -216,12 +218,12 @@ class CallModal extends React.Component {
                                                                     <i className="material-icons">swap_horiz</i>
                                                                 </div>
 
-                                                                    {/*{payment.staff.avatar_url ?*/}
-                                                                            {/*<Avatar size={40}*/}
-                                                                                    {/*url={helper.prefixAvatarUrl(payment.staff.avatar_url)*/}
-                                                                                        {/*? "http://" + payment.staff.avatar_url :*/}
-                                                                                        {/*payment.staff.avatar_url}*/}
-                                                                                    {/*style={{borderRadius: 6}}/> : null}*/}
+                                                                {/*{payment.staff.avatar_url ?*/}
+                                                                {/*<Avatar size={40}*/}
+                                                                {/*url={helper.prefixAvatarUrl(payment.staff.avatar_url)*/}
+                                                                {/*? "http://" + payment.staff.avatar_url :*/}
+                                                                {/*payment.staff.avatar_url}*/}
+                                                                {/*style={{borderRadius: 6}}/> : null}*/}
                                                                 <div className="timeline-panel">
                                                                     <div className="timeline-heading">
                                                                 <span className="label label-default"
@@ -243,10 +245,6 @@ class CallModal extends React.Component {
                                             </div>
 
 
-
-
-
-
                                             <div style={{paddingTop: 30}}>
                                                 <div style={{
                                                     display: "flex",
@@ -259,7 +257,7 @@ class CallModal extends React.Component {
                                                         flexDirection: "column",
                                                         fontSize: 20
                                                     }}>
-                                                        {parseInt(this.props.register.subscription.price) + " đ"}
+                                                        {helper.dotNumber(parseInt(this.props.register.subscription.price)) + " đ"}
                                                     </div>
                                                 </div>
                                                 <div style={{
@@ -273,7 +271,7 @@ class CallModal extends React.Component {
                                                         flexDirection: "column",
                                                         fontSize: 20
                                                     }}>
-                                                        {this.state.sumMoney + " đ"}
+                                                        {helper.dotNumber(this.state.sumMoney) + " đ"}
                                                     </div>
                                                 </div>
                                                 {this.props.register.subscription.price - this.state.sumMoney > 0 ?
@@ -288,7 +286,7 @@ class CallModal extends React.Component {
                                                             flexDirection: "column",
                                                             fontSize: 20
                                                         }}>
-                                                            {parseInt(this.props.register.subscription.price) - this.state.sumMoney + " đ"}
+                                                            {helper.dotNumber(parseInt(this.props.register.subscription.price) - this.state.sumMoney) + " đ"}
                                                         </div>
                                                     </div> :
                                                     <div style={{
@@ -302,7 +300,7 @@ class CallModal extends React.Component {
                                                             flexDirection: "column",
                                                             fontSize: 20
                                                         }}>
-                                                            {this.state.sumMoney - parseInt(this.props.register.subscription.price) + " đ"}
+                                                            {helper.dotNumber(this.state.sumMoney - parseInt(this.props.register.subscription.price)) + " đ"}
                                                         </div>
                                                     </div>
                                                 }
@@ -336,60 +334,71 @@ class CallModal extends React.Component {
 
                 {this.props.isChangingStatus || this.props.isSavingPayment ?
                     (
-                        <div>
-                            <button type="button" className="btn btn-success btn-round disabled"
-                                    data-dismiss="modal"
-                            >
-                                <i className="fa fa-spinner fa-spin"/> Đang cập nhật
-                            </button>
-                            <button type="button" className="btn btn-danger btn-round disabled"
-                                    data-dismiss="modal"
-                            >
-                                <i className="fa fa-spinner fa-spin"/> Đang cập nhật
-                            </button>
-                        </div>
-
+                        this.props.isCallModal ?
+                            (
+                                <div>
+                                    <button type="button" className="btn btn-success btn-round disabled"
+                                            data-dismiss="modal"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                    </button>
+                                    <button type="button" className="btn btn-danger btn-round disabled"
+                                            data-dismiss="modal"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                    </button>
+                                </div>
+                            ) :
+                            (
+                                <div style={{display: "flex", justifyContent: "flex-end"}}>
+                                    <button className="btn btn-rose disabled">
+                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                    </button>
+                                    <button className="btn disabled">
+                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                    </button>
+                                </div>
+                            )
                     )
                     :
                     (
                         this.props.isCallModal ?
                             (
                                 <div>
-                                    <button type="button" className="btn btn-success btn-round"
+                                    <Button className="btn btn-success btn-round"
                                             data-dismiss="modal"
                                             onClick={() => {
                                                 this.changeCallStatus(1, this.state.note, register.id, register.user.id);
                                             }}>
                                         <i className="material-icons">phone</i>
                                         Gọi thành công
-                                    </button>
-                                    <button type="button" className="btn btn-danger btn-round"
+                                    </Button>
+                                    <Button className="btn btn-danger btn-round"
                                             data-dismiss="modal"
                                             onClick={() => {
                                                 this.changeCallStatus(0, this.state.note, register.id, register.user.id);
                                             }}>
                                         <i className="material-icons">phone</i>
                                         Không gọi được
-                                    </button>
+                                    </Button>
                                 </div>
                             ) : (
-                                <div>
-                                    <button type="button" className="btn btn-success btn-round"
+                                <div style={{display: "flex", justifyContent: "flex-end"}}>
+                                    <Button className="btn btn-rose"
                                             data-dismiss="modal"
                                             onClick={() => {
                                                 this.savePayment(this.state.money, register.id, register.user.id);
                                             }}>
                                         <i className="material-icons">save</i>
                                         Lưu
-                                    </button>
-                                    <button type="button" className="btn btn-danger btn-round"
-                                            data-dismiss="modal"
+                                    </Button>
+                                    <Button data-dismiss="modal"
                                             onClick={() => {
                                                 this.props.closeCallModal();
                                             }}>
                                         <i className="material-icons">close</i>
                                         Hủy
-                                    </button>
+                                    </Button>
                                 </div>
                             )
                     )

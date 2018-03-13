@@ -42,6 +42,21 @@ export default {
         isChangingStatus: false,
         isLoadingBases: false,
         bases: [],
+        isSavingPayment : false,
+    },
+
+    registerManageRoom: {
+        registers: [],
+        salers: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        isChangingStatus: false,
+        isLoadingBases: false,
+        bases: [],
+        isSavingPayment : false,
     },
 
     bankAccount: {

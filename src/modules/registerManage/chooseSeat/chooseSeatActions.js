@@ -14,16 +14,22 @@ import {
     BEGIN_LOAD_CHOOSE_SEAT_HISTORY,
     LOAD_CHOOSE_SEAT_HISTORY_SUCCESS,
 } from "./chooseSeatActionType";
-import { getRooms, getSeats, postBookSeat } from "./chooseSeatApi";
+import { getRooms, getSeats, postBookSeat ,loadHistoryChooseSeatApi } from "./chooseSeatApi";
 
-export const loadChooseSeatHistory = () => {
+export const loadChooseSeatHistory = (page,limit) => {
     return dispatch => {
         dispatch({
             type: BEGIN_LOAD_CHOOSE_SEAT_HISTORY,
         });
-        dispatch({
-            type: LOAD_CHOOSE_SEAT_HISTORY_SUCCESS,
-        });
+        loadHistoryChooseSeatApi(page,limit)
+            .then((res) => {
+                dispatch({
+                    type: LOAD_CHOOSE_SEAT_HISTORY_SUCCESS,
+                    historyChooseSeat : res.data.historySeat,
+                    totalHistoryPages : res.data.paginator.total_pages,
+                });
+            });
+
     };
 };
 
@@ -138,3 +144,5 @@ export const toggleShowChooseSeatModal = (showModal, base = {}, register) => {
         });
     };
 };
+
+
