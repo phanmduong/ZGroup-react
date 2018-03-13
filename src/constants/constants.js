@@ -267,21 +267,26 @@ export const ORDERED_STATUS = [
     },
     {
         order: 4,
+        label: "Dự kiến ngày về",
+        value: "arrive_date"
+    },
+    {
+        order: 5,
         label: "Đã về VN",
         value: "arrived",
     },
     {
-        order: 5,
+        order: 6,
         label: "Giao hàng",
         value: "ship",
     },
     {
-        order: 6,
+        order: 7,
         label: "Hoàn thành",
         value: "completed",
     },
     {
-        order: 7,
+        order: 8,
         label: "Hủy",
         value: "cancel",
     },
@@ -349,6 +354,7 @@ export const ORDERED_STATUS_COLORS = {
     sent_price: "#b5d0fc",
     confirm_order: "#b8ffad",
     ordered: "#e2e2e2",
+    arrive_date: "#006400",
     arrived: "#fcb7ab",
     ship: "#00ff00",
     completed: "#ccff66",

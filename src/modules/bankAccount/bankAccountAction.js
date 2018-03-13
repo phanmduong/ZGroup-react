@@ -10,7 +10,7 @@ export function loadAllBankAccounts() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_CURRENCIES_SUCCESS,
-                    currencies: res.data.data.currencies
+                    currencies: res.data.data.bank_accounts
                 });
             });
     };

@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import FormInputDate from "../../components/common/FormInputDate";
 import *as orderedDetailAction from "./orderedDetailAction";
 import Loading from "../../components/common/Loading";
-import * as helper from '../../helpers/helper';
 import Select from 'react-select';
+import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
 
 class OrderedDetailContainer extends React.Component {
     constructor(props, context) {
@@ -93,17 +93,17 @@ class OrderedDetailContainer extends React.Component {
         const order = {...this.props.order};
         const customer = {...this.props.customer};
         if (
-            helper.isEmptyInput(customer.phone)
-            || helper.isEmptyInput(customer.email)
-            || helper.isEmptyInput(order.link)
-            || helper.isEmptyInput(order.quantity)
-            || helper.isEmptyInput(customer.name)
+            isEmptyInput(customer.phone)
+            || isEmptyInput(customer.email)
+            || isEmptyInput(order.link)
+            || isEmptyInput(order.quantity)
+            || isEmptyInput(customer.name)
         ) {
-            if (helper.isEmptyInput(order.link)) helper.showErrorNotification("Bạn cần nhập Link sản phẩm");
-            if (helper.isEmptyInput(order.quantity)) helper.showErrorNotification("Bạn cần nhập Số lượng sản phẩm");
-            if (helper.isEmptyInput(customer.name)) helper.showErrorNotification("Bạn cần nhập Tên khách hàng");
-            if (helper.isEmptyInput(customer.phone)) helper.showErrorNotification("Bạn cần nhập Số điện thoại khách hàng");
-            if (helper.isEmptyInput(customer.email)) helper.showErrorNotification("Bạn cần nhập Email khách hàng");
+            if (isEmptyInput(order.link)) showErrorNotification("Bạn cần nhập Link sản phẩm");
+            if (isEmptyInput(order.quantity)) showErrorNotification("Bạn cần nhập Số lượng sản phẩm");
+            if (isEmptyInput(customer.name)) showErrorNotification("Bạn cần nhập Tên khách hàng");
+            if (isEmptyInput(customer.phone)) showErrorNotification("Bạn cần nhập Số điện thoại khách hàng");
+            if (isEmptyInput(customer.email)) showErrorNotification("Bạn cần nhập Email khách hàng");
         } else {
             if (this.state.type === "create") this.props.orderedDetailAction.saveOrder(order, customer);
             else this.props.orderedDetailAction.editOrder(order, customer);
@@ -322,6 +322,18 @@ class OrderedDetailContainer extends React.Component {
                                                            placeholder="Nhập mã"
                                                            className="form-control"
                                                            value={order.code || ''}
+                                                           onChange={this.updateFormData}/>
+                                                    <span className="material-input"/>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div className="form-group">
+                                                    <label className="label-control">Mã giao hàng</label>
+                                                    <input type="text"
+                                                           name="shipCode"
+                                                           placeholder="Nhập mã"
+                                                           className="form-control"
+                                                           value={order.shipCode || ''}
                                                            onChange={this.updateFormData}/>
                                                     <span className="material-input"/>
                                                 </div>

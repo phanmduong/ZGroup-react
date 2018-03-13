@@ -5,38 +5,43 @@ import {bindActionCreators} from "redux";
 import *as orderedProductAction from "./orderedProductAction";
 import PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
+import CameToVN from "./CameToVN";
 
 class CameToVNModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.handleNote = this.handleNote.bind(this);
+        this.handleDate = this.handleDate.bind(this);
     }
 
-    handleNote(e) {
-        const field = e.target.name;
-        let orderNote = {...this.props.orderNote};
-        orderNote[field] = e.target.value;
-        this.props.orderedProductAction.handleAddNoteModal(orderNote);
+    handleDate(e) {
+        let attach_info = {
+            ...JSON.parse(this.props.orderCameToVN.attach_info),
+            endTime: e.target.value
+        };
+        let order = {
+            ...this.props.orderCameToVN,
+            attach_info: JSON.stringify(attach_info)
+        };
+        this.props.orderedProductAction.handleCameToVNModal(order);
     }
 
     render() {
+        let order = this.props.orderCameToVN;
         return (
             <Modal show={this.props.cameToVNModal}
-                   onHide={() => this.props.orderedProductAction.showAddNoteModal()}>
-                <a onClick={() => this.props.orderedProductAction.showAddNoteModal()}
+                   onHide={() => this.props.orderedProductAction.showCameToVNModal()}>
+                <a onClick={() => this.props.orderedProductAction.showCameToVNModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title">Ghi chú</Modal.Title>
+                    <Modal.Title id="contained-modal-title">Bổ sung thông tin</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="form-group">
-                        <label className="label-control">Ghi chú</label>
-                        <textarea type="text" className="form-control"
-                                  value={this.props.orderNote.note ? this.props.orderNote.note : ''}
-                                  name="note"
-                                  onChange={this.handleNote}/>
-                        <span className="material-input"/>
-
+                    <div className="card">
+                        <form id="form-add-coupon-in-group-customer">
+                            <CameToVN
+                                order={order}
+                                handleDate={this.handleDate}/>
+                        </form>
                     </div>
                     {
                         this.props.isSendingNote ? <Loading/> : (
@@ -44,14 +49,15 @@ class CameToVNModal extends React.Component {
                                 <button rel="tooltip" data-placement="top" title=""
                                         data-original-title="Remove item" type="button"
                                         className="btn btn-success btn-round" data-dismiss="modal"
-                                        onClick={() => this.props.orderedProductAction.editNote(this.props.orderNote)}>
-                                    <i
-                                        className="material-icons">check</i> Xác nhận
+                                        onClick={() => this.props.orderedProductAction.changeStatus(
+                                            "arrive_date", order.id, null, order.attach_info
+                                        )}>
+                                    <i className="material-icons">check</i> Xác nhận
                                 </button>
                                 <button rel="tooltip" data-placement="top" title=""
                                         data-original-title="Remove item" type="button"
                                         className="btn btn-danger btn-round" data-dismiss="modal"
-                                        onClick={() => this.props.orderedProductAction.showAddNoteModal()}>
+                                        onClick={() => this.props.orderedProductAction.showCameToVNModal()}>
                                     <i className="material-icons">close</i> Huỷ
                                 </button>
                             </div>
@@ -65,7 +71,7 @@ class CameToVNModal extends React.Component {
 
 CameToVNModal.propTypes = {
     orderedProductAction: PropTypes.object.isRequired,
-    addNoteModal: PropTypes.bool,
+    cameToVNModal: PropTypes.bool,
     orderCameToVN: PropTypes.object.isRequired,
     isSendingNote: PropTypes.bool
 };

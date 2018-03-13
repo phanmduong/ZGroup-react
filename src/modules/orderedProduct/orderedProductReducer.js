@@ -152,6 +152,36 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 ...state,
                 addJavCodeModal: !state.addJavCodeModal
             };
+        case types.TOGGLE_CAME_TO_VN_MODAL:
+            return {
+                ...state,
+                cameToVNModal: !state.cameToVNModal
+            };
+        case types.HANDLE_CAME_TO_VN_MODAL:
+            return {
+                ...state,
+                orderCameToVN: action.order
+            };
+        case types.TOGGLE_IMPORT_WEIGHT_MODAL:
+            return {
+                ...state,
+                importWeightModal: !state.importWeightModal
+            };
+        case types.HANDLE_IMPORT_WEIGHT_MODAL:
+            return {
+                ...state,
+                orderImportWeight: action.order
+            };
+        case types.TOGGLE_ADD_SHIP_FEE_MODAL:
+            return {
+                ...state,
+                addShipFeeModal: !state.addShipFeeModal
+            };
+        case types.HANDLE_ADD_SHIP_FEE_MODAL:
+            return {
+                ...state,
+                orderAddShipFee: action.order
+            };
         default:
             return state;
     }

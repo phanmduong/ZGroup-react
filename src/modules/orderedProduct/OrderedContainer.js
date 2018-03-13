@@ -22,6 +22,9 @@ import SendPriceModal from "./SendPriceModal";
 import ChooseWalletModal from "./ChooseWalletModal";
 import PropertyReactSelectValue from "../createProduct/PropertyReactSelectValue";
 import AddJavCodeModal from "./AddJavCodeModal";
+import CameToVNModal from "./CameToVNModal";
+import ImportWeightModal from "./ImportWeightModal";
+import AddShipFeeModal from "./AddShipFeeModal";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -58,6 +61,9 @@ class OrderedContainer extends React.Component {
         this.linkSearchChange = this.linkSearchChange.bind(this);
         this.javCodeSearchChange = this.javCodeSearchChange.bind(this);
         this.showAddJavCodeModal = this.showAddJavCodeModal.bind(this);
+        this.showCameToVNModal = this.showCameToVNModal.bind(this);
+        this.showImportWeightModal = this.showImportWeightModal.bind(this);
+        this.showAddShipFeeModal = this.showAddShipFeeModal.bind(this);
     }
 
     componentWillMount() {
@@ -286,6 +292,21 @@ class OrderedContainer extends React.Component {
     showAddJavCodeModal(order) {
         this.props.orderedProductAction.showAddJavCodeModal();
         this.props.orderedProductAction.handleAddJavCodeModal(order);
+    }
+
+    showCameToVNModal(order) {
+        this.props.orderedProductAction.showCameToVNModal();
+        this.props.orderedProductAction.handleCameToVNModal(order);
+    }
+
+    showImportWeightModal(order) {
+        this.props.orderedProductAction.showImportWeightModal();
+        this.props.orderedProductAction.handleImportWeightModal(order);
+    }
+
+    showAddShipFeeModal(order) {
+        this.props.orderedProductAction.showAddShipFeeModal();
+        this.props.orderedProductAction.handleAddShipFeeModal(order);
     }
 
     checkSendPrice() {
@@ -574,6 +595,9 @@ class OrderedContainer extends React.Component {
                                     chooseItem={this.chooseItem}
                                     showChooseWalletModal={this.showChooseWalletModal}
                                     showAddJavCodeModal={this.showAddJavCodeModal}
+                                    showCameToVNModal={this.showCameToVNModal}
+                                    showImportWeightModal={this.showImportWeightModal}
+                                    showAddShipFeeModal={this.showAddShipFeeModal}
                                 />
                             </div>
                             <div className="row float-right">
@@ -595,6 +619,9 @@ class OrderedContainer extends React.Component {
                 <SendPriceModal/>
                 <ChooseWalletModal/>
                 <AddJavCodeModal/>
+                <CameToVNModal/>
+                <ImportWeightModal/>
+                <AddShipFeeModal/>
             </div>
         );
     }

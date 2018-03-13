@@ -20,12 +20,18 @@ class ItemOrder extends React.Component {
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            if (nextStatus.order === 7) {
+            if (nextStatus.order === 8) {
                 this.props.showAddCancelNoteModal(this.props.delivery);
             } else if (nextStatus.order === 1) {
                 this.props.showSendPriceModal([this.props.delivery]);
             } else if (nextStatus.order === 3) {
                 this.props.showAddJavCodeModal(this.props.delivery);
+            } else if (nextStatus.order === 4) {
+                this.props.showCameToVNModal(this.props.delivery);
+            } else if (nextStatus.order === 5) {
+                this.props.showImportWeightModal(this.props.delivery);
+            } else if (nextStatus.order === 6) {
+                this.props.showAddShipFeeModal(this.props.delivery);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
                     this.props.changeStatus(value, this.props.delivery.id, null, null);
@@ -150,7 +156,10 @@ ItemOrder.propTypes = {
     isSendingPrice: PropTypes.bool.isRequired,
     chooseItem: PropTypes.func.isRequired,
     showChooseWalletModal: PropTypes.func.isRequired,
-    showAddJavCodeModal: PropTypes.func.isRequired
+    showAddJavCodeModal: PropTypes.func.isRequired,
+    showCameToVNModal: PropTypes.func.isRequired,
+    showImportWeightModal: PropTypes.func.isRequired,
+    showAddShipFeeModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

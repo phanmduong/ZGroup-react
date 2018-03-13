@@ -5,30 +5,30 @@ import {bindActionCreators} from "redux";
 import *as orderedProductAction from "./orderedProductAction";
 import PropTypes from "prop-types";
 
-class AddJavCodeModal extends React.Component {
+class AddShipFeeModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.handleJavCode = this.handleJavCode.bind(this);
+        this.handleShipFee = this.handleShipFee.bind(this);
     }
 
-    handleJavCode(e) {
+    handleShipFee(e) {
         let attach_info = {
-            ...JSON.parse(this.props.orderJavCode.attach_info),
-            code: e.target.value
+            ...JSON.parse(this.props.orderAddShipFee.attach_info),
+            shipCode: e.target.value
         };
         let order = {
-            ...this.props.orderJavCode,
+            ...this.props.orderAddShipFee,
             attach_info: JSON.stringify(attach_info)
         };
-        this.props.orderedProductAction.handleAddJavCodeModal(order);
+        this.props.orderedProductAction.handleAddShipFeeModal(order);
     }
 
     render() {
-        let order = this.props.orderJavCode;
+        let order = this.props.orderAddShipFee;
         return (
-            <Modal show={this.props.addJavCodeModal}
-                   onHide={() => this.props.orderedProductAction.showAddJavCodeModal()}>
-                <a onClick={() => this.props.orderedProductAction.showAddJavCodeModal()}
+            <Modal show={this.props.addShipFeeModal}
+                   onHide={() => this.props.orderedProductAction.showAddShipFeeModal()}>
+                <a onClick={() => this.props.orderedProductAction.showAddShipFeeModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">Bổ sung thông tin</Modal.Title>
@@ -36,13 +36,13 @@ class AddJavCodeModal extends React.Component {
                 <Modal.Body>
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="form-group">
-                            <label className="label-control">Mã hàng Nhật</label>
+                            <label className="label-control">Mã giao hàng</label>
                             <input type="text"
-                                   name="code"
+                                   name="shipCode"
                                    placeholder="Nhập mã"
                                    className="form-control"
-                                   value={order.attach_info ? JSON.parse(order.attach_info).code : ''}
-                                   onChange={this.handleJavCode}/>
+                                   value={order.attach_info ? JSON.parse(order.attach_info).shipCode : ''}
+                                   onChange={this.handleShipFee}/>
                             <span className="material-input"/>
                         </div>
                     </div>
@@ -51,14 +51,14 @@ class AddJavCodeModal extends React.Component {
                                 data-original-title="Remove item" type="button"
                                 className="btn btn-success btn-round" data-dismiss="modal"
                                 onClick={() => this.props.orderedProductAction.changeStatus(
-                                    "ordered", order.id, null, order.attach_info
+                                    "ship", order.id, null, order.attach_info
                                 )}>
                             <i className="material-icons">check</i> Xác nhận
                         </button>
                         <button rel="tooltip" data-placement="top" title=""
                                 data-original-title="Remove item" type="button"
                                 className="btn btn-danger btn-round" data-dismiss="modal"
-                                onClick={() => this.props.orderedProductAction.showAddJavCodeModal()}>
+                                onClick={() => this.props.orderedProductAction.showAddShipFeeModal()}>
                             <i className="material-icons">close</i> Huỷ
                         </button>
                     </div>
@@ -68,16 +68,16 @@ class AddJavCodeModal extends React.Component {
     }
 }
 
-AddJavCodeModal.propTypes = {
+AddShipFeeModal.propTypes = {
     orderedProductAction: PropTypes.object.isRequired,
-    addJavCodeModal: PropTypes.bool,
-    orderJavCode: PropTypes.object.isRequired,
+    addShipFeeModal: PropTypes.bool,
+    orderAddShipFee: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        addJavCodeModal: state.orderedProduct.addJavCodeModal,
-        orderJavCode: state.orderedProduct.orderJavCode,
+        addShipFeeModal: state.orderedProduct.addShipFeeModal,
+        orderAddShipFee: state.orderedProduct.orderAddShipFee,
     };
 }
 
@@ -87,4 +87,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddJavCodeModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AddShipFeeModal);

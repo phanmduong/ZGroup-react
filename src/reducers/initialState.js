@@ -113,17 +113,17 @@ export default {
         currencies: [],
         isLoading: false,
         addEditCurrencyModal: false,
-        currencyEditModal: {
-            name: '',
-            notation: '',
-            ratio: ''
-        },
+        currencyEditModal: {},
         isUpdatingEditModal: false,
     },
 
     orderedProduct: {
         currencies: [],
         addJavCodeModal: false,
+        importWeightModal: false,
+        orderImportWeight: {},
+        addShipFeeModal: false,
+        orderAddShipFee: {},
         orderJavCode: {},
         cameToVNModal: false,
         orderCameToVN: {},

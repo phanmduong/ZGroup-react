@@ -221,3 +221,43 @@ export function handleAddJavCodeModal(order) {
     });
 }
 
+export function showCameToVNModal() {
+    return ({
+        type: types.TOGGLE_CAME_TO_VN_MODAL
+    });
+}
+
+export function handleCameToVNModal(order) {
+    return ({
+        type: types.HANDLE_CAME_TO_VN_MODAL,
+        order
+    });
+}
+
+export function showImportWeightModal() {
+    return ({
+        type: types.TOGGLE_IMPORT_WEIGHT_MODAL
+    });
+}
+
+export function handleImportWeightModal(order) {
+    return ({
+        type: types.HANDLE_IMPORT_WEIGHT_MODAL,
+        order
+    });
+}
+
+export function showAddShipFeeModal() {
+    return ({
+        type: types.TOGGLE_ADD_SHIP_FEE_MODAL
+    });
+}
+
+export function handleAddShipFeeModal(order) {
+    return ({
+        type: types.HANDLE_ADD_SHIP_FEE_MODAL,
+        order
+    });
+}
+
+
