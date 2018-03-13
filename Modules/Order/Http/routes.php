@@ -73,6 +73,13 @@ $orderRoutes = function () {
     });
 };
 
+$customerRoutes = function() {
+    Route::group(['prefix' => 'v2'], function() {
+        Route::get('customer', 'CustomerApiController@customers');
+
+    });
+};
+
 $transferMoneyRoutes = function () {
     Route::group(['prefix' => 'v2/transfer-money'], function () {
         Route::get('/', 'TransferMoneyApiController@getTransfers');

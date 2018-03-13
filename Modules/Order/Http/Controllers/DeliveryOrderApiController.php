@@ -414,7 +414,10 @@ class DeliveryOrderApiController extends ManageApiController
                 return $this->respondErrorWithStatus('Tài khoản của khách hàng nhỏ hơn số tiền đã nhập');
             $money = min($debt, $request->money);
         }
-
+        if($money == $debt)
+            $deliveryOrder->status_paid = 1;
+        $deliveryOrder->save();
+        
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $deliveryOrder->id;
         $orderPaidMoney->money = $money;
@@ -426,6 +429,7 @@ class DeliveryOrderApiController extends ManageApiController
             $user->deposit -= $money;
         else
             $user->money -= $money;
+        $user->save();
         return $this->respondSuccessWithStatus([
             'message' => 'Thêm thanh toán thành công. Số tiền: ' . $money,
         ]);
