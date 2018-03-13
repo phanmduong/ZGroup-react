@@ -520,7 +520,23 @@ class DashBoardUpComponent extends React.Component {
 
                         <div className="row">
                             <div className="col-md-12">
-                                <RoomGanttChartComponent />
+                                <div className="card">
+                                    <div
+                                        className="card-header card-header-icon"
+                                        data-background-color="rose"
+                                    >
+                                        <i className="material-icons">
+                                            insert_chart
+                                        </i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">
+                                            Số lượng đăng kí theo ngày
+                                            <small />
+                                        </h4>
+                                        <RoomGanttChartComponent />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

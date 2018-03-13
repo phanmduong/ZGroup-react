@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class FormInputDate extends React.Component {
     constructor(props, context) {
@@ -7,24 +7,32 @@ class FormInputDate extends React.Component {
     }
 
     componentDidMount() {
-        $('#' + this.props.id).on('dp.change', this.props.updateFormData);
-        $('#' + this.props.id).datetimepicker({
-            format: this.props.format || "YYYY-MM-DD"
+        $("#" + this.props.id).on("dp.change", this.props.updateFormData);
+        $("#" + this.props.id).datetimepicker({
+            format: this.props.format || "YYYY-MM-DD",
         });
-        if (this.props.minDate && this.props.minDate !== ''){
-            $('#' + this.props.id).data("DateTimePicker").minDate(this.props.minDate);
+        if (this.props.minDate && this.props.minDate !== "") {
+            $("#" + this.props.id)
+                .data("DateTimePicker")
+                .minDate(this.props.minDate);
         }
-        if (this.props.maxDate && this.props.maxDate !== ''){
-            $('#' + this.props.id).data("DateTimePicker").maxDate(this.props.maxDate);
+        if (this.props.maxDate && this.props.maxDate !== "") {
+            $("#" + this.props.id)
+                .data("DateTimePicker")
+                .maxDate(this.props.maxDate);
         }
     }
 
-    componentWillReceiveProps(nextProps){
-        if (nextProps.minDate && nextProps.minDate !== ''){
-            $('#' + this.props.id).data("DateTimePicker").minDate(nextProps.minDate);
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.minDate && nextProps.minDate !== "") {
+            $("#" + this.props.id)
+                .data("DateTimePicker")
+                .minDate(nextProps.minDate);
         }
-        if (nextProps.maxDate && nextProps.maxDate !== ''){
-            $('#' + this.props.id).data("DateTimePicker").maxDate(nextProps.maxDate);
+        if (nextProps.maxDate && nextProps.maxDate !== "") {
+            $("#" + this.props.id)
+                .data("DateTimePicker")
+                .maxDate(nextProps.maxDate);
         }
     }
 
