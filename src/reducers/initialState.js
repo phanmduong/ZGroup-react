@@ -1451,6 +1451,18 @@ export default {
         error: false,
         summary: [],
     },
+    summaryMarketingCampaignRoom: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
     summarySales: {
         gens: [],
         isLoadingGens: false,
