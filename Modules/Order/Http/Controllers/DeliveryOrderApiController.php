@@ -32,13 +32,9 @@ class DeliveryOrderApiController extends ManageApiController
     public function assignDeliveryOrderInfo(&$order, $request)
     {
         $order->note = $request->note;
-        $order->code = $request->code;
         $order->staff_id = $this->user->id;
         $order->attach_info = $request->attach_info;
-        $order->quantity = $request->quantity;
-        $order->price = $request->price;
         $order->email = $request->email;
-        $order->status = $request->status ? $request->status : 'place_order';
 
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
@@ -149,6 +145,7 @@ class DeliveryOrderApiController extends ManageApiController
 
         $order = new Order;
         $this->assignDeliveryOrderInfo($order, $request);
+        $order->code = $request->code;        
         $order->status = 'place_order';
         $order->type = 'delivery';
         $order->save();

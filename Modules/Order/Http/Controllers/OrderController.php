@@ -169,15 +169,41 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại order'
             ]);
+        if ($this->user->role != 2) {
+            if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
+                return $this->respondErrorWithStatus([
+                    'message' => 'Bạn không có quyền đổi trạng thái này'
+                ]);
+            if ($order->status == 'completed')
+                return $this->respondErrorWithStatus([
+                    'message' => 'Cant change completed order'
+                ]);
+        }
         if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
+            ]);
+        if ($order->type == 'import' && $order->status == 'completed')
+            return $this->respondErrorWithStatus([
+                'message' => 'Cant change completed import order'
             ]);
 
         $order->note = $request->note;
         $order->staff_id = $this->user->id;
         $order->user_id = $request->user_id;
         $order->save();
+        if ($this->statusToNum($order->status) <= 1 && $order->type == 'order') {
+            $good_orders = json_decode($request->good_orders);
+            $order->goodOrders()->delete();
+            foreach ($good_orders as $good_order) {
+                $good = Good::find($good_order->good_id);
+                if ($good_order->quantity >= 0)
+                    $order->goods()->attach($good_order->good_id, [
+                        'quantity' => $good_order->quantity,
+                        'price' => $good->price
+                    ]);
+            }
+        }
 
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
