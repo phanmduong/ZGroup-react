@@ -152,6 +152,10 @@ table tr td .avatar-list-staff {
   justify-content: center;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .quiet {
   color: #8c8c8c
 }
@@ -793,7 +797,23 @@ a.btn-seat.active {
 }
 
 .d3-point.archived {
-  fill: #dedede!important;
+  fill: #dedede !important;
 }
 
+.margin-left-20 {
+  margin-left: 20px;
+}
+
+.font-size-1_5em {
+  font-size: 1.5em;
+}
+
+.font-weight-400 {
+  font-weight: 400;
+}
+
+.margin-vertical-30 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
 

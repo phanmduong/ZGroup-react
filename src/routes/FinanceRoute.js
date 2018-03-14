@@ -5,6 +5,7 @@ import CurrencyContainer from "../modules/currency/CurrencyContainer";
 import BankAccountContainer from "../modules/bankAccount/BankAccountContainer";
 
 import BankTransfersContainer from "../modules/finance/BankTransfersContainer";
+import MoneyTransfersContainer from "../modules/moneyTransfer/MoneyTransferContainer";
 
 
 /**
@@ -14,6 +15,10 @@ export default [
     {
         path: "/finance/moneycollect",
         component: CollectMoneyContainer
+    },
+    {
+        path: "/finance/sendmoney",
+        component: MoneyTransfersContainer
     },
     {
         path: "/finance/paidlist",

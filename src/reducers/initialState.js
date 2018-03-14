@@ -2068,4 +2068,9 @@ export default {
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
     },
+    moneyTransfer: {
+        isLoadingUser: false,
+        errorLoadUser: false,
+        user: {}
+    }
 };

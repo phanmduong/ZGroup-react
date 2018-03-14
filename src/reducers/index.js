@@ -88,6 +88,7 @@ import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReduc
 import historyDebtReducer from "../modules/historyDebt/historyDebtReducer";
 import importOrderReducer from "../modules/importOrder/importOrderReducer";
 import orderGoodReducer from '../modules/Zgroup/orderGood/orderGoodReducer';
+import moneyTransferReducer from "../modules/moneyTransfer/moneyTransferReducer";
 
 
 const appReducer = combineReducers({
@@ -180,6 +181,7 @@ const appReducer = combineReducers({
     historyDebt: historyDebtReducer,
     importOrder: importOrderReducer,
     orderGood : orderGoodReducer,
+    moneyTransfer : moneyTransferReducer,
 
 });
 
