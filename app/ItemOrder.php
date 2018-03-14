@@ -65,7 +65,7 @@ class ItemOrder extends Model
 
     public function importTransform()
     {
-        $pp = $this->importOrder->take($this->good_count)->get();
+        $pp = $this->importOrder()->take($this->good_count)->get();
         return [
             "id" => $this->id,
             "company" => [
