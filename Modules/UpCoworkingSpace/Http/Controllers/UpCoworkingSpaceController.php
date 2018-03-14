@@ -61,9 +61,8 @@ class UpCoworkingSpaceController extends Controller
         return view('upcoworkingspace::blogs', $this->data);
     }
 
-    public function post($post_id)
+    private function getPostData($post)
     {
-        $post = Product::find($post_id);
         $post->author;
         $post->category;
         $post->url = config('app.protocol') . $post->url;
@@ -84,7 +83,24 @@ class UpCoworkingSpaceController extends Controller
         });
         $this->data['post'] = $post;
         $this->data['posts_related'] = $posts_related;
-        return view('upcoworkingspace::post', $this->data);
+        return $this->data;
+    }
+
+    public function post($post_id)
+    {
+        $post = Product::find($post_id);
+        $data = $this->getPostData($post);
+        return view('upcoworkingspace::post', $data);
+    }
+
+    public function postBySlug($slug)
+    {
+        $post = Product::where('slug', $slug)->first();
+        if (post == null) {
+            return 'Bài viết không tồn tại';
+        }
+        $data = $this->getPostData($post);
+        return view('upcoworkingspace::post', $data);
     }
 
     public function conferenceRoom(Request $request)
