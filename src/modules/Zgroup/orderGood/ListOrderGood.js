@@ -34,7 +34,7 @@ class orderList extends React.Component {
 
     render() {
         let {orderList} = this.props;
-        console.log(this.props);
+        //console.log(this.props);
         return (
             <div className="table-responsive">
                 <table id="datatables"

@@ -168,7 +168,7 @@ class CreateOrderGood extends React.Component {
         let { isLoading, goods, companies, isCommitting ,user} = this.props;
         let { data, showAddModal, addModalData } = this.state;
         let sumQuantity = 0, sumPrice = 0;
-        console.log(this.state);
+        //console.log(this.state);
         return (
             <div className="content">
                 <div className="container-fluid">

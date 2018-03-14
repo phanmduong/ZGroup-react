@@ -192,7 +192,7 @@ class CreateExportOrderContainer extends React.Component {
         let { orderedGoods, isLoading, isCommitting, warehouses, params,user} = this.props;
         let sumQuantity = 0, sumPrice = 0;
         let isEdit = params.exportOrderId;
-        console.log(this.state);
+        //console.log(this.state);
         return (
             <div className="content">
                 <div className="container-fluid">

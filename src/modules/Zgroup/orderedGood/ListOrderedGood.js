@@ -34,7 +34,7 @@ class orderedList extends React.Component {
 
     render() {
         let { orderedList } = this.props;
-        console.log(this.props);
+        //console.log(this.props);
         return (
             <div className="table-responsive">
 
