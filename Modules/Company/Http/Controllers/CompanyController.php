@@ -844,8 +844,9 @@ class CompanyController extends ManageApiController
         $importOrder->note = $request->note;
         $importOrder->save();
         $goods = json_decode($request->goods);
-        $pp = ImportItemOrder::where("item_order_id",$importOrderId)->count();
-        if($pp <= count($goods)) {
+        $pp = ImportItemOrder::where("item_order_id",$importOrderId);
+        $pp = $pp->where('imported_quantity',0)->count();
+        if($pp === count($goods)) {
             foreach ($goods as $good) {
                 $good_new = ImportItemOrder::find($good->id);
                 $good_new->imported_quantity = $good->imported_quantity;
