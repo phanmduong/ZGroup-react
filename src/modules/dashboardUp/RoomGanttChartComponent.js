@@ -1,17 +1,78 @@
 import React from "react";
-// import { connect } from "react-redux";
-// import { bindActionCreators } from "redux";
-// import Select from "../../components/common/Select";
-// import * as dashboardActions from "./dashboardActions";
-// import Loading from "../../components/common/Loading";
-// import FormInputDate from "../../components/common/FormInputDate";
-// import { Panel } from "react-bootstrap";
-// import PropTypes from "prop-types";
-// import * as d3 from "d3";
+import RoomGanttChartRow from "./RoomGanttChartRow";
 
 class RoomGanttChartComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            rooms: [
+                {
+                    name: "Phòng 101",
+                    spans: [
+                        {
+                            color: "#00AA8D",
+                            width: "30%",
+                            start: "20%",
+                        },
+                        {
+                            color: "#eabbf5fd",
+                            width: "30%",
+                            start: "60%",
+                        },
+                    ],
+                },
+                {
+                    name: "Phòng 102",
+                    spans: [
+                        {
+                            color: "#eabbf5fd",
+                            width: "60%",
+                            start: "0%",
+                        },
+                        {
+                            color: "#00AA8D",
+                            width: "40%",
+                            start: "60%",
+                        },
+                    ],
+                },
+                {
+                    name: "Phòng 103",
+                    spans: [
+                        {
+                            color: "#eabbf5fd",
+                            width: "30%",
+                            start: "10%",
+                        },
+                        {
+                            color: "#00AA8D",
+                            width: "50%",
+                            start: "45%",
+                        },
+                    ],
+                },
+                {
+                    name: "Phòng 104",
+                    spans: [
+                        {
+                            color: "#eabbf5fd",
+                            width: "40%",
+                            start: "0%",
+                        },
+                        {
+                            color: "#eabbf5fd",
+                            width: "30%",
+                            start: "50%",
+                        },
+                        {
+                            color: "#00AA8D",
+                            width: "10%",
+                            start: "80%",
+                        },
+                    ],
+                },
+            ],
+        };
     }
 
     componentDidUpdate() {}
@@ -19,12 +80,9 @@ class RoomGanttChartComponent extends React.Component {
     render() {
         return (
             <div>
-                <div style={{ width: "20%" }}>Phòng 101</div>
-                <div className="bar" style={{ width: "20%" }} />
-                <div
-                    className="bar"
-                    style={{ width: "30%", marginLeft: "10%" }}
-                />
+                {this.state.rooms.map(room => (
+                    <RoomGanttChartRow room={room} />
+                ))}
             </div>
         );
     }

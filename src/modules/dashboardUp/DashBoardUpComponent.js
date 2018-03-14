@@ -5,11 +5,14 @@ import TooltipButton from "../../components/common/TooltipButton";
 import RoomModal from "./RoomModal";
 import PropTypes from "prop-types";
 import RoomGanttChartComponent from "./RoomGanttChartComponent";
+import FormInputDate from "../../components/common/FormInputDate";
+import moment from "moment";
 
 class DashBoardUpComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
+            dateTime: moment().format("DD/MM/YYYY"),
             registers_by_date: [
                 0,
                 0,
@@ -167,9 +170,14 @@ class DashBoardUpComponent extends React.Component {
             openModal: false,
         };
         this.closeRoomModal = this.closeRoomModal.bind(this);
+        this.onChangeRoomDate = this.onChangeRoomDate.bind(this);
     }
 
     componentWillMount() {}
+
+    onChangeRoomDate(event) {
+        console.log(event.target.value);
+    }
 
     closeRoomModal() {
         this.setState({ openModal: false });
@@ -520,7 +528,36 @@ class DashBoardUpComponent extends React.Component {
 
                         <div className="row">
                             <div className="col-md-12">
-                                <RoomGanttChartComponent />
+                                <div className="card">
+                                    <div
+                                        className="card-header card-header-icon"
+                                        data-background-color="rose"
+                                    >
+                                        <i className="material-icons">
+                                            insert_chart
+                                        </i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">
+                                            Danh sách phòng
+                                            <small />
+                                        </h4>
+                                        <div style={{ width: "240px" }}>
+                                            <FormInputDate
+                                                label="Ngày"
+                                                name="date_time"
+                                                value={this.state.dateTime}
+                                                placeholder="DD/MM/YYYY"
+                                                format="DD/MM/YYYY"
+                                                updateFormData={
+                                                    this.onChangeRoomDate
+                                                }
+                                                id="form-date-time"
+                                            />
+                                        </div>
+                                        <RoomGanttChartComponent />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

@@ -22,9 +22,9 @@ class ChangeInfoStudentModal extends React.Component {
     commitData() {
 
         if ($('#form-info-student').valid()
-        && !helper.isEmptyInput(this.props.info.code)
-        && !helper.isEmptyInput(this.props.info.money)
-        ){
+            && !helper.isEmptyInput(this.props.info.code)
+            && !helper.isEmptyInput(this.props.info.money)
+        ) {
             this.props.commitData(this.props.info);
         } else
             helper.showErrorNotification("Vui lòng điền đầy đủ thông tin.");
@@ -55,13 +55,13 @@ class ChangeInfoStudentModal extends React.Component {
                             required
                             value={this.props.info.money}
                             updateFormData={this.props.updateData}
-                            disabled={this.props.isCommitting}
+                            disabled={this.props.isCommitting || !this.props.info.editable_money}
                         />
 
                     </Modal.Body>
                     <Modal.Footer>
                         {this.props.isCommitting ?
-                            <button className="btn btn-rose  disabled" type="button">
+                            <button className="btn btn-rose disabled" type="button">
                                 <i className="fa fa-spinner fa-spin"/> Đang lưu
                             </button>
                             :
@@ -72,7 +72,7 @@ class ChangeInfoStudentModal extends React.Component {
                                 onClick={() => {
                                     return this.commitData();
                                 }}
-                                >Lưu</button>
+                            >Lưu</button>
                         }
                     </Modal.Footer>
                 </Modal>
@@ -87,8 +87,9 @@ ChangeInfoStudentModal.propTypes = {
     showChangeInfoStudent: PropTypes.bool.isRequired,
     onHide: PropTypes.func,
     info: PropTypes.object,
-    updateData:  PropTypes.func,
-    commitData:  PropTypes.func,
+    updateData: PropTypes.func,
+    commitData: PropTypes.func,
+    staff: PropTypes.object
 
 };
 
