@@ -860,6 +860,7 @@ class CompanyController extends ManageApiController
                 $good_new->warehouse_id = $good->warehouse_id;
                 $good_new->quantity = $good->quantity;
                 $good_new->item_order_id = $importOrderId;
+                $good_new->good_id = $good->good_id;
                 $good_new->save();
             }
         }
