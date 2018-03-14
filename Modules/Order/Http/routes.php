@@ -73,6 +73,13 @@ $orderRoutes = function () {
     });
 };
 
+$customerRoutes = function() {
+    Route::group(['prefix' => 'v2'], function() {
+        Route::get('customer', 'CustomerApiController@customers');
+
+    });
+};
+
 $transferMoneyRoutes = function () {
     Route::group(['prefix' => 'v2/transfer-money'], function () {
         Route::get('/', 'TransferMoneyApiController@getTransfers');
@@ -80,6 +87,8 @@ $transferMoneyRoutes = function () {
         Route::put('/{transferId}/status', 'TransferMoneyApiController@changeTransferStatus');
     });
 };
+
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Order\Http\Controllers'], $customerRoutes);
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Order\Http\Controllers'], $orderRoutes);
 

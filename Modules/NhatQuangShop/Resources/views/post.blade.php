@@ -147,7 +147,7 @@
         </div>
 
 
-@endsection@extends('graphics::layouts.master')
+@endsection
 
         @section('meta')
             <meta property="og:type" content="website"/>
