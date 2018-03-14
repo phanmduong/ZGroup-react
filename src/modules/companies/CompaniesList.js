@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import PropTypes from 'prop-types';
-import Search from "../../components/common/Search";
 
 class CompaniesList extends React.Component {
     constructor(props, context) {
