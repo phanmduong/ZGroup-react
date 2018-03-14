@@ -654,7 +654,7 @@ class CompanyController extends ManageApiController
         $order->save();
         $goods = json_decode($request->goods);
         $order->good_count = count($goods);
-        $order-save();
+        $order->save();
         foreach ($goods as $good) {
             $exportOrder = new ExportOrder;
             $exportOrder->warehouse_id = 0;
