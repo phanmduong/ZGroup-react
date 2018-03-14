@@ -141,7 +141,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     // Begin staff api
     Route::get('/staff/get-all-user', "ManageStaffApiController@get_all_user_not_staff");
-    Route::get('/staff/{staffId}', "ManageStaffApiController@get_staff");
+    Route::get('/staff/{staffId?}', "ManageStaffApiController@get_staff");
     Route::post('/staff/{staffId}/edit', "ManageStaffApiController@edit_staff");
     Route::post('delete-staff', "ManageStaffApiController@delete_staff");
     Route::post('change-role-staff', 'ManageStaffApiController@change_role');
@@ -398,6 +398,8 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('/register-social', 'AuthenticateController@registerSocial');
     Route::post('/register-confirm-email', 'AuthenticateController@confirmEmail');
     Route::get('/confirm-email-success', 'ColormeNewController@confirmEmailSuccess');
+    Route::post('/store-advisory', 'PublicApiController@storeAdvisory');
+
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');
