@@ -228,7 +228,7 @@ class ManageWorkShiftApiController extends ManageApiController
         $datetime = strtotime($date->format('Y-m-d H:i:s'));
 
         if (strtotime($shift->created_at) < $datetime) {
-            return $this->respondErrorWithStatus("Không đăng kí được ca này");
+            return $this->respondErrorWithStatus("Không hủy được ca đăng kí này");
         }
 
         $shift->users()->detach($this->user->id);
