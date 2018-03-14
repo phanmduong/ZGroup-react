@@ -65,6 +65,7 @@ class ItemOrder extends Model
 
     public function importTransform()
     {
+        $pp = $this->importOrder->take($this->good_count)->get();
         return [
             "id" => $this->id,
             "company" => [
@@ -86,7 +87,7 @@ class ItemOrder extends Model
             "note" => $this->note,
             "date" => $this->date,
             "created_at" => $this->created_at,
-            "goods" => $this->importOrder->take($this->good_count)->get()->map(function ($good) {
+            "goods" => $pp->map(function ($good) {
                 return $good->transform();
             })
         ];
