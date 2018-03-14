@@ -1332,5 +1332,6 @@ export function parseTime(x) {
         month = moment(x, "YYYY-MM-DD HH:mm").format("MM");
         year = moment(x, "YYYY-MM-DD HH:mm").format("YYYY");
     }
-    return "Ngày " + date + " tháng " + month + " năm " + year + " , " + hour;
+    // return "Ngày " + date + " tháng " + month + " năm " + year + " , " + hour;
+    return hour + "  "+  date + "-" + month + "-" + year ;
 }

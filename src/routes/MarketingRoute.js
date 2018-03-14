@@ -11,6 +11,9 @@ import SummarySalesUpContainer from "../modules/summarySalesUp/SummarySalesUpCon
 import OverviewSalesUp from "../modules/summarySalesUp/OverviewSalesUp";
 import StatisticSalesUp from "../modules/summarySalesUp/StatisticSalesUp";
 import SummaryMarketingCampaignRoomContainer from "../modules/summaryMarketingCampaignRoom/SummaryMarketingCampaignRoomContainer";
+import SummarySalesRoomContainer from "../modules/summarySalesRoom/SummarySalesRoomContainer";
+import OverviewSalesRoom from "../modules/summarySalesRoom/OverviewSalesRoom";
+import StatisticSalesRoom from "../modules/summarySalesRoom/StatisticSalesRoom";
 
 /**
  * Tab Quản lý marketing
@@ -69,5 +72,20 @@ export default [
                 component: StatisticSalesUp
             }
         ]
-    }
+    },
+
+    {
+        path: "/marketing/sales-room",
+        component: SummarySalesRoomContainer,
+        children: [
+            {
+                path: "/",
+                component: OverviewSalesRoom,
+            },
+            {
+                path: "statistic",
+                component: StatisticSalesRoom,
+            }
+        ]
+    },
 ];
