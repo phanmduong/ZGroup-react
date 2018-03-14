@@ -283,7 +283,7 @@ class PublicController extends Controller
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
-            $user->password = Hash::make($phone);
+            $user->password = bcrypt($phone);
             $user->username = $request->email;
             $user->email = $request->email;
 
