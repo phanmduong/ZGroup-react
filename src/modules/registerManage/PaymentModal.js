@@ -6,26 +6,46 @@ import {bindActionCreators} from 'redux';
 import * as registerManageAction from './registerManageAction';
 import {Button} from "react-bootstrap";
 
+
 // import Avatar from '../../components/common/Avatar';
 
 
-class CallModal extends React.Component {
+class PaymentModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note: ""};
-        this.changeCallStatus = this.changeCallStatus.bind(this);
+        this.state = {note : "", money: "", sumMoney: this.props.sumMoney};
+        this.savePayment = this.savePayment.bind(this);
+        this.changeMoney = this.changeMoney.bind(this);
     }
 
 
-    changeCallStatus(status, note, register_id, user_id) {
-        this.props.registerManageAction.changeCallStatus(status, note, register_id, user_id, this.props.closeCallModal);
+    savePayment(money, note, register_id, user_id) {
+
+        if (this.state.money === null || this.state.money === undefined || this.state.money === '') {
+            helper.showTypeNotification("Vui lòng điền số tiền", 'warning');
+        }
+        else if (this.state.money > this.props.register.subscription.price - this.state.sumMoney) {
+            helper.showTypeNotification("Số tiền trả đã vượt quá giá tiền", 'warning');
+        }
+        else {
+            this.props.registerManageRoomAction.savePayment(money, note, register_id, user_id, this.props.closePaymentModal);
+        }
     }
+
+    changeMoney(event) {
+        let sumMoney = this.props.sumMoney;
+        sumMoney += parseInt(event.target.value || 0);
+        this.setState({money: parseInt(event.target.value), sumMoney});
+    }
+
 
     render() {
         let register = this.props.register;
         return (
             <div>
                 <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
                     <div className="panel panel-default">
                         <div className="panel-heading" role="tab" id="headingOne">
 
@@ -37,8 +57,7 @@ class CallModal extends React.Component {
                                 </h4>
                             </a>
                         </div>
-
-
+                        {register.user &&
                         <div id="collapseOne" className="panel-collapse collapse" role="tabpanel"
                              aria-labelledby="headingOne" aria-expanded="false" style={{height: '0px', marginTop: 15}}>
                             <div className="timeline-panel">
@@ -62,6 +81,7 @@ class CallModal extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        }
                     </div>
 
 
@@ -92,7 +112,6 @@ class CallModal extends React.Component {
                         </div>
                     </div>
 
-
                     <div className="panel panel-default">
                         <div className="panel-heading" role="tab" id="headingThree">
                             <a className="collapsed" role="button" data-toggle="collapse"
@@ -104,7 +123,6 @@ class CallModal extends React.Component {
                                 </h4>
                             </a>
                         </div>
-
                         <div id="collapseThree" className="panel-collapse collapse" role="tabpanel"
                              aria-labelledby="headingThree" aria-expanded="false" style={{height: '0px'}}>
                             <ul className="timeline timeline-simple">
@@ -131,49 +149,43 @@ class CallModal extends React.Component {
                                 </li>
                             </ul>
                         </div>
+                    </div>
 
-
-                        <div className="panel panel-default">
-                            <div className="panel-heading" role="tab" id="headingFour">
-                                <a className="collapsed" role="button" data-toggle="collapse"
-                                   data-parent="#accordion" href="#collapseFour" aria-expanded="false"
-                                   aria-controls="collapseFour">
-                                    <h4 className="panel-title">
-                                        {"Lịch sử gọi điện"}
-                                        <i className="material-icons">keyboard_arrow_down</i>
-                                    </h4>
-                                </a>
-                            </div>
-
+                    <div className="panel panel-default">
+                        <div className="panel-heading" role="tab" id="headingFour">
+                            <a className="collapsed" role="button" data-toggle="collapse"
+                               data-parent="#accordion" href="#collapseFour" aria-expanded="false"
+                               aria-controls="collapseFour">
+                                <h4 className="panel-title">
+                                    {"Lịch sử trả tiền"}
+                                    <i className="material-icons">keyboard_arrow_down</i>
+                                </h4>
+                            </a>
+                        </div>
+                        <div>
                             <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="headingFour" aria-expanded="false"
                                  style={{height: '0px'}}>
-                                <ul className="timeline timeline-simple">{
-                                    register.teleCalls && register.teleCalls.map((history, index) => {
-                                        let btn = '';
-                                        if (history.call_status === 1) {
-                                            btn = ' success';
-                                        }
-                                        else if (history.call_status === 0) {
-                                            btn = ' danger';
-                                        }
+                                <ul className="timeline timeline-simple">
+                                    {register.historyPayments && register.historyPayments.map((payment, index) => {
                                         return (
                                             <li className="timeline-inverted" key={index}>
-                                                <div className={"timeline-badge " + btn}>
-                                                    <i className="material-icons">phone</i>
+                                                <div className={"timeline-badge success"}>
+                                                    <i className="material-icons">swap_horiz</i>
                                                 </div>
                                                 <div className="timeline-panel">
                                                     <div className="timeline-heading">
-                                                                <span className="label label-default"
-                                                                      style={{backgroundColor: '#' + history.caller.color}}>
-                                                                            {history.caller.name}
-                                                                </span>
-                                                        <span
-                                                            className="label label-default">{helper.parseTime(history.created_at)}
-                                                                </span>
+                                                        <span className="label label-default"
+                                                              style={{backgroundColor: '#' + payment.staff.color}}>
+                                                            {payment.staff.name}
+                                                        </span>
+                                                        <span className="label label-default">
+                                                            {helper.parseTime(payment.created_at.date)}
+                                                        </span>
                                                     </div>
                                                     <div className="timeline-body">
-                                                        {history.note}
+                                                        <div> {helper.dotNumber(payment.money_value) + " đ"} </div>
+                                                        <div> {payment.description} </div>
                                                     </div>
                                                 </div>
                                             </li>
@@ -181,55 +193,114 @@ class CallModal extends React.Component {
                                     })}
                                 </ul>
                             </div>
+
+
+                            <div style={{paddingTop: 30}}>
+                                <div style={{
+                                    display: "flex",
+                                    justifyContent: "space-between"
+                                }}>
+                                    <h4><b>Số tiền cần nộp</b></h4>
+                                    <div style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        flexDirection: "column",
+                                        fontSize: 20
+                                    }}>
+                                        {helper.dotNumber(parseInt(this.props.register.subscription.price)) + " đ"}
+                                    </div>
+                                </div>
+                                <div style={{
+                                    display: "flex",
+                                    justifyContent: "space-between"
+                                }}>
+                                    <h4><b>Tổng số tiền đã trả</b></h4>
+                                    <div style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        flexDirection: "column",
+                                        fontSize: 20
+                                    }}>
+                                        {helper.dotNumber(this.state.sumMoney) + " đ"}
+                                    </div>
+                                </div>
+                                    <div style={{
+                                        display: "flex",
+                                        justifyContent: "space-between"
+                                    }}>
+                                        <h4><b>Còn lại</b></h4>
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            flexDirection: "column",
+                                            fontSize: 20
+                                        }}>
+                                            {helper.dotNumber(parseInt(this.props.register.subscription.price) - this.state.sumMoney) + " đ"}
+                                        </div>
+                                    </div>
+                                    {/*<div style={{*/}
+                                        {/*display: "flex",*/}
+                                        {/*justifyContent: "space-between"*/}
+                                    {/*}}>*/}
+                                        {/*<h4><b>Đã thừa</b></h4>*/}
+                                        {/*<div style={{*/}
+                                            {/*display: "flex",*/}
+                                            {/*justifyContent: "center",*/}
+                                            {/*flexDirection: "column",*/}
+                                            {/*fontSize: 20*/}
+                                        {/*}}>*/}
+                                            {/*{helper.dotNumber(this.state.sumMoney - parseInt(this.props.register.subscription.price)) + " đ"}*/}
+                                        {/*</div>*/}
+                                    {/*</div>*/}
+
+                            </div>
                         </div>
                     </div>
 
+
+                    <div className="form-group label-floating is-empty">
+                        <label className="control-label">Số tiền</label>
+                        <input type="number" className="form-control"
+                               value={this.state.money}
+                               max={this.props.register.subscription.price - this.state.sumMoney}
+                               onChange={(event) => this.changeMoney(event)}/>
+                    </div>
                     <div className="form-group label-floating is-empty">
                         <label className="control-label">Ghi chú</label>
                         <textarea className="form-control"
                                   value={this.state.note}
                                   onChange={(event) => this.setState({note: event.target.value})}/>
                     </div>
-
-
                 </div>
 
-                {this.props.isChangingStatus ?
+                {this.props.isSavingPayment ?
 
-                    <div>
-                        <button type="button" className="btn btn-success btn-round disabled"
-                                data-dismiss="modal"
-                        >
+                    <div style={{display: "flex", justifyContent: "flex-end"}}>
+                        <button className="btn btn-rose disabled">
                             <i className="fa fa-spinner fa-spin"/> Đang cập nhật
                         </button>
-                        <button type="button" className="btn btn-danger btn-round disabled"
-                                data-dismiss="modal"
-                        >
+                        <button className="btn disabled">
                             <i className="fa fa-spinner fa-spin"/> Đang cập nhật
                         </button>
                     </div>
-
                     :
-
-                    <div>
-                        <Button className="btn btn-success btn-round"
+                    <div style={{display: "flex", justifyContent: "flex-end"}}>
+                        <Button className="btn btn-rose"
                                 data-dismiss="modal"
                                 onClick={() => {
-                                    this.changeCallStatus(1, this.state.note, register.id, register.user.id);
+                                    this.savePayment(this.state.money, this.state.note, register.id, register.user.id );
                                 }}>
-                            <i className="material-icons">phone</i>
-                            Gọi thành công
+                            <i className="material-icons">save</i>
+                            Lưu
                         </Button>
-                        <Button className="btn btn-danger btn-round"
-                                data-dismiss="modal"
+                        <Button data-dismiss="modal"
                                 onClick={() => {
-                                    this.changeCallStatus(0, this.state.note, register.id, register.user.id);
+                                    this.props.closePaymentModal();
                                 }}>
-                            <i className="material-icons">phone</i>
-                            Không gọi được
+                            <i className="material-icons">close</i>
+                            Hủy
                         </Button>
                     </div>
-
                 }
             </div>
         );
@@ -237,25 +308,26 @@ class CallModal extends React.Component {
 }
 
 
-CallModal.propTypes = {
+PaymentModal.propTypes = {
     register: PropTypes.object.isRequired,
-    isChangingStatus: PropTypes.bool.isRequired,
-    registerManageAction: PropTypes.object.isRequired,
-    closeCallModal: PropTypes.func.isRequired,
+    isSavingPayment: PropTypes.bool.isRequired,
+    registerManageRoomAction: PropTypes.object.isRequired,
+    closePaymentModal: PropTypes.func.isRequired,
+    sumMoney: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        isChangingStatus: state.registerManage.isChangingStatus,
+        isSavingPayment: state.registerManage.isSavingPayment,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        registerManageAction: bindActionCreators(registerManageAction, dispatch)
+        registerManageRoomAction: bindActionCreators(registerManageAction, dispatch)
+
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CallModal);
-
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentModal);
 

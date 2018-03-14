@@ -11,7 +11,7 @@ class SummarySalesComponent extends React.Component {
     // componentWillMount(){
     //     this.props.loadSummary();
     // }
-
+    //
 
     render() {
         if (this.props.isLoading) {return (<Loading/>);} else {

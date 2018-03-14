@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as env from "../../../constants/env";
+// import { register } from "../../workShiftRegisters/workShiftRegisterApi";
 
 export function getRooms(baseId) {
     let url = `${env.MANAGE_API_URL_V3}/base/${baseId}/rooms`;
@@ -35,3 +36,11 @@ export const getChooseSeatHistory = registerId => {
     }/seat/register/${registerId}?token=${token}`;
     return axios.get(url);
 };
+
+export function loadHistoryChooseSeatApi(page,limit) {
+    const token = localStorage.getItem("token");
+    const url = `${
+        env.MANAGE_API_URL_V3
+        }/seat/all?token=${token}&page=${page}&limit=${limit}`;
+    return axios.get(url);
+}
