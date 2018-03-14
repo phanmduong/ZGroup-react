@@ -23,7 +23,8 @@ export default function orderedDetailReducer(state = initialState.orderedDetail,
                 ...state,
                 isLoading: false,
                 order: action.order,
-                customer: action.customer
+                customer: action.customer,
+                delivery: action.delivery
             };
         case types.HANDLE_DATE_ORDERED_DETAIL:
             return {

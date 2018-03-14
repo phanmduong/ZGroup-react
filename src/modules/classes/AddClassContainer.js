@@ -14,6 +14,8 @@ import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import ItemReactSelect from '../../components/common/ItemReactSelect';
 import {TYPE_CLASSES} from "../../constants/constants";
+import SelectTeacher from "./SelectTeacher";
+import {isEmptyInput} from "../../helpers/helper";
 
 
 class AddClassContainer extends React.Component {
@@ -25,6 +27,7 @@ class AddClassContainer extends React.Component {
             optionsSelectStaff: [],
             optionsSelectSchedule: [],
             optionsSelectRoom: [],
+            teachers: []
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.changeGen = this.changeGen.bind(this);
@@ -128,16 +131,74 @@ class AddClassContainer extends React.Component {
         this.props.classActions.updateFormCreateClass(classData);
     }
 
-    changeTeacher(value) {
-        let classData = {...this.props.class};
-        classData.teacher_id = value && value.id ? value.id : '';
-        this.props.classActions.updateFormCreateClass(classData);
+    changeTeacher(value, key) {
+        console.log(value);
+        if (!isEmptyInput(key)) {
+            let classData = {...this.props.class};
+            if (value) {
+                classData.teachers = classData.teachers.map((teacher, index) => {
+                    if (index === key) {
+                        return value.id;
+                    } else {
+                        return teacher;
+                    }
+                });
+            } else {
+                let data = [];
+                classData.teachers.map((teacher, index) => {
+                    if (index !== key) {
+                        data.push(teacher);
+                    }
+                });
+                classData.teachers = data;
+            }
+            this.props.classActions.updateFormCreateClass(classData);
+        } else {
+            let classData = {...this.props.class};
+            classData.teacher_id = value && value.id ? value.id : '';
+            this.props.classActions.updateFormCreateClass(classData);
+        }
     }
 
-    changeTeachAssis(value) {
-        let classData = {...this.props.class};
-        classData.teacher_assis_id = value && value.id ? value.id : '';
-        this.props.classActions.updateFormCreateClass(classData);
+    changeTeachAssis(value, key) {
+        if (!isEmptyInput(key)) {
+            let classData = {...this.props.class};
+            if (value) {
+                classData.teaching_assistants = classData.teaching_assistants.map((teacher, index) => {
+                    if (index === key) {
+                        return value.id;
+                    } else {
+                        return teacher;
+                    }
+                });
+            } else {
+                let data = [];
+                classData.teaching_assistants.map((teacher, index) => {
+                    if (index !== key) {
+                        data.push(teacher);
+                    }
+                });
+                classData.teaching_assistants = data;
+            }
+            this.props.classActions.updateFormCreateClass(classData);
+        } else {
+            let classData = {...this.props.class};
+            classData.teacher_assis_id = value && value.id ? value.id : '';
+            this.props.classActions.updateFormCreateClass(classData);
+        }
+    }
+
+    getSelectTeacher(options, teacher_id, teachers, value) {
+        let data = [];
+        options.map((option) => {
+            if (option.id !== teacher_id && ((teachers && teachers.indexOf(option.id) < 0) || teachers === undefined || teachers === null)) {
+                data.push(option);
+            }
+            if (option.id === value) {
+                data.push(option);
+            }
+        });
+        return data;
     }
 
     changeSchedule(value) {
@@ -217,7 +278,7 @@ class AddClassContainer extends React.Component {
         if (this.props.isLoadingInfoCreateClass) {
             return <Loading/>;
         } else {
-            let {name, description, target, regis_target, study_time, gen_id, course_id, teacher_assis_id, teacher_id, schedule_id, datestart, room_id, type} = this.props.class;
+            let {name, description, target, regis_target, teachers, study_time, gen_id, course_id, teacher_assis_id, teaching_assistants, teacher_id, schedule_id, datestart, room_id, type} = this.props.class;
             return (
                 <div>
                     <form id="form-add-class" onSubmit={(e) => {
@@ -350,48 +411,60 @@ class AddClassContainer extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <div className="form-group">
-                                    <label className="label-control">Giảng viên</label>
-                                    <Select
-                                        name="form-field-name"
-                                        value={teacher_id}
-                                        options={this.state.optionsSelectStaff}
-                                        onChange={this.changeTeacher}
-                                        placeholder="Chọn giảng viên"
-                                        optionRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label} url={option.avatar_url}/>
-                                            );
+                                <SelectTeacher
+                                    optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_id, teachers, teacher_id)}
+                                    label={teachers && teachers.length > 0 ? "Giảng viên 1" : "Giảng viên"}
+                                    value={teacher_id}
+                                    onChange={(value) => this.changeTeacher(value)}
+                                />
+                                {teachers && teachers.map((teach, index) => {
+                                    return (
+                                        <SelectTeacher
+                                            key={index}
+                                            optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_id, teachers, teach)}
+                                            label={"Giảng viên " + (index + 2)}
+                                            value={teach}
+                                            onChange={(value) => this.changeTeacher(value, index)}
+                                        />
+                                    );
+                                })}
+                                <button type="button"
+                                        className="btn btn-rose btn-sm"
+                                        onClick={() => {
+                                            let classData = {...this.props.class};
+                                            classData.teachers = classData.teachers ? classData.teachers.concat("") : [""];
+                                            this.props.classActions.updateFormCreateClass(classData);
                                         }}
-                                        valueRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label} url={option.avatar_url}/>
-                                            );
-                                        }}
-                                    />
-                                </div>
+                                >
+                                    <i className="material-icons">control_point</i></button>
                             </div>
                             <div className="col-md-6">
-                                <div className="form-group">
-                                    <label className="label-control">Trợ giảng</label>
-                                    <Select
-                                        name="form-field-name"
-                                        value={teacher_assis_id}
-                                        options={this.state.optionsSelectStaff}
-                                        onChange={this.changeTeachAssis}
-                                        optionRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label} url={option.avatar_url}/>
-                                            );
+                                <SelectTeacher
+                                    optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_assis_id, teaching_assistants, teacher_assis_id)}
+                                    label={teaching_assistants && teaching_assistants.length > 0 ? "Trợ giảng 1" : "Trợ giảng"}
+                                    value={teacher_assis_id}
+                                    onChange={(value) => this.changeTeachAssis(value)}
+                                />
+                                {teaching_assistants && teaching_assistants.map((teach, index) => {
+                                    return (
+                                        <SelectTeacher
+                                            key={index}
+                                            optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_assis_id, teaching_assistants, teach)}
+                                            label={"Trợ giảng " + (index + 2)}
+                                            value={teach}
+                                            onChange={(value) => this.changeTeachAssis(value, index)}
+                                        />
+                                    );
+                                })}
+                                <button type="button"
+                                        className="btn btn-rose btn-sm"
+                                        onClick={() => {
+                                            let classData = {...this.props.class};
+                                            classData.teaching_assistants = classData.teaching_assistants ? classData.teaching_assistants.concat("") : [""];
+                                            this.props.classActions.updateFormCreateClass(classData);
                                         }}
-                                        valueRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label} url={option.avatar_url}/>
-                                            );
-                                        }}
-                                        placeholder="Chọn trợ giảng"
-                                    />
-                                </div>
+                                >
+                                    <i className="material-icons">control_point</i></button>
                             </div>
                         </div>
                         {this.props.isStoringClass ?

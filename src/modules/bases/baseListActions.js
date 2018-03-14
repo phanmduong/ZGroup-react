@@ -79,14 +79,14 @@ export function updateCreateBaseFormData(base) {
 export function createBase(base) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_CREATE_BASE
+            type: types.BEGIN_CREATE_BASE_MODAL
         });
         baseListApi.createBase(base)
             .then(res => {
                 const message = res.data.data.message;
                 helper.showNotification(message);
                 dispatch({
-                    type: types.CREATE_BASE_SUCCESS
+                    type: types.CREATE_BASE_SUCCESS_MODAL
                 });
                 browserHistory.push('/base/bases');
             }).catch(() => {

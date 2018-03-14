@@ -24,6 +24,8 @@ class ItemOrder extends React.Component {
                 this.props.showAddCancelNoteModal(this.props.delivery);
             } else if (nextStatus.order === 1) {
                 this.props.showSendPriceModal([this.props.delivery]);
+            } else if (nextStatus.order === 3) {
+                this.props.showAddJavCodeModal(this.props.delivery);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
                     this.props.changeStatus(value, this.props.delivery.id, null, null);
@@ -57,7 +59,7 @@ class ItemOrder extends React.Component {
                             backgroundColor: ORDERED_STATUS_COLORS[delivery.status]
                         }}
                         className="btn text-name-student-register"
-                        to={`/good/goods/order/${delivery.id}`}>
+                        to={`/order/${delivery.id}/edit`}>
                         {delivery.code ? delivery.code : 'Không có mã'}
                     </Link>
                 </td>
@@ -89,14 +91,13 @@ class ItemOrder extends React.Component {
                             )
                     }
                 </td>
-                <td>
+                <td style={{width: "120px"}}>
                     <StatusSelect options={ORDERED_STATUS}
                                   onChange={this.changeStatus}
                                   value={delivery.status}/>
                 </td>
                 <td>
-                    <a data-toggle="tooltip" title="Ghi chú" type="button"
-                       rel="tooltip" onClick={() => this.props.showAddNoteModal(delivery)}>
+                    <a type="button" onClick={() => this.props.showAddNoteModal(delivery)}>
                         {
                             delivery_note === "" ? (
                                 <i className="material-icons">edit</i>
@@ -120,15 +121,12 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>
                     <div className="btn-group-action">
-                        <Link to={`/order/${delivery.id}/edit`}
-                              style={{color: "#878787"}}
-                              data-toggle="tooltip" title=""
-                              type="button" rel="tooltip"
-                              data-original-title="Sửa">
-                            <i className="material-icons">edit</i>
-                        </Link>
                         <Link to={`/order/${delivery.id}/warehouse-import`}
-                              style={{color: "#878787"}}
+                              style={{
+                                  color: "#878787",
+                                  // cursor: ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order < 6
+                                  // && "not-allowed"
+                              }}
                               data-toggle="tooltip" title=""
                               type="button" rel="tooltip"
                               data-original-title="Nhập kho">
@@ -151,7 +149,8 @@ ItemOrder.propTypes = {
     check: PropTypes.bool.isRequired,
     isSendingPrice: PropTypes.bool.isRequired,
     chooseItem: PropTypes.func.isRequired,
-    showChooseWalletModal: PropTypes.func.isRequired
+    showChooseWalletModal: PropTypes.func.isRequired,
+    showAddJavCodeModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

@@ -3,12 +3,15 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as chooseSeatActions from "./chooseSeatActions";
 import PropTypes from "prop-types";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import Loading from "../../../components/common/Loading";
 import RoomGrid from "../../bases/room/RoomGrid";
-import { DATETIME_VN_FORMAT } from "../../../constants/constants";
+import { DATETIME_SEAT_FORMAT } from "../../../constants/constants";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import moment from "moment";
+import ConfirmSeatModalContainer from "./ConfirmSeatModalContainer";
+import { showErrorMessage } from "../../../helpers/helper";
+import ChooseSeatHistoryModalContainer from "./ChooseSeatHistoryModalContainer";
 
 class ChooseSeatModalContainer extends React.Component {
     constructor(props, context) {
@@ -19,11 +22,10 @@ class ChooseSeatModalContainer extends React.Component {
         this.mergeSeats = this.mergeSeats.bind(this);
         this.onFromDateInputChange = this.onFromDateInputChange.bind(this);
         this.onToDateInputChange = this.onToDateInputChange.bind(this);
-        this.state = {
-            from: "",
-            to: "",
-        };
         this.loadSeats = this.loadSeats.bind(this);
+        this.openChooseSeatHistoryModal = this.openChooseSeatHistoryModal.bind(
+            this,
+        );
     }
 
     componentWillReceiveProps(nextProps) {
@@ -32,18 +34,30 @@ class ChooseSeatModalContainer extends React.Component {
         }
     }
 
+    openChooseSeatHistoryModal() {
+        this.props.chooseSeatActions.toggleChooseSeatHistoryModal(true);
+    }
+
+    timeValid(from, to) {
+        const unixFrom = moment(from, DATETIME_SEAT_FORMAT).unix();
+        const unixTo = moment(to, DATETIME_SEAT_FORMAT).unix();
+
+        return unixFrom <= unixTo;
+    }
+
     loadSeats(roomId = null) {
-        let { from, to } = this.state;
-        const { room } = this.props;
-        from = moment(from, DATETIME_VN_FORMAT).unix();
-        to = moment(to, DATETIME_VN_FORMAT).unix();
+        let { room, from, to } = this.props;
+        from = moment(from, DATETIME_SEAT_FORMAT).unix();
+        to = moment(to, DATETIME_SEAT_FORMAT).unix();
 
         if (from && to && roomId) {
             this.props.chooseSeatActions.loadSeats(roomId, from, to);
+            return;
         }
 
         if (from && to && room.id) {
             this.props.chooseSeatActions.loadSeats(room.id, from, to);
+            return;
         }
     }
 
@@ -65,10 +79,16 @@ class ChooseSeatModalContainer extends React.Component {
     }
 
     onChooseSeat(index) {
-        const seat = this.props.seats.filter(seat => {
+        const seats = this.mergeSeats(this.props.bookedSeats, this.props.seats);
+        const seat = seats.filter(seat => {
             return index === seat.id;
         })[0];
-        console.log(seat);
+
+        if (seat.booked) {
+            showErrorMessage("Lỗi", "Ghế này đã được đặt.");
+        } else {
+            this.props.chooseSeatActions.toggleConfirmSeatModal(true, seat);
+        }
     }
 
     handleClose() {
@@ -82,35 +102,28 @@ class ChooseSeatModalContainer extends React.Component {
 
     onFromDateInputChange(event) {
         const from = event.target.value;
-        const to = moment(event.target.value, DATETIME_VN_FORMAT)
-            .add(this.props.register.subscription.hours, "hours")
-            .format(DATETIME_VN_FORMAT);
 
-        this.setState({
-            from,
-            to,
-        });
-        this.loadSeats();
+        if (this.timeValid(from, this.props.to)) {
+            this.loadSeats();
+        }
+        this.props.chooseSeatActions.setFromTime(from);
     }
 
     onToDateInputChange(event) {
         const to = event.target.value;
-        const from = moment(event.target.value, DATETIME_VN_FORMAT)
-            .add(this.props.register.subscription.hours, "hours")
-            .format(DATETIME_VN_FORMAT);
 
-        this.setState({
-            from,
-            to,
-        });
-        this.loadSeats();
+        if (this.timeValid(this.props.from, to)) {
+            this.loadSeats();
+        }
+        this.props.chooseSeatActions.setToTime(to);
     }
 
     render() {
-        const { rooms } = this.props;
+        const { rooms, room, from, to, register } = this.props;
 
         return (
             <Modal
+                animation={false}
                 bsSize="large"
                 show={this.props.showModal}
                 onHide={this.handleClose}
@@ -120,25 +133,55 @@ class ChooseSeatModalContainer extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row">
-                        <div className="col-md-6 col-lg-4">
-                            <FormInputDateTime
-                                format={DATETIME_VN_FORMAT}
-                                name="from"
-                                id="from"
-                                label="Từ ngày"
-                                value={this.state.from}
-                                updateFormData={this.onFromDateInputChange}
-                            />
+                        <ChooseSeatHistoryModalContainer/>
+                        <ConfirmSeatModalContainer />
+                        <div className="col-sm-8">
+                            {!this.timeValid(from, to) && (
+                                <div className="col-sm-12">
+                                    <div className="alert alert-danger">
+                                        Thời gian bắt đầu phải nhỏ hơn thời gian
+                                        kết thúc
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="col-md-6">
+                                <FormInputDateTime
+                                    format={DATETIME_SEAT_FORMAT}
+                                    name="from"
+                                    id="from"
+                                    label="Bắt đầu"
+                                    value={from}
+                                    defaultDate={moment()}
+                                    updateFormData={this.onFromDateInputChange}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                {register.subscription && (
+                                    <FormInputDateTime
+                                        name="to"
+                                        format={DATETIME_SEAT_FORMAT}
+                                        id="to"
+                                        label="Kết thúc"
+                                        value={to}
+                                        defaultDate={moment().add(
+                                            register.subscription.hours,
+                                            "hours",
+                                        )}
+                                        updateFormData={
+                                            this.onToDateInputChange
+                                        }
+                                    />
+                                )}
+                            </div>
                         </div>
-                        <div className="col-md-6 col-lg-4">
-                            <FormInputDateTime
-                                name="to"
-                                format={DATETIME_VN_FORMAT}
-                                id="to"
-                                label="Tới ngày"
-                                value={this.state.to}
-                                updateFormData={this.onToDateInputChange}
-                            />
+                        <div className="col-sm-4" style={{ paddingTop: 30 }}>
+                            <Button
+                                onClick={this.openChooseSeatHistoryModal}
+                                className="btn btn-success"
+                            >
+                                Lịch sử đặt chỗ
+                            </Button>
                         </div>
                     </div>
                     {this.props.isLoading ? (
@@ -172,41 +215,37 @@ class ChooseSeatModalContainer extends React.Component {
                                 {this.props.isLoadingSeats ? (
                                     <Loading />
                                 ) : (
-                                    rooms &&
-                                    rooms.filter(r => r.isActive).map(room => {
-                                        return (
-                                            <div
-                                                key={room.id}
-                                                className="tab-pane active"
-                                            >
-                                                <div>
-                                                    <RoomGrid
-                                                        canvasId={
-                                                            "room-canvas" +
-                                                            room.id
-                                                        }
-                                                        gridSize={30}
-                                                        gridOn={false}
-                                                        onClick={() => {}}
-                                                        onDrag={() => {}}
-                                                        roomLayoutUrl={
-                                                            room.room_layout_url
-                                                        }
-                                                        onPointClick={
-                                                            this.onChooseSeat
-                                                        }
-                                                        width={room.width}
-                                                        height={room.height}
-                                                        seats={this.mergeSeats(
-                                                            this.props
-                                                                .bookedSeats,
-                                                            this.props.seats,
-                                                        )}
-                                                    />
-                                                </div>
+                                    this.timeValid(from, to) &&
+                                    room.id && (
+                                        <div
+                                            key={room.id}
+                                            className="tab-pane active"
+                                        >
+                                            <div>
+                                                <RoomGrid
+                                                    canvasId={
+                                                        "room-canvas" + room.id
+                                                    }
+                                                    gridSize={30}
+                                                    gridOn={false}
+                                                    onClick={() => {}}
+                                                    onDrag={() => {}}
+                                                    roomLayoutUrl={
+                                                        room.room_layout_url
+                                                    }
+                                                    onPointClick={
+                                                        this.onChooseSeat
+                                                    }
+                                                    width={room.width}
+                                                    height={room.height}
+                                                    seats={this.mergeSeats(
+                                                        this.props.bookedSeats,
+                                                        this.props.seats,
+                                                    )}
+                                                />
                                             </div>
-                                        );
-                                    })
+                                        </div>
+                                    )
                                 )}
                             </div>
                         </div>
@@ -230,6 +269,8 @@ ChooseSeatModalContainer.propTypes = {
     availableSeats: PropTypes.number.isRequired,
     bookedSeats: PropTypes.array.isRequired,
     room: PropTypes.object.isRequired,
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {

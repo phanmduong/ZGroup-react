@@ -170,7 +170,7 @@ class AvatarModalContainer extends React.Component {
                         </div>
                         <form method="#" action="#">
                             <div className="form-group">
-                                <label className="control-label">Tên sản phẩm</label>
+                                <label className="label-control">Tên sản phẩm</label>
                                 <input type="text"
                                        name="name"
                                        className="form-control"
@@ -179,7 +179,7 @@ class AvatarModalContainer extends React.Component {
                                 <span className="material-input"/>
                             </div>
                             <div className="form-group">
-                                <label className="control-label">Giá bán</label>
+                                <label className="label-control">Giá bán</label>
                                 <input type="number"
                                        name="price"
                                        className="form-control"
@@ -247,7 +247,7 @@ class AvatarModalContainer extends React.Component {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label">Nhà sản xuất</label>
+                                <label className="label-control">Nhà sản xuất</label>
                                 <Select
                                     name="manufactures"
                                     value={this.props.manufacture_id}
@@ -262,7 +262,7 @@ class AvatarModalContainer extends React.Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="control-label">Chọn nhóm sản phẩm</label>
+                                <label className="label-control">Chọn nhóm sản phẩm</label>
                                 <Select
                                     name="categories"
                                     value={this.props.good_category_id}

@@ -1,15 +1,15 @@
 import * as types from '../../constants/actionTypes';
 import * as classApi from './classApi';
 import * as helper from '../../helpers/helper';
+import {showErrorMessage} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
 
-
-export function changeLinkDriver(classId,link) {
+export function changeLinkDriver(classId, link) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CHANGE_LINK_DRIVER_CLASS});
-        classApi.changeLinkDriver(classId,link)
+        classApi.changeLinkDriver(classId, link)
             .then(() => {
                 dispatch({
                     type: types.CHANGE_LINK_DRIVER_CLASS_SUCCESS,
@@ -22,6 +22,7 @@ export function changeLinkDriver(classId,link) {
             });
     };
 }
+
 export function loadExcelData(genid) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_CLASSES_EXCEL});
@@ -323,6 +324,69 @@ export function loadStaffs() {
             }).catch(() => {
             dispatch({
                 type: types.LOAD_STAFFS_CLASS_DATA_ERROR
+            });
+        });
+    };
+}
+
+export function loadTeachersClass(classId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TEACHERS_CLASS_DATA
+        });
+        classApi.loadTeachers(classId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TEACHERS_CLASS_DATA_SUCCESS,
+                    teachers: res.data.data.teachers,
+                    teachingAssistants: res.data.data.teaching_assistants,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_TEACHERS_CLASS_DATA_ERROR
+            });
+        });
+    };
+}
+
+export function loadTeachingLessons(classLessonId, type) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TEACHING_LESSON_CLASS_DATA
+        });
+        classApi.loadTeachingLessons(classLessonId, type)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TEACHING_LESSON_CLASS_DATA_SUCCESS,
+                    teachingLessons: res.data.data.teaching,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_TEACHING_LESSON_CLASS_DATA_ERROR
+            });
+        });
+    };
+}
+
+export function changeTeachingLesson(classLessonId, oldTeachingId, newTeachingId, type, note, closeModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_TEACHING_LESSON_CLASS_DATA
+        });
+        classApi.changeTeachingLesson(classLessonId, oldTeachingId, newTeachingId, note)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    closeModal();
+                    dispatch({
+                        type: types.CHANGE_TEACHING_LESSON_CLASS_DATA_SUCCESS,
+                    });
+                    dispatch(loadTeachingLessons(classLessonId, type));
+                } else {
+                    showErrorMessage("Có lỗi xảy ra. Thử lại");
+                }
+            }).catch(() => {
+            dispatch({
+                type: types.CHANGE_TEACHING_LESSON_CLASS_DATA_ERROR
             });
         });
     };

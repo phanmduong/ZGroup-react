@@ -21,6 +21,26 @@ export const loadBankTransfers = (page = 1, search = "", status, bank_account_id
     };
 };
 
+export function loadCustomers(search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CUSTOMERS_BANK_TRANSFER
+        });
+        if (search === "") {
+            dispatch({
+                type: types.LOAD_CUSTOMERS_BANK_TRANSFER_COMPLETE,
+                customers: []
+            });
+        } else financeApi.loadCustomers(search)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_CUSTOMERS_BANK_TRANSFER_COMPLETE,
+                    customers: res.data.data.customers
+                });
+            });
+    };
+}
+
 export const updateBankTransferStatus = (bankTransfer) => {
     return (dispatch) => {
         financeApi.updateBankTransfer(bankTransfer);
@@ -104,4 +124,37 @@ export function handleBankTransferEditModal(transfer) {
         type: types.HANDLE_BANK_TRANSFER_EDIT_MODAL,
         transfer
     });
+}
+
+export function showLoadMoneyToWalletModal() {
+    return ({
+        type: types.TOGGLE_LOAD_MONEY_TO_WALLET_MODAL
+    });
+}
+
+export function handleLoadMoneyToWalletModal(transfer) {
+    return ({
+        type: types.HANDLE_LOAD_MONEY_TO_WALLET_MODAL,
+        transfer
+    });
+}
+
+export function loadMoneyToWallet(transfer) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang nạp tiền vào ví", "info");
+        dispatch({
+            type: types.BEGIN_LOAD_MONEY_TO_WALLET
+        });
+        financeApi.loadMoneyToWallet(transfer)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showNotification("Nạp tiền vào ví thành công");
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+                dispatch({
+                    type: types.LOAD_MONEY_TO_WALLET_COMPLETE
+                });
+            });
+    };
 }

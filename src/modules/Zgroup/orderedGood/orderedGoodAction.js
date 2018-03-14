@@ -138,3 +138,25 @@ export function loadOrderedGood(id, success) {
             });
     };
 }
+
+export function confirmOrder(id, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CONFIRM_ORDERED_GOOD});
+        orderedGoodApi.confirmOrder(id)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.CONFIRM_ORDERED_GOOD_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.CONFIRM_ORDERED_GOOD_ERROR});
+                }
+            }).catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra. ");
+                dispatch({type: types.CONFIRM_ORDERED_GOOD_ERROR});
+                
+            });
+    };
+}

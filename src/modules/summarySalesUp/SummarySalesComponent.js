@@ -8,6 +8,9 @@ class SummarySalesComponent extends React.Component {
         super(props, context);
     }
 
+    // componentWillMount(){
+    //     this.props.loadSummary();
+    // }
 
 
     render() {
@@ -39,10 +42,9 @@ class SummarySalesComponent extends React.Component {
 }
 
 SummarySalesComponent.propTypes = {
-    summarySalesActions: PropTypes.object.isRequired,
-    bases: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     location: PropTypes.object,
+    // loadSummary : PropTypes.func,
     children: PropTypes.element,
 };
 

@@ -3,10 +3,10 @@ import * as helper from "../../helpers/helper";
 import * as types from "../../constants/actionTypes";
 import {browserHistory} from 'react-router';
 
-export function loadPrintOrders(page,command_code, good_id, status) {
+export function loadPrintOrders(page,command_code, good_id, status, date) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_PRINT_ORDERS});
-        printOrderApi.loadPrintOrders(page,command_code, good_id, status)
+        printOrderApi.loadPrintOrders(page,command_code, good_id, status, date)
             .then((res) => {
                     dispatch({
                         type: types.LOAD_PRINT_ORDERS_SUCCESS,

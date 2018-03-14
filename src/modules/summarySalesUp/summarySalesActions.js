@@ -35,7 +35,8 @@ export function loadSummarySalesData( baseId, startTime,endTime,success) {
                     summary: res.data.data.summary_sales,
                 });
                 success();
-            }).catch(() => {
+            })
+            .catch(() => {
             dispatch({
                 type: types.LOAD_SUMMARY_SALES_ERROR_UP
             });
