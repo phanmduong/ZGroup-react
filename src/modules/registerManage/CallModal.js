@@ -87,6 +87,17 @@ class CallModal extends React.Component {
                                         <i className="material-icons">note</i>
                                         &nbsp; &nbsp; {"Nothing here"}
                                     </div>
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">attach_money</i>
+                                        <b style={{marginLeft:13}}>{ helper.dotNumber(register.subscription.price)}đ</b>
+                                    </div>
+                                    <div className="flex-row-center">
+                                        <i className="material-icons">access_time</i>
+                                        &nbsp; &nbsp; {"  " + register.subscription.hours + " giờ"}
+                                    </div>
+                                    <div className="flex-row-center" style={{display: "inline-block"}}>
+                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.subscription.description}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -94,45 +105,6 @@ class CallModal extends React.Component {
 
 
                     <div className="panel panel-default">
-                        <div className="panel-heading" role="tab" id="headingThree">
-                            <a className="collapsed" role="button" data-toggle="collapse"
-                               data-parent="#accordion" href="#collapseThree" aria-expanded="false"
-                               aria-controls="collapseThree">
-                                <h4 className="panel-title">
-                                    Thông tin gói đăng kí
-                                    <i className="material-icons">keyboard_arrow_down</i>
-                                </h4>
-                            </a>
-                        </div>
-
-                        <div id="collapseThree" className="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingThree" aria-expanded="false" style={{height: '0px'}}>
-                            <ul className="timeline timeline-simple">
-
-                                <li className="timeline-inverted" key={register.id}>
-                                    <div className={"timeline-badge " + "success"}>
-                                        <i className="material-icons">card_giftcard</i>
-                                    </div>
-                                    <div className="timeline-panel">
-                                        <div className="timeline-body">
-                                            <div className="flex-row-center">
-                                                <i className="material-icons">attach_money</i>
-                                                <b>{helper.dotNumber(register.subscription.price)}đ</b>
-                                            </div>
-                                            <div className="flex-row-center">
-                                                <i className="material-icons">access_time</i>
-                                                &nbsp; &nbsp; {"  " + register.subscription.hours + " giờ"}
-                                            </div>
-                                            <div className="flex-row-center" style={{display: "inline-block"}}>
-                                                <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.subscription.description}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-
                         <div className="panel panel-default">
                             <div className="panel-heading" role="tab" id="headingFour">
                                 <a className="collapsed" role="button" data-toggle="collapse"
@@ -159,22 +131,28 @@ class CallModal extends React.Component {
                                         }
                                         return (
                                             <li className="timeline-inverted" key={index}>
+
                                                 <div className={"timeline-badge " + btn}>
                                                     <i className="material-icons">phone</i>
                                                 </div>
                                                 <div className="timeline-panel">
                                                     <div className="timeline-heading">
-                                                                <span className="label label-default"
-                                                                      style={{backgroundColor: '#' + history.caller.color}}>
-                                                                            {history.caller.name}
-                                                                </span>
-                                                        <span
-                                                            className="label label-default">{helper.parseTime(history.created_at)}
-                                                                </span>
+                                                        <span className="label label-default"
+                                                              style={{backgroundColor: '#' + history.caller.color}}>
+                                                        {history.caller.name}
+                                                        </span>
                                                     </div>
                                                     <div className="timeline-body">
-                                                        {history.note}
+                                                        {history.note &&
+                                                        <p className="flex-row-center">
+                                                            <i className="material-icons">note</i>
+                                                            &nbsp; &nbsp;{" " + history.note}
+                                                        </p>}
                                                     </div>
+                                                    <h6>
+                                                        <i className="ti-time"/>
+                                                        {helper.parseTime(history.created_at)}
+                                                    </h6>
                                                 </div>
                                             </li>
                                         );
