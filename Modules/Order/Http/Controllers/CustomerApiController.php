@@ -27,8 +27,6 @@ class CustomerApiController extends ManageApiController
         $customers = $customers->where('orders.status', '<>', 'cancel')->where('orders.type', '<>', 'import');
         $customers = $customers->groupBy('users.id');
         if ($request->status) {
-            // $customers = $customers->get();
-            // dd($customers);
             if ($request->status == 'paid')
                 $customers = $customers->having(DB::raw('sum(orders.status_paid = 0)'), '=', 0);
             if ($request->status == 'debt')
