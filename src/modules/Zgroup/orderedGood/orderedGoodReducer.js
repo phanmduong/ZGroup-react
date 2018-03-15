@@ -81,10 +81,12 @@ export default function orderedGoodReducer(state = initialState.orderedGood, act
         case types.BEGIN_LOAD_ALL_ORDERED_GOOD:
             return {
                 ...state,
+                isLoading: true,
             };
         case types.LOAD_ALL_ORDERED_GOOD_SUCCESS: {
             return {
                 ...state,
+                isLoading: false,
                 orderedList: action.orderedList,
                 paginator: action.paginator,
             };
@@ -93,7 +95,7 @@ export default function orderedGoodReducer(state = initialState.orderedGood, act
         case types.LOAD_ALL_ORDERED_GOOD_ERROR:
             return {
                 ...state,
-
+                isLoading: false,
             };
         default:
             return state;

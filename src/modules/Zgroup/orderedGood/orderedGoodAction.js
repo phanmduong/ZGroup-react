@@ -99,10 +99,10 @@ export function editOrderedGood(data) {
     };
 }
 
-export function loadAllOrderedGood(page) {
+export function loadAllOrderedGood(page,companyId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ALL_ORDERED_GOOD});
-        orderedGoodApi.loadAllOrderedGood(page)
+        orderedGoodApi.loadAllOrderedGood(page,companyId)
             .then((res) => {
                
                     dispatch({

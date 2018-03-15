@@ -47,6 +47,7 @@ class ListExportOrder extends React.Component {
                         <th>Mã đơn hàng</th>
                         <th>Số sản phẩm</th>
                         <th>Số lượng xuất</th>
+                        <th>Ngày tạo</th>
                         <th>Tổng tiền</th>
                         <th/>
                     </tr>
@@ -55,7 +56,7 @@ class ListExportOrder extends React.Component {
                     {listExportOrder.map((order, index)=>{
                         let tmp = isOverTime(order.created_at);
                         let overTime = order.created_at ? tmp : false;
-                        
+                        let date = moment(order.created_at.date);
                         return(
                             <tr key={index} style={(overTime && order.status < 3) ? {backgroundColor: "lightcoral", color: "white"} : {}}>
                                 <td>{index + 1}</td>
@@ -63,6 +64,7 @@ class ListExportOrder extends React.Component {
                                 <td>{order.command_code}</td>                                
                                 <td>{order.goods.length}</td>
                                 <td>{getSumquantity(order.goods)}</td>
+                                <td>{date.format("D-M-YYYY")}</td>
                                 <td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
                                 <td><ButtonGroupAction
                                     editUrl={"/business/export-order/edit/" + order.id}
