@@ -97,22 +97,49 @@ class PaymentModal extends React.Component {
                                     {register.historyPayments && register.historyPayments.map((payment, index) => {
                                         return (
                                             <li className="timeline-inverted" key={index}>
+                                                {/*<div className={"timeline-badge success"}>*/}
+                                                    {/*<i className="material-icons">swap_horiz</i>*/}
+                                                {/*</div>*/}
+                                                {/*<div className="timeline-panel">*/}
+                                                    {/*<div className="timeline-heading">*/}
+                                                                {/*<span className="label label-default"*/}
+                                                                      {/*style={{backgroundColor: '#' + payment.staff.color}}>*/}
+                                                                            {/*{payment.staff.name}*/}
+                                                                {/*</span>*/}
+                                                        {/*<span*/}
+                                                            {/*className="label label-default">{helper.parseTime(payment.created_at.date)}*/}
+                                                                {/*</span>*/}
+                                                    {/*</div>*/}
+                                                    {/*<div className="timeline-body">*/}
+                                                        {/*<div> {helper.dotNumber(payment.money_value) + " đ"} </div>*/}
+                                                        {/*<div> {payment.description} </div>                                                    </div>*/}
+                                                {/*</div>*/}
                                                 <div className={"timeline-badge success"}>
                                                     <i className="material-icons">swap_horiz</i>
                                                 </div>
                                                 <div className="timeline-panel">
                                                     <div className="timeline-heading">
-                                                                <span className="label label-default"
-                                                                      style={{backgroundColor: '#' + payment.staff.color}}>
-                                                                            {payment.staff.name}
-                                                                </span>
-                                                        <span
-                                                            className="label label-default">{helper.parseTime(payment.created_at.date)}
-                                                                </span>
+                                                        <span className="label label-default"
+                                                              style={{backgroundColor: '#' + payment.staff.color}}>
+                                                        {payment.staff.name}
+                                                        </span>
                                                     </div>
                                                     <div className="timeline-body">
-                                                        <div> {helper.dotNumber(payment.money_value) + " đ"} </div>
-                                                        <div> {payment.description} </div>                                                    </div>
+                                                        {payment.money_value &&
+                                                        <p className="flex-row-center">
+                                                            <i className="material-icons">attach_money</i>
+                                                            {helper.dotNumber(payment.money_value) + " đ"}
+                                                        </p>}
+                                                        {payment.description &&
+                                                        <p className="flex-row-center">
+                                                            <i className="material-icons">note</i>
+                                                            &nbsp; &nbsp;{payment.description}
+                                                        </p>}
+                                                    </div>
+                                                    <h6>
+                                                        <i className="ti-time"/>
+                                                        {helper.parseTime(payment.created_at.date)}
+                                                    </h6>
                                                 </div>
                                             </li>
                                         );

@@ -1,10 +1,10 @@
-import axios from 'axios';
-import * as env from '../../constants/env';
+import axios from "axios";
+import * as env from "../../constants/env";
 
 export function uploadImage(file, completeHandler, error) {
-    let url = env.API_URL + '/upload-image-froala';
+    let url = env.API_URL + "/upload-image-froala";
     let formdata = new FormData();
-    formdata.append('image', file);
+    formdata.append("image", file);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
     ajax.open("POST", url);
@@ -14,7 +14,7 @@ export function uploadImage(file, completeHandler, error) {
 
 export function savePost(post, status) {
     let url = env.MANAGE_API_URL + "/save-post";
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
@@ -25,9 +25,13 @@ export function savePost(post, status) {
         tags_string: post.tags,
         category_id: post.category,
         image_url: post.imageUrl,
+        slug: post.slug,
+        meta_title: post.meta_title,
+        keyword: post.keyword,
+        meta_description: post.meta_description,
         title: post.title,
         status: status,
-        id: post.id
+        id: post.id,
     });
 }
 
@@ -37,30 +41,30 @@ export function loadCategories() {
 }
 
 export function createCategory(catogory) {
-    let url = env.MANAGE_API_URL + '/create-category';
-    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/create-category";
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url, {
-        name: catogory.name
+        name: catogory.name,
     });
 }
 
-export function getPosts(page = 1, search = '',category_id) {
+export function getPosts(page = 1, search = "", category_id) {
     let url = env.MANAGE_API_URL + "/posts?search=" + search + "&page=" + page;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
     }
-    if(category_id){
+    if (category_id) {
         url += "&category_id=" + category_id;
     }
     return axios.get(url);
 }
 export function getCategoriesApi() {
-    let url = env.MANAGE_API_URL + "/post/categories?" ;
-    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/post/categories?";
+    let token = localStorage.getItem("token");
     if (token) {
         url += "&token=" + token;
     }
@@ -69,7 +73,7 @@ export function getCategoriesApi() {
 
 export function deletePost(postId) {
     let url = env.MANAGE_API_URL + `/post/${postId}/delete`;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
@@ -78,7 +82,7 @@ export function deletePost(postId) {
 
 export function getPost(postId) {
     let url = env.MANAGE_API_URL + `/post/${postId}`;
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }
@@ -86,8 +90,8 @@ export function getPost(postId) {
 }
 
 export function changeStatusApi(id) {
-    let url = env.MANAGE_API_URL + "/post/"+id+"/change-status";
-    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/post/" + id + "/change-status";
+    let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
     }

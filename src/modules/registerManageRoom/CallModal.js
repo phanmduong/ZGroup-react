@@ -44,7 +44,7 @@ class CallModal extends React.Component {
                                 <div className="timeline-body">
                                     <div className="flex-row-center"><i
                                         className="material-icons">account_circle</i>
-                                        <b>&nbsp; &nbsp; {register.user.name} </b>
+                                        <b>&nbsp; &nbsp;{register.user.name} </b>
                                     </div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">phone</i>
@@ -52,11 +52,11 @@ class CallModal extends React.Component {
                                     </div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">email</i>
-                                        &nbsp; &nbsp; {register.user.email}
+                                        &nbsp; &nbsp;{register.user.email}
                                     </div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">room</i>
-                                        &nbsp; &nbsp; {register.user.address && register.user.address}
+                                        &nbsp; &nbsp;{register.user.address && register.user.address}
                                     </div>
                                 </div>
                             </div>
@@ -94,17 +94,22 @@ class CallModal extends React.Component {
                                             </div>
                                             <div className="timeline-panel">
                                                 <div className="timeline-heading">
-                                                                <span className="label label-default"
-                                                                      style={{backgroundColor: '#' + history.caller.color}}>
-                                                                            {history.caller.name}
-                                                                </span>
-                                                    <span
-                                                        className="label label-default">{helper.parseTime(history.created_at)}
-                                                                </span>
+                                                        <span className="label label-default"
+                                                              style={{backgroundColor: '#' + history.caller.color}}>
+                                                        {history.caller.name}
+                                                        </span>
                                                 </div>
                                                 <div className="timeline-body">
-                                                    {history.note}
+                                                    {history.note &&
+                                                    <p className="flex-row-center">
+                                                        <i className="material-icons">note</i>
+                                                        &nbsp; &nbsp;{" " + history.note}
+                                                    </p>}
                                                 </div>
+                                                <h6>
+                                                    <i className="ti-time"/>
+                                                    {helper.parseTime(history.created_at)}
+                                                </h6>
                                             </div>
                                         </li>
                                     );
