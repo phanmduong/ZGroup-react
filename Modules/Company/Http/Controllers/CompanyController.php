@@ -839,7 +839,6 @@ class CompanyController extends ManageApiController
     public function createOrEditImportOrder($importOrderId, Request $request)
     {
         $importOrder = ItemOrder::find($importOrderId);
-        $importOrder->status = 2;
         $importOrder->import_export_staff_id = $request->staff_id;
         $importOrder->note = $request->note;
         $importOrder->save();
@@ -847,6 +846,8 @@ class CompanyController extends ManageApiController
         $pp = ImportItemOrder::where("item_order_id",$importOrderId);
         $pp = $pp->where('imported_quantity',0)->count();
         if($pp === count($goods)) {
+            $importOrder->status = 2;
+            $importOrder->save();
             foreach ($goods as $good) {
                 $good_new = ImportItemOrder::find($good->id);
                 $good_new->imported_quantity = $good->imported_quantity;
