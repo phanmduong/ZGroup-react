@@ -14,6 +14,9 @@ class ItemOrderContainer extends React.Component{
         this.state ={
            page:1,
         };
+        this.loadHistoryImportOrder = this.loadHistoryImportOrder.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
+        this.loadImportOrder = this.loadImportOrder.bind(this);
     }
     componentWillMount() {
         this.props.importOrderActions.loadAllImportOrder(1);
@@ -21,6 +24,12 @@ class ItemOrderContainer extends React.Component{
     loadImportOrder(page){
         this.setState({page: page});
         this.props.importOrderActions.loadAllImportOrder(page);
+    }
+    changeStatus(id){
+        this.props.importOrderActions.changeStatusImportOrder(id);
+    }
+    loadHistoryImportOrder(page,id){
+        this.props.importOrderActions.loadHistoryImportOrder(page,id);
     }
     render(){
         return (
@@ -41,6 +50,13 @@ class ItemOrderContainer extends React.Component{
                             <div>
                                 <ImportItemOrderList
                                     data={this.props.importOrders}
+                                    page={this.state.page}
+                                    loadImportOrder={this.loadImportOrder}
+                                    changeStatus={this.changeStatus}
+                                    loadHistoryImportOrder={this.loadHistoryImportOrder}
+                                    historyImportOrder={this.props.historyImportOrder}
+                                    paginator={this.props.paginator_history}
+
                                 />
                                 <div className="card-content">
                                     <Pagination
@@ -62,6 +78,8 @@ ItemOrderContainer.propTypes = {
     isLoadingItemOrder: PropTypes.bool,
     importOrders: PropTypes.array,
     paginator: PropTypes.object,
+    historyImportOrder: PropTypes.array,
+    paginator_history: PropTypes.object,
     importOrderActions: PropTypes.object,
 };
 function mapStateToProps(state) {
@@ -69,6 +87,8 @@ function mapStateToProps(state) {
         isLoadingItemOrder: state.importOrder.isLoadingItemOrder,
         importOrders: state.importOrder.importOrders,
         paginator: state.importOrder.paginator,
+        paginator_history: state.importOrder.paginator_history,
+        historyImportOrder: state.importOrder.historyImportOrder,
     };
 }
 

@@ -41,7 +41,7 @@ export function loadAllImportOrder(page){
     let url = env.MANAGE_API_URL + '/company/import-order/all';
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page + "&limit=20" + "&filter=import";
+        url += "?token=" + token + "&page=" + page + "&limit=20";
     }
     return axios.get(url);
 }
@@ -71,4 +71,22 @@ export function loadAllCompanies() {
         url +=  "&token=" + token;
     }
     return axios.get(url);
+}
+
+export function loadHistoryImportOrder(page,id){
+    let url = env.MANAGE_API_URL + '/company/import-order/' +id + '/history-import-order';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&page=" + page;
+    }
+    return axios.get(url);
+}
+
+export function changeStatusImportOrder(id){
+    let url = env.MANAGE_API_URL + '/company/item-order/' +id + '/change-status';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&status=3";
+    }
+    return axios.post(url);
 }

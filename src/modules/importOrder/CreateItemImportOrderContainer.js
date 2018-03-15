@@ -9,6 +9,7 @@ import FormInputText from "../../components/common/FormInputText";
 import ReactSelect from 'react-select';
 import {Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
+import HistoryImportOrder from "./HistoryImportOrder";
 
 
 const textAlign = {textAlign: "right"};
@@ -21,18 +22,23 @@ class CreateItemImportOrderContainer extends React.Component {
             data: defaultData,
             showAddModal: false,
             addModalData: defaultAddModalData,
+            showInfoModal: false,
             editIndex: -1,
         };
         this.isEditModal = false;
         this.changeDataOrder = this.changeDataOrder.bind(this);
         this.changeOrder = this.changeOrder.bind(this);
         this.openAddModal = this.openAddModal.bind(this);
-        this.closeAddModal =this.closeAddModal.bind(this);
+        this.closeAddModal = this.closeAddModal.bind(this);
         this.changeDataWarehouse = this.changeDataWarehouse.bind(this);
         this.updateWareHouseFormAdd = this.updateWareHouseFormAdd.bind(this);
         this.updateFormAdd = this.updateFormAdd.bind(this);
         this.addGood = this.addGood.bind(this);
         this.commitData = this.commitData.bind(this);
+        this.openInfoModal = this.openInfoModal.bind(this);
+        this.closeInfoModal = this.closeInfoModal.bind(this);
+        this.loadHistoryImportOrder = this.loadHistoryImportOrder.bind(this);
+
     }
 
     componentWillMount() {
@@ -40,10 +46,11 @@ class CreateItemImportOrderContainer extends React.Component {
         this.props.importOrderActions.loadAllWarehourses();
         this.props.importOrderActions.loadAllGoods();
     }
+
     updateFormAdd(e) {
         let name = e.target.name;
         let value = e.target.value;
-        let { addModalData } = this.state;
+        let {addModalData} = this.state;
         if (!value) return;
         if (name === "id") {
             let good = this.props.goods.filter((obj) => obj.id * 1 === value * 1)[0];
@@ -52,18 +59,36 @@ class CreateItemImportOrderContainer extends React.Component {
                 [name]: value,
             };
         } else
-            addModalData = { ...addModalData, [name]: value };
-        this.setState({ addModalData });
+            addModalData = {...addModalData, [name]: value};
+        this.setState({addModalData});
     }
+
     openAddModal(index) {
         if (index || index === 0) {
             this.isEditModal = true;
-            this.setState({ showAddModal: true, addModalData: this.state.data.goods[index], editIndex: index });
+            this.setState({showAddModal: true, addModalData: this.state.data.goods[index], editIndex: index});
         }
     }
+
     closeAddModal() {
-        this.setState({ showAddModal: false });
+        this.setState({showAddModal: false});
     }
+
+    openInfoModal() {
+        let {data} = this.state;
+        if (!data.id) {
+            helper.showErrorNotification("Vui lòng chọn mã đặt hàng");
+            return;
+        }
+        this.setState({showInfoModal: true});
+        this.props.importOrderActions.loadHistoryImportOrder(1, data.id);
+
+    }
+
+    closeInfoModal() {
+        this.setState({showInfoModal: false});
+    }
+
     changeDataOrder() {
         let arr = [];
         arr = this.props.itemOrders.map((pp) => {
@@ -87,44 +112,54 @@ class CreateItemImportOrderContainer extends React.Component {
         });
         return arr;
     }
-    changeOrder(e){
-        if(!e) return;
+
+    changeOrder(e) {
+        if (!e) return;
         this.setState({data: e});
+
     }
 
-    updateWareHouseFormAdd(e){
-        if(!e) return;
+    updateWareHouseFormAdd(e) {
+        if (!e) return;
         let newdata = this.state.addModalData;
         this.setState({addModalData: {...newdata, warehouse: e}});
     }
 
     addGood() {
         if ($('#form-good').valid()) {
-            if(!this.state.addModalData.warehouse.id){
+            if (!this.state.addModalData.warehouse.id) {
                 helper.showErrorNotification("Vui lòng chọn kho xuất!");
                 return;
             }
 
-            let { goods } = this.state.data;
+            let {goods} = this.state.data;
             let good = goods.filter((obj) => obj.id === this.state.addModalData.id)[0];
             if (!good) return;
 
             goods = [...goods.slice(0, this.state.editIndex),
-                { ...this.state.addModalData, name: good.name,imported_quantity: parseInt(good.imported_quantity) + parseInt(this.state.addModalData.quantity)  },
+                {
+                    ...this.state.addModalData,
+                    name: good.name,
+                    imported_quantity: this.state.addModalData.imported_quantity
+                },
                 ...goods.slice(this.state.editIndex + 1, goods.length)
             ];
 
 
             this.setState({
-                data: { ...this.state.data, goods },
+                data: {...this.state.data, goods},
                 showAddModal: false,
                 addModalData: defaultAddModalData
             });
         }
     }
 
+    loadHistoryImportOrder(page, id) {
+        this.props.importOrderActions.loadHistoryImportOrder(page, id);
+    }
+
     commitData() {
-        let { data } = this.state;
+        let {data} = this.state;
         if (!data.id) {
             helper.showErrorNotification("Vui lòng chọn mã đặt hàng");
             return;
@@ -132,14 +167,14 @@ class CreateItemImportOrderContainer extends React.Component {
 
         let selectedAllWareHouse = true;
         data.goods.forEach(obj => {
-            if(!obj.warehouse || !obj.warehouse.id) {
+            if (!obj.warehouse || !obj.warehouse.id) {
 
                 selectedAllWareHouse = false;
                 return;
             }
         });
 
-        if(!selectedAllWareHouse){
+        if (!selectedAllWareHouse) {
             helper.showErrorMessage("Vui lòng chọn kho xuất cho tất cả sản phẩm");
             return;
         }
@@ -147,23 +182,26 @@ class CreateItemImportOrderContainer extends React.Component {
             {
                 ...data,
                 goods: JSON.stringify(data.goods.map(
-                    (obj)=>{
-                        if(!obj.warehouse || !obj.warehouse.id) return;
+                    (obj) => {
+                        if (!obj.warehouse || !obj.warehouse.id) return;
                         return ({
                             id: obj.id,
+                            good_id: obj.good.id,
                             price: obj.price,
+                            quantity: obj.quantity,
                             imported_quantity: obj.imported_quantity,
                             warehouse_id: obj.warehouse.id,
                         });
                     })
-                ) ,
+                ),
                 staff_id: this.props.user.id,
 
             });
 
     }
+
     render() {
-        let {data,addModalData} = this.state;
+        let {data, addModalData} = this.state;
         let sumQuantity = 0, sumPrice = 0;
         return (
             <div className="content">
@@ -179,6 +217,14 @@ class CreateItemImportOrderContainer extends React.Component {
 
                                         <div className="card-content">
                                             <h4 className="card-title">Sản phẩm</h4>
+                                            <button
+                                                className="btn btn-rose"
+                                                type="button"
+
+                                                onClick={() => this.openInfoModal()}
+                                            >
+                                                Lịch sử nhập hàng
+                                            </button>
                                             <div className="table-responsive">
                                                 <table className="table">
                                                     <thead className="text-rose">
@@ -278,7 +324,7 @@ class CreateItemImportOrderContainer extends React.Component {
                                                         onClick={() => {
                                                             helper.confirm("warning", "Hủy bỏ", "Bạn có chắc muốn hủy không?",
                                                                 () => {
-                                                                    return browserHistory.push("/business/import-order");
+                                                                    return browserHistory.push("/business/import-order/item");
                                                                 }
                                                             );
                                                         }}
@@ -322,6 +368,8 @@ class CreateItemImportOrderContainer extends React.Component {
                                                 <div>
                                                     <FormInputText name="" label="Nhà cung cấp"
                                                                    value={data.company.name} disabled/>
+                                                    <FormInputText name="" label="Người nhập hàng"
+                                                                   value={data.staff_import_or_export.length ? data.staff_import_or_export.name : this.props.user.name} disabled/>
                                                 </div>
                                                 <label className="control-label">Ghi chú</label>
                                                 <div className="comment-input-wrapper">
@@ -348,17 +396,27 @@ class CreateItemImportOrderContainer extends React.Component {
                             </div>
                         </form>}
                 </div>
+                <HistoryImportOrder
+                    show={this.state.showInfoModal}
+                    onHide={this.closeInfoModal}
+                    data={this.props.historyImportOrder}
+                    paginator={this.props.paginator_history}
+                    id={this.state.data.id}
+                    loadHistoryImportOrder={this.loadHistoryImportOrder}
+                />
                 <Modal bsSize="small" show={this.state.showAddModal} onHide={this.closeAddModal}>
                     <Modal.Header>
                         <Modal.Title>Thuộc tính
                             <a data-toggle="tooltip" title="Đóng" type="button" rel="tooltip"
-                               style={{ float: "right", color: "gray" }}
+                               style={{float: "right", color: "gray"}}
                                onClick={this.closeAddModal}>
                                 <i className="material-icons">highlight_off</i></a>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <form role="form" id="form-good" onSubmit={(e) => { e.preventDefault(); }}>
+                        <form role="form" id="form-good" onSubmit={(e) => {
+                            e.preventDefault();
+                        }}>
                             <div>
                                 <label>Chọn kho xuất</label>
                                 <ReactSelect
@@ -370,9 +428,9 @@ class CreateItemImportOrderContainer extends React.Component {
                                 /></div>
 
                             <FormInputText
-                                name="quantity" type="number"
+                                name="imported_quantity" type="number"
                                 label="Số lượng nhập"
-                                value={addModalData.quantity}
+                                value={addModalData.imported_quantity}
                                 minValue="0"
                                 updateFormData={this.updateFormAdd}
                                 placeholder="Nhập số lượng"
@@ -390,8 +448,9 @@ class CreateItemImportOrderContainer extends React.Component {
                             <FormInputText
                                 name="" type="number"
                                 label="Thành tiền"
-                                value={addModalData.price * addModalData.quantity}
-                                updateFormData={() => { }}
+                                value={addModalData.price * addModalData.imported_quantity}
+                                updateFormData={() => {
+                                }}
                                 placeholder="Thành tiền"
                                 disabled
                             />
@@ -399,7 +458,7 @@ class CreateItemImportOrderContainer extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
 
-                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                        <div style={{display: "flex", justifyContent: "flex-end"}}>
                             <button className="btn btn-fill btn-rose" type="button"
                                     onClick={this.addGood}
                             ><i className="material-icons">done</i> Lưu
@@ -412,10 +471,12 @@ class CreateItemImportOrderContainer extends React.Component {
 
                     </Modal.Footer>
                 </Modal>
+
             </div>
         );
     }
 }
+
 CreateItemImportOrderContainer.propTypes = {
     isLoading: PropTypes.bool,
     itemOrders: PropTypes.array,
@@ -423,7 +484,10 @@ CreateItemImportOrderContainer.propTypes = {
     user: PropTypes.object,
     goods: PropTypes.array,
     importOrderActions: PropTypes.object,
+    historyImportOrder: PropTypes.array,
+    paginator_history: PropTypes.object,
 };
+
 function mapStateToProps(state) {
     return {
         isLoading: state.importOrder.isLoading,
@@ -431,6 +495,8 @@ function mapStateToProps(state) {
         warehouses: state.importOrder.warehouses,
         goods: state.importOrder.goods,
         user: state.login.user,
+        historyImportOrder: state.importOrder.historyImportOrder,
+        paginator_history: state.importOrder.paginator_history,
     };
 }
 
@@ -450,6 +516,7 @@ let defaultData = {
     warehouse: {id: null, name: ""},
     imported_quantity: 0,
     quantity: 0,
+    staff_import_or_export: [],
     total_price: 0,
 };
 const defaultAddModalData = {

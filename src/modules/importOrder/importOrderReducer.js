@@ -158,7 +158,35 @@ export default function importOrderReducer(state = initialState.importOrder, act
 
             };
         }
+        case types.BEGIN_LOAD_HISTORY_IMPORT_ORDER:{
+            return {
+                ...state,
+            };
+        }
 
+        case types.LOAD_HISTORY_IMPORT_ORDER_SUCCESS:{
+            return{
+                ...state,
+                historyImportOrder: action.data,
+                paginator_history: action.paginator,
+            };
+        }
+
+        case types.CHANGE_STATUS_IMPORT_ORDER_SUCCESS:{
+            let data = state.importOrder.importOrders.map((pp) => {
+                return (pp.id === action.id) ? {...pp, status: 3} : pp
+                    ;
+            });
+            return{
+                ...state,
+                importOrders: data,
+            };
+        }
+        case types.CHANGE_STATUS_IMPORT_ORDER_ERROR:{
+            return{
+                ...state,
+            };
+        }
         default:
             return state;
     }
