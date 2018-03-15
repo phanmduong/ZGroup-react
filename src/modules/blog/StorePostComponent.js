@@ -323,6 +323,7 @@ class StorePostComponent extends React.Component {
                                             <ReactEditor
                                                 urlPost={linkUploadImageEditor()}
                                                 fileField="image"
+                                                scrollerId="#store-post-modal"
                                                 updateEditor={
                                                     this.props.updateEditor
                                                 }
