@@ -9,6 +9,8 @@
 
     <meta name="robots" content="noindex, nofollow">
 
+    @yield("meta")
+
     <title>UP COWORKING SPACE</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
@@ -219,19 +221,19 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/blog" data-scroll="true">VỀ
+                    <a class="nav-link hover-change" href="/tin-tuc" data-scroll="true">VỀ
                         UP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/blog" data-scroll="true">GÓI THÀNH
+                    <a class="nav-link hover-change" href="/member-register" data-scroll="true">GÓI THÀNH
                         VIÊN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/blog" data-scroll="true">SỰ
+                    <a class="nav-link hover-change" href="/tin-tuc" data-scroll="true">SỰ
                         KIỆN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/blog" data-scroll="true">BLOG</a>
+                    <a class="nav-link hover-change" href="/tin-tuc" data-scroll="true">Tin tức</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link hover-change" href="/conference-room" data-scroll="true">PHÒNG

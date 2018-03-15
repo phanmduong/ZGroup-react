@@ -2,13 +2,13 @@
 
 $publicRoutes = function () {
     Route::get('/', 'UpCoworkingSpaceController@index');
-    Route::get('/blog', 'UpCoworkingSpaceController@blog');
+    Route::get('/tin-tuc', 'UpCoworkingSpaceController@blog');
     Route::get('/blog/post/{post_id}', 'UpCoworkingSpaceController@post');
     Route::get('/conference-room', 'UpCoworkingSpaceController@conferenceRoom');
     Route::get('/conference-room/{conferenceRoomId}', 'UpCoworkingSpaceController@conferenceRoom');
-    Route::get('/{slug}', 'UpCoworkingSpaceController@postBySlug');
-
     Route::get('/member-register/{userId?}/{campaignId?}', 'UpCoworkingSpaceController@memberRegister');
+
+    Route::get('/{slug}', 'UpCoworkingSpaceController@postBySlug');
 
     Route::get('/api/province', 'UpCoworkingSpaceApiController@province');
     Route::get('/api/province/{provinceId}/base', 'UpCoworkingSpaceApiController@basesInProvince');

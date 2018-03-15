@@ -1,12 +1,21 @@
 @extends('upcoworkingspace::layouts.master')
 
 @section('meta')
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}"/>
-<meta property="og:title" content="{{$post->title}}"/>
-<meta property="og:description"
-content="{{$post->description}}"/>
-<meta property="og:image" content="{{$post->url}}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{config('app.protocol').config('app.domain').'/'.$post->slug}}"/>
+    <meta property="og:title" content="{{$post->title}}"/>
+    <meta property="og:description"
+        content="{{$post->description}}"/>
+    <meta property="og:image" content="{{$post->url}}"/>
+
+
+    <meta name="title" content="{{$post->meta_title}}">
+    <meta id="metaDes" name="description" content="{{$post->meta_description}}" />
+    <meta id="metakeywords" name="keywords" content="{{$post->keyword}}" />
+    <meta id="newskeywords" name="news_keywords" content="{{$post->keyword}}" />
+    <link rel="canonical" href="{{config('app.protocol').config('app.domain').'/'.$post->slug}}" />
+
+
 @endsection
 
 @section('content')
