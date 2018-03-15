@@ -221,7 +221,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/tin-tuc" data-scroll="true">VỀ
+                    <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">VỀ
                         UP</a>
                 </li>
                 <li class="nav-item">
@@ -229,11 +229,11 @@
                         VIÊN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/tin-tuc" data-scroll="true">SỰ
+                    <a class="nav-link hover-change" href="/su-kien" data-scroll="true">SỰ
                         KIỆN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/tin-tuc" data-scroll="true">Tin tức</a>
+                    <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">Tin tức</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link hover-change" href="/conference-room" data-scroll="true">PHÒNG

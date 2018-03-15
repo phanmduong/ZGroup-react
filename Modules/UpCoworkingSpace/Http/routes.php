@@ -2,7 +2,7 @@
 
 $publicRoutes = function () {
     Route::get('/', 'UpCoworkingSpaceController@index');
-    Route::get('/tin-tuc', 'UpCoworkingSpaceController@blog');
+    Route::get('/tin-tuc-startup', 'UpCoworkingSpaceController@blog');
     Route::get('/blog/post/{post_id}', 'UpCoworkingSpaceController@post');
     Route::get('/conference-room', 'UpCoworkingSpaceController@conferenceRoom');
     Route::get('/conference-room/{conferenceRoomId}', 'UpCoworkingSpaceController@conferenceRoom');
