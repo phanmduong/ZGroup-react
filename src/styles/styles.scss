@@ -803,3 +803,12 @@ a.btn-seat.active {
     display: inline-block;
     border-radius: 50px;
 }
+.demo-editor {
+    // transform: translate(0, 120px);
+    padding-top: 110px;
+}
+
+.rdw-editor-toolbar {
+    position: absolute;
+    z-index: 10;
+}
