@@ -71,7 +71,7 @@ class UpCoworkingSpaceController extends Controller
         } else {
             $post->author->avatar_url = config('app.protocol') . $post->author->avatar_url;
         }
-        $posts_related = Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
+        $posts_related = Product::where('id', '<>', $post->id)->inRandomOrder()->limit(3)->get();
         $posts_related = $posts_related->map(function ($p) {
             $p->url = config('app.protocol') . $p->url;
             return $p;
@@ -89,6 +89,9 @@ class UpCoworkingSpaceController extends Controller
     public function post($post_id)
     {
         $post = Product::find($post_id);
+        if ($post == null) {
+            return 'Bài viết không tồn tại';
+        }
         $data = $this->getPostData($post);
         return view('upcoworkingspace::post', $data);
     }
@@ -96,7 +99,7 @@ class UpCoworkingSpaceController extends Controller
     public function postBySlug($slug)
     {
         $post = Product::where('slug', $slug)->first();
-        if (post == null) {
+        if ($post == null) {
             return 'Bài viết không tồn tại';
         }
         $data = $this->getPostData($post);
