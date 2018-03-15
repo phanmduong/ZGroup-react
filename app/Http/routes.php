@@ -141,7 +141,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     // Begin staff api
     Route::get('/staff/get-all-user', "ManageStaffApiController@get_all_user_not_staff");
-    Route::get('/staff/{staffId?}', "ManageStaffApiController@get_staff");
+    Route::get('/staff', "ManageStaffApiController@get_staffs");
+    Route::get('/staff/{staffId}', "ManageStaffApiController@get_staff");
     Route::post('/staff/{staffId}/edit', "ManageStaffApiController@edit_staff");
     Route::post('delete-staff', "ManageStaffApiController@delete_staff");
     Route::post('change-role-staff', 'ManageStaffApiController@change_role');
