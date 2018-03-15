@@ -29,6 +29,7 @@ class StorePostComponent extends React.Component {
         this.openAddCategoryModal = this.openAddCategoryModal.bind(this);
         this.closeAddCategoryModal = this.closeAddCategoryModal.bind(this);
         this.generateFromTitle = this.generateFromTitle.bind(this);
+        this.invalid = this.invalid.bind(this);
     }
 
     componentDidMount() {
@@ -53,6 +54,11 @@ class StorePostComponent extends React.Component {
 
     closeAddCategoryModal() {
         this.setState({ isOpenModal: false });
+    }
+
+    invalid() {
+        const { title, slug, imageUrl } = this.props.post;
+        return !title || !slug || !imageUrl;
     }
 
     render() {
@@ -340,28 +346,61 @@ class StorePostComponent extends React.Component {
                                             >
                                                 {isPreSaving ? (
                                                     <button
-                                                        className="btn btn-fill btn-default"
+                                                        className="btn btn-fill btn-success"
                                                         type="button"
+                                                        disabled={true}
                                                     >
                                                         <i className="fa fa-spinner fa-spin disabled" />{" "}
-                                                        Đang tạo bài viết
+                                                        Đang xử lý
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="btn btn-fill btn-success"
+                                                        type="button"
+                                                        disabled={
+                                                            this.invalid() ||
+                                                            isSaving
+                                                        }
+                                                        onClick={() =>
+                                                            this.props.preSavePost(
+                                                                false,
+                                                            )
+                                                        }
+                                                    >
+                                                        Lưu
+                                                    </button>
+                                                )}
+                                                {isPreSaving ? (
+                                                    <button
+                                                        className="btn btn-fill btn-default"
+                                                        type="button"
+                                                        disabled={true}
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin disabled" />{" "}
+                                                        Đang xử lý
                                                     </button>
                                                 ) : (
                                                     <button
                                                         className="btn btn-fill btn-default"
                                                         type="button"
-                                                        onClick={
-                                                            this.props
-                                                                .preSavePost
+                                                        disabled={
+                                                            this.invalid() ||
+                                                            isSaving
+                                                        }
+                                                        onClick={() =>
+                                                            this.props.preSavePost(
+                                                                true,
+                                                            )
                                                         }
                                                     >
-                                                        Xem thử
+                                                        Lưu và xem thử
                                                     </button>
                                                 )}
                                                 {isSaving ? (
                                                     <button
                                                         className="btn btn-fill btn-rose"
                                                         type="button"
+                                                        disabled={true}
                                                     >
                                                         <i className="fa fa-spinner fa-spin disabled" />{" "}
                                                         Đang đăng bài
@@ -370,6 +409,10 @@ class StorePostComponent extends React.Component {
                                                     <button
                                                         className="btn btn-fill btn-rose"
                                                         type="button"
+                                                        disabled={
+                                                            this.invalid() ||
+                                                            isPreSaving
+                                                        }
                                                         onClick={() => {
                                                             this.props.savePost();
                                                         }}

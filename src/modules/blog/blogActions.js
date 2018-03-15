@@ -70,7 +70,7 @@ export function savePostBlog(post, closeModal) {
     };
 }
 
-export function preSavePostBlog(post) {
+export function preSavePostBlog(post, preview = false) {
     return function(dispatch) {
         dispatch({
             type: types.BEGIN_PRE_SAVE_POST_BLOG,
@@ -79,14 +79,18 @@ export function preSavePostBlog(post) {
             .savePost(post)
             .then(res => {
                 helper.showNotification("Tải lên thành công");
-                window.open(
-                    BASE_URL + "/blog/post/" + res.data.data.product.id,
-                    "_blank",
-                );
+                if (preview) {
+                    window.open(
+                        BASE_URL + "/" + res.data.data.product.slug,
+                        "_blank",
+                    );
+                }
+
                 dispatch({
                     type: types.PRE_SAVE_POST_BLOG_SUCCESS,
                     postId: res.data.data.product.id,
                 });
+                dispatch(getPosts(1, "", 0));
             })
             .catch(() => {
                 helper.showErrorNotification("Tải lên thất bại");

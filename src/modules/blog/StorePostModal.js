@@ -106,7 +106,7 @@ class StorePostModal extends React.Component {
         }
     }
 
-    preSavePost() {
+    preSavePost(preview = false) {
         let post = { ...this.props.post };
         post.tags = $("#tags").val();
         this.props.blogActions.updateFormPost(post);
@@ -118,7 +118,7 @@ class StorePostModal extends React.Component {
                 );
                 return;
             }
-            this.props.blogActions.preSavePostBlog(post);
+            this.props.blogActions.preSavePostBlog(post, preview);
         }
     }
 

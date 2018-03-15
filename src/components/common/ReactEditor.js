@@ -13,12 +13,37 @@ class ReactEditor extends React.Component {
         };
         this.onEditorStateChange = this.onEditorStateChange.bind(this);
         this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
+        this.id = Math.floor(Math.random() * 10000) + 1;
     }
 
     componentWillMount() {
         this.setState({
             editorState: this.htmlToDraft(this.props.value),
         });
+    }
+
+    componentDidMount() {
+        const { scrollerId } = this.props;
+        if (scrollerId) {
+            $(scrollerId).scroll(() => {
+                const wrapper = $("#editor-wrapper-" + this.id).offset();
+                if (wrapper) {
+                    const toolbarOffset = wrapper.top * -1;
+                    const toolbar = $(".rdw-editor-toolbar");
+                    // scroll = $(scrollerId).scrollTop();
+                    if (toolbarOffset > 0) {
+                        // const distance = scroll - toolbarOffset;
+                        toolbar.css(
+                            "transform",
+                            "translate(0px, " + toolbarOffset + "px)",
+                        );
+                        // toolbar.css("top", scroll - toolbarOffset + "px");
+                    } else {
+                        toolbar.css("transform", "translate(0px, 0px)");
+                    }
+                }
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -28,24 +53,6 @@ class ReactEditor extends React.Component {
             nextProps.value == null
         ) {
             this.setState({ editorState: EditorState.createEmpty() });
-        }
-    }
-
-    componentDidMount() {
-        if (this.props.scrollerId) {
-            const toolbarOffset = $(".demo-editor").offset().top;
-            const { scrollerId } = this.props;
-            $(scrollerId).scroll(function() {
-                const toolbar = $(".rdw-editor-toolbar"),
-                    scroll = $(scrollerId).scrollTop();
-
-                if (scroll >= toolbarOffset) {
-                    // console.log("abc");
-                    toolbar.css("top", scroll - toolbarOffset + "px");
-                } else {
-                    toolbar.css("top", "0px");
-                }
-            });
         }
     }
 
@@ -105,6 +112,7 @@ class ReactEditor extends React.Component {
         const { editorState } = this.state;
         return (
             <div
+                id={"editor-wrapper-" + this.id}
                 style={{
                     // paddingBottom: 120,
                     position: "relative",
