@@ -1797,7 +1797,7 @@ export default {
         isSavingCompany: false,
         isSavingField: false,
         isLoading: false,
-        company: {
+        company: [{
             name: "",
             registered_business_address: "",
             office_address: "",
@@ -1814,7 +1814,7 @@ export default {
             user_contact: "",
             user_contact_phone: "",
             type: "",
-        },
+        }],
         summay_money: 0,
         fields: [],
         paginator: {
@@ -2079,16 +2079,13 @@ export default {
         isLoadingImportOrder: false,
         isLoadingItemOrder: false,
         isLoadingPrintOrder: false,
-        isLoadingGoods: false,
-        isLoadingCompanies: false,
-        isLoadingWarehouses: false,
         paginator: {
             current_page: 1,
             limit: 20,
             total_count: 1,
             total_pages: 1,
         },
-        itemOrder: [],
+        itemOrders: [],
         printOrder: [],
         importOrders: [],
         companies: [{id: 1, name: ""},],

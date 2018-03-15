@@ -30,7 +30,8 @@ class CompaniesList extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.data.map((pp) => {
+
+                        this.props.data && this.props.data.map((pp) => {
                             return (
                                 <tr key={pp.id}>
                                     <td/>

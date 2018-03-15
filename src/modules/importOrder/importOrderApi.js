@@ -1,11 +1,11 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadOrder(id){
-    let url = env.MANAGE_API_URL + '/company/order/' + id;
+export function loadAllOrder(){
+    let url = env.MANAGE_API_URL + '/company/order/all' ;
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "?token=" + token + "&limit=-1";
     }
     return axios.get(url);
 }
@@ -20,7 +20,7 @@ export function loadImportOrder(id){
 }
 
 export function createImportOrder(data){
-    let url = env.MANAGE_API_URL + '/company/import-order/item-order' + data.id;
+    let url = env.MANAGE_API_URL + '/company/import-order/item-order/' + data.id;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
