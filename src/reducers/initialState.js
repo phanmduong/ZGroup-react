@@ -2064,5 +2064,6 @@ export default {
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
+        historyImportOrder: [],
     },
 };

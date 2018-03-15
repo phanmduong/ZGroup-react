@@ -158,6 +158,19 @@ export default function importOrderReducer(state = initialState.importOrder, act
 
             };
         }
+        case types.BEGIN_LOAD_HISTORY_IMPORT_ORDER:{
+            return {
+                ...state,
+            };
+        }
+
+        case types.LOAD_HISTORY_IMPORT_ORDER_SUCCESS:{
+            return{
+                ...state,
+                historyImportOrder: action.data,
+                paginator: action.paginator,
+            };
+        }
 
         default:
             return state;

@@ -1,6 +1,4 @@
 import React from "react";
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
-import * as helper from "../../helpers/helper";
 import PropTypes from "prop-types";
 
 class ImportItemOrderList extends React.Component{
@@ -29,7 +27,7 @@ class ImportItemOrderList extends React.Component{
                         <th>STT</th>
                         <th>Nhà cung cấp</th>
                         <th> Số sản phẩm </th>
-                        <th> Thành tiền </th>
+
                         <th/>
                     </tr>
                     </thead>
@@ -42,11 +40,8 @@ class ImportItemOrderList extends React.Component{
                                     <td> {index +1 } </td>
                                     <td>  { pp.company.name}</td>
                                     <td> {pp.goods.length} </td>
-                                    <td> {helper.dotNumber(this.sumPrice(pp))} </td>
-                                    <td><ButtonGroupAction
-                                        editUrl={""}
-                                        disabledDelete={true}
-                                        children= {
+
+                                    <td>
 
                                             <a data-toggle="tooltip" title="Duyệt"
                                                type="button"
@@ -55,8 +50,8 @@ class ImportItemOrderList extends React.Component{
                                             >
                                                 <i className="material-icons">done</i>
                                             </a>
-                                        }
-                                    /> </td>
+
+                                    </td>
 
                                 </tr>
                             );

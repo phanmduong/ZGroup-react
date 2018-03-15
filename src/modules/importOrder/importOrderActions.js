@@ -116,13 +116,13 @@ export function loadAllGoods() {
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.LOAD_ALL_GOOD_IMPORT_ORDER_ERROR});
-                    browserHistory.push("/business/import-order");
+                    browserHistory.push("/business/import-order/item");
                 }
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
                 dispatch({type: types.LOAD_ALL_GOOD_IMPORT_ORDER_ERROR});
-                browserHistory.push("/business/import-order");
+                browserHistory.push("/business/import-order/item");
             });
     };
 }
@@ -139,13 +139,13 @@ export function loadAllCompanies() {
                 }else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_ERROR});
-                    browserHistory.push("/business/export-order");
+                    browserHistory.push("/business/import-order/item");
                 }
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra.");
                 dispatch({type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_ERROR});
-                browserHistory.push("/business/export-order");
+                browserHistory.push("/business/import-order/item");
             });
     };
 }
@@ -171,6 +171,26 @@ export function loadAllWarehourses() {
                 dispatch({type: types.LOAD_ALL_WAREHOUSE_IMPORT_ORDER_ERROR});
                 browserHistory.push("/business/export-order");
             });
+    };
+}
+
+export function loadHistoryImportOrder(page,id){
+    return function(dispatch){
+        dispatch({
+            type: types.BEGIN_LOAD_HISTORY_IMPORT_ORDER,
+        });
+        importOrderApi.loadHistoryImportOrder(page,id)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_HISTORY_IMPORT_ORDER_SUCCESS,
+                    data: res.data.goods,
+                    paginator: res.data.paginator,
+                });
+            }).catch(() => {
+                dispatch({
+                   type: types.LOAD_HISTORY_IMPORT_ORDER_ERROR,
+                });
+        });
     };
 }
 
