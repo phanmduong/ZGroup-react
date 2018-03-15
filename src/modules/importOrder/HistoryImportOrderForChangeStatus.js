@@ -2,21 +2,34 @@ import React from "react";
 import {Modal} from "react-bootstrap";
 import Pagination from "../../components/common/Pagination";
 import PropTypes from "prop-types";
+//import * as helper from "../../helpers/helper";
 
-class HistoryImportOrder extends React.Component {
+class HistoryImportOrderForChangeStatus extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             page: 1
         };
         this.loadHistoryImportOrder = this.loadHistoryImportOrder.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
     }
 
     loadHistoryImportOrder(page) {
         this.setState({page: page});
         this.props.loadHistoryImportOrder(page, this.props.id);
     }
+    changeStatus(){
 
+        // helper.confirm("warning","Xác Nhận Duyệt","Sau khi duyệt sẽ không thể hoàn tác?",
+        //     ()=> {this.props.changeStatus(this.props.id);this.closeModal();}
+        // );
+        this.props.changeStatus(this.props.id);this.closeModal();
+
+    }
+    closeModal(){
+        this.props.onHide();
+    }
     render() {
         return (
             <Modal
@@ -75,17 +88,32 @@ class HistoryImportOrder extends React.Component {
                         </div>
                     </div>
                 </Modal.Body>
+                <Modal.Footer>
+
+                    <div style={{display: "flex", justifyContent: "flex-end"}}>
+                        <button className="btn btn-fill btn-rose" type="button"
+                                onClick={this.changeStatus}
+                        ><i className="material-icons">done</i> Duyệt
+                        </button>
+                        <button className="btn btn-fill" type="button"
+                                onClick={this.closeModal}
+                        ><i className="material-icons">cancel</i> Hủy
+                        </button>
+                    </div>
+
+                </Modal.Footer>
             </Modal>
         );
     }
 }
-HistoryImportOrder.propTypes = {
+HistoryImportOrderForChangeStatus.propTypes = {
     show: PropTypes.bool,
     onHide: PropTypes.func,
     paginator: PropTypes.object,
     loadHistoryImportOrder: PropTypes.func,
     data: PropTypes.array.isRequired,
     id: PropTypes.number,
+    changeStatus: PropTypes.func,
 };
 
-export default HistoryImportOrder;
+export default HistoryImportOrderForChangeStatus;

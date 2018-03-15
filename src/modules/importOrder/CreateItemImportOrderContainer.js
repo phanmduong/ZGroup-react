@@ -400,7 +400,7 @@ class CreateItemImportOrderContainer extends React.Component {
                     show={this.state.showInfoModal}
                     onHide={this.closeInfoModal}
                     data={this.props.historyImportOrder}
-                    paginator={this.props.paginator}
+                    paginator={this.props.paginator_history}
                     id={this.state.data.id}
                     loadHistoryImportOrder={this.loadHistoryImportOrder}
                 />
@@ -485,7 +485,7 @@ CreateItemImportOrderContainer.propTypes = {
     goods: PropTypes.array,
     importOrderActions: PropTypes.object,
     historyImportOrder: PropTypes.array,
-    paginator: PropTypes.object,
+    paginator_history: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -496,7 +496,7 @@ function mapStateToProps(state) {
         goods: state.importOrder.goods,
         user: state.login.user,
         historyImportOrder: state.importOrder.historyImportOrder,
-        paginator: state.importOrder.paginator,
+        paginator_history: state.importOrder.paginator_history,
     };
 }
 

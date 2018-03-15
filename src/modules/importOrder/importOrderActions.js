@@ -83,22 +83,22 @@ export function editImportOrder(data) {
     };
 }
 
-export function loadAllImportOrder(page){
-    return function(dispatch){
+export function loadAllImportOrder(page) {
+    return function (dispatch) {
         dispatch({
-           type: types.BEGIN_LOAD_ALL_IMPORT_ORDER,
+            type: types.BEGIN_LOAD_ALL_IMPORT_ORDER,
         });
         importOrderApi.loadAllImportOrder(page)
             .then((res) => {
                 dispatch({
-                   type: types.LOAD_ALL_IMPORT_ORDER_SUCCESS,
-                   data: res.data["import-orders"],
-                   paginator: res.data.paginator,
+                    type: types.LOAD_ALL_IMPORT_ORDER_SUCCESS,
+                    data: res.data["import-orders"],
+                    paginator: res.data.paginator,
                 });
             }).catch(() => {
-                dispatch({
-                    type: types.LOAD_ALL_IMPORT_ORDER_ERROR,
-                });
+            dispatch({
+                type: types.LOAD_ALL_IMPORT_ORDER_ERROR,
+            });
         });
     };
 }
@@ -108,12 +108,12 @@ export function loadAllGoods() {
         dispatch({type: types.BEGIN_LOAD_ALL_GOOD_IMPORT_ORDER});
         importOrderApi.loadAllGoods()
             .then((res) => {
-                if(res.data.status === 1){
+                if (res.data.status === 1) {
                     dispatch({
                         type: types.LOAD_ALL_GOOD_IMPORT_ORDER_SUCCESS,
-                        data : res.data.data.goods,
+                        data: res.data.data.goods,
                     });
-                }else {
+                } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.LOAD_ALL_GOOD_IMPORT_ORDER_ERROR});
                     browserHistory.push("/business/import-order/item");
@@ -126,17 +126,18 @@ export function loadAllGoods() {
             });
     };
 }
+
 export function loadAllCompanies() {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ALL_COMPANIES_IMPORT_ORDER});
         importOrderApi.loadAllCompanies()
             .then((res) => {
-                if(res.data.status === 1){
+                if (res.data.status === 1) {
                     dispatch({
                         type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_SUCCESS,
-                        data : res.data.data.companies,
+                        data: res.data.data.companies,
                     });
-                }else {
+                } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.LOAD_ALL_COMPANIES_IMPORT_ORDER_ERROR});
                     browserHistory.push("/business/import-order/item");
@@ -155,12 +156,12 @@ export function loadAllWarehourses() {
         dispatch({type: types.BEGIN_LOAD_ALL_WAREHOUSE_IMPORT_ORDER});
         importOrderApi.loadAllWarehourses()
             .then((res) => {
-                if(res.data.status === 1){
+                if (res.data.status === 1) {
                     dispatch({
                         type: types.LOAD_ALL_WAREHOUSE_IMPORT_ORDER_SUCCESS,
-                        data : res.data.data.warehouses,
+                        data: res.data.data.warehouses,
                     });
-                }else {
+                } else {
                     helper.showErrorNotification("Có lỗi xảy ra.");
                     dispatch({type: types.LOAD_ALL_WAREHOUSE_IMPORT_ORDER_ERROR});
                     browserHistory.push("/business/export-order");
@@ -174,12 +175,12 @@ export function loadAllWarehourses() {
     };
 }
 
-export function loadHistoryImportOrder(page,id){
-    return function(dispatch){
+export function loadHistoryImportOrder(page, id) {
+    return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_HISTORY_IMPORT_ORDER,
         });
-        importOrderApi.loadHistoryImportOrder(page,id)
+        importOrderApi.loadHistoryImportOrder(page, id)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_HISTORY_IMPORT_ORDER_SUCCESS,
@@ -187,11 +188,31 @@ export function loadHistoryImportOrder(page,id){
                     paginator: res.data.paginator,
                 });
             }).catch(() => {
-                dispatch({
-                   type: types.LOAD_HISTORY_IMPORT_ORDER_ERROR,
-                });
+            helper.showErrorNotification("Có lỗi xảy ra.");
+            dispatch({
+                type: types.LOAD_HISTORY_IMPORT_ORDER_ERROR,
+            });
         });
     };
 }
+
+export function changeStatusImportOrder(id) {
+    return function (dispatch) {
+        importOrderApi.changeStatusImportOrder(id)
+            .then(() => {
+                dispatch({
+                    type: types.CHANGE_STATUS_IMPORT_ORDER_SUCCESS,
+                    id: id,
+                });
+            }).catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra.");
+            dispatch({
+                type: types.CHANGE_STATUS_IMPORT_ORDER_ERROR,
+            });
+        });
+    };
+}
+
+
 
 

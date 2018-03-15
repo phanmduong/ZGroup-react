@@ -81,3 +81,12 @@ export function loadHistoryImportOrder(page,id){
     }
     return axios.get(url);
 }
+
+export function changeStatusImportOrder(id){
+    let url = env.MANAGE_API_URL + '/company/item-order/' +id + '/change-status';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token + "&status=3";
+    }
+    return axios.post(url);
+}

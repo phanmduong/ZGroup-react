@@ -168,10 +168,25 @@ export default function importOrderReducer(state = initialState.importOrder, act
             return{
                 ...state,
                 historyImportOrder: action.data,
-                paginator: action.paginator,
+                paginator_history: action.paginator,
             };
         }
 
+        case types.CHANGE_STATUS_IMPORT_ORDER_SUCCESS:{
+            let data = state.importOrder.importOrders.map((pp) => {
+                return (pp.id === action.id) ? {...pp, status: 3} : pp
+                    ;
+            });
+            return{
+                ...state,
+                importOrders: data,
+            };
+        }
+        case types.CHANGE_STATUS_IMPORT_ORDER_ERROR:{
+            return{
+                ...state,
+            };
+        }
         default:
             return state;
     }
