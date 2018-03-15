@@ -48,7 +48,7 @@ class OrderedGoodContainer extends React.Component {
     }
 
     changeCompany(e) {
-        if(!e) return;
+        if(!e) e = {id:''};
         this.setState({ selectedCompany: e.id });
         this.props.orderedGoodActions.loadAllOrderedGood(this.props.paginator.current_page, e.id);
     }
