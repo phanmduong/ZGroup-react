@@ -62,8 +62,28 @@ class AttendancesRepository
     {
         if ($class_lessons) {
             $data = $class_lessons->map(function ($class_lesson) {
+                $data_attendance = [
+                    'class_lesson_id' => $class_lesson->id,
+                    'order' => $class_lesson->lesson ? $class_lesson->lesson->order : 0,
+                    'start_teaching_time' => $class_lesson->start_time,
+                    'end_teaching_time' => $class_lesson->end_time,
+                    'is_change' => is_class_lesson_change($class_lesson)
+                ];
 
-                return $this->attendance_teacher_class_lesson($class_lesson);
+                $attendance = $class_lesson->teachingLesson()->whereNull('class_position_id')->first();
+
+                if ($attendance) {
+                    $data_attendance['staff'] = $this->userRepository->staff($attendance->teacher);
+                }
+
+                if ($attendance && $attendance->teacher_check_in) {
+                    $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->teacher_check_in->created_at));
+                }
+
+                if ($attendance && $attendance->teacher_check_out) {
+                    $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
+                }
+                return $data_attendance;
             });
             return $data;
         }
@@ -134,7 +154,28 @@ class AttendancesRepository
     {
         if ($class_lessons) {
             $data = $class_lessons->map(function ($class_lesson) {
-                return $this->attendance_ta_class_lesson($class_lesson);
+                $data_attendance = [
+                    'class_lesson_id' => $class_lesson->id,
+                    'order' => $class_lesson->lesson ? $class_lesson->lesson->order : 0,
+                    'start_teaching_time' => $class_lesson->start_time,
+                    'end_teaching_time' => $class_lesson->end_time,
+                    'is_change' => is_class_lesson_change($class_lesson)
+                ];
+
+                $attendance = $class_lesson->teachingLesson()->whereNull('class_position_id')->first();
+
+                if ($attendance) {
+                    $data_attendance['staff'] = $this->userRepository->staff($attendance->teaching_assistant);
+                }
+
+                if ($attendance && $attendance->teacher_check_in) {
+                    $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->teacher_check_in->created_at));
+                }
+
+                if ($attendance && $attendance->teacher_check_out) {
+                    $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
+                }
+                return $data_attendance;
             });
             return $data;
         }
