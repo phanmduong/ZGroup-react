@@ -258,14 +258,16 @@ class ManageClassApiController extends ManageApiController
             }
         }
 
-        foreach ($teachersData as $teacher) {
-            if (!in_array($teacher, $teachers)) {
-                if (!empty($teacher)) {
-                    $classPosition = new ClassPosition();
-                    $classPosition->position_id = 1;
-                    $classPosition->user_id = $teacher;
-                    $classPosition->class_id = $class->id;
-                    $classPosition->save();
+        if ($teachersData != null) {
+            foreach ($teachersData as $teacher) {
+                if (!in_array($teacher, $teachers)) {
+                    if (!empty($teacher)) {
+                        $classPosition = new ClassPosition();
+                        $classPosition->position_id = 1;
+                        $classPosition->user_id = $teacher;
+                        $classPosition->class_id = $class->id;
+                        $classPosition->save();
+                    }
                 }
             }
         }
@@ -279,14 +281,16 @@ class ManageClassApiController extends ManageApiController
             }
         }
 
-        foreach ($teachingAssistantsData as $teachingAssistant) {
-            if (!in_array($teachingAssistant, $teaching_assistants)) {
-                if (!empty($teachingAssistant)) {
-                    $classPosition = new ClassPosition();
-                    $classPosition->position_id = 2;
-                    $classPosition->user_id = $teachingAssistant;
-                    $classPosition->class_id = $class->id;
-                    $classPosition->save();
+        if ($teachingAssistantsData != null) {
+            foreach ($teachingAssistantsData as $teachingAssistant) {
+                if (!in_array($teachingAssistant, $teaching_assistants)) {
+                    if (!empty($teachingAssistant)) {
+                        $classPosition = new ClassPosition();
+                        $classPosition->position_id = 2;
+                        $classPosition->user_id = $teachingAssistant;
+                        $classPosition->class_id = $class->id;
+                        $classPosition->save();
+                    }
                 }
             }
         }

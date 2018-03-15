@@ -30,7 +30,7 @@
                     <div class="col-md-6">
                         <div class="card card-plain card-blog">
                             <div class="card-image">
-                                <a href="{{'/blog/post/'.$blog->id}}">
+                                <a href="{{'/' . $blog->slug}}">
                                     <img class="img img-raised" src="{{generate_protocol_url($blog->url)}}">
                                 </a>
                             </div>

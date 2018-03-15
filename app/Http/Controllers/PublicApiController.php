@@ -286,4 +286,23 @@ class PublicApiController extends ApiController
         $token = md5(config('app.topcv_key') . $user_id);
         return redirect("https://www.topcv.vn/partner/colorme/confirm?clmtoken=" . $token . "&uid=" . $user_id);
     }
+
+    public function storeAdvisory(Request $request)
+    {
+        //send mail here
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+        if ($user == null) {
+            $user = new User;
+            $user->password = bcrypt($phone);
+            $user->username = $request->email;
+            $user->email = $request->email;
+        }
+        $user->type = "advisory";
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->save();
+
+        return redirect("/");
+    }
 }
