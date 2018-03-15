@@ -61,7 +61,7 @@ class ListPrintOrder extends React.Component {
         let { listPrintOrder, codes, isLoading, goods } = this.props;
         let { selectedProduct, selectedStatus, selectedCode,  } = this.props;
         let { changeCodeFilter, changeProduct, changeStatus } = this.props;
-        console.log(this.props);
+        //console.log(this.props);
         return (
             <div className="table-responsive" style={{minHeight:300}}>
                 <ConfirmOrderModal
@@ -181,6 +181,9 @@ ListPrintOrder.propTypes = {
     changeProduct: PropTypes.func,
     codes: PropTypes.array,
     goods: PropTypes.array,
+    selectedCode: PropTypes.string,
+    selectedProduct: PropTypes.string,
+    selectedStatus: PropTypes.string,
 };
 
 function mapStateToProps(state) {

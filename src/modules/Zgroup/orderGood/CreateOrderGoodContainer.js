@@ -168,7 +168,7 @@ class CreateOrderGood extends React.Component {
         let { isLoading, goods, companies, isCommitting ,user} = this.props;
         let { data, showAddModal, addModalData } = this.state;
         let sumQuantity = 0, sumPrice = 0;
-        console.log(this.state);
+        //console.log(this.state);
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -189,8 +189,7 @@ class CreateOrderGood extends React.Component {
                                                         <tr>
                                                             <th style={{ width: "10%" }}>STT</th>
                                                             <th style={{ width: "40%" }}>Tên</th>
-                                                            <th style={textAlign}>Số lượng đặt</th>
-                                                            <th style={textAlign}>Số lượng nhập</th>
+                                                            <th style={textAlign}>Số lượng</th>
                                                             <th style={textAlign}>Phân loại</th>
                                                             <th style={textAlign}>Đơn giá</th>
                                                             <th style={textAlign}>Thành tiền</th>
@@ -210,15 +209,14 @@ class CreateOrderGood extends React.Component {
                                                         <tbody>
                                                             {data.goods.map(
                                                                 (obj, index) => {
-                                                                    let pr = obj.price * obj.imported_quantity * 1, typeGood = "Khác";
+                                                                    let pr = obj.price * obj.quantity * 1, typeGood = "Khác";
                                                                     sumPrice += pr;
-                                                                    sumQuantity += obj.imported_quantity * 1;
+                                                                    sumQuantity += obj.quantity * 1;
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
                                                                             <td>{obj.name ? obj.name : obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
-                                                                            <td style={textAlign}>{obj.imported_quantity}</td>
                                                                             <td style={textAlign}>{typeGood}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price * obj.quantity)}</td>
@@ -370,15 +368,6 @@ class CreateOrderGood extends React.Component {
                                 label="Số lượng"
                                 value={addModalData.quantity}
                                 minValue="0"
-                                updateFormData={()=>{}}
-                                placeholder="Nhập số lượng"
-                                disabled
-                            />
-                            <FormInputText
-                                name="imported_quantity" type="number"
-                                label="Số lượng nhập"
-                                value={addModalData.imported_quantity}
-                                minValue="0"
                                 updateFormData={this.updateFormAdd}
                                 placeholder="Nhập số lượng"
                                 required
@@ -395,7 +384,7 @@ class CreateOrderGood extends React.Component {
                             <FormInputText
                                 name="" type="text"
                                 label="Thành tiền"
-                                value={(addModalData.price * addModalData.imported_quantity)}
+                                value={(addModalData.price * addModalData.quantity)}
                                 updateFormData={() => { }}
                                 placeholder="Thành tiền"
                                 disabled
@@ -459,6 +448,5 @@ const defaultData = {
 const defaultAddModalData = {
     id: "",
     quantity: 0,
-    imported_quantity: 0,
     price: 0,
 };

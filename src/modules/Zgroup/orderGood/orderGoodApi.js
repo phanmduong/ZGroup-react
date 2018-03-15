@@ -21,8 +21,8 @@ export function loadAllCompanies() {
     return axios.get(url);
 }
 
-export function loadAllOrderGood(page = 1) {
-    let url     = env.MANAGE_API_URL +"/company/order/all?page="+page;
+export function loadAllOrderGood(page = 1, companyId='') {
+    let url     = env.MANAGE_API_URL +"/company/order/all?page="+page+"&company_id=" + companyId;
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;

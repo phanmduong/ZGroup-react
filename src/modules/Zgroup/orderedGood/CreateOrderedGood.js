@@ -78,7 +78,7 @@ class CreateOrderedGood extends React.Component {
         if (!e) return;
         let { addModalData } = this.state;
         if (!e.target) {
-            addModalData = {...e, export_quantity: e.quantity};
+            addModalData = {...e, quantity: e.quantity};
         } else{
             let name = e.target.name;
             let value = e.target.value;
@@ -157,7 +157,6 @@ class CreateOrderedGood extends React.Component {
                         id: obj.id,
                         price: obj.price,
                         quantity: obj.quantity,
-                        export_quantity: obj.export_quantity,
                     });
                 })
             ) ,
@@ -173,7 +172,7 @@ class CreateOrderedGood extends React.Component {
         let {isLoading, goods, companies, isCommitting, user} = this.props;
         let {data, showAddModal, addModalData} = this.state;
         let sumQuantity=0, sumPrice=0;
-        console.log(this.state);
+        //console.log(this.state);
         return (
                     <div className="content">
                         <div className="container-fluid">
@@ -195,7 +194,6 @@ class CreateOrderedGood extends React.Component {
                                                                 <th style={{width: "10%"}}>STT</th>
                                                                 <th style={{width: "40%"}}>Tên</th>
                                                                 <th style={textAlign}>Số lượng</th>
-                                                                <th style={textAlign}>Số lượng xuất</th>
                                                                 <th style={textAlign}>Phân loại</th>
                                                                 <th style={textAlign}>Đơn giá</th>
                                                                 <th style={textAlign}>Thành tiền</th>
@@ -215,9 +213,9 @@ class CreateOrderedGood extends React.Component {
                                                                 <tbody>
                                                                 {data.goods.map(
                                                                     (obj, index) => {
-                                                                        let pr = obj.price * obj.export_quantity * 1, typeGood = "Khác";
+                                                                        let pr = obj.price * obj.quantity * 1, typeGood = "Khác";
                                                                         sumPrice += pr;
-                                                                        sumQuantity += obj.export_quantity *1;
+                                                                        sumQuantity += obj.quantity *1;
 
                                                                         switch(obj.type){
                                                                             case "book_comic":{
@@ -239,7 +237,6 @@ class CreateOrderedGood extends React.Component {
                                                                                 <td>{index + 1}</td>
                                                                                 <td>{obj.name ? obj.name : obj.good.name}</td>
                                                                                 <td style={textAlign}>{obj.quantity}</td>
-                                                                                <td style={textAlign}>{obj.export_quantity}</td>
                                                                                 <td style={textAlign}>{typeGood}</td>
                                                                                 <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
                                                                                 <td style={textAlign}>{helper.dotNumber(pr)}</td>
@@ -270,7 +267,6 @@ class CreateOrderedGood extends React.Component {
                                                                     <td/>
                                                                     <td>Tổng</td>
                                                                     <td style={textAlign}>{sumQuantity}</td>
-                                                                    <td/>
                                                                     <td/>
                                                                     <td colSpan={2} style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                                 </tr>
@@ -392,15 +388,6 @@ class CreateOrderedGood extends React.Component {
                                         label="Số lượng"
                                         value={addModalData.quantity}
                                         minValue="0"
-                                        updateFormData={()=>{}}
-                                        placeholder="Số lượng"
-                                        disabled
-                                    />
-                                    <FormInputText
-                                        name="export_quantity" type="number"
-                                        label="Số lượng xuất"
-                                        value={addModalData.export_quantity}
-                                        minValue="0"
                                         updateFormData={this.updateFormAdd}
                                         placeholder="Nhập số lượng"
                                         required
@@ -417,7 +404,7 @@ class CreateOrderedGood extends React.Component {
                                     <FormInputText
                                         name="" type="number"
                                         label="Thành tiền"
-                                        value={addModalData.price * addModalData.export_quantity}
+                                        value={addModalData.price * addModalData.quantity}
                                         updateFormData={() => {}}
                                         placeholder="Thành tiền"
                                         disabled
@@ -481,6 +468,5 @@ const defaultData = {
 const defaultAddModalData= {
     id: "",
     quantity: 0,
-    export_quantity: 0,
     price: 0,
 };

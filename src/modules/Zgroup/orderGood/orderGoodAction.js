@@ -4,10 +4,10 @@ import * as types from "../../../constants/actionTypes";
 import {browserHistory} from 'react-router';
 
 
-export function loadAllOrderGood(page) {
+export function loadAllOrderGood(page, companyId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ALL_ORDER_GOOD});
-        orderGoodApi.loadAllOrderGood(page)
+        orderGoodApi.loadAllOrderGood(page,companyId)
             .then((res) => {
                
                     dispatch({

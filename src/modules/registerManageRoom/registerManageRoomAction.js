@@ -1,6 +1,6 @@
 import * as types from "../../constants/actionTypes";
 import * as helper from "../../helpers/helper";
-import * as registerManageApi from "./registerManageApi";
+import * as registerManageRoomApi from "./registerManageRoomApi";
 
 export function loadAllRegisters(
     limit = 10,
@@ -16,9 +16,9 @@ export function loadAllRegisters(
 ) {
     return function(dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_REGISTER_MANAGE,
+            type: types.BEGIN_LOAD_REGISTER_MANAGE_ROOM,
         });
-        registerManageApi
+        registerManageRoomApi
             .loadAllRegistersApi(
                 limit,
                 page,
@@ -32,7 +32,7 @@ export function loadAllRegisters(
             )
             .then(res => {
                 dispatch({
-                    type: types.LOAD_REGISTER_MANAGE_SUCCESS,
+                    type: types.LOAD_REGISTER_MANAGE_ROOM_SUCCESS,
                     registers: res.data.room_service_registers,
                     totalPages: res.data.paginator.total_pages,
                     currentPage: res.data.paginator.current_page,
@@ -46,9 +46,9 @@ export function loadAllRegisters(
 
 export function getAllSalers() {
     return function(dispatch) {
-        registerManageApi.getAllSalerApi().then(res => {
+        registerManageRoomApi.getAllSalerApi().then(res => {
             dispatch({
-                type: types.GET_ALL_SALER_REGISTER_MANAGE,
+                type: types.GET_ALL_SALER_REGISTER_MANAGE_ROOM,
                 salers: res.data.data.salers,
             });
         });
@@ -64,15 +64,15 @@ export function changeCallStatus(
 ) {
     return function(dispatch) {
         dispatch({
-            type: types.BEGIN_CHANGE_CALL_STATUS,
+            type: types.BEGIN_CHANGE_CALL_STATUS_ROOM,
         });
-        registerManageApi
+        registerManageRoomApi
             .changeCallStatusApi(status, note, register_id, user_id)
             .then(res => {
                 if (res.data.status) {
                     closeCallModal();
                     dispatch({
-                        type: types.LOADED_CHANGE_CALL_STATUS_SUCCESS,
+                        type: types.LOADED_CHANGE_CALL_STATUS_ROOM_SUCCESS,
                         teleCall: res.data.data.teleCall,
                         register_id: register_id,
                     });
@@ -80,35 +80,35 @@ export function changeCallStatus(
                         ? helper.showNotification("Đã gọi")
                         : helper.showNotification("Chưa gọi được");
                 } else {
-                    dispatch({ type: types.LOADED_CHANGE_CALL_STATUS_ERROR });
+                    dispatch({ type: types.LOADED_CHANGE_CALL_STATUS_ROOM_ERROR });
                     helper.showErrorNotification("Đã xảy ra lỗi kkkk ");
                 }
             });
     };
 }
-export function savePayment(money, note , register_id, user_id, closeModal) {
+export function savePayment(money,note , register_id, user_id, closeModal) {
     return function (dispatch) {
       dispatch({
-          type : types.BEGIN_SAVE_PAYMENT,
+          type : types.BEGIN_SAVE_PAYMENT_ROOM,
       });
-      registerManageApi.savePaymentApi(money,note , register_id,user_id)
+      registerManageRoomApi.savePaymentApi(money,note ,register_id,user_id)
           .then(res => {
              if (res.data.status){
                  closeModal();
                  dispatch({
-                     type  : types.SAVED_PAYMENT_SUCCESS,
+                     type  : types.SAVED_PAYMENT_ROOM_SUCCESS,
                      register_id : register_id,
                      payment : res.data.data.payment,
                  });
                  helper.showNotification("Lưu thành công");
              }
              else {
-                 dispatch({type : types.SAVED_PAYMENT_ERROR});
+                 dispatch({type : types.SAVED_PAYMENT_ROOM_ERROR});
                  helper.showNotification("Lưu thất bại");
              }
           })
           .catch(()=>{
-          dispatch({type : types.SAVED_PAYMENT_ERROR});
+          dispatch({type : types.SAVED_PAYMENT_ROOM_ERROR});
               helper.showNotification("Lưu thất bại");
           });
     };
@@ -118,19 +118,19 @@ export function savePayment(money, note , register_id, user_id, closeModal) {
 export function loadBasesData() {
     return function(dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_BASES_IN_REGISTER_MANAGE,
+            type: types.BEGIN_LOAD_BASES_IN_REGISTER_MANAGE_ROOM,
         });
-        registerManageApi
+        registerManageRoomApi
             .loadBases()
             .then(res => {
                 dispatch({
-                    type: types.LOAD_BASES_IN_REGISTER_MANAGE_SUCCESS,
+                    type: types.LOAD_BASES_IN_REGISTER_MANAGE_ROOM_SUCCESS,
                     bases: res.data.data.bases,
                 });
             })
             .catch(() => {
                 dispatch({
-                    type: types.LOAD_BASES_IN_REGISTER_MANAGE_ERROR,
+                    type: types.LOAD_BASES_IN_REGISTER_MANAGE_ROOM_ERROR,
                 });
             });
     };

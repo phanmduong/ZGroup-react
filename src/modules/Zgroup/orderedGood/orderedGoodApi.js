@@ -41,8 +41,8 @@ export function editOrderedGood(data) {
     return axios.put(url, data);
 }
 
-export function loadAllOrderedGood(page=1) {
-    let url     = env.MANAGE_API_URL +"/company/be-ordered/all?page=" +page;
+export function loadAllOrderedGood(page=1,companyId='') {
+    let url     = env.MANAGE_API_URL +"/company/be-ordered/all?page=" +page + "&company_id="+companyId;
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;
