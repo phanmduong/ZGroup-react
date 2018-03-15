@@ -24,7 +24,10 @@ class HistoryImportOrderForChangeStatus extends React.Component {
         // helper.confirm("warning","Xác Nhận Duyệt","Sau khi duyệt sẽ không thể hoàn tác?",
         //     ()=> {this.props.changeStatus(this.props.id);this.closeModal();}
         // );
-        this.props.changeStatus(this.props.id);this.closeModal();
+        this.props.changeStatus(this.props.id, ()=>{
+            this.closeModal();
+        });
+        
 
     }
     closeModal(){

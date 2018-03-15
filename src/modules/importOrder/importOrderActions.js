@@ -196,20 +196,24 @@ export function loadHistoryImportOrder(page, id) {
     };
 }
 
-export function changeStatusImportOrder(id) {
+export function changeStatusImportOrder(id, success) {
     return function (dispatch) {
         importOrderApi.changeStatusImportOrder(id)
-            .then(() => {
-                dispatch({
-                    type: types.CHANGE_STATUS_IMPORT_ORDER_SUCCESS,
-                    id: id,
-                });
-            }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra.");
-            dispatch({
-                type: types.CHANGE_STATUS_IMPORT_ORDER_ERROR,
+            .then((res) => {
+                if(res.data.status == 1){
+                    helper.showNotification("Duyệt thành công");
+                    dispatch({
+                        type: types.CHANGE_STATUS_IMPORT_ORDER_SUCCESS,
+                        id: id,
+                    });
+                    success();
+                }else{
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({
+                        type: types.CHANGE_STATUS_IMPORT_ORDER_ERROR,
+                    });                    
+                }
             });
-        });
     };
 }
 

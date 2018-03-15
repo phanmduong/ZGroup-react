@@ -85,12 +85,15 @@ export default function importOrderReducer(state = initialState.importOrder, act
             return{
                 ...state,
                 isLoadingImportOrder: true,
+                isLoadingItemOrder: true,
+                
             };
         }
         case types.LOAD_ALL_IMPORT_ORDER_SUCCESS:{
             return{
                 ...state,
                 isLoadingImportOrder: false,
+                isLoadingItemOrder: false,
                 paginator: action.paginator,
                 importOrders: action.data,
             };
@@ -98,6 +101,7 @@ export default function importOrderReducer(state = initialState.importOrder, act
         case types.LOAD_ALL_IMPORT_ORDER_ERROR:{
             return{
                 ...state,
+                isLoadingItemOrder: false,
                 isLoadingImportOrder: false,
             };
         }
@@ -173,13 +177,13 @@ export default function importOrderReducer(state = initialState.importOrder, act
         }
 
         case types.CHANGE_STATUS_IMPORT_ORDER_SUCCESS:{
-            let data = state.importOrder.importOrders.map((pp) => {
-                return (pp.id === action.id) ? {...pp, status: 3} : pp
-                    ;
-            });
+            // let data = state.importOrder.importOrders.map((pp) => {
+            //     return (pp.id === action.id) ? {...pp, status: 3} : pp
+            //         ;
+            // });
             return{
                 ...state,
-                importOrders: data,
+                //importOrders: data,
             };
         }
         case types.CHANGE_STATUS_IMPORT_ORDER_ERROR:{

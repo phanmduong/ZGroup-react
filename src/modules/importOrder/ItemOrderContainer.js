@@ -25,8 +25,12 @@ class ItemOrderContainer extends React.Component{
         this.setState({page: page});
         this.props.importOrderActions.loadAllImportOrder(page);
     }
-    changeStatus(id){
-        this.props.importOrderActions.changeStatusImportOrder(id);
+    changeStatus(id, success){
+        this.props.importOrderActions.changeStatusImportOrder(id, ()=>{
+            success();
+            
+            this.props.importOrderActions.loadAllImportOrder(this.props.paginator.current_page);
+        });
     }
     loadHistoryImportOrder(page,id){
         this.props.importOrderActions.loadHistoryImportOrder(page,id);
