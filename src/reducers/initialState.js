@@ -42,7 +42,7 @@ export default {
         isChangingStatus: false,
         isLoadingBases: false,
         bases: [],
-        isSavingPayment : false,
+        isSavingPayment: false,
     },
 
     registerManageRoom: {
@@ -56,7 +56,7 @@ export default {
         isChangingStatus: false,
         isLoadingBases: false,
         bases: [],
-        isSavingPayment : false,
+        isSavingPayment: false,
     },
 
     bankAccount: {
@@ -84,17 +84,17 @@ export default {
             link: '',
             color: '',
             description: '',
-            sale_off: 0,
-            weight: 0,
+            sale_off: '',
+            weight: '',
             tax: "true",
             unit: '',
-            ratio: 1,
-            money: 0,
-            fee: 0,
+            ratio: '',
+            money: '',
+            fee: '',
             code: '',
             endTime: '',
-            quantity: 0,
-            price: 0
+            quantity: '',
+            price: ''
         },
         customer: {
             name: '',

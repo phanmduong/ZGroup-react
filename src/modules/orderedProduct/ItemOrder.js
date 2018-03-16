@@ -117,7 +117,8 @@ class ItemOrder extends React.Component {
                     <TooltipButton text="Thanh toán" placement="top">
                         <button
                             onClick={() => this.props.showChooseWalletModal(delivery)}
-                            className="btn btn-sm btn-success btn-main">
+                            className="btn btn-sm btn-success btn-main"
+                            disabled={(delivery.status === "place_order")}>
                             {helper.dotNumber(delivery.total)}đ
                         </button>
                     </TooltipButton>
@@ -125,21 +126,29 @@ class ItemOrder extends React.Component {
                 <td>
                     {helper.dotNumber(delivery.debt)}đ
                 </td>
-                <td>
-                    <div className="btn-group-action">
-                        <Link to={`/order/${delivery.id}/warehouse-import`}
-                              style={{
-                                  color: "#878787",
-                                  // cursor: ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order < 6
-                                  // && "not-allowed"
-                              }}
-                              data-toggle="tooltip" title=""
-                              type="button" rel="tooltip"
-                              data-original-title="Nhập kho">
-                            <i className="material-icons">import_export</i>
-                        </Link>
-                    </div>
-                </td>
+                {
+                    delivery.delivery_warehouse_status !== "exported" ? (
+                        <td>
+                            <div className="btn-group-action">
+                                <Link to={`/order/${delivery.id}/warehouse-import`}
+                                      style={{
+                                          color: "#878787",
+                                          cursor: ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order < 7
+                                          && "not-allowed"
+                                      }}
+                                      data-toggle="tooltip" title=""
+                                      type="button" rel="tooltip"
+                                      data-original-title="Nhập kho">
+                                    <i className="material-icons">import_export</i>
+                                </Link>
+                            </div>
+                        </td>
+                    ) : (
+                        <td>
+                            <span>Đã nhập kho</span>
+                        </td>
+                    )
+                }
             </tr>
         );
     }

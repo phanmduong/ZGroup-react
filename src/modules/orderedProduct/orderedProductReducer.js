@@ -82,7 +82,10 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 deliveryOrders: changeStatusDelivery(state.deliveryOrders, action.delivery_id, action.status),
                 addCancelNoteModal: false,
                 sendPriceModal: false,
-                addJavCodeModal: false
+                addJavCodeModal: false,
+                importWeightModal: false,
+                cameToVNModal: false,
+                addShipFeeModal: false
             };
         case types.TOGGLE_ADD_CANCEL_NOTE_MODAL:
             return {

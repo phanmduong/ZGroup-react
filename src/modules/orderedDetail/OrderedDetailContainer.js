@@ -2,11 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import FormInputDate from "../../components/common/FormInputDate";
+//import FormInputDate from "../../components/common/FormInputDate";
 import *as orderedDetailAction from "./orderedDetailAction";
 import Loading from "../../components/common/Loading";
 import Select from 'react-select';
 import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
+import FormInputDateTime from "../../components/common/FormInputDateTime";
+import {DATETIME_SEAT_FORMAT} from "../../constants/constants";
+import moment from "moment";
 
 class OrderedDetailContainer extends React.Component {
     constructor(props, context) {
@@ -37,15 +40,15 @@ class OrderedDetailContainer extends React.Component {
                 link: '',
                 color: '',
                 description: '',
-                quantity: 0,
-                sale_off: 0,
-                weight: 0,
+                quantity: '',
+                sale_off: '',
+                weight: '',
                 tax: "true",
-                price: 0,
+                price: '',
                 unit: '',
-                ratio: 1,
-                money: 0,
-                fee: 0,
+                ratio: '',
+                money: '',
+                fee: '',
                 code: '',
                 endTime: ''
             });
@@ -203,7 +206,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="quantity"
                                                        placeholder="Nhập số lượng"
                                                        className="form-control"
-                                                       value={order.quantity || 0}
+                                                       value={order.quantity || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -217,7 +220,7 @@ class OrderedDetailContainer extends React.Component {
                                                        min="0"
                                                        placeholder="Nhập phần trăm giảm giá"
                                                        className="form-control"
-                                                       value={order.sale_off || 0}
+                                                       value={order.sale_off || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -242,7 +245,7 @@ class OrderedDetailContainer extends React.Component {
                                                        name="price"
                                                        placeholder="Nhập giá sản phẩm"
                                                        className="form-control"
-                                                       value={order.price || 0}
+                                                       value={order.price || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -281,7 +284,7 @@ class OrderedDetailContainer extends React.Component {
                                                 <input type="number"
                                                        name="money"
                                                        className="form-control"
-                                                       value={order.money || 0}
+                                                       value={order.money || ''}
                                                        disabled={true}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -297,7 +300,7 @@ class OrderedDetailContainer extends React.Component {
                                                            name="weight"
                                                            placeholder="Nhập khối lượng"
                                                            className="form-control"
-                                                           value={order.weight || 0}
+                                                           value={order.weight || ''}
                                                            onChange={this.updateFormData}/>
                                                     <span className="material-input"/>
                                                 </div>
@@ -309,7 +312,7 @@ class OrderedDetailContainer extends React.Component {
                                                            name="fee"
                                                            placeholder="Nhập kích thước"
                                                            className="form-control"
-                                                           value={order.fee || 0}
+                                                           value={order.fee || ''}
                                                            onChange={this.updateFormData}/>
                                                     <span className="material-input"/>
                                                 </div>
@@ -339,9 +342,11 @@ class OrderedDetailContainer extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <FormInputDate
-                                                    label="Ngày về"
+                                                <FormInputDateTime
+                                                    format={DATETIME_SEAT_FORMAT}
+                                                    label="Dự kiến ngày về"
                                                     name="endTime"
+                                                    defaultDate={moment()}
                                                     updateFormData={(e) => this.props.orderedDetailAction.handleDate(e.target.value)}
                                                     id="form-end-time"
                                                     value={order.endTime || ''}

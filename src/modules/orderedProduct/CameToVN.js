@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import FormInputDate from "../../components/common/FormInputDate";
+//import FormInputDate from "../../components/common/FormInputDate";
+import FormInputDateTime from "../../components/common/FormInputDateTime";
+import {DATETIME_SEAT_FORMAT} from "../../constants/constants";
+import moment from "moment";
 
 class CameToVN extends React.Component {
     constructor(props, context) {
@@ -19,15 +22,14 @@ class CameToVN extends React.Component {
                         <div className="row">
                             <div className="col-md-6">
                                 <div className="form-group">
-                                    <FormInputDate
+                                    <FormInputDateTime
+                                        format={DATETIME_SEAT_FORMAT}
                                         label="Dự kiến ngày về"
                                         name="endTime"
-                                        value={order.attach_info ? JSON.parse(order.attach_info).endTime : ''}
-                                        placeholder="dd/mm/yyyy"
+                                        defaultDate={moment()}
                                         updateFormData={this.props.handleDate}
-                                        id="form-start-time"
-                                        //required={true}
-                                        //maxDate={this.props.coupon.end_time !== '' ? this.props.coupon.end_time : ''}
+                                        id="form-end-time"
+                                        value={order.attach_info ? JSON.parse(order.attach_info).endTime : ''}
                                     />
                                 </div>
                             </div>

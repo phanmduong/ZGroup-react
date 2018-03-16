@@ -9,7 +9,7 @@ class ImportWeightModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            price: ''
+            price: ""
         };
         this.handleWeight = this.handleWeight.bind(this);
     }
@@ -21,16 +21,15 @@ class ImportWeightModal extends React.Component {
         };
         if (name === "price") {
             this.setState({price: e.target.value});
-        } else attach_info = {
-            ...attach_info,
-            weight: e.target.value
-        };
-        if (attach_info.weight && this.state.price) {
             attach_info = {
                 ...attach_info,
-                fee: attach_info.weight * this.state.price
+                fee: attach_info.weight * e.target.value
             };
-        }
+        } else attach_info = {
+            ...attach_info,
+            weight: e.target.value,
+            fee: e.target.value * this.state.price
+        };
         let order = {
             ...this.props.orderImportWeight,
             attach_info: JSON.stringify(attach_info)
@@ -51,10 +50,10 @@ class ImportWeightModal extends React.Component {
                 <Modal.Body>
                     <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         <div className="form-group">
-                            <label className="label-control">Khối lượng</label>
+                            <label className="label-control">Khối lượng(kg)</label>
                             <input type="number"
                                    name="weight"
-                                   placeholder="Nhập mã"
+                                   placeholder="Nhập cân"
                                    className="form-control"
                                    value={order.attach_info ? JSON.parse(order.attach_info).weight : ''}
                                    onChange={this.handleWeight}/>
@@ -63,10 +62,10 @@ class ImportWeightModal extends React.Component {
                     </div>
                     <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         <div className="form-group">
-                            <label className="label-control">Giá tiền 1 cân</label>
+                            <label className="label-control">Giá tiền 1 cân(vnd/kg)</label>
                             <input type="number"
                                    name="price"
-                                   placeholder=""
+                                   placeholder="Nhập giá"
                                    className="form-control"
                                    value={this.state.price}
                                    onChange={this.handleWeight}/>
@@ -75,7 +74,7 @@ class ImportWeightModal extends React.Component {
                     </div>
                     <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         <div className="form-group">
-                            <label className="label-control">Phí ship</label>
+                            <label className="label-control">Phí ship(vnd)</label>
                             <input type="number"
                                    name="fee"
                                    className="form-control"
