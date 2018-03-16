@@ -52,6 +52,14 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
+        select : {
+            userpack_id : 0,
+            subscription_id : 0,
+            subscriptions : {},
+        },
+        userpacks : [],
+        isLoadingUserpack : false,
+        subscriptions : [],
     },
 
     registerManageRoom: {

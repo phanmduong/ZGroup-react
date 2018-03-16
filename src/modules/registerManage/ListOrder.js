@@ -13,6 +13,7 @@ import ChooseSeatModalContainer from "./chooseSeat/ChooseSeatModalContainer";
 import moment from "moment/moment";
 import ChooseSeatHistoryModalContainer from "./chooseSeat/ChooseSeatHistoryModalContainer";
 import PaymentModal from "./PaymentModal";
+import UserpackModal from "./UserpackModal";
 
 export function setRuleShowCall(register) {
     let btn = "";
@@ -83,6 +84,7 @@ class ListOrder extends React.Component {
             isOpenCallModal: false,
             isOpenPaymentModal: false,
             sumMoney: 0,
+            isOpenUserpackModal : false,
         };
 
         this.openCallModal = this.openCallModal.bind(this);
@@ -90,6 +92,8 @@ class ListOrder extends React.Component {
         this.closeCallModal = this.closeCallModal.bind(this);
         this.closePaymentModal = this.closePaymentModal.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
+        this.closeUserpackModal = this.closeUserpackModal.bind(this);
+        this.openUserpackModal = this.openUserpackModal.bind(this);
     }
 
     openCallModal(register) {
@@ -119,10 +123,17 @@ class ListOrder extends React.Component {
     openChooseSeatModal(base) {
         this.props.openChooseSeatModal(base);
     }
+    openUserpackModal(){
+        this.setState({isOpenUserpackModal : true});
+    }
+    closeUserpackModal(){
+        this.setState({isOpenUserpackModal : false});
+    }
 
     render() {
         const ChooseSeatTooltip = <Tooltip id="tooltip">Chọn chỗ ngồi</Tooltip>;
         const TopupTooltip = <Tooltip id="tooltip">Thu tiền</Tooltip>;
+        const UserpackTooltip = <Tooltip id="tooltip">Chọn gói</Tooltip>;
         const HistoryTooltip = <Tooltip id="tooltip">Lịch sử đặt chỗ</Tooltip>;
 
         return (
@@ -277,6 +288,23 @@ class ListOrder extends React.Component {
                                                 register.subscription
                                                     .subscription_kind_name
                                             }
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={UserpackTooltip}
+                                            >
+                                                <a
+                                                    onClick={() =>
+                                                        this.openUserpackModal(
+                                                            register,
+                                                        )
+                                                    }
+                                                    style={{ color: "#888" }}
+                                                >
+                                                    <i className="material-icons">
+                                                        class
+                                                    </i>
+                                                </a>
+                                            </OverlayTrigger>
                                         </td>
                                         <td>{register.created_at}</td>
                                         <td>
@@ -366,6 +394,22 @@ class ListOrder extends React.Component {
                             closePaymentModal={this.closePaymentModal}
                             sumMoney={sumMoney(this.state.register)}
                         />
+                    </Modal.Body>
+                </Modal>
+
+                <Modal
+                    show={this.state.isOpenUserpackModal}
+                    bsStyle="primary"
+                    onHide={this.closeUserpackModal}
+                >
+                    <Modal.Header />
+                    <Modal.Body>
+                        {/*<PaymentModal*/}
+                            {/*register={this.state.register}*/}
+                            {/*closePaymentModal={this.closePaymentModal}*/}
+                            {/*sumMoney={sumMoney(this.state.register)}*/}
+                        {/*/>*/}
+                        <UserpackModal/>
                     </Modal.Body>
                 </Modal>
 

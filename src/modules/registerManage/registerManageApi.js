@@ -80,3 +80,8 @@ export function loadBases() {
 
     return axios.get(url);
 }
+export function loadUserpackApi() {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + `/coworking-space/user-pack?&token=${token}&limit=-1`;
+    return axios.get(url);
+}
