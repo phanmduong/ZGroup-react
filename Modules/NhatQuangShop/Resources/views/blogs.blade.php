@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
                         <h4 style="font-weight: 500">BÀI VIẾT MỚI NHẤT</h4>
-                        <h2>CHIA SẺ TỪ TRỐNG ĐỒNG PALACE</h2><br>
+                        <h2>CHIA SẺ TỪ NHẬT QUANG SHOP</h2><br>
                         <br>
                     </div>
 
@@ -40,7 +40,7 @@
                                 <p class="card-description">
                                     {{shortString($blog->description, 15)}}                                </p>
                                 <br>
-                                <a href="{{'/blog/post/'.$blog->id}}"><b>Xem
+                                <a href="{{'/blog/post/'.$blog->id}}" style="color:#7bc043!important"><b>Xem
                                         thêm</b></a>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                 searchBlog: function () {
                     window.open('/blog?page=1&search=' + this.search, '_self');
                 }
-            },
+            }
 
         })
 
@@ -98,11 +98,6 @@
             data: {
                 pages: []
             },
-            methods: {
-                memee: function () {
-                    console.log(this.pages);
-                }
-            }
         });
 
         pagination.pages = paginator({{$current_page}},{{$total_pages}})

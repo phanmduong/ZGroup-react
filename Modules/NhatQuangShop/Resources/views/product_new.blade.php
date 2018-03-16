@@ -46,7 +46,7 @@
                         </div>
                         <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
                             <div style="text-align: right;">
-                                <a href="/book/{{$product->id}}"
+                                <a href="detail/{{$product->id}}"
                                    class="btn btn-link btn-success"
                                    style="padding: 3px; margin: 3px; font-size: 10px;">
                                     Xem thêm

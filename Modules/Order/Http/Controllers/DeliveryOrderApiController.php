@@ -32,13 +32,9 @@ class DeliveryOrderApiController extends ManageApiController
     public function assignDeliveryOrderInfo(&$order, $request)
     {
         $order->note = $request->note;
-        $order->code = $request->code;
         $order->staff_id = $this->user->id;
         $order->attach_info = $request->attach_info;
-        $order->quantity = $request->quantity;
-        $order->price = $request->price;
         $order->email = $request->email;
-        $order->status = $request->status ? $request->status : 'place_order';
 
         $user = User::where('phone', $request->phone)->first();
         if ($user == null) {
@@ -149,6 +145,7 @@ class DeliveryOrderApiController extends ManageApiController
 
         $order = new Order;
         $this->assignDeliveryOrderInfo($order, $request);
+        $order->code = $request->code;        
         $order->status = 'place_order';
         $order->type = 'delivery';
         $order->save();
@@ -417,7 +414,10 @@ class DeliveryOrderApiController extends ManageApiController
                 return $this->respondErrorWithStatus('Tài khoản của khách hàng nhỏ hơn số tiền đã nhập');
             $money = min($debt, $request->money);
         }
-
+        if($money == $debt)
+            $deliveryOrder->status_paid = 1;
+        $deliveryOrder->save();
+        
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $deliveryOrder->id;
         $orderPaidMoney->money = $money;
@@ -429,6 +429,7 @@ class DeliveryOrderApiController extends ManageApiController
             $user->deposit -= $money;
         else
             $user->money -= $money;
+        $user->save();
         return $this->respondSuccessWithStatus([
             'message' => 'Thêm thanh toán thành công. Số tiền: ' . $money,
         ]);
