@@ -98,12 +98,12 @@ class CustomerApiController extends ManageApiController
         });
         $data['delivery_orders_total'] = $customer->deliveryOrders->reduce(function ($total, $order) {
             return $total + $order->money;
-        });
+        }, 0);
         $data['delivery_orders_total_paid'] = $customer->deliveryOrders->reduce(function ($total, $order) {
             return $total + $order->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0);
-        });
+        }, 0);
         return $this->respondSuccessWithStatus(['customer' => $data]);
     }
 }
