@@ -48,7 +48,8 @@ class CustomerApiController extends ManageApiController
                     'address' => $customer->address,
                     'deposit' => $customer->deposit,
                     'money' => $customer->money,
-                    'count_groups' => $customer->infoCustomerGroups()->count()
+                    'count_groups' => $customer->infoCustomerGroups()->count(),
+                    'last_order' => $customer->allOrders()->orderBy('created_at', 'desc')->first()->created_at,
                 ];
                 return $data;
             })

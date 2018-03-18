@@ -158,6 +158,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id')->where('type', 'delivery');
     }
 
+    public function allOrders()
+    {
+        return $this->hasMany(Order::class, 'user_id')->where('type', 'delivery')->orWhere('type', 'order');
+    }
+
     public function roles()
     {
         return $this->belongsTo(Role::class, 'role_id');
