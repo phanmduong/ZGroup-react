@@ -49,7 +49,7 @@ class CustomerApiController extends ManageApiController
                     'deposit' => $customer->deposit,
                     'money' => $customer->money,
                     'count_groups' => $customer->infoCustomerGroups()->count(),
-                    'last_order' => $customer->allOrders()->orderBy('created_at', 'desc')->first()->created_at,
+                    'last_order' => format_vn_short_datetime(strtotime($customer->allOrders()->orderBy('created_at', 'desc')->first()->created_at)),
                 ];
                 return $data;
             })
