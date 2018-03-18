@@ -89,6 +89,32 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                 ...state,
                 isSavingPayment: false,
             };
+        case types.LOADED_USERPACKS_ERROR_IN_REGISTER:
+            return {
+                ...state,
+                isLoadingUserpack : false,
+            };
+        case types.LOADED_USERPACKS_SUCCESS_IN_REGISTER:
+            return{
+                ...state,
+                isLoadingUserpack: false,
+                userpacks : action.userpacks,
+            };
+        case types.BEGIN_LOAD_USERPACKS_IN_REGISTER:
+            return{
+                ...state,
+                isLoadingUserpack : true,
+            };
+        case types.UPDATE_SUBSCRIPTION_IN_REGISTER:
+            return {
+                ...state,
+                subscriptions: action.subscriptions,
+            };
+            case types.UPDATE_SELECT:
+            return {
+                ...state,
+                select : action.select,
+            };
 
         default:
             return state;
