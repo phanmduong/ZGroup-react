@@ -76,7 +76,7 @@ $orderRoutes = function () {
 $customerRoutes = function() {
     Route::group(['prefix' => 'v2'], function() {
         Route::get('customer', 'CustomerApiController@customers');
-
+        Route::get('customer/{customerId}', 'CustomerApiController@customer');
     });
 };
 

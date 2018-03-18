@@ -45,6 +45,7 @@ class CustomerApiController extends ManageApiController
                     'name' => $customer->name,
                     'phone' => $customer->phone,
                     'email' => $customer->email,
+                    'address' => $customer->address,
                     'deposit' => $customer->deposit,
                     'money' => $customer->money,
                 ];
@@ -55,5 +56,38 @@ class CustomerApiController extends ManageApiController
                 return $data;
             })
         ]);
+    }
+
+    public function customer($customerId, Request $request)
+    {
+        $customer = User::find($customerId);
+        if ($customer == null)
+            return $this->respondErrorWithStatus('Không tồn tại khách hàng');
+            $groups = $customer->infoCustomerGroups;
+        $data = [
+            'id' => $customer->id,
+            'name' => $customer->name,
+            'phone' => $customer->phone,
+            'email' => $customer->email,
+            'address' => $customer->address,
+            'deposit' => $customer->deposit,
+            'money' => $customer->money,
+            'groups' => $groups->map(function ($group) {
+                return [
+                    'id' => $group->id,
+                    'name' => $group->name,
+                    'description' => $group->description,
+                    'color' => $group->color,
+                    'order_value' => $group->order_value,
+                    'delivery_value' => $group->delivery_value,
+                    'currency_value' => $group->currency_value,
+                ];
+            }),
+        ];
+        $data['orders'] = $customer->orders->map(function ($order) {
+            return $order->transform();
+        });
+        $data['delivery_orders'] = $this->deliveryOrderTransformer->transformCollection($customer->deliveryOrders);
+        return $this->respondSuccessWithStatus(['customer' => $data]);
     }
 }
