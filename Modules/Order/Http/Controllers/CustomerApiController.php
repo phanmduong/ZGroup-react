@@ -48,11 +48,8 @@ class CustomerApiController extends ManageApiController
                     'address' => $customer->address,
                     'deposit' => $customer->deposit,
                     'money' => $customer->money,
+                    'count_groups' => $customer->infoCustomerGroups()->count()
                 ];
-                $data['orders'] = $customer->orders->map(function ($order) {
-                    return $order->transform();
-                });
-                $data['delivery_orders'] = $this->deliveryOrderTransformer->transformCollection($customer->deliveryOrders);
                 return $data;
             })
         ]);
