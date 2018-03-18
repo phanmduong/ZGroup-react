@@ -36,6 +36,14 @@ class StorePostComponent extends React.Component {
         helper.setFormValidation("#form-post");
         helper.setFormValidation("#form-category");
         // $("#mini-editor").mini_editor();
+        const scrollerId = "#store-post-modal";
+        $(scrollerId).scroll(() => {
+            const scroll = $(scrollerId).scrollTop();
+            $(".blog-buttons").css(
+                "transform",
+                "translate(0px, " + scroll + "px)",
+            );
+        });
     }
 
     componentDidUpdate() {
@@ -337,13 +345,15 @@ class StorePostComponent extends React.Component {
                                             />
 
                                             {/*<div id = "mini-editor"/>*/}
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    justifyContent: "flex-end",
-                                                    marginTop: 40,
-                                                }}
-                                            >
+                                            <div className="blog-buttons">
+                                                <button
+                                                    onClick={
+                                                        this.props.closeModal
+                                                    }
+                                                    className="btn btn-fill btn-danger"
+                                                >
+                                                    Đóng
+                                                </button>
                                                 {isPreSaving ? (
                                                     <button
                                                         className="btn btn-fill btn-success"
@@ -467,6 +477,7 @@ StorePostComponent.propTypes = {
     updateFormSelect: PropTypes.func.isRequired,
     updateFormCategory: PropTypes.func.isRequired,
     resetCategory: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
     category: PropTypes.object.isRequired,
     createCategory: PropTypes.func.isRequired,
