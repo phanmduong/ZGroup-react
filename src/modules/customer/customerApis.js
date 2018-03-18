@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function loadCustomersApi(page , limit, query,status) {
-    let url = env.MANAGE_API_URL + "/order/all-customers?";
+    let url = env.MANAGE_API_URL + "/v2/customer?";
     let token = localStorage.getItem('token');
     if (limit){
         url += "&limit=" + limit;

@@ -42,6 +42,7 @@ class ItemOrder extends React.Component {
 
     render() {
         const delivery = this.props.delivery;
+        const attach_info = JSON.parse(delivery.attach_info);
         let delivery_note;
         if (delivery.note) {
             delivery_note = delivery.note.length < 16 ? delivery.note : delivery.note.substring(0, 15) + "...";
@@ -79,6 +80,8 @@ class ItemOrder extends React.Component {
                         ) : "Không nhập"
                     }
                 </td>
+                <td>{attach_info.link}</td>
+                <td>{attach_info.code}</td>
                 <td>
                     {
                         delivery.staff ?

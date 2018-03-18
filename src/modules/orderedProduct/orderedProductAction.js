@@ -2,15 +2,15 @@ import * as types from '../../constants/actionTypes';
 import * as orderedProductApi from './orderedProductApi';
 import * as helper from "../../helpers/helper";
 
-export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id, javCode, link) {
+export function loadAllOrders(page = 1, searches, startTime, endTime, status, staff_id, user_id, queries) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ORDERED_PRODUCT});
         const infoPromise = new Promise((resolve) => {
-            orderedProductApi.loadOrderInfo(page, search, startTime, endTime, status, staff_id, user_id, javCode, link)
+            orderedProductApi.loadOrderInfo(page, searches, startTime, endTime, status, staff_id, user_id, queries)
                 .then(res => resolve(res));
         });
         const orderPromise = new Promise((resolve) => {
-            orderedProductApi.loadAllOrders(page, search, startTime, endTime, status, staff_id, user_id)
+            orderedProductApi.loadAllOrders(page, searches, startTime, endTime, status, staff_id, user_id, queries)
                 .then(res => resolve(res));
         });
         Promise.all([infoPromise, orderPromise]).then(data => {

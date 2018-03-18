@@ -41,9 +41,6 @@ class ListChildCustomer extends React.Component {
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
                                 <th> Ngày mua cuối</th>
-                                <th>Tổng tiền hàng</th>
-                                <th> Tiền trả hàng</th>
-                                <th> Tiền nợ</th>
                                 <th> Nhóm khách hàng</th>
                                 {/*<th/>*/}
                             </tr>
@@ -61,26 +58,23 @@ class ListChildCustomer extends React.Component {
                                             <td>{customer.phone}</td>
                                             <td>{customer.address}</td>
                                             <td>{customer.last_order}</td>
-                                            <td>{customer.total_money}</td>
-                                            <td>{customer.total_paid_money}</td>
-                                            <td>{customer.debt}</td>
                                             <td>
                                                 <a onClick={() => {
-                                                    this.openModalGroupCustomer(customer.groups);
-                                                }}>{(customer.count_groups? customer.count_groups : "0") + " Nhóm"}</a>
+                                                    this.openModalGroupCustomer(customer.count_groups);
+                                                }}>{(customer.count_groups ? customer.count_groups : "0") + " Nhóm"}</a>
                                             </td>
                                             {/*<td>*/}
-                                                {/*<div className="btn-group-action">*/}
-                                                    {/*<div style={{display: 'inline-block'}}>*/}
-                                                        {/*<a data-toggle="tooltip" title type="button"*/}
-                                                           {/*rel="tooltip"*/}
-                                                           {/*data-original-title="Sửa"*/}
-                                                           {/*onClick={() => this.props.openFormDataInEdit(customer)}*/}
-                                                        {/*>*/}
-                                                            {/*<i className="material-icons">edit</i>*/}
-                                                        {/*</a>*/}
-                                                    {/*</div>*/}
-                                                {/*</div>*/}
+                                            {/*<div className="btn-group-action">*/}
+                                            {/*<div style={{display: 'inline-block'}}>*/}
+                                            {/*<a data-toggle="tooltip" title type="button"*/}
+                                            {/*rel="tooltip"*/}
+                                            {/*data-original-title="Sửa"*/}
+                                            {/*onClick={() => this.props.openFormDataInEdit(customer)}*/}
+                                            {/*>*/}
+                                            {/*<i className="material-icons">edit</i>*/}
+                                            {/*</a>*/}
+                                            {/*</div>*/}
+                                            {/*</div>*/}
                                             {/*</td>*/}
                                         </tr>
 
@@ -95,7 +89,8 @@ class ListChildCustomer extends React.Component {
                     <Modal.Header closeButton>
                         <Modal.Title>
                             <div className="modal-header">
-                                <h4 id="contained-modal-title" className="modal-title">Danh sách nhóm khách hàng</h4></div>
+                                <h4 id="contained-modal-title" className="modal-title">Danh sách nhóm khách hàng</h4>
+                            </div>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import Search from '../../components/common/Search';
 import FormInputDate from '../../components/common/FormInputDate';
 //import TooltipButton from '../../components/common/TooltipButton';
 import ListOrder from './ListOrder';
@@ -34,7 +33,7 @@ class OrderedContainer extends React.Component {
             isSendingPrice: false,
             checkAll: false,
             page: 1,
-            query: '',
+            searches: [],
             time: {
                 startTime: '',
                 endTime: ''
@@ -42,8 +41,7 @@ class OrderedContainer extends React.Component {
             status: '',
             staff_id: null,
             user_id: null,
-            javCode: [],
-            link: []
+            queries: [],
         };
         this.timeOut = null;
         this.orderedSearchChange = this.orderedSearchChange.bind(this);
@@ -58,8 +56,7 @@ class OrderedContainer extends React.Component {
         this.chooseAll = this.chooseAll.bind(this);
         this.chooseItem = this.chooseItem.bind(this);
         this.showChooseWalletModal = this.showChooseWalletModal.bind(this);
-        this.linkSearchChange = this.linkSearchChange.bind(this);
-        this.javCodeSearchChange = this.javCodeSearchChange.bind(this);
+        this.queriesSearchChange = this.queriesSearchChange.bind(this);
         this.showAddJavCodeModal = this.showAddJavCodeModal.bind(this);
         this.showCameToVNModal = this.showCameToVNModal.bind(this);
         this.showImportWeightModal = this.showImportWeightModal.bind(this);
@@ -78,14 +75,15 @@ class OrderedContainer extends React.Component {
                 isSendingPrice: false,
                 checkedPrice: {},
                 page: 1,
-                query: '',
+                searches: [],
                 time: {
                     startTime: '',
                     endTime: ''
                 },
                 status: '',
                 staff_id: null,
-                user_id: null
+                user_id: null,
+                queries: [],
             });
         }
         if (nextProps.isChoosingWallet !== this.props.isChoosingWallet && !nextProps.isChoosingWallet) {
@@ -94,61 +92,42 @@ class OrderedContainer extends React.Component {
     }
 
     orderedSearchChange(value) {
-        this.setState({
-            page: 1,
-            query: value
+        const searches = value.map(search => {
+            return search.value;
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.orderedProductAction.loadAllOrders(
-                1,
-                value,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.status,
-                this.state.staff_id,
-                this.state.user_id,
-                this.state.javCode,
-                this.state.link
-            );
-        }.bind(this), 500);
-    }
-
-    javCodeSearchChange(value) {
         this.setState({
             page: 1,
-            javCode: value
+            searches: value
         });
         this.props.orderedProductAction.loadAllOrders(
             1,
-            this.state.query,
+            searches,
             this.state.time.startTime,
             this.state.time.endTime,
             this.state.status,
             this.state.staff_id,
             this.state.user_id,
-            value,
-            this.state.link
+            this.state.queries
         );
     }
 
-    linkSearchChange(value) {
+    queriesSearchChange(value) {
+        const queries = value.map(query => {
+            return query.value;
+        });
         this.setState({
             page: 1,
-            link: value
+            queries: value
         });
         this.props.orderedProductAction.loadAllOrders(
             1,
-            this.state.query,
+            this.state.searches,
             this.state.time.startTime,
             this.state.time.endTime,
             this.state.status,
             this.state.staff_id,
             this.state.user_id,
-            this.state.javCode,
-            value
+            queries
         );
     }
 
@@ -160,14 +139,13 @@ class OrderedContainer extends React.Component {
             });
             this.props.orderedProductAction.loadAllOrders(
                 1,
-                this.state.query,
+                this.state.searches,
                 this.state.time.startTime,
                 this.state.time.endTime,
                 this.state.status,
                 value.value,
                 this.state.user_id,
-                this.state.javCode,
-                this.state.link
+                this.state.queries
             );
         } else {
             this.setState({
@@ -176,14 +154,13 @@ class OrderedContainer extends React.Component {
             });
             this.props.orderedProductAction.loadAllOrders(
                 1,
-                this.state.query,
+                this.state.searches,
                 this.state.time.startTime,
                 this.state.time.endTime,
                 this.state.status,
                 null,
                 this.state.user_id,
-                this.state.javCode,
-                this.state.link
+                this.state.queries
             );
         }
     }
@@ -198,14 +175,13 @@ class OrderedContainer extends React.Component {
             });
             this.props.orderedProductAction.loadAllOrders(
                 1,
-                this.state.query,
+                this.state.searches,
                 this.state.time.startTime,
                 this.state.time.endTime,
                 value.value,
                 this.state.staff_id,
                 this.state.user_id,
-                this.state.javCode,
-                this.state.link
+                this.state.queries
             );
         } else {
             this.setState({
@@ -216,14 +192,13 @@ class OrderedContainer extends React.Component {
             });
             this.props.orderedProductAction.loadAllOrders(
                 1,
-                this.state.query,
+                this.state.searches,
                 this.state.time.startTime,
                 this.state.time.endTime,
                 null,
                 this.state.staff_id,
                 this.state.user_id,
-                this.state.javCode,
-                this.state.link
+                this.state.queries
             );
         }
     }
@@ -232,14 +207,13 @@ class OrderedContainer extends React.Component {
         this.setState({page: page});
         this.props.orderedProductAction.loadAllOrders(
             page,
-            this.state.query,
+            this.state.searches,
             this.state.time.startTime,
             this.state.time.endTime,
             this.state.status,
             this.state.staff_id,
             this.state.user_id,
-            this.state.javCode,
-            this.state.link
+            this.state.queries
         );
     }
 
@@ -250,14 +224,13 @@ class OrderedContainer extends React.Component {
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
             this.props.orderedProductAction.loadAllOrders(
                 1,
-                this.state.query,
+                this.state.searches,
                 time.startTime,
                 time.endTime,
                 this.state.status,
                 this.state.staff_id,
                 this.state.user_id,
-                this.state.javCode,
-                this.state.link
+                this.state.queries
             );
             this.setState({time: time, page: 1});
         } else {
@@ -325,14 +298,13 @@ class OrderedContainer extends React.Component {
             });
             this.props.orderedProductAction.loadAllOrders(
                 1,
-                this.state.query,
+                this.state.searches,
                 this.state.time.startTime,
                 this.state.time.endTime,
                 "place_order",
                 this.state.staff_id,
                 this.state.user_id,
-                this.state.javCode,
-                this.state.link
+                this.state.queries
             );
         }
     }
@@ -489,14 +461,17 @@ class OrderedContainer extends React.Component {
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách đơn hàng</h4>
                                 <div className="row">
-                                    <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                        <Search
-                                            onChange={this.orderedSearchChange}
-                                            value={this.state.query}
+                                    <div className="form-group col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <Select.Creatable
+                                            multi={true}
                                             placeholder="Nhập tên hoặc số điện thoại khách hàng"
+                                            options={[]}
+                                            onChange={this.orderedSearchChange}
+                                            value={this.state.searches}
+                                            valueComponent={PropertyReactSelectValue}
                                         />
                                     </div>
-                                    <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <div className=" col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                         <button type="button" data-toggle="collapse" data-target="#demo"
                                                 className="btn btn-rose">
                                             <i className="material-icons">filter_list</i> Lọc
@@ -505,25 +480,15 @@ class OrderedContainer extends React.Component {
                                 </div>
                                 <div id="demo" className="collapse">
                                     <div className="row">
-                                        <div className="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <label className="label-control">Tìm theo mã hàng Nhật</label>
+                                        <div className="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <label className="label-control">Tìm theo mã hàng Nhật hoặc link sản
+                                                phẩm</label>
                                             <Select.Creatable
                                                 multi={true}
-                                                placeholder="Nhập mã hàng Nhật"
+                                                placeholder="Nhập mã hàng Nhật hoặc link sản phẩm"
                                                 options={[]}
-                                                onChange={this.javCodeSearchChange}
-                                                value={this.state.javCode}
-                                                valueComponent={PropertyReactSelectValue}
-                                            />
-                                        </div>
-                                        <div className="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <label className="label-control">Tìm theo link sản phẩm</label>
-                                            <Select.Creatable
-                                                multi={true}
-                                                placeholder="Nhập link sản phẩm"
-                                                options={[]}
-                                                onChange={this.linkSearchChange}
-                                                value={this.state.link}
+                                                onChange={this.queriesSearchChange}
+                                                value={this.state.queries}
                                                 valueComponent={PropertyReactSelectValue}
                                             />
                                         </div>
