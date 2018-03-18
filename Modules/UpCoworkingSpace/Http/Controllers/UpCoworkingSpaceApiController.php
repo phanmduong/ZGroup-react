@@ -37,7 +37,6 @@ class UpCoworkingSpaceApiController extends ApiPublicController
             });
             return $data;
         });
-
         return $this->respondSuccessWithStatus([
             'user_packs' => $user_packs
         ]);
@@ -194,5 +193,9 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         return $this->respondSuccessWithStatus([
             'message' => "Đăng kí thành công"
         ]);
+    }
+
+    public function extract() {
+        
     }
 }

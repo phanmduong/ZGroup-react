@@ -70,6 +70,9 @@ class CustomerApiController extends ManageApiController
             'address' => $customer->address,
             'deposit' => $customer->deposit,
             'money' => $customer->money,
+            'gender' => $customer->gender,
+            'birthday' => $user->dob,
+            'avatar_url' => $user->avatar_url ? $user->avatar_url : 'http://colorme.vn/img/user.png',
             'groups' => $groups->map(function ($group) {
                 return [
                     'id' => $group->id,
