@@ -71,8 +71,8 @@ class CustomerApiController extends ManageApiController
             'deposit' => $customer->deposit,
             'money' => $customer->money,
             'gender' => $customer->gender,
-            'birthday' => $user->dob,
-            'avatar_url' => $user->avatar_url ? $user->avatar_url : 'http://colorme.vn/img/user.png',
+            'birthday' => $customer->dob,
+            'avatar_url' => $customer->avatar_url ? $customer->avatar_url : 'http://colorme.vn/img/user.png',
             'groups' => $groups->map(function ($group) {
                 return [
                     'id' => $group->id,
