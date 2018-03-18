@@ -61,7 +61,7 @@ class CustomerApiController extends ManageApiController
         $customer = User::find($customerId);
         if ($customer == null)
             return $this->respondErrorWithStatus('Không tồn tại khách hàng');
-            $groups = $customer->infoCustomerGroups;
+        $groups = $customer->infoCustomerGroups;
         $data = [
             'id' => $customer->id,
             'name' => $customer->name,
@@ -86,6 +86,24 @@ class CustomerApiController extends ManageApiController
             return $order->transform();
         });
         $data['delivery_orders'] = $this->deliveryOrderTransformer->transformCollection($customer->deliveryOrders);
+        $data['orders_total'] = $customer->orders->reduce(function ($total, $order) {
+            return $total + $order->goodOrders->reduce(function ($total, $goodOrder) {
+                return $total + $goodOrder->price * $goodOrder->quantity;
+            }, 0);
+        });
+        $data['orders_total_paid'] = $customer->orders->reduce(function ($total, $order) {
+            return $total + $order->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+        });
+        $data['delivery_orders_total'] = $customer->deliveryOrders->reduce(function ($total, $order) {
+            return $total + $order->money;
+        });
+        $data['delivery_orders_total_paid'] = $customer->deliveryOrders->reduce(function ($total, $order) {
+            return $total + $order->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+        });
         return $this->respondSuccessWithStatus(['customer' => $data]);
     }
 }
