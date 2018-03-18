@@ -654,7 +654,7 @@ class CompanyController extends ManageApiController
         $order->save();
         $goods = json_decode($request->goods);
         $order->good_count = count($goods);
-        $order-save();
+        $order->save();
         foreach ($goods as $good) {
             $exportOrder = new ExportOrder;
             $exportOrder->warehouse_id = 0;
@@ -839,13 +839,15 @@ class CompanyController extends ManageApiController
     public function createOrEditImportOrder($importOrderId, Request $request)
     {
         $importOrder = ItemOrder::find($importOrderId);
-        $importOrder->status = 2;
         $importOrder->import_export_staff_id = $request->staff_id;
         $importOrder->note = $request->note;
         $importOrder->save();
         $goods = json_decode($request->goods);
-        $pp = ImportItemOrder::where("item_order_id",$importOrderId)->count();
-        if($pp <= count($goods)) {
+        $pp = ImportItemOrder::where("item_order_id",$importOrderId);
+        $pp = $pp->where('imported_quantity',0)->count();
+        if($pp === count($goods)) {
+            $importOrder->status = 2;
+            $importOrder->save();
             foreach ($goods as $good) {
                 $good_new = ImportItemOrder::find($good->id);
                 $good_new->imported_quantity = $good->imported_quantity;
@@ -859,6 +861,8 @@ class CompanyController extends ManageApiController
                 $good_new->warehouse_id = $good->warehouse_id;
                 $good_new->quantity = $good->quantity;
                 $good_new->item_order_id = $importOrderId;
+                $good_new->good_id = $good->good_id;
+                $good_new->price = $good->price;
                 $good_new->save();
             }
         }
@@ -979,7 +983,7 @@ class CompanyController extends ManageApiController
     }
     public function getAllHistoryImportOrder($importOrder){
         $order = ItemOrder::find($importOrder);
-        $goods = $order->good()->paginate($order->good_count);
+        $goods = $order->importOrder()->paginate($order->good_count);
         return $this->respondWithPagination($goods,[
            "goods" => $goods->map(function($good){
                return $good->transform();

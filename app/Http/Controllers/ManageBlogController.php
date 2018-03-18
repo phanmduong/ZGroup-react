@@ -43,6 +43,11 @@ class ManageBlogController extends ManageApiController
             $product = new Product();
         }
 
+        $product->slug = $request->slug;
+        $product->meta_title = $request->meta_title;
+        $product->keyword = $request->keyword;
+        $product->meta_description = $request->meta_description;
+
         $product->description = $request->description;
         $product->title = $request->title;
         $product->content = $request->product_content;

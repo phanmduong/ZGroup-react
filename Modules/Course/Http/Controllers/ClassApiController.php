@@ -144,6 +144,8 @@ class ClassApiController extends ApiController
                     'study_time' => $class->study_time,
                     'date_start' => $class->datestart,
                     'status' => $class->status,
+                    'teacher' => $class->teach ? $class->teach->transformAuth() : [],
+                    'teaching_assistant' => $class->assist ? $class->assist->transformAuth() : [] 
                 ];             
             })
         ]);
