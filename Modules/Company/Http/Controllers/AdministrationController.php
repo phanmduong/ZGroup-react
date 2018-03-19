@@ -110,9 +110,9 @@ class AdministrationController extends ManageApiController
         return "Ok";
     }
 
-    public function editReport(Request $request,$id)
+    public function editReport(Request $request)
     {
-        $report = Report::find($id);
+        $report = Report::find($request->id);
         $report->report = $request->report;
         $report->save();
 

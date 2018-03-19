@@ -60,7 +60,7 @@ $companyRoutes = function () {
         //Report model
         Route::get('/reports','AdministrationController@allReports');
         Route::post('/report/create','AdministrationController@createReport');
-        Route::post('/report/edit/{id}','AdministrationController@editReport');
+        Route::get('/report/edit','AdministrationController@editReport');
 
     });
 };
