@@ -42,6 +42,7 @@ class OrderedContainer extends React.Component {
             staff_id: null,
             user_id: null,
             queries: [],
+            isImportingDate: false
         };
         this.timeOut = null;
         this.orderedSearchChange = this.orderedSearchChange.bind(this);
@@ -268,8 +269,19 @@ class OrderedContainer extends React.Component {
     }
 
     showCameToVNModal(order) {
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.setState({
+            isImportingDate: true
+        });
         this.props.orderedProductAction.showCameToVNModal();
         this.props.orderedProductAction.handleCameToVNModal(order);
+        this.timeOut = setTimeout(function () {
+            this.setState({
+                isImportingDate: false
+            });
+        }.bind(this), 500);
     }
 
     showImportWeightModal(order) {
@@ -584,7 +596,8 @@ class OrderedContainer extends React.Component {
                 <SendPriceModal/>
                 <ChooseWalletModal/>
                 <AddJavCodeModal/>
-                <CameToVNModal/>
+                <CameToVNModal
+                    isImportingDate={this.state.isImportingDate}/>
                 <ImportWeightModal/>
                 <AddShipFeeModal/>
             </div>

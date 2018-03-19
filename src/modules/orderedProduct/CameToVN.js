@@ -13,27 +13,22 @@ class CameToVN extends React.Component {
     render() {
         let order = this.props.order;
         return (
-            <div>
-                <div>
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">card_giftcard</i>
-                    </div>
-                    <div className="card-content">
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <FormInputDateTime
-                                        format={DATETIME_SEAT_FORMAT}
-                                        label="Dự kiến ngày về"
-                                        name="endTime"
-                                        defaultDate={moment()}
-                                        updateFormData={this.props.handleDate}
-                                        id="form-end-time"
-                                        value={order.attach_info ? JSON.parse(order.attach_info).endTime : ''}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+            <div className="card">
+                <div className="card-header card-header-icon" data-background-color="rose">
+                    <i className="material-icons">card_giftcard</i>
+                </div>
+                <div className="card-content">
+                    <div className="form-group">
+                        <FormInputDateTime
+                            format={DATETIME_SEAT_FORMAT}
+                            label="Dự kiến ngày về"
+                            name="endTime"
+                            defaultDate={moment()}
+                            updateFormData={this.props.updateFormData}
+                            id="form-end-time"
+                            required={true}
+                            value={order.attach_info ? JSON.parse(order.attach_info).endTime : ''}
+                        />
                     </div>
                 </div>
             </div>
@@ -43,7 +38,7 @@ class CameToVN extends React.Component {
 
 CameToVN.propTypes = {
     order: PropTypes.object.isRequired,
-    handleDate: PropTypes.func.isRequired
+    updateFormData: PropTypes.func.isRequired
 };
 
 export default CameToVN;
