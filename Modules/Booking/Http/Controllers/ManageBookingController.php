@@ -317,5 +317,12 @@ class ManageBookingController extends ManageApiController
         $register = RoomServiceRegister::find($registerId);
         if($register == null)
             return $this->respondErrorWithStatus('Không tồn tại đăng ký');
+        $register->subscription_id = $request->subscription_id;
+        $register->start_time = $request->start_time;
+        $register->end_time = $request->end_time;
+        $register->extra_time = $request->extra_time;
+        $register->note = $request->note;
+        $register->save();
+        return $this->respondSuccessWithStatus('Thành công');
     }
 }
