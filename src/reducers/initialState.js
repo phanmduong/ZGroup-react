@@ -2069,8 +2069,15 @@ export default {
         warehouses: [{id: 1, name: ""},],
     },
     moneyTransfer: {
+        isCreatingTransaction: false,
+        errorCreatingTransaction: false,
         isLoadingUser: false,
         errorLoadUser: false,
-        user: {}
+        user: {},
+        isLoadingTransactions: false,
+        errorLoadTransactions: false,
+        transactions: [],
+        currentPage: 1,
+        totalPages: 1
     }
 };
