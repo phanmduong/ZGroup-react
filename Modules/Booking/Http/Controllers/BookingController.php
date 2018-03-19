@@ -1,5 +1,7 @@
 <?php
 
+namespace Modules\Booking\Http\Controllers;
+
 namespace Modules\UpCoworkingSpace\Http\Controllers;
 
 use App\Base;
@@ -17,8 +19,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
 use App\Product;
 
-
-class UpCoworkingSpaceApiController extends ApiPublicController
+class BookingController extends Controller
 {
     public function __construct()
     {
@@ -254,6 +255,5 @@ class UpCoworkingSpaceApiController extends ApiPublicController
             // $arr[] = $product->content;
             $product->save();
         }
-        // dd($arr);
     }
 }
