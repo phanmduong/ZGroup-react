@@ -13,6 +13,7 @@ use App\Http\Controllers\ManageApiController;
 use App\RequestVacation;
 use DateTime;
 use Illuminate\Http\Request;
+use App\Report;
 
 
 class AdministrationController extends ManageApiController
@@ -91,5 +92,24 @@ class AdministrationController extends ManageApiController
         return $this->respondSuccessWithStatus([
             "message" => "Thay đổi status thành công"
         ]);
+    }
+
+    public function createReport(Request $request)
+    {
+        $report = new Report();
+        $report->staff_id = $request->user()->id;
+        $report->report = $request->report;
+        $report->save();
+
+        return "Ok";
+    }
+
+    public function editReport(Request $request,$id)
+    {
+        $report = Report::find($id);
+        $report->report = $request->report;
+        $report->save();
+
+        return "Ok";
     }
 }
