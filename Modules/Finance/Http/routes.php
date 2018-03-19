@@ -14,6 +14,7 @@ Route::group(['prefix' => 'finance', 'namespace' => 'Modules\Finance\Http\Contro
 $namespaceRoutes = function () {
     Route::get('/transactions', 'ManageMoneyTransferApiController@transactions');
     Route::post('/create-transaction', 'ManageMoneyTransferApiController@create_transaction');
+    Route::post('/confirm-transaction', 'ManageMoneyTransferApiController@confirm_transaction');
 };
 
 Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Finance\Http\Controllers'],
