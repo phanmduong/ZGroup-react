@@ -9,30 +9,52 @@
 namespace Modules\Finance\Http\Controllers;
 
 
+use App\Colorme\Transformers\NotificationTransformer;
 use App\Http\Controllers\ManageApiController;
+use App\Notification;
+use App\Transaction;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class ManageMoneyTransferApiController extends ManageApiController
 {
-    public function __construct()
+    protected $notificationTransformer;
+
+    public function __construct(NotificationTransformer $notificationTransformer)
     {
+        $this->notificationTransformer = $notificationTransformer;
         parent::__construct();
     }
 
-    public function receive_transactions()
+    public function transactions(Request $request)
     {
 
         $limit = 20;
 
-        $receive_transactions = $this->user->receive_transactions()->where('type', 0)
-            ->orderBy('created_at', 'desc')->paginate($limit);
+        if ($request->type == null) {
+            $transactions = Transaction::where(function ($q) {
+                $q->where('sender_id', $this->user->id)->orWhere('receiver_id', $this->user->id);
+            });
+        } else {
+            if ($request->type == "send") {
+                $transactions = $this->user->send_transactions();
+            } else {
+                $transactions = $this->user->receive_transactions();
+            }
+        }
+
+        $transactions = $transactions->where('type', 0)->orderBy('created_at', 'desc')->paginate($limit);
 
         $data = [
-            "receive_transactions" => $receive_transactions->map(function ($transaction) {
+            "transactions" => $transactions->map(function ($transaction) {
                 $data = [
                     'status' => $transaction->status,
-                    'created_at' => format_vn_short_datetime(strtotime($transaction->created_at)),
-                    'updated_at' => format_vn_short_datetime(strtotime($transaction->updated_at)),
+                    'created_at' => format_vn_datetime(strtotime($transaction->created_at)),
+                    'updated_at' => format_vn_datetime(strtotime($transaction->updated_at)),
                     'money' => $transaction->money,
+                    'sender_money' => $transaction->sender_money,
+                    'receiver_money' => $transaction->receiver_money,
                 ];
                 if ($transaction->sender) {
                     $data['sender'] = $transaction->sender;
@@ -40,37 +62,104 @@ class ManageMoneyTransferApiController extends ManageApiController
                 if ($transaction->receiver) {
                     $data['receiver'] = $transaction->receiver;
                 }
-                return $transaction;
+                return $data;
             })
         ];
-        return $this->respondWithPagination($receive_transactions, $data);
+        return $this->respondWithPagination($transactions, $data);
     }
 
-    public function send_transactions()
+    public function create_transaction(Request $request)
     {
+        if ($this->user->status == 2) {
+            return $this->respondErrorWithStatus('Nhân viên này đang chuyển tiền.');
+        }
 
-        $limit = 20;
+        if ($request->money) {
+            return $this->respondErrorWithStatus('Vui lòng nhập số tiền gửi');
+        }
 
-        $send_transactions = $this->user->send_transactions()->where('type', 0)
-            ->orderBy('created_at', 'desc')->paginate($limit);
+        if ($request->money >= 0) {
+            return $this->respondErrorWithStatus('Số tiền gửi không được nhỏ hơn 0');
+        }
+
+        $receiver = User::find($request->receiver_id);
+
+        if ($receiver == null) {
+            return $this->respondErrorWithStatus('Vui lòng chọn người nhận');
+        }
+
+        if ($this->user->money < $request->money) {
+            return $this->respondErrorWithStatus('Bạn đang chuyển nhiều hơn số tiền hiện có');
+        }
+
+        $this->user->status = 2;
+        $this->user->save();
+
+        $transaction = new Transaction();
+        $transaction->status = 0;
+        $transaction->sender_id = $this->user->id;
+        $transaction->receiver_id = $receiver->receiver_id;
+        $transaction->receiver_money = $receiver->money;
+        $transaction->money = $request->money;
+        $transaction->save();
+
+        $notification = new Notification();
+        $notification->product_id = $transaction->id;
+        $notification->actor_id = $this->user->id;
+        $notification->receiver_id = $request->receiver_id;
+        $notification->type = 3;
+        $notification->save();
+
+        $data = array(
+            "message" => $notification->actor->name . " vừa chuyển tiền cho bạn và đang chờ bạn xác nhận.",
+            "link" => "",
+            'transaction' => [
+                'id' => $transaction->id,
+                'sender' => $transaction->sender->name,
+                'receiver' => $transaction->receiver->name,
+                'status' => transaction_status_raw($transaction->status),
+                'money' => $transaction->money
+            ],
+            'created_at' => format_date_full_option($notification->created_at),
+            "receiver_id" => $notification->receiver_id
+        );
+
+        $publish_data = array(
+            "event" => "notification",
+            "data" => $data
+        );
+
+
+        Redis::publish(config('app.channel'), json_encode($publish_data));
+
+        $publish_data = array(
+            "event" => "notification",
+            "data" => [
+                "notification" => $this->notificationTransformer->transform($notification),
+            ]
+        );
+        Redis::publish(config('app.channel'), json_encode($publish_data));
+
 
         $data = [
-            "send_transactions" => $send_transactions->map(function ($transaction) {
-                $data = [
-                    'status' => $transaction->status,
-                    'created_at' => format_vn_short_datetime(strtotime($transaction->created_at)),
-                    'updated_at' => format_vn_short_datetime(strtotime($transaction->updated_at)),
-                    'money' => $transaction->money,
-                ];
-                if ($transaction->sender) {
-                    $data['sender'] = $transaction->sender;
-                }
-                if ($transaction->receiver) {
-                    $data['receiver'] = $transaction->receiver;
-                }
-                return $transaction;
-            })
+            'status' => $transaction->status,
+            'created_at' => format_vn_datetime(strtotime($transaction->created_at)),
+            'updated_at' => format_vn_datetime(strtotime($transaction->updated_at)),
+            'money' => $transaction->money,
+            'sender_money' => $transaction->sender_money,
+            'receiver_money' => $transaction->receiver_money,
         ];
-        return $this->respondWithPagination($send_transactions, $data);
+        if ($transaction->sender) {
+            $data['sender'] = $transaction->sender;
+        }
+        if ($transaction->receiver) {
+            $data['receiver'] = $transaction->receiver;
+        }
+
+        return $this->respondSuccessWithStatus([
+            'transaction' => $data,
+        ]);
     }
+
+
 }
