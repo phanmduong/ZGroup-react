@@ -812,3 +812,15 @@ a.btn-seat.active {
     position: absolute;
     z-index: 10;
 }
+
+.blog-buttons {
+    display: flex;
+    z-index: 10;
+    justify-content: flex-end;
+    position: absolute;
+    top: 750px;
+    margin-left: -24px;
+    padding-right: 24px;
+    width: calc(100% + 48px);
+    background: white;
+}
