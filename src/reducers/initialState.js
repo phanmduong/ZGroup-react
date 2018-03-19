@@ -43,10 +43,19 @@ export default {
         isLoadingBases: false,
         bases: [],
     },
-
     bankAccount: {
         accounts: [],
-        isLoading: false
+        isLoading: false,
+        addEditBankAccountModal: false,
+        bankAccountEditModal: {
+            bank_name: '',
+            bank_account_name: '',
+            account_number: '',
+            owner_name:'',
+            branch:'',
+            display:''
+        },
+        isUpdatingEditModal: false,
     },
 
     inventoryOrder: {
