@@ -169,20 +169,42 @@ export function loadUserpacks() {
     };
 }
 
-export function updateSubscriptions(subscriptions) {
+export function addSubscription(register_id,select, closeModal) {
     return function (dispatch) {
-      dispatch({
-          type : types.UPDATE_SUBSCRIPTION_IN_REGISTER,
-          subscriptions : subscriptions,
-      });
+        dispatch({
+            type: types.BEGIN_SAVE_SUBSCRIPTION_IN_REGISTER,
+        });
+        registerManageApi.saveSubscriptionApi(register_id,select)
+            .then((res) => {
+                if (res.data.status) {
+                    dispatch({
+                        type: types.SAVED_SUBSCRIPTION_SUCCESS_IN_REGISTER,
+                    });
+                    closeModal();
+                    helper.showNotification("Lưu thành công");
+                }
+                else {
+                    dispatch({
+                        type: types.SAVED_SUBSCRIPTION_ERROR_IN_REGISTER,
+                    });
+                    helper.showErrorNotification("Lưu thất bại");
+                }
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.SAVED_SUBSCRIPTION_ERROR_IN_REGISTER,
+                });
+                helper.showErrorNotification("Lỗi");
+            });
     };
 }
 
+
 export function updateSelect(select) {
     return function (dispatch) {
-      dispatch({
-          type : types.UPDATE_SELECT,
-          select : select,
-      });
+        dispatch({
+            type: types.UPDATE_SELECT,
+            select: select,
+        });
     };
 }

@@ -85,3 +85,14 @@ export function loadUserpackApi() {
     let url = env.MANAGE_API_URL + `/coworking-space/user-pack?&token=${token}&limit=-1`;
     return axios.get(url);
 }
+export function saveSubscriptionApi(register_id,select) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + `/coworking-space/register/${register_id}/assign-subscription?&token=${token}`;
+    return axios.put(url,{
+        'subscription_id' : select.subscription_id,
+        'start_time' : select.start_time,
+        'extra_time' :select.extra_time,
+        'end_time' : select.end_time,
+        'note' : select.note,
+    });
+}
