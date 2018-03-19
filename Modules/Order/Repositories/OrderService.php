@@ -256,6 +256,8 @@ class OrderService
             }
         }
         $order->status = $request->status;
+        if($order->status == 'transfering')
+            $order->payment = 'Chuyển khoản';
         $order->staff_id = $staffId;
         if ($request->label_id) {
             $order->label_id = $request->label_id;
