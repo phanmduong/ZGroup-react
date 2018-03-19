@@ -1,16 +1,19 @@
 <?php
 
 $apiRoutes = function () {
-    Route::get('/blogs', 'UpCoworkingSpaceApiController@blogs');
-    Route::get('/api/province', 'UpCoworkingSpaceApiController@province');
-    Route::get('/api/province/{provinceId}/base', 'UpCoworkingSpaceApiController@basesInProvince');
-    Route::post('/api/register', 'UpCoworkingSpaceApiController@register');
-    Route::get('/api/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
-    Route::get('/api/user-pack/{userPackId}', 'UpCoworkingSpaceApiController@userPack');
-    Route::get('/api/extract', 'UpCoworkingSpaceApiController@extract');
-    Route::get('/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
-    Route::post('/register/{campaignId?}', 'UpCoworkingSpaceApiController@appRegister');
-    Route::get('/history-registers', 'UpCoworkingSpaceApiController@historyRegister');
+    Route::get('/blogs', 'BookingController@blogs');
+    Route::get('/user-packs', 'BookingController@allUserPacks');
+    Route::post('/register/{campaignId?}', 'BookingController@appRegister');
+    Route::get('/history-registers', 'BookingController@historyRegister');
+};
+
+$publicRoutes = function () {
+    Route::get('/api/province', 'BookingController@province');
+    Route::get('/api/province/{provinceId}/base', 'BookingController@basesInProvince');
+    Route::post('/api/register', 'BookingController@register');
+    Route::get('/api/user-packs', 'BookingController@allUserPacks');
+    Route::get('/api/user-pack/{userPackId}', 'BookingController@userPack');
+    Route::get('/api/extract', 'BookingController@extract');
 };
 
 $manageapiRoutes = function () {
@@ -37,3 +40,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'cowo
 
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $apiRoutes);
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
+
+Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
