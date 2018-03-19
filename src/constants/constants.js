@@ -131,11 +131,11 @@ export const CUSTOMTYPE = [
     },
     {
         label: "Khách hàng còn nợ",
-        value: "0",
+        value: "debt",
     },
     {
         label: "Khách hàng đã mua",
-        value: 1,
+        value: "paid",
     },
 ];
 

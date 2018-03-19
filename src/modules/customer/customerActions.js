@@ -35,7 +35,7 @@ export function loadInfoCustomer(id) {
             .then( (res) =>  {
                 dispatch({
                     type : types.LOADED_INFO_CUSTOMER_SUCCESS,
-                    customer : res.data.data.user,
+                    customer : res.data.data.customer
                 });
             })
             .catch(() => {

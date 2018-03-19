@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Pagination from '../../components/common/Pagination';
 
-
-
-
+//import Pagination from '../../components/common/Pagination';
 
 class OrdersListCustomerComponent extends React.Component {
     constructor(props) {
@@ -14,12 +11,6 @@ class OrdersListCustomerComponent extends React.Component {
     render() {
         return (
             <div>
-
-
-
-
-
-
                 <div className="row">
                     <div className="col-sm-12">
                         <table id="property-table" className="table table-hover" role="grid"
@@ -55,30 +46,6 @@ class OrdersListCustomerComponent extends React.Component {
                         </table>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-                <div className="row">
-                    <div className="col-sm-5">
-                        <div className="dataTables_info" id="property-table_info"
-                             role="status" aria-live="polite">Hiển trị
-                            trang {this.props.currentPage} trên tổng số
-                            {' ' + this.props.totalOrderPages} trang
-                        </div>
-                    </div>
-                    <div className="col-sm-7" style={{textAlign: 'right'}}>
-                        <Pagination
-                            totalPages={this.props.totalOrderPages}
-                            currentPage={this.props.currentPage}
-                            loadDataPage={this.props.loadOrdersCustomer}
-                        />
-                    </div>
-                </div>
             </div>
         );
     }
@@ -87,8 +54,9 @@ class OrdersListCustomerComponent extends React.Component {
 OrdersListCustomerComponent.propTypes = {
     ordersList: PropTypes.array,
     loadOrdersCustomer: PropTypes.func,
-    currentPage : PropTypes.number,
-    totalOrderPages : PropTypes.number,
+    currentPage: PropTypes.number,
+    totalOrderPages: PropTypes.number,
+    name: PropTypes.string
 };
 
 

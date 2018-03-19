@@ -5,17 +5,13 @@ import FormInputSelect from '../../components/common/FormInputSelect';
 import FormInputDate from '../../components/common/FormInputDate';
 import { GENDER } from '../../constants/constants';
 
-
-
-
-
-
 class InfoCustomerComponent extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        const customer = this.props.customer;
         return (
             <div>
                 <div>
@@ -29,7 +25,7 @@ class InfoCustomerComponent extends React.Component {
                         updateFormData={this.props.updateFormData}
                         required={true}
                         type="text"
-                        value={this.props.customer.name}
+                        value={customer.name}
                     />
                     <FormInputText
                         label="Địa chỉ email"
@@ -37,7 +33,7 @@ class InfoCustomerComponent extends React.Component {
                         required={true}
                         type="email"
                         updateFormData={this.props.updateFormData}
-                        value={this.props.customer.email}
+                        value={customer.email}
                         placeholder = "Nhập email (ví dụ : hung@gmail.com)"
                     />
 
@@ -46,7 +42,7 @@ class InfoCustomerComponent extends React.Component {
                         name="address"
                         type="text"
                         updateFormData={this.props.updateFormData}
-                        value={this.props.customer.address}
+                        value={customer.address}
                         required={true}
                     />
                     <FormInputText
@@ -54,7 +50,7 @@ class InfoCustomerComponent extends React.Component {
                         name="phone"
                         type="tel"
                         updateFormData={this.props.updateFormData}
-                        value={this.props.customer.phone}
+                        value={customer.phone}
                         required={true}
                         placeholder = "+84..."
                     />
@@ -62,7 +58,7 @@ class InfoCustomerComponent extends React.Component {
                         label="Giới tính"
                         name="gender"
                         data={GENDER}
-                        value={this.props.customer.gender || ""}
+                        value={customer.gender || ""}
                         required={true}
                         updateFormData={this.props.updateFormData}
                     />
@@ -71,20 +67,19 @@ class InfoCustomerComponent extends React.Component {
                         label="Sinh nhật"
                         name="birthday"
                         id="form-date-of-birth"
-                        value={this.props.customer.birthday}
+                        value={customer.birthday}
                         required={true}
                         placeholder = "dd/mm/yyyy"
                         updateFormData={this.props.updateFormData}
                     />
+                    <FormInputText
+                        label="Tiền nợ"
+                        name="debt"
+                        type="tel"
+                        value={customer.orders_total - customer.orders_total_paid}
+                        disabled={true}
+                    />
                 </div>
-
-
-
-
-
-
-
-
                 <div>
                     <h4>
                         <strong>Thông tin thanh toán </strong>
@@ -94,7 +89,7 @@ class InfoCustomerComponent extends React.Component {
                             Nợ
                         </div>
                         <div className="col-md-6">
-                            {this.props.customer.debt}
+                            {customer.debt}
                         </div>
                     </div>
                     <div className="row">
@@ -102,7 +97,7 @@ class InfoCustomerComponent extends React.Component {
                             Trả
                         </div>
                         <div className="col-md-6">
-                            {this.props.customer.total_paid_money}
+                            {customer.total_paid_money}
                         </div>
                     </div>
                     <div className="row">
@@ -110,7 +105,7 @@ class InfoCustomerComponent extends React.Component {
                             <b>Tổng cộng</b>
                         </div>
                         <div className="col-md-6">
-                            <b>{this.props.customer.total_money}</b>
+                            <b>{customer.total_money}</b>
                         </div>
                     </div>
                 </div>
