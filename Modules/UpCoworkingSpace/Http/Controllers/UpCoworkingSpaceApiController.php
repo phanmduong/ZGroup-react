@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
+use App\Product;
 
 
 class UpCoworkingSpaceApiController extends ApiPublicController
@@ -195,7 +196,63 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         ]);
     }
 
-    public function extract() {
-        
+    public function get_snippet($str, $wordCount = 10)
+    {
+        return implode(
+            '',
+            array_slice(
+                preg_split(
+                    '/([\s,\.;\?\!]+)/',
+                    $str,
+                    $wordCount * 2 + 1,
+                    PREG_SPLIT_DELIM_CAPTURE
+                ),
+                0,
+                $wordCount * 2 - 1
+            )
+        );
+    }
+
+    public function extract()
+    {
+        $posts = DB::table('wp_posts')->where('post_type', 'post')->where('post_status', 'publish')->orderBy('post_date', 'desc')->get();
+        $arr = [];
+        foreach ($posts as $post) {
+            $product = new Product;
+            $product->type = 2;
+            $product->author_id = 1;
+            $product->content = $post->post_content;
+            $product->created_at = $post->post_date;
+            $product->title = $post->post_title;
+            $product->slug = $post->post_name;
+            $product->meta_title = $post->post_name;
+            $product->status = 1;
+            $product->url = "d1j8r0kxyu9tj8.cloudfront.net/images/1500137080dAlPJYo8BVlQiiD.jpg";
+            $product->description = $this->get_snippet(str_replace("\n", "", strip_tags($product->content)), 19) . "...";
+            foreach (preg_split("/((\r?\n)|(\r\n?))/", $post->post_content) as $line) {
+                if (strpos($line, '.jpg')) {
+                    $pattern = '/(gpj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+                    preg_match($pattern, strrev($line), $matches);
+                    $product->content = str_replace(strrev(reset($matches)), '.jpg', $product->content);
+                }
+                if (strpos($line, '.png')) {
+                    $pattern = '/(gnp\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+                    preg_match($pattern, strrev($line), $matches);
+                    $product->content = str_replace(strrev(reset($matches)), '.png', $product->content);
+                }
+                if (strpos($line, '.jpeg')) {
+                    $pattern = '/(gepj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+                    preg_match($pattern, strrev($line), $matches);
+                    $product->content = str_replace(strrev(reset($matches)), '.jpeg', $product->content);
+                }
+                $pattern = '/width="([0-9]{3,4})" height="([0-9]{3,4})"/';
+                preg_match($pattern, $line, $matches);
+                if (reset($matches))
+                    $product->content = str_replace(reset($matches), reset($matches) . ' style="display:block; height:auto; width:100%"', $product->content);
+            }
+            // $arr[] = $product->content;
+            $product->save();
+        }
+        // dd($arr);
     }
 }
