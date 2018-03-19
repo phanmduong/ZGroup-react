@@ -311,4 +311,11 @@ class ManageBookingController extends ManageApiController
 
         return $this->respondSuccess(['Thêm đăng ký thành công']);
     }
+
+    public function assignSubscription($registerId, Request $request)
+    {
+        $register = RoomServiceRegister::find($registerId);
+        if($register == null)
+            return $this->respondErrorWithStatus('Không tồn tại đăng ký');
+    }
 }
