@@ -115,8 +115,15 @@ class ElightController extends Controller
         }
 
         if ($lesson == null) {
-            $term = $course->terms()->orderBy('order')->first();
-            $lesson = $term->lessons()->orderBy('order')->first();
+            $terms = $course->terms()->orderBy('order')->get();
+            foreach ($terms as $term) {
+                $data = $term->lessons()->orderBy('order')->first();
+                if ($data != null) {
+                    $lesson = $data;
+                    break;
+                }
+            }
+
         }
 
         $lessons = $course->lessons()->get()->map(function ($lesson) {
@@ -125,7 +132,6 @@ class ElightController extends Controller
                 'name' => $lesson->name
             ];
         });
-        // dd($lesson);
         $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
 
         return view('elight::book', [
@@ -296,5 +302,5 @@ class ElightController extends Controller
         $request->session()->flush();
     }
 
-    
+
 }
