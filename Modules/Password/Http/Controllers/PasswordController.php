@@ -34,16 +34,16 @@ class PasswordController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$code)
     {
         $pass = new Password();
-        $pass->code = $request->code;
+        $pass->code = $code;
         $pass->name = $request->name;
         $pass->password = $request->password;
         if($pass->save()){
             return response()->json([
                 'id' => $pass->id,
-                'code' => $pass->code
+                'code' => $code
             ]);
         }
     }
@@ -52,21 +52,32 @@ class PasswordController extends Controller
      * Show the specified resource.
      * @return Response
      */
-    public function show()
+    public function show(Request $request, $code)
     {
-        return view('password::show');
+        $passwords = Password::where('code',$code)->get();
+        $data = array();
+        foreach ($passwords as $pass){
+            $data[] = $pass;
+        }
+        return $data;
     }
 
     /**
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request,$code,$id)
     {
-        $pwd = Password::find($id);
-        dd($pwd->delete());
-        $pwd->save();
-        return "ok";
+        $pass = Password::find($id);
+        if($pass){
+            if($pass->code == $code){
+                if($pass->password != $request->password){
+                    $pass->password = $request->password;
+                    $pass->save();
+                }
+            }
+            return "OK";
+        }
     }
 
     /**
@@ -82,7 +93,9 @@ class PasswordController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
+    public function destroy($id)
     {
+        Password::where('id', $id)->delete();
+        return "Delete done";
     }
 }
