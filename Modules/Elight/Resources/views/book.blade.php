@@ -112,7 +112,7 @@
                     </div>
                     <div class="comments media-area">
                         <div class="fb-comments"
-                             data-href="{{config('app.protocol').config('app.domain').'/sach/'.$course->id.'/'.$lesson_selected->id}}"
+                             data-href="{{config('app.protocol').config('app.domain').'/book/'.$course->id.'/'.$lesson_selected->id}}"
                              data-width="100%" data-numposts="5">
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                              class="collapse {{$term->id == $lesson_selected->term->id ? 'show' : ''}}">
                             @foreach($term->lessons()->orderBy('order')->get() as $lesson)
 
-                                <a href="/sach/{{$book->id}}/{{$lesson->id}}"
+                                <a href="/book/{{$book->id}}/{{$lesson->id}}"
                                    style="color:black; display: flex; flex-direction: row; cursor: pointer">
                                     <div style="font-size:20px;color:#138edc;">
                                         <i class="fa fa-check-circle" aria-hidden="true"></i>
@@ -322,7 +322,7 @@
                 })
             ;
             $('#search_lesson').on('typeahead:selected', function (e, datum) {
-                window.open("/sach/{{$course->id}}/" + datum.id, "_self");
+                window.open("/book/{{$course->id}}/" + datum.id, "_self");
             });
         });
     </script>
