@@ -59,17 +59,6 @@
                     <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson_selected->name}}</h1>
                     <p>{{$lesson_selected->description}}</p>
                     <br>
-                </div>
-                <div class="col-md-4">
-                    <div class="dropdown">
-                        <input placeholder="Tìm kiếm" class="typeahead" data-provide="typeahead" id="search_lesson"
-                               style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
-                               type="text"/>
-                    </div>
-                    {{--<input type="text" class="typeahead" data-provide="typeahead">--}}
-
-                </div>
-                <div class="col-md-8">
                     <div id="lesson_image" style="width: 100%;
                             background: url({{$lesson_selected->image_url}});
                             background-size: cover;
@@ -83,8 +72,8 @@
                         </audio>
                     </div>
                     <br>
-                    <div>
-                        {!! $lesson_selected->detail !!}
+                    <div class="article-content">
+                        {!! $lesson_selected->detail_content !!}
                     </div>
                     <hr>
                     <h3 class="card-title text-center">Liên hệ với Elight</h3>
@@ -130,6 +119,13 @@
                 </div>
             @endif
             <div class="col-md-4">
+                    <div class="dropdown">
+                        <input placeholder="Tìm kiếm" class="typeahead" data-provide="typeahead" id="search_lesson"
+                               style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
+                               type="text"/>
+                    </div>
+                    {{--<input type="text" class="typeahead" data-provide="typeahead">--}}
+
                 @foreach($book->terms()->orderBy('order')->get() as $term)
                     <div>
                         <a data-toggle="collapse" href="#collapse{{$term->id}}"

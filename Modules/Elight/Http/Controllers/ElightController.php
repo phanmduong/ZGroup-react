@@ -125,7 +125,7 @@ class ElightController extends Controller
                 'name' => $lesson->name
             ];
         });
-        dd($term);
+        // dd($lesson);
         $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
 
         return view('elight::book', [
