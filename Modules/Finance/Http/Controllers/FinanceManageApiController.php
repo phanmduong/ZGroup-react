@@ -137,7 +137,10 @@ class FinanceManageApiController extends ManageApiController
 
         $staffs = User::whereBetween('role', [1, 2])->where('money', '>', 0)->orderBy('money', 'desc')->paginate($limit);
 
+        $total_money = User::whereBetween('role', [1, 2])->where('money', '>', 0)->sum('money');
+
         $data = [
+            'total_money' => $total_money,
             'staffs' => $staffs->map(function ($staff) {
                 $data = $staff->getData();
                 $data['money'] = $staff->money;
@@ -160,6 +163,7 @@ class FinanceManageApiController extends ManageApiController
 
         $transactions = $transactions->where('status', 1)->orderBy('created_at', 'desc')->paginate($limit);
 
+
         $data = [
             'transactions' => $transactions->map(function ($transaction) use ($staff_id) {
                 $data = [
@@ -167,6 +171,8 @@ class FinanceManageApiController extends ManageApiController
                     'money' => $transaction->money,
                     'type' => $transaction->type,
                     'status' => $transaction->status,
+                    'sender_id' => $transaction->sender_id,
+                    'receiver_id' => $transaction->receiver_id,
                 ];
 
                 if ($transaction->sender_id == $staff_id) {
