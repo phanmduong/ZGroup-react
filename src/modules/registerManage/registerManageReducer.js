@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
+import moment from "moment";
 
 let tmp;
 let tmpRegs = [];
@@ -92,28 +93,41 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
         case types.LOADED_USERPACKS_ERROR_IN_REGISTER:
             return {
                 ...state,
-                isLoadingUserpack : false,
+                isLoadingUserpack: false,
             };
         case types.LOADED_USERPACKS_SUCCESS_IN_REGISTER:
-            return{
+            return {
                 ...state,
                 isLoadingUserpack: false,
-                userpacks : action.userpacks,
+                userpacks: action.userpacks,
             };
         case types.BEGIN_LOAD_USERPACKS_IN_REGISTER:
-            return{
-                ...state,
-                isLoadingUserpack : true,
-            };
-        case types.UPDATE_SUBSCRIPTION_IN_REGISTER:
             return {
                 ...state,
-                subscriptions: action.subscriptions,
+                isLoadingUserpack: true,
             };
-            case types.UPDATE_SELECT:
+
+            case types.BEGIN_SAVE_SUBSCRIPTION_IN_REGISTER:
             return {
                 ...state,
-                select : action.select,
+                isSavingSubscription: true,
+            };
+        case types.SAVED_SUBSCRIPTION_SUCCESS_IN_REGISTER:
+            return {
+                ...state,
+                isSavingSubscription: false,
+            };
+        case types.SAVED_SUBSCRIPTION_ERROR_IN_REGISTER:
+            return {
+                ...state,
+                isSavingSubscription: false,
+            };
+
+        case types.UPDATE_SELECT:
+            return {
+                ...state,
+                select: countEndtime(action.select),
+
             };
 
         default:
@@ -147,4 +161,15 @@ function addPayment(register_id, registers, payment) {
         else return register;
     });
     return tmpRegs;
+}
+
+function countEndtime(select) {
+    tmp = {
+        ...select, end_time:
+            moment(parseInt(Date.parse(moment(select.start_time, "DD/MM/YYYY HH:mm:ss").format("MM-DD-YYYY HH:mm:ss"))) + (parseInt(select.hours) + parseInt(select.extra_time)) * 3600000).format("DD/MM/YYYY HH:mm:ss")
+    };
+    // console.log(tmp.end_time,moment(select.start_time, "DD/MM/YYYY HH:mm:ss").format("MM-DD-YYYY HH:mm:ss") ,Date.parse(moment(select.start_time, "DD/MM/YYYY HH:mm:ss").format("YYYY-DD-MM HH:mm:ss")));
+
+
+    return tmp;
 }
