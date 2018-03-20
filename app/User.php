@@ -158,6 +158,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id')->where('type', 'delivery');
     }
 
+    public function allOrders()
+    {
+        return $this->hasMany(Order::class, 'user_id')->where('type', 'delivery')->orWhere('type', 'order');
+    }
+
     public function roles()
     {
         return $this->belongsTo(Role::class, 'role_id');
@@ -335,6 +340,7 @@ class User extends Authenticatable
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             "avatar_url" => $this->avatar_url ? generate_protocol_url($this->avatar_url) : defaultAvatarUrl(),
             'role' => $this->current_role ? $this->current_role->getData() : null,
             'phone' => $this->phone ? $this->phone : ""
