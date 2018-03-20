@@ -44,6 +44,10 @@ class ManageMoneyTransferApiController extends ManageApiController
             }
         }
 
+        if ($request->status != null) {
+            $transactions = $transactions->where('status', $request->status);
+        }
+
         $transactions = $transactions->where('type', 0)->orderBy('created_at', 'desc')->paginate($limit);
 
         $data = [
@@ -119,6 +123,8 @@ class ManageMoneyTransferApiController extends ManageApiController
                 'id' => $transaction->id,
                 'sender' => $transaction->sender->name,
                 'receiver' => $transaction->receiver->name,
+                'sender_id' => $transaction->sender_id,
+                'receiver_id' => $transaction->receiver_id,
                 'status' => transaction_status_raw($transaction->status),
                 'money' => $transaction->money
             ],
@@ -207,11 +213,13 @@ class ManageMoneyTransferApiController extends ManageApiController
                 'id' => $transaction->id,
                 'sender' => $transaction->sender->name,
                 'receiver' => $transaction->receiver->name,
+                'sender_id' => $transaction->sender_id,
+                'receiver_id' => $transaction->receiver_id,
                 'status' => transaction_status_raw($transaction->status),
                 'money' => $transaction->money
             ],
             'created_at' => format_date_full_option($notification->created_at),
-            "receiver_id" => $notification->receiver_id
+            "receiver_id" => $notification->receiver_id,
         );
 
         $publish_data = array(
