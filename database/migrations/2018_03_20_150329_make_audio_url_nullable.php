@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class AddWarehouseIdToPrintOrderTable extends Migration
+class MakeAudioUrlNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,8 @@ class AddWarehouseIdToPrintOrderTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('print_orders', function (Blueprint $table) {
-            $table->integer('warehouse_id')->default(0);
+        Schema::table('lessons', function (Blueprint $table) {
+            $table->string('audio_url')->nullable()->change();
         });
     }
 
