@@ -14,6 +14,11 @@ redis.on('message', function (channel, message) {
     if (message.data.type && message.data.type.indexOf("mobile") < 0) {
         io.emit(channel + ':' + message.event, message.data);
     }
+
+    if (message.event) {
+        io.emit(channel + ':' + message.event, message.data);
+    }
+
     if (message.event === 'notification' && message.data && message.data.receiver_id) {
         sendNotificationUser(message.data);
         // sendNotification(message.data, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
@@ -34,7 +39,7 @@ var sendNotificationUser = function (notification) {
             return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
         case 'mobile_social':
             notification.device_type = 'mobile_social';
-            notification.url ='colorme://main/home/notifications/product/6695';
+            notification.url = 'colorme://main/home/notifications/product/6695';
             // addNotificationId(notification);
             return sendNotification(notification, env.NOTI_APP_ID, env.NOTI_APP_KEY);
         case 'manage':

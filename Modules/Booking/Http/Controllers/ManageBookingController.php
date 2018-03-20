@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\UpCoworkingSpace\Http\Controllers;
+namespace Modules\Booking\Http\Controllers;
 
 use App\Http\Controllers\ApiPublicController;
 use App\Http\Controllers\ManageApiController;
@@ -15,7 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
-class UpCoworkingSpaceManageApiController extends ManageApiController
+class ManageBookingController extends ManageApiController
 {
 
     public function __construct()
@@ -310,5 +310,19 @@ class UpCoworkingSpaceManageApiController extends ManageApiController
         // });
 
         return $this->respondSuccess(['Thêm đăng ký thành công']);
+    }
+
+    public function assignSubscription($registerId, Request $request)
+    {
+        $register = RoomServiceRegister::find($registerId);
+        if($register == null)
+            return $this->respondErrorWithStatus('Không tồn tại đăng ký');
+        $register->subscription_id = $request->subscription_id;
+        $register->start_time = $request->start_time;
+        $register->end_time = $request->end_time;
+        $register->extra_time = $request->extra_time;
+        $register->note = $request->note;
+        $register->save();
+        return $this->respondSuccessWithStatus('Thành công');
     }
 }

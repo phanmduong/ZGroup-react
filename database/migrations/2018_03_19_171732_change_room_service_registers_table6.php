@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddWarehouseIdToPrintOrderTable extends Migration
+class ChangeRoomServiceRegistersTable6 extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,8 @@ class AddWarehouseIdToPrintOrderTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('print_orders', function (Blueprint $table) {
-            $table->integer('warehouse_id')->default(0);
+        Schema::table('room_service_registers', function(Blueprint $table){
+            $table->string('note')->nullable();
         });
     }
 
