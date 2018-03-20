@@ -123,7 +123,10 @@ class ElightController extends Controller
                     break;
                 }
             }
+        }
 
+        if ($lesson == null){
+            return view('elight::404-not-lesson');
         }
 
         $lessons = $course->lessons()->get()->map(function ($lesson) {
