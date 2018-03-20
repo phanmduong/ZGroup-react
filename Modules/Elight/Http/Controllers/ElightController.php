@@ -125,9 +125,8 @@ class ElightController extends Controller
                 'name' => $lesson->name
             ];
         });
-
+        dd($term);
         $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
-
 
         return view('elight::book', [
             'book' => $course,
@@ -140,7 +139,7 @@ class ElightController extends Controller
 
     public function allBooks($subfix)
     {
-        $books = Course::all();
+        $books = Course::where('status', 0)->get();
         return view('elight::library', [
             'books' => $books,
         ]);
