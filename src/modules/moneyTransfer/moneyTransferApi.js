@@ -21,7 +21,7 @@ export function searchStaffs(search) {
     return axios.get(url);
 }
 
-export function getTransactions(page = 1, type = "") {
+export function getTransactions(page = 1, type = "", status = "") {
 
     let url = env.MANAGE_API_URL_V3 + "/finance/transactions";
     let token = localStorage.getItem('token');
@@ -30,6 +30,7 @@ export function getTransactions(page = 1, type = "") {
     }
     url += "&page=" + page;
     url += "&type=" + type;
+    url += "&status=" + status;
     return axios.get(url);
 }
 

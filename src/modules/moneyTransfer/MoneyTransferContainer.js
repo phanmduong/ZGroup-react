@@ -30,9 +30,8 @@ class MoneyTransferContainer extends React.Component {
         this.props.moneyTransferActions.getUser();
         const channel = CHANNEL + ":notification";
         socket.on(channel, (data) => {
-            console.log("ok");
-            if (data.notification && data.notification.transaction) {
-                console.log("money");
+            if (data.notification && data.notification.transaction && (data.notification.transaction.sender_id === this.props.user.id ||
+                    data.notification.transaction.receiver_id === this.props.user.id)) {
                 this.props.moneyTransferActions.getUser();
             }
         });

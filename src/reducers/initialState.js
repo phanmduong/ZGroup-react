@@ -2079,5 +2079,21 @@ export default {
         transactions: [],
         currentPage: 1,
         totalPages: 1
+    },
+    staffsKeepMoney: {
+        isLoading: false,
+        error: false,
+        staffs: [],
+        currentPage: 1,
+        totalPages: 1,
+        totalCount: 0,
+        totalMoney: 0,
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        }
     }
 };

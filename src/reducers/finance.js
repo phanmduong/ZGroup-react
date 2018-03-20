@@ -8,6 +8,7 @@ import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
 import currencyReducer from "../modules/currency/currencyReducer";
 import moneyTransferReducer from "../modules/moneyTransfer/moneyTransferReducer";
 import loginReducer from "../modules/login/loginReducer";
+import staffKeepMoneyReducer from "../modules/staffsKeepMoney/staffKeepMoneyReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
     historyCollectMoney: historyCollectMoneyReducer,
     moneyTransfer: moneyTransferReducer,
     login: loginReducer,
+    staffKeepMoney: staffKeepMoneyReducer,
 });
 
 const rootReducer = (state, action) => {

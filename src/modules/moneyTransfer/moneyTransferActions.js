@@ -19,10 +19,10 @@ export function getUser() {
     };
 }
 
-export function getTransactions(page, type) {
+export function getTransactions(page, type, status) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_TRANSACTIONS_MONEY_TRANSFER});
-        moneyTransferApi.getTransactions(page, type)
+        moneyTransferApi.getTransactions(page, type, status)
             .then(res => {
                 dispatch({
                     type: types.LOAD_TRANSACTIONS_MONEY_TRANSFER_SUCCESS,

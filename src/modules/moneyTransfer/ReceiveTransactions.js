@@ -9,14 +9,20 @@ import {avatarEmpty, dotNumber} from "../../helpers/helper";
 import Pagination from "../../components/common/Pagination";
 import TooltipButton from "../../components/common/TooltipButton";
 import socket from "../../services/socketio";
+import {STATUS_MONEY_TRANSFER, TYPE_MONEY_TRANSFER} from "../../constants/constants";
+import ReactSelect from 'react-select';
 
 class ReceiveTransactions extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            page: 1
+            page: 1,
+            status: "",
+            type: ""
         };
         this.confirmTransaction = this.confirmTransaction.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
+        this.changeType = this.changeType.bind(this);
 
     }
 
@@ -24,7 +30,8 @@ class ReceiveTransactions extends React.Component {
         this.loadData();
         const channel = CHANNEL + ":notification";
         socket.on(channel, (data) => {
-            if (data.notification && data.notification.transaction) {
+            if (data.notification && data.notification.transaction && (data.notification.transaction.sender_id === this.props.user.id ||
+                    data.notification.transaction.receiver_id === this.props.user.id)) {
                 this.loadData();
             }
         });
@@ -37,13 +44,26 @@ class ReceiveTransactions extends React.Component {
     }
 
 
-    loadData(page, type) {
+    loadData(page) {
         this.setState({page: page});
-        this.props.moneyTransferActions.getTransactions(page, type);
+        this.props.moneyTransferActions.getTransactions(page, this.state.type, this.state.status);
     }
 
     confirmTransaction(transactionId, status) {
         this.props.moneyTransferActions.confirmTransaction(transactionId, status);
+    }
+
+    changeType(value) {
+        let type = value && value.value ? value.value : "";
+        this.setState({type: type, page: 1});
+        this.props.moneyTransferActions.getTransactions(1, type, this.state.status);
+    }
+
+    changeStatus(value) {
+        let status = value && value.value ? value.value : "";
+        this.setState({status: status, page: 1});
+        this.props.moneyTransferActions.getTransactions(1, this.state.type, status);
+
     }
 
     render() {
@@ -54,6 +74,33 @@ class ReceiveTransactions extends React.Component {
                 </div>
                 <div className="card-content">
                     <h4 className="card-title">Giao dich gần đây của bạn</h4>
+                    <div className="row">
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                <label className="label-control">Tìm theo trạng thái</label>
+                                <ReactSelect
+                                    name="form-field-status"
+                                    value={this.state.status}
+                                    options={STATUS_MONEY_TRANSFER}
+                                    onChange={this.changeStatus}
+                                    placeholder="Chọn trạng thái"
+                                />
+                            </div>
+                        </div>
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                <label className="label-control">Tìm theo thể loại</label>
+                                <ReactSelect
+                                    name="form-field-type"
+                                    value={this.state.type}
+                                    options={TYPE_MONEY_TRANSFER}
+                                    onChange={this.changeType}
+                                    placeholder="Chọn thể loại"
+                                />
+                            </div>
+
+                        </div>
+                    </div>
                     {this.props.isLoadingTransactions ?
                         <Loading/>
                         :

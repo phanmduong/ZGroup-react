@@ -336,6 +336,59 @@ export const STATUS_WORK = [
     },
 ];
 
+export const STATUS_MONEY_TRANSFER = [
+    {
+        label: "Tất cả",
+        value: "",
+    },
+    {
+        label: "Đang giao dịch",
+        value: "0",
+    },
+    {
+        label: "Thành công",
+        value: "1",
+    },
+    {
+        label: "Hủy",
+        value: "-1",
+    },
+];
+
+export const TYPE_TRANSACTION = [
+    {
+        label: "Tất cả",
+        value: "",
+    },
+    {
+        label: "Chuyển tiền",
+        value: "0",
+    },
+    {
+        label: "Thu",
+        value: "1",
+    },
+    {
+        label: "Chi",
+        value: "2",
+    },
+];
+
+export const TYPE_MONEY_TRANSFER = [
+    {
+        label: "Tất cả",
+        value: "",
+    },
+    {
+        label: "Nhận",
+        value: "receive",
+    },
+    {
+        label: "Gửi",
+        value: "send",
+    },
+];
+
 export const ORDER_STATUS_COLORS = {
     place_order: "#f9f9f9",
     confirm_order: "#b5d0fc",
