@@ -95,27 +95,43 @@ class AdministrationController extends ManageApiController
         ]);
     }
 
-//    public function allReports(Request $request)
-//    {
-//        $reports = DB::table('reports')->paginate(2);
-//    }
-
-    public function createReport(Request $request)
+    public function createReport(Request $request,$staff_id)
     {
         $report = new Report();
-        $report->staff_id = $request->user()->id;
+        $report->staff_id = $staff_id;
         $report->report = $request->report;
         $report->save();
 
+        return response()->json([
+            'id' => $report->id,
+        ]);
+    }
+
+    public function editReport(Request $request,$staff_id,$id)
+    {
+        $report = Report::find($id);
+        if($report->report != $request->report){
+
+            if($report->staff_id == $staff_id) {
+                $report->report = $request->report;
+                $report->save();
+            }else{
+                return "False";
+            }
+        }else{
+            return "false";
+        }
         return "Ok";
     }
 
-    public function editReport(Request $request)
+    public function showReportStaffId(Request $request, $staff_id)
     {
-        $report = Report::find($request->id);
-        $report->report = $request->report;
-        $report->save();
+        $reports = Report::find($staff_id)->get();
+        return $reports;
+    }
 
-        return "Ok";
+    public function showReports(Request $request)
+    {
+        return Report::all();
     }
 }

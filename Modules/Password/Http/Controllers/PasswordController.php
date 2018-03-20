@@ -39,7 +39,7 @@ class PasswordController extends Controller
         $pass = new Password();
         $pass->code = $code;
         $pass->name = $request->name;
-        $pass->password = $request->password;
+        $pass->password = md5($request->password);
         if($pass->save()){
             return response()->json([
                 'id' => $pass->id,
@@ -71,10 +71,14 @@ class PasswordController extends Controller
         $pass = Password::find($id);
         if($pass){
             if($pass->code == $code){
-                if($pass->password != $request->password){
-                    $pass->password = $request->password;
+                if($pass->password != md5($request->password)){
+                    $pass->password = md5($request->password);
                     $pass->save();
+                }else{
+                    return "false";
                 }
+            }else{
+                return "false";
             }
             return "OK";
         }

@@ -58,9 +58,10 @@ $companyRoutes = function () {
         Route::post('/administration/request-vacation/{requestId}/change-status','AdministrationController@changeStatusRequestVacation');
 
         //Report model
-        Route::get('/reports','AdministrationController@allReports');
-        Route::post('/report/create','AdministrationController@createReport');
-        Route::get('/report/edit','AdministrationController@editReport');
+        Route::post('/report/{staff_id}/create','AdministrationController@createReport');
+        Route::post('/report/{staff_id}/edit/{id}','AdministrationController@editReport');
+        Route::get('/reports/{staff_id}','AdministrationController@showReportStaffId');
+        Route::get('/reports','AdministrationController@showReports');
 
     });
 };
