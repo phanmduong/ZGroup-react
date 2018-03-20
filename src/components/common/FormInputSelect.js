@@ -7,7 +7,6 @@ class FormInputSelect extends React.Component {
     }
 
     render() {
-        console.log(this.props.data);
         if (this.props.isNotForm) {
             return (
                 <select
