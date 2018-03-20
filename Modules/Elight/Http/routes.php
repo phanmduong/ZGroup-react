@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'domain' => 'zgroup.{subfix}', 'namespace' => 'Modules\Elight\Http\Controllers'], function () {
+$routes = function () {
     Route::get('/', 'ElightController@index');
     Route::get('/blog', 'ElightController@blog');
     Route::get('/flush', 'ElightController@flush');
@@ -25,7 +25,6 @@ Route::group(['middleware' => 'web', 'domain' => 'zgroup.{subfix}', 'namespace' 
     Route::post('/index_information','ElightSendingMailController@index_info');
     Route::post('/book_information','ElightSendingMailController@book_info');
     Route::post('/aboutus_information','ElightSendingMailController@aboutus_info');
-    
 });
 
 $routes = function () {
