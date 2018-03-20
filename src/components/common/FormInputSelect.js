@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class FormInputSelect extends React.Component {
     constructor(props, context) {
@@ -7,6 +7,7 @@ class FormInputSelect extends React.Component {
     }
 
     render() {
+        console.log(this.props.data);
         if (this.props.isNotForm) {
             return (
                 <select
@@ -16,16 +17,15 @@ class FormInputSelect extends React.Component {
                     name={this.props.name}
                     disabled={this.props.disabled}
                 >
-                    {this.props.data !== null && this.props.data !== undefined &&
-                    this.props.data.map((item, key) => {
-                        return (
-                            <option
-                                key={key}
-                                value={item.id}
-                            >
-                                {item.name}
-                            </option>);
-                    })}
+                    {this.props.data !== null &&
+                        this.props.data !== undefined &&
+                        this.props.data.map((item, key) => {
+                            return (
+                                <option key={key} value={item.id}>
+                                    {item.name}
+                                </option>
+                            );
+                        })}
                 </select>
             );
         } else {
@@ -37,17 +37,17 @@ class FormInputSelect extends React.Component {
                         className="form-control"
                         value={this.props.value}
                         onChange={this.props.updateFormData}
-                        name={this.props.name}>
-                        {this.props.data !== null && this.props.data !== undefined &&
-                        this.props.data.map((item, key) => {
-                            return (
-                                <option
-                                    key={key}
-                                    value={item.id}
-                                >
-                                    {item.name}
-                                </option>);
-                        })}
+                        name={this.props.name}
+                    >
+                        {this.props.data !== null &&
+                            this.props.data !== undefined &&
+                            this.props.data.map((item, key) => {
+                                return (
+                                    <option key={key} value={item.id}>
+                                        {item.name}
+                                    </option>
+                                );
+                            })}
                     </select>
                 </div>
             );
@@ -60,10 +60,7 @@ FormInputSelect.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
     placeholder: PropTypes.string,
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-    ]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     updateFormData: PropTypes.func.isRequired,
     data: PropTypes.array,
     disabled: PropTypes.bool,
