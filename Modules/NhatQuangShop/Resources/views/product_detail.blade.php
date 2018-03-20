@@ -89,7 +89,7 @@
                 <div class="container">
                     <div id="js-gallery" class="gallery">
                         <div class="gallery__hero">
-                            <img src="{{$good->avatar_url}}">
+                            <img id="zoom" src="{{$good->avatar_url}}" data-zoom-image="{{$good->avatar_url}}">
                         </div>
                         <div class="gallery__thumbs">
                             <a href="{{$good->avatar_url}}"
@@ -132,7 +132,7 @@
                     </label>
                 </div>
                 <br>
-                <p class="description">Số lượng: Còn 4 sản phẩm:</p>
+                <p class="description">Số lượng: Còn 4 sản phẩm</p>
                 <br>
                 <div class="col-md-12 row" id = "product_info">
                     <div class="col-md-6">
@@ -169,11 +169,11 @@
                     <table class="table">
                         <tbody>
                         <tr>
-                            <td class="text-left">Mã sản phẩm</td>
+                            <td class="text-left"><b>Mã sản phẩm</b></td>
                             <td class="text-left" colspan="2">{{$good->code}}</td>
                         </tr>
                         <tr>
-                            <td class="text-left">Kích thước</td>
+                            <td class="text-left"><b>Kích thước</b></td>
                             @if($size !=null)
                                 <td class="text-left" colspan="2">{{$size}}</td>
                             @else
@@ -181,7 +181,7 @@
                             @endif
                         </tr>
                         <tr>
-                            <td class="text-left">Màu</td>
+                            <td class="text-left"><b>Màu</b></td>
                             @if($color !=null)
                             <td class="text-left" colspan="2">{{$color}}</td>
                                 @else
@@ -189,7 +189,7 @@
                                 @endif
                         </tr>
                         <tr>
-                            <td class="text-left">Khối lượng</td>
+                            <td class="text-left"><b>Khối lượng</b></td>
                             <td class="text-left" colspan="2">Nặng lắm</td>
                         </tr>
                         </tbody>
@@ -227,3 +227,11 @@
         <br>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $("#zoom").elevateZoom({
+            zoomType: "inner",
+            cursor: "crosshair"
+        });
+    </script>
+@endpush

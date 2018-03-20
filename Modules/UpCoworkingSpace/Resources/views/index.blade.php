@@ -162,7 +162,7 @@
                                 </a>
                             </div>
                             <div class="card-body">
-                                <h6 class="card-category text-main-color">{{$newestBlog->category->name}}</h6>
+                                <h6 class="card-category text-main-color">{{$newestBlog->category ? $newestBlog->category->name : ""}}</h6>
                                 <h5 class="card-title">
                                     <a href="{{'/blog/post/'.$newestBlog->id}}">{{$newestBlog->title}}</a>
                                 </h5>

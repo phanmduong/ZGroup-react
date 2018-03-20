@@ -46,6 +46,7 @@ Route::get('/send-noti-test', 'PublicController@send_noti_test');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain')], function () {
     Route::post('/login', 'AuthenticateController@login');
+    Route::get('/logout', 'AuthenticateController@logout');
     Route::get('/build-landing-page/{landingpageId?}', 'LandingPageController@index');
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('/email/{path}', 'ClientController@email')
@@ -141,6 +142,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     // Begin staff api
     Route::get('/staff/get-all-user', "ManageStaffApiController@get_all_user_not_staff");
     Route::get('/staff/{staffId}', "ManageStaffApiController@get_staff");
+    Route::get('/my-staff', "ManageStaffApiController@get_staff");
     Route::post('/staff/{staffId}/edit', "ManageStaffApiController@edit_staff");
     Route::post('delete-staff', "ManageStaffApiController@delete_staff");
     Route::post('change-role-staff', 'ManageStaffApiController@change_role');
@@ -245,9 +247,11 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     Route::get('/email-template/{email_template_id}', 'PublicController@render_email_template');
 
+    Route::put('/register/{registerId}', 'StudentApiController@editRegister');
+
 });
 
-Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function (){
+Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function () {
     Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
     Route::get('search-registers', 'MoneyManageApiController@search_registers');
     Route::post('pay-register', 'MoneyManageApiController@pay_register');
@@ -278,8 +282,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::post('/submit-survey', 'SurveyApiController@submit_survey');
 
     Route::get('/class/{classId}/students', 'ClassApiController@students');
-    Route::get('/class/{classId}', '
-    @studyClass');
+    Route::get('/class/{classId}', 'ClassApiController@studyClass');
     Route::post('class/{classId}/form', 'ClassApiController@form');
     Route::post('/class/{classId}/enroll', 'ClassApiController@enroll');
     Route::get('/current-study-class', 'ClassApiController@currentStudyClass');
@@ -396,6 +399,8 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('/register-social', 'AuthenticateController@registerSocial');
     Route::post('/register-confirm-email', 'AuthenticateController@confirmEmail');
     Route::get('/confirm-email-success', 'ColormeNewController@confirmEmailSuccess');
+    Route::post('/store-advisory', 'PublicApiController@storeAdvisory');
+
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');

@@ -5,13 +5,21 @@
     .carousel-control, .carousel-indicators .active {
         background-color:#BA8A45!important;
     }
-</style>
-<div id='vrview'></div>
+</style>    
+@if($room->cover_type == "360_STEREO" || $room->cover_type == "360")
+    <div style="margin-top: 70px;" id='vrview'></div>
+@endif
+
+@if($room->cover_type == "")
+    <div style="margin-top: 70px;background-image:url('{{$room->cover_url}}');background-size:cover;background-position:center;height:600px">                
+    </div>
+@endif
 <div class="container" style="padding: 50px 100px">
         <div class="row">
-                <div class="col-md-7 col-sm-6">
+                
+                <div class="col-sm-7 col-md-8">
 
-                    <div id="carousel" class="ml-auto mr-auto">
+                    <div id="carousel" class="ml-auto mr-auto" style="width:100%">
                         <div class="card page-carousel">
                             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" >
                                 <ol class="carousel-indicators">
@@ -46,46 +54,52 @@
                             </div>
                         </div>
                     </div> <!-- end carousel -->
-
+                    {!! $room->detail !!}
                 </div>
-                <div class="col-md-5 col-sm-6">
-                    <h3>{{$room->name}}</h3>
-                    <br/>
-                    @if($room->roomType)
-                        <span class="label label-default shipping">{{$room->roomType->name}}</span>
-                    @endif
-                    <hr>
-                    <p>Số chỗ ngồi: {{$room->seats_count}}</p>
-                    
 
-                    
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-7 col-sm-8">
-                            <button class="btn btn-danger btn-block btn-round" 
-                            style="background-color: #BA8A45;
-                            border-color: #BA8A45;">
-                            Đặt ngay &nbsp;<i class="fa fa-chevron-right"></i>
-                        </button>
+                <div class="col-sm-5 col-md-4">
+                        <h3>{{$room->name}}</h3>
+                        <br/>
+                        @if($room->roomType)
+                            <span class="label label-default shipping">{{$room->roomType->name}}</span>
+                        @endif
+                        <hr>
+                        <p>Số chỗ ngồi: {{$room->seats_count}}</p>             
+                        <p>{{$room->description}}</p>                           
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-7 col-sm-8">
+                            <button onClick="openSubmitModal({{$room->id}})" class="btn btn-danger btn-block btn-round" 
+                                style="background-color: #BA8A45;
+                                border-color: #BA8A45;">
+                                Đặt ngay &nbsp;<i class="fa fa-chevron-right"></i>
+                            </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                
             </div>    
                
 </div>
 <script src="http://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
-<script>
-    window.addEventListener('load', onVrViewLoad);
 
-    function onVrViewLoad() {
-    // Selector '#vrview' finds element with id 'vrview'.
-        // console.log("test");
-        var vrView = new VRView.Player('#vrview', {
-            image: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1520506226n0z3j3pj8izkKjg.jpg',
-            is_stereo: true,
-            width: '100%',
-            height: 600,
-        });
-    }
-</script>
+@if($room->cover_type == "360_STEREO" || $room->cover_type == "360")
+    <script>
+        window.addEventListener('load', onVrViewLoad);
+
+        function onVrViewLoad() {
+        // Selector '#vrview' finds element with id 'vrview'.
+            // console.log("test");
+            var vrView = new VRView.Player('#vrview', {
+                image: '{{$room->cover_url}}',
+                is_stereo: {{$room->cover_type == "360" ? "false" : "true"}},
+                width: '100%',
+                height: 600,
+            });
+        }
+    </script>
+@endif
+
+@include("trongdongpalace::includes.book_room_modal")
+
 @endsection

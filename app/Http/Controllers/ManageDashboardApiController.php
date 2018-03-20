@@ -141,13 +141,8 @@ class ManageDashboardApiController extends ManageApiController
             $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
             $dataClass['end_time'] = format_time_shift(strtotime($class->end_time));
             $classLesson = ClassLesson::find($class->class_lesson_id);
-            if (!empty($dataClass['teacher'])) {
-                $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson, $dataClass['teacher']['id']);
-            }
-
-            if (!empty($dataClass['teacher_assistant'])) {
-                $dataClass['attendance_teacher_assistant'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson, $dataClass['teacher_assistant']['id']);
-            }
+            $dataClass['attendance_teachers'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
+            $dataClass['attendance_teacher_assistants'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
             return $dataClass;
         });
 
@@ -161,6 +156,10 @@ class ManageDashboardApiController extends ManageApiController
         $di = 0;
 
         $total_money_registers = 0;
+
+        $now = date('Y-m-d');
+
+        $money_today = 0;
 
         foreach ($date_array as $date) {
 
@@ -182,6 +181,11 @@ class ManageDashboardApiController extends ManageApiController
             } else {
                 $money_by_date[$di] = 0;
             }
+
+            if ($date == $now) {
+                $money_today = $money_by_date[$di];
+            }
+
             $di += 1;
         }
 
@@ -275,7 +279,7 @@ class ManageDashboardApiController extends ManageApiController
         $data['paid_by_date'] = $paid_by_date;
         $data['date_array'] = $date_array;
         $data['money_by_date'] = $money_by_date;
-
+        $data['money_today'] = $money_today;
 
         $rating = $this->dashboardRepository->ratingUser($this->user);
         $user = $this->user;
@@ -390,12 +394,8 @@ class ManageDashboardApiController extends ManageApiController
             $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
             $dataClass['end_time'] = format_time_shift(strtotime($class->end_time));
             $classLesson = ClassLesson::find($class->class_lesson_id);
-            if (!empty($dataClass['teacher'])) {
-                $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
-            }
-            if (!empty($dataClass['teacher_assistant'])) {
-                $dataClass['attendance_teacher_assistant'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
-            }
+            $dataClass['attendance_teachers'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
+            $dataClass['attendance_teacher_assistants'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
             return $dataClass;
         });
 

@@ -76,6 +76,10 @@ class ManageEmailApiController extends ManageApiController
         $list_id = $request->list_id;
         $search = $request->search;
 
+        if ($list_id == null) {
+            return $this->respondErrorWithStatus("Thiếu subscribers list id");
+        }
+
         if ($request->limit) {
             $limit = $request->limit;
         } else {
@@ -136,7 +140,13 @@ class ManageEmailApiController extends ManageApiController
 
     public function upfile_add_subscribers(Request $request)
     {
+
         $list_id = $request->list_id;
+
+        if ($list_id == null) {
+            return $this->respondErrorWithStatus("Thiếu subscribers list id");
+        }
+
         $file = $request->file('csv');
 
         $emails = Email::where('campaign_id', 134)->orWhere('campaign_id', 138)->orWhere('campaign_id', 137)->orWhere('campaign_id', 136)->get()->pluck('to')->toArray();

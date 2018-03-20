@@ -262,6 +262,85 @@ class EmailService
 
         $subject = '[' . $this->emailCompanyName . '] Thông báo khai giảng khoá học ' . $course->name;
 
+        $this->send_mail_queue_cc($user, $data, $subject);
+    }
+
+    public function send_mail_confirm_change_class($register, $oldclass)
+    {
+        $class = $register->studyClass()->first();
+        $course = $class->course;
+
+        $user = $register->user;
+
+        $email_form = EmailForm::where('code', 'confirm_change_class')->first();
+
+        $data = convert_email_form($email_form);
+
+        $searchReplaceArray = [
+            '[[COURSE_DURATION]]' => $course->duration,
+            '[[COURSE_PRICE]]' => currency_vnd_format($course->price),
+            '[[CLASS_NAME]]' => $class->name,
+            '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ': ' . $class->base->address : ''),
+            '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ''),
+            '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[CLASS_DATE_START]]' => $class->datestart,
+            '[[USER_NAME]]' => $user->name,
+            '[[USER_EMAIL]]' => $user->email,
+            '[[USER_PHONE]]' => $user->phone,
+            '[[REGISTER_CODE]]' => $register->code,
+            '[[OLD_CLASS_NAME]]' => $oldclass,
+            '[[NEW_CLASS_NAME]]' => $class->name,
+        ];
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray),
+            $data
+        );
+
+        $subject = '[' . $this->emailCompanyName . '] Xác nhận đã đổi thành công từ lớp ' . $oldclass . ' sang lớp ' . $class->name;
+
+        $this->send_mail_queue_cc($user, $data, $subject);
+    }
+
+    public function send_mail_confirm_change_code($register, $oldCode)
+    {
+        $class = $register->studyClass;
+        $course = $class->course;
+
+        $user = $register->user;
+
+        $class = $register->studyClass;
+
+        $email_form = EmailForm::where('code', 'confirm_change_code')->first();
+
+        $data = convert_email_form($email_form);
+
+        $searchReplaceArray = [
+            '[[COURSE_DURATION]]' => $course->duration,
+            '[[COURSE_NAME]]' => $course->name,
+            '[[COURSE_PRICE]]' => currency_vnd_format($course->price),
+            '[[CLASS_NAME]]' => $class->name,
+            '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ': ' . $class->base->address : ''),
+            '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ''),
+            '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[CLASS_DATE_START]]' => $class->datestart,
+            '[[USER_NAME]]' => $user->name,
+            '[[USER_EMAIL]]' => $user->email,
+            '[[USER_PHONE]]' => $user->phone,
+            '[[REGISTER_CODE]]' => $register->code,
+            '[[OLD_REGISTER_CODE]]' => $oldCode,
+            '[[NEW_REGISTER_CODE]]' => $register->code,
+        ];
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray),
+            $data
+        );
+
+        $subject = '[' . $this->emailCompanyName . '] Xác nhận đã đổi thành công từ mã học viên ' . $oldCode . ' sang mã ' . $register->code;
+
         $this->send_mail_queue($user, $data, $subject);
     }
 
@@ -323,7 +402,7 @@ class EmailService
                 "/confirm-email-success?email=$email&name=$name&phone=$phone&hash=$hash&token=$token")
         ];
 
-        Mail::send('emails.verify_user_email', $data, function ($m) use ($email,$name ,$subject) {
+        Mail::send('emails.verify_user_email', $data, function ($m) use ($email, $name, $subject) {
             $m->from($this->emailCompanyFrom, $this->emailCompanyName);
             $m->to($email, $name)->subject($subject);
         });

@@ -197,6 +197,10 @@ function format_vn_short_datetime($time)
 {
     return rebuild_date('H:i d-m-Y', $time);
 }
+function format_vn_datetime($time)
+{
+    return rebuild_date('H:i:s d-m-Y', $time);
+}
 
 function format_vn_date($time)
 {
@@ -620,6 +624,7 @@ function uploadLargeFileToS3(\Illuminate\Http\Request $request, $fileField, $old
 
         $fileName = time() . random(15, true) . '.' . $file->getClientOriginalExtension();
         $filePath = '/files/' . $fileName;
+        // dd($file);
         $s3->getDriver()->put($filePath, fopen($file, 'r+'),
             ['ContentType' => $mimeType, 'visibility' => 'public']);
         if ($oldfile != null) {

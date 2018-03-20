@@ -233,11 +233,31 @@ class BookRepository
                 $order->price = $good->number * $currency->ratio * $good->price;
                 $order->status = 'place_order';
                 $object = new \stdClass();
-                $object->tax = $good->tax;
-                $object->size = $good->size;
-                $object->color = $good->color;
-                $object->link = $good->link;
-                $object->describe = $good->describe;
+                $object = [
+                    'size' => $good->size,
+                    'link' => $good->link,
+                    'color' => $good->color,
+                    'description' => $good->description,
+                    'quantity' => $good->number,
+                    'sale_off' => 0,
+                    'weight' => 0,
+                    'tax' => $good->tax,
+                    'price' => $good->price,
+                    'ratio' => $currency->ratio,
+                    'money' => 0,
+                    'fee' => 0,
+                    'code' => '',
+                    'arrive_time' => "",
+                    'currency_id' => $good->currencyId,
+                ];
+                //{"tax":"Gi\u00e1 c\u00f3 thu\u1ebf","size":"dsf","color":"asdd","link":"asdasdk","describe":""}
+                // {"size":"N","link":"facebook","color":"pink","description":"run rrun run","quantity":"3","
+                    // sale_off":"5","weight":0,"tax":"false","price":"15000","unit":"","ratio":1,"money":513000,"fee":0,"code":"ffffffff","endTime":"","currency_id":3}
+                // $object->tax = $good->tax;
+                // $object->size = $good->size;
+                // $object->color = $good->color;
+                // $object->link = $good->link;
+                // $object->describe = $good->describe;
                 $order->attach_info = json_encode($object);
                 $order->save();
             }

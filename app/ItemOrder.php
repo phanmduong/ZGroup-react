@@ -38,10 +38,7 @@ class ItemOrder extends Model
     {
         return [
             "id" => $this->id,
-            "company" => [
-                "id" => $this->company->id,
-                "name" => $this->company->name,
-            ],
+            "company" => $this->company->transform(),
             "staff" => $this->staff ? [
                 "id" => $this->staff->id,
                 "name" => $this->staff->name,
@@ -56,6 +53,7 @@ class ItemOrder extends Model
             "status" => $this->status,
             "note" => $this->note,
             "date" => $this->date,
+            "created_at" => $this->created_at,
             "goods" => $this->exportOrder->map(function ($good) {
                 return $good->transform();
             })
@@ -64,6 +62,7 @@ class ItemOrder extends Model
 
     public function importTransform()
     {
+        $pp = $this->importOrder()->take($this->good_count)->get();
         return [
             "id" => $this->id,
             "company" => [
@@ -84,7 +83,8 @@ class ItemOrder extends Model
             "status" => $this->status,
             "note" => $this->note,
             "date" => $this->date,
-            "goods" => $this->importOrder->map(function ($good) {
+            "created_at" => $this->created_at,
+            "goods" => $pp->map(function ($good) {
                 return $good->transform();
             })
         ];

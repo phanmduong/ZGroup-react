@@ -19,7 +19,7 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
-    <link href="assets/css/trongdong.css" rel="stylesheet">
+    <link href="/assets/css/trongdong.css" rel="stylesheet">
     <script>
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
@@ -405,41 +405,7 @@
     </div>
 </footer>
 
-<div id="submitModal" class="modal fade show">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" class="close">×</button>
-                <h3 class="medium-title">Đăng kí </h3></div>
-            <div id="modal-body" class="modal-body">
-                <div class="container">
-                    <form class="register-form ">
-                        <h6>Họ và tên</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
-                        <h6>Số điện thoại</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
-                        <h6>Email</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" v-model="email" type="text" class="form-control" placeholder="Địa chỉ email"><br>
-                        <h6>Địa chỉ</h6>
-                        <input style="border: 1px solid #d0d0d0 !important" v-model="address" type="text" class="form-control" placeholder="Địa chỉ"><br>
-                    </form>
-                </div>
-                <div class="alert alert-danger" v-if="message"
-                     style="margin-top: 10px"
-                     id="purchase-error">
-                    @{{ message }}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="btn-purchase" class="btn btn-sm btn-main"
-                        style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
-                        v-on:click="submit">
-                    Xác nhận</i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+
 </body>
 
 <!--  Plugins -->
@@ -453,7 +419,6 @@
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/demo.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
 <!--  Plugins for presentation page -->
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/presentation-page/main.js"></script>
@@ -475,35 +440,35 @@
     })
 </script>
 <script type="text/javascript">
-    (function () {
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+    // (function () {
+    //     function getRandomInt(min, max) {
+    //         return Math.floor(Math.random() * (max - min + 1)) + min;
+    //     }
 
-        new IsoGrid(document.querySelector('.isolayer--deco1'), {
-            transform: 'translateX(33vw) translateY(-340px) rotateX(45deg) rotateZ(45deg)',
-            stackItemsAnimation: {
-                properties: function (pos) {
-                    return {
-                        translateZ: (pos + 1) * 30,
-                        rotateZ: getRandomInt(-4, 4)
-                    };
-                },
-                options: function (pos, itemstotal) {
-                    return {
-                        type: dynamics.bezier,
-                        duration: 500,
-                        points: [{"x": 0, "y": 0, "cp": [{"x": 0.2, "y": 1}]}, {
-                            "x": 1,
-                            "y": 1,
-                            "cp": [{"x": 0.3, "y": 1}]
-                        }],
-                        delay: (itemstotal - pos - 1) * 40
-                    };
-                }
-            }
-        });
-    })();
+    //     new IsoGrid(document.querySelector('.isolayer--deco1'), {
+    //         transform: 'translateX(33vw) translateY(-340px) rotateX(45deg) rotateZ(45deg)',
+    //         stackItemsAnimation: {
+    //             properties: function (pos) {
+    //                 return {
+    //                     translateZ: (pos + 1) * 30,
+    //                     rotateZ: getRandomInt(-4, 4)
+    //                 };
+    //             },
+    //             options: function (pos, itemstotal) {
+    //                 return {
+    //                     type: dynamics.bezier,
+    //                     duration: 500,
+    //                     points: [{"x": 0, "y": 0, "cp": [{"x": 0.2, "y": 1}]}, {
+    //                         "x": 1,
+    //                         "y": 1,
+    //                         "cp": [{"x": 0.3, "y": 1}]
+    //                     }],
+    //                     delay: (itemstotal - pos - 1) * 40
+    //                 };
+    //             }
+    //         }
+    //     });
+    // })();
 
     function paginator(currentPageData, totalPagesData) {
         var page = [];

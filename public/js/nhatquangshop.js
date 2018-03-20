@@ -262,13 +262,12 @@ var modalPurchase = new Vue({
                     $("#btn-purchase-group").css("display", "block");
                     $("#modalPurchase").modal("hide");
                     $("#modalSuccess").modal("show");
-                    name = "";
-                    phone = "";
-                    email = "";
-                    address = "";
-                    payment = "";
-                })
-
+                    this.name = "";
+                    this.phone = "";
+                    this.email = "";
+                    this.address = "";
+                    this.payment = "";
+                }.bind(this))
                 .catch(function (error) {
                     console.log(error);
                 });
@@ -289,8 +288,8 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
+                tax:false,
+                description: "",
                 currencyId: 0
             },
         ],
@@ -310,12 +309,7 @@ var fastOrder = new Vue({
             this.isLoadingCurrency = true;
             axios.get(window.url + '/currency')
                 .then(function (response) {
-                    // this.currencies.push({
-                    //     name: 'default'
-                    // });
-
                     this.currencies = response.data.currencies;
-                    // console.log(this.currencies);
                     this.isLoadingCurrency = false;
                 }.bind(this))
                 .catch(function (error) {
@@ -331,8 +325,8 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
+                tax: false,
+                description: "",
                 currencyId: 0,
             });
         },
@@ -375,8 +369,8 @@ var fastOrder = new Vue({
                 size: "",
                 color: "",
                 number: 1,
-                tax: "Giá chưa thuế",
-                describe: "",
+                tax: false,
+                description: "",
                 currencyId: 0,
             });
         }

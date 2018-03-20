@@ -158,22 +158,19 @@ class ManageRegisterStudentApiController extends ManageApiController
         $registerId = $request->register_id;
         $classId = $request->class_id;
 
-        $register = Register::find($registerId);
-        if ($register->code) {
-            $prefix = substr($register->code, 0, strlen(config('app.prefix_code_wait')));
-            $code = Register::orderBy('code', 'desc')->first()->code;
+        $newClass = StudyClass::find($classId);
 
-            if ($prefix == config('app.prefix_code_wait') && count(explode(config('app.prefix_code_wait'), $code)) > 1) {
-                $nextNumber = explode(config('app.prefix_code_wait'), $code)[1] + 1;
-                $nextCode = config('app.prefix_code') . $nextNumber;
-                $register->code = $nextCode;
+        $register = Register::find($registerId);
+        if ($register->code && $newClass->type == "active") {
+            $prefix = substr($register->code, 0, strlen(config('app.prefix_code_wait')));
+
+            if ($prefix == config('app.prefix_code_wait')) {
+                $register->code = next_code()['next_code'];
                 $register->save();
             }
         }
 
-
         $oldClass = $register->studyClass;
-        $newClass = StudyClass::find($classId);
 
 
         if ($register->status == 1) {
@@ -217,13 +214,15 @@ class ManageRegisterStudentApiController extends ManageApiController
         $data['user'] = $user;
         $data['register'] = $register;
 
-        $subject = "Xác nhận đã đổi thành công từ lớp $oldClass->name sang lớp $newClass->name";
-        $emailcc = ['colorme.idea@gmail.com'];
-        Mail::queue('emails.confirm_change_class', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Color Me');
+        $this->emailService->send_mail_confirm_change_class($register, $oldClass->name);
 
-            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-        });
+//        $subject = "Xác nhận đã đổi thành công từ lớp $oldClass->name sang lớp $newClass->name";
+//        $emailcc = ['colorme.idea@gmail.com'];
+//        Mail::queue('emails.confirm_change_class', $data, function ($m) use ($user, $subject, $emailcc) {
+//            $m->from('no-reply@colorme.vn', 'Color Me');
+//
+//            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
+//        });
 
         $classData = [
             'id' => $newClass->id,
@@ -243,7 +242,8 @@ class ManageRegisterStudentApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             'message' => 'Bạn đã đổi học viên thành công sang lớp ' . $classData['name'],
-            'class' => $classData
+            'class' => $classData,
+            'code' => $register->code
         ]);
     }
 

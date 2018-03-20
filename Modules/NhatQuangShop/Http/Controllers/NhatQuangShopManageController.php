@@ -206,7 +206,7 @@ class NhatQuangShopManageController extends Controller
         $user = Auth::user();
         $email = $user->email;
         $user_id = $user->id;
-        $address = $user->address;
+        $address = $user->address ? $user->address : "Người dùng chưa có địa chỉ";
 
         $delivery_orders = json_decode($request->fastOrders);
         // dd($delivery_orders);

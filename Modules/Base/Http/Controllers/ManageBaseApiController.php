@@ -30,12 +30,12 @@ class ManageBaseApiController extends ManageApiController
         if (!isset($registerId) || !isset($startTime) || !isset($endTime)) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu dữ liệu');
         }
-
         $registerSeat = new RoomServiceRegisterSeat();
         $registerSeat->room_service_register_id = $registerId;
         $registerSeat->seat_id = $seatId;
         $registerSeat->start_time = format_time_to_mysql((int)$startTime);
         $registerSeat->end_time = format_time_to_mysql((int)$endTime);
+        $registerSeat->user_id = $this->user->id;
         $registerSeat->save();
 
         return $this->respondSuccessV2([
@@ -130,10 +130,17 @@ class ManageBaseApiController extends ManageApiController
         $room->name = $request->name;
         $room->base_id = $baseId;
         $room->room_type_id = $request->room_type_id;
+        $room->detail = $request->detail;
+        $room->description = $request->description;
+        $room->room_type_id = $request->room_type_id;
 
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
         $room->avatar_url = $request->avatar_url;
+
+        $room->cover_url = $request->cover_url;
+        $room->cover_type = $request->cover_type;
+
         $room->save();
 
         return $room;
@@ -162,9 +169,10 @@ class ManageBaseApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 6;
 
         $bases = Base::query();
-        if ($query)
+        if ($query) {
             $bases = $bases->where('name', 'like', "%$query%")
-            ->orWhere('address', 'like', "%$query%");
+                ->orWhere('address', 'like', "%$query%");
+        }
 
         if ($limit == -1) {
             $bases = $bases->orderBy('created_at', 'desc')->get();
@@ -348,7 +356,6 @@ class ManageBaseApiController extends ManageApiController
 
     public function updateSeat($seatId, Request $request)
     {
-        $seat = Seat::find($seatId);
         if ($seat == null) {
             return $this->respondErrorWithStatus('Chỗ ngồi không tồn tại');
         }
@@ -391,7 +398,8 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function chooseSeatHistory($registerId)
+    public function chooseSeat
+    ($registerId)
     {
         $registerSeats = RoomServiceRegisterSeat::where('room_service_register_id', $registerId)->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessV2([
@@ -401,12 +409,31 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
+    public function getHistoryBookSeat(Request $request)
+    {
+//        $search = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        $seats = RoomServiceRegisterSeat::query();
+
+//        $seats = $seats->seat()->where('name','like','%'.$search.'%');
+        if ($limit == -1) {
+            $seats = $seats->orderBy('created_at', 'desc')->get();
+        } else {
+            $seats = $seats->orderBy('created_at', 'desc')->paginate($limit);
+        }
+        return $this->respondWithPagination($seats, [
+            'historySeat' => $seats->map(function ($seat) {
+                return $seat->transform();
+            })]);
+    }
+
     public function getRoomTypes(Request $request)
     {
         $search = $request->search;
         $limit = $request->limit ? $request->limit : 20;
         $roomTypes = RoomType::query();
-        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%');
+        $roomTypes = $roomTypes->where('name', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%');
         if ($limit == -1) {
             $roomTypes = $roomTypes->orderBy('created_at', 'desc')->get();
             return $this->respondSuccessWithStatus([
@@ -427,6 +454,10 @@ class ManageBaseApiController extends ManageApiController
     {
         if ($request->name == null || trim($request->name) == '') {
             return $this->respondErrorWithStatus('Thiếu tên');
+        }
+        $roomType = RoomType::query();
+        if ($roomType->where('name', trim($request->name))->first()) {
+            return $this->respondErrorWithStatus('Phòng này đã được tạo');
         }
         $roomType = new RoomType;
         $roomType->name = $request->name;

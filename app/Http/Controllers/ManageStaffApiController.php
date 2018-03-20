@@ -102,9 +102,13 @@ class ManageStaffApiController extends ManageApiController
         return $this->respondWithPagination($staffs, $data);
     }
 
-    public function get_staff($staffId)
+    public function get_staff($staffId = null)
     {
         $staff = User::find($staffId);
+        if ($staff == null) {
+            $staff = User::find($this->user->id);
+        }
+
         $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
         return $this->respondSuccessWithStatus(['staff' => $staff]);
     }
