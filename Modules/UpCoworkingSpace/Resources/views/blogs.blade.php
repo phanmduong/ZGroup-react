@@ -41,7 +41,7 @@
                                 <p class="card-description">
                                     {{shortString($blog->description, 15)}}                                </p>
                                 <br>
-                                <a href="{{'/blog/post/'.$blog->id}}" style="color:#7bc043!important"><b>Xem
+                                <a href="{{'/' . $blog->slug}}" style="color:#7bc043!important"><b>Xem
                                         thêm</b></a>
                             </div>
                         </div>
@@ -54,18 +54,18 @@
                 <div class="pagination-area">
                     <ul class="pagination pagination-primary justify-content-center">
                         <li class="page-item">
-                            <a href="/blog?page=1&search={{$search}}" class="page-link">
+                            <a href="/tin-tuc-startup?page=1&search={{$search}}" class="page-link">
                                 <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                             </a>
                         </li>
                         <li v-for="page in pages"
                             v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
-                            <a v-bind:href="'/blog?page='+page+'&search={{$search}}'" class="page-link">
+                            <a v-bind:href="'/tin-tuc-startup?page='+page+'&search={{$search}}'" class="page-link">
                                 @{{page}}
                             </a>
                         </li>
                         <li class="page-item">
-                            <a href="/blog?page={{$total_pages}}&search={{$search}}" class="page-link">
+                            <a href="/tin-tuc-startup?page={{$total_pages}}&search={{$search}}" class="page-link">
                                 <i class="fa fa-angle-double-right" aria-hidden="true">
                                 </i>
                             </a>

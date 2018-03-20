@@ -228,6 +228,9 @@ class BookingController extends ApiPublicController
             $product->category_id = 3;
             $product->url = "d1j8r0kxyu9tj8.cloudfront.net/images/1500137080dAlPJYo8BVlQiiD.jpg";
             $product->description = $this->get_snippet(str_replace("\n", "", strip_tags($product->content)), 19) . "...";
+            $product->url = DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first() ? 
+                // str_replace('http://up-co.vn/wp-content/uploads/', 'd2xbg5ewmrmfml.cloudfront.net/up/images/', DB::table('wp_posts')->where('post_parent', $post->ID)->first()->guid) : 'd1j8r0kxyu9tj8.cloudfront.net/images/1497515616qyeFK8J022T23Q3.jpg';
+                str_replace('http://', '', DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first()->guid) : 'd1j8r0kxyu9tj8.cloudfront.net/images/1497515616qyeFK8J022T23Q3.jpg';
             foreach (preg_split("/((\r?\n)|(\r\n?))/", $post->post_content) as $line) {
                 $product->content = str_replace($line, '<p>' .$line. '</p>', $product->content);
                 $product->content = str_replace('<strong>', '<p><h6>', $product->content);
@@ -248,6 +251,7 @@ class BookingController extends ApiPublicController
                     preg_match($pattern, strrev($line), $matches);
                     $product->content = str_replace(strrev(reset($matches)), '.jpeg', $product->content);
                 }
+                $product->content = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->content);
                 $pattern = '/width="([0-9]{3,4})" height="([0-9]{3,4})"/';
                 preg_match($pattern, $line, $matches);
                 if (reset($matches))
