@@ -74,7 +74,7 @@ class ManageEmailMaketingController extends ManageApiController
                     ->orWhere('title', 'like', '%' . $query . '%');
             })->orderBy('created_at')->paginate($limit);
         } else {
-            $email_forms = $email_forms->orderBy('created_at')->paginate($limit);
+            $email_forms = $email_forms->orderBy('created_at', 'desc')->paginate($limit);
         }
 
         $data = [
