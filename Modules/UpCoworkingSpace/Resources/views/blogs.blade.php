@@ -27,7 +27,7 @@
             <br>
             <div class="row">
                 @foreach($blogs as $blog)
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="card card-plain card-blog">
                             <div class="card-image">
                                 <a href="{{'/' . $blog->slug}}">
@@ -40,6 +40,38 @@
                                 </h3>
                                 <p class="card-description">
                                     {{shortString($blog->description, 15)}}                                </p>
+                                <br>
+                                <a href="{{'/' . $blog->slug}}" style="color:#7bc043!important"><b>Xem
+                                        thêm</b></a>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-md-4">
+                        <div class="card card-plain card-blog">
+                            <div class="card-image">
+                                <a href="{{'/' . $blog->slug}}">
+                                    <div
+                                            style="width: 100%;
+                                                    border-radius: 15px;
+                                                    background: url({{generate_protocol_url($blog->url)}});
+                                                    background-size: cover;
+                                                    background-position: center;
+                                                    padding-bottom: 70%;"
+
+                                    ></div>
+                                </a>
+                            </div>
+
+                            <div class="card-block">
+                                @if($blog->category)
+                                    <span class="label label-danger">{{$blog->category->name}}</span>
+                                @endif
+                                <h3 class="card-title">
+                                    <a href="{{'/blog/post/'.$blog->id}}">{{$blog->title}}</a>
+                                </h3>
+                                <p class="card-description">
+                                    {{shortString($blog->description, 19)}}
+                                </p>
                                 <br>
                                 <a href="{{'/' . $blog->slug}}" style="color:#7bc043!important"><b>Xem
                                         thêm</b></a>
