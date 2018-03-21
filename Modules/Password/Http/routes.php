@@ -8,9 +8,9 @@ Route::group(['middleware' => 'web', 'prefix' => 'password', 'namespace' => 'Mod
 $routes = function () {
     Route::group(['prefix' => 'v2/password'], function (){
         route::post('store/{code}','PasswordController@store');
-        route::post('edit/{code}/{id}','PasswordController@edit');
+        route::put('edit/{code}/{id}','PasswordController@edit');
         route::get('all/{code}','PasswordController@show');
-        route::post('delete/{id}','PasswordController@destroy');
+        route::delete('delete/{id}','PasswordController@destroy');
     });
 };
 
