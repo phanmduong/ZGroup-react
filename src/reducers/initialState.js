@@ -8,6 +8,15 @@ export default {
         summary: [],
     },
 
+    summarySalesRoom: {
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+
     summaryMarketingCampaignUp: {
         errorGens: false,
         bases: [],
@@ -42,6 +51,21 @@ export default {
         isChangingStatus: false,
         isLoadingBases: false,
         bases: [],
+        isSavingPayment: false,
+    },
+
+    registerManageRoom: {
+        registers: [],
+        salers: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        isChangingStatus: false,
+        isLoadingBases: false,
+        bases: [],
+        isSavingPayment: false,
     },
 
     bankAccount: {
@@ -709,6 +733,10 @@ export default {
             title: '',
             description: '',
             tags: '',
+            slug: '',
+            meta_title:'',
+            keyword:'',
+            meta_description:'',
             category: 0,
             content: '',
             isSaving: false,
@@ -1444,6 +1472,18 @@ export default {
         error: false,
         summary: [],
     },
+    summaryMarketingCampaignRoom: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
     summarySales: {
         gens: [],
         isLoadingGens: false,
@@ -1770,7 +1810,7 @@ export default {
         isSavingCompany: false,
         isSavingField: false,
         isLoading: false,
-        company: {
+        company: [{
             name: "",
             registered_business_address: "",
             office_address: "",
@@ -1787,7 +1827,7 @@ export default {
             user_contact: "",
             user_contact_phone: "",
             type: "",
-        },
+        }],
         summay_money: 0,
         fields: [],
         paginator: {
@@ -2052,21 +2092,25 @@ export default {
         isLoadingImportOrder: false,
         isLoadingItemOrder: false,
         isLoadingPrintOrder: false,
-        isLoadingGoods: false,
-        isLoadingCompanies: false,
-        isLoadingWarehouses: false,
         paginator: {
             current_page: 1,
             limit: 20,
             total_count: 1,
             total_pages: 1,
         },
-        itemOrder: [],
+        paginator_history: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        itemOrders: [],
         printOrder: [],
         importOrders: [],
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
+        historyImportOrder: [],
     },
     moneyTransfer: {
         isCreatingTransaction: false,

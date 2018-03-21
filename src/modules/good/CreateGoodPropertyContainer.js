@@ -39,7 +39,7 @@ class CreateGoodPropertyContainer extends React.Component {
         }
 
     }
-
+ 
     updateFormData(event) {
         const field = event.target.name;
         let property = {...this.props.property};

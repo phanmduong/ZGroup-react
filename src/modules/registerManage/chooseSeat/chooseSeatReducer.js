@@ -34,6 +34,8 @@ const initialState = {
     showChooseSeatHistoryModal: false,
     isBookingSeat: false,
     isLoadingChooseSeatHistory: false,
+    historyChooseSeat : [],
+    totalHistoryPages : 0,
 };
 
 export default function chooseSeatReducer(state = initialState, action) {
@@ -47,6 +49,8 @@ export default function chooseSeatReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoadingChooseSeatHistory: false,
+                historyChooseSeat : action.historyChooseSeat,
+                totalHistoryPages : action.totalHistoryPages,
             };
         case TOGGLE_CHOOSE_SEAT_HISTORY_MODAL:
             return {

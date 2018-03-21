@@ -86,12 +86,12 @@ export function changeCallStatus(
             });
     };
 }
-export function savePayment(money, register_id, user_id, closeModal) {
+export function savePayment(money, note , register_id, user_id, closeModal) {
     return function (dispatch) {
       dispatch({
           type : types.BEGIN_SAVE_PAYMENT,
       });
-      registerManageApi.savePaymentApi(money,register_id,user_id)
+      registerManageApi.savePaymentApi(money,note , register_id,user_id)
           .then(res => {
              if (res.data.status){
                  closeModal();
