@@ -132,6 +132,7 @@ class AdministrationController extends ManageApiController
 
     public function showReports(Request $request)
     {
+//        dd(1);
         return Report::all();
     }
 }
