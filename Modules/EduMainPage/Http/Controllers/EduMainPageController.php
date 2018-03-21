@@ -26,7 +26,6 @@ class EduMainPageController extends Controller
     {
         $blogs = Product::where("type", 2)->orderBy("created_at", "desc")->limit(3)->get();
 
-
         return view("$this->EDU_VIEW::index", [
             "blogs" => $blogs,
             "courses" => $this->courses
@@ -60,7 +59,6 @@ class EduMainPageController extends Controller
     public function register($courseId = null, $campaignId = null, $salerId = null)
     {
         $course = Course::find($courseId);
-        $courses = Course::all();
         $current_gen = Gen::getCurrentGen();
 
         $date_start = $course->classes->sortbyDesc("datestart")->first();
@@ -74,7 +72,7 @@ class EduMainPageController extends Controller
         $this->data["bases"] = Base::all()->filter(function ($base) use ($courseId, $current_gen) {
             return $base->classes()->where("course_id", $courseId)->where("gen_id", $current_gen->id)->count() > 0;
         });
-        $this->data["courses"] = $courses;
+        $this->data["courses"] = $this->courses;
 
         $this->data["saler_id"] = $salerId;
         $this->data["campaign_id"] = $campaignId;

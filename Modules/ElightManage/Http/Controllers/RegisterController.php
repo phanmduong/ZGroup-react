@@ -30,6 +30,7 @@ class RegisterController extends Controller
     {
 
         $class = StudyClass::find($classId);
+    
         return view("$this->EDU_VIEW::register_class", [
             "class" => $class,
             "saler_id" => $salerId,
