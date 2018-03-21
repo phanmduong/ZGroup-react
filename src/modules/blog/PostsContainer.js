@@ -192,7 +192,7 @@ class BlogsContainer extends React.Component {
                     onHide={() => {}}
                     animation={false}
                 >
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>
                             <strong>Bài viết</strong>
                         </Modal.Title>

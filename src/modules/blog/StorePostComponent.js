@@ -156,7 +156,7 @@ class StorePostComponent extends React.Component {
                                                             bottom: 0,
                                                             right: 0,
                                                             width: "100%",
-                                                            height: "10%",
+                                                            height: "100%",
                                                         }}
                                                     />
                                                 </a>
