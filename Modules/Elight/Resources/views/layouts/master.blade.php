@@ -102,9 +102,9 @@
                         class="fa fa-shopping-cart" style="font-size: 16px; padding: 2px 0px 0px;"></i>
                 &nbsp;
                 Giỏ hàng
-                <div id="booksCount"
-                     style="margin-left: 10px; height: 20px; width: 20px; border-radius: 50%; background-color: rgb(197, 0, 0); color: white; display: flex; align-items: center; justify-content: center;">
-                    @{{books_count}}
+                <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
+                            @{{ books_count }}
                 </div>
             </a>
 
@@ -296,13 +296,11 @@
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
                 <div id="btn-purchase-group" style="text-align: right">
-                    <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
-                        tục mua <i class="fa fa-angle-right"></i></button>
                     <button
                             v-on:click="submitOrder()"
                             onclick="fbq('track', 'InitiateCheckout')"
                             class="btn btn-sm btn-success"
-                            style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
+                            style="margin:10px 10px 10px 0px!important">Gửi thông tin đặt hàng <i class="fa fa-angle-right"></i>
                     </button>
                 </div>
             </div>
@@ -382,7 +380,7 @@
                 </div>
                 <div class="modal-footer">
                     <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
-                            style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                            style="width:auto!important">Thêm sản phẩm <i class="fa fa-angle-right"></i></button>
                     <button id="btn-purchase"
                             v-on:click="openPurchaseModal()"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Đồng ý <i

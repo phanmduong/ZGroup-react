@@ -51,18 +51,14 @@
                 </div>
                 <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                     <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
-                        <div class="col-md-12">
-
-                            <a href="/sach/{{$goods[0]->id}}" class="btn btn-link btn-success">
+                        <div class="col-md-12"
+                            <a href="http://elightbook.com" class="btn btn-link btn-success">
                                 Xem thêm
                             </a>
-
-
                             <button v-on:click="openModalBuy({{$goods[0]->id}})" onclick="fbq('track', 'AddToCart')" class="btn btn-success" style="padding:5px;margin:5px;font-size:10px;">
                                 Đặt mua ngay
                                 <i class="fa fa-angle-right"></i>
                             </button>
-
                         </div>
                     </div>
                 </div>
