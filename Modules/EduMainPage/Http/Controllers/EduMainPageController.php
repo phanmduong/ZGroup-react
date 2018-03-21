@@ -29,7 +29,7 @@ class EduMainPageController extends Controller
 
         return view("$this->EDU_VIEW::index", [
             "blogs" => $blogs,
-            "courses" => $this->courses;
+            "courses" => $this->courses
         ]);
     }
 
