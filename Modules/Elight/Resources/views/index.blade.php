@@ -51,7 +51,7 @@
                 </div>
                 <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                     <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
-                        <div class="col-md-12"
+                        <div class="col-md-12">
                             <a href="http://elightbook.com" class="btn btn-link btn-success">
                                 Xem thêm
                             </a>

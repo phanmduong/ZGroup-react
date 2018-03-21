@@ -13,6 +13,9 @@
                 <h4 style="color:white">
                     Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt.
                 </h4>
+                <br>
+                <a href="/#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu ngay</a>
+
             </div>
         </div>
     </div>
