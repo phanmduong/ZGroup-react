@@ -14,21 +14,22 @@ use Illuminate\Support\Facades\Validator;
 class EduMainPageController extends Controller
 {
     protected $EDU_VIEW;
+    protected $courses;
 
     public function __construct()
     {
         $this->EDU_VIEW = config("app.edu_view");
+        $this->courses = Course::orderBy("created_at", "desc")->where('status',1)->get();
     }
 
     public function index()
     {
         $blogs = Product::where("type", 2)->orderBy("created_at", "desc")->limit(3)->get();
 
-        $courses = Course::orderBy("created_at", "desc")->get();
 
         return view("$this->EDU_VIEW::index", [
             "blogs" => $blogs,
-            "courses" => $courses
+            "courses" => $this->courses;
         ]);
     }
 
