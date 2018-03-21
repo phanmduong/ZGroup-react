@@ -112,7 +112,7 @@
                                         HOÀN THIỆN DỊCH VỤ				
 				                        </h3>
                                         <p class="card-description">
-                                            Nhanh chóng học hỏi và cải thiện, Nhà Sách ngay lập tức tập trung hoàn thiện chất lượng dịch vụ. Ngay lúc này, bạn dễ dàng<a onClick="openSubmitModal({{$room->id}})" style="color:blue"> đặt mua sách tại đây</a> hoặc gọi đến số <strong style="color:black">0981 937 066</strong> để được hướng dẫn và tư vấn bởi sự nhiệt tình và thấu hiểu tận tâm người học. Mua sách online và thanh toán tận nơi ngay khi cầm lên tay cuốn sách đẹp còn thơm mùi mực in trên giấy màu. Chúng tôi mong muốn người học sẽ hài lòng và muốn học ngay cả khi chưa chạm vào sách. 				
+                                            Nhanh chóng học hỏi và cải thiện, Nhà Sách ngay lập tức tập trung hoàn thiện chất lượng dịch vụ. Ngay lúc này, bạn dễ dàng<a onClick="pureJsOpenModalBuy(8)" style="color:blue"> đặt mua sách tại đây</a> hoặc gọi đến số <strong style="color:black">0981 937 066</strong> để được hướng dẫn và tư vấn bởi sự nhiệt tình và thấu hiểu tận tâm người học. Mua sách online và thanh toán tận nơi ngay khi cầm lên tay cuốn sách đẹp còn thơm mùi mực in trên giấy màu. Chúng tôi mong muốn người học sẽ hài lòng và muốn học ngay cả khi chưa chạm vào sách. 				
                                         </p>
 
                                     </div>
@@ -142,7 +142,7 @@
                                         ĐỒNG HÀNH TRỌN ĐỜI				
                                         </h3>
                                         <p class="card-description">
-                                        “Mình mua sách rồi giờ học thế nào?” Đừng quên tham gia nhóm Elight Sách Tiếng Anh Cơ Bản trên Facebook để được hỗ trợ kiến thức từ giảng viên Elight. Đây là nơi bạn thoải mái trao đổi và giải đáp mọi khó khăn về Tiếng Anh, chia sẻ kiến thức cùng hơn 40.000 thành viên đang học sách từ mọi miền đất nước Việt Nam. Không chỉ là kiến thức trên giấy, Elight cung cấp cả môi trường giao tiếp cho bạn khi mua sách. Mà chúng tôi đã đề cập đến việc sẽ liên tục gửi tặng cho khách hàng cũ rất nhiều tài liệu học online hữu ích chưa nhỉ ? 				
+                                        “Mình mua sách rồi giờ học thế nào?” Đừng quên tham gia nhóm <strong style = "color:black">Elight Sách Tiếng Anh Cơ Bản</strong> trên Facebook để được hỗ trợ kiến thức từ giảng viên Elight. Đây là nơi bạn thoải mái trao đổi và giải đáp mọi khó khăn về Tiếng Anh, chia sẻ kiến thức cùng hơn 40.000 thành viên đang học sách từ mọi miền đất nước Việt Nam. Không chỉ là kiến thức trên giấy, Elight cung cấp cả môi trường giao tiếp cho bạn khi mua sách. Mà chúng tôi đã đề cập đến việc sẽ liên tục gửi tặng cho khách hàng cũ rất nhiều tài liệu học online hữu ích chưa nhỉ ? 				
                                         </p>
 
                                     </div>
@@ -183,7 +183,7 @@
 				
                                         </h3>
                                         <p class="card-description">
-                                            Với việc ngoại ngữ ngày càng quan trọng với người Việt, Nhà Sách Elight đang và sẽ tiếp tục xây dựng, phát triển những sản phẩm giá trị và hữu ích cho cộng đồng. Chúng tôi vẫn luôn cải tiến liên tục sản phẩm cốt lõi và mong muốn chạm tới giới hạn cao nhất về chất lượng và dịch vụ. Nếu bạn mong muốn sở hữu bộ sách học Tiếng Anh của chúng tôi, tìm hiểu tại đây nhé.				
+                                            Với việc ngoại ngữ ngày càng quan trọng với người Việt, Nhà Sách Elight đang và sẽ tiếp tục xây dựng, phát triển những sản phẩm giá trị và hữu ích cho cộng đồng. Chúng tôi vẫn luôn cải tiến liên tục sản phẩm cốt lõi và mong muốn chạm tới giới hạn cao nhất về chất lượng và dịch vụ. Nếu bạn mong muốn sở hữu bộ sách học Tiếng Anh của chúng tôi, tìm hiểu <a onClick="pureJsOpenModalBuy(8)" style="color:blue">tại đây</a> nhé.				
 		                                </p>
 
                                     </div>
@@ -191,10 +191,23 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-header page-header-small"
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1521643292EmZEYg6gEaRGP9F.jpg');">
+        <div class="filter filter-dark"></div>
+        <div class="content-center">
+            <div class="container">
+                <h2 style="font-weight: 400">
+                    Bạn yêu thích Tiếng Anh, Giáo Dục và câu chuyện của Elight?
+                </h2>
+                <h4 style="color:white">
+                    Liên hệ qua email <strong>elightedu.kd@gmail.com</strong> để hợp tác và làm việc cùng chúng mình nhé ! 
+                </h4>
             </div>
         </div>
     </div>

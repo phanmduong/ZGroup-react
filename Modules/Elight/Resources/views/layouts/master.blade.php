@@ -431,6 +431,11 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/elight.js?6868"></script>
 <script type="text/javascript">
+    function pureJsOpenModalBuy(goodId) {
+        modalBuy.addGoodToCart(goodId);
+        $('#modalBuy').modal('show');
+    }
+
     (function () {
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
