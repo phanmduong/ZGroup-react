@@ -389,6 +389,17 @@ export const TYPE_MONEY_TRANSFER = [
     },
 ];
 
+export const TYPE_MONEY = [
+    {
+        value: "Thu",
+        key: "1",
+    },
+    {
+        value: "Chi",
+        key: "2",
+    },
+];
+
 export const ORDER_STATUS_COLORS = {
     place_order: "#f9f9f9",
     confirm_order: "#b5d0fc",

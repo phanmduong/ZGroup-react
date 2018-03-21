@@ -1,12 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
-import * as staffKeepMoneyActions from './staffKeepMoneyActions';
+import * as spendMoneyActions from './spendMoneyActions';
 import {dotNumber} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
-import {TYPE_TRANSACTION} from "../../constants/constants";
-import ReactSelect from 'react-select';
 
 class HistoryTransaction extends React.Component {
     constructor(props, context) {
@@ -24,13 +23,14 @@ class HistoryTransaction extends React.Component {
 
     loadData(page = 1) {
         this.setState({page});
-        this.props.staffKeepMoneyActions.loadHistoryTransactionStaff(this.props.staff.id, page, this.state.type);
+        this.props.spendMoneyActions.loadHistoryTransactions(page, this.state.type);
     }
 
     changeType(value) {
-        let type = value && value.value ? value.value : "";
-        this.setState({type: type, page: 1});
-        this.props.staffKeepMoneyActions.loadHistoryTransactionStaff(this.props.staff.id, 1, type);
+        if (value != this.state.type) {
+            this.setState({type: value, page: 1});
+            this.props.spendMoneyActions.loadHistoryTransactions(1, value);
+        }
     }
 
     render() {
@@ -40,20 +40,25 @@ class HistoryTransaction extends React.Component {
                     <i className="material-icons">assignment</i>
                 </div>
                 <div className="card-content">
-                    <h4 className="card-title">Lịch sử giao dịch</h4>
-                    <div className="row">
-                        <div className="col-md-3">
-                            <div className="form-group">
-                                <label className="label-control">Tìm theo loại giao dịch</label>
-                                <ReactSelect
-                                    name="form-field-status"
-                                    value={this.state.type}
-                                    options={TYPE_TRANSACTION}
-                                    onChange={this.changeType}
-                                    placeholder="Chọn loại giao dịch"
-                                />
-                            </div>
-                        </div>
+                    <h4 className="card-title">Lịch sử thu/chi</h4>
+                    <div>
+                        <button className={"btn btn-round margin-right-10" + (this.state.type == "" ? " btn-rose" : "")}
+                                onClick={() => this.changeType("")}
+                        >
+                            Tất cả
+                        </button>
+                        <button
+                            className={"btn btn-round margin-right-10 margin-left-20" + (this.state.type == "1" ? " btn-rose" : "")}
+                            onClick={() => this.changeType("1")}
+                        >
+                            Thu
+                        </button>
+                        <button
+                            className={"btn btn-round margin-left-20" + (this.state.type == "2" ? " btn-rose" : "")}
+                            onClick={() => this.changeType("2")}
+                        >
+                            Chi
+                        </button>
                     </div>
                     {this.props.isLoading ?
                         <Loading/>
@@ -64,6 +69,7 @@ class HistoryTransaction extends React.Component {
                                     <thead className="text-rose">
                                     <tr>
                                         <th>Loại giao dịch</th>
+                                        <th>Nhóm</th>
                                         <th>Lý do</th>
                                         <th>Ngày giờ</th>
                                         <th>Số tiền trước giao dịch</th>
@@ -74,17 +80,15 @@ class HistoryTransaction extends React.Component {
                                     <tbody>
                                     {
                                         this.props.transactions.map((transaction) => {
-                                            const classType = transaction.type === 0 ? " btn-info " :
-                                                transaction.type == 1 ? " btn-success " : " btn-danger ";
-                                            const textType = transaction.type === 0 ? "Chuyển tiền" :
-                                                transaction.type == 1 ? "Thu" : "Chi";
+                                            const classType = transaction.type == 1 ? " btn-success " : " btn-danger ";
+                                            const textType = transaction.type == 1 ? "Thu" : "Chi";
                                             let classStatus;
                                             let textStatus;
 
-                                            if (transaction.type == 1 || (transaction.type == 0 && transaction.receiver_id == this.props.staff.id)) {
+                                            if (transaction.type == 1) {
                                                 classStatus = " btn-success ";
                                                 textStatus = "+";
-                                            } else if (transaction.type == 2 || (transaction.type == 0 && transaction.sender_id == this.props.staff.id)) {
+                                            } else if (transaction.type == 2) {
                                                 classStatus = " btn-danger ";
                                                 textStatus = "-";
                                             }
@@ -98,6 +102,18 @@ class HistoryTransaction extends React.Component {
                                                         </button>
                                                     </td>
                                                     <td>
+                                                        {
+                                                            transaction.category &&
+                                                            <button
+                                                                className={"btn btn-sm width-100 bold"}
+                                                                style={{backgroundColor: transaction.category.color}}
+                                                            >
+                                                                {transaction.category.name}
+                                                            </button>
+                                                        }
+
+                                                    </td>
+                                                    <td>
                                                         {transaction.note}
                                                     </td>
                                                     <td>{transaction.updated_at}</td>
@@ -106,7 +122,7 @@ class HistoryTransaction extends React.Component {
                                                     </td>
                                                     <td>
                                                         <button
-                                                            className={classStatus + "btn width-100 btn-sm bold lowercase"}>
+                                                            className={classStatus + "btn btn-sm width-100 bold lowercase"}>
                                                             {textStatus + dotNumber(transaction.money)}đ
                                                         </button>
                                                     </td>
@@ -130,19 +146,24 @@ class HistoryTransaction extends React.Component {
     }
 }
 
-HistoryTransaction.propTypes = {};
+HistoryTransaction.propTypes = {
+    spendMoneyActions: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    transactions: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+};
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.staffKeepMoney.historyTransaction.isLoading,
-        transactions: state.staffKeepMoney.historyTransaction.transactions,
-        totalPages: state.staffKeepMoney.historyTransaction.totalPages,
+        isLoading: state.spendMoney.historyTransaction.isLoading,
+        transactions: state.spendMoney.historyTransaction.transactions,
+        totalPages: state.spendMoney.historyTransaction.totalPages,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        staffKeepMoneyActions: bindActionCreators(staffKeepMoneyActions, dispatch)
+        spendMoneyActions: bindActionCreators(spendMoneyActions, dispatch)
     };
 }
 

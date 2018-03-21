@@ -201,6 +201,8 @@ export function getShortName(name) {
 }
 
 export function dotNumber(number) {
+    if (!isFinite(number)) return "0";
+    if (number == 0) return "0";
     if (number)
         return number.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return number;
@@ -1268,26 +1270,26 @@ export function convertDotMoneyToK(data) {
     return data;
 }
 
-export function prefixAvatarUrl(url,prefix = "http") {
+export function prefixAvatarUrl(url, prefix = "http") {
     let tmpAva = url;
     if (tmpAva.slice(0, 4) !== "http") {
-        tmpAva = (prefix+"://").concat(tmpAva);
+        tmpAva = (prefix + "://").concat(tmpAva);
         return tmpAva;
     }
     return tmpAva;
 }
 
 export function parseTime(x) {
-    let date,month,year,hour;
-    if(moment(x, "HH:mm DD-MM-YYYY").format("HH:mm")!== "Invalid date"){
+    let date, month, year, hour;
+    if (moment(x, "HH:mm DD-MM-YYYY").format("HH:mm") !== "Invalid date") {
         hour = moment(x, "HH:mm DD-MM-YYYY").format("HH:mm");
         date = moment(x, "HH:mm DD-MM-YYYY").format("DD");
         month = moment(x, "HH:mm DD-MM-YYYY").format("MM");
         year = moment(x, "HH:mm DD-MM-YYYY").format("YYYY");
     }
-    else{
+    else {
         hour = moment(x, "YYYY-MM-DD HH:mm").format("HH:mm");
-        date = moment(x, "YYYY-MM-DD HH:mm").format("DD") ;
+        date = moment(x, "YYYY-MM-DD HH:mm").format("DD");
         month = moment(x, "YYYY-MM-DD HH:mm").format("MM");
         year = moment(x, "YYYY-MM-DD HH:mm").format("YYYY");
     }

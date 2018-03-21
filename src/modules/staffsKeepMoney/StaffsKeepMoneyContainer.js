@@ -8,7 +8,7 @@ import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import {Modal} from "react-bootstrap";
 import HistoryTransaction from "./HistoryTransaction";
-import * as helper from "../../helpers/helper";
+import Search from "../../components/common/Search";
 
 class StaffsKeepMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -16,10 +16,12 @@ class StaffsKeepMoneyContainer extends React.Component {
         this.state = {
             page: 1,
             showModalHistoryTransactionStaff: false,
-            selectStaff: ""
+            selectStaff: "",
+            query: ""
         };
         this.closeModalHistoryTransactionStaff = this.closeModalHistoryTransactionStaff.bind(this);
         this.showModalHistoryTransactionStaff = this.showModalHistoryTransactionStaff.bind(this);
+        this.searchChange = this.searchChange.bind(this);
     }
 
     componentWillMount() {
@@ -28,7 +30,7 @@ class StaffsKeepMoneyContainer extends React.Component {
 
     loadData(page = 1) {
         this.setState({page});
-        this.props.staffKeepMoneyActions.loadStaffsKeepMoney(page);
+        this.props.staffKeepMoneyActions.loadStaffsKeepMoney(page, this.state.query);
     }
 
     closeModalHistoryTransactionStaff() {
@@ -39,10 +41,24 @@ class StaffsKeepMoneyContainer extends React.Component {
         this.setState({showModalHistoryTransactionStaff: true, selectStaff: staff});
     }
 
+    searchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.staffKeepMoneyActions.loadStaffsKeepMoney(1, value);
+        }.bind(this), 500);
+
+    }
+
     render() {
         return (
             <div>
-                {this.props.isLoading ? <div></div> :
+                {this.props.isLoading && this.props.totalMoney < 0 ? <div></div> :
                     <div className="row">
                         <div className="col-lg-3 col-md-6 col-sm-6">
                             <div className="card card-stats">
@@ -80,6 +96,15 @@ class StaffsKeepMoneyContainer extends React.Component {
                     </div>
                     <div className="card-content">
                         <h4 className="card-title">Danh sách nhân viên giữ tiền</h4>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <Search
+                                    onChange={this.searchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm nhân viên"
+                                />
+                            </div>
+                        </div>
                         {this.props.isLoading ?
                             <Loading/>
                             :

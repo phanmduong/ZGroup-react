@@ -168,7 +168,7 @@ class ReceiveTransactions extends React.Component {
                                                                     text={textStatus}
                                                                 >
                                                                     <button
-                                                                        className={classStatus + "btn width-100 bold lowercase"}>
+                                                                        className={classStatus + "btn width-100 btn-sm bold lowercase"}>
                                                                         + {dotNumber(transaction.money)}đ
                                                                     </button>
                                                                 </TooltipButton>
@@ -211,7 +211,7 @@ class ReceiveTransactions extends React.Component {
                                                                 text={textStatus}
                                                             >
                                                                 <button
-                                                                    className={classStatus + "btn width-100 bold lowercase"}>
+                                                                    className={classStatus + "btn width-100 bold btn-sm lowercase"}>
                                                                     - {dotNumber(transaction.money)}đ
                                                                 </button>
                                                             </TooltipButton>

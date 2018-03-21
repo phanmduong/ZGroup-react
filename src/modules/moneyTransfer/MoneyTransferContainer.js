@@ -12,6 +12,7 @@ import ItemReactSelect from "../../components/common/ItemReactSelect";
 import FormInputText from "../../components/common/FormInputText";
 import ReceiveTransactions from "./ReceiveTransactions";
 import socket from "../../services/socketio";
+import * as helper from "../../helpers/helper";
 
 class MoneyTransferContainer extends React.Component {
     constructor(props, context) {
@@ -161,11 +162,13 @@ class MoneyTransferContainer extends React.Component {
                                             <div className="col-md-4">
                                                 <FormInputText
                                                     label={"Nhập số tiền"}
-                                                    value={this.state.money}
+                                                    value={helper.dotNumber(this.state.money)}
                                                     updateFormData={(event) => {
-                                                        this.setState({
-                                                            money: event.target.value
-                                                        });
+                                                        if (!isNaN(Number(event.target.value.toString().replace(/\./g, "")))) {
+                                                            this.setState({
+                                                                money: Number(event.target.value.toString().replace(/\./g, ""))
+                                                            });
+                                                        }
                                                     }}
                                                     name="money"/>
                                             </div>
@@ -176,7 +179,7 @@ class MoneyTransferContainer extends React.Component {
                                                     ?
                                                     <button
                                                         className="btn btn-fill btn-rose btn-round disabled"
-                                                    >
+                                                    > <i className="fa fa-spinner fa-spin"/>
                                                         Đang giao dịch
                                                     </button>
                                                     :
@@ -184,7 +187,7 @@ class MoneyTransferContainer extends React.Component {
                                                         ?
                                                         <button
                                                             className="btn btn-fill btn-rose btn-round disabled"
-                                                        >
+                                                        ><i className="fa fa-spinner fa-spin"/>
                                                             Đang tạo giao dịch
                                                         </button>
                                                         :

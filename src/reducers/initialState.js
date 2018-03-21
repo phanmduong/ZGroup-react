@@ -2087,7 +2087,7 @@ export default {
         currentPage: 1,
         totalPages: 1,
         totalCount: 0,
-        totalMoney: 0,
+        totalMoney: -1,
         historyTransaction: {
             isLoading: false,
             error: false,
@@ -2095,5 +2095,43 @@ export default {
             currentPage: 1,
             totalPages: 1
         }
+    },
+    historyTransactions: {
+        isLoading: false,
+        error: false,
+        transactions: [],
+        currentPage: 1,
+        totalPages: 1
+    },
+    spendMoney: {
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        },
+        categories: [],
+        isLoadingCategories: false,
+        errorCategories: false,
+        isLoadingUser: false,
+        errorLoadUser: false,
+        user: {}
+    },
+    summaryFinance: {
+        isLoadingGens: false,
+        errorGens: false,
+        gens: [],
+        currentGen: 0,
+        isLoading: false,
+        error: false,
+        summary: {},
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        },
     }
 };

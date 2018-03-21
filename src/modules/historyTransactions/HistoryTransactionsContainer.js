@@ -1,14 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as staffKeepMoneyActions from './staffKeepMoneyActions';
-import {dotNumber} from "../../helpers/helper";
+import * as historyTransactionsActions from './historyTransactionsActions';
+import {avatarEmpty, dotNumber} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import {TYPE_TRANSACTION} from "../../constants/constants";
 import ReactSelect from 'react-select';
+import {NO_AVATAR} from "../../constants/env";
 
-class HistoryTransaction extends React.Component {
+class HistoryTransactionsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -24,13 +25,13 @@ class HistoryTransaction extends React.Component {
 
     loadData(page = 1) {
         this.setState({page});
-        this.props.staffKeepMoneyActions.loadHistoryTransactionStaff(this.props.staff.id, page, this.state.type);
+        this.props.historyTransactionsActions.loadHistoryTransactions(page, this.state.type);
     }
 
     changeType(value) {
         let type = value && value.value ? value.value : "";
         this.setState({type: type, page: 1});
-        this.props.staffKeepMoneyActions.loadHistoryTransactionStaff(this.props.staff.id, 1, type);
+        this.props.historyTransactionsActions.loadHistoryTransactions(1, type);
     }
 
     render() {
@@ -63,6 +64,8 @@ class HistoryTransaction extends React.Component {
                                 <table className="table">
                                     <thead className="text-rose">
                                     <tr>
+                                        <th/>
+                                        <th>Người thực hiện</th>
                                         <th>Loại giao dịch</th>
                                         <th>Lý do</th>
                                         <th>Ngày giờ</th>
@@ -78,19 +81,29 @@ class HistoryTransaction extends React.Component {
                                                 transaction.type == 1 ? " btn-success " : " btn-danger ";
                                             const textType = transaction.type === 0 ? "Chuyển tiền" :
                                                 transaction.type == 1 ? "Thu" : "Chi";
-                                            let classStatus;
-                                            let textStatus;
+                                            let classStatus = " btn-danger ";
+                                            let textStatus = "-";
 
-                                            if (transaction.type == 1 || (transaction.type == 0 && transaction.receiver_id == this.props.staff.id)) {
+                                            if (transaction.type == 1) {
                                                 classStatus = " btn-success ";
                                                 textStatus = "+";
-                                            } else if (transaction.type == 2 || (transaction.type == 0 && transaction.sender_id == this.props.staff.id)) {
+                                            } else if (transaction.type == 2) {
                                                 classStatus = " btn-danger ";
                                                 textStatus = "-";
                                             }
-
+                                            const avatarSender = transaction.sender && !avatarEmpty(transaction.sender.avatar_url) ?
+                                                transaction.sender.avatar_url : NO_AVATAR;
                                             return (
                                                 <tr key={transaction.id}>
+                                                    <td>
+                                                        <div className="avatar-list-staff"
+                                                             style={{
+                                                                 background: 'url(' + avatarSender + ') center center / cover',
+                                                                 display: 'inline-block'
+                                                             }}
+                                                        />
+                                                    </td>
+                                                    <td>{transaction.sender ? transaction.sender.name : ""}</td>
                                                     <td>
                                                         <button
                                                             className={classType + "btn btn-sm width-100 bold"}>
@@ -130,20 +143,20 @@ class HistoryTransaction extends React.Component {
     }
 }
 
-HistoryTransaction.propTypes = {};
+HistoryTransactionsContainer.propTypes = {};
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.staffKeepMoney.historyTransaction.isLoading,
-        transactions: state.staffKeepMoney.historyTransaction.transactions,
-        totalPages: state.staffKeepMoney.historyTransaction.totalPages,
+        isLoading: state.historyTransactions.isLoading,
+        transactions: state.historyTransactions.transactions,
+        totalPages: state.historyTransactions.totalPages,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        staffKeepMoneyActions: bindActionCreators(staffKeepMoneyActions, dispatch)
+        historyTransactionsActions: bindActionCreators(historyTransactionsActions, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HistoryTransaction);
+export default connect(mapStateToProps, mapDispatchToProps)(HistoryTransactionsContainer);
