@@ -13,7 +13,7 @@ class HistoryTransaction extends React.Component {
         this.state = {
             page: 1,
             type: ""
-        }
+        };
         this.changeType = this.changeType.bind(this);
     }
 

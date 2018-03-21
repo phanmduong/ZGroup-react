@@ -185,11 +185,14 @@ class SummaryFinanceContainer extends React.Component {
 
 SummaryFinanceContainer.propTypes = {
     gens: PropTypes.array.isRequired,
+    transactions: PropTypes.array.isRequired,
     summaryFinanceActions: PropTypes.object.isRequired,
     isLoadingGens: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isLoadingHistoryTransaction: PropTypes.bool.isRequired,
     currentGen: PropTypes.object.isRequired,
     summary: PropTypes.object.isRequired,
+    totalPages: PropTypes.number.isRequired,
 
 };
 

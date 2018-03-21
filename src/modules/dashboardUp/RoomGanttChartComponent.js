@@ -75,13 +75,14 @@ class RoomGanttChartComponent extends React.Component {
         };
     }
 
-    componentDidUpdate() {}
+    componentDidUpdate() {
+    }
 
     render() {
         return (
             <div>
-                {this.state.rooms.map(room => (
-                    <RoomGanttChartRow room={room} />
+                {this.state.rooms.map((room, index) => (
+                    <RoomGanttChartRow room={room} key={index}/>
                 ))}
             </div>
         );

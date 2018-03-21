@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as historyTransactionsActions from './historyTransactionsActions';
 import {avatarEmpty, dotNumber} from "../../helpers/helper";
@@ -15,7 +16,7 @@ class HistoryTransactionsContainer extends React.Component {
         this.state = {
             page: 1,
             type: ""
-        }
+        };
         this.changeType = this.changeType.bind(this);
     }
 
@@ -143,7 +144,12 @@ class HistoryTransactionsContainer extends React.Component {
     }
 }
 
-HistoryTransactionsContainer.propTypes = {};
+HistoryTransactionsContainer.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    transactions: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    historyTransactionsActions: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

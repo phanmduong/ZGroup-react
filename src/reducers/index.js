@@ -67,27 +67,19 @@ import orderedProductReducer from "../modules/orderedProduct/orderedProductReduc
 import HistoryExtensionWorkReducer from "../modules/historyExtensionWork/HistoryExtensionWorkReducer";
 import summaryStaffReducer from "../modules/summaryStaff/summaryStaffReducer";
 import surveyReducer from '../modules/survey/surveyReducer';
-import CompanyReducer from '../modules/companies/CompanyReducer';
 import currencyReducer from "../modules/currency/currencyReducer";
 import dashboardXHHReducer from '../modules/dashboardXHH/dashboardXHHReducer';
 import userpackReducer from '../modules/userpack/userpackReducer';
-import PaymentReducer from '../modules/payment/PaymentReducer';
 import orderedDetailReducer from "../modules/orderedDetail/orderedDetailReducer";
 import inventoryOrderReducer from "../modules/inventoryOrder/inventoryOrderReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
 import registerManageReducer from "../modules/registerManage/registerManageReducer";
-import printOrderReducer from "../modules/printOrder/printOrderReducer";
 import seatReducer from "../modules/bases/seat/seatReducer";
-import exportOrderReducer from "../modules/Zgroup/exportGood/exportOrderReducer";
 import notificationTypeReducer from '../modules/notificationTypes/notificationTypeReducer';
 import sendNotificationReducer from '../modules/sendNotification/sendNotificationReducer';
 import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
-import orderedGoodReducer from '../modules/Zgroup/orderedGood/orderedGoodReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
-import historyDebtReducer from "../modules/historyDebt/historyDebtReducer";
-import importOrderReducer from "../modules/importOrder/importOrderReducer";
-import orderGoodReducer from '../modules/Zgroup/orderGood/orderGoodReducer';
 
 
 const appReducer = combineReducers({
@@ -155,32 +147,23 @@ const appReducer = combineReducers({
     createSaleGoods: createSaleGoodsReducer,
     orderedProduct: orderedProductReducer,
     survey: surveyReducer,
-    historyExtension: HistoryExtensionWorkReducer,
     summaryStaff: summaryStaffReducer,
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
-    companies: CompanyReducer,
     userpacks  : userpackReducer,
     orderedDetail: orderedDetailReducer,
     inventoryOrder: inventoryOrderReducer,
     bankAccount: bankAccountReducer,
     registerManage: registerManageReducer,
     finance: financeReducer,
-    payment: PaymentReducer,
-    printOrder: printOrderReducer,
-    exportOrder: exportOrderReducer,
     seat: seatReducer,
     notificationType: notificationTypeReducer,
     sendNotification: sendNotificationReducer,
     dashboardUp: DashBoardUpReducer,
-    orderedGood: orderedGoodReducer,
     marketingCampaignUp: marketingCampaignsUpReducer,
     summaryMarketingCampaignUp: summaryMarketingCampaignUpReducer,
     summarySalesUp : summarySalesUpReducer,
-    historyDebt: historyDebtReducer,
-    importOrder: importOrderReducer,
-    orderGood : orderGoodReducer,
-
+    historyExtension: HistoryExtensionWorkReducer,
 });
 
 const rootReducer = (state, action) => {

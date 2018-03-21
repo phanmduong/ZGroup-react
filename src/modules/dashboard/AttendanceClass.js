@@ -13,9 +13,9 @@ class AttendanceShift extends React.Component {
         return (
             <div className="row">
                 {
-                    classData.attendance_teachers && classData.attendance_teachers.map((attendance_teacher) => {
+                    classData.attendance_teachers && classData.attendance_teachers.map((attendance_teacher, index) => {
                             return (
-                                <div className="col-md-6">
+                                <div className="col-md-6" key={index}>
                                     <div className="flex-row-center">
                                         <button className="btn btn-sm min-width-130-px"
                                                 style={{backgroundColor: attendance_teacher.staff ? "#" + attendance_teacher.staff.color : ''}}>
@@ -33,9 +33,9 @@ class AttendanceShift extends React.Component {
 
                 }
                 {
-                    classData.attendance_teacher_assistants && classData.attendance_teacher_assistants.map((attendance_teacher_assistant) => {
+                    classData.attendance_teacher_assistants && classData.attendance_teacher_assistants.map((attendance_teacher_assistant, index) => {
                         return (
-                            <div className="col-md-6">
+                            <div className="col-md-6" key={index}>
                                 <div className="flex-row-center">
                                     <button className="btn btn-sm min-width-130-px"
                                             style={{backgroundColor: attendance_teacher_assistant.staff ? "#" + attendance_teacher_assistant.staff.color : ''}}>
@@ -47,7 +47,7 @@ class AttendanceShift extends React.Component {
                                 </div>
                                 <AttendanceTeacher attendance={attendance_teacher_assistant}/>
                             </div>
-                        )
+                        );
                     })
 
                 }

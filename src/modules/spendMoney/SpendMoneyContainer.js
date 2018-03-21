@@ -183,6 +183,7 @@ SpendMoneyContainer.propTypes = {
     spendMoneyActions: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     isLoadingUser: PropTypes.bool.isRequired,
+    isLoadingCategories: PropTypes.bool.isRequired,
     isCreatingTransaction: PropTypes.bool.isRequired,
 };
 

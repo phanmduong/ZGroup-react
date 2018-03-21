@@ -7,6 +7,7 @@ import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import {TYPE_TRANSACTION} from "../../constants/constants";
 import ReactSelect from 'react-select';
+import PropTypes from "prop-types";
 
 class HistoryTransaction extends React.Component {
     constructor(props, context) {
@@ -14,7 +15,7 @@ class HistoryTransaction extends React.Component {
         this.state = {
             page: 1,
             type: ""
-        }
+        };
         this.changeType = this.changeType.bind(this);
     }
 
@@ -130,7 +131,13 @@ class HistoryTransaction extends React.Component {
     }
 }
 
-HistoryTransaction.propTypes = {};
+HistoryTransaction.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    staffKeepMoneyActions: PropTypes.object.isRequired,
+    transactions: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    staff: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

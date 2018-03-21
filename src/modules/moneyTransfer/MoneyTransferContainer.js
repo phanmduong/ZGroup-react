@@ -12,7 +12,6 @@ import ItemReactSelect from "../../components/common/ItemReactSelect";
 import FormInputText from "../../components/common/FormInputText";
 import ReceiveTransactions from "./ReceiveTransactions";
 import socket from "../../services/socketio";
-import * as helper from "../../helpers/helper";
 
 class MoneyTransferContainer extends React.Component {
     constructor(props, context) {
@@ -40,7 +39,6 @@ class MoneyTransferContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoadingUser != this.props.isLoadingUser && !nextProps.isLoadingUser && nextProps.user) {
-            console.log(nextProps.user.money);
             this.setState({money: nextProps.user.money});
         }
     }
@@ -162,7 +160,7 @@ class MoneyTransferContainer extends React.Component {
                                             <div className="col-md-4">
                                                 <FormInputText
                                                     label={"Nhập số tiền"}
-                                                    value={helper.dotNumber(this.state.money)}
+                                                    value={dotNumber(this.state.money)}
                                                     updateFormData={(event) => {
                                                         if (!isNaN(Number(event.target.value.toString().replace(/\./g, "")))) {
                                                             this.setState({

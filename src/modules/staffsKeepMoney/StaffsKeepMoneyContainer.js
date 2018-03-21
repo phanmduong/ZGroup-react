@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as staffKeepMoneyActions from './staffKeepMoneyActions';
 import {avatarEmpty, dotNumber} from "../../helpers/helper";
@@ -58,7 +59,7 @@ class StaffsKeepMoneyContainer extends React.Component {
     render() {
         return (
             <div>
-                {this.props.isLoading && this.props.totalMoney < 0 ? <div></div> :
+                {this.props.isLoading && this.props.totalMoney < 0 ? <div/> :
                     <div className="row">
                         <div className="col-lg-3 col-md-6 col-sm-6">
                             <div className="card card-stats">
@@ -199,7 +200,14 @@ class StaffsKeepMoneyContainer extends React.Component {
     }
 }
 
-StaffsKeepMoneyContainer.propTypes = {};
+StaffsKeepMoneyContainer.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    staffKeepMoneyActions: PropTypes.object.isRequired,
+    staffs: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    totalMoney: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
-import {avatarEmpty, dotNumber} from "../../helpers/helper";
-import {round2} from "../../helpers/helper";
+import {avatarEmpty, dotNumber,round2} from "../../helpers/helper";
 import Barchart from "./Barchart";
 import Pagination from "../../components/common/Pagination";
 import {NO_AVATAR} from "../../constants/env";
@@ -247,6 +246,7 @@ class SummaryFinanceComponent extends React.Component {
 SummaryFinanceComponent.propTypes = {
     loadData: PropTypes.func.isRequired,
     loadHistoryTransaction: PropTypes.func.isRequired,
+    changeType: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isLoadingHistoryTransaction: PropTypes.bool.isRequired,
     summary: PropTypes.object.isRequired,
