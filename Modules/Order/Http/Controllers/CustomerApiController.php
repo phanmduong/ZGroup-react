@@ -48,7 +48,8 @@ class CustomerApiController extends ManageApiController
                     'address' => $customer->address,
                     'deposit' => $customer->deposit,
                     'money' => $customer->money,
-                    'count_groups' => $customer->infoCustomerGroups()->count()
+                    'count_groups' => $customer->infoCustomerGroups()->count(),
+                    'last_order' => format_vn_short_datetime(strtotime($customer->allOrders()->orderBy('created_at', 'desc')->first()->created_at)),
                 ];
                 return $data;
             })
@@ -60,7 +61,7 @@ class CustomerApiController extends ManageApiController
         $customer = User::find($customerId);
         if ($customer == null)
             return $this->respondErrorWithStatus('Không tồn tại khách hàng');
-            $groups = $customer->infoCustomerGroups;
+        $groups = $customer->infoCustomerGroups;
         $data = [
             'id' => $customer->id,
             'name' => $customer->name,
@@ -69,6 +70,9 @@ class CustomerApiController extends ManageApiController
             'address' => $customer->address,
             'deposit' => $customer->deposit,
             'money' => $customer->money,
+            'gender' => $customer->gender,
+            'birthday' => $customer->dob,
+            'avatar_url' => $customer->avatar_url ? $customer->avatar_url : 'http://colorme.vn/img/user.png',
             'groups' => $groups->map(function ($group) {
                 return [
                     'id' => $group->id,
@@ -85,6 +89,24 @@ class CustomerApiController extends ManageApiController
             return $order->transform();
         });
         $data['delivery_orders'] = $this->deliveryOrderTransformer->transformCollection($customer->deliveryOrders);
+        $data['orders_total'] = $customer->orders->reduce(function ($total, $order) {
+            return $total + $order->goodOrders->reduce(function ($total, $goodOrder) {
+                return $total + $goodOrder->price * $goodOrder->quantity;
+            }, 0);
+        });
+        $data['orders_total_paid'] = $customer->orders->reduce(function ($total, $order) {
+            return $total + $order->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+        });
+        $data['delivery_orders_total'] = $customer->deliveryOrders->reduce(function ($total, $order) {
+            return $total + $order->money;
+        }, 0);
+        $data['delivery_orders_total_paid'] = $customer->deliveryOrders->reduce(function ($total, $order) {
+            return $total + $order->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+        }, 0);
         return $this->respondSuccessWithStatus(['customer' => $data]);
     }
 }

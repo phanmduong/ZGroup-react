@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "email_company_logo" => env("EMAIL_COMPANY_LOGO",""),
+    "edu_view" => env("EDU_VIEW", ""),
     "google_recaptcha_secret" => env("GOOGLE_RECAPTCHA_SECRET", ""),
 
     "nganluong_merchant_id" => env("NGANLUONG_MERCHANT_ID", ""),
