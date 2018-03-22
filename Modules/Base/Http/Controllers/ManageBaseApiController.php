@@ -13,12 +13,25 @@ use App\Seats;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\RoomServiceRegisterSeat;
+use App\Gen;
+use App\Colorme\Transformers\ClassTransformer;
 
 class ManageBaseApiController extends ManageApiController
 {
-    public function __construct()
+    protected $classTransformer;
+    public function __construct(ClassTransformer $classTransformer)
     {
         parent::__construct();
+        $this->classTransformer = $classTransformer;
+    }
+
+    public function getClassesByRoom($roomId) {
+        $room = Room::find($roomId);
+        $genId = Gen::getCurrentGen()->id;
+        $classes = $room->classes()->where("gen_id", $genId)->get();
+        return $this->respondSuccessV2([
+            "classes" => $this->classTransformer->transformCollection($classes)
+        ]);
     }
 
     public function bookSeat($seatId, Request $request)
