@@ -1577,3 +1577,43 @@ function sound_cloud_track_id($url)
 
     return '';
 }
+
+function getCommentPostFacebook($url)
+{
+    $r = curl_init();
+
+    curl_setopt($r, CURLOPT_URL, $url);
+    curl_setopt($r, CURLOPT_POST, FALSE);
+    curl_setopt($r, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($r, CURLOPT_CONNECTTIMEOUT, 5);
+    $data = curl_exec($r);
+    $httpcode = curl_getinfo($r, CURLINFO_HTTP_CODE);
+    curl_close($r);
+    return [
+        'data' => json_decode($data),
+        'status' => $httpcode == 200 ? 1 : 0
+    ];
+}
+
+function getAllCommentFacebook()
+{
+    $url = "https://graph.facebook.com/v1.0/1805860222815328/comments?access_token=EAAAAUaZA8jlABADXbrY417ufWjAi3mblxR3zLtacSW1ka4ZCCAXuRrqh0FDeBMRrlCuVvFZBKWt0wAa0BZCoSFv2IE533cdeejvJHA9995MwoZAR5yvjRqiUaF3LeSGZA00xwNl3I26s0GWKgxk2I6Y0NwjELJmdRyWbmgHiUvZAQZDZD";
+    $comments = array();
+    do {
+        $data = getCommentPostFacebook($url);
+        if ($data['status'] == 0 || count($data['data']->data) <= 0) {
+            break;
+        }
+        foreach ($data['data']->data as $item) {
+            $comments[] = $item;
+        }
+        if (isset($data['data']->paging->next)) {
+            $url = $data['data']->paging->next;
+        } else {
+            break;
+        }
+
+    } while (true);
+
+    return $comments;
+}
