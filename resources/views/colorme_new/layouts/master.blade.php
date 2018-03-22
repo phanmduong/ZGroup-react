@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta property="og:type" content="website"/>
-    <meta property="og:image" content="http://d1j8r0kxyu9tj8.cloudfront.net/images/1520759546UIE1j3pqg3PzX5r.jpg"/>
+    {{--  <meta property="og:image" content="http://d1j8r0kxyu9tj8.cloudfront.net/images/1520759546UIE1j3pqg3PzX5r.jpg"/>  --}}
+
+    @yield("meta")
 
     <title>Color ME - Trường học thiết kế Color ME</title>
 
