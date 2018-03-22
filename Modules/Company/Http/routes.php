@@ -57,11 +57,19 @@ $companyRoutes = function () {
         Route::put('/administration/request-vacation/{requestId}','AdministrationController@editRequestVacation');
         Route::post('/administration/request-vacation/{requestId}/change-status','AdministrationController@changeStatusRequestVacation');
 
+
+        Route::get('/administration/advance-payment/all','AdministrationController@getAllAdvancePayment');
+        Route::post('/administration/advance-payment','AdministrationController@createAdvancePayment');
+        Route::put('/administration/advance-payment/{advancePaymentId}','AdministrationController@editAdvancePayment');
+        Route::post('/administration/advance-payment/{advancePaymentId}/change-status','AdministrationController@changeStatusAdvancePayment');
+        Route::post('/administration/advance-payment/{advancePaymentId}/payment','AdministrationController@PaymentAdvance');
+
         //Report model
         Route::post('/report/{staff_id}/create','AdministrationController@createReport');
         Route::PUT('/report/{staff_id}/edit/{id}','AdministrationController@editReport');
         Route::get('/reports/{staff_id}','AdministrationController@showReportStaffId');
         Route::post('/reports/all','AdministrationController@showReports');
+
 
     });
 };
