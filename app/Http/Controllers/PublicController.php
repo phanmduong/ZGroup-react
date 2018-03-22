@@ -259,7 +259,7 @@ class PublicController extends Controller
         $register->campaign_id = $request->campaign_id;
         $register->leader_phone = $request->leader_phone;
         $register->coupon = $request->coupon;
-        $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
+        $register->time_to_call = addTimeToDate($register->created_at, "+2 hours");
 
         $register->save();
 
@@ -293,7 +293,6 @@ class PublicController extends Controller
         $user->save();
 
 
-
         $register = new Register;
         $register->user_id = $user->id;
         $register->gen_id = Gen::getCurrentGen()->id;
@@ -301,7 +300,7 @@ class PublicController extends Controller
         $register->status = 0;
         $register->saler_id = $request->saler_id;
         $register->campaign_id = $request->campaign_id;
-        $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
+        $register->time_to_call = addTimeToDate($register->created_at, "+2 hours");
 
         $register->save();
 

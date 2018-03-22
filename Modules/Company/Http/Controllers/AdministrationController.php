@@ -14,6 +14,8 @@ use App\Http\Controllers\ManageApiController;
 use App\RequestVacation;
 use DateTime;
 use Illuminate\Http\Request;
+use App\Report;
+use DB;
 
 
 class AdministrationController extends ManageApiController
@@ -93,6 +95,7 @@ class AdministrationController extends ManageApiController
             "message" => "Thay đổi status thành công"
         ]);
     }
+
     public function getAllAdvancePayment(Request $request){
         $limit = $request->limit ? $request->limit : 20;
         if($limit == -1){
@@ -169,5 +172,45 @@ class AdministrationController extends ManageApiController
     }
 
 
+    public function createReport(Request $request,$staff_id)
+    {
+        $report = new Report();
+        $report->staff_id = $staff_id;
+        $report->report = $request->report;
+        $report->save();
+
+        return response()->json([
+            'id' => $report->id,
+        ]);
+    }
+
+    public function editReport(Request $request,$staff_id,$id)
+    {
+        $report = Report::find($id);
+        if($report->report != $request->report){
+
+            if($report->staff_id == $staff_id) {
+                $report->report = $request->report;
+                $report->save();
+            }else{
+                return "False";
+            }
+        }else{
+            return "false";
+        }
+        return "Ok";
+    }
+
+    public function showReportStaffId(Request $request, $staff_id)
+    {
+        $reports = Report::find($staff_id)->get();
+        return $reports;
+    }
+
+    public function showReports(Request $request)
+    {
+//        dd(1);
+        return Report::all();
+    }
 
 }

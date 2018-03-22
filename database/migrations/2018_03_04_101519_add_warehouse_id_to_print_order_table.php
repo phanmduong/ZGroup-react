@@ -13,7 +13,7 @@ class AddWarehouseIdToPrintOrderTable extends Migration
     public function up()
     {
         //
-        Schema::table('print_orders',function (Blueprint $table){
+        Schema::table('print_orders', function (Blueprint $table) {
             $table->integer('warehouse_id')->default(0);
         });
     }

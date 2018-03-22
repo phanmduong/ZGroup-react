@@ -115,6 +115,10 @@ class RoomServiceRegister extends Model
             'code' => $this->code,
             'money' => $this->money,
             'status' => $this->status,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+            'note' => $this->note,
+            'extra_time' => $this->extra_time,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at))
         ];
         if ($this->user)
