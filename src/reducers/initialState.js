@@ -2070,8 +2070,18 @@ export default {
         isLoadingistoryDebt: false,
         companies: [],
         historyDebt: [],
-        paginatorCompanies: [],
-        paginatorHistoryDebt: [],
+        paginatorCompanies: {
+            current_page: 1,
+            limit: 20,
+            total_count: 0,
+            total_pages: 1,
+        },
+        paginatorHistoryDebt: {
+            current_page: 1,
+            limit: 20,
+            total_count: 0,
+            total_pages: 1,
+        },
     },
 
     importOrder: {

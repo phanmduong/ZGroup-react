@@ -231,7 +231,7 @@ class CreateItemImportOrderContainer extends React.Component {
                                                     <tr>
                                                         <th style={{width: "10%"}}>STT</th>
                                                         <th style={{width: "40%"}}>Tên</th>
-                                                        <th style={textAlign}>Số lượng</th>
+                                                        <th style={textAlign}>Số lượng đặt</th>
                                                         <th style={textAlign}>Đơn giá</th>
                                                         <th style={textAlign}>Kho nhập</th>
                                                         <th style={textAlign}>Số lượng nhập</th>
