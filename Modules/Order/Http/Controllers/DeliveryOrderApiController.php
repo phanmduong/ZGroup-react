@@ -384,7 +384,7 @@ class DeliveryOrderApiController extends ManageApiController
             $order->status = 'sent_price';
             // $order->price = json_decode($deliveryOrder->attach_info)->money;
             $info = json_decode($order->attach_info);
-            $order->price = $info->quantity * $info->price * Currency::find($info->currency_id)->ratio * ($info->tax == true ? 0.92 : 1);
+            $order->price = $info->quantity * $info->price * Currency::find($info->currency_id)->ratio * ($info->tax == true ? 1.08 : 1);
             $order->quantity = json_decode($deliveryOrder->attach_info)->quantity;
             $order->save();
         }
