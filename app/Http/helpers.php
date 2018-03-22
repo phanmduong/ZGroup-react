@@ -1584,6 +1584,7 @@ function getCommentPostFacebook($url)
 
     curl_setopt($r, CURLOPT_URL, $url);
     curl_setopt($r, CURLOPT_POST, FALSE);
+    curl_setopt($r, CURLOPT_RETURNTRANSFER, 1);
     $data = curl_exec($r);
     $httpcode = curl_getinfo($r, CURLINFO_HTTP_CODE);
     curl_close($r);
