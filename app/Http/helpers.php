@@ -1584,8 +1584,6 @@ function getCommentPostFacebook($url)
 
     curl_setopt($r, CURLOPT_URL, $url);
     curl_setopt($r, CURLOPT_POST, FALSE);
-    curl_setopt($r, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($r, CURLOPT_CONNECTTIMEOUT, 5);
     $data = curl_exec($r);
     $httpcode = curl_getinfo($r, CURLINFO_HTTP_CODE);
     curl_close($r);
@@ -1595,9 +1593,9 @@ function getCommentPostFacebook($url)
     ];
 }
 
-function getAllCommentFacebook()
+function getAllCommentFacebook($post_id, $token)
 {
-    $url = "https://graph.facebook.com/v1.0/1805860222815328/comments?access_token=EAAAAUaZA8jlABADXbrY417ufWjAi3mblxR3zLtacSW1ka4ZCCAXuRrqh0FDeBMRrlCuVvFZBKWt0wAa0BZCoSFv2IE533cdeejvJHA9995MwoZAR5yvjRqiUaF3LeSGZA00xwNl3I26s0GWKgxk2I6Y0NwjELJmdRyWbmgHiUvZAQZDZD";
+    $url = "https://graph.facebook.com/v1.0/$post_id/comments?access_token=$token";
     $comments = array();
     do {
         $data = getCommentPostFacebook($url);
