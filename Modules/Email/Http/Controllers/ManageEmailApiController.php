@@ -271,4 +271,33 @@ class ManageEmailApiController extends ManageApiController
 
         return $this->respondErrorWithStatus('Có lỗi xảy ra');
     }
+
+    public function get_gmails_post_facebook(Request $request)
+    {
+        if ($request->token == null) {
+            return $this->respondErrorWithStatus("Thiếu token");
+        }
+
+        if ($request->post_id == null) {
+            return $this->respondErrorWithStatus("Thiếu post_id");
+        }
+
+
+        $comments = getAllCommentFacebook($request->post_id, $request->token);
+
+        $emails = array();
+
+        foreach ($comments as $comment) {
+            if (filter_var($comment->message, FILTER_VALIDATE_EMAIL)) {
+                $emails[] = [
+                    'email' => $comment->message,
+                    'name' => $comment->from->name,
+                ];
+            }
+        }
+
+        return $this->respondSuccessWithStatus([
+            'emails' => $emails
+        ]);
+    }
 }
