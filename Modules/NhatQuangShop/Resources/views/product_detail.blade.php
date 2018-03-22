@@ -220,8 +220,6 @@
                     @endif
 
             </div>
-
-
         </div>
         <br>
         <br>
@@ -231,7 +229,12 @@
     <script>
         $("#zoom").elevateZoom({
             zoomType: "inner",
-            cursor: "crosshair"
+            cursor: "crosshair",
+            easing : true,
+            zoomWindowFadeIn: 500,
+            zoomWindowFadeOut: 500,
+            lensFadeIn: 500,
+            lensFadeOut: 500
         });
     </script>
 @endpush
