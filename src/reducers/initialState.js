@@ -734,9 +734,9 @@ export default {
             description: '',
             tags: '',
             slug: '',
-            meta_title:'',
-            keyword:'',
-            meta_description:'',
+            meta_title: '',
+            keyword: '',
+            meta_description: '',
             category: 0,
             content: '',
             isSaving: false,
@@ -2177,5 +2177,10 @@ export default {
             currentPage: 1,
             totalPages: 1
         },
+    },
+    emailCommentFB: {
+        emails: [],
+        error: false,
+        isGetting: false
     }
 };

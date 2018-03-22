@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
-import {avatarEmpty, dotNumber,round2} from "../../helpers/helper";
+import {avatarEmpty, dotNumber, round2} from "../../helpers/helper";
 import Barchart from "./Barchart";
 import Pagination from "../../components/common/Pagination";
 import {NO_AVATAR} from "../../constants/env";
@@ -91,23 +91,21 @@ class SummaryFinanceComponent extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="row" id="chart_spend_money">
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">insert_chart</i>
-                                    </div>
-                                    <div className="card-content">
-                                        <h4 className="card-title">Doanh thu và chi phí
-                                            <small/>
-                                        </h4>
-                                        <Barchart
-                                            label={date_array}
-                                            data={[collect_money_date, spend_money_date]}
-                                            id="barchar_spend_money"
-                                        />
-                                    </div>
+                    <div className="row" id="chart_spend_money">
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">insert_chart</i>
+                                </div>
+                                <div className="card-content">
+                                    <h4 className="card-title">Doanh thu và chi phí
+                                        <small/>
+                                    </h4>
+                                    <Barchart
+                                        label={date_array}
+                                        data={[collect_money_date, spend_money_date]}
+                                        id="barchar_spend_money"
+                                    />
                                 </div>
                             </div>
                         </div>
