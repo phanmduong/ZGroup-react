@@ -128,7 +128,7 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->get();
 
         return $this->respondSuccessWithStatus([
-            'total_delivery_orders' => $deliveryOrders->count(),
+            'total_delivery_orders' => count($deliveryOrders),
             'not_locked' => Order::where('type', 'delivery')->where('status', 'place_order')->count,
             'total_money' => $deliveryOrders->reduce(function($total, $order){
                 return $total + $order->price + $order->ship_money;
