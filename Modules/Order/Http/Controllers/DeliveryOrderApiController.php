@@ -103,27 +103,35 @@ class DeliveryOrderApiController extends ManageApiController
 
     public function infoDeliveryOrders(Request $request)
     {
-        $keyWord = $request->search;
-
-        $deliveryOrders = Order::where('type', 'delivery');
-        //queries
-        if ($keyWord) {
-            $userIds = User::where(function ($query) use ($keyWord) {
-                $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
-            })->pluck('id')->toArray();
-            $deliveryOrders = $deliveryOrders->where('type', 'order')->where(function ($query) use ($keyWord, $userIds) {
-                $query->whereIn('user_id', $userIds)->orWhere("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+        $searches = json_decode($request->searches);
+        $queries = json_decode($request->queries);
+        $deliveryOrders = Order::where('orders.type', 'delivery');
+        $deliveryOrders = $deliveryOrders->join('users', 'users.id', '=', 'orders.user_id')
+            ->select('orders.*')->where(function ($query) use ($searches) {
+                if ($searches) {
+                    foreach ($searches as $keyWord) {
+                        $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
+                            ->orWhere('users.email', 'like', "%$keyWord%");
+                    }
+                }
+            })->where(function ($query) use ($queries) {
+                if ($queries) {
+                    for ($index = 0; $index < count($queries); ++$index) {
+                        if ($index == 0)
+                            $query->where('orders.attach_info', 'like', "%" . $queries[$index] . "%");
+                        else
+                            $query->orWhere('orders.attach_info', 'like', "%" . $queries[$index] . "%");
+                    }
+                }
             });
-        }
-
         if ($request->staff_id)
-            $deliveryOrders = $deliveryOrders->where('staff_id', $request->staff_id);
+            $deliveryOrders = $deliveryOrders->where('orders.staff_id', $request->staff_id);
         if ($request->start_time)
-            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($request->start_time, $request->end_time));
+            $deliveryOrders = $deliveryOrders->whereBetween('orders.created_at', array($request->start_time, $request->end_time));
         if ($request->status)
-            $deliveryOrders = $deliveryOrders->where('status', $request->status);
+            $deliveryOrders = $deliveryOrders->where('orders.status', $request->status);
         if ($request->user_id)
-            $deliveryOrders = $deliveryOrders->where('user_id', $request->user_id);
+            $deliveryOrders = $deliveryOrders->where('orders.user_id', $request->user_id);
 
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->get();
 
