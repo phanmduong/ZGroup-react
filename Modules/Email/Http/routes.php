@@ -15,6 +15,7 @@ $emailRoutes = function () {
         Route::post('/campaign/store', 'ManageEmailApiController@store_campaign');
         Route::delete('/campaign/{campaign_id}', 'ManageEmailApiController@delete_campaign');
         Route::get('/campaigns', 'ManageEmailApiController@get_campaigns');
+        Route::post('/email-post-facebook', 'ManageEmailApiController@get_gmails_post_facebook');
     });
 };
 
