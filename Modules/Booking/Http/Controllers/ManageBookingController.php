@@ -323,6 +323,6 @@ class ManageBookingController extends ManageApiController
         $register->extra_time = $request->extra_time;
         $register->note = $request->note;
         $register->save();
-        return $this->respondSuccessWithStatus('Thành công');
+        return $this->respondSuccessWithStatus(["register" => $register]);
     }
 }
