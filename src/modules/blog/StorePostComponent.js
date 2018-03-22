@@ -240,7 +240,7 @@ class StorePostComponent extends React.Component {
 
                                         <div className="form-group">
                                             <label className="control-label">
-                                                Keyword
+                                                Keywords
                                             </label>
                                             <textarea
                                                 className="form-control"
