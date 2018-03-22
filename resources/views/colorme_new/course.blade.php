@@ -1,5 +1,13 @@
 @extends('colorme_new.layouts.master')
 
+@section("meta")
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{$course->name}}" />
+<meta property="og:description" content="{{$course->description}}" />
+<meta property="og:site_name" content="Color ME" />
+<meta property="og:image" content="{{$course->image_url}}" />
+@endsection
+
 @section('content')
     @foreach($pixels as $pixel)
         {!! $pixel->code !!}
