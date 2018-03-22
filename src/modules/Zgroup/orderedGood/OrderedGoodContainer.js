@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as orderedGoodActions from "./orderedGoodAction";
-//import ListOrderedGood from "./ListOrderedGood";
 import * as PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";

@@ -323,7 +323,7 @@ class coursesCreateEditTerm extends React.Component {
                                     <button
                                         className="btn btn-fill btn-rose disabled"
                                     >
-                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                        <i className="fa fa-spinner fa-spin"/> Đang lưu
                                     </button>
                                 )
                                 :
@@ -331,7 +331,7 @@ class coursesCreateEditTerm extends React.Component {
                                     <button className="btn btn-rose"
                                             onClick={this.commitTerm}
                                             disabled={this.props.isUploadingTerm}
-                                    > Cập nhật
+                                    > Lưu
                                     </button>
                                     <button className="btn btn-rose"
                                             onClick={this.closeModal}

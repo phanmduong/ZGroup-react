@@ -245,7 +245,7 @@ export function saveGoodProperty(property, type) {
                     });
                 } else {
                     showNotification("Tạo thuộc tính cho sách thành công");
-                    browserHistory.push(`/good/${type}/properties`);
+                    browserHistory.push(`/manufacture/good/${type}/properties`);
                     dispatch({
                         type: types.SAVE_GOOD_PROPERTY_SUCCESS
                     });

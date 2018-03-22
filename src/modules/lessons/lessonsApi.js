@@ -19,7 +19,20 @@ export function createLesson(data) {
     if (token) {
         url += data.course_id + "?token=" + token;
     }
-    return axios.post(url, data);
+    return axios.post(url, {
+        name : data.name,
+        description: data.description,
+        course_id: data.course_id,
+        detail: data.detail,
+        order: data.order,
+        term_id: data.term_id,
+        detail_content: data.detail_content,
+        detail_teacher: data.detail_teacher,
+        image_url: data.image_url,
+        audio_url:data.audio_url,
+        video_url:data.video_url,
+
+    });
 }
 
 export function editLesson(data) {
@@ -29,7 +42,21 @@ export function editLesson(data) {
     if (token) {
         url += data.id + "?token=" + token;
     }
-    return axios.put(url, data);
+    return axios.put(url, {
+        id: data.id,
+        name : data.name,
+        description: data.description,
+        course_id: data.course_id,
+        detail: data.detail,
+        order: data.order,
+        term_id: data.term_id,
+        detail_content: data.detail_content,
+        detail_teacher: data.detail_teacher,
+        image_url: data.image_url,
+        audio_url:data.audio_url,
+        video_url:data.video_url,
+        
+    });
 }
 export function loadTerms(courseId) {
     //http://manageapi.keetool.xyz/v2/lesson/term/course/1?token=

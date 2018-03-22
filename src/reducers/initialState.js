@@ -8,6 +8,15 @@ export default {
         summary: [],
     },
 
+    summarySalesRoom: {
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+
     summaryMarketingCampaignUp: {
         errorGens: false,
         bases: [],
@@ -42,7 +51,7 @@ export default {
         isChangingStatus: false,
         isLoadingBases: false,
         bases: [],
-        isSavingPayment : false,
+        isSavingPayment: false,
     },
 
     registerManageRoom: {
@@ -56,7 +65,7 @@ export default {
         isChangingStatus: false,
         isLoadingBases: false,
         bases: [],
-        isSavingPayment : false,
+        isSavingPayment: false,
     },
 
     bankAccount: {
@@ -724,6 +733,10 @@ export default {
             title: '',
             description: '',
             tags: '',
+            slug: '',
+            meta_title:'',
+            keyword:'',
+            meta_description:'',
             category: 0,
             content: '',
             isSaving: false,
