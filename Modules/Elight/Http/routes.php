@@ -18,7 +18,7 @@ Route::group(['middleware' => 'web', 'domain' => 'keetool3.{subfix}', 'namespace
     Route::get('/province', 'ElightController@provinces');
     Route::get('/district/{provinceId}', 'ElightController@districts');
 
-    Route::get('/book/{book_id}/{lesson_id?}', 'ElightController@book');
+    Route::get('/book/{book_id}/{term_id?}/{lesson_id?}', 'ElightController@book');
 
     // Sending mail route
     Route::post('/contact_information','ElightSendingMailController@contact_info');

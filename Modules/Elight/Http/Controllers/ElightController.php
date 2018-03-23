@@ -7,6 +7,7 @@ use App\District;
 use App\Course;
 use App\Good;
 use App\Lesson;
+use App\Term;
 use App\Product;
 use App\Province;
 use Illuminate\Routing\Controller;
@@ -105,14 +106,17 @@ class ElightController extends Controller
         );
     }
 
-    public function book($subfix, $book_id, $lesson_id = null)
+    public function book($subfix, $book_id, $term_id = null, $lesson_id = null)
     {
-        $lesson = Lesson::find($lesson_id);
-
         $course = Course::find($book_id);
+        $term = Term::find($term_id);        
+        $lesson = Lesson::find($lesson_id);
         if ($course == null) {
             return view('elight::404-not-found');
         }
+
+        if($term && $lesson == null)
+            $lesson = $term->lessons()->orderBy('order')->first();
 
         if ($lesson == null) {
             $terms = $course->terms()->orderBy('order')->get();
@@ -124,25 +128,26 @@ class ElightController extends Controller
                 }
             }
         }
-
+        
         if ($lesson == null){
             return view('elight::404-not-lesson');
         }
 
-        $lessons = $course->lessons()->get()->map(function ($lesson) {
-            return [
-                'id' => $lesson->id,
-                'name' => $lesson->name
-            ];
-        });
         $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
-
         return view('elight::book', [
-            'book' => $course,
-            'lesson_selected' => $lesson,
-            'lessons' => $lessons,
+            'term_id' => $term ? $term->id : $lesson->term->id,
+            'lesson' => $lesson,
             'course' => $course,
-            'track_id' => $sound_cloud_track_id
+            'lessons' => $course->lessons()->get()->map(function ($lesson) {
+                return [
+                    'id' => $lesson->id,
+                    'name' => $lesson->name
+                ];
+            }),
+            'track_id' => $sound_cloud_track_id,
+            'terms' => $course->terms->filter(function($term){
+                return $term->lessons->count() > 0;
+            })
         ]);
     }
 

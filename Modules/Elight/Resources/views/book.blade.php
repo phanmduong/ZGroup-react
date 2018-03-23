@@ -52,15 +52,13 @@
     <link rel="stylesheet" href="/mediaelementplayer/mediaelementplayer.css">
     <div class="container">
         <br><br><br><br>
-
         <div class="row">
-            @if ($lesson_selected)
                 <div class="col-md-8">
-                    <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson_selected->name}}</h1>
-                    <p>{{$lesson_selected->description}}</p>
+                    <h1 style="font-size: 30px;font-weight:600; color:#424242;">{{$lesson->name}}</h1>
+                    <p>{{$lesson->description}}</p>
                     <br>
                     <div id="lesson_image" style="width: 100%;
-                            background: url({{$lesson_selected->image_url}});
+                            background: url({{$lesson->image_url}});
                             background-size: cover;
                             background-position: center;
                             padding-bottom: 70%;">
@@ -73,7 +71,7 @@
                     </div>
                     <br>
                     <div class="article-content">
-                        {!! $lesson_selected->detail_content !!}
+                        {!! $lesson->detail_content !!}
                     </div>
                     <hr>
                     <h3 class="card-title text-center">Liên hệ với Elight</h3>
@@ -112,57 +110,66 @@
                     </div>
                     <div class="comments media-area">
                         <div class="fb-comments"
-                             data-href="{{config('app.protocol').config('app.domain').'/book/'.$course->id.'/'.$lesson_selected->id}}"
+                             data-href="{{config('app.protocol').config('app.domain').'/book/'.$course->id.'/'.$lesson->id}}"
                              data-width="100%" data-numposts="5">
                         </div>
                     </div>
                 </div>
-            @endif
             <div class="col-md-4">
                     <div class="dropdown">
                         <input placeholder="Tìm kiếm" class="typeahead" data-provide="typeahead" id="search_lesson"
                                style="width:100%; padding:20px; margin:15px 0 15px 0; border:none; font-size:15px"
                                type="text"/>
                     </div>
-                    {{--<input type="text" class="typeahead" data-provide="typeahead">--}}
-
-                @foreach($book->terms()->orderBy('order')->get() as $term)
-                    <div>
-                        <a data-toggle="collapse" href="#collapse{{$term->id}}"
-                           class="{{$term->id == $lesson_selected->term->id ? '' : 'collapsed'}} "
-                           aria-expanded="{{$term->id == $lesson_selected->term->id ? 'true' : 'false'}}">
-                            <div style="background:#138edc; color:white; padding:10px">
-                                <div style="display: flex; flex-direction: row; justify-content: space-between">
-                                    <div>
-                                        <p style="font-weight: 600; font-size:18px">{{$term->name}}</p>
-                                        <p style="font-weight: 200;">{{$term->short_description}}</p>
-                                    </div>
-                                    <div>
-                                        <i style="font-size:25px" class="fa fa-angle-down" aria-hidden="true"></i>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dropdown">
+                                <button type="button" data-toggle="dropdown" class="btn btn-round dropdown-toggle btn-block"
+                                        aria-expanded="false"
+                                        style="background-color: #0275d8; color: white; border-color: #0275d8; text-align: center;">
+                                        @if($term_id)
+                                            {{\App\Term::find($term_id)->name}} : {{\App\Term::find($term_id)->description}}
+                                        @else
+                                            Bài học
+                                        @endif
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu"
+                                    style="background: white; box-shadow: rgba(0, 0, 0, 0.15) 0px 6px 10px -4px; border-radius: 5px !important; margin-top:6px">
+                                    @foreach($terms as $term)
+                                        <a  href="/book/{{$course->id}}/{{$term->id}}"
+                                            class="dropdown-item"
+                                            style="padding: 10px 15px !important; border-radius: 0px !important;">
+                                            {{$term->name}}
+                                        </a>
+                                    @endforeach
+                                </ul>
                             </div>
-                        </a>
-                        <br>
-                        <div id="collapse{{$term->id}}"
-                             aria-expanded="{{$term->id == $lesson_selected->term->id ? 'true' : 'false'}}"
-                             class="collapse {{$term->id == $lesson_selected->term->id ? 'show' : ''}}">
-                            @foreach($term->lessons()->orderBy('order')->get() as $lesson)
-
-                                <a href="/book/{{$book->id}}/{{$lesson->id}}"
-                                   style="color:black; display: flex; flex-direction: row; cursor: pointer">
-                                    <div style="font-size:20px;color:#138edc;">
-                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                    </div>
-                                    <div style="padding-left: 10px">
-                                        <p style="font-weight: 600">{{$lesson->name}}</p>
-                                        <p>{{$lesson->description}}</p>
-                                    </div>
-                                </a>
-                            @endforeach
                         </div>
                     </div>
-                @endforeach
+                    <div class="row">
+                        @foreach (\App\Term::find($term_id)->lessons as $less)
+                            <div class="col-md-6">
+                                <div style="margin-top:6px">
+                                    @if($less->id == $lesson->id)
+                                        <a href="/book/{{$course->id}}/{{$term->id}}/{{$less->id}}"
+                                                class="btn btn-round btn-block"
+                                                aria-expanded="false"
+                                                style="background-color: #59b2ff; color: white; border-color: #59b2ff; text-align: center;">
+                                            {{$less->name}}
+                                        </a>
+                                    @else
+                                        <a href="/book/{{$course->id}}/{{$term_id}}/{{$less->id}}"
+                                                 class="btn btn-round btn-block"
+                                                aria-expanded="false"
+                                                style="background-color: white; color: black; border-color: #59b2ff; text-align: center;">
+                                            {{$less->name}}
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
             </div>
             <br><br>
         </div>
