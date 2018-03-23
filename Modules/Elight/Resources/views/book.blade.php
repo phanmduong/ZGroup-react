@@ -139,7 +139,7 @@
                                     @foreach($terms as $term)
                                         <a  href="/book/{{$course->id}}/{{$term->id}}"
                                             class="dropdown-item"
-                                            style="padding: 10px 15px !important; border-radius: 0px !important;">
+                                            style="padding: 10px 15px !important; border-radius: 0px !important;text-align: center">
                                             {{$term->name}}
                                         </a>
                                     @endforeach
