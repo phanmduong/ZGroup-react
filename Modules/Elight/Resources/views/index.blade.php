@@ -42,7 +42,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card card-profile card-plain">
-                                    <img style="height: 45% ;width: 100%;" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195556021TjlZlGGV0YTIsA.png">
+                                    <img style="height: 45% ;width: 100%;" src="{{$goods[0]->avatar_url}}">
                                 </div>
                             </div>
                         </div>
