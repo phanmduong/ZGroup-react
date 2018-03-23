@@ -174,9 +174,6 @@ class ElightController extends Controller
                 $good = Good::find($item->id);
                 $good->number = $item->number;
                 $properties = GoodProperty::where('good_id', $good->id)->get();
-                foreach ($properties as $property) {
-                    $good[$property->name] = $property->value;
-                }
                 $goods[] = $good;
             }
         }
@@ -184,7 +181,7 @@ class ElightController extends Controller
         $totalPrice = 0;
 
         foreach ($goods as $good) {
-            $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
+            $totalPrice += $good->price * $good->number;
         }
         $data = [
             "goods" => $goods,
