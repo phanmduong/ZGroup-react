@@ -167,21 +167,26 @@ export const ORDER_STATUS = [
     },
     {
         order: 2,
+        label: "Chờ chuyển khoản",
+        value: "transfering"
+    },
+    {
+        order: 3,
         label: "Xác nhận",
         value: "confirm_order",
     },
     {
-        order: 3,
+        order: 4,
         label: "Giao hàng",
         value: "ship_order",
     },
     {
-        order: 4,
+        order: 5,
         label: "Hoàn thành",
         value: "completed_order",
     },
     {
-        order: 5,
+        order: 6,
         label: "Hủy",
         value: "cancel",
     },

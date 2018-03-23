@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as helper from '../../helpers/helper';
-import * as goodOrdersApi from '../goodOrders/goodOrdersApi';
+import * as goodOrdersApi from './goodOrdersApi';
 //import moment from 'moment';
 import {browserHistory} from "react-router";
 
