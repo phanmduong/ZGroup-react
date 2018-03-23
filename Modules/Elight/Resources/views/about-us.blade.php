@@ -20,9 +20,11 @@
         </div>
     </div>
     <div class="container">
-        <h4 style="text-align: center ;margin-left: 200px ; margin-right: 200px; margin-bottom: 50px">
-            Tiếng Anh vẫn luôn là một rào cản lớn với người học Việt Nam. Việc thiếu vắng môi trường giao tiếp, chương trình học phổ cập không phù hợp khiến đa số người học Tiếng Anh không tiến bộ sau nhiều năm trời. Tại Elight, chúng tôi tin rằng “Ai cũng có thể dễ dàng học tiếng Anh” và sẽ luôn có một giải pháp nhanh hơn, dễ hiểu và dễ tiếp cận hơn cho người học. Chúng tôi đam mê và không ngần ngại truyền tải niềm tin này tới tất cả mọi người thông qua sản phẩm, công nghệ và cộng đồng của Elight. 
-        </h4>
+        <div class="row">
+            <h4 style="text-align: center ;margin-left: 50px ; margin-right: 50px; margin-bottom: 50px">
+                Tiếng Anh vẫn luôn là một rào cản lớn với người học Việt Nam. Việc thiếu vắng môi trường giao tiếp, chương trình học phổ cập không phù hợp khiến đa số người học Tiếng Anh không tiến bộ sau nhiều năm trời. Tại Elight, chúng tôi tin rằng “Ai cũng có thể dễ dàng học tiếng Anh” và sẽ luôn có một giải pháp nhanh hơn, dễ hiểu và dễ tiếp cận hơn cho người học. Chúng tôi đam mê và không ngần ngại truyền tải niềm tin này tới tất cả mọi người thông qua sản phẩm, công nghệ và cộng đồng của Elight. 
+            </h4>
+        </div>
     </div>
     <div class="cd-section section-gray">
         <div class="blog-1">
@@ -38,11 +40,11 @@
                                     </div>
                                 </div>
                                 <div class="col-md-7">
-                                    <div class="card-block">
+                                    <div class="card-block" style="padding-top:0px">
                                         <h3 class="card-title">
                                             ĐIỂM KHỞI ĐẦU				
 				                        </h3>
-                                        <p class="card-description">
+                                        <p class="card-description" style="color:black">
                                             Nhà sách Elight được thành lập vào 2016. Trong suốt 5 năm trước đó, nhờ hoạt động trực tiếp giảng dạy Tiếng Anh “vỡ lòng” cho hàng ngàn học viên, chúng tôi thấu hiểu được mọi điểm yếu và khó khăn một người mới học Tiếng Anh sẽ gặp phải. Vì vậy, Elight tự xây dựng 1 bộ giáo trình tối ưu nhất, biến mọi vấn đề gặp phải khi học Tiếng Anh trở nên dễ hiểu, dễ nhớ. Từ đó, đầu sách Tiếng Anh Cơ Bản ra đời, thể hiện trọn vẹn tinh thần và mong muốn của Elight dành cho người học Việt Nam. 
                                         </p>
 
@@ -68,13 +70,13 @@
                             <div class="card card-plain card-blog">
                                 <div class="row">
                                     <div class="col-md-7">
-                                        <div class="card-block">
+                                        <div class="card-block" style="padding-top:0px">
                                             <h3 class="card-title">
                                             LẦN ĐẦU PHÁT HÀNH
 
 
                                             </h3>
-                                            <p class="card-description">
+                                            <p class="card-description" style="color:black">
                                                 Ngay từ khi muốn xây dựng bộ sách, Elight chỉ có duy nhất một theo đuổi: “Sản phẩm tốt hoặc không gì cả”. Xuất phát là người giảng dạy rẽ ngang làm sách, chúng tôi hoàn toàn thiếu kinh nghiệm về in ấn, phát hành thương mại… Tuy nhiên với mong muốn mãnh liệt về một sản phẩm giải quyết mọi khó khăn cho người học, Elight quyết tâm hoàn thiện bộ sách,  mặc dù gặp khó khăn về vấn đề phát hành, vận chuyển, thanh toán. 
                                             </p>
 
@@ -110,12 +112,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-7">
-                                    <div class="card-block">
+                                    <div class="card-block" style="padding-top:0px">
                                         <h3 class="card-title">
                                         HOÀN THIỆN DỊCH VỤ				
 				                        </h3>
-                                        <p class="card-description">
-                                            Nhanh chóng học hỏi và cải thiện, Nhà Sách ngay lập tức tập trung hoàn thiện chất lượng dịch vụ. Ngay lúc này, bạn dễ dàng<a onClick="pureJsOpenModalBuy(8)" style="color:blue"> đặt mua sách tại đây</a> hoặc gọi đến số <strong style="color:black">0981 937 066</strong> để được hướng dẫn và tư vấn bởi sự nhiệt tình và thấu hiểu tận tâm người học. Mua sách online và thanh toán tận nơi ngay khi cầm lên tay cuốn sách đẹp còn thơm mùi mực in trên giấy màu. Chúng tôi mong muốn người học sẽ hài lòng và muốn học ngay cả khi chưa chạm vào sách. 				
+                                        <p class="card-description" style="color:black">
+                                            Nhanh chóng học hỏi và cải thiện, Nhà Sách ngay lập tức tập trung hoàn thiện chất lượng dịch vụ. Ngay lúc này, bạn dễ dàng<a href="javascript:void(0)" onClick="pureJsOpenModalBuy(8)" style="color:blue"> đặt mua sách tại đây</a> hoặc gọi đến số <strong style="color:black; font-weight: 525">0981 937 066</strong> để được hướng dẫn và tư vấn bởi sự nhiệt tình và thấu hiểu tận tâm người học. Mua sách online và thanh toán tận nơi ngay khi cầm lên tay cuốn sách đẹp còn thơm mùi mực in trên giấy màu. Chúng tôi mong muốn người học sẽ hài lòng và muốn học ngay cả khi chưa chạm vào sách. 				
                                         </p>
 
                                     </div>
@@ -140,14 +142,13 @@
                         <div class="card card-plain card-blog">
                             <div class="row">
                                 <div class="col-md-7">
-                                    <div class="card-block">
+                                    <div class="card-block" style="padding-top:0px">
                                         <h3 class="card-title">
                                         ĐỒNG HÀNH TRỌN ĐỜI				
                                         </h3>
-                                        <p class="card-description">
-                                        “Mình mua sách rồi giờ học thế nào?” Đừng quên tham gia nhóm <strong style = "color:black">Elight Sách Tiếng Anh Cơ Bản</strong> trên Facebook để được hỗ trợ kiến thức từ giảng viên Elight. Đây là nơi bạn thoải mái trao đổi và giải đáp mọi khó khăn về Tiếng Anh, chia sẻ kiến thức cùng hơn 40.000 thành viên đang học sách từ mọi miền đất nước Việt Nam. Không chỉ là kiến thức trên giấy, Elight cung cấp cả môi trường giao tiếp cho bạn khi mua sách. Mà chúng tôi đã đề cập đến việc sẽ liên tục gửi tặng cho khách hàng cũ rất nhiều tài liệu học online hữu ích chưa nhỉ ? 				
+                                        <p class="card-description" style="color:black">
+                                        “Mình mua sách rồi giờ học thế nào?” Đừng quên tham gia nhóm <strong style = "color:black; font-weight:525">Elight Sách Tiếng Anh Cơ Bản</strong> trên Facebook để được hỗ trợ kiến thức từ giảng viên Elight. Đây là nơi bạn thoải mái trao đổi và giải đáp mọi khó khăn về Tiếng Anh, chia sẻ kiến thức cùng hơn 40.000 thành viên đang học sách từ mọi miền đất nước Việt Nam. Không chỉ là kiến thức trên giấy, Elight cung cấp cả môi trường giao tiếp cho bạn khi mua sách. Mà chúng tôi đã đề cập đến việc sẽ liên tục gửi tặng cho khách hàng cũ rất nhiều tài liệu học online hữu ích chưa nhỉ ? 				
                                         </p>
-
                                     </div>
 
                                 </div>
@@ -180,13 +181,13 @@
                                     </div>
                                 </div>
                                 <div class="col-md-7">
-                                    <div class="card-block">
+                                    <div class="card-block" style="padding-top:0px">
                                         <h3 class="card-title">
                                         HƯỚNG VỀ PHÍA TRƯỚC				
 				
                                         </h3>
-                                        <p class="card-description">
-                                            Với việc ngoại ngữ ngày càng quan trọng với người Việt, Nhà Sách Elight đang và sẽ tiếp tục xây dựng, phát triển những sản phẩm giá trị và hữu ích cho cộng đồng. Chúng tôi vẫn luôn cải tiến liên tục sản phẩm cốt lõi và mong muốn chạm tới giới hạn cao nhất về chất lượng và dịch vụ. Nếu bạn mong muốn sở hữu bộ sách học Tiếng Anh của chúng tôi, tìm hiểu <a onClick="pureJsOpenModalBuy(8)" style="color:blue">tại đây</a> nhé.				
+                                        <p class="card-description" style="color:black">
+                                            Với việc ngoại ngữ ngày càng quan trọng với người Việt, Nhà Sách Elight đang và sẽ tiếp tục xây dựng, phát triển những sản phẩm giá trị và hữu ích cho cộng đồng. Chúng tôi vẫn luôn cải tiến liên tục sản phẩm cốt lõi và mong muốn chạm tới giới hạn cao nhất về chất lượng và dịch vụ. Nếu bạn mong muốn sở hữu bộ sách học Tiếng Anh của chúng tôi, tìm hiểu <a href="/#buyBooks" style="color:blue">tại đây</a> nhé.				
 		                                </p>
 
                                     </div>
@@ -205,9 +206,9 @@
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
-                <h2 style="font-weight: 400">
+                <h3 style="font-weight: 400">
                     Bạn yêu thích Tiếng Anh, Giáo Dục và câu chuyện của Elight?
-                </h2>
+                </h3>
                 <h4 style="color:white">
                     Liên hệ qua email <strong>elightedu.kd@gmail.com</strong> để hợp tác và làm việc cùng chúng mình nhé ! 
                 </h4>
