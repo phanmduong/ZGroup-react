@@ -38,10 +38,7 @@ class ItemOrder extends Model
     {
         return [
             "id" => $this->id,
-            "company" => [
-                "id" => $this->company->id,
-                "name" => $this->company->name,
-            ],
+            "company" => $this->company->transform(),
             "staff" => $this->staff ? [
                 "id" => $this->staff->id,
                 "name" => $this->staff->name,

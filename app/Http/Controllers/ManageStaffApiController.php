@@ -106,8 +106,9 @@ class ManageStaffApiController extends ManageApiController
     {
         $staff = User::find($staffId);
         if ($staff == null) {
-            $staff = $this->user;
+            $staff = User::find($this->user->id);
         }
+
         $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
         return $this->respondSuccessWithStatus(['staff' => $staff]);
     }

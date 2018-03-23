@@ -16,6 +16,7 @@ use App\Http\Controllers\ManageApiController;
 use Illuminate\Support\Facades\Hash;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Order\Repositories\OrderService;
+use App\Currency;
 
 class DeliveryOrderApiController extends ManageApiController
 {
@@ -102,35 +103,51 @@ class DeliveryOrderApiController extends ManageApiController
 
     public function infoDeliveryOrders(Request $request)
     {
-        $keyWord = $request->search;
-
-        $deliveryOrders = Order::where('type', 'delivery');
-        //queries
-        if ($keyWord) {
-            $userIds = User::where(function ($query) use ($keyWord) {
-                $query->where("name", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%");
-            })->pluck('id')->toArray();
-            $deliveryOrders = $deliveryOrders->where('type', 'order')->where(function ($query) use ($keyWord, $userIds) {
-                $query->whereIn('user_id', $userIds)->orWhere("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+        $searches = json_decode($request->searches);
+        $queries = json_decode($request->queries);
+        $deliveryOrders = Order::where('orders.type', 'delivery');
+        $deliveryOrders = $deliveryOrders->join('users', 'users.id', '=', 'orders.user_id')
+            ->select('orders.*')->where(function ($query) use ($searches) {
+                if ($searches) {
+                    foreach ($searches as $keyWord) {
+                        $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
+                            ->orWhere('users.email', 'like', "%$keyWord%");
+                    }
+                }
+            })->where(function ($query) use ($queries) {
+                if ($queries) {
+                    for ($index = 0; $index < count($queries); ++$index) {
+                        if ($index == 0)
+                            $query->where('orders.attach_info', 'like', "%" . $queries[$index] . "%");
+                        else
+                            $query->orWhere('orders.attach_info', 'like', "%" . $queries[$index] . "%");
+                    }
+                }
             });
-        }
-
         if ($request->staff_id)
-            $deliveryOrders = $deliveryOrders->where('staff_id', $request->staff_id);
+            $deliveryOrders = $deliveryOrders->where('orders.staff_id', $request->staff_id);
         if ($request->start_time)
-            $deliveryOrders = $deliveryOrders->whereBetween('created_at', array($request->start_time, $request->end_time));
+            $deliveryOrders = $deliveryOrders->whereBetween('orders.created_at', array($request->start_time, $request->end_time));
         if ($request->status)
-            $deliveryOrders = $deliveryOrders->where('status', $request->status);
+            $deliveryOrders = $deliveryOrders->where('orders.status', $request->status);
         if ($request->user_id)
-            $deliveryOrders = $deliveryOrders->where('user_id', $request->user_id);
+            $deliveryOrders = $deliveryOrders->where('orders.user_id', $request->user_id);
 
         $deliveryOrders = $deliveryOrders->orderBy('created_at', 'desc')->get();
 
         return $this->respondSuccessWithStatus([
-            'total_delivery_orders' => 10,
-            'not_locked' => 2,
-            'total_money' => 15000000,
-            'total_paid_money' => 10000000
+            'total_delivery_orders' => count($deliveryOrders),
+            'not_locked' => Order::where('type', 'delivery')->where('status', 'place_order')->count(),
+            'total_money' => $deliveryOrders->reduce(function($total, $order){
+                return $total + $order->price + $order->ship_money;
+            }, 0),
+            'total_paid_money' =>  $deliveryOrders->reduce(function($total, $order){
+                if($order->status_paid == 1)
+                    return $total + $order->price + $order->ship_money;
+                return $order->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                    return $paid + $orderPaidMoney->money;
+                }, 0);
+            }, 0)
         ]);
     }
 
@@ -381,8 +398,11 @@ class DeliveryOrderApiController extends ManageApiController
             $order = Order::find($deliveryOrder->id);
             $order->attach_info = $deliveryOrder->attach_info;
             $order->status = 'sent_price';
-            $order->price = json_decode($deliveryOrder->attach_info)->money;
+            // $order->price = json_decode($deliveryOrder->attach_info)->money;
+            $info = json_decode($order->attach_info);
+            $order->price = $info->quantity * $info->price * Currency::find($info->currency_id)->ratio * ($info->tax == true ? 1.08 : 1);
             $order->quantity = json_decode($deliveryOrder->attach_info)->quantity;
+            $order->staff_id = $this->user->id;
             $order->save();
         }
         //mail and text customer

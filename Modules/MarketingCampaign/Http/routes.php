@@ -24,8 +24,6 @@ $roomServiceRoutes = function () {
         Route::get('/room/marketing-campaign/summary', 'RoomServiceMarketingCampaignController@roomMarketingCampaignSummary');        
     });
 };
-
-
 Route::group(['domain' => 'manageapi.' . config('app.domain'),
     'namespace' => 'Modules\MarketingCampaign\Http\Controllers'], $marketingCampaignRoutes);
 

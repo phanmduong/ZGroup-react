@@ -2,8 +2,6 @@
 
 namespace Modules\Booking\Http\Controllers;
 
-namespace Modules\UpCoworkingSpace\Http\Controllers;
-
 use App\Base;
 use App\District;
 use App\Http\Controllers\ApiPublicController;
@@ -19,7 +17,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
 use App\Product;
 
-class BookingController extends Controller
+class BookingController extends ApiPublicController
 {
     public function __construct()
     {
@@ -231,7 +229,15 @@ class BookingController extends Controller
             $product->category_id = 3;
             $product->url = "d1j8r0kxyu9tj8.cloudfront.net/images/1500137080dAlPJYo8BVlQiiD.jpg";
             $product->description = $this->get_snippet(str_replace("\n", "", strip_tags($product->content)), 19) . "...";
+            $product->url = DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first() ?
+                str_replace('http://', '', DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first()->guid) : '';
+            $product->url = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->url);
+
             foreach (preg_split("/((\r?\n)|(\r\n?))/", $post->post_content) as $line) {
+                $product->content = str_replace($line, '<p>' . $line . '</p>', $product->content);
+                $product->content = str_replace('<strong>', '<p><h6>', $product->content);
+                $product->content = str_replace('</strong>', '</h6></p>', $product->content);
+
                 if (strpos($line, '.jpg')) {
                     $pattern = '/(gpj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
                     preg_match($pattern, strrev($line), $matches);
@@ -247,13 +253,22 @@ class BookingController extends Controller
                     preg_match($pattern, strrev($line), $matches);
                     $product->content = str_replace(strrev(reset($matches)), '.jpeg', $product->content);
                 }
+                $product->content = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->content);
                 $pattern = '/width="([0-9]{3,4})" height="([0-9]{3,4})"/';
                 preg_match($pattern, $line, $matches);
                 if (reset($matches))
                     $product->content = str_replace(reset($matches), reset($matches) . ' style="display:block; height:auto; width:100%"', $product->content);
             }
-            // $arr[] = $product->content;
+            if ($product->url == '') {
+                $pattern = '/(src=")(.+?)(")/';
+                preg_match($pattern, $product->content, $matches);
+                if ($matches)
+                    $product->url = $matches[2];
+                else
+                    $product->url = 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/2016/08/cong-viec-cua-product-manager.jpg';
+            }
             $product->save();
         }
+        // dd($arr);
     }
 }

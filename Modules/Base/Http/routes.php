@@ -50,6 +50,7 @@ $routes = function () {
         Route::get('/base/provinces', 'PublicApiController@provinces');
         Route::get('/base/province/{provinceId}', 'PublicApiController@basesInProvince');
         Route::get('/base/{baseId}/rooms', 'PublicApiController@baseRooms');
+        Route::get('/base', 'PublicApiController@bases');
         Route::get('/blogs', 'PublicApiController@getAllBlogs');
         Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
     });

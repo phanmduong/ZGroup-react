@@ -197,6 +197,10 @@ function format_vn_short_datetime($time)
 {
     return rebuild_date('H:i d-m-Y', $time);
 }
+function format_vn_datetime($time)
+{
+    return rebuild_date('H:i:s d-m-Y', $time);
+}
 
 function format_vn_date($time)
 {
