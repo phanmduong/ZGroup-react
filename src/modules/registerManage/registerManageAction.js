@@ -179,6 +179,7 @@ export function addSubscription(register_id,select, closeModal) {
                 if (res.data.status) {
                     dispatch({
                         type: types.SAVED_SUBSCRIPTION_SUCCESS_IN_REGISTER,
+                        register : res.data.data.register,
                     });
                     closeModal();
                     helper.showNotification("Lưu thành công");
@@ -201,6 +202,7 @@ export function addSubscription(register_id,select, closeModal) {
 
 
 export function updateSelect(select) {
+    console.log(select,"ACTION");
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_SELECT,

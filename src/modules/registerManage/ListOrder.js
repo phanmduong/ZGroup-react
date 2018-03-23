@@ -113,11 +113,11 @@ class ListOrder extends React.Component {
 
 
     closeCallModal() {
-        this.setState({isOpenCallModal: false});
+        this.setState({isOpenCallModal: false, register : {}});
     }
 
     closePaymentModal() {
-        this.setState({isOpenPaymentModal: false});
+        this.setState({isOpenPaymentModal: false, register:{}});
     }
 
     openChooseSeatModal(base) {
@@ -129,7 +129,7 @@ class ListOrder extends React.Component {
     }
 
     closeUserpackModal() {
-        this.setState({isOpenUserpackModal: false});
+        this.setState({isOpenUserpackModal: false, register : {}});
     }
 
     render() {
@@ -155,7 +155,7 @@ class ListOrder extends React.Component {
                             <th>Giá tiền</th>
                             <th>Tiền đã trả</th>
                             <th>Gói thành viên</th>
-                            <th>Đăng ký</th>
+                            <th>Ngày đăng ký</th>
                             <th/>
                             <th/>
                             <th/>
@@ -271,42 +271,50 @@ class ListOrder extends React.Component {
                                     </td>
 
                                     <td>
-                                        {helper.dotNumber(
-                                            register.subscription.price,
-                                        )}đ
+                                        {helper.dotNumber(register.subscription ? register.subscription.price : 0) + " đ"}
                                     </td>
                                     <td>
-                                        {helper.dotNumber(register.money)}đ
+                                        {helper.dotNumber(register.money)+" đ"}
                                     </td>
                                     <td>
-                                        <b>
-                                            {
-                                                register.subscription
-                                                    .user_pack.name
-                                            }
-                                        </b>
-                                        <br/>
                                         {
-                                            register.subscription
-                                                .subscription_kind_name
-                                        }
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={UserpackTooltip}
-                                        >
-                                            <a
-                                                onClick={() =>
+                                            register.subscription ?
+                                                <a onClick={() =>
                                                     this.openUserpackModal(
                                                         register,
                                                     )
-                                                }
-                                                style={{color: "#888"}}
-                                            >
-                                                <i className="material-icons">
-                                                    class
-                                                </i>
-                                            </a>
-                                        </OverlayTrigger>
+                                                }>
+                                                    <b>
+                                                        {
+                                                            register.subscription
+                                                                .user_pack.name
+                                                        }
+                                                    </b>
+                                                    <br/>
+                                                    {
+                                                        register.subscription
+                                                            .subscription_kind_name
+                                                    }
+                                                </a>
+                                                :
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={UserpackTooltip}
+                                                >
+                                                    <a
+                                                        onClick={() =>
+                                                            this.openUserpackModal(
+                                                                register,
+                                                            )
+                                                        }
+                                                        style={{color: "#888"}}
+                                                    >
+                                                        <i className="material-icons">
+                                                            class
+                                                        </i>
+                                                    </a>
+                                                </OverlayTrigger>
+                                        }
                                     </td>
                                     <td>{register.created_at}</td>
                                     <td>
@@ -401,12 +409,13 @@ class ListOrder extends React.Component {
                 </Modal>
                 <Modal
                     show={this.state.isOpenUserpackModal}
-                    bsStyle="primary"
+                    // bsStyle="primary"
                     onHide={this.closeUserpackModal}
                 >
                     <Modal.Header/>
                     <Modal.Body>
                         <UserpackModal
+                            register = {this.state.register}
                             register_id={this.state.register.id}
                             closeUserpackModal={this.closeUserpackModal}
                         />

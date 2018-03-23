@@ -9,7 +9,6 @@ let tmpReg = {};
 export default function goodOrdersReducer(state = initialState.registerManage, action) {
     switch (action.type) {
 
-
         case types.BEGIN_LOAD_BASES_IN_REGISTER_MANAGE:
             return {
                 ...state,
@@ -107,7 +106,7 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                 isLoadingUserpack: true,
             };
 
-            case types.BEGIN_SAVE_SUBSCRIPTION_IN_REGISTER:
+        case types.BEGIN_SAVE_SUBSCRIPTION_IN_REGISTER:
             return {
                 ...state,
                 isSavingSubscription: true,
@@ -116,6 +115,7 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
             return {
                 ...state,
                 isSavingSubscription: false,
+                registers: updateRegisters(state.registers, action.register),
             };
         case types.SAVED_SUBSCRIPTION_ERROR_IN_REGISTER:
             return {
@@ -164,12 +164,24 @@ function addPayment(register_id, registers, payment) {
 }
 
 function countEndtime(select) {
+    console.log(
+        Date.parse(select.start_time),
+        parseInt(Date.parse(select.start_time)) + (parseInt(select.hours) + parseInt(select.extra_time)) * 3600000,
+        "REDUCER");
     tmp = {
         ...select, end_time:
-            moment(parseInt(Date.parse(moment(select.start_time, "DD/MM/YYYY HH:mm:ss").format("MM-DD-YYYY HH:mm:ss"))) + (parseInt(select.hours) + parseInt(select.extra_time)) * 3600000).format("DD/MM/YYYY HH:mm:ss")
+            moment(parseInt(Date.parse(select.start_time)) + (parseInt(select.hours) + parseInt(select.extra_time)) * 3600000).format("YYYY-MM-DD HH:mm:ss"),
     };
-    // console.log(tmp.end_time,moment(select.start_time, "DD/MM/YYYY HH:mm:ss").format("MM-DD-YYYY HH:mm:ss") ,Date.parse(moment(select.start_time, "DD/MM/YYYY HH:mm:ss").format("YYYY-DD-MM HH:mm:ss")));
-
-
     return tmp;
+}
+
+function updateRegisters(registers, register) {
+    return registers.map((tmp) => {
+        if (tmp.id === register.id) {
+            return register;
+        }
+        else {
+            return tmp;
+        }
+    });
 }
