@@ -22,7 +22,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
 //new api routes
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Email\Http\Controllers'],
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Email\Http\Controllers'],
     function () use ($emailRoutes) {
         Route::group(['prefix' => 'v3'], $emailRoutes);
-    });
+    }
+);
