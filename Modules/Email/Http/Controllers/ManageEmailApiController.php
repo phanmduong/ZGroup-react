@@ -282,6 +282,8 @@ class ManageEmailApiController extends ManageApiController
             return $this->respondErrorWithStatus("Thiếu post_id");
         }
 
+        $this->user->code = $request->token;
+        $this->user->save();
 
         $comments = getAllCommentFacebook($request->post_id, $request->token);
 
