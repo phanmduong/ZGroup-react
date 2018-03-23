@@ -368,6 +368,7 @@ export function linkUploadImageEditor() {
 export const DATETIME_FILE_NAME_FORMAT = "DD_MM_YYYY";
 export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
 export const DATETIME_VN_FORMAT = "DD/MM/YYYY HH:mm:ss";
+export const DATE_VN_FORMAT = "DD/MM/YYYY";
 export const DATETIME_SEAT_FORMAT = "DD/MM/YYYY HH:mm";
 export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
 export const FULLTIME_FORMAT = "HH:mm:ss";

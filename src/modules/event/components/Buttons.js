@@ -10,6 +10,8 @@ class StorePostComponent extends React.Component {
         const { scrollerId } = this.props;
         $(scrollerId).scroll(() => {
             const scroll = $(scrollerId).scrollTop();
+            const topButtons = $(window).height() - 210 + "px";
+            $(".blog-buttons").css("top", topButtons);
             $(".blog-buttons").css(
                 "transform",
                 "translate(0px, " + scroll + "px)",
@@ -54,7 +56,7 @@ class StorePostComponent extends React.Component {
                     type="button"
                     disabled={this.props.disabled}
                     onClick={() => {
-                        this.props.savePost();
+                        this.props.publish();
                     }}
                 >
                     Đăng bài
@@ -69,6 +71,7 @@ StorePostComponent.propTypes = {
     style: PropTypes.object.isRequired,
     disabled: PropTypes.bool.isRequired,
     close: PropTypes.func.isRequired,
+    publish: PropTypes.func.isRequired,
 };
 
 export default StorePostComponent;

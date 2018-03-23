@@ -8,6 +8,11 @@ const initEventState = {
 };
 export default function eventReducer(state = initEventState, action) {
     switch (action.type) {
+        case types.SAVE_EVENT:
+            return {
+                event: {},
+                                
+            }
         case types.UPDATE_EVENT_FORM_DATA:
             return {
                 ...state,
