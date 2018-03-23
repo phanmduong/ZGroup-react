@@ -26,7 +26,6 @@ class CreateAdvancePaymentTable extends Migration
             $table->integer('status')->default(0);
             $table->dateTime('date_complete')->nullable();
             $table->timestamps();
-
         });
     }
 
