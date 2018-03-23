@@ -31,7 +31,6 @@ export function handleBankAccount(bankAccount) {
 }
 
 
-
 export function saveBankAccount(bankAccount) {
     return function (dispatch) {
         dispatch({
@@ -39,15 +38,13 @@ export function saveBankAccount(bankAccount) {
         });
         bankAccountApi.saveBankAccountApi(bankAccount)
             .then((res) => {
-
-                if(res.data.status){
+                if (res.data.status) {
                     helper.showNotification("Thêm tài khoản ngân hàng thành công");
                     dispatch({
                         type: types.SAVE_BANK_ACCOUNTS_SUCCESS,
                         bankAccount
                     });
-                }
-                else {
+                } else {
                     helper.showNotification(res.data.message);
                     dispatch({
                         type: types.ADD_BANK_ACCOUNT_ERROR,
@@ -63,12 +60,19 @@ export function editBankAccount(bankAccount) {
             type: types.BEGIN_SAVE_BANK_ACCOUNTS
         });
         bankAccountApi.editBankAccountApi(bankAccount)
-            .then(() => {
-                dispatch({
-                    type: types.EDIT_BANK_ACCOUNTS_SUCCESS,
-                    bankAccount
-                });
-                helper.showNotification("Chỉnh sửa tài khoản ngân  thành công");
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showNotification("Chỉnh sửa tài khoản ngân  thành công");
+                    dispatch({
+                        type: types.EDIT_BANK_ACCOUNTS_SUCCESS,
+                        bankAccount
+                    });
+                } else {
+                    helper.showNotification(res.data.message);
+                    dispatch({
+                        type: types.ADD_BANK_ACCOUNT_ERROR,
+                    });
+                }
             });
     };
 }
