@@ -274,12 +274,9 @@
         $("#submit").click(function (event) {
             event.preventDefault();
             event.stopPropagation();
-            // console.log("submit");
             var message_str = $('#message').val();
             var email = $('#email').val();
             var name = $('#name').val();
-            // console.log(radio);
-            // console.log(name);
             var ok = 0;
             if (email.trim() == "" || message_str.trim() == "" || name.trim() == "") ok = 1;
 
@@ -299,12 +296,9 @@
                     name: name,
                     _token: "{{csrf_token()}}"
                 };
-                console.log(data);
                 $.post(url, data, function (data, status) {
-                        console.log("Data: " + data + "\nStatus: " + status);
                     })
                     .fail(function (error) {
-                        console.log(error);
                     });
             }
         });
