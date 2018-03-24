@@ -9,6 +9,8 @@ import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign
 import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
+import summaryMarketingCampaignRoomReducer from "../modules/summaryMarketingCampaignRoom/summaryMarketingCampaignRoomReducer";
+import summarySalesRoomReducer from "../modules/summarySalesRoom/summarySalesRoomReducer";
 
 
 const appReducer = combineReducers({
@@ -19,7 +21,9 @@ const appReducer = combineReducers({
     summaryMarketingCampaign: summaryMarketingCampaignReducer,
     marketingCampaigns: marketingCampaignsReducer,
     summarySalesUp : summarySalesUpReducer,
+    summarySalesRoom : summarySalesRoomReducer,
     summarySales: summarySalesReducer,
+    summaryMarketingCampaignRoom: summaryMarketingCampaignRoomReducer,
 });
 
 const rootReducer = (state, action) => {

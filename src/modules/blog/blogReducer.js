@@ -2,24 +2,25 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 let tmpposts;
-export default function rolesReducer(state = initialState.blog, action) {
+export default function blogReducer(state = initialState.blog, action) {
 
     switch (action.type) {
         case types.UPDATE_FORM_POST:
             return {
                 ...state,
                 ...{
-                    post: {
-                        ...state.post,
-                        ...{
-                            title: action.post.title,
-                            description: action.post.description,
-                            tags: action.post.tags,
-                            category: action.post.category,
-                            content: action.post.content,
-                            imageUrl: action.post.imageUrl,
-                        }
-                    }
+                    post:  action.post
+                    // {
+                    //     ...state.post,
+                    //     ...{
+                    //         title: action.post.title,
+                    //         description: action.post.description,
+                    //         tags: action.post.tags,
+                    //         category: action.post.category,
+                    //         content: action.post.content,
+                    //         imageUrl: action.post.imageUrl,
+                    //     }
+                    // }
                 }
             };
         case types.RESET_FORM_POST_BLOG:

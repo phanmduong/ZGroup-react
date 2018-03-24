@@ -12,6 +12,7 @@ import ChooseSeatModalContainer from "./chooseSeat/ChooseSeatModalContainer";
 
 import moment from "moment/moment";
 import ChooseSeatHistoryModalContainer from "./chooseSeat/ChooseSeatHistoryModalContainer";
+import PaymentModal from "./PaymentModal";
 
 export function setRuleShowCall(register) {
     let btn = "";
@@ -79,26 +80,40 @@ class ListOrder extends React.Component {
 
         this.state = {
             register: {},
-            isOpenModal: false,
-            isCallModal: false,
+            isOpenCallModal: false,
+            isOpenPaymentModal: false,
             sumMoney: 0,
         };
 
-        this.openModal = this.openModal.bind(this);
+        this.openCallModal = this.openCallModal.bind(this);
+        this.openPaymentModal = this.openPaymentModal.bind(this);
         this.closeCallModal = this.closeCallModal.bind(this);
+        this.closePaymentModal = this.closePaymentModal.bind(this);
         this.openChooseSeatModal = this.openChooseSeatModal.bind(this);
     }
 
-    openModal(register, isCallModal) {
+    openCallModal(register) {
         this.setState({
-            isOpenModal: true,
+            isOpenCallModal: true,
             register: register,
-            isCallModal: isCallModal,
         });
     }
 
+    openPaymentModal(register) {
+        this.setState({
+            isOpenPaymentModal: true,
+            register: register,
+        });
+    }
+
+
+
     closeCallModal() {
-        this.setState({ isOpenModal: false });
+        this.setState({ isOpenCallModal: false });
+    }
+
+    closePaymentModal() {
+        this.setState({ isOpenPaymentModal: false });
     }
 
     openChooseSeatModal(base) {
@@ -122,9 +137,7 @@ class ListOrder extends React.Component {
                                 <th>Gọi</th>
                                 <th>Khách hàng</th>
                                 <th>Số điện thoại</th>
-                                {/* <th>Mã đăng ký</th> */}
                                 <th>Saler</th>
-                                {/*<th>Trạng thái</th>*/}
                                 <th>Chiến dịch</th>
                                 <th>Giá tiền</th>
                                 <th>Tiền đã trả</th>
@@ -157,9 +170,8 @@ class ListOrder extends React.Component {
                                                             " full-width padding-left-right-10"
                                                         }
                                                         onClick={() =>
-                                                            this.openModal(
+                                                            this.openCallModal(
                                                                 register,
-                                                                true,
                                                             )
                                                         }
                                                     >
@@ -190,7 +202,6 @@ class ListOrder extends React.Component {
                                                     : "Chưa có"}
                                             </a>
                                         </td>
-                                        {/* <td>{register.code || "Chưa có"}</td> */}
                                         <td>
                                             {register.saler ? (
                                                 <a
@@ -219,42 +230,6 @@ class ListOrder extends React.Component {
                                             )}
                                         </td>
 
-                                        {/*
-                                        <td>
-                                            {register.status !== "" ? (
-                                                <button
-                                                    className={
-                                                        "btn btn-round " +
-                                                        btn +
-                                                        " full-width padding-left-right-10"
-                                                    }
-                                                    onClick={() =>
-                                                        this.openModal(
-                                                            register,
-                                                            true,
-                                                        )
-                                                    }
-                                                    style={{
-                                                        backgroundColor:
-                                                            "#" + "5BBD2B",
-                                                    }}
-                                                >
-                                                    {
-                                                        REGISTER_STATUS.filter(
-                                                            status =>
-                                                                status.value ===
-                                                                register.status,
-                                                        )[0].label
-                                                    }
-                                                    <div className="ripple-container" />
-                                                </button>
-                                            ) : (
-                                                <button className="btn btn-xs btn-main">
-                                                    Chưa có
-                                                </button>
-                                            )}
-                                        </td>
-                                        */}
                                         <td>
                                             {register.campaign ? (
                                                 <a
@@ -274,7 +249,6 @@ class ListOrder extends React.Component {
                                                     }}
                                                 >
                                                     {register.campaign.name}{" "}
-                                                    {/*  deleete*/}
                                                 </a>
                                             ) : (
                                                 <a className="btn btn-xs btn-main disabled">
@@ -349,9 +323,8 @@ class ListOrder extends React.Component {
                                             >
                                                 <a
                                                     onClick={() =>
-                                                        this.openModal(
+                                                        this.openPaymentModal(
                                                             register,
-                                                            false,
                                                         )
                                                     }
                                                     style={{ color: "#888" }}
@@ -369,7 +342,7 @@ class ListOrder extends React.Component {
                     </table>
                 )}
                 <Modal
-                    show={this.state.isOpenModal}
+                    show={this.state.isOpenCallModal}
                     bsStyle="primary"
                     onHide={this.closeCallModal}
                 >
@@ -378,11 +351,24 @@ class ListOrder extends React.Component {
                         <CallModal
                             register={this.state.register}
                             closeCallModal={this.closeCallModal}
-                            isCallModal={this.state.isCallModal}
+                        />
+                    </Modal.Body>
+                </Modal>
+                <Modal
+                    show={this.state.isOpenPaymentModal}
+                    bsStyle="primary"
+                    onHide={this.closePaymentModal}
+                >
+                    <Modal.Header />
+                    <Modal.Body>
+                        <PaymentModal
+                            register={this.state.register}
+                            closePaymentModal={this.closePaymentModal}
                             sumMoney={sumMoney(this.state.register)}
                         />
                     </Modal.Body>
                 </Modal>
+
                 <ChooseSeatHistoryModalContainer />
             </div>
         );

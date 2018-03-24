@@ -133,7 +133,7 @@ class ChooseSeatModalContainer extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row">
-                        <ChooseSeatHistoryModalContainer/>
+                        <ChooseSeatHistoryModalContainer />
                         <ConfirmSeatModalContainer />
                         <div className="col-sm-8">
                             {!this.timeValid(from, to) && (
@@ -150,6 +150,7 @@ class ChooseSeatModalContainer extends React.Component {
                                     format={DATETIME_SEAT_FORMAT}
                                     name="from"
                                     id="from"
+                                    maxDate={to}
                                     label="Bắt đầu"
                                     value={from}
                                     defaultDate={moment()}
@@ -162,6 +163,7 @@ class ChooseSeatModalContainer extends React.Component {
                                         name="to"
                                         format={DATETIME_SEAT_FORMAT}
                                         id="to"
+                                        minDate={from}
                                         label="Kết thúc"
                                         value={to}
                                         defaultDate={moment().add(

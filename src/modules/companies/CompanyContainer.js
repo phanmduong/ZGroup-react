@@ -78,63 +78,64 @@ class CompanyContainer extends React.Component {
 
     searchNameCompany(value) {
         this.setState({
-            page: 1,
+            page: this.props.paginator.current_page,
             name: value,
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.CompanyActions.loadCompanies(1, this.state.type, value,this.state.phone ,this.state.address, this.state.partner_code );
+            this.props.CompanyActions.loadCompanies(this.props.paginator.current_page, this.state.type, value,this.state.phone ,this.state.address, this.state.partner_code );
         }.bind(this), 500);
     }
 
     searchPhoneCompany(value) {
         this.setState({
-            page: 1,
+            page: this.props.paginator.current_page,
             phone: value,
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.CompanyActions.loadCompanies(1, this.state.type, this.state.name,value ,this.state.address, this.state.partner_code );
+            this.props.CompanyActions.loadCompanies(this.props.paginator.current_page, this.state.type, this.state.name,value ,this.state.address, this.state.partner_code );
         }.bind(this), 500);
     }
     searchAddressCompany(value) {
         this.setState({
-            page: 1,
+            page: this.props.paginator.current_page,
             address: value,
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.CompanyActions.loadCompanies(1, this.state.type, this.state.name,this.state.phone,value , this.state.partner_code );
+            this.props.CompanyActions.loadCompanies(this.props.paginator.current_page, this.state.type, this.state.name,this.state.phone,value , this.state.partner_code );
         }.bind(this), 500);
     }
     searchCodeCompany(value) {
         this.setState({
-            page: 1,
+            page: this.props.paginator.current_page,
             partner_code: value,
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.CompanyActions.loadCompanies(1, this.state.type, this.state.name,this.state.phone, this.state.address,value  );
+            this.props.CompanyActions.loadCompanies(this.props.paginator.current_page, this.state.type, this.state.name,this.state.phone, this.state.address,value  );
         }.bind(this), 500);
     }
     searchCompanybyType(e) {
         let p = e.value;
         this.setState({
-            page: 1,
+            page: this.props.paginator.current_page,
             type: p,
         });
-        this.props.CompanyActions.loadCompanies(1, p, this.state.name, this.state.phone ,this.state.address, this.state.partner_code );
+        this.props.CompanyActions.loadCompanies(this.props.paginator.current_page, p, this.state.name, this.state.phone ,this.state.address, this.state.partner_code );
     }
 
     render() {
+        let {partner_code, type,name,phone,address} = this.state;
         return (
             <div className="content">
                 <InfoCompanyModal
@@ -178,7 +179,7 @@ class CompanyContainer extends React.Component {
                                                             <Search
                                                                 className="col-md-9"
                                                                 placeholder="Tìm kiếm theo mã công ty"
-                                                                value={this.state.partner_code}
+                                                                value={partner_code}
                                                                 onChange={this.searchCodeCompany}
                                                             />
                                                             <div className="col-md-3">
@@ -191,7 +192,7 @@ class CompanyContainer extends React.Component {
                                                                         {value: 'different', label: 'Khác',},
                                                                     ]}
                                                                     onChange={this.searchCompanybyType}
-                                                                    value={this.state.type || ""}
+                                                                    value={type || ""}
                                                                     defaultMessage="Tuỳ chọn"
                                                                     name="type"
                                                                 />
@@ -199,19 +200,19 @@ class CompanyContainer extends React.Component {
                                                             <Search
                                                                 className="col-md-4"
                                                                 placeholder="Tìm kiếm theo tên công ty"
-                                                                value={this.state.name}
+                                                                value={name}
                                                                 onChange={this.searchNameCompany}
                                                             />
                                                             <Search
                                                                 className="col-md-4"
                                                                 placeholder="Tìm kiếm theo số điện thoại công ty"
-                                                                value={this.state.phone}
+                                                                value={phone}
                                                                 onChange={this.searchPhoneCompany}
                                                             />
                                                             <Search
                                                                 className="col-md-4"
                                                                 placeholder="Tìm kiếm theo địa chỉ công ty"
-                                                                value={this.state.address}
+                                                                value={address}
                                                                 onChange={this.searchAddressCompany}
                                                             />
 
@@ -229,6 +230,20 @@ class CompanyContainer extends React.Component {
                                                 data={this.props.data || []}
                                                 editCompany={this.editCompany}
                                                 openInfoModal={this.openInfoModal}
+                                                filterData={{
+                                                    partner_code,
+                                                    phone,
+                                                    name,
+                                                    address,
+                                                    type, 
+                                                }}
+                                                filterAction={{
+                                                    searchCodeCompany: this.searchCodeCompany,
+                                                    searchCompanybyType: this.searchCompanybyType,
+                                                    searchNameCompany: this.searchNameCompany,
+                                                    searchPhoneCompany: this.searchPhoneCompany,
+                                                    searchAddressCompany: this.searchAddressCompany,
+                                                }}
                                             />
                                     }
                                     <ul className="pagination pagination-primary">

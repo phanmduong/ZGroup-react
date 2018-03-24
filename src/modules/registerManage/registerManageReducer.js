@@ -9,7 +9,6 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
     switch (action.type) {
 
 
-
         case types.BEGIN_LOAD_BASES_IN_REGISTER_MANAGE:
             return {
                 ...state,
@@ -33,7 +32,6 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                     isLoadingBases: false,
                 }
             };
-
 
 
         case types.BEGIN_LOAD_REGISTER_MANAGE:
@@ -75,21 +73,21 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
             };
 
         case types.BEGIN_SAVE_PAYMENT:
-            return{
+            return {
                 ...state,
-                isSavingPayment : true,
+                isSavingPayment: true,
             };
         case types.SAVED_PAYMENT_SUCCESS:
-            tmp = addPayment(action.register_id,state.registers,action.payment);
-            return{
+            tmp = addPayment(action.register_id, state.registers, action.payment);
+            return {
                 ...state,
                 isSavingPayment: false,
-                registers : tmp,
+                registers: tmp,
             };
         case types.SAVED_PAYMENT_ERROR:
-            return{
+            return {
                 ...state,
-                isSavingPayment : false,
+                isSavingPayment: false,
             };
 
         default:
@@ -107,10 +105,17 @@ function addCall(register_id, registers, teleCall) {
     });
     return tmpRegs;
 }
+
 function addPayment(register_id, registers, payment) {
     tmpRegs = registers.map((register) => {
         if (register.id === register_id) {
-            tmpReg = {...register, historyPayments: [...register.historyPayments, payment]};
+            tmpReg = {
+                ...register,
+                historyPayments: [
+                    ...register.historyPayments, payment
+                ],
+                money: register.money + payment.money_value
+            };
             return tmpReg;
         }
         else return register;

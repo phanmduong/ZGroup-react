@@ -41,6 +41,10 @@ class CreateOrderGood extends React.Component {
         let id = this.props.params.orderGoodId;
         if (id) {
             this.props.orderGoodActions.loadOrderGood(id, (data) => {
+                let arr = data.goods.map((obj)=>{
+                    return {...obj, id : obj.good.id, real_quantity: obj.quantity};
+                });
+                data.goods = arr;
                 this.setState({ data });
             });
         } else {
@@ -97,8 +101,7 @@ class CreateOrderGood extends React.Component {
             }
         } else { return; }
         let { goods } = this.state.data;
-        let good = this.props.goods.filter((obj) => obj.id === this.state.addModalData.id)[0];
-        if (!good) return;
+        let good = this.state.addModalData;
         if (this.isEditModal) {
             goods = [...goods.slice(0, this.state.editIndex),
             { ...this.state.addModalData, name: good.name },
@@ -126,7 +129,7 @@ class CreateOrderGood extends React.Component {
 
     commitData() {
         let { data } = this.state;
-        let { user } = this.props;
+        let {user,params} = this.props;
         if (!data.company || helper.isEmptyInput(data.company.id)) {
             helper.showErrorNotification("Vui lòng chọn nhà cung cấp!");
             return;
@@ -136,6 +139,7 @@ class CreateOrderGood extends React.Component {
                 return;
             }
         let res = {
+            id: params.orderGoodId,
             ...data,
             staff_id: user.id,
             company_id: data.company.id,
@@ -148,8 +152,10 @@ class CreateOrderGood extends React.Component {
                     });
                 })
             ),
-
         };
+        if(params.orderGoodId)
+        this.props.orderGoodActions.editOrderGood(res);
+        else
         this.props.orderGoodActions.createOrderGood(res);
     }
 
@@ -159,9 +165,10 @@ class CreateOrderGood extends React.Component {
     }
 
     render() {
-        let { isLoading, goods, companies, isCommitting } = this.props;
+        let { isLoading, goods, companies, isCommitting ,user} = this.props;
         let { data, showAddModal, addModalData } = this.state;
         let sumQuantity = 0, sumPrice = 0;
+        //console.log(this.state);
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -208,7 +215,7 @@ class CreateOrderGood extends React.Component {
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
-                                                                            <td>{obj.name}</td>
+                                                                            <td>{obj.name ? obj.name : obj.good.name}</td>
                                                                             <td style={textAlign}>{obj.quantity}</td>
                                                                             <td style={textAlign}>{typeGood}</td>
                                                                             <td style={textAlign}>{helper.dotNumber(obj.price)}</td>
@@ -241,7 +248,7 @@ class CreateOrderGood extends React.Component {
                                                             <td>Tổng</td>
                                                             <td style={textAlign}>{sumQuantity}</td>
                                                             <td />
-                                                            <td style={textAlign}>{helper.dotNumber(sumPrice)}</td>
+                                                            <td colSpan={2} style={textAlign}>{helper.dotNumber(sumPrice)}</td>
                                                             <td />
                                                         </tr>
                                                     </tfoot>
@@ -301,6 +308,7 @@ class CreateOrderGood extends React.Component {
                                                 />
                                             </div>
                                             <div>
+                                                <FormInputText name="" label="Người tạo" value={(data.staff ? data.staff.name : user.name)} disabled />
                                                 <FormInputText name="" label="Địa chỉ" value={data.company.office_address} disabled />
                                                 <FormInputText name="" label="SĐT Công ty" value={data.company.phone_company} disabled />
                                             </div>
@@ -374,9 +382,9 @@ class CreateOrderGood extends React.Component {
                                 required
                             />
                             <FormInputText
-                                name="" type="number"
+                                name="" type="text"
                                 label="Thành tiền"
-                                value={addModalData.price * addModalData.quantity}
+                                value={(addModalData.price * addModalData.quantity)}
                                 updateFormData={() => { }}
                                 placeholder="Thành tiền"
                                 disabled

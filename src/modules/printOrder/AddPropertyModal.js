@@ -62,11 +62,14 @@ class AddPropertyModal extends React.Component {
     }
 
     remove(index) {
-        let name = proName[this.state.currentTab - 1];
-        this.modified = true;
-        let data = this.state.data[name + "s"];
-        let newdata = [...data.slice(0, index), ...data.slice(index + 1, data.length)];
-        this.setState({data: {...this.state.data, [name + "s"]: newdata}});
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa?",
+            function () {
+                let name = proName[this.state.currentTab - 1];
+                this.modified = true;
+                let data = this.state.data[name + "s"];
+                let newdata = [...data.slice(0, index), ...data.slice(index + 1, data.length)];
+                this.setState({data: {...this.state.data, [name + "s"]: newdata}});
+            }.bind(this));        
     }
 
     save() {
@@ -119,7 +122,7 @@ class AddPropertyModal extends React.Component {
                             {value: 1, label: "Chất liệu"},
                             {value: 2, label: "Màu sắc"},
                             {value: 3, label: "Đóng gói"},
-                            {value: 4, label: "Kích cỡ"},
+                            {value: 4, label: "Khổ in"},
                         ]}
                         onChange={this.onChangeTab}
                         name="tabSelect"

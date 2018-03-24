@@ -2,12 +2,12 @@ import axios    from 'axios';
 import * as env from '../../constants/env';
 
 
-export function loadPrintOrders(page=1,command_code='', good_id='', status='') {
+export function loadPrintOrders(page=1,command_code='', good_id='', status='', date='') {
     //http://manageapi.keetool.xyz/company/print-order/all?token=
     let url     = env.MANAGE_API_URL +"/company/print-order/all?";
     let token   = localStorage.getItem('token');
     if (token) {
-        url +=  "page=" + page + "&search=" + command_code + "&good_id=" + good_id + "&status=" + status + "&token=" + token;
+        url +=  "page=" + page + "&search=" + command_code + "&good_id=" + good_id + "&status=" + status + "&date=" + date + "&token=" + token;
     }
     return axios.get(url);
 }

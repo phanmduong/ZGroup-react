@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import {Modal, Button} from "react-bootstrap";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
+import * as helper from "../../../helpers/helper";
 
 class ChooseSeatHistoryModalContainer extends React.Component {
     constructor(props, context) {
@@ -73,8 +74,8 @@ class ChooseSeatHistoryModalContainer extends React.Component {
                                                         {seat.seat && seat.seat.name}
                                                     </div>
                                                 </td>
-                                                <td>{seat.start_time}</td>
-                                                <td>{seat.end_time}</td>
+                                                <td>{helper.parseTime(seat.start_time)}</td>
+                                                <td>{helper.parseTime(seat.end_time)}</td>
                                                 <td>{seat.staff && seat.staff.name}</td>
                                             </tr>
                                         );
