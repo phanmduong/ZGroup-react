@@ -981,14 +981,5 @@ class CompanyController extends ManageApiController
             })
         ]);
     }
-    public function getAllHistoryImportOrder($importOrder){
-        $order = ItemOrder::find($importOrder);
-        $goods = $order->importOrder;
-        return $this->respondSuccessWithStatus([
-            "goods" => $goods->map(function($good){
-                return $good->transform();
-            })
-        ]);
 
-    }
 }
