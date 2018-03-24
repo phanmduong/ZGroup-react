@@ -103,7 +103,7 @@ class BookingController extends ApiPublicController
             'message' => "Đăng kí thành công"
         ]);
     }
-
+    
     public function province()
     {
         $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))

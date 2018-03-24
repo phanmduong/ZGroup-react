@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePasswordsTable extends Migration
+class ChangeCouponsTable6 extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,10 @@ class CreatePasswordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('passwords', function(Blueprint $table){
-            $table->increments('id');
-            $table->string('code');
-            $table->string('name');
-            $table->string('password');
-            $table->timestamps();
-        }); 
+        //
+        Schema::table('coupons', function(Blueprint $table){
+            $table->string('cover_url')->nullable();
+        });
     }
 
     /**

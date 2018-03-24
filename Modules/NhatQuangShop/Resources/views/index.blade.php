@@ -122,7 +122,7 @@
                                         <p class="card-description">{{ $good['description'] }}</p>
                                     </div>
                                     <div class="price">
-                                        <strike>{{currency_vnd_format($good['price'])}}</strike>
+                                        <!-- <strike>{{currency_vnd_format($good['price'])}}</strike> -->
                                         <span class="text-danger">{{currency_vnd_format($good['price'])}}</span>
                                     </div>
                                 </div>
