@@ -18,6 +18,7 @@ $orderRoutes = function () {
         Route::get('/delivery/inventories', 'DeliveryOrderApiController@deliveryInventories');
         Route::get('/delivery/inventories-info', 'DeliveryOrderApiController@deliveryInventoriesInfo');
         Route::post('/delivery/send-price', 'DeliveryOrderApiController@sendPrice');
+        Route::post('/delivery/change-status', 'DeliveryOrderApiController@changeOrdersStatus');
         Route::post('/delivery', 'DeliveryOrderApiController@createDeliveryOrder');
         Route::put('/delivery/{orderId}', 'DeliveryOrderApiController@editDeliveryOrder');
         Route::delete('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@deleteDeliveryOrder');

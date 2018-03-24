@@ -540,7 +540,7 @@ class CompanyController extends ManageApiController
         if (!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
         $printOrder->status = $request->status;
         $printOrder->save();
-        $order = ItemOrder::where('print_order_id',$printOrder->id)->get();
+        $order = ItemOrder::where('print_order_id',$printOrder->id)->first();
         $order->status = $printOrder->status;
         $order->save();
         $date = $printOrder->created_at;
@@ -981,14 +981,5 @@ class CompanyController extends ManageApiController
             })
         ]);
     }
-    public function getAllHistoryImportOrder($importOrder){
-        $order = ItemOrder::find($importOrder);
-        $goods = $order->importOrder;
-        return $this->respondSuccessWithStatus([
-            "goods" => $goods->map(function($good){
-                return $good->transform();
-            })
-        ]);
 
-    }
 }

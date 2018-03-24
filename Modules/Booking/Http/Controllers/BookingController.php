@@ -88,7 +88,7 @@ class BookingController extends ApiPublicController
         $register->base_id = $request->base_id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $request->saler_id ? $request->saler_id : 0;
-        $register->type = 'seat';
+        $register->type = 'member';
         $register->save();
         $subject = "Xác nhận đăng ký thành công";
 
@@ -103,7 +103,7 @@ class BookingController extends ApiPublicController
             'message' => "Đăng kí thành công"
         ]);
     }
-
+    
     public function province()
     {
         $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))
@@ -180,7 +180,7 @@ class BookingController extends ApiPublicController
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
-        $register->type = 'seat';
+        $register->type = 'member';
         $register->save();
         $subject = "Xác nhận đăng ký thành công";
         $data = ["user" => $user];

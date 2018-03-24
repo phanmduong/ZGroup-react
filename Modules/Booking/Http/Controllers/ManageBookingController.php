@@ -28,7 +28,7 @@ class ManageBookingController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
         if ($limit == -1) {
-            $registers = RoomServiceRegister::where('type', 'seat')->get();
+            $registers = RoomServiceRegister::where('type', 'member')->get();
             return $this->respondSuccessWithStatus([
                 'room_service_registers' => $registers->map(function ($register) {
                     return $register->getData();
@@ -36,11 +36,11 @@ class ManageBookingController extends ManageApiController
             ]);
         }
         if ($search)
-            $registers = RoomServiceRegister::where('type', 'seat')->join('users', 'users.id', '=', 'room_service_registers.user_id')
+            $registers = RoomServiceRegister::where('type', 'member')->join('users', 'users.id', '=', 'room_service_registers.user_id')
             ->select('room_service_registers.*')->where(function ($query) use ($search) {
                 $query->where("users.name", "like", "%$search%")->orWhere("users.email", "like", "%$search%")->orWhere("users.phone", "like", "%$search%");
             });
-        else $registers = RoomServiceRegister::where('type', 'seat');
+        else $registers = RoomServiceRegister::where('type', 'member');
 
         if ($request->base_id)
             $registers = $registers->where('base_id', $request->base_id);
