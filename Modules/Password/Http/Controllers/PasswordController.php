@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 use App\Password;
 use DB;
 
-class PasswordController extends Controller
+class PasswordController extends ManageApiController
 {
     public function store(Request $request,$code)
     {
@@ -25,32 +25,26 @@ class PasswordController extends Controller
     }
 
 
-    public function show(Request $request, $code)
-    {
-        $passwords = Password::where('code',$code)->get();
-        $data = array();
-        foreach ($passwords as $pass){
-            $data[] = $pass;
-        }
-        return $data;
-    }
+    // public function show(Request $request, $code)
+    // {
+    //     $passwords = Password::where('code',$code)->get();
+    //     $data = array();
+    //     foreach ($passwords as $pass){
+    //         $data[] = $pass;
+    //     }
+    //     return $data;
+    // }
 
 
-    public function edit(Request $request,$code,$id)
+    public function edit(Request $request,$id)
     {
         $pass = Password::find($id);
-        if($pass){
-            if($pass->code == $code){
-                if($pass->password != md5($request->password)){
-                    $pass->password = md5($request->password);
-                    $pass->save();
-                }else{
-                    return "false";
-                }
-            }else{
-                return "false";
-            }
+        if($pass->password != md5($request->password)){
+            $pass->password = md5($request->password);
+            $pass->save();
             return "OK";
+        }else{
+            return "false";
         }
     }
 
