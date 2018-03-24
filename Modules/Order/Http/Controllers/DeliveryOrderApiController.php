@@ -443,6 +443,8 @@ class DeliveryOrderApiController extends ManageApiController
 
     public function changeOrdersStatus(Request $request)
     {
+        if($request->status == null)
+            return $this->respondErrorWithStatus('Thiếu trạng thái');
         $deliveryOrders = json_decode($request->delivery_orders);
         foreach ($deliveryOrders as $deliveryOrder) {
             $order = Order::find($deliveryOrder->id);
@@ -486,7 +488,7 @@ class DeliveryOrderApiController extends ManageApiController
             $order->staff_id = $this->user->id;
             $order->save();
         }
-        return $this->respondSuccess(['Thành công']);
+        return $this->respondSuccess('Thành công');
     }
 
     public function payDeliveryOrder($deliveryOrderId, Request $request)
