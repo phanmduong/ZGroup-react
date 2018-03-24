@@ -85,7 +85,6 @@ class StorePostComponent extends React.Component {
             meta_description,
             isPreSaving,
         } = this.props.post;
-
         return (
             <div>
                 <form role="form" id="form-post">
@@ -157,7 +156,7 @@ class StorePostComponent extends React.Component {
                                                             bottom: 0,
                                                             right: 0,
                                                             width: "100%",
-                                                            height: "10%",
+                                                            height: "100%",
                                                         }}
                                                     />
                                                 </a>
@@ -241,7 +240,7 @@ class StorePostComponent extends React.Component {
 
                                         <div className="form-group">
                                             <label className="control-label">
-                                                Keyword
+                                                Keywords
                                             </label>
                                             <textarea
                                                 className="form-control"
@@ -454,7 +453,7 @@ class StorePostComponent extends React.Component {
                         <AddCategoryModal
                             category={this.props.category}
                             updateFormCategory={this.props.updateFormCategory}
-                            resetCategory={this.props.resetCategory}
+                            // resetCategory={this.props.resetCategory}
                             createCategory={this.props.createCategory}
                             closeAddCategoryModal={this.closeAddCategoryModal}
                         />
@@ -476,7 +475,7 @@ StorePostComponent.propTypes = {
     openModal: PropTypes.func.isRequired,
     updateFormSelect: PropTypes.func.isRequired,
     updateFormCategory: PropTypes.func.isRequired,
-    resetCategory: PropTypes.func.isRequired,
+    // resetCategory: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
     category: PropTypes.object.isRequired,
