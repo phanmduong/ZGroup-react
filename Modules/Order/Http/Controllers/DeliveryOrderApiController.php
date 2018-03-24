@@ -30,6 +30,39 @@ class DeliveryOrderApiController extends ManageApiController
         $this->orderService = $orderService;
     }
 
+    public function deliveryStatusToNum($status)
+    {
+        switch ($status) {
+            case 'place_order':
+                return 0;
+                break;
+            case 'sent_price':
+                return 1;
+                break;
+            case 'confirm_order':
+                return 2;
+                break;
+            case 'ordered':
+                return 3;
+                break;
+            case 'arrive_date':
+                return 4;
+                break;
+            case 'arrived':
+                return 5;
+                break;
+            case 'ship':
+                return 6;
+            case 'completed':
+                return 7;
+            case 'cancel':
+                return 8;
+            default:
+                return 0;
+                break;
+        }
+    }
+
     public function assignDeliveryOrderInfo(&$order, $request)
     {
         $order->note = $request->note;
@@ -146,7 +179,7 @@ class DeliveryOrderApiController extends ManageApiController
 
         $order = new Order;
         $this->assignDeliveryOrderInfo($order, $request);
-        $order->code = $request->code;        
+        $order->code = $request->code;
         $order->status = 'place_order';
         $order->type = 'delivery';
         $order->save();
@@ -382,7 +415,6 @@ class DeliveryOrderApiController extends ManageApiController
             $order = Order::find($deliveryOrder->id);
             $order->attach_info = $deliveryOrder->attach_info;
             $order->status = 'sent_price';
-            // $order->price = json_decode($deliveryOrder->attach_info)->money;
             $info = json_decode($order->attach_info);
             $order->price = $info->quantity * $info->price * Currency::find($info->currency_id)->ratio * ($info->tax == true ? 0.92 : 1);
             $order->quantity = json_decode($deliveryOrder->attach_info)->quantity;
@@ -390,6 +422,54 @@ class DeliveryOrderApiController extends ManageApiController
         }
         //mail and text customer
         return $this->respondSuccess('Báo giá thành công');
+    }
+
+    public function changeOrdersStatus(Request $request)
+    {
+        $deliveryOrders = json_decode($request->delivery_orders);
+        foreach ($deliveryOrders as $deliveryOrder) {
+            $order = Order::find($deliveryOrder->id);
+            if ($order == null)
+                return [
+                'status' => 0,
+                'message' => 'Không tồn tại đơn hàng'
+            ];
+            if ($this->deliveryStatusToNum($order->status) == 7)
+                return [
+                'status' => 0,
+                'message' => 'Không được phép sửa đơn hoàn thành'
+            ];
+            if ($this->deliveryStatusToNum($request->status) == 8) {
+                if ($request->note == null || trim($request->note) == '')
+                    return [
+                    'status' => 0,
+                    'message' => 'Vui lòng nhập lý do hủy đơn'
+                ];
+                $order->status = $request->status;
+                $order->note = $request->note;
+                $order->staff_id = $this->user->id;
+                $order->save();
+                return [
+                    'status' => 1,
+                    'message' => 'Chuyển trạng thái thành công'
+                ];
+            }
+            if ($this->deliveryStatusToNum($request->status) - $this->deliveryStatusToNum($order->status) != 1)
+                return [
+                'status' => 0,
+                'message' => 'Vui lòng chỉ chuyển trạng thái kế tiếp'
+            ];
+        }
+
+        foreach ($deliveryOrders as $deliveryOrder) {
+            $order = Order::find($deliveryOrder->id);
+            if($deliveryOrder->attach_info)
+                $order->attach_info = $deliveryOrder->attach_info;
+            $order->status = $request->status;
+            $order->staff_id = $this->user->id;
+            $order->save();
+        }
+        return $this->respondSuccess(['Thành công']);
     }
 
     public function payDeliveryOrder($deliveryOrderId, Request $request)
@@ -417,10 +497,10 @@ class DeliveryOrderApiController extends ManageApiController
                 return $this->respondErrorWithStatus('Tài khoản của khách hàng nhỏ hơn số tiền đã nhập');
             $money = min($debt, $request->money);
         }
-        if($money == $debt)
+        if ($money == $debt)
             $deliveryOrder->status_paid = 1;
         $deliveryOrder->save();
-        
+
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $deliveryOrder->id;
         $orderPaidMoney->money = $money;

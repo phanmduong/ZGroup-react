@@ -303,13 +303,6 @@ class OrderService
             'status' => 0,
             'message' => 'Vui lòng chỉ chuyển trạng thái kế tiếp'
         ];
-        if ($this->deliveryStatusToNum($request->status) == 1) {
-            $order->attach_info = $request->attach_info;
-            //tinh gia viet nam o day
-        }
-        if ($this->deliveryStatusToNum($request->status) == 4) {
-
-        }
         if ($this->deliveryStatusToNum($request->status) == 5)
             $order->delivery_warehouse_status = 'arrived';
         if ($this->deliveryStatusToNum($request->status) == 6)
