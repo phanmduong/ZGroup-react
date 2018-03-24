@@ -164,10 +164,6 @@ function addPayment(register_id, registers, payment) {
 }
 
 function countEndtime(select) {
-    console.log(
-        Date.parse(select.start_time),
-        parseInt(Date.parse(select.start_time)) + (parseInt(select.hours) + parseInt(select.extra_time)) * 3600000,
-        "REDUCER");
     tmp = {
         ...select, end_time:
             moment(parseInt(Date.parse(select.start_time)) + (parseInt(select.hours) + parseInt(select.extra_time)) * 3600000).format("YYYY-MM-DD HH:mm:ss"),

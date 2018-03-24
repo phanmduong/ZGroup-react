@@ -10,7 +10,7 @@ import Loading from "../../components/common/Loading";
 // import FormInputDate from "../../components/common/FormInputDate";
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDateTime from "../../components/common/FormInputDateTime";
-import {DATETIME_FORMAT_SQL, DATETIME_VN_FORMAT} from "../../constants/constants";
+import {DATETIME_FORMAT_SQL} from "../../constants/constants";
 // import FormInputDate from "../../components/common/FormInputDate";
 
 // import {loadUserpackApi} from './registerManageApi';
@@ -39,6 +39,7 @@ class UserpackModal extends React.Component {
                 start_time: register.start_time,
                 end_time: register.end_time,
                 extra_time: register.extra_time,
+                note : register.note,
             };
             // console.log("didmount",select);
             this.props.registerManageAction.updateSelect(select);
@@ -82,6 +83,7 @@ class UserpackModal extends React.Component {
     }
 
     render() {
+        // const {subscriptions} =     this.props.select;
         return (
             <div className="card">
                 <div className="card-header card-header-icon " data-background-color="rose">

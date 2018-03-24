@@ -3,30 +3,17 @@ import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as registerManageAction from './registerManageAction';
+import * as registerManageMeetingRoomAction from './registerManageMeetingRoomAction';
 import {Button} from "react-bootstrap";
 
 
 // import Avatar from '../../components/common/Avatar';
 
-export function formatHour(hour) {
-    let day = hour / 24;
-    let newHour = hour - 24 * day;
-    if (day === 0) return hour + " giờ";
-    else {
-        if (newHour !== 0) {
-            return day + " ngày " + newHour + " giờ";
-        }
-        else {
-            return day + " ngày ";
-        }
-    }
-}
 
 class PaymentModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note: "", money: "", sumMoney: this.props.sumMoney};
+        this.state = {note : "", money: "", sumMoney: this.props.sumMoney};
         this.savePayment = this.savePayment.bind(this);
         this.changeMoney = this.changeMoney.bind(this);
     }
@@ -37,11 +24,8 @@ class PaymentModal extends React.Component {
         if (this.state.money === null || this.state.money === undefined || this.state.money === '') {
             helper.showTypeNotification("Vui lòng điền số tiền", 'warning');
         }
-        else if (this.state.money > this.props.register.subscription && this.props.register.subscription.price - this.state.sumMoney) {
-            helper.showTypeNotification("Số tiền trả đã vượt quá giá tiền", 'warning');
-        }
         else {
-            this.props.registerManageRoomAction.savePayment(money, note, register_id, user_id, this.props.closePaymentModal);
+            this.props.registerManageMeetingRoomAction.savePayment(money, note ,register_id, user_id, this.props.closePaymentModal);
         }
     }
 
@@ -83,7 +67,7 @@ class PaymentModal extends React.Component {
                                     </div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">email</i>
-                                        &nbsp; &nbsp;{register.user.email}
+                                        &nbsp; &nbsp; {register.user.email}
                                     </div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">room</i>
@@ -94,48 +78,6 @@ class PaymentModal extends React.Component {
                         </div>
                         }
                     </div>
-
-
-                    <div className="panel panel-default">
-                        <div className="panel-heading" role="tab" id="headingTwo">
-                            <a className="collapsed" role="button" data-toggle="collapse"
-                               data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
-                               aria-controls="collapseTwo">
-                                <h4 className="panel-title">
-                                    Thông tin gói khách hàng
-                                    <i className="material-icons">keyboard_arrow_down</i>
-                                </h4>
-                            </a>
-                        </div>
-                        <div id="collapseTwo" className="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingTwo" aria-expanded="false" style={{height: '0px', marginTop: 15}}>
-                            <div className="timeline-panel">
-                                <div className="timeline-body">
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">class</i>
-                                        <b>&nbsp; &nbsp;{register.subscription &&register.subscription.user_pack_name} </b></div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">note</i>
-                                        &nbsp; &nbsp; {register.subscription && register.subscription.user_pack && register.subscription.user_pack.detail}
-                                    </div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">attach_money</i>
-                                        <b style={{marginLeft: 13}}>{helper.dotNumber(register.subscription&&register.subscription.price)}
-                                            đ</b>
-                                    </div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">access_time</i>
-                                        &nbsp; &nbsp; {"  " + formatHour(register.subscription && register.subscription.hours)}
-                                    </div>
-                                    <div className="flex-row-center" style={{display: "inline-block"}}>
-                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.subscription && register.subscription.description}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
                     <div className="panel panel-default">
                         <div className="panel-heading" role="tab" id="headingFour">
                             <a className="collapsed" role="button" data-toggle="collapse"
@@ -155,6 +97,23 @@ class PaymentModal extends React.Component {
                                     {register.historyPayments && register.historyPayments.map((payment, index) => {
                                         return (
                                             <li className="timeline-inverted" key={index}>
+                                                {/*<div className={"timeline-badge success"}>*/}
+                                                    {/*<i className="material-icons">swap_horiz</i>*/}
+                                                {/*</div>*/}
+                                                {/*<div className="timeline-panel">*/}
+                                                    {/*<div className="timeline-heading">*/}
+                                                                {/*<span className="label label-default"*/}
+                                                                      {/*style={{backgroundColor: '#' + payment.staff.color}}>*/}
+                                                                            {/*{payment.staff.name}*/}
+                                                                {/*</span>*/}
+                                                        {/*<span*/}
+                                                            {/*className="label label-default">{helper.parseTime(payment.created_at.date)}*/}
+                                                                {/*</span>*/}
+                                                    {/*</div>*/}
+                                                    {/*<div className="timeline-body">*/}
+                                                        {/*<div> {helper.dotNumber(payment.money_value) + " đ"} </div>*/}
+                                                        {/*<div> {payment.description} </div>                                                    </div>*/}
+                                                {/*</div>*/}
                                                 <div className={"timeline-badge success"}>
                                                     <i className="material-icons">swap_horiz</i>
                                                 </div>
@@ -174,7 +133,7 @@ class PaymentModal extends React.Component {
                                                         {payment.description &&
                                                         <p className="flex-row-center">
                                                             <i className="material-icons">note</i>
-                                                            &nbsp; &nbsp;{" "+ payment.description}
+                                                            &nbsp; &nbsp;{payment.description}
                                                         </p>}
                                                     </div>
                                                     <h6>
@@ -182,7 +141,6 @@ class PaymentModal extends React.Component {
                                                         {helper.parseTime(payment.created_at.date)}
                                                     </h6>
                                                 </div>
-
                                             </li>
                                         );
                                     })}
@@ -191,20 +149,20 @@ class PaymentModal extends React.Component {
 
 
                             <div style={{paddingTop: 30}}>
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between"
-                                }}>
-                                    <h4><b>Số tiền cần nộp</b></h4>
-                                    <div style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        flexDirection: "column",
-                                        fontSize: 20
-                                    }}>
-                                        {helper.dotNumber(parseInt(this.props.register.subscription && this.props.register.subscription.price)) + " đ"}
-                                    </div>
-                                </div>
+                                {/*<div style={{*/}
+                                    {/*display: "flex",*/}
+                                    {/*justifyContent: "space-between"*/}
+                                {/*}}>*/}
+                                    {/*<h4><b>Số tiền cần nộp</b></h4>*/}
+                                    {/*<div style={{*/}
+                                        {/*display: "flex",*/}
+                                        {/*justifyContent: "center",*/}
+                                        {/*flexDirection: "column",*/}
+                                        {/*fontSize: 20*/}
+                                    {/*}}>*/}
+                                        {/*{helper.dotNumber(parseInt(this.props.register.subscription.price)) + " đ"}*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
                                 <div style={{
                                     display: "flex",
                                     justifyContent: "space-between"
@@ -219,23 +177,40 @@ class PaymentModal extends React.Component {
                                         {helper.dotNumber(this.state.sumMoney) + " đ"}
                                     </div>
                                 </div>
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between"
-                                }}>
-                                    <h4><b>Còn lại</b></h4>
-                                    <div style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        flexDirection: "column",
-                                        fontSize: 20
-                                    }}>
-                                        {helper.dotNumber(parseInt(this.props.register.subscription && this.props.register.subscription.price) - this.state.sumMoney) + " đ"}
-                                    </div>
-                                </div>
+                                {/*{this.props.register.subscription.price - this.state.sumMoney > 0 ?*/}
+                                    {/*<div style={{*/}
+                                        {/*display: "flex",*/}
+                                        {/*justifyContent: "space-between"*/}
+                                    {/*}}>*/}
+                                        {/*<h4><b>Còn lại</b></h4>*/}
+                                        {/*<div style={{*/}
+                                            {/*display: "flex",*/}
+                                            {/*justifyContent: "center",*/}
+                                            {/*flexDirection: "column",*/}
+                                            {/*fontSize: 20*/}
+                                        {/*}}>*/}
+                                            {/*{helper.dotNumber(parseInt(this.props.register.subscription.price) - this.state.sumMoney) + " đ"}*/}
+                                        {/*</div>*/}
+                                    {/*</div> :*/}
+                                    {/*<div style={{*/}
+                                        {/*display: "flex",*/}
+                                        {/*justifyContent: "space-between"*/}
+                                    {/*}}>*/}
+                                        {/*<h4><b>Đã thừa</b></h4>*/}
+                                        {/*<div style={{*/}
+                                            {/*display: "flex",*/}
+                                            {/*justifyContent: "center",*/}
+                                            {/*flexDirection: "column",*/}
+                                            {/*fontSize: 20*/}
+                                        {/*}}>*/}
+                                            {/*{helper.dotNumber(this.state.sumMoney - parseInt(this.props.register.subscription.price)) + " đ"}*/}
+                                        {/*</div>*/}
+                                    {/*</div>*/}
+                                {/*}*/}
 
                             </div>
                         </div>
+
                     </div>
 
 
@@ -243,7 +218,6 @@ class PaymentModal extends React.Component {
                         <label className="control-label">Số tiền</label>
                         <input type="number" className="form-control"
                                value={this.state.money}
-                               max={this.props.register.subscription && this.props.register.subscription.price - this.state.sumMoney}
                                onChange={(event) => this.changeMoney(event)}/>
                     </div>
                     <div className="form-group label-floating is-empty">
@@ -252,9 +226,11 @@ class PaymentModal extends React.Component {
                                   value={this.state.note}
                                   onChange={(event) => this.setState({note: event.target.value})}/>
                     </div>
+
+
                 </div>
 
-                {this.props.isSavingPayment ?
+                { this.props.isSavingPayment ?
 
                     <div style={{display: "flex", justifyContent: "flex-end"}}>
                         <button className="btn btn-rose disabled">
@@ -269,15 +245,13 @@ class PaymentModal extends React.Component {
                         <Button className="btn btn-rose"
                                 data-dismiss="modal"
                                 onClick={() => {
-                                    this.savePayment(this.state.money, this.state.note, register.id, register.user.id);
+                                    this.savePayment(this.state.money,this.state.note , register.id, register.user.id);
                                 }}>
                             <i className="material-icons">save</i>
                             Lưu
                         </Button>
                         <Button data-dismiss="modal"
-                                onClick={() => {
-                                    this.props.closePaymentModal();
-                                }}>
+                                onClick={() => {this.props.closePaymentModal();}}>
                             <i className="material-icons">close</i>
                             Hủy
                         </Button>
@@ -292,20 +266,20 @@ class PaymentModal extends React.Component {
 PaymentModal.propTypes = {
     register: PropTypes.object.isRequired,
     isSavingPayment: PropTypes.bool.isRequired,
-    registerManageRoomAction: PropTypes.object.isRequired,
+    registerManageMeetingRoomAction: PropTypes.object.isRequired,
     closePaymentModal: PropTypes.func.isRequired,
     sumMoney: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        isSavingPayment: state.registerManage.isSavingPayment,
+        isSavingPayment: state.registerManageMeetingRoom.isSavingPayment,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        registerManageRoomAction: bindActionCreators(registerManageAction, dispatch)
+        registerManageMeetingRoomAction: bindActionCreators(registerManageMeetingRoomAction, dispatch)
 
     };
 }

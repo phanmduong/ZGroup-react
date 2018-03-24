@@ -98,30 +98,19 @@ class ListOrder extends React.Component {
     }
 
     openCallModal(register) {
-        this.setState({
-            isOpenCallModal: true,
-            register: register,
-        });
+        this.setState({isOpenCallModal: true, register: register,});
+    }
+
+    closeCallModal() {
+        this.setState({isOpenCallModal: false, register: {}});
     }
 
     openPaymentModal(register) {
-        this.setState({
-            isOpenPaymentModal: true,
-            register: register,
-        });
-    }
-
-
-    closeCallModal() {
-        this.setState({isOpenCallModal: false, register : {}});
+        this.setState({isOpenPaymentModal: true, register: register,});
     }
 
     closePaymentModal() {
-        this.setState({isOpenPaymentModal: false, register:{}});
-    }
-
-    openChooseSeatModal(base) {
-        this.props.openChooseSeatModal(base);
+        this.setState({isOpenPaymentModal: false, register: {}});
     }
 
     openUserpackModal(register) {
@@ -129,12 +118,18 @@ class ListOrder extends React.Component {
     }
 
     closeUserpackModal() {
-        this.setState({isOpenUserpackModal: false, register : {}});
+        this.setState({isOpenUserpackModal: false, register: {}});
     }
+
+    openChooseSeatModal(base) {
+        this.props.openChooseSeatModal(base);
+    }
+
 
     render() {
         const ChooseSeatTooltip = <Tooltip id="tooltip">Chọn chỗ ngồi</Tooltip>;
-        const TopupTooltip = <Tooltip id="tooltip">Thu tiền</Tooltip>;
+        const AttachMoney = <Tooltip id="tooltip">Thu tiền</Tooltip>;
+        const NotAttachMoney = <Tooltip id="tooltip">Chưa chọn gói</Tooltip>;
         const UserpackTooltip = <Tooltip id="tooltip">Chọn gói</Tooltip>;
         const HistoryTooltip = <Tooltip id="tooltip">Lịch sử đặt chỗ</Tooltip>;
 
@@ -163,11 +158,7 @@ class ListOrder extends React.Component {
                         </thead>
                         <tbody>
                         {this.props.registers.map(register => {
-                            let [
-                                btn,
-                                titleCall,
-                                showCall,
-                            ] = setRuleShowCall(register);
+                            let [btn, titleCall, showCall,] = setRuleShowCall(register);
                             return (
                                 <tr key={register.id}>
                                     <td>
@@ -177,23 +168,10 @@ class ListOrder extends React.Component {
                                                 placement="top"
                                             >
                                                 <button
-                                                    className={
-                                                        "btn btn-round " +
-                                                        btn +
-                                                        " full-width padding-left-right-10"
-                                                    }
-                                                    onClick={() =>
-                                                        this.openCallModal(
-                                                            register,
-                                                        )
-                                                    }
+                                                    className={"btn btn-round " + btn + " full-width padding-left-right-10"}
+                                                    onClick={() => this.openCallModal(register,)}
                                                 >
-                                                    <i className="material-icons">
-                                                        phone
-                                                    </i>{" "}
-                                                    {showCall
-                                                        ? showCall + " h"
-                                                        : null}
+                                                    <i className="material-icons">phone</i>{" " + showCall ? showCall + " h" : null}
                                                 </button>
                                             </TooltipButton>
                                         </div>
@@ -208,11 +186,7 @@ class ListOrder extends React.Component {
                                             href={"tel:" + register.phone}
                                             className="text-name-student-register"
                                         >
-                                            {register.user.phone
-                                                ? helper.formatPhone(
-                                                    register.user.phone,
-                                                )
-                                                : "Chưa có"}
+                                            {register.user.phone ? helper.formatPhone(register.user.phone,) : "Chưa có"}
                                         </a>
                                     </td>
                                     <td>
@@ -220,26 +194,16 @@ class ListOrder extends React.Component {
                                             <a
                                                 className="btn btn-xs btn-main"
                                                 onClick={e => {
-                                                    this.props.filterBySaler(
-                                                        register.saler.id,
-                                                    );
+                                                    this.props.filterBySaler(register.saler.id,);
                                                     e.preventDefault();
                                                 }}
                                                 style={{
-                                                    backgroundColor:
-                                                    register.saler
-                                                        .color &&
-                                                    "#" +
-                                                    register.saler
-                                                        .color,
+                                                    backgroundColor: register.saler.color && "#" + register.saler.color,
                                                 }}
-                                            >
-                                                {register.saler.name}
+                                            >{register.saler.name}
                                             </a>
                                         ) : (
-                                            <a className="btn btn-xs btn-main disabled">
-                                                Chưa có
-                                            </a>
+                                            <a className="btn btn-xs btn-main disabled">Chưa có</a>
                                         )}
                                     </td>
 
@@ -247,54 +211,35 @@ class ListOrder extends React.Component {
                                         {register.campaign ? (
                                             <a
                                                 className="btn btn-xs btn-main"
-                                                style={{
-                                                    backgroundColor:
-                                                    "#" +
-                                                    register.campaign
-                                                        .color,
-                                                }}
+                                                style={{backgroundColor: "#" + register.campaign.color,}}
                                                 onClick={e => {
-                                                    this.props.filterByCampaign(
-                                                        register.campaign
-                                                            .id,
-                                                    );
+                                                    this.props.filterByCampaign(register.campaign.id,);
                                                     e.preventDefault();
                                                 }}
                                             >
                                                 {register.campaign.name}{" "}
                                             </a>
                                         ) : (
-                                            <a className="btn btn-xs btn-main disabled">
-                                                Chưa có
-                                            </a>
+                                            <a className="btn btn-xs btn-main disabled">Chưa có</a>
                                         )}
                                     </td>
-
                                     <td>
                                         {helper.dotNumber(register.subscription ? register.subscription.price : 0) + " đ"}
                                     </td>
                                     <td>
-                                        {helper.dotNumber(register.money)+" đ"}
+                                        {helper.dotNumber(register.money) + " đ"}
                                     </td>
                                     <td>
                                         {
                                             register.subscription ?
-                                                <a onClick={() =>
-                                                    this.openUserpackModal(
-                                                        register,
-                                                    )
-                                                }>
+                                                <a className="text-name-student-register"
+                                                   onClick={() =>
+                                                       this.openUserpackModal(register,)}>
                                                     <b>
-                                                        {
-                                                            register.subscription
-                                                                .user_pack.name
-                                                        }
+                                                        {register.subscription.user_pack.name}
                                                     </b>
                                                     <br/>
-                                                    {
-                                                        register.subscription
-                                                            .subscription_kind_name
-                                                    }
+                                                    {register.subscription.subscription_kind_name}
                                                 </a>
                                                 :
                                                 <OverlayTrigger
@@ -302,16 +247,10 @@ class ListOrder extends React.Component {
                                                     overlay={UserpackTooltip}
                                                 >
                                                     <a
-                                                        onClick={() =>
-                                                            this.openUserpackModal(
-                                                                register,
-                                                            )
-                                                        }
+                                                        onClick={() => this.openUserpackModal(register,)}
                                                         style={{color: "#888"}}
                                                     >
-                                                        <i className="material-icons">
-                                                            class
-                                                        </i>
+                                                        <i className="material-icons">class</i>
                                                     </a>
                                                 </OverlayTrigger>
                                         }
@@ -323,17 +262,10 @@ class ListOrder extends React.Component {
                                             overlay={ChooseSeatTooltip}
                                         >
                                             <a
-                                                onClick={() =>
-                                                    this.props.openChooseSeatModal(
-                                                        register.base.base,
-                                                        register,
-                                                    )
-                                                }
+                                                onClick={() => this.props.openChooseSeatModal(register.base.base, register,)}
                                                 style={{color: "#888"}}
                                             >
-                                                <i className="material-icons">
-                                                    add_circle
-                                                </i>
+                                                <i className="material-icons">add_circle</i>
                                             </a>
                                         </OverlayTrigger>
                                     </td>
@@ -342,36 +274,38 @@ class ListOrder extends React.Component {
                                             placement="top"
                                             overlay={HistoryTooltip}
                                         >
-                                            <a
-                                                style={{color: "#888"}}
-                                                onClick={() =>
-                                                    this.props.openChooseSeatHistoryModal()
-                                                }
+                                            <a style={{color: "#888"}}
+                                               onClick={() => this.props.openChooseSeatHistoryModal()}
                                             >
-                                                <i className="material-icons">
-                                                    event_seat
-                                                </i>
+                                                <i className="material-icons">event_seat</i>
                                             </a>
                                         </OverlayTrigger>
                                     </td>
                                     <td>
-                                        <OverlayTrigger
-                                            placement="top"
-                                            overlay={TopupTooltip}
-                                        >
-                                            <a
-                                                onClick={() =>
-                                                    this.openPaymentModal(
-                                                        register,
-                                                    )
-                                                }
-                                                style={{color: "#888"}}
+                                        {register.subscription ?
+
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={AttachMoney}
                                             >
-                                                <i className="material-icons">
-                                                    attach_money
-                                                </i>
-                                            </a>
-                                        </OverlayTrigger>
+                                                <a onClick={() => this.openPaymentModal(register,)}
+                                                   style={{color: "#888"}}
+                                                >
+                                                    <i className="material-icons">attach_money</i>
+                                                </a>
+                                            </OverlayTrigger>
+                                            :
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={NotAttachMoney}
+                                            >
+                                                <a disabled={true}
+                                                   style={{color: "#888"}}>
+                                                    <i className="material-icons">attach_money</i>
+                                                </a>
+                                            </OverlayTrigger>
+                                        }
+
                                     </td>
 
                                 </tr>
@@ -409,13 +343,12 @@ class ListOrder extends React.Component {
                 </Modal>
                 <Modal
                     show={this.state.isOpenUserpackModal}
-                    // bsStyle="primary"
                     onHide={this.closeUserpackModal}
                 >
                     <Modal.Header/>
                     <Modal.Body>
                         <UserpackModal
-                            register = {this.state.register}
+                            register={this.state.register}
                             register_id={this.state.register.id}
                             closeUserpackModal={this.closeUserpackModal}
                         />
