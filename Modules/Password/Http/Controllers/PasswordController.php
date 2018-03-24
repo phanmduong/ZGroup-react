@@ -102,4 +102,9 @@ class PasswordController extends Controller
         Password::where('id', $id)->delete();
         return "Delete done";
     }
+
+    public function showAll(Request $request)
+    {
+        return Password::all();
+    }
 }
