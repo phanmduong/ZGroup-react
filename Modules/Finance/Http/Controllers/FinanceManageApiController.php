@@ -80,9 +80,6 @@ class FinanceManageApiController extends ManageApiController
         if ($request->branch == null || trim($request->branch) == '') {
             return $this->respondErrorWithStatus('Thiếu tên chi nhánh ngân hàng');
         }
-        if ($request->display == null || trim($request->display) == '') {
-            return $this->respondErrorWithStatus('Thiếu trạng thái hiển thị');
-        }
         $bankAccounts = new BankAccount;
         $bankAccounts->bank_name = $request->bank_name;
         $bankAccounts->bank_account_name = $request->bank_account_name;
@@ -111,9 +108,6 @@ class FinanceManageApiController extends ManageApiController
         }
         if ($request->branch == null || trim($request->branch) == '') {
             return $this->respondErrorWithStatus('Thiếu tên chi nhánh ngân hàng');
-        }
-        if ($request->display == null || trim($request->display) == '') {
-            return $this->respondErrorWithStatus('Thiếu trạng thái hiển thị');
         }
         $bankAccount = BankAccount::find($bankAccountId);
         if ($bankAccount == null) {

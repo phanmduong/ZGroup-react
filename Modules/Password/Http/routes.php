@@ -1,16 +1,11 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'password', 'namespace' => 'Modules\Password\Http\Controllers'], function()
-{
-    Route::get('/', 'PasswordController@index');
-});
-
 $routes = function () {
     Route::group(['prefix' => 'v2/password'], function (){
-        route::post('store/{code}','PasswordController@store');
-        route::put('edit/{code}/{id}','PasswordController@edit');
-        route::get('all/{code}','PasswordController@show');
+        route::post('store','PasswordController@store');
+        route::put('edit/{id}','PasswordController@edit');
         route::delete('delete/{id}','PasswordController@destroy');
+        route::get('passwords','PasswordController@showAll');
     });
 };
 
