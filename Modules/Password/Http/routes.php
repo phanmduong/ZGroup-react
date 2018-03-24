@@ -1,10 +1,5 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'password', 'namespace' => 'Modules\Password\Http\Controllers'], function()
-{
-    Route::get('/', 'PasswordController@index');
-});
-
 $routes = function () {
     Route::group(['prefix' => 'v2/password'], function (){
         route::post('store/{code}','PasswordController@store');
