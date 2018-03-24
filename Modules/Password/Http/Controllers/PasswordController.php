@@ -10,16 +10,14 @@ use DB;
 
 class PasswordController extends ManageApiController
 {
-    public function store(Request $request,$code)
+    public function store(Request $request)
     {
         $pass = new Password();
-        $pass->code = $code;
         $pass->name = $request->name;
         $pass->password = md5($request->password);
         if($pass->save()){
             return response()->json([
                 'id' => $pass->id,
-                'code' => $code
             ]);
         }
     }
