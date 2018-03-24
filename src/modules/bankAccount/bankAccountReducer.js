@@ -44,7 +44,7 @@ export default function bankAccountsReducer(state = initialState.bankAccount, ac
                 ...state,
                 isUpdatingEditModal: false,
                 addEditBankAccountModal: false,
-                accounts: [...state.accounts, action.bankAccount]
+                accounts: [action.bankAccount,...state.accounts]
             };
         case types.EDIT_BANK_ACCOUNTS_SUCCESS: {
             let accounts = state.accounts.map((bankAccount) => {

@@ -69,4 +69,4 @@ class BankAccountComponent extends React.Component {
                 showAddEditBankAccountModal: PropTypes.func.isRequired,
             };
 
-                export default BankAccountComponent;
+export default BankAccountComponent;

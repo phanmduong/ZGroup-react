@@ -45,6 +45,7 @@ export function saveBankAccount(bankAccount) {
                     dispatch({
                         type: types.SAVE_BANK_ACCOUNTS_SUCCESS,
                         bankAccount
+
                     });
                 }
                 else {
