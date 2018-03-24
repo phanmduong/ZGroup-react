@@ -853,6 +853,7 @@ class CompanyController extends ManageApiController
             $good_new->item_order_id = $importOrderId;
             $good_new->good_id = $good->good_id;
             $good_new->price = $good->price;
+            $good_new->status = 1;
             $good_new->save();
         }
 
