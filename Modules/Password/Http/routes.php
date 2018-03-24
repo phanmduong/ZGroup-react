@@ -11,6 +11,7 @@ $routes = function () {
         route::put('edit/{code}/{id}','PasswordController@edit');
         route::get('all/{code}','PasswordController@show');
         route::delete('delete/{id}','PasswordController@destroy');
+        route::get('passwords','PasswordController@showAll');
     });
 };
 
