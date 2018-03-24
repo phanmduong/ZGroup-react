@@ -160,6 +160,10 @@ class RoomServiceRegister extends Model
             });
         }
 
+        // Note
+        if ($this->subscription)
+            $data['subscription'] = $this->subscription->getData();
+
         if ($this->base) {
             $base = $this->base;
             $data['base'] = [

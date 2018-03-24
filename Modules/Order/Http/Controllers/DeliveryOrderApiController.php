@@ -16,6 +16,7 @@ use App\Http\Controllers\ManageApiController;
 use Illuminate\Support\Facades\Hash;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Order\Repositories\OrderService;
+use App\Currency;
 
 class DeliveryOrderApiController extends ManageApiController
 {
@@ -381,7 +382,9 @@ class DeliveryOrderApiController extends ManageApiController
             $order = Order::find($deliveryOrder->id);
             $order->attach_info = $deliveryOrder->attach_info;
             $order->status = 'sent_price';
-            $order->price = json_decode($deliveryOrder->attach_info)->money;
+            // $order->price = json_decode($deliveryOrder->attach_info)->money;
+            $info = json_decode($order->attach_info);
+            $order->price = $info->quantity * $info->price * Currency::find($info->currency_id)->ratio * ($info->tax == true ? 0.92 : 1);
             $order->quantity = json_decode($deliveryOrder->attach_info)->quantity;
             $order->save();
         }
