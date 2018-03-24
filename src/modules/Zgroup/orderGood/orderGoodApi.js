@@ -21,8 +21,8 @@ export function loadAllCompanies() {
     return axios.get(url);
 }
 
-export function loadAllOrderGood(page = 1) {
-    let url     = env.MANAGE_API_URL +"/company/order/all?page="+page;
+export function loadAllOrderGood(page = 1, companyId='') {
+    let url     = env.MANAGE_API_URL +"/company/order/all?page="+page+"&company_id=" + companyId;
     let token   = localStorage.getItem('token');
     if (token) {
         url +=  "&token=" + token;
@@ -49,4 +49,24 @@ export function loadOrderGood(id) {
         url +=  "?token=" + token;
     }
     return axios.get(url);
+}
+export function editOrderGood(data) {
+    //http://manageapi.keetool.xyz/company/provided?token=
+    let url     = env.MANAGE_API_URL +"/company/order/" + data.id + "?";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "token=" + token;
+    }
+    return axios.put(url, data);
+}
+
+export function confirmOrder(id) {
+    //http://manageapi.keetool.xyz/company/print-order/21?token=
+    let url     = env.MANAGE_API_URL +"/company/print-order/" + id + "/change-status?status=1";
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "&token=" + token;
+    }
+
+    return axios.post(url);
 }

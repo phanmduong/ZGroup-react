@@ -173,14 +173,14 @@ class DashBoardUpComponent extends React.Component {
         this.onChangeRoomDate = this.onChangeRoomDate.bind(this);
     }
 
-    componentWillMount() {}
+    componentWillMount() {
+    }
 
-    onChangeRoomDate(event) {
-        console.log(event.target.value);
+    onChangeRoomDate() {
     }
 
     closeRoomModal() {
-        this.setState({ openModal: false });
+        this.setState({openModal: false});
     }
 
     render() {
@@ -212,8 +212,8 @@ class DashBoardUpComponent extends React.Component {
                                             {helper.convertDotMoneyToK(
                                                 helper.dotNumber(46866000),
                                             )}/{helper.convertDotMoneyToK(
-                                                helper.dotNumber(51997000),
-                                            )}
+                                            helper.dotNumber(51997000),
+                                        )}
                                         </h3>
                                         <TooltipButton
                                             placement="top"
@@ -229,10 +229,10 @@ class DashBoardUpComponent extends React.Component {
                                                     role="progressbar"
                                                     style={{
                                                         width:
-                                                            46866000 *
-                                                                100 /
-                                                                51997000 +
-                                                            "%",
+                                                        46866000 *
+                                                        100 /
+                                                        51997000 +
+                                                        "%",
                                                     }}
                                                 />
                                             </div>
@@ -268,8 +268,8 @@ class DashBoardUpComponent extends React.Component {
                                                     className="progress-bar progress-bar-success"
                                                     style={{
                                                         width:
-                                                            1000 * 100 / 10000 +
-                                                            "%",
+                                                        1000 * 100 / 10000 +
+                                                        "%",
                                                     }}
                                                 />
                                             </TooltipButton>
@@ -281,27 +281,27 @@ class DashBoardUpComponent extends React.Component {
                                                     className="progress-bar progress-bar-warning"
                                                     style={{
                                                         width:
-                                                            400 * 100 / 10000 +
-                                                            "%",
+                                                        400 * 100 / 10000 +
+                                                        "%",
                                                     }}
                                                 />
                                             </TooltipButton>
                                             <TooltipButton
                                                 placement="top"
                                                 text={`${10000 -
-                                                    400 -
-                                                    1000} chưa nộp tiền`}
+                                                400 -
+                                                1000} chưa nộp tiền`}
                                             >
                                                 <div
                                                     className="progress progress-line-danger"
                                                     style={{
                                                         width:
-                                                            (10000 -
-                                                                400 -
-                                                                1000) *
-                                                                100 /
-                                                                10000 +
-                                                            "%",
+                                                        (10000 -
+                                                            400 -
+                                                            1000) *
+                                                        100 /
+                                                        10000 +
+                                                        "%",
                                                     }}
                                                 />
                                             </TooltipButton>
@@ -382,7 +382,7 @@ class DashBoardUpComponent extends React.Component {
                                                         role="progressbar"
                                                         style={{
                                                             width:
-                                                                100 - 30 + "%",
+                                                            100 - 30 + "%",
                                                         }}
                                                     />
                                                 </div>
@@ -486,34 +486,34 @@ class DashBoardUpComponent extends React.Component {
                                                             <span
                                                                 style={{
                                                                     width:
-                                                                        20 *
-                                                                            helper.calculatorRating(
-                                                                                [
-                                                                                    this
-                                                                                        .state
-                                                                                        .user
-                                                                                        .rating
-                                                                                        .rating_number_teach,
-                                                                                    this
-                                                                                        .state
-                                                                                        .user
-                                                                                        .rating
-                                                                                        .rating_number_ta,
-                                                                                ],
-                                                                                [
-                                                                                    this
-                                                                                        .state
-                                                                                        .user
-                                                                                        .rating
-                                                                                        .rating_avg_teach,
-                                                                                    this
-                                                                                        .state
-                                                                                        .user
-                                                                                        .rating
-                                                                                        .rating_avg_ta,
-                                                                                ],
-                                                                            ) +
-                                                                        "%",
+                                                                    20 *
+                                                                    helper.calculatorRating(
+                                                                        [
+                                                                            this
+                                                                                .state
+                                                                                .user
+                                                                                .rating
+                                                                                .rating_number_teach,
+                                                                            this
+                                                                                .state
+                                                                                .user
+                                                                                .rating
+                                                                                .rating_number_ta,
+                                                                        ],
+                                                                        [
+                                                                            this
+                                                                                .state
+                                                                                .user
+                                                                                .rating
+                                                                                .rating_avg_teach,
+                                                                            this
+                                                                                .state
+                                                                                .user
+                                                                                .rating
+                                                                                .rating_avg_ta,
+                                                                        ],
+                                                                    ) +
+                                                                    "%",
                                                                 }}
                                                             />
                                                         </div>
@@ -540,9 +540,9 @@ class DashBoardUpComponent extends React.Component {
                                     <div className="card-content">
                                         <h4 className="card-title">
                                             Danh sách phòng
-                                            <small />
+                                            <small/>
                                         </h4>
-                                        <div style={{ width: "240px" }}>
+                                        <div style={{width: "240px"}}>
                                             <FormInputDate
                                                 label="Ngày"
                                                 name="date_time"
@@ -555,7 +555,7 @@ class DashBoardUpComponent extends React.Component {
                                                 id="form-date-time"
                                             />
                                         </div>
-                                        <RoomGanttChartComponent />
+                                        <RoomGanttChartComponent/>
                                     </div>
                                 </div>
                             </div>
@@ -575,7 +575,7 @@ class DashBoardUpComponent extends React.Component {
                                     <div className="card-content">
                                         <h4 className="card-title">
                                             Số lượng đăng kí theo ngày
-                                            <small />
+                                            <small/>
                                         </h4>
                                         <Barchart
                                             label={this.state.date_array}
@@ -603,7 +603,7 @@ class DashBoardUpComponent extends React.Component {
                                     <div className="card-content">
                                         <h4 className="card-title">
                                             Doanh thu theo ngày
-                                            <small />
+                                            <small/>
                                         </h4>
                                         <Barchart
                                             label={this.state.date_array}

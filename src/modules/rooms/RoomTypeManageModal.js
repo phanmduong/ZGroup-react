@@ -144,7 +144,8 @@ class RoomTypeManageModal extends React.Component {
                                                         {type.name}
                                                     </td>
                                                     <td>
-                                                        <div dangerouslySetInnerHTML={{__html: type.description}}/>
+                                                        {//eslint-disable-next-line
+                                                        }<div dangerouslySetInnerHTML={{__html: type.description}}/>
                                                     </td>
                                                     <td>
                                                         <TooltipButton text="Sửa" placement="top">

@@ -16,7 +16,6 @@ import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
 import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
 import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
-import {isEmptyInput} from "../../helpers/helper";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -455,7 +454,7 @@ class RegisterListContainer extends React.Component {
     }
 
     getFilter(arr, base_id) {
-        if (!isEmptyInput(base_id)) {
+        if (!helper.isEmptyInput(base_id)) {
             arr = arr.filter((classItem) => classItem.base_id == base_id);
         }
         let data = arr.map(function (obj) {

@@ -4,10 +4,10 @@ import * as types from "../../../constants/actionTypes";
 import {browserHistory} from 'react-router';
 
 
-export function loadAllOrderGood(page) {
+export function loadAllOrderGood(page, companyId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ALL_ORDER_GOOD});
-        orderGoodApi.loadAllOrderGood(page)
+        orderGoodApi.loadAllOrderGood(page,companyId)
             .then((res) => {
                
                     dispatch({
@@ -100,6 +100,29 @@ export function createOrderGood(data) {
 }
 
 
+export function editOrderGood(data) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_ORDER_GOOD});
+        orderGoodApi.editOrderGood(data)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.EDIT_ORDER_GOOD_SUCCESS,
+                    });
+                    helper.showNotification("Sửa thành công!");
+                    browserHistory.push("/business/order-good");
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.EDIT_ORDER_GOOD_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.EDIT_ORDER_GOOD_ERROR});
+            });
+    };
+}
+
 export function loadOrderGood(id, success) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ORDER_GOOD});
@@ -114,6 +137,28 @@ export function loadOrderGood(id, success) {
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra. ");
                 dispatch({type: types.LOAD_ORDER_GOOD_ERROR});
+                
+            });
+    };
+}
+
+export function confirmOrder(id, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CONFIRM_ORDER_GOOD});
+        orderGoodApi.confirmOrder(id)
+            .then((res) => {
+                if(res.data.status == 1){
+                    dispatch({
+                        type: types.CONFIRM_ORDER_GOOD_SUCCESS,
+                    });
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra. status=0");
+                    dispatch({type: types.CONFIRM_ORDER_GOOD_ERROR});
+                }
+            }).catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra. ");
+                dispatch({type: types.CONFIRM_ORDER_GOOD_ERROR});
                 
             });
     };

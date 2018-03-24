@@ -2,18 +2,18 @@
  * Created by phanmduong on 9/26/17.
  */
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import _ from "lodash";
 import Search from "../../components/common/Search";
 import Loading from "../../components/common/Loading";
 import PropTypes from "prop-types";
 import ListSubscribers from "./ListSubscribers";
 import * as helper from "../../helpers/helper";
-import { Modal } from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import * as emailSubscribersListActions from "./emailSubscribersListActions";
 import FormInputText from "../../components/common/FormInputText";
-import { utils } from "xlsx";
+import {utils} from "xlsx";
 import * as emailSubcribersListApi from "./emailSubcribersListApi";
 
 class SubscribersContainer extends React.Component {
@@ -59,6 +59,7 @@ class SubscribersContainer extends React.Component {
             nextProps.subscribersListItem.id !=
             this.props.subscribersListItem.id
         ) {
+            this.listId = nextProps.subscribersListItem.id;
             this.setState({
                 subscribersList: nextProps.subscribersListItem,
             });
@@ -101,9 +102,9 @@ class SubscribersContainer extends React.Component {
 
     updateFormData(event) {
         const field = event.target.name;
-        let subscribersList = { ...this.state.subscribersList };
+        let subscribersList = {...this.state.subscribersList};
         subscribersList[field] = event.target.value;
-        this.setState({ subscribersList: subscribersList });
+        this.setState({subscribersList: subscribersList});
     }
 
     storeSubscribersList() {
@@ -124,7 +125,7 @@ class SubscribersContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(
-            function() {
+            function () {
                 this.props.emailSubscribersListActions.loadSubscribers(
                     this.listId,
                     1,
@@ -136,7 +137,7 @@ class SubscribersContainer extends React.Component {
     }
 
     loadSubscribers(page = 1) {
-        this.setState({ page });
+        this.setState({page});
         this.props.emailSubscribersListActions.loadSubscribers(
             this.listId,
             page,
@@ -145,7 +146,7 @@ class SubscribersContainer extends React.Component {
     }
 
     closeModalAddEmail() {
-        this.setState({ showModalAddEmail: false });
+        this.setState({showModalAddEmail: false});
     }
 
     openModalAddEmail(subscriber) {
@@ -165,7 +166,7 @@ class SubscribersContainer extends React.Component {
     }
 
     closeModalUpFile() {
-        this.setState({ showModalUpFile: false });
+        this.setState({showModalUpFile: false});
     }
 
     openModalUpFile() {
@@ -221,9 +222,9 @@ class SubscribersContainer extends React.Component {
 
     updateFormDataSubscriber(event) {
         const field = event.target.name;
-        let subscriber = { ...this.state.subscriber };
+        let subscriber = {...this.state.subscriber};
         subscriber[field] = event.target.value;
-        this.setState({ subscriber: subscriber });
+        this.setState({subscriber: subscriber});
     }
 
     render() {
@@ -300,7 +301,7 @@ class SubscribersContainer extends React.Component {
                                             </div>
 
                                             {this.props.isLoading ? (
-                                                <Loading />
+                                                <Loading/>
                                             ) : (
                                                 <ListSubscribers
                                                     subscribers={
@@ -363,7 +364,7 @@ class SubscribersContainer extends React.Component {
                                     </div>
                                 ) : (
                                     <div className="card-content">
-                                        <h4 className="card-title" />
+                                        <h4 className="card-title"/>
                                         <div className="flex-row-center flex-justify-content-center">
                                             <h4>
                                                 Vui lòng tạo danh sách email
@@ -390,7 +391,7 @@ class SubscribersContainer extends React.Component {
                                             : "Tạo danh sách email"}
                                     </h4>
                                     {this.props.isLoadingSubscribersListItem ? (
-                                        <Loading />
+                                        <Loading/>
                                     ) : (
                                         <form
                                             id="form-edit-email"
@@ -413,7 +414,7 @@ class SubscribersContainer extends React.Component {
                                             />
                                             {this.props.isStoring ? (
                                                 <button className="btn btn-fill btn-rose disabled">
-                                                    <i className="fa fa-spinner fa-spin" />
+                                                    <i className="fa fa-spinner fa-spin"/>
                                                     {this.listId
                                                         ? " Đang cập nhật"
                                                         : " Đang tạo"}
@@ -475,7 +476,7 @@ class SubscribersContainer extends React.Component {
                                 className="btn btn-fill btn-rose disabled"
                                 type="button"
                             >
-                                <i className="fa fa-spinner fa-spin" />
+                                <i className="fa fa-spinner fa-spin"/>
                                 {this.state.edit
                                     ? " Đang cập nhật"
                                     : " Đang thêm"}
@@ -536,7 +537,7 @@ class SubscribersContainer extends React.Component {
                             </div>
                             <div
                                 className="col-sm-9 col-xs-7"
-                                style={{ height: "61px" }}
+                                style={{height: "61px"}}
                             >
                                 {this.state.file && (
                                     <div className="flex-row-center full-height">
@@ -553,7 +554,7 @@ class SubscribersContainer extends React.Component {
                                     className="btn btn-fill btn-rose disabled"
                                     type="button"
                                 >
-                                    <i className="fa fa-spinner fa-spin" /> Đang
+                                    <i className="fa fa-spinner fa-spin"/> Đang
                                     upload
                                 </button>
                             ) : (
@@ -596,7 +597,7 @@ function mapStateToProps(state) {
         currentPage: state.emailSubscribersList.subscribers.currentPage,
         totalPages: state.emailSubscribersList.subscribers.totalPages,
         isLoadingSubscribersListItem:
-            state.emailSubscribersList.isLoadingSubscribersListItem,
+        state.emailSubscribersList.isLoadingSubscribersListItem,
         subscribersListItem: state.emailSubscribersList.subscribersListItem,
         isStoring: state.emailSubscribersList.isStoring,
     };

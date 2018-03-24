@@ -249,6 +249,8 @@ class InfoClassContainer extends React.Component {
 
 InfoClassContainer.propTypes = {
     class: PropTypes.object.isRequired,
+    classActions: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     isLoadingClass: PropTypes.bool.isRequired,
     isLoadingTeachers: PropTypes.bool.isRequired,
     teachers: PropTypes.array.isRequired,

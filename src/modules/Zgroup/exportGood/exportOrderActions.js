@@ -168,6 +168,10 @@ export function confirmOrder(id, success) {
                     helper.showErrorNotification("Có lỗi xảy ra. status=0");
                     dispatch({type: types.CONFIRM_EXPORT_ORDER_ERROR});
                 }
+            }).catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra. ");
+                dispatch({type: types.CONFIRM_EXPORT_ORDER_ERROR});
+                
             });
     };
 }
