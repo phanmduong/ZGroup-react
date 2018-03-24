@@ -86,7 +86,8 @@ class ItemOrder extends Model
             "created_at" => $this->created_at,
             "goods" => $pp->map(function ($good) {
                 return $good->transform();
-            })
+            }),
+            "good_count" => $this->good_count,
         ];
     }
 }
