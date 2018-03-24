@@ -205,7 +205,7 @@ class CompanyController extends ManageApiController
             if ($request->user_id === null || $request->money_value === null || trim($request->money_value) == '')
                 return $this->respondErrorWithStatus("Thiếu trường");
             $register = RoomServiceRegister::find($request->register_id);
-            if($register == null )
+            if ($register == null)
                 return $this->respondErrorWithStatus(['Không tồn tại đăng kí']);
             $payment = new Payment;
             $payment->bill_image_url = 'a';
@@ -431,7 +431,7 @@ class CompanyController extends ManageApiController
         $printorder->command_code = "DATIN" . $id . $str . $day . $month . $year;
         $printorder->save();
 
-        $order = ItemOrder::where('print_order_id',$printorder->id)->first();
+        $order = ItemOrder::where('print_order_id', $printorder->id)->first();
         $order->command_code = $printorder->command_code;
         $order->company_id = $printorder->company_id;
         $order->status = 0;
@@ -441,7 +441,7 @@ class CompanyController extends ManageApiController
         $order->good_count = 1;
         $order->save();
 
-        $importOrder = ImportItemOrder::where('item_order_id',$order->id)->first();
+        $importOrder = ImportItemOrder::where('item_order_id', $order->id)->first();
         $importOrder->good_id = $printorder->good_id;
         $importOrder->quantity = $printorder->quantity;
         $importOrder->item_order_id = $order->id;
@@ -540,7 +540,7 @@ class CompanyController extends ManageApiController
         if (!$printOrder) return $this->respondErrorWithStatus("Không tồn tại");
         $printOrder->status = $request->status;
         $printOrder->save();
-        $order = ItemOrder::where('print_order_id',$printOrder->id)->first();
+        $order = ItemOrder::where('print_order_id', $printOrder->id)->first();
         $order->status = $printOrder->status;
         $order->save();
         $date = $printOrder->created_at;
@@ -817,7 +817,7 @@ class CompanyController extends ManageApiController
 
             ]);
         } else {
-            $orders = ItemOrder::where('type','<>','be-ordered')->orderBy('created_at', 'desc')->paginate($limit);
+            $orders = ItemOrder::where('type', '<>', 'be-ordered')->orderBy('created_at', 'desc')->paginate($limit);
             return $this->respondWithPagination($orders, [
                 "orders" => $orders->map(function ($order) {
                     return $order->importTransform();
@@ -841,31 +841,21 @@ class CompanyController extends ManageApiController
         $importOrder = ItemOrder::find($importOrderId);
         $importOrder->import_export_staff_id = $request->staff_id;
         $importOrder->note = $request->note;
+        $importOrder->status = 2;
         $importOrder->save();
         $goods = json_decode($request->goods);
-        $pp = ImportItemOrder::where("item_order_id",$importOrderId);
-        $pp = $pp->where('imported_quantity',0)->count();
-        if($pp === count($goods)) {
-            $importOrder->status = 2;
-            $importOrder->save();
-            foreach ($goods as $good) {
-                $good_new = ImportItemOrder::find($good->id);
-                $good_new->imported_quantity = $good->imported_quantity;
-                $good_new->warehouse_id = $good->warehouse_id;
-                $good_new->save();
-            }
-        } else{
-            foreach ($goods as $good) {
-                $good_new = new ImportItemOrder;
-                $good_new->imported_quantity = $good->imported_quantity;
-                $good_new->warehouse_id = $good->warehouse_id;
-                $good_new->quantity = $good->quantity;
-                $good_new->item_order_id = $importOrderId;
-                $good_new->good_id = $good->good_id;
-                $good_new->price = $good->price;
-                $good_new->save();
-            }
+
+        foreach ($goods as $good) {
+            $good_new = new ImportItemOrder;
+            $good_new->imported_quantity = $good->imported_quantity;
+            $good_new->warehouse_id = $good->warehouse_id;
+            $good_new->quantity = $good->quantity;
+            $good_new->item_order_id = $importOrderId;
+            $good_new->good_id = $good->good_id;
+            $good_new->price = $good->price;
+            $good_new->save();
         }
+
         return $this->respondSuccessWithStatus([
             "message" => "Thành công"
         ]);
@@ -889,6 +879,7 @@ class CompanyController extends ManageApiController
             "message" => "Thành công"
         ]);
     }
+
     public function getImportOrder($importOrderId, Request $request)
     {
         $importOrder = ItemOrder::find($importOrderId);
@@ -902,16 +893,16 @@ class CompanyController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
 
 
-            $importOrders = ItemOrder::query();
+        $importOrders = ItemOrder::query();
 
-            $importOrders = $importOrders->where('type', '<>', 'be-ordered')
-                ->where('status', '>', 1)
-                ->orderBy('created_at', 'desc')->paginate($limit);
-            return $this->respondWithPagination($importOrders, [
-                "import-orders" => $importOrders->map(function ($importOrder) {
-                    return $importOrder->importTransform();
-                })
-            ]);
+        $importOrders = $importOrders->where('type', '<>', 'be-ordered')
+            ->where('status', '>', 1)
+            ->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination($importOrders, [
+            "import-orders" => $importOrders->map(function ($importOrder) {
+                return $importOrder->importTransform();
+            })
+        ]);
 
     }
 
