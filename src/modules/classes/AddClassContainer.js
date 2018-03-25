@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import ItemReactSelect from '../../components/common/ItemReactSelect';
 import {TYPE_CLASSES} from "../../constants/constants";
 import SelectTeacher from "./SelectTeacher";
-import {isEmptyInput} from "../../helpers/helper";
 
 
 class AddClassContainer extends React.Component {
@@ -132,8 +131,7 @@ class AddClassContainer extends React.Component {
     }
 
     changeTeacher(value, key) {
-        console.log(value);
-        if (!isEmptyInput(key)) {
+        if (!helper.isEmptyInput(key)) {
             let classData = {...this.props.class};
             if (value) {
                 classData.teachers = classData.teachers.map((teacher, index) => {
@@ -161,7 +159,7 @@ class AddClassContainer extends React.Component {
     }
 
     changeTeachAssis(value, key) {
-        if (!isEmptyInput(key)) {
+        if (!helper.isEmptyInput(key)) {
             let classData = {...this.props.class};
             if (value) {
                 classData.teaching_assistants = classData.teaching_assistants.map((teacher, index) => {

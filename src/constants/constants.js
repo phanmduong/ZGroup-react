@@ -341,6 +341,70 @@ export const STATUS_WORK = [
     },
 ];
 
+export const STATUS_MONEY_TRANSFER = [
+    {
+        label: "Tất cả",
+        value: "",
+    },
+    {
+        label: "Đang giao dịch",
+        value: "0",
+    },
+    {
+        label: "Thành công",
+        value: "1",
+    },
+    {
+        label: "Hủy",
+        value: "-1",
+    },
+];
+
+export const TYPE_TRANSACTION = [
+    {
+        label: "Tất cả",
+        value: "",
+    },
+    {
+        label: "Chuyển tiền",
+        value: "0",
+    },
+    {
+        label: "Thu",
+        value: "1",
+    },
+    {
+        label: "Chi",
+        value: "2",
+    },
+];
+
+export const TYPE_MONEY_TRANSFER = [
+    {
+        label: "Tất cả",
+        value: "",
+    },
+    {
+        label: "Nhận",
+        value: "receive",
+    },
+    {
+        label: "Gửi",
+        value: "send",
+    },
+];
+
+export const TYPE_MONEY = [
+    {
+        value: "Thu",
+        key: "1",
+    },
+    {
+        value: "Chi",
+        key: "2",
+    },
+];
+
 export const ORDER_STATUS_COLORS = {
     place_order: "#f9f9f9",
     confirm_order: "#b5d0fc",
@@ -374,6 +438,7 @@ export function linkUploadImageEditor() {
 export const DATETIME_FILE_NAME_FORMAT = "DD_MM_YYYY";
 export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
 export const DATETIME_VN_FORMAT = "DD/MM/YYYY HH:mm:ss";
+export const DATE_VN_FORMAT = "DD/MM/YYYY";
 export const DATETIME_SEAT_FORMAT = "DD/MM/YYYY HH:mm";
 export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
 export const FULLTIME_FORMAT = "HH:mm:ss";

@@ -5,6 +5,7 @@ import UserpackContainer from "../modules/userpack/UserpackContainer";
 import RoomDetailContainer from "../modules/bases/room/RoomDetailContainer";
 import RegisterManageContainer from "../modules/registerManage/RegisterManageContainer";
 import RegisterManageRoomContainer from "../modules/registerManageRoom/RegisterManageRoomContainer";
+import RegisterManageMeetingRoomContainer from "../modules/registerManageMeetingRoom/RegisterManageMeetingRoomContainer";
 
 /**
  * Tab Cơ sở
@@ -45,6 +46,11 @@ export default [
     {
         path: "base/registers-room",
         component: RegisterManageRoomContainer
+    },
+
+    {
+        path: "base/registers-meeting-room",
+        component: RegisterManageMeetingRoomContainer
     },
 
 ];

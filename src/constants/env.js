@@ -6,12 +6,15 @@ let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
 export const TYPE_API = env.TYPE_API;
 
-export const API_URL = PROTOCOL + "api." + URL;
+// export const API_URL = PROTOCOL + "api." + URL;
+export const API_URL = BASE_URL + "/api/v3";
+
 export const BASE_URL = PROTOCOL + URL;
 // export const API_URL = BASE_URL + "/api/v3";
 export const DOMAIN = PROTOCOL + "manage." + URL;
 // export const DOMAIN = BASE_URL + "/admin";
-export const MANAGE_API_URL = PROTOCOL + "manageapi." + URL;
+export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
+
 export const MANAGE_API_URL_V3 = BASE_URL + "/manageapi/v3";
 
 if (process.env.NODE_ENV === "production") {

@@ -60,6 +60,7 @@ export default function customerReducer(state = initialState.groupCustomers, act
                     customersShowInAddModal: [],
                     delivery_value: action.groupCustomerForm.delivery_value,
                     order_value: action.groupCustomerForm.order_value,
+                    currency_value : action.groupCustomerForm.currency_value,
                 },
             };
         case types.LOADED_CUSTOMER_IN_MODAL_ERROR_IN_GROUP_CUSTOMER:

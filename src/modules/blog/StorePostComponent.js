@@ -36,6 +36,14 @@ class StorePostComponent extends React.Component {
         helper.setFormValidation("#form-post");
         helper.setFormValidation("#form-category");
         // $("#mini-editor").mini_editor();
+        const scrollerId = "#store-post-modal";
+        $(scrollerId).scroll(() => {
+            const scroll = $(scrollerId).scrollTop();
+            $(".blog-buttons").css(
+                "transform",
+                "translate(0px, " + scroll + "px)",
+            );
+        });
     }
 
     componentDidUpdate() {
@@ -77,7 +85,6 @@ class StorePostComponent extends React.Component {
             meta_description,
             isPreSaving,
         } = this.props.post;
-
         return (
             <div>
                 <form role="form" id="form-post">
@@ -149,7 +156,7 @@ class StorePostComponent extends React.Component {
                                                             bottom: 0,
                                                             right: 0,
                                                             width: "100%",
-                                                            height: "10%",
+                                                            height: "100%",
                                                         }}
                                                     />
                                                 </a>
@@ -233,7 +240,7 @@ class StorePostComponent extends React.Component {
 
                                         <div className="form-group">
                                             <label className="control-label">
-                                                Keyword
+                                                Keywords
                                             </label>
                                             <textarea
                                                 className="form-control"
@@ -337,13 +344,15 @@ class StorePostComponent extends React.Component {
                                             />
 
                                             {/*<div id = "mini-editor"/>*/}
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    justifyContent: "flex-end",
-                                                    marginTop: 40,
-                                                }}
-                                            >
+                                            <div className="blog-buttons">
+                                                <button
+                                                    onClick={
+                                                        this.props.closeModal
+                                                    }
+                                                    className="btn btn-fill btn-danger"
+                                                >
+                                                    Đóng
+                                                </button>
                                                 {isPreSaving ? (
                                                     <button
                                                         className="btn btn-fill btn-success"
@@ -444,7 +453,7 @@ class StorePostComponent extends React.Component {
                         <AddCategoryModal
                             category={this.props.category}
                             updateFormCategory={this.props.updateFormCategory}
-                            resetCategory={this.props.resetCategory}
+                            // resetCategory={this.props.resetCategory}
                             createCategory={this.props.createCategory}
                             closeAddCategoryModal={this.closeAddCategoryModal}
                         />
@@ -466,7 +475,8 @@ StorePostComponent.propTypes = {
     openModal: PropTypes.func.isRequired,
     updateFormSelect: PropTypes.func.isRequired,
     updateFormCategory: PropTypes.func.isRequired,
-    resetCategory: PropTypes.func.isRequired,
+    // resetCategory: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
     category: PropTypes.object.isRequired,
     createCategory: PropTypes.func.isRequired,

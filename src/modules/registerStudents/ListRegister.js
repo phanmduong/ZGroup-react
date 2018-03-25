@@ -209,6 +209,7 @@ ListRegister.propTypes = {
     loadRegisterStudentByCampaign: PropTypes.func.isRequired,
     loadRegisterStudentBySaler: PropTypes.func,
     openModalChangeInfoStudent: PropTypes.func,
+    genId: PropTypes.number,
 };
 
 export default ListRegister;

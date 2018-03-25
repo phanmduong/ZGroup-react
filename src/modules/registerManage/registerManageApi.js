@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, campaign_id,base_id,startTime,endTime) {
-    let url = env.MANAGE_API_URL + '/coworking-space/register?page=' + page;
+    let url = env.MANAGE_API_URL + '/coworking-space/room-booking?page=' + page;
     if (search) {
         url += "&search=" + search;
     }
@@ -79,4 +79,20 @@ export function loadBases() {
     }
 
     return axios.get(url);
+}
+export function loadUserpackApi(){
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + `/coworking-space/user-pack?&token=${token}&limit=-1`;
+    return axios.get(url);
+}
+export function saveSubscriptionApi(register_id,select) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + `/coworking-space/register/${register_id}/assign-subscription?&token=${token}`;
+    return axios.put(url,{
+        'subscription_id' : select.subscription_id,
+        'start_time' : select.start_time,
+        'extra_time' :select.extra_time,
+        'end_time' : select.end_time,
+        'note' : select.note,
+    });
 }

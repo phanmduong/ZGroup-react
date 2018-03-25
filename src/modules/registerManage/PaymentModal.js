@@ -37,7 +37,7 @@ class PaymentModal extends React.Component {
         if (this.state.money === null || this.state.money === undefined || this.state.money === '') {
             helper.showTypeNotification("Vui lòng điền số tiền", 'warning');
         }
-        else if (this.state.money > this.props.register.subscription.price - this.state.sumMoney) {
+        else if (this.state.money > this.props.register.subscription && this.props.register.subscription.price - this.state.sumMoney) {
             helper.showTypeNotification("Số tiền trả đã vượt quá giá tiền", 'warning');
         }
         else {
@@ -57,8 +57,6 @@ class PaymentModal extends React.Component {
         return (
             <div>
                 <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-
-
                     <div className="panel panel-default">
                         <div className="panel-heading" role="tab" id="headingOne">
 
@@ -115,22 +113,22 @@ class PaymentModal extends React.Component {
                                 <div className="timeline-body">
                                     <div className="flex-row-center">
                                         <i className="material-icons">class</i>
-                                        <b>&nbsp; &nbsp;{register.subscription.user_pack_name} </b></div>
+                                        <b>&nbsp; &nbsp;{register.subscription &&register.subscription.user_pack_name} </b></div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">note</i>
-                                        &nbsp; &nbsp; {register.subscription.user_pack && register.subscription.user_pack.detail}
+                                        &nbsp; &nbsp; {register.subscription && register.subscription.user_pack && register.subscription.user_pack.detail}
                                     </div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">attach_money</i>
-                                        <b style={{marginLeft: 13}}>{helper.dotNumber(register.subscription.price)}
+                                        <b style={{marginLeft: 13}}>{helper.dotNumber(register.subscription&&register.subscription.price)}
                                             đ</b>
                                     </div>
                                     <div className="flex-row-center">
                                         <i className="material-icons">access_time</i>
-                                        &nbsp; &nbsp; {"  " + formatHour(register.subscription.hours)}
+                                        &nbsp; &nbsp; {"  " + formatHour(register.subscription && register.subscription.hours)}
                                     </div>
                                     <div className="flex-row-center" style={{display: "inline-block"}}>
-                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.subscription.description}
+                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.subscription && register.subscription.description}
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +202,7 @@ class PaymentModal extends React.Component {
                                         flexDirection: "column",
                                         fontSize: 20
                                     }}>
-                                        {helper.dotNumber(parseInt(this.props.register.subscription.price)) + " đ"}
+                                        {helper.dotNumber(parseInt(this.props.register.subscription && this.props.register.subscription.price)) + " đ"}
                                     </div>
                                 </div>
                                 <div style={{
@@ -232,7 +230,7 @@ class PaymentModal extends React.Component {
                                         flexDirection: "column",
                                         fontSize: 20
                                     }}>
-                                        {helper.dotNumber(parseInt(this.props.register.subscription.price) - this.state.sumMoney) + " đ"}
+                                        {helper.dotNumber(parseInt(this.props.register.subscription && this.props.register.subscription.price) - this.state.sumMoney) + " đ"}
                                     </div>
                                 </div>
 
@@ -245,7 +243,7 @@ class PaymentModal extends React.Component {
                         <label className="control-label">Số tiền</label>
                         <input type="number" className="form-control"
                                value={this.state.money}
-                               max={this.props.register.subscription.price - this.state.sumMoney}
+                               max={this.props.register.subscription && this.props.register.subscription.price - this.state.sumMoney}
                                onChange={(event) => this.changeMoney(event)}/>
                     </div>
                     <div className="form-group label-floating is-empty">

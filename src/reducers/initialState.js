@@ -52,6 +52,21 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
+        select : {
+            userpack_id : 0,
+            subscription_id : 0,
+            subscriptions : [],
+            price : 0,
+            hours : 0,
+            start_time: '',
+            end_time : '',
+            extra_time : 0,
+            note : "",
+        },
+        isSavingSubscription : false,
+        userpacks : [],
+        isLoadingUserpack : false,
+        subscriptions : [],
     },
 
     registerManageRoom: {
@@ -67,6 +82,7 @@ export default {
         bases: [],
         isSavingPayment: false,
     },
+<<<<<<< HEAD
     weekendReport:{
       reports: [],
       isLoading: false,
@@ -78,6 +94,23 @@ export default {
           report:''
       }
     },
+=======
+
+    registerManageMeetingRoom: {
+        registers: [],
+        salers: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        isChangingStatus: false,
+        isLoadingBases: false,
+        bases: [],
+        isSavingPayment: false,
+    },
+
+>>>>>>> 1182315f6b71ef007a2f8b12ff6568f4ca8b9843
     bankAccount: {
         accounts: [],
         isLoading: false,
@@ -754,9 +787,9 @@ export default {
             description: '',
             tags: '',
             slug: '',
-            meta_title:'',
-            keyword:'',
-            meta_description:'',
+            meta_title: '',
+            keyword: '',
+            meta_description: '',
             category: 0,
             content: '',
             isSaving: false,
@@ -1330,6 +1363,9 @@ export default {
             customer_group: {},
             quantity: '',
             shared: '',
+            isUpdatingImage: false,
+            updateImageError: false,
+            cover_url: '',
         },
 
     },
@@ -1670,7 +1706,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
-
+            currency_value : 0,
         },
         coupon: {
             name: '',
@@ -2132,4 +2168,75 @@ export default {
         warehouses: [{id: 1, name: ""},],
         historyImportOrder: [],
     },
+    moneyTransfer: {
+        isCreatingTransaction: false,
+        errorCreatingTransaction: false,
+        isLoadingUser: false,
+        errorLoadUser: false,
+        user: {},
+        isLoadingTransactions: false,
+        errorLoadTransactions: false,
+        transactions: [],
+        currentPage: 1,
+        totalPages: 1
+    },
+    staffsKeepMoney: {
+        isLoading: false,
+        error: false,
+        staffs: [],
+        currentPage: 1,
+        totalPages: 1,
+        totalCount: 0,
+        totalMoney: -1,
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        }
+    },
+    historyTransactions: {
+        isLoading: false,
+        error: false,
+        transactions: [],
+        currentPage: 1,
+        totalPages: 1
+    },
+    spendMoney: {
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        },
+        categories: [],
+        isLoadingCategories: false,
+        errorCategories: false,
+        isLoadingUser: false,
+        errorLoadUser: false,
+        user: {}
+    },
+    summaryFinance: {
+        isLoadingGens: false,
+        errorGens: false,
+        gens: [],
+        currentGen: 0,
+        isLoading: false,
+        error: false,
+        summary: {},
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        },
+    },
+    emailCommentFB: {
+        emails: [],
+        error: false,
+        isGetting: false
+    }
 };

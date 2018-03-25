@@ -149,7 +149,7 @@ class StorePostModal extends React.Component {
                 ]}
                 closeModal={this.props.closeModal}
                 updateFormSelect={this.updateFormSelect}
-                resetCategory={this.resetCategory}
+                // resetCategory={this.resetCategory}
             />
         );
     }
