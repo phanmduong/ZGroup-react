@@ -1339,6 +1339,9 @@ export default {
             customer_group: {},
             quantity: '',
             shared: '',
+            isUpdatingImage: false,
+            updateImageError: false,
+            cover_url: '',
         },
 
     },
@@ -1679,7 +1682,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
-
+            currency_value : 0,
         },
         coupon: {
             name: '',
