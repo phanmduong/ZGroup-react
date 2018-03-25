@@ -45,7 +45,7 @@ class PasswordController extends ManageApiController
     public function destroy($id)
     {
         Password::where('id', $id)->delete();
-        return "Deleted";
+        return $this->respondSuccessWithStatus("Xóa thành công");
     }
 
     public function showAll(Request $request)
