@@ -34,6 +34,7 @@ class ManageUserApiController extends ManageApiController
                 'marital' => $user->marital,
                 'homeland' => $user->homeland,
                 'literacy' => $user->literacy,
+                'money' => $user->money,
                 'start_company' => $user->start_company,
                 'start_company_vi' => format_date($user->start_company),
                 'address' => $user->address,

@@ -62,10 +62,10 @@ class ManageMoneyTransferApiController extends ManageApiController
                     'receiver_money' => $transaction->receiver_money,
                 ];
                 if ($transaction->sender) {
-                    $data['sender'] = $transaction->sender;
+                    $data['sender'] = $transaction->sender->getData();
                 }
                 if ($transaction->receiver) {
-                    $data['receiver'] = $transaction->receiver;
+                    $data['receiver'] = $transaction->receiver->getData();
                 }
                 return $data;
             })
@@ -247,10 +247,10 @@ class ManageMoneyTransferApiController extends ManageApiController
             'receiver_money' => $transaction->receiver_money,
         ];
         if ($transaction->sender) {
-            $data['sender'] = $transaction->sender;
+            $data['sender'] = $transaction->sender->getData();
         }
         if ($transaction->receiver) {
-            $data['receiver'] = $transaction->receiver;
+            $data['receiver'] = $transaction->receiver->getData();
         }
 
         return $this->respondSuccessWithStatus([

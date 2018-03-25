@@ -140,12 +140,14 @@ class MobileController extends ApiController
                 }
                 return [
                     'id' => $attendance->id,
+                    'created_at' => format_vn_date(strtotime($attendance->classLesson->time)),
                     'order' => $attendance->classLesson->lesson->order,
                     'status' => $status
                 ];
             } else {
                 return [
                     'id' => $attendance->id,
+                    'created_at' => format_vn_date(strtotime($attendance->classLesson->time)),
                     'order' => $attendance->classLesson->lesson->order,
                     'status' => $attendance->status
                 ];
