@@ -1878,7 +1878,7 @@ export default {
         },
         seats: [],
         currentAction: "",
-        domain: {x: [0, 600], y: [0, 400]}
+        domain: { x: [0, 600], y: [0, 400] }
     },
     printOrder: {
         isLoading: false,
@@ -1894,14 +1894,14 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        codes: [{value: '', label: ''}],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        codes: [{ value: '', label: '' }],
         properties: [],
         data: {
-            company: {id: 0, name: ""},
-            staff: {id: 0, name: ""},
-            good: {id: 0, name: ""},
+            company: { id: 0, name: "" },
+            staff: { id: 0, name: "" },
+            good: { id: 0, name: "" },
             quantity: 1,
             command_code: "",
             core1: {
@@ -1980,16 +1980,16 @@ export default {
         },
         listExportOrder: [],
         data: {
-            good: {id: 0, name: "noname"},
-            warehouse: {id: 0, name: "noname"},
-            company: {id: "", name: "noname"},
+            good: { id: 0, name: "noname" },
+            warehouse: { id: 0, name: "noname" },
+            company: { id: "", name: "noname" },
             price: 0,
             quantity: 0,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        warehouses: [{id: 1, name: ""},],
-        orderedGoods: [{id: 1, name: ""},],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        warehouses: [{ id: 1, name: "" },],
+        orderedGoods: [{ id: 1, name: "" },],
     },
     notificationTypes: {
         isLoading: false,
@@ -2107,9 +2107,9 @@ export default {
         itemOrders: [],
         printOrder: [],
         importOrders: [],
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        warehouses: [{id: 1, name: ""},],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        warehouses: [{ id: 1, name: "" },],
         historyImportOrder: [],
     },
     moneyTransfer: {
@@ -2182,5 +2182,9 @@ export default {
         emails: [],
         error: false,
         isGetting: false
-    }
+    },
+    request: {
+        isLoading: false,
+        paginator: {},
+    },
 };
