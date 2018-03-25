@@ -462,6 +462,7 @@ class ManageBaseApiController extends ManageApiController
         $roomType = new RoomType;
         $roomType->name = $request->name;
         $roomType->description = $request->description;
+        $roomType->type_name = $request->type_name;
         $roomType->save();
 
         return $this->respondSuccess('Tạo thành công');
@@ -478,6 +479,7 @@ class ManageBaseApiController extends ManageApiController
         }
         $roomType->name = $request->name;
         $roomType->description = $request->description;
+        $roomType->type_name = $request->type_name;
         $roomType->save();
 
         return $this->respondSuccess('Sửa thành công');
