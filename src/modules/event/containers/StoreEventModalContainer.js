@@ -15,8 +15,6 @@ import {
 import Buttons from "../components/Buttons";
 import { changeToSlug } from "../../../helpers/helper";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
-import moment from "moment";
-import Loading from "../../../components/common/Loading";
 
 class StoreEventModalContainer extends React.Component {
     constructor(props, context) {
@@ -205,24 +203,21 @@ class StoreEventModalContainer extends React.Component {
                                 />
 
                                 <div className="row">
-                                    {this.props.isSavingEvent ? (
-                                        <Loading />
-                                    ) : (
-                                        <Buttons
-                                            publish={this.publishEvent}
-                                            style={{
-                                                width: "100%",
-                                                marginLeft: "-9px",
-                                            }}
-                                            close={() =>
-                                                props.eventActions.showStoreEventModal(
-                                                    false,
-                                                )
-                                            }
-                                            scrollerId="#store-event-modal"
-                                            disabled={false}
-                                        />
-                                    )}
+                                    <Buttons
+                                        isSaving={this.props.isSavingEvent}
+                                        publish={this.publishEvent}
+                                        style={{
+                                            width: "100%",
+                                            marginLeft: "-9px",
+                                        }}
+                                        close={() =>
+                                            props.eventActions.showStoreEventModal(
+                                                false,
+                                            )
+                                        }
+                                        scrollerId="#store-event-modal"
+                                        disabled={false}
+                                    />
                                 </div>
                             </div>
                         </div>
