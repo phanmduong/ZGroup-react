@@ -158,7 +158,8 @@ class MobileController extends ApiController
             'student' => $student,
             'class' => [
                 'id' => $register->studyClass->id,
-                'name' => $register->studyClass->name
+                'name' => $register->studyClass->name,
+                'avatar_url' => $register->studyClass->course->icon_url
             ]
         ]);
     }
