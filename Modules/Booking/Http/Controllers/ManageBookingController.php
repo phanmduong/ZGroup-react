@@ -170,7 +170,8 @@ class ManageBookingController extends ManageApiController
         $subscription->description = $request->description;
         $subscription->price = $request->price;
         $subscription->subscription_kind_id = $request->subscription_kind_id;
-
+        $subscription->extra_time = $request->extra_time;
+        $subscription->booking_discount = $request->booking_discount;
         $subscription->save();
 
         return $this->respondSuccess('Sửa gói thành viên thành công');

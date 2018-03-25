@@ -35,7 +35,7 @@
                             @endif
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-right"
+                        <ul class="dropdown-menu"
                             style="background: white; box-shadow: rgba(0, 0, 0, 0.15) 0px 6px 10px -4px; border-radius: 0px !important;">
                             <a href="/booking?page=1&room_type_id={{$room_type_id}}" class="dropdown-item"
                                style="padding: 10px 15px !important; border-radius: 0px !important;">
@@ -64,7 +64,7 @@
                             @endif
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-right"
+                        <ul class="dropdown-menu"
                             style="background: white; box-shadow: rgba(0, 0, 0, 0.15) 0px 6px 10px -4px; border-radius: 0px !important;">
                             <a href="/booking?page=1&base_id={{$base_id}}" class="dropdown-item"
                                style="padding: 10px 15px !important; border-radius: 0px !important;">
