@@ -67,6 +67,17 @@ export default {
         bases: [],
         isSavingPayment: false,
     },
+    weekendReport:{
+      reports: [],
+      isLoading: false,
+      checkWeekendReportModal:false,
+      weekendReportModal:{
+          stt: '',
+          employee_name:'',
+          title: '',
+          report:''
+      }
+    },
     bankAccount: {
         accounts: [],
         isLoading: false,

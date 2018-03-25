@@ -80,9 +80,10 @@ import sendNotificationReducer from '../modules/sendNotification/sendNotificatio
 import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
-
+import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportReducer";
 
 const appReducer = combineReducers({
+    weekendReport: weekendReportReducer,
     globalLoading: globalLoadingReducer,
     login: loginReducer,
     tabs: tabsReducer,

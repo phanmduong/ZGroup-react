@@ -3,7 +3,6 @@ import HistoryCollectMoneyContainer from "../modules/historyCollectMoney/History
 import CurrencyContainer from "../modules/currency/CurrencyContainer";
 import BankAccountContainer from "../modules/bankAccount/BankAccountContainer";
 import BankTransfersContainer from "../modules/finance/BankTransfersContainer";
-import PasswordContainer from "../modules/password/PasswordContainer"
 
 /**
  * Tab Quản lý tài chính
@@ -31,8 +30,4 @@ export default [
         component: BankTransfersContainer
 
     },
-    {
-        path: "/finance/password",
-        component: PasswordContainer
-    }
 ];
