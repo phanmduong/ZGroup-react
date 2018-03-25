@@ -4,6 +4,7 @@ $apiRoutes = function () {
     Route::get('/blogs', 'BookingController@blogs');
     Route::get('/user-packs', 'BookingController@allUserPacks');
     Route::post('/register/{campaignId?}', 'BookingController@appRegister');
+    Route::post('/booking/{campaignId?}', 'BookingController@appBooking');
     Route::get('/history-registers', 'BookingController@historyRegister');
 };
 

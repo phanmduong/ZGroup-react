@@ -103,7 +103,7 @@ class BookingController extends ApiPublicController
             'message' => "Đăng kí thành công"
         ]);
     }
-    
+
     public function province()
     {
         $provinceIds = Base::join("district", DB::raw("CONVERT(district.districtid USING utf32)"), "=", DB::raw("CONVERT(bases.district_id USING utf32)"))
@@ -154,32 +154,35 @@ class BookingController extends ApiPublicController
 
     public function appRegister($campaignId, Request $request)
     {
-        if ($request->email == null) {
-            return $this->respondErrorWithStatus("Thiếu email");
-        }
-        if ($request->phone == null) {
-            return $this->respondErrorWithStatus("Thiếu phone");
-        }
-        if ($request->subscription_id == null) {
-            return $this->respondErrorWithStatus("Thiếu subscription");
-        }
-        $user = User::where('email', '=', $request->email)->first();
-        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
-        if ($user == null) {
-            $user = new User;
-            $user->password = Hash::make($phone);
-        }
+        if ($this->user == null) {
+            if ($request->email == null) {
+                return $this->respondErrorWithStatus("Thiếu email");
+            }
+            if ($request->phone == null) {
+                return $this->respondErrorWithStatus("Thiếu phone");
+            }
+            if ($request->subscription_id == null) {
+                return $this->respondErrorWithStatus("Thiếu subscription");
+            }
+            $user = User::where('email', '=', $request->email)->first();
+            $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+            if ($user == null) {
+                $user = new User;
+                $user->password = Hash::make($phone);
+            }
 
-        $user->name = $request->name;
-        $user->phone = $phone;
-        $user->email = $request->email;
-        $user->username = $request->email;
-        $user->save();
+            $user->name = $request->name;
+            $user->phone = $phone;
+            $user->email = $request->email;
+            $user->username = $request->email;
+            $user->save();
+        } else $user = $this->user;
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
+        $register->campaign_id = $campaignId;
         $register->type = 'member';
         $register->save();
         $subject = "Xác nhận đăng ký thành công";
@@ -194,6 +197,53 @@ class BookingController extends ApiPublicController
             'message' => "Đăng kí thành công"
         ]);
     }
+
+    public function appBooking($campaignId, Request $request)
+    {
+        if ($this->user == null) {
+            if ($request->email == null) {
+                return $this->respondErrorWithStatus("Thiếu email");
+            }
+            if ($request->phone == null) {
+                return $this->respondErrorWithStatus("Thiếu phone");
+            }
+
+            $user = User::where('email', '=', $request->email)->first();
+            $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+            if ($user == null) {
+                $user = new User;
+                $user->password = Hash::make($phone);
+            }
+
+            $user->name = $request->name;
+            $user->phone = $phone;
+            $user->email = $request->email;
+            $user->username = $request->email;
+            $user->save();
+        } else $user = $this->user;
+        $register = new RoomServiceRegister();
+        $register->user_id = $user->id;
+        $register->base_id = $request->base_id;
+        $register->start_time = $request->start_time;
+        $register->end_time = $request->end_time;
+        $register->campaign_id = $campaignId;
+        $register->type = 'room';
+        $register->save();
+
+        $subject = "Xác nhận đặt phòng thành công";
+        $data = ["user" => $user];
+        $emailcc = ["graphics@colorme.vn"];
+        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
+            $m->from('no-reply@colorme.vn', 'Up Coworking Space');
+            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+        });
+
+        return respondSuccessWithStatus([
+            'message' => "Đặt phòng thành công thành công"
+        ]);
+    }
+
+
 
     public function get_snippet($str, $wordCount = 10)
     {
