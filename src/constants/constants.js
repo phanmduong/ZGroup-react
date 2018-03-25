@@ -297,6 +297,54 @@ export const ORDERED_STATUS = [
     },
 ];
 
+export const ORDERED_STATUS_TRANSFER = [
+    {
+        value: "Trạng thái ban đầu",
+        key: "origin"
+    },
+    {
+        order: 0,
+        value: "Chuyển sang Đã báo giá",
+        key: "sent_price",
+    },
+    {
+        order: 1,
+        value: "Chuyển sang Xác nhận",
+        key: "confirm_order"
+    },
+    {
+        order: 2,
+        value: "Chuyển sang Đặt hàng",
+        key: "ordered",
+    },
+    {
+        order: 3,
+        value: "Chuyển sang Dự kiến ngày về",
+        key: "arrive_date"
+    },
+    {
+        order: 4,
+        value: "Chuyển sang Đã về VN",
+        key: "arrived"
+    },
+    {
+        order: 5,
+        value: "Chuyển sang Giao hàng",
+        key: "ship"
+    },
+    {
+        order: 6,
+        value: "Chuyển sang Hoàn thành",
+        key: "completed"
+    },
+    {
+        order: 7,
+        value: "Chuyển sang Hủy",
+        key: "cancel"
+    }
+];
+
+
 export const TYPE_CLASSES = [
     {
         label: "Hoạt động",

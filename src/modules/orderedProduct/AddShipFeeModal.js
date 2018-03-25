@@ -12,19 +12,21 @@ class AddShipFeeModal extends React.Component {
     }
 
     handleShipFee(e) {
-        let attach_info = {
-            ...JSON.parse(this.props.orderAddShipFee.attach_info),
-            shipCode: e.target.value
-        };
-        let order = {
-            ...this.props.orderAddShipFee,
-            attach_info: JSON.stringify(attach_info)
-        };
-        this.props.orderedProductAction.handleAddShipFeeModal(order);
+        let orders = this.props.orderAddShipFee.map(order => {
+            let attach_info = {
+                ...JSON.parse(order.attach_info),
+                shipCode: e.target.value
+            };
+            return {
+                ...order,
+                attach_info: JSON.stringify(attach_info)
+            };
+        });
+        this.props.orderedProductAction.handleAddShipFeeModal(orders);
     }
 
     render() {
-        let order = this.props.orderAddShipFee;
+        let order = this.props.orderAddShipFee[0];
         return (
             <Modal show={this.props.addShipFeeModal}
                    onHide={() => this.props.orderedProductAction.showAddShipFeeModal()}>
@@ -51,7 +53,7 @@ class AddShipFeeModal extends React.Component {
                                 data-original-title="Remove item" type="button"
                                 className="btn btn-success btn-round" data-dismiss="modal"
                                 onClick={() => this.props.orderedProductAction.changeStatus(
-                                    "ship", order.id, null, order.attach_info
+                                    "ship", this.props.orderAddShipFee, null
                                 )}>
                             <i className="material-icons">check</i> Xác nhận
                         </button>
@@ -71,7 +73,7 @@ class AddShipFeeModal extends React.Component {
 AddShipFeeModal.propTypes = {
     orderedProductAction: PropTypes.object.isRequired,
     addShipFeeModal: PropTypes.bool,
-    orderAddShipFee: PropTypes.object.isRequired,
+    orderAddShipFee: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

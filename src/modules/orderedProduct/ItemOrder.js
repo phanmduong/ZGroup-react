@@ -15,26 +15,31 @@ class ItemOrder extends React.Component {
 
     changeStatus(value) {
         const user = this.props.user;
+        const delivery = this.props.delivery;
         let currentStatus = ORDERED_STATUS.filter(status => this.props.delivery.status === status.value)[0];
         let nextStatus = ORDERED_STATUS.filter(status => status.value === value)[0];
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
             if (nextStatus.order === 8) {
-                this.props.showAddCancelNoteModal(this.props.delivery);
+                this.props.showAddCancelNoteModal([delivery]);
             } else if (nextStatus.order === 1) {
-                this.props.showSendPriceModal([this.props.delivery]);
+                this.props.showSendPriceModal([delivery]);
             } else if (nextStatus.order === 3) {
-                this.props.showAddJavCodeModal(this.props.delivery);
+                this.props.showAddJavCodeModal([delivery]);
             } else if (nextStatus.order === 4) {
-                this.props.showCameToVNModal(this.props.delivery);
+                this.props.showCameToVNModal([delivery]);
             } else if (nextStatus.order === 5) {
-                this.props.showImportWeightModal(this.props.delivery);
+                this.props.showImportWeightModal([delivery]);
             } else if (nextStatus.order === 6) {
-                this.props.showAddShipFeeModal(this.props.delivery);
+                this.props.showAddShipFeeModal([delivery]);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                    this.props.changeStatus(value, this.props.delivery.id, null, null);
+                    const deliveryOrders = [{
+                        id: this.props.delivery.id,
+                        attach_info: this.props.delivery.attach_info
+                    }];
+                    this.props.changeStatus(value, deliveryOrders, null);
                 });
             }
         }

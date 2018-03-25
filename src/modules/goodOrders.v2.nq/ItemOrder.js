@@ -50,7 +50,7 @@ class ItemOrder extends React.Component {
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            if (currentStatus.order < 2 && nextStatus.order > 1) {
+            if (currentStatus.order < 3 && nextStatus.order > 2) {
                 this.props.showSelectWarehouseModal(value, this.props.order.id);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {

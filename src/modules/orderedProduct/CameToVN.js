@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
 //import FormInputDate from "../../components/common/FormInputDate";
-import FormInputDateTime from "../../components/common/FormInputDateTime";
+//import FormInputDateTime from "../../components/common/FormInputDateTime";
 import {DATETIME_SEAT_FORMAT} from "../../constants/constants";
 import moment from "moment";
+import FormInputDateTimeBat from "./FormInputDateTimeBat";
 
 class CameToVN extends React.Component {
     constructor(props, context) {
@@ -19,7 +20,7 @@ class CameToVN extends React.Component {
                 </div>
                 <div className="card-content">
                     <div className="form-group">
-                        <FormInputDateTime
+                        <FormInputDateTimeBat
                             format={DATETIME_SEAT_FORMAT}
                             label="Dự kiến ngày về"
                             name="endTime"

@@ -71,25 +71,21 @@ export function editNote(order) {
     });
 }
 
-export function changeStatusApi(status, deliveryOrderId, note, attach) {
-    let url = env.MANAGE_API_URL + "/order/delivery/" + deliveryOrderId + "/change-status";
+export function changeStatusApi(status, deliveryOrders, note) {
+    let url = env.MANAGE_API_URL + "/order/delivery/change-status";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     if (note) {
         return axios.put(url, {
+            delivery_orders: JSON.stringify(deliveryOrders),
             status: status,
             note: note
         });
     }
-    if (attach) {
-        return axios.put(url, {
-            status: status,
-            attach_info: attach
-        });
-    }
-    return axios.put(url, {
+    return axios.post(url, {
+        delivery_orders: JSON.stringify(deliveryOrders),
         status: status
     });
 }
