@@ -16,6 +16,7 @@ import Buttons from "../components/Buttons";
 import { changeToSlug } from "../../../helpers/helper";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import moment from "moment";
+import Loading from "../../../components/common/Loading";
 
 class StoreEventModalContainer extends React.Component {
     constructor(props, context) {
@@ -72,7 +73,11 @@ class StoreEventModalContainer extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form role="form" id="form-post">
+                    <form
+                        role="form"
+                        id="form-post"
+                        style={{ paddingBottom: "100px" }}
+                    >
                         <div className="container-fluid">
                             <div className="row">
                                 <label className="label-control">
@@ -110,7 +115,6 @@ class StoreEventModalContainer extends React.Component {
                                     format={DATE_VN_FORMAT}
                                     id="start_date"
                                     label="Ngày bắt đầu"
-                                    defaultDate={moment()}
                                     maxDate={props.event.end_date}
                                     value={props.event.start_date}
                                     updateFormData={this.updateEventFormData}
@@ -121,7 +125,6 @@ class StoreEventModalContainer extends React.Component {
                                     format={DATE_VN_FORMAT}
                                     id="end_date"
                                     label="Ngày kết thúc"
-                                    defaultDate=""
                                     value={props.event.end_date}
                                     minDate={props.event.start_date}
                                     updateFormData={this.updateEventFormData}
@@ -133,7 +136,6 @@ class StoreEventModalContainer extends React.Component {
                                     id="start_time"
                                     label="Thời gian bắt đầu"
                                     value={props.event.start_time}
-                                    defaultDate={moment()}
                                     updateFormData={this.updateEventFormData}
                                 />
 
@@ -142,7 +144,6 @@ class StoreEventModalContainer extends React.Component {
                                     format={TIME_FORMAT_H_M}
                                     id="end_time"
                                     label="Thời gian kết thúc"
-                                    defaultDate={moment()}
                                     value={props.event.end_time}
                                     updateFormData={this.updateEventFormData}
                                 />
@@ -204,20 +205,24 @@ class StoreEventModalContainer extends React.Component {
                                 />
 
                                 <div className="row">
-                                    <Buttons
-                                        publish={this.publishEvent}
-                                        style={{
-                                            width: "100%",
-                                            marginLeft: "-9px",
-                                        }}
-                                        close={() =>
-                                            props.eventActions.showStoreEventModal(
-                                                false,
-                                            )
-                                        }
-                                        scrollerId="#store-event-modal"
-                                        disabled={false}
-                                    />
+                                    {this.props.isSavingEvent ? (
+                                        <Loading />
+                                    ) : (
+                                        <Buttons
+                                            publish={this.publishEvent}
+                                            style={{
+                                                width: "100%",
+                                                marginLeft: "-9px",
+                                            }}
+                                            close={() =>
+                                                props.eventActions.showStoreEventModal(
+                                                    false,
+                                                )
+                                            }
+                                            scrollerId="#store-event-modal"
+                                            disabled={false}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -231,13 +236,14 @@ class StoreEventModalContainer extends React.Component {
 StoreEventModalContainer.propTypes = {
     eventActions: PropTypes.object.isRequired,
     event: PropTypes.object.isRequired,
+    isSavingEvent: PropTypes.bool.isRequired,
     showStoreEventModal: PropTypes.bool.isRequired,
 };
 
 export default connect(
     state => {
-        const { event, showStoreEventModal } = state.event;
-        return { event, showStoreEventModal };
+        const { event, showStoreEventModal, isSavingEvent } = state.event;
+        return { event, showStoreEventModal, isSavingEvent };
     },
     dispatch => {
         return {
