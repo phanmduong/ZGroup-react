@@ -2054,6 +2054,8 @@ export default {
             id: 0,
             description: "",
             subscriptionKind: "",  // id
+            booking_discount : 0,
+            extra_time : 0,
         },
         subscriptionKind: {
             name: "",

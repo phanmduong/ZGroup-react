@@ -60,12 +60,12 @@ class UserpackModal extends React.Component {
 
     onChangeSubscription(value) {
         let subscription = this.props.select.subscriptions.filter(subscription => subscription.id === value.value)[0];
-        // console.log(subscription, "aaaaaaaaaaaaa");
         let select = {
             ...this.props.select,
             subscription_id: value.value,
             price: subscription.price,
-            hours: subscription.subcription_kind.hours
+            hours: subscription.subcription_kind.hours,
+            extra_time : subscription.extra_time,
         };
         this.props.registerManageAction.updateSelect(select);
     }
