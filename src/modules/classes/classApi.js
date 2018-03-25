@@ -115,12 +115,40 @@ export function addClass(classData) {
         'study_time': classData.study_time,
         'type': classData.type,
         'status': classData.status,
+        'teachers': classData.teachers,
+        'teaching_assistants': classData.teaching_assistants,
 
     });
 }
 
 export function loadClass(classId) {
     let url = env.MANAGE_API_URL + `/class/${classId}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadTeachers(classId) {
+    let url = env.MANAGE_API_URL + `/class/teachers/${classId}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadTeachingLessons(classLessonId, type) {
+    let url;
+
+    if (type === 1) {
+        url = env.MANAGE_API_URL + `/class/teachers-lesson/${classLessonId}`;
+    } else {
+        url = env.MANAGE_API_URL + `/class/teaching-assistants-lesson/${classLessonId}`;
+    }
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -185,4 +213,20 @@ export function loadStaffs() {
     }
 
     return axios.get(url);
+}
+
+export function changeTeachingLesson(classLessonId, oldTeachingId, newTeachingId, note) {
+    let url = env.MANAGE_API_URL + `/class/change-teaching-lesson`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url,
+        {
+            class_lesson_id: classLessonId,
+            old_teaching_id: oldTeachingId,
+            new_teaching_id: newTeachingId,
+            note: note,
+        });
 }

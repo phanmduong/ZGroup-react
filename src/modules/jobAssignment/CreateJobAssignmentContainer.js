@@ -117,7 +117,7 @@ class CreateJobAssignmentContainer extends React.Component {
     render() {
         let {payer} = this.props.data;
         let time = moment(this.props.data.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
-
+        
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -305,16 +305,11 @@ class CreateJobAssignmentContainer extends React.Component {
                                                 <div className="row">
                                                     <div className="col-sm-12">
                                                         <div className="form-group" hidden={this.props.isLoadingStaffs}>
-                                                            <label className="label-control">Nhập tên để tìm kiếm nhân
-                                                                viên</label>
-
+                                                            <label className="label-control">Nhập tên để tìm kiếm nhân viên</label>
                                                             <ReactSelect
                                                                 name="form-field-name"
-                                                                value={"Chọn nhân viên"}
                                                                 options={this.props.staffs}
-                                                                onChange={(e) => {
-                                                                    return this.props.jobAssignmentAction.chooseStaff(e);
-                                                                }}
+                                                                onChange={(e) => this.props.jobAssignmentAction.chooseStaff(e)}
                                                                 optionRenderer={(option) => {
                                                                     return (
                                                                         <ItemReactSelect label={option.label}

@@ -88,12 +88,14 @@ class ConfirmOrderModal extends React.Component {
                                                                 <td><div><FormInputText
                                                                     label="Số trang"
                                                                     value={data.core1.number || ""}
+                                                                    name=""
                                                                     disabled
                                                                 /></div></td>
                                                                 <td colSpan={2}>
                                                                     <FormInputText
                                                                         label="Chất liệu"
                                                                         value={data.core1.material || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
@@ -101,6 +103,7 @@ class ConfirmOrderModal extends React.Component {
                                                                     <FormInputText
                                                                         label="Màu"
                                                                         value={data.core1.color || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
@@ -108,6 +111,7 @@ class ConfirmOrderModal extends React.Component {
                                                                     <FormInputText
                                                                         label="Khổ in"
                                                                         value={data.core1.size || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
 
@@ -116,6 +120,7 @@ class ConfirmOrderModal extends React.Component {
                                                                 <td><div><FormInputText
                                                                     label="Giá"
                                                                     value={data.core1.price || ""}
+                                                                    name=""
                                                                     disabled
                                                                 /></div></td>
                                                             </tr>
@@ -124,12 +129,14 @@ class ConfirmOrderModal extends React.Component {
                                                                 <td><div><FormInputText
                                                                     label="Số trang"
                                                                     value={data.core2.number || ""}
+                                                                    name=""
                                                                     disabled
                                                                 /></div></td>
                                                                 <td colSpan={2}>
                                                                     <FormInputText
                                                                         label="Chất liệu"
                                                                         value={data.core2.material || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
@@ -137,6 +144,7 @@ class ConfirmOrderModal extends React.Component {
                                                                     <FormInputText
                                                                         label="Màu"
                                                                         value={data.core2.color || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
@@ -144,12 +152,14 @@ class ConfirmOrderModal extends React.Component {
                                                                     <FormInputText
                                                                         label="Khổ in"
                                                                         value={data.core2.size || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
                                                                 <td><div><FormInputText
                                                                     label="Giá"
                                                                     value={data.core2.price || ""}
+                                                                    name=""
                                                                     disabled
                                                                 /></div></td>
                                                             </tr>
@@ -158,12 +168,14 @@ class ConfirmOrderModal extends React.Component {
                                                                 <td><div><FormInputText
                                                                     label="Số trang"
                                                                     value={data.cover1.number || ""}
+                                                                    name=""
                                                                     disabled
                                                                 /></div></td>
                                                                 <td colSpan={2}>
                                                                     <FormInputText
                                                                         label="Chất liệu"
                                                                         value={data.cover1.material || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
@@ -171,6 +183,7 @@ class ConfirmOrderModal extends React.Component {
                                                                     <FormInputText
                                                                         label="Màu"
                                                                         value={data.cover1.color || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
@@ -178,12 +191,14 @@ class ConfirmOrderModal extends React.Component {
                                                                     <FormInputText
                                                                         label="Khổ in"
                                                                         value={data.cover1.size || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
                                                                 <td><div><FormInputText
                                                                     label="Giá"
                                                                     value={data.cover1.price || ""}
+                                                                    name=""
                                                                     disabled
                                                                 /></div></td>
                                                             </tr>
@@ -192,6 +207,7 @@ class ConfirmOrderModal extends React.Component {
                                                                 <td><div><FormInputText
                                                                     label="Số trang"
                                                                     value={data.cover2.number || ""}
+                                                                    name=""
                                                                     disabled
                                                                 /></div></td>
                                                                 <td colSpan={2}>
@@ -199,6 +215,7 @@ class ConfirmOrderModal extends React.Component {
                                                                         label="Chất liệu"
                                                                         disabled
                                                                         value={data.cover2.material || ""}
+                                                                        name=""
                                                                     />
                                                                 </td>
                                                                 <td style={{width: "15%"}}>
@@ -206,6 +223,7 @@ class ConfirmOrderModal extends React.Component {
                                                                         label="Màu"
                                                                         disabled
                                                                         value={data.cover2.color || ""}
+                                                                        name=""
                                                                     />
                                                                 </td>
                                                                 <td style={{width: "15%"}}>
@@ -213,12 +231,14 @@ class ConfirmOrderModal extends React.Component {
                                                                         label="Khổ in"
                                                                         disabled
                                                                         value={data.cover2.size || ""}
+                                                                        name=""
                                                                     />
                                                                 </td>
                                                                 <td><div><FormInputText
                                                                     label="Giá"
                                                                     disabled
                                                                     value={data.cover2.price || ""}
+                                                                    name=""
                                                                 /></div></td>
                                                             </tr>
                                                             <tr>
@@ -228,17 +248,20 @@ class ConfirmOrderModal extends React.Component {
                                                                         label="Tên"
                                                                         value={data.spare_part1.name || ""}
                                                                         disabled
+                                                                        name=""
                                                                     /></div></td>
                                                                 <td style={{width: "10%"}}>
                                                                     <div><FormInputText
                                                                         label="Số lượng"
                                                                         value={data.spare_part1.number || ""}
+                                                                        name=""
                                                                         disabled
                                                                     /></div></td>
                                                                 <td style={{width: "15%"}}>
                                                                     <FormInputText
                                                                         label="Chất liệu"
                                                                         value={data.spare_part1.material || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
@@ -246,6 +269,7 @@ class ConfirmOrderModal extends React.Component {
                                                                     <FormInputText
                                                                         label="Gia công"
                                                                         value={data.spare_part1.made_by || ""}
+                                                                        name=""
                                                                         disabled
                                                                     />
                                                                 </td>
@@ -254,12 +278,14 @@ class ConfirmOrderModal extends React.Component {
                                                                         label="Khổ in"
                                                                         disabled
                                                                         value={data.spare_part1.size || ""}
+                                                                        name=""
                                                                     />
                                                                 </td>
                                                                 <td style={{width: "10%"}}>
                                                                     <div><FormInputText
                                                                         label="Giá"
                                                                         value={data.spare_part1.price || ""}
+                                                                        name=""
                                                                         disabled
                                                                     /></div></td>
                                                             </tr>
@@ -269,17 +295,20 @@ class ConfirmOrderModal extends React.Component {
                                                                     label="Tên"
                                                                     disabled
                                                                     value={data.spare_part2.name || ""}
+                                                                    name=""
                                                                 /></div></td>
                                                                 <td><div><FormInputText
                                                                     label="Số lượng"
                                                                     disabled
                                                                     value={data.spare_part2.number || ""}
+                                                                    name=""
                                                                 /></div></td>
                                                                 <td>
                                                                     <FormInputText
                                                                         label="Chất liệu"
                                                                         disabled
                                                                         value={data.spare_part2.material || ""}
+                                                                        name=""
                                                                     />
                                                                 </td>
                                                                 <td>
@@ -287,6 +316,7 @@ class ConfirmOrderModal extends React.Component {
                                                                         label="Gia công"
                                                                         disabled
                                                                         value={data.spare_part2.made_by || ""}
+                                                                        name=""
                                                                     />
                                                                 </td>
                                                                 <td>
@@ -294,12 +324,14 @@ class ConfirmOrderModal extends React.Component {
                                                                         label="Khổ in"
                                                                         disabled
                                                                         value={data.spare_part2.size || ""}
+                                                                        name=""
                                                                     />
                                                                 </td>
                                                                 <td><div><FormInputText
                                                                     label="Giá"
                                                                     disabled
                                                                     value={data.spare_part2.price || ""}
+                                                                    name=""
                                                                 /></div></td>
                                                             </tr>
                                                             <tr>
@@ -308,11 +340,13 @@ class ConfirmOrderModal extends React.Component {
                                                                     label="Tên"
                                                                     disabled
                                                                     value={data.packing1.name || ""}
+                                                                    name=""
                                                                 /></td>
                                                                 <td colSpan={3}><FormInputText
                                                                     label="Giá"
                                                                     disabled
                                                                     value={data.packing1.price || ""}
+                                                                    name=""
                                                                 /></td>
                                                             </tr>
                                                             <tr>
@@ -321,11 +355,13 @@ class ConfirmOrderModal extends React.Component {
                                                                     label="Tên"
                                                                     disabled
                                                                     value={data.packing2.name || ""}
+                                                                    name=""
                                                                 /></td>
                                                                 <td colSpan={3}><FormInputText
                                                                     label="Giá"
                                                                     disabled
                                                                     value={data.packing2.price || ""}
+                                                                    name=""
                                                                 /></td>
                                                             </tr>
                                                             <tr>
@@ -334,11 +370,13 @@ class ConfirmOrderModal extends React.Component {
                                                                     label="Tên"
                                                                     value={data.other.name || ""}
                                                                     disabled
+                                                                    name=""
                                                                 /></td>
                                                                 <td colSpan={3}><FormInputText
                                                                     label="Giá"
                                                                     disabled
                                                                     value={data.other.price || ""}
+                                                                    name=""
                                                                 /></td>
                                                             </tr>
 
@@ -347,11 +385,15 @@ class ConfirmOrderModal extends React.Component {
                                                                 <td colSpan={3}><FormInputDate
                                                                     label="Ngày đặt in"
                                                                     value={data.order_date || ""}
+                                                                    id="" name=""
+                                                                    updateFormData={()=>{}}
                                                                     disabled
                                                                 /></td>
                                                                 <td colSpan={3}><FormInputDate
                                                                     label="Ngày nhận hàng dự kiến"
                                                                     value={data.receive_date || ""}
+                                                                    updateFormData={()=>{}}
+                                                                    id="" name=""
                                                                     disabled
                                                                 /></td>
                                                             </tr>

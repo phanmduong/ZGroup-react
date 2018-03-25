@@ -176,6 +176,7 @@ export function addGroupCustomer(groupCustomerForm,page) {
                 }
             })
             .catch(() => {
+
                 helper.sweetAlertError("Thất bại");
             });
     };

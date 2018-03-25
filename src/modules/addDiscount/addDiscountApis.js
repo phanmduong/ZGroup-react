@@ -1,6 +1,18 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+
+export function uploadImage(file, completeHandler, error) {
+    let url = env.API_URL + "/upload-image-froala";
+    let formdata = new FormData();
+    formdata.append("image", file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
+    ajax.addEventListener("error", error, false);
+}
+
 export function addDiscountApi(discount) {
     let url = env.MANAGE_API_URL + "/coupon/create?";
     let token = localStorage.getItem('token');
@@ -23,6 +35,7 @@ export function addDiscountApi(discount) {
         'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
         'quantity' : discount.quantity? discount.quantity : '',
         'shared' : discount.shared? discount.shared : '',
+        'cover_url' : discount.cover_url? discount.cover_url:'',
     });
 }
 
@@ -121,5 +134,6 @@ export function editDiscountApi(discount) {
         'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
         'quantity' : discount.quantity? discount.quantity : '',
         'shared' : discount.shared? discount.shared : '',
+        'cover_url' : discount.cover_url? discount.cover_url:'',
     });
 }

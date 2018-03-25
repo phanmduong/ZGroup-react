@@ -5,6 +5,7 @@ import {connect}                        from 'react-redux';
 import  * as exportOrderActions from "./exportOrderActions";
 import {bindActionCreators}             from 'redux';
 import * as helper from "../../../helpers/helper";
+import moment from "moment";
 
 class ListExportOrder extends React.Component {
     constructor(props, context) {
@@ -32,6 +33,7 @@ class ListExportOrder extends React.Component {
 
     render() {
         let {listExportOrder} = this.props;
+        //console.log(this.props);
         return (
             <div className="table-responsive">
 
@@ -44,26 +46,32 @@ class ListExportOrder extends React.Component {
                         <th>Nhà phân phối</th>
                         <th>Mã đơn hàng</th>
                         <th>Số sản phẩm</th>
-
+                        <th>Số lượng xuất</th>
+                        <th>Ngày tạo</th>
                         <th>Tổng tiền</th>
                         <th/>
                     </tr>
                     </thead>
                     <tbody>
                     {listExportOrder.map((order, index)=>{
+                        let tmp = isOverTime(order.created_at);
+                        let overTime = order.created_at ? tmp : false;
+                        let date = moment(order.created_at.date);
                         return(
-                            <tr key={index}>
+                            <tr key={index} style={(overTime && order.status < 3) ? {backgroundColor: "lightcoral", color: "white"} : {}}>
                                 <td>{index + 1}</td>
                                 <td>{order.company.name}</td>                                
                                 <td>{order.command_code}</td>                                
                                 <td>{order.goods.length}</td>
-                                
+                                <td>{getSumquantity(order.goods)}</td>
+                                <td>{date.format("D-M-YYYY")}</td>
                                 <td>{helper.dotNumber(getTotalPrice(order.goods))}</td>
                                 <td><ButtonGroupAction
                                     editUrl={"/business/export-order/edit/" + order.id}
                                     disabledDelete={true}
+                                    disabledEdit={order.status > 2}
                                     children= {
-                                        !order.status &&
+                                        (order.status && (order.status == 2)) ?
                                         <a data-toggle="tooltip" title="Duyệt"
                                            type="button"
                                            onClick={()=>{return this.confirm(order.id);}}
@@ -71,6 +79,7 @@ class ListExportOrder extends React.Component {
                                         >
                                             <i className="material-icons">done</i>
                                         </a>
+                                        : <div/>
                                     }
                                 /></td>
                             </tr>
@@ -111,7 +120,28 @@ export default connect(mapStateToProps, mapDispatchToProps)(ListExportOrder);
 function getTotalPrice(arr){
     let sum = 0;
     arr.forEach(e => {
-        sum += e.price;
+        sum += e.price*e.export_quantity;
     });
     return sum;
 }
+
+function getSumquantity(arr){
+    let sum = 0;
+    arr.forEach(e=>{
+        sum += e.export_quantity;
+    });
+    return sum;
+}
+
+function isOverTime(inp){
+    let cre_date = moment(inp.date);
+    while(cre_date.day() == 0 || cre_date.day() == 6)
+    {
+        cre_date = cre_date.add(1, "days");
+    }
+    cre_date = cre_date.add(2, "days");
+    let res = moment(moment.now()).isAfter(cre_date);
+    return res;
+}
+
+

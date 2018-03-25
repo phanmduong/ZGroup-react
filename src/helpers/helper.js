@@ -201,6 +201,8 @@ export function getShortName(name) {
 }
 
 export function dotNumber(number) {
+    if (!isFinite(number)) return "0";
+    if (number == 0) return "0";
     if (number)
         return number.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return number;
@@ -852,6 +854,47 @@ export function transformToTree(arr, nameParent, nameChildren) {
     });
 }
 
+export function changeToSlug(title)
+{
+    //Đổi chữ hoa thành chữ thường
+    let slug = title.toLowerCase();
+ 
+    //Đổi ký tự có dấu thành không dấu
+    slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+    slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+    slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+    slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+    slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+    slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+    slug = slug.replace(/đ/gi, 'd');
+    //Xóa các ký tự đặt biệt
+    // eslint-disable-next-line
+    slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+    //Đổi khoảng trắng thành ký tự gạch ngang
+    slug = slug.replace(/ /gi, "-");
+    //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+    //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+
+    // eslint-disable-next-line
+    slug = slug.replace(/\-\-\-\-\-/gi, '-');
+
+    // eslint-disable-next-line
+    slug = slug.replace(/\-\-\-\-/gi, '-');
+
+    // eslint-disable-next-line
+    slug = slug.replace(/\-\-\-/gi, '-');
+
+    // eslint-disable-next-line
+    slug = slug.replace(/\-\-/gi, '-');
+    //Xóa các ký tự gạch ngang ở đầu và cuối
+    slug = '@' + slug + '@';
+
+    // eslint-disable-next-line
+    slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+    //In slug ra textbox có id “slug”
+    return slug;
+}
+
 export function readExcel(file, isSkipReadFile) {
 
     let promise = new Promise((resolve) => {
@@ -1268,28 +1311,29 @@ export function convertDotMoneyToK(data) {
     return data;
 }
 
-export function prefixAvatarUrl(url,prefix = "http") {
+export function prefixAvatarUrl(url, prefix = "http") {
     let tmpAva = url;
     if (tmpAva.slice(0, 4) !== "http") {
-        tmpAva = (prefix+"://").concat(tmpAva);
+        tmpAva = (prefix + "://").concat(tmpAva);
         return tmpAva;
     }
     return tmpAva;
 }
 
 export function parseTime(x) {
-    let date,month,year,hour;
-    if(moment(x, "HH:mm DD-MM-YYYY").format("HH:mm")!== "Invalid date"){
+    let date, month, year, hour;
+    if (moment(x, "HH:mm DD-MM-YYYY").format("HH:mm") !== "Invalid date") {
         hour = moment(x, "HH:mm DD-MM-YYYY").format("HH:mm");
         date = moment(x, "HH:mm DD-MM-YYYY").format("DD");
         month = moment(x, "HH:mm DD-MM-YYYY").format("MM");
         year = moment(x, "HH:mm DD-MM-YYYY").format("YYYY");
     }
-    else{
+    else {
         hour = moment(x, "YYYY-MM-DD HH:mm").format("HH:mm");
-        date = moment(x, "YYYY-MM-DD HH:mm").format("DD") ;
+        date = moment(x, "YYYY-MM-DD HH:mm").format("DD");
         month = moment(x, "YYYY-MM-DD HH:mm").format("MM");
         year = moment(x, "YYYY-MM-DD HH:mm").format("YYYY");
     }
-    return "Ngày " + date + " tháng " + month + " năm " + year + " , " + hour;
+    // return "Ngày " + date + " tháng " + month + " năm " + year + " , " + hour;
+    return hour + "  "+  date + "-" + month + "-" + year ;
 }

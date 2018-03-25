@@ -22,7 +22,6 @@ export function loadLessonData(id) {
     };
 }
 
-
 export function updateData(feild, value) {
     return function (dispatch) {
         dispatch({
@@ -40,14 +39,18 @@ export function clearData(course_id) {
             type: types.CLEAR_DATA_LESSON,
             data: {
                 id: null,
-                course_id: course_id,
+                course_id:course_id,
                 name: "",
                 description: "",
                 detail: "",
                 order: "",
                 detail_content: "",
                 detail_teacher: "",
-                created_at: ""
+                created_at: "",
+                term_id: "",
+                audio_url: "",
+                video_url: "",
+                image_url: "",
             }
         });
 

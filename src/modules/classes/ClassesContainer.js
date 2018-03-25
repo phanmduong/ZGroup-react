@@ -47,18 +47,19 @@ class ClassesContainer extends React.Component {
         if (this.props.params.teacherId) {
             this.search.teacherId = this.props.params.teacherId;
         }
-        this.props.classActions.loadGensData(()=>{return this.props.classActions.loadClasses('', 1, this.search.teacherId, this.state.selectGenId);});
+        this.props.classActions.loadGensData(() => {
+            return this.props.classActions.loadClasses('', 1, this.search.teacherId, this.state.selectGenId);
+        });
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens)
-        {
+        if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens) {
             let gens = _.sortBy(nextProps.gens, [function (o) {
                 return parseInt(o.name);
             }]);
             gens = _.reverse(gens);
             this.setState({
-                gens: [{id: 0, name: 'Tất cả'},...gens],
+                gens: [{id: 0, name: 'Tất cả'}, ...gens],
                 selectGenId: 0,
             });
         }
@@ -144,6 +145,8 @@ class ClassesContainer extends React.Component {
                 status: classData.status,
                 datestart: classData.datestart_en,
                 room_id: classData.room ? classData.room.id : '',
+                teachers: classData.teachers,
+                teaching_assistants: classData.teaching_assistants,
             };
         }
         this.setState({
@@ -197,15 +200,15 @@ class ClassesContainer extends React.Component {
                                                 {
                                                     (this.state.selectGenId >= 0 && this.state.gens.length > 0) ?
 
-                                                    <div className="col-md-12">
-                                                        <Select
-                                                            options={this.state.gens}
-                                                            onChange={this.changeGens}
-                                                            value={this.state.selectGenId}
-                                                            defaultMessage="Chọn khóa học"
-                                                            name="gens"
-                                                        />
-                                                    </div>
+                                                        <div className="col-md-12">
+                                                            <Select
+                                                                options={this.state.gens}
+                                                                onChange={this.changeGens}
+                                                                value={this.state.selectGenId}
+                                                                defaultMessage="Chọn khóa học"
+                                                                name="gens"
+                                                            />
+                                                        </div>
                                                         :
                                                         <div/>
 

@@ -18,8 +18,8 @@ import "../styles/react-draft-wysiwyg.css";
 import "../styles/styles.scss";
 // import { syncHistoryWithStore } from 'react-router-redux';
 
-import rootReducer from "../reducers/index";
-const store = configureStore({}, rootReducer);
+import blogRootReducer from "../reducers/blog";
+const store = configureStore({}, blogRootReducer);
 // Create an enhanced history that syncs navigation events with the store
 // const history = syncHistoryWithStore(browserHistory, store);
 

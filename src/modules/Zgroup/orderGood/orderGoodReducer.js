@@ -44,10 +44,12 @@ export default function orderGoodReducer(state = initialState.orderGood, action)
         case types.BEGIN_LOAD_ALL_ORDER_GOOD:
             return {
                 ...state,
+                isLoading: true,
             };
         case types.LOAD_ALL_ORDER_GOOD_SUCCESS: {
             return {
                 ...state,
+                isLoading: false,
                 orderList: action.orderList,
                 paginator: action.paginator,
             };
@@ -56,9 +58,9 @@ export default function orderGoodReducer(state = initialState.orderGood, action)
         case types.LOAD_ALL_ORDER_GOOD_ERROR:
             return {
                 ...state,
-
+                isLoading: false,
             };
-            case types.BEGIN_CREATE_ORDER_GOOD:
+        case types.BEGIN_CREATE_ORDER_GOOD:
             return {
                 ...state,
                 isCommitting: true,
@@ -69,12 +71,29 @@ export default function orderGoodReducer(state = initialState.orderGood, action)
                 isCommitting: false,
             };
         }
-
         case types.CREATE_ORDER_GOOD_ERROR:
             return {
                 ...state,
                 isCommitting: false,
-            };    
+            };
+
+        case types.BEGIN_EDIT_ORDER_GOOD:
+            return {
+                ...state,
+                isCommitting: true,
+            };
+        case types.EDIT_ORDER_GOOD_SUCCESS: {
+            return {
+                ...state,
+                isCommitting: false,
+            };
+        }
+        case types.EDIT_ORDER_GOOD_ERROR:
+            return {
+                ...state,
+                isCommitting: false,
+            };
+
         default:
             return state;
     }

@@ -62,7 +62,6 @@ class RegisterManageContainer extends React.Component {
 
     componentWillMount() {
         this.props.registerManageAction.loadAllRegisters();
-        // this.props.registerManageAction.getAllStaffs();
         this.props.registerManageAction.getAllSalers();
         this.props.registerManageAction.loadBasesData();
     }
@@ -472,6 +471,8 @@ class RegisterManageContainer extends React.Component {
                                 </div>
                             </div>
                         </Panel>
+
+
 
                         <div className="card">
                             <div

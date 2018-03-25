@@ -1,13 +1,13 @@
 /**
  * Created by phanmduong on 8/22/17.
  */
-import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import StorePostComponent from './StorePostComponent';
-import * as blogActions from './blogActions';
-import * as helper from '../../helpers/helper';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import StorePostComponent from "./StorePostComponent";
+import * as blogActions from "./blogActions";
+import * as helper from "../../helpers/helper";
 
 class StorePostModal extends React.Component {
     constructor(props, context) {
@@ -21,6 +21,7 @@ class StorePostModal extends React.Component {
         this.updateFormSelect = this.updateFormSelect.bind(this);
         this.openModal = this.openModal.bind(this);
         this.preSavePost = this.preSavePost.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
     }
 
     componentWillMount() {
@@ -35,15 +36,22 @@ class StorePostModal extends React.Component {
         this.props.blogActions.loadCategories();
     }
 
-    updateFormSelect(e){
+    updateFormData(field, value) {
+        let data = { ...this.props.post };
+        data[field] = value;
+
+        this.props.blogActions.updateFormPost(data);
+    }
+
+    updateFormSelect(e) {
         const field = "category";
-        let data = {...this.props.post};
+        let data = { ...this.props.post };
         data[field] = e.value;
         this.props.blogActions.updateFormPost(data);
     }
     updateFormPostData(event) {
         const field = event.target.name;
-        let data = {...this.props.post};
+        let data = { ...this.props.post };
         if (event.target.type === "checkbox") {
             data[field] = event.target.checked;
         } else {
@@ -54,7 +62,7 @@ class StorePostModal extends React.Component {
 
     updateFormCategory(event) {
         const field = event.target.name;
-        let data = {...this.props.category};
+        let data = { ...this.props.category };
         if (event.target.type === "checkbox") {
             data[field] = event.target.checked;
         } else {
@@ -63,15 +71,14 @@ class StorePostModal extends React.Component {
         this.props.blogActions.updateFormCategory(data);
     }
 
-
     openModal() {
-        let data = {...this.props.category};
-        data.name = '';
+        let data = { ...this.props.category };
+        data.name = "";
         this.props.blogActions.updateFormCategory(data);
     }
 
     updateEditor(value) {
-        let data = {...this.props.post};
+        let data = { ...this.props.post };
         data.content = value;
         this.props.blogActions.updateFormPost(data);
     }
@@ -82,39 +89,48 @@ class StorePostModal extends React.Component {
     }
 
     savePost() {
-        let post = {...this.props.post};
+        let post = { ...this.props.post };
         post.tags = $("#tags").val();
         this.props.blogActions.updateFormPost(post);
-        if ($('#form-post').valid()) {
+        if ($("#form-post").valid()) {
             if (helper.isEmptyInput(post.imageUrl)) {
-                helper.showTypeNotification('Vui lòng chọn ảnh đại diện', 'warning');
+                helper.showTypeNotification(
+                    "Vui lòng chọn ảnh đại diện",
+                    "warning",
+                );
                 return;
             }
             this.props.blogActions.savePostBlog(post, this.props.closeModal);
+        } else {
+            helper.showErrorNotification("Bạn cần nhập đủ tất cả các trường");
         }
     }
 
-    preSavePost() {
-        let post = {...this.props.post};
+    preSavePost(preview = false) {
+        let post = { ...this.props.post };
         post.tags = $("#tags").val();
         this.props.blogActions.updateFormPost(post);
-        if ($('#form-post').valid()) {
+        if ($("#form-post").valid()) {
             if (helper.isEmptyInput(post.imageUrl)) {
-                helper.showTypeNotification('Vui lòng chọn ảnh đại diện', 'warning');
+                helper.showTypeNotification(
+                    "Vui lòng chọn ảnh đại diện",
+                    "warning",
+                );
                 return;
             }
-            this.props.blogActions.preSavePostBlog(post);
+            this.props.blogActions.preSavePostBlog(post, preview);
         }
     }
 
     createCategory() {
-        if ($('#form-category').valid()) {
+        if ($("#form-category").valid()) {
             this.props.blogActions.createCategory(this.props.category);
         }
     }
 
     render() {
-        let categories = (this.props.categories !== undefined) ? this.props.categories : [];
+        let categories =
+            this.props.categories !== undefined ? this.props.categories : [];
         return (
             <StorePostComponent
                 {...this.props}
@@ -125,11 +141,15 @@ class StorePostModal extends React.Component {
                 savePost={this.savePost}
                 createCategory={this.createCategory}
                 openModal={this.openModal}
+                updateFormData={this.updateFormData}
                 preSavePost={this.preSavePost}
-                categories={[{value: 0, text: 'Chọn nhóm bài viết'}, ...categories]}
-                closeModal = {this.props.closeModal}
-                updateFormSelect = {this.updateFormSelect}
-                resetCategory = {this.resetCategory}
+                categories={[
+                    { value: 0, text: "Chọn nhóm bài viết" },
+                    ...categories,
+                ]}
+                closeModal={this.props.closeModal}
+                updateFormSelect={this.updateFormSelect}
+                // resetCategory={this.resetCategory}
             />
         );
     }

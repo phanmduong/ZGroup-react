@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
+import moment from "moment";
 
 let tmp;
 let tmpRegs = [];
@@ -7,8 +8,6 @@ let tmpReg = {};
 
 export default function goodOrdersReducer(state = initialState.registerManage, action) {
     switch (action.type) {
-
-
 
         case types.BEGIN_LOAD_BASES_IN_REGISTER_MANAGE:
             return {
@@ -33,7 +32,6 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
                     isLoadingBases: false,
                 }
             };
-
 
 
         case types.BEGIN_LOAD_REGISTER_MANAGE:
@@ -75,21 +73,61 @@ export default function goodOrdersReducer(state = initialState.registerManage, a
             };
 
         case types.BEGIN_SAVE_PAYMENT:
-            return{
+            return {
                 ...state,
-                isSavingPayment : true,
+                isSavingPayment: true,
             };
         case types.SAVED_PAYMENT_SUCCESS:
-            tmp = addPayment(action.register_id,state.registers,action.payment);
-            return{
+            tmp = addPayment(action.register_id, state.registers, action.payment);
+            return {
                 ...state,
                 isSavingPayment: false,
-                registers : tmp,
+                registers: tmp,
             };
         case types.SAVED_PAYMENT_ERROR:
-            return{
+            return {
                 ...state,
-                isSavingPayment : false,
+                isSavingPayment: false,
+            };
+        case types.LOADED_USERPACKS_ERROR_IN_REGISTER:
+            return {
+                ...state,
+                isLoadingUserpack: false,
+            };
+        case types.LOADED_USERPACKS_SUCCESS_IN_REGISTER:
+            return {
+                ...state,
+                isLoadingUserpack: false,
+                userpacks: action.userpacks,
+            };
+        case types.BEGIN_LOAD_USERPACKS_IN_REGISTER:
+            return {
+                ...state,
+                isLoadingUserpack: true,
+            };
+
+        case types.BEGIN_SAVE_SUBSCRIPTION_IN_REGISTER:
+            return {
+                ...state,
+                isSavingSubscription: true,
+            };
+        case types.SAVED_SUBSCRIPTION_SUCCESS_IN_REGISTER:
+            return {
+                ...state,
+                isSavingSubscription: false,
+                registers: updateRegisters(state.registers, action.register),
+            };
+        case types.SAVED_SUBSCRIPTION_ERROR_IN_REGISTER:
+            return {
+                ...state,
+                isSavingSubscription: false,
+            };
+
+        case types.UPDATE_SELECT:
+            return {
+                ...state,
+                select: countEndtime(action.select),
+
             };
 
         default:
@@ -107,13 +145,39 @@ function addCall(register_id, registers, teleCall) {
     });
     return tmpRegs;
 }
+
 function addPayment(register_id, registers, payment) {
     tmpRegs = registers.map((register) => {
         if (register.id === register_id) {
-            tmpReg = {...register, historyPayments: [...register.historyPayments, payment]};
+            tmpReg = {
+                ...register,
+                historyPayments: [
+                    ...register.historyPayments, payment
+                ],
+                money: register.money + payment.money_value
+            };
             return tmpReg;
         }
         else return register;
     });
     return tmpRegs;
+}
+
+function countEndtime(select) {
+    tmp = {
+        ...select, end_time:
+            moment(parseInt(Date.parse(select.start_time)) + (parseInt(select.hours) + parseInt(select.extra_time)) * 3600000).format("YYYY-MM-DD HH:mm:ss"),
+    };
+    return tmp;
+}
+
+function updateRegisters(registers, register) {
+    return registers.map((tmp) => {
+        if (tmp.id === register.id) {
+            return register;
+        }
+        else {
+            return tmp;
+        }
+    });
 }

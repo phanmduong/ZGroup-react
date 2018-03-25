@@ -18,6 +18,7 @@ import ItemReactSelect from '../../../components/common/ItemReactSelect';
 import * as helper from '../../../helpers/helper';
 import moment from "moment";
 import {DATETIME_FORMAT, DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
+import {NO_AVATAR} from "../../../constants/env";
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -28,6 +29,8 @@ class ClassContainer extends React.Component {
             showModalClassLesson: false,
             showModalChangeTeacher: false,
             showModalChangeTeachAssis: false,
+            showModalTeachingLesson: false,
+            showModalChangeTeachingLesson: false,
             classLessonSelected: {},
             teacherSelected: {},
             teachAssisSelected: {},
@@ -43,13 +46,24 @@ class ClassContainer extends React.Component {
                 id: '',
                 note: ''
             },
+            changeTeachingLesson: {
+                id: '',
+                note: ''
+            },
             staffs: [],
             linkDriver: "",
+            typeTeachingLesson: 1,
+            attendanceSelected: {},
+            oldTeachingId: ''
         };
         this.closeModalClassLesson = this.closeModalClassLesson.bind(this);
         this.openModalClassLesson = this.openModalClassLesson.bind(this);
+        this.closeModalTeachingLesson = this.closeModalTeachingLesson.bind(this);
+        this.openModalTeachingLesson = this.openModalTeachingLesson.bind(this);
         this.closeModalChangeTeacher = this.closeModalChangeTeacher.bind(this);
         this.openModalChangeTeacher = this.openModalChangeTeacher.bind(this);
+        this.closeModalChangeTeachingLesson = this.closeModalChangeTeachingLesson.bind(this);
+        this.openModalChangeTeachingLesson = this.openModalChangeTeachingLesson.bind(this);
         this.closeModalTeachAssis = this.closeModalTeachAssis.bind(this);
         this.openModalTeachAssis = this.openModalTeachAssis.bind(this);
         this.changeClassLesson = this.changeClassLesson.bind(this);
@@ -59,6 +73,7 @@ class ClassContainer extends React.Component {
         this.exportAttendanceExcel = this.exportAttendanceExcel.bind(this);
         this.changeLinkDriver = this.changeLinkDriver.bind(this);
         this.submitLinkDriver = this.submitLinkDriver.bind(this);
+        this.changeTeachingLesson = this.changeTeachingLesson.bind(this);
     }
 
     componentWillMount() {
@@ -197,6 +212,37 @@ class ClassContainer extends React.Component {
         );
     }
 
+    closeModalTeachingLesson() {
+        this.setState({showModalTeachingLesson: false});
+    }
+
+    openModalTeachingLesson(attendance, type) {
+        this.setState(
+            {
+                showModalTeachingLesson: true,
+                typeTeachingLesson: 1,
+                attendanceSelected: attendance
+            }
+        );
+        this.props.classActions.loadTeachingLessons(attendance.class_lesson_id, type);
+    }
+
+    closeModalChangeTeachingLesson() {
+        this.setState({showModalChangeTeachingLesson: false});
+    }
+
+    openModalChangeTeachingLesson(teachingLesson) {
+        this.setState(
+            {
+                showModalChangeTeachingLesson: true,
+                changeTeachingLesson: {
+                    id: teachingLesson.id
+                },
+                oldTeachingId: teachingLesson.id
+            }
+        );
+    }
+
     closeModalChangeTeacher() {
         this.setState({showModalChangeTeacher: false});
     }
@@ -262,6 +308,14 @@ class ClassContainer extends React.Component {
         helper.showNotification("Đang lưu...");
         if (!this.props.isLoading)
             this.props.classActions.changeLinkDriver(this.classId, this.state.linkDriver);
+    }
+
+    changeTeachingLesson() {
+        this.props.classActions.changeTeachingLesson(this.state.attendanceSelected.class_lesson_id, this.state.oldTeachingId,
+            this.state.changeTeachingLesson.id, this.state.typeTeachingLesson,
+            this.state.changeTeachingLesson.note, this.closeModalChangeTeachingLesson
+        )
+        ;
     }
 
 
@@ -385,7 +439,7 @@ class ClassContainer extends React.Component {
                                                                     <div
                                                                         className="flex flex-row-center flex-space-between">
                                                                         <h6>
-                                                                            <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.registers.length}
+                                                                            <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
                                                                         </h6>
                                                                         {
                                                                             attendance.is_change &&
@@ -409,10 +463,10 @@ class ClassContainer extends React.Component {
                                                                             role="progressbar"
                                                                             aria-valuemin="0"
                                                                             aria-valuemax="100"
-                                                                            style={{width: (100 * attendance.total_attendance / classData.registers.length) + '%'}}
+                                                                            style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}
                                                                         >
                                                     <span
-                                                        className="sr-only">{100 * attendance.total_attendance / classData.registers.length}%</span>
+                                                        className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -438,18 +492,33 @@ class ClassContainer extends React.Component {
                                                                             </div>
                                                                             {
                                                                                 attendance.is_change &&
-                                                                                <TooltipButton placement="top"
-                                                                                               text="Đổi giảng viên"
-                                                                                >
-                                                                                    <button
-                                                                                        className="btn btn-xs btn-round"
-                                                                                        onClick={() => this.openModalChangeTeacher(attendance)}
+                                                                                <div>
+                                                                                    <TooltipButton placement="top"
+                                                                                                   text="Đổi giảng viên"
                                                                                     >
-                                                                                        <i className="material-icons">compare_arrows</i>
-                                                                                        <div
-                                                                                            className="ripple-container"/>
-                                                                                    </button>
-                                                                                </TooltipButton>
+                                                                                        <button
+                                                                                            className="btn btn-xs btn-round"
+                                                                                            onClick={() => this.openModalChangeTeacher(attendance)}
+                                                                                        >
+                                                                                            <i className="material-icons">compare_arrows</i>
+                                                                                            <div
+                                                                                                className="ripple-container"/>
+                                                                                        </button>
+                                                                                    </TooltipButton>
+                                                                                    <TooltipButton placement="top"
+                                                                                                   text="Xem thêm"
+                                                                                    >
+                                                                                        <button
+                                                                                            className="btn btn-xs btn-round btn-rose"
+                                                                                            onClick={() => this.openModalTeachingLesson(attendance, 1)}
+                                                                                        >
+                                                                                            <i className="material-icons">more_horiz</i>
+                                                                                            <div
+                                                                                                className="ripple-container"/>
+                                                                                        </button>
+                                                                                    </TooltipButton>
+                                                                                </div>
+
                                                                             }
                                                                         </div>
                                                                         <AttendanceTeacher
@@ -481,16 +550,33 @@ class ClassContainer extends React.Component {
                                                                             </div>
                                                                             {
                                                                                 attendance.is_change &&
-                                                                                <TooltipButton placement="top"
-                                                                                               text="Đổi trợ giảng"
-                                                                                >
-                                                                                    <button className="btn btn-xs btn-round"
-                                                                                            onClick={() => this.openModalTeachAssis(attendance)}
+                                                                                <div>
+                                                                                    <TooltipButton placement="top"
+                                                                                                   text="Đổi trợ giảng"
                                                                                     >
-                                                                                        <i className="material-icons">compare_arrows</i>
-                                                                                        <div className="ripple-container"/>
-                                                                                    </button>
-                                                                                </TooltipButton>
+                                                                                        <button
+                                                                                            className="btn btn-xs btn-round"
+                                                                                            onClick={() => this.openModalTeachAssis(attendance)}
+                                                                                        >
+                                                                                            <i className="material-icons">compare_arrows</i>
+                                                                                            <div
+                                                                                                className="ripple-container"/>
+                                                                                        </button>
+                                                                                    </TooltipButton>
+                                                                                    <TooltipButton placement="top"
+                                                                                                   text="Xem thêm"
+                                                                                    >
+                                                                                        <button
+                                                                                            className="btn btn-xs btn-round btn-rose"
+                                                                                            onClick={() => this.openModalTeachingLesson(attendance, 2)}
+                                                                                        >
+                                                                                            <i className="material-icons">more_horiz</i>
+                                                                                            <div
+                                                                                                className="ripple-container"/>
+                                                                                        </button>
+                                                                                    </TooltipButton>
+                                                                                </div>
+
                                                                             }
 
                                                                         </div>
@@ -611,7 +697,7 @@ class ClassContainer extends React.Component {
                                     onChange={(value) => this.setState({
                                         changeTeacher: {
                                             ...this.state.changeTeacher,
-                                            id: value.id
+                                            id: value ? value.id : ""
                                         }
                                     })}
                                     placeholder="Chọn giảng viên"
@@ -686,7 +772,7 @@ class ClassContainer extends React.Component {
                                     onChange={(value) => this.setState({
                                         changeTeachAssis: {
                                             ...this.state.changeTeachAssis,
-                                            id: value.id
+                                            id: value ? value.id : ""
                                         }
                                     })}
                                     placeholder="Chọn trợ giảng"
@@ -731,6 +817,135 @@ class ClassContainer extends React.Component {
                             </button>
                         </form>
                     </Modal.Body>
+                </Modal><Modal
+                show={this.state.showModalTeachingLesson}
+                onHide={this.closeModalTeachingLesson}
+            >
+                <Modal.Header closeButton={!this.props.isChangingTeachingAssis}>
+                    <h4 className="modal-title">Danh
+                        sách {this.state.typeTeachingLesson === 1 ? "giảng viên" : "trợ giảng"} buổi {this.state.attendanceSelected.order}</h4>
+                </Modal.Header>
+                <Modal.Body>
+                    {
+                        this.props.isLoadingTeachingLesson ? <Loading/> :
+                            <div>
+                                <div className="table-responsive">
+                                    <table className="table">
+                                        <thead className="text-rose">
+                                        <tr>
+                                            <th/>
+                                            <th>Tên</th>
+                                            <th>Đổi</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {
+                                            this.props.teachingLessons.map((teacher, index) => {
+                                                let avatar = helper.avatarEmpty(teacher.avatar_url) ?
+                                                    NO_AVATAR : teacher.avatar_url;
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>
+                                                            <div className="avatar-list-staff"
+                                                                 style={{
+                                                                     background: 'url(' + avatar + ') center center / cover',
+                                                                     display: 'inline-block'
+                                                                 }}
+                                                            />
+                                                        </td>
+                                                        <td>{teacher.name}</td>
+                                                        <td>
+                                                            <button
+                                                                className="btn btn-rose"
+                                                                onClick={() => this.openModalChangeTeachingLesson(teacher)}
+                                                            >
+                                                                Thay đổi
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
+                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    }
+                </Modal.Body>
+            </Modal>
+                <Modal
+                    show={this.state.showModalChangeTeachingLesson}
+                    onHide={this.closeModalChangeTeachingLesson}
+                >
+                    <Modal.Header>
+                        <h4 className="modal-title">Đổi {this.state.typeTeachingLesson === 1 ? "giảng viên" : "trợ giảng"}</h4>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                        }}>
+                            <div className="form-group">
+                                <Select
+                                    name="form-field-name"
+                                    value={this.state.changeTeachingLesson.id}
+                                    options={this.state.staffs}
+                                    optionRenderer={(option) => {
+                                        return (
+                                            <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                        );
+                                    }}
+                                    valueRenderer={(option) => {
+                                        return (
+                                            <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                        );
+                                    }}
+                                    onChange={(value) => this.setState({
+                                        changeTeachingLesson: {
+                                            ...this.state.changeTeachingLesson,
+                                            id: value ? value.id : ""
+                                        }
+                                    })}
+                                    placeholder={this.state.typeTeachingLesson === 1 ? "Chọn giảng viên" : "Chọn trợ giảng"}
+                                />
+                            </div>
+                            <FormInputText
+                                label="Ghi chú"
+                                value={this.state.changeTeachingLesson.note}
+                                updateFormData={(event) => this.setState({
+                                    changeTeachingLesson:
+                                        {
+                                            ...this.state.changeTeachingLesson,
+                                            note: event.target.value
+                                        }
+                                })}
+                            />
+                            {this.props.isChangingTeachingLesson ?
+                                (
+                                    <button type="button" className="btn btn-success btn-round disabled"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang đổi
+                                    </button>
+
+                                )
+                                :
+                                (
+                                    <button type="button" className="btn btn-success btn-round"
+                                            onClick={this.changeTeachingLesson}
+                                    ><i
+                                        className="material-icons">check</i> Xác nhận đổi
+                                    </button>
+                                )
+
+                            }
+
+                            <button type="button"
+                                    className={"btn btn-danger btn-round" + (this.props.isChangingTeachingLesson ? " disabled" : "")}
+                                    onClick={this.props.isChangingTeachingLesson ? null : this.closeModalChangeTeachingLesson}
+                            ><i
+                                className="material-icons">close</i> Huỷ
+                            </button>
+                        </form>
+                    </Modal.Body>
                 </Modal>
             </div>
         );
@@ -746,7 +961,10 @@ ClassContainer.propTypes = {
     isChangingTeachingAssis: PropTypes.bool.isRequired,
     isChangingTeacher: PropTypes.bool.isRequired,
     isLoadingStaffs: PropTypes.bool.isRequired,
+    isChangingTeachingLesson: PropTypes.bool.isRequired,
+    isLoadingTeachingLesson: PropTypes.bool.isRequired,
     staffs: PropTypes.array.isRequired,
+    teachingLessons: PropTypes.array.isRequired,
     children: PropTypes.element,
     pathname: PropTypes.string,
     location: PropTypes.object.isRequired,
@@ -762,7 +980,10 @@ function mapStateToProps(state) {
         isChangingTeachingAssis: state.classes.isChangingTeachingAssis,
         isChangingTeacher: state.classes.isChangingTeacher,
         isLoadingStaffs: state.classes.isLoadingStaffs,
+        isLoadingTeachingLesson: state.classes.isLoadingTeachingLesson,
+        teachingLessons: state.classes.teachingLessons,
         staffs: state.classes.staffs,
+        isChangingTeachingLesson: state.classes.isChangingTeachingLesson,
     };
 }
 

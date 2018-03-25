@@ -288,7 +288,7 @@ export default function registerReducer(state = initialState.registerStudents, a
                 }
             };
         case types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_SUCCESS:
-            registers = changeClassRegister(action.registerId, action.class, state.registers);
+            registers = changeClassRegister(action.registerId, action.class, state.registers, action.code);
             return {
                 ...state,
                 ...{
@@ -352,13 +352,14 @@ function changeCallStatus(registerId, registers, callStatus) {
     return registers;
 }
 
-function changeClassRegister(registerId, classData, registers) {
+function changeClassRegister(registerId, classData, registers, code) {
     if (registers) {
         registers = registers.map(register => {
                 if (register.id === registerId) {
                     return {
                         ...register,
-                        class: classData
+                        class: classData,
+                        code: code
                     };
                 }
                 return register;

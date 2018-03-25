@@ -79,9 +79,8 @@ class CameToVNModal extends React.Component {
 
 CameToVNModal.propTypes = {
     orderedProductAction: PropTypes.object.isRequired,
-    cameToVNModal: PropTypes.bool,
     orderCameToVN: PropTypes.array.isRequired,
-    isImportingDate: PropTypes.bool
+    cameToVNModal: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
