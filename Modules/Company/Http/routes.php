@@ -62,12 +62,10 @@ $companyRoutes = function () {
         Route::post('/administration/advance-payment/{advancePaymentId}/payment','AdministrationController@PaymentAdvance');
 
         //Report model
-        Route::post('/report/{staff_id}/create','AdministrationController@createReport');
-        Route::PUT('/report/{staff_id}/edit/{id}','AdministrationController@editReport');
+        Route::get('/reports/all','AdministrationController@showReports');
         Route::get('/reports/{staff_id}','AdministrationController@showReportStaffId');
-        Route::post('/reports/all','AdministrationController@showReports');
-
-
+        Route::post('/report/{staff_id}/create','AdministrationController@createReport');
+        Route::put('/report/{staff_id}/edit/{id}','AdministrationController@editReport');
     });
 };
 
