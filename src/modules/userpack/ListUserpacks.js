@@ -33,20 +33,6 @@ class ListUserpacks extends React.Component {
                                                      borderRadius: '10px',
                                                      position: "relative"
                                                  }}>
-
-                                                {/*<div style={{position: "absolute"}}>*/}
-                                                {/*{post.category ?*/}
-                                                {/*<button className="tag btn btn-xs btn-danger"*/}
-                                                {/*style={{marginLeft: 15, borderRadius: 10}}*/}
-                                                {/*onClick={(e) => {*/}
-                                                {/*this.props.loadByCategories(post.category.id);*/}
-                                                {/*e.stopPropagation();*/}
-                                                {/*}}*/}
-                                                {/*>*/}
-                                                {/*{post.category ? post.category.name : 'Không có'}</button>*/}
-                                                {/*: null*/}
-                                                {/*}*/}
-                                                {/*</div>*/}
                                             </div>
                                         </a>
                                     </div>
@@ -68,12 +54,6 @@ class ListUserpacks extends React.Component {
                                                     onText="Hiện" offText="Ẩn"
                                                     value={(pack.status === 1)}
                                                 />
-                                                {/*<ButtonGroupAction*/}
-                                                {/*editUrl={"blog/post/" + post.id + "/edit"}*/}
-                                                {/*delete={this.props.deletePost}*/}
-                                                {/*object={post}*/}
-                                                {/*disabledEdit*/}
-                                                {/*/>*/}
                                             </div>
                                         </div>
 

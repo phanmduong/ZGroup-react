@@ -19,13 +19,15 @@ class RoomTypeManageModal extends React.Component {
             description: '',
             query: '',
             id: null,
-            editRoomTypeModal: false
+            editRoomTypeModal: false,
+            type_name: '',
         };
         this.timeOut = null;
         this.handleName = this.handleName.bind(this);
         this.roomTypesSearchChange = this.roomTypesSearchChange.bind(this);
         this.handleDescription = this.handleDescription.bind(this);
         this.createRoomType = this.createRoomType.bind(this);
+        this.handleTypeName = this.handleTypeName.bind(this);
         //this.showEditRoomTypeModal = this.showEditRoomTypeModal.bind(this);
     }
 
@@ -39,6 +41,12 @@ class RoomTypeManageModal extends React.Component {
         });
     }
 
+    handleTypeName(value) {
+        this.setState({
+            type_name: value.value
+        });
+    }
+
     handleDescription(value) {
         this.setState({
             description: value
@@ -47,10 +55,19 @@ class RoomTypeManageModal extends React.Component {
 
     createRoomType() {
         const type = this.state;
-        if (isEmptyInput(type.name) || isEmptyInput(type.description)) {
-            if (isEmptyInput(type.name)) showErrorNotification("Bạn chưa nhập tên");
-            if (isEmptyInput(type.description)) showErrorNotification("Bạn chưa nhập mô tả");
-        } else this.props.roomActions.createRoomType(type);
+        if (isEmptyInput(type.name)) {
+            showErrorNotification("Bạn chưa nhập tên");
+            return;
+        }
+        if (isEmptyInput(type.description)) {
+            showErrorNotification("Bạn chưa nhập mô tả");
+            return;
+        }
+        if (isEmptyInput(type.type_name)) {
+            showErrorNotification("Bạn chưa nhập loại phòng");
+            return;
+        }
+        this.props.roomActions.createRoomType(type);
     }
 
     roomTypesSearchChange(value) {
@@ -70,7 +87,8 @@ class RoomTypeManageModal extends React.Component {
             name: type.name,
             description: type.description,
             id: type.id,
-            editRoomTypeModal: true
+            editRoomTypeModal: true,
+            type_name: type.type_name,
         });
     }
 
@@ -97,6 +115,7 @@ class RoomTypeManageModal extends React.Component {
                         handleName={this.handleName}
                         handleDescription={this.handleDescription}
                         createRoomType={this.createRoomType}
+                        handleTypeName={this.handleTypeName}
                     />
                     <div className="row">
                         <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
@@ -131,6 +150,7 @@ class RoomTypeManageModal extends React.Component {
                                         <th>STT</th>
                                         <th>Tên loại phòng</th>
                                         <th>Mô tả</th>
+                                        <th>Type</th>
                                         <th/>
                                     </tr>
                                     </thead>
@@ -145,7 +165,11 @@ class RoomTypeManageModal extends React.Component {
                                                     </td>
                                                     <td>
                                                         {//eslint-disable-next-line
-                                                        }<div dangerouslySetInnerHTML={{__html: type.description}}/>
+                                                        }
+                                                        <div dangerouslySetInnerHTML={{__html: type.description}}/>
+                                                    </td>
+                                                    <td>
+                                                        {(type.type_name !== null ) ? ( (type.type_name === "conference") ? "Phòng họp" : "Phòng làm việc") : null}
                                                     </td>
                                                     <td>
                                                         <TooltipButton text="Sửa" placement="top">
@@ -160,6 +184,7 @@ class RoomTypeManageModal extends React.Component {
                                                             </div>
                                                         </TooltipButton>
                                                     </td>
+
                                                 </tr>
                                             );
                                         })
