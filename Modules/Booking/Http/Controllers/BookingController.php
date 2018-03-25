@@ -221,6 +221,8 @@ class BookingController extends ApiPublicController
             $user->username = $request->email;
             $user->save();
         } else $user = $this->user;
+        if ($request->base_id == null)
+            return $this->respondErrorWithStatus('Thiếu cơ sở');
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->base_id = $request->base_id;
@@ -238,7 +240,7 @@ class BookingController extends ApiPublicController
             $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
         });
 
-        return respondSuccessWithStatus([
+        return $this->respondSuccessWithStatus([
             'message' => "Đặt phòng thành công thành công"
         ]);
     }
