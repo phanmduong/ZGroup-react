@@ -40,7 +40,7 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
 
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $apiRoutes);
-Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
 
 Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
