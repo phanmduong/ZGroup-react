@@ -13,6 +13,7 @@ class PasswordController extends ManageApiController
     {
         $pass = new Password();
         $pass->name = $request->name;
+        $pass->code = $request->code;
         $pass->password = md5($request->password);
         $pass->save();
         return $this->respondSuccessWithStatus("Thêm thành công");
