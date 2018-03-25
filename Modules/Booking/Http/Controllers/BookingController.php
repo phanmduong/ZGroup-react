@@ -1,6 +1,7 @@
 <?php
 
 namespace Modules\Booking\Http\Controllers;
+
 use App\Base;
 use App\District;
 use App\Http\Controllers\ApiPublicController;
@@ -87,7 +88,7 @@ class BookingController extends ApiPublicController
         $register->base_id = $request->base_id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $request->saler_id ? $request->saler_id : 0;
-        $register->type = 'seat';
+        $register->type = 'member';
         $register->save();
         $subject = "Xác nhận đăng ký thành công";
 
@@ -153,33 +154,36 @@ class BookingController extends ApiPublicController
 
     public function appRegister($campaignId, Request $request)
     {
-        if ($request->email == null) {
-            return $this->respondErrorWithStatus("Thiếu email");
-        }
-        if ($request->phone == null) {
-            return $this->respondErrorWithStatus("Thiếu phone");
-        }
-        if ($request->subscription_id == null) {
-            return $this->respondErrorWithStatus("Thiếu subscription");
-        }
-        $user = User::where('email', '=', $request->email)->first();
-        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
-        if ($user == null) {
-            $user = new User;
-            $user->password = Hash::make($phone);
-        }
+        if ($this->user == null) {
+            if ($request->email == null) {
+                return $this->respondErrorWithStatus("Thiếu email");
+            }
+            if ($request->phone == null) {
+                return $this->respondErrorWithStatus("Thiếu phone");
+            }
+            if ($request->subscription_id == null) {
+                return $this->respondErrorWithStatus("Thiếu subscription");
+            }
+            $user = User::where('email', '=', $request->email)->first();
+            $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+            if ($user == null) {
+                $user = new User;
+                $user->password = Hash::make($phone);
+            }
 
-        $user->name = $request->name;
-        $user->phone = $phone;
-        $user->email = $request->email;
-        $user->username = $request->email;
-        $user->save();
+            $user->name = $request->name;
+            $user->phone = $phone;
+            $user->email = $request->email;
+            $user->username = $request->email;
+            $user->save();
+        } else $user = $this->user;
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
         $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
-        $register->type = 'seat';
+        $register->campaign_id = $campaignId;
+        $register->type = 'member';
         $register->save();
         $subject = "Xác nhận đăng ký thành công";
         $data = ["user" => $user];
@@ -193,6 +197,53 @@ class BookingController extends ApiPublicController
             'message' => "Đăng kí thành công"
         ]);
     }
+
+    public function appBooking($campaignId, Request $request)
+    {
+        if ($this->user == null) {
+            if ($request->email == null) {
+                return $this->respondErrorWithStatus("Thiếu email");
+            }
+            if ($request->phone == null) {
+                return $this->respondErrorWithStatus("Thiếu phone");
+            }
+
+            $user = User::where('email', '=', $request->email)->first();
+            $phone = preg_replace('/[^0-9]+/', '', $request->phone);
+            if ($user == null) {
+                $user = new User;
+                $user->password = Hash::make($phone);
+            }
+
+            $user->name = $request->name;
+            $user->phone = $phone;
+            $user->email = $request->email;
+            $user->username = $request->email;
+            $user->save();
+        } else $user = $this->user;
+        $register = new RoomServiceRegister();
+        $register->user_id = $user->id;
+        $register->base_id = $request->base_id;
+        $register->start_time = $request->start_time;
+        $register->end_time = $request->end_time;
+        $register->campaign_id = $campaignId;
+        $register->type = 'room';
+        $register->save();
+
+        $subject = "Xác nhận đặt phòng thành công";
+        $data = ["user" => $user];
+        $emailcc = ["graphics@colorme.vn"];
+        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
+            $m->from('no-reply@colorme.vn', 'Up Coworking Space');
+            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+        });
+
+        return respondSuccessWithStatus([
+            'message' => "Đặt phòng thành công thành công"
+        ]);
+    }
+
+
 
     public function get_snippet($str, $wordCount = 10)
     {
@@ -228,8 +279,12 @@ class BookingController extends ApiPublicController
             $product->category_id = 3;
             $product->url = "d1j8r0kxyu9tj8.cloudfront.net/images/1500137080dAlPJYo8BVlQiiD.jpg";
             $product->description = $this->get_snippet(str_replace("\n", "", strip_tags($product->content)), 19) . "...";
+            $product->url = DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first() ?
+                str_replace('http://', '', DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first()->guid) : '';
+            $product->url = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->url);
+
             foreach (preg_split("/((\r?\n)|(\r\n?))/", $post->post_content) as $line) {
-                $product->content = str_replace($line, '<p>' .$line. '</p>', $product->content);
+                $product->content = str_replace($line, '<p>' . $line . '</p>', $product->content);
                 $product->content = str_replace('<strong>', '<p><h6>', $product->content);
                 $product->content = str_replace('</strong>', '</h6></p>', $product->content);
 
@@ -248,12 +303,22 @@ class BookingController extends ApiPublicController
                     preg_match($pattern, strrev($line), $matches);
                     $product->content = str_replace(strrev(reset($matches)), '.jpeg', $product->content);
                 }
+                $product->content = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->content);
                 $pattern = '/width="([0-9]{3,4})" height="([0-9]{3,4})"/';
                 preg_match($pattern, $line, $matches);
                 if (reset($matches))
                     $product->content = str_replace(reset($matches), reset($matches) . ' style="display:block; height:auto; width:100%"', $product->content);
             }
+            if ($product->url == '') {
+                $pattern = '/(src=")(.+?)(")/';
+                preg_match($pattern, $product->content, $matches);
+                if ($matches)
+                    $product->url = $matches[2];
+                else
+                    $product->url = 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/2016/08/cong-viec-cua-product-manager.jpg';
+            }
             $product->save();
         }
+        // dd($arr);
     }
 }

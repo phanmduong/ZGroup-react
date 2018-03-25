@@ -3,8 +3,10 @@
 namespace Modules\Finance\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
+use App\Transaction;
 use App\TransferMoney;
 use App\BankAccount;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -78,9 +80,6 @@ class FinanceManageApiController extends ManageApiController
         if ($request->branch == null || trim($request->branch) == '') {
             return $this->respondErrorWithStatus('Thiếu tên chi nhánh ngân hàng');
         }
-        if ($request->display == null || trim($request->display) == '') {
-            return $this->respondErrorWithStatus('Thiếu trạng thái hiển thị');
-        }
         $bankAccounts = new BankAccount;
         $bankAccounts->bank_name = $request->bank_name;
         $bankAccounts->bank_account_name = $request->bank_account_name;
@@ -110,9 +109,6 @@ class FinanceManageApiController extends ManageApiController
         if ($request->branch == null || trim($request->branch) == '') {
             return $this->respondErrorWithStatus('Thiếu tên chi nhánh ngân hàng');
         }
-        if ($request->display == null || trim($request->display) == '') {
-            return $this->respondErrorWithStatus('Thiếu trạng thái hiển thị');
-        }
         $bankAccount = BankAccount::find($bankAccountId);
         if ($bankAccount == null) {
             return $this->respondErrorWithStatus('Không tồn tại tài khoản này');
@@ -126,5 +122,68 @@ class FinanceManageApiController extends ManageApiController
         $bankAccount->save();
 
         return $this->respondSuccess('Sửa thành công');
+    }
+
+    public function getStaffsKeepMoney(Request $request)
+    {
+
+        $limit = 20;
+
+        $staffs = User::whereBetween('role', [1, 2])->where('money', '>', 0)->orderBy('money', 'desc')->paginate($limit);
+
+        $data = [
+            'staffs' => $staffs->map(function ($staff) {
+                $data = $staff->getData();
+                $data['money'] = $staff->money;
+                return $data;
+            })
+        ];
+
+        return $this->respondWithPagination($staffs, $data);
+    }
+
+    public function historyTransactionStaff($staff_id, Request $request)
+    {
+
+        $staff_id = $request->staff_id;
+        $limit = 20;
+
+        $transactions = Transaction::where(function ($q) use ($staff_id) {
+            $q->where('sender_id', $staff_id)->orWhere('receiver_id', $staff_id);
+        });
+
+        $transactions = $transactions->where('status', 1)->orderBy('created_at', 'desc')->paginate($limit);
+
+        $data = [
+            'transactions' => $transactions->map(function ($transaction) use ($staff_id) {
+                $data = [
+                    'updated_at' => format_vn_short_datetime(strtotime($transaction->updated_at)),
+                    'money' => $transaction->money,
+                    'type' => $transaction->type,
+                    'status' => $transaction->status,
+                ];
+
+                if ($transaction->sender_id == $staff_id) {
+                    $data['before_money'] = $transaction->sender_money;
+                } else {
+                    $data['before_money'] = $transaction->receiver_money;
+                }
+
+                if ($transaction->type == 0) {
+                    if ($transaction->sender_id == $staff_id) {
+                        $data['note'] = "Gửi tiền đến " . $transaction->receiver->name;
+                    } else {
+                        $data['note'] = "Nhận tiền từ " . $transaction->sender->name;
+                    }
+                } else {
+                    $data['note'] = $transaction->note;
+                }
+
+
+                return $data;
+            })
+        ];
+
+        return $this->respondWithPagination($transactions, $data);
     }
 }

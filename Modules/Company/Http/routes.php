@@ -45,10 +45,7 @@ $companyRoutes = function () {
 
         Route::get('/import-order/all', 'CompanyController@getAllImportOrder');
         Route::get('/import-order/{importOrderId}', 'CompanyController@getImportOrder');
-        Route::get('/import-order/{importOrderId}/history-import-order','CompanyController@getAllHistoryImportOrder');
         Route::post('/import-order/item-order/{importOrderId}', 'CompanyController@createOrEditImportOrder');
-        Route::post('/import-order/print-order/{importOrderId}', 'CompanyController@createOrEditImportPrintOrder');
-
 
         Route::get('/history-debt/{company_id}','CompanyController@getHistoryDebt');
 
@@ -57,11 +54,18 @@ $companyRoutes = function () {
         Route::put('/administration/request-vacation/{requestId}','AdministrationController@editRequestVacation');
         Route::post('/administration/request-vacation/{requestId}/change-status','AdministrationController@changeStatusRequestVacation');
 
-        //Report model
-        Route::get('/reports','AdministrationController@allReports');
-        Route::post('/report/create','AdministrationController@createReport');
-        Route::get('/report/edit','AdministrationController@editReport');
 
+        Route::get('/administration/advance-payment/all','AdministrationController@getAllAdvancePayment');
+        Route::post('/administration/advance-payment','AdministrationController@createAdvancePayment');
+        Route::put('/administration/advance-payment/{advancePaymentId}','AdministrationController@editAdvancePayment');
+        Route::post('/administration/advance-payment/{advancePaymentId}/change-status','AdministrationController@changeStatusAdvancePayment');
+        Route::post('/administration/advance-payment/{advancePaymentId}/payment','AdministrationController@PaymentAdvance');
+
+        //Report model
+        Route::get('/reports/all','AdministrationController@showReports');
+        Route::get('/reports/{staff_id}','AdministrationController@showReportStaffId');
+        Route::post('/report/{staff_id}/create','AdministrationController@createReport');
+        Route::put('/report/{staff_id}/edit/{id}','AdministrationController@editReport');
     });
 };
 

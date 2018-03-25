@@ -28,7 +28,7 @@ class ManageBookingController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $search = $request->search;
         if ($limit == -1) {
-            $registers = RoomServiceRegister::where('type', 'seat')->get();
+            $registers = RoomServiceRegister::where('type', 'member')->get();
             return $this->respondSuccessWithStatus([
                 'room_service_registers' => $registers->map(function ($register) {
                     return $register->getData();
@@ -36,11 +36,11 @@ class ManageBookingController extends ManageApiController
             ]);
         }
         if ($search)
-            $registers = RoomServiceRegister::where('type', 'seat')->join('users', 'users.id', '=', 'room_service_registers.user_id')
+            $registers = RoomServiceRegister::where('type', 'member')->join('users', 'users.id', '=', 'room_service_registers.user_id')
             ->select('room_service_registers.*')->where(function ($query) use ($search) {
                 $query->where("users.name", "like", "%$search%")->orWhere("users.email", "like", "%$search%")->orWhere("users.phone", "like", "%$search%");
             });
-        else $registers = RoomServiceRegister::where('type', 'seat');
+        else $registers = RoomServiceRegister::where('type', 'member');
 
         if ($request->base_id)
             $registers = $registers->where('base_id', $request->base_id);
@@ -155,6 +155,8 @@ class ManageBookingController extends ManageApiController
         $subscription->description = $request->description;
         $subscription->price = $request->price;
         $subscription->subscription_kind_id = $request->subscription_kind_id;
+        $subscription->extra_time = $request->extra_time;
+        $subscription->booking_discount = $request->booking_discount;
         $subscription->save();
         return $this->respondSuccess('Tạo gói thành viên thành công');
     }
@@ -168,7 +170,8 @@ class ManageBookingController extends ManageApiController
         $subscription->description = $request->description;
         $subscription->price = $request->price;
         $subscription->subscription_kind_id = $request->subscription_kind_id;
-
+        $subscription->extra_time = $request->extra_time;
+        $subscription->booking_discount = $request->booking_discount;
         $subscription->save();
 
         return $this->respondSuccess('Sửa gói thành viên thành công');
@@ -323,6 +326,6 @@ class ManageBookingController extends ManageApiController
         $register->extra_time = $request->extra_time;
         $register->note = $request->note;
         $register->save();
-        return $this->respondSuccessWithStatus('Thành công');
+        return $this->respondSuccessWithStatus(["register" => $register->getRoomBookingData()]);
     }
 }
