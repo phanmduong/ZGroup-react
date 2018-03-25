@@ -734,9 +734,9 @@ export default {
             description: '',
             tags: '',
             slug: '',
-            meta_title:'',
-            keyword:'',
-            meta_description:'',
+            meta_title: '',
+            keyword: '',
+            meta_description: '',
             category: 0,
             content: '',
             isSaving: false,
@@ -1878,7 +1878,7 @@ export default {
         },
         seats: [],
         currentAction: "",
-        domain: {x: [0, 600], y: [0, 400]}
+        domain: { x: [0, 600], y: [0, 400] }
     },
     printOrder: {
         isLoading: false,
@@ -1894,14 +1894,14 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        codes: [{value: '', label: ''}],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        codes: [{ value: '', label: '' }],
         properties: [],
         data: {
-            company: {id: 0, name: ""},
-            staff: {id: 0, name: ""},
-            good: {id: 0, name: ""},
+            company: { id: 0, name: "" },
+            staff: { id: 0, name: "" },
+            good: { id: 0, name: "" },
             quantity: 1,
             command_code: "",
             core1: {
@@ -1980,16 +1980,16 @@ export default {
         },
         listExportOrder: [],
         data: {
-            good: {id: 0, name: "noname"},
-            warehouse: {id: 0, name: "noname"},
-            company: {id: "", name: "noname"},
+            good: { id: 0, name: "noname" },
+            warehouse: { id: 0, name: "noname" },
+            company: { id: "", name: "noname" },
             price: 0,
             quantity: 0,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        warehouses: [{id: 1, name: ""},],
-        orderedGoods: [{id: 1, name: ""},],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        warehouses: [{ id: 1, name: "" },],
+        orderedGoods: [{ id: 1, name: "" },],
     },
     notificationTypes: {
         isLoading: false,
@@ -2113,5 +2113,80 @@ export default {
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
+    },
+    moneyTransfer: {
+        isCreatingTransaction: false,
+        errorCreatingTransaction: false,
+        isLoadingUser: false,
+        errorLoadUser: false,
+        user: {},
+        isLoadingTransactions: false,
+        errorLoadTransactions: false,
+        transactions: [],
+        currentPage: 1,
+        totalPages: 1
+    },
+    staffsKeepMoney: {
+        isLoading: false,
+        error: false,
+        staffs: [],
+        currentPage: 1,
+        totalPages: 1,
+        totalCount: 0,
+        totalMoney: -1,
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        }
+    },
+    historyTransactions: {
+        isLoading: false,
+        error: false,
+        transactions: [],
+        currentPage: 1,
+        totalPages: 1
+    },
+    spendMoney: {
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        },
+        categories: [],
+        isLoadingCategories: false,
+        errorCategories: false,
+        isLoadingUser: false,
+        errorLoadUser: false,
+        user: {}
+    },
+    summaryFinance: {
+        isLoadingGens: false,
+        errorGens: false,
+        gens: [],
+        currentGen: 0,
+        isLoading: false,
+        error: false,
+        summary: {},
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        },
+    },
+    emailCommentFB: {
+        emails: [],
+        error: false,
+        isGetting: false
+    },
+    request: {
+        isLoading: false,
+        paginator: {},
     },
 };

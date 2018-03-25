@@ -5,6 +5,7 @@ import EmailTemplatesContainer from "../modules/emailTemplates/EmailTemplatesCon
 import CreateEmailTemplateContainer from "../modules/emailTemplates/CreateEmailTemplateContainer";
 import EmailFormsContainer from "../modules/emailForms/EmailFormsContainer";
 import CreateEmailFormContainer from "../modules/emailForms/CreateEmailFormContainer";
+import EmailCommentFBContainer from "../modules/emailCommentsFB/EmailCommentFBContainer";
 
 /**
  * Tab Email
@@ -49,5 +50,9 @@ export default [
         path: "/email/email-form/:emailFormId/edit",
         component: CreateEmailFormContainer,
         type: "edit"
+    },
+    {
+        path: "/email/email-comment-post-fb",
+        component: EmailCommentFBContainer,
     }
 ];

@@ -224,7 +224,7 @@ class ClassContainer extends React.Component {
                 attendanceSelected: attendance
             }
         );
-        this.props.classActions.loadTeachingLessons(attendance.class_lesson_id, type)
+        this.props.classActions.loadTeachingLessons(attendance.class_lesson_id, type);
     }
 
     closeModalChangeTeachingLesson() {
@@ -962,7 +962,9 @@ ClassContainer.propTypes = {
     isChangingTeacher: PropTypes.bool.isRequired,
     isLoadingStaffs: PropTypes.bool.isRequired,
     isChangingTeachingLesson: PropTypes.bool.isRequired,
+    isLoadingTeachingLesson: PropTypes.bool.isRequired,
     staffs: PropTypes.array.isRequired,
+    teachingLessons: PropTypes.array.isRequired,
     children: PropTypes.element,
     pathname: PropTypes.string,
     location: PropTypes.object.isRequired,

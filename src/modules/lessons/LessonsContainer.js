@@ -268,12 +268,14 @@ class LessonsContainer extends React.Component {
                                             disabled={this.props.isLoading}
                                             className=""
                                             options={getTerm(terms)}
-                                            onChange={(e) => this.updateFormData({
+                                            onChange={(e) => { 
+                                            if(e) 
+                                            return this.updateFormData({
                                                 target: {
                                                     name: "term_id",
                                                     value: e.id
                                                 }
-                                            })}
+                                            });}}
                                             value={this.props.data.term_id || ""}
                                             name="term_id"
                                         />

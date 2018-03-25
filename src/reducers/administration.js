@@ -1,11 +1,12 @@
 import {combineReducers} from "redux";
 import {LOG_OUT} from "../constants/actionTypes";
 import commonReducer from "./commonReducer";
+import requestReducer from "../modules/Zgroup/request/requestReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
     //other reducer
-
+    request: requestReducer,
 });
 
 const rootReducer = (state, action) => {

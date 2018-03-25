@@ -80,6 +80,7 @@ import sendNotificationReducer from '../modules/sendNotification/sendNotificatio
 import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
+import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
 
 
 const appReducer = combineReducers({
@@ -164,6 +165,7 @@ const appReducer = combineReducers({
     summaryMarketingCampaignUp: summaryMarketingCampaignUpReducer,
     summarySalesUp : summarySalesUpReducer,
     historyExtension: HistoryExtensionWorkReducer,
+    emailCommentFB: emailCommentFBReducer,
 });
 
 const rootReducer = (state, action) => {
