@@ -26,12 +26,17 @@ export default {
 
             const res = await eventApi.saveEvent(event);
 
-            console.log(res);
-
-            dispatch({
-                type: types.SAVE_EVENT_SUCCESS,
-                event: res.data.event,
-            });
+            if (res.data.status) {
+                dispatch({
+                    type: types.SAVE_EVENT_SUCCESS,
+                    event: res.data.event,
+                });
+            } else {
+                dispatch({
+                    type: types.SAVE_EVENT_ERROR,
+                    message: res.data.message,
+                });
+            }
         };
     },
 };

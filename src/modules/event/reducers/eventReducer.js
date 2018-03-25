@@ -1,18 +1,38 @@
 import types from "../constants/actionTypes";
+import moment from "moment";
+import { DATE_VN_FORMAT, TIME_FORMAT_H_M } from "../../../constants/constants";
 
 const initEventState = {
     events: [],
-    event: {},
+    event: {
+        start_date: moment().format(DATE_VN_FORMAT),
+        start_time: moment().format(TIME_FORMAT_H_M),
+        end_time: moment().format(TIME_FORMAT_H_M),
+        end_date: moment().format(DATE_VN_FORMAT),
+    },
     isLoadingEvents: false,
+    isSavingEvent: false,
+    message: "",
     showStoreEventModal: false,
 };
 export default function eventReducer(state = initEventState, action) {
     switch (action.type) {
-        case types.SAVE_EVENT:
+        case types.SAVE_EVENT_ERROR:
             return {
+                ...state,
+                message: action.message,
+            };
+        case types.SAVE_EVENT_SUCCESS:
+            return {
+                ...state,
+                isSavingEvent: false,
                 event: {},
-                                
-            }
+            };
+        case types.BEGIN_SAVE_EVENT:
+            return {
+                ...state,
+                isSavingEvent: true,
+            };
         case types.UPDATE_EVENT_FORM_DATA:
             return {
                 ...state,
