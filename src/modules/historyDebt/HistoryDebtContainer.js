@@ -24,12 +24,11 @@ class HistoryDebtContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.historyDebtActions.loadCompanies();
+        this.props.historyDebtActions.loadCompanies(1);
     }
 
     loadCompanies(page) {
-        this.setState({page: page});
-        this.loadComapnies(page);
+        this.props.historyDebtActions.loadCompanies(page);
     }
 
     loadHistoryDebt(id, page) {
@@ -48,6 +47,7 @@ class HistoryDebtContainer extends React.Component {
     }
 
     render() {
+        let {current_page, total_pages} = this.props.paginatorCompanies;
         return (
             <div>
                 <HistoryDebtModal
@@ -81,8 +81,8 @@ class HistoryDebtContainer extends React.Component {
                                     </div>
                                     <div className="card-content">
                                         <Pagination
-                                            totalPages={this.props.paginatorCompanies.total_pages}
-                                            currentPage={this.state.page}
+                                            totalPages={total_pages}
+                                            currentPage={current_page}
                                             loadDataPage={this.loadCompanies}
                                         />
                                     </div>

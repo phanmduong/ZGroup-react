@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as classApi from './classApi';
 import * as helper from '../../helpers/helper';
-import {showErrorMessage} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
@@ -382,7 +381,7 @@ export function changeTeachingLesson(classLessonId, oldTeachingId, newTeachingId
                     });
                     dispatch(loadTeachingLessons(classLessonId, type));
                 } else {
-                    showErrorMessage("Có lỗi xảy ra. Thử lại");
+                    helper.showErrorMessage("Có lỗi xảy ra. Thử lại");
                 }
             }).catch(() => {
             dispatch({

@@ -63,7 +63,7 @@ class GroupCustomerContainer extends React.Component {
             name: '',
             description: '',
             stringId: [],
-            color : ''
+            color: ''
         };
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
         this.setState({isShowModal: true});
@@ -77,10 +77,22 @@ class GroupCustomerContainer extends React.Component {
     activeModal(e) {
         if ($('#form-add-group-customer').valid()) {
             if (this.props.groupCustomerForm.name === null || this.props.groupCustomerForm.name === undefined || this.props.groupCustomerForm.name === '') {
-                helper.showTypeNotification("Vui lòng chọn tên nhóm khách hàng", 'warning');
+                helper.showTypeNotification("Vui lòng nhập tên nhóm khách hàng", 'warning');
+                return ;
             }
-
-            this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page, this.closeModal());
+            if (this.props.groupCustomerForm.order_value === null || this.props.groupCustomerForm.order_value === undefined || this.props.groupCustomerForm.order_value === '') {
+                helper.showTypeNotification("Vui lòng nhập tiền mua theo đơn", 'warning');
+                return ;
+            }
+            if (this.props.groupCustomerForm.delivery_value === null || this.props.groupCustomerForm.delivery_value === undefined || this.props.groupCustomerForm.delivery_value === '') {
+                helper.showTypeNotification("Vui lòng nhập tiền mua hàng sẵn", 'warning');
+                return ;
+            }
+            if (this.props.groupCustomerForm.currency_value === null || this.props.groupCustomerForm.currency_value === undefined || this.props.groupCustomerForm.currency_value === '') {
+                helper.showTypeNotification("Vui lòng nhập tỉ giá", 'warning');
+                return ;
+            }
+                this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page);
         }
         e.preventDefault();
     }
@@ -90,7 +102,6 @@ class GroupCustomerContainer extends React.Component {
             function () {
                 this.props.groupCustomerActions.deleteGroupCustomer(id);
             }.bind(this));
-
     }
 
     render() {

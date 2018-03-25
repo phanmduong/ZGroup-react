@@ -61,6 +61,7 @@ export default {
             start_time: '',
             end_time : '',
             extra_time : 0,
+            note : "",
         },
         isSavingSubscription : false,
         userpacks : [],
@@ -69,6 +70,20 @@ export default {
     },
 
     registerManageRoom: {
+        registers: [],
+        salers: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        isChangingStatus: false,
+        isLoadingBases: false,
+        bases: [],
+        isSavingPayment: false,
+    },
+
+    registerManageMeetingRoom: {
         registers: [],
         salers: [],
         isLoading: false,
@@ -748,9 +763,9 @@ export default {
             description: '',
             tags: '',
             slug: '',
-            meta_title:'',
-            keyword:'',
-            meta_description:'',
+            meta_title: '',
+            keyword: '',
+            meta_description: '',
             category: 0,
             content: '',
             isSaving: false,
@@ -1324,6 +1339,9 @@ export default {
             customer_group: {},
             quantity: '',
             shared: '',
+            isUpdatingImage: false,
+            updateImageError: false,
+            cover_url: '',
         },
 
     },
@@ -1664,7 +1682,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
-
+            currency_value : 0,
         },
         coupon: {
             name: '',
@@ -1824,7 +1842,7 @@ export default {
         isSavingCompany: false,
         isSavingField: false,
         isLoading: false,
-        company: {
+        company: [{
             name: "",
             registered_business_address: "",
             office_address: "",
@@ -1841,7 +1859,7 @@ export default {
             user_contact: "",
             user_contact_phone: "",
             type: "",
-        },
+        }],
         summay_money: 0,
         fields: [],
         paginator: {
@@ -2106,20 +2124,95 @@ export default {
         isLoadingImportOrder: false,
         isLoadingItemOrder: false,
         isLoadingPrintOrder: false,
-        isLoadingGoods: false,
-        isLoadingCompanies: false,
-        isLoadingWarehouses: false,
         paginator: {
             current_page: 1,
             limit: 20,
             total_count: 1,
             total_pages: 1,
         },
-        itemOrder: [],
+        paginator_history: {
+            current_page: 1,
+            limit: 20,
+            total_count: 1,
+            total_pages: 1,
+        },
+        itemOrders: [],
         printOrder: [],
         importOrders: [],
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
+        historyImportOrder: [],
     },
+    moneyTransfer: {
+        isCreatingTransaction: false,
+        errorCreatingTransaction: false,
+        isLoadingUser: false,
+        errorLoadUser: false,
+        user: {},
+        isLoadingTransactions: false,
+        errorLoadTransactions: false,
+        transactions: [],
+        currentPage: 1,
+        totalPages: 1
+    },
+    staffsKeepMoney: {
+        isLoading: false,
+        error: false,
+        staffs: [],
+        currentPage: 1,
+        totalPages: 1,
+        totalCount: 0,
+        totalMoney: -1,
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        }
+    },
+    historyTransactions: {
+        isLoading: false,
+        error: false,
+        transactions: [],
+        currentPage: 1,
+        totalPages: 1
+    },
+    spendMoney: {
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        },
+        categories: [],
+        isLoadingCategories: false,
+        errorCategories: false,
+        isLoadingUser: false,
+        errorLoadUser: false,
+        user: {}
+    },
+    summaryFinance: {
+        isLoadingGens: false,
+        errorGens: false,
+        gens: [],
+        currentGen: 0,
+        isLoading: false,
+        error: false,
+        summary: {},
+        historyTransaction: {
+            isLoading: false,
+            error: false,
+            transactions: [],
+            currentPage: 1,
+            totalPages: 1
+        },
+    },
+    emailCommentFB: {
+        emails: [],
+        error: false,
+        isGetting: false
+    }
 };

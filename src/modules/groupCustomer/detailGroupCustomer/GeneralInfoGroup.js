@@ -10,7 +10,7 @@ class GeneralInfoGroup extends React.Component{
         super(props);
     }
     render(){
-        const {name, description, color, order_value, delivery_value} = this.props.groupCustomerForm;
+        const {name, description, color, order_value, delivery_value,currency_value} = this.props.groupCustomerForm;
         return(
         <div>
             <div className="row">
@@ -61,7 +61,7 @@ class GeneralInfoGroup extends React.Component{
                                             <div className="form-group label-floating is-empty">
                                                 <label className="control-label"/>
                                                 <FormInputText
-                                                    label="Tiền mua hàng sẵn"
+                                                    label="Tiền mua theo đơn"
                                                     name="delivery_value"
                                                     updateFormData={this.props.editFormData}
                                                     type="number"
@@ -69,6 +69,22 @@ class GeneralInfoGroup extends React.Component{
                                                 />
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <label className="col-sm-2 label-on-left">Tỉ giá</label>
+                                <div className="col-sm-10">
+                                    <div className="form-group label-floating is-empty">
+                                        <label className="control-label"/>
+                                        <FormInputText
+                                            label="Tỉ giá (đ)"
+                                            name="currency_value"
+                                            updateFormData={this.props.editFormData}
+                                            type="number"
+                                            value={currency_value}
+                                        />
                                     </div>
                                 </div>
                             </div>

@@ -22,8 +22,9 @@ class RoomGanttChartRow extends React.Component {
                 </div>
                 <div style={{ flex: 1, position: "relative" }}>
                     {room.spans &&
-                        room.spans.map(span => (
+                        room.spans.map((span, index) => (
                             <div
+                                key={index}
                                 className="bar"
                                 style={{
                                     backgroundColor: span.color,

@@ -78,6 +78,7 @@ export function addGroupCustomerApi(groupCustomerForm) {
         'color': groupCustomerForm.color,
         'order_value' : groupCustomerForm.order_value,
         'delivery_value' : groupCustomerForm.delivery_value,
+        'currency_value' : groupCustomerForm.currency_value,
     });
 }
 
@@ -95,7 +96,7 @@ export function editGroupCustomerApi(groupCustomerForm, groupId) {
         'color': groupCustomerForm.color,
         'order_value' : groupCustomerForm.order_value,
         'delivery_value' : groupCustomerForm.delivery_value,
-
+        'currency_value' : groupCustomerForm.currency_value,
     });
 }
 export function deleteGroupCustomerApi(id) {

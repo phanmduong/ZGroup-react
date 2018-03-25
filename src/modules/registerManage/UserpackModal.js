@@ -10,7 +10,7 @@ import Loading from "../../components/common/Loading";
 // import FormInputDate from "../../components/common/FormInputDate";
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDateTime from "../../components/common/FormInputDateTime";
-import {DATETIME_VN_FORMAT} from "../../constants/constants";
+import {DATETIME_FORMAT_SQL} from "../../constants/constants";
 // import FormInputDate from "../../components/common/FormInputDate";
 
 // import {loadUserpackApi} from './registerManageApi';
@@ -24,8 +24,32 @@ class UserpackModal extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
     }
 
-    componentWillMount() {
+
+    componentDidMount() {
         this.props.registerManageAction.loadUserpacks();
+        if (this.props.register.subscription) {
+            const register = this.props.register;
+            let select = {
+                ...this.props.select,
+                subscription_id: register.subscription.id,
+                price: register.subscription.price,
+                hours: register.subscription.hours,
+                userpack_id: register.subscription.user_pack.id,
+                subscriptions: register.subscription.user_pack.subscriptions,
+                start_time: register.start_time,
+                end_time: register.end_time,
+                extra_time: register.extra_time,
+                note : register.note,
+            };
+            // console.log("didmount",select);
+            this.props.registerManageAction.updateSelect(select);
+        }
+        else {
+            this.props.registerManageAction.updateSelect({
+                extra_time: 0,
+                hours: 0,
+            });
+        }
     }
 
     onChangeUserpack(value) {
@@ -36,7 +60,7 @@ class UserpackModal extends React.Component {
 
     onChangeSubscription(value) {
         let subscription = this.props.select.subscriptions.filter(subscription => subscription.id === value.value)[0];
-        console.log(subscription, "aaaaaaaaaaaaa");
+        // console.log(subscription, "aaaaaaaaaaaaa");
         let select = {
             ...this.props.select,
             subscription_id: value.value,
@@ -52,12 +76,14 @@ class UserpackModal extends React.Component {
         select[field] = event.target.value;
         this.props.registerManageAction.updateSelect(select);
     }
-    addSubscription(e){
-        this.props.registerManageAction.addSubscription(this.props.register_id,this.props.select,this.props.closeUserpackModal);
+
+    addSubscription(e) {
+        this.props.registerManageAction.addSubscription(this.props.register.id, this.props.select, this.props.closeUserpackModal);
         e.preventDefault();
     }
 
     render() {
+        // const {subscriptions} =     this.props.select;
         return (
             <div className="card">
                 <div className="card-header card-header-icon " data-background-color="rose">
@@ -72,7 +98,8 @@ class UserpackModal extends React.Component {
                                 <Select
                                     name="userpack"
                                     value={this.props.select ? this.props.select.userpack_id : ""}
-                                    options={this.props.userpacks && this.props.userpacks.map(userpack => {
+                                    options={this.props.select && this.props.userpacks.map(userpack => {
+                                        // console.log("aaaaa");
                                         return {
                                             ...userpack,
                                             value: userpack.id,
@@ -83,24 +110,36 @@ class UserpackModal extends React.Component {
                                     clearable={false}
                                 />
                             </div>
-                            <div className="form-group">
-                                <label className="label-control">Gói đăng kí</label>
-                                <Select
-                                    name="subscription"
-                                    value={this.props.select ? this.props.select.subscription_id : ""}
-                                    options={this.props.select && this.props.select.subscriptions.map(subscription => {
-                                        return {
-                                            ...subscription,
-                                            value: subscription.id,
-                                            label: subscription.description,
-                                        };
-                                    })}
-                                    onChange={this.onChangeSubscription}
-                                    clearable={false}
-                                />
-                            </div>
+                            {this.props.select.subscriptions ?
+                                <div className="form-group">
+                                    <label className="label-control">Gói đăng kí</label>
+                                    <Select
+                                        name="subscription"
+                                        value={this.props.select ? this.props.select.subscription_id : ""}
+                                        options={this.props.select && this.props.select.subscriptions.map(subscription => {
+                                            // console.log("bbbbbbbb");
+                                            return {
+                                                ...subscription,
+                                                value: subscription.id,
+                                                label: subscription.subcription_kind.name,
+                                            };
+                                        })}
+                                        onChange={this.onChangeSubscription}
+                                        clearable={false}
+                                    />
+                                </div> : null
+                            }
+
                         </div>
 
+                        <FormInputDateTime
+                            format={DATETIME_FORMAT_SQL}
+                            name="start_time"
+                            id="start_time"
+                            label="Từ ngày"
+                            value={this.props.select.start_time}
+                            updateFormData={this.updateFormData}
+                        />
                         <FormInputText
                             label="Thời gian khuyến mãi"
                             name="extra_time"
@@ -117,37 +156,16 @@ class UserpackModal extends React.Component {
                             value={this.props.select.note}
                             updateFormData={this.updateFormData}
                         />
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    {/*<FormInputDate*/}
-                                        {/*label="Bắt đầu"*/}
-                                        {/*name="start_time"*/}
-                                        {/*value={this.props.select.start_time}*/}
-                                        {/*placeholder="dd/mm/yyyy"*/}
-                                        {/*updateFormData={this.updateFormData}*/}
-                                        {/*id="form-start-time"*/}
-                                        {/*required={true}*/}
-                                    {/*/>*/}
-                                    <FormInputDateTime
-                                        format={DATETIME_VN_FORMAT}
-                                        name="start_time"
-                                        id="start_time"
-                                        label="Từ ngày"
-                                        value={this.props.select.start_time}
-                                        updateFormData={this.updateFormData}/>
-                                </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <FormInputDateTime
-                                        format={DATETIME_VN_FORMAT}
-                                        name="end_time"
-                                        id="end_time"
-                                        label="Tới ngày"
-                                        value={this.props.select.end_time}
-                                        updateFormData={this.updateFormData}/>
-                                </div>
+                        <div className="form-group">
+                            <label className="control-label">
+                                Đến ngày
+                            </label>
+                            <div>
+                                <input
+                                    value={this.props.select.end_time}
+                                    disabled={true}
+                                    className="form-control"
+                                />
                             </div>
                         </div>
                         <div className="row">
@@ -186,7 +204,7 @@ UserpackModal.propTypes = {
     userpacks: PropTypes.array,
     closeUserpackModal: PropTypes.func,
     subscriptions: PropTypes.array,
-    register_id: PropTypes.number,
+    register: PropTypes.object.isRequired,
     registerManageAction: PropTypes.object.isRequired,
     isLoadingUserpack: PropTypes.bool.isRequired,
     isSavingSubscription: PropTypes.bool.isRequired,

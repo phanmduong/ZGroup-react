@@ -2,11 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import Loading from "../../components/common/Loading";
+//import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
 import * as printOrderActions from "./printOrderActions";
 import ListPrintOrder from "./ListPrintOrder";
-//import Search                   from "../../components/common/Search";
 import {Link} from "react-router";
 import {Panel} from 'react-bootstrap';
 import ReactSelect from 'react-select';
@@ -22,12 +21,14 @@ class PrintOrderContainer extends React.Component {
             selectedCode: '',
             selectedProduct: '',
             selectedStatus: '',
+            selectedDate: '',
         };
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.changeCodeFilter = this.changeCodeFilter.bind(this);
         this.loadAllData = this.loadAllData.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
         this.changeProduct = this.changeProduct.bind(this);
+        this.changeDate = this.changeDate.bind(this);
     }
 
     componentWillMount() {
@@ -53,12 +54,13 @@ class PrintOrderContainer extends React.Component {
         if(!e) e={id: '', value: '', code:'', label:''};
         this.setState({selectedCode: e.value});
         let {paginator} = this.props;
-        let {selectedProduct,selectedStatus} = this.state;
+        let {selectedProduct,selectedStatus,selectedDate} = this.state;
         this.loadAllData(
             paginator.current_page,
             e.id == '' ? '' : e.code,
             selectedProduct,
             selectedStatus,
+            selectedDate,
         );
     }
 
@@ -66,12 +68,13 @@ class PrintOrderContainer extends React.Component {
         if(!e) e={id: '', value: '', code:'', label:''};
         this.setState({selectedStatus: e.value});
         let {paginator} = this.props;
-        let {selectedProduct,selectedCode} = this.state;
+        let {selectedProduct,selectedCode, selectedDate} = this.state;
         this.loadAllData(
             paginator.current_page,
             selectedCode,
             selectedProduct,
             e.value,
+            selectedDate,
         );
     }
 
@@ -79,18 +82,34 @@ class PrintOrderContainer extends React.Component {
         if(!e) e={id: '', value: '', code:'', label:''};
         this.setState({selectedProduct: e.value});
         let {paginator} = this.props;
-        let {selectedStatus,selectedCode} = this.state;
+        let {selectedStatus,selectedCode, selectedDate} = this.state;
         this.loadAllData(
             paginator.current_page,
             selectedCode,
             e.value,
             selectedStatus,
+            selectedDate,
+        );
+    }
+
+    changeDate(e){
+        //this.setState({selectedDate: e.target.value});
+        //this.state.selectedDate = e.target.value;
+
+        let {paginator} = this.props;
+        let {selectedStatus,selectedCode, selectedProduct} = this.state;
+        this.loadAllData(
+            paginator.current_page,
+            selectedCode,
+            selectedProduct,
+            selectedStatus,
+            e,
         );
     }
 
     render() {
         let {paginator, printOrderActions, codes, isLoading, goods} = this.props;
-        let {selectedProduct,selectedStatus, selectedCode} = this.state;
+        let {selectedProduct,selectedStatus, selectedCode, selectedDate} = this.state;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -169,10 +188,18 @@ class PrintOrderContainer extends React.Component {
 
 
                                     </Panel>
-                                    {
-                                        isLoading ? <Loading/> :
-                                            <ListPrintOrder/>
-                                    }
+                                    
+                                            <ListPrintOrder
+                                                changeCodeFilter={this.changeCodeFilter}
+                                                changeProduct={this.changeProduct}
+                                                changeStatus={this.changeStatus}
+                                                changeDate={this.changeDate}
+                                                selectedCode={selectedCode}
+                                                selectedProduct={selectedProduct}
+                                                selectedStatus={selectedStatus}
+                                                selectedDate={selectedDate}
+                                            />
+                                    
                                     <Pagination
                                         currentPage={paginator.current_page}
                                         totalPages={paginator.total_pages}

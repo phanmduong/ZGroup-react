@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import * as importGoodActions from "../importGoods/importGoodActions";
-import {Link, IndexLink}                from 'react-router';
+import { IndexLink}                from 'react-router';
 
 class ImportOrderContainer extends React.Component{
     constructor(props, context) {
@@ -30,12 +30,7 @@ class ImportOrderContainer extends React.Component{
                                             <div className="ripple-container" />
                                         </IndexLink>
                                     </li>
-                                    <li className={location.pathname === `/business/import-order${this.printPath}` ? 'active' : ''}>
-                                        <Link to={`/business/import-order${this.printPath}`}>
-                                            <i className="material-icons">local_printshop</i> Nhập hàng từ đơn đặt in
-                                            <div className="ripple-container" />
-                                        </Link>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>

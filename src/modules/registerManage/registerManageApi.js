@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function loadAllRegistersApi(limit, page = 1, search, saler_id, status, campaign_id,base_id,startTime,endTime) {
-    let url = env.MANAGE_API_URL + '/coworking-space/register?page=' + page;
+    let url = env.MANAGE_API_URL + '/coworking-space/room-booking?page=' + page;
     if (search) {
         url += "&search=" + search;
     }
@@ -80,7 +80,7 @@ export function loadBases() {
 
     return axios.get(url);
 }
-export function loadUserpackApi() {
+export function loadUserpackApi(){
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + `/coworking-space/user-pack?&token=${token}&limit=-1`;
     return axios.get(url);
