@@ -24,7 +24,7 @@ class ManageStaffApiController extends ManageApiController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('permission_tab:2');
+//        $this->middleware('permission_tab:2');
     }
 
     public function add_staff(Request $request)
