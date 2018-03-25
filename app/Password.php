@@ -9,4 +9,13 @@ class Password extends Model
     //
     protected $table = 'passwords';
     protected $fillable = ['code','name','password'];
+    public function transform(){
+        return [
+            "id" => $this->id,
+            "code" => $this->code,
+            "name" => $this->name,
+            "password" => $this->password,
+            "created_at" => $this->created_at
+        ];
+    }
 }
