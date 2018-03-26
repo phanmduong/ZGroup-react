@@ -38,7 +38,7 @@ class PasswordController extends ManageApiController
             $pass->save();
             return $this->respondSuccessWithStatus("Đổi mật khẩu thành công");
         }else{
-            return $this->respondErrorWithStatus("Đổi mật khẩu không thành công");
+            return $this->respondErrorWithStatus("Trùng mật khẩu cũ");
         }
     }
 
