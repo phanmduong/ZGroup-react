@@ -13,7 +13,6 @@ class PasswordController extends ManageApiController
     {
         $pass = new Password();
         $pass->name = $request->name;
-        $pass->code = $request->code;
         $pass->password = md5($request->password);
         $pass->save();
         return $this->respondSuccessWithStatus("Thêm thành công");
@@ -51,8 +50,14 @@ class PasswordController extends ManageApiController
 
     public function showAll(Request $request)
     {
-        $limit = $request->limit ? $request->limit :20;
-        $passwords = Password::orderBy('created_at','desc')->paginate($limit);
+        // $limit = $request->limit ? $request->limit :20;
+        // $passwords = Password::orderBy('created_at','desc')->paginate($limit);
+        // return $this->respondSuccessWithStatus($passwords, [
+        //    "passwords"=>$passwords->map(function ($password){
+        //        return $password->transform();
+        //    })
+        // ]);
+        $passwords = Password::all();
         return $this->respondSuccessWithStatus($passwords, [
            "passwords"=>$passwords->map(function ($password){
                return $password->transform();
