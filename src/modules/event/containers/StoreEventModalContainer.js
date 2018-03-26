@@ -15,7 +15,6 @@ import {
 import Buttons from "../components/Buttons";
 import { changeToSlug } from "../../../helpers/helper";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
-import moment from "moment";
 import Loading from "../../../components/common/Loading";
 
 class StoreEventModalContainer extends React.Component {
