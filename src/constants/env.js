@@ -15,8 +15,6 @@ export const DOMAIN = PROTOCOL + "manage." + URL;
 // export const DOMAIN = BASE_URL + "/admin";
 export const MANAGE_API_URL = BASE_URL + "/manageapi/v3";
 
-export const MANAGE_API_URL_V3 = BASE_URL + "/manageapi/v3";
-
 if (process.env.NODE_ENV === "production") {
     MANAGE_URL = PROTOCOL + "manage." + URL;
 } else {
