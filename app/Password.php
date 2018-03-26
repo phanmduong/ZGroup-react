@@ -8,7 +8,7 @@ class Password extends Model
 {
     //
     protected $table = 'passwords';
-    protected $fillable = ['code','name','password'];
+    protected $fillable = ['password'];
     public function transform(){
         return [
             "id" => $this->id,
