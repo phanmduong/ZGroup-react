@@ -174,7 +174,6 @@ class AdministrationController extends ManageApiController
 
     public function createReport($staff_id,Request $request)
     {
-        dd(1);
         $report = new Report();
         $report->staff_id = $staff_id;
         $report->title = $request->title;
@@ -190,9 +189,9 @@ class AdministrationController extends ManageApiController
     {
         $report = Report::find($id);
         if($report->report != $request->report){
-
             if($report->staff_id == $staff_id) {
                 $report->report = $request->report;
+                $report->title = $request->title;
                 $report->save();
             }else{
                 return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
@@ -201,21 +200,23 @@ class AdministrationController extends ManageApiController
             return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
         }
         return $this->respondSuccessWithStatus([
-           "message"=>"Tạo báo cáo thành công"
+           "message"=>"Sửa báo cáo thành công"
         ]);
     }
 
     public function showReportStaffId(Request $request, $staff_id)
     {
-        $reports = Report::find($staff_id)->get();
-        return $this->respondSuccessWithStatus([
-            "report" => $reports->transform()
+        $limit = $request->limit ? $request->limit :20;
+        $reports = Report::where('staff_id',$staff_id)->orderBy('created_at','desc')->paginate($limit);
+        return $this->respondWithPagination($reports,[
+            "reports" => $reports->map(function($report){
+                return $report->transform();
+            })
         ]);
     }
 
     public function showReports(Request $request)
     {
-//        dd(1);
         $limit = $request->limit ? $request->limit :20;
         $reports= Report::orderBy('created_at','desc')->paginate($limit);
         return $this->respondWithPagination($reports,[
