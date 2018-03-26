@@ -79,7 +79,7 @@ class StoreEventModalContainer extends React.Component {
                         <div className="container-fluid">
                             <div className="row">
                                 <label className="label-control">
-                                    Ảnh đại diện
+                                    Ảnh đại diện <star style={{ color: "red" }}>*</star>
                                 </label>
                                 <ImageUploader
                                     tooltipText="Chọn ảnh đại diện"
@@ -165,7 +165,6 @@ class StoreEventModalContainer extends React.Component {
                                 <FormInputText
                                     height="100%"
                                     label="địa chỉ sự kiện"
-                                    required
                                     name="address"
                                     updateFormData={this.updateEventFormData}
                                     value={props.event.address || ""}
@@ -216,7 +215,7 @@ class StoreEventModalContainer extends React.Component {
                                             )
                                         }
                                         scrollerId="#store-event-modal"
-                                        disabled={false}
+                                        disabled={this.invalid()}
                                     />
                                 </div>
                             </div>
