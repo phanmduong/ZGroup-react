@@ -199,6 +199,7 @@ class AdministrationController extends ManageApiController
         }else{
             return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
         }
+        
         return $this->respondSuccessWithStatus([
            "message"=>"Sửa báo cáo thành công"
         ]);
