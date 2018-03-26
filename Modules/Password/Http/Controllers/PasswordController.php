@@ -50,14 +50,8 @@ class PasswordController extends ManageApiController
 
     public function showAll(Request $request)
     {
-        // $limit = $request->limit ? $request->limit :20;
-        // $passwords = Password::orderBy('created_at','desc')->paginate($limit);
-        // return $this->respondSuccessWithStatus($passwords, [
-        //    "passwords"=>$passwords->map(function ($password){
-        //        return $password->transform();
-        //    })
-        // ]);
-        $passwords = Password::all();
+        $limit = $request->limit ? $request->limit :20;
+        $passwords = Password::orderBy('created_at','desc')->paginate($limit);
         return $this->respondSuccessWithStatus($passwords, [
            "passwords"=>$passwords->map(function ($password){
                return $password->transform();
