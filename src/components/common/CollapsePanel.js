@@ -30,7 +30,7 @@ class CollapsePanel extends React.Component {
                          aria-labelledby="headingOne" aria-expanded="false"
                          style={this.props.style}
                     >
-                        {this.props.content}
+                        {this.props.children}
                     </div>
                 </div>
             );
@@ -53,7 +53,7 @@ class CollapsePanel extends React.Component {
                          aria-labelledby="headingOne" aria-expanded="false"
                          style={this.props.style}
                     >
-                        {this.props.content}
+                        {this.props.children}
                     </div>
                 </div>
             </div>
@@ -63,10 +63,16 @@ class CollapsePanel extends React.Component {
 
 CollapsePanel.propTypes = {
     isMultiSelect: PropTypes.bool.isRequired,
-    content: PropTypes.object.isRequired,
+    content: PropTypes.object,
+    children : PropTypes.element,
     title: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     style: PropTypes.object,
 };
 
 export default CollapsePanel;
+
+
+// ---------- NOTE : Thêm
+// <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+// Vào trước list các collapsePanel
