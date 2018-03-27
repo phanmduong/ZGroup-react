@@ -11,6 +11,7 @@ $apiRoutes = function () {
 $publicRoutes = function () {
     Route::get('/api/province', 'BookingController@province');
     Route::get('/api/province/{provinceId}/base', 'BookingController@basesInProvince');
+    Route::get('/api/base', 'BookingController@allBases');
     Route::post('/api/register', 'BookingController@register');
     Route::get('/api/user-packs', 'BookingController@allUserPacks');
     Route::get('/api/user-pack/{userPackId}', 'BookingController@userPack');
