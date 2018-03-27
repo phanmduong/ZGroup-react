@@ -93,8 +93,10 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrders = Order::where('orders.type', 'delivery');
         $deliveryOrders = $deliveryOrders->join('users', 'users.id', '=', 'orders.user_id')
             ->select('orders.*')->where(function ($query) use ($searches) {
+
                 if ($searches) {
                     for($index = 0; $index < count($searches); ++$index) {
+                        $keyWord = $searches[$index];
                         if($index == 0)
                             $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
                             ->orWhere('users.email', 'like', "%$keyWord%");
@@ -102,10 +104,6 @@ class DeliveryOrderApiController extends ManageApiController
                             $query->orWhere('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
                             ->orWhere('users.email', 'like', "%$keyWord%");
                     }
-                    // foreach ($searches as $keyWord) {
-                    //     $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
-                    //         ->orWhere('users.email', 'like', "%$keyWord%");
-                    // }
                 }
             })->where(function ($query) use ($queries) {
                 if ($queries) {
