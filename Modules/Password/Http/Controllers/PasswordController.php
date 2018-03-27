@@ -12,6 +12,7 @@ class PasswordController extends ManageApiController
     public function store(Request $request)
     {
         $pass = new Password();
+        $pass->code = $request->code;
         $pass->name = $request->name;
         $pass->password = md5($request->password);
         $pass->save();
@@ -38,7 +39,7 @@ class PasswordController extends ManageApiController
             $pass->save();
             return $this->respondSuccessWithStatus("Đổi mật khẩu thành công");
         }else{
-            return $this->respondErrorWithStatus("Đổi mật khẩu không thành công");
+            return $this->respondErrorWithStatus("Trùng mật khẩu cũ");
         }
     }
 
@@ -50,7 +51,8 @@ class PasswordController extends ManageApiController
 
     public function showAll(Request $request)
     {
-        $passwords = Password::all();
+        $limit = $request->limit ? $request->limit :20;
+        $passwords = Password::orderBy('created_at','desc')->paginate($limit);
         return $this->respondSuccessWithStatus($passwords, [
            "passwords"=>$passwords->map(function ($password){
                return $password->transform();

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Order\Repositories\OrderService;
 use App\Currency;
+use Doctrine\DBAL\Schema\Index;
 
 class DeliveryOrderApiController extends ManageApiController
 {
@@ -92,9 +93,15 @@ class DeliveryOrderApiController extends ManageApiController
         $deliveryOrders = Order::where('orders.type', 'delivery');
         $deliveryOrders = $deliveryOrders->join('users', 'users.id', '=', 'orders.user_id')
             ->select('orders.*')->where(function ($query) use ($searches) {
+
                 if ($searches) {
-                    foreach ($searches as $keyWord) {
-                        $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
+                    for($index = 0; $index < count($searches); ++$index) {
+                        $keyWord = $searches[$index];
+                        if($index == 0)
+                            $query->where('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
+                            ->orWhere('users.email', 'like', "%$keyWord%");
+                        else
+                            $query->orWhere('users.name', 'like', "%$keyWord%")->orWhere('users.phone', 'like', "%$keyWord%")->orWhere('orders.code', 'like', "%$keyWord%")
                             ->orWhere('users.email', 'like', "%$keyWord%");
                     }
                 }
