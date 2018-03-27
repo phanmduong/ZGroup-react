@@ -215,7 +215,7 @@ class AdministrationController extends ManageApiController
 
     public function showReports(Request $request)
     {
-        dd(1);
+//        dd(1);
         $limit = $request->limit ? $request->limit :20;
         $reports= Report::orderBy('created_at','desc')->paginate($limit);
         return $this->respondWithPagination($reports,[
@@ -224,6 +224,4 @@ class AdministrationController extends ManageApiController
             })
         ]);
     }
-
-
 }
