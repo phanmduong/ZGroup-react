@@ -2,6 +2,7 @@
 
 namespace Modules\Event\Http\Controllers;
 
+use Doctrine\DBAL\Events;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ManageApiController;
 use App\Event;
@@ -76,6 +77,18 @@ class ManageEventApiController extends ManageApiController
             'events' => $events->map(function ($event) {
                 return $event->getData();
             })
+        ]);
+    }
+    public function changeStatusEvent($id,$request)
+    {
+        $event = Event::find($id);
+        if (!$event) {
+            return $this->respondErrorWithStatus('Không tồn tại sự kiện');
+        }
+        $event->status = $request->status;
+        $event->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thành công'
         ]);
     }
 }
