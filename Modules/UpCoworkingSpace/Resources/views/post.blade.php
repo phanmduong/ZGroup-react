@@ -47,9 +47,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-8 offset-md-2">
-                                <img class="card" data-radius="none" width="100%" style="min-height: 0px"
+                                <!-- <img class="card" data-radius="none" width="100%" style="min-height: 0px"
                                      src={{$post->url}} />
-                                <p class="image-thumb text-center">{{$post->title}}</p>
+                                <p class="image-thumb text-center">{{$post->title}}</p> -->
                                 <div class="article-content noselect">
                                     <style>
                                         img, p {

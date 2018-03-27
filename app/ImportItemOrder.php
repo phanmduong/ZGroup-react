@@ -40,6 +40,7 @@ class ImportItemOrder extends Model
             "price" => $this->price,
             "quantity" => $this->quantity,
             "imported_quantity" => $this->imported_quantity,
+            "status" => $this->status,
 
         ];
     }

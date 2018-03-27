@@ -140,12 +140,14 @@ class MobileController extends ApiController
                 }
                 return [
                     'id' => $attendance->id,
+                    'created_at' => format_vn_date(strtotime($attendance->classLesson->time)),
                     'order' => $attendance->classLesson->lesson->order,
                     'status' => $status
                 ];
             } else {
                 return [
                     'id' => $attendance->id,
+                    'created_at' => format_vn_date(strtotime($attendance->classLesson->time)),
                     'order' => $attendance->classLesson->lesson->order,
                     'status' => $attendance->status
                 ];
@@ -156,7 +158,8 @@ class MobileController extends ApiController
             'student' => $student,
             'class' => [
                 'id' => $register->studyClass->id,
-                'name' => $register->studyClass->name
+                'name' => $register->studyClass->name,
+                'avatar_url' => $register->studyClass->course->icon_url
             ]
         ]);
     }

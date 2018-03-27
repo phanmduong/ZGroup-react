@@ -43,7 +43,7 @@ class ClassApiController extends ApiController
             $register->user_id = $this->user->id;
             $register->gen_id = Gen::getCurrentGen()->id;
             $register->class_id = $classId;
-            $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
+            $register->time_to_call = addTimeToDate($register->created_at, "+2 hours");
             $register->status = 0;
 
             $register->save();
