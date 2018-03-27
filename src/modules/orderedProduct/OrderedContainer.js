@@ -367,7 +367,7 @@ class OrderedContainer extends React.Component {
             return 0;
         }
         if (nextStatus.order === 8) {
-            this.showAddCancelNoteModal({});
+            this.showAddCancelNoteModal(array);
         } else if (nextStatus.order === 1) {
             this.showSendPriceModal(array);
         } else if (nextStatus.order === 3) {
@@ -433,49 +433,55 @@ class OrderedContainer extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div className="row">
-                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <Link
-                                    to="/order/detail"
-                                    rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Thêm đơn hàng đặt" type="button"
-                                    className="btn btn-rose">
-                                    Thêm đơn hàng đặt
-                                </Link>
-                            </div>
-                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <SelectButton
-                                    defaultMessage={"Chuyển trạng thái nhiều đơn sang..."}
-                                    options={ORDERED_STATUS_TRANSFER}
-                                    disableRound
-                                    value={this.state.statusTransfer}
-                                    onChange={this.statusOrdersChange}
-                                />
-                            </div>
-                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <button
-                                    onClick={() => this.openMultiStatusesModal()}
-                                    rel="tooltip" data-placement="top" title=""
-                                    data-original-title={this.state.isSendingPrice ? ("Chọn để chuyển") : ("Chưa chọn đơn")}
-                                    type="button"
-                                    className="btn btn-rose"
-                                    disabled={!this.state.isSendingPrice}>
-                                    Chuyển ...
-                                </button>
-                            </div>
-                            {/*<div>*/}
-                            {/*<TooltipButton text="In dưới dạng pdf" placement="top">*/}
-                            {/*<button className="btn btn-success">*/}
-                            {/*<i className="material-icons">print</i> In*/}
-                            {/*</button>*/}
-                            {/*</TooltipButton>*/}
-                            {/*<TooltipButton text="Lưu dưới dạng excel" placement="top">*/}
-                            {/*<button className="btn btn-info">*/}
-                            {/*<i className="material-icons">save</i> Lưu về máy*/}
-                            {/*</button>*/}
-                            {/*</TooltipButton>*/}
-                            {/*</div>*/}
-                        </div>
+                        {
+                            this.props.isLoading ? (
+                                <Loading/>
+                            ):(
+                                <div className="row">
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <Link
+                                            to="/order/detail"
+                                            rel="tooltip" data-placement="top" title=""
+                                            data-original-title="Thêm đơn hàng đặt" type="button"
+                                            className="btn btn-rose">
+                                            Thêm đơn hàng đặt
+                                        </Link>
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <SelectButton
+                                            defaultMessage={"Chuyển trạng thái nhiều đơn sang..."}
+                                            options={ORDERED_STATUS_TRANSFER}
+                                            disableRound
+                                            value={this.state.statusTransfer}
+                                            onChange={this.statusOrdersChange}
+                                        />
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <button
+                                            onClick={() => this.openMultiStatusesModal()}
+                                            rel="tooltip" data-placement="top" title=""
+                                            data-original-title={this.state.isSendingPrice ? ("Chọn để chuyển") : ("Chưa chọn đơn")}
+                                            type="button"
+                                            className="btn btn-rose"
+                                            disabled={!this.state.isSendingPrice}>
+                                            Chuyển ...
+                                        </button>
+                                    </div>
+                                    {/*<div>*/}
+                                    {/*<TooltipButton text="In dưới dạng pdf" placement="top">*/}
+                                    {/*<button className="btn btn-success">*/}
+                                    {/*<i className="material-icons">print</i> In*/}
+                                    {/*</button>*/}
+                                    {/*</TooltipButton>*/}
+                                    {/*<TooltipButton text="Lưu dưới dạng excel" placement="top">*/}
+                                    {/*<button className="btn btn-info">*/}
+                                    {/*<i className="material-icons">save</i> Lưu về máy*/}
+                                    {/*</button>*/}
+                                    {/*</TooltipButton>*/}
+                                    {/*</div>*/}
+                                </div>
+                            )
+                        }
                     </div>
                     <div>
                         {

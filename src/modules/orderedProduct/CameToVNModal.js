@@ -4,11 +4,11 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import *as orderedProductAction from "./orderedProductAction";
 import PropTypes from "prop-types";
-import FormInputDateTime from "../../components/common/FormInputDateTime";
+import {DATETIME_VN_FORMAT} from "../../constants/constants";
+import moment from "moment/moment";
+import FormInputDateTimeForModal from "./FormInputDateTimeForModal";
 //import {DATETIME_SEAT_FORMAT} from "../../constants/constants";
 //import {moment} from "moment";
-//import Loading from "../../components/common/Loading";
-//import CameToVN from "./CameToVN";
 
 class CameToVNModal extends React.Component {
     constructor(props, context) {
@@ -41,37 +41,33 @@ class CameToVNModal extends React.Component {
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">Bổ sung thông tin</Modal.Title>
                 </Modal.Header>
-                {
-                    this.props.cameToVNModal && (
-                        <Modal.Body>
-                            <FormInputDateTime
-                                label="Dự kiến ngày về"
-                                name="endTime"
-                                //defaultDate={moment()}
-                                updateFormData={this.updateFormData}
-                                id="form-end-time"
-                                required={true}
-                                value={order.attach_info ? JSON.parse(order.attach_info).endTime : ''}
-                            />
-                            <div>
-                                <button rel="tooltip" data-placement="top" title=""
-                                        data-original-title="Remove item" type="button"
-                                        className="btn btn-success btn-round" data-dismiss="modal"
-                                        onClick={() => this.props.orderedProductAction.changeStatus(
-                                            "arrive_date", this.props.orderCameToVN, null
-                                        )}>
-                                    <i className="material-icons">check</i> Xác nhận
-                                </button>
-                                <button rel="tooltip" data-placement="top" title=""
-                                        data-original-title="Remove item" type="button"
-                                        className="btn btn-danger btn-round" data-dismiss="modal"
-                                        onClick={() => this.props.orderedProductAction.showCameToVNModal()}>
-                                    <i className="material-icons">close</i> Huỷ
-                                </button>
-                            </div>
-                        </Modal.Body>
-                    )
-                }
+                <Modal.Body>
+                    <FormInputDateTimeForModal
+                        format={DATETIME_VN_FORMAT}
+                        label="Dự kiến ngày về"
+                        name="endTime"
+                        defaultDate={moment()}
+                        updateFormData={this.updateFormData}
+                        id="form-end-time"
+                        value={order.attach_info ? JSON.parse(order.attach_info).endTime : ''}
+                    />
+                    <div>
+                        <button rel="tooltip" data-placement="top" title=""
+                                data-original-title="Remove item" type="button"
+                                className="btn btn-success btn-round" data-dismiss="modal"
+                                onClick={() => this.props.orderedProductAction.changeStatus(
+                                    "arrive_date", this.props.orderCameToVN, null
+                                )}>
+                            <i className="material-icons">check</i> Xác nhận
+                        </button>
+                        <button rel="tooltip" data-placement="top" title=""
+                                data-original-title="Remove item" type="button"
+                                className="btn btn-danger btn-round" data-dismiss="modal"
+                                onClick={() => this.props.orderedProductAction.showCameToVNModal()}>
+                            <i className="material-icons">close</i> Huỷ
+                        </button>
+                    </div>
+                </Modal.Body>
             </Modal>
         );
     }

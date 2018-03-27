@@ -85,7 +85,9 @@ class ItemOrder extends React.Component {
                         ) : "Không nhập"
                     }
                 </td>
-                <td>{attach_info.link}</td>
+                <td><a href={attach_info.link} target="_blank">
+                    {attach_info.link}</a>
+                </td>
                 <td>{attach_info.code}</td>
                 <td>
                     {

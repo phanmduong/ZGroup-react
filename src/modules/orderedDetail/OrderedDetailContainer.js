@@ -2,15 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-//import FormInputDate from "../../components/common/FormInputDate";
 import *as orderedDetailAction from "./orderedDetailAction";
 import Loading from "../../components/common/Loading";
 import Select from 'react-select';
 import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
-//import FormInputDateTime from "../../components/common/FormInputDateTime";
-import {DATETIME_SEAT_FORMAT} from "../../constants/constants";
-import moment from "moment";
-import FormInputDateTimeBat from "../orderedProduct/FormInputDateTimeBat";
+//import moment from "moment";
+import FormInputDateTimeForModal from "../orderedProduct/FormInputDateTimeForModal";
 
 class OrderedDetailContainer extends React.Component {
     constructor(props, context) {
@@ -64,6 +61,7 @@ class OrderedDetailContainer extends React.Component {
     }
 
     updateFormData(e) {
+        e.preventDefault();
         const field = e.target.name;
         let order = {
             ...this.props.order,
@@ -138,7 +136,6 @@ class OrderedDetailContainer extends React.Component {
     render() {
         let order = this.props.order;
         let customer = this.props.customer;
-        //let attach = JSON.parse(order.attach_info);
         return (
             <div className="row">
                 <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
@@ -345,16 +342,13 @@ class OrderedDetailContainer extends React.Component {
                                                     <span className="material-input"/>
                                                 </div>
                                             </div>
-                                            <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <FormInputDateTimeBat
-                                                    format={DATETIME_SEAT_FORMAT}
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <FormInputDateTimeForModal
+                                                    //format={DATETIME_VN_FORMAT}
                                                     label="Dự kiến ngày về"
                                                     name="endTime"
-                                                    defaultDate={moment()}
-                                                    updateFormData={(e) => {
-                                                       // console.log("vlone", e);
-                                                        this.props.orderedDetailAction.handleDate(e.target.children[1].value);
-                                                    }}
+                                                    //defaultDate={moment()}
+                                                    updateFormData={this.updateFormData}
                                                     id="form-end-time"
                                                     value={order.endTime || ''}
                                                 />
@@ -439,7 +433,8 @@ class OrderedDetailContainer extends React.Component {
                                 className="material-icons">announcement</i></div>
                             <div className="card-content">
                                 <h4 className="card-title">Thông tin đơn hàng</h4>
-                                {this.props.isLoading ? <Loading/> :
+                                {
+                                    this.props.isLoading ? <Loading/> :
                                     <div>
                                         <div>
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

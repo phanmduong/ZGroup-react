@@ -78,7 +78,7 @@ export function changeStatusApi(status, deliveryOrders, note) {
         url += "?token=" + token;
     }
     if (note) {
-        return axios.put(url, {
+        return axios.post(url, {
             delivery_orders: JSON.stringify(deliveryOrders),
             status: status,
             note: note
