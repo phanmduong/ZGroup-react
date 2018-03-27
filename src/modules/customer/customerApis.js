@@ -8,7 +8,7 @@ export function loadCustomersApi(page, limit, query, status) {
         url += "?token=" + token;
     }
     if (limit) {
-        url += "&limit=" + limit;
+        url += "&limit=" + 20;
     }
     if (page) {
         url += "&page=" + page;
