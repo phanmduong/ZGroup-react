@@ -48,6 +48,7 @@ class ItemOrder extends React.Component {
     render() {
         const delivery = this.props.delivery;
         const attach_info = JSON.parse(delivery.attach_info);
+        const link = attach_info.link.substring(0, 15) + "...";
         let delivery_note;
         if (delivery.note) {
             delivery_note = delivery.note.length < 16 ? delivery.note : delivery.note.substring(0, 15) + "...";
@@ -85,8 +86,10 @@ class ItemOrder extends React.Component {
                         ) : "Không nhập"
                     }
                 </td>
-                <td><a href={attach_info.link} target="_blank">
-                    {attach_info.link}</a>
+                <td>
+                    <TooltipButton text={attach_info.link} placement="top">
+                        <a href={attach_info.link} target="_blank">{link}</a>
+                    </TooltipButton>
                 </td>
                 <td>{attach_info.code}</td>
                 <td>
