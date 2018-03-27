@@ -11,13 +11,13 @@
                             <div class="col-md-4">
                                 <div class="card card-plain card-blog">
                                     <div class="card-image">
-                                        <a href="{{route('detail', ['slug' => $event->slug])}}">
+                                        <a href="{{'/events/' . $event->slug}}">
                                             <img class="img img-raised" src="{{$event->avatar_url}}">
                                         </a>
                                     </div>
                                     <div class="card-block">
                                         <h3 class="event-name card-title ">
-                                            <a href="{{route('detail', ['slug' => $event->slug])}}">{{$event->name}}</a>
+                                            <a href="{{'/events/' . $event->slug}}">{{$event->name}}</a>
                                         </h3>
                                         <p class="card-description">
                                             {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}

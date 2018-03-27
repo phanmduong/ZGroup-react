@@ -25,6 +25,8 @@ class RoomServiceSubscription extends Model
             'subscription_kind_name' => $this->subscription_kind->name,
             'hours' => $this->subscription_kind->hours,
             'user_pack_name' => $this->user_pack->name,
+            'extra_time' => $this->extra_time,
+            'booking_discount' => $this->booking_discount,
         ];
         if ($this->user_pack)
             $data['user_pack'] = $this->user_pack->getData();
@@ -37,6 +39,8 @@ class RoomServiceSubscription extends Model
             'id' => $this->id,
             'price' => $this->price,
             'description' => $this->description,
+            'extra_time' => $this->extra_time,
+            'booking_discount' => $this->booking_discount,
             'subcription_kind' => [
                 'id' => $this->subscription_kind->id,
                 'name' => $this->subscription_kind->name,

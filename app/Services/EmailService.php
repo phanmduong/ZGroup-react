@@ -12,6 +12,7 @@ class EmailService
     protected $emailCompanyName;
     protected $emailCompanyFrom;
     protected $emailCompanyTo;
+    protected $emailCompanyLogo;
 
     public function __construct()
     {
@@ -110,6 +111,7 @@ class EmailService
 
         $data = convert_email_form($email_form);
         $searchReplaceArray = [
+            '[[EMAIL_COMPANY_NAME]]' => $this->emailCompanyName,
             '[[COURSE_COVER_URL]]' => $course->cover_url,
             '[[COURSE_NAME]]' => $course->name,
             '[[COURSE_DURATION]]' => $course->duration,

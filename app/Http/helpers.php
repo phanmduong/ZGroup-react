@@ -197,6 +197,10 @@ function format_vn_short_datetime($time)
 {
     return rebuild_date('H:i d-m-Y', $time);
 }
+function format_vn_datetime($time)
+{
+    return rebuild_date('H:i:s d-m-Y', $time);
+}
 
 function format_vn_date($time)
 {
@@ -1572,4 +1576,43 @@ function sound_cloud_track_id($url)
     }
 
     return '';
+}
+
+function getCommentPostFacebook($url)
+{
+    $r = curl_init();
+
+    curl_setopt($r, CURLOPT_URL, $url);
+    curl_setopt($r, CURLOPT_POST, FALSE);
+    curl_setopt($r, CURLOPT_RETURNTRANSFER, 1);
+    $data = curl_exec($r);
+    $httpcode = curl_getinfo($r, CURLINFO_HTTP_CODE);
+    curl_close($r);
+    return [
+        'data' => json_decode($data),
+        'status' => $httpcode == 200 ? 1 : 0
+    ];
+}
+
+function getAllCommentFacebook($post_id, $token)
+{
+    $url = "https://graph.facebook.com/v1.0/$post_id/comments?access_token=$token";
+    $comments = array();
+    do {
+        $data = getCommentPostFacebook($url);
+        if ($data['status'] == 0 || count($data['data']->data) <= 0) {
+            break;
+        }
+        foreach ($data['data']->data as $item) {
+            $comments[] = $item;
+        }
+        if (isset($data['data']->paging->next)) {
+            $url = $data['data']->paging->next;
+        } else {
+            break;
+        }
+
+    } while (true);
+
+    return $comments;
 }

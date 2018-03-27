@@ -43,7 +43,18 @@
                                 <div class="article-content">
                                     {!!$post->content !!}
                                 </div>
+                                <br>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a href="javascript:void(0)" onClick="pureJsOpenModalBuy(8)" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Đăng ký tại đây</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="article-footer">
+                                    <br>
                                     <div class="container">
                                         <div class="row">
 
@@ -83,6 +94,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                
                                     <div class="comments media-area">
                                         <div class="fb-comments"
                                              data-href="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}"

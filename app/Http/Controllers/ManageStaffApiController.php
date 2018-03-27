@@ -24,7 +24,7 @@ class ManageStaffApiController extends ManageApiController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('permission_tab:2');
+//        $this->middleware('permission_tab:2');
     }
 
     public function add_staff(Request $request)
@@ -106,8 +106,9 @@ class ManageStaffApiController extends ManageApiController
     {
         $staff = User::find($staffId);
         if ($staff == null) {
-            $staff = $this->user;
+            $staff = User::find($this->user->id);
         }
+
         $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
         return $this->respondSuccessWithStatus(['staff' => $staff]);
     }

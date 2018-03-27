@@ -48,7 +48,14 @@ class Base extends Model
             'description' => $this->description,
             'images_url' => $this->images_url ? $this->images_url : '',
             'address' => $this->address ? $this->address : '',
+            'district' => $this->district ? $this->district->name : '',
+            'province' => $this->district ? $this->district->province->name : '',
         ];
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'base_id');
     }
 
     public function getData()
@@ -66,6 +73,13 @@ class Base extends Model
             'images_url' => $this->images_url,
             'description' => $this->description,
             'avatar_url' => config('app.protocol') . trim_url($this->avatar_url),
+
+            'num_rooms' => $this->rooms()->count(),
+            'num_classes_registering' => $this->classes()
+                ->join('gens', 'gens.id', '=', 'classes.gen_id')
+                ->where('gens.status', 1)
+                ->count(),
+            'num_employees' => $this->users()->where('role', '>', 0)->count()
         ];
 
         if ($this->district) {

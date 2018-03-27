@@ -42,7 +42,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card card-profile card-plain">
-                                    <img style="height: 45% ;width: 100%;" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15195556021TjlZlGGV0YTIsA.png">
+                                    <img style="height: 45% ;width: 100%;" src="{{$goods[0]->avatar_url}}">
                                 </div>
                             </div>
                         </div>
@@ -52,17 +52,13 @@
                 <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                     <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                         <div class="col-md-12">
-
-                            <a href="/sach/{{$goods[0]->id}}" class="btn btn-link btn-success">
+                            <a href="http://elightbook.com" class="btn btn-link btn-success">
                                 Xem thêm
                             </a>
-
-
                             <button v-on:click="openModalBuy({{$goods[0]->id}})" onclick="fbq('track', 'AddToCart')" class="btn btn-success" style="padding:5px;margin:5px;font-size:10px;">
                                 Đặt mua ngay
                                 <i class="fa fa-angle-right"></i>
                             </button>
-
                         </div>
                     </div>
                 </div>

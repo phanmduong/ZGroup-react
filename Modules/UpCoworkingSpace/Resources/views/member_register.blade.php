@@ -24,7 +24,7 @@
 
     <div class="blog-4" style="margin-top:20px">
         <div class="container">
-            <div id="pickingUserPack" class="row">
+            <div class="row">
                 @foreach($userPacks as $userPack)
                     <div class="col-md-4">
                         <div class="card card-plain card-blog">
@@ -44,7 +44,8 @@
                                     <a href="{{'/conference-room/'.$userPack->id}}">{{$userPack->name}}</a>
                                 </h3>
                                 <br/>
-                                <a v-on:click="openModal({{$userPack->id}})"
+                                <a data-target="#submitModal"
+                                    data-toggle="modal"
                                    class="btn btn-primary"
                                    style="background-color:#96d21f;border-color:#96d21f; color:white!important;">
                                     <b>Đặt chỗ</b>
@@ -58,7 +59,7 @@
         <hr>
     </div>
 
-    <div id="memberRegister" class="modal fade show">
+    <!-- <div id="memberRegister" class="modal fade show">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -184,159 +185,161 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 @endsection
 
 @push('scripts')
     <script>
-        var memberRegister = new Vue({
-            el: "#memberRegister",
-            data: {
-                provinces: [],
-                bases: [],
-                userPackId: 0,
-                provinceId: '',
-                baseId: '',
-                baseLoading: false,
-                provinceLoading: false,
-                subscriptions: [],
-                subscriptionId: 0,
-                userPackName: '',
-                description: '',
-                vnd_price: '',
-                message: ''
-            },
-            methods: {
-                changeProvince: function () {
-                    this.baseId = '';
-                    this.getBases();
-                },
-                getProvinces: function () {
-                    this.provinceLoading = true;
-                    axios.get(window.url + '/api/province')
-                        .then(function (response) {
-                            this.provinces = response.data.provinces;
-                            axios.get(window.url + '/api/user-pack/' + this.userPackId)
-                                .then(function (response) {
-                                    this.subscriptions = response.data.user_pack.subscriptions;
-                                    this.userPackName = response.data.user_pack.name;
-                                    this.subscriptionId = this.subscriptions[0].id;
-                                    this.description = this.subscriptions[0].description;
-                                    this.vnd_price = this.subscriptions[0].vnd_price;
-                                    this.provinceLoading = false;
-                                }.bind(this))
-                                .catch(function (reason) {
-                                });
-                        }.bind(this))
-                        .catch(function (reason) {
-                        });
-                },
-                getBases: function () {
-                    this.baseLoading = true;
-                    axios.get(window.url + '/api/province/' + this.provinceId + '/base')
-                        .then(function (response) {
-                            this.bases = response.data.bases;
-                            this.baseLoading = false;
-                        }.bind(this))
-                        .catch(function (reason) {
-                        });
-                },
-                subscriptionOnclick: function (event, subscriptionId) {
-                    console.log(subscriptionId);
-                    this.subscriptionId = subscriptionId;
-                    var temp = this.subscriptions.filter(function (subscription) {
-                        return subscription.id === subscriptionId;
-                    })[0];
-                    this.description = temp.description;
-                    this.vnd_price = temp.vnd_price;
-                },
-                submit: function () {
-                    if (this.baseId === '') {
-                        this.message = 'Xin bạn vui lòng chọn cơ sở';
-                        console.log('wtf');
-                        return;
-                    }
-                    memberRegisterInfo.subscriptionId = this.subscriptionId;
-                    memberRegisterInfo.baseId = this.baseId;
-                    $("#memberRegister").modal("hide");
-                    $("#memberRegisterInfo").modal("show");
-                }
-            },
-        });
+        // var memberRegister = new Vue({
+        //     el: "#memberRegister",
+        //     data: {
+        //         provinces: [],
+        //         bases: [],
+        //         userPackId: 0,
+        //         provinceId: '',
+        //         baseId: '',
+        //         baseLoading: false,
+        //         provinceLoading: false,
+        //         subscriptions: [],
+        //         subscriptionId: 0,
+        //         userPackName: '',
+        //         description: '',
+        //         vnd_price: '',
+        //         message: ''
+        //     },
+        //     methods: {
+        //         changeProvince: function () {
+        //             this.baseId = '';
+        //             this.getBases();
+        //         },
+        //         getProvinces: function () {
+        //             this.provinceLoading = true;
+        //             axios.get(window.url + '/api/province')
+        //                 .then(function (response) {
+        //                     this.provinces = response.data.provinces;
+        //                     axios.get(window.url + '/api/user-pack/' + this.userPackId)
+        //                         .then(function (response) {
+        //                             this.subscriptions = response.data.user_pack.subscriptions;
+        //                             this.userPackName = response.data.user_pack.name;
+        //                             this.subscriptionId = this.subscriptions[0].id;
+        //                             this.description = this.subscriptions[0].description;
+        //                             this.vnd_price = this.subscriptions[0].vnd_price;
+        //                             this.provinceLoading = false;
+        //                         }.bind(this))
+        //                         .catch(function (reason) {
+        //                         });
+        //                 }.bind(this))
+        //                 .catch(function (reason) {
+        //                 });
+        //         },
+        //         getBases: function () {
+        //             this.baseLoading = true;
+        //             axios.get(window.url + '/api/province/' + this.provinceId + '/base')
+        //                 .then(function (response) {
+        //                     this.bases = response.data.bases;
+        //                     this.baseLoading = false;
+        //                 }.bind(this))
+        //                 .catch(function (reason) {
+        //                 });
+        //         },
+        //         subscriptionOnclick: function (event, subscriptionId) {
+        //             console.log(subscriptionId);
+        //             this.subscriptionId = subscriptionId;
+        //             var temp = this.subscriptions.filter(function (subscription) {
+        //                 return subscription.id === subscriptionId;
+        //             })[0];
+        //             this.description = temp.description;
+        //             this.vnd_price = temp.vnd_price;
+        //         },
+        //         submit: function () {
+        //             if (this.baseId === '') {
+        //                 this.message = 'Xin bạn vui lòng chọn cơ sở';
+        //                 console.log('wtf');
+        //                 return;
+        //             }
+        //             memberRegisterInfo.subscriptionId = this.subscriptionId;
+        //             memberRegisterInfo.baseId = this.baseId;
+        //             $("#memberRegister").modal("hide");
+        //             $("#memberRegisterInfo").modal("show");
+        //         }
+        //     },
+        // });
 
         var pickingUserPack = new Vue({
             el: '#pickingUserPack',
             data: {},
             methods: {
-                openModal: function (userPackId) {
-                    memberRegister.getProvinces();
-                    $("#memberRegister").modal("show");
-                    memberRegister.userPackId = userPackId;
+                openModal: function () {
+                    // memberRegister.getProvinces();
+                    console.log($('#submitModal'));
+                    $("#submitModal").modal("show");
+                    // memberRegister.userPackId = userPackId;
                 }
             }
         });
-        var memberRegisterInfo = new Vue({
-            el: '#memberRegisterInfo',
-            data: {
-                campaignId: {{$campaignId}},
-                salerId: {{$userId}},
-                subscriptionId: 0,
-                baseId: 0,
-                name: '',
-                email: '',
-                phone: '',
-                address: '',
-                message: '',
-                isLoading: false,
-                disableSubmitButton: false,
-            },
-            methods: {
-                validateEmail: function validateEmail(email) {
-                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return re.test(email.toLowerCase());
-                },
-                submit: function () {
-                    console.log(this.campaignId + '   ' + this.salerId);
-                    if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
-                        this.message = 'Bạn vui lòng nhập đủ thông tin';
-                        return;
-                    }
-                    if (this.validateEmail(this.email) === false) {
-                        this.message = 'Bạn vui lòng kiểm tra lại email';
-                        return;
-                    }
-                    this.isLoading = true;
-                    this.message = '';
-                    this.disableSubmitButton = true;
-                    axios.post(window.url + '/api/register', {
-                        name: this.name,
-                        phone: this.phone,
-                        email: this.email,
-                        address: this.address,
-                        subscription_id: this.subscriptionId,
-                        base_id: this.baseId,
-                        campaign_id: this.campaignId,
-                        saler_id: this.salerId,
-                        _token: window.token
-                    })
-                        .then(function (response) {
-                            this.name = "";
-                            this.phone = "";
-                            this.email = "";
-                            this.address = "";
-                            this.isLoading = false;
-                            this.disableSubmitButton = false;
-                            $("#memberRegisterInfo").modal("hide");
-                            $("#modalSuccess").modal("show");
-                        }.bind(this))
-                        .catch(function (error) {
-                            console.log(error);
-                        });
 
-                }
-            }
-        });
+        // var memberRegisterInfo = new Vue({
+        //     el: '#memberRegisterInfo',
+        //     data: {
+        //         campaignId: {{$campaignId}},
+        //         salerId: {{$userId}},
+        //         subscriptionId: 0,
+        //         baseId: 0,
+        //         name: '',
+        //         email: '',
+        //         phone: '',
+        //         address: '',
+        //         message: '',
+        //         isLoading: false,
+        //         disableSubmitButton: false,
+        //     },
+        //     methods: {
+        //         validateEmail: function validateEmail(email) {
+        //             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //             return re.test(email.toLowerCase());
+        //         },
+        //         submit: function () {
+        //             console.log(this.campaignId + '   ' + this.salerId);
+        //             if (this.name === '' || this.email === '' || this.phone === '' || this.address === '') {
+        //                 this.message = 'Bạn vui lòng nhập đủ thông tin';
+        //                 return;
+        //             }
+        //             if (this.validateEmail(this.email) === false) {
+        //                 this.message = 'Bạn vui lòng kiểm tra lại email';
+        //                 return;
+        //             }
+        //             this.isLoading = true;
+        //             this.message = '';
+        //             this.disableSubmitButton = true;
+        //             axios.post(window.url + '/api/register', {
+        //                 name: this.name,
+        //                 phone: this.phone,
+        //                 email: this.email,
+        //                 address: this.address,
+        //                 subscription_id: this.subscriptionId,
+        //                 base_id: this.baseId,
+        //                 campaign_id: this.campaignId,
+        //                 saler_id: this.salerId,
+        //                 _token: window.token
+        //             })
+        //                 .then(function (response) {
+        //                     this.name = "";
+        //                     this.phone = "";
+        //                     this.email = "";
+        //                     this.address = "";
+        //                     this.isLoading = false;
+        //                     this.disableSubmitButton = false;
+        //                     $("#memberRegisterInfo").modal("hide");
+        //                     $("#modalSuccess").modal("show");
+        //                 }.bind(this))
+        //                 .catch(function (error) {
+        //                     console.log(error);
+        //                 });
+
+        //         }
+        //     }
+        // });
     </script>
 @endpush
 
