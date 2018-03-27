@@ -27,4 +27,9 @@ class RoomServiceUserPack extends Model
             }),
         ];
     }
+
+    public function roomServiceBenefits(){
+
+        return $this->belongsToMany(RoomServiceBenefit::class,'room_service_user_pack_benefit','user_pack_id','benefit_id')->withPivot('value');
+    }
 }

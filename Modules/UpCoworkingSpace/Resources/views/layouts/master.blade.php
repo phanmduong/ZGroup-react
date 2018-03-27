@@ -183,7 +183,7 @@
                         UP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/member-register" data-scroll="true">GÓI THÀNH
+                    <a class="nav-link hover-change" href="/goi-thanh-vien-up-coworking-space" data-scroll="true">GÓI THÀNH
                         VIÊN</a>
                 </li>
                 <li class="nav-item">

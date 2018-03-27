@@ -26,7 +26,7 @@
         <div class="container">
             <div class="row">
                 @foreach($userPacks as $userPack)
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card card-plain card-blog">
                             <div class="card-image">
                                 <a href="{{'/conference-room/'.$userPack->id}}">
@@ -36,24 +36,78 @@
                                             background-size: cover;
                                             background-position: center;
                                             padding-bottom: 70%;"
-                                    ></div>
+                                    >
+                                    </div>
                                 </a>
                             </div>
                             <div class="card-block">
-                                <h3 class="card-title">
+                                <h3 class="card-title" >
                                     <a href="{{'/conference-room/'.$userPack->id}}">{{$userPack->name}}</a>
                                 </h3>
+                                <p class="card-price">
+                                    @foreach($userPack->roomServiceBenefits->slice(0,1) as $roomServiceBenefit)
+                                        {{$roomServiceBenefit->pivot->value}}/tháng
+                                    @endforeach
+                                </p>
+                                <p class="card-description">
+                                    {{$userPack->detail}}
+                                </p>
                                 <br/>
-                                <a data-target="#submitModal"
-                                    data-toggle="modal"
-                                   class="btn btn-primary"
-                                   style="background-color:#96d21f;border-color:#96d21f; color:white!important;">
-                                    <b>Đặt chỗ</b>
-                                </a>
                             </div>
                         </div>
+                        <a data-target="#submitModal"
+                           data-toggle="modal"
+                           class="btn btn-primary"
+                           style="position:absolute; bottom: 10px; background-color:#96d21f;border-color:#96d21f; color:white!important;">
+                            <b>Đặt chỗ</b>
+                        </a>
                     </div>
                 @endforeach
+            </div>
+        </div>
+        <div style="padding-top: 50px">
+            <div >
+                <div class="background-img-table">
+                    <table id="mytable" class="container">
+                        <tr class="border-1">
+                            @foreach($userBenefits->slice(17,18) as $userBenefit)
+                                <td class="benefit-name">
+                                    {{$userBenefit->name}}
+                                </td>
+                                @foreach($userBenefit->roomServiceUserPacks as $roomServiceUserPack)
+                                    <td class="pack-name">
+                                        {{$roomServiceUserPack->pivot->value}}
+                                    </td>
+                                @endforeach
+                            @endforeach
+                        </tr>
+
+                        @foreach($userBenefits->slice(0,17) as $userBenefit)
+                            <tr class="border-1">
+                                <td class="benefit-name">
+                                    {{$userBenefit->name}}
+                                </td>
+                                @foreach($userBenefit->roomServiceUserPacks as $roomServiceUserPack)
+                                    <td>
+                                        {{$roomServiceUserPack->pivot->value}}
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    </table>
+                    <div style="background-color: #ffffff; padding: 20px 20px 5px 20px" class="container text-center">
+
+                            <a href="#"
+                               class="btn btn-primary"
+                               style="font-weight700; background-color:#96d21f;border-color:#96d21f; color:white!important; font-size: 16px" >
+                                TRỞ THÀNH THÀNH VIÊN CỦA UP NGAY HÔM NAY
+                            </a>
+
+
+                    </div>
+                </div>
+
+
             </div>
         </div>
         <hr>
@@ -69,125 +123,188 @@
                     <div v-if="provinceLoading" class="container">
                         <div style="text-align: center;width: 100%;;padding: 15px;">
                             @include('upcoworkingspace::includes.loading')
-                        </div>
-                    </div>
-                    <div v-else="modalLoading" class="container">
-                        <div class="row" style="padding: 10px">
-                            <select v-on:change="changeProvince"
-                                    v-model="provinceId"
-                                    placeholder="Tỉnh/Thành phố"
-                                    class="form-control">
-                                <option value="" selected>Tỉnh, Thành phố</option>
-                                <option v-for="province in provinces" v-bind:value="province.id">
-                                    @{{province.name}}
-                                </option>
-                            </select>
-                        </div>
-                        <div v-if="provinceId" class="row" style="padding: 10px">
-                            <div v-if="baseLoading" style="text-align: center;width: 100%;;padding: 15px;">
-                                @include('upcoworkingspace::includes.loading')
-                            </div>
-                            <select v-else="baseLoading"
-                                    v-model="baseId"
-                                    placeholder="Cơ sở"
-                                    class="form-control">
-                                <option value="" selected>Cơ sở</option>
-                                <option v-for="base in bases" v-bind:value="base.id">
-                                    @{{base.name}}
-                                </option>
-                            </select>
-                        </div>
-                        <br>
-                        <div class="container">
-                            <h3>Chọn thời lượng</h3>
-                            <br>
-                            <ul class="nav nav-pills nav-pills-up">
-                                <li v-for="subscription in subscriptions"
-                                    class="nav-item"
-                                    v-bind:class="{active: subscription.is_active }">
-                                    <a class="nav-link"
-                                       data-toggle="pill"
-                                       v-on:click="subscriptionOnclick(event, subscription.id)"
-                                       role="tab"
-                                       aria-expanded="false"> @{{ subscription.subscription_kind_name }}
-                                    </a>
-                                </li>
-                            </ul>
-                            <br>
-                            <div class="col-md-12">
-                                <h6>Gói thành viên: </h6>
-                                <p>@{{ userPackName }}</p>
-                                <br>
-                                <h6>Mô tả: </h6>
-                                <p>@{{ description }}</p>
-                                <br>
-                                <h6>Chi phí: </h6>
-                                <p>@{{ vnd_price }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="alert alert-danger" v-if="message"
-                         style="margin-top: 10px"
-                         id="purchase-error">
-                        @{{ message }}
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="btn-purchase" class="btn btn-sm btn-main"
-                            style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
-                            v-on:click="submit">
-                        Đăng kí</i>
-                    </button>
-                </div>
+            </div>
+        </div>
+        <div v-else="modalLoading" class="container">
+            <div class="row" style="padding: 10px">
+                <select v-on:change="changeProvince"
+                        v-model="provinceId"
+                        placeholder="Tỉnh/Thành phố"
+                        class="form-control">
+                    <option value="" selected>Tỉnh, Thành phố</option>
+                    <option v-for="province in provinces" v-bind:value="province.id">
+                        @{{province.name}}
+                    </option>
+                </select>
+            </div>
+            <div v-if="provinceId" class="row" style="padding: 10px">
+                <div v-if="baseLoading" style="text-align: center;width: 100%;;padding: 15px;">
+@include('upcoworkingspace::includes.loading')
+            </div>
+            <select v-else="baseLoading"
+                    v-model="baseId"
+                    placeholder="Cơ sở"
+                    class="form-control">
+                <option value="" selected>Cơ sở</option>
+                <option v-for="base in bases" v-bind:value="base.id">
+                    @{{base.name}}
+                </option>
+            </select>
+        </div>
+        <br>
+        <div class="container">
+            <h3>Chọn thời lượng</h3>
+            <br>
+            <ul class="nav nav-pills nav-pills-up">
+                <li v-for="subscription in subscriptions"
+                    class="nav-item"
+                    v-bind:class="{active: subscription.is_active }">
+                    <a class="nav-link"
+                       data-toggle="pill"
+                       v-on:click="subscriptionOnclick(event, subscription.id)"
+                       role="tab"
+                       aria-expanded="false"> @{{ subscription.subscription_kind_name }}
+                    </a>
+                </li>
+            </ul>
+            <br>
+            <div class="col-md-12">
+                <h6>Gói thành viên: </h6>
+                <p>@{{ userPackName }}</p>
+                <br>
+                <h6>Mô tả: </h6>
+                <p>@{{ description }}</p>
+                <br>
+                <h6>Chi phí: </h6>
+                <p>@{{ vnd_price }}</p>
             </div>
         </div>
     </div>
+    <div class="alert alert-danger" v-if="message"
+         style="margin-top: 10px"
+         id="purchase-error">
+        @{{ message }}
+    </div>
+</div>
+<div class="modal-footer">
+    <button id="btn-purchase" class="btn btn-sm btn-main"
+            style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f"
+            v-on:click="submit">
+        Đăng kí</i>
+    </button>
+</div>
+</div>
+</div>
+</div>
 
-    <div id="memberRegisterInfo" class="modal fade show">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" data-dismiss="modal" class="close">×</button>
-                    <h3 class="medium-title">Đăng kí </h3></div>
-                <div id="modal-body" class="modal-body">
-                    <div class="container">
-                        <form class="register-form ">
-                            <form class="register-form ">
-                                <h6>Họ và tên</h6>
-                                <input style="border: 1px solid #d0d0d0 !important" v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
-                                <h6>Số điện thoại</h6>
-                                <input style="border: 1px solid #d0d0d0 !important" v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
-                                <h6>Email</h6>
-                                <input style="border: 1px solid #d0d0d0 !important" v-model="email" type="text" class="form-control" placeholder="Địa chỉ email"><br>
-                                <h6>Địa chỉ</h6>
-                                <input style="border: 1px solid #d0d0d0 !important" v-model="address" type="text" class="form-control" placeholder="Địa chỉ"><br>
-                            </form>
-                        </form>
-                    </div>
-                    <div class="alert alert-danger" v-if="message"
-                         style="margin-top: 10px"
-                         id="purchase-error">
-                        @{{ message }}
-                    </div>
-                    <div v-if="isLoading" class="container">
-                        <div style="text-align: center;width: 100%;;padding: 15px;">
-                            @include('upcoworkingspace::includes.loading')
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="btn-purchase" class="btn btn-sm btn-main"
-                            v-on:click="submit"
-                            v-bind:disabled="disableSubmitButton"
-                            style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f">
-                        Xác nhận
-                    </button>
-                </div>
+<div id="memberRegisterInfo" class="modal fade show">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+    <button type="button" data-dismiss="modal" class="close">×</button>
+    <h3 class="medium-title">Đăng kí </h3></div>
+<div id="modal-body" class="modal-body">
+    <div class="container">
+        <form class="register-form ">
+            <form class="register-form ">
+                <h6>Họ và tên</h6>
+                <input style="border: 1px solid #d0d0d0 !important" v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
+                <h6>Số điện thoại</h6>
+                <input style="border: 1px solid #d0d0d0 !important" v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                <h6>Email</h6>
+                <input style="border: 1px solid #d0d0d0 !important" v-model="email" type="text" class="form-control" placeholder="Địa chỉ email"><br>
+                <h6>Địa chỉ</h6>
+                <input style="border: 1px solid #d0d0d0 !important" v-model="address" type="text" class="form-control" placeholder="Địa chỉ"><br>
+            </form>
+        </form>
+    </div>
+    <div class="alert alert-danger" v-if="message"
+         style="margin-top: 10px"
+         id="purchase-error">
+        @{{ message }}
+    </div>
+    <div v-if="isLoading" class="container">
+        <div style="text-align: center;width: 100%;;padding: 15px;">
+@include('upcoworkingspace::includes.loading')
             </div>
         </div>
-    </div> -->
+    </div>
+    <div class="modal-footer">
+        <button id="btn-purchase" class="btn btn-sm btn-main"
+                v-on:click="submit"
+                v-bind:disabled="disableSubmitButton"
+                style="margin: 10px 10px 10px 0px !important; background-color: #96d21f; border-color: #96d21f">
+            Xác nhận
+        </button>
+    </div>
+</div>
+</div>
+</div> -->
 
 @endsection
+
+<style>
+    .border-1 {
+        border: 1px solid #dddddd;
+    }
+
+    td {
+        border: 1px solid #dddddd;
+        padding: 10px 25px;
+    }
+
+    .benefit-name {
+        font-weight: 600;
+        width: 200px;
+    }
+
+    .pack-name {
+        font-weight: 600;
+        width: 200px;
+    }
+
+    tr:nth-child(2n+1) {
+        background-color: #ffffff;
+    }
+
+    tr:nth-child(2n) {
+        background-color: #F9F9F9;
+    }
+
+    tr:first-child {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    #mytable tr:last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .card-price {
+        font-weight: 550;
+        color: #96d21f;
+        padding-top:10px
+    }
+
+    #mytable {
+        margin-top: 20px;
+    }
+
+    .background-img-table {
+        position: relative;
+        background-image: url(http://up-co.vn/wp-content/uploads/2014/09/13738341_1250318455001458_4740640008692062520_o.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-size: cover;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        padding-left: 0px;
+        padding-right: 0px;
+        width:100%;
+    }
+</style>
 
 @push('scripts')
     <script>
