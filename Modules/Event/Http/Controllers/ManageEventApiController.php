@@ -79,14 +79,13 @@ class ManageEventApiController extends ManageApiController
             })
         ]);
     }
-    public function changeStatusEvent($id)
+    public function changeStatusEvent($id,$status)
     {
         $event = Event::find($id);
-//        echo "$id";
         if (!$event) {
             return $this->respondErrorWithStatus('Không tồn tại sự kiện');
         }
-        $event->status = 1 - $event->status;
+        $event->status = $status;
         $event->save();
         return $this->respondSuccessWithStatus([
             'message' => 'Thành công'
