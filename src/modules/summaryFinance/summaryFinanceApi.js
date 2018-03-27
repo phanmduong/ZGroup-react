@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function loadSummaryFinance(genId = "", startTime = '', endTime = '') {
-    let url = env.MANAGE_API_URL_V3 + "/finance/summary";
+    let url = env.MANAGE_API_URL + "/finance/summary";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -26,7 +26,7 @@ export function loadGens() {
 
 export function loadHistoryTransactions(page = 1, type = "", genId = "", startTime = '', endTime = '') {
 
-    let url = env.MANAGE_API_URL_V3 + "/finance/history-spend-money";
+    let url = env.MANAGE_API_URL + "/finance/history-spend-money";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

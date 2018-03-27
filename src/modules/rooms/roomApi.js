@@ -44,6 +44,7 @@ export function createRoomTypeApi(roomType) {
     const request = {
         name: roomType.name,
         description: roomType.description,
+        type_name : roomType.type_name,
     };
     let url = env.MANAGE_API_URL + "/v2/base/room-type";
     if (roomType.id) {

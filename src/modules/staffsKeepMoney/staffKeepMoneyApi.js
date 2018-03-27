@@ -3,7 +3,7 @@ import * as env from '../../constants/env';
 
 export function loadStaffsKeepMoney(page = 1, search ="") {
 
-    let url = env.MANAGE_API_URL_V3 + "/finance/staffs-keep-money";
+    let url = env.MANAGE_API_URL + "/finance/staffs-keep-money";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -15,7 +15,7 @@ export function loadStaffsKeepMoney(page = 1, search ="") {
 
 export function loadHistoryTransactionStaff(staffId, page = 1, type = "") {
 
-    let url = env.MANAGE_API_URL_V3 + "/finance/history-transaction/" + staffId;
+    let url = env.MANAGE_API_URL + "/finance/history-transaction/" + staffId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
