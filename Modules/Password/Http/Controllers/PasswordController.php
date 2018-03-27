@@ -12,6 +12,7 @@ class PasswordController extends ManageApiController
     public function store(Request $request)
     {
         $pass = new Password();
+        $pass->code = $request->code;
         $pass->name = $request->name;
         $pass->password = md5($request->password);
         $pass->save();
