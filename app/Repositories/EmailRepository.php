@@ -97,7 +97,7 @@ class EmailRepository
                 'id' => $campaign->id,
                 'name' => $campaign->name,
                 'subject' => $campaign->subject,
-                'owner' => $this->userRepository->staff($campaign->owner),
+                // 'owner' => $this->userRepository->staff($campaign->owner),
                 'send_status' => $campaign->sended,
                 'open' => $open,
                 'sended' => $sended,
