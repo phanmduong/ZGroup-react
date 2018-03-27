@@ -30,13 +30,13 @@ class ManageEventApiController extends ManageApiController
         $keyword = $request->keyword;
         $metaDescription = $request->meta_description;
 
+//        echo "$name, $avatarUrl,$slug";
         if (!$name || !$avatarUrl || !$slug) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu thông tin');
-        }
+            }
 
-        if ($id) {
-            $event = Event::find($id);
-        } else {
+        $event = Event::find($id);
+        if (!$event) {
             $event = new Event();
         }
 
@@ -60,4 +60,8 @@ class ManageEventApiController extends ManageApiController
             'event' => $event
         ]);
     }
+    //    public function getAllEvent(Request $request){
+//        $limit = $request->limit? $request->limit :9;
+//        $events = Event::
+//    }
 }
