@@ -21,7 +21,22 @@
             </div>
         </div>
     </div>
+    <div class="container text-center">
+        <div>
+            <p style="font-size: 32px; font-weight: 700; padding: 40px 20px 20px 20px">
+                NÂNG CAO HIỆU QUẢ LÀM VIỆC CỦA BẠN NGAY HÔM NAY
+            </p>
+            <p style="font-size: 16px">
+                Một không gian làm việc chung ( Coworking Space ) hiện đại  như tại Silicon Valley dành cho các Start Up Việt Nam.
+            </p>
+            <div style="display: flex; padding: 20px 20px 10px 20px">
+                <hr style="width: 50%">
+                <i class="fa fa-star-o" aria-hidden="true"></i>
+                <hr style="width: 50%">
+            </div>
 
+        </div>
+    </div>
     <div class="blog-4" style="margin-top:20px">
         <div class="container">
             <div class="row">
