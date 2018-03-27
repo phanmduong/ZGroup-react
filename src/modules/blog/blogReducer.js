@@ -1,15 +1,14 @@
-import * as types from '../../constants/actionTypes';
-import initialState from '../../reducers/initialState';
+import * as types from "../../constants/actionTypes";
+import initialState from "../../reducers/initialState";
 
 let tmpposts;
 export default function blogReducer(state = initialState.blog, action) {
-
     switch (action.type) {
         case types.UPDATE_FORM_POST:
             return {
                 ...state,
                 ...{
-                    post:  action.post
+                    post: action.post,
                     // {
                     //     ...state.post,
                     //     ...{
@@ -21,7 +20,7 @@ export default function blogReducer(state = initialState.blog, action) {
                     //         imageUrl: action.post.imageUrl,
                     //     }
                     // }
-                }
+                },
             };
         case types.RESET_FORM_POST_BLOG:
             return {
@@ -29,8 +28,8 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...{
                     post: {
                         ...initialState.blog.post,
-                    }
-                }
+                    },
+                },
             };
         case types.BEGIN_UPLOAD_IMAGE_BLOG:
             return {
@@ -41,9 +40,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isUpdatingImage: true,
                             updateImageError: false,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.UPLOAD_IMAGE_BLOG_SUCCESS:
             return {
@@ -54,10 +53,10 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isUpdatingImage: false,
                             updateImageError: false,
-                            imageUrl: action.imageUrl
-                        }
-                    }
-                }
+                            imageUrl: action.imageUrl,
+                        },
+                    },
+                },
             };
         case types.UPLOAD_IMAGE_BLOG_FAILED:
             return {
@@ -68,9 +67,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isUpdatingImage: false,
                             updateImageError: true,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.BEGIN_SAVE_POST_BLOG:
             return {
@@ -81,9 +80,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isSaving: true,
                             saveError: false,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.SAVE_POST_BLOG_SUCCESS:
             return {
@@ -95,9 +94,9 @@ export default function blogReducer(state = initialState.blog, action) {
                             isSaving: false,
                             saveError: false,
                             id: action.postId,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.SAVE_POST_BLOG_FAILED:
             return {
@@ -108,9 +107,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isSaving: false,
                             saveError: true,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.BEGIN_LOAD_CATEGORIES:
             return {
@@ -121,9 +120,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isLoading: true,
                             error: false,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.LOAD_CATEGORIES_SUCCESS:
             return {
@@ -134,10 +133,10 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isLoading: false,
                             error: false,
-                            categories: action.categories
-                        }
-                    }
-                }
+                            categories: action.categories,
+                        },
+                    },
+                },
             };
         case types.LOAD_CATEGORIES_ERROR:
             return {
@@ -148,9 +147,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isLoading: false,
                             error: true,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.BEGIN_CREATE_CATEGORY:
             return {
@@ -161,9 +160,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isCreating: true,
                             error: false,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.CREATE_CATEGORY_SUCCESS:
             return {
@@ -174,9 +173,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isCreating: false,
                             error: false,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.CREATE_CATEGORY_FAILED:
             return {
@@ -187,9 +186,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isCreating: false,
                             error: true,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.UPDATE_FORM_CREATE_CATEGORY:
             return {
@@ -197,22 +196,18 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...{
                     category: {
                         ...state.category,
-                        name: action.category.name
-                    }
-                }
+                        name: action.category.name,
+                    },
+                },
             };
         case types.BEGIN_PRE_SAVE_POST_BLOG:
             return {
                 ...state,
-                ...{
-                    post: {
-                        ...state.post,
-                        ...{
-                            isPreSaving: true,
-                            preSaveError: false,
-                        }
-                    }
-                }
+                post: {
+                    ...state.post,
+                    isPreSaving: true,
+                    preSaveError: false,
+                },
             };
         case types.PRE_SAVE_POST_BLOG_SUCCESS:
             return {
@@ -224,9 +219,9 @@ export default function blogReducer(state = initialState.blog, action) {
                             isPreSaving: false,
                             preSaveError: false,
                             id: action.postId,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.PRE_SAVE_POST_BLOG_FAILED:
             return {
@@ -237,9 +232,9 @@ export default function blogReducer(state = initialState.blog, action) {
                         ...{
                             isPreSaving: false,
                             preSaveError: true,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
         case types.BEGIN_LOAD_POSTS_BLOG:
             return {
@@ -247,7 +242,7 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...{
                     isLoading: true,
                     error: false,
-                }
+                },
             };
         case types.LOAD_POSTS_BLOG_SUCCESS:
             tmpposts = prefixDataPost(action.posts);
@@ -259,7 +254,7 @@ export default function blogReducer(state = initialState.blog, action) {
                     posts: tmpposts,
                     currentPage: action.currentPage,
                     totalPages: action.totalPages,
-                }
+                },
             };
         case types.LOAD_POSTS_BLOG_ERROR:
             return {
@@ -267,12 +262,12 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...{
                     isLoading: false,
                     error: true,
-                }
+                },
             };
         case types.DELETE_POST_BLOG_SUCCESS:
             return {
                 ...state,
-                posts: state.posts.filter((post) => post.id !== action.postId)
+                posts: state.posts.filter(post => post.id !== action.postId),
             };
         case types.BEGIN_LOAD_POST_BLOG:
             return {
@@ -280,7 +275,7 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...{
                     isLoadingPost: true,
                     errorPost: false,
-                }
+                },
             };
         case types.LOAD_POST_BLOG_SUCCESS:
             return {
@@ -290,9 +285,9 @@ export default function blogReducer(state = initialState.blog, action) {
                     errorPost: false,
                     post: {
                         ...state.post,
-                        ...action.post
-                    }
-                }
+                        ...action.post,
+                    },
+                },
             };
         case types.LOAD_POST_BLOG_ERROR:
             return {
@@ -300,9 +295,8 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...{
                     isLoadingPost: false,
                     errorPost: true,
-                }
+                },
             };
-
 
         case types.CHANGE_STATUS_IN_BLOG:
             tmpposts = changeStatus(state.posts, action.id, action.status);
@@ -310,7 +304,6 @@ export default function blogReducer(state = initialState.blog, action) {
                 ...state,
                 posts: tmpposts,
             };
-
 
         case types.BEGIN_LOAD_CATEGORIES_IN_BLOG:
             return {
@@ -335,11 +328,10 @@ export default function blogReducer(state = initialState.blog, action) {
 
 function changeStatus(posts, id, status) {
     tmpposts = [];
-    tmpposts = posts.map((post) => {
+    tmpposts = posts.map(post => {
         if (post.id === id) {
-            return {...post, status: 1 - status};
-        }
-        else {
+            return { ...post, status: 1 - status };
+        } else {
             return post;
         }
     });
@@ -348,10 +340,10 @@ function changeStatus(posts, id, status) {
 
 function prefixDataPost(posts) {
     tmpposts = [];
-    tmpposts = posts.map((post) => {
+    tmpposts = posts.map(post => {
         let tmpAva = post.author.avatar_url;
         let tmpImg = post.image_url;
-        let tmpTit = post.title.split('');
+        let tmpTit = post.title.split("");
         if (tmpAva.slice(0, 4) !== "http") {
             tmpAva = "http://".concat(tmpAva);
         }
@@ -359,17 +351,14 @@ function prefixDataPost(posts) {
             tmpImg = "http://".concat(tmpImg);
         }
         if (tmpTit.length > 40) {
-            tmpTit = [...tmpTit.slice(0, 40) , ' . . .'];
+            tmpTit = [...tmpTit.slice(0, 40), " . . ."];
         }
         return {
             ...post,
-            author: {...post.author, avatar_url: tmpAva},
+            author: { ...post.author, avatar_url: tmpAva },
             image_url: tmpImg,
             title: tmpTit.join(""),
         };
-
     });
     return tmpposts;
 }
-
-

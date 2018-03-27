@@ -75,6 +75,7 @@ class StorePostComponent extends React.Component {
             keyword,
             meta_description,
         } = this.props.post;
+
         return (
             <div>
                 <form role="form" id="form-post">
@@ -336,8 +337,10 @@ class StorePostComponent extends React.Component {
                                             <div className="row">
                                                 <Buttons
                                                     isSaving={
-                                                        this.props.isSaving ||
-                                                        this.props.isPreSaving
+                                                        this.props.post
+                                                            .isSaving ||
+                                                        this.props.post
+                                                            .isPreSaving
                                                     }
                                                     save={() =>
                                                         this.props.preSavePost(
@@ -357,7 +360,7 @@ class StorePostComponent extends React.Component {
                                                             "calc(100% + 48px)",
                                                         marginLeft: "-9px",
                                                     }}
-                                                    height={230}
+                                                    height={235}
                                                     close={
                                                         this.props.closeModal
                                                     }
@@ -417,6 +420,8 @@ StorePostComponent.propTypes = {
     category: PropTypes.object.isRequired,
     createCategory: PropTypes.func.isRequired,
     isLoadingPost: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    isPreSaving: PropTypes.bool.isRequired,
 };
 
 export default StorePostComponent;

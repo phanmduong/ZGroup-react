@@ -10,13 +10,19 @@ class StorePostComponent extends React.Component {
     componentDidMount() {
         const { scrollerId } = this.props;
         $(scrollerId).scroll(() => {
+            const limit = $(scrollerId + " .modal-body").outerHeight() + 100;
+
             const scroll = $(scrollerId).scrollTop();
-            const topButtons = $(window).height() - this.props.height + "px";
-            $(".blog-buttons").css("top", topButtons);
-            $(".blog-buttons").css(
-                "transform",
-                "translate(0px, " + scroll + "px)",
-            );
+
+            if (scroll < limit - $(scrollerId).height() + 100) {
+                const topButtons =
+                    $(window).height() - this.props.height + "px";
+                $(".blog-buttons").css("top", topButtons);
+                $(".blog-buttons").css(
+                    "transform",
+                    "translate(0px, " + scroll + "px)",
+                );
+            }
         });
         const topButtons = $(window).height() - this.props.height + "px";
         $(".blog-buttons").css("top", topButtons);
