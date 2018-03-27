@@ -73,7 +73,7 @@
                     <div class="article-content">
                         {!! $lesson->detail_content !!}
                     </div>
-                    <hr>
+                    <!-- <hr>
                     <h3 class="card-title text-center">Liên hệ với Elight</h3>
 
                         <div>
@@ -113,7 +113,7 @@
                              data-href="{{config('app.protocol').config('app.domain').'/book/'.$course->id.'/'.$lesson->id}}"
                              data-width="100%" data-numposts="5">
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             <div class="col-md-4">
                     <div class="dropdown">
@@ -122,24 +122,24 @@
                                type="text"/>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="dropdown">
                                 <button type="button" data-toggle="dropdown" class="btn btn-round dropdown-toggle btn-block"
                                         aria-expanded="false"
                                         style="background-color: #0275d8; color: white; border-color: #0275d8; text-align: center;">
                                         @if($term_id)
-                                            {{\App\Term::find($term_id)->name}} : {{\App\Term::find($term_id)->description}}
+                                            {{\App\Term::find($term_id)->name}}
                                         @else
                                             Bài học
                                         @endif
-                                    <span class="caret"></span>
+                                    <span class="caret" style="font-size=15px"></span>
                                 </button>
                                 <ul class="dropdown-menu"
                                     style="background: white; box-shadow: rgba(0, 0, 0, 0.15) 0px 6px 10px -4px; border-radius: 5px !important; margin-top:6px">
                                     @foreach($terms as $term)
                                         <a  href="/book/{{$course->id}}/{{$term->id}}"
                                             class="dropdown-item"
-                                            style="padding: 10px 15px !important; border-radius: 0px !important;text-align: center">
+                                            style="padding: 10px 15px !important; border-radius: 0px !important;text-align: left">
                                             {{$term->name}}
                                         </a>
                                     @endforeach
@@ -174,6 +174,54 @@
             <br><br>
         </div>
         <br><br><br>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                    <hr>
+                    <h3 class="card-title text-center">Liên hệ với Elight</h3>
+
+                        <div>
+                                        <div role="form" id="contact-form" method="post" action="#">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <div class="card-block">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Họ và tên</label>
+                                                    <input id="e-name" type="text" name="name" class="form-control" placeholder="Họ và tên người nhận">
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Email</label>
+                                                    <input id ="e-email" type="email" name="email" class="form-control" placeholder="Email người nhận">
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Lời nhắn</label>
+                                                    <textarea id="e-message" name="question" class="form-control" id="message" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div id="alert"> </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-primary pull-right" id="submit-1">Gửi tin nhắn
+                                                        </button></div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="comments media-area" style="z-index:997">
+                        <div class="fb-comments"
+                             data-href="{{config('app.protocol').config('app.domain').'/book/'.$course->id.'/'.$lesson->id}}"
+                             data-width="100%" data-numposts="5">
+                        </div>
+                    </div>
+            </div>
+        </div>
     </div>
 
     <div id="modalInfo" class="modal fade" role="dialog">
@@ -255,7 +303,7 @@
         window.onload = function (e) {
             setTimeout(function () {
                 $('#modalInfo').modal('show');
-            }, 60000); //60000
+            }, 180000); //60000
         };
 
         $(document).ready(function () {

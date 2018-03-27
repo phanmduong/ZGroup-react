@@ -43,22 +43,17 @@
                                 <div class="article-content">
                                     {!!$post->content !!}
                                 </div>
-                                <div class="article-footer">
-                                    <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519572859mnSTADMESIABzdK.JPG');background-size: cover;background-color: black;min-height: 350px">
-                                        <div class="content-center">
-                                            <div class="container">
-                                                <h2 style="font-weight: 400">Sách Tiếng Anh Cơ Bản
-                                                </h2>
-
-                                                <h4 style="color:white">
-                                                    Cuốn sách học Tiếng Anh số 1 dành cho người mới bắt đầu
-                                                </h4>
-                                                <br>
-                                                <a href="javascript:void(0)" onClick="pureJsOpenModalBuy(8)" class="btn btn-success btn-round" style="color:white">Đặt mua sách
-                                                </a>
-                                            </div>
+                                <br>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a href="javascript:void(0)" onClick="pureJsOpenModalBuy(8)" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Đăng ký tại đây</a>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="article-footer">
                                     <br>
                                     <div class="container">
                                         <div class="row">

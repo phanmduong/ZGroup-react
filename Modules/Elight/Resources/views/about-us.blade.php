@@ -36,7 +36,7 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="card-image">
-                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1521640639jqw5Z2Ul0RMnenL.jpg" />
+                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1522076000ePRvefp8bYrcQy6.jpg" />
                                     </div>
                                 </div>
                                 <div class="col-md-7">
