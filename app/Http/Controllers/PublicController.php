@@ -924,8 +924,53 @@ class PublicController extends Controller
 
     public function send_noti_test()
     {
-        $a = new SendSurvey();
-        $a->handle();
+        // $phones = Register::join("users", "users.id", "=", "registers.user_id")
+        //     ->join("classes", "classes.id","=", "registers.class_id")
+        //     ->where("classes.base_id", "<>", 6)
+        //     ->whereIn("registers.gen_id", [25, 26, 28])
+        //     ->where('registers.status', 0)
+        //     ->select("users.phone as phone")->distinct()
+        //     ->pluck("phone");
+        // $phones[] = "0969785925";
+        // dd($phones);
+        
+        // $content = "ColorME danh tang rieng cho ban ma uu dai CMSMS giam 30% khi thanh toan truoc 30/3. Dang ki tai http://colorme.vn/courses/1/29";
+        // $client = new \GuzzleHttp\Client(['base_uri' => "http://api-02.worldsms.vn"]);
+        // $headers = [
+        //     "Content-Type" => "application/json",
+        //     "Accept" => "application/json",
+        //     "Authorization" => "Basic " . config('app.sms_key')
+        // ];
+
+
+        // $phone = preg_replace('/[^0-9]+/', '', $register->user->phone);
+        // foreach ($phones as $phone) {
+        //     $body = json_encode([
+        //         "from" => config('app.brand_sms'),
+        //         "to" => $phone,
+        //         "text" => convert_vi_to_en_not_url($content)
+        //     ]);
+
+        //     $request = new \GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
+        //     $response = $client->send($request);
+        //     $status = json_decode($response->getBody())->status;
+
+        //     $sms = new \App\Sms();
+        //     $sms->content = convert_vi_to_en_not_url($content);
+        //     // $sms->user_id = $register->user_id;
+        //     $sms->user_id = 1;
+        //     $sms->purpose = "marketing";
+        //     if ($status == 1) {
+        //         $sms->status = "success";
+        //     } else {
+        //         $sms->status = "failed";
+        //     }
+        //     $sms->save();
+        // }
+        
+
+        
+
         return "test";
     }
 
