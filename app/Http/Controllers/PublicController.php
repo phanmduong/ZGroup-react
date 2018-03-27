@@ -236,9 +236,6 @@ class PublicController extends Controller
             if ($request->other_reason) {
                 $user->how_know = $request->other_reason;
             }
-
-            $user->save();
-
         } else {
             $user->university = $request->university;
             $user->work = $request->work;
@@ -248,8 +245,15 @@ class PublicController extends Controller
             $user->dob = date('Y-m-d', strtotime($request->dob));
             $user->facebook = $request->facebook;
 
-            $user->save();
+
         }
+
+        if ($user->password == null) {
+            $user->password = bcrypt($phone);
+        }
+        $user->rate = 5;
+        $user->save();
+
         $register = new Register;
         $register->user_id = $user->id;
         $register->gen_id = Gen::getCurrentGen()->id;
@@ -286,8 +290,12 @@ class PublicController extends Controller
             $user->password = bcrypt($phone);
             $user->username = $request->email;
             $user->email = $request->email;
-
         }
+
+        if ($user->password == null) {
+            $user->password = bcrypt($phone);
+        }
+        $user->rate = 5;
         $user->name = $request->name;
         $user->phone = $phone;
         $user->save();
