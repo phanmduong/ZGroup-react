@@ -24,6 +24,7 @@ class CouponController extends ManageApiController
         $category_id = $request->category_id;
         $start_time = $request->start_time;
         $end_time = $request->end_time;
+        $cover_url = $request->cover_url;
         $shared = $request->shared;
         $customer_group_id = $request->customer_group_id;
         if ($name == null || $discount_type == null || $discount_value == null || $type == null || $used_for == null ||
@@ -42,6 +43,7 @@ class CouponController extends ManageApiController
         $coupon->used_for = $used_for;
         $coupon->type = $type;
         $coupon->order_value = $order_value;
+        $coupon->cover_url = $cover_url;
         $coupon->good_id = $good_id;
         $coupon->customer_id = $customer_id;
         $coupon->category_id = $category_id;

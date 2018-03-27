@@ -47,6 +47,7 @@ class Coupon extends Model
             'start_time' => format_vn_date(strtotime($this->start_time)),
             'end_time' => format_vn_date(strtotime($this->end_time)),
             'activate' => $this->activate,
+            'cover_url' => $this->cover_url
         ];
         if ($this->used_for == 'order')
             $data['order_value'] = $this->order_value;

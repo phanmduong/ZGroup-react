@@ -9,6 +9,7 @@
 namespace Modules\Company\Http\Controllers;
 
 
+use App\AdvancePayment;
 use App\Http\Controllers\ManageApiController;
 use App\RequestVacation;
 use DateTime;
@@ -95,27 +96,134 @@ class AdministrationController extends ManageApiController
         ]);
     }
 
-//    public function allReports(Request $request)
-//    {
-//        $reports = DB::table('reports')->paginate(2);
-//    }
+    public function getAllAdvancePayment(Request $request){
+        $limit = $request->limit ? $request->limit : 20;
+        if($limit == -1){
+            $datas  = AdvancePayment::all();
+            return $this->respondSuccessWithStatus([
+                "data" => $datas->map(function($data){
+                    return $data->transform();
+                })
+            ]);
+        } else {
+            $datas = AdvancePayment::orderBy('created_at','desc')->paginate($limit);
+            return $this->respondWithPagination($datas,[
+                "data" => $datas->map(function($data){
+                    return $data->transform();
+                })
+            ]);
+        }
 
-    public function createReport(Request $request)
-    {
-        $report = new Report();
-        $report->staff_id = $request->user()->id;
-        $report->report = $request->report;
-        $report->save();
-
-        return "Ok";
+    }
+    public function changeStatusAdvancePayment($advancePaymentId,Request $request){
+        $data = AdvancePayment::find($advancePaymentId);
+        $data->status = $request->status;
+        $data->money_received = $request->money_received;
+        $data->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi trạng thái thành công"
+        ]);
     }
 
-    public function editReport(Request $request)
+    public function createAdvancePayment(Request $request){
+        $data = new AdvancePayment;
+        $data->staff_id = $request->staff_id;
+        $data->reason = $request->reason;
+        $data->money_payment = $request->money_payment;
+        $data->type = $request->type;
+        $data->save();
+        $ppp = DateTime::createFromFormat('Y-m-d', $data->created_at);
+        $day = date_format($ppp, 'd');
+        $month = date_format($ppp, 'm');
+        $year = date_format($ppp, 'y');
+        $id = (string)$data->id;
+        while (strlen($id) < 4) $id = '0' . $id;
+        $data->command_code = "TAMUNG" . $day . $month . $year . $id;
+
+        $request->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Tạo đơn thành công"
+        ]);
+
+
+    }
+
+    public function editAdvancePayment($advancePaymentId,Request $request){
+        $data = AdvancePayment::find($advancePaymentId);
+        $data->staff_id = $request->staff_id;
+        $data->reason = $request->reason;
+        $data->money_payment = $request->money_payment;
+        $data->money_received = $request->money_received;
+        $data->type = $request->type;
+        $data->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Sửa đơn thành công"
+        ]);
+    }
+
+    public function PaymentAdvance($advancePaymentId,Request $request){
+        $data = AdvancePayment::find($advancePaymentId);
+        $data->money_used = $request->money_used;
+        $data->date_complete = $request->date_complete;
+        $data->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Hoàn ứng thành công"
+        ]);
+    }
+
+
+    public function createReport($staff_id,Request $request)
     {
-        $report = Report::find($request->id);
+        $report = new Report();
+        $report->staff_id = $staff_id;
+        $report->title = $request->title;
         $report->report = $request->report;
         $report->save();
 
-        return "Ok";
+        return $this->respondSuccessWithStatus([
+            "message"=>"Tạo báo cáo thành công"
+        ]);
+    }
+
+    public function editReport(Request $request,$staff_id,$id)
+    {
+        $report = Report::find($id);
+        if($report->report != $request->report){
+            if($report->staff_id == $staff_id) {
+                $report->report = $request->report;
+                $report->title = $request->title;
+                $report->save();
+            }else{
+                return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
+            }
+        }else{
+            return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
+        }
+        
+        return $this->respondSuccessWithStatus([
+           "message"=>"Sửa báo cáo thành công"
+        ]);
+    }
+
+    public function showReportId(Request $request, $id)
+    {
+        $report = Report::where('id',$id)->get();
+//        dd($report);
+        return $this->respondSuccessWithStatus([
+            "report" => $report->map(function($report){
+                return $report->transform();
+            })
+        ]);
+    }
+
+    public function showReports(Request $request)
+    {
+        $limit = $request->limit ? $request->limit :20;
+        $reports= Report::orderBy('created_at','desc')->paginate($limit);
+        return $this->respondWithPagination($reports,[
+            "reports"=> $reports->map(function($report){
+                return $report->transform();
+            })
+        ]);
     }
 }

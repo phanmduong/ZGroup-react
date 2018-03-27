@@ -80,18 +80,7 @@
 
 @push('scripts')
     <script>
-        var search = new Vue({
-            el: '#search-blog',
-            data: {
-                search: '{!! $search !!}'
-            },
-            methods: {
-                searchBlog: function () {
-                    window.open('/blog?page=1&search=' + this.search, '_self');
-                }
-            }
 
-        })
 
         var pagination = new Vue({
             el: '#pagination-blogs',
