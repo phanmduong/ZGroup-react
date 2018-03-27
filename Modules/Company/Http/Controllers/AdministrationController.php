@@ -205,11 +205,11 @@ class AdministrationController extends ManageApiController
         ]);
     }
 
-    public function showReportId(Request $request, $id)
+    public function showReportStaffId(Request $request, $staff_id)
     {
-        $report = Report::find($id)->get();
+        $reports = Report::find($staff_id)->get();
         return $this->respondSuccessWithStatus([
-            "report" => $report->transform()
+            "report" => $reports->transform()
         ]);
     }
 
