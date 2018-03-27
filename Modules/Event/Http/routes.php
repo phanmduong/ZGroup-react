@@ -7,7 +7,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'event', 'namespace' => 'Module
 $eventRoutes = function() {
     Route::post("/", "ManageEventApiController@saveEvent" );
     Route::put("/", "ManageEventApiController@saveEvent" );
-    Route::put("/{id}/change-status/{status}", "ManageEventApiController@changeStatusEvent" );
+    Route::put("/{id}/change-status", "ManageEventApiController@changeStatusEvent" );
     Route::get("/","ManageEventApiController@getAllEvents");
 };
 
