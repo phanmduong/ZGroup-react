@@ -229,7 +229,7 @@ class AdministrationController extends ManageApiController
 
     public function deleteReport(Request $request, $id)
     {
-        Report::find($id)->delete();
+        Report::where('id',$id)->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
         ]);
