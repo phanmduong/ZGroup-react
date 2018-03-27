@@ -10,6 +10,7 @@ class ManageEventApiController extends ManageApiController
 {
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function saveEvent(Request $request)
@@ -54,6 +55,7 @@ class ManageEventApiController extends ManageApiController
         $event->meta_title = $metaTitle;
         $event->keyword = $keyword;
         $event->meta_description = $metaDescription;
+        $event->user_id = $this->user->id;
         $event->save();
 
         return $this->respondSuccessV2([
