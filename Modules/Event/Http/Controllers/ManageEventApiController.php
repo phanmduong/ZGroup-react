@@ -34,7 +34,7 @@ class ManageEventApiController extends ManageApiController
 //        echo "$name, $avatarUrl,$slug";
         if (!$name || !$avatarUrl || !$slug) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu thông tin');
-            }
+        }
 
         $event = Event::find($id);
         if (!$event) {
@@ -62,11 +62,20 @@ class ManageEventApiController extends ManageApiController
             'event' => $event
         ]);
     }
-        public function getAllEvents(Request $request){
-            $search = $request->search;
-        $events = Event::where('name','like',"%$search%")->paginate();
+
+    public function getAllEvents(Request $request)
+    {
+        if (!$request->limit) {
+            $limit = 20;
+        } else {
+            $limit = $request->limit;
+        }
+        $search = $request->search;
+        $events = Event::where('name', 'like', "%$search%")->paginate($limit);
         return $this->respondWithPagination($events, [
-            'events' => $events->map(function($event){return $event->getData();})
+            'events' => $events->map(function ($event) {
+                return $event->getData();
+            })
         ]);
     }
 }
