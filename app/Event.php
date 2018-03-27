@@ -8,6 +8,9 @@ class Event extends Model
 {
     protected $table = "events";
 
+    public function creator(){
+        return $this->belongsTo(User::class,'user_id');
+    }
     public function getData()
     {
         return [
@@ -19,6 +22,7 @@ class Event extends Model
             "cover_url" => $this->cover_url,
             "avatar_url" => $this->avatar_url,
             "slug" => $this->slug,
+            "creator" => $this->creator->getData(),
         ];
     }
 }
