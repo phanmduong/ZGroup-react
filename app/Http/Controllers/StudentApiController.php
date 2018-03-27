@@ -54,7 +54,6 @@ class StudentApiController extends ApiController
                     ->orWhere('phone', 'like', '%' . $search . '%')
                     ->orWhere('name', 'like', '%' . $search . '%');
             })->paginate($limit);
-
         $newest_code = Register::orderBy('code', 'desc')->first()->code;
         return $this->respondWithPagination($students,
             [

@@ -10,6 +10,7 @@ class ManageEventApiController extends ManageApiController
 {
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function saveEvent(Request $request)
@@ -30,13 +31,13 @@ class ManageEventApiController extends ManageApiController
         $keyword = $request->keyword;
         $metaDescription = $request->meta_description;
 
+//        echo "$name, $avatarUrl,$slug";
         if (!$name || !$avatarUrl || !$slug) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu thông tin');
         }
 
-        if ($id) {
-            $event = Event::find($id);
-        } else {
+        $event = Event::find($id);
+        if (!$event) {
             $event = new Event();
         }
 
@@ -54,10 +55,27 @@ class ManageEventApiController extends ManageApiController
         $event->meta_title = $metaTitle;
         $event->keyword = $keyword;
         $event->meta_description = $metaDescription;
+        $event->user_id = $this->user->id;
         $event->save();
 
         return $this->respondSuccessV2([
             'event' => $event
+        ]);
+    }
+
+    public function getAllEvents(Request $request)
+    {
+        if (!$request->limit) {
+            $limit = 20;
+        } else {
+            $limit = $request->limit;
+        }
+        $search = $request->search;
+        $events = Event::where('name', 'like', "%$search%")->paginate($limit);
+        return $this->respondWithPagination($events, [
+            'events' => $events->map(function ($event) {
+                return $event->getData();
+            })
         ]);
     }
 }
