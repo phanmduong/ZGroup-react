@@ -16,6 +16,7 @@ class Event extends Model
         return [
             "name" => $this->name,
             "id" => $this->id,
+            "created_at"=>$this->created_at,
             "address" => $this->address,
             "detail" => $this->detail,
             "status" => $this->status,
