@@ -62,8 +62,11 @@ class ManageEventApiController extends ManageApiController
             'event' => $event
         ]);
     }
-    //    public function getAllEvent(Request $request){
-//        $limit = $request->limit? $request->limit :9;
-//        $events = Event::
-//    }
+        public function getAllEvents(Request $request){
+            $search = $request->search;
+        $events = Event::where('name','like',"%$search%")->paginate();
+        return $this->respondWithPagination($events, [
+            'events' => $events->map(function($event){return $event->getData();})
+        ]);
+    }
 }
