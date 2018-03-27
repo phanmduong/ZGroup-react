@@ -4,12 +4,14 @@ $apiRoutes = function () {
     Route::get('/blogs', 'BookingController@blogs');
     Route::get('/user-packs', 'BookingController@allUserPacks');
     Route::post('/register/{campaignId?}', 'BookingController@appRegister');
+    Route::post('/booking/{campaignId?}', 'BookingController@appBooking');
     Route::get('/history-registers', 'BookingController@historyRegister');
 };
 
 $publicRoutes = function () {
     Route::get('/api/province', 'BookingController@province');
     Route::get('/api/province/{provinceId}/base', 'BookingController@basesInProvince');
+    Route::get('/api/base', 'BookingController@allBases');
     Route::post('/api/register', 'BookingController@register');
     Route::get('/api/user-packs', 'BookingController@allUserPacks');
     Route::get('/api/user-pack/{userPackId}', 'BookingController@userPack');
@@ -39,7 +41,7 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
 
 Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $apiRoutes);
-Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
 
 Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);

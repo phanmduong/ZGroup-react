@@ -16,6 +16,8 @@ $baseRoutes = function () {
 
         Route::get('/{baseId}', 'ManageBaseApiController@getBase');
         Route::put('/{baseId}', 'ManageBaseApiController@editBase');
+
+        Route::get('/room/{roomId}/classes',"ManageBaseApiController@getClassesByRoom");
     });
 };
 

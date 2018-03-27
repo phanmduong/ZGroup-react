@@ -338,7 +338,7 @@
         <div id="fb-root"></div>
     </div>
     <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
-       href="tel:{{isset($saler) && $saler->base_id == 6 ? '0932274877‬' : '0982351051'}}"
+       href="tel:{{isset($saler) && $saler->base_id == 6 ? '0932274877‬' : '01627175613'}}"
        title="Gửi tin nhắn cho chúng tôi qua Facebook"
        class="ctrlq fb-button">
         <div class="bubble-msg">Gọi colorME</div>

@@ -1,19 +1,25 @@
+function formatPrice(price) {
+    return (
+        price
+            .toString()
+            .replace(/\./g, "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ"
+    );
+}
+
 var modalBuy = new Vue({
     el: "#modalBuy",
     data: {
         isLoading: false,
         goods: [],
         total_price: 0,
-        price_vnd: '',
     },
     methods: {
         getGoodsFromSesson: function () {
             axios.get(window.url + '/load-books-from-session')
                 .then(function (response) {
-                    console.log(response.data.goods);
                     this.goods = response.data.goods;
                     this.total_price = response.data.total_price;
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
                     this.isLoading = false;
                     openWithoutAdd.countBooksFromSession();
                 }.bind(this))
@@ -38,8 +44,7 @@ var modalBuy = new Vue({
                 good = this.goods[i];
                 if (good.id === goodId) {
                     good.number -= 1;
-                    this.total_price -= good.price * (1 - good.coupon_value);
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                    this.total_price -= good.price;
                     if (good.number !== 0)
                         newGoods.push(good);
                 }
@@ -61,8 +66,7 @@ var modalBuy = new Vue({
                 good = this.goods[i];
                 if (good.id === goodId) {
                     good.number += 1;
-                    this.total_price += good.price * (1 - good.coupon_value);
-                    this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
+                    this.total_price += good.price;
                 }
                 newGoods.push(good);
             }
@@ -183,15 +187,14 @@ var modalPurchase = new Vue({
                     $("#btn-purchase-group").css("display", "block");
                     $("#modalPurchase").modal("hide");
                     $("#modalSuccess").modal("show");
-                    name = "";
-                    phone = "";
-                    email = "";
-                    address = "";
-                    payment = "";
+                    this.name = "";
+                    this.phone = "";
+                    this.email = "";
+                    this.address = "";
+                    this.payment = "";
                 })
 
                 .catch(function (error) {
-                    console.log(error);
                 });
         },
     }
