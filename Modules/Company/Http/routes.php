@@ -63,7 +63,7 @@ $companyRoutes = function () {
 
         //Report model
         Route::get('/reports/all','AdministrationController@showReports');
-        Route::get('/reports/{staff_id}','AdministrationController@showReportStaffId');
+        Route::get('/report/{id}','AdministrationController@showReportId');
         Route::post('/report/{staff_id}/create','AdministrationController@createReport');
         Route::put('/report/{staff_id}/edit/{id}','AdministrationController@editReport');
     });
