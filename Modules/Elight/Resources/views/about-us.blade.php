@@ -2,24 +2,29 @@
 @section('content')
 
     <div class="page-header page-header-small"
-         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315148lid7m57PXMpi8ig.png');">
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1521640549wfNXwX5DuWtzspd.jpg');">
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
-                <h2 style="font-weight: 400">Chào mừng bạn<br>
-                    đến với thế giới của Elight Book<br>
+                <h2 style="font-weight: 400">
+                    Nhà Sách Elight
                 </h2>
 
                 <h4 style="color:white">
-                    Cùng học tiếng anh với Elight nhé
+                    Trải nghiệm học ngoại ngữ dễ dàng, hiệu quả và tối ưu cho người Việt.
                 </h4>
+                <br>
+                <a href="/#buyBooks" class="btn btn-success btn-round" style="color:white">Tìm hiểu ngay</a>
+
             </div>
         </div>
     </div>
     <div class="container">
-        <h4 style="text-align: center ;margin-left: 200px ; margin-right: 200px; margin-bottom: 50px">
-            At Moz, we believe there is a better way to do marketing. A more valuable, less invasive way where customers are earned rather than bought. We’re obsessively passionate about it, and our mission is to help people achieve it. We focus on search engine optimization (SEO). It's one of the least understood and least transparent aspects of great marketing, and we see that as an opportunity: We're excited to simplify SEO for everyone through our software, education, and community.
-        </h4>
+        <div class="row">
+            <h4 style="text-align: center ;margin-left: 50px ; margin-right: 50px; margin-bottom: 50px">
+                Tiếng Anh vẫn luôn là một rào cản lớn với người học Việt Nam. Việc thiếu vắng môi trường giao tiếp, chương trình học phổ cập không phù hợp khiến đa số người học Tiếng Anh không tiến bộ sau nhiều năm trời. Tại Elight, chúng tôi tin rằng “Ai cũng có thể dễ dàng học tiếng Anh” và sẽ luôn có một giải pháp nhanh hơn, dễ hiểu và dễ tiếp cận hơn cho người học. Chúng tôi đam mê và không ngần ngại truyền tải niềm tin này tới tất cả mọi người thông qua sản phẩm, công nghệ và cộng đồng của Elight. 
+            </h4>
+        </div>
     </div>
     <div class="cd-section section-gray">
         <div class="blog-1">
@@ -31,16 +36,16 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="card-image">
-                                        <img class="img" src="https://moz.imgix.net/about/Our-Story/young-rand.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=039c8eb8981dd184a0ae0ba8eddfc081" />
+                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1522076000ePRvefp8bYrcQy6.jpg" />
                                     </div>
                                 </div>
                                 <div class="col-md-7">
-                                    <div class="card-block">
+                                    <div class="card-block" style="padding-top:0px">
                                         <h3 class="card-title">
-                                            Our founding
-                                        </h3>
-                                        <p class="card-description">
-                                            Moz was founded by Rand Fishkin and Gillian Muessig in 2004. It was called SEOmoz, and started as a blog and an online community where some of the world's first SEO experts shared their research and ideas. We launched the Beginner's Guide to SEO and our first Search Ranking Factors study, and that hub of industry expertise transformed into a small consulting firm and led us to create some of our first SEO tools.
+                                            ĐIỂM KHỞI ĐẦU				
+				                        </h3>
+                                        <p class="card-description" style="color:black">
+                                            Nhà sách Elight được thành lập vào 2016. Trong suốt 5 năm trước đó, nhờ hoạt động trực tiếp giảng dạy Tiếng Anh “vỡ lòng” cho hàng ngàn học viên, chúng tôi thấu hiểu được mọi điểm yếu và khó khăn một người mới học Tiếng Anh sẽ gặp phải. Vì vậy, Elight tự xây dựng 1 bộ giáo trình tối ưu nhất, biến mọi vấn đề gặp phải khi học Tiếng Anh trở nên dễ hiểu, dễ nhớ. Từ đó, đầu sách Tiếng Anh Cơ Bản ra đời, thể hiện trọn vẹn tinh thần và mong muốn của Elight dành cho người học Việt Nam. 
                                         </p>
 
                                     </div>
@@ -65,16 +70,14 @@
                             <div class="card card-plain card-blog">
                                 <div class="row">
                                     <div class="col-md-7">
-                                        <div class="card-block">
+                                        <div class="card-block" style="padding-top:0px">
                                             <h3 class="card-title">
-                                                Early growth & funding
+                                            LẦN ĐẦU PHÁT HÀNH
 
 
                                             </h3>
-                                            <p class="card-description">
-                                                After a glimpse of the demand, we shifted our focus from consulting to our software, taking our first round of funding in 2007 to power the development of new tools and ideas. By 2009, we tallied our first 5,000 subscribers and codified our core values in the acronym TAGFEE, continuing to lead the industry with our educational content in an effort to demystify SEO (this is also when we started filming Whiteboard Fridays!).
-
-
+                                            <p class="card-description" style="color:black">
+                                                Ngay từ khi muốn xây dựng bộ sách, Elight chỉ có duy nhất một theo đuổi: “Sản phẩm tốt hoặc không gì cả”. Xuất phát là người giảng dạy rẽ ngang làm sách, chúng tôi hoàn toàn thiếu kinh nghiệm về in ấn, phát hành thương mại… Tuy nhiên với mong muốn mãnh liệt về một sản phẩm giải quyết mọi khó khăn cho người học, Elight quyết tâm hoàn thiện bộ sách,  mặc dù gặp khó khăn về vấn đề phát hành, vận chuyển, thanh toán. 
                                             </p>
 
                                         </div>
@@ -82,7 +85,7 @@
                                     </div>
                                     <div class="col-md-5">
                                         <div class="card-image">
-                                            <img class="img" src="https://moz.imgix.net/about/Our-Story/happy-mozzers.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=178b0770cb63498f92847f1bd67cc96f" />
+                                            <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1521640995LXnYLqoqsqYvFeT.jpg" />
                                         </div>
                                     </div>
 
@@ -105,16 +108,16 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="card-image">
-                                        <img class="img" src="https://moz.imgix.net/about/Our-Story/gold-roger-1.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=dbfa10cf94ca3a9973e8eb3c30b0599f" />
+                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1521641258LfwLsvXm4bMRIAk.jpg" />
                                     </div>
                                 </div>
                                 <div class="col-md-7">
-                                    <div class="card-block">
+                                    <div class="card-block" style="padding-top:0px">
                                         <h3 class="card-title">
-                                            Series B funding
-                                        </h3>
-                                        <p class="card-description">
-                                            A series B investment from The Foundry Group propelled our efforts into the broader realm of inbound marketing, a concept that rejects pushy sales in favor of attracting customers with real value. We acquired a Twitter analytics tool called Followerwonk as well as GetListed, a local SEO tool that has evolved into today's Moz Local.
+                                        HOÀN THIỆN DỊCH VỤ				
+				                        </h3>
+                                        <p class="card-description" style="color:black">
+                                            Nhanh chóng học hỏi và cải thiện, Nhà Sách ngay lập tức tập trung hoàn thiện chất lượng dịch vụ. Ngay lúc này, bạn dễ dàng<a href="javascript:void(0)" onClick="pureJsOpenModalBuy(8)" style="color:blue"> đặt mua sách tại đây</a> hoặc gọi đến số <strong style="color:black; font-weight: 525">0981 937 066</strong> để được hướng dẫn và tư vấn bởi sự nhiệt tình và thấu hiểu tận tâm người học. Mua sách online và thanh toán tận nơi ngay khi cầm lên tay cuốn sách đẹp còn thơm mùi mực in trên giấy màu. Chúng tôi mong muốn người học sẽ hài lòng và muốn học ngay cả khi chưa chạm vào sách. 				
                                         </p>
 
                                     </div>
@@ -139,24 +142,19 @@
                         <div class="card card-plain card-blog">
                             <div class="row">
                                 <div class="col-md-7">
-                                    <div class="card-block">
+                                    <div class="card-block" style="padding-top:0px">
                                         <h3 class="card-title">
-                                            A new leaf
-
-
+                                        ĐỒNG HÀNH TRỌN ĐỜI				
                                         </h3>
-                                        <p class="card-description">
-                                            With our broader marketing efforts in full swing, we rebranded from SEOmoz to Moz in 2013. We released a suite of campaign-based tools called Moz Analytics that included features for content, social media, and brand management in addition to links and rankings. We also celebrated 10 years in search and welcomed long-time Mozzer Sarah Bird as our new CEO.
-
-
+                                        <p class="card-description" style="color:black">
+                                        “Mình mua sách rồi giờ học thế nào?” Đừng quên tham gia nhóm <strong style = "color:black; font-weight:525">Elight Sách Tiếng Anh Cơ Bản</strong> trên Facebook để được hỗ trợ kiến thức từ giảng viên Elight. Đây là nơi bạn thoải mái trao đổi và giải đáp mọi khó khăn về Tiếng Anh, chia sẻ kiến thức cùng hơn 40.000 thành viên đang học sách từ mọi miền đất nước Việt Nam. Không chỉ là kiến thức trên giấy, Elight cung cấp cả môi trường giao tiếp cho bạn khi mua sách. Mà chúng tôi đã đề cập đến việc sẽ liên tục gửi tặng cho khách hàng cũ rất nhiều tài liệu học online hữu ích chưa nhỉ ? 				
                                         </p>
-
                                     </div>
 
                                 </div>
                                 <div class="col-md-5">
                                     <div class="card-image">
-                                        <img class="img" src="https://moz.imgix.net/about/Our-Story/10-years-of-moz-1.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=67979f89c746f34a38d3b40293335135" />
+                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1521641258FR1I95sTNfQZKTt.jpg" />
                                     </div>
                                 </div>
 
@@ -179,27 +177,41 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="card-image">
-                                        <img class="img" src="https://moz.imgix.net/about/Our-Story/james-mozplex.jpg?auto=format&ch=Width&fit=max&ixlib=php-1.1.0&q=50&w=1200&s=af3c49a545839aef8f2f95637397f2c5" />
+                                        <img class="img" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1521641258Fj2HQU1DbSSQ2bH.jpg" />
                                     </div>
                                 </div>
                                 <div class="col-md-7">
-                                    <div class="card-block">
+                                    <div class="card-block" style="padding-top:0px">
                                         <h3 class="card-title">
-                                            To Infinity and Beyond!
+                                        HƯỚNG VỀ PHÍA TRƯỚC				
+				
                                         </h3>
-                                        <p class="card-description">
-                                            With SEO more important than ever, in 2016 we made a difficult but necessary decision to reverse our expansion into inbound marketing, shifting our strategy back to what we know best: search. We're making dramatic improvements to our core products, Moz Pro and Moz Local, and continue to push for transparency and a clear understanding of an otherwise complex field. Did we mention we're also hiring?
-                                        </p>
+                                        <p class="card-description" style="color:black">
+                                            Với việc ngoại ngữ ngày càng quan trọng với người Việt, Nhà Sách Elight đang và sẽ tiếp tục xây dựng, phát triển những sản phẩm giá trị và hữu ích cho cộng đồng. Chúng tôi vẫn luôn cải tiến liên tục sản phẩm cốt lõi và mong muốn chạm tới giới hạn cao nhất về chất lượng và dịch vụ. Nếu bạn mong muốn sở hữu bộ sách học Tiếng Anh của chúng tôi, tìm hiểu <a href="/#buyBooks" style="color:blue">tại đây</a> nhé.				
+		                                </p>
 
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-header page-header-small"
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1521643292EmZEYg6gEaRGP9F.jpg');">
+        <div class="filter filter-dark"></div>
+        <div class="content-center">
+            <div class="container">
+                <h3 style="font-weight: 400">
+                    Bạn yêu thích Tiếng Anh, Giáo Dục và câu chuyện của Elight?
+                </h3>
+                <h4 style="color:white">
+                    Liên hệ qua email <strong>elightedu.kd@gmail.com</strong> để hợp tác và làm việc cùng chúng mình nhé ! 
+                </h4>
             </div>
         </div>
     </div>
@@ -262,12 +274,9 @@
         $("#submit").click(function (event) {
             event.preventDefault();
             event.stopPropagation();
-            // console.log("submit");
             var message_str = $('#message').val();
             var email = $('#email').val();
             var name = $('#name').val();
-            // console.log(radio);
-            // console.log(name);
             var ok = 0;
             if (email.trim() == "" || message_str.trim() == "" || name.trim() == "") ok = 1;
 
@@ -287,12 +296,9 @@
                     name: name,
                     _token: "{{csrf_token()}}"
                 };
-                console.log(data);
                 $.post(url, data, function (data, status) {
-                        console.log("Data: " + data + "\nStatus: " + status);
                     })
                     .fail(function (error) {
-                        console.log(error);
                     });
             }
         });
