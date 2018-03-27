@@ -98,7 +98,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 //new api routes
 
 Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Order\Http\Controllers'],
-    function () use ($orderRoutes) {
+    function () use ($orderRoutes, $customerRoutes) {
         Route::group(['prefix' => 'v3'], $orderRoutes);
         Route::group(['prefix' => 'v3'], $customerRoutes);
     });
