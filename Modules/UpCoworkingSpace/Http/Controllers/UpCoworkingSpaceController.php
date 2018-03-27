@@ -194,7 +194,7 @@ class UpCoworkingSpaceController extends Controller
         $event = DB::table('events')->where('slug', $slug)->first();
         $this->data['event'] = $event;
 
-        return view('upcoworkingspace::eventDetail', $this->data);
+        return view('upcoworkingspace::event_detail', $this->data);
     }
     // dang ky event
     public function eventSignUpForm($slug,\Illuminate\Http\Request $request)
@@ -203,9 +203,6 @@ class UpCoworkingSpaceController extends Controller
             'name' => 'required|max:255',
         ]);
 
-        return view('upcoworkingspace::signUp_form');
+        return view('upcoworkingspace::sign_up_form');
     }
-
-
-
 }
