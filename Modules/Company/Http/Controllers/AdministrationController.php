@@ -232,6 +232,6 @@ class AdministrationController extends ManageApiController
         Report::find($id)->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
-        ])
+        ]);
     }
 }
