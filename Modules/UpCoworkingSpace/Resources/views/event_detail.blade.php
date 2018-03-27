@@ -10,7 +10,7 @@
             <p class="card-description">
                 {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}
                 @if($event->end_date != $event->start_date)
-                    <span> -  {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
+                <span> -  {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
                 @endif
             </p>
             <p class="card-description">
@@ -20,7 +20,7 @@
                 @endif
             </p>
         </div>
-        <a href="{{route('event-form',['slug',$event->slug])}}">
+        <a href="{{'/event-form/' . $event->slug . '/sign-up-form'}}">
             <div class="btn" style="background-color: green">
                 Sign up
             </div>
