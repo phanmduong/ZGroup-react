@@ -153,6 +153,9 @@
                                                             Email: {{$email}}   <br/>
                                                             Đánh giá: {{$radio}}   <br/>
                                                             Lời nhắn: {{$message_str}} <br/>
+                                                            Giáo trình: {{$course->name}} <br/>
+                                                            Bài: {{$term->name}} <br/>
+                                                            {{$lesson->name}}
                                                         </td>
                                                     </tr>
 
