@@ -12,12 +12,14 @@ class EmailService
     protected $emailCompanyName;
     protected $emailCompanyFrom;
     protected $emailCompanyTo;
+    protected $emailCompanyLogo;
 
     public function __construct()
     {
         $this->emailCompanyName = config('app.email_company_name');
         $this->emailCompanyFrom = config('app.email_company_from');
         $this->emailCompanyTo = config('app.email_company_to');
+        $this->emailCompanyLogo = config('app.email_company_logo');
     }
 
     public function send_mail($user, $view, $subject)
@@ -110,6 +112,8 @@ class EmailService
 
         $data = convert_email_form($email_form);
         $searchReplaceArray = [
+            '[[EMAIL_COMPANY_NAME]]' => $this->emailCompanyName,
+            '[[EMAIL_COMPANY_LOGO]]' => $this->emailCompanyLogo,
             '[[COURSE_COVER_URL]]' => $course->cover_url,
             '[[COURSE_NAME]]' => $course->name,
             '[[COURSE_DURATION]]' => $course->duration,
