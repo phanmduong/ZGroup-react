@@ -51,7 +51,15 @@ class BlogsContainer extends React.Component {
     }
 
     closeModal() {
-        this.setState({ isOpenModal: false });
+        helper.confirm(
+            "warning",
+            "Cảnh báo",
+            "Bạn có chắc muốn đóng editor? <br/>Những dữ liệu chưa lưu sẽ bị mất!",
+            () => {
+                this.setState({ isOpenModal: false });
+            },
+        );
+        console.log("test");
     }
 
     deletePost(post) {
@@ -189,7 +197,8 @@ class BlogsContainer extends React.Component {
                     id="store-post-modal"
                     show={this.state.isOpenModal}
                     bsStyle="primary"
-                    onHide={() => {}}
+                    closeButton
+                    onHide={this.closeModal}
                     animation={false}
                 >
                     <Modal.Header>
