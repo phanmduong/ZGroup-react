@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 use Modules\NhatQuangShop\Repositories\BookRepository;
@@ -192,6 +193,10 @@ class NhatQuangShopController extends Controller
         return view('nhatquangshop::blogs', $this->data);
     }
 
+    
+
+   
+
     public function saveOrder(Request $request)
     {
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
@@ -237,5 +242,51 @@ class NhatQuangShopController extends Controller
     {
         Auth::logout();
         return redirect()->intended("/");
+    }
+
+    //Su kien
+    public function event(Request $request)
+    {
+        $events = DB::table('events');
+        $search = $request->search;
+
+        if ($search) {
+            $events = $events->where('name', 'like', '%' . $search . '%');
+        }
+        $events = $events->orderBy('created_at', 'desc')->paginate(6);
+        $display = '';
+        if ($request->page == null) {
+            $page_id = 2;
+        } else {
+            $page_id = $request->page + 1;
+        }
+        if ($events->lastPage() == $page_id - 1) {
+            $display = 'display:none';
+        }
+        $this->data['events'] = $events;
+        $this->data['page_id'] = $page_id;
+        $this->data['display'] = $events;
+        $this->data['search'] = $search;
+        $this->data['total_pages'] = ceil($events->total() / $events->perPage());
+        $this->data['current_page'] = $events->currentPage();
+
+        return view('nhatquangshop::events', $this->data);
+    }
+
+    public function eventDetail($slug)
+    {
+        $event = DB::table('events')->where('slug', $slug)->first();
+        $this->data['event'] = $event;
+
+        return view('nhatquangshop::eventDetail', $this->data);
+    }
+    // dang ky event
+    public function eventSignUpForm($slug,\Illuminate\Http\Request $request)
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'name' => 'required|max:255',
+        ]);
+
+        return view('nhatquangshop::signUp_form');
     }
 }
