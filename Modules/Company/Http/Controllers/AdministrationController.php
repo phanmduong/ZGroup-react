@@ -205,12 +205,12 @@ class AdministrationController extends ManageApiController
         ]);
     }
 
-    public function showReportStaffId(Request $request, $staff_id)
+    public function showReportId(Request $request, $id)
     {
-        $limit = $request->limit ? $request->limit :20;
-        $reports = Report::where('staff_id',$staff_id)->orderBy('created_at','desc')->paginate($limit);
-        return $this->respondWithPagination($reports,[
-            "reports" => $reports->map(function($report){
+        $report = Report::where('id',$id)->get();
+//        dd($report);
+        return $this->respondSuccessWithStatus([
+            "report" => $report->map(function($report){
                 return $report->transform();
             })
         ]);
