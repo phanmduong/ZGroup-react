@@ -100,6 +100,8 @@ Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain'
         ->where('path', '.*');
     Route::get('/sales/{path}', 'ClientController@sales')
         ->where('path', '.*');
+    Route::get('/telesales/{path}', 'ClientController@telesales')
+        ->where('path', '.*');
     Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
 });

@@ -119,4 +119,8 @@ class ClientController extends Controller
     {
         return view('client.sales');
     }
+    public function telesales()
+    {
+        return view('client.telesales');
+    }
 }
