@@ -96,6 +96,8 @@ Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain'
         ->where('path', '.*');
     Route::get('/landingpage/{path}', 'ClientController@landingPage')
         ->where('path', '.*');
+    Route::get('/customer-services/{path}', 'ClientController@customerServices')
+        ->where('path', '.*');
     Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
 });

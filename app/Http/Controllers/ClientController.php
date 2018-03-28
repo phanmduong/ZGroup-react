@@ -110,4 +110,9 @@ class ClientController extends Controller
     {
         return view('client.notification');
     }
+
+    public function customerServices()
+    {
+        return view('client.customerServices');
+    }
 }
