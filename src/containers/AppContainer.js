@@ -81,10 +81,9 @@ class AppContainer extends React.Component {
         helper.closeSidebar();
         helper.removeDataLoginLocal();
         helper.onesignalSetUserId(0);
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        this.context.router.push("login");
-        this.props.loginActions.logOut();
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.open("/logout", "_self");
     }
 
     closeModalRule() {

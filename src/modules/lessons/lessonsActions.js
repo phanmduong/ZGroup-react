@@ -22,7 +22,6 @@ export function loadLessonData(id) {
     };
 }
 
-
 export function updateData(feild, value) {
     return function (dispatch) {
         dispatch({
