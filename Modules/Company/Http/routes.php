@@ -66,7 +66,7 @@ $companyRoutes = function () {
         Route::get('/report/{id}','AdministrationController@showReportId');
         Route::post('/report/{staff_id}/create','AdministrationController@createReport');
         Route::put('/report/{staff_id}/edit/{id}','AdministrationController@editReport');
-        Route::delete('/delete/{id}','AdministrationController@deleteReport');
+        Route::delete('/report/{id}','AdministrationController@deleteReport');
     });
 };
 
