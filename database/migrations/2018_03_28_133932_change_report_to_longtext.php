@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AjaxDatabase1 extends Migration
+class ChangeReportToLongtext extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,8 @@ class AjaxDatabase1 extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('ajax_database1', function (Blueprint $table) {
-            $table->string('name');
-            $table->integer('age');
-            $table->char('sex');
-            $table->integer('wpm');
-            $table->primary('name');
-            $table->timestamps();
-
+        Schema::table('reports', function (Blueprint $table){
+           $table->longText('report')->change();
         });
     }
 

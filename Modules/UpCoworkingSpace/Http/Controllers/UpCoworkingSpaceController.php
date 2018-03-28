@@ -4,6 +4,7 @@ namespace Modules\UpCoworkingSpace\Http\Controllers;
 
 use App\Product;
 use App\Room;
+use App\RoomServiceBenefit;
 use App\RoomType;
 use Faker\Provider\DateTime;
 use http\Env\Response;
@@ -19,16 +20,23 @@ class UpCoworkingSpaceController extends Controller
     public function index()
     {
         $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
-        $this->data['newestBlogs'] = $newestBlogs;
-        return view('upcoworkingspace::index', $this->data);
+        $data = [];
+        $data['newestBlogs'] = $newestBlogs;
+
+        return view('upcoworkingspace::index', $data);
+//        dd($newestBlogs);
+
     }
 
     public function memberRegister($userId = null, $campaignId = null)
     {
-        $userPacks = RoomServiceUserPack::orderBy('name')->where('status', 1)->get();
+        $userPacks = RoomServiceUserPack::orderBy('id')->get();
+        $userBenefits = RoomServiceBenefit::orderBy('id')->get();
+
         $this->data['userPacks'] = $userPacks;
         $this->data['campaignId'] = $campaignId;
         $this->data['userId'] = $userId;
+        $this->data['userBenefits'] =$userBenefits;
         return view('upcoworkingspace::member_register', $this->data);
     }
 
@@ -152,6 +160,7 @@ class UpCoworkingSpaceController extends Controller
     public function event(Request $request)
     {
         $events = DB::table('events');
+//        dd($events);
         $search = $request->search;
         if ($search) {
             $events = $events->where('name', 'like', '%' . $search . '%');

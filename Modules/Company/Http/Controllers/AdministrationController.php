@@ -12,6 +12,7 @@ namespace Modules\Company\Http\Controllers;
 use App\AdvancePayment;
 use App\Http\Controllers\ManageApiController;
 use App\RequestVacation;
+use App\User;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Report;
@@ -174,15 +175,22 @@ class AdministrationController extends ManageApiController
 
     public function createReport($staff_id,Request $request)
     {
-        $report = new Report();
-        $report->staff_id = $staff_id;
-        $report->title = $request->title;
-        $report->report = $request->report;
-        $report->save();
+        if(User::where('id',$staff_id)->count() > 0){
+            $report = new Report();
+            $report->staff_id = $staff_id;
+            $report->title = $request->title;
+            $report->report = $request->report;
+            $report->save();
 
-        return $this->respondSuccessWithStatus([
-            "message"=>"Tạo báo cáo thành công"
-        ]);
+            return $this->respondSuccessWithStatus([
+                "message"=>"Tạo báo cáo thành công"
+            ]);
+        }else{
+            return $this->respondErrorWithStatus([
+                "message" => "Không tồn tại user"
+            ]);
+        }
+
     }
 
     public function editReport(Request $request,$staff_id,$id)
@@ -224,6 +232,14 @@ class AdministrationController extends ManageApiController
             "reports"=> $reports->map(function($report){
                 return $report->transform();
             })
+        ]);
+    }
+
+    public function deleteReport(Request $request, $id)
+    {
+        Report::where('id',$id)->delete();
+        return $this->respondSuccessWithStatus([
+            "message" => "Xóa thành công"
         ]);
     }
 }
