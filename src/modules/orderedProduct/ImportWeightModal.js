@@ -16,29 +16,37 @@ class ImportWeightModal extends React.Component {
 
     handleWeight(e) {
         const name = e.target.name;
-        let attach_info = {
-            ...JSON.parse(this.props.orderImportWeight.attach_info)
-        };
+        let orders = [];
         if (name === "price") {
             this.setState({price: e.target.value});
-            attach_info = {
-                ...attach_info,
-                fee: attach_info.weight * e.target.value
-            };
-        } else attach_info = {
-            ...attach_info,
-            weight: e.target.value,
-            fee: e.target.value * this.state.price
-        };
-        let order = {
-            ...this.props.orderImportWeight,
-            attach_info: JSON.stringify(attach_info)
-        };
-        this.props.orderedProductAction.handleImportWeightModal(order);
+            orders = this.props.orderImportWeight.map(order => {
+                let attach_info = {
+                    ...JSON.parse(order.attach_info),
+                    fee: JSON.parse(order.attach_info).weight * e.target.value
+                };
+                return {
+                    ...order,
+                    attach_info: JSON.stringify(attach_info)
+                };
+            });
+        } else {
+            orders = this.props.orderImportWeight.map(order => {
+                let attach_info = {
+                    ...JSON.parse(order.attach_info),
+                    weight: e.target.value,
+                    fee: e.target.value * this.state.price
+                };
+                return {
+                    ...order,
+                    attach_info: JSON.stringify(attach_info)
+                };
+            });
+        }
+        this.props.orderedProductAction.handleImportWeightModal(orders);
     }
 
     render() {
-        let order = this.props.orderImportWeight;
+        let order = this.props.orderImportWeight[0];
         return (
             <Modal show={this.props.importWeightModal}
                    onHide={() => this.props.orderedProductAction.showImportWeightModal()}>
@@ -67,7 +75,7 @@ class ImportWeightModal extends React.Component {
                                    name="price"
                                    placeholder="Nhập giá"
                                    className="form-control"
-                                   value={this.state.price}
+                                   value={this.state.price || ''}
                                    onChange={this.handleWeight}/>
                             <span className="material-input"/>
                         </div>
@@ -78,7 +86,7 @@ class ImportWeightModal extends React.Component {
                             <input type="number"
                                    name="fee"
                                    className="form-control"
-                                   value={order.attach_info ? JSON.parse(order.attach_info).fee : 0}
+                                   value={order.attach_info ? JSON.parse(order.attach_info).fee : ''}
                                    disabled={true}/>
                             <span className="material-input"/>
                         </div>
@@ -88,7 +96,7 @@ class ImportWeightModal extends React.Component {
                                 data-original-title="Remove item" type="button"
                                 className="btn btn-success btn-round" data-dismiss="modal"
                                 onClick={() => this.props.orderedProductAction.changeStatus(
-                                    "arrived", order.id, null, order.attach_info
+                                    "arrived", this.props.orderImportWeight, null
                                 )}>
                             <i className="material-icons">check</i> Xác nhận
                         </button>
@@ -108,7 +116,7 @@ class ImportWeightModal extends React.Component {
 ImportWeightModal.propTypes = {
     orderedProductAction: PropTypes.object.isRequired,
     importWeightModal: PropTypes.bool,
-    orderImportWeight: PropTypes.object.isRequired,
+    orderImportWeight: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -10,7 +10,7 @@ import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
-import {ORDERED_STATUS} from "../../constants/constants";
+import {ORDERED_STATUS, ORDERED_STATUS_TRANSFER} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
 import * as orderedProductAction from "./orderedProductAction";
 import {bindActionCreators} from "redux";
@@ -24,6 +24,7 @@ import AddJavCodeModal from "./AddJavCodeModal";
 import CameToVNModal from "./CameToVNModal";
 import ImportWeightModal from "./ImportWeightModal";
 import AddShipFeeModal from "./AddShipFeeModal";
+import SelectButton from "../../components/common/Select";
 
 class OrderedContainer extends React.Component {
     constructor(props, context) {
@@ -42,7 +43,8 @@ class OrderedContainer extends React.Component {
             staff_id: null,
             user_id: null,
             queries: [],
-            isImportingDate: false
+            isImportingDate: false,
+            statusTransfer: 'origin'
         };
         this.timeOut = null;
         this.orderedSearchChange = this.orderedSearchChange.bind(this);
@@ -53,7 +55,6 @@ class OrderedContainer extends React.Component {
         this.showAddNoteModal = this.showAddNoteModal.bind(this);
         this.showAddCancelNoteModal = this.showAddCancelNoteModal.bind(this);
         this.showSendPriceModal = this.showSendPriceModal.bind(this);
-        this.checkSendPrice = this.checkSendPrice.bind(this);
         this.chooseAll = this.chooseAll.bind(this);
         this.chooseItem = this.chooseItem.bind(this);
         this.showChooseWalletModal = this.showChooseWalletModal.bind(this);
@@ -62,6 +63,8 @@ class OrderedContainer extends React.Component {
         this.showCameToVNModal = this.showCameToVNModal.bind(this);
         this.showImportWeightModal = this.showImportWeightModal.bind(this);
         this.showAddShipFeeModal = this.showAddShipFeeModal.bind(this);
+        this.statusOrdersChange = this.statusOrdersChange.bind(this);
+        this.openMultiStatusesModal = this.openMultiStatusesModal.bind(this);
     }
 
     componentWillMount() {
@@ -73,8 +76,9 @@ class OrderedContainer extends React.Component {
         if (nextProps.isSendingPrice !== this.props.isSendingPrice && !nextProps.isSendingPrice) {
             this.props.orderedProductAction.loadAllOrders();
             this.setState({
-                isSendingPrice: false,
                 checkedPrice: {},
+                isSendingPrice: false,
+                checkAll: false,
                 page: 1,
                 searches: [],
                 time: {
@@ -85,6 +89,28 @@ class OrderedContainer extends React.Component {
                 staff_id: null,
                 user_id: null,
                 queries: [],
+                isImportingDate: false,
+                statusTransfer: 'origin'
+            });
+        }
+        if (nextProps.isChangingStatus !== this.props.isChangingStatus && !nextProps.isChangingStatus) {
+            this.props.orderedProductAction.loadAllOrders();
+            this.setState({
+                checkedPrice: {},
+                isSendingPrice: false,
+                checkAll: false,
+                page: 1,
+                searches: [],
+                time: {
+                    startTime: '',
+                    endTime: ''
+                },
+                status: '',
+                staff_id: null,
+                user_id: null,
+                queries: [],
+                isImportingDate: false,
+                statusTransfer: 'origin'
             });
         }
         if (nextProps.isChoosingWallet !== this.props.isChoosingWallet && !nextProps.isChoosingWallet) {
@@ -187,6 +213,7 @@ class OrderedContainer extends React.Component {
         } else {
             this.setState({
                 status: null,
+                statusTransfer: "",
                 isSendingPrice: false,
                 checkedPrice: {},
                 page: 1
@@ -294,30 +321,67 @@ class OrderedContainer extends React.Component {
         this.props.orderedProductAction.handleAddShipFeeModal(order);
     }
 
-    checkSendPrice() {
-        if (this.state.isSendingPrice) {
+    statusOrdersChange(value) {
+        if (value === "origin") {
             this.setState({
                 isSendingPrice: false,
                 checkedPrice: {},
-                status: ""
+                status: "",
+                statusTransfer: "origin"
             });
             this.props.orderedProductAction.loadAllOrders();
         } else {
+            const statusTransfer = value;
+            let status;
+            if (value === "cancel") {
+                status = '';
+            } else {
+                let order = ORDERED_STATUS_TRANSFER.filter(st => st.key === value)[0].order;
+                status = ORDERED_STATUS[order].value;
+            }
             this.setState({
                 isSendingPrice: true,
                 checkedPrice: {},
-                status: "place_order"
+                status: status,
+                statusTransfer: statusTransfer
             });
             this.props.orderedProductAction.loadAllOrders(
                 1,
                 this.state.searches,
                 this.state.time.startTime,
                 this.state.time.endTime,
-                "place_order",
+                status,
                 this.state.staff_id,
                 this.state.user_id,
                 this.state.queries
             );
+        }
+    }
+
+    openMultiStatusesModal() {
+        const value = this.state.statusTransfer;
+        const nextStatus = ORDERED_STATUS.filter(status => status.value === value)[0];
+        const array = this.props.deliveryOrders.filter(order => this.state.checkedPrice[order.id]);
+        if (!array.length) {
+            helper.showErrorMessage("Xin lỗi", "Chưa có đơn hàng nào được chọn");
+            return 0;
+        }
+        if (nextStatus.order === 8) {
+            this.showAddCancelNoteModal(array);
+        } else if (nextStatus.order === 1) {
+            this.showSendPriceModal(array);
+        } else if (nextStatus.order === 3) {
+            this.showAddJavCodeModal(array);
+        } else if (nextStatus.order === 4) {
+            this.showCameToVNModal(array);
+        } else if (nextStatus.order === 5) {
+            this.showImportWeightModal(array);
+        } else if (nextStatus.order === 6) {
+            this.showAddShipFeeModal(array);
+        } else {
+            helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
+                this.props.orderedProductAction.changeStatus(value, array, null);
+            });
         }
     }
 
@@ -369,47 +433,55 @@ class OrderedContainer extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div className="flex flex-row flex-space-between">
-                            <div>
-                                <Link
-                                    to="/order/detail"
-                                    rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Thêm đơn hàng đặt" type="button"
-                                    className="btn btn-rose">
-                                    Thêm đơn hàng đặt
-                                </Link>
-                                <button
-                                    onClick={this.checkSendPrice}
-                                    rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Báo giá" type="button"
-                                    className="btn btn-rose">
-                                    {!this.state.isSendingPrice ? <span>Báo giá</span> : <span>Quay lại</span>}
-                                </button>
-                                <button
-                                    onClick={() => this.showSendPriceModal(
-                                        this.props.deliveryOrders.filter(order => this.state.checkedPrice[order.id])
-                                    )}
-                                    rel="tooltip" data-placement="top" title=""
-                                    data-original-title={this.state.isSendingPrice ? ("Gửi báo giá") : ("Chưa chọn đơn")}
-                                    type="button"
-                                    className="btn btn-rose"
-                                    disabled={!this.state.isSendingPrice}>
-                                    Gửi báo giá
-                                </button>
-                            </div>
-                            {/*<div>*/}
-                            {/*<TooltipButton text="In dưới dạng pdf" placement="top">*/}
-                            {/*<button className="btn btn-success">*/}
-                            {/*<i className="material-icons">print</i> In*/}
-                            {/*</button>*/}
-                            {/*</TooltipButton>*/}
-                            {/*<TooltipButton text="Lưu dưới dạng excel" placement="top">*/}
-                            {/*<button className="btn btn-info">*/}
-                            {/*<i className="material-icons">save</i> Lưu về máy*/}
-                            {/*</button>*/}
-                            {/*</TooltipButton>*/}
-                            {/*</div>*/}
-                        </div>
+                        {
+                            this.props.isLoading ? (
+                                <Loading/>
+                            ):(
+                                <div className="row">
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <Link
+                                            to="/order/detail"
+                                            rel="tooltip" data-placement="top" title=""
+                                            data-original-title="Thêm đơn hàng đặt" type="button"
+                                            className="btn btn-rose">
+                                            Thêm đơn hàng đặt
+                                        </Link>
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <SelectButton
+                                            defaultMessage={"Chuyển trạng thái nhiều đơn sang..."}
+                                            options={ORDERED_STATUS_TRANSFER}
+                                            disableRound
+                                            value={this.state.statusTransfer}
+                                            onChange={this.statusOrdersChange}
+                                        />
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <button
+                                            onClick={() => this.openMultiStatusesModal()}
+                                            rel="tooltip" data-placement="top" title=""
+                                            data-original-title={this.state.isSendingPrice ? ("Chọn để chuyển") : ("Chưa chọn đơn")}
+                                            type="button"
+                                            className="btn btn-rose"
+                                            disabled={!this.state.isSendingPrice}>
+                                            Chuyển ...
+                                        </button>
+                                    </div>
+                                    {/*<div>*/}
+                                    {/*<TooltipButton text="In dưới dạng pdf" placement="top">*/}
+                                    {/*<button className="btn btn-success">*/}
+                                    {/*<i className="material-icons">print</i> In*/}
+                                    {/*</button>*/}
+                                    {/*</TooltipButton>*/}
+                                    {/*<TooltipButton text="Lưu dưới dạng excel" placement="top">*/}
+                                    {/*<button className="btn btn-info">*/}
+                                    {/*<i className="material-icons">save</i> Lưu về máy*/}
+                                    {/*</button>*/}
+                                    {/*</TooltipButton>*/}
+                                    {/*</div>*/}
+                                </div>
+                            )
+                        }
                     </div>
                     <div>
                         {
@@ -619,7 +691,8 @@ OrderedContainer.propTypes = {
     user: PropTypes.object.isRequired,
     orderedProductAction: PropTypes.object.isRequired,
     isSendingPrice: PropTypes.bool.isRequired,
-    isChoosingWallet: PropTypes.bool
+    isChoosingWallet: PropTypes.bool,
+    isChangingStatus: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -635,6 +708,7 @@ function mapStateToProps(state) {
         totalCount: state.orderedProduct.totalCount,
         staffs: state.orderedProduct.staffs,
         isSendingPrice: state.orderedProduct.isSendingPrice,
+        isChangingStatus: state.orderedProduct.isChangingStatus,
         isChoosingWallet: state.orderedProduct.isChoosingWallet,
         user: state.login.user
     };

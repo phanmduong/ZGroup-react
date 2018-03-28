@@ -16,6 +16,9 @@ import Pagination from "../../components/common/Pagination";
 import {ORDER_STATUS} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
 import {Link} from "react-router";
+import ShipGoodModalContainer from "./ShipGoodModalContainer";
+import AddNoteModal from "./AddNoteModal";
+import SelectWarehouseModal from "./SelectWarehouseModal";
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -357,6 +360,9 @@ class OrdersContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <ShipGoodModalContainer/>
+                <AddNoteModal/>
+                <SelectWarehouseModal/>
             </div>
         );
     }

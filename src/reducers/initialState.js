@@ -52,21 +52,21 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
-        select : {
-            userpack_id : 0,
-            subscription_id : 0,
-            subscriptions : [],
-            price : 0,
-            hours : 0,
+        select: {
+            userpack_id: 0,
+            subscription_id: 0,
+            subscriptions: [],
+            price: 0,
+            hours: 0,
             start_time: '',
-            end_time : '',
-            extra_time : 0,
-            note : "",
+            end_time: '',
+            extra_time: 0,
+            note: "",
         },
         isSavingSubscription : false,
-        userpacks : [],
         isLoadingUserpack : false,
         subscriptions : [],
+        userpacks: [],
     },
 
     registerManageRoom: {
@@ -82,7 +82,6 @@ export default {
         bases: [],
         isSavingPayment: false,
     },
-<<<<<<< HEAD
     weekendReport:{
       reports: [],
       isLoading: false,
@@ -94,7 +93,6 @@ export default {
           report:''
       }
     },
-=======
 
     registerManageMeetingRoom: {
         registers: [],
@@ -110,7 +108,6 @@ export default {
         isSavingPayment: false,
     },
 
->>>>>>> 1182315f6b71ef007a2f8b12ff6568f4ca8b9843
     bankAccount: {
         accounts: [],
         isLoading: false,
@@ -119,9 +116,9 @@ export default {
             bank_name: '',
             bank_account_name: '',
             account_number: '',
-            owner_name:'',
-            branch:'',
-            display:''
+            owner_name: '',
+            branch: '',
+            display: ''
         },
         isUpdatingEditModal: false,
     },
@@ -154,6 +151,7 @@ export default {
             money: '',
             fee: '',
             code: '',
+            shipCode: '',
             endTime: '',
             quantity: '',
             price: ''
@@ -195,15 +193,16 @@ export default {
     },
 
     orderedProduct: {
+        isChangingStatus: false,
         currencies: [],
         addJavCodeModal: false,
         importWeightModal: false,
-        orderImportWeight: {},
+        orderImportWeight: [{}],
         addShipFeeModal: false,
-        orderAddShipFee: {},
-        orderJavCode: {},
+        orderAddShipFee: [{}],
+        orderJavCode: [{}],
         cameToVNModal: false,
-        orderCameToVN: {},
+        orderCameToVN: [{}],
         chooseWalletModal: false,
         isChoosingWallet: false,
         orderWalletChosen: {},
@@ -213,7 +212,7 @@ export default {
         sendPriceModal: false,
         orderSendPriceModal: [],
         orderNote: {},
-        cancelNote: {},
+        cancelNote: [{}],
         isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
@@ -1131,6 +1130,9 @@ export default {
     goodOrders: {
         // provinces :[],
         // isLoadingProvinces : false,
+        payOrderMoneyModal: false,
+        orderPayMoney: {},
+        isPayingOrderMoney: false,
         warehousesList: [],
         selectWarehouseModal: false,
         isLoadingWarehouse: false,
@@ -1706,7 +1708,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
-            currency_value : 0,
+            currency_value: 0,
         },
         coupon: {
             name: '',
@@ -2078,6 +2080,8 @@ export default {
             id: 0,
             description: "",
             subscriptionKind: "",  // id
+            booking_discount: 0,
+            extra_time: 0,
         },
         subscriptionKind: {
             name: "",
@@ -2238,5 +2242,19 @@ export default {
         emails: [],
         error: false,
         isGetting: false
+    },
+    lead: {
+        leads: [],
+        error: false,
+        isLoading: false,
+        currentPage: 1,
+        totalPages: 1,
+        isUploading: false,
+        errorUpload: false,
+        isEditing: false,
+        errorEdit: false,
+        totalCount: 0,
+        isDistributing: false,
+        errorDistribution: false,
     }
 };

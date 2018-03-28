@@ -73,22 +73,23 @@ export function editNote(order) {
     };
 }
 
-export function changeStatus(status, deliveryOrderId, note, attach) {
+export function changeStatus(status, deliveryOrderId, note) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
         dispatch({
+            type: types.BEGIN_CHANGE_STATUS_ORDERED_PRODUCT
+        });
+        dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-        orderedProductApi.changeStatusApi(status, deliveryOrderId, note, attach)
+        orderedProductApi.changeStatusApi(status, deliveryOrderId, note)
             .then((res) => {
                 if (res.data.status === 0) {
                     helper.showErrorNotification(res.data.message.message);
                 } else {
                     helper.showNotification("Thay đổi trạng thái thành công");
                     dispatch({
-                        type: types.CHANGE_STATUS_ORDERED_SUCCESS,
-                        status,
-                        delivery_id: deliveryOrderId
+                        type: types.CHANGE_STATUS_ORDERED_SUCCESS
                     });
                 }
                 dispatch({
@@ -150,7 +151,7 @@ export function sendPrice(delivery_orders) {
                     dispatch({
                         type: types.TOGGLE_SEND_PRICE_MODAL
                     });
-                    helper.showErrorNotification(res.data.message.message);
+                    helper.showErrorNotification(res.data.message);
                 }
             })
             .catch(() => {

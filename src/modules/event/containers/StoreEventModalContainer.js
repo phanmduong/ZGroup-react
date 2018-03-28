@@ -15,8 +15,6 @@ import {
 import Buttons from "../components/Buttons";
 import { changeToSlug } from "../../../helpers/helper";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
-import moment from "moment";
-import Loading from "../../../components/common/Loading";
 
 class StoreEventModalContainer extends React.Component {
     constructor(props, context) {
@@ -81,7 +79,8 @@ class StoreEventModalContainer extends React.Component {
                         <div className="container-fluid">
                             <div className="row">
                                 <label className="label-control">
-                                    Ảnh đại diện
+                                    Ảnh đại diện{" "}
+                                    <star style={{ color: "red" }}>*</star>
                                 </label>
                                 <ImageUploader
                                     tooltipText="Chọn ảnh đại diện"
@@ -167,7 +166,6 @@ class StoreEventModalContainer extends React.Component {
                                 <FormInputText
                                     height="100%"
                                     label="địa chỉ sự kiện"
-                                    required
                                     name="address"
                                     updateFormData={this.updateEventFormData}
                                     value={props.event.address || ""}
@@ -205,24 +203,21 @@ class StoreEventModalContainer extends React.Component {
                                 />
 
                                 <div className="row">
-                                    {this.props.isSavingEvent ? (
-                                        <Loading />
-                                    ) : (
-                                        <Buttons
-                                            publish={this.publishEvent}
-                                            style={{
-                                                width: "100%",
-                                                marginLeft: "-9px",
-                                            }}
-                                            close={() =>
-                                                props.eventActions.showStoreEventModal(
-                                                    false,
-                                                )
-                                            }
-                                            scrollerId="#store-event-modal"
-                                            disabled={false}
-                                        />
-                                    )}
+                                    <Buttons
+                                        isSaving={this.props.isSavingEvent}
+                                        publish={this.publishEvent}
+                                        style={{
+                                            width: "100%",
+                                            marginLeft: "-9px",
+                                        }}
+                                        close={() =>
+                                            props.eventActions.showStoreEventModal(
+                                                false,
+                                            )
+                                        }
+                                        scrollerId="#store-event-modal"
+                                        disabled={this.invalid()}
+                                    />
                                 </div>
                             </div>
                         </div>

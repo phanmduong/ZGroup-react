@@ -2,10 +2,13 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 export function loadCustomersApi(page, limit, query, status) {
-    let url = env.MANAGE_API_URL + "/v2/customer?";
+    let url = env.MANAGE_API_URL + "/v2/customer";
     let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
     if (limit) {
-        url += "&limit=" + limit;
+        url += "&limit=" + 20;
     }
     if (page) {
         url += "&page=" + page;
@@ -15,9 +18,6 @@ export function loadCustomersApi(page, limit, query, status) {
     }
     if (status) {
         url += "&status=" + status;
-    }
-    if (token) {
-        url += "&token=" + token;
     }
     return axios.get(url);
 }
