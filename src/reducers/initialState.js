@@ -58,6 +58,22 @@ export default {
         bases: [],
         isSavingPayment: false,
     },
+
+
+    passwordAccount: {
+        passwords: [],
+        isLoading: false,
+        editPasswordModal: false,
+        isUpdatingEditModal: false,
+        passwordEditModal: { password: '' },
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20
+    },
+
+
+
     bankAccount: {
         accounts: [],
         isLoading: false,
@@ -73,6 +89,8 @@ export default {
         isUpdatingEditModal: false,
     },
 
+
+
     inventoryOrder: {
         isLoading: false,
         totalPages: 1,
@@ -84,6 +102,7 @@ export default {
         totalQuantity: 0,
         staffs: []
     },
+
 
     orderedDetail: {
         currencies: [],

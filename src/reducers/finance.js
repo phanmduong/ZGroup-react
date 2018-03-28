@@ -6,9 +6,11 @@ import historyCollectMoneyReducer from "../modules/historyCollectMoney/historyCo
 import financeReducer from "../modules/finance/financeReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
 import currencyReducer from "../modules/currency/currencyReducer";
+import passwordReducer from "../modules/password/passwordReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
+    passwordAccount: passwordReducer,
     currency: currencyReducer,
     bankAccount: bankAccountReducer,
     finance: financeReducer,

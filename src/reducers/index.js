@@ -91,7 +91,7 @@ import orderGoodReducer from '../modules/Zgroup/orderGood/orderGoodReducer';
 
 
 const appReducer = combineReducers({
-    globalLoading: globalLoadingReducer,
+globalLoading: globalLoadingReducer,
     login: loginReducer,
     tabs: tabsReducer,
     staffs: staffsReducer,
