@@ -72,6 +72,7 @@ StorePostComponent.propTypes = {
     disabled: PropTypes.bool.isRequired,
     close: PropTypes.func.isRequired,
     publish: PropTypes.func.isRequired,
+    preSavePost: PropTypes.func.isRequired,
 };
 
 export default StorePostComponent;

@@ -14,6 +14,7 @@ import SummaryMarketingCampaignRoomContainer from "../modules/summaryMarketingCa
 import SummarySalesRoomContainer from "../modules/summarySalesRoom/SummarySalesRoomContainer";
 import OverviewSalesRoom from "../modules/summarySalesRoom/OverviewSalesRoom";
 import StatisticSalesRoom from "../modules/summarySalesRoom/StatisticSalesRoom";
+import LeadContainer from "../modules/lead/LeadContainer";
 
 /**
  * Tab Quản lý marketing
@@ -87,5 +88,15 @@ export default [
                 component: StatisticSalesRoom,
             }
         ]
+    },
+    {
+        path: "/marketing/my-leads",
+        type: "my-leads",
+        component: LeadContainer
+    },
+    {
+        path: "/marketing/distribution-leads",
+        component: LeadContainer,
+        type: "distribution"
     },
 ];

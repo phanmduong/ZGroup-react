@@ -242,7 +242,7 @@ export function getPost(postId) {
                         type: types.LOAD_POST_BLOG_ERROR,
                     });
                 }
-            })
+            });
             // .catch(() => {
             //     helper.showErrorNotification("Có lỗi xảy ra");
             //     dispatch({

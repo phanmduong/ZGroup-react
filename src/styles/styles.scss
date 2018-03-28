@@ -1,58 +1,58 @@
 #app {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #loading-page {
-    width: 100%;
-    height: 100%;
-    display: flex;
+  width: 100%;
+  height: 100%;
+  display: flex;
 }
 
 .item-header-tab-parent {
-    border: 1px solid #ddd;
-    padding-left: 15px;
+  border: 1px solid #ddd;
+  padding-left: 15px;
 }
 
 .item-header-tab-parent {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .header-tab-parent {
-    font-weight: bold !important;
-    font-size: 15px !important;
+  font-weight: bold !important;
+  font-size: 15px !important;
 }
 
 .table-list-role {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .logo-header {
-    height: 50px;
-    width: 50px;
-    margin-top: 15px;
+  height: 50px;
+  width: 50px;
+  margin-top: 15px;
 }
 
 .color-white {
-    color: white;
+  color: white;
 }
 
 .logo-sidebar {
-    height: 40px;
-    width: 40px;
+  height: 40px;
+  width: 40px;
 }
 
 .btn-group-action {
-    display: flex;
+  display: flex;
 }
 
 .btn-group-action a i {
-    color: #878787;
-    font-size: 20px;
+  color: #878787;
+  font-size: 20px;
 }
 
 .btn-group-action a i:hover {
@@ -363,73 +363,73 @@ $starInactive: #c4c5c6;
 }
 
 .width-100 {
-    width: 100% !important;
+  width: 100% !important;
 }
 
 .size-40-px {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .z-index-2 {
-    z-index: 2;
+  z-index: 2;
 }
 
 .min-width-100-px {
-    min-width: 100px;
+  min-width: 100px;
 }
 
 .min-width-80-px {
-    min-width: 80px;
+  min-width: 80px;
 }
 
 .min-width-120-px {
-    min-width: 120px;
+  min-width: 120px;
 }
 
 .min-width-130-px {
-    min-width: 130px;
+  min-width: 130px;
 }
 
 .min-width-150-px {
-    min-width: 150px;
+  min-width: 150px;
 }
 
 .max-width-150-px {
-    max-width: 150px;
+  max-width: 150px;
 }
 
 .max-width-130-px {
-    max-width: 130px;
+  max-width: 130px;
 }
 
 .padding-horizontal-10px {
-    padding-left: 5px;
-    padding-right: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .image-class-attendance-class-dashboard {
-    margin-right: 10px !important;
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 50%;
-    vertical-align: middle;
+  margin-right: 10px !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50%;
+  vertical-align: middle;
 }
 
 .text-h5 {
-    font-size: 1.25em;
+  font-size: 1.25em;
 }
 
 .text-h6 {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 //fix scrolling issue in board
 
 .keetool-content {
-    margin-top: 60px;
-    min-height: calc(100vh - 70px);
-    padding: 10px;
+  margin-top: 60px;
+  min-height: calc(100vh - 70px);
+  padding: 10px;
 }
 
 .btn-more-dropdown {
@@ -785,21 +785,21 @@ a.btn-seat {
 }
 
 a.btn-seat.active {
-    color: #c50000;
+  color: #c50000;
 }
 
 .d3-point.active {
-    stroke: #000;
+  stroke: #000;
 }
 
 .d3-point,
 .d3-text {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .d3-point.archived {
   fill: #dedede !important;
-    fill: #dedede !important;
+  fill: #dedede !important;
 }
 
 .margin-left-20 {
@@ -820,7 +820,6 @@ a.btn-seat.active {
 }
 
 .ma
-
 .uppercase {
   text-transform: uppercase;
 }
@@ -840,30 +839,38 @@ a.btn-seat.active {
 .padding-right-0 {
   padding-right: 0;
 }
+
 .bar {
-    height: 10px;
-    position: absolute;
-    display: inline-block;
-    border-radius: 50px;
+  height: 10px;
+  position: absolute;
+  display: inline-block;
+  border-radius: 50px;
 }
+
 .demo-editor {
-    // transform: translate(0, 120px);
-    padding-top: 110px;
+  // transform: translate(0, 120px);
+  padding-top: 110px;
 }
 
 .rdw-editor-toolbar {
-    position: absolute;
-    z-index: 10;
+  position: absolute;
+  z-index: 10;
 }
 
 .blog-buttons {
-    display: flex;
-    z-index: 10;
-    justify-content: flex-end;
-    position: absolute;
-    top: 750px;
-    margin-left: -24px;
-    padding-right: 24px;
-    width: calc(100% + 48px);
-    background: white;
+  display: flex;
+  z-index: 10;
+  justify-content: flex-end;
+  position: absolute;
+  top: 750px;
+  margin-left: -24px;
+  padding-right: 24px;
+  width: calc(100% + 48px);
+  background: white;
+}
+
+.button-add {
+  margin-left: 15px !important;
+  padding: 0px 8px !important;
+  font-size: 16px !important;
 }

@@ -52,21 +52,21 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
-        select : {
-            userpack_id : 0,
-            subscription_id : 0,
-            subscriptions : [],
-            price : 0,
-            hours : 0,
+        select: {
+            userpack_id: 0,
+            subscription_id: 0,
+            subscriptions: [],
+            price: 0,
+            hours: 0,
             start_time: '',
-            end_time : '',
-            extra_time : 0,
-            note : "",
+            end_time: '',
+            extra_time: 0,
+            note: "",
         },
-        isSavingSubscription : false,
-        userpacks : [],
-        isLoadingUserpack : false,
-        subscriptions : [],
+        isSavingSubscription: false,
+        userpacks: [],
+        isLoadingUserpack: false,
+        subscriptions: [],
     },
 
     registerManageRoom: {
@@ -1682,7 +1682,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
-            currency_value : 0,
+            currency_value: 0,
         },
         coupon: {
             name: '',
@@ -2214,5 +2214,19 @@ export default {
         emails: [],
         error: false,
         isGetting: false
+    },
+    lead: {
+        leads: [],
+        error: false,
+        isLoading: false,
+        currentPage: 1,
+        totalPages: 1,
+        isUploading: false,
+        errorUpload: false,
+        isEditing: false,
+        errorEdit: false,
+        totalCount: 0,
+        isDistributing: false,
+        errorDistribution: false,
     }
 };
