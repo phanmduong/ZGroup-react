@@ -137,7 +137,7 @@ class ItemOrder extends React.Component {
                         <button
                             onClick={() => this.props.showPayOrderMoneyModal(order)}
                             className="btn btn-sm btn-success btn-main"
-                            disabled={(order.status === "cancel" || order.status === "completed_order")}>
+                            disabled={(order.status === "cancel" || order.status === "completed_order" || order.debt === 0)}>
                             {helper.dotNumber(order.total)}đ
                         </button>
                     </TooltipButton>
