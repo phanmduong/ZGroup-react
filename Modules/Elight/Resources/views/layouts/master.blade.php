@@ -102,9 +102,9 @@
                         class="fa fa-shopping-cart" style="font-size: 16px; padding: 2px 0px 0px;"></i>
                 &nbsp;
                 Giỏ hàng
-                <div id="booksCount"
-                     style="margin-left: 10px; height: 20px; width: 20px; border-radius: 50%; background-color: rgb(197, 0, 0); color: white; display: flex; align-items: center; justify-content: center;">
-                    @{{books_count}}
+                <div id="booksCount" style="margin-left: 10px;height: 20px; width: 20px; border-radius: 50%;
+                        background-color: #c50000; color: white; display: flex; align-items: center;justify-content: center;display: none!important;">
+                            @{{ books_count }}
                 </div>
             </a>
 
@@ -296,13 +296,11 @@
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
                 <div id="btn-purchase-group" style="text-align: right">
-                    <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
-                        tục mua <i class="fa fa-angle-right"></i></button>
                     <button
                             v-on:click="submitOrder()"
                             onclick="fbq('track', 'InitiateCheckout')"
                             class="btn btn-sm btn-success"
-                            style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
+                            style="margin:10px 10px 10px 0px!important">Gửi thông tin đặt hàng <i class="fa fa-angle-right"></i>
                     </button>
                 </div>
             </div>
@@ -337,7 +335,7 @@
                             </div>
                             <div class="col-md-4">
                                 <p><b style="font-weight:600;">@{{good.name}}</b></p>
-                                <p>Connect the dots</p>
+                                <p>@{{good.description}}</p>
                             </div>
                             <div class="col-md-3 h-center">
                                 <button v-on:click="minusGood(event, good.id)"
@@ -350,14 +348,13 @@
                                     <i class="fa fa-plus"></i>
                                 </button>
                                 &nbsp
-                                <b style="font-weight:600;"> @{{ good.number }} </b>
+                                <b style="font-weight:600;"> @{{good.number}} </b>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p>@{{ ( good.price * (1 - good.coupon_value))}}</p>
+                                <p>@{{ formatPrice(good.price)}}</p>
                             </div>
                             <div class="col-md-2 h-center">
-                                <p><b style="font-weight:600;">@{{(good.price * (1 - good.coupon_value) *
-                                        good.number)}}</b>
+                                <p><b style="font-weight:600;">@{{formatPrice(good.price * good.number)}}</b>
                                 </p>
                             </div>
                         </div>
@@ -368,7 +365,14 @@
                             <h4 class="text-left"><b>Tổng</b></h4>
                         </div>
                         <div class="col-md-8">
-                            <h4 class="text-right"><b>@{{(price_vnd)}}</b></h4>
+                            <h4 class="text-right">
+                                <b v-if="isLoading">
+                                    0
+                                </b>
+                                <b v-else="isLoading">
+                                    @{{formatPrice(total_price)}}
+                                </b>
+                            </h4>
                         </div>
                     </div>
                     <div class="row" style="padding-top:20px;">
@@ -382,7 +386,7 @@
                 </div>
                 <div class="modal-footer">
                     <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
-                            style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                            style="width:auto!important">Thêm sản phẩm <i class="fa fa-angle-right"></i></button>
                     <button id="btn-purchase"
                             v-on:click="openPurchaseModal()"
                             class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Đồng ý <i
@@ -431,8 +435,13 @@
 
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/elight.js?6868"></script>
+<script src="/js/elight.js?68689"></script>
 <script type="text/javascript">
+    function pureJsOpenModalBuy(goodId) {
+        modalBuy.addGoodToCart(goodId);
+        $('#modalBuy').modal('show');
+    }
+
     (function () {
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;

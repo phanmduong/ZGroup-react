@@ -14,21 +14,21 @@ use Illuminate\Support\Facades\Validator;
 class EduMainPageController extends Controller
 {
     protected $EDU_VIEW;
+    protected $courses;
 
     public function __construct()
     {
         $this->EDU_VIEW = config("app.edu_view");
+        $this->courses = Course::orderBy("created_at", "desc")->where('status',1)->get();
     }
 
     public function index()
     {
         $blogs = Product::where("type", 2)->orderBy("created_at", "desc")->limit(3)->get();
 
-        $courses = Course::orderBy("created_at", "desc")->get();
-
         return view("$this->EDU_VIEW::index", [
             "blogs" => $blogs,
-            "courses" => $courses
+            "courses" => $this->courses
         ]);
     }
 
@@ -59,7 +59,6 @@ class EduMainPageController extends Controller
     public function register($courseId = null, $campaignId = null, $salerId = null)
     {
         $course = Course::find($courseId);
-        $courses = Course::all();
         $current_gen = Gen::getCurrentGen();
 
         $date_start = $course->classes->sortbyDesc("datestart")->first();
@@ -73,7 +72,7 @@ class EduMainPageController extends Controller
         $this->data["bases"] = Base::all()->filter(function ($base) use ($courseId, $current_gen) {
             return $base->classes()->where("course_id", $courseId)->where("gen_id", $current_gen->id)->count() > 0;
         });
-        $this->data["courses"] = $courses;
+        $this->data["courses"] = $this->courses;
 
         $this->data["saler_id"] = $salerId;
         $this->data["campaign_id"] = $campaignId;

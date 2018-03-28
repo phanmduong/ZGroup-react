@@ -121,6 +121,7 @@ class CustomerGroupApiController extends ManageApiController
             'color' => $group->color,
             'order_value' => $group->order_value,
             'delivery_value' => $group->delivery_value,
+            'currency_value' => $group->currency_value,
             "customers" => $customers->map(function ($customer) {
                 return $customer->transfromCustomer();
             }),

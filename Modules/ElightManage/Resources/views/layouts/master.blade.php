@@ -6,6 +6,8 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en-US" prefix="og: http://ogp.me/ns#"> <!--<![endif]-->
 
 <head>
+    <meta name="robots" content="noindex, nofollow">
+
 	<meta charset="utf-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
 	<title>Học tiếng Anh cùng Elight | Tiếng Anh giao tiếp | TOEIC</title>

@@ -13,6 +13,7 @@ use App\Http\Controllers\ManageApiController;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
+use App\TransferMoney;
 
 class CustomerController extends ManageApiController
 {
@@ -368,6 +369,14 @@ class CustomerController extends ManageApiController
             $customer->deposit += $request->money;
         else
             $customer->money += $request->money;
+        
+        $transfer = new TransferMoney;
+        $transfer->money = $request->money;
+        $transfer->user_id = $customer->id;
+        $transfer->status = 'accept';
+        $transfer->transfer_day = date('Y-m-d H-i-s');
+        $transfer->wallet_kind = $request->deposit ? 'deposit' : 'money';
+        $transfer->save();
         $customer->save();
         return $this->respondSuccess('Nạp tiền thành công');
     }
