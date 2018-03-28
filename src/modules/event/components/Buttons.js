@@ -39,6 +39,7 @@ class StorePostComponent extends React.Component {
                     <div>
                         <button
                             onClick={this.props.close}
+                            type="button"
                             className="btn btn-fill btn-danger"
                         >
                             Đóng
