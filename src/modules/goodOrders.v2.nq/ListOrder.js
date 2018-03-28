@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ShipGoodModalContainer from "./ShipGoodModalContainer";
 import AddNoteModal from "./AddNoteModal";
 import SelectWarehouseModal from "./SelectWarehouseModal";
+import PayOrderMoneyModal from "./PayOrderMoneyModal";
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -38,10 +39,12 @@ class ListOrder extends React.Component {
                                         return (
                                             <ItemOrder order={order} key={index}
                                                        changeStatusOrder={this.props.changeStatusOrder}
-                                                       //showShipGoodModal={this.props.showShipGoodModal}
+                                                //showShipGoodModal={this.props.showShipGoodModal}
                                                        showAddNoteModal={this.props.showAddNoteModal}
                                                        user={this.props.user}
-                                                       showSelectWarehouseModal={this.props.showSelectWarehouseModal}/>
+                                                       showSelectWarehouseModal={this.props.showSelectWarehouseModal}
+                                                       showPayOrderMoneyModal={this.props.showPayOrderMoneyModal}
+                                            />
                                         );
                                     })
                                 }
@@ -52,6 +55,7 @@ class ListOrder extends React.Component {
                 <ShipGoodModalContainer/>
                 <AddNoteModal/>
                 <SelectWarehouseModal/>
+                <PayOrderMoneyModal/>
             </div>
         );
     }
@@ -64,7 +68,8 @@ ListOrder.propTypes = {
     //showShipGoodModal: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    showSelectWarehouseModal: PropTypes.func.isRequired
+    showSelectWarehouseModal: PropTypes.func.isRequired,
+    showPayOrderMoneyModal: PropTypes.func.isRequired
 };
 
 

@@ -30,7 +30,7 @@ class AddNoteModal extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">
-                        <label className="control-label">Ghi chú</label>
+                        <label className="label-control">Ghi chú</label>
                         <textarea type="text" className="form-control"
                                value={this.props.orderNote.note ? this.props.orderNote.note : ''}
                                name="note"

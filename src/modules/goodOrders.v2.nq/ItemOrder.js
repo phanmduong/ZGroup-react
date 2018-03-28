@@ -132,15 +132,24 @@ class ItemOrder extends React.Component {
                         }
                     </a>
                 </td>
-                <td>{helper.dotNumber(order.total)}đ</td>
+                <td>
+                    <TooltipButton text="Thanh toán" placement="top">
+                        <button
+                            onClick={() => this.props.showPayOrderMoneyModal(order)}
+                            className="btn btn-sm btn-success btn-main"
+                            disabled={(order.status === "cancel" || order.status === "completed_order")}>
+                            {helper.dotNumber(order.total)}đ
+                        </button>
+                    </TooltipButton>
+                </td>
                 <td>{helper.dotNumber(order.debt)}đ</td>
                 {/*<td>*/}
-                    {/*<button*/}
-                        {/*disabled={order.status !== "ship_order"}*/}
-                        {/*className="btn btn-social btn-fill btn-twitter"*/}
-                        {/*onClick={() => this.props.showShipGoodModal(order)}>*/}
-                        {/*<i className="fa fa-twitter"/> Ship hàng*/}
-                    {/*</button>*/}
+                {/*<button*/}
+                {/*disabled={order.status !== "ship_order"}*/}
+                {/*className="btn btn-social btn-fill btn-twitter"*/}
+                {/*onClick={() => this.props.showShipGoodModal(order)}>*/}
+                {/*<i className="fa fa-twitter"/> Ship hàng*/}
+                {/*</button>*/}
                 {/*</td>*/}
             </tr>
         );
@@ -153,7 +162,8 @@ ItemOrder.propTypes = {
     //showShipGoodModal: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    showSelectWarehouseModal: PropTypes.func.isRequired
+    showSelectWarehouseModal: PropTypes.func.isRequired,
+    showPayOrderMoneyModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;
