@@ -65,15 +65,14 @@ class ManageLeadApiController extends ManageApiController
 
         if ($search != null) {
             $leads = $leads->where(function ($query) use ($search) {
-                $query->where('email', 'like', '%' . $search . '%')
-                    ->orWhere('name', 'like', '%' . $search . '%')
-                    ->orWhere('phone', 'like', '%' . $search . '%');
+                $query->where('users.email', 'like', '%' . $search . '%')
+                    ->orWhere('users.name', 'like', '%' . $search . '%')
+                    ->orWhere('users.phone', 'like', '%' . $search . '%');
             });
         }
-
         if ($request->carer_id) {
-            $leads = $leads->join("user_carer", "users.id", "=", "user_carer.user_id");
-            if ($request->carer_id == 0) {
+            $leads = $leads->leftJoin("user_carer", "users.id", "=", "user_carer.user_id");
+            if ($request->carer_id == -2) {
                 $leads = $leads->whereNull("user_carer.carer_id");
             } else {
                 if ($request->carer_id == -1) {
@@ -85,14 +84,16 @@ class ManageLeadApiController extends ManageApiController
         }
 
         if ($startTime != null && $endTime != null) {
-            $leads = $leads->whereBetween('created_at', array($startTime, $endTime));
+            $leads = $leads->whereBetween('users.created_at', array($startTime, $endTime));
         }
 
         if ($request->rate) {
-            $leads = $leads->where('rate', $request->rate);
+            $leads = $leads->where('users.rate', $request->rate);
         }
 
-        $leads = $leads->where('role', '<', 1)->orderBy('created_at', 'desc');
+        $leads = $leads->select("users.*");
+
+        $leads = $leads->where('users.role', '<', 1)->orderBy('users.created_at', 'desc');
 
         if ($request->top) {
             $leads = $leads->simplePaginate($request->top);;
@@ -126,23 +127,20 @@ class ManageLeadApiController extends ManageApiController
         $startTime = $request->start_time;
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
 
-        $limit = $request->limit ? $request->limit : 20;
-
         $search = $request->search;
 
         $leads = User::query();
 
         if ($search != null) {
             $leads = $leads->where(function ($query) use ($search) {
-                $query->where('email', 'like', '%' . $search . '%')
-                    ->orWhere('name', 'like', '%' . $search . '%')
-                    ->orWhere('phone', 'like', '%' . $search . '%');
+                $query->where('users.email', 'like', '%' . $search . '%')
+                    ->orWhere('users.name', 'like', '%' . $search . '%')
+                    ->orWhere('users.phone', 'like', '%' . $search . '%');
             });
         }
-
         if ($request->carer_id) {
-            $leads = $leads->join("user_carer", "users.id", "=", "user_carer.user_id");
-            if ($request->carer_id == 0) {
+            $leads = $leads->leftJoin("user_carer", "users.id", "=", "user_carer.user_id");
+            if ($request->carer_id == -2) {
                 $leads = $leads->whereNull("user_carer.carer_id");
             } else {
                 if ($request->carer_id == -1) {
@@ -154,14 +152,16 @@ class ManageLeadApiController extends ManageApiController
         }
 
         if ($startTime != null && $endTime != null) {
-            $leads = $leads->whereBetween('created_at', array($startTime, $endTime));
+            $leads = $leads->whereBetween('users.created_at', array($startTime, $endTime));
         }
 
         if ($request->rate) {
-            $leads = $leads->where('rate', $request->rate);
+            $leads = $leads->where('users.rate', $request->rate);
         }
 
-        $leads = $leads->where('role', '<', 1)->orderBy('created_at', 'desc');
+        $leads = $leads->select("users.*");
+
+        $leads = $leads->where('users.role', '<', 1)->orderBy('users.created_at', 'desc');
 
         if ($request->top) {
             $leads = $leads->take($request->top);
@@ -213,6 +213,16 @@ class ManageLeadApiController extends ManageApiController
             return $this->respondErrorWithStatus("Thiếu carer_id");
         }
 
+        foreach ($request->lead_ids as $lead_id) {
+            $userCarer = UserCarer::where('user_id', $lead_id)->where('carer_id', $request->carer_id)->first();
+            if ($userCarer == null) {
+                $userCarer = new UserCarer();
+                $userCarer->user_id = $lead_id;
+                $userCarer->carer_id = $request->carer_id;
+                $userCarer->assigner_id = $this->user->id;
+                $userCarer->save();
+            }
+        }
 
         return $this->respondSuccess("success");
     }

@@ -8,7 +8,7 @@ $routes = function () {
     Route::group(['prefix' => 'lead'], function () {
         Route::post('/create', 'ManageLeadApiController@createLeads');
         Route::get('/all', 'ManageLeadApiController@getLeads');
-        Route::get('/all-id', 'ManageLeadApiController@getAllLeadWithId');
+        Route::get('/all-ids', 'ManageLeadApiController@getAllLeadWithId');
         Route::put('/edit-info', 'ManageLeadApiController@editInfo');
         Route::post('/upload-distribution-leads', 'ManageLeadApiController@distributionLeads');
     });
