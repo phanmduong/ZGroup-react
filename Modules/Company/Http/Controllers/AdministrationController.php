@@ -242,4 +242,21 @@ class AdministrationController extends ManageApiController
             "message" => "Xóa thành công"
         ]);
     }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $report = Report::find($id);
+        if($report->status){
+            $report->status = 0;
+            $report->save();
+        }else{
+            $report->status = 1;
+            $report->save();
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi trạng thái thành công"
+        ]);
+
+    }
 }
