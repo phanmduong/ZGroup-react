@@ -115,4 +115,8 @@ class ClientController extends Controller
     {
         return view('client.customerServices');
     }
+    public function sales()
+    {
+        return view('client.sales');
+    }
 }
