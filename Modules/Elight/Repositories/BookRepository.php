@@ -165,11 +165,11 @@ class BookRepository
         foreach ($goods as &$good) {
             $total_price += $good->price * $good->pivot->quantity;
         }
-        $subject = "Xác nhận đặt sách thành công";
+        $subject = $ship_infor->name." Elight XÁC NHẬN ĐƠN HÀNG";
         $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
         $emailcc = ["elightedu.books@gmail.com"];
         Mail::send('emails.confirm_buy_book_elight', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Elight');
+            $m->from('no-reply@colorme.vn', 'Nhà sach Elight');
             $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
         });
         // if ($payment === "Thanh toán online") {
