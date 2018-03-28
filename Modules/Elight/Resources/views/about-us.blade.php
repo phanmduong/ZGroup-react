@@ -267,7 +267,7 @@
         window.onload = function (e) {
             setTimeout(function () {
                 $('#modalInfo').modal('show');
-            }, 1000); //60000
+            }, 60000); //60000
         };
 
         $(document).ready(function () {
