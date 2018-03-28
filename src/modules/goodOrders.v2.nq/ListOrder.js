@@ -2,10 +2,6 @@ import React from 'react';
 import ItemOrder from './ItemOrder';
 import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
-import ShipGoodModalContainer from "./ShipGoodModalContainer";
-import AddNoteModal from "./AddNoteModal";
-import SelectWarehouseModal from "./SelectWarehouseModal";
-import PayOrderMoneyModal from "./PayOrderMoneyModal";
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -52,10 +48,7 @@ class ListOrder extends React.Component {
                             </table>
                         )
                 }
-                <ShipGoodModalContainer/>
-                <AddNoteModal/>
-                <SelectWarehouseModal/>
-                <PayOrderMoneyModal/>
+
             </div>
         );
     }
