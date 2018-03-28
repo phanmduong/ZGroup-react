@@ -65,7 +65,7 @@ class ManageEventApiController extends ManageApiController
 
     public function getAllEvents(Request $request)
     {
-        if (!$request->limit) {
+        if ($request->limit == -1) {
             $limit = 20;
         } else {
             $limit = $request->limit;
