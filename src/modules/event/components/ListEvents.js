@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from "../../../components/common/Avatar";
-// import ButtonGroupAction from '../../../components/common/ButtonGroupAction';
 import Switch from 'react-bootstrap-switch';
+import moment from "moment";
+import {DATE_VN_FORMAT} from "../../../constants/constants";
 
 
 class ListEvents extends React.Component {
@@ -14,7 +15,6 @@ class ListEvents extends React.Component {
     }
 
     handleSwitch(id, status, name) {
-        console.log(status);
         this.props.handleSwitch(id, status, name);
     }
 
@@ -31,7 +31,7 @@ class ListEvents extends React.Component {
                                          style={{borderRadius: '10px'}}>
 
                                         <a onClick={() => {
-                                            this.props.openEventModal(true, event.id);
+                                            this.props.openStoreEventModal(event.id,true);
                                         }}>
                                             <div id="simpleBarChart" className="ct-chart"
                                                  style={{
@@ -45,19 +45,6 @@ class ListEvents extends React.Component {
                                                  }}
                                             >
 
-                                                {/*<div style={{position: "absolute"}}>*/}
-                                                    {/*{event.category ?*/}
-                                                        {/*<button className="tag btn btn-xs btn-danger"*/}
-                                                                {/*style={{marginLeft: 15, borderRadius: 10}}*/}
-                                                                {/*onClick={(e) => {*/}
-                                                                    {/*this.props.loadByCategories(event.category.id);*/}
-                                                                    {/*e.stopPropagation();*/}
-                                                                {/*}}*/}
-                                                        {/*>*/}
-                                                            {/*{event.category ? event.category.name : 'Không có'}</button>*/}
-                                                        {/*: null*/}
-                                                    {/*}*/}
-                                                {/*</div>*/}
                                             </div>
                                         </a>
                                     </div>
@@ -67,15 +54,8 @@ class ListEvents extends React.Component {
                                         <div className="card-action" style={{height: 73}}>
                                             <h4 className="card-title" style={{display : "flex", justifyContent : "space-between"}}>
                                                 <a onClick={() => {
-                                                    this.props.openModal(true, event.id);
+                                                    this.props.openStoreEventModal( event.id,true);
                                                 }}>{event.name ? event.name : "Chưa có tên"}</a>
-
-                                                {/*<ButtonGroupAction*/}
-                                                    {/*editUrl={"blog/event/" + event.id + "/edit"}*/}
-                                                    {/*delete={this.props.deleteevent}*/}
-                                                    {/*object={event}*/}
-                                                    {/*disabledEdit*/}
-                                                {/*/>*/}
                                             </h4>
                                         </div>
 
@@ -88,16 +68,16 @@ class ListEvents extends React.Component {
                                                 <div>
                                                     <strong>{event.creator.name}</strong><br/>
                                                     <p className="category"
-                                                       style={{fontSize: 12}}>{event.created_at && event.created_at.date}</p>
+                                                       style={{fontSize: 12}}>{event.created_at && moment(event.created_at.date, "YYYY-MM-DD HH:mm").format(DATE_VN_FORMAT)}</p>
                                                 </div>
                                             </div>
 
                                             <div style={{display: "flex", alignItems: "center"}}>
                                                 <Switch
-                                                    onChange={() => this.handleSwitch(event.id, event.status, event.title)}
+                                                    onChange={() => this.handleSwitch(event.id, event.status, event.name)}
                                                     bsSize="mini"
                                                     onText="Hiện" offText="Ẩn"
-                                                    value={(event.status === "PUBLISH")}
+                                                    value={(event.status === "PUBLISHED")}
                                                 />
 
                                             </div>
@@ -119,8 +99,8 @@ class ListEvents extends React.Component {
 ListEvents.propTypes = {
     events: PropTypes.array.isRequired,
     // deletePost: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
     handleSwitch: PropTypes.func.isRequired,
+    openStoreEventModal: PropTypes.func.isRequired,
     // loadByCategories: PropTypes.func.isRequired,
     // loadPosts: PropTypes.func,
 };

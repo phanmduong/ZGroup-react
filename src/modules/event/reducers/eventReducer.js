@@ -1,9 +1,9 @@
 import types from "../constants/actionTypes";
 import moment from "moment";
-import { DATE_VN_FORMAT, TIME_FORMAT_H_M } from "../../../constants/constants";
+import {DATE_VN_FORMAT, TIME_FORMAT_H_M} from "../../../constants/constants";
 
 
-let tmpevents;
+let tmpevents, tmpevent;
 const initEventState = {
     events: [],
     event: {
@@ -11,20 +11,21 @@ const initEventState = {
         start_time: moment().format(TIME_FORMAT_H_M),
         end_time: moment().format(TIME_FORMAT_H_M),
         end_date: moment().format(DATE_VN_FORMAT),
-        cover_url :"",
-        avatar_url : "",
-        name : "",
-        slug : "",
-        address : "",
-        meta_description:"",
-        keyword : "",
-        detail : "",
+        cover_url: "",
+        avatar_url: "",
+        name: "",
+        slug: "",
+        address: "",
+        meta_description: "",
+        keyword: "",
+        detail: "",
     },
     isLoadingEvents: false,
     isSavingEvent: false,
     message: "",
     showStoreEventModal: false,
-    totalPages : 0,
+    isEditEvent: false,
+    totalPages: 0,
 };
 export default function eventReducer(state = initEventState, action) {
     switch (action.type) {
@@ -39,6 +40,7 @@ export default function eventReducer(state = initEventState, action) {
                 showStoreEventModal: false,
                 isSavingEvent: false,
                 event: {},
+                events: changeEvents(state.events, action.event, action.isEdit),
             };
         case types.BEGIN_SAVE_EVENT:
             return {
@@ -65,30 +67,32 @@ export default function eventReducer(state = initEventState, action) {
             return {
                 ...state,
                 showStoreEventModal: action.showStoreEventModal,
+                isEditEvent: action.isEdit,
+                event: selectEvent(state.events, action.id),
             };
         case types.BEGIN_LOAD_ALL_EVENTS:
-            return{
+            return {
                 ...state,
-                isLoadingEvents : true,
+                isLoadingEvents: true,
             };
         case types.LOADED_ALL_EVENTS_SUCCESS:
-            console.log(action.events);
-            return{
+            return {
                 ...state,
-                isLoadingEvents : false,
-                events : action.events,
-                totalPages : action.totalPages,
+                isLoadingEvents: false,
+                events: action.events,
+                totalPages: action.totalPages,
             };
         case types.LOADED_ALL_EVENTS_ERROR:
-            return{
+            return {
                 ...state,
-                isLoadingEvents : false,
+                isLoadingEvents: false,
             };
         case types.CHANGE_STATUS_IN_EVENTS:
-            return{
+            return {
                 ...state,
-                events : changeStatus(state.events,action.id,action.status)
+                events: changeStatus(state.events, action.id, action.status)
             };
+
         default:
             return state;
     }
@@ -98,7 +102,7 @@ function changeStatus(events, id, status) {
     tmpevents = [];
     tmpevents = events.map((event) => {
         if (event.id === id) {
-            let tmp = status === "PUBLISH" ? "UNPUBLISH" : "PUBLISH";
+            let tmp = status === "PUBLISHED" ? "UNPUBLISHED" : "PUBLISHED";
             return {...event, status: tmp};
         }
         else {
@@ -106,4 +110,36 @@ function changeStatus(events, id, status) {
         }
     });
     return tmpevents;
+}
+
+function selectEvent(events, id) {
+    if (id) {
+        tmpevent = events.filter(event => event.id === id)[0];
+        return {
+            ...tmpevent,
+            start_date: moment(tmpevent.start_date, "YYYY-MM-DD HH:mm").format(DATE_VN_FORMAT),
+            start_time: moment(tmpevent.start_time, "YYYY-MM-DD HH:mm").format(TIME_FORMAT_H_M),
+            end_time: moment(tmpevent.end_time, "YYYY-MM-DD HH:mm").format(TIME_FORMAT_H_M),
+            end_date: moment(tmpevent.end_date, "YYYY-MM-DD HH:mm").format(DATE_VN_FORMAT),
+        };
+    }
+    else {
+        return {};
+    }
+}
+
+function changeEvents(events, event, isEdit) {
+    if (!isEdit) {
+        return [event, ...events];
+    }
+    else {
+        return events.map((tmpevent) => {
+            if (tmpevent.id === event.id) {
+                return event;
+            }
+            else {
+                return tmpevent;
+            }
+        });
+    }
 }

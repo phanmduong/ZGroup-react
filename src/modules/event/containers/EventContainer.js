@@ -27,8 +27,8 @@ class EventContainer extends React.Component {
         this.loadEvents(this.state.page, this.state.limit);
     }
 
-    openStoreEventModal() {
-        this.props.eventActions.showStoreEventModal(true);
+    openStoreEventModal(id,isEdit) {
+        this.props.eventActions.showStoreEventModal(true,id,isEdit);
     }
 
     loadEvents(page = 1) {
@@ -46,7 +46,7 @@ class EventContainer extends React.Component {
         this.timeOut = setTimeout(
             function () {
                 this.props.eventActions.loadEvents(this.state.page, this.state.limit, query);
-            }, 500
+            }.bind(this), 500
         );
     }
     handleSwitch(id, status, name) {
@@ -54,7 +54,6 @@ class EventContainer extends React.Component {
     }
 
     render() {
-        // console.log(this.props.events, this.props.totalPages);
         return (
             <div className="container-fluid">
                 {this.props.isLoadingEvents ? <Loading/> :
@@ -70,7 +69,7 @@ class EventContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-4">
                                     <a
-                                        onClick={this.openStoreEventModal}
+                                        onClick={()=>this.openStoreEventModal(0,false)}
                                         className="btn btn-rose"
                                     >
                                         Tạo sự kiện
@@ -92,7 +91,7 @@ class EventContainer extends React.Component {
                             <ListEvents
                                 handleSwitch = {this.handleSwitch}
                                 events={this.props.events}
-                                openModal={this.openStoreEventModal}
+                                openStoreEventModal={this.openStoreEventModal}
                             />
                             <div className="card-content">
                                 <Pagination

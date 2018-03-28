@@ -3,11 +3,12 @@ import eventApi from "../api/eventApi";
 import * as helper from "../../../helpers/helper";
 
 export default {
-    showStoreEventModal: showStoreEventModal => {
+    showStoreEventModal: (showStoreEventModal, id, isEdit) => {
         return dispatch => {
             dispatch({
                 type: types.SHOW_STORE_EVENT_MODAL,
                 showStoreEventModal,
+                id, isEdit,
             });
         };
     },
@@ -42,34 +43,34 @@ export default {
 
     changeStatus: (id, status, name) => {
 
-        console.log(status,"action");
         return function (dispatch) {
             dispatch({
                 type: types.CHANGE_STATUS_IN_EVENTS,
                 id,
                 status,
             });
-            eventApi.changeStatusApi(id,status).then(res => {
+            eventApi.changeStatusApi(id, status).then(res => {
                 if (res.data.status) {
-                    (status === "UNPUBLISH")
+                    (status === "PUBLISHED")
                         ? helper.showNotification("Đã ẩn " + name)
                         : helper.showNotification("Đã hiển thị " + name);
                 }
             });
         };
     },
-    saveEvent: event => {
-        return dispatch => {
+    saveEvent: (event, isEditEvent) => {
+        return (dispatch) => {
             dispatch({
                 type: types.BEGIN_SAVE_EVENT,
             });
             return new Promise(async resolve => {
-                const res = await eventApi.saveEvent(event);
+                const res = await eventApi.saveEvent(event,isEditEvent);
 
                 if (res.data.status) {
                     dispatch({
                         type: types.SAVE_EVENT_SUCCESS,
                         event: res.data.event,
+                        isEdit:isEditEvent,
                     });
                 } else {
                     dispatch({
