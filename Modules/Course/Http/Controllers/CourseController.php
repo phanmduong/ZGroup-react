@@ -57,7 +57,8 @@ class CourseController extends ManageApiController
         $course->image_url = $request->image_url;
         $course->icon_url = $request->icon_url;
         $course->detail = $request->detail;
-        $course->type_id = $request->type_id;
+        // $course->type_id = $request->type_id;
+        $course->type_id = 1;
         $course->save();
         $arr_ids= json_decode($request->categories);
         $course->courseCategories()->detach();

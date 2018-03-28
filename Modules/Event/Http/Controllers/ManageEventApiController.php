@@ -79,7 +79,7 @@ class ManageEventApiController extends ManageApiController
             })
         ]);
     }
-    public function changeStatusEvent($id,$request)
+    public function changeStatusEvent($id, Request $request)
     {
         $event = Event::find($id);
         if (!$event) {
