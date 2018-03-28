@@ -129,16 +129,11 @@
                         <table class="container" align="center" width="600" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="mobile-no-radius" style="background-color:#ffffff; border-radius: 15px;">
                                     <!-- HEADER-->
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td>
-                                                <img class="header-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1520048113TMFlOqYhT0mmj89.jpg" border="0" alt="" title="logo" width="600" height="auto" style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                                                <img class="header-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/15222211812MSvia7ugQ7Tjao.jpg" border="0" alt="" title="logo" width="600" height="auto" style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                                             </td></tr></tbody></table>
                                     <!--end HEADER-->
                                     <!-- BLOCK - 1 column / main -->
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding-top: 0px; padding-right: 30px; padding-left: 30px;">
-                                                <tr style="text-align: center;vertical-align: middle;">
-                                                    <td style="text-align: center;background: #00396c">
-                                                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" alt="Logo" style="margin:20px" height="35px"/>
-                                                    </td>
-                                                </tr>
                                                 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 450px; margin: auto;">
                                                     <tbody>
                                                     <tr>
@@ -148,14 +143,12 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                            <b>Thông tin của bạn</b>
-                                                            <br/>
-                                                            Email: {{$email}}   <br/>
-                                                            Đánh giá: {{$radio}}   <br/>
-                                                            Lời nhắn: {{$message_str}} <br/>
-                                                            Giáo trình: {{$course->name}} <br/>
-                                                            Bài: {{$term->name}} <br/>
-                                                            {{$lesson->name}}
+                                                            <p>Cảm ơn bạn đã sử dung website <a href="elightbook.vn">elightbook.vn</a> và trải nghiệm những bài học bổ ích cùng chúng tôi.</p>
+                                                            <p>Đánh giá và góp ý của bạn đã được ghi nhận. Elight xin trân trọng và sẽ liên tục hoàn thiện chất lượng sản phẩm, dịch vụ tốt hơn. Để cảm ơn, chúng tôi gửi tặng bạn 1 mã ưu đãi: <b>tienganh88</b>, giảm giá 10% khi mua bất kì sản phẩm nào của Nhà Sách Elight. Hãy đọc mã ưu đãi này cho nhân viên của Elight khi liên hệ mua hàng để được giảm giá.</p>
+                                                            <p>Nếu bạn chưa sở hữu bộ sách Tiếng Anh Cơ Bản mới nhất, chúng tôi khuyên bạn hãy click vào đường link sau: <a href="bit.ly/elightbook-thuvientuhoc">bit.ly/elightbook-thuvientuhoc</a> , đăng ký mua, điền mã ưu đãi<b>tienganh88</b>. Tất cả những nội dung hữu ích nhất cho người học tiếng Anh trên thư viện của Elight bao gồm lộ trình, phương pháp học, luyện nghe chuẩn, mẹo nhớ từ vựng..v..v đều hỗ trợ cho bộ sách này. Nhanh tay sở hữu sách để tận dụng nguồn kiến thức cực kỳ bổ ích và cải thiện tiếng Anh của bạn hàng ngày nhé !</p>
+                                                            <p>Nếu bạn cần tư vấn thêm, hãy gọi ngay cho Elight qua số máy <b>0981 937 066</b> hoặc <b>01628 766 444</b>. Hòm thư <b>elightedu.books@gmail.com</b> của chúng tôi cũng luôn sẵn sàng chờ email của bạn!</p>
+                                                            <p>Hãy quay lại <a href="elightbook.vn">elightbook.vn</a> mỗi ngày để cập nhật những kiến thức và rèn thói quen tự học
+                                                                cho bạn nhé!</p>
                                                         </td>
                                                     </tr>
 
@@ -163,9 +156,20 @@
                                             </td></tr></tbody></table>
                                     <!-- end BLOCK - 1 column / main -->
                                     <!-- BLOCK - block 2 columns / phone -->
-                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td style="padding-top: 40px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px;">
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                                         <tbody>
-
+                                        <tr>
+                                            <td>
+                                                <img style="margin-right: auto;width: 100px; height: auto;" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1522206436MOjkHVg3WSMVhyI.jpg" alt="">
+                                            </td>
+                                            <td>
+                                                <p style="margin-left: auto;text-align: right;padding-right: 10px;">
+                                                    <span style="text-align: right;">098 937 066 | 01628766444</span>
+                                                    <br/>
+                                                    <span style="text-align: right">elightedu.books@gmail.com</span>
+                                                </p>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                     <!-- end BLOCK - block 2 columns / phone -->
@@ -179,7 +183,7 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
-                                                Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất
+                                                {{--Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất--}}
                                             </td>
                                         </tr>
 
