@@ -3,6 +3,7 @@
 namespace Modules\Elight\Http\Controllers;
 
 use App\CategoryProduct;
+use App\CourseCategory;
 use App\District;
 use App\Course;
 use App\Good;
@@ -10,6 +11,7 @@ use App\Lesson;
 use App\Term;
 use App\Product;
 use App\Province;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
@@ -154,8 +156,10 @@ class ElightController extends Controller
     public function allBooks($subfix)
     {
         $books = Course::where('status', 0)->get();
+        $categories = CourseCategory::all();
         return view('elight::library', [
             'books' => $books,
+            'course_categories' => $categories
         ]);
     }
 
@@ -307,5 +311,38 @@ class ElightController extends Controller
         $request->session()->flush();
     }
 
+    public function searchCategory(Request $request)
+    {
+        if($request->ajax()){
+//            dd(1);
+            $output = "";
+            $categories = Course::where('name', 'like', '%' . $request->searchCategory . '%')->get();
+            if($categories){
+                foreach ($categories as $category){
+                    $output .= "<div class=\"col-md-3\">
+                        <div class=\"card card-profile\" style=\"border-radius: 0px;\">
+                            <a href=\"/book/$category->id\" style=\"padding: 3%;\">
+                                <div style=\"background-image: url('$category->icon_url'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;\"></div>
+                            </a>
+                            <div>
+                                <div class=\"container text-left\" style=\"min-height: 130px;\"><br>
+                                    <a href=\"/book/$category->id\" style=\"font-weight: 600;\">$category->name</a>
+                                    <p>$category->description</p>
+                                </div>
+                            </div>
+                            <div class=\"card-footer\" style=\"border-top: 1px solid rgb(220, 219, 219) !important;\">
+                                <div style=\"text-align: right;\">
+                                    <a class=\"btn btn-success\" href=\"/book/$category->id\"
+                                       style=\"padding: 3px; margin: 3px; font-size: 10px;\">
+                                        Nghe online <i class=\"fa fa-headphones\" aria-hidden=\"true\"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
+                }
+                return Response($output);
+            }
+        }
 
+    }
 }
