@@ -60,7 +60,7 @@ class ManageEventApiController extends ManageApiController
         $event->save();
 
         return $this->respondSuccessV2([
-            'event' => $event
+            'event' => $event->getData(),
         ]);
     }
 
