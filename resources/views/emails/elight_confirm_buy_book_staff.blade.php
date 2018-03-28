@@ -1,0 +1,1 @@
+{{$time . "  " . $user->name . '  ' .  $order->address . '  ' . $user->phone . '  ' . $user->email . '  ' . $order->payment . '  ' . $quantity}} 
