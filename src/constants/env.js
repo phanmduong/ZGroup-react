@@ -5,11 +5,11 @@ let URL = env.DOMAIN;
 let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
 export const TYPE_API = env.TYPE_API;
-
-// export const API_URL = PROTOCOL + "api." + URL;
-export const API_URL = BASE_URL + "/api/v3";
-
 export const BASE_URL = PROTOCOL + URL;
+export const API_URL = PROTOCOL + "api." + URL;
+// export const API_URL = BASE_URL + "/api/v3";
+
+
 // export const API_URL = BASE_URL + "/api/v3";
 export const DOMAIN = PROTOCOL + "manage." + URL;
 // export const DOMAIN = BASE_URL + "/admin";
@@ -37,7 +37,7 @@ export const CHANNEL = env.CHANNEL;
 export const SOCKET_HOST = env.SOCKET_HOST;
 export const SOCKET_PORT = env.SOCKET_PORT;
 
-$(document).ready(function() {
+$(document).ready(function () {
     // var OneSignal = window.OneSignal || [];
     if (window.OneSignal) {
         window.OneSignal.push([
@@ -58,7 +58,7 @@ $(document).ready(function() {
                 },
             },
         ]);
-        window.OneSignal.sendTag("device_type", "manage", function(tagsSent) {
+        window.OneSignal.sendTag("device_type", "manage", function (tagsSent) {
             console.log("tag ok ", tagsSent);
         });
     }

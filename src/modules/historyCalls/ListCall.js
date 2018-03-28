@@ -39,7 +39,7 @@ class ListCall extends React.Component {
                                     </Link>
                                 </td>
                                 <td>
-                                    <a href={`/teaching/info-student/${call.student.id}`}
+                                    <a href={`/sales/info-student/${call.student.id}`}
                                           className="text-name-student-register">
                                         {call.student.name}
                                     </a>

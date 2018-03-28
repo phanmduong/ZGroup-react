@@ -55,7 +55,7 @@ class ListLead extends React.Component {
                                 <th>Họ tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
-                                <th className="text-center">Đánh giá</th>
+                                <th>Đánh giá</th>
                                 {
                                     !this.props.showSelectedLead && <th>Nhân viên</th>
                                 }
@@ -103,7 +103,7 @@ class ListLead extends React.Component {
                                                 />
                                             </td>
                                             <td>
-                                                <a href={`/teaching/info-student/${lead.id}`}
+                                                <a href={`/sales/info-student/${lead.id}`}
                                                    className="text-name-student-register">
                                                     {lead.name}
                                                 </a>

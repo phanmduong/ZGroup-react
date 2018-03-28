@@ -95,6 +95,10 @@ export default [
         component: LeadContainer
     },
     {
+        path: "/marketing/leads",
+        component: LeadContainer
+    },
+    {
         path: "/marketing/distribution-leads",
         component: LeadContainer,
         type: "distribution"

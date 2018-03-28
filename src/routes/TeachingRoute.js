@@ -21,11 +21,6 @@ import HistoryTeachingContainer from "../modules/classes/class/historyTeaching/H
 import RegistersClassContainer from "../modules/classes/class/registers/RegistersContainer";
 import ProgressClassContainer from "../modules/classes/class/progress/ProgressContainer";
 import CareClassContainer from "../modules/classes/class/care/CareContainer";
-import InfoStudentContainer from "../modules/infoStudent/InfoStudentContainer";
-import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
-import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
-import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
-import CareContainer from "../modules/infoStudent/care/CareContainer";
 
 /**
  * Tab Teaching
@@ -45,11 +40,6 @@ export default [
         path: "/teaching/gens",
         // path: "/manage/gens",
         component: GensContainer
-    },
-    {
-        path: "/teaching/registerlist(/:salerId)",
-        // path: "/manage/registerlist(/:salerId)",
-        component: RegisterListContainer
     },
     {
         path: "/teaching/waitlist",
@@ -189,29 +179,5 @@ export default [
                 component: CareClassContainer
             }
         ]
-    }, {
-        path: "/teaching/info-student/:studentId",
-        // path: "/manage/courses/create",
-        component: InfoStudentContainer,
-        // path children ko có / phía trước nhé ( "/documents" thế này là sai) đúng là "documents"
-        children: [
-            {
-                path: "/",
-                component: RegistersContainer
-            },
-            {
-                path: "history-calls",
-                component: HistoryCallContainer
-            },
-            {
-                path: "progress",
-                component: ProgressContainer
-            },
-            {
-                path: "care",
-                component: CareContainer
-            },
-        ]
     },
-
 ];
