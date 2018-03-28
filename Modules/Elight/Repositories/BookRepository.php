@@ -197,7 +197,7 @@ class BookRepository
         if ($goods_arr) {
             foreach ($goods_arr as $item) {
                 $good = Good::find($item->id);
-                $quantity+=$item->number;
+                $quantity += $item->number;
                 $order->goods()->attach($item->id, [
                     "quantity" => $item->number,
                     "price" => $good->price,
@@ -214,7 +214,7 @@ class BookRepository
         $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
         $emailcc = ["elightedu.books@gmail.com"];
         Mail::send('emails.confirm_buy_book_elight', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@elightbook.com', 'Nhà sach Elight');
+            $m->from('no-reply@colorme.vn', 'Nhà sach Elight');
             $m->to($order->email, $order->name)->subject($subject);
         });
 
@@ -222,12 +222,13 @@ class BookRepository
             'user' => $user,
             'quantity' => $quantity,
             'order' => $order,
-            'time' => 
+            'time' => date('m/d/Y H:i:s')
         ];
-        // Mail::send('emails.elight_confirm_buy_book', $staff_data, function ($m) {
-        //     $m->from('no-reply@elightbook.com', 'ELIGHT BOOK');
-        //     $m->to('datvithanh98@gmail.com')->subject('ĐƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
-        // });
+
+        Mail::send('emails.elight_confirm_buy_book_staff', $staff_data, function ($m) {
+            $m->from('no-reply@colorme.vn', 'ELIGHT BOOK');
+            $m->to("elightedu.books@gmail.com")->subject('ĐƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
+        });
 
         return null;
     }
