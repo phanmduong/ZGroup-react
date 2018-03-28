@@ -10,15 +10,21 @@ class StorePostComponent extends React.Component {
     componentDidMount() {
         const { scrollerId } = this.props;
         $(scrollerId).scroll(() => {
+            const limit = $(scrollerId + " .modal-body").outerHeight() + 100;
+
             const scroll = $(scrollerId).scrollTop();
-            const topButtons = $(window).height() - 210 + "px";
-            $(".blog-buttons").css("top", topButtons);
-            $(".blog-buttons").css(
-                "transform",
-                "translate(0px, " + scroll + "px)",
-            );
+
+            if (scroll < limit - $(scrollerId).height() + 100) {
+                const topButtons =
+                    $(window).height() - this.props.height + "px";
+                $(".blog-buttons").css("top", topButtons);
+                $(".blog-buttons").css(
+                    "transform",
+                    "translate(0px, " + scroll + "px)",
+                );
+            }
         });
-        const topButtons = $(window).height() - 210 + "px";
+        const topButtons = $(window).height() - this.props.height + "px";
         $(".blog-buttons").css("top", topButtons);
     }
 
@@ -42,7 +48,7 @@ class StorePostComponent extends React.Component {
                             className="btn btn-fill btn-success"
                             type="button"
                             disabled={this.props.disabled}
-                            onClick={() => this.props.preSavePost(false)}
+                            onClick={this.props.save}
                         >
                             Lưu
                         </button>
@@ -51,7 +57,7 @@ class StorePostComponent extends React.Component {
                             className="btn btn-fill btn-default"
                             type="button"
                             disabled={this.props.disabled}
-                            onClick={() => this.props.preSavePost(true)}
+                            onClick={this.props.preSave}
                         >
                             Lưu và xem thử
                         </button>
@@ -78,8 +84,14 @@ StorePostComponent.propTypes = {
     style: PropTypes.object.isRequired,
     disabled: PropTypes.bool.isRequired,
     close: PropTypes.func.isRequired,
+    save: PropTypes.func.isRequired,
+    preSave: PropTypes.func.isRequired,
     publish: PropTypes.func.isRequired,
+    height: PropTypes.number.isRequired,
     isSaving: PropTypes.func.isRequired,
+};
+StorePostComponent.defaultProps = {
+    height: 210,
 };
 
 export default StorePostComponent;

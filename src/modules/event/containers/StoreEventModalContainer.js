@@ -79,7 +79,8 @@ class StoreEventModalContainer extends React.Component {
                         <div className="container-fluid">
                             <div className="row">
                                 <label className="label-control">
-                                    Ảnh đại diện <star style={{ color: "red" }}>*</star>
+                                    Ảnh đại diện{" "}
+                                    <star style={{ color: "red" }}>*</star>
                                 </label>
                                 <ImageUploader
                                     tooltipText="Chọn ảnh đại diện"
