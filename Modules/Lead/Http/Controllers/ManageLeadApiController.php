@@ -119,7 +119,61 @@ class ManageLeadApiController extends ManageApiController
         } else {
             return $this->respondWithPagination($leads, $data);
         }
+    }
 
+    public function getAllLeadWithId(Request $request)
+    {
+        $startTime = $request->start_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+
+        $limit = $request->limit ? $request->limit : 20;
+
+        $search = $request->search;
+
+        $leads = User::query();
+
+        if ($search != null) {
+            $leads = $leads->where(function ($query) use ($search) {
+                $query->where('email', 'like', '%' . $search . '%')
+                    ->orWhere('name', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($request->carer_id) {
+            $leads = $leads->join("user_carer", "users.id", "=", "user_carer.user_id");
+            if ($request->carer_id == 0) {
+                $leads = $leads->whereNull("user_carer.carer_id");
+            } else {
+                if ($request->carer_id == -1) {
+                    $leads = $leads->whereNotNull("user_carer.carer_id");
+                } else {
+                    $leads = $leads->where("user_carer.carer_id", $request->carer_id);
+                }
+            }
+        }
+
+        if ($startTime != null && $endTime != null) {
+            $leads = $leads->whereBetween('created_at', array($startTime, $endTime));
+        }
+
+        if ($request->rate) {
+            $leads = $leads->where('rate', $request->rate);
+        }
+
+        $leads = $leads->where('role', '<', 1)->orderBy('created_at', 'desc');
+
+        if ($request->top) {
+            $leads = $leads->take($request->top);
+        }
+
+        $data = [
+            'lead_ids' => $leads->get()->map(function ($lead) {
+                return $lead->id;
+            })
+        ];
+
+        return $this->respondSuccessWithStatus($data);
     }
 
     /**
@@ -158,7 +212,6 @@ class ManageLeadApiController extends ManageApiController
         if ($request->carer_id == null) {
             return $this->respondErrorWithStatus("Thiếu carer_id");
         }
-
 
 
         return $this->respondSuccess("success");

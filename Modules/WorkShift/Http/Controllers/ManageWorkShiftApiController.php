@@ -196,7 +196,7 @@ class ManageWorkShiftApiController extends ManageApiController
         }
 
         $date = new \DateTime();
-        $date->modify('-36 hours');
+        $date->modify('-1000 hours');
         $datetime = strtotime($date->format('Y-m-d H:i:s'));
 
         if (strtotime($shift->created_at) < $datetime) {
@@ -224,7 +224,7 @@ class ManageWorkShiftApiController extends ManageApiController
         }
 
         $date = new \DateTime();
-        $date->modify('-36 hours');
+        $date->modify('-1000 hours');
         $datetime = strtotime($date->format('Y-m-d H:i:s'));
 
         if (strtotime($shift->created_at) < $datetime) {
