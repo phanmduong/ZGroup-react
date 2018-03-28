@@ -3,6 +3,7 @@
 $routes = function () {
     Route::group(['prefix' => 'complaint'], function () {
         Route::post('/', 'ManageComplaintApiController@createComplaint');
+        Route::get('/abc/{id}','ManageComplaintApiController@getComplain');
     });
 };
 

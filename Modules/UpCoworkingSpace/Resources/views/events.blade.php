@@ -11,13 +11,19 @@
                         @foreach($events as $event)
                         <div class="col-md-4" style="margin-bottom: 20px">
                             <div class="card card-blog">
-                                <div class="card-image">
+                                <div class="card-image" >
                                     <a href="{{'/events/' . $event->slug}}">
-                                        <img class="img img-raised" src="{{$event->avatar_url}}">
+                                        <div style="width: 100%;
+                                                    border-radius: 15px;
+                                                    background: url({{$event->avatar_url}});
+                                                    background-size: cover;
+                                                    background-position: center;
+                                                    padding-bottom: 56%;">
+                                        </div>
                                     </a>
                                 </div>
                                 <div class="card-body">
-                                    <h5>
+                                    <h5 style="min-height: 50px">
                                         <a href="{{'/events/' . $event->slug}}" class="card-category text-main-color">{{$event->name}}</a>
                                     </h5>
                                     <p class="card-description" style="color: #4a4a4a">
@@ -125,7 +131,7 @@
         font-weight: 600;
     }
     .card-blog {
-        min-height: 350px;
+        min-height: 380px;
     }
 </style>
 
