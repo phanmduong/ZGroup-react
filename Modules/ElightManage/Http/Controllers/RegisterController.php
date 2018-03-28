@@ -23,13 +23,14 @@ class RegisterController extends Controller
     ) {
         $this->emailService = $emailService;
         $this->EDU_VIEW = config("app.edu_view");
-        $this->courses = Course::orderBy("created_at", "desc")->get();
+        $this->courses = Course::orderBy("created_at", "desc")->where('status',1)->get();
     }
 
     public function getRegisterClass($classId = "", $salerId = "", $campaignId = "")
     {
 
         $class = StudyClass::find($classId);
+    
         return view("$this->EDU_VIEW::register_class", [
             "class" => $class,
             "saler_id" => $salerId,

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 use Modules\NhatQuangShop\Repositories\BookRepository;
@@ -191,6 +192,10 @@ class NhatQuangShopController extends Controller
 
         return view('nhatquangshop::blogs', $this->data);
     }
+
+    
+
+   
 
     public function saveOrder(Request $request)
     {
