@@ -80,12 +80,11 @@ import sendNotificationReducer from '../modules/sendNotification/sendNotificatio
 import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
-<<<<<<< HEAD
+
 import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportReducer";
-=======
+
 import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
 
->>>>>>> 1182315f6b71ef007a2f8b12ff6568f4ca8b9843
 
 const appReducer = combineReducers({
     weekendReport: weekendReportReducer,

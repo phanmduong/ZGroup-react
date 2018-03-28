@@ -52,21 +52,21 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
-        select : {
-            userpack_id : 0,
-            subscription_id : 0,
-            subscriptions : [],
-            price : 0,
-            hours : 0,
+        select: {
+            userpack_id: 0,
+            subscription_id: 0,
+            subscriptions: [],
+            price: 0,
+            hours: 0,
             start_time: '',
-            end_time : '',
-            extra_time : 0,
-            note : "",
+            end_time: '',
+            extra_time: 0,
+            note: "",
         },
-        isSavingSubscription : false,
-        userpacks : [],
-        isLoadingUserpack : false,
-        subscriptions : [],
+        isSavingSubscription: false,
+        userpacks: [],
+        isLoadingUserpack: false,
+        subscriptions: [],
     },
 
     registerManageRoom: {
@@ -82,19 +82,22 @@ export default {
         bases: [],
         isSavingPayment: false,
     },
-<<<<<<< HEAD
-    weekendReport:{
-      reports: [],
-      isLoading: false,
-      checkWeekendReportModal:false,
-      weekendReportModal:{
-          stt: '',
-          employee_name:'',
-          title: '',
-          report:''
-      }
+    weekendReport: {
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        report: [],
+        reports: [],
+        isLoading: false,
+        checkWeekendReportModal: false,
+        loadingModal:false,
+        addReport: false,
+        weekendReportModal: {
+            report:'',
+            title: ''
+        }
     },
-=======
 
     registerManageMeetingRoom: {
         registers: [],
@@ -110,7 +113,6 @@ export default {
         isSavingPayment: false,
     },
 
->>>>>>> 1182315f6b71ef007a2f8b12ff6568f4ca8b9843
     bankAccount: {
         accounts: [],
         isLoading: false,
@@ -119,9 +121,9 @@ export default {
             bank_name: '',
             bank_account_name: '',
             account_number: '',
-            owner_name:'',
-            branch:'',
-            display:''
+            owner_name: '',
+            branch: '',
+            display: ''
         },
         isUpdatingEditModal: false,
     },
@@ -1706,7 +1708,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
-            currency_value : 0,
+            currency_value: 0,
         },
         coupon: {
             name: '',

@@ -9,7 +9,13 @@ class WeekendReportComponent extends React.Component {
         super(props, context);
     }
 
+    showModal(i) {
+        this.props.weekendReportAction.showCheckWeekendReportModal();
+        this.props.weekendReportAction.loadReportById(i);
+    }
+
     render() {
+
         return (
             <div className="table-responsive">
                 <table className="table table-hover table-striped">
@@ -28,25 +34,32 @@ class WeekendReportComponent extends React.Component {
                             return (
                                 <tr key={index}>
                                     <td>
-                                        {report.stuff_id}</td>
-                                    <td>
-                                        {report.name}
+                                        {report.id}
                                     </td>
                                     <td>
-                                        {report.tittle}
+                                        {report.staff.name}
                                     </td>
-                                    <td>{new Date().toLocaleTimeString()} - {new Date().toLocaleDateString()}</td>
+                                    <td style={{width:'50%'}}>
+                                        {report.title}
+                                    </td>
                                     <td>
-                                        <div className="btn-group-action">
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Duyệt"
-                                               onClick={() => this.props.weekendReportAction.showCheckWeekendReportModal()}
-                                            >
-                                                <i className="material-icons">check</i>
-                                            </a>
-                                        </div>
+                                        {report.created_at.date.slice(0,19)}
+                                    </td>
+                                    <td>
+                                        {
+                                        report.status === 0 ?
+                                            <div className="btn-group-action">
+                                                <a style={{color: "#878787"}}
+                                                   data-toggle="tooltip" title=""
+                                                   type="button" rel="tooltip"
+                                                   data-original-title="Duyệt"
+                                                   onClick={() => this.showModal(report.id)}
+                                                >
+                                                    <i className="material-icons">check</i>
+                                                </a>
+                                            </div> :
+                                            <h1>v</h1>
+                                        }
                                     </td>
                                 </tr>
                             );
@@ -61,12 +74,16 @@ class WeekendReportComponent extends React.Component {
 }
 
 WeekendReportComponent.propTypes = {
-    reports: PropTypes.object.isRequired,
+    reports: PropTypes.array.isRequired,
     weekendReportAction: PropTypes.object.isRequired,
+    report: PropTypes.array.isRequired,
 };
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        reports: state.weekendReport.reports,
+        report: state.weekendReport.report,
+    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -74,6 +91,5 @@ function mapDispatchToProps(dispatch) {
         weekendReportAction: bindActionCreators(weekendReportAction, dispatch)
     };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeekendReportComponent);
