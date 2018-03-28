@@ -30,4 +30,32 @@ export default {
             ),
         });
     },
+
+    loadEventsApi: (page,limit,query) => {
+        let url = MANAGE_API_URL + "/event";
+        let token = localStorage.getItem("token");
+        if(token){
+            url += "?token="+ token;
+        }
+        url += `&page=${page}&limit=${limit}`;
+        if(query){
+            url += "&search=" + query;
+        }
+        return axios.get(url);
+    },
+
+    changeStatusApi : (id,status) => {
+        console.log(status);
+        let tmp = (status === "PUBLISH") ? "UNPUBLISH" : "PUBLISH";
+        console.log(tmp,"ssssss");
+        let url = MANAGE_API_URL + "/event/" + id + "/change-status";
+        let token = localStorage.getItem("token");
+        if (token) {
+            url += "?token=" + token;
+        }
+        return axios.put(url,{
+            'status' : tmp,
+        });
+    }
+
 };
