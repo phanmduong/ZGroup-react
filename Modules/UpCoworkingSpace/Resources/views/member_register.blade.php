@@ -110,7 +110,7 @@
                             </tr>
                         @endforeach
                     </table>
-                    <div style="background-color: #ffffff; padding: 20px 20px 5px 20px" class="container text-center">
+                    <div style="background-color: #ffffff; padding: 20px 0px 5px 0px" class="container text-center">
 
                             <a href="#"
                                class="btn btn-primary"

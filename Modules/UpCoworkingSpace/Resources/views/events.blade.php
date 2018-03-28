@@ -6,38 +6,45 @@
         <div class="row" style="margin-top:150px">
             <div class="blog-4">
                 <div class="container">
-                    <div class="row" style="margin-bottom:10px">
+
+                    <div class="row">
                         @foreach($events as $event)
-                            <div class="col-md-4">
-                                <div class="card card-plain card-blog">
-                                    <div class="card-image">
-                                        <a href="{{'/events/' . $event->slug}}">
-                                            <img class="img img-raised" src="{{$event->avatar_url}}">
-                                        </a>
-                                    </div>
-                                    <div class="card-block">
-                                        <h3 class="event-name card-title ">
-                                            <a href="{{'/events/' . $event->slug}}">{{$event->name}}</a>
-                                        </h3>
-                                        <p class="card-description">
-                                            {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}
-                                            @if($event->end_date != $event->start_date)
-                                                <span> - {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
-                                            @endif
-                                        </p>
-                                        <p class="card-description">
-                                            {{ Carbon\Carbon::parse($event->start_time)->format('H:i') }}
-                                            @if($event->end_date != $event->start_date)
-                                                <span> - {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
-                                            @endif
-                                        </p>
-                                        <br>
-                                    </div>
+                        <div class="col-md-4" style="margin-bottom: 20px">
+                            <div class="card card-blog">
+                                <div class="card-image">
+                                    <a href="{{'/events/' . $event->slug}}">
+                                        <img class="img img-raised" src="{{$event->avatar_url}}">
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h5>
+                                        <a href="{{'/events/' . $event->slug}}" class="card-category text-main-color">{{$event->name}}</a>
+                                    </h5>
+                                    <p class="card-description" style="color: #4a4a4a">
+                                        <i class="fa fa-calendar text-main-color" aria-hidden="true"></i>
+                                        {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}
+                                        @if($event->end_date != $event->start_date)
+                                            <span > - {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
+                                        @endif
+                                    </p>
+                                    <p class="card-description" style="color: #4a4a4a">
+                                        <i class="fa fa-clock-o text-main-color" aria-hidden="true"></i>
+                                        {{ Carbon\Carbon::parse($event->start_time)->format('H:i') }}
+                                        @if($event->end_date != $event->start_date)
+                                            <span > - {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
+                                        @endif
+                                    </p>
+                                    <br>
                                 </div>
                             </div>
+                        </div>
                         @endforeach
                     </div>
-                    <div class="row">
+                    <div class="row" style="background-color: #ffffff; padding: 20px">
+                        <div id="loading">
+                            <i class="fa fa-spinner" aria-hidden="true" id="loadingSpinner"></i>
+                            <span style="font-size:16px">Đang tải ...</span>
+                        </div>
                         <div id='calendar'></div>
                     </div>
                     <br>
@@ -114,7 +121,12 @@
     .fc-today-button {
         visibility: hidden;
     }
-
+    .card-category {
+        font-weight: 600;
+    }
+    .card-blog {
+        min-height: 350px;
+    }
 </style>
 
 @push('scripts')
@@ -134,8 +146,20 @@
     <script src="./js/fullcalendar.js"></script>
     <script type="text/javascript">
         var data = [];
+        var stateLoading = false;
+
+        function loading(state){
+            if(state === true) {
+                document.getElementById('loading').setAttribute("style","display: block; ");
+            }
+            else {
+                document.getElementById('loading').setAttribute("style","display: none ");
+            }
+        }
 
         function getData(year, month) {
+            stateLoading = true;
+            loading(stateLoading);
             axios.get(window.url + '/su-kien-data?year=' + year + '&month=' + month)
                 .then(function (response) {
                     // console.log(response);
@@ -156,9 +180,14 @@
                     else {
                         updateData();
                     }
-
+                    stateLoading = false;
+                    loading(stateLoading);
                 }.bind(data)).catch(function (error) {
+                stateLoading = false;
+                loading(stateLoading);
             });
+
+
         }
 
         function updateData() {
