@@ -34,6 +34,8 @@ class EditRoomModalContainer extends React.Component {
         this.props.roomActions.handleRoomEditModal(room);
     }
 
+
+
     updateFormData(event) {
         const field = event.target.name;
         let room = {
@@ -496,6 +498,7 @@ class EditRoomModalContainer extends React.Component {
                                     onChange={this.onChangeRoomCoverType}
                                     clearable={false}
                                 />
+
                             </div>
                         </div>
 
@@ -564,7 +567,7 @@ class EditRoomModalContainer extends React.Component {
                                     </TooltipButton>
                                 </div>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group" style={{zIndex : 0}}>
                                 <h4 className="label-control">
                                     Chi tiết phòng
                                 </h4>

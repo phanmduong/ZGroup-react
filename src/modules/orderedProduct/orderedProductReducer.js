@@ -4,20 +4,21 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-function changeStatusDelivery(deliveryOrders, delivery_id, status) {
-    if (deliveryOrders) {
-        deliveryOrders = deliveryOrders.map((delivery) => {
-            if (delivery.id === delivery_id) {
-                return {
-                    ...delivery,
-                    status: status,
-                };
-            }
-            return delivery;
-        });
-    }
-    return deliveryOrders;
-}
+// function changeStatusDelivery(deliveryOrders, delivery_id, status, attach) {
+//     if (deliveryOrders) {
+//         deliveryOrders = deliveryOrders.map((delivery) => {
+//             if (delivery.id === delivery_id) {
+//                 return {
+//                     ...delivery,
+//                     status: status,
+//                     attach_info: attach
+//                 };
+//             }
+//             return delivery;
+//         });
+//     }
+//     return deliveryOrders;
+// }
 
 export default function orderedProductReducer(state = initialState.orderedProduct, action) {
     switch (action.type) {
@@ -76,13 +77,18 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 deliveryOrders: orders
             };
         }
+        case types.BEGIN_CHANGE_STATUS_ORDERED_PRODUCT:
+            return {
+                ...state,
+                isChangingStatus: true
+            };
         case types.CHANGE_STATUS_ORDERED_SUCCESS:
             return {
                 ...state,
-                deliveryOrders: changeStatusDelivery(state.deliveryOrders, action.delivery_id, action.status),
                 addCancelNoteModal: false,
                 sendPriceModal: false,
                 addJavCodeModal: false,
+                isChangingStatus: false,
                 importWeightModal: false,
                 cameToVNModal: false,
                 addShipFeeModal: false

@@ -91,12 +91,12 @@ export default {
         reports: [],
         isLoading: false,
         checkWeekendReportModal: false,
-        loadingModal:false,
+        loadingModal: false,
         addReport: false,
         weekendReportModal: {
-            report:'',
+            report: '',
             title: ''
-        }
+        },
     },
 
     registerManageMeetingRoom: {
@@ -156,6 +156,7 @@ export default {
             money: '',
             fee: '',
             code: '',
+            shipCode: '',
             endTime: '',
             quantity: '',
             price: ''
@@ -197,15 +198,16 @@ export default {
     },
 
     orderedProduct: {
+        isChangingStatus: false,
         currencies: [],
         addJavCodeModal: false,
         importWeightModal: false,
-        orderImportWeight: {},
+        orderImportWeight: [{}],
         addShipFeeModal: false,
-        orderAddShipFee: {},
-        orderJavCode: {},
+        orderAddShipFee: [{}],
+        orderJavCode: [{}],
         cameToVNModal: false,
-        orderCameToVN: {},
+        orderCameToVN: [{}],
         chooseWalletModal: false,
         isChoosingWallet: false,
         orderWalletChosen: {},
@@ -215,7 +217,7 @@ export default {
         sendPriceModal: false,
         orderSendPriceModal: [],
         orderNote: {},
-        cancelNote: {},
+        cancelNote: [{}],
         isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
@@ -1133,6 +1135,9 @@ export default {
     goodOrders: {
         // provinces :[],
         // isLoadingProvinces : false,
+        payOrderMoneyModal: false,
+        orderPayMoney: {},
+        isPayingOrderMoney: false,
         warehousesList: [],
         selectWarehouseModal: false,
         isLoadingWarehouse: false,
@@ -2080,6 +2085,8 @@ export default {
             id: 0,
             description: "",
             subscriptionKind: "",  // id
+            booking_discount: 0,
+            extra_time: 0,
         },
         subscriptionKind: {
             name: "",
@@ -2240,5 +2247,19 @@ export default {
         emails: [],
         error: false,
         isGetting: false
+    },
+    lead: {
+        leads: [],
+        error: false,
+        isLoading: false,
+        currentPage: 1,
+        totalPages: 1,
+        isUploading: false,
+        errorUpload: false,
+        isEditing: false,
+        errorEdit: false,
+        totalCount: 0,
+        isDistributing: false,
+        errorDistribution: false,
     }
 };

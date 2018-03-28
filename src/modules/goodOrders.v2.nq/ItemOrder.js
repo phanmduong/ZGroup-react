@@ -50,7 +50,7 @@ class ItemOrder extends React.Component {
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            if (currentStatus.order < 2 && nextStatus.order > 1) {
+            if (currentStatus.order < 3 && nextStatus.order > 2) {
                 this.props.showSelectWarehouseModal(value, this.props.order.id);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
@@ -132,15 +132,24 @@ class ItemOrder extends React.Component {
                         }
                     </a>
                 </td>
-                <td>{helper.dotNumber(order.total)}đ</td>
+                <td>
+                    <TooltipButton text="Thanh toán" placement="top">
+                        <button
+                            onClick={() => this.props.showPayOrderMoneyModal(order)}
+                            className="btn btn-sm btn-success btn-main"
+                            disabled={(order.status === "cancel" || order.status === "completed_order" || order.debt === 0)}>
+                            {helper.dotNumber(order.total)}đ
+                        </button>
+                    </TooltipButton>
+                </td>
                 <td>{helper.dotNumber(order.debt)}đ</td>
                 {/*<td>*/}
-                    {/*<button*/}
-                        {/*disabled={order.status !== "ship_order"}*/}
-                        {/*className="btn btn-social btn-fill btn-twitter"*/}
-                        {/*onClick={() => this.props.showShipGoodModal(order)}>*/}
-                        {/*<i className="fa fa-twitter"/> Ship hàng*/}
-                    {/*</button>*/}
+                {/*<button*/}
+                {/*disabled={order.status !== "ship_order"}*/}
+                {/*className="btn btn-social btn-fill btn-twitter"*/}
+                {/*onClick={() => this.props.showShipGoodModal(order)}>*/}
+                {/*<i className="fa fa-twitter"/> Ship hàng*/}
+                {/*</button>*/}
                 {/*</td>*/}
             </tr>
         );
@@ -153,7 +162,8 @@ ItemOrder.propTypes = {
     //showShipGoodModal: PropTypes.func.isRequired,
     showAddNoteModal: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    showSelectWarehouseModal: PropTypes.func.isRequired
+    showSelectWarehouseModal: PropTypes.func.isRequired,
+    showPayOrderMoneyModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

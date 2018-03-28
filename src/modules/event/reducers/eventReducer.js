@@ -25,6 +25,7 @@ export default function eventReducer(state = initEventState, action) {
         case types.SAVE_EVENT_SUCCESS:
             return {
                 ...state,
+                showStoreEventModal: false,
                 isSavingEvent: false,
                 event: {},
             };

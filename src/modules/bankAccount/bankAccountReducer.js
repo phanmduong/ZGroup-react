@@ -36,7 +36,7 @@ export default function bankAccountsReducer(state = initialState.bankAccount, ac
             };
         case types.ADD_BANK_ACCOUNT_ERROR:
             return {
-                ... state,
+                ...state,
                 isUpdatingEditModal: false
             };
         case types.SAVE_BANK_ACCOUNTS_SUCCESS:
@@ -54,9 +54,9 @@ export default function bankAccountsReducer(state = initialState.bankAccount, ac
                         bank_name: action.bankAccount.bank_name,
                         bank_account_name: action.bankAccount.bank_account_name,
                         account_number: action.bankAccount.account_number,
-                        owner_name:action.bankAccount.owner_name,
-                        branch:action.bankAccount.branch,
-                        display:action.bankAccount.display
+                        owner_name: action.bankAccount.owner_name,
+                        branch: action.bankAccount.branch,
+                        display: action.bankAccount.display
                     };
                 return bankAccount;
             });

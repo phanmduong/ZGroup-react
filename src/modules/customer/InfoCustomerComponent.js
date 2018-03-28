@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FormInputText from '../../components/common/FormInputText';
 import FormInputSelect from '../../components/common/FormInputSelect';
 import FormInputDate from '../../components/common/FormInputDate';
-import { GENDER } from '../../constants/constants';
+import {GENDER} from '../../constants/constants';
 
 class InfoCustomerComponent extends React.Component {
     constructor(props) {
@@ -34,7 +34,7 @@ class InfoCustomerComponent extends React.Component {
                         type="email"
                         updateFormData={this.props.updateFormData}
                         value={customer.email}
-                        placeholder = "Nhập email (ví dụ : hung@gmail.com)"
+                        placeholder="Nhập email (ví dụ : hung@gmail.com)"
                     />
 
                     <FormInputText
@@ -52,7 +52,7 @@ class InfoCustomerComponent extends React.Component {
                         updateFormData={this.props.updateFormData}
                         value={customer.phone}
                         required={true}
-                        placeholder = "+84..."
+                        placeholder="+84..."
                     />
                     <FormInputSelect
                         label="Giới tính"
@@ -62,21 +62,34 @@ class InfoCustomerComponent extends React.Component {
                         required={true}
                         updateFormData={this.props.updateFormData}
                     />
-
                     <FormInputDate
                         label="Sinh nhật"
                         name="birthday"
                         id="form-date-of-birth"
                         value={customer.birthday}
                         required={true}
-                        placeholder = "dd/mm/yyyy"
+                        placeholder="dd/mm/yyyy"
                         updateFormData={this.props.updateFormData}
                     />
                     <FormInputText
                         label="Tiền nợ"
                         name="debt"
-                        type="tel"
+                        type="number"
                         value={customer.orders_total - customer.orders_total_paid}
+                        disabled={true}
+                    />
+                    <FormInputText
+                        label="Ví cọc"
+                        name="deposit"
+                        type="number"
+                        value={customer.deposit}
+                        disabled={true}
+                    />
+                    <FormInputText
+                        label="Ví lưu động"
+                        name="money"
+                        type="number"
+                        value={customer.money}
                         disabled={true}
                     />
                 </div>
@@ -115,8 +128,8 @@ class InfoCustomerComponent extends React.Component {
 }
 
 InfoCustomerComponent.propTypes = {
-    customer : PropTypes.object,
-    updateFormData : PropTypes.func,
+    customer: PropTypes.object,
+    updateFormData: PropTypes.func,
 };
 
 

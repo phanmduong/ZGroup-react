@@ -41,6 +41,8 @@ class ListChildCustomer extends React.Component {
                                 <th>Địa chỉ</th>
                                 <th> Ngày mua cuối</th>
                                 <th> Nhóm khách hàng</th>
+                                <th>Ví cọc</th>
+                                <th>Ví lưu động</th>
                                 {/*<th/>*/}
                             </tr>
                             </thead>
@@ -62,6 +64,8 @@ class ListChildCustomer extends React.Component {
                                                     this.openModalGroupCustomer(customer.count_groups);
                                                 }}>{(customer.count_groups ? customer.count_groups : "0") + " Nhóm"}</a>
                                             </td>
+                                            <td>{customer.deposit}đ</td>
+                                            <td>{customer.money}đ</td>
                                             {/*<td>*/}
                                             {/*<div className="btn-group-action">*/}
                                             {/*<div style={{display: 'inline-block'}}>*/}

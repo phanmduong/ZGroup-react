@@ -116,6 +116,8 @@ export function editSubscriptionApi(id ,subscription) {
         "description" : subscription.description,
         "price" : subscription.price,
         "subscription_kind_id" : subscription.subscriptionKind ,
+        "extra_time" : subscription.extra_time,
+        "booking_discount" : subscription.booking_discount,
     });
 }
 

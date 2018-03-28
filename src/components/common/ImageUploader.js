@@ -6,8 +6,7 @@ import {
     showNotification,
     showErrorNotification,
 } from "../../helpers/helper";
-import { NO_IMAGE } from "../../constants/env";
-import { MANAGE_API_URL } from "../../constants/env";
+import { NO_IMAGE,MANAGE_API_URL } from "../../constants/env";
 import { ProgressBar } from "react-bootstrap";
 
 function uploadImage(file, completeHandler, progressHandler, error) {
