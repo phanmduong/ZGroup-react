@@ -37,8 +37,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'cowo
 Route::group(
     ['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'],
     function () use ($publicRoutes, $apiRoutes) {
-        Route::group($publicRoutes);
-        Route::group($apiRoutes);
+        Route::group([], $publicRoutes);
+        Route::group([], $apiRoutes);
     }
 );
 

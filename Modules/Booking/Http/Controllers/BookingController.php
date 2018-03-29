@@ -335,7 +335,18 @@ class BookingController extends ApiPublicController
         foreach($events as $event) {
             $myEvent = new Event;
             $myEvent->created_at = $event->event_date_created;
-            
+            $myEvent->name = $event->event_name;
+            $myEvent->slug = $event->event_slug;
+            $myEvent->user_id = 1;   
+            $myEvent->status = 'PUBLISH';
+            $myEvent->start_time = $event->event_start_time;  
+            $myEvent->end_time = $event->event_end_time;  
+            $myEvent->start_date = $event->event_start_date;  
+            $myEvent->end_date = $event->event_end_date; 
+            $myEvent->detail = $event->post_content;
+            $myEvent->avatar_url = 'http://up-co.vn/wp-content/uploads/Breakfast_at_Tiffany-coverevent-380x180.png';
+            $myEvent->cover_url = 'http://up-co.vn/wp-content/uploads/Breakfast_at_Tiffany-coverevent-380x180.png';
+            $myEvent->save();
         }
         dd($events);
     }
