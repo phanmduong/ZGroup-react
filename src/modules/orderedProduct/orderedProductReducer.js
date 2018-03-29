@@ -4,20 +4,21 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-function changeStatusDelivery(deliveryOrders, delivery_id, status) {
-    if (deliveryOrders) {
-        deliveryOrders = deliveryOrders.map((delivery) => {
-            if (delivery.id === delivery_id) {
-                return {
-                    ...delivery,
-                    status: status,
-                };
-            }
-            return delivery;
-        });
-    }
-    return deliveryOrders;
-}
+// function changeStatusDelivery(deliveryOrders, delivery_id, status, attach) {
+//     if (deliveryOrders) {
+//         deliveryOrders = deliveryOrders.map((delivery) => {
+//             if (delivery.id === delivery_id) {
+//                 return {
+//                     ...delivery,
+//                     status: status,
+//                     attach_info: attach
+//                 };
+//             }
+//             return delivery;
+//         });
+//     }
+//     return deliveryOrders;
+// }
 
 export default function orderedProductReducer(state = initialState.orderedProduct, action) {
     switch (action.type) {
@@ -76,13 +77,21 @@ export default function orderedProductReducer(state = initialState.orderedProduc
                 deliveryOrders: orders
             };
         }
+        case types.BEGIN_CHANGE_STATUS_ORDERED_PRODUCT:
+            return {
+                ...state,
+                isChangingStatus: true
+            };
         case types.CHANGE_STATUS_ORDERED_SUCCESS:
             return {
                 ...state,
-                deliveryOrders: changeStatusDelivery(state.deliveryOrders, action.delivery_id, action.status),
                 addCancelNoteModal: false,
                 sendPriceModal: false,
-                addJavCodeModal: false
+                addJavCodeModal: false,
+                isChangingStatus: false,
+                importWeightModal: false,
+                cameToVNModal: false,
+                addShipFeeModal: false
             };
         case types.TOGGLE_ADD_CANCEL_NOTE_MODAL:
             return {
@@ -151,6 +160,36 @@ export default function orderedProductReducer(state = initialState.orderedProduc
             return {
                 ...state,
                 addJavCodeModal: !state.addJavCodeModal
+            };
+        case types.TOGGLE_CAME_TO_VN_MODAL:
+            return {
+                ...state,
+                cameToVNModal: !state.cameToVNModal
+            };
+        case types.HANDLE_CAME_TO_VN_MODAL:
+            return {
+                ...state,
+                orderCameToVN: action.order
+            };
+        case types.TOGGLE_IMPORT_WEIGHT_MODAL:
+            return {
+                ...state,
+                importWeightModal: !state.importWeightModal
+            };
+        case types.HANDLE_IMPORT_WEIGHT_MODAL:
+            return {
+                ...state,
+                orderImportWeight: action.order
+            };
+        case types.TOGGLE_ADD_SHIP_FEE_MODAL:
+            return {
+                ...state,
+                addShipFeeModal: !state.addShipFeeModal
+            };
+        case types.HANDLE_ADD_SHIP_FEE_MODAL:
+            return {
+                ...state,
+                orderAddShipFee: action.order
             };
         default:
             return state;

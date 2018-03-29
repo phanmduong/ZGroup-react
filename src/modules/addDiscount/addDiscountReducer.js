@@ -5,6 +5,36 @@ export default function addDiscountReducer(state = initialState.addDiscount, act
     switch (action.type) {
 
 
+        case types.BEGIN_UPLOAD_IMAGE_IN_DISCOUNT:
+            return {
+                ...state,
+                discount: {
+                    ...state.discount,
+                    isUpdatingImage: true,
+                    updateImageError: false,
+                }
+            };
+        case types.UPLOAD_IMAGE_DISCOUNT_SUCCESS:
+            return {
+                ...state,
+                discount: {
+                    ...state.discount,
+                    isUpdatingImage: false,
+                    updateImageError: false,
+                    cover_url: action.cover_url
+                }
+            };
+        case types.UPLOAD_IMAGE_DISCOUNT_FAILED:
+            return {
+                ...state,
+                discount: {
+                    ...state.discount,
+                    isUpdatingImage: false,
+                    updateImageError: true,
+                }
+            };
+
+
         case types.UPDATE_DISCOUNT_FORM_DATA :
             return {
                 ...state,
@@ -13,7 +43,7 @@ export default function addDiscountReducer(state = initialState.addDiscount, act
 
 
 
-            //           ADD
+        //           ADD
         case types.ADD_DISCOUNT_SUCCESS :
             return {
                 ...state,
@@ -93,7 +123,7 @@ export default function addDiscountReducer(state = initialState.addDiscount, act
             };
 
 
-            //          LOAD GROUP_CUSTOMER
+        //          LOAD GROUP_CUSTOMER
 
 
         case types.BEGIN_LOAD_GROUP_CUSTOMER_IN_DISCOUNT :
@@ -107,7 +137,7 @@ export default function addDiscountReducer(state = initialState.addDiscount, act
             return {
                 ...state,
                 ...{
-                    groupCustomers : action.customer_groups,
+                    groupCustomers: action.customer_groups,
                     isLoading: false,
                     totalGroupCustomerPages: action.total_pages,
                 }
@@ -157,21 +187,19 @@ export default function addDiscountReducer(state = initialState.addDiscount, act
             return {
                 ...state,
                 discount: action.discount,
-                isLoadingOut : false,
+                isLoadingOut: false,
             };
 
-            case types.BEGIN_LOAD_DISCOUNT_IN_ADD:
+        case types.BEGIN_LOAD_DISCOUNT_IN_ADD:
             return {
                 ...state,
                 discount: action.discount,
-                isLoadingOut : true,
+                isLoadingOut: true,
             };
 
 
 
-            //          EDIT DISCOUNT
-
-
+        //          EDIT DISCOUNT
 
 
         case types.BEGIN_EDIT_DISCOUNT :
@@ -191,14 +219,12 @@ export default function addDiscountReducer(state = initialState.addDiscount, act
             };
 
 
-
-
         case types.GENERATE_RANDOM_CODE :
             return {
                 ...state,
                 discount: {
                     ...state.discount,
-                    name : action.randomCode,
+                    name: action.randomCode,
                 },
             };
 

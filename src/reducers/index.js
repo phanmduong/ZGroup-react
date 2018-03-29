@@ -7,7 +7,6 @@ import rolesReducer from '../modules/role/rolesReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
 import * as types from '../constants/actionTypes';
 import taskReducer from "../modules/tasks/taskReducer";
-import registerReducer from "../modules/registerStudents/registerReducer";
 import emailTemplatesReducer from "../modules/emailTemplates/emailTemplatesReducer";
 import emailFormsReducer from "../modules/emailForms/emailFormsReducer";
 import blogReducer from '../modules/blog/blogReducer';
@@ -15,7 +14,6 @@ import profileReducer from '../modules/profile/profileReducer';
 import studySessionReducer from '../modules/studySession/studySessionReducer';
 import scheduleClassReducer from '../modules/scheduleClass/scheduleClassReducer';
 import gensReducer from '../modules/gens/gensReducer';
-import studentReducer from '../modules/infoStudent/studentReducer';
 import personalCalendarReducer from '../modules/tasks/calendar/personalCalendarReducer';
 import dashboardReducer from '../modules/dashboard/dashboardReducer';
 import notificationReducer from '../modules/notification/notificationReducer';
@@ -80,10 +78,14 @@ import sendNotificationReducer from '../modules/sendNotification/sendNotificatio
 import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
+import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportReducer";
 import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
+import labelManageReducer from "../modules/labelManage/labelManageReducer";
 
 
 const appReducer = combineReducers({
+    labelManage: labelManageReducer,
+    weekendReport: weekendReportReducer,
     globalLoading: globalLoadingReducer,
     login: loginReducer,
     tabs: tabsReducer,
@@ -94,12 +96,10 @@ const appReducer = combineReducers({
     emailTemplates: emailTemplatesReducer,
     emailForms: emailFormsReducer,
     blog: blogReducer,
-    registerStudents: registerReducer,
     profile: profileReducer,
     studySession: studySessionReducer,
     scheduleClass: scheduleClassReducer,
     gens: gensReducer,
-    infoStudent: studentReducer,
     personalCalendar: personalCalendarReducer,
     dashboard: dashboardReducer,
     notification: notificationReducer,
@@ -151,7 +151,7 @@ const appReducer = combineReducers({
     summaryStaff: summaryStaffReducer,
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
-    userpacks  : userpackReducer,
+    userpacks: userpackReducer,
     orderedDetail: orderedDetailReducer,
     inventoryOrder: inventoryOrderReducer,
     bankAccount: bankAccountReducer,
@@ -163,7 +163,7 @@ const appReducer = combineReducers({
     dashboardUp: DashBoardUpReducer,
     marketingCampaignUp: marketingCampaignsUpReducer,
     summaryMarketingCampaignUp: summaryMarketingCampaignUpReducer,
-    summarySalesUp : summarySalesUpReducer,
+    summarySalesUp: summarySalesUpReducer,
     historyExtension: HistoryExtensionWorkReducer,
     emailCommentFB: emailCommentFBReducer,
 });

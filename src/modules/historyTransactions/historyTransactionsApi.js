@@ -3,7 +3,7 @@ import * as env from '../../constants/env';
 
 export function loadHistoryTransactions(page = 1, type = "") {
 
-    let url = env.MANAGE_API_URL_V3 + "/finance/history-transactions";
+    let url = env.MANAGE_API_URL + "/finance/history-transactions";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

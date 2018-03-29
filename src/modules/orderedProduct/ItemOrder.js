@@ -15,20 +15,31 @@ class ItemOrder extends React.Component {
 
     changeStatus(value) {
         const user = this.props.user;
+        const delivery = this.props.delivery;
         let currentStatus = ORDERED_STATUS.filter(status => this.props.delivery.status === status.value)[0];
         let nextStatus = ORDERED_STATUS.filter(status => status.value === value)[0];
         if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
-            if (nextStatus.order === 7) {
-                this.props.showAddCancelNoteModal(this.props.delivery);
+            if (nextStatus.order === 8) {
+                this.props.showAddCancelNoteModal([delivery]);
             } else if (nextStatus.order === 1) {
-                this.props.showSendPriceModal([this.props.delivery]);
+                this.props.showSendPriceModal([delivery]);
             } else if (nextStatus.order === 3) {
-                this.props.showAddJavCodeModal(this.props.delivery);
+                this.props.showAddJavCodeModal([delivery]);
+            } else if (nextStatus.order === 4) {
+                this.props.showCameToVNModal([delivery]);
+            } else if (nextStatus.order === 5) {
+                this.props.showImportWeightModal([delivery]);
+            } else if (nextStatus.order === 6) {
+                this.props.showAddShipFeeModal([delivery]);
             } else {
                 helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                    this.props.changeStatus(value, this.props.delivery.id, null, null);
+                    const deliveryOrders = [{
+                        id: this.props.delivery.id,
+                        attach_info: this.props.delivery.attach_info
+                    }];
+                    this.props.changeStatus(value, deliveryOrders, null);
                 });
             }
         }
@@ -36,6 +47,8 @@ class ItemOrder extends React.Component {
 
     render() {
         const delivery = this.props.delivery;
+        const attach_info = JSON.parse(delivery.attach_info);
+        const link = attach_info.link.substring(0, 15) + "...";
         let delivery_note;
         if (delivery.note) {
             delivery_note = delivery.note.length < 16 ? delivery.note : delivery.note.substring(0, 15) + "...";
@@ -74,6 +87,12 @@ class ItemOrder extends React.Component {
                     }
                 </td>
                 <td>
+                    <TooltipButton text={attach_info.link} placement="top">
+                        <a href={attach_info.link} target="_blank">{link}</a>
+                    </TooltipButton>
+                </td>
+                <td>{attach_info.code}</td>
+                <td>
                     {
                         delivery.staff ?
 
@@ -111,7 +130,8 @@ class ItemOrder extends React.Component {
                     <TooltipButton text="Thanh toán" placement="top">
                         <button
                             onClick={() => this.props.showChooseWalletModal(delivery)}
-                            className="btn btn-sm btn-success btn-main">
+                            className="btn btn-sm btn-success btn-main"
+                            disabled={(delivery.status === "place_order")}>
                             {helper.dotNumber(delivery.total)}đ
                         </button>
                     </TooltipButton>
@@ -119,21 +139,29 @@ class ItemOrder extends React.Component {
                 <td>
                     {helper.dotNumber(delivery.debt)}đ
                 </td>
-                <td>
-                    <div className="btn-group-action">
-                        <Link to={`/order/${delivery.id}/warehouse-import`}
-                              style={{
-                                  color: "#878787",
-                                  // cursor: ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order < 6
-                                  // && "not-allowed"
-                              }}
-                              data-toggle="tooltip" title=""
-                              type="button" rel="tooltip"
-                              data-original-title="Nhập kho">
-                            <i className="material-icons">import_export</i>
-                        </Link>
-                    </div>
-                </td>
+                {
+                    delivery.delivery_warehouse_status !== "exported" ? (
+                        <td>
+                            <div className="btn-group-action">
+                                <Link to={`/order/${delivery.id}/warehouse-import`}
+                                      style={{
+                                          color: "#878787",
+                                          cursor: ORDERED_STATUS.filter(status => delivery.status === status.value)[0].order < 7
+                                          && "not-allowed"
+                                      }}
+                                      data-toggle="tooltip" title=""
+                                      type="button" rel="tooltip"
+                                      data-original-title="Nhập kho">
+                                    <i className="material-icons">import_export</i>
+                                </Link>
+                            </div>
+                        </td>
+                    ) : (
+                        <td>
+                            <span>Đã nhập kho</span>
+                        </td>
+                    )
+                }
             </tr>
         );
     }
@@ -150,7 +178,10 @@ ItemOrder.propTypes = {
     isSendingPrice: PropTypes.bool.isRequired,
     chooseItem: PropTypes.func.isRequired,
     showChooseWalletModal: PropTypes.func.isRequired,
-    showAddJavCodeModal: PropTypes.func.isRequired
+    showAddJavCodeModal: PropTypes.func.isRequired,
+    showCameToVNModal: PropTypes.func.isRequired,
+    showImportWeightModal: PropTypes.func.isRequired,
+    showAddShipFeeModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;

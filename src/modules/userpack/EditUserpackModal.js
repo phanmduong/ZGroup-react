@@ -142,13 +142,14 @@ class EditUserpackModal extends React.Component {
                                                 <tr className="text-rose" role="row">
                                                     <th>Loại gói đăng kí</th>
                                                     <th>Mô tả</th>
+                                                    <th>Thời gian khuyến mãi</th>
+                                                    <th>Giảm giá đặt phòng</th>
                                                     <th>Giá</th>
 
                                                     <th/>
                                                 </tr>
                                                 </thead>
                                             }
-
                                             <tbody>
 
                                             {subscriptions && subscriptions.map((subscription, key) => {
@@ -156,6 +157,8 @@ class EditUserpackModal extends React.Component {
                                                     <tr role="row" className="even" key={key}>
                                                         <td style={{width: 77}}>{subscription.subcription_kind.name}</td>
                                                         <td>{subscription.description || "Chưa có mô tả"}</td>
+                                                        <td>{subscription.extra_time + ' h' || "Chưa có"}</td>
+                                                        <td>{subscription.booking_discount + ' %' || "Chưa có"}</td>
                                                         <td>{subscription.price}</td>
                                                         <td>
                                                             <div className="btn-group-action">

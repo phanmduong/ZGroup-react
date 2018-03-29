@@ -10,7 +10,7 @@ export function getUser() {
             .then(res => {
                 dispatch({
                     type: types.LOAD_USER_MONEY_TRANSFER_SUCCESS,
-                    user: res.data.data.staff
+                    user: res.data.data.user
                 });
             })
             .catch(() => {

@@ -131,6 +131,7 @@ class StorePostModal extends React.Component {
     render() {
         let categories =
             this.props.categories !== undefined ? this.props.categories : [];
+        
         return (
             <StorePostComponent
                 {...this.props}
@@ -149,7 +150,7 @@ class StorePostModal extends React.Component {
                 ]}
                 closeModal={this.props.closeModal}
                 updateFormSelect={this.updateFormSelect}
-                resetCategory={this.resetCategory}
+                // resetCategory={this.resetCategory}
             />
         );
     }

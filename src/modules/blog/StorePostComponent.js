@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import TooltipButton from "../../components/common/TooltipButton";
 import AddCategoryModal from "./AddCategoryModal";
 import { Modal } from "react-bootstrap";
+import Buttons from "../event/components/Buttons";
 
 import ReactSelect from "react-select";
 
@@ -35,7 +36,6 @@ class StorePostComponent extends React.Component {
     componentDidMount() {
         helper.setFormValidation("#form-post");
         helper.setFormValidation("#form-category");
-        // $("#mini-editor").mini_editor();
     }
 
     componentDidUpdate() {
@@ -70,12 +70,10 @@ class StorePostComponent extends React.Component {
             tags,
             category,
             isUpdatingImage,
-            isSaving,
             slug,
             meta_title,
             keyword,
             meta_description,
-            isPreSaving,
         } = this.props.post;
 
         return (
@@ -149,7 +147,7 @@ class StorePostComponent extends React.Component {
                                                             bottom: 0,
                                                             right: 0,
                                                             width: "100%",
-                                                            height: "10%",
+                                                            height: "100%",
                                                         }}
                                                     />
                                                 </a>
@@ -233,7 +231,7 @@ class StorePostComponent extends React.Component {
 
                                         <div className="form-group">
                                             <label className="control-label">
-                                                Keyword
+                                                Keywords
                                             </label>
                                             <textarea
                                                 className="form-control"
@@ -336,91 +334,41 @@ class StorePostComponent extends React.Component {
                                                 value={content}
                                             />
 
-                                            {/*<div id = "mini-editor"/>*/}
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    justifyContent: "flex-end",
-                                                    marginTop: 40,
-                                                }}
-                                            >
-                                                {isPreSaving ? (
-                                                    <button
-                                                        className="btn btn-fill btn-success"
-                                                        type="button"
-                                                        disabled={true}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin disabled" />{" "}
-                                                        Đang xử lý
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn-fill btn-success"
-                                                        type="button"
-                                                        disabled={
-                                                            this.invalid() ||
-                                                            isSaving
-                                                        }
-                                                        onClick={() =>
-                                                            this.props.preSavePost(
-                                                                false,
-                                                            )
-                                                        }
-                                                    >
-                                                        Lưu
-                                                    </button>
-                                                )}
-                                                {isPreSaving ? (
-                                                    <button
-                                                        className="btn btn-fill btn-default"
-                                                        type="button"
-                                                        disabled={true}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin disabled" />{" "}
-                                                        Đang xử lý
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn-fill btn-default"
-                                                        type="button"
-                                                        disabled={
-                                                            this.invalid() ||
-                                                            isSaving
-                                                        }
-                                                        onClick={() =>
-                                                            this.props.preSavePost(
-                                                                true,
-                                                            )
-                                                        }
-                                                    >
-                                                        Lưu và xem thử
-                                                    </button>
-                                                )}
-                                                {isSaving ? (
-                                                    <button
-                                                        className="btn btn-fill btn-rose"
-                                                        type="button"
-                                                        disabled={true}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin disabled" />{" "}
-                                                        Đang đăng bài
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn-fill btn-rose"
-                                                        type="button"
-                                                        disabled={
-                                                            this.invalid() ||
-                                                            isPreSaving
-                                                        }
-                                                        onClick={() => {
-                                                            this.props.savePost();
-                                                        }}
-                                                    >
-                                                        Đăng bài
-                                                    </button>
-                                                )}
+                                            <div className="row">
+                                                <Buttons
+                                                    isSaving={
+                                                        this.props.post
+                                                            .isSaving ||
+                                                        this.props.post
+                                                            .isPreSaving
+                                                    }
+                                                    save={() =>
+                                                        this.props.preSavePost(
+                                                            false,
+                                                        )
+                                                    }
+                                                    preSave={() =>
+                                                        this.props.preSavePost(
+                                                            true,
+                                                        )
+                                                    }
+                                                    publish={
+                                                        this.props.savePost
+                                                    }
+                                                    style={{
+                                                        width:
+                                                            "calc(100% + 48px)",
+                                                        marginLeft: "-9px",
+                                                    }}
+                                                    height={235}
+                                                    close={
+                                                        this.props.closeModal
+                                                    }
+                                                    scrollerId="#store-post-modal"
+                                                    disabled={this.invalid()}
+                                                />
                                             </div>
+                                            {/*<div id = "mini-editor"/>*/}
                                         </div>
                                     )}
                                 </div>
@@ -444,7 +392,7 @@ class StorePostComponent extends React.Component {
                         <AddCategoryModal
                             category={this.props.category}
                             updateFormCategory={this.props.updateFormCategory}
-                            resetCategory={this.props.resetCategory}
+                            // resetCategory={this.props.resetCategory}
                             createCategory={this.props.createCategory}
                             closeAddCategoryModal={this.closeAddCategoryModal}
                         />
@@ -466,11 +414,14 @@ StorePostComponent.propTypes = {
     openModal: PropTypes.func.isRequired,
     updateFormSelect: PropTypes.func.isRequired,
     updateFormCategory: PropTypes.func.isRequired,
-    resetCategory: PropTypes.func.isRequired,
+    // resetCategory: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
     category: PropTypes.object.isRequired,
     createCategory: PropTypes.func.isRequired,
     isLoadingPost: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    isPreSaving: PropTypes.bool.isRequired,
 };
 
 export default StorePostComponent;

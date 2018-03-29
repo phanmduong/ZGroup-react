@@ -3,7 +3,7 @@ import * as env from '../../constants/env';
 
 export function loadUser() {
 
-    let url = env.MANAGE_API_URL + "/my-staff";
+    let url = env.MANAGE_API_URL + "/profile";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -23,7 +23,7 @@ export function searchStaffs(search) {
 
 export function getTransactions(page = 1, type = "", status = "") {
 
-    let url = env.MANAGE_API_URL_V3 + "/finance/transactions";
+    let url = env.MANAGE_API_URL + "/finance/transactions";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -36,7 +36,7 @@ export function getTransactions(page = 1, type = "", status = "") {
 
 export function createTransaction(receiverId, money) {
 
-    let url = env.MANAGE_API_URL_V3 + "/finance/create-transaction";
+    let url = env.MANAGE_API_URL + "/finance/create-transaction";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -49,7 +49,7 @@ export function createTransaction(receiverId, money) {
 
 export function confirmTransaction(transactionId, status) {
 
-    let url = env.MANAGE_API_URL_V3 + "/finance/confirm-transaction";
+    let url = env.MANAGE_API_URL + "/finance/confirm-transaction";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
