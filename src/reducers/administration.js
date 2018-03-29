@@ -4,7 +4,6 @@ import commonReducer from "./commonReducer";
 import requestReducer from "../modules/Zgroup/request/requestReducer";
 import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportReducer";
 
-
 const appReducer = combineReducers({
     ...commonReducer,
     //other reducer
