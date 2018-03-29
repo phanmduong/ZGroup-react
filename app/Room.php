@@ -45,6 +45,7 @@ class Room extends Model
             'name' => $this->name,
             'base' => $this->base->transform(),
             'seats_count' => $this->seats_count,
+            'avatar_url' => $this->avatar_url,
             'images_url' => $this->images_url,
             'width' => $this->width,
             'height' => $this->height,
