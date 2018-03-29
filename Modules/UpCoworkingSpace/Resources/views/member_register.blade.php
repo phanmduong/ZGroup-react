@@ -34,51 +34,46 @@
                 <i class="fa fa-star-o" aria-hidden="true"></i>
                 <hr style="width: 50%">
             </div>
-
+            <p style="font-size:32px; font-weight:600; padding-bottom:20px">CÁC GÓI THÀNH VIÊN UP</p>
         </div>
     </div>
     <div class="blog-4" style="margin-top:20px">
         <div class="container">
             <div class="row">
                 @foreach($userPacks as $userPack)
-                    <div class="col-md-3">
-                        <div class="card card-plain card-blog">
-                            <div class="card-image">
-                                <a href="{{'/conference-room/'.$userPack->id}}">
-                                    <div style="width: 100%;
-                                            border-radius: 15px;
-                                            background: url({{generate_protocol_url($userPack->avatar_url)}});
-                                            background-size: cover;
-                                            background-position: center;
-                                            padding-bottom: 70%;"
-                                    >
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card-block">
-                                <h3 class="card-title" >
-                                    <a href="{{'/conference-room/'.$userPack->id}}">{{$userPack->name}}</a>
-                                </h3>
-                                <p class="card-price">
-                                    @foreach($userPack->roomServiceBenefits->slice(0,1) as $roomServiceBenefit)
-                                        {{$roomServiceBenefit->pivot->value}}/tháng
-                                    @endforeach
-                                </p>
-                                <p class="card-description">
-                                    {{$userPack->detail}}
-                                </p>
-                                <br/>
-                            </div>
+                <div class="col-md-3">
+                    <div class="card card-blog">
+                        <div class="card-image">
+                            <a href="{{'/conference-room/'.$userPack->id}}">
+                                <img class="img img-raised" src="{{generate_protocol_url($userPack->avatar_url)}}">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-size: 24px; ">
+                                <a href="{{'/conference-room/'.$userPack->id}}" style="font-weight: bolder">{{$userPack->name}}</a>
+                            </h5>
+                            <p class="card-price">
+                                @foreach($userPack->roomServiceBenefits->slice(0,1) as $roomServiceBenefit)
+                                    {{$roomServiceBenefit->pivot->value}}/tháng
+                                @endforeach
+                            </p>
+                            <p class="card-description">
+                                {{$userPack->detail}}
+                            </p>
+                            <br/>
                         </div>
                         <a data-target="#submitModal"
                            data-toggle="modal"
-                           class="btn btn-primary"
-                           style="position:absolute; bottom: 10px; background-color:#96d21f;border-color:#96d21f; color:white!important;">
+                           class="btn btn-primary btn-pick"
+                           >
                             <b>Đặt chỗ</b>
                         </a>
                     </div>
-                @endforeach
+
+                </div>
+                    @endforeach
             </div>
+
         </div>
         <div style="padding-top: 50px">
             <div >
@@ -110,7 +105,7 @@
                             </tr>
                         @endforeach
                     </table>
-                    <div style="background-color: #ffffff; padding: 20px 20px 5px 20px" class="container text-center">
+                    <div style="background-color: #ffffff; padding: 20px 0px 5px 0px" class="container text-center">
 
                             <a href="#"
                                class="btn btn-primary"
@@ -127,6 +122,170 @@
         </div>
         <hr>
     </div>
+    <div class="container" style="padding-top:30px">
+        <p class="text-center" style="font-size:24px; font-weight: 600; padding-bottom: 50px">
+            LỢI ÍCH THÀNH VIÊN
+        </p>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card card-profile">
+                    <div class="card-avatar border-white" style= "max-width:200px; max-height:200px">
+                            <img src="http://up-co.vn/wp-content/uploads/2014/09/13707727_1250301361669834_8027444782146291074_n-230x230.jpg" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">KHÔNG GIAN SÁNG TẠO</p>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="nc-icon nc-time-alarm"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">MỞ CỬA 24/7</h4>
+                                <p class="info-detail">Làm việc bất cứ khi nào bạn cảm thấy tinh thần thăng hoa.</p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-desktop" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">PHÒNG HỌP HIỆN ĐẠI </h4>
+                                <p class="info-detail">Đa dạng kích cỡ, máy chiếu 3D, màn hình Led TV 84 inch, Apple TV</p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">KHU GỌI ĐIỆN CÁCH ÂM
+                                </h4>
+                                <p class="info-detail">Thoải mái nói chuyện điện thoại và họp qua Skype mà không bị làm phiền</p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">KHU TIẾP KHÁCH CHUYÊN NGHIỆP</h4>
+                                <p class="info-detail">Không gian chuyên nghiệp cho bạn để gặp gỡ đối tác và khách hàng</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-profile">
+                    <div class="card-avatar border-white" style= "max-width:200px; max-height:200px">
+                            <img src="http://up-co.vn/wp-content/uploads/2016/07/ket-noi-230x230.jpg" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">CỘNG ĐỒNG GẮN KẾT</p>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-users" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">CỘNG ĐỒNG STARTUP</h4>
+                                <p class="info-detail">Gia nhập cộng đồng StartUP từ nhiều lĩnh vực. Cơ hội cho bạn kết nối, chia sẻ và học hỏi.</p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">SỰ KIỆN</h4>
+                                <p class="info-detail">Tham dự miễn phí sự kiện, hội thảo với các chuyên gia hàng đầu. Cơ hội tiếp cận các quỹ đầu tư và các nhà đầu tư lớn.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-profile">
+                    <div class="card-avatar border-white" style= "max-width:200px; max-height:200px">
+                            <img src="http://up-co.vn/wp-content/uploads/2014/09/13767347_1250313558335281_8793786632540873415_o-230x230.jpg" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">
+                            THIẾT BỊ HIỆN ĐẠI
+                        </p>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-signal" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">
+                                    MẠNG INTERNET TỐC ĐỘ CAO</h4>
+                                <p class="info-detail">Nhanh, mạnh, ổn định và bảo mật</p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-cutlery" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">KHU BẾP TIỆN NGHI</h4>
+                                <p class="info-detail">
+                                    Khu bếp trang bị đầy đủ tủ lạnh, lò vi sóng, lò nướng và đồ ăn luôn sẵn sàng phục vụ thành viên UP
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-profile">
+                    <div class="card-avatar border-white" style= "max-width:200px; max-height:200px">
+                            <img src="http://up-co.vn/wp-content/uploads/2016/08/10-230x230.png" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">
+                            DỊCH VỤ TẬN TÂM
+                        </p>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-cutlery" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">
+                                    MIỄN PHÍ TRÀ, CAFE
+                                </h4>
+                                <p class="info-detail">Trà, cafe nóng phục vụ miễn phí 24/7</p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-leaf" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">
+                                    ĐỆM NGỦ THƯ GIÃN</h4>
+                                <p class="info-detail">
+                                    Giải tỏa căng thẳng sau khi làm việc
+                                </p>
+                            </div>
+                        </div>
+                        <div class="info info-horizontal">
+                            <div class="icon">
+                                <i class="fa fa-smile-o" aria-hidden="true"></i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title">
+                                    NHÂN VIÊN CHĂM SÓC TẬN TÌNH
+                                </h4>
+                                <p class="info-detail">
+                                    Bất cứ lúc nào bạn cần hỗ trợ, UP luôn ở bên bạn
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- <div id="memberRegister" class="modal fade show">
         <div class="modal-dialog modal-lg">
@@ -318,6 +477,48 @@
         padding-left: 0px;
         padding-right: 0px;
         width:100%;
+    }
+    .card-profile {
+        margin-bottom: 40px !important;
+    }
+    .info-title {
+        font-size: 18px !important;
+        font-weight: 500;
+    }
+    .info-detail {
+        color:#333333;
+    }
+    .info-horizontal .icon {
+     margin-right:10px !important;
+    }
+    @media screen and (max-width: 767px){
+        .card.card-blog {
+            margin-top:20px!important;
+        }
+        .btn-pick {
+            margin:0 !important;
+            background-color:#96d21f !important;
+            border-color:#96d21f !important;
+            color:white!important;
+        }
+    }
+
+    @media screen and (min-width: 767px) {
+        .card.card-blog {
+            min-height: 620px !important;
+        }
+        .btn-pick {
+
+            position:absolute !important;
+            bottom: 10px !important;
+            left: 15px !important;
+            background-color:#96d21f !important;
+            border-color:#96d21f !important;
+            color:white!important;
+        }
+    }
+    .icon {
+        color:#bfbfbf;
     }
 </style>
 
