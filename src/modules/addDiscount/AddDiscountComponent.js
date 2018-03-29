@@ -8,6 +8,10 @@ import AddGoodOverlay from "./AddGoodOverlay";
 import AddCategoryOverlay from "./AddCategoryOverlay";
 import AddGroupCustomerOverlay from "./AddGroupCustomerOverlay";
 import CheckBoxMaterial from '../../components/common/CheckBoxMaterial';
+import TooltipButton from "../../components/common/TooltipButton";
+import {NO_IMAGE} from "../../constants/env";
+import {isEmptyInput} from "../../helpers/helper";
+import Loading from "../../components/common/Loading";
 
 
 // import ReactSelect from 'react-select';
@@ -39,7 +43,7 @@ class AddDiscountComponent extends React.Component {
 
 
     render() {
-        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value, quantity, shared} = this.props.discount;
+        let {isUpdatingImage,cover_url, discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value, quantity, shared} = this.props.discount;
         let TYPE = [
             {
                 name: '',
@@ -392,6 +396,70 @@ class AddDiscountComponent extends React.Component {
                                             minDate={this.props.discount.start_time !== '' ? this.props.discount.start_time : ''}
                                         />
                                     </div>
+                                    <label className="label-control">
+                                        Ảnh cover
+                                    </label>
+                                    {isUpdatingImage ? (
+                                        <Loading/>
+                                    ) : (
+                                        <TooltipButton
+                                            text="Chọn ảnh cover"
+                                            placement="top"
+                                        >
+                                            <a
+                                                type="button"
+                                                style={{
+                                                    width: "100%",
+                                                    marginBottom: "10px",
+                                                    textAlign: "center",
+                                                    verticalAlign: "middle",
+                                                    border: "0 none",
+                                                    display: "inline-block",
+                                                }}
+                                            >
+                                                <img
+                                                    src={
+                                                        isEmptyInput(
+                                                            cover_url,
+                                                        )
+                                                            ? NO_IMAGE
+                                                            : cover_url
+                                                    }
+                                                    style={{
+                                                        lineHeight: "164px",
+                                                        height: "auto",
+                                                        width: "100%",
+                                                        display: "block",
+                                                        backgroundSize:
+                                                            "cover",
+                                                        backgroundPosition:
+                                                            "center",
+                                                        boxShadow:
+                                                            " 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+                                                        borderRadius:
+                                                            "10px",
+                                                    }}
+                                                />
+                                                <input
+                                                    type="file"
+                                                    accept=".jpg,.png,.gif"
+                                                    onChange={this.props.handleFileUpload}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        opacity: "0.0",
+                                                        position:
+                                                            "absolute",
+                                                        top: 0,
+                                                        left: 0,
+                                                        bottom: 0,
+                                                        right: 0,
+                                                        width: "100%",
+                                                        height: "100%",
+                                                    }}
+                                                />
+                                            </a>
+                                        </TooltipButton>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -406,9 +474,10 @@ class AddDiscountComponent extends React.Component {
 
 
 AddDiscountComponent.propTypes = {
-    discount: PropTypes.object,
-    updateFormData: PropTypes.func,
-    generateCode: PropTypes.func,
+    discount: PropTypes.object.isRequired,
+    updateFormData: PropTypes.func.isRequired,
+    handleFileUpload: PropTypes.func.isRequired,
+    generateCode: PropTypes.func.isRequired,
     changeQuantityInProps: PropTypes.func,
 };
 

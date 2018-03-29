@@ -189,10 +189,10 @@ class BlogsContainer extends React.Component {
                     id="store-post-modal"
                     show={this.state.isOpenModal}
                     bsStyle="primary"
-                    onHide={this.closeModal}
+                    onHide={() => {}}
                     animation={false}
                 >
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>
                             <strong>Bài viết</strong>
                         </Modal.Title>

@@ -55,6 +55,5 @@ export  function getBases(bases) {
             value: base.name,
         };
     });
-    // this.setState({baseId : 0});
     return [{key: null, value: "Tất cả"}, ...options];
 }

@@ -71,7 +71,7 @@ class ListChildCustomer extends React.Component {
                     <h4 className="card-title">Khách hàng</h4>
                     <div className="row">
                         <div className="col-md-8">
-                            {customersShowInTable.length === 0 ? null :
+                            {customersShowInTable.length && customersShowInTable.length === 0 ? null :
                                 <Search
                                     onChange={this.onSearchChange}
                                     value={this.state.query}

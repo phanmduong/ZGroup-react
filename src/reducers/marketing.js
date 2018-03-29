@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import { LOG_OUT } from "../constants/actionTypes";
+import {combineReducers} from "redux";
+import {LOG_OUT} from "../constants/actionTypes";
 import commonReducer from "./commonReducer";
 import summaryMarketingCampaignUpReducer from "../modules/summaryMarketingCampaignUp/summaryMarketingCampaignUpReducer";
 
@@ -11,6 +11,7 @@ import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReduc
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import summaryMarketingCampaignRoomReducer from "../modules/summaryMarketingCampaignRoom/summaryMarketingCampaignRoomReducer";
 import summarySalesRoomReducer from "../modules/summarySalesRoom/summarySalesRoomReducer";
+import leadReducer from "../modules/lead/leadReducer";
 
 
 const appReducer = combineReducers({
@@ -20,10 +21,11 @@ const appReducer = combineReducers({
     summaryMarketingCampaignUp: summaryMarketingCampaignUpReducer,
     summaryMarketingCampaign: summaryMarketingCampaignReducer,
     marketingCampaigns: marketingCampaignsReducer,
-    summarySalesUp : summarySalesUpReducer,
-    summarySalesRoom : summarySalesRoomReducer,
+    summarySalesUp: summarySalesUpReducer,
+    summarySalesRoom: summarySalesRoomReducer,
     summarySales: summarySalesReducer,
     summaryMarketingCampaignRoom: summaryMarketingCampaignRoomReducer,
+    lead: leadReducer,
 });
 
 const rootReducer = (state, action) => {

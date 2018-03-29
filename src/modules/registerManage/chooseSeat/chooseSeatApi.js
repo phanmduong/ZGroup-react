@@ -3,7 +3,7 @@ import * as env from "../../../constants/env";
 // import { register } from "../../workShiftRegisters/workShiftRegisterApi";
 
 export function getRooms(baseId) {
-    let url = `${env.MANAGE_API_URL_V3}/base/${baseId}/rooms`;
+    let url = `${env.MANAGE_API_URL}/base/${baseId}/rooms`;
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
@@ -14,14 +14,14 @@ export function getRooms(baseId) {
 export function getSeats(roomId, from, to) {
     let token = localStorage.getItem("token");
     let url = `${
-        env.MANAGE_API_URL_V3
+        env.MANAGE_API_URL
     }/seat/available?token=${token}&from=${from}&to=${to}&limit=-1&room_id=${roomId}`;
     return axios.get(url);
 }
 
 export const postBookSeat = ({ registerId, seatId, startTime, endTime }) => {
     const token = localStorage.getItem("token");
-    const url = `${env.MANAGE_API_URL_V3}/seat/${seatId}/book?token=${token}`;
+    const url = `${env.MANAGE_API_URL}/seat/${seatId}/book?token=${token}`;
     return axios.post(url, {
         start_time: startTime,
         end_time: endTime,
@@ -32,7 +32,7 @@ export const postBookSeat = ({ registerId, seatId, startTime, endTime }) => {
 export const getChooseSeatHistory = registerId => {
     const token = localStorage.getItem("token");
     const url = `${
-        env.MANAGE_API_URL_V3
+        env.MANAGE_API_URL
     }/seat/register/${registerId}?token=${token}`;
     return axios.get(url);
 };
@@ -40,7 +40,7 @@ export const getChooseSeatHistory = registerId => {
 export function loadHistoryChooseSeatApi(page,limit) {
     const token = localStorage.getItem("token");
     const url = `${
-        env.MANAGE_API_URL_V3
+        env.MANAGE_API_URL
         }/seat/all?token=${token}&page=${page}&limit=${limit}`;
     return axios.get(url);
 }

@@ -89,27 +89,27 @@ class InfoStudentContainer extends React.Component {
                                 <div className="nav-tabs-navigation">
                                     <div className="nav-tabs-wrapper">
                                         <ul className="nav nav-tabs" data-tabs="tabs">
-                                            <li className={this.path === `/teaching/info-student/${this.studentId}` ? 'active' : ''}>
-                                                <IndexLink to={`/teaching/info-student/${this.studentId}`}>
+                                            <li className={this.path === `/sales/info-student/${this.studentId}` ? 'active' : ''}>
+                                                <IndexLink to={`/sales/info-student/${this.studentId}`}>
                                                     <i className="material-icons">add_box</i> Đăng kí
 
                                                     <div className="ripple-container"/>
                                                 </IndexLink>
                                             </li>
-                                            <li className={this.path === `/teaching/info-student/${this.studentId}/history-calls` ? 'active' : ''}>
-                                                <Link to={`/teaching/info-student/${this.studentId}/history-calls`}>
+                                            <li className={this.path === `/sales/info-student/${this.studentId}/history-calls` ? 'active' : ''}>
+                                                <Link to={`/sales/info-student/${this.studentId}/history-calls`}>
                                                     <i className="material-icons">smartphone</i> Cuộc gọi
                                                     <div className="ripple-container"/>
                                                 </Link>
                                             </li>
-                                            <li className={this.path === `/teaching/info-student/${this.studentId}/progress` ? 'active' : ''}>
-                                                <Link to={`/teaching/info-student/${this.studentId}/progress`}>
+                                            <li className={this.path === `/sales/info-student/${this.studentId}/progress` ? 'active' : ''}>
+                                                <Link to={`/sales/info-student/${this.studentId}/progress`}>
                                                     <i className="material-icons">create</i> Học tập
                                                     <div className="ripple-container"/>
                                                 </Link>
                                             </li>
-                                            <li className={this.path === `/teaching/info-student/${this.studentId}/care` ? 'active' : ''}>
-                                                <Link to={`/teaching/info-student/${this.studentId}/care`}>
+                                            <li className={this.path === `/sales/info-student/${this.studentId}/care` ? 'active' : ''}>
+                                                <Link to={`/sales/info-student/${this.studentId}/care`}>
                                                     <i className="material-icons">flag</i> Quan tâm
                                                     <div className="ripple-container"/>
                                                 </Link>

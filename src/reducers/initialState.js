@@ -52,9 +52,38 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
+        select: {
+            userpack_id: 0,
+            subscription_id: 0,
+            subscriptions: [],
+            price: 0,
+            hours: 0,
+            start_time: '',
+            end_time: '',
+            extra_time: 0,
+            note: "",
+        },
+        isSavingSubscription: false,
+        userpacks: [],
+        isLoadingUserpack: false,
+        subscriptions: [],
     },
 
     registerManageRoom: {
+        registers: [],
+        salers: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        isChangingStatus: false,
+        isLoadingBases: false,
+        bases: [],
+        isSavingPayment: false,
+    },
+
+    registerManageMeetingRoom: {
         registers: [],
         salers: [],
         isLoading: false,
@@ -1310,6 +1339,9 @@ export default {
             customer_group: {},
             quantity: '',
             shared: '',
+            isUpdatingImage: false,
+            updateImageError: false,
+            cover_url: '',
         },
 
     },
@@ -1650,7 +1682,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
-
+            currency_value: 0,
         },
         coupon: {
             name: '',
@@ -2189,4 +2221,18 @@ export default {
         isLoading: false,
         paginator: {},
     },
+    lead: {
+        leads: [],
+        error: false,
+        isLoading: false,
+        currentPage: 1,
+        totalPages: 1,
+        isUploading: false,
+        errorUpload: false,
+        isEditing: false,
+        errorEdit: false,
+        totalCount: 0,
+        isDistributing: false,
+        errorDistribution: false,
+    }
 };
