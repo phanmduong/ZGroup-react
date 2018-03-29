@@ -58,8 +58,7 @@ class PublicApiController extends NoAuthApiController
         $rooms = $base->rooms;
         return $this->respondSuccessWithStatus([
             'rooms' => $rooms->map(function ($room) {
-            
-                return $room->roomType();
+                return $room->getData();
             })
         ]);
     }
