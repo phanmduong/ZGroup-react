@@ -72,7 +72,7 @@ class ManageBookingController extends ManageApiController
             $registers = RoomServiceRegister::where('type', 'room')->get();
             return $this->respondSuccessWithStatus([
                 'room_service_registers' => $registers->map(function ($register) {
-                    return $register->getRoomBookingData();
+                    return $register->getData();
                 })
             ]);
         }
@@ -99,7 +99,7 @@ class ManageBookingController extends ManageApiController
 
         return $this->respondWithPagination($registers, [
             'room_service_registers' => $registers->map(function ($register) {
-                return $register->getRoomBookingData();
+                return $register->getData();
             })
         ]);
     }
@@ -326,14 +326,6 @@ class ManageBookingController extends ManageApiController
         $register->extra_time = $request->extra_time;
         $register->note = $request->note;
         $register->save();
-        return $this->respondSuccessWithStatus(["register" => $register->getRoomBookingData()]);
+        return $this->respondSuccessWithStatus(["register" => $register->getData()]);
     }
-
-    // public function conferenceRooms(Request $request)
-    // {
-    //     $rooms = Room::join('room_types', 'rooms.room_type_id', '=', 'room_types.id')->where('room_types.type_name', 'conference')
-    //         ->where(function($query){
-    //             $query->where('rooms.name', 'like', "%$request->search%")->orWhere('room_types.name', 'like', "%$request->search%");
-    //         })->select('rooms.*)->;
-    // }
 }

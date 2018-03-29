@@ -14,5 +14,19 @@ $publicRoutes = function () {
     Route::get('/{slug}', 'UpCoworkingSpaceController@postBySlug');
 };
 
+$publicRoutes = function () {
+    Route::get('/api/province', 'BookingController@province');
+    Route::get('/api/province/{provinceId}/base', 'BookingController@basesInProvince');
+    Route::get('/api/base', 'BookingController@allBases');
+    Route::post('/api/register', 'BookingController@register');
+    Route::get('/api/user-packs', 'BookingController@allUserPacks');
+    Route::get('/api/user-pack/{userPackId}', 'BookingController@userPack');
+    Route::get('/api/extract', 'BookingController@extract');
+    Route::get('/api/extract-events', 'BookingController@extractEvents');
+};
+
 Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
+
+Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
