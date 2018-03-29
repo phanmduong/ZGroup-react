@@ -30,7 +30,6 @@ class BookingApiController extends ApiController
         $user = $this->user;
         $register = RoomServiceRegister::where('user_id', $user->id)->where('start_time', '<>', null)
             ->where('end_time', '<>', null)
-            ->where('start_time', '<', date('Y-m-d H:i:s'))
             ->where('end_time', '>', date('Y-m-d H:i:s'))->first();
         return $this->respondSuccessWithStatus([
             'register' => $register->getData,
