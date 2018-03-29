@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class NullEvents extends Migration
+class ChangeRoomTypesTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,10 @@ class NullEvents extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('room_types', function (Blueprint $table) {
+            $table->integer('price')->default(0);
+            $table->integer('member_price')->default(0);
+        });
     }
 
     /**

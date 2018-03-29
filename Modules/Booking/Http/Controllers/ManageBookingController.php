@@ -318,7 +318,7 @@ class ManageBookingController extends ManageApiController
     public function assignSubscription($registerId, Request $request)
     {
         $register = RoomServiceRegister::find($registerId);
-        if($register == null)
+        if ($register == null)
             return $this->respondErrorWithStatus('Không tồn tại đăng ký');
         $register->subscription_id = $request->subscription_id;
         $register->start_time = $request->start_time;
@@ -328,4 +328,12 @@ class ManageBookingController extends ManageApiController
         $register->save();
         return $this->respondSuccessWithStatus(["register" => $register->getRoomBookingData()]);
     }
+
+    // public function conferenceRooms(Request $request)
+    // {
+    //     $rooms = Room::join('room_types', 'rooms.room_type_id', '=', 'room_types.id')->where('room_types.type_name', 'conference')
+    //         ->where(function($query){
+    //             $query->where('rooms.name', 'like', "%$request->search%")->orWhere('room_types.name', 'like', "%$request->search%");
+    //         })->select('rooms.*)->;
+    // }
 }

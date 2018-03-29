@@ -16,6 +16,7 @@ $publicRoutes = function () {
     Route::get('/api/user-packs', 'BookingController@allUserPacks');
     Route::get('/api/user-pack/{userPackId}', 'BookingController@userPack');
     Route::get('/api/extract', 'BookingController@extract');
+    Route::get('/api/extract-events', 'BookingController@extractEvents');
 };
 
 $manageapiRoutes = function () {

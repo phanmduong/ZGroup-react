@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
 use App\Product;
+use Symfony\Component\EventDispatcher\Event;
 
 class BookingController extends ApiPublicController
 {
@@ -168,9 +169,6 @@ class BookingController extends ApiPublicController
             if ($request->phone == null) {
                 return $this->respondErrorWithStatus("Thiếu phone");
             }
-            if ($request->subscription_id == null) {
-                return $this->respondErrorWithStatus("Thiếu subscription");
-            }
             $user = User::where('email', '=', $request->email)->first();
             $phone = preg_replace('/[^0-9]+/', '', $request->phone);
             if ($user == null) {
@@ -187,7 +185,7 @@ class BookingController extends ApiPublicController
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
-        $register->subscription_id = $request->subscription_id;
+        // $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
         $register->campaign_id = $campaignId;
         $register->type = 'member';
@@ -329,5 +327,16 @@ class BookingController extends ApiPublicController
             $product->save();
         }
         // dd($arr);
+    }
+
+    public function extractEvents() {
+        $events = DB::table('wp_em_events')->where('event_status', 1)->orderBy('event_date_created')->get();
+        $arr = [];
+        foreach($events as $event) {
+            $myEvent = new Event;
+            $myEvent->created_at = $event->event_date_created;
+            
+        }
+        dd($events);
     }
 }

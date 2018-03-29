@@ -205,7 +205,9 @@ class UpCoworkingSpaceController extends Controller
 
         return view('upcoworkingspace::event_detail', $this->data);
     }
+
     // dang ky event
+    
     public function eventSignUpForm($slug,\Illuminate\Http\Request $request)
     {
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [

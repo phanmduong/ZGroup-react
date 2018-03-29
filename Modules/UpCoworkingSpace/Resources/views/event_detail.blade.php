@@ -8,7 +8,6 @@
     <div class="container">
         <p style="font-size:32px; font-weight:600">{{$event->name}}</p>
         <div>
-            Content here
             <p class="card-description">
                 {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}
                 @if($event->end_date != $event->start_date)
@@ -21,6 +20,9 @@
                     <span> -  {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
                 @endif
             </p>
+        </div>
+        <div>
+            {!!$event->detail!!}
         </div>
         <div class="container text-center" style="padding:10px">
             <a href="{{'/event-form/' . $event->slug . '/sign-up-form'}}">
