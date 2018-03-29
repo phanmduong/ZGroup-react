@@ -1,25 +1,39 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import BankAccountComponent from './BankAccountComponent';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
-import *as bankAccountAction from "./bankAccountAction";
-import AddEditBankAccountModal from "./AddEditBankAccountModal";
+import *as labelManageAction from "./labelManageAction";
+import LabelManageComponent from "./LabelManageComponent";
+import EditCategoryModal from "./EditCategoryModal";
+import {confirm} from "../../helpers/helper";
 
-class BankAccountContainer extends React.Component {
+class LabelManageContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.showAddEditBankAccountModal = this.showAddEditBankAccountModal.bind(this);
+        this.showEditCategoryModal = this.showEditCategoryModal.bind(this);
+        this.deleteCategory = this.deleteCategory.bind(this);
     }
 
     componentWillMount() {
-        this.props.bankAccountAction.loadAllBankAccounts();
+        this.props.labelManageAction.loadAllLabels();
     }
 
-    showAddEditBankAccountModal(bankAccount) {
-        this.props.bankAccountAction.showAddEditBankAccountModal();
-        this.props.bankAccountAction.handleBankAccount(bankAccount);
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSavingCategory !== this.props.isSavingCategory && !nextProps.isSavingCategory){
+            this.props.labelManageAction.loadAllLabels();
+        }
+    }
+
+    showEditCategoryModal(category) {
+        this.props.labelManageAction.showEditCategoryModal();
+        this.props.labelManageAction.handleEditCategoryModal(category);
+    }
+
+    deleteCategory(category) {
+        confirm("error", "Xóa loại khóa học", "Bạn có chắc muốn xóa loại khóa học này", () => {
+            this.props.labelManageAction.deleteCategory(category);
+        });
     }
 
     render() {
@@ -37,12 +51,10 @@ class BankAccountContainer extends React.Component {
                                             justifyContent: "space-between"
                                         }}>
                                             <div>
-                                                <button onClick={() => this.showAddEditBankAccountModal({
-                                                    display: 1
-                                                })}
+                                                <button onClick={() => this.showEditCategoryModal({})}
                                                         rel="tooltip" data-placement="top" title=""
                                                         className="btn btn-rose">
-                                                    Thêm tài khoản ngân hàng
+                                                    Thêm loại khóa học
                                                 </button>
                                             </div>
                                         </div>
@@ -53,17 +65,16 @@ class BankAccountContainer extends React.Component {
                                                  data-background-color="rose"><i
                                                 className="material-icons">assignment</i>
                                             </div>
-                                            <div className="card-content"><h4 className="card-title">Danh sách tài khoản
-                                                ngân hàng</h4>
+                                            <div className="card-content"><h4 className="card-title">Quản lý khóa
+                                                học</h4>
                                                 <br/>
                                                 {
                                                     this.props.isLoading ? <Loading/> :
-
-
                                                         (
-                                                            <BankAccountComponent
-                                                                accounts={this.props.accounts}
-                                                                showAddEditBankAccountModal={this.showAddEditBankAccountModal}
+                                                            <LabelManageComponent
+                                                                courseCategories={this.props.courseCategories}
+                                                                showEditCategoryModal={this.showEditCategoryModal}
+                                                                deleteCategory={this.deleteCategory}
                                                             />
                                                         )
                                                 }
@@ -103,29 +114,31 @@ class BankAccountContainer extends React.Component {
                         </nav>
                     </div>
                 </footer>
-                <AddEditBankAccountModal/>
+                <EditCategoryModal/>
             </div>
         );
     }
 }
 
-BankAccountContainer.propTypes = {
-    bankAccountAction: PropTypes.object.isRequired,
-    accounts: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
+LabelManageContainer.propTypes = {
+    labelManageAction: PropTypes.object.isRequired,
+    courseCategories: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isSavingCategory: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        accounts: state.bankAccount.accounts,
-        isLoading: state.bankAccount.isLoading
+        courseCategories: state.labelManage.courseCategories,
+        isLoading: state.labelManage.isLoading,
+        isSavingCategory: state.labelManage.isSavingCategory
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        bankAccountAction: bindActionCreators(bankAccountAction, dispatch)
+        labelManageAction: bindActionCreators(labelManageAction, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BankAccountContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LabelManageContainer);

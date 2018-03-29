@@ -1,4 +1,12 @@
 export default {
+    labelManage: {
+        isLoading: false,
+        courseCategories: [],
+        editCategoryModal: false,
+        categoryEditing: {},
+        isSavingCategory: false
+    },
+
     summarySalesUp: {
         bases: [],
         isLoadingBases: false,
@@ -63,9 +71,9 @@ export default {
             extra_time: 0,
             note: "",
         },
-        isSavingSubscription : false,
-        isLoadingUserpack : false,
-        subscriptions : [],
+        isSavingSubscription: false,
+        isLoadingUserpack: false,
+        subscriptions: [],
         userpacks: [],
     },
 
@@ -82,16 +90,16 @@ export default {
         bases: [],
         isSavingPayment: false,
     },
-    weekendReport:{
-      reports: [],
-      isLoading: false,
-      checkWeekendReportModal:false,
-      weekendReportModal:{
-          stt: '',
-          employee_name:'',
-          title: '',
-          report:''
-      }
+    weekendReport: {
+        reports: [],
+        isLoading: false,
+        checkWeekendReportModal: false,
+        weekendReportModal: {
+            stt: '',
+            employee_name: '',
+            title: '',
+            report: ''
+        }
     },
 
     registerManageMeetingRoom: {
