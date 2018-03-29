@@ -2,25 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
-import {Link , browserHistory} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
 import ReactSelect from 'react-select';
-
-
 import Pagination from '../../components/common/Pagination';
 import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
-
-
 import {CUSTOMTYPE} from '../../constants/constants';
 import * as helper from '../../helpers/helper';
 import ListChildCustomer from "./ListChildCustomer";
 import * as customerActions from './customerActions';
 import AddCustomerModal from './AddCustomerModal';
-
-
-
-
 
 class CustomerContainer extends React.Component {
     constructor(props) {
@@ -33,6 +25,7 @@ class CustomerContainer extends React.Component {
             status: '',
             isEdit: false,
         };
+        this.timeOut = null;
         this.loadCustomers = this.loadCustomers.bind(this);
         this.customersSearchChange = this.customersSearchChange.bind(this);
         this.openAddModal = this.openAddModal.bind(this);
@@ -45,7 +38,7 @@ class CustomerContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.loadCustomers( 1, this.state.limit );
+        this.loadCustomers(1, this.state.limit);
     }
 
 
@@ -71,17 +64,14 @@ class CustomerContainer extends React.Component {
     }
 
 
-
-
     // openInfoCustomer để route đến /good/goods/customer/info-customer/ khi click vào tên customer
     // Có thể thay thế cho willMount trong InfoCustomerContainer
-    openInfoCustomer(customer){
+    openInfoCustomer(customer) {
         this.props.customerActions.updateAddCustomerFormData(customer);     //      Gán customer vào để show ra trong InfoCustomerContainer
-        browserHistory.push('/good/goods/customer/info-customer/'+customer.id);
+        browserHistory.push('/good/goods/customer/info-customer/' + customer.id);
     }
 
     closeAddModal() {
-
         // gán các giá trị trong biến tạm customer về rỗng khi đóng modal => để sử dụng mở add
         this.setState({isShowModal: false});
     }
@@ -102,24 +92,19 @@ class CustomerContainer extends React.Component {
     loadByStatus(value) {
         let status = value && value.value ? value.value : "";
         this.setState({status: status, page: 1});
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query, this.state.status);
-        }.bind(this), 500);
+        this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query, this.state.status);
         // Để làm chậm pha do bất đồng bộ khi ta get giá trị của customersList về rồi gán vào mảng trên state
     }
 
-
-    //     updateFormData sử dụng để update giá trị trong form lên biến tạm customer ở state
+    //updateFormData sử dụng để update giá trị trong form lên biến tạm customer ở state
     updateFormData(event) {
         const field = event.target.name;
-        let customer = {...this.props.customer};
-        customer[field] = event.target.value;
+        let customer = {
+            ...this.props.customer,
+            [field]: event.target.value
+        };
         this.props.customerActions.updateAddCustomerFormData(customer);
     }
-
 
     activeModal(e) {
         if ($('#form-add-customer').valid()) {
@@ -147,11 +132,11 @@ class CustomerContainer extends React.Component {
         this.props.customerActions.loadCustomers(page, this.state.limit, this.state.query, this.state.status);
     }
 
-
-
     render() {
         let currentPage = this.state.page;
         let status = this.state.status;
+        let first = this.props.totalCount ? (currentPage - 1) * 10 + 1 : 0;
+        let end = currentPage < this.props.totalPages ? currentPage * 10 : this.props.totalCount;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -213,7 +198,7 @@ class CustomerContainer extends React.Component {
 
                                             <div className="row" style={{marginBottom: "30px"}}>
                                                 <div className="col-md-6"/>
-                                                <div className="form-group col-md-4" style={{marginTop : -60}}>
+                                                <div className="form-group col-md-4" style={{marginTop: -60}}>
                                                     <label className="label-control">Phân loại: </label>
                                                     <ReactSelect
                                                         name="status"
@@ -224,22 +209,17 @@ class CustomerContainer extends React.Component {
                                                     />
                                                 </div>
                                             </div>
-
-
                                             <ListChildCustomer
                                                 customersList={this.props.customersList}
                                                 openFormDataInEdit={this.openFormDataInEdit}
-                                                openInfoCustomer = {this.openInfoCustomer}
+                                                openInfoCustomer={this.openInfoCustomer}
                                             />
-                                            <div className="row">
-                                                <div className="col-sm-5">
-                                                    <div className="dataTables_info" id="property-table_info"
-                                                         role="status" aria-live="polite">Hiển trị
-                                                        trang {currentPage} trên tổng số
-                                                        {' ' + this.props.totalPages} trang
-                                                    </div>
-                                                </div>
-                                                <div className="col-sm-7" style={{textAlign: 'right'}}>
+                                            <div className="row float-right">
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                                     style={{textAlign: 'right'}}>
+                                                    <b style={{marginRight: '15px'}}>
+                                                        Hiển thị kêt quả từ {first}
+                                                        - {end}/{this.props.totalCount}</b><br/>
                                                     <Pagination
                                                         totalPages={this.props.totalPages}
                                                         currentPage={currentPage}
@@ -248,8 +228,6 @@ class CustomerContainer extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-
-
                                         <div className="card-footer">
                                             <div className="float-right">
                                                 <div className="btn btn-info btn-simple"> Tổng khách
@@ -358,8 +336,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerContainer);
-
-
 
 
 // Ngày sinh lấy về là birthday nhưng khi edit và add lại là dob -_-

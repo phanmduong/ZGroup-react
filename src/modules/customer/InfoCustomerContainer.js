@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import * as customerActions from './customerActions';
 import Loading from "../../components/common/Loading";
-import * as helper from '../../helpers/helper';
+//import * as helper from '../../helpers/helper';
 import OrdersListCustomerComponent from './OrdersListCustomerComponent';
 import InfoCustomerComponent from './InfoCustomerComponent';
 import AddOverlay from './AddOverlay';
 import {browserHistory} from 'react-router';
-
-
+import {isEmptyInput, showTypeNotification} from "../../helpers/helper";
 
 class InfoCustomerContainer extends React.Component {
     constructor(props) {
@@ -23,21 +22,14 @@ class InfoCustomerContainer extends React.Component {
         this.loadOrdersCustomer = this.loadOrdersCustomer.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.editCustomer = this.editCustomer.bind(this);
-        this.loadInfoCustomer = this.loadInfoCustomer.bind(this);
         this.loadGroupCustomer = this.loadGroupCustomer.bind(this);
         this.assignGroupCustomer = this.assignGroupCustomer.bind(this);
         this.removeGroupCustomer = this.removeGroupCustomer.bind(this);
     }
 
-
     componentWillMount() {
-        this.loadInfoCustomer();
-        this.loadOrdersCustomer(1);
-    }
-
-
-    loadInfoCustomer() {
         this.props.customerActions.loadInfoCustomer(this.state.id);
+        this.loadOrdersCustomer(1);
     }
 
     loadOrdersCustomer(page) {
@@ -47,27 +39,25 @@ class InfoCustomerContainer extends React.Component {
 
     updateFormData(event) {
         const field = event.target.name;
-        let customer = {...this.props.customer};
-        customer[field] = event.target.value;
+        let customer = {
+            ...this.props.customer,
+            [field]: event.target.value
+        };
         this.props.customerActions.updateAddCustomerFormData(customer);
     }
 
-    editCustomer(e) {
-        if ($('#form-edit-customer').valid()) {
-            if (this.props.customer.birthday === null || this.props.customer.birthday === undefined || this.props.customer.birthday === '') {
-                helper.showTypeNotification("Vui lòng chọn sinh nhật", 'warning');
-                return;
-            }
-            if (this.props.customer.gender === null || this.props.customer.gender === undefined || this.props.customer.gender === '') {
-                helper.showTypeNotification("Vui lòng chọn giới tính", 'warning');
-            }
-            else {
-                this.props.customerActions.editCustomer(this.props.customer);
-            }
+    editCustomer() {
+        const customer = this.props.customer;
+        if (isEmptyInput(customer.birthday)) {
+            showTypeNotification("Vui lòng chọn sinh nhật", 'warning');
+        } else if (isEmptyInput(customer.gender)) {
+            showTypeNotification("Vui lòng chọn giới tính", 'warning');
+        } else if (isEmptyInput(customer.address)) {
+            showTypeNotification("Vui lòng nhập địa chỉ", 'warning');
+        } else {
+            this.props.customerActions.editCustomer(customer);
         }
-        e.preventDefault();
     }
-
 
     loadGroupCustomer(page, limit, query, stringId) {
         this.props.customerActions.loadGroupCustomer(page, limit, query, stringId);
@@ -81,13 +71,10 @@ class InfoCustomerContainer extends React.Component {
         this.props.customerActions.removeCustomerFormData(group);
     }
 
-
     render() {
         let currentPage = this.state.page;
         return (
             <div>
-
-
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
@@ -97,7 +84,7 @@ class InfoCustomerContainer extends React.Component {
                             <div className="card-content">
                                 <div className="row" style={{marginBottom: 25}}>
                                     <div className="col-md-6">
-                                        <h4 className="card-title">Chi tiết khách hàng</h4>
+                                        <h4 className="card-title">Danh sách đơn hàng đặt</h4>
                                     </div>
                                     <div className="col-md-2" style={{marginLeft: 20}}>
                                         <AddOverlay
@@ -121,14 +108,39 @@ class InfoCustomerContainer extends React.Component {
 
                                     <div>
                                         <OrdersListCustomerComponent
-                                            ordersList={this.props.ordersList}
+                                            ordersList={this.props.customer.delivery_orders}
+                                            loadOrdersCustomer={this.loadOrdersCustomer}
+                                            currentPage={currentPage}
+                                            totalOrderPages={this.props.totalOrderPages}
+                                            name="Danh sách đơn hàng đặt"
+                                        />
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                        <div className="card">
+                            <div className="card-header card-header-icon" data-background-color="rose">
+                                <i className="material-icons">assignment</i>
+                            </div>
+                            <div className="card-content">
+                                <div className="row" style={{marginBottom: 25}}>
+                                    <div className="col-md-6">
+                                        <h4 className="card-title">Danh sách đơn hàng sẵn</h4>
+                                    </div>
+                                </div>
+                                {this.props.isLoading ? <Loading/> :
+
+                                    <div>
+                                        <OrdersListCustomerComponent
+                                            ordersList={this.props.customer.orders}
                                             loadOrdersCustomer={this.loadOrdersCustomer}
                                             currentPage={currentPage}
                                             totalOrderPages={this.props.totalOrderPages}
                                         />
                                     </div>
                                 }
-
                             </div>
                         </div>
                     </div>
@@ -175,40 +187,35 @@ class InfoCustomerContainer extends React.Component {
                                     }
                                 </div>
 
-
-                                <div className="card-footer">
-                                    <div className="float-right" style={{marginBottom: '20px'}}>
-                                        {this.props.isSaving ?
-
-                                            <button
-                                                className="btn btn-sm btn-success disabled"
-                                            >
-                                                <i className="fa fa-spinner fa-spin"/>
-                                                Đang cập nhật
-                                            </button>
-                                            :
-
-                                            <button className="btn btn-sm btn-success"
-                                                    onClick={(e) => {
-                                                        this.editCustomer(e);
-                                                    }}
-                                            >
-                                                <i className="material-icons">save</i> Lưu
-                                            </button>
-                                        }
-
-                                        <button className="btn btn-sm btn-danger"
-                                                onClick={(e)=>{browserHistory.push("/good/goods/customer");
-                                                e.preventDefault();
-                                                }}
-                                        >
-                                            <i className="material-icons">cancel</i> Huỷ
-                                        </button>
-                                    </div>
-                                </div>
-
                             </form>
+                            <div className="card-footer">
+                                <div className="float-right" style={{marginBottom: '20px'}}>
+                                    {this.props.isSaving ?
 
+                                        <button
+                                            className="btn btn-sm btn-success disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/>
+                                            Đang cập nhật
+                                        </button>
+                                        :
+
+                                        <button className="btn btn-sm btn-success"
+                                                onClick={this.editCustomer}>
+                                            <i className="material-icons">save</i> Lưu
+                                        </button>
+                                    }
+
+                                    <button className="btn btn-sm btn-danger"
+                                            onClick={(e) => {
+                                                browserHistory.push("/good/goods/customer");
+                                                e.preventDefault();
+                                            }}
+                                    >
+                                        <i className="material-icons">cancel</i> Huỷ
+                                    </button>
+                                </div>
+                            </div>
 
                         </div>
                     </div>

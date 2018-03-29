@@ -32,8 +32,10 @@ class AddEditCurrencyModal extends React.Component {
 
     handleCurrency(e) {
         const field = e.target.name;
-        let currency = {...this.props.currencyEditModal};
-        currency[field] = e.target.value;
+        let currency = {
+            ...this.props.currencyEditModal,
+            [field]: e.target.value
+        };
         this.props.currencyAction.handleCurrency(currency);
     }
 
@@ -51,7 +53,7 @@ class AddEditCurrencyModal extends React.Component {
                     <div className="form-group">
                         <form method="#" action="#">
                             <div className="form-group">
-                                <label className="control-label">Loại tiền tệ</label>
+                                <label className="label-control">Loại tiền tệ</label>
                                 <input type="text"
                                        name="name"
                                        className="form-control"
@@ -60,7 +62,7 @@ class AddEditCurrencyModal extends React.Component {
                                 <span className="material-input"/>
                             </div>
                             <div className="form-group">
-                                <label className="control-label">Ký hiệu</label>
+                                <label className="label-control">Ký hiệu</label>
                                 <input type="text"
                                        name="notation"
                                        className="form-control"
@@ -68,15 +70,15 @@ class AddEditCurrencyModal extends React.Component {
                                        onChange={this.handleCurrency}/>
                                 <span className="material-input"/>
                             </div>
-                            <div className="form-group">
-                                <label className="control-label">Tỷ giá</label>
-                                <input type="number"
-                                       name="ratio"
-                                       className="form-control"
-                                       value={currency.ratio}
-                                       onChange={this.handleCurrency}/>
-                                <span className="material-input"/>
-                            </div>
+                                <div className="form-group">
+                                    <label className="label-control">Tỷ giá</label>
+                                    <input type="number"
+                                           name="ratio"
+                                           className="form-control"
+                                           value={currency.ratio}
+                                           onChange={this.handleCurrency}/>
+                                    <span className="material-input"/>
+                                </div>
                             <br/><br/>
                             {
                                 this.props.isUpdatingEditModal ? (

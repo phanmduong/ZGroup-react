@@ -10,6 +10,11 @@ export const API_URL = PROTOCOL + "api." + URL;
 // export const API_URL = BASE_URL + "/api/v3";
 
 
+// export const API_URL = PROTOCOL + "api." + URL;
+
+export const BASE_URL = PROTOCOL + URL;
+export const API_URL = BASE_URL + "/api/v3";
+
 // export const API_URL = BASE_URL + "/api/v3";
 export const DOMAIN = PROTOCOL + "manage." + URL;
 // export const DOMAIN = BASE_URL + "/admin";

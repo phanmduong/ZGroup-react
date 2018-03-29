@@ -1,6 +1,10 @@
 /**
  * Created by phanmduong on 10/20/17.
  */
+
+/**
+ * Edited by tientaiNguyen on 12/10/17.
+ */
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -16,6 +20,10 @@ import Pagination from "../../components/common/Pagination";
 import {ORDER_STATUS} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
 import {Link} from "react-router";
+import ShipGoodModalContainer from "./ShipGoodModalContainer";
+import AddNoteModal from "./AddNoteModal";
+import SelectWarehouseModal from "./SelectWarehouseModal";
+import PayOrderMoneyModal from "./PayOrderMoneyModal";
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -41,12 +49,18 @@ class OrdersContainer extends React.Component {
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
         //this.showShipGoodModal = this.showShipGoodModal.bind(this);
         this.showAddNoteModal = this.showAddNoteModal.bind(this);
+        this.showPayOrderMoneyModal = this.showPayOrderMoneyModal.bind(this);
     }
 
     componentWillMount() {
         this.loadOrders();
         this.props.goodOrderActions.getAllStaffs();
         this.props.goodOrderActions.loadWareHouse();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isPayingOrderMoney !== this.props.isPayingOrderMoney && !nextProps.isPayingOrderMoney)
+            this.loadOrders();
     }
 
     closeModal() {
@@ -155,6 +169,11 @@ class OrdersContainer extends React.Component {
     showAddNoteModal(order) {
         this.props.goodOrderActions.showAddNoteModal();
         this.props.goodOrderActions.handleAddNoteModal(order);
+    }
+
+    showPayOrderMoneyModal(order) {
+        this.props.goodOrderActions.showPayOrderMoneyModal();
+        this.props.goodOrderActions.handlePayOrderMoneyModal(order);
     }
 
     render() {
@@ -341,6 +360,7 @@ class OrdersContainer extends React.Component {
                                     showAddNoteModal={this.showAddNoteModal}
                                     user={this.props.user}
                                     showSelectWarehouseModal={this.props.goodOrderActions.showSelectWarehouseModal}
+                                    showPayOrderMoneyModal={this.showPayOrderMoneyModal}
                                 />
                             </div>
                             <div className="row float-right">
@@ -357,6 +377,10 @@ class OrdersContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <ShipGoodModalContainer/>
+                <AddNoteModal/>
+                <SelectWarehouseModal/>
+                <PayOrderMoneyModal/>
             </div>
         );
     }
@@ -374,6 +398,7 @@ OrdersContainer.propTypes = {
     goodOrderActions: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
     allStaffs: PropTypes.array.isRequired,
+    isPayingOrderMoney: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired
 
 };
@@ -390,6 +415,7 @@ function mapStateToProps(state) {
         totalCount: state.goodOrders.totalCount,
         allStaffs: state.goodOrders.allStaffs,
         currentPage: state.goodOrders.currentPage,
+        isPayingOrderMoney: state.goodOrders.isPayingOrderMoney,
         user: state.login.user
     };
 }

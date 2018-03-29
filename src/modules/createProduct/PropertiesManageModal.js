@@ -105,7 +105,7 @@ class PropertiesManageModal extends React.Component {
                     <Search
                         onChange={this.propertiesSearchChange}
                         value={this.state.query}
-                        placeholder="Nhập tên hoặc mã hàng hoá để tìm"
+                        placeholder="Nhập tên thuộc tính để tìm"
                     />
                     <div className="table-responsive">
                         <table className="table table-hover">

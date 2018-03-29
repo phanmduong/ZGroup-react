@@ -131,11 +131,11 @@ export const CUSTOMTYPE = [
     },
     {
         label: "Khách hàng còn nợ",
-        value: "0",
+        value: "debt",
     },
     {
         label: "Khách hàng đã mua",
-        value: 1,
+        value: "paid",
     },
 ];
 
@@ -167,21 +167,26 @@ export const ORDER_STATUS = [
     },
     {
         order: 2,
+        label: "Chờ chuyển khoản",
+        value: "transfering"
+    },
+    {
+        order: 3,
         label: "Xác nhận",
         value: "confirm_order",
     },
     {
-        order: 3,
+        order: 4,
         label: "Giao hàng",
         value: "ship_order",
     },
     {
-        order: 4,
+        order: 5,
         label: "Hoàn thành",
         value: "completed_order",
     },
     {
-        order: 5,
+        order: 6,
         label: "Hủy",
         value: "cancel",
     },
@@ -267,25 +272,78 @@ export const ORDERED_STATUS = [
     },
     {
         order: 4,
+        label: "Dự kiến ngày về",
+        value: "arrive_date"
+    },
+    {
+        order: 5,
         label: "Đã về VN",
         value: "arrived",
     },
     {
-        order: 5,
+        order: 6,
         label: "Giao hàng",
         value: "ship",
     },
     {
-        order: 6,
+        order: 7,
         label: "Hoàn thành",
         value: "completed",
     },
     {
-        order: 7,
+        order: 8,
         label: "Hủy",
         value: "cancel",
     },
 ];
+
+export const ORDERED_STATUS_TRANSFER = [
+    {
+        value: "Trạng thái ban đầu",
+        key: "origin"
+    },
+    {
+        order: 0,
+        value: "Chuyển sang Đã báo giá",
+        key: "sent_price",
+    },
+    {
+        order: 1,
+        value: "Chuyển sang Xác nhận",
+        key: "confirm_order"
+    },
+    {
+        order: 2,
+        value: "Chuyển sang Đặt hàng",
+        key: "ordered",
+    },
+    {
+        order: 3,
+        value: "Chuyển sang Dự kiến ngày về",
+        key: "arrive_date"
+    },
+    {
+        order: 4,
+        value: "Chuyển sang Đã về VN",
+        key: "arrived"
+    },
+    {
+        order: 5,
+        value: "Chuyển sang Giao hàng",
+        key: "ship"
+    },
+    {
+        order: 6,
+        value: "Chuyển sang Hoàn thành",
+        key: "completed"
+    },
+    {
+        order: 7,
+        value: "Chuyển sang Hủy",
+        key: "cancel"
+    }
+];
+
 
 export const TYPE_CLASSES = [
     {
@@ -413,6 +471,7 @@ export const ORDERED_STATUS_COLORS = {
     sent_price: "#b5d0fc",
     confirm_order: "#b8ffad",
     ordered: "#e2e2e2",
+    arrive_date: "#006400",
     arrived: "#fcb7ab",
     ship: "#00ff00",
     completed: "#ccff66",

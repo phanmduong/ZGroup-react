@@ -1,4 +1,12 @@
 export default {
+    labelManage: {
+        isLoading: false,
+        courseCategories: [],
+        editCategoryModal: false,
+        categoryEditing: {},
+        isSavingCategory: false
+    },
+
     summarySalesUp: {
         bases: [],
         isLoadingBases: false,
@@ -64,9 +72,9 @@ export default {
             note: "",
         },
         isSavingSubscription: false,
-        userpacks: [],
         isLoadingUserpack: false,
         subscriptions: [],
+        userpacks: [],
     },
 
     registerManageRoom: {
@@ -81,6 +89,17 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
+    },
+    weekendReport: {
+        reports: [],
+        isLoading: false,
+        checkWeekendReportModal: false,
+        weekendReportModal: {
+            stt: '',
+            employee_name: '',
+            title: '',
+            report: ''
+        }
     },
 
     registerManageMeetingRoom: {
@@ -99,7 +118,17 @@ export default {
 
     bankAccount: {
         accounts: [],
-        isLoading: false
+        isLoading: false,
+        addEditBankAccountModal: false,
+        bankAccountEditModal: {
+            bank_name: '',
+            bank_account_name: '',
+            account_number: '',
+            owner_name: '',
+            branch: '',
+            display: ''
+        },
+        isUpdatingEditModal: false,
     },
 
     inventoryOrder: {
@@ -122,17 +151,18 @@ export default {
             link: '',
             color: '',
             description: '',
-            sale_off: 0,
-            weight: 0,
+            sale_off: '',
+            weight: '',
             tax: "true",
             unit: '',
-            ratio: 1,
-            money: 0,
-            fee: 0,
+            ratio: '',
+            money: '',
+            fee: '',
             code: '',
+            shipCode: '',
             endTime: '',
-            quantity: 0,
-            price: 0
+            quantity: '',
+            price: ''
         },
         customer: {
             name: '',
@@ -166,20 +196,21 @@ export default {
         currencies: [],
         isLoading: false,
         addEditCurrencyModal: false,
-        currencyEditModal: {
-            name: '',
-            notation: '',
-            ratio: ''
-        },
+        currencyEditModal: {},
         isUpdatingEditModal: false,
     },
 
     orderedProduct: {
+        isChangingStatus: false,
         currencies: [],
         addJavCodeModal: false,
-        orderJavCode: {},
+        importWeightModal: false,
+        orderImportWeight: [{}],
+        addShipFeeModal: false,
+        orderAddShipFee: [{}],
+        orderJavCode: [{}],
         cameToVNModal: false,
-        orderCameToVN: {},
+        orderCameToVN: [{}],
         chooseWalletModal: false,
         isChoosingWallet: false,
         orderWalletChosen: {},
@@ -189,7 +220,7 @@ export default {
         sendPriceModal: false,
         orderSendPriceModal: [],
         orderNote: {},
-        cancelNote: {},
+        cancelNote: [{}],
         isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
@@ -1107,6 +1138,9 @@ export default {
     goodOrders: {
         // provinces :[],
         // isLoadingProvinces : false,
+        payOrderMoneyModal: false,
+        orderPayMoney: {},
+        isPayingOrderMoney: false,
         warehousesList: [],
         selectWarehouseModal: false,
         isLoadingWarehouse: false,
@@ -2054,6 +2088,8 @@ export default {
             id: 0,
             description: "",
             subscriptionKind: "",  // id
+            booking_discount: 0,
+            extra_time: 0,
         },
         subscriptionKind: {
             name: "",

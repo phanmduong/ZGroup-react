@@ -2,11 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import FormInputDate from "../../components/common/FormInputDate";
 import *as orderedDetailAction from "./orderedDetailAction";
 import Loading from "../../components/common/Loading";
-import * as helper from '../../helpers/helper';
 import Select from 'react-select';
+import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
+//import moment from "moment";
+import FormInputDateTimeForModal from "../orderedProduct/FormInputDateTimeForModal";
 
 class OrderedDetailContainer extends React.Component {
     constructor(props, context) {
@@ -37,15 +38,16 @@ class OrderedDetailContainer extends React.Component {
                 link: '',
                 color: '',
                 description: '',
-                quantity: 0,
-                sale_off: 0,
-                weight: 0,
+                quantity: '',
+                sale_off: '',
+                weight: '',
                 tax: "true",
-                price: 0,
+                price: '',
                 unit: '',
-                ratio: 1,
-                money: 0,
-                fee: 0,
+                shipCode: '',
+                ratio: '',
+                money: '',
+                fee: '',
                 code: '',
                 endTime: ''
             });
@@ -59,6 +61,7 @@ class OrderedDetailContainer extends React.Component {
     }
 
     updateFormData(e) {
+        e.preventDefault();
         const field = e.target.name;
         let order = {
             ...this.props.order,
@@ -93,17 +96,17 @@ class OrderedDetailContainer extends React.Component {
         const order = {...this.props.order};
         const customer = {...this.props.customer};
         if (
-            helper.isEmptyInput(customer.phone)
-            || helper.isEmptyInput(customer.email)
-            || helper.isEmptyInput(order.link)
-            || helper.isEmptyInput(order.quantity)
-            || helper.isEmptyInput(customer.name)
+            isEmptyInput(customer.phone)
+            || isEmptyInput(customer.email)
+            || isEmptyInput(order.link)
+            || isEmptyInput(order.quantity)
+            || isEmptyInput(customer.name)
         ) {
-            if (helper.isEmptyInput(order.link)) helper.showErrorNotification("Bạn cần nhập Link sản phẩm");
-            if (helper.isEmptyInput(order.quantity)) helper.showErrorNotification("Bạn cần nhập Số lượng sản phẩm");
-            if (helper.isEmptyInput(customer.name)) helper.showErrorNotification("Bạn cần nhập Tên khách hàng");
-            if (helper.isEmptyInput(customer.phone)) helper.showErrorNotification("Bạn cần nhập Số điện thoại khách hàng");
-            if (helper.isEmptyInput(customer.email)) helper.showErrorNotification("Bạn cần nhập Email khách hàng");
+            if (isEmptyInput(order.link)) showErrorNotification("Bạn cần nhập Link sản phẩm");
+            if (isEmptyInput(order.quantity)) showErrorNotification("Bạn cần nhập Số lượng sản phẩm");
+            if (isEmptyInput(customer.name)) showErrorNotification("Bạn cần nhập Tên khách hàng");
+            if (isEmptyInput(customer.phone)) showErrorNotification("Bạn cần nhập Số điện thoại khách hàng");
+            if (isEmptyInput(customer.email)) showErrorNotification("Bạn cần nhập Email khách hàng");
         } else {
             if (this.state.type === "create") this.props.orderedDetailAction.saveOrder(order, customer);
             else this.props.orderedDetailAction.editOrder(order, customer);
@@ -148,6 +151,18 @@ class OrderedDetailContainer extends React.Component {
                                 <div className="card-content">
                                     <h4 className="card-title">Chi tiết đơn hàng</h4>
                                     <div className="row">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div className="form-group">
+                                                <label className="label-control">Link sản phẩm</label>
+                                                <input type="text"
+                                                       name="link"
+                                                       placeholder="Link"
+                                                       className="form-control"
+                                                       value={order.link || ''}
+                                                       onChange={this.updateFormData}/>
+                                                <span className="material-input"/>
+                                            </div>
+                                        </div>
                                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Kích thước</label>
@@ -156,18 +171,6 @@ class OrderedDetailContainer extends React.Component {
                                                        placeholder="Nhập kích thước"
                                                        className="form-control"
                                                        value={order.size || ''}
-                                                       onChange={this.updateFormData}/>
-                                                <span className="material-input"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                            <div className="form-group">
-                                                <label className="label-control">Link sản phẩm</label>
-                                                <input type="text"
-                                                       name="link"
-                                                       placeholder="Link"
-                                                       className="form-control"
-                                                       value={order.link || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -184,18 +187,7 @@ class OrderedDetailContainer extends React.Component {
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div className="form-group">
-                                                <label className="label-control">Mô tả</label>
-                                                <textarea type="text"
-                                                          name="description"
-                                                          placeholder="Mô tả đơn hàng"
-                                                          className="form-control"
-                                                          value={order.description || ''}
-                                                          onChange={this.updateFormData}/>
-                                                <span className="material-input"/>
-                                            </div>
-                                        </div>
+
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div className="form-group">
                                                 <label className="label-control">Số lượng</label>
@@ -203,12 +195,12 @@ class OrderedDetailContainer extends React.Component {
                                                        name="quantity"
                                                        placeholder="Nhập số lượng"
                                                        className="form-control"
-                                                       value={order.quantity || 0}
+                                                       value={order.quantity || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">% giảm giá</label>
                                                 <input type="number"
@@ -217,12 +209,12 @@ class OrderedDetailContainer extends React.Component {
                                                        min="0"
                                                        placeholder="Nhập phần trăm giảm giá"
                                                        className="form-control"
-                                                       value={order.sale_off || 0}
+                                                       value={order.sale_off || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
-                                        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Thuế</label>
                                                 <select
@@ -235,14 +227,14 @@ class OrderedDetailContainer extends React.Component {
                                                 </select>
                                             </div>
                                         </div>
-                                        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div className="form-group">
                                                 <label className="label-control">Giá sản phẩm</label>
                                                 <input type="number"
                                                        name="price"
                                                        placeholder="Nhập giá sản phẩm"
                                                        className="form-control"
-                                                       value={order.price || 0}
+                                                       value={order.price || ''}
                                                        onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
@@ -281,8 +273,20 @@ class OrderedDetailContainer extends React.Component {
                                                 <input type="number"
                                                        name="money"
                                                        className="form-control"
-                                                       value={order.money || 0}
+                                                       value={order.money || ''}
                                                        disabled={true}/>
+                                                <span className="material-input"/>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div className="form-group">
+                                                <label className="label-control">Mô tả</label>
+                                                <textarea type="text"
+                                                          name="description"
+                                                          placeholder="Mô tả đơn hàng"
+                                                          className="form-control"
+                                                          value={order.description || ''}
+                                                          onChange={this.updateFormData}/>
                                                 <span className="material-input"/>
                                             </div>
                                         </div>
@@ -297,7 +301,7 @@ class OrderedDetailContainer extends React.Component {
                                                            name="weight"
                                                            placeholder="Nhập khối lượng"
                                                            className="form-control"
-                                                           value={order.weight || 0}
+                                                           value={order.weight || ''}
                                                            onChange={this.updateFormData}/>
                                                     <span className="material-input"/>
                                                 </div>
@@ -309,7 +313,7 @@ class OrderedDetailContainer extends React.Component {
                                                            name="fee"
                                                            placeholder="Nhập kích thước"
                                                            className="form-control"
-                                                           value={order.fee || 0}
+                                                           value={order.fee || ''}
                                                            onChange={this.updateFormData}/>
                                                     <span className="material-input"/>
                                                 </div>
@@ -327,10 +331,24 @@ class OrderedDetailContainer extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <FormInputDate
-                                                    label="Ngày về"
+                                                <div className="form-group">
+                                                    <label className="label-control">Mã giao hàng</label>
+                                                    <input type="text"
+                                                           name="shipCode"
+                                                           placeholder="Nhập mã"
+                                                           className="form-control"
+                                                           value={order.shipCode || ''}
+                                                           onChange={this.updateFormData}/>
+                                                    <span className="material-input"/>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <FormInputDateTimeForModal
+                                                    //format={DATETIME_VN_FORMAT}
+                                                    label="Dự kiến ngày về"
                                                     name="endTime"
-                                                    updateFormData={(e) => this.props.orderedDetailAction.handleDate(e.target.value)}
+                                                    //defaultDate={moment()}
+                                                    updateFormData={this.updateFormData}
                                                     id="form-end-time"
                                                     value={order.endTime || ''}
                                                 />
@@ -415,7 +433,8 @@ class OrderedDetailContainer extends React.Component {
                                 className="material-icons">announcement</i></div>
                             <div className="card-content">
                                 <h4 className="card-title">Thông tin đơn hàng</h4>
-                                {this.props.isLoading ? <Loading/> :
+                                {
+                                    this.props.isLoading ? <Loading/> :
                                     <div>
                                         <div>
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
