@@ -70,7 +70,7 @@ $companyRoutes = function () {
         Route::put('/report/{id}','AdministrationController@changeStatus');
 
         Route::get('/history-good/{goodId}','WarehouseController@getHistoryGood');
-        Route::get('/summary-warehouse/all','WarehouseController@summaryWarehouse');
+        Route::get('/summary-good/all','WarehouseController@summaryGood');
 
 
     });

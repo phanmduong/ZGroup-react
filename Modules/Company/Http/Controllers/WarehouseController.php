@@ -29,10 +29,11 @@ class WarehouseController extends ManageApiController
         ]);
     }
 
-    public function summaryWarehouse(Request $request)
+    public function summaryGood(Request $request)
     {
-        $goods = Good::all();
-        return $this->respondSuccessWithStatus([
+        $limit  = $request->limit ? $request->limit : 20;
+        $goods = Good::paginate($limit);
+        return $this->respondWithPagination($goods,[
             "goods" => $goods->map(function ($good) {
                 $sum_warehouse = [];
                 $warehouses = Warehouse::all();
