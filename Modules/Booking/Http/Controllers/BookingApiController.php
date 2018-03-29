@@ -35,5 +35,4 @@ class BookingApiController extends ApiController
             'register' => $register ? $register->getData() : [],
         ]);
     }
-
 }
