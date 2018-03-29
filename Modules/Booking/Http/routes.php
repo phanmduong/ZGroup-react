@@ -2,6 +2,7 @@
 
 $apiRoutes = function () {
     Route::get('/user/register', 'BookingApiController@userRegister');
+};
 
 $publicRoutes = function () {
     Route::get('/blogs', 'BookingController@blogs');
@@ -41,4 +42,4 @@ Route::group(
     }
 );
 
-Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $manageapiRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3/coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $apiRoutes);
