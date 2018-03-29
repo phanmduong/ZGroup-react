@@ -54,11 +54,12 @@ class PublicApiController extends NoAuthApiController
     public function baseRooms($baseId, Request $request)
     {
         $base = Base::find($baseId);
+
         $rooms = $base->rooms;
         return $this->respondSuccessWithStatus([
             'rooms' => $rooms->map(function ($room) {
-                $data = $room->getData();
-                return $data;
+            
+                return $room->roomType();
             })
         ]);
     }

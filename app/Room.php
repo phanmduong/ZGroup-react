@@ -51,8 +51,8 @@ class Room extends Model
             'height' => $this->height,
             'room_layout_url' => $this->room_layout_url,
         ];
-        if ($this->room_type) {
-            $data['room_type'] = $this->room_type->getData();
+        if ($this->roomType) {
+            $data['room_type'] = $this->roomType->getData();
         }
         return $data;
     }
