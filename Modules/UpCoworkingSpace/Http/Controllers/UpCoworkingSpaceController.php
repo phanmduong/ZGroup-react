@@ -166,7 +166,7 @@ class UpCoworkingSpaceController extends Controller
             $events = $events->where('name', 'like', '%' . $search . '%');
         }
 
-        $events = $events->orderBy('start_date', 'asc')->paginate(6);
+        $events = $events->orderBy('start_date', 'desc')->paginate(6);
         $display = '';
         if ($request->page == null) {
             $page_id = 2;
