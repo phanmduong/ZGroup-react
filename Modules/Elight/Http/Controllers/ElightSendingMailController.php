@@ -9,21 +9,18 @@ use Illuminate\Support\Facades\Mail;
 
 class ElightSendingMailController extends Controller
 {
-    protected $emailcc="elightbook.popup@gmail.com";
-
     public function contact_info(Request $request)
     {
-        //dd($request);
         $data = [
             'name' => $request->name,
             'email' => $request->email, 
             'message_str' => $request->message_str
         ];
 
-        Mail::send('emails.elight_contact_us', $data, function ($m) use ($request, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Elight');
+        Mail::send('emails.elight_contact_us', $data, function ($m) use ($request) {
+            $m->from('no-reply@elightbook.com', 'Elight');
             $subject = "Xác nhận thông tin";
-            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+            $m->to($request->email, $request->name)->bcc("elightbook.popup@gmail.com")->subject($subject);
         });
         return "OK";
     }
@@ -36,10 +33,10 @@ class ElightSendingMailController extends Controller
             'phone' => $request->phone
         ];
 
-        Mail::send('emails.elight_index', $data, function ($m) use ($request, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Elight');
+        Mail::send('emails.elight_index', $data, function ($m) use ($request) {
+            $m->from('no-reply@elightbook.com', 'Elight');
             $subject = "Xác nhận thông tin";
-            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+            $m->to($request->email, $request->name)->bcc("elightbook.popup@gmail.com")->subject($subject);
         });
     }
 
@@ -51,10 +48,10 @@ class ElightSendingMailController extends Controller
             'email' => $request->email
         ];
 
-        Mail::send('emails.elight_book', $data, function ($m) use ($request, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Elight');
+        Mail::send('emails.elight_book', $data, function ($m) use ($request) {
+            $m->from('no-reply@elightbook.com', 'Elight');
             $subject = "Xác nhận thông tin";
-            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+            $m->to($request->email, $request->name)->bcc("elightbook.popup@gmail.com")->subject($subject);
         });
     }
 
@@ -65,10 +62,10 @@ class ElightSendingMailController extends Controller
             'name' => $request->name,
             'email' => $request->email
         ];
-        Mail::send('emails.elight_aboutus', $data, function ($m) use ($request, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Elight');
+        Mail::send('emails.elight_aboutus', $data, function ($m) use ($request) {
+            $m->from('no-reply@elightbook.com', 'Elight');
             $subject = "Xác nhận thông tin";
-            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
+            $m->to($request->email, $request->name)->bcc("elightbook.popup@gmail.com")->subject($subject);
         });
     }
 }

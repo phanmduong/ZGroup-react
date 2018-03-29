@@ -2,3 +2,8 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.dropdown-menu > .dropdown-item:hover {
+    background-color: #0275d8;
+    color: #FFFFFF !important;
+}

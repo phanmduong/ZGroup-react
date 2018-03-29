@@ -66,16 +66,12 @@ class BookingController extends ApiPublicController
         if ($request->phone == null) {
             return $this->respondErrorWithStatus("Thiếu phone");
         }
-        if ($request->subscription_id == null) {
-            return $this->respondErrorWithStatus("Thiếu subscription");
-        }
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
             $user->password = Hash::make($phone);
         }
-
         $user->name = $request->name;
         $user->phone = $phone;
         $user->email = $request->email;
@@ -84,7 +80,6 @@ class BookingController extends ApiPublicController
         $user->save();
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
-        $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $request->saler_id ? $request->saler_id : 0;
@@ -114,6 +109,18 @@ class BookingController extends ApiPublicController
                 $province = Province::find($provinceId);
                 return $province->transform();
             })->values()
+        ];
+    }
+
+    public function allBases(Request $request)
+    {
+        $bases = Base::query();
+        $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
+        $bases = $bases->get();
+        return [
+            "bases" => $bases->map(function ($base) {
+                return $base->transform();
+            })
         ];
     }
 

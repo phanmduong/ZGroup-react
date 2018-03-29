@@ -12,6 +12,7 @@ class PasswordController extends ManageApiController
     public function store(Request $request)
     {
         $pass = new Password();
+        $pass->code = $request->code;
         $pass->name = $request->name;
         $pass->password = md5($request->password);
         $pass->save();
@@ -38,7 +39,7 @@ class PasswordController extends ManageApiController
             $pass->save();
             return $this->respondSuccessWithStatus("Đổi mật khẩu thành công");
         }else{
-            return $this->respondErrorWithStatus("Đổi mật khẩu không thành công");
+            return $this->respondErrorWithStatus("Trùng mật khẩu cũ");
         }
     }
 
