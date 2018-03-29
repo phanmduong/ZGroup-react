@@ -16,13 +16,15 @@ class AddDiscountContainer extends React.Component {
         super(props);
         this.state = {
             id: this.props.params.discountId,
-            discount : props.addDiscount.discount};
+            discount: props.addDiscount.discount
+        };
         this.updateFormData = this.updateFormData.bind(this);
         this.addDiscount = this.addDiscount.bind(this);
         this.loadDiscount = this.loadDiscount.bind(this);
         this.resetDiscount = this.resetDiscount.bind(this);
         this.generateCode = this.generateCode.bind(this);
         this.changeQuantityInProps = this.changeQuantityInProps.bind(this);
+        this.handleFileUpload = this.handleFileUpload.bind(this);
         // this.loadCategories = this.loadCategories.bind(this);   Để dự phòng khi category phải chuyển sang select
     }
 
@@ -35,20 +37,23 @@ class AddDiscountContainer extends React.Component {
         }
     }
 
-    componentDidMount(){
-        if (document.location.pathname === '/good/discount/add' ) {
+    componentDidMount() {
+        if (document.location.pathname === '/good/discount/add') {
             this.resetDiscount();
         }
     }
+
     loadDiscount(discountId) {
         this.props.addDiscountActions.loadDiscount(discountId);
     }
-    changeQuantityInProps(i){
+
+    changeQuantityInProps(i) {
         const field = 'quantity';
         let discount = {...this.props.discount};
         discount[field] = i;
         this.props.addDiscountActions.updateDiscountFormData(discount);
     }
+
     resetDiscount() {
         const discount = {
             name: '',
@@ -60,15 +65,15 @@ class AddDiscountContainer extends React.Component {
             start_time: '',
             end_time: '',
             order_value: '',
-            quantity : 0,
+            quantity: 0,
             good: {},
             category: {},
             customer: {},
             customer_group: {},
-            shared : '',
+            shared: '',
         };
-        if (document.location.pathname === '/good/discount/add' ) {
-            this.setState({discount:discount});
+        if (document.location.pathname === '/good/discount/add') {
+            this.setState({discount: discount});
         }
         this.props.addDiscountActions.updateDiscountFormData(this.state.discount);
     }
@@ -124,8 +129,14 @@ class AddDiscountContainer extends React.Component {
         }
         e.preventDefault();
     }
-    generateCode(){
+
+    generateCode() {
         this.props.addDiscountActions.generateCode();
+    }
+
+    handleFileUpload(event) {
+        let file = event.target.files[0];
+        this.props.addDiscountActions.uploadImage(file);
     }
 
 
@@ -137,10 +148,11 @@ class AddDiscountContainer extends React.Component {
                         {this.props.isLoadingOut ? <Loading/> :
                             <div>
                                 <AddDiscountComponent
+                                    handleFileUpload={this.handleFileUpload}
                                     updateFormData={this.updateFormData}
                                     discount={this.props.discount}
-                                    generateCode = {this.generateCode}
-                                    changeQuantityInProps = {this.changeQuantityInProps}
+                                    generateCode={this.generateCode}
+                                    changeQuantityInProps={this.changeQuantityInProps}
                                 />
                                 <div className="card-footer">
                                     <div style={{
@@ -191,8 +203,8 @@ AddDiscountContainer.propTypes = {
     addDiscount: PropTypes.object,
     isSaving: PropTypes.bool,
     isLoadingOut: PropTypes.bool,
-    params : PropTypes.object,
-    discountId : PropTypes.number,
+    params: PropTypes.object,
+    discountId: PropTypes.number,
     // categories: PropTypes.object,
 };
 
@@ -203,8 +215,6 @@ function mapStateToProps(state) {
         discount: state.addDiscount.discount,
         isSaving: state.addDiscount.isSaving,
         isLoadingOut: state.addDiscount.isLoadingOut,
-
-        // categories: state.addDiscount.categories,
     };
 }
 

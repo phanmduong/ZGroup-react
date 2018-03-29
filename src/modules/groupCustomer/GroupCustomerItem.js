@@ -73,10 +73,14 @@ class GroupCustomerItem extends React.Component {
 
                     <div className="row" style={{textTransform: 'none', marginBottom: 10}}>
                         <br/>
-                        |Tiền mua theo đơn : {groupCustomerItem.order_value ? groupCustomerItem.order_value + " " : 0}
+                        | Tiền mua theo đơn : {groupCustomerItem.order_value ? groupCustomerItem.order_value + " " : 0}
                         <br/>
-                        |Tiền mua hàng sẵn
+                        | Tiền mua hàng sẵn
                         : {groupCustomerItem.delivery_value ? groupCustomerItem.delivery_value + " " : 0}
+                        <br/>
+                        <br/>
+                        | Tỉ giá
+                        : {groupCustomerItem.currency_value ? groupCustomerItem.currency_value + " " : 0}
                         <br/>
                     </div>
 

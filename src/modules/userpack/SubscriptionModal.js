@@ -113,7 +113,7 @@ class SubscriptionModal extends React.Component {
 
     render() {
 
-        let {price, description, subscriptionKind} = this.props.subscription;
+        let {price, description, subscriptionKind,extra_time,booking_discount} = this.props.subscription;
         return (
             <div>
                 <form id="form-subscription">
@@ -133,7 +133,22 @@ class SubscriptionModal extends React.Component {
                                         value={price}
                                         minValue="0"
                                     />
-
+                                    <FormInputText
+                                        type="number"
+                                        label="Thời gian khuyến mãi (h)"
+                                        name="extra_time"
+                                        updateFormData={this.updateFormSubscription}
+                                        value={extra_time}
+                                        minValue="0"
+                                    />
+                                    <FormInputText
+                                        type="number"
+                                        label="Giảm giá đặt phòng (%)"
+                                        name="booking_discount"
+                                        updateFormData={this.updateFormSubscription}
+                                        value={booking_discount}
+                                        minValue="0"
+                                    />
                                     <label className="label-control">Chọn gói đăng kí</label>
                                     <div style={{marginTop: 40}}>
                                         <div className="row">

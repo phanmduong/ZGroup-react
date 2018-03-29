@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as helper from '../../helpers/helper';
-import * as goodOrdersApi from '../goodOrders/goodOrdersApi';
+import * as goodOrdersApi from './goodOrdersApi';
 //import moment from 'moment';
 import {browserHistory} from "react-router";
 
@@ -196,6 +196,7 @@ export function editNote(order) {
             });
     };
 }
+
 //
 // export function sendShipOrder(shippingGood, orderId, labelId) {
 //     shippingGood = {
@@ -368,6 +369,39 @@ export function assignGoodFormData(good) {
             type: types.ASSIGN_GOOD_FORM_DATA_IN_ORDER,
             good,
         });
+    };
+}
+
+export function showPayOrderMoneyModal() {
+    return ({
+        type: types.TOGGLE_PAY_ORDER_MONEY_MODAL
+    });
+}
+
+export function handlePayOrderMoneyModal(order) {
+    return ({
+        type: types.HANDLE_PAY_ORDER_MONEY_MODAL,
+        order
+    });
+}
+
+export function payOrderMoney(order, info) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang thanh toán", "info");
+        dispatch({
+            type: types.BEGIN_PAY_ORDER_MONEY_GOOD_ORDER
+        });
+        goodOrdersApi.payOrderMoney(order, info)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showNotification("Thanh toán thành công");
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+                dispatch({
+                    type: types.PAY_ORDER_MONEY_GOOD_ORDER_COMPLETE
+                });
+            });
     };
 }
 

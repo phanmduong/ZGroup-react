@@ -26,6 +26,7 @@ import RegistersContainer from "../modules/infoStudent/registers/RegistersContai
 import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
 import CareContainer from "../modules/infoStudent/care/CareContainer";
+import LabelManageContainer from "../modules/labelManage/LabelManageContainer";
 
 /**
  * Tab Teaching
@@ -45,11 +46,6 @@ export default [
         path: "/teaching/gens",
         // path: "/manage/gens",
         component: GensContainer
-    },
-    {
-        path: "/teaching/registerlist(/:salerId)",
-        // path: "/manage/registerlist(/:salerId)",
-        component: RegisterListContainer
     },
     {
         path: "/teaching/waitlist",
@@ -189,7 +185,8 @@ export default [
                 component: CareClassContainer
             }
         ]
-    }, {
+    },
+    {
         path: "/teaching/info-student/:studentId",
         // path: "/manage/courses/create",
         component: InfoStudentContainer,
@@ -213,5 +210,9 @@ export default [
             },
         ]
     },
+    {
+        path: "/teaching/label",
+        component: LabelManageContainer
+    }
 
 ];

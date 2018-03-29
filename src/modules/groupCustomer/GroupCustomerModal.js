@@ -7,7 +7,6 @@ import * as groupCustomerActions from './groupCustomerActions';
 import {CirclePicker} from 'react-color';
 
 
-
 class GroupCustomerModal extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -37,7 +36,7 @@ class GroupCustomerModal extends React.Component {
 
 
     render() {
-        const {name, description, color,order_value,delivery_value} = this.props.groupCustomerForm;
+        const {name, description, color, order_value, delivery_value,currency_value} = this.props.groupCustomerForm;
         return (
             <div>
                 <div className="card-header card-header-icon" data-background-color="rose">
@@ -54,6 +53,7 @@ class GroupCustomerModal extends React.Component {
                                 updateFormData={this.editFormData}
                                 type="text"
                                 value={name}
+                                required={true}
                             />
                             <FormInputText
                                 label="Mô tả"
@@ -69,28 +69,47 @@ class GroupCustomerModal extends React.Component {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="form-group label-floating is-empty">
-                                                <label className="control-label" />
+                                                <label className="control-label"/>
                                                 <FormInputText
                                                     label="Tiền mua theo đơn"
                                                     name="order_value"
                                                     updateFormData={this.editFormData}
                                                     type="number"
                                                     value={order_value}
+                                                    required={true}
                                                 />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group label-floating is-empty">
-                                                <label className="control-label" />
+                                                <label className="control-label"/>
                                                 <FormInputText
                                                     label="Tiền mua hàng sẵn"
                                                     name="delivery_value"
                                                     updateFormData={this.editFormData}
                                                     type="number"
                                                     value={delivery_value}
+                                                    required={true}
                                                 />
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div className="row">
+                                <label className="col-sm-2 label-on-left">Tỉ giá</label>
+                                <div className="col-sm-10">
+                                    <div className="form-group label-floating is-empty">
+                                        <label className="control-label"/>
+                                        <FormInputText
+                                            label="Tỉ giá (đ)"
+                                            name="currency_value"
+                                            updateFormData={this.editFormData}
+                                            type="number"
+                                            value={currency_value}
+                                        />
                                     </div>
                                 </div>
                             </div>

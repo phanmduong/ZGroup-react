@@ -2,15 +2,15 @@ import * as types from '../../constants/actionTypes';
 import * as orderedProductApi from './orderedProductApi';
 import * as helper from "../../helpers/helper";
 
-export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id, javCode, link) {
+export function loadAllOrders(page = 1, searches, startTime, endTime, status, staff_id, user_id, queries) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_ORDERED_PRODUCT});
         const infoPromise = new Promise((resolve) => {
-            orderedProductApi.loadOrderInfo(page, search, startTime, endTime, status, staff_id, user_id, javCode, link)
+            orderedProductApi.loadOrderInfo(page, searches, startTime, endTime, status, staff_id, user_id, queries)
                 .then(res => resolve(res));
         });
         const orderPromise = new Promise((resolve) => {
-            orderedProductApi.loadAllOrders(page, search, startTime, endTime, status, staff_id, user_id)
+            orderedProductApi.loadAllOrders(page, searches, startTime, endTime, status, staff_id, user_id, queries)
                 .then(res => resolve(res));
         });
         Promise.all([infoPromise, orderPromise]).then(data => {
@@ -73,22 +73,23 @@ export function editNote(order) {
     };
 }
 
-export function changeStatus(status, deliveryOrderId, note, attach) {
+export function changeStatus(status, deliveryOrderId, note) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
         dispatch({
+            type: types.BEGIN_CHANGE_STATUS_ORDERED_PRODUCT
+        });
+        dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-        orderedProductApi.changeStatusApi(status, deliveryOrderId, note, attach)
+        orderedProductApi.changeStatusApi(status, deliveryOrderId, note)
             .then((res) => {
                 if (res.data.status === 0) {
                     helper.showErrorNotification(res.data.message.message);
                 } else {
                     helper.showNotification("Thay đổi trạng thái thành công");
                     dispatch({
-                        type: types.CHANGE_STATUS_ORDERED_SUCCESS,
-                        status,
-                        delivery_id: deliveryOrderId
+                        type: types.CHANGE_STATUS_ORDERED_SUCCESS
                     });
                 }
                 dispatch({
@@ -150,7 +151,7 @@ export function sendPrice(delivery_orders) {
                     dispatch({
                         type: types.TOGGLE_SEND_PRICE_MODAL
                     });
-                    helper.showErrorNotification(res.data.message.message);
+                    helper.showErrorNotification(res.data.message);
                 }
             })
             .catch(() => {
@@ -220,4 +221,44 @@ export function handleAddJavCodeModal(order) {
         order
     });
 }
+
+export function showCameToVNModal() {
+    return ({
+        type: types.TOGGLE_CAME_TO_VN_MODAL
+    });
+}
+
+export function handleCameToVNModal(order) {
+    return ({
+        type: types.HANDLE_CAME_TO_VN_MODAL,
+        order
+    });
+}
+
+export function showImportWeightModal() {
+    return ({
+        type: types.TOGGLE_IMPORT_WEIGHT_MODAL
+    });
+}
+
+export function handleImportWeightModal(order) {
+    return ({
+        type: types.HANDLE_IMPORT_WEIGHT_MODAL,
+        order
+    });
+}
+
+export function showAddShipFeeModal() {
+    return ({
+        type: types.TOGGLE_ADD_SHIP_FEE_MODAL
+    });
+}
+
+export function handleAddShipFeeModal(order) {
+    return ({
+        type: types.HANDLE_ADD_SHIP_FEE_MODAL,
+        order
+    });
+}
+
 
