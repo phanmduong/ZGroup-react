@@ -259,7 +259,7 @@ Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function
     Route::post('change-class-status', 'ManageClassApiController@change_class_status');
 });
 
-Route::group(['domain' => 'api.' . config('app.domain')], function () {
+$apiRoutes =  function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
         Route::get('search-registers', 'MoneyManageApiController@search_registers');
@@ -389,9 +389,12 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
 
     Route::post("manage/child1", 'ManageInfoController@getInfo');
+};
 
+Route::group(['domain' => 'api.' . config('app.domain')], $apiRoutes);
 
-});
+Route::group([config('app.domain'), 'prefix' => 'api/v3'], $apiRoutes);
+
 
 Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], function () {
 

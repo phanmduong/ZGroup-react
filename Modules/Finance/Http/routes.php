@@ -17,6 +17,12 @@ $namespaceRoutes = function () {
     Route::post('/confirm-transaction', 'ManageMoneyTransferApiController@confirm_transaction');
     Route::get('/staffs-keep-money', 'FinanceManageApiController@getStaffsKeepMoney');
     Route::get('/history-transaction/{staff_id}', 'FinanceManageApiController@historyTransactionStaff');
+    Route::get('/history-transactions', 'FinanceManageApiController@historyTransactions');
+    Route::get('/history-spend-money-staff', 'FinanceManageApiController@historySpendMoneyStaff');
+    Route::get('/history-spend-money', 'FinanceManageApiController@historySpendMoney');
+    Route::get('/category-transactions', 'FinanceManageApiController@getCategoryTransactions');
+    Route::post('/create-spend-money', 'FinanceManageApiController@createSpendMoney');
+    Route::get('/summary', 'FinanceManageApiController@summaryFinance');
 };
 
 Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Finance\Http\Controllers'],

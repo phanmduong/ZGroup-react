@@ -54,67 +54,6 @@ class RoomServiceRegister extends Model
             'code' => $this->code,
             'money' => $this->money,
             'status' => $this->status,
-            'created_at' => format_vn_short_datetime(strtotime($this->created_at))
-        ];
-        if ($this->user)
-            $data['user'] = [
-                'id' => $this->user->id,
-                'name' => $this->user->name,
-                'phone' => $this->user->phone,
-                'email' => $this->user->email,
-                'address' => $this->user->address,
-            ];
-        if ($this->staff)
-            $data['staff'] = [
-                'id' => $this->staff->id,
-                'name' => $this->staff->name,
-                'color' => $this->staff->color,
-            ];
-        if ($this->saler)
-            $data['saler'] = [
-                'id' => $this->saler->id,
-                'name' => $this->saler->name,
-                'color' => $this->saler->color,
-            ];
-        if ($this->subscription)
-            $data['subscription'] = $this->subscription->getData();
-
-        if ($this->campaign)
-            $data['campaign'] = [
-                'id' => $this->campaign->id,
-                'name' => $this->campaign->name,
-                'color' => $this->campaign->color,
-            ];
-        if ($this->teleCalls) {
-            $teleCalls = $this->teleCalls;
-            $data["teleCalls"] = $teleCalls->map(function ($teleCall) {
-                return $teleCall->transform();
-            });
-        }
-        if ($this->historyPayments) {
-            $historyPayments = $this->historyPayments;
-            $data["historyPayments"] = $historyPayments->map(function ($payment) {
-                return $payment->transform_for_up();
-            });
-        }
-
-        if ($this->base) {
-            $base = $this->base;
-            $data['base'] = [
-              "base" => $base->transform(),
-              "district" => $base->district->transform(),
-              "province" => $base->district->province->transform()
-            ];
-        }
-        return $data;
-    }
-
-    public function getRoomBookingData() {
-        $data = [
-            'id' => $this->id,
-            'code' => $this->code,
-            'money' => $this->money,
-            'status' => $this->status,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'note' => $this->note,
@@ -123,30 +62,30 @@ class RoomServiceRegister extends Model
         ];
         if ($this->user)
             $data['user'] = [
-                'id' => $this->user->id,
-                'name' => $this->user->name,
-                'phone' => $this->user->phone,
-                'email' => $this->user->email,
-                'address' => $this->user->address,
-            ];
+            'id' => $this->user->id,
+            'name' => $this->user->name,
+            'phone' => $this->user->phone,
+            'email' => $this->user->email,
+            'address' => $this->user->address,
+        ];
         if ($this->staff)
             $data['staff'] = [
-                'id' => $this->staff->id,
-                'name' => $this->staff->name,
-                'color' => $this->staff->color,
-            ];
+            'id' => $this->staff->id,
+            'name' => $this->staff->name,
+            'color' => $this->staff->color,
+        ];
         if ($this->saler)
             $data['saler'] = [
-                'id' => $this->saler->id,
-                'name' => $this->saler->name,
-                'color' => $this->saler->color,
-            ];
+            'id' => $this->saler->id,
+            'name' => $this->saler->name,
+            'color' => $this->saler->color,
+        ];
         if ($this->campaign)
             $data['campaign'] = [
-                'id' => $this->campaign->id,
-                'name' => $this->campaign->name,
-                'color' => $this->campaign->color,
-            ];
+            'id' => $this->campaign->id,
+            'name' => $this->campaign->name,
+            'color' => $this->campaign->color,
+        ];
         if ($this->teleCalls) {
             $teleCalls = $this->teleCalls;
             $data["teleCalls"] = $teleCalls->map(function ($teleCall) {
@@ -167,11 +106,11 @@ class RoomServiceRegister extends Model
         if ($this->base) {
             $base = $this->base;
             $data['base'] = [
-              "base" => $base->transform(),
-              "district" => $base->district->transform(),
-              "province" => $base->district->province->transform()
+                "base" => $base->transform(),
+                "district" => $base->district->transform(),
+                "province" => $base->district->province->transform()
             ];
         }
-        return $data;    
+        return $data;
     }
 }

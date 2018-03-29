@@ -13,29 +13,29 @@ use Modules\Good\Entities\GoodProperty;
 
 class BookRepository
 {
-    public function getAllBooks()
-    {
-        $books = Good::where('type', 'book')->where('display_status', 1)->get();
-        $book_arr = [];
-        foreach ($books as $book) {
-            $properties = GoodProperty::where('good_id', $book->id)->get();
-            $bookData = [
-                'id' => $book->id,
-                'cover' => $book->cover_url,
-                'avatar' => $book->avatar_url,
-                'name' => $book->name,
-                'description' => $book->description,
-                'price' => $book->price
-            ];
-            foreach ($properties as $property) {
-                if ($property->name == "short_description") $bookData[$property->name] = $property->value;
-                if ($property->name == "coupon_value") $bookData[$property->name] = $property->value;
-            }
+    // public function getAllBooks()
+    // {
+    //     $books = Good::where('type', 'book')->where('display_status', 1)->get();
+    //     $book_arr = [];
+    //     foreach ($books as $book) {
+    //         $properties = GoodProperty::where('good_id', $book->id)->get();
+    //         $bookData = [
+    //             'id' => $book->id,
+    //             'cover' => $book->cover_url,
+    //             'avatar' => $book->avatar_url,
+    //             'name' => $book->name,
+    //             'description' => $book->description,
+    //             'price' => $book->price
+    //         ];
+    //         foreach ($properties as $property) {
+    //             if ($property->name == "short_description") $bookData[$property->name] = $property->value;
+    //             if ($property->name == "coupon_value") $bookData[$property->name] = $property->value;
+    //         }
 
-            $book_arr[] = $bookData;
-        }
-        return $book_arr;
-    }
+    //         $book_arr[] = $bookData;
+    //     }
+    //     return $book_arr;
+    // }
 
     public function getBookDetail($bookId)
     {
@@ -163,33 +163,26 @@ class BookRepository
         $total_price = $shipPrice;
         $goods = $order->goods;
         foreach ($goods as &$good) {
-            $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
-            $good->coupon_value = $coupon;
-//            $coupon = 0;
-            $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
+            $total_price += $good->price * $good->pivot->quantity;
         }
-        $subject = "Xác nhận đặt sách thành công";
+        $subject = $ship_infor->name." Elight XÁC NHẬN ĐƠN HÀNG";
         $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
         $emailcc = ["elightedu.books@gmail.com"];
         Mail::send('emails.confirm_buy_book_elight', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Elight');
+            $m->from('no-reply@colorme.vn', 'Nhà sach Elight');
             $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
         });
-        if ($payment === "Thanh toán online") {
-            $base = 0;
-            $percent = 0;
-//            if ($onlinePurchase === "VISA") {
-//                $base = 5500;
-//                $percent = 0.03;
-//            }
-            if ($onlinePurchase === "ATM_ONLINE") {
-                $base = 1760;
-                $percent = 0.011;
-            }
-            $sendPrice = ($total_price - $base) / (1 + $percent);
-            return $this->sendOrderToNganLuong($sendPrice, $order->id, $onlinePurchase, $bankCode, $name,
-                $address . ", " . $district . ", " . $province, $email, $phone);
-        }
+        // if ($payment === "Thanh toán online") {
+        //     $base = 0;
+        //     $percent = 0;
+        //     if ($onlinePurchase === "ATM_ONLINE") {
+        //         $base = 1760;
+        //         $percent = 0.011;
+        //     }
+        //     $sendPrice = ($total_price - $base) / (1 + $percent);
+        //     return $this->sendOrderToNganLuong($sendPrice, $order->id, $onlinePurchase, $bankCode, $name,
+        //         $address . ", " . $district . ", " . $province, $email, $phone);
+        // }
         return null;
     }
 }

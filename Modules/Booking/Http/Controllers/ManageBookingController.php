@@ -72,7 +72,7 @@ class ManageBookingController extends ManageApiController
             $registers = RoomServiceRegister::where('type', 'room')->get();
             return $this->respondSuccessWithStatus([
                 'room_service_registers' => $registers->map(function ($register) {
-                    return $register->getRoomBookingData();
+                    return $register->getData();
                 })
             ]);
         }
@@ -99,7 +99,7 @@ class ManageBookingController extends ManageApiController
 
         return $this->respondWithPagination($registers, [
             'room_service_registers' => $registers->map(function ($register) {
-                return $register->getRoomBookingData();
+                return $register->getData();
             })
         ]);
     }
@@ -318,7 +318,7 @@ class ManageBookingController extends ManageApiController
     public function assignSubscription($registerId, Request $request)
     {
         $register = RoomServiceRegister::find($registerId);
-        if($register == null)
+        if ($register == null)
             return $this->respondErrorWithStatus('Không tồn tại đăng ký');
         $register->subscription_id = $request->subscription_id;
         $register->start_time = $request->start_time;
@@ -326,6 +326,6 @@ class ManageBookingController extends ManageApiController
         $register->extra_time = $request->extra_time;
         $register->note = $request->note;
         $register->save();
-        return $this->respondSuccessWithStatus(["register" => $register->getRoomBookingData()]);
+        return $this->respondSuccessWithStatus(["register" => $register->getData()]);
     }
 }

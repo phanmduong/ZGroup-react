@@ -12,6 +12,7 @@ namespace Modules\Company\Http\Controllers;
 use App\AdvancePayment;
 use App\Http\Controllers\ManageApiController;
 use App\RequestVacation;
+use App\User;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Report;
@@ -174,25 +175,31 @@ class AdministrationController extends ManageApiController
 
     public function createReport($staff_id,Request $request)
     {
-        dd(1);
-        $report = new Report();
-        $report->staff_id = $staff_id;
-        $report->title = $request->title;
-        $report->report = $request->report;
-        $report->save();
+        if(User::where('id',$staff_id)->count() > 0){
+            $report = new Report();
+            $report->staff_id = $staff_id;
+            $report->title = $request->title;
+            $report->report = $request->report;
+            $report->save();
 
-        return $this->respondSuccessWithStatus([
-            "message"=>"Tạo báo cáo thành công"
-        ]);
+            return $this->respondSuccessWithStatus([
+                "message"=>"Tạo báo cáo thành công"
+            ]);
+        }else{
+            return $this->respondErrorWithStatus([
+                "message" => "Không tồn tại user"
+            ]);
+        }
+
     }
 
     public function editReport(Request $request,$staff_id,$id)
     {
         $report = Report::find($id);
         if($report->report != $request->report){
-
             if($report->staff_id == $staff_id) {
                 $report->report = $request->report;
+                $report->title = $request->title;
                 $report->save();
             }else{
                 return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
@@ -200,22 +207,25 @@ class AdministrationController extends ManageApiController
         }else{
             return $this->respondErrorWithStatus("Sửa báo cáo không thành công");
         }
+        
         return $this->respondSuccessWithStatus([
-           "message"=>"Tạo báo cáo thành công"
+           "message"=>"Sửa báo cáo thành công"
         ]);
     }
 
-    public function showReportStaffId(Request $request, $staff_id)
+    public function showReportId(Request $request, $id)
     {
-        $reports = Report::find($staff_id)->get();
+        $report = Report::where('id',$id)->get();
+//        dd($report);
         return $this->respondSuccessWithStatus([
-            "report" => $reports->transform()
+            "report" => $report->map(function($report){
+                return $report->transform();
+            })
         ]);
     }
 
     public function showReports(Request $request)
     {
-        dd(1);
         $limit = $request->limit ? $request->limit :20;
         $reports= Report::orderBy('created_at','desc')->paginate($limit);
         return $this->respondWithPagination($reports,[
@@ -225,5 +235,32 @@ class AdministrationController extends ManageApiController
         ]);
     }
 
+    public function deleteReport(Request $request, $id)
+    {
+        Report::where('id',$id)->delete();
+        return $this->respondSuccessWithStatus([
+            "message" => "Xóa thành công"
+        ]);
+    }
 
+    public function changeStatus(Request $request, $id)
+    {
+        $report = Report::find($id);
+        if($report->status === 1){
+            $report->status = 0;
+            $report->save();
+        }else if($report->status === 0){
+            $report->status = 1;
+            $report->save();
+        }else{
+            return $this->respondErrorWithStatus([
+                "message" => "Thay đổi trạng thái không thành công"
+            ]);
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "Thay đổi trạng thái thành công"
+        ]);
+
+    }
 }
