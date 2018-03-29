@@ -32,7 +32,7 @@ class BookingApiController extends ApiController
             ->where('end_time', '<>', null)
             ->where('end_time', '>', date('Y-m-d H:i:s'))->first();
         return $this->respondSuccessWithStatus([
-            'register' => $register->getData(),
+            'register' => $register ? $register->getData() : [],
         ]);
     }
 
