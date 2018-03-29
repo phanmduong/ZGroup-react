@@ -173,10 +173,19 @@ class UpCoworkingSpaceApiController extends ApiPublicController
             $product->category_id = 3;
             $product->url = "d1j8r0kxyu9tj8.cloudfront.net/images/1500137080dAlPJYo8BVlQiiD.jpg";
             $product->description = $this->get_snippet(str_replace("\n", "", strip_tags($product->content)), 19) . "...";
-            $product->url = DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first() ?
-                str_replace('http://', '', DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first()->guid) : '';
+            $thumb_id = DB::table('wp_postmeta')->where('post_id', $post->ID)->where('meta_key', '_thumbnail_id')->first();
+            $url = '';
+            if ($thumb_id)
+                $url = DB::table('wp_posts')->where('ID', $thumb_id->meta_value)->first()
+                ? DB::table('wp_posts')->where('ID', $thumb_id->meta_value)->first()->guid : '';
+            $product->url = $url;
+            if ($product->url == '') {
+                $pattern = '/(src=")(.+?)(")/';
+                preg_match($pattern, $product->content, $matches);
+                if ($matches)
+                    $product->url = $matches[2];
+            }
             $product->url = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->url);
-
             foreach (preg_split("/((\r?\n)|(\r\n?))/", $post->post_content) as $line) {
                 $product->content = str_replace($line, '<p>' . $line . '</p>', $product->content);
                 $product->content = str_replace('<strong>', '<p><h6>', $product->content);
@@ -203,17 +212,9 @@ class UpCoworkingSpaceApiController extends ApiPublicController
                 if (reset($matches))
                     $product->content = str_replace(reset($matches), reset($matches) . ' style="display:block; height:auto; width:100%"', $product->content);
             }
-            if ($product->url == '') {
-                $pattern = '/(src=")(.+?)(")/';
-                preg_match($pattern, $product->content, $matches);
-                if ($matches)
-                    $product->url = $matches[2];
-                else
-                    $product->url = 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/2016/08/cong-viec-cua-product-manager.jpg';
-            }
             $product->save();
         }
-        // dd($arr);
+        dd($arr);
     }
 
     public function extractEvents()
@@ -234,8 +235,24 @@ class UpCoworkingSpaceApiController extends ApiPublicController
             $myEvent->start_date = $event->event_start_date;
             $myEvent->end_date = $event->event_end_date;
             $myEvent->detail = $event->post_content;
-            $myEvent->avatar_url = 'http://up-co.vn/wp-content/uploads/Breakfast_at_Tiffany-coverevent-380x180.png';
-            $myEvent->cover_url = 'http://up-co.vn/wp-content/uploads/Breakfast_at_Tiffany-coverevent-380x180.png';
+
+            $url = '';
+            $url = DB::table('wp_posts')->where('post_parent', $event->post_id)->where('post_type', 'attachment')->first()
+                ? DB::table('wp_posts')->where('post_parent', $event->post_id)->where('post_type', 'attachment')->first()->guid : '';
+            $myEvent->avatar_url = $url;
+            if ($myEvent->avatar_url == '') {
+                $pattern = '/(src=")(.+?)(")/';
+                preg_match($pattern, $myEvent->detail, $matches);
+                if ($matches)
+                    $myEvent->avatar_url = $matches[2];
+            }
+            $myEvent->avatar_url = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $myEvent->avatar_url);
+            $myEvent->cover_url = $myEvent->avatar_url;
+            foreach (preg_split("/((\r?\n)|(\r\n?))/", $event->post_content) as $line) {
+                $myEvent->detail = str_replace($line, '<p>' . $line . '</p>', $myEvent->detail);
+                $myEvent->detail = str_replace('<strong>', '<p><h6>', $myEvent->detail);
+                $myEvent->detail = str_replace('</strong>', '</h6></p>', $myEvent->detail);
+            }
             $myEvent->save();
         }
         dd($events);
