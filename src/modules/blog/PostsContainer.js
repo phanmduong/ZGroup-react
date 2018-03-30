@@ -59,7 +59,6 @@ class BlogsContainer extends React.Component {
                 this.setState({ isOpenModal: false });
             },
         );
-        console.log("test");
     }
 
     deletePost(post) {

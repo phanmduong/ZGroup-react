@@ -51,7 +51,33 @@ class EditRoomTypeModal extends React.Component {
                         onChange={this.props.handleTypeName}
                         clearable={false}
                     />
-                    <div className="form-group" style={{zIndex : 0}}>
+                    {type.type_name === "conference" ?
+                        <div>
+                            <FormInputText
+                                label="Giá cho khách hàng"
+                                name="price"
+                                type="number"
+                                defaul
+                                value={type.price}
+                                updateFormData={this.props.handlePrice}
+                                minValue="0"
+                            />
+                            <FormInputText
+                                label="Giá cho thành viên"
+                                name="member_price"
+                                type="number"
+                                defaul
+                                value={type.member_price}
+                                updateFormData={this.props.handleMemPrice}
+                                minValue="0"
+                            />
+                        </div>
+                        :
+                        null
+
+                    }
+
+                    <div className="form-group" style={{zIndex: 0}}>
                         <h4 className="label-control">
                             Mô tả loại phòng
                         </h4>
@@ -75,6 +101,8 @@ EditRoomTypeModal.propTypes = {
     handleDescription: PropTypes.func.isRequired,
     handleTypeName: PropTypes.func.isRequired,
     handleName: PropTypes.func.isRequired,
+    handlePrice: PropTypes.func.isRequired,
+    handleMemPrice: PropTypes.func.isRequired,
     createRoomType: PropTypes.func.isRequired
 };
 

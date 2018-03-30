@@ -202,7 +202,6 @@ export function addSubscription(register_id,select, closeModal) {
 
 
 export function updateSelect(select) {
-    console.log(select,"ACTION");
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_SELECT,
