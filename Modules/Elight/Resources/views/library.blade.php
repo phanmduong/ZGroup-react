@@ -43,7 +43,7 @@
                             @if($category_id)
                                 {{\App\CourseCategory::find($category_id)->name}}
                             @else
-                                Thể loại
+                                Loại
                             @endif
                             <span class="caret"></span>
                         </button>
