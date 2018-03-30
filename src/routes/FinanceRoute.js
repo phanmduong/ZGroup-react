@@ -8,6 +8,8 @@ import BankTransfersContainer from "../modules/finance/BankTransfersContainer";
 
 import PasswordContainer from "../modules/password/PasswordContainer";
 
+import NewPageContainer from "../modules/NewPage/NewPageContainer";
+
 /**
  * Tab Quản lý tài chính
  */
@@ -37,6 +39,11 @@ export default [
     {
         path: "/finance/password",
         component: PasswordContainer
+
+    },
+    {
+        path: "/finance/newpage",
+        component: NewPageContainer
 
     }
 ];

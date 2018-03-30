@@ -797,3 +797,24 @@ a.btn-seat.active {
 }
 
 
+
+// Nguyen Dai Loi da them Class :
+
+.already-paid-icons {
+    display: flex;
+}
+
+.already-paid-icons-plus {
+  display:flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: #bbbbbb;
+  color: white;
+  cursor: pointer
+}
+
+.already-paid-icons-plus i{
+  margin: auto
+}
