@@ -3,7 +3,6 @@
 namespace Modules\Elight\Http\Controllers;
 
 use App\CategoryProduct;
-use App\CourseCategory;
 use App\District;
 use App\Course;
 use App\Good;
@@ -11,11 +10,12 @@ use App\Lesson;
 use App\Term;
 use App\Product;
 use App\Province;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Elight\Repositories\BookRepository;
+use App\CourseCategory;
+use Illuminate\Support\Facades\DB;
 
 class ElightController extends Controller
 {
@@ -153,13 +153,28 @@ class ElightController extends Controller
         ]);
     }
 
-    public function allBooks($subfix)
+    public function allBooks($subfix, Request $request)
     {
-        $books = Course::where('status', 0)->get();
-        $categories = CourseCategory::all();
+        $books = Course::join('course_course_category', 'courses.id', '=', 'course_course_category.course_id');
+
+        if($request->search)
+            $books = $books->where('courses.name', 'like', "%$request->search%");
+        if($request->category_id)
+            $books = $books->where('course_course_category.course_category_id', '=', $request->category_id);
+        $books = $books->select('courses.*')->groupBy('courses.id');
+
+        $books = $books->orderBy('created_at', 'desc')->paginate(8);
+
+        $categories = CourseCategory::join('course_course_category', 'course_categories.id', '=', 'course_course_category.course_category_id')
+            ->select('course_categories.*', DB::raw('count(*) as count'))->groupBy('course_categories.id')->having('count', '>', 0)->get();
+
         return view('elight::library', [
             'books' => $books,
-            'course_categories' => $categories
+            'search' => $request->search,
+            'categories' => $categories,
+            'category_id' => $request->category_id,
+            'total_pages' => ceil($books->total() / $books->perPage()),
+            'current_page' => $books->currentPage(),
         ]);
     }
 
@@ -309,40 +324,5 @@ class ElightController extends Controller
     public function flush($subfix, Request $request)
     {
         $request->session()->flush();
-    }
-
-    public function searchCategory(Request $request)
-    {
-        if($request->ajax()){
-//            dd(1);
-            $output = "";
-            $categories = Course::where('name', 'like', '%' . $request->searchCategory . '%')->get();
-            if($categories){
-                foreach ($categories as $category){
-                    $output .= "<div class=\"col-md-3\">
-                        <div class=\"card card-profile\" style=\"border-radius: 0px;\">
-                            <a href=\"/book/$category->id\" style=\"padding: 3%;\">
-                                <div style=\"background-image: url('$category->icon_url'); background-size: cover; padding-bottom: 120%; width: 100%; background-position: center center;\"></div>
-                            </a>
-                            <div>
-                                <div class=\"container text-left\" style=\"min-height: 130px;\"><br>
-                                    <a href=\"/book/$category->id\" style=\"font-weight: 600;\">$category->name</a>
-                                    <p>$category->description</p>
-                                </div>
-                            </div>
-                            <div class=\"card-footer\" style=\"border-top: 1px solid rgb(220, 219, 219) !important;\">
-                                <div style=\"text-align: right;\">
-                                    <a class=\"btn btn-success\" href=\"/book/$category->id\"
-                                       style=\"padding: 3px; margin: 3px; font-size: 10px;\">
-                                        Nghe online <i class=\"fa fa-headphones\" aria-hidden=\"true\"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>";
-                }
-                return Response($output);
-            }
-        }
-
     }
 }
