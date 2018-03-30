@@ -84,18 +84,9 @@
         </div>
 
     </div>
-    </div>
 
 @endsection
 <style>
-    /*.fc-prev-button.fc-button.fc-state-default.fc-corner-left, .fc-next-button.fc-button.fc-state-default.fc-corner-right {*/
-        /*border: none;*/
-        /*display: flex;*/
-        /*align-items: center;*/
-        /*justify-content: center;*/
-        /*background-color: #96d21f;*/
-    /*}*/
-
     .fc-event {
         border: 1px solid #96d21f !important;
         background-color:  #96d21f !important; /* default BACKGROUND color */
@@ -221,14 +212,11 @@
 
 
         $(document).ready(function () {
-
-
             moment1 = new Date();
             moment_year = moment(moment1).format('YYYY');
             moment_month = moment(moment1).format('M');
             getData(moment_year, moment_month);
             $('#calendar').on('click', '.fc-next-button', function () {
-                //alert('clicked');
                 $('#calendar').fullCalendar('removeEvents');
                 moment1 = $('#calendar').fullCalendar('getDate');
                 moment_year = moment(moment1).format('YYYY');
@@ -236,7 +224,6 @@
                 getData(moment_year, moment_month);
             });
             $('#calendar').on('click', '.fc-prev-button', function () {
-                // alert('clicked');
                 $('#calendar').fullCalendar('removeEvents');
                 moment1 = $('#calendar').fullCalendar('getDate');
                 moment_year = moment(moment1).format('YYYY');
