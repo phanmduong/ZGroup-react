@@ -31,8 +31,6 @@ class ManageEventApiController extends ManageApiController
         $metaTitle = $request->meta_title;
         $keyword = $request->keyword;
         $metaDescription = $request->meta_description;
-
-//        echo "$name, $avatarUrl,$slug";
         if (!$name || !$avatarUrl || !$slug) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu thông tin');
         }
@@ -60,7 +58,7 @@ class ManageEventApiController extends ManageApiController
         $event->save();
 
         return $this->respondSuccessV2([
-            'event' => $event
+            'event' => $event->getData(),
         ]);
     }
 
@@ -72,7 +70,7 @@ class ManageEventApiController extends ManageApiController
             $limit = $request->limit;
         }
         $search = $request->search;
-        $events = Event::where('name', 'like', "%$search%")->paginate($limit);
+        $events = Event::where('name', 'like', "%$search%")->orderBy('created_at','desc')->paginate($limit);
         return $this->respondWithPagination($events, [
             'events' => $events->map(function ($event) {
                 return $event->getData();

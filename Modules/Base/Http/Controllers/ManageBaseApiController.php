@@ -25,7 +25,8 @@ class ManageBaseApiController extends ManageApiController
         $this->classTransformer = $classTransformer;
     }
 
-    public function getClassesByRoom($roomId) {
+    public function getClassesByRoom($roomId)
+    {
         $room = Room::find($roomId);
         $genId = Gen::getCurrentGen()->id;
         $classes = $room->classes()->where("gen_id", $genId)->get();
@@ -145,7 +146,6 @@ class ManageBaseApiController extends ManageApiController
         $room->room_type_id = $request->room_type_id;
         $room->detail = $request->detail;
         $room->description = $request->description;
-        $room->room_type_id = $request->room_type_id;
 
         $room->seats_count = $request->seats_count;
         $room->images_url = $request->images_url;
@@ -157,6 +157,16 @@ class ManageBaseApiController extends ManageApiController
         $room->save();
 
         return $room;
+    }
+
+    public function assignRoomTypeInfo(&$roomType, $request)
+    {
+        $roomType->name = $request->name;
+        $roomType->description = $request->description;
+        $roomType->type_name = $request->type_name;
+        $roomType->price = $request->price;
+        $roomType->member_price = $request->member_price;
+        $roomType->save();
     }
 
     public function getAllProvinces()
@@ -411,8 +421,7 @@ class ManageBaseApiController extends ManageApiController
         ]);
     }
 
-    public function chooseSeat
-    ($registerId)
+    public function chooseSeat($registerId)
     {
         $registerSeats = RoomServiceRegisterSeat::where('room_service_register_id', $registerId)->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessV2([
@@ -437,7 +446,8 @@ class ManageBaseApiController extends ManageApiController
         return $this->respondWithPagination($seats, [
             'historySeat' => $seats->map(function ($seat) {
                 return $seat->transform();
-            })]);
+            })
+        ]);
     }
 
     public function getRoomTypes(Request $request)
@@ -473,11 +483,7 @@ class ManageBaseApiController extends ManageApiController
             return $this->respondErrorWithStatus('Phòng này đã được tạo');
         }
         $roomType = new RoomType;
-        $roomType->name = $request->name;
-        $roomType->description = $request->description;
-        $roomType->type_name = $request->type_name;
-        $roomType->save();
-
+        $this->assignRoomTypeInfo($roomType, $request);
         return $this->respondSuccess('Tạo thành công');
     }
 
@@ -490,11 +496,7 @@ class ManageBaseApiController extends ManageApiController
         if ($roomType == null) {
             return $this->respondErrorWithStatus('Không tồn tại loại phòng');
         }
-        $roomType->name = $request->name;
-        $roomType->description = $request->description;
-        $roomType->type_name = $request->type_name;
-        $roomType->save();
-
+        $this->assignRoomTypeInfo($roomType, $request);
         return $this->respondSuccess('Sửa thành công');
     }
 

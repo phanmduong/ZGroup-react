@@ -68,6 +68,11 @@ $companyRoutes = function () {
         Route::put('/report/{staff_id}/edit/{id}','AdministrationController@editReport');
         Route::delete('/report/{id}','AdministrationController@deleteReport');
         Route::put('/report/{id}','AdministrationController@changeStatus');
+
+        Route::get('/history-good/{goodId}','WarehouseController@getHistoryGood');
+        Route::get('/summary-good/all','WarehouseController@summaryGood');
+
+
     });
 };
 

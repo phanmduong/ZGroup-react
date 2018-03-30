@@ -70,10 +70,9 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'namespace' => 'Modules
 
 // new api routes
 
-Route::group(
-        ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Base\Http\Controllers'],
+Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Base\Http\Controllers'],
     function () use ($baseRoutes, $provinceRoutes, $roomRoutes, $seatRoutes) {
-        Route::group(['prefix' => 'v3'], $baseRoutes);
+        Route::group(['prefix' => 'v3/v2'], $baseRoutes);
         Route::group(['prefix' => 'v3'], $provinceRoutes);
         Route::group(['prefix' => 'v3'], $roomRoutes);
         Route::group(['prefix' => 'v3/seat'], $seatRoutes);
