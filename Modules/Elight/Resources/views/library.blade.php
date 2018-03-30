@@ -25,7 +25,7 @@
     </div>
 
     <div class="blog-4" style="margin-top:150px" id="books">
-        <div class="container">
+        <!-- <div class="container">
             <div class="description">
             <div style="display: flex; flex-direction: row; align-items: center" id="search-blog">
                 <input autocomplete="off" placeholder="Tìm kiếm" id="search-category"
@@ -63,7 +63,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> -->
             <div class="description">
                 <h1 class="medium-title">
                     Giáo trình<br>

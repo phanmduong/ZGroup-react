@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 
 class ManageBookingController extends ManageApiController
 {
-
     public function __construct()
     {
         parent::__construct();
