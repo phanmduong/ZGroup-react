@@ -334,7 +334,7 @@ class ManageBookingController extends ManageApiController
     {
         $limit = $request->limit ? $request->limit : 20;
         $conferenceRooms = Room::join('room_types', 'rooms.room_type_id', '=', 'room_types.id')
-            ->where('room_types.type_name', 'conference')->select('room.*')
+            ->where('room_types.type_name', 'conference')->select('rooms.*')
             ->where('rooms.name', 'like', "%$request->search%")
             ->paginate($limit);
         
