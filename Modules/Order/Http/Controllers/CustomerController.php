@@ -38,7 +38,7 @@ class CustomerController extends ManageApiController
         } else {
             // $users = User::where('type', 'customer')->where(function ($query) use ($keyword) {
             $users = User::where(function ($query) use ($keyword) {
-                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
+                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', "%$keyword%");
             })->orderBy('created_at', 'desc')->paginate($limit);
         }
 
