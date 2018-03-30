@@ -29,6 +29,7 @@ $manageapiRoutes = function () {
     Route::get('/saler', 'ManageBookingController@getAllSalers');
     Route::post('/booking', 'ManageBookingController@booking');
     Route::put('/register/{registerId}/assign-subscription', 'ManageBookingController@assignSubscription');
+    Route::get('/conference-rooms', 'ManageBookingController@conferenceRooms');
 };
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\Booking\Http\Controllers'], $publicRoutes);
