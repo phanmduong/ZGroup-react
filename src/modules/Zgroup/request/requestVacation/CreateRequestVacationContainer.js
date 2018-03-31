@@ -5,7 +5,7 @@ import * as requestActions from "../requestActions";
 import * as PropTypes from "prop-types";
 import Loading from "../../../../components/common/Loading";
 import FormInputDate from "../../../../components/common/FormInputDate";
-import FormInputText from "../../../../components/common/FormInputText";
+// import FormInputText from "../../../../components/common/FormInputText";
 import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
 import Avatar from "../../../../components/common/Avatar";
 import { DATE_FORMAT } from "../../../../constants/constants";
