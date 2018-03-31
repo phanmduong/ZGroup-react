@@ -100,7 +100,7 @@ class EmailRepository
                 'send_status' => $campaign->sended,
                 'open' => $open,
                 'sended' => $sended,
-                'avatar_url' => generate_protocol_url($campaign->email_form->avatar_url),
+                'avatar_url' => $campaign->email_form ? generate_protocol_url($campaign->email_form->avatar_url) : "",
                 'complaint' => $complaint,
                 'delivery' => $delivery,
                 'hide' => $campaign->hide ? $campaign->hide : 0,

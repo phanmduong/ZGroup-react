@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
-
+use App\Product;
+use App\Event;
 
 class UpCoworkingSpaceApiController extends ApiPublicController
 {
@@ -37,7 +38,6 @@ class UpCoworkingSpaceApiController extends ApiPublicController
             });
             return $data;
         });
-
         return $this->respondSuccessWithStatus([
             'user_packs' => $user_packs
         ]);
@@ -67,16 +67,12 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         if ($request->phone == null) {
             return $this->respondErrorWithStatus("Thiếu phone");
         }
-        if ($request->subscription_id == null) {
-            return $this->respondErrorWithStatus("Thiếu subscription");
-        }
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
             $user->password = Hash::make($phone);
         }
-
         $user->name = $request->name;
         $user->phone = $phone;
         $user->email = $request->email;
@@ -85,11 +81,10 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         $user->save();
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
-        $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
         $register->campaign_id = $request->campaign_id ? $request->campaign_id : 0;
         $register->saler_id = $request->saler_id ? $request->saler_id : 0;
-        $register->type = 'seat';
+        $register->type = 'member';
         $register->save();
         $subject = "Xác nhận đăng ký thành công";
 
@@ -118,6 +113,18 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         ];
     }
 
+    public function allBases(Request $request)
+    {
+        $bases = Base::query();
+        $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
+        $bases = $bases->get();
+        return [
+            "bases" => $bases->map(function ($base) {
+                return $base->transform();
+            })
+        ];
+    }
+
     public function basesInProvince($provinceId, Request $request)
     {
         $districtIds = District::join("province", "province.provinceid", "=", "district.provinceid")
@@ -132,67 +139,122 @@ class UpCoworkingSpaceApiController extends ApiPublicController
         ];
     }
 
-    public function historyRegister()
+    public function get_snippet($str, $wordCount = 10)
     {
-        $user = JWTAuth::parseToken()->authenticate();
-
-        if ($user == null) {
-            return $this->respondErrorWithStatus("Bạn phải đăng nhập");
-        }
-
-        $registers = RoomServiceRegister::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        $registers = $registers->map(function ($register) {
-            return $register->getData();
-        });
-
-        return $this->respondSuccessWithStatus([
-            'history_registers' => $registers
-        ]);
+        return implode(
+            '',
+            array_slice(
+                preg_split(
+                    '/([\s,\.;\?\!]+)/',
+                    $str,
+                    $wordCount * 2 + 1,
+                    PREG_SPLIT_DELIM_CAPTURE
+                ),
+                0,
+                $wordCount * 2 - 1
+            )
+        );
     }
 
-    public function appRegister($campaignId, Request $request)
+    public function extract()
     {
-        if ($request->email == null) {
-            return $this->respondErrorWithStatus("Thiếu email");
-        }
-        if ($request->phone == null) {
-            return $this->respondErrorWithStatus("Thiếu phone");
-        }
-        if ($request->subscription_id == null) {
-            return $this->respondErrorWithStatus("Thiếu subscription");
-        }
-        $user = User::where('email', '=', $request->email)->first();
-        $phone = preg_replace('/[^0-9]+/', '', $request->phone);
-        if ($user == null) {
-            $user = new User;
-            $user->password = Hash::make($phone);
-        }
+        $posts = DB::table('wp_posts')->where('post_type', 'post')->where('post_status', 'publish')->orderBy('post_date', 'desc')->get();
+        $arr = [];
+        foreach ($posts as $post) {
+            $product = new Product;
+            $product->type = 2;
+            $product->author_id = 1;
+            $product->content = $post->post_content;
+            $product->created_at = $post->post_date;
+            $product->title = $post->post_title;
+            $product->slug = $post->post_name;
+            $product->meta_title = $post->post_name;
+            $product->status = 1;
+            $product->category_id = 3;
+            $product->url = "d1j8r0kxyu9tj8.cloudfront.net/images/1500137080dAlPJYo8BVlQiiD.jpg";
+            $product->description = $this->get_snippet(str_replace("\n", "", strip_tags($product->content)), 19) . "...";
+            $thumb_id = DB::table('wp_postmeta')->where('post_id', $post->ID)->where('meta_key', '_thumbnail_id')->first();
+            $url = '';
+            if ($thumb_id)
+                $url = DB::table('wp_posts')->where('ID', $thumb_id->meta_value)->first()
+                ? DB::table('wp_posts')->where('ID', $thumb_id->meta_value)->first()->guid : '';
+            $product->url = $url;
+            if ($product->url == '') {
+                $pattern = '/(src=")(.+?)(")/';
+                preg_match($pattern, $product->content, $matches);
+                if ($matches)
+                    $product->url = $matches[2];
+            }
+            $product->url = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->url);
+            foreach (preg_split("/((\r?\n)|(\r\n?))/", $post->post_content) as $line) {
+                $product->content = str_replace($line, '<p>' . $line . '</p>', $product->content);
+                $product->content = str_replace('<strong>', '<p><h6>', $product->content);
+                $product->content = str_replace('</strong>', '</h6></p>', $product->content);
 
-        $user->name = $request->name;
-        $user->phone = $phone;
-        $user->email = $request->email;
-        $user->username = $request->email;
-        $user->save();
+                if (strpos($line, '.jpg')) {
+                    $pattern = '/(gpj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+                    preg_match($pattern, strrev($line), $matches);
+                    $product->content = str_replace(strrev(reset($matches)), '.jpg', $product->content);
+                }
+                if (strpos($line, '.png')) {
+                    $pattern = '/(gnp\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+                    preg_match($pattern, strrev($line), $matches);
+                    $product->content = str_replace(strrev(reset($matches)), '.png', $product->content);
+                }
+                if (strpos($line, '.jpeg')) {
+                    $pattern = '/(gepj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+                    preg_match($pattern, strrev($line), $matches);
+                    $product->content = str_replace(strrev(reset($matches)), '.jpeg', $product->content);
+                }
+                $product->content = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->content);
+                $pattern = '/width="([0-9]{3,4})" height="([0-9]{3,4})"/';
+                preg_match($pattern, $line, $matches);
+                if (reset($matches))
+                    $product->content = str_replace(reset($matches), reset($matches) . ' style="display:block; height:auto; width:100%"', $product->content);
+            }
+            $product->save();
+        }
+        dd($arr);
+    }
 
-        $register = new RoomServiceRegister();
-        $register->user_id = $user->id;
-        $register->subscription_id = $request->subscription_id;
-        $register->base_id = $request->base_id;
-        $register->type = 'seat';
-        $register->save();
-        $subject = "Xác nhận đăng ký thành công";
-        $data = ["user" => $user];
-        $emailcc = ["graphics@colorme.vn"];
-        Mail::send('emails.confirm_register_up', $data, function ($m) use ($request, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Up Coworking Space');
-            $m->to($request->email, $request->name)->bcc($emailcc)->subject($subject);
-        });
+    public function extractEvents()
+    {
+        $events = DB::table('wp_em_events')->where('event_status', 1)->orderBy('event_date_created')->get();
+        $arr = [];
+        foreach ($events as $event) {
+            if ($event->event_name == null)
+                continue;
+            $myEvent = new Event;
+            $myEvent->created_at = $event->event_date_created;
+            $myEvent->name = $event->event_name;
+            $myEvent->slug = $event->event_slug;
+            $myEvent->user_id = 1;
+            $myEvent->status = 'PUBLISH';
+            $myEvent->start_time = $event->event_start_time;
+            $myEvent->end_time = $event->event_end_time;
+            $myEvent->start_date = $event->event_start_date;
+            $myEvent->end_date = $event->event_end_date;
+            $myEvent->detail = $event->post_content;
 
-        return $this->respondSuccessWithStatus([
-            'message' => "Đăng kí thành công"
-        ]);
+            $url = '';
+            $url = DB::table('wp_posts')->where('post_parent', $event->post_id)->where('post_type', 'attachment')->first()
+                ? DB::table('wp_posts')->where('post_parent', $event->post_id)->where('post_type', 'attachment')->first()->guid : '';
+            $myEvent->avatar_url = $url;
+            if ($myEvent->avatar_url == '') {
+                $pattern = '/(src=")(.+?)(")/';
+                preg_match($pattern, $myEvent->detail, $matches);
+                if ($matches)
+                    $myEvent->avatar_url = $matches[2];
+            }
+            $myEvent->avatar_url = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $myEvent->avatar_url);
+            $myEvent->cover_url = $myEvent->avatar_url;
+            foreach (preg_split("/((\r?\n)|(\r\n?))/", $event->post_content) as $line) {
+                $myEvent->detail = str_replace($line, '<p>' . $line . '</p>', $myEvent->detail);
+                $myEvent->detail = str_replace('<strong>', '<p><h6>', $myEvent->detail);
+                $myEvent->detail = str_replace('</strong>', '</h6></p>', $myEvent->detail);
+            }
+            $myEvent->save();
+        }
+        dd($events);
     }
 }

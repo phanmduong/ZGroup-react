@@ -1,0 +1,16 @@
+{
+    "name": "Complaint",
+    "alias": "complaint",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Complaint\\Providers\\ComplaintServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

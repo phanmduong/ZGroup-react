@@ -48,7 +48,9 @@ class Good extends Model
     {
         return $this->belongsToMany(Warehouse::class, 'good_warehouse', 'good_id', 'warehouse_id');
     }
-
+    public function zHistoryGood(){
+        return $this->hasMany(ZHistoryGood::class,'good_id');
+    }
     public function properties()
     {
         return $this->hasMany(GoodProperty::class, 'good_id')
