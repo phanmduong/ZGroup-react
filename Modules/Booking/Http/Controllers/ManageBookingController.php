@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Room;
 
 class ManageBookingController extends ManageApiController
 {
@@ -327,5 +328,20 @@ class ManageBookingController extends ManageApiController
         $register->note = $request->note;
         $register->save();
         return $this->respondSuccessWithStatus(["register" => $register->getData()]);
+    }
+
+    public function conferenceRooms(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $conferenceRooms = Room::join('room_types', 'rooms.room_type_id', '=', 'room_types.id')
+            ->where('room_types.type_name', 'conference')->select('rooms.*')
+            ->where('rooms.name', 'like', "%$request->search%")
+            ->paginate($limit);
+        
+        return $this->respondWithPagination($conferenceRooms,[
+            'rooms' => $conferenceRooms->map(function($conferenceRoom){
+                return $conferenceRoom->getData();
+            })
+        ]);
     }
 }
