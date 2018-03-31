@@ -1,9 +1,9 @@
-    <?php
+<?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePasswordTable extends Migration
+class ChangeEventsTable1 extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,11 @@ class CreatePasswordTable extends Migration
      */
     public function up()
     {
-        Schema::create('password',function(Blueprint $table){
-            $table->increments('id');
-            $table->string('code')->index();
-            $table->string('name');
-            $table->string('password');
-            $table->timestamps();
+        Schema::table('events', function(Blueprint $table){
+            $table->date('start_date')->change();
+            $table->date('end_date')->change();
+            $table->time('start_time')->change();
+            $table->time('end_time')->change();
         });
     }
 
