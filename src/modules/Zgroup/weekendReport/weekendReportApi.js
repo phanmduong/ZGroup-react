@@ -33,4 +33,13 @@ export function saveReportApi(report, index) {
     return axios.post(url,report);
 }
 
-
+//http://manageapi.domain.com/company/report/{id}?token=
+//Sua status 0 -> 1
+export function checkApi(i) {
+    let url = env.MANAGE_API_URL + "/company/report/" + i.id;
+    let token = localStorage.getItem('token');
+    if(token){
+        url += "?token=" + token;
+    }
+    return axios.put(url,1);
+}

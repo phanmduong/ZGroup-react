@@ -3,10 +3,29 @@ import * as weekendReportApi from './weekendReportApi';
 import * as helper from "../../../helpers/helper";
 import {browserHistory} from 'react-router';
 
+
 export function showCheckWeekendReportModal() {
     return ({
         type: types.CHECK_REPORT_MODAL
     });
+}
+
+export function checkV(report) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_REPORT
+        });
+        weekendReportApi.checkApi(report)
+            .then(() => {
+                helper.showNotification("Duyệt Thành Công");
+                dispatch({
+                    type: types.EDIT_REPORT_SUCCESS,
+                    report
+                });
+
+            });
+
+    };
 }
 
 export function loadReportById(i) {
@@ -24,7 +43,6 @@ export function loadReportById(i) {
             });
 
     };
-
 
 }
 

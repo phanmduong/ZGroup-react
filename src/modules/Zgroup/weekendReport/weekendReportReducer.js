@@ -54,6 +54,21 @@ export default function weekendReportReducer(state = initialState.weekendReport,
                 addReport:false,
                 reports: [...state.reports, action.report]
             };
+        case types.EDIT_REPORT_SUCCESS: {
+            let reports = state.reports.map((report) => {
+                if (report.id === action.report.id)
+                    return {
+                        ...report,
+                        status: action.status,
+                    };
+                return report;
+            });
+            return {
+                ...state,
+                loadingModal: false,
+                reports: reports
+            };
+        }
 
         default:
             return state;

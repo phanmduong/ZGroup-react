@@ -31,17 +31,44 @@ class CheckWeekendReportModal extends React.Component {
                                                         <form method="#" action="#">
                                                             <div className="form-group">
                                                                 <h4><b>{report.staff.name}</b></h4>
-                                                                <span style={{color:'tomato',fontWeight:'600'}}>Tiêu đề:</span><p><b>&emsp;{report.title}</b></p>
-                                                                <span style={{color:'tomato',fontWeight:'600'}}>Nội dung:</span>
+                                                                <span style={{color: 'tomato', fontWeight: '600'}}>Tiêu đề:</span>
+                                                                <p><b>&emsp;{report.title}</b></p>
+                                                                <span style={{color: 'tomato', fontWeight: '600'}}>Nội dung:</span>
                                                                 <p>
                                                                     &emsp;{//eslint-disable-next-line
-                                                                    }<div dangerouslySetInnerHTML={{__html: report.content}}/>
+                                                                }
+                                                                    <div
+                                                                        dangerouslySetInnerHTML={{__html: report.content}}/>
                                                                 </p>
                                                             </div>
                                                             <br/><br/>
                                                             {
-
-                                                                <div>
+                                                                report.status === 0 ?
+                                                                    <div>
+                                                                        <button rel="tooltip" data-placement="top"
+                                                                                title=""
+                                                                                data-original-title="Remove item"
+                                                                                type="button"
+                                                                                className="btn btn-success btn-round"
+                                                                                data-dismiss="modal"
+                                                                                onClick={() => {
+                                                                                    this.props.weekendReportAction.showCheckWeekendReportModal();
+                                                                                    this.props.weekendReportAction.checkV(report);
+                                                                                }}
+                                                                        >
+                                                                            <i className="material-icons">check</i> Duyệt
+                                                                        </button>
+                                                                        <button rel="tooltip" data-placement="toxp"
+                                                                                title=""
+                                                                                data-original-title="Remove item"
+                                                                                type="button"
+                                                                                className="btn btn-danger btn-round"
+                                                                                data-dismiss="modal"
+                                                                                onClick={() => this.props.weekendReportAction.showCheckWeekendReportModal()}
+                                                                        >
+                                                                            <i className="material-icons">close</i> Huỷ
+                                                                        </button>
+                                                                    </div> :
                                                                     <button rel="tooltip" data-placement="top" title=""
                                                                             data-original-title="Remove item"
                                                                             type="button"
@@ -49,18 +76,8 @@ class CheckWeekendReportModal extends React.Component {
                                                                             data-dismiss="modal"
                                                                             onClick={() => this.props.weekendReportAction.showCheckWeekendReportModal()}
                                                                     >
-                                                                        <i className="material-icons">check</i> Duyệt
+                                                                        <i className="material-icons">check</i> Trở lại
                                                                     </button>
-                                                                    <button rel="tooltip" data-placement="top" title=""
-                                                                            data-original-title="Remove item"
-                                                                            type="button"
-                                                                            className="btn btn-danger btn-round"
-                                                                            data-dismiss="modal"
-                                                                            onClick={() => this.props.weekendReportAction.showCheckWeekendReportModal()}
-                                                                    >
-                                                                        <i className="material-icons">close</i> Huỷ
-                                                                    </button>
-                                                                </div>
 
                                                             }
                                                         </form>
@@ -84,6 +101,7 @@ CheckWeekendReportModal.propTypes = {
     checkWeekendReportModal: PropTypes.bool.isRequired,
     report: PropTypes.array.isRequired,
     loadingModal: PropTypes.bool.isRequired,
+
 };
 
 function mapStateToProps(state) {

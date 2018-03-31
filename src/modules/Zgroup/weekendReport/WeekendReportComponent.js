@@ -21,7 +21,7 @@ class WeekendReportComponent extends React.Component {
                 <table className="table table-hover table-striped">
                     <thead className="text-rose">
                     <tr className="text-rose">
-                        <th>Stt</th>
+                        <th>STT</th>
                         <th>Nhân viên</th>
                         <th>Tiêu đề</th>
                         <th>Thời gian</th>
@@ -34,7 +34,7 @@ class WeekendReportComponent extends React.Component {
                             return (
                                 <tr key={index}>
                                     <td>
-                                        {report.id}
+                                        {index+1}
                                     </td>
                                     <td>
                                         {report.staff.name}
@@ -48,8 +48,8 @@ class WeekendReportComponent extends React.Component {
                                     <td>
                                         {
                                         report.status === 0 ?
-                                            <div className="btn-group-action">
-                                                <a style={{color: "#878787"}}
+                                            <div>
+                                                <a style={{color: "#4caf50"}}
                                                    data-toggle="tooltip" title=""
                                                    type="button" rel="tooltip"
                                                    data-original-title="Duyệt"
@@ -58,7 +58,9 @@ class WeekendReportComponent extends React.Component {
                                                     <i className="material-icons">check</i>
                                                 </a>
                                             </div> :
-                                            <h1>v</h1>
+                                            <b style={{cursor:"pointer"}}
+                                                onClick={() => this.showModal(report.id)}>
+                                                Đã Duyệt</b>
                                         }
                                     </td>
                                 </tr>
