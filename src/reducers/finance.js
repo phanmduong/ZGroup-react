@@ -12,9 +12,11 @@ import staffKeepMoneyReducer from "../modules/staffsKeepMoney/staffKeepMoneyRedu
 import historyTransactionsReducer from "../modules/historyTransactions/historyTransactionsReducer";
 import spendMoneyReducer from "../modules/spendMoney/spendMoneyReducer";
 import summaryFinanceReducer from "../modules/summaryFinance/summaryFinanceReducer";
+import passwordReducer from "../modules/password/passwordReducer";
 
 const appReducer = combineReducers({
     ...commonReducer,
+    passwordAccount: passwordReducer,
     currency: currencyReducer,
     bankAccount: bankAccountReducer,
     finance: financeReducer,
@@ -32,7 +34,6 @@ const rootReducer = (state, action) => {
     if (action.type === LOG_OUT) {
         state = {};
     }
-
     return appReducer(state, action);
 };
 
