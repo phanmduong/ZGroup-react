@@ -240,7 +240,6 @@ export default {
         manufacturesRender: [],
         manufacturesFilter: [],
         properties_list_filter: [],
-        isUploadingAvatar: false,
         totalPagesManufactures: 1,
         currentPageManufactures: 1,
         totalCountManufactures: 1,
@@ -253,7 +252,6 @@ export default {
         manufacturesManageModal: false,
         isLoadingManufacture: false,
         child_index: 0,
-        percent: 0,
         productWorking: {
             name: '',
             code: '',
@@ -277,7 +275,6 @@ export default {
             children: []
         },
         goods_count_check: true,
-        isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
         properties_list: [],

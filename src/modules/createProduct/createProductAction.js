@@ -74,93 +74,26 @@ export function saveCategoriesCreateProduct(categories) {
     });
 }
 
-export function changeAvatar(file) {
-    return function (dispatch) {
-        const error = () => {
-            helper.showErrorNotification("Có lỗi xảy ra");
-        };
-        const completeHandler = (event) => {
-            const data = JSON.parse(event.currentTarget.responseText);
-            helper.showNotification("Tải lên ảnh đại diện thành công");
-            dispatch({
-                type: types.UPLOAD_AVATAR_COMPLETE_CREATE_PRODUCT,
-                avatar_url: data.url
-            });
-        };
-        const progressHandler = (event) => {
-            const percentComplete = Math.round((100 * event.loaded) / event.total);
-            dispatch({
-                type: types.UPDATE_AVATAR_PROGRESS_CREATE_PRODUCT,
-                percent: percentComplete
-            });
-        };
-        dispatch({
-            type: types.BEGIN_UPLOAD_AVATAR_CREATE_PRODUCT
-        });
-        createProductApi.changeAvatarApi(file,
-            completeHandler, progressHandler, error);
-    };
+export function handleImagesWebsiteTab(images_url) {
+    return ({
+        type: types.HANDLE_IMAGES_WEBSITE_TAB_CREATE_PRODUCT,
+        images_url
+    });
 }
 
-export function changeImage(file, length, first_length) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT
-        });
-        const error = () => {
-            helper.showErrorNotification("Có lỗi xảy ra");
-        };
-        const completeHandler = (event) => {
-            const data = JSON.parse(event.currentTarget.responseText);
-            helper.showNotification("Tải lên ảnh thành công");
-            dispatch({
-                type: types.UPLOAD_IMAGE_COMPLETE_CREATE_PRODUCT,
-                image: data.url,
-                length,
-                first_length
-            });
-        };
-        const progressHandler = (event) => {
-            const percentComplete = Math.round((100 * event.loaded) / event.total);
-            dispatch({
-                type: types.UPDATE_AVATAR_PROGRESS_CREATE_PRODUCT,
-                percent: percentComplete
-            });
-        };
-        createProductApi.changeAvatarApi(file,
-            completeHandler, progressHandler, error);
-    };
+export function handleAvatarWebsiteTab(image) {
+    return ({
+        type: types.HANDLE_AVATAR_WEBSITE_TAB_CREATE_PRODUCT,
+        image
+    });
 }
 
-export function changeChildImageModal(file, length, first_length, index) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT
-        });
-        const error = () => {
-            helper.showErrorNotification("Có lỗi xảy ra");
-        };
-        const completeHandler = (event) => {
-            const data = JSON.parse(event.currentTarget.responseText);
-            helper.showNotification("Tải lên ảnh thành công");
-            dispatch({
-                type: types.UPLOAD_CHILD_IMAGE_COMPLETE_MODAL,
-                image: data.url,
-                length,
-                first_length,
-                index
-            });
-        };
-        const progressHandler = (event) => {
-            const percentComplete = Math.round((100 * event.loaded) / event.total);
-            dispatch({
-                type: types.UPDATE_AVATAR_PROGRESS_CREATE_PRODUCT,
-                percent: percentComplete
-            });
-        };
-        createProductApi.changeAvatarApi(file,
-            completeHandler, progressHandler, error);
-    };
+export function handleChildImagesModal(images_url, index) {
+    return ({
+        type: types.HANDLE_CHILD_IMAGES_MODAL_CREATE_PRODUCT,
+        images_url,
+        index
+    });
 }
 
 export function endUpload() {
@@ -305,13 +238,6 @@ export function loadProduct(productId) {
                     });
                 }
             });
-    };
-}
-
-export function deleteImage(image) {
-    return {
-        type: types.DELETE_IMAGE_CREATE_PRODUCT,
-        image
     };
 }
 
