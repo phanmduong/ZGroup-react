@@ -897,6 +897,8 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
 
     //Begin blog api
     Route::post('/create-category', 'ManageBlogController@create_category');
+    Route::put('/category/{id}', 'ManageBlogController@editCategory');
+    Route::delete('/category/{id}', 'ManageBlogController@deleteCategory');
     Route::post('/save-post', 'ManageBlogController@save_post');
     Route::get('/posts', 'ManageBlogController@get_posts');
     Route::post('/post/{postId}/change-status', 'ManageBlogController@changeStatusPost');

@@ -12,7 +12,7 @@ use App\Product;
 use App\Category;
 use App\CategoryProduct;
 use Illuminate\Http\Request;
-
+use Symfony\Component\CssSelector\Parser\Reader;
 class ManageBlogController extends ManageApiController
 {
     public function __construct()
@@ -32,6 +32,39 @@ class ManageBlogController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             'message' => 'Tạo category thành công'
+        ]);
+    }
+   
+    public function editCategory($id, Request $request)
+    {
+        $name = $request->name;
+
+        $category = CategoryProduct::find($id);
+
+        if($category == null)
+            return $this->respondErrorWithStatus('Không tồn tại loại blog');
+
+        $category->name = $name;
+
+        $category->save();
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'Tạo category thành công'
+        ]);
+    }
+
+    public function deleteCategory($id, Request $request)
+    {
+        $category = CategoryProduct::find($id);
+
+        if($category == null)
+            return $this->respondErrorWithStatus('Không tồn tại category');
+        if($category->products()->count() > 0)
+            return $this->respondErrorWithStatus('Tồn tại bài viết sử dụng category này');
+        $category->delete();
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'Xoá category thành công'
         ]);
     }
 
