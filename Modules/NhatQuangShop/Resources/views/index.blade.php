@@ -1,17 +1,13 @@
 @extends('nhatquangshop::layouts.master')
 
 @section('content')
-    <div class="container" id="bookinfo">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+    {{--banner--}}
+    <div style="margin-top:120px">
         <div class="row">
             <div class="col-md-12 shadow-banner">
-                <div class="container">
+                <div class="">
                     <div class="row">
-                        <div class="col-md-8 ml-auto mr-auto">
+                        <div class="ml-auto mr-auto">
                             <div class="card card-raised page-carousel">
                                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                     <ol class="carousel-indicators">
@@ -23,7 +19,7 @@
                                     <div class="carousel-inner" role="listbox">
                                         <div class="carousel-item">
                                             <img class="d-block img-fluid"
-                                                 src="http://www.hudsonmgmt.com/hms/images/slider-img-1.jpg"
+                                                 src="https://vcdn.tikicdn.com/ts/banner/34/57/e0/4cccc9504f0304db48f59e2a5d5578b9.jpg"
                                                  alt="First slide">
                                             <div class="carousel-caption d-none d-md-block">
                                                 <p>Somewhere</p>
@@ -31,7 +27,7 @@
                                         </div>
                                         <div class="carousel-item active">
                                             <img class="d-block img-fluid"
-                                                 src="http://96bda424cfcc34d9dd1a-0a7f10f87519dba22d2dbc6233a731e5.r41.cf2.rackcdn.com/ermu/sliders-1/fall-residential-faders/Fall_Fader2.jpg"
+                                                 src="https://vcdn.tikicdn.com/ts/banner/34/57/e0/4cccc9504f0304db48f59e2a5d5578b9.jpg"
                                                  alt="Second slide">
                                             <div class="carousel-caption d-none d-md-block">
                                                 <p>Somewhere else</p>
@@ -39,7 +35,7 @@
                                         </div>
                                         <div class="carousel-item">
                                             <img class="d-block img-fluid"
-                                                 src="http://www.jveroassociates.com/images/slider/slider-02.jpg"
+                                                 src="https://vcdn.tikicdn.com/ts/banner/34/57/e0/4cccc9504f0304db48f59e2a5d5578b9.jpg"
                                                  alt="Third slide">
                                             <div class="carousel-caption d-none d-md-block">
                                                 <p>Here it is</p>
@@ -64,13 +60,33 @@
                 </div>
             </div>
         </div>
-        <br>
+    </div>
+
+    <div class="container" id="bookinfo">
         <br>
         <div class="row">
-            <div class="col-md-12 ">
-                <div class="shadow">
-                    <input placeholder="Tìm kiếm"
-                           style="width:100%; border:none; font-size:20px; padding:15px; color:#2e2e2e"/>
+            <!--thanh search-->
+            <div class="col-md-12 row ">
+                <div class="shadow" style="display: flex;justify-content: space-between;">
+                    <div>
+                        <img src="http://www.nhatquangshop.vn/themes/giaodienweb/images/lo-go.png" height="40px">
+                    </div>
+                    <div style="flex-grow:8 ">
+                        <input placeholder="Tìm kiếm"
+                               style="width:100%; border:none; font-size:20px; padding:15px; color:#2e2e2e"/>
+                    </div>
+                    <div>
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <span>
+                            Đăng nhập & Đăng ký tài khoản
+                        </span>
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <div>
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -212,3 +228,9 @@
         <br>
     </div>
 @endsection
+
+<style>
+    .carousel-item > img {
+        width: 100%;
+    }
+</style>
