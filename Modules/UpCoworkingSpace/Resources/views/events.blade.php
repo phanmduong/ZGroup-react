@@ -168,6 +168,7 @@
         function loading(state){
             if(state === true) {
                 document.getElementById('loading').setAttribute("style","display: block; position: relative; top:26px; left: 80px ");
+
             }
             else {
                 document.getElementById('loading').setAttribute("style","display: none")
@@ -194,13 +195,13 @@
                                     id: event.id,
                                     title: event.name,
                                     id: event.id,
-                                    start: event_start_time,
-                                    end: event_end_time,
+                                    start: event.start_time,
+                                    end: event.end_time,
                                     url: window.url + '/events/' + event.slug,
                                     // Repeat monday and thursday
                                     ranges: [{ //repeating events are only displayed if they are within one of the following ranges.
-                                        start: moment(event_start_date,'YYYY-MM-DD'), //next two weeks
-                                        end: moment(event_end_date,'YYYY-MM-DD').add(1,'d'),
+                                        start: moment(event.start_date,'YYYY-MM-DD'), //next two weeks
+                                        end: moment(event.end_date,'YYYY-MM-DD').add(1,'d'),
                                     }]
                                 }
                             );
