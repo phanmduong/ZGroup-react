@@ -891,9 +891,9 @@ class PublicController extends Controller
         return redirect($notification->url);
     }
 
-    public function send_noti_test()
+    public function send_noti_test(Request $request)
     {
-        $this->dispatch(new TestJob());
+        // $this->dispatch(new TestJob());
         // $registers34 = Register::where('gen_id', 29)->pluck('user_id');
         // $phones = Register::join('users', 'users.id', '=', 'registers.user_id')
         //     ->join('classes', 'classes.id', '=', 'registers.class_id')
@@ -914,8 +914,8 @@ class PublicController extends Controller
         //     'Authorization' => 'Basic ' . config('app.sms_key')
         // ];
 
-        // $start = 2000;
-        // $end = 2800;
+        // $start = $request->start;
+        // $end = $request->end;
         // for ($i = $start; $i <= $end; $i++) {
         //     $phone = preg_replace('/[^0-9]+/', '', $phones[$i]);
         //     $body = json_encode([
