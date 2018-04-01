@@ -105,12 +105,12 @@ class SurveyContainer extends React.Component {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
+                               {/* <div className="card-header card-header-icon" data-background-color="rose">
                                     <i className="material-icons">assignment</i>
-                                </div>
+                                </div>*/}
                                 <div className="card-content">
-                                    <h4 className="card-title">Quản lý khảo sát</h4>
-                                    <div className="row">
+                                    {/*<h4 className="card-title">Quản lý khảo sát</h4>*/}
+                                    {/*<div className="row">
                                         <div className="col-md-12">
                                             <div className="col-md-3">
                                                 <a className="btn btn-rose" onClick={this.openModal}>
@@ -118,7 +118,21 @@ class SurveyContainer extends React.Component {
                                                 </a>
                                             </div>
                                         </div>
+                                    </div>*/}
+                                    <div className="form-group is-empty">
+                                        <div className="flex-row flex">
+                                            <h5 className="card-title" style={{lineHeight: "18px"}}><strong>Danh sách leads</strong></h5>
+                                            <div className="dropdown">
+                                                <button className="button-plus" onClick={this.openModal}>
+                                                <i className="material-icons" style={{fontSize: "20px"}}>add</i> 
+                                                </button>
+                                            </div>
+                                        </div>  
+                                        <br/>
+                                        <input type="search" className="form-control" placeholder="Tìm kiếm khảo sát" value=""/>
+                                        <span className="material-input"></span>
                                     </div>
+
                                     {
                                         this.props.isLoading ?
                                             <Loading/> : (

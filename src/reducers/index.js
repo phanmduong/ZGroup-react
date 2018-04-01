@@ -79,6 +79,7 @@ import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
 import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportReducer";
+
 import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
 import labelManageReducer from "../modules/labelManage/labelManageReducer";
 

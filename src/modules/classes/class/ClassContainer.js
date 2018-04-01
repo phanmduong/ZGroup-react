@@ -111,6 +111,7 @@ class ClassContainer extends React.Component {
             else dob = '';
             let res = {
                 'STT': index + 1,
+
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,

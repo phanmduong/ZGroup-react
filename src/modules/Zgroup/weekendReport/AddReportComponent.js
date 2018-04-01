@@ -3,17 +3,45 @@ import {linkUploadImageEditor} from "../../../constants/constants";
 import ReactEditor from "../../../components/common/ReactEditor";
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import Loading from "../../../components/common/Loading";
+import * as weekendReportAction from "./weekendReportAction";
+import {bindActionCreators} from 'redux';
+import * as helper from '../../../helpers/helper';
+
 
 class AddReportComponent extends React.Component {
-    constructor(props,context){
+    constructor(props, context) {
         super(props, context);
-        this.updateEditorContent = this.updateEditorContent.bind(this);
+        this.handleReport = this.handleReport.bind(this);
+        this.handleReport2 = this.handleReport2.bind(this);
+        this.saveReport = this.saveReport.bind(this);
     }
-    updateEditorContent(){
 
+    saveReport() {
+        const index = this.props.user;
+        const report = {...this.props.weekendReportModal};
+        if(
+            helper.isEmptyInput(report.title)
+            || helper.isEmptyInput(report.report)
+        ) {
+           if(helper.isEmptyInput(report.title)) helper.showErrorNotification("Bạn Chưa Nhập Tiêu Đề");
+           if(helper.isEmptyInput(report.report)) helper.showErrorNotification("Bạn Chưa Nhập Nội Dung");
+        }
+        else this.props.weekendReportAction.saveReport(report, index);
     }
-    tittle(){
 
+    handleReport(e) {
+        const field = e.target.name;
+        let report = {
+            ...this.props.weekendReportModal,
+            [field]: e.target.value
+        };
+        this.props.weekendReportAction.handleReport(report);
+    }
+    handleReport2(e){
+        let report = {...this.props.weekendReportModal};
+        report.report = e;
+        this.props.weekendReportAction.handleReport(report);
     }
     render() {
         return (
@@ -29,39 +57,57 @@ class AddReportComponent extends React.Component {
                         <h5>Time: {new Date().toLocaleTimeString()} </h5>
                     </div>
                 </div>
-                <div className="form-group">
-                    <h5>Tiêu đề</h5>
-                    <input type="text"
-                           name="ratio"
-                           className="form-control"
-                           value={""}
-                           onChange={()=>this.tittle().bind(this)}/>
-                    <span className="material-input"/>
-                </div>
-                <br/>
-                <h5>Nội dung bài viết</h5>
-                <div className="row">
-                    <div className="col-md-12">
-                        <ReactEditor
-                            urlPost={linkUploadImageEditor()}
-                            fileField="image"
-                            updateEditor={this.updateEditorContent}
-                            value={''}
-                        />
-                    </div>
+                {
+                    this.props.addReport ?
+                        <div>
+                            <br/><br/><br/><br/>
+                            <Loading/>
+                            <br/><br/><br/><br/>
+                        </div> :
+                        <div className="form-group">
+                            <form method="#" action="#">
+                                <div className="form-group">
+                                    <h5>Tiêu đề</h5>
+                                    <input type="text"
+                                           name="title"
+                                           className="form-control"
+                                           onChange={this.handleReport}
+                                           value={this.props.weekendReportModal.title}
+                                    />
+                                    <span className="material-input"/>
+                                </div>
+                                <br/>
 
-                </div>
+                                <div>
+                                    <h5>Nội dung bài viết</h5>
+                                    <div className="row">
+                                    <div className="col-md-12">
+                                    <ReactEditor
+                                    urlPost={linkUploadImageEditor()}
+                                    fileField="image"
+                                    updateEditor={this.handleReport2}
+                                    value={this.props.weekendReportModal.report || ''}
+                                    />
+                                    </div>
+                                    </div>
+                                </div>
 
+
+                            </form>
+                        </div>
+                }
                 <div>
                     <button rel="tooltip" data-placement="top" title=""
-                            data-original-title="Accept" type="button"
+                            data-original-title="" type="button"
                             className="btn btn-success btn-round" data-dismiss="modal"
+                            onClick={this.saveReport}
+
                     >
-                        <i className="material-icons">check</i> Gửi bài viết
+                        <i className="material-icons">check</i> Gửi báo cáo
                     </button>
                     <a href={'/administration/weekend-report'}>
                         <button rel="tooltip" data-placement="top" title=""
-                                data-original-title="Return" type="button"
+                                data-original-title="Trở lại" type="button"
                                 className="btn btn-danger btn-round" data-dismiss="modal"
                         >
                             <i className="material-icons">close</i> Huỷ
@@ -69,17 +115,29 @@ class AddReportComponent extends React.Component {
                     </a>
                 </div>
             </div>
-
-
         );
     }
 }
+
 AddReportComponent.propTypes = {
-    user: PropTypes.string.isRequired,
+    weekendReportModal: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    addReport: PropTypes.bool.isRequired,
+    weekendReportAction: PropTypes.object.isRequired,
 };
-function mapStateToProps(state){
-    return{
+
+function mapStateToProps(state) {
+    return {
+        weekendReportModal: state.weekendReport.weekendReportModal,
+        addReport: state.weekendReport.addReport,
         user: state.login.user,
     };
 }
-export default connect(mapStateToProps)(AddReportComponent);
+
+function mapDispatchToProps(dispatch) {
+    return {
+        weekendReportAction: bindActionCreators(weekendReportAction, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddReportComponent);
