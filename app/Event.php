@@ -23,6 +23,10 @@ class Event extends Model
             "cover_url" => $this->cover_url,
             "avatar_url" => $this->avatar_url,
             "slug" => $this->slug,
+            "start_time" => $this->start_time,
+            "end_time" => $this->end_time,
+            "start_date" => $this->start_date,
+            "end_date" => $this->end_date,
             "creator" => $this->creator->getData(),
         ];
     }

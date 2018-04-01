@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Room;
 
 class ManageBookingController extends ManageApiController
 {
@@ -71,7 +72,7 @@ class ManageBookingController extends ManageApiController
             $registers = RoomServiceRegister::where('type', 'room')->get();
             return $this->respondSuccessWithStatus([
                 'room_service_registers' => $registers->map(function ($register) {
-                    return $register->getRoomBookingData();
+                    return $register->getData();
                 })
             ]);
         }
@@ -98,7 +99,7 @@ class ManageBookingController extends ManageApiController
 
         return $this->respondWithPagination($registers, [
             'room_service_registers' => $registers->map(function ($register) {
-                return $register->getRoomBookingData();
+                return $register->getData();
             })
         ]);
     }
@@ -317,7 +318,7 @@ class ManageBookingController extends ManageApiController
     public function assignSubscription($registerId, Request $request)
     {
         $register = RoomServiceRegister::find($registerId);
-        if($register == null)
+        if ($register == null)
             return $this->respondErrorWithStatus('Không tồn tại đăng ký');
         $register->subscription_id = $request->subscription_id;
         $register->start_time = $request->start_time;
@@ -325,6 +326,21 @@ class ManageBookingController extends ManageApiController
         $register->extra_time = $request->extra_time;
         $register->note = $request->note;
         $register->save();
-        return $this->respondSuccessWithStatus(["register" => $register->getRoomBookingData()]);
+        return $this->respondSuccessWithStatus(["register" => $register->getData()]);
+    }
+
+    public function conferenceRooms(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $conferenceRooms = Room::join('room_types', 'rooms.room_type_id', '=', 'room_types.id')
+            ->where('room_types.type_name', 'conference')->select('rooms.*')
+            ->where('rooms.name', 'like', "%$request->search%")
+            ->paginate($limit);
+        
+        return $this->respondWithPagination($conferenceRooms,[
+            'rooms' => $conferenceRooms->map(function($conferenceRoom){
+                return $conferenceRoom->getData();
+            })
+        ]);
     }
 }

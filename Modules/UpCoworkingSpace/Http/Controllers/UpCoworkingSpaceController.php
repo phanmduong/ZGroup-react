@@ -166,7 +166,7 @@ class UpCoworkingSpaceController extends Controller
             $events = $events->where('name', 'like', '%' . $search . '%');
         }
 
-        $events = $events->orderBy('start_date', 'asc')->paginate(6);
+        $events = $events->orderBy('start_date', 'desc')->paginate(6);
         $display = '';
         if ($request->page == null) {
             $page_id = 2;
@@ -205,7 +205,9 @@ class UpCoworkingSpaceController extends Controller
 
         return view('upcoworkingspace::event_detail', $this->data);
     }
+
     // dang ky event
+    
     public function eventSignUpForm($slug,\Illuminate\Http\Request $request)
     {
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ManageApiController extends Controller
@@ -80,6 +81,19 @@ class ManageApiController extends Controller
             'paginator' => [
                 'total_count' => $items->total(),
                 'total_pages' => ceil($items->total() / $items->perPage()),
+                'current_page' => $items->currentPage(),
+                'limit' => $items->perPage()
+            ]
+        ]);
+        return $this->respond($data);
+    }
+
+    protected function respondWithSimplePagination(Paginator $items, $data)
+    {
+        $data = array_merge($data, [
+            'paginator' => [
+                'total_count' => $items->perPage(),
+                'total_pages' => $items->currentPage(),
                 'current_page' => $items->currentPage(),
                 'limit' => $items->perPage()
             ]
