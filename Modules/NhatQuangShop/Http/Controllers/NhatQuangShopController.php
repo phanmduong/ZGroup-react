@@ -53,12 +53,12 @@ class NhatQuangShopController extends Controller
         $search = $request->search;
         if ($search == null) {
             $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')->orderBy('created_at', 'desc')
-                ->paginate(20);
+                ->paginate(6);
         } else {
             $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
-                ->paginate(20);
+                ->paginate(6);
         }
         $this->data["products"] = $products;
         return view('nhatquangshop::product_new', $this->data);
@@ -69,13 +69,13 @@ class NhatQuangShopController extends Controller
         $search = $request->search;
         if ($search == null) {
             $products = Good::groupBy('code')->where('highlight_status', '=', '1')->orderBy('created_at', 'desc')
-                ->paginate(20);
+                ->paginate(6);
         } else {
             $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
                 ->andWhere('highlight_status', '=', '1')
-                ->paginate(20);
+                ->paginate(6);
         }
         $this->data["products"] = $products;
         return view('nhatquangshop::product_feature', $this->data);
