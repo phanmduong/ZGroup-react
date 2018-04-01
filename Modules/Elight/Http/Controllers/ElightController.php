@@ -111,13 +111,13 @@ class ElightController extends Controller
     public function book($subfix, $book_id, $term_id = null, $lesson_id = null)
     {
         $course = Course::find($book_id);
-        $term = Term::find($term_id);        
+        $term = Term::find($term_id);
         $lesson = Lesson::find($lesson_id);
         if ($course == null) {
             return view('elight::404-not-found');
         }
 
-        if($term && $lesson == null)
+        if ($term && $lesson == null)
             $lesson = $term->lessons()->orderBy('order')->first();
 
         if ($lesson == null) {
@@ -130,8 +130,8 @@ class ElightController extends Controller
                 }
             }
         }
-        
-        if ($lesson == null){
+
+        if ($lesson == null) {
             return view('elight::404-not-lesson');
         }
 
@@ -147,7 +147,7 @@ class ElightController extends Controller
                 ];
             }),
             'track_id' => $sound_cloud_track_id,
-            'terms' => $course->terms->filter(function($term){
+            'terms' => $course->terms->filter(function ($term) {
                 return $term->lessons->count() > 0;
             })
         ]);
@@ -157,9 +157,9 @@ class ElightController extends Controller
     {
         $books = Course::join('course_course_category', 'courses.id', '=', 'course_course_category.course_id');
 
-        if($request->search)
+        if ($request->search)
             $books = $books->where('courses.name', 'like', "%$request->search%");
-        if($request->category_id)
+        if ($request->category_id)
             $books = $books->where('course_course_category.course_category_id', '=', $request->category_id);
         $books = $books->select('courses.*')->groupBy('courses.id');
 
@@ -323,6 +323,7 @@ class ElightController extends Controller
 
     public function flush($subfix, Request $request)
     {
+        return view('emails.elight_aboutus');
         $request->session()->flush();
     }
 }

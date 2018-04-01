@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
 use App\Product;
+use App\StudyClass;
 
 class BookingController extends ApiPublicController
 {
@@ -273,61 +274,67 @@ class BookingController extends ApiPublicController
 
     public function extract()
     {
-        $posts = DB::table('wp_posts')->where('post_type', 'post')->where('post_status', 'publish')->orderBy('post_date', 'desc')->get();
-        $arr = [];
-        foreach ($posts as $post) {
-            $product = new Product;
-            $product->type = 2;
-            $product->author_id = 1;
-            $product->content = $post->post_content;
-            $product->created_at = $post->post_date;
-            $product->title = $post->post_title;
-            $product->slug = $post->post_name;
-            $product->meta_title = $post->post_name;
-            $product->status = 1;
-            $product->category_id = 3;
-            $product->url = "d1j8r0kxyu9tj8.cloudfront.net/images/1500137080dAlPJYo8BVlQiiD.jpg";
-            $product->description = $this->get_snippet(str_replace("\n", "", strip_tags($product->content)), 19) . "...";
-            $product->url = DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first() ?
-                str_replace('http://', '', DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first()->guid) : '';
-            $product->url = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->url);
-
-            foreach (preg_split("/((\r?\n)|(\r\n?))/", $post->post_content) as $line) {
-                $product->content = str_replace($line, '<p>' . $line . '</p>', $product->content);
-                $product->content = str_replace('<strong>', '<p><h6>', $product->content);
-                $product->content = str_replace('</strong>', '</h6></p>', $product->content);
-
-                if (strpos($line, '.jpg')) {
-                    $pattern = '/(gpj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
-                    preg_match($pattern, strrev($line), $matches);
-                    $product->content = str_replace(strrev(reset($matches)), '.jpg', $product->content);
-                }
-                if (strpos($line, '.png')) {
-                    $pattern = '/(gnp\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
-                    preg_match($pattern, strrev($line), $matches);
-                    $product->content = str_replace(strrev(reset($matches)), '.png', $product->content);
-                }
-                if (strpos($line, '.jpeg')) {
-                    $pattern = '/(gepj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
-                    preg_match($pattern, strrev($line), $matches);
-                    $product->content = str_replace(strrev(reset($matches)), '.jpeg', $product->content);
-                }
-                $product->content = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->content);
-                $pattern = '/width="([0-9]{3,4})" height="([0-9]{3,4})"/';
-                preg_match($pattern, $line, $matches);
-                if (reset($matches))
-                    $product->content = str_replace(reset($matches), reset($matches) . ' style="display:block; height:auto; width:100%"', $product->content);
-            }
-            if ($product->url == '') {
-                $pattern = '/(src=")(.+?)(")/';
-                preg_match($pattern, $product->content, $matches);
-                if ($matches)
-                    $product->url = $matches[2];
-                else
-                    $product->url = 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/2016/08/cong-viec-cua-product-manager.jpg';
-            }
-            $product->save();
+        $classes = StudyClass::where('activated', 0)->get();
+        dd($classes);
+        foreach($classes as $class){
+            $class->activated = 1;
+            $class->save();
         }
-        // dd($arr);
+        // $posts = DB::table('wp_posts')->where('post_type', 'post')->where('post_status', 'publish')->orderBy('post_date', 'desc')->get();
+        // $arr = [];
+        // foreach ($posts as $post) {
+        //     $product = new Product;
+        //     $product->type = 2;
+        //     $product->author_id = 1;
+        //     $product->content = $post->post_content;
+        //     $product->created_at = $post->post_date;
+        //     $product->title = $post->post_title;
+        //     $product->slug = $post->post_name;
+        //     $product->meta_title = $post->post_name;
+        //     $product->status = 1;
+        //     $product->category_id = 3;
+        //     $product->url = "d1j8r0kxyu9tj8.cloudfront.net/images/1500137080dAlPJYo8BVlQiiD.jpg";
+        //     $product->description = $this->get_snippet(str_replace("\n", "", strip_tags($product->content)), 19) . "...";
+        //     $product->url = DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first() ?
+        //         str_replace('http://', '', DB::table('wp_posts')->where('post_type', 'attachment')->where('post_parent', $post->ID)->first()->guid) : '';
+        //     $product->url = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->url);
+
+        //     foreach (preg_split("/((\r?\n)|(\r\n?))/", $post->post_content) as $line) {
+        //         $product->content = str_replace($line, '<p>' . $line . '</p>', $product->content);
+        //         $product->content = str_replace('<strong>', '<p><h6>', $product->content);
+        //         $product->content = str_replace('</strong>', '</h6></p>', $product->content);
+
+        //         if (strpos($line, '.jpg')) {
+        //             $pattern = '/(gpj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+        //             preg_match($pattern, strrev($line), $matches);
+        //             $product->content = str_replace(strrev(reset($matches)), '.jpg', $product->content);
+        //         }
+        //         if (strpos($line, '.png')) {
+        //             $pattern = '/(gnp\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+        //             preg_match($pattern, strrev($line), $matches);
+        //             $product->content = str_replace(strrev(reset($matches)), '.png', $product->content);
+        //         }
+        //         if (strpos($line, '.jpeg')) {
+        //             $pattern = '/(gepj\.)([0-9]{2,4})x([0-9]{2,4})(-)/';
+        //             preg_match($pattern, strrev($line), $matches);
+        //             $product->content = str_replace(strrev(reset($matches)), '.jpeg', $product->content);
+        //         }
+        //         $product->content = str_replace('http://up-co.vn/wp-content/uploads/', 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/', $product->content);
+        //         $pattern = '/width="([0-9]{3,4})" height="([0-9]{3,4})"/';
+        //         preg_match($pattern, $line, $matches);
+        //         if (reset($matches))
+        //             $product->content = str_replace(reset($matches), reset($matches) . ' style="display:block; height:auto; width:100%"', $product->content);
+        //     }
+        //     if ($product->url == '') {
+        //         $pattern = '/(src=")(.+?)(")/';
+        //         preg_match($pattern, $product->content, $matches);
+        //         if ($matches)
+        //             $product->url = $matches[2];
+        //         else
+        //             $product->url = 'http://d2xbg5ewmrmfml.cloudfront.net/up/images/2016/08/cong-viec-cua-product-manager.jpg';
+        //     }
+        //     $product->save();
+        // }
+        // // dd($arr);
     }
 }

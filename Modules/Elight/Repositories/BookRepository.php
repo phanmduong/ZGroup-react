@@ -227,7 +227,8 @@ class BookRepository
 
         Mail::send('emails.elight_confirm_buy_book_staff', $staff_data, function ($m) {
             $m->from('no-reply@colorme.vn', 'ELIGHT BOOK');
-            $m->to("elightedu.books@gmail.com")->subject('ĐƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
+            $m->to("datvithanh98@gmail.com")->subject('ĐƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
+            // $m->to("elightedu.books@gmail.com")->subject('ĐƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
         });
 
         return null;

@@ -50,7 +50,7 @@
                         <ul class="dropdown-menu dropdown-menu-right"
                             style="background: white; overflow: scroll; height: 200px; box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);border-radius: 0px!important;">
                             <a class="dropdown-item"
-                               v-bind:href="'/all-books?page=1&search='+search"
+                                href="{{'/all-books?page=1&search=' . $search}}"
                                style="padding: 10px 15px!important; border-radius: 0px!important;">
                                 Tất cả
                             </a>
