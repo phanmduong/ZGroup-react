@@ -216,4 +216,6 @@ class UpCoworkingSpaceController extends Controller
 
         return view('upcoworkingspace::sign_up_form');
     }
+
+
 }

@@ -65,3 +65,5 @@
 <div id='ajaxDiv'>Hien thi ket qua</div>
 </body>
 </html>
+
+

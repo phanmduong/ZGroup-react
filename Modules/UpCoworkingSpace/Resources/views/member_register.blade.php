@@ -27,7 +27,8 @@
                 NÂNG CAO HIỆU QUẢ LÀM VIỆC CỦA BẠN NGAY HÔM NAY
             </p>
             <p style="font-size: 16px">
-                Một không gian làm việc chung ( Coworking Space ) hiện đại  như tại Silicon Valley dành cho các Start Up Việt Nam.
+                Một không gian làm việc chung ( Coworking Space ) hiện đại như tại Silicon Valley dành cho các Start Up
+                Việt Nam.
             </p>
             <div style="display: flex; padding: 20px 20px 10px 20px">
                 <hr style="width: 50%">
@@ -41,80 +42,86 @@
         <div class="container">
             <div class="row">
                 @foreach($userPacks as $userPack)
-                <div class="col-md-3">
-                    <div class="card card-blog">
-                        <div class="card-image">
-                            <a href="{{'/conference-room/'.$userPack->id}}">
-                                <img class="img img-raised" src="{{generate_protocol_url($userPack->avatar_url)}}">
+                    <div class="col-md-3">
+                        <div class="card card-blog">
+                            <div class="card-image">
+                                <a href="{{'/conference-room/'.$userPack->id}}">
+                                    <img class="img img-raised" src="{{generate_protocol_url($userPack->avatar_url)}}">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 24px; ">
+                                    <a href="{{'/conference-room/'.$userPack->id}}"
+                                       style="font-weight: bolder">{{$userPack->name}}</a>
+                                </h5>
+                                <p class="card-price">
+                                    @foreach($userPack->roomServiceBenefits->slice(0,1) as $roomServiceBenefit)
+                                        {{$roomServiceBenefit->pivot->value}}/tháng
+                                    @endforeach
+                                </p>
+                                <p class="card-description">
+                                    {{$userPack->detail}}
+                                </p>
+                                <br/>
+                            </div>
+                            <a data-target="#submitModal"
+                               data-toggle="modal"
+                               class="btn btn-primary btn-pick"
+                            >
+                                <b>Đặt chỗ</b>
                             </a>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title" style="font-size: 24px; ">
-                                <a href="{{'/conference-room/'.$userPack->id}}" style="font-weight: bolder">{{$userPack->name}}</a>
-                            </h5>
-                            <p class="card-price">
-                                @foreach($userPack->roomServiceBenefits->slice(0,1) as $roomServiceBenefit)
-                                    {{$roomServiceBenefit->pivot->value}}/tháng
-                                @endforeach
-                            </p>
-                            <p class="card-description">
-                                {{$userPack->detail}}
-                            </p>
-                            <br/>
-                        </div>
-                        <a data-target="#submitModal"
-                           data-toggle="modal"
-                           class="btn btn-primary btn-pick"
-                           >
-                            <b>Đặt chỗ</b>
-                        </a>
-                    </div>
 
-                </div>
-                    @endforeach
+                    </div>
+                @endforeach
             </div>
 
         </div>
         <div style="padding-top: 50px">
-            <div >
+            <div>
                 <div class="background-img-table">
-                    <table id="mytable" class="container">
-                        <tr class="border-1">
-                            @foreach($userBenefits->slice(17,18) as $userBenefit)
-                                <td class="benefit-name">
-                                    {{$userBenefit->name}}
-                                </td>
-                                @foreach($userBenefit->roomServiceUserPacks as $roomServiceUserPack)
-                                    <td class="pack-name">
-                                        {{$roomServiceUserPack->pivot->value}}
-                                    </td>
-                                @endforeach
-                            @endforeach
-                        </tr>
-
-                        @foreach($userBenefits->slice(0,17) as $userBenefit)
+                    <div>
+                        <table id="mytable" class="container">
                             <tr class="border-1">
-                                <td class="benefit-name">
-                                    {{$userBenefit->name}}
-                                </td>
-                                @foreach($userBenefit->roomServiceUserPacks as $roomServiceUserPack)
-                                    <td>
-                                        {{$roomServiceUserPack->pivot->value}}
+                                @foreach($userBenefits->slice(17,18) as $userBenefit)
+                                    <td class="benefit-name">
+                                        {{$userBenefit->name}}
                                     </td>
+                                    @foreach($userBenefit->roomServiceUserPacks as $roomServiceUserPack)
+                                        <td class="pack-name">
+                                            {{$roomServiceUserPack->pivot->value}}
+                                        </td>
+                                    @endforeach
                                 @endforeach
                             </tr>
-                        @endforeach
-                    </table>
-                    <div style="background-color: #ffffff; padding: 20px 0px 5px 0px" class="container text-center">
 
-                            <a href="#"
-                               class="btn btn-primary"
-                               style="font-weight700; background-color:#96d21f;border-color:#96d21f; color:white!important; font-size: 16px" >
-                                TRỞ THÀNH THÀNH VIÊN CỦA UP NGAY HÔM NAY
-                            </a>
+                            @foreach($userBenefits->slice(0,17) as $userBenefit)
+                                <tr class="border-1">
+                                    <td class="benefit-name">
+                                        {{$userBenefit->name}}
+                                    </td>
+                                    @foreach($userBenefit->roomServiceUserPacks as $roomServiceUserPack)
+                                        <td>
+                                            {{$roomServiceUserPack->pivot->value}}
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </table>
+                        <div class="container" style="background-color: #ffffff; ">
+
+                            <div class="container text-center" style="width: 100%">
+                                <a href="#"
+                                   class="btn btn-primary"
+                                   style="font-weight:700; background-color:#96d21f;border-color:#96d21f; color:white!important; font-size: 16px">
+                                    TRỞ THÀNH THÀNH VIÊN CỦA UP NGAY HÔM NAY
+                                </a>
+                            </div>
 
 
+                        </div>
                     </div>
+
                 </div>
 
 
@@ -129,11 +136,13 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card card-profile">
-                    <div class="card-avatar border-white" style= "max-width:200px; max-height:200px">
-                            <img src="http://up-co.vn/wp-content/uploads/2014/09/13707727_1250301361669834_8027444782146291074_n-230x230.jpg" alt="...">
+                    <div class="card-avatar border-white" style="max-width:200px; max-height:200px">
+                        <img src="http://up-co.vn/wp-content/uploads/2014/09/13707727_1250301361669834_8027444782146291074_n-230x230.jpg"
+                             alt="...">
                     </div>
                     <div class="card-body">
-                        <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">KHÔNG GIAN SÁNG TẠO</p>
+                        <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">KHÔNG GIAN SÁNG
+                            TẠO</p>
                         <div class="info info-horizontal">
                             <div class="icon">
                                 <i class="nc-icon nc-time-alarm"></i>
@@ -149,7 +158,8 @@
                             </div>
                             <div class="description">
                                 <h4 class="info-title">PHÒNG HỌP HIỆN ĐẠI </h4>
-                                <p class="info-detail">Đa dạng kích cỡ, máy chiếu 3D, màn hình Led TV 84 inch, Apple TV</p>
+                                <p class="info-detail">Đa dạng kích cỡ, máy chiếu 3D, màn hình Led TV 84 inch, Apple
+                                    TV</p>
                             </div>
                         </div>
                         <div class="info info-horizontal">
@@ -159,7 +169,8 @@
                             <div class="description">
                                 <h4 class="info-title">KHU GỌI ĐIỆN CÁCH ÂM
                                 </h4>
-                                <p class="info-detail">Thoải mái nói chuyện điện thoại và họp qua Skype mà không bị làm phiền</p>
+                                <p class="info-detail">Thoải mái nói chuyện điện thoại và họp qua Skype mà không bị làm
+                                    phiền</p>
                             </div>
                         </div>
                         <div class="info info-horizontal">
@@ -168,7 +179,8 @@
                             </div>
                             <div class="description">
                                 <h4 class="info-title">KHU TIẾP KHÁCH CHUYÊN NGHIỆP</h4>
-                                <p class="info-detail">Không gian chuyên nghiệp cho bạn để gặp gỡ đối tác và khách hàng</p>
+                                <p class="info-detail">Không gian chuyên nghiệp cho bạn để gặp gỡ đối tác và khách
+                                    hàng</p>
                             </div>
                         </div>
                     </div>
@@ -176,18 +188,20 @@
             </div>
             <div class="col-md-3">
                 <div class="card card-profile">
-                    <div class="card-avatar border-white" style= "max-width:200px; max-height:200px">
-                            <img src="http://up-co.vn/wp-content/uploads/2016/07/ket-noi-230x230.jpg" alt="...">
+                    <div class="card-avatar border-white" style="max-width:200px; max-height:200px">
+                        <img src="http://up-co.vn/wp-content/uploads/2016/07/ket-noi-230x230.jpg" alt="...">
                     </div>
                     <div class="card-body">
-                        <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">CỘNG ĐỒNG GẮN KẾT</p>
+                        <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">CỘNG ĐỒNG GẮN
+                            KẾT</p>
                         <div class="info info-horizontal">
                             <div class="icon">
                                 <i class="fa fa-users" aria-hidden="true"></i>
                             </div>
                             <div class="description">
                                 <h4 class="info-title">CỘNG ĐỒNG STARTUP</h4>
-                                <p class="info-detail">Gia nhập cộng đồng StartUP từ nhiều lĩnh vực. Cơ hội cho bạn kết nối, chia sẻ và học hỏi.</p>
+                                <p class="info-detail">Gia nhập cộng đồng StartUP từ nhiều lĩnh vực. Cơ hội cho bạn kết
+                                    nối, chia sẻ và học hỏi.</p>
                             </div>
                         </div>
                         <div class="info info-horizontal">
@@ -196,7 +210,8 @@
                             </div>
                             <div class="description">
                                 <h4 class="info-title">SỰ KIỆN</h4>
-                                <p class="info-detail">Tham dự miễn phí sự kiện, hội thảo với các chuyên gia hàng đầu. Cơ hội tiếp cận các quỹ đầu tư và các nhà đầu tư lớn.</p>
+                                <p class="info-detail">Tham dự miễn phí sự kiện, hội thảo với các chuyên gia hàng đầu.
+                                    Cơ hội tiếp cận các quỹ đầu tư và các nhà đầu tư lớn.</p>
                             </div>
                         </div>
                     </div>
@@ -204,8 +219,9 @@
             </div>
             <div class="col-md-3">
                 <div class="card card-profile">
-                    <div class="card-avatar border-white" style= "max-width:200px; max-height:200px">
-                            <img src="http://up-co.vn/wp-content/uploads/2014/09/13767347_1250313558335281_8793786632540873415_o-230x230.jpg" alt="...">
+                    <div class="card-avatar border-white" style="max-width:200px; max-height:200px">
+                        <img src="http://up-co.vn/wp-content/uploads/2014/09/13767347_1250313558335281_8793786632540873415_o-230x230.jpg"
+                             alt="...">
                     </div>
                     <div class="card-body">
                         <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">
@@ -228,7 +244,8 @@
                             <div class="description">
                                 <h4 class="info-title">KHU BẾP TIỆN NGHI</h4>
                                 <p class="info-detail">
-                                    Khu bếp trang bị đầy đủ tủ lạnh, lò vi sóng, lò nướng và đồ ăn luôn sẵn sàng phục vụ thành viên UP
+                                    Khu bếp trang bị đầy đủ tủ lạnh, lò vi sóng, lò nướng và đồ ăn luôn sẵn sàng phục vụ
+                                    thành viên UP
                                 </p>
                             </div>
                         </div>
@@ -237,8 +254,8 @@
             </div>
             <div class="col-md-3">
                 <div class="card card-profile">
-                    <div class="card-avatar border-white" style= "max-width:200px; max-height:200px">
-                            <img src="http://up-co.vn/wp-content/uploads/2016/08/10-230x230.png" alt="...">
+                    <div class="card-avatar border-white" style="max-width:200px; max-height:200px">
+                        <img src="http://up-co.vn/wp-content/uploads/2016/08/10-230x230.png" alt="...">
                     </div>
                     <div class="card-body">
                         <p class="card-title" style="font-size: 17px; font-weight: 600;margin-bottom: 0">
@@ -458,7 +475,7 @@
     .card-price {
         font-weight: 550;
         color: #96d21f;
-        padding-top:10px
+        padding-top: 10px
     }
 
     #mytable {
@@ -476,30 +493,36 @@
         padding-bottom: 40px;
         padding-left: 0px;
         padding-right: 0px;
-        width:100%;
+        width: 100%;
     }
+
     .card-profile {
         margin-bottom: 40px !important;
     }
+
     .info-title {
         font-size: 18px !important;
         font-weight: 500;
     }
+
     .info-detail {
-        color:#333333;
+        color: #333333;
     }
+
     .info-horizontal .icon {
-     margin-right:10px !important;
+        margin-right: 10px !important;
     }
-    @media screen and (max-width: 767px){
+
+    @media screen and (max-width: 767px) {
         .card.card-blog {
-            margin-top:20px!important;
+            margin-top: 20px !important;
         }
+
         .btn-pick {
-            margin:0 !important;
-            background-color:#96d21f !important;
-            border-color:#96d21f !important;
-            color:white!important;
+            margin: 0 !important;
+            background-color: #96d21f !important;
+            border-color: #96d21f !important;
+            color: white !important;
         }
     }
 
@@ -507,18 +530,20 @@
         .card.card-blog {
             min-height: 620px !important;
         }
+
         .btn-pick {
 
-            position:absolute !important;
+            position: absolute !important;
             bottom: 10px !important;
             left: 15px !important;
-            background-color:#96d21f !important;
-            border-color:#96d21f !important;
-            color:white!important;
+            background-color: #96d21f !important;
+            border-color: #96d21f !important;
+            color: white !important;
         }
     }
+
     .icon {
-        color:#bfbfbf;
+        color: #bfbfbf;
     }
 </style>
 
