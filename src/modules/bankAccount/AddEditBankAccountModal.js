@@ -24,6 +24,7 @@ class AddEditBankAccountModal extends React.Component {
         };
         this.props.bankAccountAction.handleBankAccount(bankAccount);
     }
+
     saveBankAccount() {
         const account = {...this.props.bankAccountEditModal};
         if (

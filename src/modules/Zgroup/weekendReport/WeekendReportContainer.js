@@ -5,17 +5,29 @@ import WeekendReportComponent from "./WeekendReportComponent";
 import PropTypes from 'prop-types';
 import *as weekendReportAction from "./weekendReportAction";
 import CheckWeekendReportModal from "./CheckWeekendReportModal";
+import Loading from "../../../components/common/Loading";
+import Pagination from "../../../components/common/Pagination";
 
 
 class WeekendReportContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            page: 1
+        };
+        this.loadOrders = this.loadOrders.bind(this);
     }
     componentWillMount() {
         this.props.weekendReportAction.loadAllReports();
     }
 
+    loadOrders(page = 1) {
+        this.setState({page: page});
+        this.props.weekendReportAction.loadAllReports(page);
+    }
     render() {
+        let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
+        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
             <div className="wrapper">
                 <div className="content">
@@ -50,6 +62,7 @@ class WeekendReportContainer extends React.Component {
                                                 bài báo cáo</h4>
                                                 <br/>
                                                 {
+                                                    this.props.isLoading ? <Loading/> :
                                                     (
                                                         <WeekendReportComponent
                                                             reports={this.props.reports}
@@ -58,6 +71,19 @@ class WeekendReportContainer extends React.Component {
                                                 }
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div className="row float-right">
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                         style={{textAlign: 'right'}}>
+                                        <b style={{marginRight: '15px'}}>
+                                            Hiển thị kêt quả từ {first}
+                                            - {end}/{this.props.totalCount}</b><br/>
+                                        <Pagination
+                                            totalPages={this.props.totalPages}
+                                            currentPage={this.props.currentPage}
+                                            loadDataPage={this.loadOrders}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -100,13 +126,23 @@ class WeekendReportContainer extends React.Component {
 }
 
 WeekendReportContainer.propTypes = {
-    reports: PropTypes.object.isRequired,
+    limit: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    reports: PropTypes.array.isRequired,
     weekendReportAction: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
+        totalPages: state.weekendReport.totalPages,
+        totalCount: state.weekendReport.totalCount,
+        currentPage: state.weekendReport.currentPage,
         reports: state.weekendReport.reports,
+        isLoading: state.weekendReport.isLoading,
+        limit: state.weekendReport.limit
     };
 }
 

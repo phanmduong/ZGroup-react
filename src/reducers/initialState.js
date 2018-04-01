@@ -92,15 +92,20 @@ export default {
     },
 
     weekendReport: {
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        report: [],
         reports: [],
         isLoading: false,
         checkWeekendReportModal: false,
+        loadingModal: false,
+        addReport: false,
         weekendReportModal: {
-            stt: '',
-            employee_name: '',
-            title: '',
-            report: ''
-        }
+            report: '',
+            title: ''
+        },
     },
 
     registerManageMeetingRoom: {
