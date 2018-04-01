@@ -7,7 +7,6 @@ import financeReducer from "../modules/finance/financeReducer";
 import bankAccountReducer from "../modules/bankAccount/bankAccountReducer";
 import currencyReducer from "../modules/currency/currencyReducer";
 import moneyTransferReducer from "../modules/moneyTransfer/moneyTransferReducer";
-import loginReducer from "../modules/login/loginReducer";
 import staffKeepMoneyReducer from "../modules/staffsKeepMoney/staffKeepMoneyReducer";
 import historyTransactionsReducer from "../modules/historyTransactions/historyTransactionsReducer";
 import spendMoneyReducer from "../modules/spendMoney/spendMoneyReducer";
@@ -23,7 +22,6 @@ const appReducer = combineReducers({
     collectMoney: collectMoneyReducer,
     historyCollectMoney: historyCollectMoneyReducer,
     moneyTransfer: moneyTransferReducer,
-    login: loginReducer,
     staffKeepMoney: staffKeepMoneyReducer,
     historyTransactions: historyTransactionsReducer,
     spendMoney: spendMoneyReducer,
