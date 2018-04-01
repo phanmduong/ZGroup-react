@@ -36,7 +36,7 @@
                                     <p class="card-description" style="color: #4a4a4a">
                                         <i class="fa fa-clock-o text-main-color" aria-hidden="true"></i>
                                         {{ Carbon\Carbon::parse($event->start_time)->format('H:i') }}
-                                        @if($event->end_date != $event->start_date)
+                                        @if($event->end_time != $event->start_time)
                                             <span > - {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
                                         @endif
                                     </p>
@@ -162,9 +162,12 @@
                     // console.log(response);
                     data = [];
                     if (response.data.events.length > 0) {
+
                         response.data.events.forEach(function (event) {
+
                             data.push(
                                 {
+                                    id: event.id,
                                     title: event.name,
                                     start: event.start_date,
                                     end: event.end_date,
@@ -177,15 +180,15 @@
                     else {
                         updateData();
                     }
+                    console.log(data);
                     stateLoading = false;
                     loading(stateLoading);
                 }.bind(data)).catch(function (error) {
                 stateLoading = false;
                 loading(stateLoading);
             });
-
-
         }
+
 
         function updateData() {
             $('#calendar').fullCalendar({
@@ -211,6 +214,8 @@
         var moment_month;
 
 
+
+
         $(document).ready(function () {
             moment1 = new Date();
             moment_year = moment(moment1).format('YYYY');
@@ -230,6 +235,7 @@
                 moment_month = moment(moment1).format('M');
                 getData(moment_year, moment_month);
             });
+
 
 
         });
