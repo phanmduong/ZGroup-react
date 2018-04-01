@@ -1,5 +1,10 @@
 <?php
 
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'sms', 'namespace' => 'Modules\Good\Http\Sms'], function () {
-    //Route::post('', );
-});
+
+$routes = function () {
+    Route::group(['prefix' => 'sms'], function () {
+        Route::get("/test","ManageSmsApiController@test");
+    });
+};
+
+Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi/v3', 'namespace' => 'Modules\Sms\Http\Controllers'], $routes);
