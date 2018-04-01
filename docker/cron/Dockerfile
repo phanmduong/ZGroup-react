@@ -15,20 +15,14 @@ RUN apt-get install -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
-# RUN sed -i 's/:9000/:9001/' /usr/local/etc/php-fpm.d/zz-docker.conf
 
-# RUN apt-get install cron -y
-# RUN apt-get install nano -y
-# RUN apt-get install supervisor -y
 
-# RUN touch /var/log/cron.log
-# COPY ./crontab /etc/cron.d/schedule-cron
-# RUN chmod 0644 /etc/cron.d/schedule-cron
-# RUN crontab /etc/cron.d/schedule-cron 
+RUN apt-get install cron -y
+RUN apt-get install nano -y
 
-# RUN touch /var/log/supervisord.log
+RUN touch /var/log/cron.log
+COPY ./crontab /etc/cron.d/schedule-cron
+RUN chmod 0644 /etc/cron.d/schedule-cron
+RUN crontab /etc/cron.d/schedule-cron 
 
-# COPY ./supervisor.conf /etc/supervisor/conf.d/supervisor.conf
-# RUN supervisord -c /etc/supervisor/conf.d/supervisor.conf
-
-# CMD cron -f && tail -f /var/log/cron.log
+CMD cron -f && tail -f /var/log/cron.log

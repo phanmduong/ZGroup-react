@@ -3,7 +3,8 @@
 @section('content')
     <div style="background-image: url({{$event->cover_url}}); height: 350px; margin-top:70px; margin-bottom:30px;
             background-position: center center;
-            background-repeat: no-repeat;">
+            background-repeat: no-repeat;
+            background-size: 100% 100%";>
     </div>
     <div class="container">
         <div class="row">
@@ -12,15 +13,17 @@
         <div class="row">
             <br>
             <div>
-                <p class="card-description">
+                <p class="card-description" style="font-weight: bold">
+                    <i class="fa fa-calendar text-main-color" aria-hidden="true"></i>
                     {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}
                     @if($event->end_date != $event->start_date)
-                    <span> -  {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
+                        <span> -  {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
                     @endif
                 </p>
-                <p class="card-description">
+                <p class="card-description" style="font-weight: bold">
+                    <i class="fa fa-calendar text-main-color" aria-hidden="true"></i>
                     {{ Carbon\Carbon::parse($event->start_time)->format('H:i') }}
-                    @if($event->end_date != $event->start_date)
+                    @if($event->end_time != $event->start_time)
                         <span> -  {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
                     @endif
                 </p>
