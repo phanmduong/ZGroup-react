@@ -129,54 +129,65 @@
                         <table class="container" align="center" width="600" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="mobile-no-radius" style="background-color:#ffffff; border-radius: 15px;">
                                     <!-- HEADER-->
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td>
-                                                <img class="header-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1520048113TMFlOqYhT0mmj89.jpg" border="0" alt="" title="logo" width="600" height="auto" style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                                                <img class="header-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1522206405DmbPWQZhz87c4df.jpg" border="0" alt="" title="logo" width="600" height="auto" style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                                             </td></tr></tbody></table>
                                     <!--end HEADER-->
                                     <!-- BLOCK - 1 column / main -->
-                                    <table width="100%" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding-top: 0px; padding-right: 30px; padding-left: 30px;">
-                                                <tr style="text-align: center;vertical-align: middle;">
-                                                    <td style="text-align: center;background: #00396c">
-                                                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1518152088Lojusj9HE0QXEha.png" alt="Logo" style="margin:20px" height="35px"/>
-                                                    </td>
-                                                </tr>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding-top: 0px; padding-right: 30px; padding-left: 30px;">
                                                 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 450px; margin: auto;">
                                                     <tbody>
                                                     <tr>
-                                                        <td style="padding-top: 30px; color:#001131; font-weight: 100; text-decoration:none; font-size:36px; font-family: 'nokia-pure-headline-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; line-height:42px; text-align: center;">
-                                                            Xác nhận thông tin
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
                                                         <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                            <b>Thông tin của bạn</b>
+                                                            <b>Cảm ơn bạn <b>{{$name}}</b> đã gửi thông tin đến Elight,</b>
                                                             <br/>
-                                                            Email: {{$email}}   <br/>
-                                                            Tên: {{$name}}   <br/>
-                                                            Số điện thoại: {{$phone}} <br/>
+                                                            <b>Số điện thoại:</b> {{$phone}} <br/>
+                                                            <b>Email:</b> {{$email}}   <br/>
+                                                            <p>Chắc hẳn bạn đang có khó khăn và cần sự tư vấn về việc học Tiếng Anh cũng như phương pháp, giáo trình phù hợp. Đừng lo lắng, đội ngũ chuyên gia chúng tôi sẽ liên lạc để giúp đỡ bạn trong vòng ít giờ tới!</p>
+                                                            <p>Trong lúc chờ đợi, bạn hãy xem qua Giáo trình học Tiếng Anh ưng ý nhất của chúng tôi tại <a href="https://www.bit.ly/elightbook-giaotrinh">đây</a>. Hãy click vào và thử tham khảo hay nhé ;)</p>
+                                                            <p>Nếu bạn có vấn đề gì gấp cần hỗ trợ, hãy gọi ngay Elight qua số máy <b>0981 937 066</b> hoặc <b>01628 766 444</b>. Hòm thư <b>elightedu.books@gmail.com</b> của chúng tôi cũng luôn sẵn sàng chờ email của bạn!</p>
+                                                            <p>Bạn <b>{{$name}}</b> vui lòng chú ý điện thoại và chờ máy từ phía Elight nhé</p>
                                                         </td>
                                                     </tr>
 
-                                                    </tbody></table>
-                                            </td></tr></tbody></table>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                     <!-- end BLOCK - 1 column / main -->
                                     <!-- BLOCK - block 2 columns / phone -->
-                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td style="padding-top: 40px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px;">
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                                         <tbody>
-
+                                            <tr>
+                                                <td>
+                                                    <img style="margin-right: auto;width: 100px; height: auto;" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1522206436MOjkHVg3WSMVhyI.jpg" alt="">
+                                                </td>
+                                                <td>
+                                                    <p style="margin-left: auto;text-align: right;padding-right: 10px;">
+                                                        <span style="text-align: right;">098 937 066 | 01628766444</span>
+                                                        <br/>
+                                                        <span style="text-align: right">elightedu.books@gmail.com</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <!-- end BLOCK - block 2 columns / phone -->
                                     <!-- BLOCK - 1 column / second with lifestyle image -->
 
                                     <!-- end BLOCK - 1 column / main -->
-                                </td></tr></tbody></table>
+                                </table>
                         <!-- BLOCK - Footer -->
                         <table class="container" align="center" width="600" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding-top: 20px; padding-bottom: 30px; padding-right: 20px; padding-left: 20px;">
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 560px;">
                                         <tbody>
                                         <tr>
                                             <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
-                                                Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất
+                                                {{--Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất--}}
                                             </td>
                                         </tr>
 

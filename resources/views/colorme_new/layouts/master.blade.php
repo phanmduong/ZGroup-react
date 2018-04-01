@@ -5,6 +5,12 @@
     <meta name="fragment" content="!">
     <meta name="google-site-verification" content="xtTa2p_KrROT2c7_IyShaw1KDt3iIvZ9c_bufAvYhvs">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:type" content="website"/>
+    {{--  <meta property="og:image" content="http://d1j8r0kxyu9tj8.cloudfront.net/images/1520759546UIE1j3pqg3PzX5r.jpg"/>  --}}
+
+    @yield("meta")
+
     <title>Color ME - Trường học thiết kế Color ME</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese"
@@ -332,7 +338,7 @@
         <div id="fb-root"></div>
     </div>
     <a style="margin-bottom:80px; padding:0; background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514883241TFUjyURgK8yhptQ.png'); background-color:white;background-size:100%"
-       href="tel:{{isset($saler) && $saler->base_id == 6 ? '0932274877‬' : '0982351051'}}"
+       href="tel:{{isset($saler) && $saler->base_id == 6 ? '0932274877‬' : '01627175613'}}"
        title="Gửi tin nhắn cho chúng tôi qua Facebook"
        class="ctrlq fb-button">
         <div class="bubble-msg">Gọi colorME</div>

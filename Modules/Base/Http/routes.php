@@ -16,6 +16,8 @@ $baseRoutes = function () {
 
         Route::get('/{baseId}', 'ManageBaseApiController@getBase');
         Route::put('/{baseId}', 'ManageBaseApiController@editBase');
+
+        Route::get('/room/{roomId}/classes',"ManageBaseApiController@getClassesByRoom");
     });
 };
 
@@ -50,6 +52,7 @@ $routes = function () {
         Route::get('/base/provinces', 'PublicApiController@provinces');
         Route::get('/base/province/{provinceId}', 'PublicApiController@basesInProvince');
         Route::get('/base/{baseId}/rooms', 'PublicApiController@baseRooms');
+        Route::get('/base', 'PublicApiController@bases');
         Route::get('/blogs', 'PublicApiController@getAllBlogs');
         Route::get('/blog/{id}', 'PublicApiController@getDetailBlog');
     });
@@ -67,10 +70,9 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'namespace' => 'Modules
 
 // new api routes
 
-Route::group(
-        ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Base\Http\Controllers'],
+Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Base\Http\Controllers'],
     function () use ($baseRoutes, $provinceRoutes, $roomRoutes, $seatRoutes) {
-        Route::group(['prefix' => 'v3'], $baseRoutes);
+        Route::group(['prefix' => 'v3/v2'], $baseRoutes);
         Route::group(['prefix' => 'v3'], $provinceRoutes);
         Route::group(['prefix' => 'v3'], $roomRoutes);
         Route::group(['prefix' => 'v3/seat'], $seatRoutes);

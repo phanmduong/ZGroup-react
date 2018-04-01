@@ -32,7 +32,7 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     | ACL Methods
     |--------------------------------------------------------------------------
-    */
+     */
     /**
      * Checks a Permission
      *
@@ -147,10 +147,20 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     | Relationship Methods
     |--------------------------------------------------------------------------
-    */
+     */
     public function orders()
     {
-        return $this->hasMany(Order::class, 'user_id');
+        return $this->hasMany(Order::class, 'user_id')->where('type', 'order');
+    }
+
+    public function deliveryOrders()
+    {
+        return $this->hasMany(Order::class, 'user_id')->where('type', 'delivery');
+    }
+
+    public function allOrders()
+    {
+        return $this->hasMany(Order::class, 'user_id')->where('type', 'delivery')->orWhere('type', 'order');
     }
 
     public function roles()
@@ -297,8 +307,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(
             Project::class,
-            'project_user', 'user_id',
-            'project_id')
+            'project_user',
+            'user_id',
+            'project_id'
+        )
             ->withPivot('role', "adder_id")
             ->withTimestamps();
     }
@@ -328,6 +340,7 @@ class User extends Authenticatable
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             "avatar_url" => $this->avatar_url ? generate_protocol_url($this->avatar_url) : defaultAvatarUrl(),
             'role' => $this->current_role ? $this->current_role->getData() : null,
             'phone' => $this->phone ? $this->phone : ""
@@ -362,8 +375,7 @@ class User extends Authenticatable
                 'link' => '/course/' . convert_vi_to_en($register->studyClass->course->name),
                 'saler_name' => $register->saler ? $register->saler->name : null,
             ];
-        }
-        );
+        });
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -381,7 +393,8 @@ class User extends Authenticatable
     public function transfromCustomer()
     {
         $orders = Order::where("user_id", $this->id)->get();
-        if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
+        if (count($orders) > 0) $canDelete = "false";
+        else $canDelete = "true";
         $totalMoney = 0;
         $totalPaidMoney = 0;
         $lastOrder = 0;

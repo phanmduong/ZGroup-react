@@ -18,6 +18,7 @@ $orderRoutes = function () {
         Route::get('/delivery/inventories', 'DeliveryOrderApiController@deliveryInventories');
         Route::get('/delivery/inventories-info', 'DeliveryOrderApiController@deliveryInventoriesInfo');
         Route::post('/delivery/send-price', 'DeliveryOrderApiController@sendPrice');
+        Route::post('/delivery/change-status', 'DeliveryOrderApiController@changeOrdersStatus');
         Route::post('/delivery', 'DeliveryOrderApiController@createDeliveryOrder');
         Route::put('/delivery/{orderId}', 'DeliveryOrderApiController@editDeliveryOrder');
         Route::delete('/delivery/{deliveryOrderId}', 'DeliveryOrderApiController@deleteDeliveryOrder');
@@ -73,6 +74,13 @@ $orderRoutes = function () {
     });
 };
 
+$customerRoutes = function() {
+    Route::group(['prefix' => 'v2'], function() {
+        Route::get('customer', 'CustomerApiController@customers');
+        Route::get('customer/{customerId}', 'CustomerApiController@customer');
+    });
+};
+
 $transferMoneyRoutes = function () {
     Route::group(['prefix' => 'v2/transfer-money'], function () {
         Route::get('/', 'TransferMoneyApiController@getTransfers');
@@ -81,6 +89,8 @@ $transferMoneyRoutes = function () {
     });
 };
 
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Order\Http\Controllers'], $customerRoutes);
+
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Order\Http\Controllers'], $orderRoutes);
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Order\Http\Controllers'], $transferMoneyRoutes);
@@ -88,8 +98,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 //new api routes
 
 Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Order\Http\Controllers'],
-    function () use ($orderRoutes) {
+    function () use ($orderRoutes, $customerRoutes) {
         Route::group(['prefix' => 'v3'], $orderRoutes);
+        Route::group(['prefix' => 'v3'], $customerRoutes);
     });
 
 Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Order\Http\Controllers'],

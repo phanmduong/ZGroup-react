@@ -20,10 +20,10 @@ $roomServiceRoutes = function () {
         Route::get('/marketing-campaign/summary', 'RoomServiceMarketingCampaignController@summaryMarketingCampaign');
         Route::get('/marketing-campaign/sumary-register', 'RoomServiceMarketingCampaignController@summaryMarketingRegister');
         Route::get('/sales/summary', 'RoomServiceMarketingCampaignController@summarySales');
+        Route::get('/room/sales/summary', 'RoomServiceMarketingCampaignController@roomSummarySales');
+        Route::get('/room/marketing-campaign/summary', 'RoomServiceMarketingCampaignController@roomMarketingCampaignSummary');        
     });
 };
-
-
 Route::group(['domain' => 'manageapi.' . config('app.domain'),
     'namespace' => 'Modules\MarketingCampaign\Http\Controllers'], $marketingCampaignRoutes);
 

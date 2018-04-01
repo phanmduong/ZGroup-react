@@ -54,7 +54,6 @@ class StudentApiController extends ApiController
                     ->orWhere('phone', 'like', '%' . $search . '%')
                     ->orWhere('name', 'like', '%' . $search . '%');
             })->paginate($limit);
-
         $newest_code = Register::orderBy('code', 'desc')->first()->code;
         return $this->respondWithPagination($students,
             [
@@ -75,7 +74,7 @@ class StudentApiController extends ApiController
         $code = $request->code;
 
         $register = Register::find($register_id);
-        if($register == null)
+        if ($register == null)
             return $this->respondErrorWithStatus('Không tồn tại đăng ký');
         if ($register->status == 1) {
             return $this->responseBadRequest('Học viên này đã đóng tiền rồi');
@@ -247,18 +246,65 @@ class StudentApiController extends ApiController
             $register->is_delete = is_delete_register($this->user, $register);
         }
         if ($limit == -1) {
+            $registers = $this->registerTransformer->transformCollection($registers);
+            $registers = $registers->map(function ($register) {
+                $data = $register;
+                $data['editable'] = true;
+                $data['editable_money'] = $this->user->role == 2;
+                return $data;
+            });
             return $this->respondSuccessWithStatus([
-                'registers' => $this->registerTransformer->transformCollection($registers),
+                'registers' => $registers,
                 'gen' => [
                     'id' => $gen ? $gen->id : 0
                 ]
             ]);
         }
         return $this->respondWithPagination($registers, [
-            'registers' => $this->registerTransformer->transformCollection($registers),
+            'registers' => $this->registerTransformer->transformCollection($registers)->map(function ($register) {
+                $data = $register;
+                $data['editable'] = true;
+                $data['editable_money'] = $this->user->role == 2;
+                return $data;
+            }),
             'gen' => [
                 'id' => $gen ? $gen->id : 0
             ]
+        ]);
+    }
+
+    public function editRegister($register_id, Request $request)
+    {
+        $register = Register::where('id', '<>', $register_id)->where('code', $request->code)->first();
+        if ($register !== null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Trung code'
+            ]);
+        $register = Register::find($register_id);
+
+        if ($request->money === null || $request->code === null)
+
+            return $this->respondErrorWithStatus([
+                'message' => 'Thieu money hoac code'
+            ]);
+
+        $oldCode = $register->code;
+
+        $register->code = $request->code;
+
+        if ($register->status == 0)
+            $register->money = 0;
+        else
+            $register->money = $request->money;
+
+        $register->save();
+
+        if ($register->code != $oldCode) {
+            $this->emailService->send_mail_confirm_change_code($register, $oldCode);
+        }
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 

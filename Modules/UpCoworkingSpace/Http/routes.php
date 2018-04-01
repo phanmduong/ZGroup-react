@@ -1,51 +1,32 @@
 <?php
 
-$publicRoutes = function () {
+$routes = function () {
     Route::get('/', 'UpCoworkingSpaceController@index');
-    Route::get('/blog', 'UpCoworkingSpaceController@blog');
+    Route::get('/tin-tuc-startup', 'UpCoworkingSpaceController@blog');
     Route::get('/blog/post/{post_id}', 'UpCoworkingSpaceController@post');
     Route::get('/conference-room', 'UpCoworkingSpaceController@conferenceRoom');
     Route::get('/conference-room/{conferenceRoomId}', 'UpCoworkingSpaceController@conferenceRoom');
+    Route::get('/goi-thanh-vien-up-coworking-space/{userId?}/{campaignId?}', 'UpCoworkingSpaceController@memberRegister');
+    Route::get('/su-kien', 'UpCoworkingSpaceController@event');
+    Route::get('/events/{slug}', 'UpCoworkingSpaceController@eventDetail');
+    Route::get('/events/{slug}/sign-up-form', 'UpCoworkingSpaceController@eventSignUpForm');
+    Route::get('/su-kien-data','UpCoworkingSpaceController@getEventOfCurrentMonth');
+    Route::get('/{slug}', 'UpCoworkingSpaceController@postBySlug');
+};
 
-    Route::get('/member-register/{userId?}/{campaignId?}', 'UpCoworkingSpaceController@memberRegister');
-
+$publicRoutes = function () {
     Route::get('/api/province', 'UpCoworkingSpaceApiController@province');
     Route::get('/api/province/{provinceId}/base', 'UpCoworkingSpaceApiController@basesInProvince');
+    Route::get('/api/base', 'UpCoworkingSpaceApiController@allBases');
     Route::post('/api/register', 'UpCoworkingSpaceApiController@register');
     Route::get('/api/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
     Route::get('/api/user-pack/{userPackId}', 'UpCoworkingSpaceApiController@userPack');
+    Route::get('/api/extract', 'UpCoworkingSpaceApiController@extract');
+    Route::get('/api/extract-events', 'UpCoworkingSpaceApiController@extractEvents');
 };
 
-$apiRoutes = function () {
-    Route::get('/blogs', 'UpCoworkingSpaceController@blogs');
-    Route::get('/user-packs', 'UpCoworkingSpaceApiController@allUserPacks');
-    Route::post('/register/{campaignId?}', 'UpCoworkingSpaceApiController@appRegister');
-    Route::get('/history-registers', 'UpCoworkingSpaceApiController@historyRegister');
-};
+Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $routes);
+Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $routes);
 
-$manageapiRoutes = function () {
-    Route::get('/register', 'UpCoworkingSpaceManageApiController@getRegisters');
-    Route::get('/room-booking', 'UpCoworkingSpaceManageApiController@getRoomBookings');
-    Route::get('/user-pack', 'UpCoworkingSpaceManageApiController@getUserPacks');
-    Route::get('/user-pack/{userPackId}', 'UpCoworkingSpaceManageApiController@getUserPack');
-    Route::get('/user-pack/{userPackId}/subscription', 'UpCoworkingSpaceManageApiController@getSubscriptions');
-    Route::post('/user-pack/{userPackId}/subscription', 'UpCoworkingSpaceManageApiController@createSubscriptions');
-    Route::put('/user-pack/{userPackId}/subscription/{subcriptionId}', 'UpCoworkingSpaceManageApiController@editSubscriptions');
-    Route::get('/subscription-kind', 'UpCoworkingSpaceManageApiController@getSubscriptionKinds');
-    Route::post('/subscription-kind', 'UpCoworkingSpaceManageApiController@createSubscriptionKind');
-    Route::post('/user-pack', 'UpCoworkingSpaceManageApiController@createUserPack');
-    Route::post('/user-pack/{userPackId}/change-status', 'UpCoworkingSpaceManageApiController@changeStatusUserPack');
-    Route::put('/user-pack/{userPackId}', 'UpCoworkingSpaceManageApiController@editUserPack');
-    Route::post('/save-call', 'UpCoworkingSpaceManageApiController@saveCall');
-    Route::get('/saler', 'UpCoworkingSpaceManageApiController@getAllSalers');
-    Route::post('/booking', 'UpCoworkingSpaceManageApiController@booking');
-};
-
-Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $apiRoutes);
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'coworking-space', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $manageapiRoutes);
-
-Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $apiRoutes);
-Route::group(['domain' => config('app.domain'), 'prefix' => '/api/v3/coworking-space', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $manageapiRoutes);
-
-Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
 Route::group(['middleware' => 'web', 'domain' => 'keetool4.test', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);
+Route::group(['middleware' => 'web', 'domain' => 'keetool7.xyz', 'namespace' => 'Modules\UpCoworkingSpace\Http\Controllers'], $publicRoutes);

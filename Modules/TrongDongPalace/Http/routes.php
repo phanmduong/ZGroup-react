@@ -7,7 +7,7 @@ $publicRoutes = function () {
     Route::get('/test', 'TrongDongPalaceController@test');
     Route::get('/contact-us', 'TrongDongPalaceController@contactUs');
     Route::get('/booking/{salerId?}/{campaignId?}', 'TrongDongPalaceController@booking');
-    Route::get('/room/{roomId}', 'TrongDongPalaceController@room');
+    Route::get('/room/{roomId}/{salerId?}/{campaignId?}', 'TrongDongPalaceController@room');
     Route::post('/api/contact', 'TrongDongPalaceController@contactInfo');
     Route::post('/api/booking', 'TrongDongPalaceController@bookingApi');
 };

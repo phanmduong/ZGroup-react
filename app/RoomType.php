@@ -21,7 +21,10 @@ class RoomType extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->description
+            'description' => $this->description,
+            'type_name' => $this->type_name,
+            'price' => $this->price,
+            'member_price' => $this->member_price,
         ];
     }
 }

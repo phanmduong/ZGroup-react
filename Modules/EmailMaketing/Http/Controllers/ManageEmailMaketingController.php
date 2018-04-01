@@ -60,19 +60,21 @@ class ManageEmailMaketingController extends ManageApiController
     {
         $query = $request->search;
 
-        $limit = 20;
+        $limit = 18;
 
-        $email_forms = EmailForm::where('hide', 0)->orWhere(function ($q) {
-            $q->where('hide', 1)->where('creator', $this->user->id);
+        $email_forms = EmailForm::where(function ($que) {
+            $que->where('hide', 0)->orWhere(function ($q) {
+                $q->where('hide', 1)->where('creator', $this->user->id);
+            });
         });
 
-        if ($query) {
+        if ($query != null) {
             $email_forms = $email_forms->where(function ($q) use ($query) {
                 $q->where('name', 'like', '%' . $query . '%')
                     ->orWhere('title', 'like', '%' . $query . '%');
             })->orderBy('created_at')->paginate($limit);
         } else {
-            $email_forms = $email_forms->orderBy('created_at')->paginate($limit);
+            $email_forms = $email_forms->orderBy('created_at', 'desc')->paginate($limit);
         }
 
         $data = [

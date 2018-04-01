@@ -234,11 +234,8 @@
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                                         <tbody>
                                         <tr>
-                                            <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                <p>Chào {{$user->name}},</p>
-                                                <p>Chúng tôi đã nhận được đơn đặt hàng của bạn, vui lòng kiểm tra thông
-                                                    tin bên dưới. Nếu có sai sót, vui lòng liên hệ lại với chúng tôi qua
-                                                    <a href="emailto:graphics@colorme.vn">graphics@colorme.vn</a></p>
+                                            <td style="padding: 0 40px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
+                                                <p>Cảm ơn <b>{{$user->name}}</b> đã đặt mua sản phẩm của ELIGHT. Chậm nhất trong vòng 3 tiếng (giờ làm việc) bạn sẽ nhận được email hoặc điện thoại hỗ trợ từ Elight để hướng dẫn cách thức thanh toán. Dưới đây là thông tin đơn hàng của bạn</p>
                                                 <p>
                                                     Tên: <b>{{$user->name}}</b><br/>
                                                     Email: <b>{{$user->email}}</b><br/>
@@ -281,7 +278,7 @@
                                                 </table>
 
                                                 </p>
-                                                <p style="font-weight: 600">
+                                                <!-- <p style="font-weight: 600">
                                                     <br>
                                                     Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển
                                                         khoản</b> dưới đây là thông tin chuyển
@@ -290,10 +287,32 @@
                                                     Tên tài khoản: NGUYEN QUANG HUNG<br/>
                                                     Số tài khoản: 09 91 00 00 39 263 <br/>
                                                     Ngân hàng: Vietcombank Tây Hồ.
-                                                </p>
+                                                </p> -->
                                                 <p>
-                                                    Rất cám ơn sự ủng hộ của bạn đối với Graphics. Chúc bạn một ngày tốt
+                                                    Rất cám ơn sự ủng hộ của bạn đối với Elight. Chúc bạn một ngày tốt
                                                     lành!
+                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1522210239e2surOIDlwO3XOM.jpg" alt="">
+                                                    </div>
+                                                </div>
+                                                <p>Vui lòng chờ email hoặc điện thoại từ phía Elight hướng dẫn bạn cách thức thanh toán sớm nhất. Chân thành cảm ơn sự ủng hộ của bạn.</p>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <img style="margin-right: auto;width: 100px; height: auto;" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1522206436MOjkHVg3WSMVhyI.jpg" alt="">
+                                            </td>
+                                            <td>
+                                                <p style="margin-left: auto;text-align: right;padding-right: 10px;">
+                                                    <span style="text-align: right;">098 937 066 | 01628766444</span>
+                                                    <br/>
+                                                    <span style="text-align: right">elightedu.books@gmail.com</span>
                                                 </p>
                                             </td>
                                         </tr>

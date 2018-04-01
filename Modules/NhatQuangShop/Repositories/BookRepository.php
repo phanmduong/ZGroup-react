@@ -247,7 +247,7 @@ class BookRepository
                     'money' => 0,
                     'fee' => 0,
                     'code' => '',
-                    'arrive_time' => "",
+                    'endTime' => "",
                     'currency_id' => $good->currencyId,
                 ];
                 //{"tax":"Gi\u00e1 c\u00f3 thu\u1ebf","size":"dsf","color":"asdd","link":"asdasdk","describe":""}

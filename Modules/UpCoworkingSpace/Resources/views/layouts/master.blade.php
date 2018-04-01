@@ -7,6 +7,10 @@
     <link rel="icon" type="image/png" href="assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
+    <meta name="robots" content="noindex, nofollow">
+
+    @yield("meta")
+
     <title>UP COWORKING SPACE</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
@@ -21,6 +25,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
     <link href="/assets/css/up-co.css" rel="stylesheet">
+
+
     <script>
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
@@ -149,52 +155,8 @@
             text-align: center;
             font-size: 13px;
         }</style>
-    <div class="fb-livechat">
-        <div class="ctrlq fb-overlay"></div>
-        <div class="fb-widget">
-            <div class="ctrlq fb-close"></div>
-            <div class="fb-page" data-href="https://www.facebook.com/up.coworkingspace" data-tabs="messages"
-                 data-width="360" data-height="400" data-small-header="true" data-hide-cover="true"
-                 data-show-facepile="false"></div>
-            <div id="fb-root"></div>
-        </div>
-        <a href="https://m.me/up.coworkingspace" title="Gửi tin nhắn cho chúng tôi qua Facebook"
-           class="ctrlq fb-button">
-            <div class="bubble">1</div>
-            <div class="bubble-msg">Bạn cần hỗ trợ?</div>
-        </a></div>
-    <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script>$(document).ready(function () {
-            function detectmob() {
-                if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+    <link rel="stylesheet prefetch" href="./css/fullcalendar.css">
 
-            var t = {delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button")};
-            setTimeout(function () {
-                $("div.fb-livechat").fadeIn()
-            }, 8 * t.delay);
-            if (!detectmob()) {
-                $(".ctrlq").on("click", function (e) {
-                    e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({
-                        bottom: 0,
-                        opacity: 0
-                    }, 2 * t.delay, function () {
-                        $(this).hide("slow"), t.button.show()
-                    })) : t.button.fadeOut("medium", function () {
-                        t.widget.stop().show().animate({
-                            bottom: "30px",
-                            opacity: 1
-                        }, 2 * t.delay), t.overlay.fadeIn(t.delay)
-                    })
-                })
-            }
-        });
-    </script>
 </head>
 <body style="background-color: #f9f9f9">
 <nav class="navbar navbar-toggleable-md fixed-top">
@@ -217,19 +179,19 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/blog" data-scroll="true">VỀ
+                    <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">VỀ
                         UP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/blog" data-scroll="true">GÓI THÀNH
+                    <a class="nav-link hover-change" href="/goi-thanh-vien-up-coworking-space" data-scroll="true">GÓI THÀNH
                         VIÊN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/blog" data-scroll="true">SỰ
+                    <a class="nav-link hover-change" href="/su-kien" data-scroll="true">SỰ
                         KIỆN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/blog" data-scroll="true">BLOG</a>
+                    <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">Tin tức</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link hover-change" href="/conference-room" data-scroll="true">PHÒNG
@@ -403,12 +365,61 @@
         </div>
     </div>
 </div>
-</body>
-
+<div class="fb-livechat">
+    <div class="ctrlq fb-overlay"></div>
+    <div class="fb-widget">
+        <div class="ctrlq fb-close"></div>
+        <div class="fb-page" data-href="https://www.facebook.com/up.coworkingspace" data-tabs="messages"
+             data-width="360" data-height="400" data-small-header="true" data-hide-cover="true"
+             data-show-facepile="false"></div>
+        <div id="fb-root"></div>
+    </div>
+    <a href="https://m.me/up.coworkingspace" title="Gửi tin nhắn cho chúng tôi qua Facebook"
+       class="ctrlq fb-button">
+        <div class="bubble">1</div>
+        <div class="bubble-msg">Bạn cần hỗ trợ?</div>
+    </a></div>
+<script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
 <!--  Plugins -->
 <!-- Core JS Files -->
-<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"
-        type="text/javascript"></script>
+<script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+{{--<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"--}}
+        {{--type="text/javascript"></script>--}}
+<script>$(document).ready(function () {
+        function detectmob() {
+            if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        var t = {delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button")};
+        setTimeout(function () {
+            $("div.fb-livechat").fadeIn()
+        }, 8 * t.delay);
+        if (!detectmob()) {
+            $(".ctrlq").on("click", function (e) {
+                e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({
+                    bottom: 0,
+                    opacity: 0
+                }, 2 * t.delay, function () {
+                    $(this).hide("slow"), t.button.show()
+                })) : t.button.fadeOut("medium", function () {
+                    t.widget.stop().show().animate({
+                        bottom: "30px",
+                        opacity: 1
+                    }, 2 * t.delay), t.overlay.fadeIn(t.delay)
+                })
+            })
+        }
+    });
+</script>
+
+
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-ui-1.12.1.custom.min.js"
         type="text/javascript"></script>
 <script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/tether.min.js" type="text/javascript"></script>
@@ -484,4 +495,6 @@
     }
 </script>
 @stack('scripts')
+</body>
+
 </html>

@@ -36,6 +36,7 @@ class CustomerGroupApiController extends ManageApiController
         $group->color = $request->color;
         $group->order_value = $request->order_value;
         $group->delivery_value = $request->delivery_value;
+        $group->currency_value = $request->currency_value ? $request->currency_value : 0;
         $group->save();
 
         if ($request->stringId != null) {
@@ -63,6 +64,7 @@ class CustomerGroupApiController extends ManageApiController
         $group->color = $request->color;
         $group->order_value = $request->order_value;
         $group->delivery_value = $request->delivery_value;
+        $group->currency_value = $request->currency_value ? $request->currency_value : 0;
         $group->save();
 
         if ($request->stringId != null) {
@@ -78,8 +80,6 @@ class CustomerGroupApiController extends ManageApiController
             "message" => "Sua thanh cong",
             "customer_group" => $this->groupTransformer->transform($group),
         ]);
-
-
     }
 
     public function getAllGroup(Request $request)
@@ -121,6 +121,7 @@ class CustomerGroupApiController extends ManageApiController
             'color' => $group->color,
             'order_value' => $group->order_value,
             'delivery_value' => $group->delivery_value,
+            'currency_value' => $group->currency_value,
             "customers" => $customers->map(function ($customer) {
                 return $customer->transfromCustomer();
             }),

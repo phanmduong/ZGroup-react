@@ -34,6 +34,7 @@ $v2ManageCourseRoutes = function () {
         Route::post('/change-attendances', 'CourseController@changeAttendance');
         Route::put('/{course_id}/change-status', 'CourseController@changeStatusCourse');
         Route::post('/{courseId}/duplicate', 'CourseController@duplicateCourse');
+        Route::get('/{courseId}/class', 'ClassApiController@getClasses');
     });
 };
 
@@ -63,22 +64,30 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'namespace' => 'Modules
 
 //new api routes
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Course\Http\Controllers'],
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Course\Http\Controllers'],
     function () use ($manageCourseRoutes) {
         Route::group(['prefix' => 'v3'], $manageCourseRoutes);
-    });
+    }
+);
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Course\Http\Controllers'],
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'manageapi', 'namespace' => 'Modules\Course\Http\Controllers'],
     function () use ($v2ManageCourseRoutes) {
         Route::group(['prefix' => 'v3'], $v2ManageCourseRoutes);
-    });
+    }
+);
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'api', 'namespace' => 'Modules\Course\Http\Controllers'],
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'api', 'namespace' => 'Modules\Course\Http\Controllers'],
     function () use ($v2CourseRoutes) {
         Route::group(['prefix' => 'v3'], $v2CourseRoutes);
-    });
+    }
+);
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'api', 'namespace' => 'Modules\Course\Http\Controllers'],
+Route::group(
+    ['domain' => config('app.domain'), 'prefix' => 'api', 'namespace' => 'Modules\Course\Http\Controllers'],
     function () use ($apiv2CourseRoutes) {
         Route::group(['prefix' => 'v3'], $apiv2CourseRoutes);
-    });
+    }
+);

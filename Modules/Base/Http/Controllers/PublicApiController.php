@@ -39,14 +39,26 @@ class PublicApiController extends NoAuthApiController
         ]);
     }
 
+    public function bases(Request $request) 
+    {
+        $bases = Base::query();
+        $bases = $bases->where('name', 'like', '%' . trim($request->search) . '%');
+        $bases = $bases->get();
+        return $this->respondSuccessWithStatus([
+            'bases' => $bases->map(function ($base) {
+                return $base->transform();
+            })
+        ]);
+    }
+
     public function baseRooms($baseId, Request $request)
     {
         $base = Base::find($baseId);
+
         $rooms = $base->rooms;
         return $this->respondSuccessWithStatus([
             'rooms' => $rooms->map(function ($room) {
-                $data = $room->getData();
-                return $data;
+                return $room->getData();
             })
         ]);
     }
