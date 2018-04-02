@@ -174,11 +174,22 @@
 </head>
 
 <?php
-
-    $ip = $_SERVER['REMOTE_ADDR'];
+    function getUserIpAddress(){
+        if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+            //ip from share internet
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            //ip pass from proxy
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }else{
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
+    $ip = getUserIPAddress();
 //    dd($ip);
     $dataArray = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
-//    dd($dataArray->geoplugin_countryName);
+//    dd($dataArray);
 ?>
 
 @if($dataArray->geoplugin_countryName === "Vietnam")
