@@ -11,16 +11,14 @@ services:
       context: ./docker/php
       dockerfile: Dockerfile
     working_dir: /var/www
-    volumes: 
-      - ./:/var/www
+    
   cron:
     container_name: cron
     build:
       context: ./docker/cron
       dockerfile: Dockerfile
     working_dir: /var/www
-    volumes: 
-      - ./:/var/www
+    
   supervisor:
     container_name: supervisor
     build:
@@ -35,8 +33,6 @@ services:
       context: ./docker/nginx
       dockerfile: Dockerfile
     working_dir: /var/www
-    volumes:
-      - ./:/var/www
     ports:
       - 80:80
     depends_on: 
