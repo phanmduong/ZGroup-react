@@ -893,7 +893,7 @@ class PublicController extends Controller
 
     public function send_noti_test(Request $request)
     {
-        // $this->dispatch(new TestJob());
+        $this->dispatch(new TestJob());
         // $registers34 = Register::where('gen_id', 29)->pluck('user_id');
         // $phones = Register::join('users', 'users.id', '=', 'registers.user_id')
         //     ->join('classes', 'classes.id', '=', 'registers.class_id')
