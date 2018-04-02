@@ -154,58 +154,27 @@
             border-radius: 8px;
             text-align: center;
             font-size: 13px;
-        }</style>
+        }
+        .dropdown-menu:after, .dropdown-menu:before {
+            left: 12px !important;
+            right: auto !important;
+            border: none !important;
+        }
+        .dropdown-menu .dropdown-item{
+            padding: .25rem 1.5rem !important;
+            background: #ffffff;
+        }
+        .dropdown.show .dropdown-menu{
+            transform: translate3d(0px, -15px, 0px) !important;
+        }
+    </style>
+
     <link rel="stylesheet prefetch" href="./css/fullcalendar.css">
 
 </head>
-<body style="background-color: #f9f9f9">
-<nav class="navbar navbar-toggleable-md fixed-top">
-    <div class="container">
-        <div class="navbar-translate">
-            <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse"
-                    data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-bar"></span>
-                <span class="navbar-toggler-bar"></span>
-                <span class="navbar-toggler-bar"></span>
-            </button>
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/" style="padding:0!important">
-                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1517116042kHCSmDQWbcFqvbI.png" height="40px"
-                         style="margin:10px 0"/>
-                </a>
-            </div>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">VỀ
-                        UP</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/goi-thanh-vien-up-coworking-space" data-scroll="true">GÓI THÀNH
-                        VIÊN</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/su-kien" data-scroll="true">SỰ
-                        KIỆN</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">Tin tức</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/conference-room" data-scroll="true">PHÒNG
-                        HỌP</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-round btn-danger"
-                       style="background-color:#96d21f;border-color:#96d21f; color:white!important;"
-                       href="sections.html">TRẢI NGHIỆM</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
+@include('upcoworkingspace::layouts.nav-vi')
+
 @include('upcoworkingspace::includes.register_modal')
 
 @yield('content')
@@ -493,6 +462,10 @@
 
         return page;
     }
+
+    $('.dropdown-menu').after().css('right','');
+    $('.dropdown-menu').before().css('right','');
+
 </script>
 @stack('scripts')
 </body>
