@@ -166,7 +166,7 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={this.state.gens}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
                                     />
@@ -175,7 +175,7 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />
@@ -184,14 +184,14 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                     <button
                                         style={{width: '100%'}}
                                         onClick={this.openFilterPanel}
-                                        className="btn btn-info btn-rose"
+                                        className="btn btn-info btn-rose btn-round"
                                     >
                                         <i className="material-icons">filter_list</i>
                                         Lọc
                                     </button>
                                 </div>
                                 <div className="col-sm-3 col-xs-5">
-                                    <button className="btn btn-fill btn-rose"
+                                    <button className="btn btn-fill btn-rose btn-round"
                                             onClick={this.exportExcel}
                                     >
                                         Xuất ra Excel
