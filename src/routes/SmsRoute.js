@@ -1,4 +1,4 @@
-import CampaignListContainer from "../modules/campaignList/CampaignListContainer";
+// import CampaignListContainer from "../modules/campaignList/CampaignListContainer";
 
 /**
  * Tab Quản lý tin nhắn Sms
@@ -6,7 +6,7 @@ import CampaignListContainer from "../modules/campaignList/CampaignListContainer
 export default [
     {
         path: "/sms/campaign-list",
-        component: CampaignListContainer
+        // component: CampaignListContainer
     },
     {
         path: "/sms/campaign",
@@ -24,7 +24,7 @@ export default [
             {
                 path: "history",
                 // component:
-            }
-        ]
+            },
+        ],
     },
 ];
