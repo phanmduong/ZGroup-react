@@ -1,3 +1,3 @@
 #!/bin/bash
 
-chmod 755 -R /home/www/storage
+chmod 755 -R /var/www/storage
