@@ -933,3 +933,7 @@ a.btn-seat.active {
 .dropdown-menu > ul > li:not(.disabled) > a:hover, .dropdown-menu > ul > li:not(.disabled) > a:focus, .dropdown-menu > ul > li:not(.disabled) > a:active {
     background: rgba(197, 0, 0, 1) !important;
 }
+
+.nav-pills-rose > .active > a {
+  background-color: rgba(197, 0, 0, 1)!important
+}
