@@ -7,7 +7,7 @@
             border-color: #138edc!important;
         }
         input[type=text]{
-            border: 1px solid #138edc !important;
+            box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
         }
     </style>
     <div class="page-header page-header-xs"
