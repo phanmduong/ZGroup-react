@@ -51,12 +51,11 @@
                     </div>
 
                     <div class="row" style="background-color: #ffffff; padding: 20px">
-                        <div id="loading" style="position: relative; top:26px; left: 80px; visibility: hidden">
-                            <i class="fa fa-spinner" aria-hidden="true" id="loadingSpinner"></i>
-                            <span style="font-size:16px">Đang tải ...</span>
+                        <div id="loading">
+                                                            @include('upcoworkingspace::includes.loading')
+
                         </div>
                         <div id='calendar'></div>
-
                     </div>
                     <br>
                     <hr>
