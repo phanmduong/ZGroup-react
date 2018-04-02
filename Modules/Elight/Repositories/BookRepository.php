@@ -214,7 +214,7 @@ class BookRepository
         $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
         $emailcc = ["elightedu.books@gmail.com"];
         Mail::send('emails.confirm_buy_book_elight', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Nhà sach Elight');
+            $m->from('no-reply@colorme.vn', 'Nhà sách Elight');
             $m->to($order->email, $order->name)->subject($subject);
         });
 

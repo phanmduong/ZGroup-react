@@ -193,7 +193,7 @@
                                         <div class="col-md-2">
                                         </div>
                                         <div class="col-md-8">
-                                            <a id="submit" href="javascript:void(0)" onClick="pureJsOpenModalBuy(8)" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Gửi </a>
+                                            <a id="submit" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Gửi </a>
                                         </div>
                                     </div>
 
