@@ -8,6 +8,8 @@ import StaffsKeepMoneyContainer from "../modules/staffsKeepMoney/StaffsKeepMoney
 import HistoryTransactionsContainer from "../modules/historyTransactions/HistoryTransactionsContainer";
 import SpendMoneyContainer from "../modules/spendMoney/SpendMoneyContainer";
 import SummaryFinanceContainer from "../modules/summaryFinance/SummaryFinanceContainer";
+import PasswordContainer from "../modules/password/PasswordContainer";
+import NewPageContainer from "../modules/NewPage/NewPageContainer";
 
 /**
  * Tab Quản lý tài chính
@@ -55,4 +57,14 @@ export default [
         component: BankTransfersContainer
 
     },
+    {
+        path: "/finance/password",
+        component: PasswordContainer
+
+    },
+    {
+        path: "/finance/newpage",
+        component: NewPageContainer
+
+    }
 ];

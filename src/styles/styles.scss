@@ -875,9 +875,55 @@ a.btn-seat.active {
   font-size: 16px !important;
 }
 
-.Select-control {
-  border: none !important;
-  border-bottom: 1px solid #ccc !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
+//////////// Nguyễn Đại Lợi
+
+.sms-paid-icon {
+  width: 15px
+}
+
+.sms-paid-icon img {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.sms-paid-icon-plus {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: #bbbbbb;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+}
+
+.sms-paid-icon-plus span {
+  margin: auto !important;
+}
+
+.sms-paid-icon-plus:hover {
+  color: white;
+}
+
+
+.already-paid-icons {
+    display: flex;
+}
+
+.already-paid-icons-plus {
+  display:flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: #bbbbbb;
+  color: white;
+  cursor: pointer
+}
+
+.already-paid-icons-plus i{
+  margin: auto
 }

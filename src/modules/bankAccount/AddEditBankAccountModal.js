@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
 import Loading from "../../components/common/Loading";
-import *as bankAccountAction from "./bankAccountAction";
+import * as bankAccountAction from "./bankAccountAction";
 import * as helper from '../../helpers/helper';
 import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 
@@ -24,6 +24,7 @@ class AddEditBankAccountModal extends React.Component {
         };
         this.props.bankAccountAction.handleBankAccount(bankAccount);
     }
+
     saveBankAccount() {
         const account = {...this.props.bankAccountEditModal};
         if (

@@ -90,16 +90,22 @@ export default {
         bases: [],
         isSavingPayment: false,
     },
+
     weekendReport: {
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        report: [],
         reports: [],
         isLoading: false,
         checkWeekendReportModal: false,
+        loadingModal: false,
+        addReport: false,
         weekendReportModal: {
-            stt: '',
-            employee_name: '',
-            title: '',
-            report: ''
-        }
+            report: '',
+            title: ''
+        },
     },
 
     registerManageMeetingRoom: {
@@ -114,6 +120,18 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
+    },
+
+    passwordAccount: {
+        passwords: [],
+        isLoading: false,
+        editPasswordModal: false,
+        isUpdatingEditModal: false,
+        passwordEditModal: { password: '' },
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20
     },
 
     bankAccount: {
@@ -240,7 +258,6 @@ export default {
         manufacturesRender: [],
         manufacturesFilter: [],
         properties_list_filter: [],
-        isUploadingAvatar: false,
         totalPagesManufactures: 1,
         currentPageManufactures: 1,
         totalCountManufactures: 1,
@@ -253,7 +270,6 @@ export default {
         manufacturesManageModal: false,
         isLoadingManufacture: false,
         child_index: 0,
-        percent: 0,
         productWorking: {
             name: '',
             code: '',
@@ -277,7 +293,6 @@ export default {
             children: []
         },
         goods_count_check: true,
-        isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
         properties_list: [],
