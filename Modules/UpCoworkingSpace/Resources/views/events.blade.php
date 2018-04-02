@@ -46,6 +46,7 @@
                                     <br>
                                 </div>
                             </div>
+                            </div>
                         @endforeach
                     </div>
 
