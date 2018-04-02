@@ -10,33 +10,33 @@ services:
     build:
       context: ./docker/php
       dockerfile: Dockerfile
-    working_dir: /home/www
+    working_dir: /var/www
     volumes: 
-      - ./:/home/www
+      - ./:/var/www
   cron:
     container_name: cron
     build:
       context: ./docker/cron
       dockerfile: Dockerfile
-    working_dir: /home/www
+    working_dir: /var/www
     volumes: 
-      - ./:/home/www
+      - ./:/var/www
   supervisor:
     container_name: supervisor
     build:
       context: ./docker/supervisor
       dockerfile: Dockerfile
-    working_dir: /home/www
+    working_dir: /var/www
     volumes: 
-      - ./:/home/www
+      - ./:/var/www
   web:    
     container_name: web
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
-    working_dir: /home/www
+    working_dir: /var/www
     volumes:
-      - ./:/home/www
+      - ./:/var/www
     ports:
       - 80:80
     depends_on: 
