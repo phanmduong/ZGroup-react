@@ -173,9 +173,19 @@
 
 </head>
 
-@include('upcoworkingspace::layouts.nav-vi')
+<?php
 
-@include('upcoworkingspace::includes.register_modal')
+    $ip = $_SERVER['REMOTE_ADDR'];
+//    dd($ip);
+    $dataArray = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
+//    dd($dataArray->geoplugin_countryName);
+?>
+
+@if($dataArray->geoplugin_countryName === "Vietnam")
+    @include('upcoworkingspace::layouts.nav-vi')
+@else
+    @include('upcoworkingspace::layouts.nav-en')
+@endif
 
 @yield('content')
 
