@@ -39,7 +39,7 @@ class ElightSendingMailController extends Controller
 
         Mail::send('emails.elight_index_staff', $data, function ($m) {
             $m->from('no-reply@colorme.vn', 'ELIGHT BOOK');
-            $m->to("elightbook.popup@gmail.com")->subject('ĐƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
+            $m->to("elightbook.popup@gmail.com")->subject('ddƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
         });
     }
     public function book_info(Request $request)
@@ -56,7 +56,6 @@ class ElightSendingMailController extends Controller
             'course' => $course,
             'term' => $term,
         ];
-        dd($lesson);
         Mail::send('emails.elight_book', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Nhà sách Elight');
             $subject = "Elight THƯ CẢM ƠN và PHIẾU GIẢM GIÁ";
@@ -66,7 +65,7 @@ class ElightSendingMailController extends Controller
         Mail::send('emails.elight_book_staff', $data, function ($m) use ($request) {
             $m->from('no-reply@colorme.vn', 'Nhà sách Elight');
             $subject = "ELIGHT FEEDBACK THU VIEN TU HOC";
-            $m->to("elightbook.thuvientuhoc@gmail.com", $request->name)->bcc("elightbook.thuvientuhoc@gmail.com")->subject($subject);
+            $m->to("elightbook.thuvientuhoc@gmail.com", $request->name)->subject($subject);
         });
     }
 

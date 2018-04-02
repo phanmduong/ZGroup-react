@@ -146,7 +146,7 @@
                                             <div class="card-block">
                                                 
                             <div class="form-group label-floating">
-                                <label class="control-label">Đánh giá</label>
+                                <label class="control-label"><strong style="font-weight:600">Đánh giá</strong></label>
                                 <br>
                                 <div class="row">
                                     <div class="col-md-3">
@@ -172,12 +172,12 @@
                                 </div>
                             </div>
                             <div class="form-group label-floating">
-                                <label class="control-label">Góp ý cho elight</label>
+                                <label class="control-label"><strong style="font-weight:600">Góp ý cho Elight</strong></label>
                                 <input id="message" type="text" name="message" class="form-control"
-                                    placeholder="Góp ý để elight cải thiện chất lượng nhé">
+                                    placeholder="Để lại góp ý, nhận xét của bạn nhé">
                             </div>
                             <div class="form-group label-floating">
-                                <label class="control-label">Email</label>
+                                <label class="control-label"><strong style="font-weight:600">Số điện thoại hoặc email</strong></label>
                                 <input id="email" type="text" name="email" class="form-control"
                                     placeholder="Để lại nếu bạn cần Elight hỗ trợ thêm">
                             </div>
@@ -193,7 +193,7 @@
                                         <div class="col-md-2">
                                         </div>
                                         <div class="col-md-8">
-                                            <a id="submit" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Gửi </a>
+                                            <a id="submit" class="btn btn-success btn-round" style="color:white; display: flex;align-items: center;justify-content: center;">Gửi thông tin </a>
                                         </div>
                                     </div>
 
