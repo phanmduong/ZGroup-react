@@ -66,29 +66,41 @@
         <br>
         <div class="row">
             <!--thanh search-->
-            <div class="col-md-12 row ">
-                <div class="shadow" style="display: flex;justify-content: space-between;">
-                    <div>
-                        <img src="http://www.nhatquangshop.vn/themes/giaodienweb/images/lo-go.png" height="40px">
+            <div class="col-md-12">
+                <div class="" style="display: flex;justify-content: space-between; align-items: stretch;">
+                    <div style="display:flex;flex-grow:12; align-items: stretch">
+                        <div class="flex-center search-icon">
+                            <i class="fa fa-search" style="font-size: 32px" aria-hidden="true"></i>
+                        </div>
+                        <div style="flex-grow: 12" class="flex-center">
+                            <input placeholder="Tìm kiếm"
+                                   style="width:100%; border:none; font-size:20px; padding:15px; color:#2e2e2e"/>
+                        </div>
+
                     </div>
-                    <div style="flex-grow:8 ">
-                        <input placeholder="Tìm kiếm"
-                               style="width:100%; border:none; font-size:20px; padding:15px; color:#2e2e2e"/>
+                    <div class="flex-center cursor-pointer" style="flex-wrap: wrap">
+                        <div class="flex-center">
+                            <div style="padding:20px">
+                                <i class="fa fa-user-circle-o" style="font-size:32px" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                Đăng nhập & Đăng ký tài khoản
+                            </div>
+                            <div >
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </div>
+
+                        </div>
+
                     </div>
-                    <div>
-                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                        <span>
-                            Đăng nhập & Đăng ký tài khoản
-                        </span>
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                    </div>
-                    <div>
-                        <div>
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    <div class="flex-center cursor-pointer">
+                        <div style="padding-left:80px;">
+                            <i class="fa fa-shopping-cart" style="font-size:32px" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--san pham noi bat-->
             <div class="col-md-6">
                 <div>
                     <div class="description">
@@ -109,8 +121,11 @@
         <div class="row">
             <div class="container">
                 <div class="row" id="vuejs1">
+
+                    <?php $i = 0;$classes = array('col-md-8', 'col-md-4', 'col-md-6', 'col-md-4', 'col-md-4', 'col-md-4');?>
                     @foreach ($highLightGoods as $good)
-                        <div class="col-md-4">
+                        <?php  $class = $classes[$i++ % 6]?>
+                        <div class="{{$class}}">
                             <div class="card card-product card-plain">
                                 <div class="card-image">
                                     <a href="/product/detail/{{$good['id']}}">
@@ -233,4 +248,25 @@
     .carousel-item > img {
         width: 100%;
     }
+
+    .flex-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-icon {
+        cursor: pointer;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        background-color: #dddddd;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
 </style>
