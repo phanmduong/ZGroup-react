@@ -488,6 +488,7 @@ export function linkUploadImageEditor() {
     return LINK_UPLOAD_IMAGE_EDITOR + "?token=" + token;
 }
 
+export const DATE_FORMAT = "DD-MM-YYYY";
 export const DATETIME_FILE_NAME_FORMAT = "DD_MM_YYYY";
 export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
 export const DATETIME_VN_FORMAT = "DD/MM/YYYY HH:mm:ss";

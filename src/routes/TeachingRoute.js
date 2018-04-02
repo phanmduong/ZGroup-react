@@ -48,11 +48,6 @@ export default [
         component: GensContainer
     },
     {
-        path: "/teaching/registerlist(/:salerId)",
-        // path: "/manage/registerlist(/:salerId)",
-        component: RegisterListContainer
-    },
-    {
         path: "/teaching/waitlist",
         // path: "/manage/waitlist",
         component: RegisterListContainer

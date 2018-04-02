@@ -105,47 +105,49 @@ class SurveyContainer extends React.Component {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">assignment</i>
-                                </div>
                                 <div className="card-content">
-                                    <h4 className="card-title">Quản lý khảo sát</h4>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="col-md-3">
-                                                <a className="btn btn-rose" onClick={this.openModal}>
-                                                    Thêm khảo sát
-                                                </a>
+                                    <div className="tab-content">
+                                        <div className="flex-row flex">
+                                            <h5 className="card-title">
+                                                <strong>Danh sách nhân viên</strong>
+                                            </h5>
+                                            <div className="dropdown">
+                                                <button
+                                                    className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                                    type="button">
+                                                    <strong>+</strong>
+                                                </button>
                                             </div>
-                                        </div>
-                                    </div>
-                                    {
-                                        this.props.isLoading ?
-                                            <Loading/> : (
-                                                <div className="row">
-                                                    {
-                                                        (this.props.surveys && this.props.surveys.length > 0) &&
-                                                        this.props.surveys.map((survey) => {
-                                                            return (
-                                                                <SurveyItem
-                                                                    summarySurvey={() => this.openSummarySurveyModal(survey)}
-                                                                    exportSurvey={() => this.exportSurveyResultExcel(survey)}
-                                                                    showSurveyDisplayModal={this.showDisplayModal}
-                                                                    handleSwitch={this.handleActiveSwitch}
-                                                                    editSurvey={this.editSurvey}
-                                                                    key={survey.id}
-                                                                    survey={survey}/>
-                                                            );
+                                        </div>  
+                                        <br/>
+                                        {
+                                            this.props.isLoading ?
+                                                <Loading/> : (
+                                                    <div className="row">
+                                                        {
+                                                            (this.props.surveys && this.props.surveys.length > 0) &&
+                                                            this.props.surveys.map((survey) => {
+                                                                return (
+                                                                    <SurveyItem
+                                                                        summarySurvey={() => this.openSummarySurveyModal(survey)}
+                                                                        exportSurvey={() => this.exportSurveyResultExcel(survey)}
+                                                                        showSurveyDisplayModal={this.showDisplayModal}
+                                                                        handleSwitch={this.handleActiveSwitch}
+                                                                        editSurvey={this.editSurvey}
+                                                                        key={survey.id}
+                                                                        survey={survey}/>
+                                                                );
 
-                                                        })
-                                                    }
-                                                </div>
-                                            )
-                                    }
-                                    <Pagination
-                                        currentPage={this.props.paginator.current_page || 0}
-                                        totalPages={this.props.paginator.total_pages || 0}
-                                        loadDataPage={this.loadSurveys}/>
+                                                            })
+                                                        }
+                                                    </div>
+                                                )
+                                        }
+                                        <Pagination
+                                            currentPage={this.props.paginator.current_page || 0}
+                                            totalPages={this.props.paginator.total_pages || 0}
+                                            loadDataPage={this.loadSurveys}/>
+                                        </div>    
                                 </div>
                             </div>
                         </div>

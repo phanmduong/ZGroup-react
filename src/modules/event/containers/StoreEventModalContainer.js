@@ -13,7 +13,7 @@ import {
     DATE_VN_FORMAT,
 } from "../../../constants/constants";
 import Buttons from "../components/Buttons";
-import { changeToSlug } from "../../../helpers/helper";
+import {changeToSlug, showTypeNotification} from "../../../helpers/helper";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
 
 class StoreEventModalContainer extends React.Component {
@@ -24,6 +24,7 @@ class StoreEventModalContainer extends React.Component {
         this.invalid = this.invalid.bind(this);
         this.generateFromName = this.generateFromName.bind(this);
         this.publishEvent = this.publishEvent.bind(this);
+        this.closeStoreEventModal = this.closeStoreEventModal.bind(this);
     }
 
     handleFormUpdate(field, value) {
@@ -35,10 +36,28 @@ class StoreEventModalContainer extends React.Component {
     }
 
     publishEvent() {
-        this.props.eventActions.saveEvent({
+        if(this.props.event.start_time === null || this.props.event.start_time === undefined || this.props.event.start_time ===""){
+            showTypeNotification("Vui lòng chọn giờ bắt đầu", 'warning');
+            return;
+        }
+        if(this.props.event.end_time === null || this.props.event.end_time === undefined || this.props.event.end_time ===""){
+            showTypeNotification("Vui lòng chọn giờ kết thúc", 'warning');
+            return;
+        }
+        if(this.props.event.start_date === null || this.props.event.start_date === undefined || this.props.event.start_date ===""){
+            showTypeNotification("Vui lòng chọn ngày bắt đầu", 'warning');
+            return;
+        }
+        if(this.props.event.end_date === null || this.props.event.end_date === undefined || this.props.event.end_date ===""){
+            showTypeNotification("Vui lòng chọn ngày kết thúc", 'warning');
+            return;
+        }
+        this.props.eventActions.saveEvent(
+            {
             ...this.props.event,
-            status: "PUBLISHED",
-        });
+            status: "PUBLISHED",},
+            this.props.isEditEvent,
+        );
     }
 
     generateFromName() {
@@ -54,6 +73,10 @@ class StoreEventModalContainer extends React.Component {
         const { name, slug, avatar_url } = this.props.event;
         return !name || !slug || !avatar_url;
     }
+    closeStoreEventModal() {
+        this.props.eventActions.showStoreEventModal(false,0);
+    }
+
 
     render() {
         const { props } = this;
@@ -62,10 +85,10 @@ class StoreEventModalContainer extends React.Component {
                 id="store-event-modal"
                 show={props.showStoreEventModal}
                 bsStyle="primary"
-                onHide={() => {}}
+                onHide={this.closeStoreEventModal}
                 animation={false}
             >
-                <Modal.Header>
+                <Modal.Header closeButton>
                     <Modal.Title>
                         <strong>Sự kiện</strong>
                     </Modal.Title>
@@ -233,12 +256,13 @@ StoreEventModalContainer.propTypes = {
     event: PropTypes.object.isRequired,
     isSavingEvent: PropTypes.bool.isRequired,
     showStoreEventModal: PropTypes.bool.isRequired,
+    isEditEvent: PropTypes.bool.isRequired,
 };
 
 export default connect(
     state => {
-        const { event, showStoreEventModal, isSavingEvent } = state.event;
-        return { event, showStoreEventModal, isSavingEvent };
+        const { event, showStoreEventModal, isSavingEvent,isEditEvent } = state.event;
+        return { event, showStoreEventModal, isSavingEvent ,isEditEvent};
     },
     dispatch => {
         return {

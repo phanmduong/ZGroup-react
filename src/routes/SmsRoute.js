@@ -1,3 +1,4 @@
+import CampaignListContainer from "../modules/campaignList/CampaignListContainer";
 
 /**
  * Tab Quản lý tin nhắn Sms
@@ -5,7 +6,7 @@
 export default [
     {
         path: "/sms/campaign-list",
-        //component: CollectMoneyContainer
+        component: CampaignListContainer
     },
     {
         path: "/sms/campaign",

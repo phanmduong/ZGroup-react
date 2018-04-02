@@ -66,10 +66,8 @@ class ProfileContainer extends React.Component {
         return (
             <div>
                 <div className="col-lg-12">
+                    <TabProfile url="my-profile"/>
                     <div className="card">
-                        <div className="card-header card-header-tabs" data-background-color="rose">
-                            <TabProfile url="my-profile"/>
-                        </div>
                         <div className="card-content">
                             <div className="tab-content">
                                 {
@@ -79,12 +77,9 @@ class ProfileContainer extends React.Component {
                                             <div className="row">
                                                 <div className="col-md-8">
                                                     <div className="card">
-                                                        <div className="card-header card-header-icon"
-                                                             data-background-color="rose">
-                                                            <i className="material-icons">perm_identity</i>
-                                                        </div>
                                                         <div className="card-content">
-                                                            <h4 className="card-title">Thông tin cá nhân
+                                                            <h4 className="card-title">
+                                                                <strong>Thông tin cá nhân</strong>
                                                             </h4>
                                                             <form onSubmit={(e) => {
                                                                 e.preventDefault();

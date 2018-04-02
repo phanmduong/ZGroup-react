@@ -83,7 +83,7 @@ class ListRegister extends React.Component {
                                     </div>
                                 </td>
                                 <td>
-                                    <Link to={`/teaching/info-student/${register.student_id}`}
+                                    <Link to={`/sales/info-student/${register.student_id}`}
                                           className="text-name-student-register">
                                         {register.name}
                                     </Link>

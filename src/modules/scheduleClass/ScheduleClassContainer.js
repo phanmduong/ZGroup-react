@@ -151,93 +151,87 @@ class ScheduleClassContainer extends React.Component {
         return (
             <div>
                 <div className="col-lg-12">
+                    <TabStudy url="teaching/scheduleclass"/>
                     <div className="card">
-                        <div className="card-header card-header-tabs" data-background-color="rose">
-                            <TabStudy url="teaching/scheduleclass"/>
-                        </div>
                         <div className="card-content">
                             <div className="tab-content">
                                 <div className="row">
                                     <div className="col-md-8">
                                         <div className="card">
-                                            <div className="card-header card-header-icon"
-                                                 data-background-color="rose">
-                                                <i className="material-icons">perm_identity</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Danh sách lịch học
-                                                </h4>
-                                                {this.props.isLoading ? <Loading/> :
-                                                    <ListScheduleClass
-                                                        scheduleClasses={this.props.scheduleClasses}
-                                                        deleteScheduleClass={this.deleteScheduleClass}
-                                                        onClickEdit={this.onClickEdit}
-                                                    />
-                                                }
-
+                                                <div className="tab-content">
+                                                    <h4 className="card-title"><strong>Danh sách lịch học</strong>
+                                                    </h4>
+                                                    <br/><br/>
+                                                    {this.props.isLoading ? <Loading/> :
+                                                        <ListScheduleClass
+                                                            scheduleClasses={this.props.scheduleClasses}
+                                                            deleteScheduleClass={this.deleteScheduleClass}
+                                                            onClickEdit={this.onClickEdit}
+                                                        />
+                                                    }
+                                                </div>    
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-md-4">
                                         <div className="card">
-                                            <div className="card-header card-header-icon"
-                                                 data-background-color="rose">
-                                                <i className="material-icons">perm_identity</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Tạo lịch học
-                                                </h4>
-                                                {this.props.isLoadingStudySession ? <Loading/> :
-                                                    (
-                                                        <form id="form-add-schedule-class" onSubmit={(e) => {
-                                                            e.preventDefault();
-                                                        }}>
-                                                            <FormInputText
-                                                                label="Tên"
-                                                                name="name"
-                                                                updateFormData={this.updateFormData}
-                                                                value={this.props.scheduleClass.name}
-                                                                required={true}
-                                                                type="text"
-                                                            />
-                                                            <FormInputText
-                                                                label="Mô tả"
-                                                                name="description"
-                                                                updateFormData={this.updateFormData}
-                                                                value={this.props.scheduleClass.description}
-                                                                required={true}
-                                                                type="text"
-                                                            />
-                                                            <Select
-                                                                name="form-field-name"
-                                                                value={this.props.scheduleClass.studySessionIds}
-                                                                options={this.state.optionsSelect}
-                                                                onChange={this.changeSelect}
-                                                                multi
-                                                                placeholder="Chọn ca học"
-                                                            />
-                                                            {
-                                                                this.props.isSaving ?
-                                                                    (
+                                                <div className="tab-content">
+                                                    <h4 className="card-title">
+                                                        <strong>Tạo lịch học</strong>
+                                                    </h4>
+                                                    {this.props.isLoadingStudySession ? <Loading/> :
+                                                        (
+                                                            <form id="form-add-schedule-class" onSubmit={(e) => {
+                                                                e.preventDefault();
+                                                            }}>
+                                                                <FormInputText
+                                                                    label="Tên"
+                                                                    name="name"
+                                                                    updateFormData={this.updateFormData}
+                                                                    value={this.props.scheduleClass.name}
+                                                                    required={true}
+                                                                    type="text"
+                                                                />
+                                                                <FormInputText
+                                                                    label="Mô tả"
+                                                                    name="description"
+                                                                    updateFormData={this.updateFormData}
+                                                                    value={this.props.scheduleClass.description}
+                                                                    required={true}
+                                                                    type="text"
+                                                                />
+                                                                <Select
+                                                                    name="form-field-name"
+                                                                    value={this.props.scheduleClass.studySessionIds}
+                                                                    options={this.state.optionsSelect}
+                                                                    onChange={this.changeSelect}
+                                                                    multi
+                                                                    placeholder="Chọn ca học"
+                                                                />
+                                                                {
+                                                                    this.props.isSaving ?
+                                                                        (
+                                                                            <button
+                                                                                className="btn btn-fill btn-rose disabled"
+                                                                            >
+                                                                                <i className="fa fa-spinner fa-spin"/> Đang
+                                                                                tạo
+                                                                            </button>
+                                                                        )
+                                                                        :
                                                                         <button
-                                                                            className="btn btn-fill btn-rose disabled"
+                                                                            className="btn btn-fill btn-rose"
+                                                                            onClick={this.addScheduleClass}
                                                                         >
-                                                                            <i className="fa fa-spinner fa-spin"/> Đang
-                                                                            tạo
+                                                                            Tạo
                                                                         </button>
-                                                                    )
-                                                                    :
-                                                                    <button
-                                                                        className="btn btn-fill btn-rose"
-                                                                        onClick={this.addScheduleClass}
-                                                                    >
-                                                                        Tạo
-                                                                    </button>
-                                                            }
-                                                        </form>
-                                                    )}
-
-
+                                                                }
+                                                            </form>
+                                                        )
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

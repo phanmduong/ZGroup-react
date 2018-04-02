@@ -875,7 +875,13 @@ a.btn-seat.active {
   font-size: 16px !important;
 }
 
-//////////// Nguyễn Đại Lợi
+
+.Select-control {
+  border: none !important;
+  border-bottom: 1px solid #ccc !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
 
 .sms-paid-icon {
   width: 15px
@@ -908,23 +914,26 @@ a.btn-seat.active {
   color: white;
 }
 
-// Nguyen Dai Loi da them Class :
-
-.already-paid-icons {
-    display: flex;
+// Loi them Class :
+.button-plus {
+  border-radius: 50%; 
+  border:none; 
+  background-color: #0b82fb; 
+  color: white; 
+  line-height: 0; 
+  padding: 0px;
+  margin-left: 12px
 }
 
-.already-paid-icons-plus {
-  display:flex;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid white;
-  background-color: #bbbbbb;
-  color: white;
-  cursor: pointer
+
+.dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
+    background-color: rgba(197, 0, 0, 1)!important;
 }
 
-.already-paid-icons-plus i{
-  margin: auto
+.dropdown-menu > ul > li:not(.disabled) > a:hover, .dropdown-menu > ul > li:not(.disabled) > a:focus, .dropdown-menu > ul > li:not(.disabled) > a:active {
+    background: rgba(197, 0, 0, 1) !important;
+}
+
+.nav-pills-rose > .active > a {
+  background-color: rgba(197, 0, 0, 1)!important
 }

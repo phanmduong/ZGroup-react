@@ -100,41 +100,66 @@ class LeadContainer extends React.Component {
             this.props.leadActions.getLeads(1, this.state.query, this.state.filter.startTime, this.state.filter.endTime,
                 -2, this.state.rate, this.state.top);
         }
-        if (nextProps.route.type != this.props.route.type && nextProps.route.type === "my-leads") {
-            this.setState({
-                page: 1,
-                query: "",
-                filter: {
-                    startTime: '',
-                    endTime: '',
-                },
-                staff: nextProps.user.id,
-                isDistribution: false,
-                top: "",
-                rate: "",
-                carer: "",
-                isAll: false,
-                selectedLeads: [],
-                isOpenModalSelectedLeads: false,
-            });
-        }
-        if (nextProps.route.type != this.props.route.type && nextProps.route.type === "distribution") {
-            this.setState({
-                page: 1,
-                query: "",
-                filter: {
-                    startTime: '',
-                    endTime: '',
-                },
-                staff: "",
-                isDistribution: nextProps.route.type === "distribution",
-                top: "",
-                rate: "",
-                carer: "",
-                isAll: false,
-                selectedLeads: [],
-                isOpenModalSelectedLeads: false,
-            });
+        if (nextProps.route.type != this.props.route.type) {
+            if (nextProps.route.type === "my-leads") {
+                this.setState({
+                    page: 1,
+                    query: "",
+                    filter: {
+                        startTime: '',
+                        endTime: '',
+                    },
+                    staff: nextProps.user.id,
+                    isDistribution: false,
+                    top: "",
+                    rate: "",
+                    carer: "",
+                    isAll: false,
+                    selectedLeads: [],
+                    isOpenModalSelectedLeads: false,
+                });
+                this.props.leadActions.getLeads(1, "", "", "", nextProps.user.id, "", "");
+            } else {
+                if (nextProps.route.type === "distribution") {
+                    this.setState({
+                        page: 1,
+                        query: "",
+                        filter: {
+                            startTime: '',
+                            endTime: '',
+                        },
+                        staff: -2,
+                        isDistribution: nextProps.route.type === "distribution",
+                        top: "",
+                        rate: "",
+                        carer: "",
+                        isAll: false,
+                        selectedLeads: [],
+                        isOpenModalSelectedLeads: false,
+                    });
+                    this.props.leadActions.getLeads(1, "", "", "", -2, "", "");
+                } else {
+                    this.setState({
+                        page: 1,
+                        query: "",
+                        filter: {
+                            startTime: '',
+                            endTime: '',
+                        },
+                        staffs: [],
+                        staff: "",
+                        isDistribution: false,
+                        top: "",
+                        rate: "",
+                        carer: "",
+                        isAll: false,
+                        selectedLeads: [],
+                        isOpenModalSelectedLeads: false,
+
+                    });
+                    this.props.leadActions.getLeads(1);
+                }
+            }
         }
     }
 
@@ -360,6 +385,7 @@ class LeadContainer extends React.Component {
                     <button
                         className="btn btn-fill btn-rose"
                         type="button"
+
                         onClick={this.distributionLeads}
                     >
                         Phân leads
@@ -391,7 +417,8 @@ class LeadContainer extends React.Component {
                                         {this.props.isUploading ?
                                             <button
                                                 className="btn btn-primary btn-round btn-xs none-margin button-add">
-                                                <i className="fa fa-spinner fa-spin" style={{fontSize: '16px'}}/>
+                                                <i className="fa fa-spinner fa-spin"
+                                                   style={{fontSize: '16px'}}/>
                                             </button>
                                             :
                                             <div className={"dropdown"} id="btn-add-leads">
@@ -473,7 +500,7 @@ class LeadContainer extends React.Component {
                                     :
                                     <div className="col-md-3" style={{zIndex: 10}}>
                                         <div className="form-group none-padding">
-                                            <label className="label-control">Tìm nhân viên</label>
+                                            <label className="label-control"/>
                                             <ReactSelect.Async
                                                 loadOptions={this.loadStaffs}
                                                 loadingPlaceholder="Đang tải..."
@@ -500,7 +527,7 @@ class LeadContainer extends React.Component {
                             <div className="col-md-3">
                                 <div className="form-group">
                                     <label className="label-control">Chọn đánh giá</label>
-                                    <div className="flex flex-row-center flex-justify-content-center">
+                                    <div className="flex flex-row-center">
                                         <Star
                                             value={0}
                                             maxStar={5}
@@ -516,16 +543,14 @@ class LeadContainer extends React.Component {
                             this.state.isDistribution &&
                             <div className="row">
                                 <div className="col-md-3">
-                                    <div className="form-group">
-                                        <Checkbox
-                                            label="Chọn tất cả"
-                                            checkBoxLeft
-                                            onChange={this.onChangeAll}
-                                            name="isAll"
-                                            checked={this.state.isAll}
+                                    <Checkbox
+                                        label={`Chọn tất cả (${this.props.totalCount})`}
+                                        checkBoxLeft
+                                        onChange={this.onChangeAll}
+                                        name="isAll"
+                                        checked={this.state.isAll}
 
-                                        />
-                                    </div>
+                                    />
                                 </div>
                                 <div className="col-md-3">
                                     <FormInputText
@@ -534,11 +559,11 @@ class LeadContainer extends React.Component {
                                         placeholder="Nhập top"
                                         updateFormData={this.changeTop}
                                         value={this.state.top}
+                                        className="none-padding none-margin"
                                     />
                                 </div>
                                 <div className="col-md-3">
-                                    <div className="form-group none-margin">
-                                        <label className="label-control">Chọn nhân viên</label>
+                                    <div className="form-group none-margin none-padding">
                                         <ReactSelect.Async
                                             loadOptions={this.loadStaffs}
                                             loadingPlaceholder="Đang tải..."
@@ -563,6 +588,7 @@ class LeadContainer extends React.Component {
                                 </div>
                                 <div className="col-md-3">
                                     <button className="btn btn-success width-100"
+                                            style={{margin: '0', height: '35px'}}
                                             onClick={this.openModalSelectedLeadsModal}
                                     >
                                         Phân leads
@@ -596,6 +622,7 @@ class LeadContainer extends React.Component {
                             <h4 className="card-title">Danh sách leads đã chọn phân
                                 cho {this.state.carer ? this.state.carer.name : ""}
                             </h4>
+                            <div>Tổng số leads: {this.state.selectedLeads ? this.state.selectedLeads.length : 0}</div>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

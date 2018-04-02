@@ -189,8 +189,6 @@ class AttendanceContainer extends React.Component {
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     /></div>
-
-
                             </div>
                         }
                         <div className="card">
