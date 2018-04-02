@@ -1,3 +1,3 @@
 #!/bin/bash
 
-chmod 755 -R /var/www/storage
+chown -R www-data:www-data /var/www
