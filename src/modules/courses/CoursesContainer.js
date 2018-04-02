@@ -88,64 +88,57 @@ class CoursesContainer extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">assignment</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Quản lý môn học</h4>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="col-md-3">
-                                                <Link className="btn btn-rose" to="/teaching/courses/create">
-                                                    Thêm Môn Học
+                                    <div className="tab-content">
+                                        <div className="flex-row flex">
+                                            <h4 className="card-title">
+                                                <strong>Quản lý môn học</strong>
+                                            </h4>
+                                            <div>
+                                                <Link className="btn btn-primary btn-round btn-xs button-add none-margin" to="/teaching/courses/create">
+                                                    <strong>+</strong>
                                                 </Link>
                                             </div>
-                                            <Search
-                                                className="col-md-9"
-                                                placeholder="Tìm kiếm môn học"
-                                                value={this.state.query}
-                                                onChange={this.courseSearchChange}
-                                            />
                                         </div>
-                                    </div>
-
-                                    {this.props.isLoading ? <Loading/> :
-                                        <ListCourse
-                                            courses={this.props.coursesList}
-                                            isDuplicating={this.props.isDuplicating}
-                                            deleteCourse={this.deleteCourse}
-                                            changeStatusCourse={this.changeStatusCourse}
-                                            duplicateCourse={this.duplicateCourse}
+                                        <Search
+                                            placeholder="Tìm kiếm môn học"
+                                            value={this.state.query}
+                                            onChange={this.courseSearchChange}
                                         />
-                                    }
-                                    <ul className="pagination pagination-primary">
-                                        {_.range(1, this.props.paginator.total_pages + 1).map(page => {
-
-                                            if (Number(this.state.page) === page) {
-                                                return (
-                                                    <li key={page} className="active">
-                                                        <a onClick={() => {
-                                                            this.loadCourses(page);
-                                                        }}>{page}</a>
-                                                    </li>
-                                                );
-                                            } else {
-                                                return (
-                                                    <li key={page}>
-                                                        <a onClick={() => {
-                                                            this.loadCourses(page);
-                                                        }}>{page}</a>
-                                                    </li>
-                                                );
-                                            }
-                                        })}
-                                    </ul>
+                                        <br/><br/>
+                                        {this.props.isLoading ? <Loading/> :
+                                            <ListCourse
+                                                courses={this.props.coursesList}
+                                                isDuplicating={this.props.isDuplicating}
+                                                deleteCourse={this.deleteCourse}
+                                                changeStatusCourse={this.changeStatusCourse}
+                                                duplicateCourse={this.duplicateCourse}
+                                            />
+                                        }
+                                        <ul className="pagination pagination-primary">
+                                            {_.range(1, this.props.paginator.total_pages + 1).map(page => {
+                                                if (Number(this.state.page) === page) {
+                                                    return (
+                                                        <li key={page} className="active">
+                                                            <a onClick={() => {
+                                                                this.loadCourses(page);
+                                                            }}>{page}</a>
+                                                        </li>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <li key={page}>
+                                                            <a onClick={() => {
+                                                                this.loadCourses(page);
+                                                            }}>{page}</a>
+                                                        </li>
+                                                    );
+                                                }
+                                            })}
+                                        </ul>
+                                    </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>

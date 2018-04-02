@@ -72,12 +72,12 @@ class MarketingCampaignContainer extends React.Component {
                                         <strong>&#160;Chiến dịch marketing</strong>
                                     </h4>
                                     <div>
-                                        <button
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                            type="button" onClick={() => this.openModalStoreCampaign()}>
+                                        <button  className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                            ype="button" onClick={() => this.openModalStoreCampaign()}>
                                             <strong>+</strong>
                                         </button>
                                     </div>
+
                                 </div>    
                                 <br/><br/>
                                 {
