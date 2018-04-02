@@ -1,10 +1,12 @@
 @extends('upcoworkingspace::layouts.master')
 
 @section('content')
-    <div style="background-image: url({{$event->cover_url}}); height: 350px; margin-top:70px; margin-bottom:30px;
+    <div style="background-image: url({{$event->cover_url}});
+            width: 100%;
+            height: 350px; margin-top:70px; margin-bottom:30px;
             background-position: center center;
-            background-repeat: no-repeat;
-            background-size: 100% 100%";>
+            background-repeat: repeat-x;
+            background-size: contain";>
     </div>
     <div class="container">
         <div class="row">
@@ -26,10 +28,15 @@
                     @if($event->end_time != $event->start_time)
                         <span> -  {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
                     @endif
+                    <br><br>
                 </p>
             </div>
-
-            <div class="article-content">{!!$event->detail!!}</div>
+            
+            <div class="article-content" style="color:black">
+                <div class="col-md-8">
+                    {!!$event->detail!!}
+                </div>
+            </div>
 
             <div class="container text-center" style="padding:10px">
                 <a href="{{'/event-form/' . $event->slug . '/sign-up-form'}}">
