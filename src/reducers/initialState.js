@@ -127,7 +127,7 @@ export default {
         isLoading: false,
         editPasswordModal: false,
         isUpdatingEditModal: false,
-        passwordEditModal: { password: '' },
+        passwordEditModal: {password: ''},
         totalPages: 1,
         currentPage: 1,
         totalCount: 1,

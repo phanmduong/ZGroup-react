@@ -869,10 +869,19 @@ a.btn-seat.active {
 }
 
 .button-add {
-    margin-left: 15px !important;
-    padding: 0px 8px !important;
-    font-size: 16px !important;
+  margin-left: 15px !important;
+  padding: 0px 8px !important;
+  font-size: 16px !important;
 }
+
+
+.Select-control {
+  border: none !important;
+  border-bottom: 1px solid #ccc !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+//////////// Nguyễn Đại Lợi
 
 .sms-paid-icon {
     width: 15px;
@@ -907,19 +916,18 @@ a.btn-seat.active {
 
 // Loi them Class :
 .button-plus {
-    border-radius: 50%;
-    border: none;
-    background-color: #0b82fb;
-    color: white;
-    line-height: 0;
-    padding: 0px;
-    margin-left: 12px;
+  border-radius: 50%;
+  border:none; 
+  background-color: #0b82fb; 
+  color: white; 
+  line-height: 0; 
+  padding: 0px;
+  margin-left: 12px
 }
 
-.dropdown-menu li a:hover,
-.dropdown-menu li a:focus,
-.dropdown-menu li a:active {
-    background-color: rgba(197, 0, 0, 1) !important;
+
+.dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
+    background-color: rgba(197, 0, 0, 1)!important;
 }
 
 .nav-pills-rose > .active > a {

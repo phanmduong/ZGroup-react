@@ -92,6 +92,7 @@ class ItemOrder extends React.Component {
                     </TooltipButton>
                 </td>
                 <td>{attach_info.code}</td>
+                <td>{attach_info.ratio}</td>
                 <td>
                     {
                         delivery.staff ?
