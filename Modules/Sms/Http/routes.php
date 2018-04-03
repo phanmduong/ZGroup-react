@@ -6,6 +6,8 @@ $routes = function () {
         Route::get("/campaign-list", "ManageSmsApiController@getCampaignsList");
         Route::post("/campaign-list", "ManageSmsApiController@createCampaign");
         Route::get("/campaign-detail/{campaignId}", "ManageSmsApiController@getCampaignDetail");
+        Route::post("/campaign-detail/{campaignId}", "ManageSmsApiController@createTemplate");
+
     });
 };
 

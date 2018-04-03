@@ -11,6 +11,7 @@ namespace Modules\Sms\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
 use App\SmsList;
+use App\SmsTemplate;
 use Illuminate\Http\Request;
 
 class ManageSmsApiController extends ManageApiController
@@ -20,13 +21,24 @@ class ManageSmsApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function assignCampaignInfo($campaign, $request){
+    public function assignCampaignInfo($campaign, $request, $user_id)
+    {
         $campaign->name = $request->name;
         $campaign->description = $request->description;
         $campaign->status = $request->status;
         $campaign->needed_quantity = $request->needed_quantity;
-
+        $campaign->user_id = $user_id;
         $campaign->save();
+    }
+
+    public function assignTemplateInfo($template, $request, $user_id, $campaignId)
+    {
+        $template->name = $request->name;
+        $template->content = $request->content;
+        $template->user_id = $user_id;
+        $template->sms_template_type_id = $request->sms_template_type_id;
+        $template->send_time = $request->send_time;
+        $template->sms_list_id = $campaignId;
     }
 
     public function getCampaignsList(Request $request)
@@ -53,12 +65,24 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
-    public function createCampaign(Request $request){
+    public function createCampaign(Request $request)
+    {
         $campaign = new SmsList;
-        $this->assignCampaignInfo($campaign, $request);
-
+        $this->assignCampaignInfo($campaign, $request, $this->user->id);
         return $this->respondSuccessWithStatus([
             'message' => 'Tạo chiến dịch thành công'
+        ]);
+    }
+
+    public function createTemplate($campaignId, Request $request)
+    {
+        $template = new SmsTemplate;
+        $this->assignTemplateInfo($template, $request, $this->user->id, $campaignId);
+        $template->sent_quantity = 0;
+        $template->save();
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'Tạo tin nhắn thành công'
         ]);
     }
 
