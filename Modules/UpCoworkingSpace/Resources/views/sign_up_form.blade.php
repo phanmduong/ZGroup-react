@@ -1,6 +1,6 @@
 @extends('upcoworkingspace::layouts.master')
 
-@section('vi-content')
+@section('content')
 <div class="container" style="margin-top: 150px">
     <div role="form" id="contact-form" method="post" action="#" >
     

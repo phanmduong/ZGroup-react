@@ -1,6 +1,6 @@
 @extends('upcoworkingspace::layouts.master')
 
-@section('vi-content')
+@section('content')
     <div class="page-header page-header-xs"
          style="background-image: url('http://up-co.vn/wp-content/uploads/revslider/homevi/126A6996.jpg'); height: 350px">
         <div class="filter"></div>

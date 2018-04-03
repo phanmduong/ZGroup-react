@@ -1,6 +1,6 @@
 @extends('upcoworkingspace::layouts.master')
 
-@section('vi-content')
+@section('content')
     <style>
         .banner{
             background: url("http://up-co.vn/wp-content/uploads/2016/08/back2.jpg");

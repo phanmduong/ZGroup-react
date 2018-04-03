@@ -17,13 +17,14 @@ use Illuminate\Support\Facades\DB;
 
 class UpCoworkingSpaceController extends Controller
 {
+
     public function index()
     {
         $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         $data = [];
         $data['newestBlogs'] = $newestBlogs;
 
-        return view('upcoworkingspace::vi.index', $data);
+        return view('upcoworkingspace::index', $data);
 //        dd($newestBlogs);
 
     }
@@ -37,7 +38,7 @@ class UpCoworkingSpaceController extends Controller
         $this->data['campaignId'] = $campaignId;
         $this->data['userId'] = $userId;
         $this->data['userBenefits'] =$userBenefits;
-        return view('upcoworkingspace::vi.member_register', $this->data);
+        return view('upcoworkingspace::member_register', $this->data);
     }
 
     public function blog(Request $request)
@@ -71,7 +72,7 @@ class UpCoworkingSpaceController extends Controller
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
 
-        return view('upcoworkingspace::vi.blogs', $this->data);
+        return view('upcoworkingspace::blogs', $this->data);
     }
 
     private function getPostData($post)
@@ -106,7 +107,7 @@ class UpCoworkingSpaceController extends Controller
             return 'Bài viết không tồn tại';
         }
         $data = $this->getPostData($post);
-        return view('upcoworkingspace::vi.post', $data);
+        return view('upcoworkingspace::post', $data);
     }
 
     public function postBySlug($slug)
@@ -116,7 +117,7 @@ class UpCoworkingSpaceController extends Controller
             return 'Bài viết không tồn tại';
         }
         $data = $this->getPostData($post);
-        return view('upcoworkingspace::vi.post', $data);
+        return view('upcoworkingspace::post', $data);
     }
 
     public function conferenceRoom(Request $request)
@@ -154,7 +155,7 @@ class UpCoworkingSpaceController extends Controller
         $this->data['total_pages'] = ceil($rooms->total() / $rooms->perPage());
         $this->data['current_page'] = $rooms->currentPage();
 
-        return view('upcoworkingspace::vi.conference_room', $this->data);
+        return view('upcoworkingspace::conference_room', $this->data);
     }
 
     //Su kien
@@ -185,7 +186,7 @@ class UpCoworkingSpaceController extends Controller
         $this->data['total_pages'] = ceil($events->total() / $events->perPage());
         $this->data['current_page'] = $events->currentPage();
 
-        return view('upcoworkingspace::vi.events', $this->data);
+        return view('upcoworkingspace::events', $this->data);
     }
 
     public function getEventOfCurrentMonth(Request $request)
@@ -204,7 +205,7 @@ class UpCoworkingSpaceController extends Controller
         $event = DB::table('events')->where('slug', $slug)->first();
         $this->data['event'] = $event;
 
-        return view('upcoworkingspace::vi.event_detail', $this->data);
+        return view('upcoworkingspace::event_detail', $this->data);
     }
 
     // dang ky event
@@ -215,17 +216,16 @@ class UpCoworkingSpaceController extends Controller
             'name' => 'required|max:255',
         ]);
 
-        return view('upcoworkingspace::vi.sign_up_form');
+        return view('upcoworkingspace::sign_up_form');
     }
 
-    public function missionAndVision(Request $request)
+    public function missionAndVision()
     {
-        dd(1);
-        return view('upcoworkingspace::vi.mission_vision');
+        return view('upcoworkingspace::mission_vision');
     }
 
-    public function partner(Request $request)
+    public function partner()
     {
-        return view('upcoworkingspace::vi.partner');
+        return view('upcoworkingspace::partner');
     }
 }

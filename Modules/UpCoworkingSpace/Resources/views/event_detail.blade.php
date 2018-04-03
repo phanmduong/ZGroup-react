@@ -1,6 +1,6 @@
 @extends('upcoworkingspace::layouts.master')
 
-@section('vi-content')
+@section('content')
     <div style="background-image: url({{$event->cover_url}});
             width: 100%;
             height: 350px; margin-top:70px; margin-bottom:30px;
