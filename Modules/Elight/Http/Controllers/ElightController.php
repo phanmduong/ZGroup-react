@@ -29,7 +29,10 @@ class ElightController extends Controller
     public function index()
     {
         $newestBlog = Product::where('type', 2)->where('category_id', 1)->orderBy('created_at', 'desc')->first();
-        $newestTop3 = Product::where('type', 2)->where('category_id', 1)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        $newestTop3 = Product::where('type', 2)->where('category_id', 1);
+        if ($newestBlog)
+            $newestTop3 = $newestTop3->where('id', '<>', $newestBlog->id);
+        $newestTop3 = $newestTop3->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
         $goods = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
@@ -155,12 +158,13 @@ class ElightController extends Controller
 
     public function allBooks($subfix, Request $request)
     {
-        $books = Course::join('course_course_category', 'courses.id', '=', 'course_course_category.course_id');
+        $books = Course::leftJoin('course_course_category', 'courses.id', '=', 'course_course_category.course_id');
 
         if ($request->search)
             $books = $books->where('courses.name', 'like', "%$request->search%");
         if ($request->category_id)
             $books = $books->where('course_course_category.course_category_id', '=', $request->category_id);
+        $books = $books->where('courses.status', 1);
         $books = $books->select('courses.*')->groupBy('courses.id');
 
         $books = $books->orderBy('created_at', 'desc')->paginate(8);

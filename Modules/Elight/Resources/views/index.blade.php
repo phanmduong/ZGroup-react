@@ -164,6 +164,7 @@
         </div>
         <div class="col-md-6">
             <div class="card card-plain card-blog">
+                @if($newestBlog)
                 <div class="card-image">
                     <a href="/blog/post/{{$newestBlog->id}}">
                         <div style="width: 100%;
@@ -185,6 +186,7 @@
                         <b>Xem thêm</b>
                     </a>
                 </div>
+                @endif
             </div>
         </div>
         <div class="col-md-6">
