@@ -1,6 +1,6 @@
 @extends('upcoworkingspace::layouts.master')
 
-@section('content')
+@section('vi-content')
 
     <div class="page-header page-header-small"
          style="background-image: url('http://up-co.vn/wp-content/uploads/2016/07/khong-gian-lam-viec-1.jpg');">

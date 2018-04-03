@@ -1,6 +1,6 @@
 @extends('upcoworkingspace::layouts.master')
 
-@section('content')
+@section('vi-content')
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <div class="container">
         <div class="row" style="margin-top:150px">

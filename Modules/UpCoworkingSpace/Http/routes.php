@@ -13,6 +13,8 @@ $routes = function () {
     Route::get('/events/{slug}/sign-up-form', 'UpCoworkingSpaceController@eventSignUpForm');
     Route::get('/su-kien-data','UpCoworkingSpaceController@getEventOfCurrentMonth');
     Route::get('/{slug}', 'UpCoworkingSpaceController@postBySlug');
+    Route::get('/tam-nhin-su-menh-gia-tri-cot-loi-up-coworking-space','UpCoworkingSpaceController@missionAndVision');
+    Route::get('/doi-tac-chien-luoc-cua-up','UpCoworkingSpaceController@partner');
 
     //En
     Route::get('/blog/post/{post_id}', 'UpCoworkingSpaceController@post');
@@ -22,6 +24,8 @@ $routes = function () {
     Route::get('/en/event', 'UpCoworkingSpaceController@event');
     Route::get('/en/event/{slug}', 'UpCoworkingSpaceController@eventDetail');
     Route::get('/en/event/{slug}/sign-up-form', 'UpCoworkingSpaceController@eventSignUpForm');
+    Route::get('/en/mission-and-vision','UpCoworkingSpaceController@missionAndVision');
+    Route::get('/en/media-partner','UpCoworkingSpaceController@partner');
 };
 
 $publicRoutes = function () {
