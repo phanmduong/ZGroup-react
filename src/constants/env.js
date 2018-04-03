@@ -6,13 +6,13 @@ let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
 export const TYPE_API = env.TYPE_API;
 export const BASE_URL = PROTOCOL + URL;
-export const API_URL = PROTOCOL + "api." + URL;
+//export const API_URL = PROTOCOL + "api." + URL;
 // export const API_URL = BASE_URL + "/api/v3";
 
 
 // export const API_URL = PROTOCOL + "api." + URL;
 
-export const BASE_URL = PROTOCOL + URL;
+//export const BASE_URL = PROTOCOL + URL;
 export const API_URL = BASE_URL + "/api/v3";
 
 // export const API_URL = BASE_URL + "/api/v3";
