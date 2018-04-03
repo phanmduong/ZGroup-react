@@ -1,4 +1,7 @@
-
+import CampaignContaier from '../modules/campaign/CampaignContainer';
+import CampaignComponent from '../modules/campaign/CampaignComponent';
+import HistoryComponent from '../modules/campaign/HistoryComponent';
+import ReceiversComponent from '../modules/campaign/ReceiversComponent';
 /**
  * Tab Quản lý tin nhắn Sms
  */
@@ -9,20 +12,20 @@ export default [
     },
     {
         path: "/sms/campaign",
-        // component: ,
-        // type: "create",
+        component: CampaignContaier,
+        type: "create",
         children: [
             {
                 path: "/",
-                //component:
+                component: CampaignComponent
             },
             {
                 path: "receivers",
-                // component:
+                component:ReceiversComponent
             },
             {
                 path: "history",
-                // component:
+                component:HistoryComponent
             }
         ]
     },

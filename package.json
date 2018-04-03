@@ -30,6 +30,12 @@
             "MODULE=order npm-run-all --parallel open:src lint:watch",
         "build:order":
             "npm run lint && rimraf ./dist/order && mkdir dist/order && MODULE=order babel-node tools/build/module.js",
+
+        "start:sms":
+        "MODULE=sms npm-run-all --parallel open:src lint:watch",
+        "build:sms":
+        "npm run lint && rimraf ./dist/sms && mkdir dist/sms && MODULE=sms babel-node tools/build/module.js",
+
         "start:manufacture":
             "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
         "build:manufacture":
