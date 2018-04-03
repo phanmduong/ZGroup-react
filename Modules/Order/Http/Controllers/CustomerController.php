@@ -29,13 +29,16 @@ class CustomerController extends ManageApiController
         $status = $request->status;
 
         if ($status == '1' || $status == '0') {
-            $customerIds = Order::where('status_paid', $status)->select('user_id')->get();
-            $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
-                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
-            })->orderBy('created_at', 'desc')->paginate($limit);
+            // $customerIds = Order::where('status_paid', $status)->select('user_id')->get();
+            // $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
+            // $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
+            //     $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
+            // })->orderBy('created_at', 'desc')->paginate($limit);
+            $users = [];
         } else {
-            $users = User::where('type', 'customer')->where(function ($query) use ($keyword) {
-                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
+            // $users = User::where('type', 'customer')->where(function ($query) use ($keyword) {
+            $users = User::where(function ($query) use ($keyword) {
+                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', "%$keyword%");
             })->orderBy('created_at', 'desc')->paginate($limit);
         }
 
