@@ -5,8 +5,8 @@ $routes = function () {
     Route::get('/', 'UpCoworkingSpaceController@index');
     Route::get('/tin-tuc-startup', 'UpCoworkingSpaceController@blog');
     Route::get('/blog/post/{post_id}', 'UpCoworkingSpaceController@post');
-    Route::get('/conference-room', 'UpCoworkingSpaceController@conferenceRoom');
-    Route::get('/conference-room/{conferenceRoomId}', 'UpCoworkingSpaceController@conferenceRoom');
+    Route::get('/phong-hop', 'UpCoworkingSpaceController@conferenceRoom');
+    Route::get('/phong-hop/{conferenceRoomId}', 'UpCoworkingSpaceController@conferenceRoom');
     Route::get('/goi-thanh-vien-up-coworking-space/{userId?}/{campaignId?}', 'UpCoworkingSpaceController@memberRegister');
     Route::get('/su-kien', 'UpCoworkingSpaceController@event');
     Route::get('/events/{slug}', 'UpCoworkingSpaceController@eventDetail');

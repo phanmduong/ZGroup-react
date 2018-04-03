@@ -42,6 +42,7 @@ class UpCoworkingSpaceController extends Controller
 
     public function blog(Request $request)
     {
+
         $blogs = Product::where('type', 2)->where('status', 1);
 
         $search = $request->search;
@@ -219,6 +220,7 @@ class UpCoworkingSpaceController extends Controller
 
     public function missionAndVision(Request $request)
     {
+        dd(1);
         return view('upcoworkingspace::vi.mission_vision');
     }
 
