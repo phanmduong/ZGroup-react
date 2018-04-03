@@ -20,6 +20,15 @@ class ManageSmsApiController extends ManageApiController
         parent::__construct();
     }
 
+    public function assignCampaignInfo($campaign, $request){
+        $campaign->name = $request->name;
+        $campaign->description = $request->description;
+        $campaign->status = $request->status;
+        $campaign->needed_quantity = $request->needed_quantity;
+
+        $campaign->save();
+    }
+
     public function getCampaignsList(Request $request)
     {
         $query = trim($request->search);
@@ -41,6 +50,15 @@ class ManageSmsApiController extends ManageApiController
             'campaigns' => $campaigns->map(function ($campaign) {
                 return $campaign->getData();
             })
+        ]);
+    }
+
+    public function createCampaign(Request $request){
+        $campaign = new SmsList;
+        $this->assignCampaignInfo($campaign, $request);
+
+        return $this->respondSuccessWithStatus([
+            'message' => 'Tạo chiến dịch thành công'
         ]);
     }
 

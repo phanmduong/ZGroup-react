@@ -3,7 +3,8 @@
 
 $routes = function () {
     Route::group(['prefix' => 'sms'], function () {
-        Route::get("/campaign-list","ManageSmsApiController@getCampaignsList");
+        Route::get("/campaign-list", "ManageSmsApiController@getCampaignsList");
+        Route::post("/campaign-list", "ManageSmsApiController@createCampaign");
         Route::get("/campaign-detail/{campaignId}", "ManageSmsApiController@getCampaignDetail");
     });
 };
