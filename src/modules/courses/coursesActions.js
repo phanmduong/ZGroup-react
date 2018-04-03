@@ -342,7 +342,7 @@ export function deleteCourse(id, success) {
                     type: types.DELETE_COURSES_SUCCESS,
                     courseId: id
                 });}else {
-                    helper.showNotification('Xóa môn học thất bại!');
+                    helper.showErrorNotification('Xóa môn học thất bại!');
                     dispatch({
                         type: types.DELETE_COURSES_ERROR
                     });

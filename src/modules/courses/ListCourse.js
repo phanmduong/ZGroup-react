@@ -37,7 +37,7 @@ class ListCourse extends React.Component {
     }
 
     deleteCourse(courseId) {
-        this.props.deleteCourse(courseId.id);
+        this.props.deleteCourse(courseId);
     }
 
     render() {
