@@ -22,11 +22,11 @@
                     <a class="nav-link hover-change dropdown-toggle" data-scroll="true" data-toggle="dropdown">VỀ
                         UP</a>
                     <div class="dropdown-menu">
-                        <a href="/tam-nhin-su-menh-gia-tri-cot-loi-up-coworking-space/" class="dropdown-item">Tầm nhìn - sứ mệnh</a>
-                        <a href="/doi-tac-chien-luoc-cua-up/" class="dropdown-item">Đối tác</a>
-                        <a href="/doi-tac-truyen-thong-cua-up/" class="dropdown-item">Truyền thông</a>
-                        <a href="/nhung-cau-hoi-thuong-gap/" class="dropdown-item">Những câu hỏi thường gặp</a>
-                        <a href="/thong-tin-tuyen-dung/" class="dropdown-item">Tuyển dụng</a>
+                        <a href="/tam-nhin-su-menh-gia-tri-cot-loi-up-coworking-space" class="dropdown-item">Tầm nhìn - sứ mệnh</a>
+                        <a href="/doi-tac-chien-luoc-cua-up" class="dropdown-item">Đối tác</a>
+                        <a href="/doi-tac-truyen-thong-cua-up" class="dropdown-item">Truyền thông</a>
+                        <a href="/nhung-cau-hoi-thuong-gap" class="dropdown-item">Những câu hỏi thường gặp</a>
+                        <a href="/thong-tin-tuyen-dung" class="dropdown-item">Tuyển dụng</a>
                     </div>
                 </li>
                 <li class="nav-item">

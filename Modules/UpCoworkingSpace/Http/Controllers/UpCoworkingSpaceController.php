@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class UpCoworkingSpaceController extends Controller
 {
+
     public function index()
     {
         $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
@@ -42,6 +43,7 @@ class UpCoworkingSpaceController extends Controller
 
     public function blog(Request $request)
     {
+
         $blogs = Product::where('type', 2)->where('status', 1);
 
         $search = $request->search;
@@ -217,5 +219,13 @@ class UpCoworkingSpaceController extends Controller
         return view('upcoworkingspace::sign_up_form');
     }
 
+    public function missionAndVision()
+    {
+        return view('upcoworkingspace::mission_vision');
+    }
 
+    public function partner()
+    {
+        return view('upcoworkingspace::partner');
+    }
 }
