@@ -37,6 +37,7 @@ class RoomServiceRegister extends Model
     {
         return $this->hasMany(TeleCall::class, 'register_id');
     }
+
     public function historyPayments()
     {
         return $this->hasMany(Payment::class, 'register_id');
@@ -46,6 +47,16 @@ class RoomServiceRegister extends Model
     {
         return $this->belongsTo(Base::class, 'base_id');
     }
+
+    public function seats()
+    {
+        return $this->belongsToMany(Seat::class, 'room_service_register_seat', 'room_service_register_id', 'seat_id');
+    }
+
+    public function rooms()
+    {
+        return $this->belongsToMany(Room::class, 'room_service_register_room', 'room_service_register_id', 'room_id');
+    } 
 
     public function getData()
     {
@@ -99,7 +110,6 @@ class RoomServiceRegister extends Model
             });
         }
 
-        // Note
         if ($this->subscription)
             $data['subscription'] = $this->subscription->getData();
 

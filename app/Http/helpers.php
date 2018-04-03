@@ -197,6 +197,7 @@ function format_vn_short_datetime($time)
 {
     return rebuild_date('H:i d-m-Y', $time);
 }
+
 function format_vn_datetime($time)
 {
     return rebuild_date('H:i:s d-m-Y', $time);
@@ -1596,7 +1597,7 @@ function getCommentPostFacebook($url)
 
 function getAllCommentFacebook($post_id, $token)
 {
-    $url = "https://graph.facebook.com/v1.0/$post_id/comments?access_token=$token";
+    $url = "https://graph.facebook.com/v1.0/$post_id/comments?access_token=$token&limit=10000";
     $comments = array();
     do {
         $data = getCommentPostFacebook($url);
@@ -1615,4 +1616,10 @@ function getAllCommentFacebook($post_id, $token)
     } while (true);
 
     return $comments;
+}
+
+function getEmailFromText($text)
+{
+    preg_match_all("/[._a-zA-Z0-9-]+@[._a-zA-Z0-9-]+/i", $text, $matches);
+    return !empty($matches[0]) ? $matches[0][0] : "";
 }

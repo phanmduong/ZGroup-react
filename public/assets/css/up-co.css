@@ -210,3 +210,10 @@
     color: #95d207 !important;
     font-size:20px;
 }
+
+p > img {
+    clear: both;
+    display: block;
+    margin: 10px auto;
+    padding: 10px 0;
+}
