@@ -24,88 +24,22 @@ export default function createProductReducer(state = initialState.createProduct,
                 ...state,
                 categories: action.categories
             };
-        case types.UPLOAD_AVATAR_COMPLETE_CREATE_PRODUCT:
+        case types.HANDLE_IMAGES_WEBSITE_TAB_CREATE_PRODUCT:
             return {
                 ...state,
                 productWorking: {
                     ...state.productWorking,
-                    avatar_url: action.avatar_url
+                    images_url: action.images_url
                 },
-                isUploadingAvatar: false
             };
-        case types.UPDATE_AVATAR_PROGRESS_CREATE_PRODUCT:
+        case types.HANDLE_AVATAR_WEBSITE_TAB_CREATE_PRODUCT:
             return {
                 ...state,
-                percent: action.percent
+                productWorking: {
+                    ...state.productWorking,
+                    avatar_url: action.image
+                },
             };
-        case types.BEGIN_UPLOAD_AVATAR_CREATE_PRODUCT:
-            return {
-                ...state,
-                isUploadingAvatar: true
-            };
-        case types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT:
-            return {
-                ...state,
-                percent: 0,
-                isUploadingImage: true
-            };
-        case types.UPDATE_IMAGE_PROGRESS_CREATE_PRODUCT:
-            return {
-                ...state,
-                percent: action.percent
-            };
-        case types.UPLOAD_IMAGE_COMPLETE_CREATE_PRODUCT: {
-            if (action.length + action.first_length === state.productWorking.images_url.length + 1) {
-                return {
-                    ...state,
-                    isUploadingImage: false,
-                    productWorking: {
-                        ...state.productWorking,
-                        images_url: [...state.productWorking.images_url, action.image]
-                    },
-                };
-            } else {
-                return {
-                    ...state,
-                    productWorking: {
-                        ...state.productWorking,
-                        images_url: [...state.productWorking.images_url, action.image]
-                    },
-                    isUploadingImage: true
-                };
-            }
-        }
-        case types.UPLOAD_CHILD_IMAGE_COMPLETE_MODAL: {
-            let children = [...state.productWorking.children];
-            let child_images_url = children[action.index].child_images_url ?
-                [...JSON.parse(children[action.index].child_images_url), action.image] : [action.image];
-            children[action.index] = {
-                ...children[action.index],
-                child_images_url: JSON.stringify(child_images_url)
-            };
-            //cần check xem child_images_url có null hay không
-            let length = state.productWorking.children[action.index].child_images_url
-                ? JSON.parse(state.productWorking.children[action.index].child_images_url).length + 1 : 1;
-            if (action.length + action.first_length === length) {
-                return {
-                    ...state,
-                    isUploadingImage: false,
-                    productWorking: {
-                        ...state.productWorking,
-                        children: children
-                    },
-                };
-            } else {
-                return {
-                    ...state,
-                    productWorking: {
-                        ...state.productWorking,
-                        children: children
-                    },
-                    isUploadingImage: true
-                };
-            }
-        }
         case types.END_UPLOAD_IMAGE_CREATE_PRODUCT:
             return {
                 ...state,
@@ -156,14 +90,6 @@ export default function createProductReducer(state = initialState.createProduct,
                 ...state,
                 goods_count_check: !state.goods_count_check
             };
-        case types.DELETE_IMAGE_CREATE_PRODUCT:
-            return {
-                ...state,
-                productWorking: {
-                    ...state.productWorking,
-                    images_url: state.productWorking.images_url.filter(image => image !== action.image)
-                }
-            };
         case types.BEGIN_LOAD_PRODUCT_DETAIL:
             return {
                 ...state,
@@ -198,6 +124,21 @@ export default function createProductReducer(state = initialState.createProduct,
                 childImagesModal: !state.childImagesModal,
                 child_index: action.index
             };
+        case types.HANDLE_CHILD_IMAGES_MODAL_CREATE_PRODUCT: {
+            let children = [...state.productWorking.children];
+            let child_images_url = action.images_url;
+            children[action.index] = {
+                ...children[action.index],
+                child_images_url: JSON.stringify(child_images_url)
+            };
+            return {
+                ...state,
+                productWorking: {
+                    ...state.productWorking,
+                    children: children
+                },
+            };
+        }
         case types.SHUT_DOWN_ADD_CHILD_IMAGES_MODAL:
             return {
                 ...state,

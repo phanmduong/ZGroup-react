@@ -9,31 +9,30 @@ class TabProfile extends React.Component {
 
   render() {
     return (
-        <div className="nav-tabs-navigation">
-          <div className="nav-tabs-wrapper">
-            <ul className="nav nav-tabs" data-tabs="tabs">
-              <li className={this.props.url === 'my-profile' ? 'active' : ''}>
+       
+            <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
+              <li className={this.props.url === 'my-profile' ? 'active nav-item' : 'nav-item'}>
                 <Link to="my-profile">
                   Thông tin cá nhân
                   <div className="ripple-container"/>
                 </Link>
               </li>
-              <li className={this.props.url === 'info-job' ? 'active' : ''}>
+              <li className={this.props.url === 'info-job' ? 'active nav-item' : 'nav-item'}>
                 <Link to="info-job">
                   Thông tin công việc
                   <div className="ripple-container"/>
                 </Link>
               </li>
-              <li className={this.props.url === 'info-project' ? 'active' : ''}>
+              <li className={this.props.url === 'info-project' ? 'active nav-item' : 'nav-item'}>
                 <Link to="info-project">
                   Phân công công việc
                   <div className="ripple-container"/>
                 </Link>
               </li>
             </ul>
-          </div>
-        </div>
+     
 
+       
     );
   }
 }

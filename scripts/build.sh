@@ -4,6 +4,5 @@ foo="Hello $bar"
 
 echo $foo $bar
 
-dir=/etc
-
-ls $dir
+res=$(ls /etc | wc -l)
+echo $res

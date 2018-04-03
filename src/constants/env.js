@@ -6,13 +6,21 @@ let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
 export const TYPE_API = env.TYPE_API;
 export const BASE_URL = PROTOCOL + URL;
+<<<<<<< HEAD
 //export const API_URL = PROTOCOL + "api." + URL;
+=======
+// export const API_URL = PROTOCOL + "api." + URL;
+>>>>>>> d7b6a37a83424f03dc882fc827c6dc2b4840491d
 // export const API_URL = BASE_URL + "/api/v3";
 
 
 // export const API_URL = PROTOCOL + "api." + URL;
 
+<<<<<<< HEAD
 //export const BASE_URL = PROTOCOL + URL;
+=======
+// export const BASE_URL = PROTOCOL + URL;
+>>>>>>> d7b6a37a83424f03dc882fc827c6dc2b4840491d
 export const API_URL = BASE_URL + "/api/v3";
 
 // export const API_URL = BASE_URL + "/api/v3";
