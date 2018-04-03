@@ -35,16 +35,17 @@ class NhatQuangShopController extends Controller
     public function index()
     {
         $goodQuery = Good::where('display_status', 1)->groupBy('code');
-        $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(8)->get();
+        $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(6)->get();
         $generalGoods = $goodQuery->take(8)->get();
-        $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(8)->get();
-
+        $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(6)->get();
+        $categoryGoods = Good::orderBy("good_category_id")->pluck('good_category_id');
         $generalGoods = $generalGoods->map(function ($good) {
             return $good->transformAllProperties();
         });
         $this->data["generalGoods"] = $generalGoods;
         $this->data["newestGoods"] = $newestGoods;
         $this->data["highLightGoods"] = $highLightGoods;
+        $this->data["categoryGoods"] = $categoryGoods;
         return view('nhatquangshop::index', $this->data);
     }
 
@@ -85,7 +86,7 @@ class NhatQuangShopController extends Controller
     {
 
         $good = Good::find($good_id);
-        $relateGoods = Good::where("good_category_id", "=", $good->good_category_id )->get();
+        $relateGoods = Good::where("good_category_id", "=", $good->good_category_id)->get();
         $images_good = GoodProperty::where([["good_id", "=", $good_id], ["name", "=", "images_url"]])->first();
         $images_good = json_decode($images_good['value']);
         $this->data['images_good'] = $images_good;
