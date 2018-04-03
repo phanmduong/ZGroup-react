@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class RoomServiceRegister extends Model
 {
@@ -56,7 +57,12 @@ class RoomServiceRegister extends Model
     public function rooms()
     {
         return $this->belongsToMany(Room::class, 'room_service_register_room', 'room_service_register_id', 'room_id');
-    } 
+    }
+
+    public function roomServiceRegisterRoom()
+    {
+        return $this->hasOne(RoomServiceRegisterRoom::class, 'room_service_register_id');
+    }
 
     public function getData()
     {
@@ -121,6 +127,8 @@ class RoomServiceRegister extends Model
                 "province" => $base->district->province->transform()
             ];
         }
+        if ($this->roomServiceRegisterRoom)
+            $data['room_history'] = $this->roomServiceRegisterRoom->getData();
         return $data;
     }
 }

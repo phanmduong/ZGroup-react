@@ -330,12 +330,21 @@ class ManageBookingController extends ManageApiController
         return $this->respondSuccessWithStatus(["register" => $register->getData()]);
     }
 
-    public function assignTime($registerId, $request) {
-        if($register = RoomServiceRegister::find($registerId));
-        if($register == null)
+    public function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
+    public function assignTime($registerId, $request)
+    {
+        if ($register = RoomServiceRegister::find($registerId));
+        if ($register == null)
             return $this->respondErrorWithStatus('Không tồn tại đặt phòng');
-        if($request->room_id == null)
+        if ($request->room_id == null)
             return $this->respondErrorWithStatus('Thiếu phòng');
+        if($this->validateDate($request->start_time) == false || $this->validateDate($request->end_time) == false)
+            return $this->respondErrorWithStatus('Nhập ngày tháng đúng định dạng Y-m-d H:i:s');
         $register->rooms->attach($request->room_id, [
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
@@ -350,9 +359,9 @@ class ManageBookingController extends ManageApiController
             ->where('room_types.type_name', 'conference')->select('rooms.*')
             ->where('rooms.name', 'like', "%$request->search%")
             ->paginate($limit);
-        
-        return $this->respondWithPagination($conferenceRooms,[
-            'rooms' => $conferenceRooms->map(function($conferenceRoom){
+
+        return $this->respondWithPagination($conferenceRooms, [
+            'rooms' => $conferenceRooms->map(function ($conferenceRoom) {
                 return $conferenceRoom->getData();
             })
         ]);
