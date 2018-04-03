@@ -81,7 +81,7 @@ export function createEditCourse(data) {
 
 export function deleteCourse(courseId) {
     //http://manageapi.keetool.tk/v2/course/delete/{course_id}?token=
-    let url = env.MANAGE_API_URL + "/v2/course/delete/";
+    let url = env.MANAGE_API_URL + "/course/delete/";
     let token = localStorage.getItem('token');
     if (token) {
         url += courseId + "?token=" + token;
