@@ -188,7 +188,7 @@ class AttendanceStaffsContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={this.state.gens}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
                                     />
@@ -197,7 +197,7 @@ class AttendanceStaffsContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />
@@ -206,7 +206,7 @@ class AttendanceStaffsContainer extends React.Component {
                                     <button
                                         style={{width: '100%'}}
                                         onClick={this.openFilterPanel}
-                                        className="btn btn-info btn-rose"
+                                        className="btn btn-info btn-rose btn-round"
                                     >
                                         <i className="material-icons">filter_list</i>
                                         Lọc
@@ -218,7 +218,7 @@ class AttendanceStaffsContainer extends React.Component {
                                     <div className="col-sm-2 col-xs-5">
                                         <button
                                             onClick={this.exportExcel}
-                                            className="btn btn-info btn-rose"
+                                            className="btn btn-info btn-rose btn-round"
                                         >
                                             Xuất ra excel
                                         </button>

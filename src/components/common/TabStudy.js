@@ -9,25 +9,20 @@ class TabStudy extends React.Component {
 
   render() {
     return (
-        <div className="nav-tabs-navigation">
-          <div className="nav-tabs-wrapper">
-            <ul className="nav nav-tabs" data-tabs="tabs">
-              <li className={this.props.url === 'teaching/scheduleclass' ? 'active' : ''}>
+            <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
+              <li className={this.props.url === 'teaching/scheduleclass' ? 'active nav-item' : 'nav-item'}>
                 <Link to="/teaching/scheduleclass">
                   Lịch học
                   <div className="ripple-container"/>
                 </Link>
               </li>
-              <li className={this.props.url === 'manage/studysession' ? 'active' : ''}>
+              <li className={this.props.url === 'manage/studysession' ? 'active nav-item' : 'nav-item'}>
                 <Link to="/teaching/studysession">
                   Ca học
                   <div className="ripple-container"/>
                 </Link>
               </li>
             </ul>
-          </div>
-        </div>
-
     );
   }
 }

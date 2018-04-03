@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as registerManageAction from './registerManageAction';
 import {Button} from "react-bootstrap";
-import CollapsePanel from "./CollapsePanel";
+import CollapsePanel from "../../components/common/CollapsePanel";
 
 // import Avatar from '../../components/common/Avatar';
 
@@ -31,114 +31,114 @@ class CallModal extends React.Component {
 
                     {register.user &&
                     <CollapsePanel
-                        isMultiSelect = {true}
+                        isMultiSelect={true}
                         id="collapseOne"
                         style={{height: '0px', marginTop: 15}}
                         title="Thông tin khách hàng"
-                        content={
-                            <div className="timeline-panel">
-                                <div className="timeline-body">
-                                    <div className="flex-row-center"><i
-                                        className="material-icons">account_circle</i>
-                                        <b>&nbsp; &nbsp; {register.user.name} </b>
-                                    </div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">phone</i>
-                                        <b>&nbsp; &nbsp;{helper.formatPhone(register.user.phone)} </b>
-                                    </div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">email</i>
-                                        &nbsp; &nbsp; {register.user.email}
-                                    </div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">room</i>
-                                        &nbsp; &nbsp; {register.user.address && register.user.address}
-                                    </div>
+                    >
+
+                        <div className="timeline-panel">
+                            <div className="timeline-body">
+                                <div className="flex-row-center"><i
+                                    className="material-icons">account_circle</i>
+                                    <b>&nbsp; &nbsp; {register.user.name} </b>
+                                </div>
+                                <div className="flex-row-center">
+                                    <i className="material-icons">phone</i>
+                                    <b>&nbsp; &nbsp;{helper.formatPhone(register.user.phone)} </b>
+                                </div>
+                                <div className="flex-row-center">
+                                    <i className="material-icons">email</i>
+                                    &nbsp; &nbsp; {register.user.email}
+                                </div>
+                                <div className="flex-row-center">
+                                    <i className="material-icons">room</i>
+                                    &nbsp; &nbsp; {register.user.address && register.user.address}
                                 </div>
                             </div>
-                        }
-                    />
+                        </div>
+
+                    </CollapsePanel>
                     }
 
                     {register.subscription &&
                     <CollapsePanel
-                        isMultiSelect = {true}
+                        isMultiSelect={true}
                         id="collapseTwo"
                         style={{height: '0px', marginTop: 15}}
                         title="Thông tin gói khách hàng"
-                        content={
-                            <div className="timeline-panel">
-                                <div className="timeline-body">
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">class</i>
-                                        <b>&nbsp; &nbsp;{register.subscription.user_pack_name} </b></div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">note</i>
-                                        &nbsp; &nbsp; {"Nothing here"}
-                                    </div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">attach_money</i>
-                                        <b style={{marginLeft: 13}}>{helper.dotNumber(register.subscription.price)}đ</b>
-                                    </div>
-                                    <div className="flex-row-center">
-                                        <i className="material-icons">access_time</i>
-                                        &nbsp; &nbsp; {"  " + register.subscription.hours + " giờ"}
-                                    </div>
-                                    <div className="flex-row-center" style={{display: "inline-block"}}>
-                                        <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.subscription.description}
-                                    </div>
+                    >
+                        <div className="timeline-panel">
+                            <div className="timeline-body">
+                                <div className="flex-row-center">
+                                    <i className="material-icons">class</i>
+                                    <b>&nbsp; &nbsp;{register.subscription.user_pack_name} </b></div>
+                                <div className="flex-row-center">
+                                    <i className="material-icons">note</i>
+                                    &nbsp; &nbsp; {"Nothing here"}
+                                </div>
+                                <div className="flex-row-center">
+                                    <i className="material-icons">attach_money</i>
+                                    <b style={{marginLeft: 13}}>{helper.dotNumber(register.subscription.price)}đ</b>
+                                </div>
+                                <div className="flex-row-center">
+                                    <i className="material-icons">access_time</i>
+                                    &nbsp; &nbsp; {"  " + register.subscription.hours + " giờ"}
+                                </div>
+                                <div className="flex-row-center" style={{display: "inline-block"}}>
+                                    <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.subscription.description}
                                 </div>
                             </div>
-                        }
-                    />
+                        </div>
+                    </CollapsePanel>
                     }
 
                     <CollapsePanel
-                        isMultiSelect = {true}
+                        isMultiSelect={true}
                         id="collapseThree"
                         style={{height: '0px'}}
                         title="Lịch sử gọi điện"
-                        content={
-                            <ul className="timeline timeline-simple">{
-                                register.teleCalls && register.teleCalls.map((history, index) => {
-                                    let btn = '';
-                                    if (history.call_status === 1) {
-                                        btn = ' success';
-                                    }
-                                    else if (history.call_status === 0) {
-                                        btn = ' danger';
-                                    }
-                                    return (
-                                        <li className="timeline-inverted" key={index}>
 
-                                            <div className={"timeline-badge " + btn}>
-                                                <i className="material-icons">phone</i>
-                                            </div>
-                                            <div className="timeline-panel">
-                                                <div className="timeline-heading">
+                    >
+                        <ul className="timeline timeline-simple">{
+                            register.teleCalls && register.teleCalls.map((history, index) => {
+                                let btn = '';
+                                if (history.call_status === 1) {
+                                    btn = ' success';
+                                }
+                                else if (history.call_status === 0) {
+                                    btn = ' danger';
+                                }
+                                return (
+                                    <li className="timeline-inverted" key={index}>
+
+                                        <div className={"timeline-badge " + btn}>
+                                            <i className="material-icons">phone</i>
+                                        </div>
+                                        <div className="timeline-panel">
+                                            <div className="timeline-heading">
                                                         <span className="label label-default"
                                                               style={{backgroundColor: '#' + history.caller.color}}>
                                                         {history.caller.name}
                                                         </span>
-                                                </div>
-                                                <div className="timeline-body">
-                                                    {history.note &&
-                                                    <p className="flex-row-center">
-                                                        <i className="material-icons">note</i>
-                                                        &nbsp; &nbsp;{" " + history.note}
-                                                    </p>}
-                                                </div>
-                                                <h6>
-                                                    <i className="ti-time"/>
-                                                    {helper.parseTime(history.created_at)}
-                                                </h6>
                                             </div>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        }
-                    />
+                                            <div className="timeline-body">
+                                                {history.note &&
+                                                <p className="flex-row-center">
+                                                    <i className="material-icons">note</i>
+                                                    &nbsp; &nbsp;{" " + history.note}
+                                                </p>}
+                                            </div>
+                                            <h6>
+                                                <i className="ti-time"/>
+                                                {helper.parseTime(history.created_at)}
+                                            </h6>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </CollapsePanel>
 
 
                     <div className="form-group label-floating is-empty">

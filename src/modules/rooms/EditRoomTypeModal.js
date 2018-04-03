@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import FormInputText from "../../components/common/FormInputText";
 import {linkUploadImageEditor} from "../../constants/constants";
 import ReactEditor from "../../components/common/ReactEditor";
+import Select from "react-select";
+
 
 class EditRoomTypeModal extends React.Component {
     constructor(props, context) {
@@ -37,7 +39,19 @@ class EditRoomTypeModal extends React.Component {
                             </button>
                         </div>
                     </div>
-                    <div className="form-group">
+                    <Select
+                        name="type"
+                        value={
+                            type.type_name ? type.type_name : ""
+                        }
+                        options={[
+                            {label: "Phòng làm việc", value: "work"},
+                            {label: "Phòng họp", value: "conference"},
+                        ]}
+                        onChange={this.props.handleTypeName}
+                        clearable={false}
+                    />
+                    <div className="form-group" style={{zIndex : 0}}>
                         <h4 className="label-control">
                             Mô tả loại phòng
                         </h4>
@@ -59,6 +73,7 @@ EditRoomTypeModal.propTypes = {
     editRoomTypeModal: PropTypes.bool.isRequired,
     type: PropTypes.object.isRequired,
     handleDescription: PropTypes.func.isRequired,
+    handleTypeName: PropTypes.func.isRequired,
     handleName: PropTypes.func.isRequired,
     createRoomType: PropTypes.func.isRequired
 };

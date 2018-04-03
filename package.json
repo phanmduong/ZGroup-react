@@ -28,6 +28,8 @@
     "build:manufacture": "npm run lint && rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
     "start:base": "MODULE=base npm-run-all --parallel open:src lint:watch",
     "build:base": "npm run lint && rimraf ./dist/base && mkdir dist/base && MODULE=base babel-node tools/build/module.js",
+    "start:sms": "MODULE=sms npm-run-all --parallel open:src lint:watch",
+    "build:sms": "npm run lint && rimraf ./dist/sms && mkdir dist/sms && MODULE=sms babel-node tools/build/module.js",
     "start:work": "MODULE=work npm-run-all --parallel open:src lint:watch",
     "build:work": "npm run lint && rimraf ./dist/work && mkdir dist/work && MODULE=work babel-node tools/build/module.js",
     "start:blog": "MODULE=blog npm-run-all --parallel open:src lint:watch",

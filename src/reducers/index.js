@@ -78,10 +78,15 @@ import sendNotificationReducer from '../modules/sendNotification/sendNotificatio
 import DashBoardUpReducer from '../modules/dashboardUp/DashBoardUpReducer';
 import marketingCampaignsUpReducer from "../modules/marketingCampaignUp/marketingCampaignsUpReducer";
 import summarySalesUpReducer from "../modules/summarySalesUp/summarySalesUpReducer";
+import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportReducer";
+
 import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
+import labelManageReducer from "../modules/labelManage/labelManageReducer";
 
 
 const appReducer = combineReducers({
+    labelManage: labelManageReducer,
+    weekendReport: weekendReportReducer,
     globalLoading: globalLoadingReducer,
     login: loginReducer,
     tabs: tabsReducer,
@@ -147,7 +152,7 @@ const appReducer = combineReducers({
     summaryStaff: summaryStaffReducer,
     currency: currencyReducer,
     dashboardXHH: dashboardXHHReducer,
-    userpacks  : userpackReducer,
+    userpacks: userpackReducer,
     orderedDetail: orderedDetailReducer,
     inventoryOrder: inventoryOrderReducer,
     bankAccount: bankAccountReducer,
@@ -159,7 +164,7 @@ const appReducer = combineReducers({
     dashboardUp: DashBoardUpReducer,
     marketingCampaignUp: marketingCampaignsUpReducer,
     summaryMarketingCampaignUp: summaryMarketingCampaignUpReducer,
-    summarySalesUp : summarySalesUpReducer,
+    summarySalesUp: summarySalesUpReducer,
     historyExtension: HistoryExtensionWorkReducer,
     emailCommentFB: emailCommentFBReducer,
 });

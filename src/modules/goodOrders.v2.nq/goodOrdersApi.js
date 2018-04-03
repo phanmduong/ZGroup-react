@@ -145,7 +145,7 @@ export function editOrderApi(order, orderId) {
             'code': order.order.code,
             'status': order.order.status,
             'good_orders': JSON.stringify(tmp),
-            'user_id' : order.order.customer.id,
+            'user_id': order.order.customer.id,
         }
     );
 }
@@ -163,10 +163,10 @@ export function loadWareHouseDetailApi() {
 }
 
 
-export function loadGoodsApi(page , limit , query ) {
+export function loadGoodsApi(page, limit, query) {
     let url = env.MANAGE_API_URL + "/good/all?";
     let token = localStorage.getItem('token');
-    if (limit){
+    if (limit) {
         url += "&limit=" + limit;
     }
     if (page) {
@@ -181,7 +181,7 @@ export function loadGoodsApi(page , limit , query ) {
     return axios.get(url);
 }
 
-export function editReturnOrdersApi(order,orderId) {
+export function editReturnOrdersApi(order, orderId) {
     let url = env.MANAGE_API_URL + "/order/" + orderId + "/warehouse/" + order.order.warehouse;
     let token = localStorage.getItem('token');
     if (token) {
@@ -195,6 +195,20 @@ export function editReturnOrdersApi(order,orderId) {
         {
             'note': order.order.note,
             'good_orders': JSON.stringify(tmp),
+        }
+    );
+}
+
+export function payOrderMoney(order, info) {
+    let url = env.MANAGE_API_URL + "/order/pay-order/" + order.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url,
+        {
+            money: info.money,
+            note: info.note
         }
     );
 }

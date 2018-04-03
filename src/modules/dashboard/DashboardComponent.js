@@ -205,18 +205,18 @@ class DashboardComponent extends React.Component {
                         <div className="row" id="register-by-date">
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">insert_chart</i>
-                                    </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Số lượng đăng kí theo ngày
-                                            <small/>
-                                        </h4>
-                                        <Barchart
-                                            label={date_array}
-                                            data={[registers_by_date, paid_by_date]}
-                                            id="barchar_register_by_date"
-                                        />
+                                        <div className="tab-content">
+                                            <h4 className="card-title">
+                                                <strong>Số lượng đăng kí theo ngày</strong>
+                                            </h4>
+                                            <br/><br/>
+                                            <Barchart
+                                                label={date_array}
+                                                data={[registers_by_date, paid_by_date]}
+                                                id="barchar_register_by_date"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -224,18 +224,18 @@ class DashboardComponent extends React.Component {
                         <div className="row" id="money-by-date">
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">insert_chart</i>
-                                    </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Doanh thu theo ngày
-                                            <small/>
-                                        </h4>
-                                        <Barchart
-                                            label={date_array}
-                                            data={[money_by_date]}
-                                            id="barchar_money_by_date"
-                                        />
+                                        <div className="tab-content">
+                                            <h4 className="card-title">
+                                                <strong>Doanh thu theo ngày</strong>
+                                            </h4>
+                                            <br/><br/>
+                                            <Barchart
+                                                label={date_array}
+                                                data={[money_by_date]}
+                                                id="barchar_money_by_date"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -245,48 +245,47 @@ class DashboardComponent extends React.Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">insert_chart</i>
-                                        </div>
                                         <div className="card-content">
-                                            <div className="flex flex-row flex-space-between">
-                                                <h4 className="card-title">
-                                                    {this.props.dateShifts === current_date ? 'Lịch trực hôm nay' : 'Lịch trực ' + this.props.dateShifts}
-                                                    <small/>
-                                                </h4>
-                                                <div className="flex flex-row">
-                                                    <button
-                                                        className="btn btn-rose btn-sm"
-                                                        onClick={() => this.props.loadAttendanceShift(-DATE)}
-                                                    >
-                                                    <span className="btn-label">
-                                                        <i className="material-icons">keyboard_arrow_left</i>
-                                                    </span>
-                                                        Trước
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-rose btn-sm"
-                                                        onClick={() => this.props.loadAttendanceShift(DATE)}
-                                                    >
-                                                        Sau
-                                                        <span className="btn-label btn-label-right">
-                                                        <i className="material-icons">
-                                                            keyboard_arrow_right
-                                                        </i>
-                                                    </span>
-                                                    </button>
+                                            <div className="tab-content">
+                                                <div className="flex flex-row flex-space-between">
+                                                    <h4 className="card-title">
+                                                        <strong>{this.props.dateShifts === current_date ? 'Lịch trực hôm nay' : 'Lịch trực ' + this.props.dateShifts}</strong>
+                                                    </h4>
+                                                    <div className="flex flex-row">
+                                                        <button
+                                                            className="btn btn-rose btn-sm"
+                                                            onClick={() => this.props.loadAttendanceShift(-DATE)}
+                                                        >
+                                                        <span className="btn-label">
+                                                            <i className="material-icons">keyboard_arrow_left</i>
+                                                        </span>
+                                                            Trước
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-rose btn-sm"
+                                                            onClick={() => this.props.loadAttendanceShift(DATE)}
+                                                        >
+                                                            Sau
+                                                            <span className="btn-label btn-label-right">
+                                                            <i className="material-icons">
+                                                                keyboard_arrow_right
+                                                            </i>
+                                                        </span>
+                                                        </button>
+                                                    </div>
                                                 </div>
+                                                <br/>
+                                                {
+                                                    this.props.isLoadingAttendanceShifts ? <Loading/> :
+                                                        (
+                                                            shifts ?
+                                                                <ListAttendanceShift
+                                                                    baseId={this.props.baseId}
+                                                                    shifts={shifts}
+                                                                /> : <div><strong>Hiện không có lịch trực</strong></div>
+                                                        )
+                                                }
                                             </div>
-                                            {
-                                                this.props.isLoadingAttendanceShifts ? <Loading/> :
-                                                    (
-                                                        shifts ?
-                                                            <ListAttendanceShift
-                                                                baseId={this.props.baseId}
-                                                                shifts={shifts}
-                                                            /> : <div><strong>Hiện không có lịch trực</strong></div>
-                                                    )
-                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -296,49 +295,47 @@ class DashboardComponent extends React.Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">insert_chart</i>
-                                        </div>
                                         <div className="card-content">
-                                            <div className="flex flex-row flex-space-between">
-                                                <h4 className="card-title">
-                                                    {this.props.dateClasses === current_date ? 'Lớp học hôm nay' : 'Lớp học ' + this.props.dateClasses}
-                                                    <small/>
-                                                </h4>
-                                                <div className="flex flex-row">
-                                                    <button
-                                                        className="btn btn-rose btn-sm"
-                                                        onClick={() => this.props.loadAttendanceClass(-DATE)}
-                                                    >
-                                                    <span className="btn-label">
-                                                        <i className="material-icons">keyboard_arrow_left</i>
-                                                    </span>
-                                                        Trước
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-rose btn-sm"
-                                                        onClick={() => this.props.loadAttendanceClass(DATE)}
-                                                    >
-                                                        Sau
-                                                        <span className="btn-label btn-label-right">
-                                                        <i className="material-icons">
-                                                            keyboard_arrow_right
-                                                        </i>
-                                                    </span>
-                                                    </button>
+                                            <div className="tab-content">
+                                                <div className="flex flex-row flex-space-between">
+                                                    <h4 className="card-title">
+                                                        <strong>{this.props.dateClasses === current_date ? 'Lớp học hôm nay' : 'Lớp học ' + this.props.dateClasses}</strong>
+                                                    </h4>
+                                                    <div className="flex flex-row">
+                                                        <button
+                                                            className="btn btn-rose btn-sm"
+                                                            onClick={() => this.props.loadAttendanceClass(-DATE)}
+                                                        >
+                                                        <span className="btn-label">
+                                                            <i className="material-icons">keyboard_arrow_left</i>
+                                                        </span>
+                                                            Trước
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-rose btn-sm"
+                                                            onClick={() => this.props.loadAttendanceClass(DATE)}
+                                                        >
+                                                            Sau
+                                                            <span className="btn-label btn-label-right">
+                                                            <i className="material-icons">
+                                                                keyboard_arrow_right
+                                                            </i>
+                                                        </span>
+                                                        </button>
+                                                    </div>
                                                 </div>
+                                                <br/>
+                                                {
+                                                    this.props.isLoadingAttendanceClasses ? <Loading/> :
+                                                        (
+                                                            now_classes ?
+                                                                <ListAttendanceClass
+                                                                    baseId={this.props.baseId}
+                                                                    now_classes={now_classes}
+                                                                /> : <div><strong>Hiện không có lớp học</strong></div>
+                                                        )
+                                                }
                                             </div>
-                                            {
-                                                this.props.isLoadingAttendanceClasses ? <Loading/> :
-                                                    (
-                                                        now_classes ?
-                                                            <ListAttendanceClass
-                                                                baseId={this.props.baseId}
-                                                                now_classes={now_classes}
-                                                            /> : <div><strong>Hiện không có lớp học</strong></div>
-                                                    )
-                                            }
-
                                         </div>
                                     </div>
                                 </div>
@@ -348,17 +345,17 @@ class DashboardComponent extends React.Component {
                         <div className="row" id="list-class">
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">assignment</i>
-                                    </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Danh sách lớp</h4>
-                                        <ListClass
-                                            classes={classes}
-                                            user={user}
-                                            changeClassStatus={this.props.changeClassStatus}
-                                            openModalClass={this.props.openModalClass}
-                                        />
+                                        <div className="tab-content">
+                                            <h4 className="card-title"><strong>Danh sách lớp</strong></h4>
+                                            <br/>
+                                            <ListClass
+                                                classes={classes}
+                                                user={user}
+                                                changeClassStatus={this.props.changeClassStatus}
+                                                openModalClass={this.props.openModalClass}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

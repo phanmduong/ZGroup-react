@@ -4,59 +4,69 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import *as orderedProductAction from "./orderedProductAction";
 import PropTypes from "prop-types";
-import Loading from "../../components/common/Loading";
+import {DATETIME_VN_FORMAT} from "../../constants/constants";
+import moment from "moment/moment";
+import FormInputDateTimeForModal from "./FormInputDateTimeForModal";
+//import {DATETIME_SEAT_FORMAT} from "../../constants/constants";
+//import {moment} from "moment";
 
 class CameToVNModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.handleNote = this.handleNote.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
     }
 
-    handleNote(e) {
-        const field = e.target.name;
-        let orderNote = {...this.props.orderNote};
-        orderNote[field] = e.target.value;
-        this.props.orderedProductAction.handleAddNoteModal(orderNote);
+    updateFormData(e) {
+        let orders = this.props.orderCameToVN.map(order => {
+            let attach_info = {
+                ...JSON.parse(order.attach_info),
+                endTime: e.target.value
+            };
+            return {
+                ...order,
+                attach_info: JSON.stringify(attach_info)
+            };
+        });
+        this.props.orderedProductAction.handleCameToVNModal(orders);
     }
 
     render() {
+        let order = this.props.orderCameToVN[0];
         return (
             <Modal show={this.props.cameToVNModal}
-                   onHide={() => this.props.orderedProductAction.showAddNoteModal()}>
-                <a onClick={() => this.props.orderedProductAction.showAddNoteModal()}
+                   onHide={() => this.props.orderedProductAction.showCameToVNModal()}
+                   bsStyle="primary">
+                <a onClick={() => this.props.orderedProductAction.showCameToVNModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title">Ghi chú</Modal.Title>
+                    <Modal.Title id="contained-modal-title">Bổ sung thông tin</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="form-group">
-                        <label className="label-control">Ghi chú</label>
-                        <textarea type="text" className="form-control"
-                                  value={this.props.orderNote.note ? this.props.orderNote.note : ''}
-                                  name="note"
-                                  onChange={this.handleNote}/>
-                        <span className="material-input"/>
-
+                    <FormInputDateTimeForModal
+                        format={DATETIME_VN_FORMAT}
+                        label="Dự kiến ngày về"
+                        name="endTime"
+                        defaultDate={moment()}
+                        updateFormData={this.updateFormData}
+                        id="form-end-time"
+                        value={order.attach_info ? JSON.parse(order.attach_info).endTime : ''}
+                    />
+                    <div>
+                        <button rel="tooltip" data-placement="top" title=""
+                                data-original-title="Remove item" type="button"
+                                className="btn btn-success btn-round" data-dismiss="modal"
+                                onClick={() => this.props.orderedProductAction.changeStatus(
+                                    "arrive_date", this.props.orderCameToVN, null
+                                )}>
+                            <i className="material-icons">check</i> Xác nhận
+                        </button>
+                        <button rel="tooltip" data-placement="top" title=""
+                                data-original-title="Remove item" type="button"
+                                className="btn btn-danger btn-round" data-dismiss="modal"
+                                onClick={() => this.props.orderedProductAction.showCameToVNModal()}>
+                            <i className="material-icons">close</i> Huỷ
+                        </button>
                     </div>
-                    {
-                        this.props.isSendingNote ? <Loading/> : (
-                            <div>
-                                <button rel="tooltip" data-placement="top" title=""
-                                        data-original-title="Remove item" type="button"
-                                        className="btn btn-success btn-round" data-dismiss="modal"
-                                        onClick={() => this.props.orderedProductAction.editNote(this.props.orderNote)}>
-                                    <i
-                                        className="material-icons">check</i> Xác nhận
-                                </button>
-                                <button rel="tooltip" data-placement="top" title=""
-                                        data-original-title="Remove item" type="button"
-                                        className="btn btn-danger btn-round" data-dismiss="modal"
-                                        onClick={() => this.props.orderedProductAction.showAddNoteModal()}>
-                                    <i className="material-icons">close</i> Huỷ
-                                </button>
-                            </div>
-                        )
-                    }
                 </Modal.Body>
             </Modal>
         );
@@ -65,18 +75,15 @@ class CameToVNModal extends React.Component {
 
 CameToVNModal.propTypes = {
     orderedProductAction: PropTypes.object.isRequired,
-    addNoteModal: PropTypes.bool,
-    orderNote: PropTypes.object,
-    orderCameToVN: PropTypes.object.isRequired,
-    isSendingNote: PropTypes.bool,
     cameToVNModal: PropTypes.bool,
+    orderNote: PropTypes.object,
+    orderCameToVN: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         cameToVNModal: state.orderedProduct.cameToVNModal,
         orderCameToVN: state.orderedProduct.orderCameToVN,
-        isSendingNote: state.orderedProduct.isSendingNote
     };
 }
 
