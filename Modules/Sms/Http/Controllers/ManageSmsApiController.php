@@ -12,6 +12,7 @@ namespace Modules\Sms\Http\Controllers;
 use App\Http\Controllers\ManageApiController;
 use App\SmsList;
 use App\SmsTemplate;
+use App\SmsTemplateType;
 use Illuminate\Http\Request;
 
 class ManageSmsApiController extends ManageApiController
@@ -107,5 +108,15 @@ class ManageSmsApiController extends ManageApiController
             'templates' => $templates->map(function ($template) {
                 return $template->transform();
             })]);
+    }
+
+    public function getTemplateTypes()
+    {
+        $templateTypes = SmsTemplateType::all();
+        return $this->respondSuccessWithStatus([
+            'template_types' => $templateTypes->map(function ($templateType) {
+                return $templateType->getData();
+            })
+        ]);
     }
 }
