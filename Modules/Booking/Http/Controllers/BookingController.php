@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
 use App\Product;
+use App\StudyClass;
 use App\Event;
 
 class BookingController extends ApiPublicController

@@ -164,6 +164,7 @@
         </div>
         <div class="col-md-6">
             <div class="card card-plain card-blog">
+                @if($newestBlog)
                 <div class="card-image">
                     <a href="/blog/post/{{$newestBlog->id}}">
                         <div style="width: 100%;
@@ -185,6 +186,7 @@
                         <b>Xem thêm</b>
                     </a>
                 </div>
+                @endif
             </div>
         </div>
         <div class="col-md-6">
@@ -223,7 +225,7 @@
             @endforeach
         </div>
 
-        <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1519572859mnSTADMESIABzdK.JPG');background-size: cover;background-color: black;min-height: 350px">
+        <div class="page-header page-header-small" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://d1j8r0kxyu9tj8.cloudfront.net/files/152256691694HIHuCHecOmrJu.jpg');background-size: cover;background-color: black;min-height: 350px">
             <div class="content-center">
                 <div class="container">
                     <h2 style="font-weight: 400">Sách Tiếng Anh Cơ Bản

@@ -56,11 +56,16 @@ class BookRepository
         return $bookData;
     }
 
-    private function sendOrderToNganLuong($total_amount, $order_code, $payment_method,
-                                          $bank_code, $buyer_fullname,
-                                          $buyer_address,
-                                          $buyer_email, $buyer_mobile)
-    {
+    private function sendOrderToNganLuong(
+        $total_amount,
+        $order_code,
+        $payment_method,
+        $bank_code,
+        $buyer_fullname,
+        $buyer_address,
+        $buyer_email,
+        $buyer_mobile
+    ) {
         $nlcheckout = new NganLuong();
 
 
@@ -83,14 +88,42 @@ class BookRepository
         if ($payment_method != '' && $buyer_email != "" && $buyer_mobile != "" && $buyer_fullname != "" && filter_var($buyer_email, FILTER_VALIDATE_EMAIL)) {
             if ($payment_method == "VISA") {
 
-                $nl_result = $nlcheckout->VisaCheckout($order_code, $total_amount, $payment_type, $order_description, $tax_amount,
-                    $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile,
-                    $buyer_address, $array_items, $bank_code);
+                $nl_result = $nlcheckout->VisaCheckout(
+                    $order_code,
+                    $total_amount,
+                    $payment_type,
+                    $order_description,
+                    $tax_amount,
+                    $fee_shipping,
+                    $discount_amount,
+                    $return_url,
+                    $cancel_url,
+                    $buyer_fullname,
+                    $buyer_email,
+                    $buyer_mobile,
+                    $buyer_address,
+                    $array_items,
+                    $bank_code
+                );
 
             } elseif ($payment_method == "ATM_ONLINE" && $bank_code != '') {
-                $nl_result = $nlcheckout->BankCheckout($order_code, $total_amount, $bank_code, $payment_type, $order_description, $tax_amount,
-                    $fee_shipping, $discount_amount, $return_url, $cancel_url, $buyer_fullname, $buyer_email, $buyer_mobile,
-                    $buyer_address, $array_items);
+                $nl_result = $nlcheckout->BankCheckout(
+                    $order_code,
+                    $total_amount,
+                    $bank_code,
+                    $payment_type,
+                    $order_description,
+                    $tax_amount,
+                    $fee_shipping,
+                    $discount_amount,
+                    $return_url,
+                    $cancel_url,
+                    $buyer_fullname,
+                    $buyer_email,
+                    $buyer_mobile,
+                    $buyer_address,
+                    $array_items
+                );
             } else {
                 return [
                     "status" => 0,
@@ -112,9 +145,19 @@ class BookRepository
 
     }
 
-    public function saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr,
-                              $onlinePurchase = "", $bankCode = "", $shipPrice = 0)
-    {
+    public function saveOrder(
+        $email,
+        $phone,
+        $name,
+        $province,
+        $district,
+        $address,
+        $payment,
+        $goods_arr,
+        $onlinePurchase = "",
+        $bankCode = "",
+        $shipPrice = 0
+    ) {
         $user = User::where(function ($query) use ($email, $phone) {
             $query->where("email", $email)->orWhere("phone", $email);
         })->first();
@@ -149,10 +192,12 @@ class BookRepository
         $order->code = "ORDER" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order->save();
 
+        $quantity = 0;
 
         if ($goods_arr) {
             foreach ($goods_arr as $item) {
                 $good = Good::find($item->id);
+                $quantity += $item->number;
                 $order->goods()->attach($item->id, [
                     "quantity" => $item->number,
                     "price" => $good->price,
@@ -165,24 +210,27 @@ class BookRepository
         foreach ($goods as &$good) {
             $total_price += $good->price * $good->pivot->quantity;
         }
-        $subject = $ship_infor->name." Elight XÁC NHẬN ĐƠN HÀNG";
+        $subject = $ship_infor->name . " Elight XÁC NHẬN ĐƠN HÀNG";
         $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
         $emailcc = ["elightedu.books@gmail.com"];
         Mail::send('emails.confirm_buy_book_elight', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Nhà sach Elight');
-            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
+            $m->from('no-reply@colorme.vn', 'Nhà sách Elight');
+            $m->to($order->email, $order->name)->subject($subject);
         });
-        // if ($payment === "Thanh toán online") {
-        //     $base = 0;
-        //     $percent = 0;
-        //     if ($onlinePurchase === "ATM_ONLINE") {
-        //         $base = 1760;
-        //         $percent = 0.011;
-        //     }
-        //     $sendPrice = ($total_price - $base) / (1 + $percent);
-        //     return $this->sendOrderToNganLuong($sendPrice, $order->id, $onlinePurchase, $bankCode, $name,
-        //         $address . ", " . $district . ", " . $province, $email, $phone);
-        // }
+
+        $staff_data = [
+            'user' => $user,
+            'quantity' => $quantity,
+            'order' => $order,
+            'time' => date('m/d/Y H:i:s')
+        ];
+
+        Mail::send('emails.elight_confirm_buy_book_staff', $staff_data, function ($m) {
+            $m->from('no-reply@colorme.vn', 'ELIGHT BOOK');
+            // $m->to("datvithanh98@gmail.com")->subject('ĐƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
+            $m->to("elightedu.books@gmail.com")->subject('ĐƠN HÀNG ĐẶT MUA SÁCH TIẾNG ANH CƠ BẢN');
+        });
+
         return null;
     }
 }
