@@ -439,7 +439,15 @@ class DeliveryOrderApiController extends ManageApiController
             $order->attach_info = $deliveryOrder->attach_info;
             $order->status = 'sent_price';
             $info = json_decode($order->attach_info);
-            $order->price = $info->quantity * $info->price * Currency::find($info->currency_id)->ratio * ($info->tax == true ? 1.08 : 1);
+
+            $info->ratio = Currency::find($info->currency_id)->ratio;
+            $groups = $order->user->infoCustomerGroups;
+            foreach($groups as $group) {
+                if($group->currency_value)
+                    $info->ratio = min($info->ratio, $group->currency_value);
+            }
+            
+            $order->price = $info->quantity * $info->price * $info->ratio * ($info->tax == true ? 1.08 : 1);
             $order->quantity = json_decode($deliveryOrder->attach_info)->quantity;
             $order->staff_id = $this->user->id;
             $order->save();

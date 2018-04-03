@@ -34,7 +34,7 @@ class ZHistoryGood extends Model
                     "id" => $this->itemOrder->staffImportOrExport->id,
                     "name" => $this->itemOrder->staffImportOrExport->name,
                 ],
-                "created_at" => format_vn_short_datetime($this->itemOrder->created_at)
+                "created_at" => format_vn_short_datetime(strtotime($this->itemOrder->created_at))
             ] : null,
             "warehouse" => $this->warehouse ? [
                 "id" => $this->warehouse->id,
