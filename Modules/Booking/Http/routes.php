@@ -29,6 +29,7 @@ $manageapiRoutes = function () {
     Route::get('/saler', 'ManageBookingController@getAllSalers');
     Route::post('/booking', 'ManageBookingController@booking');
     Route::put('/register/{registerId}/assign-subscription', 'ManageBookingController@assignSubscription');
+    Route::put('/room-booking/{registerId}/assign-time', 'ManageBookingController@assignTime');
     Route::get('/conference-rooms', 'ManageBookingController@conferenceRooms');
 };
 
