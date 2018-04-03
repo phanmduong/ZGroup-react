@@ -17,6 +17,7 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Request;
 
 class PublicApiController extends ApiController
 {
@@ -221,9 +222,9 @@ class PublicApiController extends ApiController
         ]);
     }
 
-    public function product_categories()
+    public function product_categories(Request $request)
     {
-        $categories = CategoryProduct::all()->map(function ($c) {
+        $categories = CategoryProduct::where('name', 'like', "%$request->search%")->get()->map(function ($c) {
             return [
                 'value' => $c->id,
                 'text' => $c->name

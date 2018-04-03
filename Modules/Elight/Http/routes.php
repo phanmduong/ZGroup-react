@@ -25,6 +25,8 @@ Route::group(['middleware' => 'web', 'domain' => 'keetool3.{subfix}', 'namespace
     Route::post('/index_information','ElightSendingMailController@index_info');
     Route::post('/book_information','ElightSendingMailController@book_info');
     Route::post('/aboutus_information','ElightSendingMailController@aboutus_info');
+
+    Route::get('/category/search','ElightController@searchCategory');
     
 });
 

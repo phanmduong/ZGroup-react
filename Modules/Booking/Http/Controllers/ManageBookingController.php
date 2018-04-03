@@ -18,7 +18,6 @@ use App\Room;
 
 class ManageBookingController extends ManageApiController
 {
-
     public function __construct()
     {
         parent::__construct();

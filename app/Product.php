@@ -39,11 +39,6 @@ class Product extends Model
         return $this->hasMany('App\Notification', 'product_id');
     }
 
-    // public function views()
-    // {
-    //     return $this->hasMany('App\View', 'product_id');
-    // }
-
     public function category()
     {
         return $this->belongsTo(CategoryProduct::class, 'category_id');

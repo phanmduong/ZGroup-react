@@ -58,6 +58,9 @@ Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain'
     Route::get('/base/{path}', 'ClientController@base')
         ->where('path', '.*');
 
+    Route::get('/business/{path}', 'ClientController@base')
+        ->where('path', '.*');
+
     Route::get('/book/{path}', 'ClientController@book')
         ->where('path', '.*');
 
@@ -95,6 +98,12 @@ Route::group(['middleware' => 'web', 'domain' => 'manage.' . config('app.domain'
     Route::get('/notification/{path}', 'ClientController@notification')
         ->where('path', '.*');
     Route::get('/landingpage/{path}', 'ClientController@landingPage')
+        ->where('path', '.*');
+    Route::get('/customer-services/{path}', 'ClientController@customerServices')
+        ->where('path', '.*');
+    Route::get('/sales/{path}', 'ClientController@sales')
+        ->where('path', '.*');
+    Route::get('/telesales/{path}', 'ClientController@telesales')
         ->where('path', '.*');
     Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
@@ -897,6 +906,8 @@ Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], fu
 
     //Begin blog api
     Route::post('/create-category', 'ManageBlogController@create_category');
+    Route::put('/category/{id}', 'ManageBlogController@editCategory');
+    Route::delete('/category/{id}', 'ManageBlogController@deleteCategory');
     Route::post('/save-post', 'ManageBlogController@save_post');
     Route::get('/posts', 'ManageBlogController@get_posts');
     Route::post('/post/{postId}/change-status', 'ManageBlogController@changeStatusPost');
