@@ -186,7 +186,6 @@
                     window.open('/blog?page=1&search=' + this.search + '&type={!! $type !!}', '_self');
                 }
             }
-
         })
 
         var pagination = new Vue({

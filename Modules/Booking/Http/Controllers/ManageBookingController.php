@@ -18,7 +18,6 @@ use App\Room;
 
 class ManageBookingController extends ManageApiController
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -328,6 +327,19 @@ class ManageBookingController extends ManageApiController
         $register->note = $request->note;
         $register->save();
         return $this->respondSuccessWithStatus(["register" => $register->getData()]);
+    }
+
+    public function assignTime($registerId, $request) {
+        if($register = RoomServiceRegister::find($registerId));
+        if($register == null)
+            return $this->respondErrorWithStatus('Không tồn tại đặt phòng');
+        if($request->room_id == null)
+            return $this->respondErrorWithStatus('Thiếu phòng');
+        $register->rooms->attach($request->room_id, [
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+        ]);
+        return $this->respondSuccess('Thêm thành công');
     }
 
     public function conferenceRooms(Request $request)
