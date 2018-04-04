@@ -338,10 +338,10 @@ class ManageBookingController extends ManageApiController
     public function assignTime($registerId, Request $request)
     {
         if ($register = RoomServiceRegister::find($registerId));
-        // if ($register == null)
-        //     return $this->respondErrorWithStatus('Không tồn tại đặt phòng');
-        if ($request->room_id == null)
-            return $this->respondErrorWithStatus('Thiếu phòng');
+        if ($register == null)
+            return $this->respondErrorWithStatus('Không tồn tại đặt phòng');
+        // if ($request->room_id == null)
+        //     return $this->respondErrorWithStatus('Thiếu phòng');
         if ($this->validateDate($request->start_time) == false || $this->validateDate($request->end_time) == false)
             return $this->respondErrorWithStatus('Nhập ngày tháng đúng định dạng Y-m-d H:i:s');
         $register->rooms->attach(4, [
