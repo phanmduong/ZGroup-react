@@ -96,7 +96,6 @@ class ManageBookingController extends ManageApiController
         if ($request->start_time && $request->end_time)
             $registers = $registers->whereBetween('room_service_registers.created_at', array($request->start_time, $request->end_time));
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
-
         return $this->respondWithPagination($registers, [
             'room_service_registers' => $registers->map(function ($register) {
                 return $register->getData();

@@ -14,6 +14,13 @@ $routes = function () {
     Route::get('/su-kien-data','UpCoworkingSpaceController@getEventOfCurrentMonth');
     Route::get('/tam-nhin-su-menh-gia-tri-cot-loi-up-coworking-space', 'UpCoworkingSpaceController@missionAndVision');
     Route::get('/doi-tac-chien-luoc-cua-up','UpCoworkingSpaceController@partner');
+    Route::get('/doi-tac-truyen-thong-cua-up','UpCoworkingSpaceController@media');
+    Route::get('/nhung-cau-hoi-thuong-gap','UpCoworkingSpaceController@faqs');
+    Route::get('/thong-tin-tuyen-dung','UpCoworkingSpaceController@talentAcquisition');
+    Route::get('/lien-he-voi-up-co-working-space','UpCoworkingSpaceController@contact_us');
+    Route::get('/up-founders','UpCoworkingSpaceController@founders');
+    Route::get('/up-s-mentors','UpCoworkingSpaceController@mentors');
+    Route::get('/dang-ky-trai-nghiem','UpCoworkingSpaceController@tour');
     Route::get('/{slug}', 'UpCoworkingSpaceController@postBySlug');
 
     //En
