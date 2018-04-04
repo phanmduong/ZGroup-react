@@ -15,6 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Room;
+use Carbon\Carbon;
 
 class ManageBookingController extends ManageApiController
 {
@@ -330,7 +331,7 @@ class ManageBookingController extends ManageApiController
 
     public function validateDate($date, $format = 'Y-m-d H:i:s')
     {
-        $d = DateTime::createFromFormat($format, $date);
+        $d = Carbon::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
 
