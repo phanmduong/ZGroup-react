@@ -61,7 +61,7 @@ class RoomServiceRegister extends Model
 
     public function roomServiceRegisterRoom()
     {
-        return $this->hasOne(RoomServiceRegisterRoom::class, 'room_service_register_id');
+        return $this->hasMany(RoomServiceRegisterRoom::class, 'room_service_register_id');
     }
 
     public function getData()
@@ -128,7 +128,9 @@ class RoomServiceRegister extends Model
             ];
         }
         if ($this->roomServiceRegisterRoom)
-            $data['room_history'] = $this->roomServiceRegisterRoom->getData();
+            $data['room_history'] = $this->roomServiceRegisterRoom->map(function ($obj) {
+                return $obj->getData();
+            });
         return $data;
     }
 }
