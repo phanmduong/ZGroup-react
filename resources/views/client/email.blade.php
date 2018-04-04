@@ -1,9 +1,9 @@
 @extends("client.layout.master")
 
 @section("css")
-    <link href="manage/email/main.558a79c8c1df8cfbc5566faa26a94ee7.css" rel="stylesheet">
+    <link href="manage/email/main.4fa83d84fd8e6badb61a807373704a28.css" rel="stylesheet">
 @endsection
 
 @section("js")
-    <script type="text/javascript" src="manage/email/main.21137064f25f10fcecb3.js"></script>
+    <script type="text/javascript" src="manage/email/main.48a13eb1fcbc5c774cea.js"></script>
 @endsection
