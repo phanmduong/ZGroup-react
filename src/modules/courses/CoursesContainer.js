@@ -106,7 +106,6 @@ class CoursesContainer extends React.Component {
                                             value={this.state.query}
                                             onChange={this.courseSearchChange}
                                         />
-                                        <br/><br/>
                                         {this.props.isLoading ? <Loading/> :
                                             <ListCourse
                                                 courses={this.props.coursesList}
