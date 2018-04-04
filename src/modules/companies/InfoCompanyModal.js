@@ -304,7 +304,7 @@ class InfoCompanyModal extends React.Component {
 InfoCompanyModal.propTypes = {
     CompanyActions: PropTypes.object.isRequired,
     isLoadingFields: PropTypes.bool.isRequired,
-    data: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
     fields: PropTypes.array.isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func,

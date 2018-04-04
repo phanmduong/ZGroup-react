@@ -62,6 +62,8 @@
     "build:notification": "npm run lint && rimraf ./dist/notification && mkdir dist/notification && MODULE=notification babel-node tools/build/module.js",
     "start:administration": "MODULE=administration npm-run-all --parallel open:src lint:watch",
     "build:administration": "npm run lint && rimraf ./dist/administration && mkdir dist/administration && MODULE=administration babel-node tools/build/module.js",
+    "start:Zwarehouse": "MODULE=Zwarehouse npm-run-all --parallel open:src lint:watch",
+    "build:Zwarehouse": "npm run lint && rimraf ./dist/Zwarehouse && mkdir dist/Zwarehouse && MODULE=Zwarehouse babel-node tools/build/module.js",
     "start:customerServices": "MODULE=customerServices npm-run-all --parallel open:src lint:watch",
     "build:customerServices": "npm run lint && rimraf ./dist/customerServices && mkdir dist/customerServices && MODULE=customerServices babel-node tools/build/module.js",
     "start:sales": "MODULE=sales npm-run-all --parallel open:src lint:watch",

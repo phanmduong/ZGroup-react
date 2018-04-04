@@ -175,26 +175,6 @@ export function loadAllWarehourses() {
     };
 }
 
-export function loadHistoryImportOrder(page, id) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_HISTORY_IMPORT_ORDER,
-        });
-        importOrderApi.loadHistoryImportOrder(page, id)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_HISTORY_IMPORT_ORDER_SUCCESS,
-                    data: res.data.goods,
-                    paginator: res.data.paginator,
-                });
-            }).catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra.");
-            dispatch({
-                type: types.LOAD_HISTORY_IMPORT_ORDER_ERROR,
-            });
-        });
-    };
-}
 
 export function changeStatusImportOrder(id, success) {
     return function (dispatch) {

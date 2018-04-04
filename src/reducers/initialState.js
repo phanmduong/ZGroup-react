@@ -2166,8 +2166,18 @@ export default {
         isLoadingistoryDebt: false,
         companies: [],
         historyDebt: [],
-        paginatorCompanies: [],
-        paginatorHistoryDebt: [],
+        paginatorCompanies: {
+            current_page: 1,
+            limit: 20,
+            total_count: 0,
+            total_pages: 1,
+        },
+        paginatorHistoryDebt: {
+            current_page: 1,
+            limit: 20,
+            total_count: 0,
+            total_pages: 1,
+        },
     },
 
     importOrder: {
@@ -2181,19 +2191,11 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        paginator_history: {
-            current_page: 1,
-            limit: 20,
-            total_count: 1,
-            total_pages: 1,
-        },
         itemOrders: [],
-        printOrder: [],
         importOrders: [],
-        companies: [{ id: 1, name: "" },],
-        goods: [{ id: 1, name: "" },],
-        warehouses: [{ id: 1, name: "" },],
-        historyImportOrder: [],
+        companies: [{id: 1, name: ""},],
+        goods: [{id: 1, name: ""},],
+        warehouses: [{id: 1, name: ""},],
     },
     moneyTransfer: {
         isCreatingTransaction: false,
