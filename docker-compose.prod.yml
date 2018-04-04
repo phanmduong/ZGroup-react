@@ -7,36 +7,31 @@ services:
       - "6379:6379"
   app:
     container_name: app
-    build:
-      context: ./docker/php
-      dockerfile: Dockerfile
+    image: quanca/laravelapp
+    build:      
+      context: .
+      dockerfile: ./docker/php/Dockerfile.prod
     working_dir: /var/www
-    volumes: 
-      - ./:/var/www
   cron:
     container_name: cron
+    image: quanca/laravelcron
     build:
-      context: ./docker/cron
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./docker/cron/Dockerfile.prod
     working_dir: /var/www
-    volumes: 
-      - ./:/var/www
   supervisor:
     container_name: supervisor
+    image: quanca/laravelsupervisor
     build:
-      context: ./docker/supervisor
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./docker/supervisor/Dockerfile.prod
     working_dir: /var/www
-    volumes: 
-      - ./:/var/www
   web:    
     container_name: web
     build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile.prod
     working_dir: /var/www
-    volumes:
-      - ./:/var/www
     ports:
       - 80:80
     depends_on: 
