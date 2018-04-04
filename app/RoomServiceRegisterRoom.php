@@ -23,7 +23,7 @@ class RoomServiceRegisterRoom extends Model
         $data = [
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
-            'seat' => $this->room->getData(),
+            'room' => $this->room ? $this->room->getData() : [],
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'staff' => $this->user ? $this->user->getData() :"",
         ];
