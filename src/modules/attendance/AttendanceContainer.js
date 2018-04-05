@@ -197,7 +197,6 @@ class AttendanceContainer extends React.Component {
                                     <h4 className="card-title">
                                         <strong>Danh sách lớp</strong>
                                     </h4>
-                                    <br/>
                                     <Search
                                         onChange={this.classesSearchChange}
                                         value={this.state.query}

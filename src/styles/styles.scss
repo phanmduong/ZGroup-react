@@ -927,3 +927,10 @@ a.btn-seat.active {
 .nav-pills-rose > .active > a {
     background-color: rgba(197, 0, 0, 1) !important;
 }
+
+.nav-pills > li > a > i {
+    display: inline-block;
+    font-size: 24px;
+    padding: 0px 5px 1px 0px
+}
+

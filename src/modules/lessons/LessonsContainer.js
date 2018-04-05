@@ -127,20 +127,22 @@ class LessonsContainer extends React.Component {
 
                             {/*</div>*/}
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose"><i
-                                    className="material-icons">bookmark</i></div>
                                 <div className="card-content">
-                                    <h4 className="card-title">Nội dung giáo trình</h4>
-                                    {this.props.isLoading ? <Loading /> :
-                                        <ReactEditor
-                                            urlPost={linkUploadImageEditor()}
-                                            fileField="image"
-                                            name="detail_content"
-                                            updateEditor={this.updateDetailContent}
-                                            value={this.props.data.detail_content ? `<div>${this.props.data.detail_content}</div>` : ""}
-                                        />
-                                    }
-
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Nội dung giáo trình</strong>
+                                        </h4>
+                                        <br/>
+                                        {this.props.isLoading ? <Loading /> :
+                                            <ReactEditor
+                                                urlPost={linkUploadImageEditor()}
+                                                fileField="image"
+                                                name="detail_content"
+                                                updateEditor={this.updateDetailContent}
+                                                value={this.props.data.detail_content ? `<div>${this.props.data.detail_content}</div>` : ""}
+                                            />
+                                        }
+                                    </div>    
                                 </div>
 
                             </div>

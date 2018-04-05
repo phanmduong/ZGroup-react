@@ -59,32 +59,25 @@ class EmailTemplatesContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-
-
                     <div className="card">
-
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Email templates</h4>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="col-md-3">
-                                        <Link to="/email/email-template/create" className="btn btn-rose">
-                                            Thêm template
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Email templates</strong>
+                                    </h4>
+                                    <div>
+                                        <Link to="/email/email-template/create" className="btn btn-primary btn-round btn-xs button-add none-margin">
+                                            <strong>+</strong>
                                         </Link>
                                     </div>
-                                    <Search
-                                        onChange={this.templatesSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm template"
-                                        className="col-md-9"
-                                    />
                                 </div>
+                                <Search
+                                    onChange={this.templatesSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm template"
+                                />
                             </div>
-
                             {this.props.isLoadingTemplates ? <Loading/> :
                                 <ListTemplate
                                     templates={this.props.templates}

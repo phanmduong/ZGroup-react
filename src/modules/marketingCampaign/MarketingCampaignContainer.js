@@ -79,7 +79,7 @@ class MarketingCampaignContainer extends React.Component {
                                     </div>
 
                                 </div>    
-                                <br/><br/>
+                                <br/>
                                 {
                                     this.props.isLoading ? <Loading/> :
                                         <ListCampaign
