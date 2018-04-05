@@ -69,9 +69,6 @@ class CourseController extends ManageApiController
         $course->detail = $request->detail;
         if ($request->order_number == null) {
             $course->order_number = Course::max('order_number') + 1;
-        } else {
-            $this->pushOrder($request->order_number);
-            $course->order_number = $request->order_number;            
         }
         $course->type_id = 1;
         $course->save();
@@ -114,6 +111,27 @@ class CourseController extends ManageApiController
         }
 
         $course->status = $request->status ? $request->status : 0;
+
+        $course->save();
+
+        return $this->respondSuccessWithStatus([
+            'course' => $course->transform()
+        ]);
+    }
+
+    public function changeOrderCourse($course_id, Request $request)
+    {
+        $course = Course::find($course_id);
+
+        if ($course == null) {
+            return $this->respondErrorWithStatus("Không tồn tại môn học");
+        }
+
+        if ($request->order_number == null)
+            return $this->respondErrorWithStatus("Thiếu thứ tự môn học");
+
+        $this->pushOrder($request->order_number);
+        $course->order_number = $request->order_number;
 
         $course->save();
 
