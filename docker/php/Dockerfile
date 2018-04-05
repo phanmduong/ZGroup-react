@@ -4,7 +4,7 @@ RUN chmod +x /home/sync.sh
 
 COPY ./id_rsa /root/.ssh/id_rsa
 COPY ./id_rsa.pub /root/.ssh/id_rsa.pub
-
+COPY ./known_hosts /root/.ssh/known_hosts
 RUN chmod 400 /root/.ssh/id_rsa
 
 RUN apt-get install git -y
