@@ -57,13 +57,16 @@ class CourseController extends ManageApiController
         $course->image_url = $request->image_url;
         $course->icon_url = $request->icon_url;
         $course->detail = $request->detail;
+        if ($request->order) {
+            $course->order = Course::max();
+        }
         // $course->type_id = $request->type_id;
         $course->type_id = 1;
         $course->save();
-        $arr_ids= json_decode($request->categories);
+        $arr_ids = json_decode($request->categories);
         $course->courseCategories()->detach();
-        foreach($arr_ids as $arr_id)
-        $course->courseCategories()->attach($arr_id->id);
+        foreach ($arr_ids as $arr_id)
+            $course->courseCategories()->attach($arr_id->id);
         return $this->respondSuccessWithStatus([
             "message" => "Tạo/sửa thành công",
             "course" => $course->detailedTransform()
@@ -239,12 +242,12 @@ class CourseController extends ManageApiController
     {
         if (Course::find($courseId) == null)
             return $this->respondErrorWithStatus([
-                'message' => 'non-existing course'
-            ]);
+            'message' => 'non-existing course'
+        ]);
         if ($request->name == null || $request->description == null)
             return $this->respondErrorWithStatus([
-                'message' => 'missing name || description'
-            ]);
+            'message' => 'missing name || description'
+        ]);
         $lesson = new Lesson;
         $lesson->course_id = $courseId;
         $lesson->name = $request->name;
@@ -271,12 +274,12 @@ class CourseController extends ManageApiController
     {
         if (Lesson::find($lessonId) == null)
             return $this->respondErrorWithStatus([
-                'message' => 'non-existing lesson'
-            ]);
+            'message' => 'non-existing lesson'
+        ]);
         if ($request->name == null || $request->description == null)
             return $this->respondErrorWithStatus([
-                'message' => 'missing name || description'
-            ]);
+            'message' => 'missing name || description'
+        ]);
         $lesson = Lesson::find($lessonId);
         $lesson->name = $request->name;
         $lesson->description = $request->description;
@@ -306,7 +309,8 @@ class CourseController extends ManageApiController
         $classLesson_pre = $classLesson->where('class_id', $classId)->orderBy('lesson_id', 'asc')->get();
         $classLesson = $classLesson_pre[$lessonId - 1];
         $resgister_ids = $classLesson->attendances->map(function ($data) {
-            if ($data->register->status === 1) return $data->register->id; else return 0;
+            if ($data->register->status === 1) return $data->register->id;
+            else return 0;
         });
         $attendance_list = $classLesson->attendances()->whereIn('register_id', $resgister_ids)->get();
 
@@ -353,9 +357,10 @@ class CourseController extends ManageApiController
         ]);
 
     }
-    public function duplicateCourse($courseId,Request $request){
+    public function duplicateCourse($courseId, Request $request)
+    {
         $course = Course::find($courseId);
-        if(!$course) return $this->respondErrorWithStatus("Không tồn tại course");
+        if (!$course) return $this->respondErrorWithStatus("Không tồn tại course");
         $course_new = new Course;
         $course_new->name = $course->name;
         $course_new->price = $course->price;
