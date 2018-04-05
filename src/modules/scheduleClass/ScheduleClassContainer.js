@@ -159,7 +159,7 @@ class ScheduleClassContainer extends React.Component {
                                     <div className="card">
                                         <div className="card-content">
                                             <div className="tab-content">
-                                                <h4 className="card-title"><strong>Danh sách lịch học</strong>
+                                                <h4 className="card-title"><strong style={{marginLeft: 6}}>Danh sách lịch học</strong>
                                                 </h4>
                                                 <br/><br/>
                                                 {this.props.isLoading ? <Loading/> :
