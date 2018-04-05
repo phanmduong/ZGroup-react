@@ -43,7 +43,7 @@ for file in $(find "../dist/$module_name" -type f)
 do
     echo "========================="
     file_name=$(basename $file)    
-    dest_file=$dest_folder/base/$file_name 
+    dest_file=$dest_folder/$module_name/$file_name 
     echo "From $file"
     echo "To $dest_file"
     cp $file $dest_file
