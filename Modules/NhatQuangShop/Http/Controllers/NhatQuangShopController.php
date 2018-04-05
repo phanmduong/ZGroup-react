@@ -35,9 +35,9 @@ class NhatQuangShopController extends Controller
     public function index()
     {
         $goodQuery = Good::where('display_status', 1)->groupBy('code');
-        $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(6)->get();
+        $newestGoods = $goodQuery->orderBy("created_at", "desc")->take(8)->get();
         $generalGoods = $goodQuery->take(8)->get();
-        $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(6)->get();
+        $highLightGoods = $goodQuery->where("highlight_status", 1)->orderBy("updated_at", "desc")->take(8)->get();
         $categoryGoods = Good::orderBy("good_category_id")->pluck('good_category_id');
         $generalGoods = $generalGoods->map(function ($good) {
             return $good->transformAllProperties();
