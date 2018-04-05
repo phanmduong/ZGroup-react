@@ -34,6 +34,16 @@ class CourseController extends ManageApiController
         ]);
     }
 
+    public function pushOrder($orderNumber)
+    {
+        $course = Course::where('order_number', $orderNumber)->first();
+        if ($course != null) {
+            $this->pushOrder($orderNumber + 1);
+            $course->order_number = $orderNumber + 1;
+            $course->save();
+        }
+    }
+
     public function createOrEdit(Request $request)
     {
         if ($request->id)
@@ -57,10 +67,12 @@ class CourseController extends ManageApiController
         $course->image_url = $request->image_url;
         $course->icon_url = $request->icon_url;
         $course->detail = $request->detail;
-        if ($request->order_number) {
+        if ($request->order_number == null) {
             $course->order_number = Course::max('order_number') + 1;
+        } else {
+            $this->pushOrder($request->order_number);
+            $course->order_number = $request->order_number;            
         }
-        // $course->type_id = $request->type_id;
         $course->type_id = 1;
         $course->save();
         $arr_ids = json_decode($request->categories);
@@ -174,36 +186,6 @@ class CourseController extends ManageApiController
             'link' => $link
         ]);
     }
-
-//    public function editLink($linkId, Request $request)
-//    {
-//        $link = Link::find($linkId);
-//        if (!$link) return $this->respondErrorWithStatus("không tồn tại link");
-//        if ($request->link_url == null || $request->link_name == null || $request->course_id == null)
-//            return $this->respondErrorWithStatus(["message" => "Thiếu course_id or link_url or link_name"]);
-//        $link->link_name = $request->link_name;
-//        $link->link_url = $request->link_url;
-//        $link->link_description = $request->link_description;
-//        $link->course_id = $request->course_id;
-//        if ($request->link_icon != null) {
-//
-//            $link_icon = uploadFileToS3($request, 'link_icon', 200, $link->link_icon);
-//            $link->link_icon = $link_icon;
-//            $link->link_icon_url = $this->s3_url . $link_icon;
-//        } else {
-//
-//            if ($link->link_icon_url === null) {
-//                $link->link_icon_url = 'https://placehold.it/800x600';
-//            }
-//
-//            $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
-//
-//        }
-//        $link->save();
-//        return $this->respondSuccessWithStatus([
-//            'link' => $link
-//        ]);
-//    }
 
     public function editLink($linkId, Request $request)
     {
@@ -382,7 +364,6 @@ class CourseController extends ManageApiController
         return $this->respondSuccessWithStatus([
             "message" => "Thành công",
         ]);
-
     }
 
 }
