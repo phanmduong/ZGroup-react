@@ -10,7 +10,6 @@ class RoomServiceRegisterSeat extends Model
 
     public function register()
     {
-
         return $this->belongsTo(RoomServiceRegister::class, 'room_service_register_id');
     }
     public function seat()
@@ -25,7 +24,7 @@ class RoomServiceRegisterSeat extends Model
         $data = [
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
-            'seat' => $this->seat,
+            'seat' => $this->seat->getData(),
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'staff' => $this->user ? $this->user->getData() :"",
         ];

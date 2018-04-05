@@ -228,4 +228,41 @@ class UpCoworkingSpaceController extends Controller
     {
         return view('upcoworkingspace::partner');
     }
+
+    public function media()
+    {
+        return view('upcoworkingspace::media');
+    }
+
+    public function faqs()
+    {
+        return view('upcoworkingspace::faqs');
+    }
+
+    public function talentAcquisition()
+    {
+        return view('upcoworkingspace::talent-acquisition');
+    }
+
+    public function contact_us()
+    {
+        return view('upcoworkingspace::contact-us');
+    }
+
+    public function founders()
+    {
+        return view('upcoworkingspace::founders');
+    }
+
+    public function mentors()
+    {
+        return view('upcoworkingspace::mentors');
+    }
+
+    public function tour()
+    {
+        return view('upcoworkingspace::tour');
+    }
+
+
 }
