@@ -1,4 +1,7 @@
 export default {
+    smsCampaign:{
+
+    },
     labelManage: {
         isLoading: false,
         courseCategories: [],

@@ -799,7 +799,6 @@ a.btn-seat.active {
 
 .d3-point.archived {
   fill: #dedede !important;
-  fill: #dedede !important;
 }
 
 .margin-left-20 {
@@ -885,7 +884,7 @@ a.btn-seat.active {
 //////////// Nguyễn Đại Lợi
 
 .sms-paid-icon {
-  width: 15px
+  width: 20px
 }
 
 .sms-paid-icon img {
@@ -933,4 +932,44 @@ a.btn-seat.active {
 
 .nav-pills-rose > .active > a {
   background-color: rgba(197, 0, 0, 1)!important
+}
+
+
+
+.button-plus {
+  border-radius: 50%;
+  border:none;
+  background-color: #0b82fb;
+  color: white;
+  line-height: 0;
+  padding: 0px;
+  margin-left: 12px
+}
+
+
+.dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
+  background-color: rgba(197, 0, 0, 1)!important;
+}
+
+.sent{
+  cursor: auto;
+  border: none;
+  color:white;
+  background-color: #74D512;
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
+}
+.unsent{
+  cursor: auto;
+  border: none;
+  color:white;
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
+}
+.campaign-content{
+  background-color: white;
+  padding: 30px 30px 90px 30px;
+  margin-bottom: 30px;
 }
