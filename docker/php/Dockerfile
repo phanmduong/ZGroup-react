@@ -1,5 +1,11 @@
 FROM quanca/laravel
-COPY php/sync.sh /home/sync.sh
+COPY ./sync.sh /home/sync.sh
+RUN chmod +x /home/sync.sh
+
+COPY ./id_rsa /root/.ssh/id_rsa
+COPY ./id_rsa.pub /root/.ssh/id_rsa.pub
+
+RUN chmod 400 /root/.ssh/id_rsa
 
 RUN apt-get install git -y
 RUN apt-get install nano -y
