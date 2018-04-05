@@ -101,7 +101,7 @@ class ClientController extends Controller
 
     public function survey()
     {
-        return view('client.survey');
+        return view('client.surveyv2');
     }
 
     public function order()
