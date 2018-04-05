@@ -3,8 +3,7 @@
 export COMPOSER_HOME=/var/www/vendor/bin/composer;
 export HOME=/var/www;
 cd /var/www;
-git stash -u;
-git pull "https://keetool:Hungkhi550623@github.com/caoquan95/keetool-client-server" test;
+git pull origin master;
 php artisan migrate;
 php composer.phar dump-autoload
 php artisan clear-compiled;
