@@ -4,7 +4,7 @@ import * as helper from "../../helpers/helper";
 import {connect} from 'react-redux';
 import * as coursesActions from './coursesActions';
 import {bindActionCreators} from 'redux';
-import initialState from '../../reducers/initialState';
+import ChangeOrderCourseModal from "./ChangeCourseOrderModal";
 
 import {browserHistory} from "react-router";
 
@@ -22,27 +22,47 @@ function prefixDataPost(data) {
 class ListCourse extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {};
-        this.editCourse = this.editCourse.bind(this);
+        this.state = {
+            showChangeOrderModal: false,
+            course: {},
+        };
+        
         this.deleteCourse = this.deleteCourse.bind(this);
+        this.openChangeOrderModal = this.openChangeOrderModal.bind(this);
+        this.closeChangeOrderModal = this.closeChangeOrderModal.bind(this);
+        this.changeOrderCourse = this.changeOrderCourse.bind(this);
     }
 
     // componentWillReceiveProps(nextProps) {
     //     console.log("nextProps",nextProps);
     // }
 
-    editCourse(course) {
-        this.props.coursesActions.loadCourses(course);
-        initialState.coursesForm.data = course;
-    }
+    
 
     deleteCourse(courseId) {
         this.props.deleteCourse(courseId);
     }
 
+    openChangeOrderModal(course){
+        this.setState({showChangeOrderModal: true, course});
+    }
+
+    closeChangeOrderModal(){
+        this.setState({showChangeOrderModal: false});
+    }
+
+    changeOrderCourse(order){
+        return this.props.coursesActions.changeOrderCourse(this.state.course,order,()=>this.setState({showChangeOrderModal: false}));
+    }
+    
     render() {
         return (
             <div className="row">
+            <ChangeOrderCourseModal
+                show={this.state.showChangeOrderModal}
+                onHide={this.closeChangeOrderModal}
+                changeOrderCourse={this.changeOrderCourse}
+            />
                 {this.props.courses.map((course, index) => {
                     return (
                         <div className="col-sm-6 col-md-6 col-lg-4" id="card-email-template" key={index}>
@@ -97,6 +117,7 @@ class ListCourse extends React.Component {
                                                 }}>
                                                     <strong> {prefixDataPost(course.description)}</strong>
                                                 </a>
+                                                {course.order_number && <label>Thứ tự: {course.order_number}</label>}
                                             </h4>
                                         </div>
 
@@ -136,9 +157,18 @@ class ListCourse extends React.Component {
                                                             </a>
                                                         </li>
                                                     }
+                                                    <li className="more-dropdown-item">
+                                                        <a onClick={(event) => {
+                                                            event.stopPropagation(event);
+                                                            return this.openChangeOrderModal(course);
+                                                        }}>
+                                                            <i className="material-icons">autorenew</i> Đổi thứ tự
+                                                        </a>
+                                                    </li>
 
                                                 </ul>
                                             </div>
+                                            
                                             <Switch
                                                 onChange={(e) => {
                                                     return this.props.changeStatusCourse(index, course ,e);
@@ -184,6 +214,7 @@ class ListCourse extends React.Component {
 
                     );
                 })}
+                
             </div>
         );
     }
