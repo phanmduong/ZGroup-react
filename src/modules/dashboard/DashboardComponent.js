@@ -174,7 +174,7 @@ class DashboardComponent extends React.Component {
                                                 <div className="card-footer" style={{margin: '0 0 10px'}}>
                                                     <div className="stats">
                                                         <i className="material-icons">list</i>
-                                                        <a href={"/teaching/registerlist/" + user.id}>Danh sách đăng
+                                                        <a href={"/sales/registerlist/" + user.id}>Danh sách đăng
                                                             kí</a>
                                                     </div>
                                                 </div>
