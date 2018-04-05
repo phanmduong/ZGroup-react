@@ -58,7 +58,7 @@ class CourseController extends ManageApiController
         $course->icon_url = $request->icon_url;
         $course->detail = $request->detail;
         if ($request->order_number) {
-            $course->order_number = Course::max();
+            $course->order_number = Course::max('order_number') + 1;
         }
         // $course->type_id = $request->type_id;
         $course->type_id = 1;
@@ -377,6 +377,7 @@ class CourseController extends ManageApiController
         $course_new->detail = $course->detail;
         $course_new->type_id = $course->type_id;
         $course_new->duration = $course->duration;
+        $course_new->order_number = Course::max('order_number') + 1;
         $course_new->save();
         return $this->respondSuccessWithStatus([
             "message" => "Thành công",
