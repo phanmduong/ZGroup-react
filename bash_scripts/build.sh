@@ -5,6 +5,9 @@
 # module_name == public/manage/folder_name == views/client/blade_file_name
 
 module_name=$1
+
+echo "Build module: $module_name"
+
 branch=$2
 if [ -z "$branch" ]; then
     branch=master
@@ -32,7 +35,7 @@ if [ ! -d "../dist" ]; then
     mkdir ../dist
 fi
 
-eval "npm run build:$module_name"
+eval "npm run build:$module_name -s"
 
 #delete map file
 find ../dist/$module_name/ -type f -name '*map' -delete
@@ -67,10 +70,10 @@ echo "write blade: $blade_file"
 echo $template > $blade_file
 echo "Build successfully"
 
-echo "Push to branch: $branch"
-cd $project_folder
-git add .
-git commit -m "Build module $module_name"
-git pull origin $branch
-git push origin $branch
-echo "Push successfully"
+# echo "Push to branch: $branch"
+# cd $project_folder
+# git add .
+# git commit -m "Build module $module_name"
+# git pull origin $branch
+# git push origin $branch
+# echo "Push successfully"
