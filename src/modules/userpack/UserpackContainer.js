@@ -75,6 +75,7 @@ class UserpackContainer extends React.Component {
     }
 
     updateFormUserpack(event) {
+        // console.log("updateFormUserpack");
         const field = event.target.name;
         let data = {...this.props.userpack};
         // if (event.target.type === "checkbox") {

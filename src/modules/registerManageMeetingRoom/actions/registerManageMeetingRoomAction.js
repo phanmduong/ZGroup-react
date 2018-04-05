@@ -1,6 +1,7 @@
 import types from "../constants/actionTypes";
+import {DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING} from "../../../constants/actionTypes";
 import * as helper from "../../../helpers/helper";
-import * as registerManageMeetingRoomAction from "../apis/registerManageMeetingRoomApi";
+import * as registerManageMeetingRoomApi from "../apis/registerManageMeetingRoomApi";
 
 
 export function loadAllBases() {
@@ -8,7 +9,7 @@ export function loadAllBases() {
         dispatch({
             type: types.BEGIN_LOAD_BASES,
         });
-        registerManageMeetingRoomAction
+        registerManageMeetingRoomApi
             .loadAllBasesApi()
             .then(res => {
                 dispatch({
@@ -29,7 +30,7 @@ export function loadAllSalers() {
         dispatch({
             type: types.BEGIN_LOAD_SALERS,
         });
-        registerManageMeetingRoomAction.loadAllSalersApi().then(res => {
+        registerManageMeetingRoomApi.loadAllSalersApi().then(res => {
             dispatch({
                 type: types.LOAD_SALERS_SUCCESS,
                 salers: res.data.data.salers,
@@ -56,7 +57,7 @@ export function loadAllRegisters(limit = 10,
         dispatch({
             type: types.BEGIN_LOAD_REGISTERS,
         });
-        registerManageMeetingRoomAction
+        registerManageMeetingRoomApi
             .loadAllRegistersApi(
                 limit,
                 page,
@@ -86,42 +87,12 @@ export function loadAllRegisters(limit = 10,
 }
 
 
-export function changeCallStatus(status,
-                                 note,
-                                 register_id,
-                                 user_id,
-                                 closeCallModal,) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_CHANGE_CALL_STATUS_ROOM,
-        });
-        registerManageMeetingRoomAction
-            .changeCallStatusApi(status, note, register_id, user_id)
-            .then(res => {
-                if (res.data.status) {
-                    closeCallModal();
-                    dispatch({
-                        type: types.LOADED_CHANGE_CALL_STATUS_ROOM_SUCCESS,
-                        teleCall: res.data.data.teleCall,
-                        register_id: register_id,
-                    });
-                    status
-                        ? helper.showNotification("Đã gọi")
-                        : helper.showNotification("Chưa gọi được");
-                } else {
-                    dispatch({type: types.LOADED_CHANGE_CALL_STATUS_ROOM_ERROR});
-                    helper.showErrorNotification("Đã xảy ra lỗi kkkk ");
-                }
-            });
-    };
-}
-
 export function savePayment(money, note, register_id, user_id, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_SAVE_PAYMENT_ROOM,
         });
-        registerManageMeetingRoomAction.savePaymentApi(money, note, register_id, user_id)
+        registerManageMeetingRoomApi.savePaymentApi(money, note, register_id, user_id)
             .then(res => {
                 if (res.data.status) {
                     closeModal();
@@ -145,23 +116,6 @@ export function savePayment(money, note, register_id, user_id, closeModal) {
 
 }
 
-export function openCallModal(register) {
-    return dispatch => {
-        dispatch({
-            type: types.OPEN_CALL_MODAL,
-            register: register,
-        });
-    };
-}
-
-export function closeCallModal() {
-    return dispatch => {
-        dispatch({
-            type: types.CLOSE_CALL_MODAL,
-        });
-    };
-}
-
 
 
 export const showGlobalLoading = () => {
@@ -178,3 +132,74 @@ export const hideGlobalLoading = () => {
         });
     };
 };
+export function updateRegister(register) {
+    return function (dispatch) {
+      dispatch({
+          type : types.UPDATE_REGISTER,
+          register : register,
+      });
+    };
+}
+export function saveOfficialTime(closeDatetimeModal) {
+    return function (dispatch,getState) {
+        dispatch({
+            type: types.BEGIN_CHANGE_OFFICIAL_TIME,
+        });
+        registerManageMeetingRoomApi.updateOfficialTimeApi(getState().registerManageMeetingRoom.register)
+            .then((res) => {
+                if (res.data.status) {
+                    dispatch({
+                        type: types.CHANGE_OFFICIAL_TIME_SUCCESS,
+                    });
+                    helper.showNotification("Thay đổi ngày thành công");
+                    closeDatetimeModal();
+                }
+                else {
+                    dispatch({
+                        type: types.CHANGE_OFFICIAL_TIME_ERROR,
+                    });
+                    helper.sweetAlertError('Thay đổi ngày thất bại ');
+                }
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.CHANGE_OFFICIAL_TIME_ERROR,
+                });
+                helper.sweetAlertError('Thay đổi ngày thất bại ');
+            });
+    };
+}
+
+export function openDatetimeModal(register) {
+    return function (dispatch) {
+        dispatch({
+            type : types.OPEN_DATE_TIME_MODAL,
+            register : register,
+        });
+    };
+}
+export function closeDatetimeModal() {
+    return function (dispatch) {
+        dispatch({
+            type : types.CLOSE_DATE_TIME_MODAL,
+        });
+    };
+}
+
+export function openPaymentModal(register) {
+    return function (dispatch) {
+        dispatch({
+            type : types.OPEN_PAYMENT_MODAL,
+            register : register,
+        });
+    };
+}
+export function closePaymentModal() {
+    return function (dispatch) {
+        dispatch({
+            type : types.CLOSE_PAYMENT_MODAL,
+        });
+    };
+}
+
+

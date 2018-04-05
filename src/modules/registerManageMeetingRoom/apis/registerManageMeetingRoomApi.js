@@ -1,8 +1,8 @@
 import axios from 'axios';
 import * as env from '../../../constants/env';
 
-export function loadAllRegistersApi(limit, page = 1, search, saler_id, base_id,startTime,endTime) {
-    let url = env.MANAGE_API_URL + '/coworking-space/conference-rooms?page=' + page;
+export function loadAllRegistersApi(limit, page = 1, search, saler_id, base_id, startTime, endTime) {
+    let url = env.MANAGE_API_URL + '/coworking-space/register?page=' + page;
     if (search) {
         url += "&search=" + search;
     }
@@ -27,6 +27,7 @@ export function loadAllRegistersApi(limit, page = 1, search, saler_id, base_id,s
     }
     return axios.get(url);
 }
+
 export function loadAllBasesApi() {
     let url = env.MANAGE_API_URL + "/base/all";
     let token = localStorage.getItem('token');
@@ -60,7 +61,7 @@ export function changeCallStatusApi(status, note, register_id, user_id) {
     });
 }
 
-export function savePaymentApi(money,note , register_id, user_id) {
+export function savePaymentApi(money, note, register_id, user_id) {
     let url = env.MANAGE_API_URL + '/company/payment/create?';
     let token = localStorage.getItem('token');
     if (token) {
@@ -70,7 +71,19 @@ export function savePaymentApi(money,note , register_id, user_id) {
         "register_id": register_id,
         "user_id": user_id,
         "money_value": money,
-        "description" : note,
+        "description": note,
+    });
+}
+
+export function updateOfficialTimeApi(register) {
+    let url = env.MANAGE_API_URL + '/coworking-space/room-booking/' + register.id + '/assign-time?';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.put(url, {
+        "start_time": register.official_start_time,
+        "end_time": register.official_end_time,
     });
 }
 

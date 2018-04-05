@@ -12,6 +12,8 @@ class FormInputDateTime extends React.Component {
         const format = this.props.format || DATETIME_FORMAT;
         $("#" + this.props.id).on("dp.change", this.props.updateFormData);
         $("#" + this.props.id).datetimepicker({
+            // autoclose: true,
+
             icons: {
                 time: "fa fa-clock-o",
                 date: "fa fa-calendar",

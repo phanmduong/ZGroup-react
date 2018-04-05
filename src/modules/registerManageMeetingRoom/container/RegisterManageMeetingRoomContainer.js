@@ -2,14 +2,14 @@ import React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import Search from "../../../components/common/Search";
-import ListOrder from "../component/ListOrder";
+import ListRegisters from "../component/ListRegisters";
 import * as registerManageMeetingRoomAction from "../actions/registerManageMeetingRoomAction";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import Pagination from "../../../components/common/Pagination";
-// import XLSX from "xlsx";
-// import {saveWorkBookToExcel} from "../../../helpers/helper";
-// import {loadAllRegistersApi} from "../apis/registerManageMeetingRoomApi";
+import XLSX from "xlsx";
+import {saveWorkBookToExcel} from "../../../helpers/helper";
+import {loadAllRegistersApi} from "../apis/registerManageMeetingRoomApi";
 import SelectMonthBox from "../../../components/common/SelectMonthBox";
 import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
@@ -39,16 +39,14 @@ class RegisterManageRoomContainer extends React.Component {
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.salersSearchChange = this.salersSearchChange.bind(this);
         this.filterBySaler = this.filterBySaler.bind(this);
-        // this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(
-        //     this,
-        // );
-
+        this.exportRegistersResultExcel = this.exportRegistersResultExcel.bind(
+            this,
+        );
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
         this.handleAMonthDismiss = this.handleAMonthDismiss.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
-        this.openCallModal = this.openCallModal.bind(this);
         this.openPaymentModal = this.openPaymentModal.bind(this);
     }
 
@@ -62,18 +60,18 @@ class RegisterManageRoomContainer extends React.Component {
         if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
             this.setState({
                 base_id: 0,
-                bases: this.getData(nextProps.bases),
+                bases: this.getBaseData(nextProps.bases),
             });
         }
         if (nextProps.isLoadingSalers !== this.props.isLoadingSalers && !nextProps.isLoadingSalers) {
             this.setState({
                 saler_id: 0,
-                salers: this.getData(nextProps.salers),
+                salers: this.getSalerData(nextProps.salers),
             });
         }
     }
 
-    getData(datas) {
+    getBaseData(datas) {
         let selectData = datas.map(function (data) {
             return {
                 key: data.id,
@@ -84,6 +82,21 @@ class RegisterManageRoomContainer extends React.Component {
             {
                 key: 0,
                 value: "Tất cả",
+            },
+            ...selectData,
+        ];
+    }
+    getSalerData(datas) {
+        let selectData = datas.map(function (data) {
+            return {
+                value: data.id,
+                label: data.name,
+            };
+        });
+        return [
+            {
+                value: 0,
+                label: "Tất cả",
             },
             ...selectData,
         ];
@@ -186,49 +199,51 @@ class RegisterManageRoomContainer extends React.Component {
         this.setState({openFilterPanel: newstatus});
     }
 
-    // async exportRegistersResultExcel() {
-    //     this.props.registerManageMeetingRoomAction.showGlobalLoading();
-    //     const res = await loadAllRegistersApi(
-    //         -1,
-    //         this.state.page,
-    //         this.state.query,
-    //         this.state.saler_id,
-    //         this.state.status,
-    //         this.state.campaign_id,
-    //         this.state.base_id,
-    //         this.state.startTime,
-    //         this.state.endTime,
-    //     );
-    //     this.props.registerManageMeetingRoomAction.hideGlobalLoading();
-    //     const wsData = res.data.data.room_service_registers;
-    //     const field = [];
-    //     field[0] = "Tên";
-    //     field[1] = "Email";
-    //     field[2] = "Số điện thoại";
-    //     field[3] = "Ngày đăng kí";
-    //     field[4] = "Saler";
-    //     field[5] = "Chiến dịch";
-    //     const datas = wsData.map(data => {
-    //         let tmp = [];
-    //         tmp[0] = data.user.name;
-    //         tmp[1] = data.user.email || "Chưa có";
-    //         tmp[2] = data.user.phone || "Chưa có";
-    //         tmp[3] = data.created_at || "Chưa có";
-    //         tmp[4] = (data.saler && data.saler.name) || "Không có";
-    //         tmp[5] = (data.campaign && data.campaign.name) || "Không có";
-    //         return tmp;
-    //     });
-    //     const tmpWsData = [field, ...datas];
-    //     const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
-    //     const sheetName = "Danh sách đăng kí đặt phòng";
-    //     let workbook = {
-    //         SheetNames: [],
-    //         Sheets: {},
-    //     };
-    //     workbook.SheetNames.push(sheetName);
-    //     workbook.Sheets[sheetName] = ws;
-    //     saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt phòng");
-    // }
+    async exportRegistersResultExcel() {
+        this.props.registerManageMeetingRoomAction.showGlobalLoading();
+        const res = await loadAllRegistersApi(
+            -1,
+            this.state.page,
+            this.state.query,
+            this.state.saler_id,
+            this.state.status,
+            this.state.campaign_id,
+            this.state.base_id,
+            this.state.startTime,
+            this.state.endTime,
+        );
+        this.props.registerManageMeetingRoomAction.hideGlobalLoading();
+        const wsData = res.data.data.room_service_registers;
+        const field = [];
+        field[0] = "Tên khách hàng";
+        field[1] = "Số điện thoại";
+        field[2] = "Nhân viên phục vụ";
+        field[3] = "Ngày đăng kí";
+        field[4] = "Thời gian bắt đầu dự kiến";
+        field[5] = "Thời gian kết thúc dự kiến";
+        field[6] = "Thời gian bắt đầu chính thức";
+        field[7] = "Thời gian kết thúc chính thức";
+        const datas = wsData.map(data => {
+            let tmp = [];
+            tmp[0] = data.user.name;
+            tmp[1] = data.user.phone || "Chưa có";
+            tmp[2] = data.user.phone || "Chưa có";
+            tmp[3] = data.created_at || "Chưa có";
+            tmp[4] = (data.saler && data.saler.name) || "Không có";
+            tmp[5] = (data.campaign && data.campaign.name) || "Không có";
+            return tmp;
+        });
+        const tmpWsData = [field, ...datas];
+        const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
+        const sheetName = "Danh sách đăng kí đặt phòng h";
+        let workbook = {
+            SheetNames: [],
+            Sheets: {},
+        };
+        workbook.SheetNames.push(sheetName);
+        workbook.Sheets[sheetName] = ws;
+        saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt phòngọp họp");
+    }
 
     registersSearchChange(value) {
         this.setState({
@@ -268,14 +283,13 @@ class RegisterManageRoomContainer extends React.Component {
         );
     }
 
-    openCallModal(register) {
-        this.props.registerManageMeetingRoomAction.openCallModal(register);
-    }
+
     openPaymentModal(register) {
         this.props.registerManageMeetingRoomAction.openPaymentModal(register);
     }
 
     render() {
+        console.log(this.state);
         let first = this.props.totalCount
             ? (this.props.currentPage - 1) * this.props.limit + 1
             : 0;
@@ -383,14 +397,12 @@ class RegisterManageRoomContainer extends React.Component {
                                         value={this.state.query}
                                         placeholder="Nhập tên khách hàng, email hoặc số điện thoại"
                                     />
-                                    <ListOrder
+                                    <ListRegisters
                                         registers={this.props.registers}
                                         isLoading={this.props.isLoading}
                                         filterBySaler={this.filterBySaler}
-                                        openCallModal={this.openCallModal}
                                         openPaymentModal={this.openPaymentModal}
                                     />
-
                                     <div className="row float-right">
                                         <div className="col-md-12"
                                              style={{textAlign: "right"}}
@@ -429,7 +441,6 @@ RegisterManageRoomContainer.propTypes = {
     isLoadingBases: PropTypes.bool.isRequired,
     isLoadingSalers: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
-    chooseSeatActions: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

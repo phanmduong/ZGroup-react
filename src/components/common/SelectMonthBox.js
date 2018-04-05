@@ -12,7 +12,6 @@ class SelectMonthBox extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {isShowMonthBox: false
-
         };
         this.handleClickMonthBox = this.handleClickMonthBox.bind(this);
         this.handleAMonthChange = this.handleAMonthChange.bind(this);
