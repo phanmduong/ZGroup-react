@@ -72,18 +72,19 @@ class ProjectListContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">event_note</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Lịch làm việc</h4>
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Lịch làm việc</strong>
+                                </h4>
+                            </div>    
                         </div>
                         {
                             this.props.isLoading ? <Loading/> : (
                                 <div id="calendar" style={{padding: "20px"}} />
                             )
                         }
+                        <br/>
                     </div>
                 </div>
             </div>
