@@ -91,7 +91,7 @@ class ClientController extends Controller
 
     public function workShift()
     {
-        return view('client.workshift');
+        return view('client.workShift');
     }
 
     public function landingPage()
