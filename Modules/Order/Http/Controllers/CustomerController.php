@@ -13,6 +13,7 @@ use App\Http\Controllers\ManageApiController;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
+use App\TransferMoney;
 
 class CustomerController extends ManageApiController
 {
@@ -28,13 +29,16 @@ class CustomerController extends ManageApiController
         $status = $request->status;
 
         if ($status == '1' || $status == '0') {
-            $customerIds = Order::where('status_paid', $status)->select('user_id')->get();
-            $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
-                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
-            })->orderBy('created_at', 'desc')->paginate($limit);
+            // $customerIds = Order::where('status_paid', $status)->select('user_id')->get();
+            // $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
+            // $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
+            //     $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
+            // })->orderBy('created_at', 'desc')->paginate($limit);
+            $users = [];
         } else {
-            $users = User::where('type', 'customer')->where(function ($query) use ($keyword) {
-                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
+            // $users = User::where('type', 'customer')->where(function ($query) use ($keyword) {
+            $users = User::where(function ($query) use ($keyword) {
+                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', "%$keyword%");
             })->orderBy('created_at', 'desc')->paginate($limit);
         }
 
@@ -368,6 +372,14 @@ class CustomerController extends ManageApiController
             $customer->deposit += $request->money;
         else
             $customer->money += $request->money;
+        
+        $transfer = new TransferMoney;
+        $transfer->money = $request->money;
+        $transfer->user_id = $customer->id;
+        $transfer->status = 'accept';
+        $transfer->transfer_day = date('Y-m-d H-i-s');
+        $transfer->wallet_kind = $request->deposit ? 'deposit' : 'money';
+        $transfer->save();
         $customer->save();
         return $this->respondSuccess('Nạp tiền thành công');
     }

@@ -204,3 +204,16 @@
     background-color: #96d21f;
     color: #FFFFFF !important;
 }
+
+.event-name a:not(btn){
+    font-weight: 600;
+    color: #95d207 !important;
+    font-size:20px;
+}
+
+p > img {
+    clear: both;
+    display: block;
+    margin: 10px auto;
+    padding: 10px 0;
+}

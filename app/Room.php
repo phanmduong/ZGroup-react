@@ -45,13 +45,14 @@ class Room extends Model
             'name' => $this->name,
             'base' => $this->base->transform(),
             'seats_count' => $this->seats_count,
+            'avatar_url' => $this->avatar_url,
             'images_url' => $this->images_url,
             'width' => $this->width,
             'height' => $this->height,
             'room_layout_url' => $this->room_layout_url,
         ];
-        if ($this->room_type) {
-            $data['room_type'] = $this->room_type->getData();
+        if ($this->roomType) {
+            $data['room_type'] = $this->roomType->getData();
         }
         return $data;
     }

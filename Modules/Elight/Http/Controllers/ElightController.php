@@ -7,12 +7,15 @@ use App\District;
 use App\Course;
 use App\Good;
 use App\Lesson;
+use App\Term;
 use App\Product;
 use App\Province;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Elight\Repositories\BookRepository;
+use App\CourseCategory;
+use Illuminate\Support\Facades\DB;
 
 class ElightController extends Controller
 {
@@ -26,7 +29,10 @@ class ElightController extends Controller
     public function index()
     {
         $newestBlog = Product::where('type', 2)->where('category_id', 1)->orderBy('created_at', 'desc')->first();
-        $newestTop3 = Product::where('type', 2)->where('category_id', 1)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        $newestTop3 = Product::where('type', 2)->where('category_id', 1);
+        if ($newestBlog)
+            $newestTop3 = $newestTop3->where('id', '<>', $newestBlog->id);
+        $newestTop3 = $newestTop3->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
         $goods = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
@@ -105,14 +111,17 @@ class ElightController extends Controller
         );
     }
 
-    public function book($subfix, $book_id, $lesson_id = null)
+    public function book($subfix, $book_id, $term_id = null, $lesson_id = null)
     {
-        $lesson = Lesson::find($lesson_id);
-
         $course = Course::find($book_id);
+        $term = Term::find($term_id);
+        $lesson = Lesson::find($lesson_id);
         if ($course == null) {
             return view('elight::404-not-found');
         }
+
+        if ($term && $lesson == null)
+            $lesson = $term->lessons()->orderBy('order')->first();
 
         if ($lesson == null) {
             $terms = $course->terms()->orderBy('order')->get();
@@ -125,32 +134,51 @@ class ElightController extends Controller
             }
         }
 
-        if ($lesson == null){
+        if ($lesson == null) {
             return view('elight::404-not-lesson');
         }
 
-        $lessons = $course->lessons()->get()->map(function ($lesson) {
-            return [
-                'id' => $lesson->id,
-                'name' => $lesson->name
-            ];
-        });
         $sound_cloud_track_id = sound_cloud_track_id($lesson->audio_url);
-
         return view('elight::book', [
-            'book' => $course,
-            'lesson_selected' => $lesson,
-            'lessons' => $lessons,
+            'term_id' => $term ? $term->id : $lesson->term->id,
+            'lesson' => $lesson,
             'course' => $course,
-            'track_id' => $sound_cloud_track_id
+            'lessons' => $course->lessons()->get()->map(function ($lesson) {
+                return [
+                    'id' => $lesson->id,
+                    'name' => $lesson->name
+                ];
+            }),
+            'track_id' => $sound_cloud_track_id,
+            'terms' => $course->terms->filter(function ($term) {
+                return $term->lessons->count() > 0;
+            })
         ]);
     }
 
-    public function allBooks($subfix)
+    public function allBooks($subfix, Request $request)
     {
-        $books = Course::where('status', 0)->get();
+        $books = Course::leftJoin('course_course_category', 'courses.id', '=', 'course_course_category.course_id');
+
+        if ($request->search)
+            $books = $books->where('courses.name', 'like', "%$request->search%");
+        if ($request->category_id)
+            $books = $books->where('course_course_category.course_category_id', '=', $request->category_id);
+        $books = $books->where('courses.status', 1);
+        $books = $books->select('courses.*')->groupBy('courses.id');
+
+        $books = $books->orderBy('created_at', 'desc')->paginate(8);
+
+        $categories = CourseCategory::join('course_course_category', 'course_categories.id', '=', 'course_course_category.course_category_id')
+            ->select('course_categories.*', DB::raw('count(*) as count'))->groupBy('course_categories.id')->having('count', '>', 0)->get();
+
         return view('elight::library', [
             'books' => $books,
+            'search' => $request->search,
+            'categories' => $categories,
+            'category_id' => $request->category_id,
+            'total_pages' => ceil($books->total() / $books->perPage()),
+            'current_page' => $books->currentPage(),
         ]);
     }
 
@@ -174,9 +202,6 @@ class ElightController extends Controller
                 $good = Good::find($item->id);
                 $good->number = $item->number;
                 $properties = GoodProperty::where('good_id', $good->id)->get();
-                foreach ($properties as $property) {
-                    $good[$property->name] = $property->value;
-                }
                 $goods[] = $good;
             }
         }
@@ -184,7 +209,7 @@ class ElightController extends Controller
         $totalPrice = 0;
 
         foreach ($goods as $good) {
-            $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
+            $totalPrice += $good->price * $good->number;
         }
         $data = [
             "goods" => $goods,
@@ -302,8 +327,7 @@ class ElightController extends Controller
 
     public function flush($subfix, Request $request)
     {
+        return view('emails.elight_aboutus');
         $request->session()->flush();
     }
-
-
 }

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 
 class EmailRepository
 {
-
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -101,6 +100,7 @@ class EmailRepository
                 'send_status' => $campaign->sended,
                 'open' => $open,
                 'sended' => $sended,
+                'avatar_url' => $campaign->email_form ? generate_protocol_url($campaign->email_form->avatar_url) : "",
                 'complaint' => $complaint,
                 'delivery' => $delivery,
                 'hide' => $campaign->hide ? $campaign->hide : 0,
@@ -109,19 +109,18 @@ class EmailRepository
             ];
 
             if ($total_subscribers_lists != 0) {
-
                 $list_ids = $campaign->subscribers_lists()->get()->pluck('id')->toArray();
                 $str = implode(',', $list_ids);
-                $query = "select distinct count(email) as nums from subscribers where id in " .
+                $query = 'select distinct count(email) as nums from subscribers where id in ' .
                     "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) ";
                 $total = DB::select($query)[0]->nums;
 
                 $data['subscribers_list_ids'] = $list_ids;
             }
 
-            if (isset($total))
+            if (isset($total)) {
                 $data['total'] = $total;
-
+            }
 
             return $data;
         };
