@@ -1,5 +1,6 @@
 FROM quanca/laravel
-COPY php/sync.sh /home/sync.sh
+COPY ./sync.sh /home/sync.sh
+RUN chmod +x /home/sync.sh
 RUN apt-get install git -y
 RUN git config --global user.name "Quan"
 RUN git config --global user.username "caoquan95"
