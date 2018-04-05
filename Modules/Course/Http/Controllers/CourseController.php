@@ -57,8 +57,8 @@ class CourseController extends ManageApiController
         $course->image_url = $request->image_url;
         $course->icon_url = $request->icon_url;
         $course->detail = $request->detail;
-        if ($request->order) {
-            $course->order = Course::max();
+        if ($request->order_number) {
+            $course->order_number = Course::max();
         }
         // $course->type_id = $request->type_id;
         $course->type_id = 1;
