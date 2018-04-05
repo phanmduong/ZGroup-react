@@ -1,6 +1,6 @@
 FROM quanca/laravel
 
-COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+COPY ./supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 RUN apt-get install nano -y
 RUN apt-get install supervisor -y

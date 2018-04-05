@@ -1,2 +1,0 @@
-FROM quanca/laravelprod
-COPY ./env/env.trongdong /var/www/.env
