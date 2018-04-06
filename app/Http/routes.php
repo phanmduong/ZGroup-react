@@ -133,8 +133,7 @@ Route::group(['domain' => 'keetool2.xyz'], function () {
 });
 
 
-
-$manageApiRoutes =  function () {
+$manageApiRoutes = function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
@@ -263,7 +262,7 @@ $manageApiRoutes =  function () {
 };
 
 Route::group(['domain' => 'manageapi.' . config('app.domain')], $manageApiRoutes);
-Route::group(['domain' => config('app.domain'). '/manageapi/v3'], $manageApiRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => '/manageapi/v3'], $manageApiRoutes);
 
 Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function () {
     Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
@@ -273,7 +272,7 @@ Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function
     Route::post('change-class-status', 'ManageClassApiController@change_class_status');
 });
 
-$apiRoutes =  function () {
+$apiRoutes = function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
         Route::get('search-registers', 'MoneyManageApiController@search_registers');
