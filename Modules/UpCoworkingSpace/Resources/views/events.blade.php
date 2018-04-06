@@ -22,41 +22,40 @@
                                                     background-size: cover;
                                                     background-position: center;
                                                     padding-bottom: 56%;">
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 style="min-height: 50px">
-                                            <a href="{{'/events/' . $event->slug}}" class="card-category text-main-color">{{$event->name}}</a>
-                                        </h5>
-                                        <p class="card-description" style="color: #4a4a4a">
-                                            <i class="fa fa-calendar text-main-color" aria-hidden="true"></i>
-                                            {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}
-                                            @if($event->end_date != $event->start_date)
-                                                <span > - {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
-                                            @endif
-                                        </p>
-                                        <p class="card-description" style="color: #4a4a4a">
-                                            <i class="fa fa-clock-o text-main-color" aria-hidden="true"></i>
-                                            {{ Carbon\Carbon::parse($event->start_time)->format('H:i') }}
-                                            @if($event->end_date != $event->start_date)
-                                                <span > - {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
-                                            @endif
-                                        </p>
-                                        <br>
-                                    </div>
+                                        </div>
+                                    </a>
                                 </div>
+                                <div class="card-body">
+                                    <h5 style="min-height: 50px">
+                                        <a href="{{'/events/' . $event->slug}}" class="card-category text-main-color">{{$event->name}}</a>
+                                    </h5>
+                                    <p class="card-description" style="color: #4a4a4a">
+                                        <i class="fa fa-calendar text-main-color" aria-hidden="true"></i>
+                                        {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}
+                                        @if($event->end_date != $event->start_date)
+                                            <span > - {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
+                                        @endif
+                                    </p>
+                                    <p class="card-description" style="color: #4a4a4a">
+                                        <i class="fa fa-clock-o text-main-color" aria-hidden="true"></i>
+                                        {{ Carbon\Carbon::parse($event->start_time)->format('H:i') }}
+                                        @if($event->end_time != $event->start_time)
+                                            <span > - {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
+                                        @endif
+                                    </p>
+                                    <br>
+                                </div>
+                            </div>
                             </div>
                         @endforeach
                     </div>
 
                     <div class="row" style="background-color: #ffffff; padding: 20px">
-                        <div id="loading" style="position: relative; top:26px; left: 80px; visibility: hidden">
-                            <i class="fa fa-spinner" aria-hidden="true" id="loadingSpinner"></i>
-                            <span style="font-size:16px">Đang tải ...</span>
+                        <div id="loading">
+                                                            @include('upcoworkingspace::includes.loading')
+
                         </div>
                         <div id='calendar'></div>
-
                     </div>
                     <br>
                     <hr>
@@ -88,7 +87,6 @@
             </div>
         </div>
 
-    </div>
     </div>
 
 
@@ -192,10 +190,9 @@
                             var event_end_date = event.end_date.slice(0,10);
                             var event_start_time = event.start_time.slice(11);
                             var event_end_time = event.end_time.slice(11);
-                            // console.log(event_start_time);
-                            // console.log(typeof moment(event_end_time,'H:mm'));
                             data.push(
                                 {
+                                    id: event.id,
                                     title: event.name,
                                     id: event.id,
                                     start: event.start_time,
@@ -208,17 +205,12 @@
                                     }]
                                 }
                             );
-                            // console.log(data);
-                            // console.log(moment(event.end_date).format('YYYY-MM-DD'));
                         });
-                        // console.log(data);
                         updateData();
-                        // console.log(data);
                     }
                     else {
                         updateData();
                     }
-                    // console.log('1');
 
                     stateLoading = false;
                     loading(stateLoading);
@@ -227,7 +219,6 @@
                 stateLoading = false;
                 loading(stateLoading);
             });
-            // console.log(data);
         }
 
 
@@ -268,9 +259,9 @@
         var moment_month;
 
 
+
+
         $(document).ready(function () {
-
-
             moment1 = new Date();
             moment_year = moment(moment1).format('YYYY');
             moment_month = moment(moment1).format('M');
@@ -279,7 +270,6 @@
 
 
             $('#calendar').on('click', '.fc-next-button', function () {
-                //alert('clicked');
                 $('#calendar').fullCalendar('removeEvents');
                 moment1 = $('#calendar').fullCalendar('getDate');
                 moment_year = moment(moment1).format('YYYY');
@@ -289,7 +279,6 @@
 
             });
             $('#calendar').on('click', '.fc-prev-button', function () {
-                // alert('clicked');
                 $('#calendar').fullCalendar('removeEvents');
                 moment1 = $('#calendar').fullCalendar('getDate');
                 moment_year = moment(moment1).format('YYYY');
@@ -297,6 +286,7 @@
                 getData(moment_year, moment_month);
                 // console.log(repeatingEvents);
             });
+
 
 
         });

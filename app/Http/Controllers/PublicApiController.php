@@ -221,9 +221,9 @@ class PublicApiController extends ApiController
         ]);
     }
 
-    public function product_categories()
+    public function product_categories(Request $request)
     {
-        $categories = CategoryProduct::all()->map(function ($c) {
+        $categories = CategoryProduct::where('name', 'like', "%$request->search%")->get()->map(function ($c) {
             return [
                 'value' => $c->id,
                 'text' => $c->name

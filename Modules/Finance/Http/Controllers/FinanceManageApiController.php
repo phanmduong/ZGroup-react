@@ -3,7 +3,7 @@
 namespace Modules\Finance\Http\Controllers;
 
 use App\CategoryTransaction;
-use App\Course;
+//use App\Course;
 use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Transaction;
@@ -11,7 +11,8 @@ use App\TransferMoney;
 use App\BankAccount;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+//use Illuminate\Http\Response;
+//use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class FinanceManageApiController extends ManageApiController

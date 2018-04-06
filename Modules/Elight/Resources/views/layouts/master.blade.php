@@ -6,6 +6,7 @@
           href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1515853471glZIdDdlEwbXivK.png" cph-ssorder="0">
     <link rel="icon" type="image/png" href="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="_token" content="{{ csrf_token() }}">
 
     <title>Elight</title>
 

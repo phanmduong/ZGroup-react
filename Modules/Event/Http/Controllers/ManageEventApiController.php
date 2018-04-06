@@ -2,6 +2,7 @@
 
 namespace Modules\Event\Http\Controllers;
 
+use Doctrine\DBAL\Events;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ManageApiController;
 use App\Event;
@@ -30,14 +31,12 @@ class ManageEventApiController extends ManageApiController
         $metaTitle = $request->meta_title;
         $keyword = $request->keyword;
         $metaDescription = $request->meta_description;
-
         if (!$name || !$avatarUrl || !$slug) {
             return $this->respondErrorWithStatus('Bạn truyền lên thiếu thông tin');
         }
 
-        if ($id) {
-            $event = Event::find($id);
-        } else {
+        $event = Event::find($id);
+        if (!$event) {
             $event = new Event();
         }
 
@@ -59,7 +58,35 @@ class ManageEventApiController extends ManageApiController
         $event->save();
 
         return $this->respondSuccessV2([
-            'event' => $event
+            'event' => $event->getData(),
+        ]);
+    }
+
+    public function getAllEvents(Request $request)
+    {
+        if ($request->limit == -1) {
+            $limit = 20;
+        } else {
+            $limit = $request->limit;
+        }
+        $search = $request->search;
+        $events = Event::where('name', 'like', "%$search%")->orderBy('created_at','desc')->paginate($limit);
+        return $this->respondWithPagination($events, [
+            'events' => $events->map(function ($event) {
+                return $event->getData();
+            })
+        ]);
+    }
+    public function changeStatusEvent($id, Request $request)
+    {
+        $event = Event::find($id);
+        if (!$event) {
+            return $this->respondErrorWithStatus('Không tồn tại sự kiện');
+        }
+        $event->status = $request->status;
+        $event->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thành công'
         ]);
     }
 }

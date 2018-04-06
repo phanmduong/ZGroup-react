@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Report extends Model
 {
     //
     protected $table = 'reports';
     protected $fillable = ['report'];
+
     public function staff(){
         return $this->belongsTo(User::class,'staff_id');
     }
@@ -22,6 +24,7 @@ class Report extends Model
            ],
             "title" => $this->title,
             "content" => $this->report,
+            "status" => $this->status,
             "created_at" => $this->created_at
         ];
     }

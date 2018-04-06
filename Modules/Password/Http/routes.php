@@ -2,10 +2,10 @@
 
 $routes = function () {
     Route::group(['prefix' => 'v2/password'], function (){
+        route::get('passwords','PasswordController@showAll');
         route::post('store','PasswordController@store');
         route::put('edit/{id}','PasswordController@edit');
         route::delete('delete/{id}','PasswordController@destroy');
-        route::get('passwords','PasswordController@showAll');
     });
 };
 

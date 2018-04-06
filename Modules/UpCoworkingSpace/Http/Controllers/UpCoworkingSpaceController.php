@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class UpCoworkingSpaceController extends Controller
 {
+
     public function index()
     {
         $newestBlogs = Product::where('type', 2)->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
@@ -42,6 +43,7 @@ class UpCoworkingSpaceController extends Controller
 
     public function blog(Request $request)
     {
+
         $blogs = Product::where('type', 2)->where('status', 1);
 
         $search = $request->search;
@@ -166,7 +168,7 @@ class UpCoworkingSpaceController extends Controller
             $events = $events->where('name', 'like', '%' . $search . '%');
         }
 
-        $events = $events->orderBy('start_date', 'asc')->paginate(6);
+        $events = $events->orderBy('start_date', 'desc')->paginate(6);
         $display = '';
         if ($request->page == null) {
             $page_id = 2;
@@ -205,7 +207,9 @@ class UpCoworkingSpaceController extends Controller
 
         return view('upcoworkingspace::event_detail', $this->data);
     }
+
     // dang ky event
+    
     public function eventSignUpForm($slug,\Illuminate\Http\Request $request)
     {
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
@@ -213,6 +217,51 @@ class UpCoworkingSpaceController extends Controller
         ]);
 
         return view('upcoworkingspace::sign_up_form');
+    }
+
+    public function missionAndVision()
+    {
+        return view('upcoworkingspace::mission_vision');
+    }
+
+    public function partner()
+    {
+        return view('upcoworkingspace::partner');
+    }
+
+    public function media()
+    {
+        return view('upcoworkingspace::media');
+    }
+
+    public function faqs()
+    {
+        return view('upcoworkingspace::faqs');
+    }
+
+    public function talentAcquisition()
+    {
+        return view('upcoworkingspace::talent-acquisition');
+    }
+
+    public function contact_us()
+    {
+        return view('upcoworkingspace::contact-us');
+    }
+
+    public function founders()
+    {
+        return view('upcoworkingspace::founders');
+    }
+
+    public function mentors()
+    {
+        return view('upcoworkingspace::mentors');
+    }
+
+    public function tour()
+    {
+        return view('upcoworkingspace::tour');
     }
 
 

@@ -154,10 +154,46 @@
             border-radius: 8px;
             text-align: center;
             font-size: 13px;
-        }</style>
+        }
+        .dropdown-menu:after, .dropdown-menu:before {
+            left: 12px !important;
+            right: auto !important;
+            border: none !important;
+        }
+        .dropdown-menu .dropdown-item{
+            padding: .25rem 1.5rem !important;
+            background: #ffffff;
+        }
+        .dropdown.show .dropdown-menu{
+            transform: translate3d(0px, -15px, 0px) !important;
+        }
+
+    </style>
+
     <link rel="stylesheet prefetch" href="./css/fullcalendar.css">
 
 </head>
+
+<?php
+//    function getUserIpAddress(){
+//        if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+//            //ip from share internet
+//            $ip = $_SERVER['HTTP_CLIENT_IP'];
+//        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+//            //ip pass from proxy
+//            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+//        }else{
+//            $ip = $_SERVER['REMOTE_ADDR'];
+//        }
+//        return $ip;
+//    }
+//    $ip = getUserIPAddress();
+////    dd($ip);
+//    $dataArray = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
+//    dd($dataArray);
+?>
+
+{{--@if($dataArray->geoplugin_countryName === "Vietnam")--}}
 <body style="background-color: #f9f9f9">
 <nav class="navbar navbar-toggleable-md fixed-top">
     <div class="container">
@@ -178,9 +214,16 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">VỀ
+                <li class="dropdown nav-item">
+                    <a class="nav-link hover-change dropdown-toggle" data-scroll="true" data-toggle="dropdown">VỀ
                         UP</a>
+                    <div class="dropdown-menu">
+                        <a href="/tam-nhin-su-menh-gia-tri-cot-loi-up-coworking-space" class="dropdown-item">Tầm nhìn - sứ mệnh</a>
+                        <a href="/doi-tac-chien-luoc-cua-up" class="dropdown-item">Đối tác</a>
+                        <a href="/doi-tac-truyen-thong-cua-up" class="dropdown-item">Truyền thông</a>
+                        <a href="/nhung-cau-hoi-thuong-gap" class="dropdown-item">Những câu hỏi thường gặp</a>
+                        <a href="/thong-tin-tuyen-dung" class="dropdown-item">Tuyển dụng</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link hover-change" href="/goi-thanh-vien-up-coworking-space" data-scroll="true">GÓI THÀNH
@@ -191,24 +234,34 @@
                         KIỆN</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link hover-change" href="/phong-hop" data-scroll="true">Phòng họp</a>
+                </li>
+                <li class="dropdown nav-item">
+                    <a class="nav-link hover-change dropdown-toggle" data-toggle="dropdown" data-scroll="true">Cộng đồng up</a>
+                    <div class="dropdown-menu">
+                        <a href="/up-founders/" class="dropdown-item">Đội ngũ sáng lập</a>
+                        <a href="/up-s-mentors/" class="dropdown-item">UP Mentor</a>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link hover-change" href="/tin-tuc-startup" data-scroll="true">Tin tức</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hover-change" href="/conference-room" data-scroll="true">PHÒNG
-                        HỌP</a>
+                    <a class="nav-link hover-change" href="/lien-he-voi-up-co-working-space/" data-scroll="true">Liên hệ</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-round btn-danger"
                        style="background-color:#96d21f;border-color:#96d21f; color:white!important;"
-                       href="sections.html">TRẢI NGHIỆM</a>
+                       href="/dang-ky-trai-nghiem/">TRẢI NGHIỆM</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-@include('upcoworkingspace::includes.register_modal')
 
-@yield('content')
+
+    @yield('content')
+
 
 <footer class="footer footer-big">
     <div class="container">
@@ -387,7 +440,7 @@
         integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
         crossorigin="anonymous"></script>
 {{--<script src="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/js/jquery-3.2.1.min.js"--}}
-        {{--type="text/javascript"></script>--}}
+{{--type="text/javascript"></script>--}}
 <script>$(document).ready(function () {
         function detectmob() {
             if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
@@ -493,8 +546,14 @@
 
         return page;
     }
+
+    $('.dropdown-menu').after().css('right','');
+    $('.dropdown-menu').before().css('right','');
+
 </script>
 @stack('scripts')
 </body>
 
 </html>
+
+

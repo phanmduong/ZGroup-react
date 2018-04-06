@@ -23,6 +23,8 @@ class RoomType extends Model
             'name' => $this->name,
             'description' => $this->description,
             'type_name' => $this->type_name,
+            'price' => $this->price,
+            'member_price' => $this->member_price,
         ];
     }
 }

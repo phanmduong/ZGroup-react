@@ -289,9 +289,10 @@ class ManageEmailApiController extends ManageApiController
         $emails = array();
 
         foreach ($comments as $comment) {
-            if (filter_var($comment->message, FILTER_VALIDATE_EMAIL)) {
+            $email = getEmailFromText($comment->message);
+            if (!empty($email)) {
                 $emails[] = [
-                    'email' => $comment->message,
+                    'email' => $email,
                     'name' => $comment->from->name,
                 ];
             }
