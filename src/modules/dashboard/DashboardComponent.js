@@ -25,8 +25,7 @@ class DashboardComponent extends React.Component {
             let {
                 total_money, target_revenue, register_number, paid_number, zero_paid_number, remain_days,
                 percent_remain_days, total_classes, courses, user, count_paid, count_total, registers_by_date, date_array,
-                paid_by_date, money_by_date, classes, shifts, now_classes, current_date, end_time_gen
-
+                paid_by_date, money_by_date, classes, shifts, now_classes, current_date, end_time_gen, sum_paid_personal
             } = this.props.dashboard;
             let classProfile = user.is_saler && user.rating ? 'col-md-3' : 'col-md-4';
             if (this.props.dashboard.user) {
@@ -162,7 +161,7 @@ class DashboardComponent extends React.Component {
                                             {(user.is_saler) &&
                                             <div className={"text-align-left " + classProfile}>
                                                 <p className="category">Chỉ tiêu</p>
-                                                <h3 className="card-title">{`${count_paid}/${count_total}`}</h3>
+                                                <h3 className="card-title">{`${count_paid}/${count_total} - ${sum_paid_personal}`}</h3>
                                                 <TooltipButton placement="top"
                                                                text={`${count_paid}/${count_total}`}>
                                                     <div className="progress progress-line-rose">
@@ -174,8 +173,7 @@ class DashboardComponent extends React.Component {
                                                 <div className="card-footer" style={{margin: '0 0 10px'}}>
                                                     <div className="stats">
                                                         <i className="material-icons">list</i>
-                                                        <a href={"/sales/registerlist/" + user.id}>Danh sách đăng
-                                                            kí</a>
+                                                        <a href={"/sales/registerlist/" + user.id}>Danh sách đăng kí</a>
                                                     </div>
                                                 </div>
                                             </div>
