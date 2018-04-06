@@ -100,7 +100,7 @@ class ManageBookingController extends ManageApiController
         return $this->respondWithPagination($registers, [
             'room_service_registers' => $registers->map(function ($register) {
                 $data = $register->getData();
-                $register = RoomServiceRegister::where('user_id', $user->id)->where('type', 'member')->where('start_time', '<>', null)
+                $register = RoomServiceRegister::where('user_id', $register->id)->where('type', 'member')->where('start_time', '<>', null)
                     ->where('end_time', '<>', null)
                     ->where('end_time', '>', date('Y-m-d H:i:s'))->first();
                 $data['is_member'] = ($register != null);
