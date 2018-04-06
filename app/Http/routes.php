@@ -132,7 +132,9 @@ Route::group(['domain' => 'keetool2.xyz'], function () {
     Route::get('/', 'PublicController@redirectKeetool');
 });
 
-Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
+
+
+$manageApiRoutes =  function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
@@ -258,7 +260,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     Route::put('/register/{registerId}', 'StudentApiController@editRegister');
 
-});
+};
+
+Route::group(['domain' => 'manageapi.' . config('app.domain')], $manageApiRoutes);
+Route::group(['domain' => config('app.domain'). '/manageapi/v3'], $manageApiRoutes);
 
 Route::group(['domain' => config('app.domain'), "prefix" => "/v3/api"], function () {
     Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
