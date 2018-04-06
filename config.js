@@ -1,7 +1,8 @@
 /*eslint-disable */
 var env = {
     // "DOMAIN": "keetoolclient.test",
-    "DOMAIN": "colorme.vn",
+    //"DOMAIN": "colorme.vn",
+    "DOMAIN": "keetool3.xyz",
     // "DOMAIN": "graphics.dev",
     "NAME_COMPANY": "KEETOOL test",
     "LOGO_LOGIN": "https://d255zuevr6tr8p.cloudfront.net/logo/Artboard+5+copy.png",
