@@ -43,8 +43,13 @@ class StorePostComponent extends React.Component {
     }
 
     generateFromTitle() {
-        const slug = helper.changeToSlug(this.props.post.title);
-        this.props.updateFormData("slug", slug);
+        if (this.props.post.title === "") {
+            helper.showErrorMessage("Lỗi", "Bài viết này chưa có Tiêu Đề");
+        } else{
+            const slug = helper.changeToSlug(this.props.post.title);
+            this.props.updateFormData("slug", slug);
+        }
+        
     }
 
     openAddCategoryModal() {
@@ -178,9 +183,66 @@ class StorePostComponent extends React.Component {
                                                 style={{ color: "blue" }}
                                                 onClick={this.generateFromTitle}
                                             >
-                                                Tự động sinh
+                                                Tự động tạo từ tiêu đề
                                             </a>
                                         </FormInputText>
+
+                                        <label className="label-control">
+                                            Nhóm bài viết
+                                        </label>
+
+                                        <div>
+                                            <div className="row">
+                                                <div
+                                                    className="col-md-12"
+                                                    style={{ display: "flex" }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            width:
+                                                                "-webkit-fill-available",
+                                                            marginRight: 10,
+                                                        }}
+                                                    >
+                                                        <ReactSelect
+                                                            value={category}
+                                                            options={addSelect(
+                                                                this.props
+                                                                    .categories,
+                                                            )}
+                                                            onChange={
+                                                                this.props
+                                                                    .updateFormSelect
+                                                            }
+                                                            placeholder="Chọn nhóm"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            marginTop: -6,
+                                                        }}
+                                                    >
+                                                        <TooltipButton
+                                                            placement="top"
+                                                            text="Thêm nhóm bài viết"
+                                                        >
+                                                            <a
+                                                                className="btn btn-rose btn-sm"
+                                                                onClick={() => {
+                                                                    this.openAddCategoryModal(
+                                                                        {},
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <i className="material-icons">
+                                                                    control_point
+                                                                </i>
+                                                            </a>
+                                                        </TooltipButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div className="form-group">
                                             <label className="control-label">
@@ -245,62 +307,7 @@ class StorePostComponent extends React.Component {
                                             />
                                         </div>
 
-                                        <label className="label-control">
-                                            Nhóm bài viết
-                                        </label>
-
-                                        <div>
-                                            <div className="row">
-                                                <div
-                                                    className="col-md-12"
-                                                    style={{ display: "flex" }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            width:
-                                                                "-webkit-fill-available",
-                                                            marginRight: 10,
-                                                        }}
-                                                    >
-                                                        <ReactSelect
-                                                            value={category}
-                                                            options={addSelect(
-                                                                this.props
-                                                                    .categories,
-                                                            )}
-                                                            onChange={
-                                                                this.props
-                                                                    .updateFormSelect
-                                                            }
-                                                            placeholder="Chọn nhóm"
-                                                        />
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            marginTop: -6,
-                                                        }}
-                                                    >
-                                                        <TooltipButton
-                                                            placement="top"
-                                                            text="Thêm nhóm bài viết"
-                                                        >
-                                                            <a
-                                                                className="btn btn-rose btn-sm"
-                                                                onClick={() => {
-                                                                    this.openAddCategoryModal(
-                                                                        {},
-                                                                    );
-                                                                }}
-                                                            >
-                                                                <i className="material-icons">
-                                                                    control_point
-                                                                </i>
-                                                            </a>
-                                                        </TooltipButton>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
 
                                         <input
                                             type="text"

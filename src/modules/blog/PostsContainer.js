@@ -51,7 +51,14 @@ class BlogsContainer extends React.Component {
     }
 
     closeModal() {
-        this.setState({ isOpenModal: false });
+        helper.confirm(
+            "warning",
+            "Cảnh báo",
+            "Bạn có chắc muốn đóng editor? <br/>Những dữ liệu chưa lưu sẽ bị mất!",
+            () => {
+                this.setState({ isOpenModal: false });
+            },
+        );
     }
 
     deletePost(post) {
@@ -126,26 +133,21 @@ class BlogsContainer extends React.Component {
                     <Loading />
                 ) : (
                     <div className="card">
-                        <div
-                            className="card-header card-header-icon"
-                            data-background-color="rose"
-                        >
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Danh sách bài viết</h4>
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <a
-                                        onClick={() => this.openModal(false)}
-                                        className="btn btn-rose"
-                                    >
-                                        Tạo bài viết
-                                    </a>
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Danh sách bài viết</strong>
+                                    </h4>
+                                    <div>
+                                        <button
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                            type="button" onClick={() => this.openModal(false)}>
+                                            <strong>+</strong>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
                             <div className="row">
                                 <div className="col-md-10">
                                     <Search
@@ -189,7 +191,8 @@ class BlogsContainer extends React.Component {
                     id="store-post-modal"
                     show={this.state.isOpenModal}
                     bsStyle="primary"
-                    onHide={() => {}}
+                    closeButton
+                    onHide={this.closeModal}
                     animation={false}
                 >
                     <Modal.Header>

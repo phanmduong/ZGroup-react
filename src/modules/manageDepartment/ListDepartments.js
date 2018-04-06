@@ -10,78 +10,68 @@ class ListDepartments extends React.Component {
         this.state= {};
     }
 
-
     render(){
         return(
             <div className="col-md-12">
-                <div className="card">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">assignment</i>
-                    </div>
-                    <div className="card-content">
-                        <h4 className="card-title">Danh sách bộ phận</h4>
-                        <div className="table-responsive">
-
-                            {!this.props.isLoading && this.props.departments ?
-                                <div>
-                                    { (this.props.departments && this.props.departments.length === 0) ?
-                                        <h3>Chưa có bộ phận nào</h3>
-                                        :
-
-                                            <table className="table">
-                                                <thead className="text-rose">
-                                                <tr>
-                                                    <th>Bộ phận</th>
-                                                    <th>Số nhân viên</th>
-                                                    <th style={{textAlign:"right"}}>Sửa</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {this.props.departments.map((obj,index) => {
-                                                        return (
-
-                                                                <tr key={index} >
-                                                                        <td>
-                                                                            <TooltipButton text={obj.name}
-                                                                                           placement="top">
-                                                                                <button className="btn btn-xs btn-main"
-                                                                                        style={{backgroundColor:  obj.color, width: "50%", minWidth: "fit-content"}}
-                                                                                        onClick={()=>{}}
-                                                                                >
-                                                                                    {obj.name}
-                                                                                    <div className="ripple-container"/>
-                                                                                </button>
-                                                                            </TooltipButton>
-                                                                        </td>
-                                                                        <td>{obj.employees ? obj.employees.length : 0}</td>
-                                                                        <td>
-                                                                        <div style={{float:"right"}}>
-                                                                                <ButtonGroupAction
-
-                                                                                    edit={this.props.edit}
-                                                                                    delete={this.props.delete}
-                                                                                    object={obj}
-                                                                                />
-                                                                        </div>
-                                                                        </td>
-
-                                                                </tr>
-
-                                                        );
-                                                    })}
-                                                </tbody>
-                                            </table>
-
-                                    }
-                                </div>
+                <div className="table-responsive">
+                    {!this.props.isLoading && this.props.departments ?
+                        <div>
+                            { (this.props.departments && this.props.departments.length === 0) ?
+                                <h3>Chưa có bộ phận nào</h3>
                                 :
-                                <Loading/>
-                            }
 
+                                    <table className="table">
+                                        <thead className="text-rose">
+                                        <tr>
+                                            <th>Bộ phận</th>
+                                            <th>Số nhân viên</th>
+                                            <th style={{textAlign:"right"}}>Sửa</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {this.props.departments.map((obj,index) => {
+                                                return (
+
+                                                        <tr key={index} >
+                                                                <td>
+                                                                    <TooltipButton text={obj.name}
+                                                                                   placement="top">
+                                                                        <button className="btn btn-xs btn-main"
+                                                                                style={{backgroundColor:  obj.color, width: "50%", minWidth: "fit-content"}}
+                                                                                onClick={()=>{}}
+                                                                        >
+                                                                            {obj.name}
+                                                                            <div className="ripple-container"/>
+                                                                        </button>
+                                                                    </TooltipButton>
+                                                                </td>
+                                                                <td>{obj.employees ? obj.employees.length : 0}</td>
+                                                                <td>
+                                                                <div style={{float:"right"}}>
+                                                                        <ButtonGroupAction
+
+                                                                            edit={this.props.edit}
+                                                                            delete={this.props.delete}
+                                                                            object={obj}
+                                                                        />
+                                                                </div>
+                                                                </td>
+
+                                                        </tr>
+
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+
+                            }
                         </div>
-                    </div>
+                        :
+                        <Loading/>
+                    }
                 </div>
             </div>
+            
 
 
         );

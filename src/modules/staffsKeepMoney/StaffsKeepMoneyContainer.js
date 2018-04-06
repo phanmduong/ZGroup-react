@@ -92,77 +92,78 @@ class StaffsKeepMoneyContainer extends React.Component {
                     </div>
                 }
                 <div className="card" id="list-keep-money">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">assignment</i>
-                    </div>
                     <div className="card-content">
-                        <h4 className="card-title">Danh sách nhân viên giữ tiền</h4>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <Search
-                                    onChange={this.searchChange}
-                                    value={this.state.query}
-                                    placeholder="Tìm kiếm nhân viên"
-                                />
-                            </div>
-                        </div>
-                        {this.props.isLoading ?
-                            <Loading/>
-                            :
-                            <div>
-                                <div className="table-responsive">
-                                    <table className="table">
-                                        <thead className="text-rose">
-                                        <tr>
-                                            <th/>
-                                            <th>Nhân viên</th>
-                                            <th>Email</th>
-                                            <th>Số điện thoại</th>
-                                            <th className="text-center">Số tiền đang giữ</th>
-                                            <th/>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {
-                                            this.props.staffs.map((staff) => {
-                                                const avatar = !avatarEmpty(staff.avatar_url) ?
-                                                    staff.avatar_url : NO_AVATAR;
-                                                return (
-                                                    <tr key={staff.id}>
-                                                        <td>
-                                                            <div className="avatar-list-staff"
-                                                                 style={{
-                                                                     background: 'url(' + avatar + ') center center / cover',
-                                                                     display: 'inline-block'
-                                                                 }}
-                                                            />
-                                                        </td>
-                                                        <td>{staff.name}</td>
-                                                        <td>
-                                                            {staff.email}
-                                                        </td>
-                                                        <td>{staff.phone}</td>
-                                                        <td className="text-align-right">{dotNumber(staff.money)}đ</td>
-                                                        <td>
-                                                            <button className="btn btn-rose btn-sm"
-                                                                    onClick={() => this.showModalHistoryTransactionStaff(staff)}
-                                                            >Chi tiết
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })
-                                        }
-                                        </tbody>
-                                    </table>
+                        <div className="tab-content">
+                            <h4 className="card-title">
+                                <strong>Danh sách nhân viên giữ tiền</strong>
+                            </h4>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <Search
+                                        onChange={this.searchChange}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm nhân viên"
+                                    />
                                 </div>
                             </div>
-                        }
-                        <Pagination
-                            totalPages={this.props.totalPages}
-                            currentPage={this.state.page}
-                            loadDataPage={(page) => this.loadData(page)}
-                        />
+                            {this.props.isLoading ?
+                                <Loading/>
+                                :
+                                <div>
+                                    <div className="table-responsive">
+                                        <table className="table">
+                                            <thead className="text-rose">
+                                            <tr>
+                                                <th/>
+                                                <th>Nhân viên</th>
+                                                <th>Email</th>
+                                                <th>Số điện thoại</th>
+                                                <th className="text-center">Số tiền đang giữ</th>
+                                                <th/>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {
+                                                this.props.staffs.map((staff) => {
+                                                    const avatar = !avatarEmpty(staff.avatar_url) ?
+                                                        staff.avatar_url : NO_AVATAR;
+                                                    return (
+                                                        <tr key={staff.id}>
+                                                            <td>
+                                                                <div className="avatar-list-staff"
+                                                                     style={{
+                                                                         background: 'url(' + avatar + ') center center / cover',
+                                                                         display: 'inline-block'
+                                                                     }}
+                                                                />
+                                                            </td>
+                                                            <td>{staff.name}</td>
+                                                            <td>
+                                                                {staff.email}
+                                                            </td>
+                                                            <td>{staff.phone}</td>
+                                                            <td className="text-align-right">{dotNumber(staff.money)}đ</td>
+                                                            <td>
+                                                                <button className="btn btn-rose btn-sm"
+                                                                        onClick={() => this.showModalHistoryTransactionStaff(staff)}
+                                                                >Chi tiết
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                            <Pagination
+                                totalPages={this.props.totalPages}
+                                currentPage={this.state.page}
+                                loadDataPage={(page) => this.loadData(page)}
+                            />
+                        </div>    
                     </div>
                 </div>
                 <Modal show={this.state.showModalHistoryTransactionStaff}

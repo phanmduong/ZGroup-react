@@ -234,87 +234,83 @@ class SubscribersContainer extends React.Component {
                     <div className="row">
                         <div className="col-md-8">
                             <div className="card">
-                                <div
-                                    className="card-header card-header-icon"
-                                    data-background-color="rose"
-                                >
-                                    <i className="material-icons">email</i>
-                                </div>
-
                                 {this.props.subscribersListItem.id ||
                                 this.props.isLoadingSubscribersListItem ||
                                 this.props.isLoading ? (
                                     <div>
                                         <div className="card-content">
-                                            <h4 className="card-title">
-                                                Danh sách email
-                                            </h4>
-                                            <div className="row">
-                                                <div className="col-md-12">
-                                                    <button
-                                                        className="btn btn-warning"
-                                                        onClick={() =>
-                                                            this.openModalAddEmail()
+                                            <div className="tab-content">
+                                                <h4 className="card-title">
+                                                    <strong>Danh sách email</strong>
+                                                </h4>
+                                                <br/>
+                                                <div className="row">
+                                                    <div className="col-md-12">
+                                                        <button
+                                                            className="btn btn-warning"
+                                                            onClick={() =>
+                                                                this.openModalAddEmail()
+                                                            }
+                                                        >
+                                                            <i className="material-icons">
+                                                                add_circle
+                                                            </i>
+                                                            Thêm
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-rose"
+                                                            onClick={
+                                                                this.openModalUpFile
+                                                            }
+                                                        >
+                                                            <i className="material-icons">
+                                                                file_upload
+                                                            </i>
+                                                            Upload csv
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-success"
+                                                            disabled={
+                                                                this.props
+                                                                    .isLoadingSubscribersListItem
+                                                            }
+                                                            onClick={
+                                                                this.exportExcel
+                                                            }
+                                                        >
+                                                            <i className="material-icons">
+                                                                file_download
+                                                            </i>
+                                                            Export Excel
+                                                        </button>
+                                                    </div>
+                                                    <Search
+                                                        onChange={
+                                                            this
+                                                                .subscribersSearchChange
                                                         }
-                                                    >
-                                                        <i className="material-icons">
-                                                            add_circle
-                                                        </i>
-                                                        Thêm
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-rose"
-                                                        onClick={
-                                                            this.openModalUpFile
-                                                        }
-                                                    >
-                                                        <i className="material-icons">
-                                                            file_upload
-                                                        </i>
-                                                        Upload csv
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-success"
-                                                        disabled={
-                                                            this.props
-                                                                .isLoadingSubscribersListItem
-                                                        }
-                                                        onClick={
-                                                            this.exportExcel
-                                                        }
-                                                    >
-                                                        <i className="material-icons">
-                                                            file_download
-                                                        </i>
-                                                        Export Excel
-                                                    </button>
+                                                        value={this.state.query}
+                                                        placeholder="Tìm kiếm"
+                                                        className="col-md-12"
+                                                    />
                                                 </div>
-                                                <Search
-                                                    onChange={
-                                                        this
-                                                            .subscribersSearchChange
-                                                    }
-                                                    value={this.state.query}
-                                                    placeholder="Tìm kiếm"
-                                                    className="col-md-12"
-                                                />
-                                            </div>
 
-                                            {this.props.isLoading ? (
-                                                <Loading/>
-                                            ) : (
-                                                <ListSubscribers
-                                                    subscribers={
-                                                        this.props.subscribers
-                                                    }
-                                                    deleteSubscriber={
-                                                        this.deleteSubscriber
-                                                    }
-                                                    openModalAddEmail={
-                                                        this.openModalAddEmail
-                                                    }
-                                                />
-                                            )}
+                                                {this.props.isLoading ? (
+                                                    <Loading/>
+                                                ) : (
+                                                    <ListSubscribers
+                                                        subscribers={
+                                                            this.props.subscribers
+                                                        }
+                                                        deleteSubscriber={
+                                                            this.deleteSubscriber
+                                                        }
+                                                        openModalAddEmail={
+                                                            this.openModalAddEmail
+                                                        }
+                                                    />
+                                                )}
+                                            </div>    
                                         </div>
                                         <div className="card-content">
                                             <ul className="pagination pagination-primary">
@@ -366,8 +362,8 @@ class SubscribersContainer extends React.Component {
                                     <div className="card-content">
                                         <h4 className="card-title"/>
                                         <div className="flex-row-center flex-justify-content-center">
-                                            <h4>
-                                                Vui lòng tạo danh sách email
+                                            <h4 className="card-title">
+                                                <strong>Vui lòng tạo danh sách email</strong>
                                             </h4>
                                         </div>
                                     </div>
@@ -376,64 +372,60 @@ class SubscribersContainer extends React.Component {
                         </div>
                         <div className="col-md-4">
                             <div className="card">
-                                <div
-                                    className="card-header card-header-icon"
-                                    data-background-color="rose"
-                                >
-                                    <i className="material-icons">
-                                        perm_identity
-                                    </i>
-                                </div>
                                 <div className="card-content">
-                                    <h4 className="card-title">
-                                        {this.listId
-                                            ? "Sửa danh sách email"
-                                            : "Tạo danh sách email"}
-                                    </h4>
-                                    {this.props.isLoadingSubscribersListItem ? (
-                                        <Loading/>
-                                    ) : (
-                                        <form
-                                            id="form-edit-email"
-                                            onSubmit={e => {
-                                                e.preventDefault();
-                                            }}
-                                        >
-                                            <FormInputText
-                                                label="Tên"
-                                                name="name"
-                                                updateFormData={
-                                                    this.updateFormData
-                                                }
-                                                value={
-                                                    this.state.subscribersList
-                                                        .name
-                                                }
-                                                required={true}
-                                                type="text"
-                                            />
-                                            {this.props.isStoring ? (
-                                                <button className="btn btn-fill btn-rose disabled">
-                                                    <i className="fa fa-spinner fa-spin"/>
-                                                    {this.listId
-                                                        ? " Đang cập nhật"
-                                                        : " Đang tạo"}
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    className="btn btn-fill btn-rose"
-                                                    onClick={
-                                                        this
-                                                            .storeSubscribersList
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>
+                                                {this.listId
+                                                    ? "Sửa danh sách email"
+                                                    : "Tạo danh sách email"}
+                                            </strong>        
+                                        </h4>
+                                        {this.props.isLoadingSubscribersListItem ? (
+                                            <Loading/>
+                                        ) : (
+                                            <form
+                                                id="form-edit-email"
+                                                onSubmit={e => {
+                                                    e.preventDefault();
+                                                }}
+                                            >
+                                                <FormInputText
+                                                    label="Tên"
+                                                    name="name"
+                                                    updateFormData={
+                                                        this.updateFormData
                                                     }
-                                                >
-                                                    {this.listId
-                                                        ? "Cập nhật"
-                                                        : "Tạo"}
-                                                </button>
-                                            )}
-                                        </form>
-                                    )}
+                                                    value={
+                                                        this.state.subscribersList
+                                                            .name
+                                                    }
+                                                    required={true}
+                                                    type="text"
+                                                />
+                                                {this.props.isStoring ? (
+                                                    <button className="btn btn-fill btn-rose disabled">
+                                                        <i className="fa fa-spinner fa-spin"/>
+                                                        {this.listId
+                                                            ? " Đang cập nhật"
+                                                            : " Đang tạo"}
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="btn btn-fill btn-rose"
+                                                        onClick={
+                                                            this
+                                                                .storeSubscribersList
+                                                        }
+                                                    >
+                                                        {this.listId
+                                                            ? "Cập nhật"
+                                                            : "Tạo"}
+                                                    </button>
+                                                )}
+                                            </form>
+                                        )}
+                                    </div>    
                                 </div>
                             </div>
                         </div>

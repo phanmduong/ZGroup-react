@@ -63,23 +63,23 @@ class CreateProjectContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">mode_edit</i>
-                        </div>
                         <div className="card-content">
-                            <h4 className="card-title">{this.state.header}</h4>
-                            {this.props.isLoadingProject ? (
-                                <div className="card-content">
-                                    <Loading/>
-                                </div>
-                            ) : (
-                                <ProjectForm
-                                    isSaving={this.props.isSavingProject}
-                                    error={this.state.error}
-                                    project={this.props.project}
-                                    submit={this.submit}
-                                    updateFormData={this.updateFormData}/>
-                            )}
+                            <div className="tab-content">
+                                <h4 className="card-title"><strong>{this.state.header}</strong></h4>
+                                <br/>
+                                {this.props.isLoadingProject ? (
+                                    <div className="card-content">
+                                        <Loading/>
+                                    </div>
+                                ) : (
+                                    <ProjectForm
+                                        isSaving={this.props.isSavingProject}
+                                        error={this.state.error}
+                                        project={this.props.project}
+                                        submit={this.submit}
+                                        updateFormData={this.updateFormData}/>
+                                )}
+                            </div>    
                         </div>
                     </div>
                 </div>

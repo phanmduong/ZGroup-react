@@ -9,7 +9,6 @@ import HistoryTransactionsContainer from "../modules/historyTransactions/History
 import SpendMoneyContainer from "../modules/spendMoney/SpendMoneyContainer";
 import SummaryFinanceContainer from "../modules/summaryFinance/SummaryFinanceContainer";
 import PasswordContainer from "../modules/password/PasswordContainer";
-import NewPageContainer from "../modules/NewPage/NewPageContainer";
 
 /**
  * Tab Quản lý tài chính
@@ -17,54 +16,46 @@ import NewPageContainer from "../modules/NewPage/NewPageContainer";
 export default [
     {
         path: "/finance/moneycollect",
-        component: CollectMoneyContainer
+        component: CollectMoneyContainer,
     },
     {
         path: "/finance/sendmoney",
-        component: MoneyTransfersContainer
+        component: MoneyTransfersContainer,
     },
     {
         path: "/finance/keepmoney",
-        component: StaffsKeepMoneyContainer
+        component: StaffsKeepMoneyContainer,
     },
     {
         path: "/finance/spendlist",
-        component: HistoryTransactionsContainer
+        component: HistoryTransactionsContainer,
     },
     {
         path: "/finance/spendmoney",
-        component: SpendMoneyContainer
+        component: SpendMoneyContainer,
     },
     {
         path: "/finance/summary",
-        component: SummaryFinanceContainer
+        component: SummaryFinanceContainer,
     },
     {
         path: "/finance/paidlist",
-        component: HistoryCollectMoneyContainer
+        component: HistoryCollectMoneyContainer,
     },
     {
         path: "/finance/currencies",
-        component: CurrencyContainer
+        component: CurrencyContainer,
     },
     {
-
         path: "/finance/bank-account",
-        component: BankAccountContainer
+        component: BankAccountContainer,
     },
     {
         path: "/finance/bank-transfers",
-        component: BankTransfersContainer
-
+        component: BankTransfersContainer,
     },
     {
         path: "/finance/password",
-        component: PasswordContainer
-
+        component: PasswordContainer,
     },
-    {
-        path: "/finance/newpage",
-        component: NewPageContainer
-
-    }
 ];

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import HistoryImportOrderForChangeStatus from "./HistoryImportOrderForChangeStatus";
+
 
 class ImportItemOrderList extends React.Component {
     constructor(props, context) {
@@ -9,20 +9,10 @@ class ImportItemOrderList extends React.Component {
             showInfoModal: false,
             id: 0,
         };
-        this.openInfoModal = this.openInfoModal.bind(this);
-        this.closeInfoModal = this.closeInfoModal.bind(this);
         this.loadHistoryImportOrder = this.loadHistoryImportOrder.bind(this);
     }
 
-    openInfoModal(id) {
-        this.setState({id: id, showInfoModal: true});
-        this.props.loadHistoryImportOrder(1, id);
 
-    }
-
-    closeInfoModal() {
-        this.setState({showInfoModal: false});
-    }
 
     loadHistoryImportOrder(page, id) {
         this.props.loadHistoryImportOrder(page, id);
@@ -39,8 +29,10 @@ class ImportItemOrderList extends React.Component {
                     <tr>
                         <th/>
                         <th>STT</th>
+                        <th> Mã đặt hàng </th>
                         <th>Nhà cung cấp</th>
                         <th> Số sản phẩm</th>
+                        <th> Số lần nhập </th>
 
                         <th/>
                     </tr>
@@ -52,16 +44,17 @@ class ImportItemOrderList extends React.Component {
                                 <tr key={pp.id}>
                                     <td/>
                                     <td> {index + 1} </td>
+                                    <td>  {pp.command_code}</td>
                                     <td>  {pp.company.name}</td>
-                                    <td> {pp.goods.length} </td>
-
+                                    <td> {pp.good_count} </td>
+                                    <td> {(pp.goods.length -pp.good_count)/ pp.good_count}</td>
                                     <td>
                                         { (pp.status == 2) ?
                                         <a data-toggle="tooltip" title="Duyệt"
                                            type="button"
-                                           onClick={() =>
-                                               this.openInfoModal(pp.id)
-                                           }
+                                           // onClick={() =>
+                                           //     this.openInfoModal(pp.id)
+                                           // }
                                            rel="tooltip"
                                         >
                                             <i className="material-icons">done</i>
@@ -76,15 +69,7 @@ class ImportItemOrderList extends React.Component {
                     </tbody>
 
                 </table>
-                <HistoryImportOrderForChangeStatus
-                    show={this.state.showInfoModal}
-                    onHide={this.closeInfoModal}
-                    data={this.props.historyImportOrder}
-                    paginator={this.props.paginator}
-                    id={this.state.id}
-                    loadHistoryImportOrder={this.loadHistoryImportOrder}
-                    changeStatus={this.props.changeStatus}
-                />
+
             </div>
         );
     }

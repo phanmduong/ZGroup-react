@@ -7,7 +7,6 @@ import rolesReducer from '../modules/role/rolesReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
 import * as types from '../constants/actionTypes';
 import taskReducer from "../modules/tasks/taskReducer";
-import registerReducer from "../modules/registerStudents/registerReducer";
 import emailTemplatesReducer from "../modules/emailTemplates/emailTemplatesReducer";
 import emailFormsReducer from "../modules/emailForms/emailFormsReducer";
 import blogReducer from '../modules/blog/blogReducer';
@@ -15,7 +14,6 @@ import profileReducer from '../modules/profile/profileReducer';
 import studySessionReducer from '../modules/studySession/studySessionReducer';
 import scheduleClassReducer from '../modules/scheduleClass/scheduleClassReducer';
 import gensReducer from '../modules/gens/gensReducer';
-import studentReducer from '../modules/infoStudent/studentReducer';
 import personalCalendarReducer from '../modules/tasks/calendar/personalCalendarReducer';
 import dashboardReducer from '../modules/dashboard/dashboardReducer';
 import notificationReducer from '../modules/notification/notificationReducer';
@@ -100,12 +98,10 @@ const appReducer = combineReducers({
     emailTemplates: emailTemplatesReducer,
     emailForms: emailFormsReducer,
     blog: blogReducer,
-    registerStudents: registerReducer,
     profile: profileReducer,
     studySession: studySessionReducer,
     scheduleClass: scheduleClassReducer,
     gens: gensReducer,
-    infoStudent: studentReducer,
     personalCalendar: personalCalendarReducer,
     dashboard: dashboardReducer,
     notification: notificationReducer,

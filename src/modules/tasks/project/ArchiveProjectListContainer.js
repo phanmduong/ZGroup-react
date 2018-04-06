@@ -64,30 +64,26 @@ class ArchiveProjectListContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Dự án</h4>
-
-                            <div style={{marginTop: "15px"}}>
+                            <div className="tab-content">
+                                <h4 className="card-title"><strong>Dự án</strong></h4>
+                                <br/>
                                 <Link to="/project/list" className="btn btn-default">
                                     Dự án đang chạy
                                 </Link>
-                            </div>
 
-                            <Search
-                                onChange={this.projectsSearchChange}
-                                value={this.state.query}
-                                placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
-                            />
-
+                                <Search
+                                    onChange={this.projectsSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
+                                />
+                            </div>    
                             {this.props.isLoadingProjects ? <Loading/> :
                                 <ListProject
                                     changeProjectStatus={this.changeProjectStatus}
                                     deleteProject={this.deleteProject}
-                                    projects={this.props.projects}/>}
+                                    projects={this.props.projects}/>
+                            }
                         </div>
                         <div className="card-content">
                             <ul className="pagination pagination-primary">

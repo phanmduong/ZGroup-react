@@ -53,7 +53,7 @@ class LabelManageContainer extends React.Component {
                                             <div>
                                                 <button onClick={() => this.showEditCategoryModal({})}
                                                         rel="tooltip" data-placement="top" title=""
-                                                        className="btn btn-rose">
+                                                        className="btn btn-rose btn-round">
                                                     Thêm loại khóa học
                                                 </button>
                                             </div>
@@ -61,23 +61,23 @@ class LabelManageContainer extends React.Component {
                                     </div>
                                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon"
-                                                 data-background-color="rose"><i
-                                                className="material-icons">assignment</i>
-                                            </div>
-                                            <div className="card-content"><h4 className="card-title">Quản lý khóa
-                                                học</h4>
-                                                <br/>
-                                                {
-                                                    this.props.isLoading ? <Loading/> :
-                                                        (
-                                                            <LabelManageComponent
-                                                                courseCategories={this.props.courseCategories}
-                                                                showEditCategoryModal={this.showEditCategoryModal}
-                                                                deleteCategory={this.deleteCategory}
-                                                            />
-                                                        )
-                                                }
+                                            <div className="card-content">
+                                                <div className="tab-content">
+                                                    <h4 className="card-title">
+                                                        <strong>&#160; Quản lý khóa học</strong>
+                                                    </h4>
+                                                    <br/>
+                                                    {
+                                                        this.props.isLoading ? <Loading/> :
+                                                            (
+                                                                <LabelManageComponent
+                                                                    courseCategories={this.props.courseCategories}
+                                                                    showEditCategoryModal={this.showEditCategoryModal}
+                                                                    deleteCategory={this.deleteCategory}
+                                                                />
+                                                            )
+                                                    }
+                                                </div>    
                                             </div>
                                         </div>
                                     </div>

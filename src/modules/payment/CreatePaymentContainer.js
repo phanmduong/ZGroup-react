@@ -300,7 +300,7 @@ CreatePaymentContainer.propTypes = {
     isUploading: PropTypes.bool.isRequired,
     link: PropTypes.string.isRequired,
     companies: PropTypes.array.isRequired,
-    data: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
     percent: PropTypes.number.isRequired,
     params: PropTypes.object,
     PaymentActions: PropTypes.object.isRequired,

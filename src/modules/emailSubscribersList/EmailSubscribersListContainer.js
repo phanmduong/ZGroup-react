@@ -59,37 +59,31 @@ class EmailSubscribersListContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-
                     <div className="card">
-
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">email</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Danh sách email</h4>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="col-md-3">
-                                        <Link className="btn btn-rose" to={"email/subscribers"}>
-                                            Tạo
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Danh sách email</strong>
+                                    </h4>
+                                    <div>
+                                        <Link className="btn btn-primary btn-round btn-xs button-add none-margin" to={"email/subscribers"}>
+                                            <strong>+</strong>
                                         </Link>
                                     </div>
-                                    <Search
-                                        onChange={this.subscriberListSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm"
-                                        className="col-md-9"
-                                    />
                                 </div>
-                            </div>
-
-                            {this.props.isLoading ? <Loading/> :
-                                <ListSubscribersList
-                                    subscribersList={this.props.subscribersList}
-                                    deleteSubscriberList={this.deleteSubscriberList}
+                                <Search
+                                    onChange={this.subscriberListSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm"
                                 />
-                            }
+                                {this.props.isLoading ? <Loading/> :
+                                    <ListSubscribersList
+                                        subscribersList={this.props.subscribersList}
+                                        deleteSubscriberList={this.deleteSubscriberList}
+                                    />
+                                }
+                            </div>    
                         </div>
                     </div>
 

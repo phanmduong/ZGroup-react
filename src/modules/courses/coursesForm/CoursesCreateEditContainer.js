@@ -133,89 +133,82 @@ class CreateEditCoursesContainer extends React.Component {
                             {this.props.isLoading ? <Loading/> :
                             <div name="content">
                                 <div className="col-md-8">
-                                <div className="card">
+                                       <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
+                                            <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
+                                                <IndexLink to={`${this.urlType}`}>
+                                                    <i className="material-icons">account_circle</i> TỔNG QUAN &#160;
 
-                                    <div className="card-header card-header-tabs" data-background-color="rose">
-                                        <div className="nav-tabs-navigation">
-                                            <div className="nav-tabs-wrapper">
-                                                <ul className="nav nav-tabs" data-tabs="tabs">
-                                                    <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
-                                                        <IndexLink to={`${this.urlType}`}>
-                                                            <i className="material-icons">account_circle</i> TỔNG QUAN
+                                                    <div className="ripple-container" />
+                                                </IndexLink>
+                                            </li>
+                                            <li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>
+                                                <Link to={`${this.urlType}/curriculum`}>
+                                                    <i className="material-icons">smartphone</i> GIÁO TRÌNH &#160;
+                                                    <div className="ripple-container" />
+                                                </Link>
+                                            </li>
+                                            <li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>
+                                                <Link to={`${this.urlType}/documents`}>
+                                                    <i className="material-icons">add_box</i> TÀI LIỆU NGOÀI &#160;
+                                                    <div className="ripple-container" />
+                                                </Link>
+                                            </li>
+                                            <li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>
+                                                <Link to={`${this.urlType}/pixel`}>
+                                                    <i className="material-icons">code</i> PIXEL &#160;
+                                                    <div className="ripple-container" />
+                                                </Link>
+                                            </li>
+                                            <li className={this.props.location.pathname === `${this.urlType}/term` ? 'active' : ''}>
+                                                <Link to={`${this.urlType}/term`}>
+                                                    <i className="material-icons">create</i> HỌC PHẦN &#160;
+                                                    <div className="ripple-container" />
+                                                </Link>
+                                            </li>
+                                            <li className={this.props.location.pathname === `${this.urlType}/interested` ? 'active' : ''}>
+                                                <Link>
+                                                    <i className="material-icons">flag</i> QUAN TÂM &#160;
+                                                    <div className="ripple-container" />
+                                                </Link>
+                                            </li>
+                                        </ul>
 
-                                                            <div className="ripple-container" />
-                                                        </IndexLink>
-                                                    </li>
-                                                    <li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>
-                                                        <Link to={`${this.urlType}/curriculum`}>
-                                                            <i className="material-icons">smartphone</i> GIÁO TRÌNH
-                                                            <div className="ripple-container" />
-                                                        </Link>
-                                                    </li>
-                                                    <li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>
-                                                        <Link to={`${this.urlType}/documents`}>
-                                                            <i className="material-icons">add_box</i> TÀI LIỆU NGOÀI
-                                                            <div className="ripple-container" />
-                                                        </Link>
-                                                    </li>
-                                                    <li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>
-                                                        <Link to={`${this.urlType}/pixel`}>
-                                                            <i className="material-icons">code</i> PIXEL
-                                                            <div className="ripple-container" />
-                                                        </Link>
-                                                    </li>
-                                                    <li className={this.props.location.pathname === `${this.urlType}/term` ? 'active' : ''}>
-                                                        <Link to={`${this.urlType}/term`}>
-                                                            <i className="material-icons">create</i> HỌC PHẦN
-                                                            <div className="ripple-container" />
-                                                        </Link>
-                                                    </li>
-                                                    <li className={this.props.location.pathname === `${this.urlType}/interested` ? 'active' : ''}>
-                                                        <Link>
-                                                            <i className="material-icons">flag</i> QUAN TÂM
-                                                            <div className="ripple-container" />
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
 
+                                    <div className="card">
                                     <div>{this.props.children}</div>
 
                                 </div>
 
-                                 <div className="">
-                                     <div className="card">
-                                         <div className="card-header card-header-icon" data-background-color="rose"><i
-                                             className="material-icons">bookmark</i></div>
-                                         <div className="card-content">
-                                             <h4 className="card-title">Chi tiết khoá học</h4>
-                                             {this.props.isLoading ? <Loading/> :
-                                                 <ReactEditor
-                                                     urlPost={linkUploadImageEditor()}
-                                                     fileField="image"
-                                                     name="detail"
-                                                     updateEditor={this.updateEditor}
-                                                     value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
-                                                 />
-                                             }
-
-                                         </div>
-
-                                     </div>
-                                 </div>
-                             </div>
+                                <div className="">
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <div className="tab-content">
+                                                <h4 className="card-title"><strong>Chi tiết khoá học</strong></h4><br/>
+                                                {this.props.isLoading ? <Loading/> :
+                                                    <ReactEditor
+                                                        urlPost={linkUploadImageEditor()}
+                                                        fileField="image"
+                                                        name="detail"
+                                                        updateEditor={this.updateEditor}
+                                                        value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
+                                                    />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                                 <div className="col-md-4">
                                 <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                <i className="material-icons">announcement</i>
-                                </div>
-                                <div className="card-content"><h4 className="card-title">Thông tin về form </h4>
-
-
+                                <div className="card-content">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Thông tin về form</strong>
+                                        </h4>
+                                    </div>  
+                                    <br/>  
                                 <img src = {helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url} />
-                            { this.props.isUpdatingLogo ?
+                            {this.props.isUpdatingLogo ?
                                 (
                                 <button className="btn btn-rose  disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
@@ -303,7 +296,7 @@ class CreateEditCoursesContainer extends React.Component {
                             }
 
                                 <div className="card-content">
-                                <h4 className="card-title">Chọn màu</h4>
+                                    <div className="tab-content"><h4 className="card-title"><strong>Chọn màu</strong></h4></div><br/>
                                 <CirclePicker width="100%"
                                 color={this.props.data.color}
                                 onChangeComplete={this.changeColor}

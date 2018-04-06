@@ -107,30 +107,40 @@ class RoomsContainer extends React.Component {
                     <EditRoomModalContainer/>
                     <RoomTypeManageModal/>
                     <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
                         <div className="card-content">
-                            <h4 className="card-title">Phòng</h4>
-                            <Select
-                                defaultMessage={'Chọn cơ sở'}
-                                options={this.state.bases}
-                                value={this.state.selectBaseId}
-                                onChange={this.onChangeBase}
-                            />
-                            <div style={{marginTop: "15px"}}>
-                                <div className="col-md-3">
-                                    <a className="btn btn-rose" onClick={() => this.openModal({})}>
-                                        Thêm phòng
-                                    </a>
+                             <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Phòng</strong>
+                                    </h4>
+                                    <div>
+                                        <button
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                            type="button" onClick={() => this.openModal({})}>
+                                            <strong>+</strong>
+                                        </button>
+                                    </div>
                                 </div>
                                 <Search
                                     onChange={this.roomsSearchChange}
                                     value={this.state.query}
                                     placeholder="Tìm kiếm tên phòng, cơ sở"
-                                    className="col-md-9"
+                                />
+                                <Select
+                                    defaultMessage={'Chọn cơ sở'}
+                                    options={this.state.bases}
+                                    value={this.state.selectBaseId}
+                                    onChange={this.onChangeBase}
                                 />
                             </div>
+
+                            {/*<Select
+                                defaultMessage={'Chọn cơ sở'}
+                                options={this.state.bases}
+                                value={this.state.selectBaseId}
+                                onChange={this.onChangeBase}
+                            />*/}
+                           
                             {
                                 this.props.isLoadingBases ? <Loading/> :
                                     <ListRoom
