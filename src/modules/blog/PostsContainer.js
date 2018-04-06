@@ -132,83 +132,82 @@ class BlogsContainer extends React.Component {
                 {this.props.isLoadingCategories || this.props.isLoading ? (
                     <Loading />
                 ) : (
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <div className="flex-row flex">
-                                    <h4 className="card-title">
-                                        <strong>Danh sách bài viết</strong>
-                                    </h4>
-                                    <div>
-                                        <button
-                                            className="btn btn-primary btn-round btn-xs button-add none-margin "
-                                            type="button" onClick={() => this.openModal(false)}>
-                                            <strong>+</strong>
-                                        </button>
-                                    </div>
-                                </div>
+                    <div>
+                        <div className="row">
+                            <div className="col-md-2">
+                                <Select className="btn-round"
+                                    category_id={this.state.category_id}
+                                    loadByCategory={this.loadByCategories}
+                                    catetrugoriesList={
+                                        this.props.categoriesList
+                                    }
+                                />
                             </div>
-                            <div className="row">
-                                <div className="col-md-10">
+                        </div>        
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <div className="flex-row flex">
+                                        <h4 className="card-title">
+                                            <strong>Danh sách bài viết</strong>
+                                        </h4>
+                                        <div>
+                                            <button
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                type="button" onClick={() => this.openModal(false)}>
+                                                <strong>+</strong>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <Search
                                         onChange={this.postsSearchChange}
                                         value={this.state.query}
                                         placeholder="Tìm kiếm tiêu đề"
                                     />
                                 </div>
-                                <div className="col-md-2">
-                                    <Select
-                                        category_id={this.state.category_id}
-                                        loadByCategory={this.loadByCategories}
-                                        catetrugoriesList={
-                                            this.props.categoriesList
-                                        }
-                                    />
-                                </div>
+                                <ListPost
+                                    openModal={this.openModal}
+                                    handleSwitch={this.handleSwitch}
+                                    deletePost={this.deletePost}
+                                    posts={this.props.posts}
+                                    loadPosts={this.loadPosts}
+                                    loadByCategories={this.loadByCategories}
+                                />
                             </div>
 
-                            <ListPost
-                                openModal={this.openModal}
-                                handleSwitch={this.handleSwitch}
-                                deletePost={this.deletePost}
-                                posts={this.props.posts}
-                                loadPosts={this.loadPosts}
-                                loadByCategories={this.loadByCategories}
-                            />
+                            <div className="card-content">
+                                <Pagination
+                                    totalPages={this.props.totalPages}
+                                    currentPage={this.state.page}
+                                    loadDataPage={this.loadPosts}
+                                />
+                            </div>
                         </div>
+                    </div>    
+                    )}
 
-                        <div className="card-content">
-                            <Pagination
-                                totalPages={this.props.totalPages}
-                                currentPage={this.state.page}
-                                loadDataPage={this.loadPosts}
+                    <Modal
+                        id="store-post-modal"
+                        show={this.state.isOpenModal}
+                        bsStyle="primary"
+                        closeButton
+                        onHide={this.closeModal}
+                        animation={false}
+                    >
+                        <Modal.Header>
+                            <Modal.Title>
+                                <strong>Bài viết</strong>
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <StorePostModal
+                                postId={this.state.postId}
+                                isEdit={this.state.isEdit}
+                                closeModal={this.closeModal}
                             />
-                        </div>
-                    </div>
-                )}
-
-                <Modal
-                    id="store-post-modal"
-                    show={this.state.isOpenModal}
-                    bsStyle="primary"
-                    closeButton
-                    onHide={this.closeModal}
-                    animation={false}
-                >
-                    <Modal.Header>
-                        <Modal.Title>
-                            <strong>Bài viết</strong>
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <StorePostModal
-                            postId={this.state.postId}
-                            isEdit={this.state.isEdit}
-                            closeModal={this.closeModal}
-                        />
-                    </Modal.Body>
-                </Modal>
-            </div>
+                        </Modal.Body>
+                    </Modal>
+                </div>
         );
     }
 }

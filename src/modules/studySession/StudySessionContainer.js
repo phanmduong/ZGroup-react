@@ -134,9 +134,9 @@ class StudySessionContainer extends React.Component {
                                         <div className="card-content">
                                             <div className="tab-content">
                                                 <h4 className="card-title">
-                                                    <strong>Danh sách ca học</strong>
+                                                    <strong style={{marginLeft: 6}}>Danh sách ca học</strong>
                                                 </h4>
-                                                <br/><br/>
+                                                <br/>
                                                 {this.props.isLoading ? <Loading/> :
                                                     <ListStudySession
                                                         studySessions={this.props.studySessions}
