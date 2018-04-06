@@ -70,10 +70,10 @@ echo "write blade: $blade_file"
 echo $template > $blade_file
 echo "Build successfully"
 
-# echo "Push to branch: $branch"
-# cd $project_folder
-# git add .
-# git commit -m "Build module $module_name"
-# git pull origin $branch
-# git push origin $branch
-# echo "Push successfully"
+echo "Push to branch: $branch"
+cd $project_folder
+git add .
+git commit -m "Build module $module_name"
+git pull origin $branch
+git push origin $branch
+echo "Push successfully"
