@@ -228,7 +228,6 @@ class SummarySalesContainer extends React.Component {
                                                                 id="form-end-time"
                                                                 value={this.state.time.endTime}
                                                                 minDate={this.state.time.startTime}
-
                                                             />
                                                         </div>
                                                     </div>

@@ -98,7 +98,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadSalerFilter();
         this.props.registerActions.loadCampaignFilter();
         this.props.registerActions.loadBaseFilter();
-        if (this.props.route.path === '/teaching/waitlist') {
+        if (this.props.route.path === '/sales/waitlist') {
             this.isWaitListPage = true;
             this.setState({selectedClassStatus: 'waiting', cardTitle: 'Danh sách chờ', query: ''});
         }
@@ -123,7 +123,7 @@ class RegisterListContainer extends React.Component {
                 });
 
             } else {
-                if (this.props.route.path === '/teaching/waitlist') {
+                if (this.props.route.path === '/sales/waitlist') {
                     this.onClassStatusFilterChange({value: 'waiting'});
                 }
             }
@@ -213,7 +213,7 @@ class RegisterListContainer extends React.Component {
                     endTime: '',
                 },
             });
-            if (nextProps.route.path == '/teaching/waitlist') {
+            if (nextProps.route.path == '/sales/waitlist') {
                 this.isWaitListPage = true;
                 this.props.registerActions.loadRegisterStudent(
                     1,//page

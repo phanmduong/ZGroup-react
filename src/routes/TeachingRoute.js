@@ -1,6 +1,5 @@
 import ScheduleClassContainer from "../modules/scheduleClass/ScheduleClassContainer";
 import GensContainer from "../modules/gens/GensContainer";
-import RegisterListContainer from "../modules/registerStudents/RegisterListContainer";
 import CoursesContainer from "../modules/courses/CoursesContainer";
 import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCreateEditContainer";
 import coursesCreateEditGeneral from "../modules/courses/coursesForm/coursesCreateEditGeneral";
@@ -46,16 +45,6 @@ export default [
         path: "/teaching/gens",
         // path: "/manage/gens",
         component: GensContainer
-    },
-    {
-        path: "/teaching/waitlist",
-        // path: "/manage/waitlist",
-        component: RegisterListContainer
-    },
-    {
-        path: "/teaching/registerlist/:campaignId/:genId",
-        // path: "/registerlist/:campaignId/:genId",
-        component: RegisterListContainer
     },
     {
         path: "/teaching/courses",

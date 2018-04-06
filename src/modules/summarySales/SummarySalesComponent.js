@@ -1,7 +1,7 @@
-import React from 'react';
-import {Link, IndexLink} from 'react-router';
+import React from "react";
+import { Link, IndexLink } from "react-router";
 import Loading from "../../components/common/Loading";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 class SummarySalesComponent extends React.Component {
     constructor(props, context) {
@@ -14,23 +14,37 @@ class SummarySalesComponent extends React.Component {
 
     render() {
         if (this.props.isLoading) {
-            return (
-                <Loading/>
-            );
+            return <Loading />;
         } else {
             this.path = this.props.location.pathname;
             return (
                 <div>
-                    <div className="row" style={{marginTop: '10px', marginBottom: '10px'}}>
+                    <div
+                        className="row"
+                        style={{ marginTop: "10px", marginBottom: "10px" }}
+                    >
                         <div className="col-md-12">
                             <ul className="nav nav-pills nav-pills-rose">
-                                <li className={this.path === `/marketing/sales` ? 'active nav-item' : 'nav-item'}>
-                                    <IndexLink to={`/marketing/sales`}>
+                                <li
+                                    className={
+                                        this.path === `/sales/sales`
+                                            ? "active nav-item"
+                                            : "nav-item"
+                                    }
+                                >
+                                    <IndexLink to={`/sales/sales`}>
                                         Tổng quan
                                     </IndexLink>
                                 </li>
-                                <li className={this.path === `/marketing/sales/statistic` ? 'active nav-item' : 'nav-item'}>
-                                    <Link to={`/marketing/sales/statistic`}>
+                                <li
+                                    className={
+                                        this.path ===
+                                        `/sales/sales/statistic`
+                                            ? "active nav-item"
+                                            : "nav-item"
+                                    }
+                                >
+                                    <Link to={`/sales/sales/statistic`}>
                                         Thống kê
                                     </Link>
                                 </li>
@@ -38,9 +52,7 @@ class SummarySalesComponent extends React.Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-12">
-                            {this.props.children}
-                        </div>
+                        <div className="col-md-12">{this.props.children}</div>
                     </div>
                 </div>
             );
