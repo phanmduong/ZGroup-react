@@ -17,6 +17,7 @@ class ProductCategoryController extends ManageApiController
     public function allProductCategories(Request $request)
     {
         $productCategories = CategoryProduct::where('name', 'like', "%$request->search%")
+            ->orderBy('created_at', 'desc')
             ->paginate($request->limit ? $request->limit : 20);
         return $this->respondWithPagination($productCategories, [
             'product_categories' => $productCategories->map(function ($productCategory) {
