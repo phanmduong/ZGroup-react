@@ -131,8 +131,7 @@ class ClassApiController extends ApiController
 
     public function getClasses($courseId, Request $request)
     {
-        $currentGen = $request->gen_id;
-        $classes = StudyClass::where('gen_id', $currentGen->id);
+        $classes = StudyClass::where('gen_id', $request->gen_id);
         if($request->base_id)
             $classes = $classes->where('base_id', $request->base_id);
         $classes = $classes->orderBy('created_at', 'desc')->get();
