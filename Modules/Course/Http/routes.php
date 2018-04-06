@@ -33,6 +33,7 @@ $v2ManageCourseRoutes = function () {
         Route::get('/get-attendance-lesson/{classId}/{lessonId}', 'CourseController@getAttendance');
         Route::post('/change-attendances', 'CourseController@changeAttendance');
         Route::put('/{course_id}/change-status', 'CourseController@changeStatusCourse');
+        Route::put('/{course_id}/change-order', 'CourseController@changeOrderCourse');
         Route::post('/{courseId}/duplicate', 'CourseController@duplicateCourse');
         Route::get('/{courseId}/class', 'ClassApiController@getClasses');
     });
