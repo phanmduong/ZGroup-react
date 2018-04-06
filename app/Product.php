@@ -93,9 +93,8 @@ class Product extends Model
             ];
         }
 
-        if ($this->category) {
-            $data["category"] = $this->category->name;
-        }
+
+        $data["categories"] = $this->productCategories;
 
         $data["created_at"] = format_date($this->created_at);
         $data["content"] = $this->content;
