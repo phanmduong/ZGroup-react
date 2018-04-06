@@ -9,4 +9,4 @@ $productCategoryRoutes = function () {
     });
 };
 
-Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi/v3', 'namespace' => 'Modules\Course\Http\Controllers'], $productCategoryRoutes);
+Route::group(['domain' => config('app.domain'), 'prefix' => 'manageapi/v3', 'namespace' => 'Modules\Product\Http\Controllers'], $productCategoryRoutes);
