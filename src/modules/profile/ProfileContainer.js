@@ -67,7 +67,6 @@ class ProfileContainer extends React.Component {
             <div>
                 <div className="col-lg-12">
                     <TabProfile url="my-profile"/>
-                    <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
                                 {
@@ -242,16 +241,15 @@ class ProfileContainer extends React.Component {
                                                         </div>
                                                         <div className="col-md-12">
                                                             <div className="card">
-                                                                <div className="card-header card-header-icon"
-                                                                     data-background-color="rose">
-                                                                    <i className="material-icons">contacts</i>
-                                                                </div>
                                                                 <div className="card-content">
-                                                                    <h4 className="card-title">Màu của bạn</h4>
-                                                                    <CirclePicker width="100%"
-                                                                                  color={'#' + color}
-                                                                                  onChangeComplete={this.changeColor}
-                                                                    />
+                                                                    <div className="tab-content">
+                                                                        <h4 className="card-title"><strong>Màu của bạn</strong></h4>
+                                                                        <br/>
+                                                                        <CirclePicker width="100%"
+                                                                                      color={'#' + color}
+                                                                                      onChangeComplete={this.changeColor}
+                                                                        />
+                                                                    </div>    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -263,7 +261,6 @@ class ProfileContainer extends React.Component {
                                 }
 
                             </div>
-                        </div>
                     </div>
                 </div>
                 <Modal show={this.state.showModalChangePassword}>

@@ -100,7 +100,7 @@ class ManageDepartmentContainer extends React.Component {
                                     <div>
                                         <button
                                         className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                        type="button">
+                                        type="button" onClick={this.openModalAddDepartment}>
                                         <strong>+</strong>
                                     </button>
                                     </div>
