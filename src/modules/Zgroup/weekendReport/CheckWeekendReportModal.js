@@ -35,9 +35,10 @@ class CheckWeekendReportModal extends React.Component {
                                                                 <p><b>&emsp;{report.title}</b></p>
                                                                 <span style={{color: 'tomato', fontWeight: '600'}}>Nội dung:</span>
                                                                 <p>
-                                                                    &emsp;{//eslint-disable-next-line
+                                                                    &emsp;{
                                                                 }
                                                                     <div
+                                                                        //eslint-disable-next-line
                                                                         dangerouslySetInnerHTML={{__html: report.content}}/>
                                                                 </p>
                                                             </div>

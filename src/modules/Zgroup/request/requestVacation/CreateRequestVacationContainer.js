@@ -39,21 +39,21 @@ class CreateRequestVacationContainer extends React.Component {
     // }
 
 
-    updateFormData(e){
-        console.log(e);
-    }
+    // updateFormData(e){
+    //     //console.log(e);
+    // }
 
     submitData(){
         let {data} = this.state;
         data.request_date = moment(moment.now).date;
-        console.log(data);
+//        console.log(data);
     }
 
     render() {
         //console.log(this.props);
         let { isLoading } = this.props;
         let {data} = this.state;
-        console.log(this.state);
+
         return (
             <div>
                 {

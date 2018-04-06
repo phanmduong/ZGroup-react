@@ -109,12 +109,12 @@ class SurveyContainer extends React.Component {
                                     <div className="tab-content">
                                         <div className="flex-row flex">
                                             <h5 className="card-title">
-                                                <strong>Danh sách nhân viên</strong>
+                                                <strong>Quản lý khảo sát</strong>
                                             </h5>
                                             <div className="dropdown">
                                                 <button
                                                     className="btn btn-primary btn-round btn-xs button-add none-margin"
-                                                    type="button">
+                                                    type="button" onClick={this.openModal}>
                                                     <strong>+</strong>
                                                 </button>
                                             </div>

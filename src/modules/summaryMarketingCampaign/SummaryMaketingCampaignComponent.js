@@ -25,27 +25,26 @@ class SummaryMaketingCampaignComponent extends React.Component {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">timeline</i>
-                                </div>
                                 <div className="card-content">
-                                    <h4 className="card-title">Tổng kết chiến dịch Marketing
-                                        <small/>
-                                    </h4>
-                                    <div className="row">
-                                        {
-                                            summary.map((item) => {
-                                                return (
-                                                    <CardChart
-                                                        key={item.campaign_id}
-                                                        campaign={item}
-                                                        genId={this.props.genId}
-                                                    />
-                                                );
-                                            })
-                                        }
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tổng kết chiến dịch Marketing</strong>
+                                        </h4>
+                                        <br/>
+                                        <div className="row">
+                                            {
+                                                summary.map((item) => {
+                                                    return (
+                                                        <CardChart
+                                                            key={item.campaign_id}
+                                                            campaign={item}
+                                                            genId={this.props.genId}
+                                                        />
+                                                    );
+                                                })
+                                            }
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

@@ -66,14 +66,12 @@ class TeachersExcelContainer extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-
                             <div className="card">
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">file_download</i>
-                                </div>
-
                                 <div className="card-content">
-                                    <h4 className="card-title">Xuất file Excel</h4>
+                                    <h4 className="card-title">
+                                        <strong>Xuất file Excel</strong>
+                                    </h4>
+                                    <br/>
                                     <div className="row">
                                         <div  className="col-md-4"/>
                                         <div  className="col-md-4">
