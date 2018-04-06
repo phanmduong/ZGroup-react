@@ -56,7 +56,7 @@ class ProductCategoryController extends ManageApiController
         $productCategory = CategoryProduct::find($productCategoryId);
         if($productCategory == null)
             return $this->respondErrorWithStatus('Không tồn tại nhãn');
-        if($productCategory->mulCatProducts)
+        if($productCategory->mulCatProducts()->count() > 0)
             return $this->respondErrorWithStatus('Không xoá nhãn đang được gắn vào bài viết');
         $productCategory->delete();
         return $this->respondSuccessWithStatus('Tạo thành công');
