@@ -10,8 +10,8 @@
                 <br><br>
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
-                        <h4 class="description"><b>UP CO-WORKING SPACE</b></h4>
-                        <h1 class="title">
+                        <h4 class="branch"><b>UP CO-WORKING SPACE</b></h4>
+                        <h1 class="title title--big title--white">
                             Gói thành viên
                         </h1>
                         <br>
@@ -601,6 +601,16 @@
         min-height: 60px;
     }
 
+    .navbar .navbar-nav .nav-item .nav-link {
+        white-space: nowrap;
+    }
+    .branch {
+        font-size: 40px;
+        font-weight:500
+    }
+    .branch--white{
+
+    }
 </style>
 
 @push('scripts')
@@ -752,8 +762,8 @@
         //                 });
 
         //         }
-        //     }
-        // });
-    </script>
+            }
+        });
+    {{--</script>--}}
 @endpush
 
