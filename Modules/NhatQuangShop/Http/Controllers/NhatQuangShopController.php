@@ -5,6 +5,7 @@ namespace Modules\NhatQuangShop\Http\Controllers;
 use App\Good;
 use App\Order;
 use App\Product;
+use App\CategoryProduct;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -53,12 +54,12 @@ class NhatQuangShopController extends Controller
         $search = $request->search;
         if ($search == null) {
             $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')->orderBy('created_at', 'desc')
-                ->paginate(20);
+                ->paginate(6);
         } else {
             $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
-                ->paginate(20);
+                ->paginate(6);
         }
         $this->data["products"] = $products;
         return view('nhatquangshop::product_new', $this->data);
@@ -69,13 +70,13 @@ class NhatQuangShopController extends Controller
         $search = $request->search;
         if ($search == null) {
             $products = Good::groupBy('code')->where('highlight_status', '=', '1')->orderBy('created_at', 'desc')
-                ->paginate(20);
+                ->paginate(6);
         } else {
             $products = Good::groupBy('code')->where('name', 'like', '%' . "$search" . '%')
                 ->orWhere('code', 'like', '%' . "$search" . '%')
                 ->orWhere('description', 'like', '%' . "$search" . '%')
                 ->andWhere('highlight_status', '=', '1')
-                ->paginate(20);
+                ->paginate(6);
         }
         $this->data["products"] = $products;
         return view('nhatquangshop::product_feature', $this->data);
@@ -162,16 +163,31 @@ class NhatQuangShopController extends Controller
 
     public function blog(Request $request)
     {
+//        $blogs = Product::join('category_products', 'category_products.id', '=', 'products.category_id');
+
+//        dd($blogs);
+
         $blogs = Product::where('type', 2)->where('status', 1);
+//        dd($blogs);
 
         $search = $request->search;
-
+        $type = $request->category_id;
+//        dd($type);
+        $type_name = CategoryProduct::find($type);
+        $type_name = $type_name ? $type_name->name : '';
+//        dd($search);
         if ($search) {
             $blogs = $blogs->where('title', 'like', '%' . $search . '%');
         }
 
+        if($type){
+            $blogs = $blogs->where('category_id',$type);
+        }
+
+
         $blogs = $blogs->orderBy('created_at', 'desc')->paginate(6);
 
+        $categories = CategoryProduct::orderBy('name')->get();
         $display = '';
         if ($request->page == null) {
             $page_id = 2;
@@ -189,6 +205,8 @@ class NhatQuangShopController extends Controller
 
         $this->data['total_pages'] = ceil($blogs->total() / $blogs->perPage());
         $this->data['current_page'] = $blogs->currentPage();
+        $this->data['categories'] = $categories;
+        $this->data['category_id'] = $request->category_id;
 
         return view('nhatquangshop::blogs', $this->data);
     }
