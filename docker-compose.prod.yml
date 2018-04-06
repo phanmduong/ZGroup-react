@@ -1,11 +1,13 @@
 version: '3'
 services:
   redis:
+    restart: always
     image: redis
     container_name: redis
     ports:
       - "6379:6379"
   app:
+    restart: always
     container_name: app
     build:
       context: ./docker/php
@@ -14,6 +16,7 @@ services:
     volumes: 
       - ./:/var/www
   cron:
+    restart: always
     container_name: cron
     build:
       context: ./docker/cron
@@ -22,6 +25,7 @@ services:
     volumes: 
       - ./:/var/www
   supervisor:
+    restart: always
     container_name: supervisor
     build:
       context: ./docker/supervisor
@@ -30,6 +34,7 @@ services:
     volumes: 
       - ./:/var/www
   web:    
+    restart: always
     container_name: web
     build:
       context: ./docker/nginx
