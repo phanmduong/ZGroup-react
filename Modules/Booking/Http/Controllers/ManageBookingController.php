@@ -15,6 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Room;
+use Carbon\Carbon;
 
 class ManageBookingController extends ManageApiController
 {
@@ -96,7 +97,6 @@ class ManageBookingController extends ManageApiController
         if ($request->start_time && $request->end_time)
             $registers = $registers->whereBetween('room_service_registers.created_at', array($request->start_time, $request->end_time));
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
-
         return $this->respondWithPagination($registers, [
             'room_service_registers' => $registers->map(function ($register) {
                 return $register->getData();
@@ -329,13 +329,22 @@ class ManageBookingController extends ManageApiController
         return $this->respondSuccessWithStatus(["register" => $register->getData()]);
     }
 
-    public function assignTime($registerId, $request) {
-        if($register = RoomServiceRegister::find($registerId));
-        if($register == null)
+    public function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = Carbon::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
+    public function assignTime($registerId, Request $request)
+    {
+        if ($register = RoomServiceRegister::find($registerId));
+        if ($register == null)
             return $this->respondErrorWithStatus('Không tồn tại đặt phòng');
-        if($request->room_id == null)
-            return $this->respondErrorWithStatus('Thiếu phòng');
-        $register->rooms->attach($request->room_id, [
+        // if ($request->room_id == null)
+        //     return $this->respondErrorWithStatus('Thiếu phòng');
+        if ($this->validateDate($request->start_time) == false || $this->validateDate($request->end_time) == false)
+            return $this->respondErrorWithStatus('Nhập ngày tháng đúng định dạng Y-m-d H:i:s');
+        $register->rooms->attach(4, [
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
         ]);
@@ -349,9 +358,9 @@ class ManageBookingController extends ManageApiController
             ->where('room_types.type_name', 'conference')->select('rooms.*')
             ->where('rooms.name', 'like', "%$request->search%")
             ->paginate($limit);
-        
-        return $this->respondWithPagination($conferenceRooms,[
-            'rooms' => $conferenceRooms->map(function($conferenceRoom){
+
+        return $this->respondWithPagination($conferenceRooms, [
+            'rooms' => $conferenceRooms->map(function ($conferenceRoom) {
                 return $conferenceRoom->getData();
             })
         ]);

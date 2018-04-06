@@ -75,6 +75,20 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function editCampaign($campaignId, Request $request)
+    {
+        $campaign = SmsList::find($campaignId);
+        if ($campaign == null) {
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại chiến dịch này'
+            ]);
+        }
+        $this->assignCampaignInfo($campaign, $request, $campaign->user_id);
+        return $this->respondSuccessWithStatus([
+            'message' => 'Sửa chiến dịch thành công'
+        ]);
+    }
+
     public function createTemplate($campaignId, Request $request)
     {
         $template = new SmsTemplate;
@@ -84,6 +98,21 @@ class ManageSmsApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             'message' => 'Tạo tin nhắn thành công'
+        ]);
+    }
+
+    public function editTemplate($templateId, Request $request)
+    {
+        $template = SmsTemplate::find($templateId);
+        if ($template == null) {
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại tin nhắn này'
+            ]);
+        }
+        $this->assignTemplateInfo($template, $request, $template->user_id, $template->sms_list_id);
+        $template->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Sửa tin nhắn thành công'
         ]);
     }
 
