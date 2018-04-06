@@ -1,6 +1,10 @@
 import React from 'react';
 import {Link, IndexLink} from 'react-router';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import *as campaignAction from "./campaignAction";
+
 
 class CampaignContainer extends React.Component {
     constructor(props, context) {
@@ -10,6 +14,9 @@ class CampaignContainer extends React.Component {
             type: "create",
             link: `/sms/campaign`
         };
+    }
+    componentWillMount() {
+        this.props.campaignAction.loadTypeOfMessage();
     }
 
     render() {
@@ -52,6 +59,18 @@ class CampaignContainer extends React.Component {
 CampaignContainer.propTypes = {
     children: PropTypes.element,
     location: PropTypes.object.isRequired,
-    pathname: PropTypes.string
+    pathname: PropTypes.string,
+    campaignAction: PropTypes.object.isRequired
 };
-export default CampaignContainer;
+function mapStateToProps() {
+    return {
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        campaignAction: bindActionCreators(campaignAction, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CampaignContainer);

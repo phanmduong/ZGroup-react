@@ -929,9 +929,6 @@ a.btn-seat.active {
   margin: auto
 }
 
-
-
-
 .button-plus {
   border-radius: 50%;
   border:none;
@@ -942,28 +939,10 @@ a.btn-seat.active {
   margin-left: 12px
 }
 
-
 .dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
   background-color: rgba(197, 0, 0, 1)!important;
 }
 
-.sent{
-  cursor: auto;
-  border: none;
-  color:white;
-  background-color: #74D512;
-  border-radius: 50%;
-  height: 34px;
-  width: 34px;
-}
-.unsent{
-  cursor: auto;
-  border: none;
-  color:white;
-  border-radius: 50%;
-  height: 34px;
-  width: 34px;
-}
 .campaign-content{
   background-color: white;
   padding: 30px 30px 90px 30px;

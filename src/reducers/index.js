@@ -84,9 +84,10 @@ import weekendReportReducer from "../modules/Zgroup/weekendReport/weekendReportR
 
 import emailCommentFBReducer from "../modules/emailCommentsFB/emailCommentFBReducer";
 import labelManageReducer from "../modules/labelManage/labelManageReducer";
-
+import smsCampaignReducer from "../modules/campaign/campaignReducer";
 
 const appReducer = combineReducers({
+    smsCampaign: smsCampaignReducer,
     labelManage: labelManageReducer,
     weekendReport: weekendReportReducer,
     globalLoading: globalLoadingReducer,

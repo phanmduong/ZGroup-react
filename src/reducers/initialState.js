@@ -1,6 +1,22 @@
+
 export default {
     smsCampaign:{
-
+        allMessage:[],
+        message:{
+            name:'',
+            content:'',
+            sms_template_type_id: '',
+            send_time:'',
+        },
+        template_types:[],
+        upMessage: false,
+        addMessageModal: false,
+        addReceiverModal: false,
+        isLoading:false,
+        limit: 20,
+        currentPage: 1,
+        totalPages: 1,
+        totalCount: 1,
     },
     labelManage: {
         isLoading: false,
