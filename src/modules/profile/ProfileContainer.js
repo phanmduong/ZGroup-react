@@ -77,9 +77,12 @@ class ProfileContainer extends React.Component {
                                                 <div className="col-md-8">
                                                     <div className="card">
                                                         <div className="card-content">
-                                                            <h4 className="card-title">
-                                                                <strong>Thông tin cá nhân</strong>
-                                                            </h4>
+                                                            <div className="tab-content">    
+                                                                <h4 className="card-title">
+                                                                    <strong>Thông tin cá nhân</strong>
+                                                                </h4>
+                                                                <br/>
+                                                            </div>    
                                                             <form onSubmit={(e) => {
                                                                 e.preventDefault();
                                                             }}>

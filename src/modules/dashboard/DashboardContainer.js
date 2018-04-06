@@ -184,7 +184,8 @@ class DashboardContainer extends React.Component {
                                     />
                                 </div>
                                 <div className="col-sm-2">
-                                    <button className="btn btn-info btn-rose btn-round"
+                                    <button className="btn btn-info btn-rose btn-round" 
+                                            style={{width: "100%"}}
                                             onClick={() => this.setState({openFilter: !this.state.openFilter})}>
                                         <i className="material-icons">filter_list</i>
                                         Lọc
@@ -195,13 +196,13 @@ class DashboardContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">filter_list</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Bộ lọc
-                                                    <small/>
-                                                </h4>
+                                                <div className="tab-content">    
+                                                    <h4 className="card-title">
+                                                        <strong>Bộ lọc</strong>
+                                                    </h4>
+                                                    <br/>
+                                                </div>        
                                                 <div className="row">
                                                     <div className="col-md-3">
                                                         <FormInputDate

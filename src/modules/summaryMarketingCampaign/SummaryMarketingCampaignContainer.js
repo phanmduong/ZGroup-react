@@ -190,8 +190,9 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                         Lọc
                                     </button>
                                 </div>
-                                <div className="col-sm-3 col-xs-5">
+                                <div className="col-sm-2 col-xs-5">
                                     <button className="btn btn-fill btn-rose btn-round" 
+                                            style={{width: '100%'}}
                                             onClick={this.exportExcel}
                                     >
                                         Xuất ra Excel
@@ -204,13 +205,13 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon"  data-background-color="rose">
-                                                <i className="material-icons">filter_list</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Bộ lọc
-                                                    <small/>
-                                                </h4>
+                                                <div className="tab-content">    
+                                                    <h4 className="card-title">
+                                                        <strong>Bộ lọc</strong>
+                                                    </h4>
+                                                    <br/>
+                                                </div>    
                                                 <div className="row">
                                                     <div className="col-md-3 col-xs-5">
                                                         <FormInputDate

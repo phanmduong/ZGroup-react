@@ -66,11 +66,16 @@ class ArchiveProjectListContainer extends React.Component {
                     <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
-                                <h4 className="card-title"><strong>Dự án</strong></h4>
-                                <br/>
-                                <Link to="/project/list" className="btn btn-default">
-                                    Dự án đang chạy
-                                </Link>
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Dự án</strong>
+                                    </h4>
+                                    <div>
+                                        <Link to="/project/list" className="btn btn-primary btn-round btn-xs button-add none-margin">
+                                            <i className="material-icons" style={{fontWeight: "bold", margin:"-1.5px -4px 0px -4px", top:"0px"}}>autorenew</i>
+                                        </Link>
+                                    </div>
+                                </div>
 
                                 <Search
                                     onChange={this.projectsSearchChange}

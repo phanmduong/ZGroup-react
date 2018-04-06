@@ -120,7 +120,7 @@ class EditBaseModalContainer extends React.Component {
                 <a onClick={() => this.props.baseListActions.showBaseEditModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.props.isEditRoom ? "Sửa phòng" : "Tạo phòng"}</Modal.Title>
+                    <Modal.Title>{base.id ? "Sửa phòng" : "Tạo phòng"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">
@@ -128,6 +128,7 @@ class EditBaseModalContainer extends React.Component {
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <label className="label-control">Ảnh đại diện</label>
                                 <div className="text-center">
+                                    <br/>
                                     {
                                         this.props.isUploadingAvatar ? (
                                             <div className="progress">
