@@ -17,7 +17,6 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Request;
 
 class PublicApiController extends ApiController
 {

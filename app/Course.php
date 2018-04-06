@@ -69,6 +69,7 @@ class Course extends Model
             'terms' => $this->terms,
             'status' => $this->status,
             'type_id' => $this->type_id,
+            'order_number' => $this->order_number,
             'type' => $this->courseType ? $this->courseType->getData() : null,
             'categories' => $this->courseCategories->map(function ($courseCategory) {
                 return $courseCategory->getData();
@@ -101,6 +102,7 @@ class Course extends Model
             'color' => $this->color,
             'type_id' => $this->type_id,
             'description' => $this->description,
+            'order_number' => $this->order_number,
             'image_url' => generate_protocol_url($this->image_url),
             'lessons' => $this->lessons->map(function ($lesson) {
                 return $lesson->shortTransform();
