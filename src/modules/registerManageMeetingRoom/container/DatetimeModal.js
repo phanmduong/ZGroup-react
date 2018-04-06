@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -42,7 +42,6 @@ class DatetimeModal extends React.Component {
                     <Modal.Body>
                         <div className="row">
                             <div className="col-md-5">
-
                                 <FormInputDateTime
                                     format={DATETIME_FORMAT_SQL}
                                     name="official_start_time"
@@ -66,7 +65,7 @@ class DatetimeModal extends React.Component {
                                 />
                             </div>
                             <div className="col-md-2">
-                                {this.props.isSavingOfficialTime ?
+                                {this.props.isChangingOfficialTime ?
                                     (
                                         <button className="btn btn-fill btn-rose disabled">
                                             <i className="fa fa-spinner fa-spin disabled"/>
@@ -84,6 +83,15 @@ class DatetimeModal extends React.Component {
                                         </button>
                                     )
                                 }
+
+                                <Button
+                                    data-dismiss="modal"
+                                    onClick={() => {
+                                        this.closeDatetimeModal();
+                                    }}>
+                                    <i className="material-icons">close</i>
+                                    Hủy
+                                </Button>
                             </div>
                         </div>
 
@@ -98,7 +106,7 @@ class DatetimeModal extends React.Component {
 DatetimeModal.propTypes = {
     register: PropTypes.object.isRequired,
     isOpenDatetimeModal: PropTypes.bool.isRequired,
-    isSavingOfficialTime: PropTypes.bool.isRequired,
+    isChangingOfficialTime: PropTypes.bool.isRequired,
     registerManageMeetingRoomAction: PropTypes.object.isRequired,
 };
 
@@ -106,7 +114,7 @@ function mapStateToProps(state) {
     return {
         isOpenDatetimeModal: state.registerManageMeetingRoom.isOpenDatetimeModal,
         register: state.registerManageMeetingRoom.register,
-        isSavingOfficialTime: state.registerManageMeetingRoom.isSavingOfficialTime,
+        isChangingOfficialTime: state.registerManageMeetingRoom.isChangingOfficialTime,
     };
 }
 

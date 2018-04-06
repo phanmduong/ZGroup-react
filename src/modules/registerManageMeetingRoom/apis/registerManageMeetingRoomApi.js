@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../../constants/env';
 
 export function loadAllRegistersApi(limit, page = 1, search, saler_id, base_id, startTime, endTime) {
-    let url = env.MANAGE_API_URL + '/coworking-space/register?page=' + page;
+    let url = env.MANAGE_API_URL + '/coworking-space/room-booking?page=' + page;
     if (search) {
         url += "&search=" + search;
     }

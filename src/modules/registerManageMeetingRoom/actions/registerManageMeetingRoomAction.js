@@ -1,5 +1,5 @@
 import types from "../constants/actionTypes";
-import {DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING} from "../../../constants/actionTypes";
+// import {DISPLAY_GLOBAL_LOADING, HIDE_GLOBAL_LOADING} from "../../../constants/actionTypes";
 import * as helper from "../../../helpers/helper";
 import * as registerManageMeetingRoomApi from "../apis/registerManageMeetingRoomApi";
 
@@ -90,21 +90,21 @@ export function loadAllRegisters(limit = 10,
 export function savePayment(money, note, register_id, user_id, closeModal) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_SAVE_PAYMENT_ROOM,
+            type: types.BEGIN_SAVE_PAYMENT,
         });
         registerManageMeetingRoomApi.savePaymentApi(money, note, register_id, user_id)
             .then(res => {
                 if (res.data.status) {
                     closeModal();
                     dispatch({
-                        type: types.SAVED_PAYMENT_ROOM_SUCCESS,
+                        type: types.SAVED_PAYMENT_SUCCESS,
                         register_id: register_id,
                         payment: res.data.data.payment,
                     });
                     helper.showNotification("Lưu thành công");
                 }
                 else {
-                    dispatch({type: types.SAVED_PAYMENT_ROOM_ERROR});
+                    dispatch({type: types.SAVED_PAYMENT_ERROR});
                     helper.showNotification("Lưu thất bại");
                 }
             })
@@ -118,20 +118,20 @@ export function savePayment(money, note, register_id, user_id, closeModal) {
 
 
 
-export const showGlobalLoading = () => {
-    return dispatch => {
-        dispatch({
-            type: types.DISPLAY_GLOBAL_LOADING,
-        });
-    };
-};
-export const hideGlobalLoading = () => {
-    return dispatch => {
-        dispatch({
-            type: types.HIDE_GLOBAL_LOADING,
-        });
-    };
-};
+// export const showGlobalLoading = () => {
+//     return dispatch => {
+//         dispatch({
+//             type: types.DISPLAY_GLOBAL_LOADING,
+//         });
+//     };
+// };
+// export const hideGlobalLoading = () => {
+//     return dispatch => {
+//         dispatch({
+//             type: types.HIDE_GLOBAL_LOADING,
+//         });
+//     };
+// };
 export function updateRegister(register) {
     return function (dispatch) {
       dispatch({

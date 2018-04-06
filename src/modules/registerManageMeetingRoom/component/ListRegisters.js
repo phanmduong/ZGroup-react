@@ -10,6 +10,16 @@ import moment from "moment/moment";
 import PaymentModal from "../container/PaymentModal";
 import DatetimeModal from "../container/DatetimeModal";
 
+export function fixTime(register) {
+    const time = register.extra_time -
+        (moment(register.official_end_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
+            - moment(register.official_start_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
+        ) / 3600000;
+    const hour = Math.floor(time);
+    const minute = (Math.floor((time - Math.floor(time)) * 60));
+    return minute === 0 ? hour + " giờ" : hour + " giờ " + minute + " phút";
+}
+
 
 export function sumMoney(register) {
     let sumMoney = 0;
@@ -138,12 +148,7 @@ class ListRegisters extends React.Component {
                                                 </OverlayTrigger>
                                                 :
                                                 <a>
-                                                    {
-                                                        register.extra_time -
-                                                        (moment(register.official_end_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
-                                                            - moment(register.official_start_time || 0, "YYYY-MM-DD HH:mm:ss").valueOf()
-                                                        ) / 3600000 + " h"
-                                                    }
+                                                    {fixTime(register)}
                                                 </a>
                                         }
 

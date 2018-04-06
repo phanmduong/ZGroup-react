@@ -289,7 +289,6 @@ class RegisterManageRoomContainer extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         let first = this.props.totalCount
             ? (this.props.currentPage - 1) * this.props.limit + 1
             : 0;

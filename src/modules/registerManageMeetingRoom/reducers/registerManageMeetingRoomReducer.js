@@ -13,7 +13,6 @@ let conferenceRoomInitState = {
     totalCount: 1,
     limit: 20,
     register: {},
-    isChangingStatus: false,
     isLoadingBases: false,
     isLoadingSalers: false,
     bases: [],
@@ -45,6 +44,8 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
+
+
         case types.BEGIN_LOAD_SALERS:
             return {
                 ...state,
@@ -63,6 +64,8 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
+
+
         case types.BEGIN_LOAD_REGISTERS:
             return {
                 ...state,
@@ -73,7 +76,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             return {
                 ...state,
                 registers: prefixRegisters(action.registers),
-                // registers : action.registers,
                 isLoading: false,
                 totalPages: action.totalPages,
                 currentPage: action.currentPage,
@@ -86,22 +88,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
-        case types.BEGIN_CHANGE_CALL_STATUS:
-            return {
-                ...state,
-                isChangingStatus: true,
-            };
-        case types.CHANGE_CALL_STATUS_SUCCESS:
-            return {
-                ...state,
-                isChangingStatus: false,
-                registers: addCall(action.register_id, state.registers, action.teleCall),
-            };
-        case types.CHANGE_CALL_STATUS_ERROR:
-            return {
-                ...state,
-                isChangingStatus: false,
-            };
 
 
         case types.BEGIN_SAVE_PAYMENT:
@@ -120,6 +106,8 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
                 ...state,
                 isSavingPayment: false,
             };
+
+
 
 
         case types.BEGIN_CHANGE_OFFICIAL_TIME:
@@ -141,6 +129,8 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
+
+
         case types.CLOSE_DATE_TIME_MODAL:
             return {
                 ...state,
@@ -154,6 +144,11 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
                 isOpenDatetimeModal: true,
                 register: action.register,
             };
+
+
+
+
+
 
         case types.CLOSE_PAYMENT_MODAL:
             return {
@@ -170,6 +165,10 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
             };
 
 
+
+
+
+
         case types.UPDATE_REGISTER:
             return {
                 ...state,
@@ -180,17 +179,6 @@ export default function registerConferenceRoomReducers(state = conferenceRoomIni
         default:
             return state;
     }
-}
-
-function addCall(register_id, registers, teleCall) {
-    tmpRegs = registers.map((register) => {
-        if (register.id === register_id) {
-            tmpReg = {...register, teleCalls: [...register.teleCalls, teleCall]};
-            return tmpReg;
-        }
-        else return register;
-    });
-    return tmpRegs;
 }
 
 function addPayment(register_id, registers, payment) {
@@ -211,12 +199,16 @@ function addPayment(register_id, registers, payment) {
 
 function prefixRegisters(registers) {
     const currentTime = new Date().getTime();
-    // console.log(moment(currentTime).format("YYYY-MM-DD HH:mm:ss"), "prefixRegisters");
     return registers.map((register) => {
         return {
             ...register,
-            official_start_time: register.start_time || moment(currentTime).format("YYYY-MM-DD HH:mm:ss"),
-            official_end_time: register.end_time || moment(currentTime).format("YYYY-MM-DD HH:mm:ss"),
+            price : register.room_history.length !== 0 ?
+                !register.is_member ?
+                    register.room_history[register.room_history.length - 1].room.room_type.price :
+                    register.room_history[register.room_history.length - 1].room.room_type.member_price
+                : 0,
+            official_start_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].start_time: moment(currentTime).format("YYYY-MM-DD HH:mm:ss"),
+            official_end_time:register.room_history.length !== 0 ? register.room_history[register.room_history.length -1].end_time: moment(currentTime).format("YYYY-MM-DD HH:mm:ss"),
         };
     });
 }
