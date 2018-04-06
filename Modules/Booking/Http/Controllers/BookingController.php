@@ -90,7 +90,6 @@ class BookingController extends ApiPublicController
 
         $register = new RoomServiceRegister();
         $register->user_id = $user->id;
-        // $register->subscription_id = $request->subscription_id;
         $register->base_id = $request->base_id;
         $register->campaign_id = $campaignId;
         $register->type = 'member';
