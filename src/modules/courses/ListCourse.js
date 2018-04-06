@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as helper from "../../helpers/helper";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as coursesActions from './coursesActions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import ChangeOrderCourseModal from "./ChangeCourseOrderModal";
 
-import {browserHistory} from "react-router";
+import { browserHistory } from "react-router";
 
 import Avatar from '../../components/common/Avatar';
 
@@ -26,7 +26,7 @@ class ListCourse extends React.Component {
             showChangeOrderModal: false,
             course: {},
         };
-        
+
         this.deleteCourse = this.deleteCourse.bind(this);
         this.openChangeOrderModal = this.openChangeOrderModal.bind(this);
         this.closeChangeOrderModal = this.closeChangeOrderModal.bind(this);
@@ -37,32 +37,38 @@ class ListCourse extends React.Component {
     //     console.log("nextProps",nextProps);
     // }
 
-    
+
 
     deleteCourse(courseId) {
         this.props.deleteCourse(courseId);
     }
 
-    openChangeOrderModal(course){
-        this.setState({showChangeOrderModal: true, course});
+    openChangeOrderModal(course) {
+        this.setState({ showChangeOrderModal: true, course });
     }
 
-    closeChangeOrderModal(){
-        this.setState({showChangeOrderModal: false});
+    closeChangeOrderModal() {
+        this.setState({ showChangeOrderModal: false });
     }
 
-    changeOrderCourse(order){
-        return this.props.coursesActions.changeOrderCourse(this.state.course,order,()=>this.setState({showChangeOrderModal: false}));
+    changeOrderCourse(order) {
+        return this.props.coursesActions.changeOrderCourse(
+            this.state.course, order,
+            () => {
+                this.setState({ showChangeOrderModal: false });
+                this.props.coursesActions.loadCourses(this.props.paginator.current_page, this.props.query);
+            }
+        );
     }
-    
+
     render() {
         return (
             <div className="row">
-            <ChangeOrderCourseModal
-                show={this.state.showChangeOrderModal}
-                onHide={this.closeChangeOrderModal}
-                changeOrderCourse={this.changeOrderCourse}
-            />
+                <ChangeOrderCourseModal
+                    show={this.state.showChangeOrderModal}
+                    onHide={this.closeChangeOrderModal}
+                    changeOrderCourse={this.changeOrderCourse}
+                />
                 {this.props.courses.map((course, index) => {
                     return (
                         <div className="col-sm-6 col-md-6 col-lg-4" id="card-email-template" key={index}>
@@ -76,30 +82,30 @@ class ListCourse extends React.Component {
                                         e.stopPropagation();
                                     }}>
                                         <div id="simpleBarChart" className="ct-chart"
-                                             style={{
-                                                 width: '100%',
-                                                 background: 'url(' + course.image_url + ')',
-                                                 backgroundSize: 'cover',
-                                                 backgroundPosition: 'center',
-                                                 height: '200px',
-                                                 borderRadius: '10px',
-                                                 position: "relative"
-                                             }}
+                                            style={{
+                                                width: '100%',
+                                                background: 'url(' + course.image_url + ')',
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
+                                                height: '200px',
+                                                borderRadius: '10px',
+                                                position: "relative"
+                                            }}
                                         >
 
 
                                             {/*<div style={{position: "absolute", right : 0, margin : 10}}>*/}
-                                                {/*{post.category ?*/}
-                                                {/*<button className="tag btn btn-xs btn-danger"*/}
-                                                {/*style={{marginLeft: 15, borderRadius: 10}}*/}
-                                                {/*onClick={(e) => {*/}
-                                                {/*this.props.loadByCategories(post.category.id);*/}
-                                                {/*e.stopPropagation();*/}
-                                                {/*}}*/}
-                                                {/*>*/}
-                                                {/*{post.category ? post.category.name : 'Không có'}</button>*/}
-                                                {/*: null*/}
-                                                {/*}*/}
+                                            {/*{post.category ?*/}
+                                            {/*<button className="tag btn btn-xs btn-danger"*/}
+                                            {/*style={{marginLeft: 15, borderRadius: 10}}*/}
+                                            {/*onClick={(e) => {*/}
+                                            {/*this.props.loadByCategories(post.category.id);*/}
+                                            {/*e.stopPropagation();*/}
+                                            {/*}}*/}
+                                            {/*>*/}
+                                            {/*{post.category ? post.category.name : 'Không có'}</button>*/}
+                                            {/*: null*/}
+                                            {/*}*/}
 
                                             {/*</div>*/}
                                         </div>
@@ -108,7 +114,7 @@ class ListCourse extends React.Component {
 
 
                                 <div className="card-content">
-                                    <div className="card-action row" style={{height: 90}}>
+                                    <div className="card-action row" style={{ height: 90 }}>
                                         <div className="col-md-9">
                                             <h4 className="card-title">
                                                 <a onClick={(e) => {
@@ -121,10 +127,10 @@ class ListCourse extends React.Component {
                                             </h4>
                                         </div>
 
-                                        <div className="col-md-3" style={{marginRight : -20, display : "flex" , flexDirection : "column" , justifyContent : "space-between" }}>
-                                            <div className="dropdown" style={{position : "relative" , left : "23"}}>
+                                        <div className="col-md-3" style={{ marginRight: -20, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                            <div className="dropdown" style={{ position: "relative", left: "23" }}>
                                                 <a className="dropdown-toggle btn-more-dropdown" type="button"
-                                                   data-toggle="dropdown">
+                                                    data-toggle="dropdown">
                                                     <i className="material-icons">more_horiz</i>
                                                 </a>
                                                 <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
@@ -168,10 +174,10 @@ class ListCourse extends React.Component {
 
                                                 </ul>
                                             </div>
-                                            
+
                                             <Switch
                                                 onChange={(e) => {
-                                                    return this.props.changeStatusCourse(index, course ,e);
+                                                    return this.props.changeStatusCourse(index, course, e);
                                                 }}
                                                 value={course.status}
                                                 onText="Hiện" offText="Ẩn"
@@ -184,22 +190,22 @@ class ListCourse extends React.Component {
 
 
 
-                                    <div style={{display: "flex", justifyContent: "space-between", height: 40}}>
+                                    <div style={{ display: "flex", justifyContent: "space-between", height: 40 }}>
 
 
-                                        <div style={{display: "flex", alignItems: "center"}}>
+                                        <div style={{ display: "flex", alignItems: "center" }}>
                                             {course.icon_url ?
                                                 <Avatar size={40} url={course.icon_url}
-                                                        style={{borderRadius: 6}}/> : null}
+                                                    style={{ borderRadius: 6 }} /> : null}
                                             <div>
-                                                <strong>{course.name}</strong><br/>
+                                                <strong>{course.name}</strong><br />
                                                 <p className="category"
-                                                   style={{fontSize: 12}}>{course.duration + " buổi"}</p>
+                                                    style={{ fontSize: 12 }}>{course.duration + " buổi"}</p>
                                             </div>
                                         </div>
 
 
-                                        <div style={{display: "flex", alignItems: "center", color: "#76b031"}}>
+                                        <div style={{ display: "flex", alignItems: "center", color: "#76b031" }}>
                                             {helper.dotNumber(course.price)}
 
 
@@ -214,7 +220,7 @@ class ListCourse extends React.Component {
 
                     );
                 })}
-                
+
             </div>
         );
     }
@@ -228,12 +234,15 @@ ListCourse.propTypes = {
     changeStatusCourse: PropTypes.func,
     duplicateCourse: PropTypes.func,
     isDuplicating: PropTypes.bool,
+    query: PropTypes.string,
+    paginator: PropTypes.object.isRequired,
+
 };
 
 function mapStateToProps(state) {
     return {
         data: state.coursesCreateEdit.data,
-
+        paginator: state.courses.paginator,
     };
 }
 
