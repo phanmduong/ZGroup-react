@@ -52,7 +52,7 @@ class ProductCategoryController extends ManageApiController
 
     public function deleteProductCategory($productCategoryId, Request $request)
     {
-        $productCategory = CategoryProduct::find($productCategory);
+        $productCategory = CategoryProduct::find($productCategoryId);
         if($productCategory == null)
             return $this->respondErrorWithStatus('Không tồn tại nhãn');
         if($productCategory->mulCatProducts)

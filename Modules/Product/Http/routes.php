@@ -4,8 +4,8 @@ $productCategoryRoutes = function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('/product-category', 'ProductCategoryController@allProductCategories');
         Route::post('/product-category', 'ProductCategoryController@createProductCategory');
-        Route::put('/product-category/{editProductCategory}', 'ProductCategoryController@editProductCategory');
-        Route::delete('/product-category/{editProductCategory}', 'ProductCategoryController@deleteProductCategory');
+        Route::put('/product-category/{productCategoryId}', 'ProductCategoryController@editProductCategory');
+        Route::delete('/product-category/{productCategoryId}', 'ProductCategoryController@deleteProductCategory');
     });
 };
 
