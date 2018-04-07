@@ -16,17 +16,18 @@ export function countMoney(register) {
     const hour = Math.floor(time);
     const minute = (Math.floor((time - Math.floor(time)) * 60));
     const total = hour * 60 + minute;
-    return total * register.price / 60;
+    return total * register.price / 60 ;
 }
 
 class PaymentModal extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {note: "", money: "", sumMoney: this.props.sumMoney};
+        this.state = {note: "", money: 0, sumMoney: 0};
         this.savePayment = this.savePayment.bind(this);
         this.changeMoney = this.changeMoney.bind(this);
         this.closePaymentModal = this.closePaymentModal.bind(this);
     }
+
 
 
     savePayment(money, note, register_id, user_id) {
@@ -38,17 +39,16 @@ class PaymentModal extends React.Component {
             this.props.registerManageMeetingRoomAction.savePayment(money, note, register_id, user_id, this.closePaymentModal);
         }
     }
-
     changeMoney(event) {
-        let sumMoney = this.props.sumMoney;
+        let sumMoney = this.props.register.money;
         sumMoney += parseInt(event.target.value || 0);
         this.setState({money: parseInt(event.target.value), sumMoney});
     }
-
     closePaymentModal() {
         this.props.registerManageMeetingRoomAction.closePaymentModal();
         this.setState({money : null,note : ""});
     }
+
 
 
     render() {
@@ -182,7 +182,9 @@ class PaymentModal extends React.Component {
                                                     flexDirection: "column",
                                                     fontSize: 20
                                                 }}>
-                                                    {helper.dotNumber(this.state.sumMoney) + " đ"}
+                                                    {helper.dotNumber(this.state.sumMoney === 0 ? this.props.register.money: this.state.sumMoney) + " đ"}
+                                                    {/*Do khong dua duoc store vao state truoc khi render */}
+
                                                 </div>
                                             </div>
                                             <div style={{
@@ -269,13 +271,14 @@ PaymentModal.propTypes = {
     isSavingPayment: PropTypes.bool.isRequired,
     isOpenPaymentModal: PropTypes.bool.isRequired,
     registerManageMeetingRoomAction: PropTypes.object.isRequired,
-    sumMoney: PropTypes.number.isRequired,
+    registers: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         isSavingPayment: state.registerManageMeetingRoom.isSavingPayment,
         register: state.registerManageMeetingRoom.register,
+        registers: state.registerManageMeetingRoom.registers,
         isOpenPaymentModal: state.registerManageMeetingRoom.isOpenPaymentModal,
     };
 }

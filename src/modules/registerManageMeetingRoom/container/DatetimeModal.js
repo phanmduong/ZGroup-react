@@ -41,7 +41,7 @@ class DatetimeModal extends React.Component {
                     <Modal.Header/>
                     <Modal.Body>
                         <div className="row">
-                            <div className="col-md-5">
+                            <div className="col-md-6">
                                 <FormInputDateTime
                                     format={DATETIME_FORMAT_SQL}
                                     name="official_start_time"
@@ -52,7 +52,7 @@ class DatetimeModal extends React.Component {
                                     maxDate={this.props.register.official_end_time}
                                 />
                             </div>
-                            <div className="col-md-5">
+                            <div className="col-md-6">
 
                                 <FormInputDateTime
                                     format={DATETIME_FORMAT_SQL}
@@ -64,35 +64,35 @@ class DatetimeModal extends React.Component {
                                     minDate={this.props.register.official_start_time}
                                 />
                             </div>
-                            <div className="col-md-2">
-                                {this.props.isChangingOfficialTime ?
-                                    (
-                                        <button className="btn btn-fill btn-rose disabled">
-                                            <i className="fa fa-spinner fa-spin disabled"/>
-                                            {' Đang sửa'}
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button className="btn btn-fill btn-rose" type="button"
-                                                onClick={(e) => {
-                                                    this.saveOfficialTime(e);
-                                                }}>
-                                            <i className="material-icons">save</i>
-                                            {' Lưu'}
-                                        </button>
-                                    )
-                                }
+                        </div>
+                        <div style={{display: "flex", justifyContent: "flex-end"}}>
+                            {this.props.isChangingOfficialTime ?
+                                (
+                                    <button className="btn btn-fill btn-rose disabled">
+                                        <i className="fa fa-spinner fa-spin disabled"/>
+                                        {' Đang sửa'}
+                                    </button>
+                                )
+                                :
+                                (
+                                    <button className="btn btn-fill btn-rose" type="button"
+                                            onClick={(e) => {
+                                                this.saveOfficialTime(e);
+                                            }}>
+                                        <i className="material-icons">save</i>
+                                        {' Lưu'}
+                                    </button>
+                                )
+                            }
 
-                                <Button
-                                    data-dismiss="modal"
-                                    onClick={() => {
-                                        this.closeDatetimeModal();
-                                    }}>
-                                    <i className="material-icons">close</i>
-                                    Hủy
-                                </Button>
-                            </div>
+                            <Button
+                                data-dismiss="modal"
+                                onClick={() => {
+                                    this.closeDatetimeModal();
+                                }}>
+                                <i className="material-icons">close</i>
+                                Hủy
+                            </Button>
                         </div>
 
                     </Modal.Body>

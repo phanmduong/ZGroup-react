@@ -7,9 +7,9 @@ import * as registerManageMeetingRoomAction from "../actions/registerManageMeeti
 import PropTypes from "prop-types";
 import Select from "react-select";
 import Pagination from "../../../components/common/Pagination";
-import XLSX from "xlsx";
-import {saveWorkBookToExcel} from "../../../helpers/helper";
-import {loadAllRegistersApi} from "../apis/registerManageMeetingRoomApi";
+// import XLSX from "xlsx";
+// import {saveWorkBookToExcel} from "../../../helpers/helper";
+// import {loadAllRegistersApi} from "../apis/registerManageMeetingRoomApi";
 import SelectMonthBox from "../../../components/common/SelectMonthBox";
 import Loading from "../../../components/common/Loading";
 import SelectCommon from "../../../components/common/Select";
@@ -199,51 +199,51 @@ class RegisterManageRoomContainer extends React.Component {
         this.setState({openFilterPanel: newstatus});
     }
 
-    async exportRegistersResultExcel() {
-        this.props.registerManageMeetingRoomAction.showGlobalLoading();
-        const res = await loadAllRegistersApi(
-            -1,
-            this.state.page,
-            this.state.query,
-            this.state.saler_id,
-            this.state.status,
-            this.state.campaign_id,
-            this.state.base_id,
-            this.state.startTime,
-            this.state.endTime,
-        );
-        this.props.registerManageMeetingRoomAction.hideGlobalLoading();
-        const wsData = res.data.data.room_service_registers;
-        const field = [];
-        field[0] = "Tên khách hàng";
-        field[1] = "Số điện thoại";
-        field[2] = "Nhân viên phục vụ";
-        field[3] = "Ngày đăng kí";
-        field[4] = "Thời gian bắt đầu dự kiến";
-        field[5] = "Thời gian kết thúc dự kiến";
-        field[6] = "Thời gian bắt đầu chính thức";
-        field[7] = "Thời gian kết thúc chính thức";
-        const datas = wsData.map(data => {
-            let tmp = [];
-            tmp[0] = data.user.name;
-            tmp[1] = data.user.phone || "Chưa có";
-            tmp[2] = data.user.phone || "Chưa có";
-            tmp[3] = data.created_at || "Chưa có";
-            tmp[4] = (data.saler && data.saler.name) || "Không có";
-            tmp[5] = (data.campaign && data.campaign.name) || "Không có";
-            return tmp;
-        });
-        const tmpWsData = [field, ...datas];
-        const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
-        const sheetName = "Danh sách đăng kí đặt phòng h";
-        let workbook = {
-            SheetNames: [],
-            Sheets: {},
-        };
-        workbook.SheetNames.push(sheetName);
-        workbook.Sheets[sheetName] = ws;
-        saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt phòngọp họp");
-    }
+    // async exportRegistersResultExcel() {
+    //     this.props.registerManageMeetingRoomAction.showGlobalLoading();
+    //     const res = await loadAllRegistersApi(
+    //         -1,
+    //         this.state.page,
+    //         this.state.query,
+    //         this.state.saler_id,
+    //         this.state.status,
+    //         this.state.campaign_id,
+    //         this.state.base_id,
+    //         this.state.startTime,
+    //         this.state.endTime,
+    //     );
+    //     this.props.registerManageMeetingRoomAction.hideGlobalLoading();
+    //     const wsData = res.data.data.room_service_registers;
+    //     const field = [];
+    //     field[0] = "Tên khách hàng";
+    //     field[1] = "Số điện thoại";
+    //     field[2] = "Nhân viên phục vụ";
+    //     field[3] = "Ngày đăng kí";
+    //     field[4] = "Thời gian bắt đầu dự kiến";
+    //     field[5] = "Thời gian kết thúc dự kiến";
+    //     field[6] = "Thời gian bắt đầu chính thức";
+    //     field[7] = "Thời gian kết thúc chính thức";
+    //     const datas = wsData.map(data => {
+    //         let tmp = [];
+    //         tmp[0] = data.user.name;
+    //         tmp[1] = data.user.phone || "Chưa có";
+    //         tmp[2] = data.user.phone || "Chưa có";
+    //         tmp[3] = data.created_at || "Chưa có";
+    //         tmp[4] = (data.saler && data.saler.name) || "Không có";
+    //         tmp[5] = (data.campaign && data.campaign.name) || "Không có";
+    //         return tmp;
+    //     });
+    //     const tmpWsData = [field, ...datas];
+    //     const ws = XLSX.utils.aoa_to_sheet(tmpWsData);
+    //     const sheetName = "Danh sách đăng kí đặt phòng h";
+    //     let workbook = {
+    //         SheetNames: [],
+    //         Sheets: {},
+    //     };
+    //     workbook.SheetNames.push(sheetName);
+    //     workbook.Sheets[sheetName] = ws;
+    //     saveWorkBookToExcel(workbook, "Danh sách đăng kí đặt phòngọp họp");
+    // }
 
     registersSearchChange(value) {
         this.setState({
@@ -334,16 +334,16 @@ class RegisterManageRoomContainer extends React.Component {
                                     Lọc
                                 </button>
                             </div>
-                            <div className="col-sm-4 col-xs-5">
-                                <button
-                                    onClick={this.exportRegistersResultExcel}
-                                    className="btn btn-info btn-rose"
-                                    style={{float: "right"}}
-                                >
-                                    <i className="material-icons">file_download</i>
-                                    Xuất ra Excel
-                                </button>
-                            </div>
+                            {/*<div className="col-sm-4 col-xs-5">*/}
+                                {/*<button*/}
+                                    {/*onClick={this.exportRegistersResultExcel}*/}
+                                    {/*className="btn btn-info btn-rose"*/}
+                                    {/*style={{float: "right"}}*/}
+                                {/*>*/}
+                                    {/*<i className="material-icons">file_download</i>*/}
+                                    {/*Xuất ra Excel*/}
+                                {/*</button>*/}
+                            {/*</div>*/}
                         </div>
 
                         <Panel
@@ -388,7 +388,7 @@ class RegisterManageRoomContainer extends React.Component {
 
                             <div className="card-content">
                                 <h4 className="card-title">
-                                    Danh sách đăng kí
+                                    Danh sách đăng kí phòng họp
                                 </h4>
                                 <div>
                                     <Search

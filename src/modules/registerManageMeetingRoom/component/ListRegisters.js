@@ -20,23 +20,12 @@ export function fixTime(register) {
     return minute === 0 ? hour + " giờ" : hour + " giờ " + minute + " phút";
 }
 
-
-export function sumMoney(register) {
-    let sumMoney = 0;
-    register.historyPayments &&
-    register.historyPayments.map(payment => {
-        sumMoney += payment.money_value;
-    });
-    return sumMoney;
-}
-
 class ListRegisters extends React.Component {
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            sumMoney: 0,
-        };
+        // this.state = {
+        //     sumMoney : props.register.money,
+        // };
         this.openPaymentModal = this.openPaymentModal.bind(this);
         this.openDatetimeModal = this.openDatetimeModal.bind(this);
     }
@@ -159,10 +148,10 @@ class ListRegisters extends React.Component {
                         </tbody>
                     </table>
                 )}
+
+
                 <DatetimeModal/>
-                <PaymentModal
-                    sumMoney={sumMoney(this.props.register)}
-                />
+                <PaymentModal/>
 
             </div>
         );
