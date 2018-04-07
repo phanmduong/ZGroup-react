@@ -33,13 +33,16 @@ class ElightController extends Controller
         if ($newestBlog)
             $newestTop3 = $newestTop3->where('id', '<>', $newestBlog->id);
         $newestTop3 = $newestTop3->orderBy('created_at', 'desc')->limit(3)->get();
-        $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(3)->get();
-        $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
+        $blogSection = CategoryProduct::find(1)->mulCatProducts()->where('status', 1)->orderBy('created_at', 'desc')->limit(4)->get();
+        $blogSection1 = CategoryProduct::find(2)->mulCatProducts()->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        $blogSection2 = CategoryProduct::find(3)->mulCatProducts()->where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        
         $goods = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
         $books = Course::orderBy('created_at', 'desc')->limit(8)->get();
         return view('elight::index', [
             'newestBlog' => $newestBlog,
             'newestTop3' => $newestTop3,
+            'blogSection' => $blogSection,
             'blogSection1' => $blogSection1,
             'blogSection2' => $blogSection2,
             'books' => $books,
