@@ -13,9 +13,9 @@ class CurrencyContainer extends React.Component {
         this.showAddEditCurrencyModal = this.showAddEditCurrencyModal.bind(this);
     }
 
-        componentWillMount() {
-            this.props.currencyAction.loadAllCurrencies();
-        }
+    componentWillMount() {
+        this.props.currencyAction.loadAllCurrencies();
+    }
 
     showAddEditCurrencyModal(currency) {
         this.props.currencyAction.handleCurrency(currency);

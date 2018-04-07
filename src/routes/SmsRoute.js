@@ -2,6 +2,7 @@ import CampaignContaier from '../modules/campaign/CampaignContainer';
 import CampaignComponent from '../modules/campaign/CampaignComponent';
 import HistoryComponent from '../modules/campaign/HistoryComponent';
 import ReceiversComponent from '../modules/campaign/ReceiversComponent';
+import CampaignListContainer from "../modules/campaignList/CampaignListContainer";
 
 /**
  * Tab Quản lý tin nhắn Sms
@@ -9,7 +10,7 @@ import ReceiversComponent from '../modules/campaign/ReceiversComponent';
 export default [
     {
         path: "/sms/campaign-list",
-        // component: CampaignListContainer
+        component: CampaignListContainer
     },
     {
         path: "/sms/campaign",
@@ -22,14 +23,14 @@ export default [
             },
             {
                 path: "receivers",
-                component:ReceiversComponent
+                component: ReceiversComponent
             },
             {
                 path: "history",
-                component:HistoryComponent
+                component: HistoryComponent
             }
         ]
-                // component:
-            },
-        ];
+        // component:
+    },
+];
 
