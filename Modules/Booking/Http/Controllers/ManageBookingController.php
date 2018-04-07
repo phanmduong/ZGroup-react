@@ -15,6 +15,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Room;
+use Carbon\Carbon;
+use App\RoomServiceRegisterRoom;
 
 class ManageBookingController extends ManageApiController
 {
@@ -98,7 +100,12 @@ class ManageBookingController extends ManageApiController
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($registers, [
             'room_service_registers' => $registers->map(function ($register) {
-                return $register->getData();
+                $data = $register->getData();
+                $register = RoomServiceRegister::where('user_id', $register->id)->where('type', 'member')->where('start_time', '<>', null)
+                    ->where('end_time', '<>', null)
+                    ->where('end_time', '>', date('Y-m-d H:i:s'))->first();
+                $data['is_member'] = ($register != null);
+                return $data;
             })
         ]);
     }
@@ -330,23 +337,22 @@ class ManageBookingController extends ManageApiController
 
     public function validateDate($date, $format = 'Y-m-d H:i:s')
     {
-        $d = DateTime::createFromFormat($format, $date);
+        $d = Carbon::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
 
-    public function assignTime($registerId, $request)
+    public function assignTime($registerId, Request $request)
     {
         if ($register = RoomServiceRegister::find($registerId));
         if ($register == null)
             return $this->respondErrorWithStatus('Không tồn tại đặt phòng');
-        if ($request->room_id == null)
-            return $this->respondErrorWithStatus('Thiếu phòng');
-        if($this->validateDate($request->start_time) == false || $this->validateDate($request->end_time) == false)
+        if ($this->validateDate($request->start_time) == false || $this->validateDate($request->end_time) == false)
             return $this->respondErrorWithStatus('Nhập ngày tháng đúng định dạng Y-m-d H:i:s');
-        $register->rooms->attach($request->room_id, [
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-        ]);
+            
+        $registerRoom = RoomServiceRegisterRoom::where('room_service_register_id', $register->id)->first();
+
+        $registerRoom->start_time = $request->start_time;
+        $registerRoom->end_time = $request->end_time;
         return $this->respondSuccess('Thêm thành công');
     }
 

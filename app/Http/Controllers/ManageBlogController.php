@@ -132,7 +132,7 @@ class ManageBlogController extends ManageApiController
         if ($q) {
             $posts = $posts->where('products.title', 'like', '%' . $q . '%');
         }
-        $posts = $posts->orderBy('created_at', 'desc')->groupBy('products.id')->paginate($limit);
+        $posts = $posts->orderBy('products.created_at', 'desc')->groupBy('products.id')->paginate($limit);
         $data = [
             'posts' => $posts->map(function ($post) {
                 $data = [
