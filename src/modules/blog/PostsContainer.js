@@ -165,22 +165,24 @@ class BlogsContainer extends React.Component {
                                         placeholder="Tìm kiếm tiêu đề"
                                     />
                                 </div>
-                                <div className="col-md-2">
-                                    <Select
-                                        category_id={this.state.category_id}
-                                        loadByCategory={this.loadByCategories}
-                                        categoriesList={this.props.categoriesList}
-                                    />
-                                </div>
+
+                                <ListPost
+                                    openModal={this.openModal}
+                                    handleSwitch={this.handleSwitch}
+                                    deletePost={this.deletePost}
+                                    posts={this.props.posts}
+                                    loadPosts={this.loadPosts}
+                                    // loadByCategories={this.loadByCategories}
+                                />
                             </div>
 
-                            <ListPost
-                                openModal={this.openModal}
-                                handleSwitch={this.handleSwitch}
-                                deletePost={this.deletePost}
-                                posts={this.props.posts}
-                                loadPosts={this.loadPosts}
-                                // loadByCategories={this.loadByCategories}
+                        </div>
+
+                        <div className="card-content">
+                            <Pagination
+                                totalPages={this.props.totalPages}
+                                currentPage={this.state.page}
+                                loadDataPage={this.loadPosts}
                             />
                         </div>
                     </div>
