@@ -125,14 +125,14 @@ class ManageBlogController extends ManageApiController
         $q = trim($request->search);
         $category_id = $request->category_id;
         $limit = 20;
-        $posts = Product::query();
+        $posts = Product::leftJoin('product_category_product', 'product_category_product.product_id', '=', 'products.id');
         if ($category_id) {
-            $posts = $posts->where('category_id', $category_id);
+            $posts = $posts->where('product_category_product.category_product_id', $category_id);
         }
         if ($q) {
-            $posts = $posts->where('title', 'like', '%' . $q . '%');
+            $posts = $posts->where('products.title', 'like', '%' . $q . '%');
         }
-        $posts = $posts->orderBy('created_at', 'desc')->paginate($limit);
+        $posts = $posts->orderBy('created_at', 'desc')->groupBy('products.id')->paginate($limit);
         $data = [
             'posts' => $posts->map(function ($post) {
                 $data = [
