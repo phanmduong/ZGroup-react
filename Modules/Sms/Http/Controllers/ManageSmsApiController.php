@@ -89,6 +89,21 @@ class ManageSmsApiController extends ManageApiController
         ]);
     }
 
+    public function changeCampaignStatus($campaignId, Request $request)
+    {
+        $campaign = SmsList::find($campaignId);
+        if ($campaign == null) {
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại chiến dịch này'
+            ]);
+        }
+        $campaign->status = $request->status;
+        $campaign->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Thay đổi trạng thái thành công'
+        ]);
+    }
+
     public function createTemplate($campaignId, Request $request)
     {
         $template = new SmsTemplate;

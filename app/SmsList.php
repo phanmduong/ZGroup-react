@@ -35,8 +35,8 @@ class SmsList extends Model
             "name" => $this->name ? $this->name : '',
             "description" => $this->description ? $this->description : '',
             "status" => $this->status,
-            "sms_campaign_type_id" => $this->sms_campaign_type_id,
-            "budget" => 0
+            "budget" => 0,
+            "needed_quantity" => $this->needed_quantity,
         ];
     }
 }
