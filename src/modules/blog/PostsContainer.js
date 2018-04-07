@@ -22,7 +22,7 @@ import StorePostModal from "./StorePostModal";
 class BlogsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.postsSearchChange = this.postsSearchChange.bind(this);
+        this.loadByText = this.loadByText.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.loadPosts = this.loadPosts.bind(this);
         this.loadByCategories = this.loadByCategories.bind(this);
@@ -72,7 +72,7 @@ class BlogsContainer extends React.Component {
         );
     }
 
-    postsSearchChange(value) {
+    loadByText(value) {
         this.setState({
             page: 1,
             query: value,
@@ -156,7 +156,7 @@ class BlogsContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-10">
                                     <Search
-                                        onChange={this.postsSearchChange}
+                                        onChange={this.loadByText}
                                         value={this.state.query}
                                         placeholder="Tìm kiếm tiêu đề"
                                     />
@@ -165,9 +165,7 @@ class BlogsContainer extends React.Component {
                                     <Select
                                         category_id={this.state.category_id}
                                         loadByCategory={this.loadByCategories}
-                                        catetrugoriesList={
-                                            this.props.categoriesList
-                                        }
+                                        categoriesList={this.props.categoriesList}
                                     />
                                 </div>
                             </div>
@@ -178,7 +176,7 @@ class BlogsContainer extends React.Component {
                                 deletePost={this.deletePost}
                                 posts={this.props.posts}
                                 loadPosts={this.loadPosts}
-                                loadByCategories={this.loadByCategories}
+                                // loadByCategories={this.loadByCategories}
                             />
                         </div>
 
