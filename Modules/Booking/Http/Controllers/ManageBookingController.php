@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Room;
 use Carbon\Carbon;
+use App\RoomServiceRegisterRoom;
 
 class ManageBookingController extends ManageApiController
 {
@@ -347,10 +348,11 @@ class ManageBookingController extends ManageApiController
             return $this->respondErrorWithStatus('Không tồn tại đặt phòng');
         if ($this->validateDate($request->start_time) == false || $this->validateDate($request->end_time) == false)
             return $this->respondErrorWithStatus('Nhập ngày tháng đúng định dạng Y-m-d H:i:s');
-        $register->rooms()->attach(4, [
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-        ]);
+            
+        $registerRoom = RoomServiceRegisterRoom::where('room_service_register_id', $register->id)->first();
+
+        $registerRoom->start_time = $request->start_time;
+        $registerRoom->end_time = $request->end_time;
         return $this->respondSuccess('Thêm thành công');
     }
 
