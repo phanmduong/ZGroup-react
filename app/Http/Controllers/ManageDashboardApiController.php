@@ -190,6 +190,8 @@ class ManageDashboardApiController extends ManageApiController
         }
 
         $total_paid_personal = $this->user->sale_registers()->where('gen_id', $gen->id)->where('money', '>', '0')->count();
+        $sum_paid_personal = $this->user->sale_registers()->where('gen_id', $gen->id)->where('money', '>', '0')->select(DB::raw("sum(money) as sum_personal_money"))->first()->sum_personal_money;
+        // dd($sum_paid_personal);
         // tính bonus tiền
         $bonus = compute_sale_bonus_array($total_paid_personal)[0];
 
@@ -280,7 +282,8 @@ class ManageDashboardApiController extends ManageApiController
         $data['date_array'] = $date_array;
         $data['money_by_date'] = $money_by_date;
         $data['money_today'] = $money_today;
-
+        $data["sum_paid_personal"] = currency_vnd_format((int)$sum_paid_personal);
+        
         $rating = $this->dashboardRepository->ratingUser($this->user);
         $user = $this->user;
 
