@@ -37,6 +37,7 @@ class SmsList extends Model
             "status" => $this->status,
             "budget" => 0,
             "needed_quantity" => $this->needed_quantity,
+            "sent_quantity" => $this->templates->count()
         ];
     }
 }
