@@ -96,9 +96,9 @@ class ManageBlogController extends ManageApiController
         }
 
         $arr_ids = json_decode($request->categories);
-        $course->productCategories()->detach();
+        $product->productCategories()->detach();
         foreach ($arr_ids as $arr_id)
-            $course->productCategories()->attach($arr_id->id);
+            $product->productCategories()->attach($arr_id->id);
 
         $product->save();
         return $this->respondSuccessWithStatus([
