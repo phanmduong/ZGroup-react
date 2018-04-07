@@ -113,7 +113,7 @@ class ManageBlogController extends ManageApiController
         if ($post) {
             $post->url = generate_protocol_url($post->url);
             return $this->respondSuccessWithStatus([
-                'post' => $post
+                'post' => $post->blogDetailTransform()
             ]);
         } else {
             return $this->respondErrorWithStatus('Bài viết không tồn tại');
@@ -135,7 +135,28 @@ class ManageBlogController extends ManageApiController
         $posts = $posts->orderBy('created_at', 'desc')->paginate($limit);
         $data = [
             'posts' => $posts->map(function ($post) {
-                return $post->blogDetailTransform();
+                $data = [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'status' => $post->status,
+                    'image_url' => $post->url,
+                    'thumb_url' => $post->thumb_url,
+                    'description' => $post->description,
+                    'author' => [
+                       'id' => $post->author->id,
+                       'name' => $post->author->name,
+                       'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : 'http://colorme.vn/img/user.png',
+                    ],
+                    'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
+                ];
+                if ($post->category) {
+                    $data['category'] = [
+                        'id' => $post->category->id,
+                        'name' => $post->category->name,
+                    ];
+                }
+
+                return $data;
             })
         ];
         return $this->respondWithPagination($posts, $data);
