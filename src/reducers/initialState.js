@@ -23,6 +23,7 @@ export default {
             send_time:'',
         },
         template_types:[],
+        isSavingMessage:false,
         upMessage: false,
         addMessageModal: false,
         addReceiverModal: false,
