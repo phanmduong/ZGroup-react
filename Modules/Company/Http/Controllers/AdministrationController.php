@@ -53,7 +53,7 @@ class AdministrationController extends ManageApiController
         $requestVacation->type = $request->type;
         $requestVacation->reason = $request->reason;
 
-        $request->save();
+        $requestVacation->save();
 
         $ppp = DateTime::createFromFormat('Y-m-d', $requestVacation->created_at);
         $day = date_format($ppp, 'd');
