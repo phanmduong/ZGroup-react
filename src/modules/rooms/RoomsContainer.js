@@ -106,7 +106,13 @@ class RoomsContainer extends React.Component {
                 <div className="container-fluid">
                     <EditRoomModalContainer/>
                     <RoomTypeManageModal/>
-                    <div className="card">
+                    <Select
+                        defaultMessage={'Chọn cơ sở'}
+                        options={this.state.bases}
+                        value={this.state.selectBaseId}
+                        onChange={this.onChangeBase}
+                    />
+                    <div className="card" style={{marginTop: 15}}>
                         <div className="card-content">
                              <div className="tab-content">
                                 <div className="flex-row flex">
@@ -125,12 +131,6 @@ class RoomsContainer extends React.Component {
                                     onChange={this.roomsSearchChange}
                                     value={this.state.query}
                                     placeholder="Tìm kiếm tên phòng, cơ sở"
-                                />
-                                <Select
-                                    defaultMessage={'Chọn cơ sở'}
-                                    options={this.state.bases}
-                                    value={this.state.selectBaseId}
-                                    onChange={this.onChangeBase}
                                 />
                             </div>
 

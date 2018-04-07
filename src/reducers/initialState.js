@@ -8,15 +8,32 @@ export default {
         totalCount: 0
     },
 
-    smsCampaign: {
-        allMessage: [],
-        message: {
-            name: '',
-            content: '',
+    blogType:{
+        isUpdatingEditModal:false,
+        isLoading:false,
+        isSaving:false,
+        totalCount: 1,
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        addEditBlogTypeModal: false,
+        blogTypes:[],
+        blogTypeModal:{
+            name:'',
+        }
+    },
+
+    smsCampaign:{
+        allMessage:[],
+        message:{
+            name:'',
+            content:'',
             sms_template_type_id: '',
             send_time: '',
         },
-        template_types: [],
+
+        template_types:[],
+        isSavingMessage:false,
         upMessage: false,
         addMessageModal: false,
         addReceiverModal: false,
@@ -26,6 +43,7 @@ export default {
         totalPages: 1,
         totalCount: 1,
     },
+
     labelManage: {
         isLoading: false,
         courseCategories: [],

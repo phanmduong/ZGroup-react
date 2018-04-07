@@ -145,10 +145,11 @@ class CampaignComponent extends React.Component {
                                                                     <i className="material-icons">edit</i>
                                                                 </a></TooltipButton>
                                                             </div>
-                                                            <TooltipButton placement="top"
-                                                                           text={`Xóa`}>
-                                                                <a><i className="material-icons">delete</i>
-                                                                </a></TooltipButton>
+                                                             {/*Thao tác xóa tin nhắn*/}
+                                                            {/*<TooltipButton placement="top"*/}
+                                                                           {/*text={`Xóa`}>*/}
+                                                                {/*<a><i className="material-icons">delete</i>*/}
+                                                                {/*</a></TooltipButton>*/}
                                                         </div>
                                                     </td>
                                                 </tr>

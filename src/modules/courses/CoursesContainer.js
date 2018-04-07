@@ -113,6 +113,7 @@ class CoursesContainer extends React.Component {
                                                 deleteCourse={this.deleteCourse}
                                                 changeStatusCourse={this.changeStatusCourse}
                                                 duplicateCourse={this.duplicateCourse}
+                                                query={this.state.query}
                                             />
                                         }
                                         <ul className="pagination pagination-primary">

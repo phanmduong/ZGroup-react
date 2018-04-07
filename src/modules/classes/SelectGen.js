@@ -17,18 +17,19 @@ class Select extends React.Component {
 
     render() {
         return (
-            <select
-                name={this.props.name}
-                value={this.props.value}
-                onChange={(event) => this.props.onChange(event.target.value)}
-                className="selectpicker"
-                data-style="btn btn-rose btn-round">
-                <option selected disabled>{this.props.defaultMessage || "Please select"}</option>
-                {this.props.options.map((option, index) => {
-                    return <option key={index} value={option.id}>{option.id === 0 ? option.name : 'Khóa ' + option.name}</option>;
-                })}
-            </select>
-
+            <div style={{marginBottom: -10}}>
+                <select
+                    name={this.props.name}
+                    value={this.props.value}
+                    onChange={(event) => this.props.onChange(event.target.value)}
+                    className="selectpicker"
+                    data-style="btn btn-rose btn-round">
+                    <option selected disabled>{this.props.defaultMessage || "Please select"}</option>
+                    {this.props.options.map((option, index) => {
+                        return <option key={index} value={option.id}>{option.id === 0 ? option.name : 'Khóa ' + option.name}</option>;
+                    })}
+                </select>
+            </div>
         );
     }
 }

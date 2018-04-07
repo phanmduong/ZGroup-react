@@ -26,6 +26,7 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
         case types.BEGIN_SAVE_MESSAGE:
             return {
                 ...state,
+                isSavingMessage:true,
                 upMessage: true
             };
         case types.SAVE_MESSAGE_SUCCESS: {
@@ -40,6 +41,7 @@ export default function smsCampaignReducer(state = initialState.smsCampaign, act
             };
             return {
                 ...state,
+                isSavingMessage:false,
                 upMessage: false,
                 addMessageModal: false,
                 allMessage: [message, ...state.allMessage]

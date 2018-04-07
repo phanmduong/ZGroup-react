@@ -30,10 +30,14 @@ class AddMessageModal extends React.Component{
             if (helper.isEmptyInput(message.send_time)) helper.showErrorNotification("Bạn cần chọn Ngày gửi");
         } else
             if(!message.template_id) {
-                this.props.campaignAction.saveMtemplate_idessage(message);
-                this.props.campaignAction.loadAllMessage(1);
+                this.props.campaignAction.saveMessage(message);
             }
             else this.props.campaignAction.editMessage(message);
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSavingMessage !== this.props.isSavingMessage && !nextProps.isSavingMessage) {
+            this.props.campaignAction.loadAllMessage(1);
+        }
     }
     upMessage(e){
         const field = e.target.name;
@@ -71,6 +75,7 @@ class AddMessageModal extends React.Component{
                                 </div>
                                 <div className="col-md-6">
                                     <FormInputDate
+                                        type="string"
                                         label="Ngày gửi tin"
                                         name="send_time"
                                         updateFormData={this.upMessage}
@@ -137,6 +142,7 @@ AddMessageModal.propTypes  = {
     campaignAction:PropTypes.object.isRequired,
     message:PropTypes.object.isRequired,
     template_types:PropTypes.array.isRequired,
+    isSavingMessage:PropTypes.bool.isRequired,
 };
 function mapStateToProps(state) {
     return{
@@ -144,6 +150,7 @@ function mapStateToProps(state) {
         message:state.smsCampaign.message,
         upMessage: state.smsCampaign.upMessage,
         addMessageModal: state.smsCampaign.addMessageModal,
+        isSavingMessage: state.smsCampaign.isSavingMessage,
     };
 }
 function mapDispatchToProps(dispatch) {

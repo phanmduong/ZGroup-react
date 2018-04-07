@@ -217,6 +217,7 @@ class AttendanceStaffsContainer extends React.Component {
                                     :
                                     <div className="col-sm-2 col-xs-5">
                                         <button
+                                            style={{width: '100%'}}
                                             onClick={this.exportExcel}
                                             className="btn btn-info btn-rose btn-round"
                                         >
@@ -229,13 +230,13 @@ class AttendanceStaffsContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="rose">
-                                                <i className="material-icons">filter_list</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Bộ lọc
-                                                    <small/>
-                                                </h4>
+                                                <div className="tab-content">
+                                                    <h4 className="card-title">
+                                                        <strong>Bộ lọc</strong>
+                                                    </h4>
+                                                </div>
+                                                <br/>    
                                                 <div className="row">
                                                     <div className="col-md-3 col-xs-5">
                                                         <FormInputDate

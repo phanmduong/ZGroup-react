@@ -120,7 +120,7 @@ class GensContainer extends React.Component {
                                         <h4 className="card-title">
                                             <strong style={{marginLeft: 6}}>Danh sách khóa học</strong>
                                         </h4>
-                                        <br/><br/>
+                                        <br/>
                                         {this.props.isLoading ? <Loading/> :
                                             <ListGen
                                                 gens={this.props.gens}
