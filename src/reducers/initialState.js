@@ -1,5 +1,19 @@
 
 export default {
+    blogType:{
+        isUpdatingEditModal:false,
+        isLoading:false,
+        isSaving:false,
+        totalCount: 1,
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        addEditBlogTypeModal: false,
+        blogTypes:[],
+        blogTypeModal:{
+            name:'',
+        }
+    },
     smsCampaign:{
         allMessage:[],
         message:{
