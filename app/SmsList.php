@@ -29,10 +29,11 @@ class SmsList extends Model
             "id" => $this->id,
             "user" => [
                 "id" => $this->user->id,
-                "avatar_url" => $this->user->avatar_url
+                "avatar_url" => $this->user->avatar_url,
+                "name" => $this->user->name
             ],
-            "name" => $this->name,
-            "description" => $this->description,
+            "name" => $this->name || '',
+            "description" => $this->description || '',
             "status" => $this->status,
             "sms_campaign_type_id" => $this->sms_campaign_type_id,
             "budget" => 0
