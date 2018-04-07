@@ -24,15 +24,17 @@ $routes = function () {
     Route::get('/{slug}', 'UpCoworkingSpaceController@postBySlug');
 
     //En
-    Route::get('/en/meeting-room', 'UpCoworkingSpaceController@conferenceRoom');
-    Route::get('/en/meeting-room/{conferenceRoomId}', 'UpCoworkingSpaceController@conferenceRoom');
-    Route::get('/en/membership/{userId?}/{campaignId?}', 'UpCoworkingSpaceController@memberRegister');
-    Route::get('/en/event', 'UpCoworkingSpaceController@event');
-    Route::get('/en/event/{slug}', 'UpCoworkingSpaceController@eventDetail');
-    Route::get('/en/event/{slug}/sign-up-form', 'UpCoworkingSpaceController@eventSignUpForm');
     Route::get('/en/mission-and-vision','UpCoworkingSpaceController@missionAndVision');
-    Route::get('/en/media-partner','UpCoworkingSpaceController@partner');
-
+    Route::get('/en/media-partner','UpCoworkingSpaceController@media');
+    Route::get('/en/faqs','UpCoworkingSpaceController@faqs');
+    Route::get('/en/jobs-vacancies','UpCoworkingSpaceController@talentAcquisition');
+    Route::get('/en/membership','UpCoworkingSpaceController@memberRegister');
+    Route::get('/en/event', 'UpCoworkingSpaceController@event');
+    Route::get('/en/meeting-room', 'UpCoworkingSpaceController@conferenceRoom');
+    Route::get('/en/up-founder','UpCoworkingSpaceController@founders');
+    Route::get('/en/up-s-mentors','UpCoworkingSpaceController@mentors');
+    Route::get('/en/contact-us','UpCoworkingSpaceController@contact_us');
+    Route::get('/en/book-a-tour','UpCoworkingSpaceController@tour');
 };
 
 $publicRoutes = function () {

@@ -1,6 +1,98 @@
 @extends('upcoworkingspace::layouts.master')
 
-@section('content')
+@section('vi-content')
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <div class="container">
+        <div class="row" style="margin-top:150px">
+            <div class="blog-4">
+                <div class="container">
+
+                    <div class="row">
+                        @foreach($events as $event)
+                            <div class="col-md-4" style="margin-bottom: 20px">
+                                <div class="card card-blog">
+                                    <div class="card-image" >
+                                        <a href="{{'/events/' . $event->slug}}">
+                                            <div style="width: 100%;
+                                                    border-bottom-right-radius: 0;
+                                                    border-bottom-left-radius: 0;
+                                                    border-top-right-radius: 15px;
+                                                    border-top-left-radius: 15px;
+                                                    background: url({{$event->avatar_url}});
+                                                    background-size: cover;
+                                                    background-position: center;
+                                                    padding-bottom: 56%;">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h5 style="min-height: 50px">
+                                        <a href="{{'/events/' . $event->slug}}" class="card-category text-main-color">{{$event->name}}</a>
+                                    </h5>
+                                    <p class="card-description" style="color: #4a4a4a">
+                                        <i class="fa fa-calendar text-main-color" aria-hidden="true"></i>
+                                        {{ Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }}
+                                        @if($event->end_date != $event->start_date)
+                                            <span > - {{ Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</span>
+                                        @endif
+                                    </p>
+                                    <p class="card-description" style="color: #4a4a4a">
+                                        <i class="fa fa-clock-o text-main-color" aria-hidden="true"></i>
+                                        {{ Carbon\Carbon::parse($event->start_time)->format('H:i') }}
+                                        @if($event->end_time != $event->start_time)
+                                            <span > - {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
+                                        @endif
+                                    </p>
+                                    <br>
+                                </div>
+                            </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="row" style="background-color: #ffffff; padding: 20px">
+                        <div id="loading">
+                                                            @include('upcoworkingspace::includes.loading')
+
+                        </div>
+                        <div id='calendar'></div>
+                    </div>
+                    <br>
+                    <hr>
+
+                    <div id="pagination-events">
+                        <div class="pagination-area">
+                            <ul class="pagination pagination-primary justify-content-center">
+                                <li class="page-item">
+                                    <a href="/su-kien?page=1&search={{$search}}" class="page-link">
+                                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li v-for="page in pages"
+                                    v-bind:class="'page-item ' + (page=={{$current_page}} ? 'active' : '')">
+                                    <a v-bind:href="'/su-kien?page='+page+'&search={{$search}}'" class="page-link">
+                                        @{{page}}
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="/su-kien?page={{$total_pages}}&search={{$search}}" class="page-link">
+                                        <i class="fa fa-angle-double-right" aria-hidden="true">
+                                        </i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+@endsection
+
+@section('en-content')
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <div class="container">
         <div class="row" style="margin-top:150px">
