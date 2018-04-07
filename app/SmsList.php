@@ -32,8 +32,8 @@ class SmsList extends Model
                 "avatar_url" => $this->user->avatar_url,
                 "name" => $this->user->name
             ],
-            "name" => $this->name || '',
-            "description" => $this->description || '',
+            "name" => $this->name ? $this->name : '',
+            "description" => $this->description ? $this->description : '',
             "status" => $this->status,
             "sms_campaign_type_id" => $this->sms_campaign_type_id,
             "budget" => 0
