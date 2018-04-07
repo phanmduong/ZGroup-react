@@ -4,6 +4,7 @@ namespace Modules\Lead\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
 use App\Repositories\UserRepository;
+use App\Repositories\CourseRepository;
 use App\User;
 use App\UserCarer;
 use Illuminate\Http\Request;
@@ -13,11 +14,13 @@ use Illuminate\Routing\Controller;
 class ManageLeadApiController extends ManageApiController
 {
     protected $userRepository;
+    protected $courseRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, CourseRepository $courseRepository)
     {
         parent::__construct();
         $this->userRepository = $userRepository;
+        $this->courseRepository = $courseRepository;
     }
 
     public function createLeads(Request $request)
@@ -105,6 +108,11 @@ class ManageLeadApiController extends ManageApiController
         $data = [
             'leads' => $leads->map(function ($lead) {
                 $user = $this->userRepository->student($lead);
+                $courses = $lead->registers()->where('registers.status',1)->join("classes", "registers.class_id","=","classes.id")
+                ->join("courses", "courses.id","=","classes.course_id")
+                ->select('courses.*')->distinct()->get();
+                
+                $user['courses']=$this->courseRepository->courses($courses);
                 $userCarer = UserCarer::where('user_id', $lead->id)->first();
                 if ($userCarer) {
                     $user['carer'] = $this->userRepository->staff($userCarer->carer);
