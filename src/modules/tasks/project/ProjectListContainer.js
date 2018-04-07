@@ -65,19 +65,22 @@ class ProjectListContainer extends React.Component {
                     <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
-                                <h4 className="card-title">
-                                    <strong>Dự án</strong>
-                                </h4>
-                                <br/>
-                                <div>
-                                    <Link to="/project/create" className="btn btn-rose">
-                                        Thêm dự án
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Dự án</strong>
+                                    </h4>
+                                    <div>
+                                        <Link to="/project/create" className="btn btn-primary btn-round btn-xs button-add none-margin">
+                                        <strong>+</strong>
                                     </Link>
-                                    <Link to="/project/archive" className="btn btn-default">
-                                        Dự án lưu trữ
+                                    </div>
+                                    <div>
+                                        <Link to="/project/archive" className="btn btn-primary btn-round btn-xs button-add none-margin">
+                                        <i className="material-icons" style={{fontWeight: "bold", margin:"1px -4px 0px -5px"}}>done</i>
                                     </Link>
+                                    </div>
                                 </div>
-
+                            </div> 
                                 <Search
                                     onChange={this.projectsSearchChange}
                                     value={this.state.query}
@@ -91,7 +94,7 @@ class ProjectListContainer extends React.Component {
                                         projects={this.props.projects}
                                     />
                                 }
-                            </div>    
+
                         </div>
                         <div className="card-content">
                             <ul className="pagination pagination-primary">

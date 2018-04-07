@@ -66,7 +66,6 @@ class CreateProjectContainer extends React.Component {
                         <div className="card-content">
                             <div className="tab-content">
                                 <h4 className="card-title"><strong>{this.state.header}</strong></h4>
-                                <br/>
                                 {this.props.isLoadingProject ? (
                                     <div className="card-content">
                                         <Loading/>

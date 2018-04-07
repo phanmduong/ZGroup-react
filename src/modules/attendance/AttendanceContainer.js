@@ -167,7 +167,7 @@ class AttendanceContainer extends React.Component {
 
             <div className="row">
                 {this.props.isLoading ? <Loading/> :
-                    <div className="col-md-12">
+                    <div>
                         {this.props.isLoadingBases || this.props.isLoadingGens
                             ?
                             <Loading/>
@@ -191,48 +191,50 @@ class AttendanceContainer extends React.Component {
                                     /></div>
                             </div>
                         }
-                        <div className="card">
-                            <div className="card-content">
-                                <div className="tab-content">
-                                    <h4 className="card-title">
-                                        <strong>Danh sách lớp</strong>
-                                    </h4>
-                                    <Search
-                                        onChange={this.classesSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm lớp"
-                                    />
-                                    <ListClassComponent
-                                        classes={this.props.data.classes}
-                                        isLoading={this.props.isLoading}
-                                        searchByTeacher={this.loadClasses}
-                                        openModalLesson={this.openModalLesson}
-                                    />
-                                    <ul className="pagination pagination-primary">
-                                        {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
-                                            if (Number(this.state.page) === page) {
-                                                return (
-                                                    <li key={page} className="active">
-                                                        <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
-                                                            {page}
-                                                        </a>
-                                                    </li>
-                                                );
-                                            } else {
-                                                return (
-                                                    <li key={page}>
-                                                        <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
-                                                            {page}
-                                                        </a>
-                                                    </li>
-                                                );
-                                            }
+                        <div className="col-xs-12">
+                            <div className="card" style={{marginTop: 15}}>
+                                <div className="card-content">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Danh sách lớp</strong>
+                                        </h4>
+                                        <Search
+                                            onChange={this.classesSearchChange}
+                                            value={this.state.query}
+                                            placeholder="Tìm kiếm lớp"
+                                        />
+                                        <ListClassComponent
+                                            classes={this.props.data.classes}
+                                            isLoading={this.props.isLoading}
+                                            searchByTeacher={this.loadClasses}
+                                            openModalLesson={this.openModalLesson}
+                                        />
+                                        <ul className="pagination pagination-primary">
+                                            {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
+                                                if (Number(this.state.page) === page) {
+                                                    return (
+                                                        <li key={page} className="active">
+                                                            <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                                {page}
+                                                            </a>
+                                                        </li>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <li key={page}>
+                                                            <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                                {page}
+                                                            </a>
+                                                        </li>
+                                                    );
+                                                }
 
-                                        })}
-                                    </ul>
-                                </div>    
+                                            })}
+                                        </ul>
+                                    </div>    
+                                </div>
                             </div>
-                        </div>
+                        </div>    
                     </div>
                 }
             </div>

@@ -67,11 +67,11 @@ class LandingPageContainer extends React.Component {
                                                 <strong>Danh sách Landing Page</strong>
                                             </h5>
                                             <div>
-                                                <button
+                                                <a
                                                     className="btn btn-primary btn-round btn-xs button-add none-margin"
                                                     type="button" href="/build-landing-page">
                                                     <strong>+</strong>
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
                                         <Search
