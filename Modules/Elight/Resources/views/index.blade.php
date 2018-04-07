@@ -164,7 +164,7 @@
         </div>
         <div class="col-md-6">
             <div class="card card-plain card-blog">
-                @if($blogSection)
+                @if(sizeof($blogSection)>0)
                 <div class="card-image">
                     <a href="/blog/post/{{$blogSection[0]->id}}">
                         <div style="width: 100%;
