@@ -102,7 +102,7 @@ class ManageBlogController extends ManageApiController
 
         $product->save();
         return $this->respondSuccessWithStatus([
-            'product' => $product->blogDetailTransform()
+            'product' => $product
         ]);
     }
 
@@ -135,28 +135,7 @@ class ManageBlogController extends ManageApiController
         $posts = $posts->orderBy('created_at', 'desc')->paginate($limit);
         $data = [
             'posts' => $posts->map(function ($post) {
-                $data = [
-                    'id' => $post->id,
-                    'title' => $post->title,
-                    'status' => $post->status,
-                    'image_url' => $post->url,
-                    'thumb_url' => $post->thumb_url,
-                    'description' => $post->description,
-                    'author' => [
-                       'id' => $post->author->id,
-                       'name' => $post->author->name,
-                       'avatar_url' => $post->author->avatar_url ? $post->author->avatar_url : 'http://colorme.vn/img/user.png',
-                    ],
-                    'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
-                ];
-                if ($post->category) {
-                    $data['category'] = [
-                        'id' => $post->category->id,
-                        'name' => $post->category->name,
-                    ];
-                }
-
-                return $data;
+                return $post->blogDetailTransform();
             })
         ];
         return $this->respondWithPagination($posts, $data);
