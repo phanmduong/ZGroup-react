@@ -54,6 +54,7 @@ export default function labelManageReducer(state = initialState.blogType, action
             });
             return {
                 ...state,
+                isUpdatingEditModal:false,
                 addEditBlogTypeModal: false,
                 blogTypes: blogs
             };
