@@ -602,6 +602,7 @@ export function changeOrderCourse(course,order,callback) {
                     });
                     helper.showNotification('Đổi thứ tự thành công!');
                     callback();
+                    
                 }else {
                     helper.showNotification('Đổi thứ tự thất bại!');
                 }

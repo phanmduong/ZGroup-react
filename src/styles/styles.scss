@@ -923,7 +923,6 @@ a.btn-seat.active {
 }
 
 
-
 .nav-pills-rose > .active > a {
     background-color: rgba(197, 0, 0, 1) !important;
 }
@@ -934,22 +933,13 @@ a.btn-seat.active {
     padding: 0px 5px 1px 0px
 }
 
-.button-plus {
-  border-radius: 50%;
-  border:none;
-  background-color: #0b82fb;
-  color: white;
-  line-height: 0;
-  padding: 0px;
-  margin-left: 12px
-}
 
-.dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active {
-  background-color: rgba(197, 0, 0, 1)!important;
-}
 
 .campaign-content{
   background-color: white;
   padding: 30px 30px 90px 30px;
   margin-bottom: 30px;
+}
+.modal-title {
+    font-weight: bold
 }

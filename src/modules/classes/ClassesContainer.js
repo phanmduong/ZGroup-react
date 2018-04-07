@@ -186,6 +186,13 @@ class ClassesContainer extends React.Component {
                     <Modal.Body><Loading/></Modal.Body>
                 </Modal>
                 <div className="container-fluid">
+                    <Select
+                        options={this.state.gens}
+                        onChange={this.changeGens}
+                        value={this.state.selectGenId}
+                        defaultMessage="Chọn khóa học"
+                        name="gens"
+                    />
                     <div className="card">
                         <div className="card-content">
                             <div className="tab-content">
@@ -206,13 +213,7 @@ class ClassesContainer extends React.Component {
                                     value={this.state.query}
                                     placeholder="Tìm kiếm lớp học"
                                 />
-                                <Select
-                                    options={this.state.gens}
-                                    onChange={this.changeGens}
-                                    value={this.state.selectGenId}
-                                    defaultMessage="Chọn khóa học"
-                                    name="gens"
-                                />
+                                
                                 {/* Code của anh Dương :
                                 {
                                     this.props.isCreateClass ?

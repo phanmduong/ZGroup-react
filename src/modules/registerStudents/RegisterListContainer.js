@@ -739,66 +739,71 @@ class RegisterListContainer extends React.Component {
     render() {
         return (
             <div id="page-wrapper">
-                <div className="container-fluid">
-                    <button
-                        onClick={this.showLoadingModal}
-                        className="btn btn-info btn-rose btn-round"
-                        style={{float: "right"}}
-                        disabled={
-                            this.props.isLoadingGens ||
-                            this.props.isLoadingClassFilter ||
-                            this.props.isLoading ||
-                            this.props.isLoadingRegisters ||
-                            this.props.isLoadingBaseFilter ||
-                            this.props.isLoadingExcel
+                <div className="row">
+                    <div className="col-sm-3 col-xs-5">
+                        {
+                            (this.state.selectGenId && this.state.selectGenId >= 0) &&
+                            <Select
+                                options={this.state.gens}
+                                onChange={this.changeGens}
+                                value={this.state.selectGenId}
+                                defaultMessage="Chọn khóa học"
+                                name="gens"
+                            />
                         }
-                    >
-                        <i className="material-icons">file_download</i>
-                        Xuất ra Excel
-                    </button>
-                    <div className="card">
+                    </div>
+                    <div className="col-sm-2 col-xs-5">
+                        <button
+                            style={{width: '100%'}}
+                            onClick={this.openFilterPanel}
+                            className="btn btn-info btn-rose btn-round"
+                            disabled={
+                                this.props.isLoadingGens ||
+                                this.props.isLoadingClassFilter ||
+                                this.props.isLoadingBaseFilter ||
+                                this.props.isLoading ||
+                                this.props.isLoadingRegisters
+                            }
+                        >
+                            <i className="material-icons">filter_list</i>
+                            Lọc
+                        </button>
+                    </div>
+                    <div className="col-sm-2 col-xs-5">
+                        <button
+                            style={{width: '100%'}}
+                            onClick={this.showLoadingModal}
+                            className="btn btn-info btn-rose btn-round"
+                            disabled={
+                                this.props.isLoadingGens ||
+                                this.props.isLoadingClassFilter ||
+                                this.props.isLoading ||
+                                this.props.isLoadingRegisters ||
+                                this.props.isLoadingBaseFilter ||
+                                this.props.isLoadingExcel
+                            }
+                        >
+                            <i className="material-icons">file_download</i>
+                            Xuất ra Excel
+                        </button>
+                    </div>
+                </div>
+                <div>        
+                    <div className="card" style={{marginTop:20}}>
                         <div className="card-content">
                             <div className="tab-content">
                                 <h4 className="card-title">
                                     <strong>{this.state.cardTitle}</strong>
                                 </h4>
-                                <br/>
                                 {this.props.isLoadingGens ? <Loading/> :
                                     <div>
-                                        {
-                                            (this.state.selectGenId && this.state.selectGenId >= 0) &&
-                                            <Select
-                                                options={this.state.gens}
-                                                onChange={this.changeGens}
-                                                value={this.state.selectGenId}
-                                                defaultMessage="Chọn khóa học"
-                                                name="gens"
-                                            />
-                                        }
                                         <div className="row">
                                             <Search
-                                                className="col-sm-10"
+                                                className="col-sm-12"
                                                 onChange={this.registersSearchChange}
                                                 value={this.state.query}
                                                 placeholder="Tìm kiếm học viên"
                                             />
-                                            <div className="col-sm-2 text-align-right">
-                                                <button
-                                                    onClick={this.openFilterPanel}
-                                                    className="btn btn-info btn-rose btn-round"
-                                                    disabled={
-                                                        this.props.isLoadingGens ||
-                                                        this.props.isLoadingClassFilter ||
-                                                        this.props.isLoadingBaseFilter ||
-                                                        this.props.isLoading ||
-                                                        this.props.isLoadingRegisters
-                                                    }
-                                                >
-                                                    <i className="material-icons">filter_list</i>
-                                                    Lọc
-                                                </button>
-
-                                            </div>
                                         </div>
                                         <Panel collapsible expanded={
                                             this.state.openFilterPanel

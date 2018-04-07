@@ -94,7 +94,7 @@ class BasesContainer extends React.Component {
                             <div className="tab-content">
                                 <div className="flex-row flex">
                                     <h4 className="card-title">
-                                        <strong>Danh sách nhân viên</strong>
+                                        <strong>Danh sách cơ sở</strong>
                                     </h4>
                                     <div>
                                         <button

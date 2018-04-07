@@ -9,7 +9,7 @@ const ProjectForm = ({updateFormData, project, error, submit, isSaving}) => {
         <form role="form">
 
             <FormInputText
-                placeholder="Nhập tên dự án"
+                // placeholder="Nhập tên dự án"
                 label="Tên dự án"
                 name="title"
                 updateFormData={updateFormData}
@@ -17,7 +17,7 @@ const ProjectForm = ({updateFormData, project, error, submit, isSaving}) => {
                 errorMessage="Vui lòng nhập tên dự án"
                 isNotValid={!isEmptyInput(error.title)}/>
             <FormInputText
-                placeholder="Nhập mô tả dự án"
+                // placeholder="Nhập mô tả dự án"
                 label="Mô tả dự án"
                 name="description"
                 updateFormData={updateFormData}

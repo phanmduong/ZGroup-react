@@ -21,13 +21,13 @@ class Select extends React.Component {
     }
     render(){
         return(
-            <div style={{marginTop: 5, marginLeft: -3}}>
+            <div style={{marginBottom: -15}}>
 
                 <select
                     value={this.props.category_id}
                     onChange={(event) => this.props.loadByCategory(event.target.value)}
                     className="selectpicker"
-                    data-style="btn btn-rose">
+                    data-style="btn btn-rose btn-round">
                     <option selected disabled value={-1}>{"Chọn theo nhóm"}
                     </option>
                     <option
