@@ -78,6 +78,11 @@ class Product extends Model
             ],
             "title" => $this->title,
             "category" => $this->category ? $this->category->name : null,
+            "thumb_url" => $this->thumb_url,
+            "slug" => $this->slug,
+            "meta_description" => $this->meta_description,
+            "meta_title" => $this->meta_title,
+            "keyword" => $this->keyword,
         ];
     }
 
