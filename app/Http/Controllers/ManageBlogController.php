@@ -102,7 +102,7 @@ class ManageBlogController extends ManageApiController
 
         $product->save();
         return $this->respondSuccessWithStatus([
-            'product' => $product
+            'product' => $product->blogDetailTransform()
         ]);
     }
 
