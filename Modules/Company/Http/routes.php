@@ -49,17 +49,18 @@ $companyRoutes = function () {
 
         Route::get('/history-debt/{company_id}','CompanyController@getHistoryDebt');
 
-        Route::get('/administration/advance-payment/all','AdministrationController@getAllAdvancePayment');
-        Route::post('/administration/advance-payment','AdministrationController@createAdvancePayment');
-        Route::put('/administration/advance-payment/{advancePaymentId}','AdministrationController@editAdvancePayment');
-        Route::post('/administration/advance-payment/{advancePaymentId}/change-status','AdministrationController@changeStatusAdvancePayment');
-        Route::post('/administration/advance-payment/{advancePaymentId}/payment','AdministrationController@PaymentAdvance');
-
         Route::get('/administration/request-vacation/all','AdministrationController@getAllRequestVacation');
         Route::post('/administration/request-vacation','AdministrationController@createRequestVacation');
         Route::post('/administration/request-vacation/{requestId}/change-status','AdministrationController@changeStatusRequestVacation');
         Route::put('/administration/request-vacation/{requestId}','AdministrationController@editRequestVacation');
         
+
+
+        Route::get('/administration/advance-payment/all','AdministrationController@getAllAdvancePayment');
+        Route::post('/administration/advance-payment','AdministrationController@createAdvancePayment');
+        Route::put('/administration/advance-payment/{advancePaymentId}','AdministrationController@editAdvancePayment');
+        Route::post('/administration/advance-payment/{advancePaymentId}/change-status','AdministrationController@changeStatusAdvancePayment');
+        Route::post('/administration/advance-payment/{advancePaymentId}/payment','AdministrationController@PaymentAdvance');
 
         //Report model
         Route::get('/reports/all','AdministrationController@showReports');
