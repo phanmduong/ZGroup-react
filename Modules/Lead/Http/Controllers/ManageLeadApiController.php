@@ -110,7 +110,7 @@ class ManageLeadApiController extends ManageApiController
                 $user = $this->userRepository->student($lead);
                 $courses = $lead->registers()->where('registers.status',1)->join("classes", "registers.class_id","=","classes.id")
                 ->join("courses", "courses.id","=","classes.course_id")
-                ->select('courses.*')->distinct()->get();
+                ->select('courses.*')->orderBy('created_at')->distinct()->get();
                 
                 $user['courses']=$this->courseRepository->courses($courses);
                 $userCarer = UserCarer::where('user_id', $lead->id)->first();
