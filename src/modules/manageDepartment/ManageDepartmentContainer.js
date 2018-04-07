@@ -85,71 +85,79 @@ class ManageDepartmentContainer extends React.Component {
 
     render() {
         return (
-            <div className="col-lg-12">
-                <div className="card">
+            <div>
+                <div className="col-lg-12">
                     <HRTab path="manage-department"/>
-                    <div className="card-content">
-                        <div className="tab-content">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <button className="col-md-3 btn-rose btn"
-                                            onClick={this.openModalAddDepartment}
-                                    >Thêm bộ phận
+                </div>            
+                <div className="col-lg-12">
+                    <div className="card">
+                        <div className="card-content">
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h5 className="card-title">
+                                        <strong>Danh sách bộ phận</strong>
+                                    </h5>
+                                    <div>
+                                        <button
+                                        className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                        type="button" onClick={this.openModalAddDepartment}>
+                                        <strong>+</strong>
                                     </button>
-                                    <Search
-                                        onChange={() => {
-                                        }}
-                                        value={''}
-                                        placeholder="Tìm kiếm bộ phận"
-                                        className="col-md-8"
+                                    </div>
+                                </div>  
+                                <Search
+                                    onChange={() => {
+                                    }}
+                                    value={''}
+                                    placeholder="Tìm kiếm bộ phận"
+                                />
+                                <br/><br/>
+                                <div className="row">
+                                    <ListDepartments
+                                        isLoading={this.props.isLoading}
+                                        departments={this.props.data.departments}
+                                        edit={this.openModalEditDepartment}
+                                        delete={this.deleteDepartment}
                                     />
                                 </div>
-                            </div>
-                            <div className="row">
-                                <ListDepartments
-                                    isLoading={this.props.isLoading}
-                                    departments={this.props.data.departments}
-                                    edit={this.openModalEditDepartment}
-                                    delete={this.deleteDepartment}
-                                />
-                            </div>
-                            <ul className="pagination pagination-primary">
-                                {_.range(1, this.props.data.paginator.total_pages + 1).map(page => {
-                                    if (Number(this.props.data.paginator.page) === page) {
-                                        return (
-                                            <li key={page} className="active">
-                                                <a onClick={() => {
-                                                }}>{page}</a>
-                                            </li>
-                                        );
-                                    } else {
-                                        return (
-                                            <li key={page}>
-                                                <a onClick={() => {
-                                                }}>{page}</a>
-                                            </li>
-                                        );
-                                    }
+                                <ul className="pagination pagination-primary">
+                                    {_.range(1, this.props.data.paginator.total_pages + 1).map(page => {
+                                        if (Number(this.props.data.paginator.page) === page) {
+                                            return (
+                                                <li key={page} className="active">
+                                                    <a onClick={() => {
+                                                    }}>{page}</a>
+                                                </li>
+                                            );
+                                        } else {
+                                            return (
+                                                <li key={page}>
+                                                    <a onClick={() => {
+                                                    }}>{page}</a>
+                                                </li>
+                                            );
+                                        }
 
-                                })}
-                            </ul>
+                                    })}
+                                </ul>
+                            </div>    
                         </div>
                     </div>
+                    <AddDepartmentModal
+                        show={this.state.openModalAddDepartment}
+                        onHide={this.closeModalAddDepartment}
+                        addDepartment={this.addDepartment}
+                        isAddingDepartment={this.props.isLoading}
+                    />
+                    <EditDepartmentModal
+                        show={this.state.openModalEditDepartment}
+                        onHide={this.closeModalEditDepartment}
+                        editDepartment={this.editDepartment}
+                        isEditingDepartment={this.props.isLoading}
+                        data={this.state.editdata}
+                    />
                 </div>
-                <AddDepartmentModal
-                    show={this.state.openModalAddDepartment}
-                    onHide={this.closeModalAddDepartment}
-                    addDepartment={this.addDepartment}
-                    isAddingDepartment={this.props.isLoading}
-                />
-                <EditDepartmentModal
-                    show={this.state.openModalEditDepartment}
-                    onHide={this.closeModalEditDepartment}
-                    editDepartment={this.editDepartment}
-                    isEditingDepartment={this.props.isLoading}
-                    data={this.state.editdata}
-                />
-            </div>
+            </div>    
         );
     }
 }

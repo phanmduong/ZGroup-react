@@ -144,31 +144,30 @@ class StatisticAttendanceStaffs extends React.Component {
             this.props.setData(this.salesMarketings, this.teachers);
             return (
                 <div>
+                    <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
+                        <li className={this.state.tab === 1 ? "active nav-item" : "nav-item"}>
+                            <a style={{width:150}} onClick={() => this.setState({tab: 1})}>
+                                Giảng viên
+                                <div className="ripple-container"/>
+                            </a>
+                        </li>
+                        <li className={this.state.tab === 2 ? "active nav-item" : "nav-item"}>
+                            <a style={{width:150}} onClick={() => this.setState({tab: 2})}>
+                                Sales & Marketing
+                                <div className="ripple-container"/>
+                            </a>
+                        </li>
+                    </ul>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="card">
-                                <div className="card-header card-header-tabs" data-background-color="rose">
-                                    <div className="nav-tabs-navigation">
-                                        <div className="nav-tabs-wrapper">
-                                            <ul className="nav nav-tabs" data-tabs="tabs">
-                                                <li className={this.state.tab === 1 ? "active" : ""}>
-                                                    <a onClick={() => this.setState({tab: 1})}>
-                                                        Giảng viên
-                                                        <div className="ripple-container"/>
-                                                    </a>
-                                                </li>
-                                                <li className={this.state.tab === 2 ? "active" : ""}>
-                                                    <a onClick={() => this.setState({tab: 2})}>
-                                                        Sales & Marketing
-                                                        <div className="ripple-container"/>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className="card-content">
                                     <div className="tab-content">
+                                        <h5 className="card-title">
+                                            <strong>Thống kê điểm danh giảng viên</strong>
+                                        </h5>
+                                        <br/><br/>    
+                                        <br/>
                                         <div className="row">
                                             {
                                                 this.state.tab === 1 &&

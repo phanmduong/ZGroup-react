@@ -169,17 +169,17 @@ export function loadUserpacks() {
     };
 }
 
-export function addSubscription(register_id,select, closeModal) {
+export function addSubscription(register_id, select, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_SAVE_SUBSCRIPTION_IN_REGISTER,
         });
-        registerManageApi.saveSubscriptionApi(register_id,select)
+        registerManageApi.saveSubscriptionApi(register_id, select)
             .then((res) => {
                 if (res.data.status) {
                     dispatch({
                         type: types.SAVED_SUBSCRIPTION_SUCCESS_IN_REGISTER,
-                        register : res.data.data.register,
+                        register: res.data.data.register,
                     });
                     closeModal();
                     helper.showNotification("Lưu thành công");

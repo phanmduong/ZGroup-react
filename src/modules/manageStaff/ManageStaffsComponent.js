@@ -30,38 +30,39 @@ class ManageStaffsComponent extends React.Component {
         return (
             <div>
                 <div className="col-lg-12">
+                    <HRTab path="manage/quan-li-nhan-su"/>
+                </div>
+                <div className="col-lg-12">
                     <div className="card">
-                        <HRTab path="manage/quan-li-nhan-su"/>
                         <div className="card-content">
                             <div className="tab-content">
-                                <div className="row">
-                                    <div className="col-md-12">
-                                            <Link
-                                                className="btn btn-rose"
-                                                to="/hr/add-staff"
-                                            >
-                                                Tạo nhân viên
-                                            </Link>
-                                            <button
-                                                type="button"
-                                                className="btn btn-rose"
-                                                onClick={() => this.openModalAddUserToStaff()}
-                                            >
-                                                Thêm từ người dùng
-                                            </button>
-
+                                <div className="flex-row flex">
+                                    <h5 className="card-title">
+                                        <strong>Danh sách nhân viên</strong>
+                                    </h5>
+                                    <div className="dropdown">
+                                        <button
+                                            className="btn btn-primary btn-round btn-xs dropdown-toggle button-add none-margin"
+                                            type="button"
+                                            data-toggle="dropdown">
+                                            <strong>+</strong>
+                                        </button>
+                                        <ul className="dropdown-menu dropdown-primary">
+                                            <li>
+                                                <Link to="/hr/add-staff">Tạo nhân viên</Link>
+                                            </li>
+                                            <li>
+                                                <a onClick={() => this.openModalAddUserToStaff()}>Thêm từ người dùng</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-md-12">
-                                    <Search
+                                <Search
                                         onChange={this.props.staffsSearchChange}
                                         value={this.props.search}
                                         placeholder="Tìm kiếm nhân viên"
-                                        className="col-md-12"
                                     />
-                                    </div>
-                                </div>
+                                <br/><br/>    
                                 <div className="row">
                                     {this.props.isLoadingStaffs ? <Loading/> : (
                                         <ListStaff
@@ -79,25 +80,25 @@ class ManageStaffsComponent extends React.Component {
                                     )
                                     }
                                 </div>
-                            </div>
-                            <ul className="pagination pagination-primary">
-                                {_.range(1, this.props.totalPages + 1).map(page => {
-                                    if (Number(this.props.currentPage) === page) {
-                                        return (
-                                            <li key={page} className="active">
-                                                <a onClick={() => this.props.loadStaffs(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    } else {
-                                        return (
-                                            <li key={page}>
-                                                <a onClick={() => this.props.loadStaffs(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    }
+                                <ul className="pagination pagination-primary">
+                                    {_.range(1, this.props.totalPages + 1).map(page => {
+                                        if (Number(this.props.currentPage) === page) {
+                                            return (
+                                                <li key={page} className="active">
+                                                    <a onClick={() => this.props.loadStaffs(page)}>{page}</a>
+                                                </li>
+                                            );
+                                        } else {
+                                            return (
+                                                <li key={page}>
+                                                    <a onClick={() => this.props.loadStaffs(page)}>{page}</a>
+                                                </li>
+                                            );
+                                        }
 
-                                })}
-                            </ul>
+                                    })}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

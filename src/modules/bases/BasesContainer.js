@@ -89,37 +89,34 @@ class BasesContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-
-
                     <div className="card">
-
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Cơ sở</h4>
-
-                            <div style={{marginTop: "15px"}}>
-                                <button onClick={() => this.openModal({})}
-                                        className="btn btn-rose">
-                                    Thêm cơ sở
-                                </button>
-                            </div>
-
-
-                            <Search
-                                onChange={this.basesSearchChange}
-                                value={this.state.query}
-                                placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
-                            />
-
-                            {this.props.isLoadingBases ? <Loading/> :
-                                <ListBase
-                                    deleteBase={this.deleteBase}
-                                    handleSwitch={this.handleSwitch}
-                                    bases={this.props.bases}
-                                    openEditBaseModal={this.openModal}/>}
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h4 className="card-title">
+                                        <strong>Danh sách cơ sở</strong>
+                                    </h4>
+                                    <div>
+                                        <button
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                            type="button" onClick={() => this.openModal({})}>
+                                            <strong>+</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                                <Search
+                                    onChange={this.basesSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
+                                />
+                                {this.props.isLoadingBases ? <Loading/> :
+                                    <ListBase
+                                        deleteBase={this.deleteBase}
+                                        handleSwitch={this.handleSwitch}
+                                        bases={this.props.bases}
+                                        openEditBaseModal={this.openModal}/>
+                                }
+                            </div>    
                         </div>
 
                         <div className="card-content">

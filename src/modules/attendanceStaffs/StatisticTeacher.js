@@ -38,113 +38,105 @@ class StatisticTeacher extends React.Component {
         return (
             <div>
                 <div className="col-md-12">
-                    <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-                        <div className="card-content">
-                            <h4 className="card-title">Thống kê điểm danh giảng viên</h4>
-                            <div className="table-responsive">
-                                <table className="table">
-                                    <thead className="text-rose">
-                                    <tr>
-                                        <th/>
-                                        <th>Họ tên</th>
-                                        <th>Đi làm</th>
-                                        <th>Đúng luật</th>
-                                        <th>Bỏ làm</th>
-                                        <th>Checkin muộn</th>
-                                        <th>Checkout sớm</th>
-                                        <th>Không checkin</th>
-                                        <th>Không checkout</th>
-                                        <th/>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead className="text-rose">
+                            <tr>
+                                <th/>
+                                <th>Họ tên</th>
+                                <th>Đi làm</th>
+                                <th>Đúng luật</th>
+                                <th>Bỏ làm</th>
+                                <th>Checkin muộn</th>
+                                <th>Checkout sớm</th>
+                                <th>Không checkin</th>
+                                <th>Không checkout</th>
+                                <th/>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {this.props.teachers.map((item, index) => {
+                                let staff = item.attendances[0].user;
+                                let avatar = helper.avatarEmpty(staff.avatar_url) ?
+                                    NO_AVATAR : staff.avatar_url;
+                                return (
+                                    <tr key={index}>
+                                        <td>
+                                            <div className="avatar-list-staff"
+                                                 style={{
+                                                     background: 'url(' + avatar + ') center center / cover',
+                                                     display: 'inline-block'
+                                                 }}
+                                            />
+                                        </td>
+                                        <td>{staff.name}</td>
+                                        <td>
+                                            <button
+                                                className="btn btn-success btn-xs min-width-80-px"
+                                                onClick={() => this.openModal(item, 'attendance')}
+                                            >
+                                                {item.total_attendance}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn btn-success btn-xs min-width-80-px"
+                                                onClick={() => this.openModal(item, 'isLawful')}
+                                            >
+                                                {item.total_lawful}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn btn-danger btn-xs min-width-80-px"
+                                                onClick={() => this.openModal(item, 'isNotWork')}
+                                            >
+                                                {item.total_not_work}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn btn-info btn-xs min-width-80-px"
+                                                onClick={() => this.openModal(item, 'isCheckinLate')}
+                                            >
+                                                {item.total_checkin_late}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn btn-info btn-xs min-width-80-px"
+                                                onClick={() => this.openModal(item, 'isCheckoutEarly')}
+                                            >
+                                                {item.total_checkout_early}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn btn-warning btn-xs min-width-80-px"
+                                                onClick={() => this.openModal(item, 'isNotCheckin')}
+                                            >
+                                                {item.total_not_checkin}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn btn-warning btn-xs min-width-80-px"
+                                                onClick={() => this.openModal(item, 'isNotCheckout')}
+                                            >
+                                                {item.total_not_checkout}
+                                            </button>
+                                        </td>
+                                        <td className="text-align-right">
+                                            <button className="btn btn-rose"
+                                                    onClick={() => this.openModal(item)}>
+                                                Chi tiết
+                                            </button>
+                                        </td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    {this.props.teachers.map((item, index) => {
-                                        let staff = item.attendances[0].user;
-                                        let avatar = helper.avatarEmpty(staff.avatar_url) ?
-                                            NO_AVATAR : staff.avatar_url;
-                                        return (
-                                            <tr key={index}>
-                                                <td>
-                                                    <div className="avatar-list-staff"
-                                                         style={{
-                                                             background: 'url(' + avatar + ') center center / cover',
-                                                             display: 'inline-block'
-                                                         }}
-                                                    />
-                                                </td>
-                                                <td>{staff.name}</td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-success btn-xs min-width-80-px"
-                                                        onClick={() => this.openModal(item, 'attendance')}
-                                                    >
-                                                        {item.total_attendance}
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-success btn-xs min-width-80-px"
-                                                        onClick={() => this.openModal(item, 'isLawful')}
-                                                    >
-                                                        {item.total_lawful}
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-danger btn-xs min-width-80-px"
-                                                        onClick={() => this.openModal(item, 'isNotWork')}
-                                                    >
-                                                        {item.total_not_work}
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-info btn-xs min-width-80-px"
-                                                        onClick={() => this.openModal(item, 'isCheckinLate')}
-                                                    >
-                                                        {item.total_checkin_late}
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-info btn-xs min-width-80-px"
-                                                        onClick={() => this.openModal(item, 'isCheckoutEarly')}
-                                                    >
-                                                        {item.total_checkout_early}
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-warning btn-xs min-width-80-px"
-                                                        onClick={() => this.openModal(item, 'isNotCheckin')}
-                                                    >
-                                                        {item.total_not_checkin}
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-warning btn-xs min-width-80-px"
-                                                        onClick={() => this.openModal(item, 'isNotCheckout')}
-                                                    >
-                                                        {item.total_not_checkout}
-                                                    </button>
-                                                </td>
-                                                <td className="text-align-right">
-                                                    <button className="btn btn-rose"
-                                                            onClick={() => this.openModal(item)}>
-                                                        Chi tiết
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                );
+                            })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 {this.state.staff &&

@@ -17,23 +17,23 @@ class ManageRoleComponent extends React.Component {
         return (
             <div>
                 <div className="col-lg-12">
+                    <HRTab path="manage-role"/>
+                </div>                
+                <div className="col-lg-12">
                     <div className="card">
-                        <HRTab path="manage-role"/>
                         <div className="card-content">
                             <div className="tab-content">
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="col-md-3">
-                                            <button
-                                                type="button"
-                                                className="btn btn-rose"
-                                                onClick={() => this.redirectCreateRole()}
-                                            >
-                                                Tạo mới
-                                            </button>
-                                        </div>
+                                <div className="flex-row flex">
+                                    <h5 className="card-title"><strong>&#160;&#160;Danh sách chức vụ</strong></h5>
+                                    <div>
+                                        <button className="btn btn-primary btn-round btn-xs button-add none-margin" onClick={() => this.redirectCreateRole()}>
+                                            <strong>+</strong>
+                                        </button>
                                     </div>
-                                </div>
+                                </div>  
+                                <br/>
+                                
+                                 
                                 <div className="row">
                                 {this.props.isLoadingRoles ? <Loading/> : (
                                     <ListRole

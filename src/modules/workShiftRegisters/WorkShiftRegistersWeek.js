@@ -104,8 +104,8 @@ class ShiftRegistersWeek extends React.Component {
                                      style={{width: convertTimeToSecond(sumTimeShiftOfWeek) * 100 / convertTimeToSecond(MAX_TIME_WORK_SHIFT_REIGSTER) + '%'}}
                                 />
                             </div>
-                            <button className="btn btn-rose" onClick={() => this.openModal()}>Thống kê</button>
-                            <button className="btn btn-rose" onClick={() => this.openModalDetail()}>Chi tiết</button>
+                            <button className="btn btn-rose btn-round" onClick={() => this.openModal()}>Thống kê</button>
+                            <button className="btn btn-rose btn-round" onClick={() => this.openModalDetail()}>Chi tiết</button>
                         </div>
                     </div>
                     <div className="col-md-12">

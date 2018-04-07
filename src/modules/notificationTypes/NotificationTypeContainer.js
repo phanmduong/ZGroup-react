@@ -81,27 +81,27 @@ class ListNotificationTypeContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <div className="card">
-
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-
                         <div className="card-content">
-                            <h4 className="card-title">Notification</h4>
-                            <div className="row">
-                                <div className="col-md-2">
-                                    <button className="btn btn-rose" onClick={() => this.openModal()}>
-                                        Tạo
-                                    </button>
+                            <div className="tab-content">
+                                <div className="flex-row flex">
+                                    <h5 className="card-title">
+                                        <strong>Notification</strong>
+                                    </h5>
+                                    <div>
+                                        <button
+                                            className="btn btn-primary btn-round btn-xs button-add none-margin"
+                                            type="button" onClick={() => this.openModal()}>
+                                            <strong>+</strong>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="col-md-10">
-                                    <Search
-                                        onChange={this.notificationTypesSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm notification"
-                                    />
-                                </div>
+                                <Search
+                                    onChange={this.notificationTypesSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm notification"
+                                />
                             </div>
+
                             {
                                 this.props.isLoading ? <Loading/> :
                                     <ListNotification

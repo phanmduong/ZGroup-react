@@ -112,109 +112,105 @@ class GensContainer extends React.Component {
         return (
             <div>
                 <div className="col-lg-12">
-
                     <div className="row">
                         <div className="col-md-8">
                             <div className="card">
-                                <div className="card-header card-header-icon"
-                                     data-background-color="rose">
-                                    <i className="material-icons">perm_identity</i>
-                                </div>
                                 <div className="card-content">
-                                    <h4 className="card-title">Danh sách khóa học
-                                    </h4>
-                                    {this.props.isLoading ? <Loading/> :
-                                        <ListGen
-                                            gens={this.props.gens}
-                                            onClickEdit={this.onClickEdit}
-                                            deleteGen={this.deleteGen}
-                                            changeStatus={this.changeStatus}
-                                            changeTeachStatus={this.changeTeachStatus}
-                                        />
-                                    }
-                                    <ul className="pagination pagination-primary">
-                                        {_.range(1, this.props.totalPages + 1).map(page => {
-                                            if (Number(this.state.page) === page) {
-                                                return (
-                                                    <li key={page} className="active">
-                                                        <a onClick={() => this.loadGens(page)}>{page}</a>
-                                                    </li>
-                                                );
-                                            } else {
-                                                return (
-                                                    <li key={page}>
-                                                        <a onClick={() => this.loadGens(page)}>{page}</a>
-                                                    </li>
-                                                );
-                                            }
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong style={{marginLeft: 6}}>Danh sách khóa học</strong>
+                                        </h4>
+                                        <br/>
+                                        {this.props.isLoading ? <Loading/> :
+                                            <ListGen
+                                                gens={this.props.gens}
+                                                onClickEdit={this.onClickEdit}
+                                                deleteGen={this.deleteGen}
+                                                changeStatus={this.changeStatus}
+                                                changeTeachStatus={this.changeTeachStatus}
+                                            />
+                                        }
+                                        <ul className="pagination pagination-primary">
+                                            {_.range(1, this.props.totalPages + 1).map(page => {
+                                                if (Number(this.state.page) === page) {
+                                                    return (
+                                                        <li key={page} className="active">
+                                                            <a onClick={() => this.loadGens(page)}>{page}</a>
+                                                        </li>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <li key={page}>
+                                                            <a onClick={() => this.loadGens(page)}>{page}</a>
+                                                        </li>
+                                                    );
+                                                }
 
-                                        })}
-                                    </ul>
+                                            })}
+                                        </ul>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                         <div className="col-md-4">
                             <div className="card">
-                                <div className="card-header card-header-icon"
-                                     data-background-color="rose">
-                                    <i className="material-icons">perm_identity</i>
-                                </div>
                                 <div className="card-content">
-                                    <h4 className="card-title">Tạo khóa học
-                                    </h4>
-                                    <form id="form-add-gen" onSubmit={(e) => {
-                                        e.preventDefault();
-                                    }}>
-                                        <FormInputText
-                                            label="Tên khóa"
-                                            name="name"
-                                            updateFormData={this.updateFormData}
-                                            value={this.props.gen.name}
-                                            required={true}
-                                            type="text"
-                                        />
-                                        <FormInputText
-                                            label="Mô tả"
-                                            name="description"
-                                            updateFormData={this.updateFormData}
-                                            value={this.props.gen.description}
-                                            required={true}
-                                            type="text"
-                                        />
-                                        <FormInputDate
-                                            label="Thời gian bắt đầu"
-                                            name="start_time"
-                                            updateFormData={this.updateFormData}
-                                            value={this.props.gen.start_time ? this.props.gen.start_time.slice(0, 10) : ''}
-                                            id="form-start-time"
-                                        />
-                                        <FormInputDate
-                                            label="Thời gian kết thúc"
-                                            name="end_time"
-                                            updateFormData={this.updateFormData}
-                                            value={this.props.gen.end_time ? this.props.gen.end_time.slice(0, 10) : ''}
-                                            id="form-end-time"
-                                        />
-                                    </form>
-                                    {
-                                        this.props.isSaving ?
-                                            (
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tạo khóa học</strong>
+                                        </h4>
+                                        <form id="form-add-gen" onSubmit={(e) => {
+                                            e.preventDefault();
+                                        }}>
+                                            <FormInputText
+                                                label="Tên khóa"
+                                                name="name"
+                                                updateFormData={this.updateFormData}
+                                                value={this.props.gen.name}
+                                                required={true}
+                                                type="text"
+                                            />
+                                            <FormInputText
+                                                label="Mô tả"
+                                                name="description"
+                                                updateFormData={this.updateFormData}
+                                                value={this.props.gen.description}
+                                                required={true}
+                                                type="text"
+                                            />
+                                            <FormInputDate
+                                                label="Thời gian bắt đầu"
+                                                name="start_time"
+                                                updateFormData={this.updateFormData}
+                                                value={this.props.gen.start_time ? this.props.gen.start_time.slice(0, 10) : ''}
+                                                id="form-start-time"
+                                            />
+                                            <FormInputDate
+                                                label="Thời gian kết thúc"
+                                                name="end_time"
+                                                updateFormData={this.updateFormData}
+                                                value={this.props.gen.end_time ? this.props.gen.end_time.slice(0, 10) : ''}
+                                                id="form-end-time"
+                                            />
+                                        </form>
+                                        {
+                                            this.props.isSaving ?
+                                                (
+                                                    <button
+                                                        className="btn btn-fill btn-rose disabled"
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"/> Đang tạo
+                                                    </button>
+                                                )
+                                                :
                                                 <button
-                                                    className="btn btn-fill btn-rose disabled"
+                                                    className="btn btn-fill btn-rose"
+                                                    onClick={this.addGen}
                                                 >
-                                                    <i className="fa fa-spinner fa-spin"/> Đang tạo
+                                                    Tạo
                                                 </button>
-                                            )
-                                            :
-                                            <button
-                                                className="btn btn-fill btn-rose"
-                                                onClick={this.addGen}
-                                            >
-                                                Tạo
-                                            </button>
-                                    }
-
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>

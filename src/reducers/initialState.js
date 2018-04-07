@@ -1,4 +1,46 @@
+
 export default {
+    blogType:{
+        isUpdatingEditModal:false,
+        isLoading:false,
+        isSaving:false,
+        totalCount: 1,
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        addEditBlogTypeModal: false,
+        blogTypes:[],
+        blogTypeModal:{
+            name:'',
+        }
+    },
+    smsCampaign:{
+        allMessage:[],
+        message:{
+            name:'',
+            content:'',
+            sms_template_type_id: '',
+            send_time:'',
+        },
+        template_types:[],
+        isSavingMessage:false,
+        upMessage: false,
+        addMessageModal: false,
+        addReceiverModal: false,
+        isLoading:false,
+        limit: 20,
+        currentPage: 1,
+        totalPages: 1,
+        totalCount: 1,
+    },
+    labelManage: {
+        isLoading: false,
+        courseCategories: [],
+        editCategoryModal: false,
+        categoryEditing: {},
+        isSavingCategory: false
+    },
+
     summarySalesUp: {
         bases: [],
         isLoadingBases: false,
@@ -52,21 +94,21 @@ export default {
         isLoadingBases: false,
         bases: [],
         isSavingPayment: false,
-        select : {
-            userpack_id : 0,
-            subscription_id : 0,
-            subscriptions : [],
-            price : 0,
-            hours : 0,
+        select: {
+            userpack_id: 0,
+            subscription_id: 0,
+            subscriptions: [],
+            price: 0,
+            hours: 0,
             start_time: '',
-            end_time : '',
-            extra_time : 0,
-            note : "",
+            end_time: '',
+            extra_time: 0,
+            note: "",
         },
-        isSavingSubscription : false,
-        userpacks : [],
-        isLoadingUserpack : false,
-        subscriptions : [],
+        isSavingSubscription: false,
+        isLoadingUserpack: false,
+        subscriptions: [],
+        userpacks: [],
     },
 
     registerManageRoom: {
@@ -83,11 +125,62 @@ export default {
         isSavingPayment: false,
     },
 
+    weekendReport: {
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        report: [],
+        reports: [],
+        isLoading: false,
+        checkWeekendReportModal: false,
+        loadingModal: false,
+        addReport: false,
+        weekendReportModal: {
+            report: '',
+            title: ''
+        },
+    },
 
+    registerManageMeetingRoom: {
+        registers: [],
+        salers: [],
+        isLoading: false,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20,
+        isChangingStatus: false,
+        isLoadingBases: false,
+        bases: [],
+        isSavingPayment: false,
+    },
+
+    passwordAccount: {
+        passwords: [],
+        isLoading: false,
+        editPasswordModal: false,
+        isUpdatingEditModal: false,
+        passwordEditModal: { password: '' },
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: 1,
+        limit: 20
+    },
 
     bankAccount: {
         accounts: [],
-        isLoading: false
+        isLoading: false,
+        addEditBankAccountModal: false,
+        bankAccountEditModal: {
+            bank_name: '',
+            bank_account_name: '',
+            account_number: '',
+            owner_name: '',
+            branch: '',
+            display: ''
+        },
+        isUpdatingEditModal: false,
     },
 
     inventoryOrder: {
@@ -110,17 +203,18 @@ export default {
             link: '',
             color: '',
             description: '',
-            sale_off: 0,
-            weight: 0,
+            sale_off: '',
+            weight: '',
             tax: "true",
             unit: '',
-            ratio: 1,
-            money: 0,
-            fee: 0,
+            ratio: '',
+            money: '',
+            fee: '',
             code: '',
+            shipCode: '',
             endTime: '',
-            quantity: 0,
-            price: 0
+            quantity: '',
+            price: ''
         },
         customer: {
             name: '',
@@ -154,20 +248,21 @@ export default {
         currencies: [],
         isLoading: false,
         addEditCurrencyModal: false,
-        currencyEditModal: {
-            name: '',
-            notation: '',
-            ratio: ''
-        },
+        currencyEditModal: {},
         isUpdatingEditModal: false,
     },
 
     orderedProduct: {
+        isChangingStatus: false,
         currencies: [],
         addJavCodeModal: false,
-        orderJavCode: {},
+        importWeightModal: false,
+        orderImportWeight: [{}],
+        addShipFeeModal: false,
+        orderAddShipFee: [{}],
+        orderJavCode: [{}],
         cameToVNModal: false,
-        orderCameToVN: {},
+        orderCameToVN: [{}],
         chooseWalletModal: false,
         isChoosingWallet: false,
         orderWalletChosen: {},
@@ -177,7 +272,7 @@ export default {
         sendPriceModal: false,
         orderSendPriceModal: [],
         orderNote: {},
-        cancelNote: {},
+        cancelNote: [{}],
         isSendingNote: false,
         totalPaidMoney: 0,
         totalMoney: 0,
@@ -197,7 +292,6 @@ export default {
         manufacturesRender: [],
         manufacturesFilter: [],
         properties_list_filter: [],
-        isUploadingAvatar: false,
         totalPagesManufactures: 1,
         currentPageManufactures: 1,
         totalCountManufactures: 1,
@@ -210,7 +304,6 @@ export default {
         manufacturesManageModal: false,
         isLoadingManufacture: false,
         child_index: 0,
-        percent: 0,
         productWorking: {
             name: '',
             code: '',
@@ -234,7 +327,6 @@ export default {
             children: []
         },
         goods_count_check: true,
-        isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
         properties_list: [],
@@ -1095,6 +1187,9 @@ export default {
     goodOrders: {
         // provinces :[],
         // isLoadingProvinces : false,
+        payOrderMoneyModal: false,
+        orderPayMoney: {},
+        isPayingOrderMoney: false,
         warehousesList: [],
         selectWarehouseModal: false,
         isLoadingWarehouse: false,
@@ -1670,7 +1765,7 @@ export default {
             order_value: '',
             delivery_value: '',
             customersShowInAddModal: [],            // cac customer them vao vung tam
-            currency_value : 0,
+            currency_value: 0,
         },
         coupon: {
             name: '',
@@ -1898,7 +1993,7 @@ export default {
         },
         seats: [],
         currentAction: "",
-        domain: {x: [0, 600], y: [0, 400]}
+        domain: { x: [0, 600], y: [0, 400] }
     },
     printOrder: {
         isLoading: false,
@@ -1914,14 +2009,14 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        codes: [{value: '', label: ''}],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        codes: [{ value: '', label: '' }],
         properties: [],
         data: {
-            company: {id: 0, name: ""},
-            staff: {id: 0, name: ""},
-            good: {id: 0, name: ""},
+            company: { id: 0, name: "" },
+            staff: { id: 0, name: "" },
+            good: { id: 0, name: "" },
             quantity: 1,
             command_code: "",
             core1: {
@@ -2000,16 +2095,16 @@ export default {
         },
         listExportOrder: [],
         data: {
-            good: {id: 0, name: "noname"},
-            warehouse: {id: 0, name: "noname"},
-            company: {id: "", name: "noname"},
+            good: { id: 0, name: "noname" },
+            warehouse: { id: 0, name: "noname" },
+            company: { id: "", name: "noname" },
             price: 0,
             quantity: 0,
         },
-        companies: [{id: 1, name: ""},],
-        goods: [{id: 1, name: ""},],
-        warehouses: [{id: 1, name: ""},],
-        orderedGoods: [{id: 1, name: ""},],
+        companies: [{ id: 1, name: "" },],
+        goods: [{ id: 1, name: "" },],
+        warehouses: [{ id: 1, name: "" },],
+        orderedGoods: [{ id: 1, name: "" },],
     },
     notificationTypes: {
         isLoading: false,
@@ -2042,8 +2137,8 @@ export default {
             id: 0,
             description: "",
             subscriptionKind: "",  // id
-            booking_discount : 0,
-            extra_time : 0,
+            booking_discount: 0,
+            extra_time: 0,
         },
         subscriptionKind: {
             name: "",
@@ -2105,8 +2200,18 @@ export default {
         isLoadingistoryDebt: false,
         companies: [],
         historyDebt: [],
-        paginatorCompanies: [],
-        paginatorHistoryDebt: [],
+        paginatorCompanies: {
+            current_page: 1,
+            limit: 20,
+            total_count: 0,
+            total_pages: 1,
+        },
+        paginatorHistoryDebt: {
+            current_page: 1,
+            limit: 20,
+            total_count: 0,
+            total_pages: 1,
+        },
     },
 
     importOrder: {
@@ -2120,19 +2225,11 @@ export default {
             total_count: 1,
             total_pages: 1,
         },
-        paginator_history: {
-            current_page: 1,
-            limit: 20,
-            total_count: 1,
-            total_pages: 1,
-        },
         itemOrders: [],
-        printOrder: [],
         importOrders: [],
         companies: [{id: 1, name: ""},],
         goods: [{id: 1, name: ""},],
         warehouses: [{id: 1, name: ""},],
-        historyImportOrder: [],
     },
     moneyTransfer: {
         isCreatingTransaction: false,
@@ -2204,5 +2301,23 @@ export default {
         emails: [],
         error: false,
         isGetting: false
+    },
+    request: {
+        isLoading: false,
+        paginator: {},
+    },
+    lead: {
+        leads: [],
+        error: false,
+        isLoading: false,
+        currentPage: 1,
+        totalPages: 1,
+        isUploading: false,
+        errorUpload: false,
+        isEditing: false,
+        errorEdit: false,
+        totalCount: 0,
+        isDistributing: false,
+        errorDistribution: false,
     }
 };

@@ -328,7 +328,7 @@ class RegisterManageRoomContainer extends React.Component {
                                 <button
                                     style={{width: "100%"}}
                                     onClick={this.openFilterPanel}
-                                    className="btn btn-info btn-rose "
+                                    className="btn btn-info btn-rose btn-round"
                                 >
                                     <i className="material-icons">filter_list</i>
                                     Lọc
@@ -422,6 +422,7 @@ class RegisterManageRoomContainer extends React.Component {
                             </div>
                         </div>
                     </div>
+
                 )}
             </div>
         );

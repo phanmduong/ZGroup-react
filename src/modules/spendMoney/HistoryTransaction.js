@@ -36,110 +36,112 @@ class HistoryTransaction extends React.Component {
     render() {
         return (
             <div className="card">
-                <div className="card-header card-header-icon" data-background-color="rose">
-                    <i className="material-icons">assignment</i>
-                </div>
                 <div className="card-content">
-                    <h4 className="card-title">Lịch sử thu/chi</h4>
-                    <div>
-                        <button className={"btn btn-round margin-right-10" + (this.state.type == "" ? " btn-rose" : "")}
-                                onClick={() => this.changeType("")}
-                        >
-                            Tất cả
-                        </button>
-                        <button
-                            className={"btn btn-round margin-right-10 margin-left-20" + (this.state.type == "1" ? " btn-rose" : "")}
-                            onClick={() => this.changeType("1")}
-                        >
-                            Thu
-                        </button>
-                        <button
-                            className={"btn btn-round margin-left-20" + (this.state.type == "2" ? " btn-rose" : "")}
-                            onClick={() => this.changeType("2")}
-                        >
-                            Chi
-                        </button>
-                    </div>
-                    {this.props.isLoading ?
-                        <Loading/>
-                        :
+                    <div className="tab-content">
+                        <h4 className="card-title">
+                            <strong>Lịch sử thu/chi</strong>
+                        </h4>
+                        <br/>
                         <div>
-                            <div className="table-responsive">
-                                <table className="table">
-                                    <thead className="text-rose">
-                                    <tr>
-                                        <th>Loại giao dịch</th>
-                                        <th>Nhóm</th>
-                                        <th>Lý do</th>
-                                        <th>Ngày giờ</th>
-                                        <th>Số tiền trước giao dịch</th>
-                                        <th className="text-center">Số tiền</th>
-                                        <th/>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {
-                                        this.props.transactions.map((transaction) => {
-                                            const classType = transaction.type == 1 ? " btn-success " : " btn-danger ";
-                                            const textType = transaction.type == 1 ? "Thu" : "Chi";
-                                            let classStatus;
-                                            let textStatus;
-
-                                            if (transaction.type == 1) {
-                                                classStatus = " btn-success ";
-                                                textStatus = "+";
-                                            } else if (transaction.type == 2) {
-                                                classStatus = " btn-danger ";
-                                                textStatus = "-";
-                                            }
-
-                                            return (
-                                                <tr key={transaction.id}>
-                                                    <td>
-                                                        <button
-                                                            className={classType + "btn btn-sm width-100 bold"}>
-                                                            {textType}
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        {
-                                                            transaction.category &&
-                                                            <button
-                                                                className={"btn btn-sm width-100 bold"}
-                                                                style={{backgroundColor: transaction.category.color}}
-                                                            >
-                                                                {transaction.category.name}
-                                                            </button>
-                                                        }
-
-                                                    </td>
-                                                    <td>
-                                                        {transaction.note}
-                                                    </td>
-                                                    <td>{transaction.updated_at}</td>
-                                                    <td className="text-align-right">
-                                                        {dotNumber(transaction.before_money)}đ
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            className={classStatus + "btn btn-sm width-100 bold lowercase"}>
-                                                            {textStatus + dotNumber(transaction.money)}đ
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })
-                                    }
-                                    </tbody>
-                                </table>
-                            </div>
+                            <button className={"btn btn-round margin-right-10" + (this.state.type == "" ? " btn-rose" : "")}
+                                    onClick={() => this.changeType("")}
+                            >
+                                Tất cả
+                            </button>
+                            <button
+                                className={"btn btn-round margin-right-10 margin-left-20" + (this.state.type == "1" ? " btn-rose" : "")}
+                                onClick={() => this.changeType("1")}
+                            >
+                                Thu
+                            </button>
+                            <button
+                                className={"btn btn-round margin-left-20" + (this.state.type == "2" ? " btn-rose" : "")}
+                                onClick={() => this.changeType("2")}
+                            >
+                                Chi
+                            </button>
                         </div>
-                    }
-                    <Pagination
-                        totalPages={this.props.totalPages}
-                        currentPage={this.state.page}
-                        loadDataPage={(page) => this.loadData(page)}
-                    />
+                        {this.props.isLoading ?
+                            <Loading/>
+                            :
+                            <div>
+                                <div className="table-responsive">
+                                    <table className="table">
+                                        <thead className="text-rose">
+                                        <tr>
+                                            <th>Loại giao dịch</th>
+                                            <th>Nhóm</th>
+                                            <th>Lý do</th>
+                                            <th>Ngày giờ</th>
+                                            <th>Số tiền trước giao dịch</th>
+                                            <th className="text-center">Số tiền</th>
+                                            <th/>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {
+                                            this.props.transactions.map((transaction) => {
+                                                const classType = transaction.type == 1 ? " btn-success " : " btn-danger ";
+                                                const textType = transaction.type == 1 ? "Thu" : "Chi";
+                                                let classStatus;
+                                                let textStatus;
+
+                                                if (transaction.type == 1) {
+                                                    classStatus = " btn-success ";
+                                                    textStatus = "+";
+                                                } else if (transaction.type == 2) {
+                                                    classStatus = " btn-danger ";
+                                                    textStatus = "-";
+                                                }
+
+                                                return (
+                                                    <tr key={transaction.id}>
+                                                        <td>
+                                                            <button
+                                                                className={classType + "btn btn-sm width-100 bold"}>
+                                                                {textType}
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                transaction.category &&
+                                                                <button
+                                                                    className={"btn btn-sm width-100 bold"}
+                                                                    style={{backgroundColor: transaction.category.color}}
+                                                                >
+                                                                    {transaction.category.name}
+                                                                </button>
+                                                            }
+
+                                                        </td>
+                                                        <td>
+                                                            {transaction.note}
+                                                        </td>
+                                                        <td>{transaction.updated_at}</td>
+                                                        <td className="text-align-right">
+                                                            {dotNumber(transaction.before_money)}đ
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                className={classStatus + "btn btn-sm width-100 bold lowercase"}>
+                                                                {textStatus + dotNumber(transaction.money)}đ
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
+                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        <Pagination
+                            totalPages={this.props.totalPages}
+                            currentPage={this.state.page}
+                            loadDataPage={(page) => this.loadData(page)}
+                        />
+                    </div>    
                 </div>
             </div>
         );

@@ -23,89 +23,94 @@ class CreateEmailTemplateComponent extends React.Component {
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose"><i
-                                className="material-icons">bookmark</i></div>
                             <div className="card-content">
-                                <h4 className="card-title">Tạo form</h4>
-                                {this.props.isLoadingEmailTemplate ? <Loading/> :
-                                    <form role="form"
-                                          id="form-email-template">
-                                        <FormInputText
-                                            label="Tên email template"
-                                            required
-                                            name="name"
-                                            updateFormData={this.props.updateEmailTemplateData}
-                                            value={name}
-                                        />
-                                        <ReactEditor
-                                            urlPost={linkUploadImageEditor()}
-                                            fileField="image"
-                                            updateEditor={this.props.updateEditor}
-                                            value={content}
-                                        />
-                                        {this.props.isSaving ?
-                                            (
-                                                <button className="btn btn-fill btn-rose disabled"
-                                                        type="button">
-                                                    <i className="fa fa-spinner fa-spin"/>
-                                                    {this.props.route.type === 'edit' ? ' Đang lưu template' : ' Đang tạo template'}
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button
-                                                    className="btn btn-fill btn-rose"
-                                                    type="button"
-                                                    onClick={this.props.saveEmailTemplate}
-                                                >
-                                                    {this.props.route.type === 'edit' ? 'Lưu' : 'Tạo'}
-                                                </button>
-                                            )
+                                <div className="tab-content">
+                                    <h4 className="card-title">
+                                        <strong>Tạo form</strong>
+                                    </h4>
+                                    {this.props.isLoadingEmailTemplate ? <Loading/> :
+                                        <form role="form"
+                                              id="form-email-template">
+                                            <FormInputText
+                                                label="Tên email template"
+                                                required
+                                                name="name"
+                                                updateFormData={this.props.updateEmailTemplateData}
+                                                value={name}
+                                            />
+                                            <ReactEditor
+                                                urlPost={linkUploadImageEditor()}
+                                                fileField="image"
+                                                updateEditor={this.props.updateEditor}
+                                                value={content}
+                                            />
+                                            {this.props.isSaving ?
+                                                (
+                                                    <button className="btn btn-fill btn-rose disabled"
+                                                            type="button">
+                                                        <i className="fa fa-spinner fa-spin"/>
+                                                        {this.props.route.type === 'edit' ? ' Đang lưu template' : ' Đang tạo template'}
+                                                    </button>
+                                                )
+                                                :
+                                                (
+                                                    <button
+                                                        className="btn btn-fill btn-rose"
+                                                        type="button"
+                                                        onClick={this.props.saveEmailTemplate}
+                                                    >
+                                                        {this.props.route.type === 'edit' ? 'Lưu' : 'Tạo'}
+                                                    </button>
+                                                )
 
-                                        }
-                                    </form>
-                                }
+                                            }
+                                        </form>
+                                    }
+                                </div>    
                             </div>
                         </div>
                     </div>
                     <div className="col-md-4">
                         <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose">
-                                <i className="material-icons">announcement</i>
-                            </div>
-                            <div className="card-content"><h4 className="card-title">Thông tin về template </h4>
-                                <img
-                                    src={helper.isEmptyInput(thumbnailUrl) ?
-                                        NO_IMAGE : thumbnailUrl
-                                    }/>
-                                {this.props.isUpdatingThumbnail ?
-                                    (
-                                        <button className="btn btn-rose btn-round disabled" type="button">
-                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button className="btn btn-fill btn-rose" type="button">
-                                            Chọn ảnh đại diện
-                                            <input type="file"
-                                                   accept=".jpg,.png,.gif"
-                                                   onChange={this.props.handleFileUpload}
-                                                   style={{
-                                                       cursor: 'pointer',
-                                                       opacity: "0.0",
-                                                       position: "absolute",
-                                                       top: 0,
-                                                       left: 0,
-                                                       bottom: 0,
-                                                       right: 0,
-                                                       width: "100%",
-                                                       height: "100%"
-                                                   }}
-                                            />
-                                        </button>
-                                    )
-                                }
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <h4 className="card-title">
+                                        <strong>Thông tin về template</strong>
+                                    </h4>
+                                    <br/>
+                                    <img
+                                        src={helper.isEmptyInput(thumbnailUrl) ?
+                                            NO_IMAGE : thumbnailUrl
+                                        }/>
+                                    {this.props.isUpdatingThumbnail ?
+                                        (
+                                            <button className="btn btn-rose btn-round disabled" type="button">
+                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                            </button>
+                                        )
+                                        :
+                                        (
+                                            <button className="btn btn-fill btn-rose" type="button">
+                                                Chọn ảnh đại diện
+                                                <input type="file"
+                                                       accept=".jpg,.png,.gif"
+                                                       onChange={this.props.handleFileUpload}
+                                                       style={{
+                                                           cursor: 'pointer',
+                                                           opacity: "0.0",
+                                                           position: "absolute",
+                                                           top: 0,
+                                                           left: 0,
+                                                           bottom: 0,
+                                                           right: 0,
+                                                           width: "100%",
+                                                           height: "100%"
+                                                       }}
+                                                />
+                                            </button>
+                                        )
+                                    }
+                                </div>    
                             </div>
                         </div>
                     </div>

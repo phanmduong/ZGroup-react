@@ -31,34 +31,36 @@ class HistoryWorkShiftRegistersContainer extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="card">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">assignment</i>
-                    </div>
                     <div className="card-content">
-                        <h4 className="card-title">Lịch sử đăng kí lịch làm việc</h4>
-                        {this.props.isLoading ? <Loading/> :
-                            <div>
-                                <ListShiftPick shiftPicks = {this.props.shiftPicks}/>
-                            </div>
-                        }
-                        <ul className="pagination pagination-primary">
-                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                if (Number(this.state.page) === page) {
-                                    return (
-                                        <li key={page} className="active">
-                                            <a onClick={() => this.loadHistoryShiftRegisters(page)}>{page}</a>
-                                        </li>
-                                    );
-                                } else {
-                                    return (
-                                        <li key={page}>
-                                            <a onClick={() => this.loadHistoryShiftRegisters(page)}>{page}</a>
-                                        </li>
-                                    );
-                                }
+                        <div className="tab-content">
+                            <h4 className="card-title">
+                                <strong>Lịch sử đăng kí lịch làm việc</strong>
+                            </h4>
+                            <br/>
+                            {this.props.isLoading ? <Loading/> :
+                                <div>
+                                    <ListShiftPick shiftPicks = {this.props.shiftPicks}/>
+                                </div>
+                            }
+                            <ul className="pagination pagination-primary">
+                                {_.range(1, this.props.totalPages + 1).map(page => {
+                                    if (Number(this.state.page) === page) {
+                                        return (
+                                            <li key={page} className="active">
+                                                <a onClick={() => this.loadHistoryShiftRegisters(page)}>{page}</a>
+                                            </li>
+                                        );
+                                    } else {
+                                        return (
+                                            <li key={page}>
+                                                <a onClick={() => this.loadHistoryShiftRegisters(page)}>{page}</a>
+                                            </li>
+                                        );
+                                    }
 
-                            })}
-                        </ul>
+                                })}
+                            </ul>
+                        </div>    
                     </div>
                 </div>
             </div>

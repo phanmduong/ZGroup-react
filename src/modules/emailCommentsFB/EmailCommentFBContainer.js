@@ -62,27 +62,27 @@ class EmailCommentFBContainers extends React.Component {
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">
-                            <div className="card-header card-header-icon" data-background-color="rose"><i
-                                className="material-icons">bookmark</i></div>
                             <div className="card-content">
-                                <h4 className="card-title">Lấy email từ bài viết facebook</h4>
-                                <form role="form"
-                                      id="form-email-comments-facebook">
-                                    <FormInputText
-                                        label="ID bài viết"
-                                        required
-                                        name="post_id"
-                                        updateFormData={this.updateEmailFormData}
-                                        value={this.state.form.post_id}
-                                    />
-                                    <FormInputText
-                                        label="Token"
-                                        required
-                                        name="token"
-                                        updateFormData={this.updateEmailFormData}
-                                        value={this.state.form.token}
-                                    />
-                                </form>
+                                <div className="tab-content">
+                                    <h4 className="card-title"><strong>Lấy email từ bài viết facebook</strong></h4>
+                                    <form role="form"
+                                          id="form-email-comments-facebook">
+                                        <FormInputText
+                                            label="ID bài viết"
+                                            required
+                                            name="post_id"
+                                            updateFormData={this.updateEmailFormData}
+                                            value={this.state.form.post_id}
+                                        />
+                                        <FormInputText
+                                            label="Token"
+                                            required
+                                            name="token"
+                                            updateFormData={this.updateEmailFormData}
+                                            value={this.state.form.token}
+                                        />
+                                    </form>
+                                </div>    
                             </div>
                         </div>
                     </div>

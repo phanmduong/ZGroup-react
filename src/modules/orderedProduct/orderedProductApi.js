@@ -1,10 +1,11 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadAllOrders(page = 1, search, startTime, endTime, status, staff_id, user_id, javCode, link) {
+export function loadAllOrders(page = 1, searches, startTime, endTime, status, staff_id, user_id, queries) {
     let url = env.MANAGE_API_URL + '/order/delivery?limit=10&page=' + page;
-    if (search) {
-        url += `&search=${search}`;
+    if (searches) {
+        let l = JSON.stringify(searches);
+        url += '&searches=' + l;
     }
     if (startTime && endTime) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
@@ -22,19 +23,9 @@ export function loadAllOrders(page = 1, search, startTime, endTime, status, staf
     if (status) {
         url += `&status=${status}`;
     }
-    if (javCode) {
-        url += `&javCode=${javCode}`;
-    }
-    if (link) {
-        url += `&link=${link}`;
-    }
-    if (javCode) {
-        let j = JSON.stringify(javCode);
-        url += "&jav_code=" + j;
-    }
-    if (link) {
-        let l = JSON.stringify(link);
-        url += "&link=" + l;
+    if (queries) {
+        let l = JSON.stringify(queries);
+        url += "&queries=" + l;
     }
     return axios.get(url);
 }
@@ -80,25 +71,21 @@ export function editNote(order) {
     });
 }
 
-export function changeStatusApi(status, deliveryOrderId, note, attach) {
-    let url = env.MANAGE_API_URL + "/order/delivery/" + deliveryOrderId + "/change-status";
+export function changeStatusApi(status, deliveryOrders, note) {
+    let url = env.MANAGE_API_URL + "/order/delivery/change-status";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     if (note) {
-        return axios.put(url, {
+        return axios.post(url, {
+            delivery_orders: JSON.stringify(deliveryOrders),
             status: status,
             note: note
         });
     }
-    if (attach) {
-        return axios.put(url, {
-            status: status,
-            attach_info: attach
-        });
-    }
-    return axios.put(url, {
+    return axios.post(url, {
+        delivery_orders: JSON.stringify(deliveryOrders),
         status: status
     });
 }

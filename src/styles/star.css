@@ -1,0 +1,37 @@
+/*
+ * Rating styles
+ */
+.rating {
+    float: left;
+    width: auto;
+    margin: 0;
+    font-size: 20px;
+    overflow: hidden;
+    direction: rtl;
+}
+
+.rating a {
+    float: none;
+    color: #aaa;
+    text-decoration: none;
+    -webkit-transition: color .4s;
+    -moz-transition: color .4s;
+    -o-transition: color .4s;
+    transition: color .4s;
+}
+
+.rating a.rating-checked {
+    color: #F9D616;
+}
+
+.rating-enable a:hover,
+.rating-enable a:hover ~ a,
+.rating-enable a:focus,
+.rating-enable a:focus ~ a {
+    color: #F9D616;
+    cursor: pointer;
+}
+
+.rating-disable a {
+    cursor: not-allowed;
+}

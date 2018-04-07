@@ -58,45 +58,46 @@ class CollectMoneyContainer extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="card">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">assignment</i>
-                    </div>
                     <div className="card-content">
-                        <h4 className="card-title">Thu tiền học viên</h4>
-                        <Search
-                            onChange={this.registersSearchChange}
-                            value={this.state.query}
-                            placeholder="Tìm kiếm học viên"
-                        />
+                        <div className="tab-content">
+                            <h4 className="card-title">
+                                <strong>Thu tiền học viên</strong>
+                            </h4>
+                            <Search
+                                onChange={this.registersSearchChange}
+                                value={this.state.query}
+                                placeholder="Tìm kiếm học viên"
+                            />
+                            <br/>
+                            {this.props.isLoading ? <Loading/> :
+                                <div>
+                                    <ListUser
+                                        users={this.props.users}
+                                        nextCode={this.props.nextCode}
+                                        nextWaitingCode={this.props.nextWaitingCode}
+                                        updateMoney={this.updateMoney}
+                                    />
+                                    <ul className="pagination pagination-primary">
+                                        {_.range(1, this.props.totalPages + 1).map(page => {
+                                            if (Number(this.state.page) === page) {
+                                                return (
+                                                    <li key={page} className="active">
+                                                        <a onClick={() => this.loadRegisters(page)}>{page}</a>
+                                                    </li>
+                                                );
+                                            } else {
+                                                return (
+                                                    <li key={page}>
+                                                        <a onClick={() => this.loadRegisters(page)}>{page}</a>
+                                                    </li>
+                                                );
+                                            }
 
-                        {this.props.isLoading ? <Loading/> :
-                            <div>
-                                <ListUser
-                                    users={this.props.users}
-                                    nextCode={this.props.nextCode}
-                                    nextWaitingCode={this.props.nextWaitingCode}
-                                    updateMoney={this.updateMoney}
-                                />
-                                <ul className="pagination pagination-primary">
-                                    {_.range(1, this.props.totalPages + 1).map(page => {
-                                        if (Number(this.state.page) === page) {
-                                            return (
-                                                <li key={page} className="active">
-                                                    <a onClick={() => this.loadRegisters(page)}>{page}</a>
-                                                </li>
-                                            );
-                                        } else {
-                                            return (
-                                                <li key={page}>
-                                                    <a onClick={() => this.loadRegisters(page)}>{page}</a>
-                                                </li>
-                                            );
-                                        }
-
-                                    })}
-                                </ul>
-                            </div>
-                        }
+                                        })}
+                                    </ul>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

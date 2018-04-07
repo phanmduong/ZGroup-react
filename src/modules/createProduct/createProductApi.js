@@ -23,22 +23,6 @@ export function getPropertiesApi() {
     return axios.get(url);
 }
 
-
-export function changeAvatarApi(file, completeHandler, progressHandler, error) {
-    let url = env.MANAGE_API_URL + '/file/upload';
-    if (token) {
-        url += "?token=" + token;
-    }
-    let formData = new FormData();
-    formData.append('file', file);
-    let ajax = new XMLHttpRequest();
-    ajax.addEventListener("load", completeHandler, false);
-    ajax.upload.onprogress = progressHandler;
-    ajax.addEventListener("error", error, false);
-    ajax.open("POST", url);
-    ajax.send(formData);
-}
-
 export function saveProductApi(product) {
     let url = env.MANAGE_API_URL + "/good/create-good?token=" + token;
     let children;

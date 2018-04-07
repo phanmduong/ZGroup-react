@@ -166,7 +166,7 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn khóa học'}
                                         options={this.state.gens}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectGenId}
                                         onChange={this.onChangeGen}
                                     />
@@ -175,7 +175,7 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
                                         options={this.state.bases}
-                                        disableRound
+                                        // disableRound
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />
@@ -184,14 +184,15 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                     <button
                                         style={{width: '100%'}}
                                         onClick={this.openFilterPanel}
-                                        className="btn btn-info btn-rose"
+                                        className="btn btn-info btn-rose btn-round"
                                     >
                                         <i className="material-icons">filter_list</i>
                                         Lọc
                                     </button>
                                 </div>
-                                <div className="col-sm-3 col-xs-5">
-                                    <button className="btn btn-fill btn-rose"
+                                <div className="col-sm-2 col-xs-5">
+                                    <button className="btn btn-fill btn-rose btn-round" 
+                                            style={{width: '100%'}}
                                             onClick={this.exportExcel}
                                     >
                                         Xuất ra Excel
@@ -204,13 +205,13 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon"  data-background-color="rose">
-                                                <i className="material-icons">filter_list</i>
-                                            </div>
                                             <div className="card-content">
-                                                <h4 className="card-title">Bộ lọc
-                                                    <small/>
-                                                </h4>
+                                                <div className="tab-content">    
+                                                    <h4 className="card-title">
+                                                        <strong>Bộ lọc</strong>
+                                                    </h4>
+                                                    <br/>
+                                                </div>    
                                                 <div className="row">
                                                     <div className="col-md-3 col-xs-5">
                                                         <FormInputDate

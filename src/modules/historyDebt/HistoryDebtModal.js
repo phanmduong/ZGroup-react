@@ -104,7 +104,7 @@ HistoryDebtModal.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     loadHistoryDebt: PropTypes.func.isRequired,
 };
 export default HistoryDebtModal;

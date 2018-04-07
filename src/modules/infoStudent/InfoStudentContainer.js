@@ -84,40 +84,34 @@ class InfoStudentContainer extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header card-header-tabs" data-background-color="rose">
-                                <div className="nav-tabs-navigation">
-                                    <div className="nav-tabs-wrapper">
-                                        <ul className="nav nav-tabs" data-tabs="tabs">
-                                            <li className={this.path === `/teaching/info-student/${this.studentId}` ? 'active' : ''}>
-                                                <IndexLink to={`/teaching/info-student/${this.studentId}`}>
-                                                    <i className="material-icons">add_box</i> Đăng kí
+                        <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">
+                            <li className={this.path === `/sales/info-student/${this.studentId}` ? 'active' : ''}>
+                                <IndexLink to={`/sales/info-student/${this.studentId}`}>
+                                    <i className="material-icons">add_box</i> Đăng kí  &#160;
 
-                                                    <div className="ripple-container"/>
-                                                </IndexLink>
-                                            </li>
-                                            <li className={this.path === `/teaching/info-student/${this.studentId}/history-calls` ? 'active' : ''}>
-                                                <Link to={`/teaching/info-student/${this.studentId}/history-calls`}>
-                                                    <i className="material-icons">smartphone</i> Cuộc gọi
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            </li>
-                                            <li className={this.path === `/teaching/info-student/${this.studentId}/progress` ? 'active' : ''}>
-                                                <Link to={`/teaching/info-student/${this.studentId}/progress`}>
-                                                    <i className="material-icons">create</i> Học tập
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            </li>
-                                            <li className={this.path === `/teaching/info-student/${this.studentId}/care` ? 'active' : ''}>
-                                                <Link to={`/teaching/info-student/${this.studentId}/care`}>
-                                                    <i className="material-icons">flag</i> Quan tâm
-                                                    <div className="ripple-container"/>
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                                    <div className="ripple-container"/>
+                                </IndexLink>
+                            </li>
+                            <li className={this.path === `/sales/info-student/${this.studentId}/history-calls` ? 'active' : ''}>
+                                <Link to={`/sales/info-student/${this.studentId}/history-calls`}>
+                                    <i className="material-icons">smartphone</i> Cuộc gọi  &#160;
+                                    <div className="ripple-container"/>
+                                </Link>
+                            </li>
+                            <li className={this.path === `/sales/info-student/${this.studentId}/progress` ? 'active' : ''}>
+                                <Link to={`/sales/info-student/${this.studentId}/progress`}>
+                                    <i className="material-icons">create</i> Học tập  &#160;
+                                    <div className="ripple-container"/>
+                                </Link>
+                            </li>
+                            <li className={this.path === `/sales/info-student/${this.studentId}/care` ? 'active' : ''}>
+                                <Link to={`/sales/info-student/${this.studentId}/care`}>
+                                    <i className="material-icons">flag</i> Quan tâm  &#160;
+                                    <div className="ripple-container"/>
+                                </Link>
+                            </li>
+                        </ul>
+                        <div className="card">
                             <div className="card-content">
                                 <div className="tab-content">
                                     {this.props.children}
@@ -126,6 +120,7 @@ class InfoStudentContainer extends React.Component {
                         </div>
                     </div>
                     <div className="col-md-4">
+                        <br/><br/>
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="card card-profile">
@@ -163,17 +158,17 @@ class InfoStudentContainer extends React.Component {
                             </div>
                             <div className="col-md-12">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">contacts</i>
-                                    </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Thay đổi mật khẩu</h4>
-                                        <button className="btn btn-rose btn-main"
-                                                onClick={this.openModalChangePassword}
-                                        >
-                                            Thay đổi mật khẩu
-                                        </button>
-                                    </div>
+                                        <div className="tab-content">
+                                            <h4 className="card-title"><strong>Thay đổi mật khẩu</strong></h4>
+                                            <br/>
+                                            <button className="btn btn-rose btn-main"
+                                                    onClick={this.openModalChangePassword}
+                                            >
+                                                Thay đổi mật khẩu
+                                            </button>
+                                        </div>
+                                    </div>    
                                 </div>
                             </div>
                         </div>

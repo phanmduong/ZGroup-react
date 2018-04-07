@@ -2,9 +2,9 @@
  * Created by phanmduong on 11/1/17.
  */
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
+import {bindActionCreators} from "redux";
 import * as blogActions from "./blogActions";
 import ListPost from "./ListPost";
 import * as helper from "../../helpers/helper";
@@ -15,7 +15,7 @@ import Select from "./Select";
 
 // import Select from '../../components/common/Select';
 
-import { Modal } from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 
 import StorePostModal from "./StorePostModal";
 
@@ -47,7 +47,7 @@ class BlogsContainer extends React.Component {
     }
 
     openModal(isEdit, postId) {
-        this.setState({ isOpenModal: true, postId: postId, isEdit: isEdit });
+        this.setState({isOpenModal: true, postId: postId, isEdit: isEdit});
     }
 
     closeModal() {
@@ -56,7 +56,7 @@ class BlogsContainer extends React.Component {
             "Cảnh báo",
             "Bạn có chắc muốn đóng editor? <br/>Những dữ liệu chưa lưu sẽ bị mất!",
             () => {
-                this.setState({ isOpenModal: false });
+                this.setState({isOpenModal: false});
             },
         );
     }
@@ -66,7 +66,7 @@ class BlogsContainer extends React.Component {
             "error",
             "Xoá",
             "Bạn có chắc chắn muốn xoá bài viết này",
-            function() {
+            function () {
                 this.props.blogActions.deletePost(post.id);
             }.bind(this),
         );
@@ -81,7 +81,7 @@ class BlogsContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(
-            function() {
+            function () {
                 this.props.blogActions.getPosts(
                     this.state.page,
                     this.state.query,
@@ -93,7 +93,7 @@ class BlogsContainer extends React.Component {
     }
 
     loadPosts(page, category_id) {
-        this.setState({ page });
+        this.setState({page});
         if (category_id === 0) {
             this.props.blogActions.getPosts(page, this.state.query);
         } else {
@@ -110,12 +110,12 @@ class BlogsContainer extends React.Component {
     }
 
     loadByCategories(category_id) {
-        this.setState({ category_id });
+        this.setState({category_id});
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(
-            function() {
+            function () {
                 this.props.blogActions.getPosts(
                     this.state.page,
                     this.state.query,
@@ -130,31 +130,35 @@ class BlogsContainer extends React.Component {
         return (
             <div className="container-fluid">
                 {this.props.isLoadingCategories || this.props.isLoading ? (
-                    <Loading />
+                    <Loading/>
                 ) : (
-                    <div className="card">
-                        <div
-                            className="card-header card-header-icon"
-                            data-background-color="rose"
-                        >
-                            <i className="material-icons">assignment</i>
-                        </div>
-
-                        <div className="card-content">
-                            <h4 className="card-title">Danh sách bài viết</h4>
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <a
-                                        onClick={() => this.openModal(false)}
-                                        className="btn btn-rose"
-                                    >
-                                        Tạo bài viết
-                                    </a>
-                                </div>
+                    <div>
+                        <div className="row">
+                            <div className="col-md-2">
+                                <Select className="btn-round"
+                                        category_id={this.state.category_id}
+                                        loadByCategory={this.loadByCategories}
+                                        catetrugoriesList={
+                                            this.props.categoriesList
+                                        }
+                                />
                             </div>
-
-                            <div className="row">
-                                <div className="col-md-10">
+                        </div>
+                        <div className="card">
+                            <div className="card-content">
+                                <div className="tab-content">
+                                    <div className="flex-row flex">
+                                        <h4 className="card-title">
+                                            <strong>Danh sách bài viết</strong>
+                                        </h4>
+                                        <div>
+                                            <button
+                                                className="btn btn-primary btn-round btn-xs button-add none-margin "
+                                                type="button" onClick={() => this.openModal(false)}>
+                                                <strong>+</strong>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <Search
                                         onChange={this.loadByText}
                                         value={this.state.query}
@@ -177,14 +181,6 @@ class BlogsContainer extends React.Component {
                                 posts={this.props.posts}
                                 loadPosts={this.loadPosts}
                                 // loadByCategories={this.loadByCategories}
-                            />
-                        </div>
-
-                        <div className="card-content">
-                            <Pagination
-                                totalPages={this.props.totalPages}
-                                currentPage={this.state.page}
-                                loadDataPage={this.loadPosts}
                             />
                         </div>
                     </div>

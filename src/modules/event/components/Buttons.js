@@ -93,6 +93,7 @@ StorePostComponent.propTypes = {
 };
 StorePostComponent.defaultProps = {
     height: 210,
+    preSavePost: PropTypes.func.isRequired,
 };
 
 export default StorePostComponent;
