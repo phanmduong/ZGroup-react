@@ -43,19 +43,19 @@
             <div class="row">
                 @foreach($userPacks as $userPack)
                     <div class="col-md-3">
-                        <div class="card card-blog">
-                            <div class="card-image">
+                        <div class="card-blog">
+                            <div class="card-image round-top">
                                 <a href="{{'/conference-room/'.$userPack->id}}">
                                     <img class="img img-raised" src="{{generate_protocol_url($userPack->avatar_url)}}">
                                 </a>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title" style="font-size: 24px; ">
+                                <h5 class="card-title" style="font-size: 24px; padding-top:20px ">
                                     <a href="{{'/conference-room/'.$userPack->id}}"
                                        style="font-weight: bolder">{{$userPack->name}}</a>
                                 </h5>
                                 <p class="card-price">
-                                    @foreach($userPack->roomServiceBenefits->slice(0,1) as $roomServiceBenefit)
+                                    @foreach($userPack->roomServiceBenefits->slice(1,1) as $roomServiceBenefit)
                                         {{$roomServiceBenefit->pivot->value}}/tháng
                                     @endforeach
                                 </p>
@@ -66,9 +66,8 @@
                             </div>
                             <a data-target="#submitModal"
                                data-toggle="modal"
-                               class="btn btn-primary btn-pick"
-                            >
-                                <b>Đặt chỗ</b>
+                               class="btn btn-primary btn-pick">
+                                <div>Đặt chỗ</div>
                             </a>
                         </div>
 
@@ -83,7 +82,7 @@
                     <div>
                         <table id="mytable" class="container">
                             <tr class="border-1">
-                                @foreach($userBenefits->slice(17,18) as $userBenefit)
+                                @foreach($userBenefits->slice(0,1) as $userBenefit)
                                     <td class="benefit-name">
                                         {{$userBenefit->name}}
                                     </td>
@@ -95,7 +94,7 @@
                                 @endforeach
                             </tr>
 
-                            @foreach($userBenefits->slice(0,17) as $userBenefit)
+                            @foreach($userBenefits->slice(1,18) as $userBenefit)
                                 <tr class="border-1">
                                     <td class="benefit-name">
                                         {{$userBenefit->name}}
@@ -108,12 +107,10 @@
                                 </tr>
                             @endforeach
                         </table>
-                        <div class="container" style="background-color: #ffffff; ">
-
+                        <div class="container" style="margin-top: 10px">
                             <div class="container text-center" style="width: 100%">
                                 <a href="#"
-                                   class="btn btn-primary"
-                                   style="font-weight:700; background-color:#96d21f;border-color:#96d21f; color:white!important; font-size: 16px">
+                                   class="btn btn-primary btn-long-pick">
                                     TRỞ THÀNH THÀNH VIÊN CỦA UP NGAY HÔM NAY
                                 </a>
                             </div>
@@ -135,7 +132,7 @@
         </p>
         <div class="row">
             <div class="col-md-3">
-                <div class="card card-profile">
+                <div class="card-profile">
                     <div class="card-avatar border-white" style="max-width:200px; max-height:200px">
                         <img src="http://up-co.vn/wp-content/uploads/2014/09/13707727_1250301361669834_8027444782146291074_n-230x230.jpg"
                              alt="...">
@@ -187,7 +184,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card card-profile">
+                <div class="card-profile">
                     <div class="card-avatar border-white" style="max-width:200px; max-height:200px">
                         <img src="http://up-co.vn/wp-content/uploads/2016/07/ket-noi-230x230.jpg" alt="...">
                     </div>
@@ -218,7 +215,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card card-profile">
+                <div class="card-profile">
                     <div class="card-avatar border-white" style="max-width:200px; max-height:200px">
                         <img src="http://up-co.vn/wp-content/uploads/2014/09/13767347_1250313558335281_8793786632540873415_o-230x230.jpg"
                              alt="...">
@@ -253,7 +250,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card card-profile">
+                <div class="card-profile">
                     <div class="card-avatar border-white" style="max-width:200px; max-height:200px">
                         <img src="http://up-co.vn/wp-content/uploads/2016/08/10-230x230.png" alt="...">
                     </div>
@@ -513,9 +510,17 @@
         margin-right: 10px !important;
     }
 
+    .btn-long-pick {
+        font-weight: 700 !important;
+        background-color: #96d21f !important;
+        border-color: #96d21f !important;
+        color: white !important;
+        font-size: 16px !important;
+    }
+
     @media screen and (max-width: 767px) {
-        .card.card-blog {
-            margin-top: 20px !important;
+        .card-blog {
+            margin-top: 50px !important;
         }
 
         .btn-pick {
@@ -523,12 +528,19 @@
             background-color: #96d21f !important;
             border-color: #96d21f !important;
             color: white !important;
+            width: 100%;
         }
+
+        .card-title {
+            min-height: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
     }
 
     @media screen and (min-width: 767px) {
-        .card.card-blog {
-            min-height: 620px !important;
+        .card-body {
+            min-height: 440px !important;
         }
 
         .btn-pick {
@@ -542,9 +554,53 @@
         }
     }
 
+    @media screen and (max-width: 990px) and (min-width:767px) {
+        .card-title {
+            min-height: 120px !important;
+            margin-bottom: 0 !important;
+        }
+        .card-body {
+            min-height: 610px !important;
+        }
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 992px){
+        .card-body {
+            min-height: 470px !important;
+        }
+    }
+
     .icon {
         color: #bfbfbf;
     }
+
+    img {
+        width: 100%;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .card-body {
+        padding: 0 !important;
+    }
+
+    .card-title {
+        min-height: 84px;
+        margin-bottom: 0 !important;
+
+    }
+
+    .round-top {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+    .card-description {
+
+    }
+    .card-price {
+        min-height: 60px;
+    }
+
 </style>
 
 @push('scripts')

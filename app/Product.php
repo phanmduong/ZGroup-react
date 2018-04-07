@@ -44,6 +44,11 @@ class Product extends Model
         return $this->belongsTo(CategoryProduct::class, 'category_id');
     }
 
+    public function productCategories()
+    {
+        return $this->belongsToMany(CategoryProduct::class, 'product_category_product', 'product_id', 'category_product_id');
+    }
+
     public function images()
     {
         return $this->hasMany('App\Image', 'product_id');
@@ -73,6 +78,11 @@ class Product extends Model
             ],
             "title" => $this->title,
             "category" => $this->category ? $this->category->name : null,
+            "thumb_url" => $this->thumb_url,
+            "slug" => $this->slug,
+            "meta_description" => $this->meta_description,
+            "meta_title" => $this->meta_title,
+            "keyword" => $this->keyword,
         ];
     }
 
@@ -88,9 +98,8 @@ class Product extends Model
             ];
         }
 
-        if ($this->category) {
-            $data["category"] = $this->category->name;
-        }
+
+        $data["categories"] = $this->productCategories;
 
         $data["created_at"] = format_date($this->created_at);
         $data["content"] = $this->content;

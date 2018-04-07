@@ -77,7 +77,6 @@
             opacity: 1;
         }
 
-
     </style>
     <script>
         var navVue = {};
@@ -140,7 +139,7 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
-<body class="profile" style="background:#fafafa">
+<body class="profile" style="background:#efefef">
 <script>
         var recaptchaCallBack = function (response) {
             navVue.captcha = response;

@@ -11,13 +11,11 @@ use App\Product;
 use App\Register;
 use App\User;
 use Aws\ElasticTranscoder\ElasticTranscoderClient;
-use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Request;
 
 class PublicApiController extends ApiController
 {

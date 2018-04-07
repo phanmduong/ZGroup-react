@@ -39,7 +39,7 @@ class HappyBirthday extends Command
     public function handle()
     {
         $test = new Test();
-        $test->content = 'test';
+        $test->content = 'test1';
         $test->save();
     }
 }

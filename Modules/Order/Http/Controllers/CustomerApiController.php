@@ -21,9 +21,8 @@ class CustomerApiController extends ManageApiController
     {
         $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
-        $customers = User::join('orders', 'users.id', '=', 'orders.user_id');
-
-        $customers = $customers->select('users.*', DB::raw('sum(orders.status_paid = 0) as count'));
+        $customers = User::leftJoin('orders', 'users.id', '=', 'orders.user_id');
+        $customers = $customers->select('users.*');//, DB::raw('sum(orders.status_paid = 0) as count'));
         $customers = $customers->where('orders.status', '<>', 'cancel')->where('orders.type', '<>', 'import');
         $customers = $customers->groupBy('users.id');
         if ($request->status) {
