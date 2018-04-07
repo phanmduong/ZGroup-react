@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
+import {ControlLabel, FormGroup, Modal} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import Switch from 'react-bootstrap-switch';
