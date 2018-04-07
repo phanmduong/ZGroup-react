@@ -8,25 +8,42 @@ import AddReceiverModal from "./AddReceiverModal";
 import {bindActionCreators} from 'redux';
 import * as campaignAction from "./campaignAction";
 import Loading from "../../components/common/Loading";
-
+import Search from "../../components/common/Search";
 
 class CampaignComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.campaignId = this.props.params.campaignId;
         this.state = {
-            page: 1
+            page: 1,
+            query: ''
         };
+        this.timeOut = null;
         this.loadOrders = this.loadOrders.bind(this);
         this.showAddMessageModal2 = this.showAddMessageModal2.bind(this);
+        this.templatesSearchChange = this.templatesSearchChange.bind(this);
     }
 
-    componentWillMount() {
-        this.props.campaignAction.loadAllMessage();
+    templatesSearchChange(value) {
+        this.setState({
+            query: value,
+            page: 1
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.campaignAction.loadAllMessage(
+                this.campaignId,
+                1,
+                value
+            );
+        }.bind(this), 500);
     }
 
     loadOrders(page = 1) {
         this.setState({page: page});
-        this.props.campaignAction.loadAllMessage(page);
+        this.props.campaignAction.loadAllMessage(this.campaignId, page, this.state.query);
     }
 
     showAddMessageModal2(message) {
@@ -63,9 +80,13 @@ class CampaignComponent extends React.Component {
                             </ul>
                         </div>
                     </div>
-                    <input
-                        style={{paddingTop: "20px"}}
-                        type="search" className="form-control" placeholder="Tìm kiếm khảo sát" value=""/>
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <Search
+                            onChange={this.templatesSearchChange}
+                            value={this.state.query}
+                            placeholder="Nhập tên hoặc nội dung tin nhắn để tìm"
+                        />
+                    </div>
                 </div>
                 <br/><br/><br/>
                 {
@@ -145,11 +166,11 @@ class CampaignComponent extends React.Component {
                                                                     <i className="material-icons">edit</i>
                                                                 </a></TooltipButton>
                                                             </div>
-                                                             {/*Thao tác xóa tin nhắn*/}
+                                                            {/*Thao tác xóa tin nhắn*/}
                                                             {/*<TooltipButton placement="top"*/}
-                                                                           {/*text={`Xóa`}>*/}
-                                                                {/*<a><i className="material-icons">delete</i>*/}
-                                                                {/*</a></TooltipButton>*/}
+                                                            {/*text={`Xóa`}>*/}
+                                                            {/*<a><i className="material-icons">delete</i>*/}
+                                                            {/*</a></TooltipButton>*/}
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -190,6 +211,8 @@ CampaignComponent.propTypes = {
     totalCount: PropTypes.number.isRequired,
     campaignAction: PropTypes.object.isRequired,
     allMessage: PropTypes.array.isRequired,
+    params: PropTypes.object.isRequired,
+
 };
 
 function mapStateToProps(state) {

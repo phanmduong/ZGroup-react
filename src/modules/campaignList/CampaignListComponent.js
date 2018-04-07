@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {Link} from "react-router";
+import TooltipButton from "../../components/common/TooltipButton";
+import Switch from "../../components/common/Switch";
 
 class CampaignListComponent extends React.Component {
     constructor(props, context) {
@@ -30,36 +32,57 @@ class CampaignListComponent extends React.Component {
                             return (
                                 <tr key={index}>
                                     <td>
-                                        <img style={{
-                                            width: "30px",
-                                            height: "30px",
-                                            borderRadius: "50%",
-                                            verticalAlign: "middle",
-                                            background: "url(" + campaign.user.avatar_url + ") center center / cover",
-                                            display: "inline-block",
-                                            float: "right",
-                                            marginLeft: "3px"
-                                        }} data-toggle="tooltip" title="" type="button"
-                                             rel="tooltip"
-                                             data-original-title=""/>
+                                        <TooltipButton text={campaign.user.name} placement="top">
+                                            <img style={{
+                                                width: "30px",
+                                                height: "30px",
+                                                borderRadius: "50%",
+                                                verticalAlign: "middle",
+                                                background: "url(" + campaign.user.avatar_url + ") center center / cover",
+                                                display: "inline-block",
+                                                float: "right",
+                                                marginLeft: "3px"
+                                            }} data-toggle="tooltip" title="" type="button"
+                                                 rel="tooltip"
+                                                 data-original-title=""/>
+                                        </TooltipButton>
                                     </td>
                                     <td>
-                                        <Link to={``}
-                                              className="text-name-student-register"
-                                              rel="tooltip" title=""
-                                              data-original-title="Remove item">
-                                            {name}
-                                        </Link>
+                                        <TooltipButton text={campaign.name} placement="top">
+                                            <Link to={`/sms/campaign-detail/${campaign.id}`}
+                                                  className="text-name-student-register"
+                                                  rel="tooltip" title=""
+                                                  data-original-title="Remove item">
+                                                {name}
+                                            </Link>
+                                        </TooltipButton>
                                     </td>
                                     <td>
-                                        {description}
+                                        <TooltipButton text={campaign.description} placement="top">
+                                            <span>
+                                                {description}
+                                                </span>
+                                        </TooltipButton>
                                     </td>
-                                    <td>fuck</td>
+                                    <td>
+                                        <div>
+                                            <h6>{campaign.sent_quantity}/{campaign.needed_quantity}</h6>
+                                            <div className="progress progress-line-danger">
+                                                <div className="progress-bar progress-bar-success"
+                                                     style={{
+                                                         width: (campaign.sent_quantity === 0) ? 0 :
+                                                             campaign.sent_quantity * 100 / campaign.needed_quantity + '%'
+                                                     }}/>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>
                                         fuck
                                     </td>
                                     <td>
-                                        {campaign.status}
+                                        <Switch
+                                            onChange={(value) => this.props.changeCampaignStatus(campaign.id, value)}
+                                            value={(campaign.status === "open")}/>
                                     </td>
                                     <td>
                                         <Link to={`/good/product/${campaign.id}/edit`}
@@ -83,7 +106,8 @@ class CampaignListComponent extends React.Component {
 }
 
 CampaignListComponent.propTypes = {
-    campaigns: PropTypes.array.isRequired
+    campaigns: PropTypes.array.isRequired,
+    changeCampaignStatus: PropTypes.func.isRequired
 };
 
 export default CampaignListComponent;

@@ -15,8 +15,10 @@ class CampaignListContainer extends React.Component {
             page: 1,
             query: ''
         };
+        this.timeOut = null;
         this.campaignsSearchChange = this.campaignsSearchChange.bind(this);
         this.loadCampaigns = this.loadCampaigns.bind(this);
+        this.changeCampaignStatus = this.changeCampaignStatus.bind(this);
     }
 
     componentWillMount() {
@@ -47,6 +49,10 @@ class CampaignListContainer extends React.Component {
         );
     }
 
+    changeCampaignStatus(campaignId, value) {
+        this.props.campaignListAction.changeCampaignStatus(campaignId, value ? "open" : "close");
+    }
+
     render() {
         let first = this.props.totalCount ? (this.props.currentPage - 1) * this.props.limit + 1 : 0;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
@@ -73,20 +79,19 @@ class CampaignListContainer extends React.Component {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                        <Search
-                            onChange={this.campaignsSearchChange}
-                            value={this.state.query}
-                            placeholder="Nhập tên chiến dịch để tìm"
-                        />
-                    </div>
+                    <Search
+                        onChange={this.campaignsSearchChange}
+                        value={this.state.query}
+                        placeholder="Nhập tên chiến dịch để tìm"
+                    />
                 </div>
-                <br/><br/><br/>
+                <br/>
                 {
                     this.props.isLoading ? (
                         <Loading/>
                     ) : (
-                        <CampaignListComponent campaigns={this.props.campaigns}/>
+                        <CampaignListComponent campaigns={this.props.campaigns}
+                                               changeCampaignStatus={this.changeCampaignStatus}/>
                     )
                 }
                 <div className="row float-right">

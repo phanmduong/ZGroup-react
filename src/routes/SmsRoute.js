@@ -13,9 +13,9 @@ export default [
         component: CampaignListContainer
     },
     {
-        path: "/sms/campaign",
+        path: "/sms/campaign-detail/:campaignId",
         component: CampaignContaier,
-        type: "create",
+        type: "edit",
         children: [
             {
                 path: "/",
@@ -30,7 +30,6 @@ export default [
                 component: HistoryComponent
             }
         ]
-        // component:
     },
 ];
 
